@@ -1,0 +1,514 @@
+import 'package:chart/SfChart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/widgets/customDropDown.dart';
+import 'package:flutter_examples/widgets/flutter_backdrop.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter_examples/widgets/bottom_sheet.dart';
+import 'package:flutter_examples/widgets/checkbox.dart';
+
+class DefaultTrackball extends StatefulWidget {
+  final SubItemList sample;
+  const DefaultTrackball(this.sample, {Key key}) : super(key: key);
+
+  @override
+  _DefaultTrackballState createState() => _DefaultTrackballState(sample);
+}
+
+class _DefaultTrackballState extends State<DefaultTrackball> {
+  final SubItemList sample;
+  _DefaultTrackballState(this.sample);
+  bool panelOpen;
+  final frontPanelVisible = ValueNotifier<bool>(true);
+
+  @override
+  void initState() {
+    panelOpen = frontPanelVisible.value;
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+    super.initState();
+  }
+
+  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(DefaultTrackball oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    frontPanelVisible.removeListener(_subscribeToValueNotifier);
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        builder: (context, _, model) => SafeArea(
+              child: Backdrop(
+                needCloseButton: false,
+                panelVisible: frontPanelVisible,
+                sampleListModel: model,
+                frontPanelOpenPercentage: 0.28,
+                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
+                appBarActions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        icon:
+                            Image.asset('images/code.png', color: Colors.white),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.info_outline,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          if (frontPanelVisible.value)
+                            frontPanelVisible.value = false;
+                          else
+                            frontPanelVisible.value = true;
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+                appBarTitle: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 1000),
+                    child: Text(sample.title.toString())),
+                backLayer: BackPanel(sample),
+                frontLayer: FrontPanel(sample),
+                sideDrawer: null,
+                headerClosingHeight: 350,
+                titleVisibleOnPanelClosed: true,
+                borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(12), bottom: Radius.circular(0)),
+              ),
+            ));
+  }
+}
+
+class FrontPanel extends StatefulWidget {
+  final SubItemList subItemList;
+  FrontPanel(this.subItemList);
+
+  @override
+  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+}
+
+class _FrontPanelState extends State<FrontPanel> {
+  final SubItemList sample;
+  _FrontPanelState(this.sample);
+  bool showAlways = true;
+  final List<String> _modeList =
+      <String>['floatAllPoints', 'groupAllPoints', 'nearestPoint'].toList();
+  String _selectedMode = 'floatAllPoints';
+
+  TrackballDisplayMode _mode = TrackballDisplayMode.floatAllPoints;
+
+  final List<String> _alignmentList =
+      <String>['center', 'far', 'near'].toList();
+  String _tooltipAlignment = 'center';
+
+  ChartAlignment _alignment = ChartAlignment.center;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        rebuildOnChange: true,
+        builder: (context, _, model) {
+          return Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 60),
+                child: Container(
+                    child: getDefaultTrackballChart(
+                        false, _mode, _alignment, showAlways)),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  _showSettingsPanel(model);
+                },
+                child: Icon(Icons.graphic_eq, color: Colors.white),
+                backgroundColor: model.backgroundColor,
+              ));
+        });
+  }
+
+  void _showSettingsPanel(SampleListModel model) {
+    double height =
+        (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
+            ? 0.4
+            : 0.5;
+    showRoundedModalBottomSheet(
+        dismissOnTap: false,
+        context: context,
+        radius: 12.0,
+        color: model.bottomSheetBackgroundColor,
+        builder: (context) => ScopedModelDescendant<SampleListModel>(
+            rebuildOnChange: false,
+            builder: (context, _, model) => Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Container(
+                  height: 220,
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * height,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                height: 40,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('Settings',
+                                        style: TextStyle(
+                                            color: model.textColor,
+                                            fontSize: 18,
+                                            letterSpacing: 0.34,
+                                            fontWeight: FontWeight.w500)),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: model.textColor,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                                child: ListView(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text('Mode ',
+                                              style: TextStyle(
+                                                  color: model.textColor,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0.34,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                          Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                100, 0, 0, 0),
+                                            height: 50,
+                                            width: 280,
+                                            child: Align(
+                                              alignment: Alignment.bottomLeft,
+                                              child: Theme(
+                                                  data: Theme.of(context)
+                                                      .copyWith(
+                                                          canvasColor:
+                                                              model.bottomSheetBackgroundColor),
+                                                  child: DropDown(
+                                                      value: _selectedMode,
+                                                      item: _modeList
+                                                          .map((String value) {
+                                                        return DropdownMenuItem<
+                                                                String>(
+                                                            value:
+                                                                (value != null)
+                                                                    ? value
+                                                                    : 'point',
+                                                            child:
+                                                                Text('$value', style: TextStyle(color: model.textColor)));
+                                                      }).toList(),
+                                                      valueChanged:
+                                                          (dynamic value) {
+                                                        onModeTypeChange(
+                                                            value, model);
+                                                      })),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text('Alignment',
+                                              style: TextStyle(
+                                                  color: model.textColor,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0.34,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                          Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                70, 0, 0, 0),
+                                            height: 50,
+                                            width: 150,
+                                            child: Align(
+                                              alignment: Alignment.bottomLeft,
+                                              child: Theme(
+                                                  data: Theme.of(context)
+                                                      .copyWith(
+                                                          canvasColor:
+                                                              model.bottomSheetBackgroundColor),
+                                                  child: DropDown(
+                                                      value: _tooltipAlignment,
+                                                      item: _alignmentList
+                                                          .map((String value) {
+                                                        return DropdownMenuItem<
+                                                                String>(
+                                                            value:
+                                                                (value != null)
+                                                                    ? value
+                                                                    : 'point',
+                                                            child:
+                                                                Text('$value', style: TextStyle(color: model.textColor)));
+                                                      }).toList(),
+                                                      valueChanged:
+                                                          (dynamic value) {
+                                                        onAlignmentChange(
+                                                            value, model);
+                                                      })),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text('Show always ',
+                                              style: TextStyle(
+                                                  color: model.textColor,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0.34,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                          BottomSheetCheckbox(
+                                            activeColor: model.backgroundColor,
+                                            switchValue: showAlways,
+                                            valueChanged: (value) {
+                                              setState(() {
+                                                showAlways = value;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )),
+                ))));
+  }
+
+  void onModeTypeChange(String item, SampleListModel model) {
+    setState(() {
+      _selectedMode = item;
+      if (_selectedMode == 'floatAllPoints') {
+        _mode = TrackballDisplayMode.floatAllPoints;
+      }
+      if (_selectedMode == 'groupAllPoints') {
+        _mode = TrackballDisplayMode.groupAllPoints;
+      }
+      if (_selectedMode == 'nearestPoint') {
+        _mode = TrackballDisplayMode.nearestPoint;
+      }
+      if (_selectedMode == 'none') {
+        _mode = TrackballDisplayMode.none;
+      }
+      // ignore: invalid_use_of_protected_member
+      model.notifyListeners();
+    });
+  }
+
+  void onAlignmentChange(String item, SampleListModel model) {
+    setState(() {
+      _tooltipAlignment = item;
+      if (_tooltipAlignment == 'center') {
+        _alignment = ChartAlignment.center;
+      }
+      if (_tooltipAlignment == 'far') {
+        _alignment = ChartAlignment.far;
+      }
+      if (_tooltipAlignment == 'near') {
+        _alignment = ChartAlignment.near;
+      }
+      // ignore: invalid_use_of_protected_member
+      model.notifyListeners();
+    });
+  }
+}
+
+class BackPanel extends StatefulWidget {
+  final SubItemList sample;
+
+  BackPanel(this.sample);
+
+  @override
+  _BackPanelState createState() => _BackPanelState(sample);
+}
+
+class _BackPanelState extends State<BackPanel> {
+  final SubItemList sample;
+  GlobalKey _globalKey = GlobalKey();
+  _BackPanelState(this.sample);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    super.initState();
+  }
+
+  _afterLayout(_) {
+    _getSizesAndPosition();
+  }
+
+  _getSizesAndPosition() {
+    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
+    final size = renderBoxRed.size;
+    final position = renderBoxRed.localToGlobal(Offset.zero);
+    double appbarHeight = 60;
+    BackdropState.frontPanelHeight =
+        position.dy + (size.height - appbarHeight) + 20;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+      rebuildOnChange: true,
+      builder: (context, _, model) {
+        return Container(
+          color: model.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  sample.title,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28.0,
+                      color: Colors.white,
+                      letterSpacing: 0.53),
+                ),
+                Padding(
+                  key: _globalKey,
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Text(
+                    sample.description,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.white,
+                        letterSpacing: 0.3,
+                        height: 1.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+SfCartesianChart getDefaultTrackballChart(bool isTileView,
+    [TrackballDisplayMode _mode, ChartAlignment _alignment, bool showAlways]) {
+  return SfCartesianChart(
+    title: ChartTitle(
+      text: isTileView ? '': 'Average sales per person'
+    ),
+    plotAreaBorderColor: Colors.transparent,
+    primaryXAxis: DateTimeAxis(
+        majorGridLines: MajorGridLines(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift),
+    primaryYAxis: NumericAxis(
+      title: AxisTitle(
+        text: isTileView ? '':'Revenue'
+      ),
+        axisLine: AxisLine(width: 0), majorTickLines: MajorTickLines(width: 0)),
+    series: getLineSeries(isTileView),
+    trackballBehavior: TrackballBehavior(
+        enable: true,
+        lineType: TrackballLineType.vertical,
+        activationMode: ActivationMode.singleTap,
+        tooltipAlignment: _alignment,
+        tooltipDisplayMode: _mode,
+        tooltipSettings: InteractiveTooltip(format: 'point.x : point.y'),
+        shouldAlwaysShow: showAlways),
+  );
+}
+
+List<LineSeries<_TrackballData, DateTime>> getLineSeries(bool isTileView) {
+  final List<_TrackballData> chartData = <_TrackballData>[
+    _TrackballData(new DateTime(2000, 2, 11), 15, 39, 60),
+    _TrackballData(new DateTime(2000, 9, 14), 20, 30, 55),
+    _TrackballData(new DateTime(2001, 2, 11), 25, 28, 48),
+    _TrackballData(new DateTime(2001, 9, 16), 21, 35, 57),
+    _TrackballData(new DateTime(2002, 2, 7), 13, 39, 62),
+    _TrackballData(new DateTime(2002, 9, 7), 18, 41, 64),
+    _TrackballData(new DateTime(2003, 2, 11), 24, 45, 57),
+    _TrackballData(new DateTime(2003, 9, 14), 23, 48, 53),
+    _TrackballData(new DateTime(2004, 2, 6), 19, 54, 63),
+    _TrackballData(new DateTime(2004, 9, 6), 31, 55, 50),
+    _TrackballData(new DateTime(2005, 2, 11), 39, 57, 66),
+    _TrackballData(new DateTime(2005, 9, 11), 50, 60, 65),
+    _TrackballData(new DateTime(2006, 2, 11), 24, 60, 79),
+  ];
+  return <LineSeries<_TrackballData, DateTime>>[
+    LineSeries<_TrackballData, DateTime>(
+        dataSource: chartData,
+        xValueMapper: (_TrackballData sales, _) => sales.year,
+        yValueMapper: (_TrackballData sales, _) => sales.y1,
+        width: 2,
+        name: 'John',
+        markerSettings: MarkerSettings(isVisible: true)),
+    LineSeries<_TrackballData, DateTime>(
+        dataSource: chartData,
+        width: 2,
+        name: 'Andrew',
+        xValueMapper: (_TrackballData sales, _) => sales.year,
+        yValueMapper: (_TrackballData sales, _) => sales.y2,
+        markerSettings: MarkerSettings(isVisible: true)),
+    LineSeries<_TrackballData, DateTime>(
+        dataSource: chartData,
+        width: 2,
+        xValueMapper: (_TrackballData sales, _) => sales.year,
+        yValueMapper: (_TrackballData sales, _) => sales.y3,
+        name: 'Thomas',
+        markerSettings: MarkerSettings(isVisible: true))
+  ];
+}
+
+class _TrackballData {
+  _TrackballData(this.year, this.y1, this.y2, this.y3);
+  final DateTime year;
+  final double y1;
+  final double y2;
+  final double y3;
+}

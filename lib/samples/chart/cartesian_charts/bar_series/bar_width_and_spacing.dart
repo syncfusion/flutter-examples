@@ -1,0 +1,423 @@
+import 'package:chart/SfChart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/widgets/bottom_sheet.dart';
+import 'package:flutter_examples/widgets/custom_button.dart';
+import 'package:flutter_examples/widgets/flutter_backdrop.dart';
+import 'package:scoped_model/scoped_model.dart';
+
+class BarSpacing extends StatefulWidget {
+  final SubItemList sample;
+  const BarSpacing(this.sample, {Key key}) : super(key: key);
+
+  @override
+  _BarSpacingState createState() => _BarSpacingState(sample);
+}
+
+class _BarSpacingState extends State<BarSpacing> {
+  final SubItemList sample;
+
+  _BarSpacingState(this.sample);
+
+  bool panelOpen;
+  final frontPanelVisible = ValueNotifier<bool>(true);
+
+  @override
+  void initState() {
+    panelOpen = frontPanelVisible.value;
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+    super.initState();
+  }
+
+  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(BarSpacing oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    frontPanelVisible.removeListener(_subscribeToValueNotifier);
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        builder: (context, _, model) => SafeArea(
+              child: Backdrop(
+                needCloseButton: false,
+                panelVisible: frontPanelVisible,
+                sampleListModel: model,
+                frontPanelOpenPercentage: 0.28,
+                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
+                appBarActions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: IconButton(
+                      icon: Image.asset(model.codeViewerIcon,
+                          color: Colors.white),
+                      onPressed: () {},
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        icon: Image.asset(model.informationIcon,
+                            color: Colors.white),
+                        onPressed: () {
+                          if (frontPanelVisible.value)
+                            frontPanelVisible.value = false;
+                          else
+                            frontPanelVisible.value = true;
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+                appBarTitle: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 1000),
+                    child: Text(sample.title.toString())),
+                backLayer: BackPanel(sample),
+                frontLayer: FrontPanel(sample),
+                sideDrawer: null,
+                headerClosingHeight: 350,
+                titleVisibleOnPanelClosed: true,
+                borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(12), bottom: Radius.circular(0)),
+              ),
+            ));
+  }
+}
+
+class FrontPanel extends StatefulWidget {
+  final SubItemList subItemList;
+  FrontPanel(this.subItemList);
+
+  @override
+  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+}
+
+class _FrontPanelState extends State<FrontPanel> {
+  final SubItemList sample;
+  double columnWidth = 0.8;
+  double columnSpacing = 0.2;
+  _FrontPanelState(this.sample);
+  TextEditingController editingController = TextEditingController();
+  TextEditingController spacingEditingController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        rebuildOnChange: true,
+        builder: (context, _, model) {
+          return Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                child: Container(
+                    child:
+                        getSpacingBarChart(false, columnWidth, columnSpacing)),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  _showSettingsPanel(model);
+                },
+                child: Icon(Icons.graphic_eq, color: Colors.white),
+                backgroundColor: model.backgroundColor,
+              ));
+        });
+  }
+
+  void _showSettingsPanel(SampleListModel model) {
+    double height =
+        (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
+            ? 0.3
+            : 0.4;
+    showRoundedModalBottomSheet(
+        dismissOnTap: false,
+        context: context,
+        radius: 12.0,
+        color: model.bottomSheetBackgroundColor,
+        builder: (context) => ScopedModelDescendant<SampleListModel>(
+            rebuildOnChange: false,
+            builder: (context, _, model) => Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Container(
+                  height: 170,
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * height,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                height: 40,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('Settings',
+                                        style: TextStyle(
+                                            color:
+                                                model.textColor,
+                                            fontSize: 18,
+                                            letterSpacing: 0.34,
+                                            fontWeight: FontWeight.w500)),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: model.textColor,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                                child: ListView(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text('Width  ',
+                                              style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                                          Container(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      40, 0, 0, 0),
+                                              child: CustomButton(
+                                                minValue: 0,
+                                                maxValue: 1,
+                                                initialValue: columnWidth,
+                                                onChanged: (val) =>
+                                                    setState(() {
+                                                      columnWidth = val;
+                                                    }),
+                                                step: 0.1,
+                                                horizontal: true,
+                                                loop: true,
+                                                padding: 0,
+                                                iconUp: Icons.keyboard_arrow_up,
+                                                iconDown:
+                                                    Icons.keyboard_arrow_down,
+                                                iconLeft:
+                                                    Icons.keyboard_arrow_left,
+                                                iconRight:
+                                                    Icons.keyboard_arrow_right,
+                                                iconUpRightColor: model.textColor,
+                                                iconDownLeftColor: model.textColor,
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: model.textColor),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 15, 0, 0),
+                                            child: Text('Spacing  ',
+                                                style:
+                                                    TextStyle(fontSize: 16.0, color: model.textColor)),
+                                          ),
+                                          Container(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      25, 0, 0, 0),
+                                              child: CustomButton(
+                                                minValue: 0,
+                                                maxValue: 0.9,
+                                                initialValue: columnSpacing,
+                                                onChanged: (val) =>
+                                                    setState(() {
+                                                      columnSpacing = val;
+                                                    }),
+                                                step: 0.1,
+                                                horizontal: true,
+                                                loop: true,
+                                                padding: 5.0,
+                                                iconUp: Icons.keyboard_arrow_up,
+                                                iconDown:
+                                                    Icons.keyboard_arrow_down,
+                                                iconLeft:
+                                                    Icons.keyboard_arrow_left,
+                                                iconRight:
+                                                    Icons.keyboard_arrow_right,
+                                                iconUpRightColor: model.textColor,
+                                                iconDownLeftColor: model.textColor,
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: model.textColor),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )),
+                ))));
+  }
+}
+
+class BackPanel extends StatefulWidget {
+  final SubItemList sample;
+
+  BackPanel(this.sample);
+
+  @override
+  _BackPanelState createState() => _BackPanelState(sample);
+}
+
+class _BackPanelState extends State<BackPanel> {
+  final SubItemList sample;
+  GlobalKey _globalKey = GlobalKey();
+  _BackPanelState(this.sample);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    super.initState();
+  }
+
+  _afterLayout(_) {
+    _getSizesAndPosition();
+  }
+
+  _getSizesAndPosition() {
+    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
+    final size = renderBoxRed.size;
+    final position = renderBoxRed.localToGlobal(Offset.zero);
+    double appbarHeight = 60;
+    BackdropState.frontPanelHeight =
+        position.dy + (size.height - appbarHeight) + 20;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+      rebuildOnChange: true,
+      builder: (context, _, model) {
+        return Container(
+          color: model.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  sample.title,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28.0,
+                      color: Colors.white,
+                      letterSpacing: 0.53),
+                ),
+                Padding(
+                  key: _globalKey,
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Text(
+                    sample.description,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.white,
+                        letterSpacing: 0.3,
+                        height: 1.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+SfCartesianChart getSpacingBarChart(bool isTileView,
+    [double columnWidth, double columnSpacing]) {
+  return SfCartesianChart(
+    plotAreaBorderWidth: 0,
+    title: ChartTitle(text: isTileView ? '' : 'Exports & Imports of US'),
+    legend: Legend(isVisible: isTileView ? false : true),
+    primaryXAxis: NumericAxis(
+        minimum: 2005, maximum: 2011, majorGridLines: MajorGridLines(width: 0)),
+    primaryYAxis: NumericAxis(
+      labelFormat: '{value}%',
+      title: AxisTitle(text: isTileView ? '' : 'Goods and services (% of GDP)'),
+    ),
+    series: getBarSeries(isTileView, columnWidth, columnSpacing),
+    tooltipBehavior: TooltipBehavior(enable: true),
+  );
+}
+
+List<BarSeries<_ChartData, num>> getBarSeries(
+    bool isTileView, double columnWidth, double columnSpacing) {
+  final List<_ChartData> chartData = <_ChartData>[
+    _ChartData(2006, 16.219, 10.655),
+    _ChartData(2007, 16.461, 11.498),
+    _ChartData(2008, 17.427, 12.514),
+    _ChartData(2009, 13.754, 11.012),
+    _ChartData(2010, 15.743, 12.315),
+  ];
+  return <BarSeries<_ChartData, num>>[
+    BarSeries<_ChartData, num>(
+        enableTooltip: true,
+        width:isTileView ? 0.8: columnWidth,
+        spacing: isTileView ? 0.2: columnSpacing,
+        dataSource: chartData,
+        xValueMapper: (_ChartData sales, _) => sales.year,
+        yValueMapper: (_ChartData sales, _) => sales.import,
+        name: 'Import'),
+    BarSeries<_ChartData, num>(
+        enableTooltip: true,
+        width:isTileView ? 0.8: columnWidth,
+        spacing: isTileView ? 0.2: columnSpacing,
+        dataSource: chartData,
+        xValueMapper: (_ChartData sales, _) => sales.year,
+        yValueMapper: (_ChartData sales, _) => sales.export,
+        name: 'Export')
+  ];
+}
+
+class _ChartData {
+  _ChartData(this.year, this.import, this.export);
+  final double year;
+  final double import;
+  final double export;
+}

@@ -1,0 +1,324 @@
+import 'dart:typed_data';
+import 'package:chart/SfChart.dart';
+import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/widgets/flutter_backdrop.dart';
+import 'package:scoped_model/scoped_model.dart';
+
+class BarCustomization extends StatefulWidget {
+  final SubItemList sample;
+  const BarCustomization(this.sample, {Key key}) : super(key: key);
+
+  @override
+  _BarCustomizationState createState() => _BarCustomizationState(sample);
+}
+
+ui.Image image;
+bool isImageloaded = false;
+
+List<num> values;
+
+class _BarCustomizationState extends State<BarCustomization> {
+  final SubItemList sample;
+  _BarCustomizationState(this.sample);
+  bool panelOpen;
+  final frontPanelVisible = ValueNotifier<bool>(true);
+  @override
+  void initState() {
+    panelOpen = frontPanelVisible.value;
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+    super.initState();
+  }
+
+  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(BarCustomization oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    frontPanelVisible.removeListener(_subscribeToValueNotifier);
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        builder: (context, _, model) => SafeArea(
+              child: Backdrop(
+                needCloseButton: false,
+                panelVisible: frontPanelVisible,
+                sampleListModel: model,
+                frontPanelOpenPercentage: 0.28,
+                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
+                appBarActions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        icon: Image.asset(model.codeViewerIcon,
+                            color: Colors.white),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        icon: Image.asset(model.informationIcon,
+                            color: Colors.white),
+                        onPressed: () {
+                          if (frontPanelVisible.value)
+                            frontPanelVisible.value = false;
+                          else
+                            frontPanelVisible.value = true;
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+                appBarTitle: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 1000),
+                    child: Text(sample.title.toString())),
+                backLayer: BackPanel(sample),
+                frontLayer: FrontPanel(sample),
+                sideDrawer: null,
+                headerClosingHeight: 350,
+                titleVisibleOnPanelClosed: true,
+                borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(12), bottom: Radius.circular(0)),
+              ),
+            ));
+  }
+}
+
+class FrontPanel extends StatefulWidget {
+  final SubItemList subItemList;
+  FrontPanel(this.subItemList);
+
+  @override
+  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+}
+
+class _FrontPanelState extends State<FrontPanel> {
+  void initState() {
+    super.initState();
+  }
+
+  final SubItemList sample;
+  _FrontPanelState(this.sample);
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        rebuildOnChange: true,
+        builder: (context, _, model) {
+          return Scaffold(
+              body: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+            child: Container(child: getCustomizedBarChart(false)),
+          ));
+        });
+  }
+}
+
+class BackPanel extends StatefulWidget {
+  final SubItemList sample;
+  BackPanel(this.sample);
+  @override
+  _BackPanelState createState() => _BackPanelState(sample);
+}
+
+class _BackPanelState extends State<BackPanel> {
+  final SubItemList sample;
+  GlobalKey _globalKey = GlobalKey();
+  _BackPanelState(this.sample);
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    super.initState();
+  }
+
+  _afterLayout(_) {
+    _getSizesAndPosition();
+  }
+
+  _getSizesAndPosition() {
+    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
+    final size = renderBoxRed.size;
+    final position = renderBoxRed.localToGlobal(Offset.zero);
+    double appbarHeight = 60;
+    BackdropState.frontPanelHeight =
+        position.dy + (size.height - appbarHeight) + 20;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+      rebuildOnChange: true,
+      builder: (context, _, model) {
+        return Container(
+          color: model.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  sample.title,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28.0,
+                      color: Colors.white,
+                      letterSpacing: 0.53),
+                ),
+                Padding(
+                  key: _globalKey,
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Text(
+                    sample.description,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.white,
+                        letterSpacing: 0.3,
+                        height: 1.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+SfCartesianChart getCustomizedBarChart(bool isTileView) {
+  return SfCartesianChart(
+    title: ChartTitle(
+        text:
+            isTileView ? '' : 'Popular Android apps in the Google play store'),
+    primaryXAxis: CategoryAxis(
+      majorGridLines: MajorGridLines(width: 0),
+    ),
+    primaryYAxis: NumericAxis(
+        title: AxisTitle(text: 'Downloads in Billion'),
+        majorGridLines: MajorGridLines(width: 0),
+        majorTickLines: MajorTickLines(size: 0)),
+    series: getVerticalData(isTileView),
+    tooltipBehavior:
+        TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+  );
+}
+
+List<CustomBarSeries<_ChartData, String>> getVerticalData(bool isTileView) {
+  final dynamic chartData = <_ChartData>[
+    _ChartData('Facebook', 4.119, Colors.redAccent),
+    _ChartData('FB Messenger', 3.408, Colors.indigo),
+    _ChartData('WhatsApp', 2.979, Colors.grey),
+    _ChartData('Instagram', 1.843, Colors.orange),
+    _ChartData('Skype', 1.039, Colors.green),
+    _ChartData('Subway Surfers', 1.025, Colors.yellow),
+  ];
+  return <CustomBarSeries<_ChartData, String>>[
+    CustomBarSeries<_ChartData, String>(
+      enableTooltip: true,
+      isTrackVisible: false,
+      dataLabelSettings: DataLabelSettings(isVisible: true),
+      dataSource: chartData,
+      xValueMapper: (_ChartData sales, _) => sales.x,
+      yValueMapper: (_ChartData sales, _) => sales.y,
+    )
+  ];
+}
+
+class CustomBarSeries<T, D> extends BarSeries<T, D> {
+  CustomBarSeries({
+    @required List<T> dataSource,
+    @required ChartValueMapper<T, D> xValueMapper,
+    @required ChartValueMapper<T, num> yValueMapper,
+    ChartValueMapper<T, Color> pointColorMapper,
+    String xAxisName,
+    String yAxisName,
+    Color color,
+    double width,
+    MarkerSettings markerSettings,
+    EmptyPointSettings emptyPointSettings,
+    DataLabelSettings dataLabelSettings,
+    bool visible,
+    bool enableTooltip,
+    double animationDuration,
+    Color trackColor,
+    Color trackBorderColor,
+    bool isTrackVisible,
+  }) : super(
+            xValueMapper: xValueMapper,
+            yValueMapper: yValueMapper,
+            pointColorMapper: pointColorMapper,
+            dataSource: dataSource,
+            xAxisName: xAxisName,
+            yAxisName: yAxisName,
+            color: color,
+            isTrackVisible: isTrackVisible,
+            trackColor: trackColor,
+            trackBorderColor: trackBorderColor,
+            width: width,
+            markerSettings: markerSettings,
+            emptyPointSettings: emptyPointSettings,
+            dataLabelSettings: dataLabelSettings,
+            isVisible: visible,
+            enableTooltip: enableTooltip,
+            animationDuration: animationDuration);
+
+  @override
+  ChartSegment createSegment() {
+    return CustomPainter();
+  }
+}
+
+class CustomPainter extends BarSegment {
+  List<num> values = <num>[];
+
+  @override
+  void onPaint(Canvas canvas) {
+    final Float64List deviceTransform = Float64List(16)
+      ..[0] = 0.05
+      ..[5] = 0.05
+      ..[10] = 1.0
+      ..[15] = 2.0;
+
+  final Paint linePaint = Paint()
+        ..color = Colors.black
+        ..style = PaintingStyle.fill
+        ..strokeWidth = 40
+        ..shader = ImageShader(
+            image, TileMode.repeated, TileMode.repeated, deviceTransform);
+
+    final double devicePixelRatio = ui.window.devicePixelRatio;
+
+    if (isImageloaded && devicePixelRatio > 0) {
+      super.onPaint(canvas);
+      Rect rect = Rect.fromLTRB(segmentRect.left, segmentRect.top,
+          segmentRect.right * animationFactor, segmentRect.bottom);
+      canvas.drawRect(rect, linePaint);
+    }
+  }
+}
+
+class _ChartData {
+  _ChartData(this.x, this.y, this.colors);
+  final String x;
+  final double y;
+  final Color colors;
+}

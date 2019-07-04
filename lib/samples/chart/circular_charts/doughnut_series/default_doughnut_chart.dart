@@ -1,0 +1,252 @@
+import 'package:chart/SfChart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/widgets/flutter_backdrop.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class DoughnutDefault extends StatefulWidget {
+  final SubItemList sample;
+  const DoughnutDefault(this.sample, {Key key}) : super(key: key);
+
+  @override
+  _DoughnutDefaultState createState() => _DoughnutDefaultState(sample);
+}
+
+class _DoughnutDefaultState extends State<DoughnutDefault> {
+  final SubItemList sample;
+  _DoughnutDefaultState(this.sample);
+  bool panelOpen;
+  final frontPanelVisible = ValueNotifier<bool>(true);
+
+  @override
+  void initState() {
+    panelOpen = frontPanelVisible.value;
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+    super.initState();
+  }
+
+  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(DoughnutDefault oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    frontPanelVisible.removeListener(_subscribeToValueNotifier);
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        builder: (context, _, model) => SafeArea(
+              child: Backdrop(
+                needCloseButton: false,
+                panelVisible: frontPanelVisible,
+                sampleListModel: model,
+                frontPanelOpenPercentage: 0.28,
+                toggleFrontLayer: false,
+                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
+                appBarActions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        icon: Image.asset(model.codeViewerIcon,
+                            color: Colors.white),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                  
+                ],
+                appBarTitle: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 1000),
+                    child: Text(sample.title.toString())),
+                backLayer: BackPanel(sample),
+                frontLayer: FrontPanel(sample),
+                sideDrawer: null,
+                headerClosingHeight: 350,
+                titleVisibleOnPanelClosed: true,
+                borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(12), bottom: Radius.circular(0)),
+              ),
+            ));
+  }
+}
+
+class FrontPanel extends StatefulWidget {
+  final SubItemList subItemList;
+  FrontPanel(this.subItemList);
+
+  @override
+  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+}
+
+class _FrontPanelState extends State<FrontPanel> {
+  final SubItemList sample;
+  _FrontPanelState(this.sample);
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        rebuildOnChange: true,
+        builder: (context, _, model) {
+          return Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                child: Container(child: getDefaultDoughnutChart(false)),
+              ),
+              floatingActionButton: Stack(children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                    child: Container(
+                      height: 50,
+                      width: 250,
+                      child: InkWell(
+                        onTap: () => launch(
+                            'https://www.pngkit.com/view/u2q8y3w7r5y3t4o0_composition-of-ocean-water-earths-oceans-elements-percentage/'),
+                        child: Row(
+                          children: <Widget>[
+                            Text('Source: ',
+                                style: TextStyle(
+                                    fontSize: 16, color: model.textColor)),
+                            Text('www.pngkit.com',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.blue)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ]));
+        });
+  }
+}
+
+class BackPanel extends StatefulWidget {
+  final SubItemList sample;
+
+  BackPanel(this.sample);
+
+  @override
+  _BackPanelState createState() => _BackPanelState(sample);
+}
+
+class _BackPanelState extends State<BackPanel> {
+  final SubItemList sample;
+  GlobalKey _globalKey = GlobalKey();
+  _BackPanelState(this.sample);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    super.initState();
+  }
+
+  _afterLayout(_) {
+    _getSizesAndPosition();
+  }
+
+  _getSizesAndPosition() {
+    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
+    final size = renderBoxRed.size;
+    final position = renderBoxRed.localToGlobal(Offset.zero);
+    double appbarHeight = 60;
+    BackdropState.frontPanelHeight =
+        position.dy + (size.height - appbarHeight) + 20;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+      rebuildOnChange: true,
+      builder: (context, _, model) {
+        return Container(
+          color: model.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  sample.title,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28.0,
+                      color: Colors.white,
+                      letterSpacing: 0.53),
+                ),
+                Padding(
+                  key: _globalKey,
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Text(
+                    sample.description,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.white,
+                        letterSpacing: 0.3,
+                        height: 1.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+SfCircularChart getDefaultDoughnutChart(bool isTileView) {
+  return SfCircularChart(
+    title: ChartTitle(text: isTileView ? '' : 'Composition of ocean water'),
+    legend: Legend(
+        isVisible: isTileView ? false : true,
+        overflowMode: LegendItemOverflowMode.wrap),
+    series: getDoughnutSeries(isTileView),
+    tooltipBehavior: TooltipBehavior(enable: true),
+  );
+}
+
+List<DoughnutSeries<_DoughnutData, String>> getDoughnutSeries(bool isTileView) {
+  final List<_DoughnutData> chartData = <_DoughnutData>[
+    _DoughnutData('Chlorine', 55, '55%'),
+    _DoughnutData('Sodium', 31, '31%'),
+    _DoughnutData('Magnesium', 7.7, '7.7%'),
+    _DoughnutData('Sulfur', 3.7, '3.7%'),
+    _DoughnutData('Calcium', 1.2, '1.2%'),
+    _DoughnutData('Others', 1.4, '1.4%'),
+  ];
+  return <DoughnutSeries<_DoughnutData, String>>[
+    DoughnutSeries<_DoughnutData, String>(
+        radius: '80%',
+        explode: true,
+        explodeOffset: '10%',
+        dataSource: chartData,
+        xValueMapper: (_DoughnutData data, _) => data.xData,
+        yValueMapper: (_DoughnutData data, _) => data.yData,
+        dataLabelMapper: (_DoughnutData data, _) => data.text,
+        dataLabelSettings: DataLabelSettings(isVisible: true))
+  ];
+}
+
+class _DoughnutData {
+  _DoughnutData(this.xData, this.yData, this.text);
+  final String xData;
+  final num yData;
+  final String text;
+}

@@ -1,0 +1,347 @@
+import 'package:chart/SfChart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/widgets/flutter_backdrop.dart';
+import 'package:scoped_model/scoped_model.dart';
+
+class ColumnVertical extends StatefulWidget {
+  final SubItemList sample;
+  const ColumnVertical(this.sample, {Key key}) : super(key: key);
+
+  @override
+  _ColumnVerticalState createState() => _ColumnVerticalState(sample);
+}
+
+class _ColumnVerticalState extends State<ColumnVertical> {
+  final SubItemList sample;
+
+  _ColumnVerticalState(this.sample);
+
+  bool panelOpen;
+  final frontPanelVisible = ValueNotifier<bool>(true);
+
+  @override
+  void initState() {
+    panelOpen = frontPanelVisible.value;
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+    super.initState();
+  }
+
+  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(ColumnVertical oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    frontPanelVisible.removeListener(_subscribeToValueNotifier);
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        builder: (context, _, model) => SafeArea(
+              child: Backdrop(
+                frontHeaderHeight: 20,
+                needCloseButton: false,
+                panelVisible: frontPanelVisible,
+                sampleListModel: model,
+                frontPanelOpenPercentage: 0.28,
+                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
+                appBarActions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        icon: Image.asset(model.codeViewerIcon,
+                            color: Colors.white),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        icon: Image.asset(model.informationIcon,
+                            color: Colors.white),
+                        onPressed: () {
+                          if (frontPanelVisible.value)
+                            frontPanelVisible.value = false;
+                          else
+                            frontPanelVisible.value = true;
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+                appBarTitle: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 1000),
+                    child: Text(sample.title.toString())),
+                backLayer: BackPanel(sample),
+                frontLayer: FrontPanel(sample),
+                sideDrawer: null,
+                headerClosingHeight: 350,
+                titleVisibleOnPanelClosed: true,
+                borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(12), bottom: Radius.circular(0)),
+              ),
+            ));
+  }
+}
+
+class FrontPanel extends StatefulWidget {
+  final SubItemList subItemList;
+  FrontPanel(this.subItemList);
+
+  @override
+  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+}
+
+class _FrontPanelState extends State<FrontPanel> {
+  final SubItemList sample;
+  _FrontPanelState(this.sample);
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+        rebuildOnChange: true,
+        builder: (context, _, model) {
+          return Scaffold(
+              body: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+            child: Container(child: getVerticalColumnChart(false)),
+          ));
+        });
+  }
+}
+
+class BackPanel extends StatefulWidget {
+  final SubItemList sample;
+
+  BackPanel(this.sample);
+
+  @override
+  _BackPanelState createState() => _BackPanelState(sample);
+}
+
+class _BackPanelState extends State<BackPanel> {
+  final SubItemList sample;
+  GlobalKey _globalKey = GlobalKey();
+  _BackPanelState(this.sample);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    super.initState();
+  }
+
+  _afterLayout(_) {
+    _getSizesAndPosition();
+  }
+
+  _getSizesAndPosition() {
+    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
+    final size = renderBoxRed.size;
+    final position = renderBoxRed.localToGlobal(Offset.zero);
+    double appbarHeight = 60;
+    BackdropState.frontPanelHeight =
+        position.dy + (size.height - appbarHeight) + 20;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleListModel>(
+      rebuildOnChange: true,
+      builder: (context, _, model) {
+        return Container(
+          color: model.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  sample.title,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28.0,
+                      color: Colors.white,
+                      letterSpacing: 0.53),
+                ),
+                Padding(
+                  key: _globalKey,
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Text(
+                    sample.description,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.white,
+                        letterSpacing: 0.3,
+                        height: 1.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+SfCartesianChart getVerticalColumnChart(bool isTileView) {
+  return SfCartesianChart(
+    title: ChartTitle(
+        text:
+            isTileView ? '' : 'PC vendor shipments - 2015 Q1'),
+    primaryXAxis: CategoryAxis(
+      majorGridLines: MajorGridLines(width: 0),
+    ),
+    primaryYAxis: NumericAxis(
+        labelFormat: '{value}M',
+        title: AxisTitle(text: isTileView ? '' : 'Shipments in million'),
+        majorGridLines: MajorGridLines(width: 0),
+        majorTickLines: MajorTickLines(size: 0)),
+    series: getVerticalData(isTileView),
+    tooltipBehavior:
+        TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+  );
+}
+
+List<CustomColumnSeries<_ChartData, String>> getVerticalData(bool isTileView) {
+  final List<_ChartData> chartData = <_ChartData>[
+    _ChartData('HP Inc', 12.54, const Color.fromARGB(53, 92, 125, 1)),
+    _ChartData('Lenovo', 13.46, const Color.fromARGB(192, 108, 132, 1)),
+    _ChartData('Dell', 9.18, const Color.fromARGB(246, 114, 128, 1)),
+    _ChartData('Apple', 4.56, const Color.fromARGB(248, 177, 149, 1)),
+    _ChartData('Asus', 5.29, const Color.fromARGB(116, 180, 155, 1)),
+  ];
+  return <CustomColumnSeries<_ChartData, String>>[
+    CustomColumnSeries<_ChartData, String>(
+      enableTooltip: true,
+      isTrackVisible: false,
+      dataLabelSettings: DataLabelSettings(
+          isVisible: true, position: CartesianLabelPosition.middle),
+      dataSource: chartData,
+      width: 0.8,
+      xValueMapper: (_ChartData sales, _) => sales.x,
+      yValueMapper: (_ChartData sales, _) => sales.y,
+      pointColorMapper: (_ChartData sales, _) => sales.colors,
+    )
+  ];
+}
+
+class CustomColumnSeries<T, D> extends ColumnSeries<T, D> {
+  CustomColumnSeries({
+    @required List<T> dataSource,
+    @required ChartValueMapper<T, D> xValueMapper,
+    @required ChartValueMapper<T, num> yValueMapper,
+    @required ChartValueMapper<T, Color> pointColorMapper,
+    String xAxisName,
+    String yAxisName,
+    Color color,
+    double width,
+    MarkerSettings markerSettings,
+    EmptyPointSettings emptyPointSettings,
+    DataLabelSettings dataLabelSettings,
+    bool visible,
+    bool enableTooltip,
+    double animationDuration,
+    Color trackColor,
+    Color trackBorderColor,
+    bool isTrackVisible,
+  }) : super(
+            xValueMapper: xValueMapper,
+            yValueMapper: yValueMapper,
+            pointColorMapper: pointColorMapper,
+            dataSource: dataSource,
+            xAxisName: xAxisName,
+            yAxisName: yAxisName,
+            color: color,
+            isTrackVisible: isTrackVisible,
+            trackColor: trackColor,
+            trackBorderColor: trackBorderColor,
+            width: width,
+            markerSettings: markerSettings,
+            emptyPointSettings: emptyPointSettings,
+            dataLabelSettings: dataLabelSettings,
+            isVisible: visible,
+            enableTooltip: enableTooltip,
+            animationDuration: animationDuration);
+
+  @override
+  ChartSegment createSegment() {
+    return CustomPainter();
+  }
+}
+
+class CustomPainter extends ColumnSegment {
+  List<Color> colorList = <Color>[
+    const Color.fromRGBO(53, 92, 125, 1),
+    const Color.fromRGBO(192, 108, 132, 1),
+    const Color.fromRGBO(246, 114, 128, 1),
+    const Color.fromRGBO(248, 177, 149, 1),
+    const Color.fromRGBO(116, 180, 155, 1)
+  ];
+  @override
+  int get currentSegmentIndex => super.currentSegmentIndex;
+
+  @override
+  Paint getFillPaint() {
+    final Paint customerFillPaint = Paint();
+    customerFillPaint.isAntiAlias = false;
+    customerFillPaint.color = colorList[currentSegmentIndex];
+    customerFillPaint.style = PaintingStyle.fill;
+    return customerFillPaint;
+  }
+
+  @override
+  Paint getStrokePaint() {
+    final Paint customerStrokePaint = Paint();
+    customerStrokePaint.isAntiAlias = false;
+    customerStrokePaint.color = Colors.transparent;
+    customerStrokePaint.style = PaintingStyle.stroke;
+    return customerStrokePaint;
+  }
+
+  @override
+  void onPaint(Canvas canvas) {
+    double x, y;
+    x = segmentRect.center.dx;
+    y = segmentRect.top;
+    double width = 0;
+    const double height = 20;
+    width = segmentRect.width;
+    final Paint paint = Paint();
+    paint.color = getFillPaint().color;
+    paint.style = PaintingStyle.fill;
+    final Path path = Path();
+    final dynamic factor = segmentRect.height * (1 - animationFactor);
+    path.moveTo(x - width / 2, y + factor + height);
+    path.lineTo(x, ((segmentRect.top + factor + height)) - height);
+    path.lineTo(x + width / 2, y + factor + height);
+    path.lineTo(x + width / 2, segmentRect.bottom + factor);
+    path.lineTo(x - width / 2, segmentRect.bottom + factor);
+    path.close();
+    canvas.drawPath(path, paint);
+  }
+}
+
+class _ChartData {
+  _ChartData(this.x, this.y, this.colors);
+  final String x;
+  final double y;
+  final Color colors;
+}
