@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
@@ -7,6 +7,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'dart:math';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/checkbox.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DefaultCrossHair extends StatefulWidget {
   final SubItemList sample;
@@ -26,8 +27,8 @@ class _DefaultCrossHairState extends State<DefaultCrossHair> {
   void initState() {
     panelOpen = frontPanelVisible.value;
     frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();   
-   }
+    super.initState();
+  }
 
   void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
 
@@ -62,7 +63,10 @@ class _DefaultCrossHairState extends State<DefaultCrossHair> {
                       child: IconButton(
                         icon:
                             Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/crosshair/chart_with_crosshair.dart');
+                        },
                       ),
                     ),
                   ),
@@ -118,11 +122,12 @@ class _FrontPanelState extends State<FrontPanel> {
   String _selectedLineType = 'both';
   CrosshairLineType _lineType = CrosshairLineType.both;
   dynamic randomData;
-@override
+  @override
   void initState() {
     super.initState();
     randomData = getDatatTimeData();
   }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
@@ -132,8 +137,8 @@ class _FrontPanelState extends State<FrontPanel> {
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
-                    child:
-                        getDefaultCrossHairChart(false, alwaysShow, _lineType, randomData)),
+                    child: getDefaultCrossHairChart(
+                        false, alwaysShow, _lineType, randomData)),
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
@@ -141,8 +146,7 @@ class _FrontPanelState extends State<FrontPanel> {
                 },
                 child: Icon(Icons.graphic_eq, color: Colors.white),
                 backgroundColor: model.backgroundColor,
-              )
-              );
+              ));
         });
   }
 
@@ -179,8 +183,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                   children: <Widget>[
                                     Text('Settings',
                                         style: TextStyle(
-                                            color:
-                                                model.textColor,
+                                            color: model.textColor,
                                             fontSize: 18,
                                             letterSpacing: 0.34,
                                             fontWeight: FontWeight.w500)),
@@ -197,7 +200,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 50, 0, 0),
                                 child: ListView(
                                   children: <Widget>[
                                     Container(
@@ -218,10 +222,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                             child: Align(
                                               alignment: Alignment.bottomCenter,
                                               child: Theme(
-                                                  data: Theme.of(context)
-                                                      .copyWith(
-                                                          canvasColor:
-                                                          model.bottomSheetBackgroundColor),
+                                                  data: Theme.of(context).copyWith(
+                                                      canvasColor: model
+                                                          .bottomSheetBackgroundColor),
                                                   child: DropDown(
                                                       value: _selectedLineType,
                                                       item: _lineTypeList
@@ -232,8 +235,11 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                 (value != null)
                                                                     ? value
                                                                     : 'auto',
-                                                            child:
-                                                                Text('$value', style: TextStyle(color: model.textColor)));
+                                                            child: Text(
+                                                                '$value',
+                                                                style: TextStyle(
+                                                                    color: model
+                                                                        .textColor)));
                                                       }).toList(),
                                                       valueChanged:
                                                           (dynamic value) {
@@ -405,10 +411,11 @@ SfCartesianChart getDefaultCrossHairChart(bool isTileView,
   );
 }
 
-List<LineSeries<_DateTimeData, DateTime>> getLineSeries(bool isTileView, dynamic randomData) {
+List<LineSeries<_DateTimeData, DateTime>> getLineSeries(
+    bool isTileView, dynamic randomData) {
   return <LineSeries<_DateTimeData, DateTime>>[
     LineSeries<_DateTimeData, DateTime>(
-        dataSource: isTileView ? getDatatTimeData(): randomData,
+        dataSource: isTileView ? getDatatTimeData() : randomData,
         xValueMapper: (_DateTimeData sales, _) => sales.year,
         yValueMapper: (_DateTimeData sales, _) => sales.y,
         width: 2)

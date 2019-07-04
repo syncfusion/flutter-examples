@@ -3,7 +3,6 @@ library button_picker;
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {
-
   CustomButton({
     Key key,
     @required this.minValue,
@@ -21,7 +20,7 @@ class CustomButton extends StatefulWidget {
     this.iconRight = Icons.arrow_right,
     this.iconUpRightColor = Colors.black,
     this.iconDownLeftColor = Colors.black,
-  }) : assert(minValue != null),
+  })  : assert(minValue != null),
         assert(maxValue != null),
         assert(initialValue != null),
         assert(onChanged != null),
@@ -45,7 +44,9 @@ class CustomButton extends StatefulWidget {
   final bool horizontal;
   final bool loop;
   final TextStyle style;
-  final double padding; /// Space between buttons and counter
+  final double padding;
+
+  /// Space between buttons and counter
 
   /// Customizable icons for the buttons
   final IconData iconUp;
@@ -53,8 +54,12 @@ class CustomButton extends StatefulWidget {
   final IconData iconLeft;
   final IconData iconRight;
 
-  final Color iconUpRightColor; /// Color of upper button or right button when `horizontal == true`
-  final Color iconDownLeftColor; /// Color of bottom button or left button when `horizontal == true`
+  final Color iconUpRightColor;
+
+  /// Color of upper button or right button when `horizontal == true`
+  final Color iconDownLeftColor;
+
+  /// Color of bottom button or left button when `horizontal == true`
 
   @override
   State<StatefulWidget> createState() => _CustomButton();
@@ -72,7 +77,7 @@ class _CustomButton extends State<CustomButton> {
   }
 
   /// Calculate next value for the CustomButton
-  void count (CountDirection countDirection) {
+  void count(CountDirection countDirection) {
     if (countDirection == CountDirection.Up) {
       /// Make sure you can't go over `maxValue` unless `loop == true`
       if (_counter + widget.step > widget.maxValue) {
@@ -104,13 +109,16 @@ class _CustomButton extends State<CustomButton> {
 
   Widget getCount() {
     return Text(
-        widget.initialValue % 1 == 0 && widget.step % 1 == 0 ? _counter.toStringAsFixed(0) : _counter.toStringAsFixed(1),
-        style: widget.style == null ? Theme.of(context).textTheme.headline : widget.style
-    );
+        widget.initialValue % 1 == 0 && widget.step % 1 == 0
+            ? _counter.toStringAsFixed(0)
+            : _counter.toStringAsFixed(1),
+        style: widget.style == null
+            ? Theme.of(context).textTheme.headline
+            : widget.style);
   }
 
   /// Return different widgets for a horizontal and vertical BuildPicker
-  Widget buildCustomButton () {
+  Widget buildCustomButton() {
     if (!widget.horizontal) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -136,8 +144,7 @@ class _CustomButton extends State<CustomButton> {
               highlightColor: Colors.transparent,
               onPressed: () {
                 count(CountDirection.Down);
-              }
-          ),
+              }),
         ],
       );
     } else {
@@ -153,8 +160,7 @@ class _CustomButton extends State<CustomButton> {
               highlightColor: Colors.transparent,
               onPressed: () {
                 count(CountDirection.Down);
-              }
-          ),
+              }),
           getCount(),
           IconButton(
             icon: Icon(widget.iconRight),

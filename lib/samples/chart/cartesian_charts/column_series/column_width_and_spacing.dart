@@ -1,10 +1,11 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/custom_button.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ColumnSpacing extends StatefulWidget {
   final SubItemList sample;
@@ -62,7 +63,10 @@ class _ColumnSpacingState extends State<ColumnSpacing> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/column_series/column_width_and_spacing.dart');
+                        },
                       ),
                     ),
                   ),
@@ -200,7 +204,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                             MainAxisAlignment.start,
                                         children: <Widget>[
                                           Text('Width  ',
-                                              style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: model.textColor)),
                                           Container(
                                             child: Padding(
                                               padding:
@@ -225,8 +231,10 @@ class _FrontPanelState extends State<FrontPanel> {
                                                     Icons.keyboard_arrow_left,
                                                 iconRight:
                                                     Icons.keyboard_arrow_right,
-                                                iconUpRightColor: model.textColor,
-                                                iconDownLeftColor: model.textColor,
+                                                iconUpRightColor:
+                                                    model.textColor,
+                                                iconDownLeftColor:
+                                                    model.textColor,
                                                 style: TextStyle(
                                                     fontSize: 20.0,
                                                     color: model.textColor),
@@ -247,8 +255,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                             padding: const EdgeInsets.fromLTRB(
                                                 0, 15, 0, 0),
                                             child: Text('Spacing  ',
-                                                style:
-                                                    TextStyle(fontSize: 16.0, color: model.textColor)),
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: model.textColor)),
                                           ),
                                           Container(
                                             child: Padding(
@@ -274,8 +283,10 @@ class _FrontPanelState extends State<FrontPanel> {
                                                     Icons.keyboard_arrow_left,
                                                 iconRight:
                                                     Icons.keyboard_arrow_right,
-                                                iconUpRightColor: model.textColor,
-                                                iconDownLeftColor: model.textColor,
+                                                iconUpRightColor:
+                                                    model.textColor,
+                                                iconDownLeftColor:
+                                                    model.textColor,
                                                 style: TextStyle(
                                                     fontSize: 20.0,
                                                     color: model.textColor),
@@ -404,8 +415,8 @@ List<ColumnSeries<_ChartData, String>> getDefaultColumn(bool isTileView,
   return <ColumnSeries<_ChartData, String>>[
     ColumnSeries<_ChartData, String>(
         enableTooltip: true,
-        width:isTileView ? 0.8: columnWidth,
-        spacing: isTileView ? 0.2: columnSpacing,
+        width: isTileView ? 0.8 : columnWidth,
+        spacing: isTileView ? 0.2 : columnSpacing,
         dataSource: chartData,
         color: Color.fromRGBO(252, 216, 20, 1),
         xValueMapper: (_ChartData sales, _) => sales.x,
@@ -414,8 +425,8 @@ List<ColumnSeries<_ChartData, String>> getDefaultColumn(bool isTileView,
     ColumnSeries<_ChartData, String>(
         enableTooltip: true,
         dataSource: chartData,
-       width:isTileView ? 0.8: columnWidth,
-        spacing: isTileView ? 0.2: columnSpacing,
+        width: isTileView ? 0.8 : columnWidth,
+        spacing: isTileView ? 0.2 : columnSpacing,
         color: Color.fromRGBO(169, 169, 169, 1),
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y2,
@@ -423,8 +434,8 @@ List<ColumnSeries<_ChartData, String>> getDefaultColumn(bool isTileView,
     ColumnSeries<_ChartData, String>(
         enableTooltip: true,
         dataSource: chartData,
-        width:isTileView ? 0.8: columnWidth,
-        spacing: isTileView ? 0.2: columnSpacing,
+        width: isTileView ? 0.8 : columnWidth,
+        spacing: isTileView ? 0.2 : columnSpacing,
         color: Color.fromRGBO(205, 127, 50, 1),
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y3,

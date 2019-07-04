@@ -29,14 +29,12 @@ const Duration _kRoundedBottomSheetDuration = const Duration(milliseconds: 300);
 const double _kMinFlingVelocity = 600.0;
 const double _kCloseProgressThreshold = 0.5;
 
-
 class CustomBottomSheet extends StatefulWidget {
-
   const CustomBottomSheet(
       {Key key,
-        this.animationController,
-        @required this.onClosing,
-        @required this.builder})
+      this.animationController,
+      @required this.onClosing,
+      @required this.builder})
       : assert(onClosing != null),
         assert(builder != null),
         super(key: key);
@@ -218,7 +216,6 @@ class RoundedModalBottomSheet<T> extends StatefulWidget {
 
 class _RoundedModalBottomSheetState<T>
     extends State<RoundedModalBottomSheet<T>> {
-
   @override
   void initState() {
     super.initState();
@@ -229,21 +226,16 @@ class _RoundedModalBottomSheetState<T>
     return GestureDetector(
       child: AnimatedBuilder(
         animation: widget.route.animation,
-        builder: (context, child) =>
-            CustomSingleChildLayout(
+        builder: (context, child) => CustomSingleChildLayout(
               delegate: _RoundedModalBottomSheetLayout(
                   widget.route.autoResize
-                      ? MediaQuery
-                      .of(context)
-                      .viewInsets
-                      .bottom
+                      ? MediaQuery.of(context).viewInsets.bottom
                       : 0.0,
                   widget.route.animation.value),
               child: CustomBottomSheet(
                 animationController: widget.route.animationController,
                 onClosing: () => Navigator.pop(context),
-                builder: (context) =>
-                    Container(
+                builder: (context) => Container(
                       decoration: BoxDecoration(
                         color: widget.route.color,
                         borderRadius: BorderRadius.only(

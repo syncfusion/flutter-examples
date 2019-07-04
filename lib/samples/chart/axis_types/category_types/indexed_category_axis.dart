@@ -1,9 +1,10 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/checkbox.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../widgets/bottom_sheet.dart';
 
@@ -62,6 +63,8 @@ class _CategoryIndexedState extends State<CategoryIndexed> {
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
                         onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/category_types/indexed_category_axis.dart');
                         },
                       ),
                     ),
@@ -90,7 +93,7 @@ class _CategoryIndexedState extends State<CategoryIndexed> {
                 backLayer: BackPanel(sample),
                 frontLayer: FrontPanel(sample),
                 sideDrawer: null,
-                 headerClosingHeight: 350,
+                headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
@@ -169,8 +172,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                     children: <Widget>[
                                       Text('Settings',
                                           style: TextStyle(
-                                              color:
-                                                  model.textColor,
+                                              color: model.textColor,
                                               fontSize: 18,
                                               letterSpacing: 0.34,
                                               fontWeight: FontWeight.w500)),

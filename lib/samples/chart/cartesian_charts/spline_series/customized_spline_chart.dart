@@ -1,10 +1,12 @@
 import 'dart:ui';
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'dart:math';
+
+import 'package:url_launcher/url_launcher.dart';
 
 class SplineCustomization extends StatefulWidget {
   final SubItemList sample;
@@ -49,7 +51,7 @@ class _SplineVerticalState extends State<SplineCustomization> {
         builder: (context, _, model) => SafeArea(
               child: Backdrop(
                 frontHeaderHeight: 20,
-                toggleFrontLayer:false,
+                toggleFrontLayer: false,
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
                 sampleListModel: model,
@@ -64,7 +66,10 @@ class _SplineVerticalState extends State<SplineCustomization> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/customized_spline_chart.dart');
+                        },
                       ),
                     ),
                   ),

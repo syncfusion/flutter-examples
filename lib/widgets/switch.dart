@@ -3,7 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetSwitch extends StatefulWidget {
-  BottomSheetSwitch({@required this.switchValue, @required this.valueChanged,this.activeColor});
+  BottomSheetSwitch(
+      {@required this.switchValue,
+      @required this.valueChanged,
+      this.activeColor});
 
   final bool switchValue;
   final ValueChanged valueChanged;
@@ -26,7 +29,6 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
   Widget build(BuildContext context) {
     return Container(
       child: CupertinoSwitch(
-
           activeColor: widget.activeColor,
           value: _switchValue,
           onChanged: (bool value) {

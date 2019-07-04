@@ -3,7 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetCheckbox extends StatefulWidget {
-  BottomSheetCheckbox({@required this.switchValue, @required this.valueChanged,this.activeColor});
+  BottomSheetCheckbox(
+      {@required this.switchValue,
+      @required this.valueChanged,
+      this.activeColor});
 
   final bool switchValue;
   final ValueChanged valueChanged;

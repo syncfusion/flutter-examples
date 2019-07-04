@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
@@ -63,11 +63,13 @@ class _NumericInverseState extends State<NumericInverse> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/numeric_types/inversed_numeric_axis.dart');
+                        },
                       ),
                     ),
                   ),
-                  
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -129,8 +131,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                       fontSize: 16, color: model.textColor)),
                               Text('www.indexmundi.com',
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue)),
+                                      fontSize: 14, color: Colors.blue)),
                             ],
                           ),
                         ),

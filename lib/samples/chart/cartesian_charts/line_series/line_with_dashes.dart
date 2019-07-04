@@ -1,8 +1,9 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LineDashed extends StatefulWidget {
   final SubItemList sample;
@@ -59,6 +60,8 @@ class _LineDashedState extends State<LineDashed> {
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
                         onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/line_with_dashes.dart.dart');
                         },
                       ),
                     ),
@@ -151,7 +154,8 @@ class _BackPanelState extends State<BackPanel> {
     final size = renderBoxRed.size;
     final position = renderBoxRed.localToGlobal(Offset.zero);
     double appbarHeight = 60;
-    BackdropState.frontPanelHeight = position.dy+(size.height-appbarHeight)+20;
+    BackdropState.frontPanelHeight =
+        position.dy + (size.height - appbarHeight) + 20;
   }
 
   @override
@@ -199,19 +203,21 @@ class _BackPanelState extends State<BackPanel> {
 }
 
 SfCartesianChart getDashedLineChart(bool isTileView) {
- return SfCartesianChart(
-   plotAreaBorderWidth: 0,
+  return SfCartesianChart(
+    plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Capital investment as a share of exports'),
     legend: Legend(
         isVisible: isTileView ? false : true,
         overflowMode: LegendItemOverflowMode.wrap),
-    primaryXAxis:
-        NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift, 
+    primaryXAxis: NumericAxis(
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
         majorGridLines: MajorGridLines(width: 0),
         interval: 2),
-    primaryYAxis:
-        NumericAxis( minimum: 3, maximum: 21, interval: isTileView ? 6 : 3,
+    primaryYAxis: NumericAxis(
+        minimum: 3,
+        maximum: 21,
+        interval: isTileView ? 6 : 3,
         labelFormat: '{value}%',
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(color: Colors.transparent)),
@@ -230,7 +236,7 @@ List<LineSeries<_ChartData, num>> getLineSeries(bool isTileView) {
     _ChartData(2015, 6.8, 9.3, 13.4, 18.9),
     _ChartData(2016, 7.7, 10.1, 14.2, 19.4),
   ];
-   return <LineSeries<_ChartData, num>>[
+  return <LineSeries<_ChartData, num>>[
     LineSeries<_ChartData, num>(
         animationDuration: 2500,
         enableTooltip: true,

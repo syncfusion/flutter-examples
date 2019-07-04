@@ -1,8 +1,9 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PieGrouping extends StatefulWidget {
   final SubItemList sample;
@@ -58,7 +59,10 @@ class _PieGroupingState extends State<PieGrouping> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/pie_series/pie_with_grouping.dart');
+                        },
                       ),
                     ),
                   ),
@@ -213,7 +217,8 @@ List<PieSeries<_PieData, String>> getPieSeries(bool isTileView) {
     _PieData('Large\nHydro', 12.7, 'Large Hydro: 45,399.22 MW (12.7%)', null),
     _PieData('Small\nHydro', 1.3, 'Small Hydro: 4,594.15 MW (1.3%)', null),
     _PieData('Wind\nPower', 10, 'Wind Power: 35,815.88 MW (10.0%)', null),
-    _PieData('Solar\nPower', 8, 'Solar Power: 28,679.21 MW (8.0%)', Color.fromRGBO(198, 201, 207, 1)),
+    _PieData('Solar\nPower', 8, 'Solar Power: 28,679.21 MW (8.0%)',
+        Color.fromRGBO(198, 201, 207, 1)),
     _PieData('Biomass', 2.6, 'Biomass: 9,269.8 MW (2.6%)', null),
     _PieData('Nuclear', 1.9, 'Nuclear: 6,780 MW (1.9%)', null),
     _PieData('Gas', 7, 'Gas: 24,937.22 MW (7.0%)', null),
@@ -237,7 +242,7 @@ List<PieSeries<_PieData, String>> getPieSeries(bool isTileView) {
 }
 
 class _PieData {
-  _PieData(this.xData, this.yData, [this.text,this.color]);
+  _PieData(this.xData, this.yData, [this.text, this.color]);
   final String xData;
   final num yData;
   final String text;

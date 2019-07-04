@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
@@ -6,6 +6,7 @@ import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:flutter_examples/widgets/checkbox.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LegendOptions extends StatefulWidget {
   final SubItemList sample;
@@ -63,11 +64,12 @@ class _LegendOptionsState extends State<LegendOptions> {
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
                         onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/legend/legend_with_various_options.dart');
                         },
                       ),
                     ),
                   ),
-                  
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -75,7 +77,7 @@ class _LegendOptionsState extends State<LegendOptions> {
                 backLayer: BackPanel(sample),
                 frontLayer: FrontPanel(sample),
                 sideDrawer: null,
-                 headerClosingHeight: 350,
+                headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
@@ -164,8 +166,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                   children: <Widget>[
                                     Text('Settings',
                                         style: TextStyle(
-                                            color:
-                                                model.textColor,
+                                            color: model.textColor,
                                             fontSize: 18,
                                             letterSpacing: 0.34,
                                             fontWeight: FontWeight.w500)),
@@ -204,10 +205,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                             child: Align(
                                               alignment: Alignment.bottomCenter,
                                               child: Theme(
-                                                  data: Theme.of(context)
-                                                      .copyWith(
-                                                          canvasColor:
-                                                              model.bottomSheetBackgroundColor),
+                                                  data: Theme.of(context).copyWith(
+                                                      canvasColor: model
+                                                          .bottomSheetBackgroundColor),
                                                   child: DropDown(
                                                       value: _selectedPosition,
                                                       item: _positionList
@@ -218,8 +218,11 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                 (value != null)
                                                                     ? value
                                                                     : 'auto',
-                                                            child:
-                                                                Text('$value', style: TextStyle(color: model.textColor)));
+                                                            child: Text(
+                                                                '$value',
+                                                                style: TextStyle(
+                                                                    color: model
+                                                                        .textColor)));
                                                       }).toList(),
                                                       valueChanged:
                                                           (dynamic value) {
@@ -250,10 +253,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                             child: Align(
                                               alignment: Alignment.bottomCenter,
                                               child: Theme(
-                                                  data: Theme.of(context)
-                                                      .copyWith(
-                                                          canvasColor:
-                                                              model.bottomSheetBackgroundColor),
+                                                  data: Theme.of(context).copyWith(
+                                                      canvasColor: model
+                                                          .bottomSheetBackgroundColor),
                                                   child: DropDown(
                                                       value: _selectedMode,
                                                       item: _modeList
@@ -264,8 +266,11 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                 (value != null)
                                                                     ? value
                                                                     : 'wrap',
-                                                            child:
-                                                                Text('$value', style: TextStyle(color: model.textColor)));
+                                                            child: Text(
+                                                                '$value',
+                                                                style: TextStyle(
+                                                                    color: model
+                                                                        .textColor)));
                                                       }).toList(),
                                                       valueChanged:
                                                           (dynamic value) {

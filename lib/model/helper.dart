@@ -10,7 +10,7 @@ import 'package:flutter_examples/samples/chart/axis_types/date_time_types/date_t
 import 'package:flutter_examples/samples/chart/axis_types/date_time_types/default_date_time_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/default_numeric_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/inversed_numeric_axis.dart';
-import 'package:flutter_examples/samples/chart/axis_types/numeric_types/numeric_axis_witn_label_format.dart';
+import 'package:flutter_examples/samples/chart/axis_types/numeric_types/numeric_axis_with_label_format.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/area_series/area_with_emptypoints.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/area_series/area_with_gradient.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/area_series/default_area_chart.dart';
@@ -26,8 +26,8 @@ import 'package:flutter_examples/samples/chart/cartesian_charts/bubble_series/bu
 import 'package:flutter_examples/samples/chart/cartesian_charts/bubble_series/default_bubble_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/back_to_back_column.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_width_and_spacing.dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_with_rounded_corners..dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_with_track..dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_with_rounded_corners.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_with_track.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/customized_column_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/default_column_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/customized_line_chart.dart';

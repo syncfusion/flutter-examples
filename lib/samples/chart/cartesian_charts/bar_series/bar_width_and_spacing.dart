@@ -1,10 +1,11 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/custom_button.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BarSpacing extends StatefulWidget {
   final SubItemList sample;
@@ -59,7 +60,10 @@ class _BarSpacingState extends State<BarSpacing> {
                     child: IconButton(
                       icon: Image.asset(model.codeViewerIcon,
                           color: Colors.white),
-                      onPressed: () {},
+                      onPressed: () {
+                        launch(
+                            'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/bar_series/bar_width_and_spacing.dart');
+                      },
                     ),
                   ),
                   Padding(
@@ -166,8 +170,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                   children: <Widget>[
                                     Text('Settings',
                                         style: TextStyle(
-                                            color:
-                                                model.textColor,
+                                            color: model.textColor,
                                             fontSize: 18,
                                             letterSpacing: 0.34,
                                             fontWeight: FontWeight.w500)),
@@ -196,7 +199,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                             MainAxisAlignment.start,
                                         children: <Widget>[
                                           Text('Width  ',
-                                              style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: model.textColor)),
                                           Container(
                                             child: Padding(
                                               padding:
@@ -221,8 +226,10 @@ class _FrontPanelState extends State<FrontPanel> {
                                                     Icons.keyboard_arrow_left,
                                                 iconRight:
                                                     Icons.keyboard_arrow_right,
-                                                iconUpRightColor: model.textColor,
-                                                iconDownLeftColor: model.textColor,
+                                                iconUpRightColor:
+                                                    model.textColor,
+                                                iconDownLeftColor:
+                                                    model.textColor,
                                                 style: TextStyle(
                                                     fontSize: 20.0,
                                                     color: model.textColor),
@@ -243,8 +250,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                             padding: const EdgeInsets.fromLTRB(
                                                 0, 15, 0, 0),
                                             child: Text('Spacing  ',
-                                                style:
-                                                    TextStyle(fontSize: 16.0, color: model.textColor)),
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: model.textColor)),
                                           ),
                                           Container(
                                             child: Padding(
@@ -270,8 +278,10 @@ class _FrontPanelState extends State<FrontPanel> {
                                                     Icons.keyboard_arrow_left,
                                                 iconRight:
                                                     Icons.keyboard_arrow_right,
-                                                iconUpRightColor: model.textColor,
-                                                iconDownLeftColor: model.textColor,
+                                                iconUpRightColor:
+                                                    model.textColor,
+                                                iconDownLeftColor:
+                                                    model.textColor,
                                                 style: TextStyle(
                                                     fontSize: 20.0,
                                                     color: model.textColor),
@@ -398,16 +408,16 @@ List<BarSeries<_ChartData, num>> getBarSeries(
   return <BarSeries<_ChartData, num>>[
     BarSeries<_ChartData, num>(
         enableTooltip: true,
-        width:isTileView ? 0.8: columnWidth,
-        spacing: isTileView ? 0.2: columnSpacing,
+        width: isTileView ? 0.8 : columnWidth,
+        spacing: isTileView ? 0.2 : columnSpacing,
         dataSource: chartData,
         xValueMapper: (_ChartData sales, _) => sales.year,
         yValueMapper: (_ChartData sales, _) => sales.import,
         name: 'Import'),
     BarSeries<_ChartData, num>(
         enableTooltip: true,
-        width:isTileView ? 0.8: columnWidth,
-        spacing: isTileView ? 0.2: columnSpacing,
+        width: isTileView ? 0.8 : columnWidth,
+        spacing: isTileView ? 0.2 : columnSpacing,
         dataSource: chartData,
         xValueMapper: (_ChartData sales, _) => sales.year,
         yValueMapper: (_ChartData sales, _) => sales.export,

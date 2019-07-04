@@ -1,12 +1,13 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomizedLine extends StatefulWidget {
   final SubItemList sample;
@@ -67,11 +68,13 @@ class _LineDefaultState extends State<CustomizedLine> {
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
                         onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/customized_line_chart.dart');
                         },
                       ),
                     ),
                   ),
-                   ],
+                ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
                     child: Text(sample.title.toString())),
@@ -198,20 +201,20 @@ SfCartesianChart getCustomizedLineChart(bool isTileView) {
   return SfCartesianChart(
     title: ChartTitle(
         text: isTileView ? '' : 'Capital investment as a share of exports'),
-     primaryXAxis: DateTimeAxis(
+    primaryXAxis: DateTimeAxis(
       dateFormat: DateFormat.yMMM(),
       intervalType: DateTimeIntervalType.months,
       interval: 3,
     ),
     primaryYAxis: NumericAxis(
-      labelFormat: '{value}%',
+        labelFormat: '{value}%',
         minimum: 1,
         maximum: 3.5,
         interval: 0.5,
         majorGridLines: MajorGridLines(color: Colors.transparent)),
     series: getLineSeries(isTileView),
-    
-    tooltipBehavior: TooltipBehavior(enable: true, header: '', canShowMarker: false),
+    tooltipBehavior:
+        TooltipBehavior(enable: true, header: '', canShowMarker: false),
   );
 }
 
@@ -307,7 +310,7 @@ class CustomPainter extends LineSegment {
   @override
   Paint getStrokePaint() {
     final Paint customerStrokePaint = Paint();
-    customerStrokePaint.color =  Color.fromRGBO(53,92,125,1);
+    customerStrokePaint.color = Color.fromRGBO(53, 92, 125, 1);
     customerStrokePaint.strokeWidth = 2;
     customerStrokePaint.style = PaintingStyle.stroke;
     return customerStrokePaint;
@@ -327,7 +330,7 @@ class CustomPainter extends LineSegment {
     canvas.drawPath(path, getStrokePaint());
 
     if (currentSegmentIndex == series.segments.length - 1) {
-      final double labelPadding =10;
+      final double labelPadding = 10;
       final Paint topLinePaint = Paint()
         ..color = Colors.green
         ..style = PaintingStyle.stroke
@@ -368,7 +371,8 @@ class CustomPainter extends LineSegment {
       final TextPainter tp =
           TextPainter(text: span, textDirection: prefix0.TextDirection.ltr);
       tp.layout();
-      tp.paint(canvas, Offset(xValues[xValues.length-4], maximum + labelPadding));
+      tp.paint(
+          canvas, Offset(xValues[xValues.length - 4], maximum + labelPadding));
       final TextSpan span1 = TextSpan(
         style: TextStyle(
             color: Colors.green[800], fontSize: 12.0, fontFamily: 'Roboto'),
@@ -377,7 +381,10 @@ class CustomPainter extends LineSegment {
       final TextPainter tp1 =
           TextPainter(text: span1, textDirection: prefix0.TextDirection.ltr);
       tp1.layout();
-      tp1.paint(canvas, Offset(xValues[0] + labelPadding/2, minimum - labelPadding - tp1.size.height));
+      tp1.paint(
+          canvas,
+          Offset(xValues[0] + labelPadding / 2,
+              minimum - labelPadding - tp1.size.height));
       yValues.clear();
     }
   }

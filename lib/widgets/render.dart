@@ -10,7 +10,6 @@ class CustomListViewRenderer extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, MultiChildLayoutParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, MultiChildLayoutParentData> {
-
   RenderCustomListViewCallback _callback;
   ScrollableState _scrollable;
   bool _overlapHeaders;
@@ -99,20 +98,25 @@ class CustomListViewRenderer extends RenderBox
     assert(size.isFinite);
 
     // place content underneath header
-    final contentParentData = _contentBox.parentData as MultiChildLayoutParentData;
-    contentParentData.offset = new Offset(0.0, _overlapHeaders ? 0.0 : headerHeight);
+    final contentParentData =
+        _contentBox.parentData as MultiChildLayoutParentData;
+    contentParentData.offset =
+        new Offset(0.0, _overlapHeaders ? 0.0 : headerHeight);
 
     // determine by how much the header should be stuck to the top
     final double stuckOffset = determineStuckOffset();
 
     // place header over content relative to scroll offset
     final double maxOffset = height - headerHeight;
-    final headerParentData = _headerBox.parentData as MultiChildLayoutParentData;
-    headerParentData.offset = new Offset(0.0, max(0.0, min(-stuckOffset, maxOffset)));
+    final headerParentData =
+        _headerBox.parentData as MultiChildLayoutParentData;
+    headerParentData.offset =
+        new Offset(0.0, max(0.0, min(-stuckOffset, maxOffset)));
 
     // report to widget how much the header is stuck.
     if (_callback != null) {
-      final stuckAmount = max(min(headerHeight, stuckOffset), -headerHeight) / headerHeight;
+      final stuckAmount =
+          max(min(headerHeight, stuckOffset), -headerHeight) / headerHeight;
       _callback(stuckAmount);
     }
   }
@@ -149,14 +153,16 @@ class CustomListViewRenderer extends RenderBox
 
   @override
   double computeMinIntrinsicHeight(double width) {
-    return _overlapHeaders ? _contentBox.getMinIntrinsicHeight(width)
+    return _overlapHeaders
+        ? _contentBox.getMinIntrinsicHeight(width)
         : (_headerBox.getMinIntrinsicHeight(width) +
             _contentBox.getMinIntrinsicHeight(width));
   }
 
   @override
   double computeMaxIntrinsicHeight(double width) {
-    return _overlapHeaders ? _contentBox.getMaxIntrinsicHeight(width)
+    return _overlapHeaders
+        ? _contentBox.getMaxIntrinsicHeight(width)
         : (_headerBox.getMaxIntrinsicHeight(width) +
             _contentBox.getMaxIntrinsicHeight(width));
   }

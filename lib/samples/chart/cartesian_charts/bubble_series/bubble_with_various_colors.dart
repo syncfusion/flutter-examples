@@ -1,9 +1,10 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BubblePointColor extends StatefulWidget {
   final SubItemList sample;
@@ -62,11 +63,13 @@ class _BubblePointColorState extends State<BubblePointColor> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/bubble_series/bubble_with_various_colors.dart');
+                        },
                       ),
                     ),
                   ),
-                  
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -215,19 +218,17 @@ List<BubbleSeries<_BubbleColors, String>> getBubbleSeries(bool isTileView) {
   final List<_BubbleColors> chartData = <_BubbleColors>[
     _BubbleColors(
         'Namibia', 825615, 0.37, const Color.fromRGBO(123, 180, 235, 1)),
-   _BubbleColors(
+    _BubbleColors(
         'Angola', 1246700, 0.84, const Color.fromRGBO(53, 124, 210, 1)),
-   _BubbleColors(
+    _BubbleColors(
         'Tanzania', 945087, 0.64, const Color.fromRGBO(221, 138, 189, 1)),
     _BubbleColors(
         'Egypt', 1002450, 0.68, const Color.fromRGBO(248, 184, 131, 1)),
-    
     _BubbleColors(
         'Nigeria', 923768, 0.62, const Color.fromRGBO(112, 173, 71, 1)),
-     _BubbleColors('Peru', 1285216, 0.87, const Color.fromRGBO(0, 189, 174, 1)),
-      _BubbleColors(
+    _BubbleColors('Peru', 1285216, 0.87, const Color.fromRGBO(0, 189, 174, 1)),
+    _BubbleColors(
         'Ethiopia', 1104300, 0.74, const Color.fromRGBO(229, 101, 144, 1)),
-    
     _BubbleColors(
         'Venezuela', 916445, 0.62, const Color.fromRGBO(127, 132, 232, 1)),
     _BubbleColors(

@@ -11,7 +11,6 @@ class LegendFeatures extends StatefulWidget {
 }
 
 class _SeriesFeaturesState extends State<LegendFeatures> {
-
   @override
   void initState() {
     super.initState();
@@ -24,9 +23,13 @@ class _SeriesFeaturesState extends State<LegendFeatures> {
 
   List<Widget> getTabs(SampleListModel model) {
     List<Widget> tabs = <Widget>[];
-    for (int i = 0; i < model.controlList[model.selectedIndex].subItemList.length; i++) {
-      if(model.controlList[model.selectedIndex].subItemList[i].length>0) {
-        tabs.add(Tab(text: model.controlList[model.selectedIndex].subItemList[i][0]?.category));
+    for (int i = 0;
+        i < model.controlList[model.selectedIndex].subItemList.length;
+        i++) {
+      if (model.controlList[model.selectedIndex].subItemList[i].length > 0) {
+        tabs.add(Tab(
+            text: model
+                .controlList[model.selectedIndex].subItemList[i][0]?.category));
       }
     }
     return tabs;
@@ -41,20 +44,22 @@ class _SeriesFeaturesState extends State<LegendFeatures> {
             data: model.themeData,
             child: SafeArea(
               child: DefaultTabController(
-                length: model.controlList[model.selectedIndex].subItemList.length,
+                length:
+                    model.controlList[model.selectedIndex].subItemList.length,
                 child: Scaffold(
                   appBar: AppBar(
-                    leading: IconButton(icon:Icon(Icons.arrow_back),
-                      onPressed:() => Navigator.pop(context, false),
+                    leading: IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () => Navigator.pop(context, false),
                     ),
                     backgroundColor: model.backgroundColor,
-                    title: Text(model.controlList[model.selectedIndex].title.toString(),
+                    title: Text(
+                        model.controlList[model.selectedIndex].title.toString(),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
                             color: Colors.white,
-                            letterSpacing: 0.3
-                        )),
+                            letterSpacing: 0.3)),
                   ),
                   body: TabBarView(
                     children: getTabViewChildrens(model),
@@ -64,16 +69,18 @@ class _SeriesFeaturesState extends State<LegendFeatures> {
             )));
   }
 
-
   List<Widget> getTabViewChildrens(SampleListModel model) {
     List<Widget> tabChildren = <Widget>[];
-    for (int i = 0; i < model.controlList[model.selectedIndex].subItemList.length; i++) {
+    for (int i = 0;
+        i < model.controlList[model.selectedIndex].subItemList.length;
+        i++) {
       tabChildren.add(ListView.builder(
-          cacheExtent: model.controlList[model.selectedIndex].subItemList[i]
-              .length.toDouble(),
+          cacheExtent: model
+              .controlList[model.selectedIndex].subItemList[i].length
+              .toDouble(),
           addAutomaticKeepAlives: true,
-          itemCount: model.controlList[model.selectedIndex].subItemList[i]
-              .length,
+          itemCount:
+              model.controlList[model.selectedIndex].subItemList[i].length,
           itemBuilder: (BuildContext context, int position) {
             return Container(
               color: model.slidingPanelColor,
@@ -99,18 +106,19 @@ class _SeriesFeaturesState extends State<LegendFeatures> {
                                   onTap: () {
                                     Feedback.forLongPress(context);
                                     onTapSampleItem(
-                                        context, model.controlList[model
-                                        .selectedIndex]
-                                        .subItemList[i][position]);
+                                        context,
+                                        model.controlList[model.selectedIndex]
+                                            .subItemList[i][position]);
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(10, 5, 10, 5),
                                     child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(
-                                            '${ model.controlList[model.selectedIndex]
-                                                .subItemList[i][position].title}',
+                                            '${model.controlList[model.selectedIndex].subItemList[i][position].title}',
                                             textAlign: TextAlign.left,
                                             softWrap: true,
                                             textScaleFactor: 1,
@@ -119,35 +127,40 @@ class _SeriesFeaturesState extends State<LegendFeatures> {
                                                 fontFamily: 'MontserratMedium',
                                                 fontSize: 16.0,
                                                 color: model.textColor,
-                                                letterSpacing: 0.3
-                                            ),
+                                                letterSpacing: 0.3),
                                           ),
                                           Container(
                                             height: 30,
                                             width: 30,
                                             color: Colors.transparent,
                                             child: Padding(
-                                              padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      5, 0, 5, 5),
                                               child: Image.asset(
-                                                  'images/fullscreen.png', fit: BoxFit.contain,
+                                                  'images/fullscreen.png',
+                                                  fit: BoxFit.contain,
                                                   height: 20,
-                                                  width: 20, color: model.listIconColor),
+                                                  width: 20,
+                                                  color: model.listIconColor),
                                             ),
                                           ),
                                         ]),
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () {
-                                  },
+                                  onTap: () {},
                                   splashColor: Colors.grey.withOpacity(0.4),
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                     child: SizedBox(
                                       width: double.infinity,
                                       height: 230,
-                                      child: model.controlList[model.selectedIndex]
-                                          .subItemList[i][position].previewWidget,
+                                      child: model
+                                          .controlList[model.selectedIndex]
+                                          .subItemList[i][position]
+                                          .previewWidget,
                                     ),
                                   ),
                                 ),
@@ -165,5 +178,4 @@ class _SeriesFeaturesState extends State<LegendFeatures> {
     }
     return tabChildren;
   }
-
 }

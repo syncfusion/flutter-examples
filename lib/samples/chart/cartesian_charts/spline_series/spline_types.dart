@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
@@ -64,7 +64,10 @@ class _SplineTypesState extends State<SplineTypes> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/spline_types.dart');
+                        },
                       ),
                     ),
                   ),
@@ -150,8 +153,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                       fontSize: 16, color: model.textColor)),
                               Text('en.wikipedia.org',
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue)),
+                                      fontSize: 14, color: Colors.blue)),
                             ],
                           ),
                         ),
@@ -268,8 +270,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                                   child: Theme(
                                                     data: Theme.of(context)
                                                         .copyWith(
-                                                            canvasColor:
-                                                               model.bottomSheetBackgroundColor),
+                                                            canvasColor: model
+                                                                .bottomSheetBackgroundColor),
                                                     child: DropDown(
                                                         value:
                                                             _selectedSplineType,
@@ -282,7 +284,10 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                   ? value
                                                                   : 'natural',
                                                               child: Text(
-                                                                  '$value', style: TextStyle(color: model.textColor)));
+                                                                  '$value',
+                                                                  style: TextStyle(
+                                                                      color: model
+                                                                          .textColor)));
                                                         }).toList(),
                                                         valueChanged:
                                                             (dynamic value) {

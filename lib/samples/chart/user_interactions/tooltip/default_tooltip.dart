@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
@@ -59,7 +59,10 @@ class _DefaultTooltipState extends State<DefaultTooltip> {
                       child: IconButton(
                         icon:
                             Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/tooltip/default_tooltip.dart');
+                        },
                       ),
                     ),
                   ),
@@ -142,8 +145,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                       fontSize: 16, color: model.textColor)),
                               Text('www.indexmundi.com',
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue)),
+                                      fontSize: 14, color: Colors.blue)),
                             ],
                           ),
                         ),
@@ -245,7 +247,8 @@ SfCartesianChart getDefaultTooltipChart(bool isTileView) {
         majorGridLines: MajorGridLines(width: 0)),
     primaryYAxis: NumericAxis(
         labelFormat: '{value}M',
-        minimum: 30, maximum: 60,
+        minimum: 30,
+        maximum: 60,
         axisLine: AxisLine(width: 0)),
     series: getLineSeries(isTileView),
     tooltipBehavior: TooltipBehavior(enable: true),
@@ -273,8 +276,7 @@ List<LineSeries<_TooltipData, num>> getLineSeries(bool isTileView) {
         yValueMapper: (_TooltipData sales, _) => sales.y,
         width: 2,
         name: 'Germany',
-        markerSettings: MarkerSettings(
-            isVisible: true)),
+        markerSettings: MarkerSettings(isVisible: true)),
     LineSeries<_TooltipData, num>(
       enableTooltip: true,
       dataSource: chartData,
@@ -282,8 +284,7 @@ List<LineSeries<_TooltipData, num>> getLineSeries(bool isTileView) {
       name: 'Mexico',
       xValueMapper: (_TooltipData sales, _) => sales.x,
       yValueMapper: (_TooltipData sales, _) => sales.y1,
-      markerSettings: MarkerSettings(
-          isVisible: true),
+      markerSettings: MarkerSettings(isVisible: true),
     )
   ];
 }

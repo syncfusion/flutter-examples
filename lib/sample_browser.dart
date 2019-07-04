@@ -948,7 +948,7 @@ class _HomePageState extends State<HomePage> {
                                       const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                   child: InkWell(
                                     onTap: () => launch(
-                                        'https://www.syncfusion.com/xamarin-ui-controls'),
+                                        'https://www.syncfusion.com/xamarin-ui-controls?utm_source=play_store&utm_medium=flutter_widgets'),
                                     child: Image.asset('images/external.png',
                                         fit: BoxFit.contain,
                                         color: Colors.blue,
@@ -1009,7 +1009,7 @@ class _HomePageState extends State<HomePage> {
                                       const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                   child: InkWell(
                                     onTap: () => launch(
-                                        'https://www.syncfusion.com/javascript-ui-controls'),
+                                        'https://www.syncfusion.com/javascript-ui-controls?utm_source=play_store&utm_medium=flutter_widgets'),
                                     child: Image.asset('images/external.png',
                                         fit: BoxFit.contain,
                                         color: Colors.blue,
@@ -1070,7 +1070,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                       Align(
                           alignment: Alignment.bottomCenter,
-                          child: Text('Version 1.0.0 Beta',
+                          child: Text('Version 1.0.0-beta',
                               style: TextStyle(
                                   color: _model.drawerTextIconColor,
                                   fontSize: 12,

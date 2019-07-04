@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
@@ -6,6 +6,7 @@ import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CategoryTicks extends StatefulWidget {
   final SubItemList sample;
@@ -62,11 +63,13 @@ class _CategoryTicksState extends State<CategoryTicks> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/category_types/label_placement.dart');
+                        },
                       ),
                     ),
                   ),
-                  
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -171,8 +174,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                     children: <Widget>[
                                       Text('Settings',
                                           style: TextStyle(
-                                              color:
-                                                  model.textColor,
+                                              color: model.textColor,
                                               fontSize: 18,
                                               letterSpacing: 0.34,
                                               fontWeight: FontWeight.w500)),
@@ -215,8 +217,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                                   child: Theme(
                                                     data: Theme.of(context)
                                                         .copyWith(
-                                                            canvasColor:
-                                                                model.bottomSheetBackgroundColor),
+                                                            canvasColor: model
+                                                                .bottomSheetBackgroundColor),
                                                     child: DropDown(
                                                         value: _selectedType,
                                                         item: _labelPosition
@@ -229,8 +231,10 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                   ? value
                                                                   : 'betweenTicks',
                                                               child: Text(
-                                                                  '$value', 
-                                                                  style: TextStyle(color: model.textColor)));
+                                                                  '$value',
+                                                                  style: TextStyle(
+                                                                      color: model
+                                                                          .textColor)));
                                                         }).toList(),
                                                         valueChanged:
                                                             (dynamic value) {
@@ -331,9 +335,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getTicksCategoryAxisChart(bool isTileView,
     [LabelPlacement _labelPlacement]) {
   return SfCartesianChart(
-    title: ChartTitle(
-      text: isTileView ? '':'Employees task count'
-    ),
+    title: ChartTitle(text: isTileView ? '' : 'Employees task count'),
     plotAreaBorderColor: Colors.transparent,
     primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),

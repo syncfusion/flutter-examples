@@ -10,7 +10,7 @@ import 'package:flutter_examples/samples/chart/axis_types/date_time_types/date_t
 import 'package:flutter_examples/samples/chart/axis_types/date_time_types/default_date_time_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/default_numeric_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/inversed_numeric_axis.dart';
-import 'package:flutter_examples/samples/chart/axis_types/numeric_types/numeric_axis_witn_label_format.dart';
+import 'package:flutter_examples/samples/chart/axis_types/numeric_types/numeric_axis_with_label_format.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/area_series/area_with_emptypoints.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/area_series/area_with_gradient.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/area_series/default_area_chart.dart';
@@ -26,8 +26,8 @@ import 'package:flutter_examples/samples/chart/cartesian_charts/bubble_series/bu
 import 'package:flutter_examples/samples/chart/cartesian_charts/bubble_series/default_bubble_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/back_to_back_column.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_width_and_spacing.dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_with_rounded_corners..dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_with_track..dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_with_rounded_corners.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/column_with_track.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/customized_column_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/column_series/default_column_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/customized_line_chart.dart';
@@ -109,12 +109,12 @@ class SampleListModel extends Model {
   List<SubItemList> searchSampleListItems; // To handle search
 
   int selectedIndex = 0;
-  Color backgroundColor = Color.fromRGBO(0,116,228,1);
+  Color backgroundColor = Color.fromRGBO(0, 116, 228, 1);
   Color slidingPanelColor = Color.fromRGBO(250, 250, 250, 1);
   Color paletteColor;
   ThemeData themeData = ThemeData.light();
   Color searchBoxColor = Colors.white;
-  Color listIconColor =  Color.fromRGBO(0,116,228,1);
+  Color listIconColor = Color.fromRGBO(0, 116, 228, 1);
   Color listDescriptionTextColor = Colors.grey;
   Color textColor = Color.fromRGBO(51, 51, 51, 1);
   String codeViewerIcon = 'images/code.png';
@@ -195,48 +195,28 @@ class SampleListModel extends Model {
     axisSubItemList = <List<SubItemList>>[];
     axesFeaturesSubItemList = <List<SubItemList>>[];
 
-    numericAxisSubItemList.add(SubItemList(
-        'Numeric',
-        'Default numeric axis',
-        '',
-        'images/axes.png',
-        getDefaultNumericAxisChart(isTileView)));
+    numericAxisSubItemList.add(SubItemList('Numeric', 'Default numeric axis',
+        '', 'images/axes.png', getDefaultNumericAxisChart(isTileView)));
     numericAxisSubItemList.add(SubItemList(
         'Numeric',
         'Numeric axis with label format',
         '',
         'images/axes.png',
         getLabelNumericAxisChart(isTileView)));
-    numericAxisSubItemList.add(SubItemList(
-        'Numeric',
-        'Inversed numeric axis',
-        '',
-        'images/axes.png',
-        getInversedNumericAxisChart(isTileView)));
-    categoryAxisSubItemList.add(SubItemList(
-        'Category',
-        'Default category axis',
-        '',
-        'images/axes.png',
-        getDefaultCategoryAxisChart(isTileView)));
+    numericAxisSubItemList.add(SubItemList('Numeric', 'Inversed numeric axis',
+        '', 'images/axes.png', getInversedNumericAxisChart(isTileView)));
+    categoryAxisSubItemList.add(SubItemList('Category', 'Default category axis',
+        '', 'images/axes.png', getDefaultCategoryAxisChart(isTileView)));
     categoryAxisSubItemList.add(SubItemList(
         'Category',
         'Arranged by index',
         'By default, category data points will be arranged based on the x values. In this sample, you can arrange the data points based on the index value.',
         'images/axes.png',
         getIndexedCategoryAxisChart(isTileView)));
-    categoryAxisSubItemList.add(SubItemList(
-        'Category',
-        'Label placement',
-        '',
-        'images/axes.png',
-        getTicksCategoryAxisChart(isTileView)));
-    axisFeaturesSubItemList.add(SubItemList(
-        'Axis Features',
-        'Opposed axes',
-        '',
-        'images/axes.png',
-        getOpposedNumericAxisChart(isTileView)));
+    categoryAxisSubItemList.add(SubItemList('Category', 'Label placement', '',
+        'images/axes.png', getTicksCategoryAxisChart(isTileView)));
+    axisFeaturesSubItemList.add(SubItemList('Axis Features', 'Opposed axes', '',
+        'images/axes.png', getOpposedNumericAxisChart(isTileView)));
     axisFeaturesSubItemList.add(SubItemList(
         'Axis Features',
         'Handling labels collision',
@@ -434,7 +414,7 @@ class SampleListModel extends Model {
       'images/circular.png',
       getCustomizedLineChart(isTileView),
     ));
-    
+
     // dynamic updates
     liveUpdateSubItemList.add(SubItemList(
       'Live Update',
@@ -861,9 +841,9 @@ class SampleListModel extends Model {
         'images/other_features.png',
         otherFeaturesSubItemList));
     controlList.add(SampleList(
-        'Legend', 
+        'Legend',
         'Various legend features useful in displaying additional information about the series',
-        'images/legend.png', 
+        'images/legend.png',
         legendFeaturesSubItemList));
     controlList.add(SampleList(
         'User Interactions',
@@ -881,11 +861,11 @@ class SampleListModel extends Model {
     searchControlListItems.addAll(controlList);
     for (int index = 0; index < controlList.length; index++) {
       for (int categoryIndex = 0;
-      categoryIndex < controlList[index].subItemList.length;
-      categoryIndex++) {
+          categoryIndex < controlList[index].subItemList.length;
+          categoryIndex++) {
         for (int sampleIndex = 0;
-        sampleIndex < controlList[index].subItemList[categoryIndex].length;
-        sampleIndex++) {
+            sampleIndex < controlList[index].subItemList[categoryIndex].length;
+            sampleIndex++) {
           searchSampleListItems
               .add(controlList[index].subItemList[categoryIndex][sampleIndex]);
         }
@@ -904,8 +884,8 @@ class SampleListModel extends Model {
           drawerIconColor = Colors.black;
           drawerBackgroundColor = Colors.white;
           bottomSheetBackgroundColor = Colors.white;
-          backgroundColor = paletteColor ?? Color.fromRGBO(0,116,228,1);
-          listIconColor = paletteColor ??  Color.fromRGBO(0,116,228,1);
+          backgroundColor = paletteColor ?? Color.fromRGBO(0, 116, 228, 1);
+          listIconColor = paletteColor ?? Color.fromRGBO(0, 116, 228, 1);
           searchBoxColor = Colors.white;
           listDescriptionTextColor = Colors.grey;
           textColor = Color.fromRGBO(51, 51, 51, 1);
@@ -917,14 +897,14 @@ class SampleListModel extends Model {
         {
           drawerTextIconColor = Colors.white;
           drawerIconColor = Colors.white;
-          slidingPanelColor = Color.fromRGBO(32,33,37,1);
-          drawerBackgroundColor = Color.fromRGBO(32,33,37,1);
-          bottomSheetBackgroundColor = Color.fromRGBO(64,64,64,1);
-          backgroundColor = paletteColor ?? Color.fromRGBO(0,116,228,1);
+          slidingPanelColor = Color.fromRGBO(32, 33, 37, 1);
+          drawerBackgroundColor = Color.fromRGBO(32, 33, 37, 1);
+          bottomSheetBackgroundColor = Color.fromRGBO(64, 64, 64, 1);
+          backgroundColor = paletteColor ?? Color.fromRGBO(0, 116, 228, 1);
           listIconColor = paletteColor ?? Colors.white;
           searchBoxColor = Colors.white;
           listDescriptionTextColor = Colors.white;
-          textColor =  Colors.white;
+          textColor = Colors.white;
           theme = Brightness.dark;
           cardThemeColor = Colors.black.withOpacity(0.7);
           break;
@@ -936,7 +916,7 @@ class SampleListModel extends Model {
           bottomSheetBackgroundColor = Colors.white;
           drawerIconColor = Colors.white;
           slidingPanelColor = Colors.white;
-          backgroundColor = Color.fromRGBO(0,116,228,1);
+          backgroundColor = Color.fromRGBO(0, 116, 228, 1);
           searchBoxColor = Colors.white;
           listIconColor = Color.fromRGBO(0, 116, 228, 1);
           listDescriptionTextColor = Colors.white;
@@ -975,10 +955,9 @@ class BubbleColors {
   final Color pointColorMapper;
 }
 
-
 class ChartDataCollection {
-  ChartDataCollection(this.year, this.category, this.numeric, this.sales1, this.sales2,
-      this.sales3, this.sales4);
+  ChartDataCollection(this.year, this.category, this.numeric, this.sales1,
+      this.sales2, this.sales3, this.sales4);
   final DateTime year;
   final String category;
   final num numeric;

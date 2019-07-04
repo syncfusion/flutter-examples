@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
@@ -62,11 +62,13 @@ class _PieSemiState extends State<PieSemi> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/pie_series/semi_pie_chart.dart');
+                        },
                       ),
                     ),
                   ),
-                  
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -127,8 +129,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                       fontSize: 16, color: model.textColor)),
                               Text('data.worldbank.org',
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue)),
+                                      fontSize: 14, color: Colors.blue)),
                             ],
                           ),
                         ),
@@ -166,7 +167,7 @@ class _FrontPanelState extends State<FrontPanel> {
             builder: (context, _, model) => Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
-                    height: 220,
+                    height: 170,
                     child: Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Container(
@@ -213,8 +214,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                               MainAxisAlignment.start,
                                           children: <Widget>[
                                             Text('Start Angle  ',
-                                                style:
-                                                    TextStyle(fontSize: 16.0, color: model.textColor)),
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: model.textColor)),
                                             Container(
                                               child: Padding(
                                                 padding:
@@ -268,7 +270,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                                       0, 15, 0, 0),
                                               child: Text('End Angle  ',
                                                   style: TextStyle(
-                                                      fontSize: 16.0, color: model.textColor)),
+                                                      fontSize: 16.0,
+                                                      color: model.textColor)),
                                             ),
                                             Container(
                                               child: Padding(
@@ -397,6 +400,8 @@ class _BackPanelState extends State<BackPanel> {
 SfCircularChart getSemiPieChart(bool isTileView,
     [int startAngle, int endAngle]) {
   return SfCircularChart(
+    centerX: '40%',
+    centerY: '50%',
     title: ChartTitle(
         text: isTileView ? '' : 'Rural population of various countries'),
     legend: Legend(
@@ -420,6 +425,7 @@ List<PieSeries<_PieData, String>> getPieSeries(
   return <PieSeries<_PieData, String>>[
     PieSeries<_PieData, String>(
         dataSource: chartData,
+        radius: '30%',
         xValueMapper: (_PieData data, _) => data.xData,
         yValueMapper: (_PieData data, _) => data.yData,
         dataLabelMapper: (_PieData data, _) => data.xData,

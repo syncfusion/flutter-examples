@@ -1,8 +1,9 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CategoryDefault extends StatefulWidget {
   final SubItemList sample;
@@ -59,11 +60,13 @@ class _CategoryDefaultState extends State<CategoryDefault> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/category_types/default_category_axis.dart');
+                        },
                       ),
                     ),
                   ),
-                  
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -203,10 +206,10 @@ List<ColumnSeries<_CategoryData, String>> getDefaultCategory(bool isTileView) {
     _CategoryData('South\nKorea', 39, Colors.teal[300]),
     _CategoryData('India', 20, const Color.fromRGBO(53, 124, 210, 1)),
     _CategoryData('South\nAfrica', 61, Colors.pink),
-    _CategoryData('China', 65,Colors.orange ),
+    _CategoryData('China', 65, Colors.orange),
     _CategoryData('France', 45, Colors.green),
-    _CategoryData('Saudi\nArabia', 10,Colors.pink[300] ),
-    _CategoryData('Japan', 16,Colors.purple[300] ),
+    _CategoryData('Saudi\nArabia', 10, Colors.pink[300]),
+    _CategoryData('Japan', 16, Colors.purple[300]),
     _CategoryData('Mexico', 31, const Color.fromRGBO(127, 132, 232, 1))
   ];
   return <ColumnSeries<_CategoryData, String>>[

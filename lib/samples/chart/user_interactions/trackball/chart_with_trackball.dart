@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
@@ -6,6 +6,7 @@ import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/checkbox.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DefaultTrackball extends StatefulWidget {
   final SubItemList sample;
@@ -61,7 +62,10 @@ class _DefaultTrackballState extends State<DefaultTrackball> {
                       child: IconButton(
                         icon:
                             Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/trackball/chart_with_trackball.dart');
+                        },
                       ),
                     ),
                   ),
@@ -218,10 +222,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                             child: Align(
                                               alignment: Alignment.bottomLeft,
                                               child: Theme(
-                                                  data: Theme.of(context)
-                                                      .copyWith(
-                                                          canvasColor:
-                                                              model.bottomSheetBackgroundColor),
+                                                  data: Theme.of(context).copyWith(
+                                                      canvasColor: model
+                                                          .bottomSheetBackgroundColor),
                                                   child: DropDown(
                                                       value: _selectedMode,
                                                       item: _modeList
@@ -232,8 +235,11 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                 (value != null)
                                                                     ? value
                                                                     : 'point',
-                                                            child:
-                                                                Text('$value', style: TextStyle(color: model.textColor)));
+                                                            child: Text(
+                                                                '$value',
+                                                                style: TextStyle(
+                                                                    color: model
+                                                                        .textColor)));
                                                       }).toList(),
                                                       valueChanged:
                                                           (dynamic value) {
@@ -263,10 +269,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                             child: Align(
                                               alignment: Alignment.bottomLeft,
                                               child: Theme(
-                                                  data: Theme.of(context)
-                                                      .copyWith(
-                                                          canvasColor:
-                                                              model.bottomSheetBackgroundColor),
+                                                  data: Theme.of(context).copyWith(
+                                                      canvasColor: model
+                                                          .bottomSheetBackgroundColor),
                                                   child: DropDown(
                                                       value: _tooltipAlignment,
                                                       item: _alignmentList
@@ -277,8 +282,11 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                 (value != null)
                                                                     ? value
                                                                     : 'point',
-                                                            child:
-                                                                Text('$value', style: TextStyle(color: model.textColor)));
+                                                            child: Text(
+                                                                '$value',
+                                                                style: TextStyle(
+                                                                    color: model
+                                                                        .textColor)));
                                                       }).toList(),
                                                       valueChanged:
                                                           (dynamic value) {
@@ -440,18 +448,15 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getDefaultTrackballChart(bool isTileView,
     [TrackballDisplayMode _mode, ChartAlignment _alignment, bool showAlways]) {
   return SfCartesianChart(
-    title: ChartTitle(
-      text: isTileView ? '': 'Average sales per person'
-    ),
+    title: ChartTitle(text: isTileView ? '' : 'Average sales per person'),
     plotAreaBorderColor: Colors.transparent,
     primaryXAxis: DateTimeAxis(
         majorGridLines: MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift),
     primaryYAxis: NumericAxis(
-      title: AxisTitle(
-        text: isTileView ? '':'Revenue'
-      ),
-        axisLine: AxisLine(width: 0), majorTickLines: MajorTickLines(width: 0)),
+        title: AxisTitle(text: isTileView ? '' : 'Revenue'),
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(width: 0)),
     series: getLineSeries(isTileView),
     trackballBehavior: TrackballBehavior(
         enable: true,

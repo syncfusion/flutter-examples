@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DropDown extends StatefulWidget {
-  DropDown({@required this.value, @required this.valueChanged,this.item});
+  DropDown({@required this.value, @required this.valueChanged, this.item});
 
   final String value;
   final List<DropdownMenuItem<dynamic>> item;
@@ -22,20 +22,19 @@ class _DropDownState extends State<DropDown> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:DropdownButton<String>(
-          isExpanded: false,
-          value: _value,
-          items: widget.item,
-          onChanged: (String value) {
-            setState(() {
-              _value = value;
-             widget.valueChanged(value);
-            });
-          },
+      child: DropdownButton<String>(
+        isExpanded: false,
+        value: _value,
+        items: widget.item,
+        onChanged: (String value) {
+          setState(() {
+            _value = value;
+            widget.valueChanged(value);
+          });
+        },
       ),
     );
   }

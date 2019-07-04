@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
@@ -61,7 +61,10 @@ class _SortingDefaultState extends State<SortingDefault> {
                       child: IconButton(
                         icon:
                             Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/sorting/sorting_options.dart');
+                        },
                       ),
                     ),
                   ),
@@ -116,7 +119,8 @@ class _FrontPanelState extends State<FrontPanel> {
   bool enableDatalabel = false;
   bool isSorting = true;
   final List<String> _labelList = <String>['y', 'x'].toList();
-  final List<String> _sortList = <String>['none', 'descending', 'ascending'].toList();
+  final List<String> _sortList =
+      <String>['none', 'descending', 'ascending'].toList();
   String _selectedType = 'y';
   String _selectedSortType = 'none';
   SortingOrder _sortingOrder = SortingOrder.none;
@@ -154,8 +158,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                       fontSize: 16, color: model.textColor)),
                               Text('www.emporis.com',
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue)),
+                                      fontSize: 14, color: Colors.blue)),
                             ],
                           ),
                         ),
@@ -195,10 +198,10 @@ class _FrontPanelState extends State<FrontPanel> {
       _selectedSortType = item;
       if (_selectedSortType == 'descending') {
         _sortingOrder = SortingOrder.descending;
-      } else if(_selectedSortType == 'ascending') {
+      } else if (_selectedSortType == 'ascending') {
         _sortingOrder = SortingOrder.ascending;
-      } else{
-         _sortingOrder = SortingOrder.none;
+      } else {
+        _sortingOrder = SortingOrder.none;
       }
     });
   }
@@ -275,8 +278,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                                   child: Theme(
                                                     data: Theme.of(context)
                                                         .copyWith(
-                                                            canvasColor:
-                                                                model.bottomSheetBackgroundColor),
+                                                            canvasColor: model
+                                                                .bottomSheetBackgroundColor),
                                                     child: DropDown(
                                                         value: _selectedType,
                                                         item: _labelList.map(
@@ -288,7 +291,10 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                   ? value
                                                                   : 'y',
                                                               child: Text(
-                                                                  '$value', style: TextStyle(color: model.textColor)));
+                                                                  '$value',
+                                                                  style: TextStyle(
+                                                                      color: model
+                                                                          .textColor)));
                                                         }).toList(),
                                                         valueChanged:
                                                             (dynamic value) {
@@ -323,8 +329,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                                   child: Theme(
                                                     data: Theme.of(context)
                                                         .copyWith(
-                                                            canvasColor:
-                                                                model.bottomSheetBackgroundColor),
+                                                            canvasColor: model
+                                                                .bottomSheetBackgroundColor),
                                                     child: DropDown(
                                                         value:
                                                             _selectedSortType,
@@ -337,7 +343,10 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                   ? value
                                                                   : 'none',
                                                               child: Text(
-                                                                  '$value', style: TextStyle(color: model.textColor)));
+                                                                  '$value',
+                                                                  style: TextStyle(
+                                                                      color: model
+                                                                          .textColor)));
                                                         }).toList(),
                                                         valueChanged:
                                                             (dynamic value) {
@@ -457,18 +466,17 @@ List<BarSeries<_SortingData, String>> getLineSeries(bool isTileView,
     [String _sortby, SortingOrder _sortingOrder]) {
   final List<_SortingData> chartData = <_SortingData>[
     _SortingData('Burj \n Khalifa', 828),
-    _SortingData('Goldin \n Finance 117', 597),    
+    _SortingData('Goldin \n Finance 117', 597),
     _SortingData('Makkah Clock \n Royal Tower', 601),
-    _SortingData('Ping An \n Finance Center', 599),  
-    _SortingData('Shanghai \n Tower', 632),  
+    _SortingData('Ping An \n Finance Center', 599),
+    _SortingData('Shanghai \n Tower', 632),
   ];
   return <BarSeries<_SortingData, String>>[
     BarSeries<_SortingData, String>(
       dataSource: chartData,
       xValueMapper: (_SortingData sales, _) => sales.name,
       yValueMapper: (_SortingData sales, _) => sales.height,
-      sortingOrder:
-          _sortingOrder != null ? _sortingOrder : SortingOrder.none,
+      sortingOrder: _sortingOrder != null ? _sortingOrder : SortingOrder.none,
       dataLabelSettings: DataLabelSettings(
           isVisible: true, position: CartesianLabelPosition.auto),
       sortFieldValueMapper: (_SortingData sales, _) =>

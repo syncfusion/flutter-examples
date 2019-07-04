@@ -1,8 +1,9 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ColumnVertical extends StatefulWidget {
   final SubItemList sample;
@@ -61,7 +62,10 @@ class _ColumnVerticalState extends State<ColumnVertical> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/column_series/customized_column_chart.dart');
+                        },
                       ),
                     ),
                   ),
@@ -203,9 +207,7 @@ class _BackPanelState extends State<BackPanel> {
 
 SfCartesianChart getVerticalColumnChart(bool isTileView) {
   return SfCartesianChart(
-    title: ChartTitle(
-        text:
-            isTileView ? '' : 'PC vendor shipments - 2015 Q1'),
+    title: ChartTitle(text: isTileView ? '' : 'PC vendor shipments - 2015 Q1'),
     primaryXAxis: CategoryAxis(
       majorGridLines: MajorGridLines(width: 0),
     ),

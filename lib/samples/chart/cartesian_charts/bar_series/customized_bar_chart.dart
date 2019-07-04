@@ -1,10 +1,11 @@
 import 'dart:typed_data';
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BarCustomization extends StatefulWidget {
   final SubItemList sample;
@@ -63,7 +64,10 @@ class _BarCustomizationState extends State<BarCustomization> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/bar_series/customized_bar_chart.dart');
+                        },
                       ),
                     ),
                   ),
@@ -298,12 +302,12 @@ class CustomPainter extends BarSegment {
       ..[10] = 1.0
       ..[15] = 2.0;
 
-  final Paint linePaint = Paint()
-        ..color = Colors.black
-        ..style = PaintingStyle.fill
-        ..strokeWidth = 40
-        ..shader = ImageShader(
-            image, TileMode.repeated, TileMode.repeated, deviceTransform);
+    final Paint linePaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 40
+      ..shader = ImageShader(
+          image, TileMode.repeated, TileMode.repeated, deviceTransform);
 
     final double devicePixelRatio = ui.window.devicePixelRatio;
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 
-
 class SearchBar extends StatefulWidget {
   SearchBar({Key key, this.sampleListModel}) : super(key: key);
   final SampleListModel sampleListModel;
@@ -17,15 +16,14 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
 
   TextEditingController editingController = TextEditingController();
 
-   List<SampleList>  duplicateControlItems;
+  List<SampleList> duplicateControlItems;
 
-  List<SubItemList>  duplicateSampleItems;
+  List<SubItemList> duplicateSampleItems;
 
   var items = List<SampleList>();
-  Widget searchIcon = Icon(Icons.search,color: Colors.grey);
+  Widget searchIcon = Icon(Icons.search, color: Colors.grey);
   final FocusNode _isFocus = FocusNode();
   bool isOpen = false;
-
 
   @override
   void initState() {
@@ -46,8 +44,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
     if (_isFocus.hasFocus) {
       if (!isOpen) {
         isOpen = true;
-      }
-      else if (isOpen) {
+      } else if (isOpen) {
         isOpen = false;
         _isFocus.unfocus();
       }
@@ -66,7 +63,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
       List<SampleList> dummyControlListData = List<SampleList>();
       for (int i = 0; i < dummySearchControlList.length; i++) {
         var item = dummySearchControlList[i];
-        if(item.title.toLowerCase().contains(query.toLowerCase())) {
+        if (item.title.toLowerCase().contains(query.toLowerCase())) {
           dummyControlListData.add(item);
         }
       }
@@ -78,8 +75,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
           dummySampleListData.add(item);
         }
       }
-      
-      
+
       sampleListModel.controlList.clear();
       sampleListModel.controlList.addAll(dummyControlListData);
       sampleListModel.sampleList.clear();
@@ -88,7 +84,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
       sampleListModel.notifyListeners();
       return;
     } else {
-      searchIcon = Icon(Icons.search,color: Colors.grey);
+      searchIcon = Icon(Icons.search, color: Colors.grey);
       sampleListModel.controlList.clear();
       sampleListModel.controlList.addAll(duplicateControlItems);
       sampleListModel.sampleList.clear();
@@ -97,16 +93,17 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
           height: 45,
           width: double.infinity,
-          decoration: BoxDecoration(color: sampleListModel.searchBoxColor, borderRadius: BorderRadius.all(Radius.circular(5.0)) ),
+          decoration: BoxDecoration(
+              color: sampleListModel.searchBoxColor,
+              borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: Container(
@@ -115,7 +112,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                   onChanged: (value) {
                     filterSearchResults(value);
                   },
-                  onEditingComplete: (){
+                  onEditingComplete: () {
                     _isFocus.unfocus();
                   },
                   controller: editingController,
@@ -123,9 +120,11 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                       labelStyle: TextStyle(fontFamily: 'MontserratMedium'),
                       hintText: "Search",
                       border: InputBorder.none,
-                      hintStyle: TextStyle(fontSize: 15, fontFamily: 'MontserratMedium',color: Colors.grey),
-                      prefixIcon: searchIcon)
-              ),
+                      hintStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'MontserratMedium',
+                          color: Colors.grey),
+                      prefixIcon: searchIcon)),
             ),
           ),
         ),

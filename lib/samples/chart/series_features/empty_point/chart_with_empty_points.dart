@@ -1,10 +1,11 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EmptyPoints extends StatefulWidget {
   final SubItemList sample;
@@ -65,11 +66,12 @@ class _EmptyPointsState extends State<EmptyPoints> {
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
                         onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/empty_point/chart_with_empty_points.dart');
                         },
                       ),
                     ),
                   ),
-                  
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -97,7 +99,7 @@ class FrontPanel extends StatefulWidget {
 class _FrontPanelState extends State<FrontPanel> {
   final SubItemList sample;
   final List<String> _emptyPointMode =
-      <String>[ 'gap','zero', 'average', 'drop'].toList();
+      <String>['gap', 'zero', 'average', 'drop'].toList();
   EmptyPointMode _selectedEmptyPointMode = EmptyPointMode.gap;
   String _selectedMode;
   @override
@@ -219,8 +221,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                               MainAxisAlignment.start,
                                           children: <Widget>[
                                             Text('Empty point mode  ',
-                                                style:
-                                                    TextStyle(fontSize: 16.0, color: model.textColor)),
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: model.textColor)),
                                             Container(
                                                 padding:
                                                     const EdgeInsets.fromLTRB(
@@ -233,8 +236,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                                   child: Theme(
                                                     data: Theme.of(context)
                                                         .copyWith(
-                                                            canvasColor:
-                                                                model.bottomSheetBackgroundColor),
+                                                            canvasColor: model
+                                                                .bottomSheetBackgroundColor),
                                                     child: DropDown(
                                                         value: _selectedMode,
                                                         item: _emptyPointMode
@@ -247,7 +250,10 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                   ? value
                                                                   : 'gap',
                                                               child: Text(
-                                                                  '$value', style: TextStyle(color: model.textColor)));
+                                                                  '$value',
+                                                                  style: TextStyle(
+                                                                      color: model
+                                                                          .textColor)));
                                                         }).toList(),
                                                         valueChanged:
                                                             (dynamic value) {
@@ -375,7 +381,9 @@ List<ColumnSeries<_ChartData, String>> getColumnSeries(bool isTileView,
     ColumnSeries<_ChartData, String>(
       enableTooltip: true,
       dataSource: chartData,
-      emptyPointSettings: EmptyPointSettings(mode: isTileView ? EmptyPointMode .gap : _selectedEmptyPointMode, color: Colors.grey),
+      emptyPointSettings: EmptyPointSettings(
+          mode: isTileView ? EmptyPointMode.gap : _selectedEmptyPointMode,
+          color: Colors.grey),
       xValueMapper: (_ChartData sales, _) => sales.x,
       yValueMapper: (_ChartData sales, _) => sales.y,
       dataLabelSettings: DataLabelSettings(

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import './render.dart';
 
-typedef Widget StickyHeaderWidgetBuilder(BuildContext context, double stuckAmount);
+typedef Widget StickyHeaderWidgetBuilder(
+    BuildContext context, double stuckAmount);
 
 class CustomListView extends MultiChildRenderObjectWidget {
   /// Constructs a new [CustomListView] widget.
@@ -42,7 +43,8 @@ class CustomListView extends MultiChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, CustomListViewRenderer renderObject) {
+  void updateRenderObject(
+      BuildContext context, CustomListViewRenderer renderObject) {
     renderObject
       ..scrollable = Scrollable.of(context)
       ..callback = this.callback
@@ -77,7 +79,8 @@ class CustomListViewBuilder extends StatefulWidget {
   final bool overlapHeaders;
 
   @override
-  _CustomListViewBuilderState createState() => new _CustomListViewBuilderState();
+  _CustomListViewBuilderState createState() =>
+      new _CustomListViewBuilderState();
 }
 
 class _CustomListViewBuilderState extends State<CustomListViewBuilder> {
@@ -95,7 +98,7 @@ class _CustomListViewBuilderState extends State<CustomListViewBuilder> {
         if (_stuckAmount != stuckAmount) {
           _stuckAmount = stuckAmount;
           WidgetsBinding.instance.endOfFrame.then((_) {
-            if(mounted){
+            if (mounted) {
               setState(() {});
             }
           });

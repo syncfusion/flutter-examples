@@ -1,10 +1,11 @@
 import 'dart:math';
 
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddDataPoints extends StatefulWidget {
   final SubItemList sample;
@@ -75,7 +76,10 @@ class _LiveVerticalState extends State<AddDataPoints> {
                       child: IconButton(
                         icon:
                             Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/dynamic_updates/add_remove_data/add_remove_points.dart');
+                        },
                       ),
                     ),
                   ),
@@ -157,8 +161,7 @@ class _FrontPanelState extends State<FrontPanel> {
           return Scaffold(
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                child: Container(
-                    child: getAddRemovePointsChart(chartData)),
+                child: Container(child: getAddRemovePointsChart(chartData)),
               ),
               floatingActionButton: Stack(children: <Widget>[
                 Align(
@@ -276,18 +279,15 @@ class _BackPanelState extends State<BackPanel> {
   }
 }
 
-SfCartesianChart getAddRemovePointsChart(
-    [List<_ChartData> chartData]) {
+SfCartesianChart getAddRemovePointsChart([List<_ChartData> chartData]) {
   return SfCartesianChart(
     plotAreaBorderColor: Colors.transparent,
     primaryXAxis: NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift),
     primaryYAxis: NumericAxis(
-        axisLine: AxisLine(width: 0),
-        majorTickLines: MajorTickLines(size: 0)),
-    series:
-        getLineSeries(chartData),
+        axisLine: AxisLine(width: 0), majorTickLines: MajorTickLines(size: 0)),
+    series: getLineSeries(chartData),
   );
 }
 
@@ -307,7 +307,7 @@ List<_ChartData> chartData1 = <_ChartData>[
 List<LineSeries<_ChartData, num>> getLineSeries(List<_ChartData> chartData) {
   return <LineSeries<_ChartData, num>>[
     LineSeries<_ChartData, num>(
-         dataSource: chartData ?? chartData1,
+        dataSource: chartData ?? chartData1,
         xValueMapper: (_ChartData sales, _) => sales.country,
         yValueMapper: (_ChartData sales, _) => sales.sales,
         width: 2),

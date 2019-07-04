@@ -1,10 +1,11 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/custom_button.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DoughnutSemi extends StatefulWidget {
   final SubItemList sample;
@@ -61,11 +62,13 @@ class _DoughnutSemiState extends State<DoughnutSemi> {
                       child: IconButton(
                         icon: Image.asset(model.codeViewerIcon,
                             color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/doughnut_series/semi_doughnut_chart.dart');
+                        },
                       ),
                     ),
                   ),
-                  
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -178,8 +181,9 @@ class _FrontPanelState extends State<FrontPanel> {
                                               MainAxisAlignment.start,
                                           children: <Widget>[
                                             Text('Start Angle  ',
-                                                style:
-                                                    TextStyle(fontSize: 16.0, color: model.textColor)),
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: model.textColor)),
                                             Container(
                                               child: Padding(
                                                 padding:
@@ -233,7 +237,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                                       0, 15, 0, 0),
                                               child: Text('End Angle  ',
                                                   style: TextStyle(
-                                                      fontSize: 16.0, color: model.textColor)),
+                                                      fontSize: 16.0,
+                                                      color: model.textColor)),
                                             ),
                                             Container(
                                               child: Padding(

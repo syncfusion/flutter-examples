@@ -1,4 +1,4 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
@@ -6,6 +6,7 @@ import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/checkbox.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DefaultSelection extends StatefulWidget {
   final SubItemList sample;
@@ -62,7 +63,8 @@ class _DefaultSelectionState extends State<DefaultSelection> {
                         icon:
                             Image.asset('images/code.png', color: Colors.white),
                         onPressed: () {
-                          // launch('https://docs.flutter.io');
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/selection/selection_modes.dart');
                         },
                       ),
                     ),
@@ -177,8 +179,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                   children: <Widget>[
                                     Text('Settings',
                                         style: TextStyle(
-                                            color:
-                                                model.textColor,
+                                            color: model.textColor,
                                             fontSize: 18,
                                             letterSpacing: 0.34,
                                             fontWeight: FontWeight.w500)),
@@ -216,12 +217,11 @@ class _FrontPanelState extends State<FrontPanel> {
                                             child: Align(
                                               alignment: Alignment.bottomLeft,
                                               child: Theme(
-                                                  data: Theme.of(context)
-                                                      .copyWith(
-                                                          canvasColor:
-                                                              model.bottomSheetBackgroundColor),
+                                                  data: Theme.of(context).copyWith(
+                                                      canvasColor: model
+                                                          .bottomSheetBackgroundColor),
                                                   child: DropDown(
-                                                     value: _selectedMode,
+                                                      value: _selectedMode,
                                                       item: _modeList
                                                           .map((String value) {
                                                         return DropdownMenuItem<
@@ -230,8 +230,11 @@ class _FrontPanelState extends State<FrontPanel> {
                                                                 (value != null)
                                                                     ? value
                                                                     : 'point',
-                                                            child:
-                                                                Text('$value', style: TextStyle(color: model.textColor)));
+                                                            child: Text(
+                                                                '$value',
+                                                                style: TextStyle(
+                                                                    color: model
+                                                                        .textColor)));
                                                       }).toList(),
                                                       valueChanged:
                                                           (dynamic value) {
@@ -383,8 +386,7 @@ SfCartesianChart getDefaultSelectionChart(bool isTileView,
         majorGridLines: MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift),
     primaryYAxis: NumericAxis(
-        axisLine: AxisLine(width: 0),
-        majorTickLines: MajorTickLines(size: 0)),
+        axisLine: AxisLine(width: 0), majorTickLines: MajorTickLines(size: 0)),
     series: getLineSeries(isTileView),
   );
 }
@@ -404,8 +406,7 @@ List<ColumnSeries<_SelectionData, String>> getLineSeries(bool isTileView) {
         xValueMapper: (_SelectionData sales, _) => sales.x,
         yValueMapper: (_SelectionData sales, _) => sales.y1,
         selectionSettings:
-            SelectionSettings(enable: true, 
-            unselectedOpacity: 0.5),
+            SelectionSettings(enable: true, unselectedOpacity: 0.5),
         name: 'Age 0-14'),
     ColumnSeries<_SelectionData, String>(
         // animationDuration: isTileView ? 0 : 1500,
@@ -413,8 +414,7 @@ List<ColumnSeries<_SelectionData, String>> getLineSeries(bool isTileView) {
         xValueMapper: (_SelectionData sales, _) => sales.x,
         yValueMapper: (_SelectionData sales, _) => sales.y2,
         selectionSettings:
-            SelectionSettings(enable: true, 
-            unselectedOpacity: 0.5),
+            SelectionSettings(enable: true, unselectedOpacity: 0.5),
         name: 'Age 15-64'),
     ColumnSeries<_SelectionData, String>(
         // animationDuration: isTileView ? 0 : 1500,
@@ -422,8 +422,7 @@ List<ColumnSeries<_SelectionData, String>> getLineSeries(bool isTileView) {
         xValueMapper: (_SelectionData sales, _) => sales.x,
         yValueMapper: (_SelectionData sales, _) => sales.y3,
         selectionSettings:
-            SelectionSettings(enable: true, 
-            unselectedOpacity: 0.5),
+            SelectionSettings(enable: true, unselectedOpacity: 0.5),
         name: 'Age 65 & Above')
   ];
 }

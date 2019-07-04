@@ -234,10 +234,10 @@ class BackdropState extends State<Backdrop>
 
   bool get _backdropPanelVisible =>
       controller.status == AnimationStatus.completed ||
-          controller.status == AnimationStatus.forward;
+      controller.status == AnimationStatus.forward;
 
   void toggleBackdropPanelVisibility() {
-    if(widget.toggleFrontLayer) {
+    if (widget.toggleFrontLayer) {
       controller.fling(
           velocity: _backdropPanelVisible ? -_flingVelocity : _flingVelocity);
     }
@@ -273,7 +273,7 @@ class BackdropState extends State<Backdrop>
     List<Widget> toolBarWidgets = <Widget>[];
     if (widget.appBarActions != null) {
       toolBarWidgets = <Widget>[];
-      for(int i =0;i<widget.appBarActions.length;i++ ) {
+      for (int i = 0; i < widget.appBarActions.length; i++) {
         toolBarWidgets.add(widget.appBarActions[i]);
       }
 
@@ -298,7 +298,7 @@ class BackdropState extends State<Backdrop>
         progress: controller,
         alignment: AlignmentDirectional.centerStart,
         child0:
-        Semantics(namesRoute: true, child: Row(children: toolBarWidgets)),
+            Semantics(namesRoute: true, child: Row(children: toolBarWidgets)),
         child1: Semantics(
             namesRoute: true,
             child: Container(
@@ -315,8 +315,6 @@ class BackdropState extends State<Backdrop>
     return toolBarWidgets;
   }
 
-
-
   Size panelSize = Size(0, 0);
   @override
   Widget build(BuildContext context) {
@@ -328,23 +326,25 @@ class BackdropState extends State<Backdrop>
         if (widget.enableBackPanelAnimation) {
           closedPercentage = widget.titleVisibleOnPanelClosed
               ? (panelSize.height - (panelSize.height - (frontPanelHeight))) /
-              panelSize.height
+                  panelSize.height
               : 1.0;
 
           closedPercentageSearch = widget.titleVisibleOnPanelClosed
               ? (panelSize.height - (panelSize.height - (50 + 20))) /
-              panelSize.height
+                  panelSize.height
               : 1.0;
         } else {
-          closedPercentage = (panelSize.height - (panelSize.height - (frontPanelHeight))) / panelSize.height;
+          closedPercentage =
+              (panelSize.height - (panelSize.height - (frontPanelHeight))) /
+                  panelSize.height;
           closedPercentageSearch = 0.0;
         }
         final panelDetailsPosition = Tween<Offset>(
-            begin: Offset(0.0, closedPercentage),
-            end: Offset(0.0, closedPercentageSearch))
+                begin: Offset(0.0, closedPercentage),
+                end: Offset(0.0, closedPercentageSearch))
             .animate(controller.view);
         return Theme(
-          data: sampleListModel.themeData ,
+          data: sampleListModel.themeData,
           child: Scaffold(
             resizeToAvoidBottomPadding: false,
             key: _scaffoldKey,
@@ -353,12 +353,12 @@ class BackdropState extends State<Backdrop>
                 preferredSize: Size.fromHeight(60.0), // here the desired height
                 child: AppBar(
                   automaticallyImplyLeading:
-                  widget.appBarAutomaticallyImplyLeading,
+                      widget.appBarAutomaticallyImplyLeading,
                   title: CrossFadeTransition(
                     progress: controller,
                     alignment: AlignmentDirectional.centerStart,
                     child0:
-                    Semantics(namesRoute: true, child: widget.appBarTitle),
+                        Semantics(namesRoute: true, child: widget.appBarTitle),
                     child1: Semantics(namesRoute: true, child: Text('')),
                   ),
                   actions: appBarMenuButton(controller),
@@ -371,7 +371,7 @@ class BackdropState extends State<Backdrop>
                 )),
             drawer: widget.sideDrawer != null
                 ? SizedBox(
-                width: panelSize.width * 3 / 4, child: widget.sideDrawer)
+                    width: panelSize.width * 3 / 4, child: widget.sideDrawer)
                 : null,
             body: Stack(
               overflow: Overflow.clip,
@@ -386,7 +386,7 @@ class BackdropState extends State<Backdrop>
                 SlideTransition(
                   position: panelDetailsPosition,
                   child: BackdropPanel(
-                    onTap:  toggleBackdropPanelVisibility,
+                    onTap: toggleBackdropPanelVisibility,
                     borderRadius: widget.borderRadius,
                     shape: widget.shape,
                     onVerticalDragUpdate: _handleDragUpdate,

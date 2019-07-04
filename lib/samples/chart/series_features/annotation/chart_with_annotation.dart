@@ -1,8 +1,9 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AnnotationWatermark extends StatefulWidget {
   final SubItemList sample;
@@ -58,7 +59,10 @@ class _AnnotationWatermarkState extends State<AnnotationWatermark> {
                       child: IconButton(
                         icon:
                             Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/annotation/chart_with_annotation.dart');
+                        },
                       ),
                     ),
                   ),
@@ -203,14 +207,15 @@ class _BackPanelState extends State<BackPanel> {
 
 SfCartesianChart getWatermarkAnnotationChart(bool isTileView) {
   return SfCartesianChart(
-    title: ChartTitle(text:isTileView ? '': 'UK social media reach, by platform'),
+      title: ChartTitle(
+          text: isTileView ? '' : 'UK social media reach, by platform'),
       plotAreaBorderColor: Colors.transparent,
       primaryXAxis: CategoryAxis(
           majorGridLines: MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
-        isVisible: false,
-        labelFormat: '{value}%',
+          isVisible: false,
+          labelFormat: '{value}%',
           minimum: 0,
           maximum: 120,
           axisLine: AxisLine(width: 0),
@@ -241,7 +246,7 @@ SfCartesianChart getWatermarkAnnotationChart(bool isTileView) {
                         yValueMapper: (_ChartData data, _) => data.y,
                         dataLabelSettings: DataLabelSettings(
                             isVisible: true,
-                            labelIntersectAction:LabelIntersectAction.none ,
+                            labelIntersectAction: LabelIntersectAction.none,
                             textStyle: ChartTextStyle(
                                 color: Colors.white,
                                 fontSize: isTileView ? 10 : 12)),

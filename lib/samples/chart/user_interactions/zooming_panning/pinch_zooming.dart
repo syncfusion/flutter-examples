@@ -1,10 +1,11 @@
-import 'package:chart/SfChart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DefaultPanning extends StatefulWidget {
   final SubItemList sample;
@@ -62,7 +63,10 @@ class _DefaultPanningState extends State<DefaultPanning> {
                       child: IconButton(
                         icon:
                             Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/zooming_panning/pinch_zooming.dart');
+                        },
                       ),
                     ),
                   ),
@@ -112,7 +116,7 @@ class _FrontPanelState extends State<FrontPanel> {
   final SubItemList sample;
   _FrontPanelState(this.sample);
 
-   final List<String> _zoomModeTypeList = <String>['x', 'y', 'xy'].toList();
+  final List<String> _zoomModeTypeList = <String>['x', 'y', 'xy'].toList();
   String _selectedModeType = 'x';
   ZoomMode _zoomModeType = ZoomMode.x;
 
@@ -138,10 +142,6 @@ class _FrontPanelState extends State<FrontPanel> {
   }
 
   void _showSettingsPanel(SampleListModel model) {
-    double height =
-        (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
-            ? 0.4
-            : 0.5;
     showRoundedModalBottomSheet(
         dismissOnTap: false,
         context: context,
@@ -152,11 +152,11 @@ class _FrontPanelState extends State<FrontPanel> {
             builder: (context, _, model) => Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
-                  height: 170,
+                  height: 120,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Container(
-                        height: MediaQuery.of(context).size.height * height,
+                        height: 120,
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
                           child: Stack(
@@ -188,7 +188,7 @@ class _FrontPanelState extends State<FrontPanel> {
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(40, 50, 0, 0),
+                                    const EdgeInsets.fromLTRB(15, 50, 0, 0),
                                 child: ListView(
                                   children: <Widget>[
                                     Container(

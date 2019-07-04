@@ -14,7 +14,7 @@ dependencies:
   flutter_gallery_assets: 0.1.8
   url_launcher: ^5.0.3
   intl: ^0.15.7
-  syncfusion_flutter_charts: 1.0.0-beta
+  syncfusion_flutter_charts: ^1.0.0-beta.1
 
 dev_dependencies:
   flutter_test:
