@@ -20,7 +20,7 @@ This section guides you how to use the Syncfusion Flutter examples in your appli
 
 ## <a name="repository-structure"></a>Repository structure ##
 
-The <b>"flutter_samplebrowser"</b> directory contains the sample browser project. Run this project to see the demo samples of all the Flutter widgets in single application.
+This repository contains sample browser project. Each widgets sample will be found inside the lib/samples folder. Run this project to see the demo samples of all the Flutter widgets in single application.
 
 ## <a name="license"></a>License ##
 
