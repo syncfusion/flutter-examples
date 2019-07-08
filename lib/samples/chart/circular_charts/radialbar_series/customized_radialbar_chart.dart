@@ -316,6 +316,8 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
       CircularChartAnnotation(
         angle: 0,
         radius: '0%',
+        height: '90%',
+        width:'90%',
         child: Container(
           child: new Image.asset(
             'images/person.png',

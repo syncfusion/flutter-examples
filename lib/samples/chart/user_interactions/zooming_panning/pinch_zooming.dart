@@ -122,6 +122,10 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
+    zoomingBehavior = ZoomPanBehavior(
+        enablePinching: true,
+        zoomMode: _zoomModeType,
+        enablePanning: true);
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
         builder: (context, _, model) {
@@ -131,12 +135,32 @@ class _FrontPanelState extends State<FrontPanel> {
                 child: Container(
                     child: getDefaultPanningChart(false, _zoomModeType)),
               ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  _showSettingsPanel(model);
-                },
-                child: Icon(Icons.graphic_eq, color: Colors.white),
-                backgroundColor: model.backgroundColor,
+              floatingActionButton: Container(
+                height:45,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    FloatingActionButton(
+                      onPressed: () {
+                        _showSettingsPanel(model);
+                      },
+                      child: Icon(Icons.graphic_eq, color: Colors.white),
+                      backgroundColor: model.backgroundColor,
+                    ),
+                    Padding(
+                      padding:EdgeInsets.only(left:5) ,
+                    ),
+
+                    FloatingActionButton(
+                      heroTag: false,
+                      onPressed: () {
+                        zoomingBehavior.reset();
+                      },
+                      child: Icon(Icons.refresh, color: Colors.white),
+                      backgroundColor: model.backgroundColor,
+                    )
+                  ],
+                ),
               ));
         });
   }
@@ -344,16 +368,13 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getDefaultPanningChart(bool isTileView,
     [ZoomMode _zoomModeType]) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
-    primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
-    primaryYAxis: NumericAxis(
-        axisLine: AxisLine(width: 0), majorTickLines: MajorTickLines(size: 0)),
-    series: getLineSeries(isTileView),
-    zoomPanBehavior: ZoomPanBehavior(
-        enablePinching: true,
-        zoomMode: isTileView ? ZoomMode.x : _zoomModeType,
-        enablePanning: true),
-  );
+      plotAreaBorderColor: Colors.transparent,
+      primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: NumericAxis(
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
+      series: getLineSeries(isTileView),
+      zoomPanBehavior: zoomingBehavior);
 }
 
 List<AreaSeries<_DateTimeData, DateTime>> getLineSeries(bool isTileView) {

@@ -126,10 +126,34 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
-              body: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-            child: Container(child: getCustomizedBarChart(false)),
-          ));
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+              child: Container(child: getCustomizedBarChart(false)),
+            ),
+            floatingActionButton: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                child: Container(
+                  height: 50,
+                  width: 250,
+                  child: InkWell(
+                    onTap: () => launch(
+                        'https://www.makeuseof.com/tag/most-popular-android-apps/'),
+                    child: Row(
+                      children: <Widget>[
+                        Text('Source: ',
+                            style: TextStyle(
+                                fontSize: 16, color: model.textColor)),
+                        Text('www.makeuseof.com',
+                            style: TextStyle(fontSize: 14, color: Colors.blue)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
         });
   }
 }

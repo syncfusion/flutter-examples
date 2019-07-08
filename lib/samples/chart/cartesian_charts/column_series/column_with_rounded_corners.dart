@@ -108,6 +108,29 @@ class _FrontPanelState extends State<FrontPanel> {
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
               child: Container(child: getRoundedColumnChart(false)),
             ),
+            floatingActionButton: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                child: Container(
+                  height: 50,
+                  width: 250,
+                  child: InkWell(
+                    onTap: () => launch(
+                        'https://www.worldatlas.com/articles/largest-cities-in-the-world-by-land-area.html'),
+                    child: Row(
+                      children: <Widget>[
+                        Text('Source: ',
+                            style: TextStyle(
+                                fontSize: 16, color: model.textColor)),
+                        Text('www.worldatlas.com',
+                            style: TextStyle(fontSize: 14, color: Colors.blue)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           );
         });
   }
@@ -218,7 +241,7 @@ List<ColumnSeries<_ChartData, String>> getColumnSeries(bool isTileView) {
     _ChartData('Tokyo', 6993),
     _ChartData('Chicago', 5498),
     _ChartData('Atlanta', 5083),
-    _ChartData('Miami', 2891),
+    _ChartData('Boston', 4497),
   ];
   return <ColumnSeries<_ChartData, String>>[
     ColumnSeries<_ChartData, String>(

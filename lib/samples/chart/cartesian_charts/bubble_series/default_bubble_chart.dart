@@ -207,7 +207,7 @@ SfCartesianChart getDefaultBubbleChart(bool isTileView) {
           header: '',
           canShowMarker: false,
           format:
-              'Literacy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB'),
+              'point.x\nLiteracy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB'),
       series: getBubbleSeries(isTileView));
 }
 

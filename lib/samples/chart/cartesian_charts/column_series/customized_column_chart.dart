@@ -120,10 +120,34 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
-              body: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-            child: Container(child: getVerticalColumnChart(false)),
-          ));
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+              child: Container(child: getVerticalColumnChart(false)),
+            ),
+            floatingActionButton: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                child: Container(
+                  height: 50,
+                  width: 250,
+                  child: InkWell(
+                    onTap: () => launch(
+                        'https://www.statista.com/statistics/263393/global-pc-shipments-since-1st-quarter-2009-by-vendor/'),
+                    child: Row(
+                      children: <Widget>[
+                        Text('Source: ',
+                            style: TextStyle(
+                                fontSize: 16, color: model.textColor)),
+                        Text('www.statista.com',
+                            style: TextStyle(fontSize: 14, color: Colors.blue)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
         });
   }
 }

@@ -157,20 +157,16 @@ class _CircularTypesState extends State<CircularTypes>
                                         ]),
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {},
-                                  splashColor: Colors.grey.withOpacity(0.4),
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      height: 230,
-                                      child: model
-                                          .controlList[model.selectedIndex]
-                                          .subItemList[i][position]
-                                          .previewWidget,
-                                    ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: 230,
+                                    child: model
+                                        .controlList[model.selectedIndex]
+                                        .subItemList[i][position]
+                                        .previewWidget,
                                   ),
                                 ),
                               ],

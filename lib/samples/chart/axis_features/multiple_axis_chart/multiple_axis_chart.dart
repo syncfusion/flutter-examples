@@ -105,6 +105,32 @@ class _FrontPanelState extends State<FrontPanel> {
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
               child: Container(child: getMultipleAxisLineChart(false)),
             ),
+            floatingActionButton: Stack(children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                    child: Container(
+                      height: 50,
+                      width: 250,
+                      child: InkWell(
+                        onTap: () => launch(
+                            'https://www.accuweather.com/en/us/new-york-ny/10007/month/349727?monyr=5/01/2019'),
+                        child: Row(
+                          children: <Widget>[
+                            Text('Source: ',
+                                style: TextStyle(
+                                    fontSize: 16, color: model.textColor)),
+                            Text('www.accuweather.com',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.blue)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ])
           );
         });
   }

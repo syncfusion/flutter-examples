@@ -63,7 +63,7 @@ class _LabelActionState extends State<LabelAction> {
                             color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/handling_label_collision/handling_label_collision.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/handling_label_collision/handling_label_collision.dart');
                         },
                       ),
                     ),
