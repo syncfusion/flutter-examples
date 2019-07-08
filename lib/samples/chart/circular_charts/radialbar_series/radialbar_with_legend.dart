@@ -190,7 +190,7 @@ SfCircularChart getAngleRadialBarChart(bool isTileView) {
   return SfCircularChart(
     title: ChartTitle(text: isTileView ? '' : 'Activity tracker'),
     legend: Legend(
-        isVisible: isTileView ? false : true,
+        isVisible:  true,
         iconHeight: 20,
         iconWidth: 20,
         overflowMode: LegendItemOverflowMode.wrap),

@@ -108,6 +108,30 @@ class _FrontPanelState extends State<FrontPanel> {
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
               child: Container(child: getRoundedBarChart(false)),
             ),
+            floatingActionButton: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                child: Container(
+                  height: 50,
+                  width: 250,
+                  child: InkWell(
+                    onTap: () => launch(
+                        'https://www.indexmundi.com/g/r.aspx?v=24'),
+                    child: Row(
+                      children: <Widget>[
+                        Text('Source: ',
+                            style: TextStyle(
+                                fontSize: 16, color: model.textColor)),
+                        Text('www.indexmundi.com',
+                            style: TextStyle(fontSize: 14, color: Colors.blue)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          
           );
         });
   }

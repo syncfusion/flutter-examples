@@ -234,7 +234,7 @@ List<SplineSeries<_LabelData, num>> getLineSeries(
         name: 'Singapore',
         dataLabelSettings: DataLabelSettings(
             isVisible: true,
-            color: Color.fromRGBO(140, 198, 64, 1),
+            useSeriesColor: true,
             position: CartesianLabelPosition.top)),
     SplineSeries<_LabelData, num>(
         legendIconType: LegendIconType.rectangle,
@@ -248,7 +248,7 @@ List<SplineSeries<_LabelData, num>> getLineSeries(
         name: 'Russia',
         dataLabelSettings: DataLabelSettings(
             isVisible: true,
-            color: Color.fromRGBO(203, 164, 199, 1),
+            useSeriesColor: true,
             position: CartesianLabelPosition.top))
   ];
 }

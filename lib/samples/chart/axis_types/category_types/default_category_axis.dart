@@ -219,7 +219,7 @@ List<ColumnSeries<_CategoryData, String>> getDefaultCategory(bool isTileView) {
       yValueMapper: (_CategoryData data, _) => data.yVal,
       pointColorMapper: (_CategoryData data, _) => data.color,
       dataLabelSettings:
-          DataLabelSettings(isVisible: true, useSeriesColor: true),
+          DataLabelSettings(isVisible: true),
     )
   ];
 }

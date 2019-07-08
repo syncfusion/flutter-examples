@@ -256,7 +256,11 @@ class _FrontPanelState extends State<FrontPanel> {
                                         children: <Widget>[
                                           Text('Alignment',
                                               style: TextStyle(
-                                                  color: model.textColor,
+                                                  color: _selectedMode !=
+                                                          'groupAllPoints'
+                                                      ? Color.fromRGBO(
+                                                          0, 0, 0, 0.3)
+                                                      : model.textColor,
                                                   fontSize: 16,
                                                   letterSpacing: 0.34,
                                                   fontWeight:
@@ -274,20 +278,23 @@ class _FrontPanelState extends State<FrontPanel> {
                                                           .bottomSheetBackgroundColor),
                                                   child: DropDown(
                                                       value: _tooltipAlignment,
-                                                      item: _alignmentList
-                                                          .map((String value) {
-                                                        return DropdownMenuItem<
-                                                                String>(
-                                                            value:
-                                                                (value != null)
-                                                                    ? value
-                                                                    : 'point',
-                                                            child: Text(
-                                                                '$value',
-                                                                style: TextStyle(
-                                                                    color: model
-                                                                        .textColor)));
-                                                      }).toList(),
+                                                      item: _selectedMode !=
+                                                              'groupAllPoints'
+                                                          ? null
+                                                          : _alignmentList.map(
+                                                              (String value) {
+                                                              return DropdownMenuItem<
+                                                                      String>(
+                                                                  value: (value !=
+                                                                          null)
+                                                                      ? value
+                                                                      : 'point',
+                                                                  child: Text(
+                                                                      '$value',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              model.textColor)));
+                                                            }).toList(),
                                                       valueChanged:
                                                           (dynamic value) {
                                                         onAlignmentChange(

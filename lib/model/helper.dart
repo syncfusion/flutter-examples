@@ -61,7 +61,7 @@ import 'package:flutter_examples/samples/chart/dynamic_updates/add_remove_data/a
 import 'package:flutter_examples/samples/chart/dynamic_updates/add_remove_data/add_remove_series.dart';
 import 'package:flutter_examples/samples/chart/dynamic_updates/live_update/live_update.dart';
 import 'package:flutter_examples/samples/chart/dynamic_updates/live_update/vertical_live_chart.dart';
-import 'package:flutter_examples/samples/chart/dynamic_updates/udate_data_source/update_data_source.dart';
+import 'package:flutter_examples/samples/chart/dynamic_updates/update_data_source/update_data_source.dart';
 import 'package:flutter_examples/samples/chart/home/axes_features_home.dart';
 import 'package:flutter_examples/samples/chart/home/axis_types.dart';
 import 'package:flutter_examples/samples/chart/home/cartesian_types.dart';

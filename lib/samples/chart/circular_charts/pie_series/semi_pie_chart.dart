@@ -425,7 +425,6 @@ List<PieSeries<_PieData, String>> getPieSeries(
   return <PieSeries<_PieData, String>>[
     PieSeries<_PieData, String>(
         dataSource: chartData,
-        radius: '30%',
         xValueMapper: (_PieData data, _) => data.xData,
         yValueMapper: (_PieData data, _) => data.yData,
         dataLabelMapper: (_PieData data, _) => data.xData,

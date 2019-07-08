@@ -45,7 +45,6 @@ class _AnnotationDefaultState extends State<AnnotationDefault> {
     return ScopedModelDescendant<SampleListModel>(
         builder: (context, _, model) => SafeArea(
               child: Backdrop(
-                frontHeaderHeight: 50,
                 frontHeader: Container(
                     color: Colors.transparent,
                     child: Row(
@@ -129,7 +128,7 @@ class _FrontPanelState extends State<FrontPanel> {
           return Scaffold(
               body: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-            child: Container(child: getDefaultAnnotationChart(false)),
+            child: Container(child: getDefaultAnnotationChart(false,model.theme)),
           ));
         });
   }
@@ -212,7 +211,7 @@ class _BackPanelState extends State<BackPanel> {
   }
 }
 
-SfCartesianChart getDefaultAnnotationChart(bool isTileView) {
+SfCartesianChart getDefaultAnnotationChart(bool isTileView,[Brightness currentTheme]) {
   return SfCartesianChart(
     plotAreaBorderColor: Colors.transparent,
     title: ChartTitle(
@@ -238,7 +237,7 @@ SfCartesianChart getDefaultAnnotationChart(bool isTileView) {
           child: Text(
             '€ - \$ ',
             style: TextStyle(
-                color: Color.fromRGBO(0, 0, 0, 0.15),
+                color: currentTheme == Brightness.light ? Color.fromRGBO(0, 0, 0, 0.15) : Color.fromRGBO(255, 255, 255, 0.3),
                 fontWeight: FontWeight.bold,
                 fontSize: 80),
           ),
@@ -278,12 +277,7 @@ List<LineSeries<_DateTimeData, DateTime>> getAnnotationLineSeries(
     _DateTimeData(DateTime(2016, 9, 1), 1.12),
     _DateTimeData(DateTime(2016, 10, 1), 1.1),
     _DateTimeData(DateTime(2016, 11, 1), 1.08),
-    _DateTimeData(
-        DateTime(
-          2016,
-          12,
-        ),
-        1.05),
+    _DateTimeData(DateTime(2016, 12, 1), 1.05),
     _DateTimeData(DateTime(2017, 1, 1), 1.08),
     _DateTimeData(DateTime(2017, 2, 1), 1.06),
     _DateTimeData(DateTime(2017, 3, 1), 1.07),

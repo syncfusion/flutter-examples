@@ -145,13 +145,13 @@ class _FrontPanelState extends State<FrontPanel> {
                         width: 250,
                         child: InkWell(
                           onTap: () => launch(
-                              'https://en.wikipedia.org/wiki/List_of_men%27s_footballers_with_500_or_more_goals'),
+                              'https://tcdata360.worldbank.org/indicators/ex.grw?country=BRA&indicator=401&viz=line_chart&years=2010Q3,2016Q2'),
                           child: Row(
                             children: <Widget>[
                               Text('Source: ',
                                   style: TextStyle(
                                       fontSize: 16, color: model.textColor)),
-                              Text('en.wikipedia.org',
+                              Text('tcdata360.worldbank.org',
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.blue)),
                             ],

@@ -61,7 +61,7 @@ import 'package:flutter_examples/samples/chart/dynamic_updates/add_remove_data/a
 import 'package:flutter_examples/samples/chart/dynamic_updates/add_remove_data/add_remove_series.dart';
 import 'package:flutter_examples/samples/chart/dynamic_updates/live_update/live_update.dart';
 import 'package:flutter_examples/samples/chart/dynamic_updates/live_update/vertical_live_chart.dart';
-import 'package:flutter_examples/samples/chart/dynamic_updates/udate_data_source/update_data_source.dart';
+import 'package:flutter_examples/samples/chart/dynamic_updates/update_data_source/update_data_source.dart';
 import 'package:flutter_examples/samples/chart/legend/chart_with_customized_legend.dart';
 import 'package:flutter_examples/samples/chart/legend/chart_with_legend.dart';
 import 'package:flutter_examples/samples/chart/legend/legend_with_various_options.dart';

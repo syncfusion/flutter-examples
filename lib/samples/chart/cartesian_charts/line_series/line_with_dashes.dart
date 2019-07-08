@@ -61,7 +61,7 @@ class _LineDashedState extends State<LineDashed> {
                             color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/line_with_dashes.dart.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/line_with_dashes.dart');
                         },
                       ),
                     ),

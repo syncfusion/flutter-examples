@@ -193,7 +193,7 @@ SfCircularChart getDoughnutCustomizationChart(bool isTileView) {
           child: Container(
               child: const Text('90%',
                   style: TextStyle(
-                      color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25))))
+                      color: Colors.grey, fontSize: 25))))
     ],
     title: ChartTitle(
         text: isTileView ? '' : 'Work progress',
