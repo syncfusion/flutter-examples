@@ -22,10 +22,6 @@ This section guides you how to use the Syncfusion Flutter examples in your appli
 
 This repository contains sample browser project. Each widgets sample will be found inside the lib/samples folder. Run this project to see the demo samples of all the Flutter widgets in single application.
 
-## <a name="license"></a>License ##
-
-Syncfusion has no liability for any damage or consequence that may arise by using or viewing the samples. The samples are for demonstrative purposes, and if you choose to use or access the samples, you agree to not hold Syncfusion liable in any form for any damage that is related to use, access, or view the samples. By accessing, viewing, or seeing the samples, you acknowledge and agree Syncfusion’s samples will not allow you to seek injunctive relief in any form for any claim related to the sample. If you do not agree to this, do not view, access, utilize, or do anything with Syncfusion’s samples.
-
 ## <a name="using-the-samples"></a>Using the samples ##
 
 * Download or clone the files in repository.
