@@ -234,7 +234,7 @@ List<PieSeries<_PieData, String>> getPieSeries(bool isTileView) {
         dataLabelMapper: (_PieData data, _) => data.xData,
         startAngle: 100,
         endAngle: 100,
-        pointRadiusMapping: (_PieData data, _) => data.radius,
+        pointRadiusMapper: (_PieData data, _) => data.radius,
         dataLabelSettings: DataLabelSettings(
             isVisible: true, labelPosition: LabelPosition.outside))
   ];
