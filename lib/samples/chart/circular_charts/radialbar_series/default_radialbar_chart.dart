@@ -230,7 +230,7 @@ List<RadialBarSeries<_RadialData, String>> getRadialBarDefaultSeries(
         radius: '90%',
         xValueMapper: (_RadialData data, _) => data.xVal,
         yValueMapper: (_RadialData data, _) => data.yVal,
-        pointRadiusMapping: (_RadialData data, _) => data.radius,
+        pointRadiusMapper: (_RadialData data, _) => data.radius,
         pointColorMapper: (_RadialData data, _) => data.color,
         dataLabelMapper: (_RadialData data, _) => data.xVal)
   ];

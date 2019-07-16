@@ -210,7 +210,7 @@ List<RadialBarSeries<_RadialData, String>> getRadialBarSeries(bool isTileView) {
   ];
   var list = <RadialBarSeries<_RadialData, String>>[
     RadialBarSeries<_RadialData, String>(
-        pointRadiusMapping: (_RadialData data, _) => data.radius,
+        pointRadiusMapper: (_RadialData data, _) => data.radius,
         maximumValue: 100,
         radius: '100%',
         gap: '2%',

@@ -294,7 +294,7 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
                         yValueMapper: (_RadialData data, _) => data.yVal,
                         pointColorMapper: (_RadialData data, _) => data.color,
                         innerRadius: '70%',
-                        pointRadiusMapping: (_RadialData data, _) =>
+                        pointRadiusMapper: (_RadialData data, _) =>
                             data.radius,
                       ),
                     ],
@@ -348,7 +348,7 @@ List<RadialBarSeries<_RadialData, String>> getRadialBarCustomizedSeries() {
       innerRadius: '50%',
       xValueMapper: (_RadialData data, _) => data.xVal,
       yValueMapper: (_RadialData data, _) => data.yVal,
-      pointRadiusMapping: (_RadialData data, _) => data.radius,
+      pointRadiusMapper: (_RadialData data, _) => data.radius,
       pointColorMapper: (_RadialData data, _) => data.color,
       legendIconType: LegendIconType.circle,
     ),
