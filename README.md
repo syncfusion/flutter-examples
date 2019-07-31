@@ -2,6 +2,8 @@
 
 This repository contains the demos of Syncfusion Flutter UI widgets. This is the best place to check our widgets to get more insight about the usage of APIs. You can also check our widgets by installing the [sample browser application](https://play.google.com/store/apps/details?id=com.syncfusion.flutter.examples&hl=en) from Google Play Store, in which you can browse the demos for all the available widgets and view the source code of each example within the app itself.
 
+https://cdn.syncfusion.com/content/images/FTControl/screen2.png
+
 This section guides you how to use the Syncfusion Flutter examples in your applications.
 
 ## Table of contents
@@ -30,8 +32,7 @@ This repository contains sample browser project. Each widgets sample will be fou
 
 ## <a name="support-and-feedback"></a>Support and Feedback ##
 
-* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=flutter_widgets) or post the queries through the [Community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=flutter_widgets).
-
+* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=flutter_widgets) or post the queries through the [Community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=flutter_widgets) and submit a feature request or a bug through our [Feedback portal](https://www.syncfusion.com/feedback/flutter).
 * To renew the subscription, click [renew](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=flutter_widgets) or contact our sales team at <salessupport@syncfusion.com>.
 
 ## <a name="disclaimer"></a>Disclaimer ##
