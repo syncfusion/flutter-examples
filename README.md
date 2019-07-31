@@ -2,7 +2,7 @@
 
 This repository contains the demos of Syncfusion Flutter UI widgets. This is the best place to check our widgets to get more insight about the usage of APIs. You can also check our widgets by installing the [sample browser application](https://play.google.com/store/apps/details?id=com.syncfusion.flutter.examples&hl=en) from Google Play Store, in which you can browse the demos for all the available widgets and view the source code of each example within the app itself.
 
-https://cdn.syncfusion.com/content/images/FTControl/screen2.png
+![showcase_image](https://cdn.syncfusion.com/content/images/FTControl/screen2.png)
 
 This section guides you how to use the Syncfusion Flutter examples in your applications.
 
