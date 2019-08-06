@@ -12,6 +12,7 @@ This section guides you how to use the Syncfusion Flutter examples in your appli
 * [Repository structure](#repository-structure)
 * [Using the samples](#using-the-samples)
 * [Support and feedback](#support-and-feedback)
+* [Screenshots](#screenshots)
 * [Disclaimer](#disclaimer)
 * [About Syncfusion](#about-syncfusion)
 
@@ -34,6 +35,17 @@ This repository contains sample browser project. Each widgets sample will be fou
 
 * For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=flutter_widgets) or post the queries through the [Community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=flutter_widgets) and submit a feature request or a bug through our [Feedback portal](https://www.syncfusion.com/feedback/flutter).
 * To renew the subscription, click [renew](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=flutter_widgets) or contact our sales team at <salessupport@syncfusion.com>.
+
+## <a name='screenshots'></a>Screenshots ##
+
+<p align="center">
+    <img src="https://cdn.syncfusion.com/content/images/FTControl/chartTypes.png" alt="Chart Types"/>
+</p><p align="center">
+    <img src="https://cdn.syncfusion.com/content/images/FTControl/axisTypes.png" alt="Axis Types"/>
+</p>
+<p align="center">
+    <img src="https://cdn.syncfusion.com/content/images/FTControl/userInteraction.gif" alt="User Interaction"/>
+</p>
 
 ## <a name="disclaimer"></a>Disclaimer ##
 
