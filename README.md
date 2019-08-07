@@ -38,23 +38,17 @@ This repository contains sample browser project. Each widgets sample will be fou
 
 ## <a name='screenshots'></a>Screenshots ##
 
-<p align="center">
-    <i>Chart Types</i>
-</p>
+### Chart types
 <p align="center">
     <img src="https://cdn.syncfusion.com/content/images/FTControl/chartTypes.png" alt="Chart Types"/>
 </p>
 
-<p align="center">
-    <i>Chart Axis Types</i>
-</p>
+### Axis types
 <p align="center">    
     <img src="https://cdn.syncfusion.com/content/images/FTControl/axisTypes.png" alt="Axis Types"/>
 </p>
 
-<p align="center">
-    <i>Chart User Interactions</i>
-</p>
+### User interactions
 <p align="center">
     <img src="https://cdn.syncfusion.com/content/images/FTControl/userInteraction.gif" alt="User Interaction"/>
 </p>
