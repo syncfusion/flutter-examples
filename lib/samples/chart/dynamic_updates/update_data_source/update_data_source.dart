@@ -254,7 +254,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getUpdateDataSourceChart(bool isTileView,
     [List<_ChartData> chartData]) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(
         minimum: 0, interval: 1, majorGridLines: MajorGridLines(width: 0)),
     primaryYAxis: NumericAxis(

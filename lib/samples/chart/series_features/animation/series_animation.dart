@@ -190,7 +190,7 @@ SfCartesianChart getDefaultAnimationChart(bool isTileView) {
   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : 'Sales report'),
     legend: Legend(isVisible: isTileView ? false : true),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift),

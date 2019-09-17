@@ -191,7 +191,7 @@ SfCartesianChart getDefaultAreaChart(bool isTileView) {
   return SfCartesianChart(
     legend: Legend(isVisible: isTileView ? false : true, opacity: 0.7),
     title: ChartTitle(text: isTileView ? '' : 'Average sales comparison'),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
         dateFormat: DateFormat.y(),
         interval: 1,

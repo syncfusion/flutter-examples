@@ -191,7 +191,7 @@ SfCartesianChart getDataLabelDefaultChart(bool isTileView,
     [bool performIntersectAction]) {
   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : 'Gross investments'),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     legend: Legend(isVisible: isTileView ? false : true),
     primaryXAxis: NumericAxis(
         minimum: 2006,

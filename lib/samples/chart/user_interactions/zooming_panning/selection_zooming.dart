@@ -220,7 +220,7 @@ class _BackPanelState extends State<BackPanel> {
 
 SfCartesianChart getDefaultZoomingChart(bool isTileView) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     legend: Legend(isVisible: isTileView ? false : true, opacity: 0.8),
     title: ChartTitle(text: isTileView ? '' : 'Heigth vs Weight'),
     zoomPanBehavior: zoomingBehavior,

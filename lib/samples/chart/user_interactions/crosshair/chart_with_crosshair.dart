@@ -382,11 +382,11 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getDefaultCrossHairChart(bool isTileView,
     [bool alwaysShow, CrosshairLineType lineType, dynamic randomData]) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
         majorGridLines: MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift,
-        crosshairTooltip: InteractiveTooltip(
+        interactiveTooltip: InteractiveTooltip(
             enable: (isTileView ||
                     lineType == CrosshairLineType.both ||
                     lineType == CrosshairLineType.vertical)
@@ -400,7 +400,7 @@ SfCartesianChart getDefaultCrossHairChart(bool isTileView,
         lineType: isTileView ? CrosshairLineType.both : lineType),
     primaryYAxis: NumericAxis(
         axisLine: AxisLine(width: 0),
-        crosshairTooltip: InteractiveTooltip(
+        interactiveTooltip: InteractiveTooltip(
             enable: (isTileView ||
                     lineType == CrosshairLineType.both ||
                     lineType == CrosshairLineType.horizontal)

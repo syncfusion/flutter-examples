@@ -115,11 +115,11 @@ class FrontPanel extends StatefulWidget {
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  Timer timer;
+
   @override
   void initState() {
     super.initState();
-    this.timer = Timer.periodic(Duration(milliseconds: 10), setTime);
+    timer = Timer.periodic(Duration(milliseconds: 10), setTime);
   }
 
   @override
@@ -231,7 +231,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getVerticalLineUpdateChart(bool isTileView) {
   return SfCartesianChart(
     isTransposed: true,
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(
       isInversed: false,
       title: AxisTitle(text: isTileView ? '' : 'Time(s)'),

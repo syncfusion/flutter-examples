@@ -213,7 +213,7 @@ class _BackPanelState extends State<BackPanel> {
 
 SfCartesianChart getDefaultAnnotationChart(bool isTileView,[Brightness currentTheme]) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView
             ? ''
@@ -237,7 +237,8 @@ SfCartesianChart getDefaultAnnotationChart(bool isTileView,[Brightness currentTh
           child: Text(
             '€ - \$ ',
             style: TextStyle(
-                color: currentTheme == Brightness.light ? Color.fromRGBO(0, 0, 0, 0.15) : Color.fromRGBO(255, 255, 255, 0.3),
+                color:Color.fromRGBO(216, 225, 227,1),
+                // color: currentTheme == Brightness.light ? Color.fromRGBO(0, 0, 0, 0.15) : Color.fromRGBO(255, 255, 255, 0.3),
                 fontWeight: FontWeight.bold,
                 fontSize: 80),
           ),

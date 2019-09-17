@@ -105,7 +105,7 @@ class _FrontPanelState extends State<FrontPanel> {
   @override
   void initState() {
     super.initState();
-    _selectedMode = _emptyPointMode.first;
+    _selectedMode = _emptyPointMode.first; 
     _selectedEmptyPointMode = EmptyPointMode.gap;
   }
 

@@ -218,7 +218,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getDefaultNumericAxisChart(bool isTileView) {
   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : 'Australia vs India ODI - 2019'),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     legend: Legend(
         isVisible: isTileView ? false : true, position: LegendPosition.top),
     primaryXAxis: NumericAxis(

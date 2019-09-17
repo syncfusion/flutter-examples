@@ -448,7 +448,7 @@ SfCartesianChart getDefaultSortingChart(bool isTileView,
     [String _sortby, SortingOrder _sortingOrder]) {
   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : "World's tallest buildings"),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
     primaryYAxis: NumericAxis(
         minimum: 500,

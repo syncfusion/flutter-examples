@@ -220,7 +220,7 @@ SfCartesianChart getOpposedNumericAxisChart(bool isTileView) {
   return SfCartesianChart(
     title:
         ChartTitle(text: isTileView ? '' : 'Light vehicle retail sales in US'),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(
         minimum: 1974,
         maximum: 2022,

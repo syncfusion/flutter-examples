@@ -189,7 +189,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getDefaultCategoryAxisChart(bool isTileView) {
   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : 'Internet Users - 2016'),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: CategoryAxis(
       majorGridLines: MajorGridLines(width: 0),
     ),

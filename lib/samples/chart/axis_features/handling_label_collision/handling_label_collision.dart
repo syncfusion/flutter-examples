@@ -396,7 +396,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getLabelIntersectActionChart(bool isTileView,
     [AxisLabelIntersectAction _labelIntersectAction]) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     title:
         ChartTitle(text: isTileView ? '' : 'Football players with most goals'),
     primaryXAxis: CategoryAxis(

@@ -209,7 +209,7 @@ SfCartesianChart getWatermarkAnnotationChart(bool isTileView) {
   return SfCartesianChart(
       title: ChartTitle(
           text: isTileView ? '' : 'UK social media reach, by platform'),
-      plotAreaBorderColor: Colors.transparent,
+      plotAreaBorderWidth: 0,
       primaryXAxis: CategoryAxis(
           majorGridLines: MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),

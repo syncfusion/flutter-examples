@@ -188,7 +188,7 @@ class _BackPanelState extends State<BackPanel> {
 
 SfCartesianChart getLabelNumericAxisChart(bool isTileView) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Farenheit - Celsius conversion'),
     primaryXAxis: NumericAxis(
         labelFormat: '{value}°C',

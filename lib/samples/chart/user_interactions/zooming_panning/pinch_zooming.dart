@@ -368,7 +368,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getDefaultPanningChart(bool isTileView,
     [ZoomMode _zoomModeType]) {
   return SfCartesianChart(
-      plotAreaBorderColor: Colors.transparent,
+      plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           axisLine: AxisLine(width: 0),

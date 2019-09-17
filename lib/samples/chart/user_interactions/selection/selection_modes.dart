@@ -376,7 +376,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getDefaultSelectionChart(bool isTileView,
     [SelectionType _mode, bool enableMultiSelect]) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Age distribution by country'),
     selectionType: _mode,
     selectionGesture: ActivationMode.singleTap,

@@ -330,7 +330,10 @@ class _HomePageState extends State<HomePage> {
                         child: ListTile(
                           leading: Image.asset(model.controlList[i].image,
                               fit: BoxFit.cover),
-                          title: Text(
+                          title: Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                             Text(
                             model.controlList[i].title,
                             textAlign: TextAlign.left,
                             softWrap: true,
@@ -343,6 +346,12 @@ class _HomePageState extends State<HomePage> {
                                 letterSpacing: 0.3,
                                 fontFamily: 'MontserratBold'),
                           ),
+                            Container(         
+                              decoration: BoxDecoration(shape: BoxShape.rectangle,color:model.controlList[i].status == 'New' ? Color.fromRGBO(101,193,0,1): model.controlList[i].status =='Updated' ? Color.fromRGBO(245,166,35,1) : model.controlList[i].status == 'Preview' ? Color.fromRGBO(238,245,255,1) : Colors.transparent, borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft:  Radius.circular(10))),
+                              padding: EdgeInsets.fromLTRB(7, 3, 6, 3),
+                              child:Text( model.controlList[i].status, style:TextStyle(color:model.controlList[i].status == 'Preview' ? Color.fromRGBO(0,98,255,1):Colors.white,fontSize: 12)))
+                          ]),
+                         
                           subtitle: Padding(
                             padding:
                                 const EdgeInsets.fromLTRB(0.0, 7.0, 0.0, 0.0),
@@ -361,6 +370,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
+                          // trailing:
                         ),
                       )))),
         ),
