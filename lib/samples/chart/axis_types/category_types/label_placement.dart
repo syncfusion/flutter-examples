@@ -336,7 +336,7 @@ SfCartesianChart getTicksCategoryAxisChart(bool isTileView,
     [LabelPlacement _labelPlacement]) {
   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : 'Employees task count'),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
         labelPlacement: _labelPlacement != null

@@ -305,7 +305,7 @@ SfCartesianChart getIndexedCategoryAxisChart(bool isTileView,
     [bool isIndexed]) {
   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : 'Real GDP growth'),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     legend: Legend(isVisible: isTileView ? false : true),
     primaryXAxis: CategoryAxis(
         arrangeByIndex: isTileView ? true : isIndexed,

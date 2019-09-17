@@ -280,7 +280,7 @@ void updateLiveData() {
 
 SfCartesianChart getLiveUpdateChart(bool isTileView) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
     primaryYAxis: NumericAxis(
         axisLine: AxisLine(width: 0), majorTickLines: MajorTickLines(size: 0)),

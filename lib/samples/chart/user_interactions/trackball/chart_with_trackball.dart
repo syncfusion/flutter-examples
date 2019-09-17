@@ -456,7 +456,7 @@ SfCartesianChart getDefaultTrackballChart(bool isTileView,
     [TrackballDisplayMode _mode, ChartAlignment _alignment, bool showAlways]) {
   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : 'Average sales per person'),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
         majorGridLines: MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift),

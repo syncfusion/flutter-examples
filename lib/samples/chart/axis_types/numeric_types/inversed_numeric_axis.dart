@@ -358,7 +358,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getInversedNumericAxisChart(bool isTileView,
     [bool isXInversed, bool isYInversed]) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Airports count in US'),
     primaryXAxis: NumericAxis(
         minimum: 2000,

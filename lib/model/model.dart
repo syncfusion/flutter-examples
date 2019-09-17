@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/samples/chart/axis_features/axis_crossing/axis_crossing.dart';
 import 'package:flutter_examples/samples/chart/axis_features/handling_label_collision/handling_label_collision.dart';
 import 'package:flutter_examples/samples/chart/axis_features/multiple_axis_chart/multiple_axis_chart.dart';
 import 'package:flutter_examples/samples/chart/axis_features/edge_label_placement/edgelabel_placement.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_examples/samples/chart/axis_types/category_types/indexed
 import 'package:flutter_examples/samples/chart/axis_types/category_types/label_placement.dart';
 import 'package:flutter_examples/samples/chart/axis_types/date_time_types/date_time_axis_with_label_format.dart';
 import 'package:flutter_examples/samples/chart/axis_types/date_time_types/default_date_time_axis.dart';
+import 'package:flutter_examples/samples/chart/axis_types/logarithmic_types/default_logarithmic_axis.dart';
+import 'package:flutter_examples/samples/chart/axis_types/logarithmic_types/inversed_logarithmic_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/default_numeric_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/inversed_numeric_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/numeric_axis_with_label_format.dart';
@@ -34,6 +37,9 @@ import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/cust
 import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/default_line_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/line_with_dashes.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/multi_colored_line.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/rangecolumn_series/default_rangecolumn_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/rangecolumn_series/vertical_rangecolumn_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/rangecolumn_series/rangecolumn_with_track.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/scatter_series/default_scatter_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/scatter_series/scatter_with_various_shapes.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/customized_spline_chart.dart';
@@ -41,6 +47,10 @@ import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/de
 import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/spline_types.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/spline_with_dashes.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/vertical_spline_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/stacked_series/stacked_area_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/stacked_series/stacked_bar_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/stacked_series/stacked_column_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/stacked_series/stacked_line_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/stepLine_series/default_stepline_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/stepLine_series/stepline_with_dashes.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/stepLine_series/vertical_stepline_chart.dart';
@@ -62,15 +72,24 @@ import 'package:flutter_examples/samples/chart/dynamic_updates/add_remove_data/a
 import 'package:flutter_examples/samples/chart/dynamic_updates/live_update/live_update.dart';
 import 'package:flutter_examples/samples/chart/dynamic_updates/live_update/vertical_live_chart.dart';
 import 'package:flutter_examples/samples/chart/dynamic_updates/update_data_source/update_data_source.dart';
+import 'package:flutter_examples/samples/chart/funnel_charts/default_funnel_chart.dart';
+import 'package:flutter_examples/samples/chart/funnel_charts/funnel_with_legend.dart';
+import 'package:flutter_examples/samples/chart/funnel_charts/funnel_with_smart_labels.dart';
 import 'package:flutter_examples/samples/chart/legend/chart_with_customized_legend.dart';
 import 'package:flutter_examples/samples/chart/legend/chart_with_legend.dart';
 import 'package:flutter_examples/samples/chart/legend/legend_with_various_options.dart';
+import 'package:flutter_examples/samples/chart/pyramid_charts/default_pyramid_chart.dart';
+import 'package:flutter_examples/samples/chart/pyramid_charts/pyramid_with_legend.dart';
+import 'package:flutter_examples/samples/chart/pyramid_charts/pyramid_with_smart_labels.dart';
 import 'package:flutter_examples/samples/chart/series_features/animation/series_animation.dart';
+import 'package:flutter_examples/samples/chart/series_features/animation/dynamic_animation.dart';
 import 'package:flutter_examples/samples/chart/series_features/annotation/chart_with_annotation.dart';
 import 'package:flutter_examples/samples/chart/series_features/annotation/chart_with_watermark.dart';
 import 'package:flutter_examples/samples/chart/series_features/data_label/default_datalabels.dart';
 import 'package:flutter_examples/samples/chart/series_features/empty_point/chart_with_empty_points.dart';
 import 'package:flutter_examples/samples/chart/series_features/marker/various_marker_shapes.dart';
+import 'package:flutter_examples/samples/chart/axis_features/plot_band/Plot_band_recurrence.dart';
+import 'package:flutter_examples/samples/chart/axis_features/plot_band/plot_band.dart';
 import 'package:flutter_examples/samples/chart/series_features/sorting/sorting_options.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/crosshair/chart_with_crosshair.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/selection/selection_modes.dart';
@@ -79,26 +98,27 @@ import 'package:flutter_examples/samples/chart/user_interactions/trackball/chart
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/pinch_zooming.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/selection_zooming.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/zooming_with_custom_buttons.dart';
-
 import 'package:scoped_model/scoped_model.dart';
 
 class SampleList {
-  SampleList(this.title, this.description, this.image, [this.subItemList]);
+  SampleList(this.title, this.description, this.image, [this.subItemList, this.status]);
   final String title;
   final String description;
-  final String image;
+  final String image;  
   final List<List<SubItemList>> subItemList;
+  final String status;
 }
 
 class SubItemList {
   SubItemList(this.category, this.title, this.description, this.image,
-      [this.previewWidget, this.codeViewerLink]);
+      [this.previewWidget, this.codeViewerLink, this.status]);
   final String category;
   final String title;
   final String description;
   final String image;
   final String codeViewerLink;
   final Widget previewWidget;
+  final String status;
 }
 
 class SampleListModel extends Model {
@@ -131,6 +151,7 @@ class SampleListModel extends Model {
   List<SubItemList> numericAxisSubItemList;
   List<SubItemList> categoryAxisSubItemList;
   List<SubItemList> dateTimeAxisSubItemList;
+  List<SubItemList> logarithmicAxisSubItemList;
   List<SubItemList> axisFeaturesSubItemList;
   List<SubItemList> multipleAxisSubItemList;
   List<SubItemList> labelIntersectActionSubItemList;
@@ -147,6 +168,8 @@ class SampleListModel extends Model {
   List<SubItemList> bubbleSeriesSubItemList;
   List<SubItemList> scatterSeriesSubItemList;
   List<SubItemList> stepLineSeriesSubItemList;
+  List<SubItemList> rangeColumnSeriesSubItemList;
+  List<SubItemList> stackedSeriesSubItemList;
   List<SubItemList> legendSubItemList;
   List<SubItemList> markerSubItemList;
   List<SubItemList> dataLabelSubItemList;
@@ -156,6 +179,8 @@ class SampleListModel extends Model {
   List<SubItemList> emptyPointSubItemList;
   List<List<SubItemList>> cartesianSubItemList;
   List<List<SubItemList>> accumulationSubItemList;
+  List<List<SubItemList>> pyramidSubItemList;
+  List<List<SubItemList>> funnelSubItemList;
   List<List<SubItemList>> otherFeaturesSubItemList;
   List<List<SubItemList>> legendFeaturesSubItemList;
   List<List<SubItemList>> userInteractionSubItemList;
@@ -178,6 +203,12 @@ class SampleListModel extends Model {
   List<SubItemList> doughnutSeriesSubItemList;
   List<SubItemList> radialBarSeriesSubItemList;
 
+  //Triangular Types
+  List<SubItemList> pyramidSeriesSubItemList;
+  List<SubItemList> funnelSeriesSubItemList;
+
+ 
+
   SampleListModel() {
     controlList = <SampleList>[];
     searchControlListItems = <SampleList>[];
@@ -187,7 +218,8 @@ class SampleListModel extends Model {
     // For Axis Types
     numericAxisSubItemList = <SubItemList>[];
     categoryAxisSubItemList = <SubItemList>[];
-    dateTimeAxisSubItemList = <SubItemList>[];
+    dateTimeAxisSubItemList = <SubItemList>[];    
+    logarithmicAxisSubItemList = <SubItemList>[];
     axisFeaturesSubItemList = <SubItemList>[];
     multipleAxisSubItemList = <SubItemList>[];
     labelIntersectActionSubItemList = <SubItemList>[];
@@ -235,6 +267,31 @@ class SampleListModel extends Model {
         '',
         'images/axes.png',
         getMultipleAxisLineChart(isTileView)));
+    axisFeaturesSubItemList.add(SubItemList(
+        'Axis Features',
+        'Axis crossing',
+        '',
+        'images/axes.png',
+        getAxisCrossingSample(isTileView), '',
+       'New'));
+    axisFeaturesSubItemList.add(SubItemList(
+      'Axis Features',
+      'Plot band',
+      '',
+      'images/circular.png',
+      getPlotBandChart(isTileView), '',
+       'New'
+    ));
+     axisFeaturesSubItemList.add(SubItemList(
+      'Axis Features',
+      'Plot band recurrence',
+      '',
+      'images/circular.png',
+      getPlotBandRecurrenceChart(isTileView), '',
+       'New'
+    ));
+    
+
     dateTimeAxisSubItemList.add(SubItemList(
         'Date time',
         'Default Date time axis',
@@ -247,15 +304,34 @@ class SampleListModel extends Model {
         '',
         'images/axes.png',
         getLabelDateTimeAxisChart(isTileView)));
+    logarithmicAxisSubItemList.add(SubItemList(
+        'Logarithmic',
+        'Default logarithmic axis',
+        '',
+        'images/axes.png',
+        getDefaultLogarithmicAxisChart(isTileView), '',
+       'New'));
+    logarithmicAxisSubItemList.add(SubItemList(
+        'Logarithmic',
+        'Inversed logarithmic axis',
+        '',
+        'images/axes.png',
+        getInversedLogarithmicAxisChart(isTileView), '',
+       'New'));
     axisSubItemList.add(numericAxisSubItemList);
     axisSubItemList.add(categoryAxisSubItemList);
     axisSubItemList.add(dateTimeAxisSubItemList);
+    axisSubItemList.add(logarithmicAxisSubItemList);
     axesFeaturesSubItemList.add(axisFeaturesSubItemList);
 
     // For Accumulation Types
     pieSeriesSubItemList = <SubItemList>[];
     doughnutSeriesSubItemList = <SubItemList>[];
     radialBarSeriesSubItemList = <SubItemList>[];
+
+    //Triagular series types
+    pyramidSeriesSubItemList = <SubItemList>[];
+    funnelSeriesSubItemList = <SubItemList>[];
 
     pieSeriesSubItemList.add(SubItemList(
       'Pie',
@@ -351,6 +427,56 @@ class SampleListModel extends Model {
       getCustomizedRadialBarChart(isTileView),
     ));
 
+     pyramidSeriesSubItemList.add(SubItemList(
+      'Pyramid',
+      'Default pyramid chart',
+      '',
+      'images/axes.png',
+      getDefaultPyramidChart(isTileView), '',
+       'New'
+    ));
+    pyramidSeriesSubItemList.add(SubItemList(
+      'Pyramid',
+      'Pyramid with smart labels',
+      '',
+      'images/axes.png',
+      getPyramidSmartLabelChart(isTileView), '',
+       'New'
+    ));
+    pyramidSeriesSubItemList.add(SubItemList(
+      'Pyramid',
+      'Pyramid with legend',
+      '',
+      'images/axes.png',
+      getLegendPyramidChart(isTileView), '',
+       'New'
+    ));
+
+    funnelSeriesSubItemList.add(SubItemList(
+      'Funnel',
+      'Default funnel chart',
+      '',
+      'images/axes.png',
+      getDefaultFunnelChart(isTileView), '',
+       'New'
+    ));
+    funnelSeriesSubItemList.add(SubItemList(
+      'Funnel',
+      'Funnel with smart labels',
+      '',
+      'images/axes.png',
+      getFunnelSmartLabelChart(isTileView), '',
+       'New'
+    ));
+    funnelSeriesSubItemList.add(SubItemList(
+      'Funnel',
+      'Funnel with legend',
+      '',
+      'images/axes.png',
+      getLegendFunnelChart(isTileView), '',
+       'New'
+    ));
+
     // Cartesian Types
     lineSeriesSubItemList = <SubItemList>[];
     columnSeriesSubItemList = <SubItemList>[];
@@ -360,6 +486,8 @@ class SampleListModel extends Model {
     bubbleSeriesSubItemList = <SubItemList>[];
     scatterSeriesSubItemList = <SubItemList>[];
     stepLineSeriesSubItemList = <SubItemList>[];
+    stackedSeriesSubItemList = <SubItemList>[];
+    rangeColumnSeriesSubItemList = <SubItemList>[];
     legendSubItemList = <SubItemList>[];
     markerSubItemList = <SubItemList>[];
     dataLabelSubItemList = <SubItemList>[];
@@ -369,6 +497,8 @@ class SampleListModel extends Model {
     emptyPointSubItemList = <SubItemList>[];
     cartesianSubItemList = <List<SubItemList>>[];
     accumulationSubItemList = <List<SubItemList>>[];
+    funnelSubItemList = <List<SubItemList>>[];
+    pyramidSubItemList = <List<SubItemList>>[];
     otherFeaturesSubItemList = <List<SubItemList>>[];
     legendFeaturesSubItemList = <List<SubItemList>>[];
     userInteractionSubItemList = <List<SubItemList>>[];
@@ -473,7 +603,8 @@ class SampleListModel extends Model {
       'Selection zooming',
       'This sample depicts the working of selection zooming. Long press and drag on the chart to select the region for zooming.',
       'images/circular.png',
-      getDefaultZoomingChart(isTileView),
+      getDefaultZoomingChart(isTileView), '',
+       'Updated'
     ));
     zoomingPanningSubItemList.add(SubItemList(
       'Zooming and Panning',
@@ -566,6 +697,14 @@ class SampleListModel extends Model {
       '',
       'images/circular.png',
       getDefaultAnimationChart(isTileView),
+    ));
+    animationSubItemList.add(SubItemList(
+      'Animation',
+      'Dynamic update',
+      '',
+      'images/circular.png',
+      getDynamicAnimationChart(isTileView), '',
+       'New'
     ));
     emptyPointSubItemList.add(SubItemList(
       'Empty Points',
@@ -696,6 +835,7 @@ class SampleListModel extends Model {
       'images/cartesian.png',
       getCustomizedBarChart(isTileView),
     ));
+    
     bubbleSeriesSubItemList.add(SubItemList(
       'Bubble',
       'Default bubble chart',
@@ -783,6 +923,63 @@ class SampleListModel extends Model {
       'images/circular.png',
       getVerticalColumnChart(isTileView),
     ));
+    rangeColumnSeriesSubItemList.add(SubItemList(
+      'Range Column',
+      'Default range column chart',
+      '',
+      'images/cartesian.png',
+       getDefaultRangeColumnChart(isTileView),
+       '',
+       'New'
+    ));
+    rangeColumnSeriesSubItemList.add(SubItemList(
+      'Range Column',
+      'Transposed range column',
+      '',
+      'images/cartesian.png',
+       getRangeBarChart(isTileView), '',
+       'New'
+    ));
+    rangeColumnSeriesSubItemList.add(SubItemList(
+      'Range Column',
+      'Range column with track',
+      '',
+      'images/cartesian.png',
+      getRangeColumnwithTrack(isTileView), '',
+       'New'
+    ));
+    stackedSeriesSubItemList.add(SubItemList(
+      'Stacked Charts',
+      'Stacked line chart',
+      '',
+      'images/cartesian.png',
+      getStackedLineChart(isTileView), '',
+       'New'
+    ));
+    stackedSeriesSubItemList.add(SubItemList(
+      'Stacked Charts',
+      'Stacked area chart',
+      '',
+      'images/cartesian.png',
+      getStackedAreaChart(isTileView), '',
+       'New'
+    ));
+    stackedSeriesSubItemList.add(SubItemList(
+      'Stacked Charts',
+      'Stacked column chart',
+      '',
+      'images/cartesian.png',
+      getStackedColumnChart(isTileView), '',
+       'New'
+    ));
+    stackedSeriesSubItemList.add(SubItemList(
+      'Stacked Charts',
+      'Stacked bar chart',
+      '',
+      'images/cartesian.png',
+      getStackedBarChart(isTileView), '',
+       'New'
+    ));
 
     cartesianSubItemList.add(lineSeriesSubItemList);
     cartesianSubItemList.add(columnSeriesSubItemList);
@@ -792,10 +989,15 @@ class SampleListModel extends Model {
     cartesianSubItemList.add(bubbleSeriesSubItemList);
     cartesianSubItemList.add(scatterSeriesSubItemList);
     cartesianSubItemList.add(stepLineSeriesSubItemList);
+    cartesianSubItemList.add(rangeColumnSeriesSubItemList);
+    cartesianSubItemList.add(stackedSeriesSubItemList);
 
     accumulationSubItemList.add(pieSeriesSubItemList);
     accumulationSubItemList.add(doughnutSeriesSubItemList);
     accumulationSubItemList.add(radialBarSeriesSubItemList);
+
+    pyramidSubItemList.add(pyramidSeriesSubItemList);
+    funnelSubItemList.add(funnelSeriesSubItemList);
 
     legendFeaturesSubItemList.add(legendSubItemList);
     otherFeaturesSubItemList.add(markerSubItemList);
@@ -819,42 +1021,62 @@ class SampleListModel extends Model {
         'Cartesian Charts',
         'Demos of various chart types supported in cartesian axes',
         'images/cartesian_types.png',
-        cartesianSubItemList));
+        cartesianSubItemList,
+        'Updated'));
     controlList.add(SampleList(
         'Circular Charts',
         'Demos of various circular chart types including pie and doughnut',
         'images/circle_series.png',
-        accumulationSubItemList));
+        accumulationSubItemList,
+        ''));
+     controlList.add(SampleList(
+        'Pyramid Chart',
+        'Interactive demos of pyramid charts',
+        'images/pyramid.png',
+        pyramidSubItemList,
+        'New'));
+         controlList.add(SampleList(
+        'Funnel Chart',
+        'Interactive demos of funnel charts',
+        'images/funnel.png',
+        funnelSubItemList,
+        'New'));
     controlList.add(SampleList(
         'Axis Types',
         'Various types of an axis available to plot the desired data',
         'images/axis_types.png',
-        axisSubItemList));
+        axisSubItemList,
+        'Updated'));
     controlList.add(SampleList(
         'Axis Features',
         'Set of features helpful for customizing the axis and its elements',
         'images/axis_feature.png',
-        axesFeaturesSubItemList));
+        axesFeaturesSubItemList,
+        'Updated'));
     controlList.add(SampleList(
         'Series Features',
         'Set of features helpful for customizing  series and data points',
         'images/other_features.png',
-        otherFeaturesSubItemList));
+        otherFeaturesSubItemList,
+        'Updated'));
     controlList.add(SampleList(
         'Legend',
         'Various legend features useful in displaying additional information about the series',
         'images/legend.png',
-        legendFeaturesSubItemList));
+        legendFeaturesSubItemList,
+        ''));
     controlList.add(SampleList(
         'User Interactions',
         'Real-time demos of the interactive features in chart',
         'images/user_interaction.png',
-        userInteractionSubItemList));
+        userInteractionSubItemList,
+        'Updated'));
     controlList.add(SampleList(
         'Dynamic Updates',
         'This sample demonstrates the chart with dynamic updates at run time',
         'images/live_update.png',
-        dynamicUpdatesSubItemList));
+        dynamicUpdatesSubItemList,
+        ''));
 
     // For search results
 

@@ -215,7 +215,7 @@ class _BackPanelState extends State<BackPanel> {
 
 SfCartesianChart getLabelDateTimeAxisChart(bool isTileView) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Earthquakes in Indonesia'),
     primaryXAxis: DateTimeAxis(
         intervalType: DateTimeIntervalType.months,

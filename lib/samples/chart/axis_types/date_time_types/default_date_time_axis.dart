@@ -214,7 +214,7 @@ class _BackPanelState extends State<BackPanel> {
 
 SfCartesianChart getDefaultDateTimeAxisChart(bool isTileView) {
   return SfCartesianChart(
-      plotAreaBorderColor: Colors.transparent,
+      plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isTileView
               ? ''

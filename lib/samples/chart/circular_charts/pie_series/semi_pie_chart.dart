@@ -400,8 +400,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCircularChart getSemiPieChart(bool isTileView,
     [int startAngle, int endAngle]) {
   return SfCircularChart(
-    centerX: '40%',
-    centerY: '50%',
+    centerY: '60%',
     title: ChartTitle(
         text: isTileView ? '' : 'Rural population of various countries'),
     legend: Legend(

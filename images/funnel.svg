@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="70px" height="70px" viewBox="0 0 70 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Funnel</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#0771C6" offset="0%"></stop>
+            <stop stop-color="#0BD1C3" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Funnel" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M41,60 L41,67 L30,67 L30,60 L41,60 Z M41,47 L41,56 L30,56 L30,47 L41,47 Z M48.017,33 L41.6899467,43 L29.5180643,43 L22.888,33 L48.017,33 Z M56.876,19 L50.548,29 L20.237,29 L13.607,19 L56.876,19 Z M67,3 L59.407,15 L10.955,15 L3,3 L67,3 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+    </g>
+</svg>

@@ -191,7 +191,7 @@ SfCartesianChart getMarkerDefaultChart(bool isTileView) {
   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : 'Vehicles crossed tollgate'),
     legend: Legend(isVisible: isTileView ? false : true),
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
       majorGridLines: MajorGridLines(width: 0),
       dateFormat: DateFormat.Hm(),

@@ -237,7 +237,7 @@ class _BackPanelState extends State<BackPanel> {
 
 SfCartesianChart getDefaultTooltipChart(bool isTileView) {
   return SfCartesianChart(
-    plotAreaBorderColor: Colors.transparent,
+    plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Labour force'),
     legend: Legend(isVisible: isTileView ? false : true),
     primaryXAxis: NumericAxis(

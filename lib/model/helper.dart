@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/samples/chart/axis_features/axis_crossing/axis_crossing.dart';
 import 'package:flutter_examples/samples/chart/axis_features/handling_label_collision/handling_label_collision.dart';
 import 'package:flutter_examples/samples/chart/axis_features/multiple_axis_chart/multiple_axis_chart.dart';
 import 'package:flutter_examples/samples/chart/axis_features/opposed_axes/opposed_axes.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_examples/samples/chart/axis_types/category_types/indexed
 import 'package:flutter_examples/samples/chart/axis_types/category_types/label_placement.dart';
 import 'package:flutter_examples/samples/chart/axis_types/date_time_types/date_time_axis_with_label_format.dart';
 import 'package:flutter_examples/samples/chart/axis_types/date_time_types/default_date_time_axis.dart';
+import 'package:flutter_examples/samples/chart/axis_types/logarithmic_types/default_logarithmic_axis.dart';
+import 'package:flutter_examples/samples/chart/axis_types/logarithmic_types/inversed_logarithmic_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/default_numeric_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/inversed_numeric_axis.dart';
 import 'package:flutter_examples/samples/chart/axis_types/numeric_types/numeric_axis_with_label_format.dart';
@@ -34,6 +37,9 @@ import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/cust
 import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/default_line_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/line_with_dashes.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/line_series/multi_colored_line.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/rangecolumn_series/default_rangecolumn_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/rangecolumn_series/rangecolumn_with_track.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/rangecolumn_series/vertical_rangecolumn_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/scatter_series/default_scatter_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/scatter_series/scatter_with_various_shapes.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/customized_spline_chart.dart';
@@ -41,7 +47,11 @@ import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/de
 import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/spline_types.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/spline_with_dashes.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/spline_series/vertical_spline_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/stacked_series/stacked_area_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/stepLine_series/default_stepline_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/stacked_series/stacked_bar_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/stacked_series/stacked_column_chart.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/stacked_series/stacked_line_chart.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/stepLine_series/stepline_with_dashes.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/stepLine_series/vertical_stepline_chart.dart';
 import 'package:flutter_examples/samples/chart/circular_charts/doughnut_series/default_doughnut_chart.dart';
@@ -62,23 +72,34 @@ import 'package:flutter_examples/samples/chart/dynamic_updates/add_remove_data/a
 import 'package:flutter_examples/samples/chart/dynamic_updates/live_update/live_update.dart';
 import 'package:flutter_examples/samples/chart/dynamic_updates/live_update/vertical_live_chart.dart';
 import 'package:flutter_examples/samples/chart/dynamic_updates/update_data_source/update_data_source.dart';
+import 'package:flutter_examples/samples/chart/funnel_charts/default_funnel_chart.dart';
+import 'package:flutter_examples/samples/chart/funnel_charts/funnel_with_legend.dart';
+import 'package:flutter_examples/samples/chart/funnel_charts/funnel_with_smart_labels.dart';
 import 'package:flutter_examples/samples/chart/home/axes_features_home.dart';
 import 'package:flutter_examples/samples/chart/home/axis_types.dart';
 import 'package:flutter_examples/samples/chart/home/cartesian_types.dart';
 import 'package:flutter_examples/samples/chart/home/circular_types.dart';
 import 'package:flutter_examples/samples/chart/home/dynamic_updates.dart';
+import 'package:flutter_examples/samples/chart/home/funnel_chart.dart';
 import 'package:flutter_examples/samples/chart/home/legend_home.dart';
 import 'package:flutter_examples/samples/chart/home/other_features.dart';
+import 'package:flutter_examples/samples/chart/home/pyramid_chart.dart';
 import 'package:flutter_examples/samples/chart/home/user_interaction.dart';
 import 'package:flutter_examples/samples/chart/legend/chart_with_customized_legend.dart';
 import 'package:flutter_examples/samples/chart/legend/chart_with_legend.dart';
 import 'package:flutter_examples/samples/chart/legend/legend_with_various_options.dart';
+import 'package:flutter_examples/samples/chart/pyramid_charts/default_pyramid_chart.dart';
+import 'package:flutter_examples/samples/chart/pyramid_charts/pyramid_with_legend.dart';
+import 'package:flutter_examples/samples/chart/pyramid_charts/pyramid_with_smart_labels.dart';
 import 'package:flutter_examples/samples/chart/series_features/animation/series_animation.dart';
+import 'package:flutter_examples/samples/chart/series_features/animation/dynamic_animation.dart';
 import 'package:flutter_examples/samples/chart/series_features/annotation/chart_with_annotation.dart';
 import 'package:flutter_examples/samples/chart/series_features/annotation/chart_with_watermark.dart';
 import 'package:flutter_examples/samples/chart/series_features/data_label/default_datalabels.dart';
 import 'package:flutter_examples/samples/chart/series_features/empty_point/chart_with_empty_points.dart';
 import 'package:flutter_examples/samples/chart/series_features/marker/various_marker_shapes.dart';
+import 'package:flutter_examples/samples/chart/axis_features/plot_band/Plot_band_recurrence.dart';
+import 'package:flutter_examples/samples/chart/axis_features/plot_band/plot_band.dart';
 import 'package:flutter_examples/samples/chart/series_features/sorting/sorting_options.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/crosshair/chart_with_crosshair.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/selection/selection_modes.dart';
@@ -87,6 +108,7 @@ import 'package:flutter_examples/samples/chart/user_interactions/trackball/chart
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/pinch_zooming.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/selection_zooming.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/zooming_with_custom_buttons.dart';
+import 'package:flutter_examples/samples/chart/home/radial_gauge.dart';
 import 'model.dart';
 
 void onTapControlItem(
@@ -117,6 +139,24 @@ void onTapControlItem(
         MaterialPageRoute<dynamic>(
             builder: (BuildContext context) => CircularTypes()));
   }
+  if (sample.title == 'Radial Gauge') {
+    Navigator.push<dynamic>(
+        context,
+        MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => RadialGaugeExamples()));
+  }
+  if (sample.title == 'Pyramid Chart') {
+    Navigator.push<dynamic>(
+        context,
+        MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => PyramidFeatures()));
+  }
+  if (sample.title == 'Funnel Chart') {
+    Navigator.push<dynamic>(
+        context,
+        MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => FunnelCharts()));
+  }
   if (sample.title == 'Series Features') {
     Navigator.push<dynamic>(
         context,
@@ -141,6 +181,9 @@ void onTapControlItem(
         MaterialPageRoute<dynamic>(
             builder: (BuildContext context) => DynamicUpdates()));
   }
+}
+
+class PyramidType {
 }
 
 void onTapSampleItem(BuildContext context, SubItemList sample) {
@@ -326,6 +369,47 @@ void onTapSampleItem(BuildContext context, SubItemList sample) {
           MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => StepLineVertical(sample)));
     }
+  } else if (sample.category == 'Range Column') {
+    if (sample.title == 'Default range column chart') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RangeColumnDefault(sample)));
+    } else if (sample.title == 'Transposed range column') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RangeBarChart(sample)));
+    } else if (sample.title == 'Range column with track') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RangeColumnWithTrack(sample)));
+    }
+  }
+  else if (sample.category == 'Stacked Charts') {
+    if (sample.title == 'Stacked bar chart') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => StackedBarChart(sample)));
+    } else if (sample.title == 'Stacked column chart') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => StackedColumnChart(sample)));
+    }
+    else if (sample.title == 'Stacked area chart') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => StackedAreaChart(sample)));
+    } else if (sample.title == 'Stacked line chart') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => StackedLineChart(sample)));
+    }
   }
   //......................Cartesian Charts End...............................//
 
@@ -377,6 +461,21 @@ void onTapSampleItem(BuildContext context, SubItemList sample) {
           MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => DateTimeLabel(sample)));
     }
+  } else if (sample.category == 'Logarithmic') {
+    if (sample.title == 'Default logarithmic axis') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  LogarithmicAxisDefault(sample)));
+    }
+    else if (sample.title == 'Inversed logarithmic axis') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  LogarithmicAxisInversed(sample)));
+    }
   } else if (sample.category == 'Axis Features') {
     if (sample.title == 'Opposed axes') {
       Navigator.push<dynamic>(
@@ -398,6 +497,11 @@ void onTapSampleItem(BuildContext context, SubItemList sample) {
           context,
           MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => EdgeLabel(sample)));
+    } else if (sample.title == 'Axis crossing') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => AxisCrossing(sample)));
     }
   }
 
@@ -480,6 +584,45 @@ void onTapSampleItem(BuildContext context, SubItemList sample) {
   }
 
   //......................End Circular Types...............................//
+
+  //......................Triangular Types...............................//
+  else if (sample.category == 'Pyramid') {
+    if (sample.title == 'Default pyramid chart') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => PyramidDefault(sample)));
+    } else if (sample.title == 'Pyramid with smart labels') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => PyramidSmartLabels(sample)));
+    } else if (sample.title == 'Pyramid with legend') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => PyramidLegend(sample)));
+    }
+  } else if (sample.category == 'Funnel') {
+    if (sample.title == 'Default funnel chart') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => FunnelDefault(sample)));
+    } else if (sample.title == 'Funnel with smart labels') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => FunnelSmartLabels(sample)));
+    } else if (sample.title == 'Funnel with legend') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => FunnelLegend(sample)));
+    }
+  }
+
+  //......................End Triangular Types..................................//
 
   //......................Dynamic Updates..................................//
 
@@ -580,12 +723,31 @@ void onTapSampleItem(BuildContext context, SubItemList sample) {
           MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => SortingDefault(sample)));
     }
+  } else if (sample.category == 'Axis Features') {
+    if (sample.title == 'Plot band') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => PlotBandDefault(sample)));
+    } else if (sample.title == 'Plot band recurrence') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => PlotBandRecurrence(sample)));
+    }
   } else if (sample.category == 'Animation') {
     if (sample.title == 'Series animation') {
       Navigator.push<dynamic>(
           context,
           MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => AnimationDefault(sample)));
+    }
+    if (sample.title == 'Dynamic update') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  CartesianDynamicAnimation(sample)));
     }
   }
 
@@ -640,4 +802,20 @@ void onTapSampleItem(BuildContext context, SubItemList sample) {
     }
   }
 }
+
+String getStatus(List<SubItemList> model) {
+    int newCount = 0;
+    int updateCount = 0;
+    for (int i = 0; i < model.length;
+        i++) {
+      if (model.length > 0 && model[i].status!=null) {
+            if(model[i].status == 'New'){
+              newCount++;
+            }else if(model[i].status == 'Updated'){
+              updateCount++;
+            } 
+      }
+    }
+    return (newCount == model.length) ? 'N' : (newCount!=0 || updateCount!=0) ? 'U' : '';    
+  }
 //......................End User Interactions......................................//
