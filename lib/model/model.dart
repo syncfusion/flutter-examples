@@ -98,6 +98,34 @@ import 'package:flutter_examples/samples/chart/user_interactions/trackball/chart
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/pinch_zooming.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/selection_zooming.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/zooming_with_custom_buttons.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/default_gauge_view.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/multiple_axis.dart';
+import 'package:flutter_examples/samples/gauge/ranges/range_thickness.dart';
+import 'package:flutter_examples/samples/gauge/ranges/range_dataLabel.dart';
+import 'package:flutter_examples/samples/gauge/pointers/multiple_ranges.dart';
+import 'package:flutter_examples/samples/gauge/showcase/gauge_overview.dart';
+import 'package:flutter_examples/samples/gauge/showcase/distance_tracker.dart';
+import 'package:flutter_examples/samples/gauge/showcase/clock_sample.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_bounceout.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_easeanimation.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_easeincirc.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_linearanimation.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_elasticout.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_slowmiddle.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_easeout.dart';
+import 'package:flutter_examples/samples/gauge/ranges/multiple_ranges.dart';
+import 'package:flutter_examples/samples/gauge/pointers/multiple_needle.dart';
+import 'package:flutter_examples/samples/gauge/pointers/radial_marker.dart';
+import 'package:flutter_examples/samples/gauge/pointers/text_pointer.dart';
+import 'package:flutter_examples/samples/gauge/annotation/image_annotation.dart';
+import 'package:flutter_examples/samples/gauge/annotation/text_annotation.dart';
+import 'package:flutter_examples/samples/gauge/annotation/direction_compass.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/radiallabel_customization.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/tick_customization.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/non_linearlabel.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/custom_labels.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/range_colors.dart';
+import 'package:flutter_examples/samples/gauge/pointer_interaction/radial_pointerdragging.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class SampleList {
@@ -207,7 +235,15 @@ class SampleListModel extends Model {
   List<SubItemList> pyramidSeriesSubItemList;
   List<SubItemList> funnelSeriesSubItemList;
 
- 
+  //Radial gauge examples
+  List<List<SubItemList>> radialGaugeSubItemList;
+  List<SubItemList> radialAxisSubItemList;
+  List<SubItemList> radialPointersSubItemList;
+  List<SubItemList> radialRangesSubItemList;
+  List<SubItemList> radialAnnotationSubItemList;
+  List<SubItemList> radialInteractionSubItemList;
+  List<SubItemList> radialAnimationSubItemList;
+  List<SubItemList> radialShowCaseSubItemList;
 
   SampleListModel() {
     controlList = <SampleList>[];
@@ -981,6 +1017,221 @@ class SampleListModel extends Model {
        'New'
     ));
 
+    // Radial gauge example
+
+    //Radial gauge examples
+    radialGaugeSubItemList = <List<SubItemList>>[];
+
+    //Radial gauge categories
+    radialAxisSubItemList = <SubItemList>[];
+    radialPointersSubItemList= <SubItemList>[];
+    radialRangesSubItemList = <SubItemList>[];
+    radialAnnotationSubItemList = <SubItemList>[];
+    radialInteractionSubItemList= <SubItemList>[];
+    radialShowCaseSubItemList = <SubItemList>[];
+    radialAnimationSubItemList = <SubItemList>[];
+
+    radialShowCaseSubItemList.add(SubItemList(
+      'Showcase',
+      'Clock',
+      '',
+      'images/axes.png',
+      getClockExample(isTileView),
+    ));
+    radialShowCaseSubItemList.add(SubItemList(
+      'Showcase',
+      'Temperature Monitor',
+      '',
+      'images/axes.png',
+      getGaugeOverviewExample(isTileView),
+    ));
+
+    radialShowCaseSubItemList.add(SubItemList(
+      'Showcase',
+      'Distance Tracker',
+      '',
+      'images/axes.png',
+      getDistanceTrackerExample(isTileView),
+    ));
+    radialAxisSubItemList.add(SubItemList(
+      'Axis',
+      'Default view',
+      '',
+      'images/axes.png',
+      getDefaultRadialGauge(isTileView),
+    ));
+
+    radialAxisSubItemList.add(SubItemList(
+      'Axis',
+      'Multiple axis',
+      '',
+      'images/axes.png',
+      getMultipleAxisGauge(isTileView),
+    ));
+    radialAxisSubItemList.add(SubItemList(
+      'Axis',
+      'Label Customization',
+      '',
+      'images/axes.png',
+      getRadialLabelCustomization(isTileView),
+    ));
+    radialAxisSubItemList.add(SubItemList(
+      'Axis',
+      'Tick Customization',
+      '',
+      'images/axes.png',
+      getRadialTickCustomization(isTileView),
+    ));
+    radialAxisSubItemList.add(SubItemList(
+      'Axis',
+      'Custom Scale',
+      '',
+      'images/axes.png',
+      getRadialNonLinearLabel(isTileView),
+    ));
+    radialAxisSubItemList.add(SubItemList(
+      'Axis',
+      'Custom Labels',
+      '',
+      'images/axes.png',
+      getGaugeCustomLabels(isTileView),
+    ));
+    radialAxisSubItemList.add(SubItemList(
+      'Axis',
+      'Range colors for axis',
+      '',
+      'images/axes.png',
+      getRangeColorForLabels(isTileView),
+    ));
+    radialPointersSubItemList.add(SubItemList(
+      'Pointers',
+      'Range Pointer',
+      '',
+      'images/axes.png',
+      getMultipleRangePointerExampleGauge(isTileView),
+    ));
+
+    radialPointersSubItemList.add(SubItemList(
+      'Pointers',
+      'Multiple Needle',
+      '',
+      'images/axes.png',
+      getMultipleNeedleExample(isTileView),
+    ));
+    radialPointersSubItemList.add(SubItemList(
+      'Pointers',
+      'Marker Pointer',
+      '',
+      'images/axes.png',
+      getRadialMarkerExample(isTileView),
+    ));
+    radialPointersSubItemList.add(SubItemList(
+      'Pointers',
+      'Text Pointer',
+      '',
+      'images/axes.png',
+      getRadialTextPointer(isTileView),
+    ));
+    radialRangesSubItemList.add(SubItemList(
+      'Range',
+      'Multiple Ranges',
+      '',
+      'images/axes.png',
+      getMultipleRangesExampleGauge(isTileView),
+    ));
+    radialRangesSubItemList.add(SubItemList(
+      'Range',
+      'Range Thickness',
+      '',
+      'images/axes.png',
+      getRangeThicknessExampleGauge(isTileView),
+    ));
+    radialRangesSubItemList.add(SubItemList(
+      'Range',
+      'Data label',
+      '',
+      'images/axes.png',
+      getRangeDataLabelExample(isTileView),
+    ));
+    radialAnnotationSubItemList.add(SubItemList(
+      'Gauge Annotation',
+      'Direction Compass',
+      '',
+      'images/axes.png',
+      getRadialCompass(isTileView),
+    ));
+    radialAnnotationSubItemList.add(SubItemList(
+      'Gauge Annotation',
+      'Text Annotation',
+      '',
+      'images/axes.png',
+      getRadialTextAnnotation(isTileView),
+    ));
+    radialAnnotationSubItemList.add(SubItemList(
+      'Gauge Annotation',
+      'Temperature Tracker',
+      '',
+      'images/axes.png',
+      getRadialImageAnnotation(isTileView),
+    ));
+    radialInteractionSubItemList.add(SubItemList(
+      'Pointer Interaction',
+      'Pointer Dragging',
+      '',
+      'images/axes.png',
+      getRadialPointerDragging(isTileView),
+    ));
+
+    radialAnimationSubItemList.add(SubItemList(
+      'Pointer Animation',
+      'Bounce Out',
+      '',
+      'images/axes.png',
+      getRadialBounceOutExample(isTileView),
+    ));
+    radialAnimationSubItemList.add(SubItemList(
+      'Pointer Animation',
+      'Ease',
+      '',
+      'images/axes.png',
+      getRadialEaseExample(isTileView),
+    ));
+    radialAnimationSubItemList.add(SubItemList(
+      'Pointer Animation',
+      'Linear',
+      '',
+      'images/axes.png',
+      getRadialLinearAnimation(isTileView),
+    ));
+    radialAnimationSubItemList.add(SubItemList(
+      'Pointer Animation',
+      'EaseInCirc',
+      '',
+      'images/axes.png',
+      getRadialEaseInCircExample(isTileView),
+    ));
+    radialAnimationSubItemList.add(SubItemList(
+      'Pointer Animation',
+      'ElasticOut',
+      '',
+      'images/axes.png',
+      getRadialElasticOutAnimation(isTileView),
+    ));
+    radialAnimationSubItemList.add(SubItemList(
+      'Pointer Animation',
+      'SlowMiddle',
+      '',
+      'images/axes.png',
+      getRadialSlowMiddleAnimation(isTileView),
+    ));
+    radialAnimationSubItemList.add(SubItemList(
+      'Pointer Animation',
+      'EaseOutBack',
+      '',
+      'images/axes.png',
+      getRadialEaseOutAnimation(isTileView),
+    ));
+
     cartesianSubItemList.add(lineSeriesSubItemList);
     cartesianSubItemList.add(columnSeriesSubItemList);
     cartesianSubItemList.add(splineSeriesSubItemList);
@@ -1016,6 +1267,22 @@ class SampleListModel extends Model {
     dynamicUpdatesSubItemList.add(liveUpdateSubItemList);
     dynamicUpdatesSubItemList.add(liveVerticalSubItemList);
     dynamicUpdatesSubItemList.add(randomUpdateDataSubItemList);
+
+    // To add radial gauge categories
+    radialGaugeSubItemList.add(radialShowCaseSubItemList);
+    radialGaugeSubItemList.add(radialAxisSubItemList);
+    radialGaugeSubItemList.add(radialPointersSubItemList);
+    radialGaugeSubItemList.add(radialRangesSubItemList);
+    radialGaugeSubItemList.add(radialAnnotationSubItemList);
+    radialGaugeSubItemList.add(radialInteractionSubItemList);
+    radialGaugeSubItemList.add(radialAnimationSubItemList);
+  
+   controlList.add(SampleList(
+        'Radial Gauge',
+        'Demos of radial gauges and its feature',
+        'images/circle_gauge.png',
+        radialGaugeSubItemList,
+        'New'));
 
     controlList.add(SampleList(
         'Cartesian Charts',
