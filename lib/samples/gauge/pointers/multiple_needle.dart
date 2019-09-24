@@ -76,7 +76,6 @@ class _MultipleNeedleExampleState extends State<MultipleNeedleExample> {
             sideDrawer: null,
             headerClosingHeight: 350,
             titleVisibleOnPanelClosed: true,
-            color: model.cardThemeColor,
             borderRadius: BorderRadius.vertical(
                 top: Radius.circular(12), bottom: Radius.circular(0)),
           ),

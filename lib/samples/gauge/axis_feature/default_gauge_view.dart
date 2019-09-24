@@ -76,7 +76,6 @@ class _RadialGaugeDefaultState extends State<RadialGaugeDefault> {
             sideDrawer: null,
             headerClosingHeight: 350,
             titleVisibleOnPanelClosed: true,
-            color: model.cardThemeColor,
             borderRadius: BorderRadius.vertical(
                 top: Radius.circular(12), bottom: Radius.circular(0)),
           ),
