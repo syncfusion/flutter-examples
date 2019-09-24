@@ -15,6 +15,7 @@ dependencies:
   url_launcher: ^5.0.3
   intl: ^0.16.0
   syncfusion_flutter_charts: ^1.0.0-beta.5
+  syncfusion_flutter_gauges: ^1.0.0-beta
 
 dev_dependencies:
   flutter_test:
