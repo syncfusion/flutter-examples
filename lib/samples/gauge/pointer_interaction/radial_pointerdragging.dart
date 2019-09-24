@@ -62,7 +62,7 @@ class _RadialPointerDraggingState extends State<RadialPointerDragging> {
                         color: Colors.white),
                     onPressed: () {
                       launch(
-                          'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/pie_series/default_pie_chart.dart');
+                          'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/gauge/pointer_interaction/radial_pointerdragging.dart');
                     },
                   ),
                 ),
@@ -76,6 +76,7 @@ class _RadialPointerDraggingState extends State<RadialPointerDragging> {
             sideDrawer: null,
             headerClosingHeight: 350,
             titleVisibleOnPanelClosed: true,
+            color: model.cardThemeColor,
             borderRadius: BorderRadius.vertical(
                 top: Radius.circular(12), bottom: Radius.circular(0)),
           ),
@@ -103,6 +104,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(child: getRadialPointerDragging(false)),
