@@ -223,7 +223,6 @@ SfRadialGauge getMultipleRangePointerExampleGauge(bool isTileView) {
   );
 }
 
-double _position = 0.25;
 
 
 
