@@ -96,10 +96,6 @@ class _FrontPanelState extends State<FrontPanel> {
   _FrontPanelState(this.sample);
   @override
   Widget build(BuildContext context) {
-    setState((){
-      _position = MediaQuery.of(context).orientation == Orientation.portrait ? 0.2 : 0.33;
-    });
-
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
         builder: (context, _, model) {
@@ -223,7 +219,6 @@ SfRadialGauge getMultipleRangePointerExampleGauge(bool isTileView) {
   );
 }
 
-double _position = 0.25;
 
 
 

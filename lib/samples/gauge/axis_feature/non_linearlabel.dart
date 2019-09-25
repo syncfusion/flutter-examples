@@ -4,7 +4,6 @@ import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:intl/intl.dart' show NumberFormat;
 
 class RadialNonLinearLabel extends StatefulWidget {
   final SubItemList sample;
@@ -249,9 +248,7 @@ class CustomAxis extends RadialAxis{
         color: Colors.grey,
         thickness: 10,),
       radiusFactor: radiusFactor,
-  ){
-
-  }
+  );
 
   @override
   List<CircularAxisLabel> generateVisibleLabels(){
