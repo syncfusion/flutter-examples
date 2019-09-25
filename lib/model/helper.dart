@@ -920,7 +920,7 @@ void onTapSampleItem(BuildContext context, SubItemList sample) {
           MaterialPageRoute<dynamic>(
               builder: (BuildContext context) =>
                   MultipleRangesExample(sample)));
-    } else if (sample.title == 'Data label') {
+    } else if (sample.title == 'Range Label') {
       Navigator.push<dynamic>(
           context,
           MaterialPageRoute<dynamic>(
