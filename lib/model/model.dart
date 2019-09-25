@@ -1148,7 +1148,7 @@ class SampleListModel extends Model {
     ));
     radialRangesSubItemList.add(SubItemList(
       'Range',
-      'Data label',
+      'Range Label',
       '',
       'images/axes.png',
       getRangeDataLabelExample(isTileView),
