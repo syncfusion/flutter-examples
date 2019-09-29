@@ -109,6 +109,34 @@ import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/selection_zooming.dart';
 import 'package:flutter_examples/samples/chart/user_interactions/zooming_panning/zooming_with_custom_buttons.dart';
 import 'package:flutter_examples/samples/chart/home/radial_gauge.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/default_gauge_view.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/multiple_axis.dart';
+import 'package:flutter_examples/samples/gauge/ranges/range_thickness.dart';
+import 'package:flutter_examples/samples/gauge/ranges/range_dataLabel.dart';
+import 'package:flutter_examples/samples/gauge/pointers/multiple_ranges.dart';
+import 'package:flutter_examples/samples/gauge/showcase/gauge_overview.dart';
+import 'package:flutter_examples/samples/gauge/showcase/clock_sample.dart';
+import 'package:flutter_examples/samples/gauge/showcase/distance_tracker.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_bounceout.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_easeanimation.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_easeincirc.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_linearanimation.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_elasticout.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_slowmiddle.dart';
+import 'package:flutter_examples/samples/gauge/animation/radial_easeout.dart';
+import 'package:flutter_examples/samples/gauge/ranges/multiple_ranges.dart';
+import 'package:flutter_examples/samples/gauge/pointers/multiple_needle.dart';
+import 'package:flutter_examples/samples/gauge/pointers/radial_marker.dart';
+import 'package:flutter_examples/samples/gauge/pointers/text_pointer.dart';
+import 'package:flutter_examples/samples/gauge/annotation/image_annotation.dart';
+import 'package:flutter_examples/samples/gauge/annotation/text_annotation.dart';
+import 'package:flutter_examples/samples/gauge/annotation/direction_compass.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/radiallabel_customization.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/tick_customization.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/non_linearlabel.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/custom_labels.dart';
+import 'package:flutter_examples/samples/gauge/axis_feature/range_colors.dart';
+import 'package:flutter_examples/samples/gauge/pointer_interaction/radial_pointerdragging.dart';
 import 'model.dart';
 
 void onTapControlItem(
@@ -799,6 +827,180 @@ void onTapSampleItem(BuildContext context, SubItemList sample) {
           context,
           MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => DefaultSelection(sample)));
+    }
+  }
+
+
+//......................Radial Gauge...............................//
+  else if (sample.category == 'Showcase') {
+    if (sample.title == 'Clock') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => ClockExample(sample)));
+    } else if (sample.title == 'Temperature Monitor') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => GaugeOverviewExample(sample)));
+    } else if (sample.title == 'Distance Tracker') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  DistanceTrackerExample(sample)));
+    }
+  } else if (sample.category == 'Axis') {
+    if (sample.title == 'Default view') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RadialGaugeDefault(sample)));
+    } else if (sample.title == 'Multiple axis') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => MultipleAxisExample(sample)));
+    } else if (sample.title == 'Label Customization') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialLabelCustomization(sample)));
+    } else if (sample.title == 'Tick Customization') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialTickCustomization(sample)));
+    } else if (sample.title == 'Custom Scale') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RadialNonLinearLabel(sample)));
+    } else if (sample.title == 'Custom Labels') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => GaugeCustomLabels(sample)));
+    } else if (sample.title == 'Range colors for axis') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RangeColorForLabels(sample)));
+    }
+  } else if (sample.category == 'Pointers') {
+    if (sample.title == 'Range Pointer') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  MultipleRangePointerExample(sample)));
+    } else if (sample.title == 'Multiple Needle') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  MultipleNeedleExample(sample)));
+    } else if (sample.title == 'Marker Pointer') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RadialMarkerExample(sample)));
+    } else if (sample.title == 'Text Pointer') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RadialTextPointer(sample)));
+    }
+  } else if (sample.category == 'Range') {
+    if (sample.title == 'Multiple Ranges') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  MultipleRangesExample(sample)));
+    } else if (sample.title == 'Range Label') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RangeDataLabelExample(sample)));
+    } else if (sample.title == 'Range Thickness') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RangeThicknessExample(sample)));
+    }
+  } else if (sample.category == 'Gauge Annotation') {
+    if (sample.title == 'Temperature Tracker') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialImageAnnotation(sample)));
+    } else if (sample.title == 'Direction Compass') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RadialCompass(sample)));
+    } else if (sample.title == 'Text Annotation') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RadialTextAnnotation(sample)));
+    }
+  } else if (sample.category == 'Pointer Interaction') {
+    if (sample.title == 'Pointer Dragging') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialPointerDragging(sample)));
+    }
+  } else if (sample.category == 'Pointer Animation') {
+    if (sample.title == 'Bounce Out') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialBounceOutExample(sample)));
+    } else if (sample.title == 'Ease') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => RadialEaseExample(sample)));
+    } else if (sample.title == 'EaseInCirc') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialEaseInCircExample(sample)));
+    } else if (sample.title == 'Linear') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialLinearAnimation(sample)));
+    } else if (sample.title == 'ElasticOut') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialElasticOutAnimation(sample)));
+    } else if (sample.title == 'SlowMiddle') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialSlowMiddleAnimation(sample)));
+    } else if (sample.title == 'EaseOutBack') {
+      Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) =>
+                  RadialEaseOutAnimation(sample)));
     }
   }
 }
