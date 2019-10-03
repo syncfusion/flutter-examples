@@ -141,6 +141,7 @@ class _LiveVerticalState extends State<AddSeries> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -195,6 +196,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(child: getAddRemoveSeriesChart(false)),

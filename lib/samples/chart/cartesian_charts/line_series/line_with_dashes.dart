@@ -90,6 +90,7 @@ class _LineDashedState extends State<LineDashed> {
                 backLayer: BackPanel(sample),
                 frontLayer: FrontPanel(sample),
                 sideDrawer: null,
+                color: model.cardThemeColor,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 borderRadius: BorderRadius.vertical(
@@ -117,6 +118,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
             child: Container(child: getDashedLineChart(false)),

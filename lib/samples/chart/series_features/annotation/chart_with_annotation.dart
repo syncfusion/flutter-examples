@@ -94,6 +94,7 @@ class _AnnotationWatermarkState extends State<AnnotationWatermark> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -119,6 +120,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
             body: Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
               child: Container(child: getWatermarkAnnotationChart(false)),
@@ -223,7 +225,7 @@ SfCartesianChart getWatermarkAnnotationChart(bool isTileView) {
       series: getLineSeries(isTileView),
       annotations: <CartesianChartAnnotation>[
         CartesianChartAnnotation(
-            child: Container(
+            widget: Container(
                 height: isTileView ? 100 : 150,
                 width: isTileView ? 100 : 150,
                 child: SfCircularChart(
@@ -278,7 +280,7 @@ List<ColumnSeries<_ChartData, String>> getLineSeries(bool isTileView) {
             isVisible: true,
             textStyle: ChartTextStyle(
                 color: Colors.white, fontSize: isTileView ? 10 : 12),
-            position: CartesianLabelPosition.top)),
+            labelAlignment: ChartDataLabelAlignment.top)),
   ];
 }
 

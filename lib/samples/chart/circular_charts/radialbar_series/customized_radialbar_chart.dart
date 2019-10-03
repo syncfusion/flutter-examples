@@ -92,6 +92,7 @@ class _RadialBarCustomizedState extends State<RadialBarCustomized> {
                 frontLayer: FrontPanel(sample),
                 sideDrawer: null,
                 headerClosingHeight: 350,
+                color: model.cardThemeColor,
                 titleVisibleOnPanelClosed: true,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
@@ -118,6 +119,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
             child: Container(child: getCustomizedRadialBarChart(false)),
@@ -215,7 +217,7 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
     CircularChartAnnotation(
       angle: 0,
       radius: '0%',
-      child: Container(
+      widget: Container(
         child: new Image.asset(
           'images/car_legend.png',
           width: 20,
@@ -227,7 +229,7 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
     CircularChartAnnotation(
       angle: 0,
       radius: '0%',
-      child: Container(
+      widget: Container(
         child: new Image.asset(
           'images/book.png',
           width: 20,
@@ -239,7 +241,7 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
     CircularChartAnnotation(
       angle: 0,
       radius: '0%',
-      child: Container(
+      widget: Container(
         child: new Image.asset('images/home.png',
             width: 20, height: 20, color: Color.fromRGBO(145, 132, 202, 1.0)),
       ),
@@ -247,19 +249,19 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
     CircularChartAnnotation(
       angle: 0,
       radius: '0%',
-      child: Container(
+      widget: Container(
         child: new Image.asset(
           'images/personal_loan.png',
           width: 20,
           height: 20,
-          color: Color.fromRGBO(235, 96, 143, 1.0),
+          color: Color.fromRGBO(235, 96,  143, 1.0),
         ),
       ),
     ),
   ];
 
   dynamic colors = [
-    Color.fromRGBO(69, 186, 161, 1.0),
+    Color.fromRGBO(69,  186, 161, 1.0),
     Color.fromRGBO(230, 135, 111, 1.0),
     Color.fromRGBO(145, 132, 202, 1.0),
     Color.fromRGBO(235, 96, 143, 1.0)
@@ -318,7 +320,7 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
         radius: '0%',
         height: '90%',
         width:'90%',
-        child: Container(
+        widget: Container(
           child: new Image.asset(
             'images/person.png',
             height: 100.0,

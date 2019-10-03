@@ -78,6 +78,7 @@ class _FunnelSmartLabelState extends State<FunnelSmartLabels> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -97,7 +98,7 @@ class _FrontPanelState extends State<FrontPanel> {
   final SubItemList sample;
   _FrontPanelState(this.sample);
   final List<String> _labelPositon = <String>['outside', 'inside'].toList();
-  LabelPosition _selectedLabelPosition = LabelPosition.outside;
+  ChartDataLabelPosition _selectedLabelPosition = ChartDataLabelPosition.outside;
   String _selectedPosition;
 
   final List<String> _modeList = <String>['shift', 'none', 'hide'].toList();
@@ -108,7 +109,7 @@ class _FrontPanelState extends State<FrontPanel> {
   void initState() {
     super.initState();
     _selectedPosition = _labelPositon.first;
-    _selectedLabelPosition = LabelPosition.outside;
+    _selectedLabelPosition = ChartDataLabelPosition.outside;
   }
 
   @override
@@ -117,6 +118,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
@@ -143,9 +145,9 @@ class _FrontPanelState extends State<FrontPanel> {
     setState(() {
       _selectedPosition = item;
       if (_selectedPosition == 'inside') {
-        _selectedLabelPosition = LabelPosition.inside;
+        _selectedLabelPosition = ChartDataLabelPosition.inside;
       } else if (_selectedPosition == 'outside') {
-        _selectedLabelPosition = LabelPosition.outside;
+        _selectedLabelPosition = ChartDataLabelPosition.outside;
       }
     });
   }
@@ -408,7 +410,7 @@ class _BackPanelState extends State<BackPanel> {
 }
 
 SfFunnelChart getFunnelSmartLabelChart(bool isTileView,
-    [LabelPosition _labelPosition, SmartLabelMode _mode]) {
+    [ChartDataLabelPosition _labelPosition, SmartLabelMode _mode]) {
   return SfFunnelChart(
     smartLabelMode: isTileView ? SmartLabelMode.shift : _mode,
     title: ChartTitle(text: isTileView ? '' : 'Tournament details'),
@@ -423,7 +425,7 @@ SfFunnelChart getFunnelSmartLabelChart(bool isTileView,
 }
 
 FunnelSeries<_FunnelData, String> _getFunnelSeries(bool isTileView,
-    [LabelPosition _labelPosition]) {
+    [ChartDataLabelPosition _labelPosition]) {
   final List<_FunnelData> pieData = <_FunnelData>[
     _FunnelData('Finals', 2),
     _FunnelData('Semifinals', 4),
@@ -442,7 +444,7 @@ FunnelSeries<_FunnelData, String> _getFunnelSeries(bool isTileView,
       //  pointColorMapper: (_FunnelData data, _) => data.color,
       dataLabelSettings: DataLabelSettings(
           isVisible: true,
-          labelPosition: isTileView ? LabelPosition.outside : _labelPosition,
+          labelPosition: isTileView ? ChartDataLabelPosition.outside : _labelPosition,
           useSeriesColor: true));
 }
 

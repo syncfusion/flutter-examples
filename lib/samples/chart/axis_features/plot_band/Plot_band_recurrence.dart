@@ -96,6 +96,7 @@ class _PlotBandRecurrenceState extends State<PlotBandRecurrence> {
                 frontLayer: FrontPanel(sample),
                 sideDrawer: null,
                 headerClosingHeight: 350,
+                color: model.cardThemeColor,
                 titleVisibleOnPanelClosed: true,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
@@ -130,6 +131,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+             backgroundColor:model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 60),
                 child: Container(
@@ -354,7 +356,7 @@ SfCartesianChart getPlotBandRecurrenceChart(bool isTileView,
               repeatUntil: DateTime(2010, 1, 1),
               start: DateTime(1965, 1, 1),
               end: DateTime(2010, 1, 1),
-              shouldRenderAboveSeries:true,
+              shouldRenderAboveSeries:false,
               color: Color.fromRGBO(227, 228, 230, 0.4))
         ]),
     primaryYAxis: NumericAxis(
@@ -371,7 +373,7 @@ SfCartesianChart getPlotBandRecurrenceChart(bool isTileView,
               start: 0,
               end: 18000,
               repeatUntil: 18000,
-              shouldRenderAboveSeries:true,
+              shouldRenderAboveSeries:false,
               color: Color.fromRGBO(227, 228, 230, 0.1))
         ],
         majorGridLines: MajorGridLines(color: Colors.grey),

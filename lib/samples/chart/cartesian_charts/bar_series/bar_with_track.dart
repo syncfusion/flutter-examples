@@ -94,6 +94,7 @@ class _BarTrackerState extends State<BarTracker> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -119,6 +120,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
             child: Container(child: getTrackerBarChart(false)),
@@ -239,7 +241,7 @@ List<BarSeries<_TrackerData, String>> getBarSeries(bool isTileView) {
       trackColor: Color.fromRGBO(198, 201, 207, 1),
       isTrackVisible: true,
       dataLabelSettings: DataLabelSettings(
-          isVisible: true, position: CartesianLabelPosition.top),
+          isVisible: true, labelAlignment: ChartDataLabelAlignment.top),
       xValueMapper: (_TrackerData sales, _) => sales.employeeName,
       yValueMapper: (_TrackerData sales, _) => sales.hours,
     ),

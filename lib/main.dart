@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/sample_browser.dart';
+import 'package:syncfusion_flutter_core/core.dart';
 
-main() => runApp(SampleBrowser());
+void main() {
+  SyncfusionLicense.registerLicense(null);
+  return runApp(SampleBrowser());
+}

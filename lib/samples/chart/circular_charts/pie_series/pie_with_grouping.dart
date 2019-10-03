@@ -91,6 +91,7 @@ class _PieGroupingState extends State<PieGrouping> {
                 frontLayer: FrontPanel(sample),
                 sideDrawer: null,
                 headerClosingHeight: 350,
+                color: model.cardThemeColor,
                 titleVisibleOnPanelClosed: true,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
@@ -117,6 +118,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
             child: Container(child: getGroupingPieChart(false)),
@@ -229,7 +231,7 @@ List<PieSeries<_PieData, String>> getPieSeries(bool isTileView) {
         radius: '90%',
         dataLabelMapper: (_PieData data, _) => data.xData,
         dataLabelSettings: DataLabelSettings(
-            isVisible: true, labelPosition: LabelPosition.inside),
+            isVisible: true, labelPosition: ChartDataLabelPosition.inside),
         dataSource: pieData,
         startAngle: 90,
         endAngle: 90,

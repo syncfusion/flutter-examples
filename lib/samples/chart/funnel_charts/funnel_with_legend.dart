@@ -76,6 +76,7 @@ class _FunnelLegendState extends State<FunnelLegend> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -100,6 +101,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
             child: Container(child: getLegendFunnelChart(false)),
@@ -213,7 +215,7 @@ FunnelSeries<_FunnelData, String> _getFunnelSeries(bool isTileView) {
         yValueMapper: (_FunnelData data, _) => data.yData,
         dataLabelSettings: DataLabelSettings(
             isVisible: isTileView ? false : true,
-            labelPosition: LabelPosition.inside));
+            labelPosition: ChartDataLabelPosition.inside));
 }
 
 class _FunnelData {

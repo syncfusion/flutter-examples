@@ -95,6 +95,7 @@ class _ColumnVerticalState extends State<ColumnVertical> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -120,6 +121,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
             body: Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
               child: Container(child: getVerticalColumnChart(false)),
@@ -259,7 +261,7 @@ List<CustomColumnSeries<_ChartData, String>> getVerticalData(bool isTileView) {
       enableTooltip: true,
       isTrackVisible: false,
       dataLabelSettings: DataLabelSettings(
-          isVisible: true, position: CartesianLabelPosition.middle),
+          isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
       dataSource: chartData,
       width: 0.8,
       xValueMapper: (_ChartData sales, _) => sales.x,

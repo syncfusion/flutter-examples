@@ -7,21 +7,17 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  flutter_test:
+    sdk: flutter
   flutter:
     sdk: flutter
-  cupertino_icons: ^0.1.2
   scoped_model: 1.0.1
   flutter_gallery_assets: 0.1.8
   url_launcher: ^5.0.3
   intl: ^0.16.0
-  syncfusion_flutter_charts: ^1.0.0-beta.5
-  syncfusion_flutter_gauges: ^1.0.0-beta
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-
+  syncfusion_flutter_charts: ^17.3.14
+  syncfusion_flutter_gauges: ^17.3.14
+       
 flutter:
   uses-material-design: true
   assets:

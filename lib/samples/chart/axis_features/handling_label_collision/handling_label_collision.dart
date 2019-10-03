@@ -94,6 +94,7 @@ class _LabelActionState extends State<LabelAction> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -135,6 +136,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+             backgroundColor:model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
@@ -432,7 +434,7 @@ List<ColumnSeries<_ChartData, String>> getLineSeries(bool isTileView) {
         xValueMapper: (_ChartData data, _) => data.xVal,
         yValueMapper: (_ChartData data, _) => data.yVal,
         dataLabelSettings: DataLabelSettings(
-            isVisible: true, position: CartesianLabelPosition.top))
+            isVisible: true, labelAlignment: ChartDataLabelAlignment.top))
   ];
 }
 

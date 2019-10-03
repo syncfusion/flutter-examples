@@ -75,6 +75,7 @@ class _RadialNonLinearLabelState extends State<RadialNonLinearLabel> {
             frontLayer: FrontPanel(sample),
             sideDrawer: null,
             headerClosingHeight: 350,
+            color: model.cardThemeColor,
             titleVisibleOnPanelClosed: true,
             borderRadius: BorderRadius.vertical(
                 top: Radius.circular(12), bottom: Radius.circular(0)),

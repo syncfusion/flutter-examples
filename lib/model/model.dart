@@ -1387,15 +1387,16 @@ class SampleListModel extends Model {
           drawerTextIconColor = Colors.white;
           drawerIconColor = Colors.white;
           slidingPanelColor = Color.fromRGBO(32, 33, 37, 1);
-          drawerBackgroundColor = Color.fromRGBO(32, 33, 37, 1);
-          bottomSheetBackgroundColor = Color.fromRGBO(64, 64, 64, 1);
+          drawerBackgroundColor = Colors.black;
+          bottomSheetBackgroundColor = Color.fromRGBO(34, 39, 51, 1);
           backgroundColor = paletteColor ?? Color.fromRGBO(0, 116, 228, 1);
           listIconColor = paletteColor ?? Colors.white;
           searchBoxColor = Colors.white;
-          listDescriptionTextColor = Colors.white;
-          textColor = Colors.white;
+          listDescriptionTextColor = Color.fromRGBO(242,242,242,1);
+          textColor = Color.fromRGBO(242,242,242,1);
           theme = Brightness.dark;
-          cardThemeColor = Colors.black.withOpacity(0.7);
+          // cardThemeColor = Colors.black.withOpacity(0.7);
+          cardThemeColor = Color.fromRGBO(23,27,36,1);
           break;
         }
       default:

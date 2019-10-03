@@ -76,6 +76,7 @@ class _DoughnutDefaultState extends State<DoughnutCustomization> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -101,6 +102,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
             child: Container(child: getDoughnutCustomizationChart(false)),
@@ -190,7 +192,7 @@ SfCircularChart getDoughnutCustomizationChart(bool isTileView) {
   return SfCircularChart(
     annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
-          child: Container(
+          widget: Container(
               child: const Text('90%',
                   style: TextStyle(
                       color: Colors.grey, fontSize: 25))))
