@@ -79,6 +79,7 @@ class _ColumnRoundedState extends State<ColumnRounded> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -104,6 +105,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
             body: Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
               child: Container(child: getRoundedColumnChart(false)),
@@ -221,7 +223,7 @@ SfCartesianChart getRoundedColumnChart(bool isTileView) {
     primaryXAxis: CategoryAxis(
       labelStyle: ChartTextStyle(color: Colors.white),
       axisLine: AxisLine(width: 0),
-      labelPosition: LabelPosition.inside,
+      labelPosition: ChartDataLabelPosition.inside,
       majorTickLines: MajorTickLines(width: 0),
       majorGridLines: MajorGridLines(width: 0),
     ),
@@ -248,7 +250,7 @@ List<ColumnSeries<_ChartData, String>> getColumnSeries(bool isTileView) {
       enableTooltip: true,
       width: 0.9,
       dataLabelSettings: DataLabelSettings(
-          isVisible: true, position: CartesianLabelPosition.top),
+          isVisible: true, labelAlignment: ChartDataLabelAlignment.top),
       dataSource: chartData,
       borderRadius: BorderRadius.circular(10),
       xValueMapper: (_ChartData sales, _) => sales.x,

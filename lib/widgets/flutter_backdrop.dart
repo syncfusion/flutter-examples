@@ -69,6 +69,8 @@ class Backdrop extends StatefulWidget {
   /// of the app.
   final Widget appBarTitle;
 
+  final Color color;
+
   /// Widgets to display after the [appBarTitle] widget.
   ///
   /// Typically these widgets are [IconButton]s representing common operations.
@@ -157,6 +159,7 @@ class Backdrop extends StatefulWidget {
     this.titleVisibleOnPanelClosed = true,
     this.frontPanelPadding = EdgeInsets.zero,
     this.toggleFrontLayer = true,
+    this.color,
 
     //--------Appbar properties------------
     this.appBarLeadingMenuIcon,
@@ -394,6 +397,7 @@ class BackdropState extends State<Backdrop>
                     frontHeader: widget.frontHeader,
                     frontHeaderHeight: widget.frontHeaderHeight,
                     padding: widget.frontPanelPadding,
+                    color: widget.color,
                     child: widget.frontLayer,
                   ),
                 )
@@ -481,6 +485,7 @@ class BackdropPanel extends StatelessWidget {
   final ShapeBorder shape;
   final double frontHeaderHeight;
   final EdgeInsets padding;
+  final Color color;
 
   const BackdropPanel({
     Key key,
@@ -493,6 +498,7 @@ class BackdropPanel extends StatelessWidget {
     this.borderRadius,
     this.frontHeaderHeight,
     this.padding,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -500,6 +506,7 @@ class BackdropPanel extends StatelessWidget {
     return Padding(
       padding: padding,
       child: Material(
+        color: color,
         elevation: 12.0,
         borderRadius: borderRadius,
         shape: shape,

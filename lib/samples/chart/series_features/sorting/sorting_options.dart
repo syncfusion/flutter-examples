@@ -96,6 +96,7 @@ class _SortingDefaultState extends State<SortingDefault> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -133,6 +134,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 60),
                 child: Container(
@@ -478,7 +480,7 @@ List<BarSeries<_SortingData, String>> getLineSeries(bool isTileView,
       yValueMapper: (_SortingData sales, _) => sales.height,
       sortingOrder: _sortingOrder != null ? _sortingOrder : SortingOrder.none,
       dataLabelSettings: DataLabelSettings(
-          isVisible: true, position: CartesianLabelPosition.auto),
+          isVisible: true, labelAlignment: ChartDataLabelAlignment.auto),
       sortFieldValueMapper: (_SortingData sales, _) =>
           _sortby == 'x' ? sales.name : sales.height,
     )

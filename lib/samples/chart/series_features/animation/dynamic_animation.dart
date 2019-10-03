@@ -7,6 +7,7 @@ import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+Timer timer;
 
 class CartesianDynamicAnimation extends StatefulWidget {
   final SubItemList sample;
@@ -22,6 +23,7 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
   _CartesianDynamicAnimationState(this.sample);
   bool panelOpen;
   final frontPanelVisible = ValueNotifier<bool>(true);
+  
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
   @override
   void dispose() {
     super.dispose();
+    timer.cancel();
   }
 
   @override
@@ -52,11 +55,12 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
                 sampleListModel: model,
+                toggleFrontLayer: false,
                 frontPanelOpenPercentage: 0.28,
                 appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
                 appBarActions: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Container(
                       height: 40,
                       width: 40,
@@ -70,23 +74,7 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.informationIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          if (frontPanelVisible.value)
-                            frontPanelVisible.value = false;
-                          else
-                            frontPanelVisible.value = true;
-                        },
-                      ),
-                    ),
-                  ),
+               
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -96,6 +84,7 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
                 sideDrawer: null,
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
+                color: model.cardThemeColor,
                 borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
@@ -141,7 +130,6 @@ class _FrontPanelState extends State<FrontPanel> {
 
   String _selectedType = 'Column';
 
-  Timer timer;
 
   @override
   Widget build(BuildContext context) {
@@ -155,6 +143,7 @@ class _FrontPanelState extends State<FrontPanel> {
         rebuildOnChange: true,
         builder: (context, _, model) {
           return Scaffold(
+            backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
@@ -538,7 +527,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
         dataLabelSettings: DataLabelSettings(
             color: Colors.blue,
             alignment: ChartAlignment.center,
-            position: CartesianLabelPosition.auto,
+            labelAlignment: ChartDataLabelAlignment.auto,
             isVisible: false),
         markerSettings: MarkerSettings(
             isVisible: false,
@@ -560,7 +549,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
         dataLabelSettings: DataLabelSettings(
             color: Colors.blue,
             alignment: ChartAlignment.center,
-            position: CartesianLabelPosition.auto,
+            labelAlignment: ChartDataLabelAlignment.auto,
             isVisible: false),
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         markerSettings: MarkerSettings(
@@ -577,14 +566,13 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
     return <ScatterSeries<_DynamicData, String>>[
       ScatterSeries<_DynamicData, String>(
         dataSource: chartData,
-        width: 2,
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
         color: Color.fromRGBO(0, 168, 181, 1),
         dataLabelSettings: DataLabelSettings(
             color: Colors.blue,
             alignment: ChartAlignment.center,
-            position: CartesianLabelPosition.auto,
+            labelAlignment: ChartDataLabelAlignment.auto,
             isVisible: false),
         markerSettings: MarkerSettings(
             isVisible: false,
@@ -601,14 +589,13 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
       BubbleSeries<_DynamicData, String>(
         dataSource: chartData,
          color: Color.fromRGBO(0, 168, 181, 1),
-        width: 2,
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
         sizeValueMapper: (_DynamicData sales, _) => sales.sales,
         dataLabelSettings: DataLabelSettings(
             color: Colors.blue,
             alignment: ChartAlignment.center,
-            position: CartesianLabelPosition.auto,
+            labelAlignment: ChartDataLabelAlignment.auto,
             isVisible: false),
         markerSettings: MarkerSettings(
             isVisible: false,
