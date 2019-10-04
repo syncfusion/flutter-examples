@@ -64,7 +64,7 @@ class _FunnelSmartLabelState extends State<FunnelSmartLabels> {
                             color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/pie_series/default_pie_chart.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/funnel_charts/funnel_with_smart_labels.dart');
                         },
                       ),
                     ),

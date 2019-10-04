@@ -64,7 +64,7 @@ class _PlotBandDefaultState extends State<PlotBandDefault> {
                             Image.asset('images/code.png', color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/sorting/sorting_options.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/plot_band/plot_band.dart');
                         },
                       ),
                     ),

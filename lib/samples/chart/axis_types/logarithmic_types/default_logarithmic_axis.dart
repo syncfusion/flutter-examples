@@ -66,7 +66,7 @@ class _LogarithmicAxisDefaultState extends State<LogarithmicAxisDefault> {
                             color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/logarithmic_type/default_logarithmic_axis.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/logarithmic_types/default_logarithmic_axis.dart');
                         },
                       ),
                     ),
