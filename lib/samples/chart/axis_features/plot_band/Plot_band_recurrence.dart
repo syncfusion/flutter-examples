@@ -64,7 +64,7 @@ class _PlotBandRecurrenceState extends State<PlotBandRecurrence> {
                             Image.asset('images/code.png', color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/sorting/sorting_options.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/plot_band/Plot_band_recurrence.dart');
                         },
                       ),
                     ),
