@@ -69,7 +69,7 @@ class _AxisCrossingState extends State<AxisCrossing> {
                             color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/rangecolumn_series/axis_crossing.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/axis_crossing/axis_crossing.dart');
                         },
                       ),
                     ),

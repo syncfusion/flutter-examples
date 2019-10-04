@@ -65,7 +65,7 @@ class _StackedColumnChartState extends State<StackedColumnChart> {
                             color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/rangecolumn_series/stacked_column_chart.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/stacked_series/stacked_column_chart.dart');
                         },
                       ),
                     ),

@@ -69,7 +69,7 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
                             color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/handling_label_collision/handling_label_collision.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/animation/dynamic_animation.dart');
                         },
                       ),
                     ),

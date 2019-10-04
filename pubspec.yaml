@@ -16,7 +16,7 @@ dependencies:
   url_launcher: ^5.0.3
   intl: ^0.16.0
   syncfusion_flutter_charts: ^17.3.14
-  syncfusion_flutter_gauges: ^17.3.14
+  syncfusion_flutter_gauges: 17.3.14-beta.1
        
 flutter:
   uses-material-design: true

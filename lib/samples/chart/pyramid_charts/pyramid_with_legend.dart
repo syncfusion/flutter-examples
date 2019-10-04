@@ -62,7 +62,7 @@ class _PyramidLegendState extends State<PyramidLegend> {
                             color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/pie_series/default_pie_chart.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/pyramid_charts/pyramid_with_legend.dart');
                         },
                       ),
                     ),

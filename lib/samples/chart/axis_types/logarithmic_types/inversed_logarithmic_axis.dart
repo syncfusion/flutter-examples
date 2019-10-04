@@ -67,7 +67,7 @@ class _LogarithmicAxisInversedState extends State<LogarithmicAxisInversed> {
                             color: Colors.white),
                         onPressed: () {
                           launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/logarithmic_type/inversed_logarithmic_axis.dart');
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/logarithmic_types/inversed_logarithmic_axis.dart');
                         },
                       ),
                     ),
