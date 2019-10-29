@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math' as Math;
+import 'dart:math' as math;
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
@@ -8,9 +8,9 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LiveUpdate extends StatefulWidget {
-  final SubItemList sample;
   const LiveUpdate(this.sample, {Key key}) : super(key: key);
-
+  final SubItemList sample;
+  
   @override
   _LiveUpdateState createState() => _LiveUpdateState(sample);
 }
@@ -34,12 +34,12 @@ int wave1;
 int wave2, count = 1;
 
 class _LiveUpdateState extends State<LiveUpdate> {
+  _LiveUpdateState(this.sample);
   Timer timer;
   final SubItemList sample;
-  _LiveUpdateState(this.sample);
-
+  
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -72,7 +72,7 @@ class _LiveUpdateState extends State<LiveUpdate> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -106,7 +106,7 @@ class _LiveUpdateState extends State<LiveUpdate> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -114,14 +114,26 @@ class _LiveUpdateState extends State<LiveUpdate> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore: prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
-
+  final SubItemList subItemList;
+  
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
+  _FrontPanelState(this.sample) {
+    wave1 = 0;
+    wave2 = 180;
+    if (chartData1.isNotEmpty && chartData2.isNotEmpty) {
+      chartData1.clear();
+      chartData2.clear();
+    }
+    updateLiveData();
+    timer = Timer.periodic(Duration(milliseconds: 2), updateData);
+  }
+
   Timer timer;
 
   @override
@@ -131,28 +143,18 @@ class _FrontPanelState extends State<FrontPanel> {
   }
 
   final SubItemList sample;
-  _FrontPanelState(this.sample) {
-    wave1 = 0;
-    wave2 = 180;
-    if (chartData1.isNotEmpty && chartData2.isNotEmpty) {
-      chartData1.clear();
-      chartData2.clear();
-    }
-    updateLiveData();
-    this.timer = Timer.periodic(Duration(milliseconds: 2), updateData);
-  }
-
+  
   void updateData(Timer timer) {
     setState(() {
       chartData1.removeAt(0);
-      chartData1.add(new _ChartData(
+      chartData1.add(_ChartData(
         wave1,
-        Math.sin(wave1 * (Math.pi / 180.0)),
+        math.sin(wave1 * (math.pi / 180.0)),
       ));
       chartData2.removeAt(0);
-      chartData2.add(new _ChartData(
+      chartData2.add(_ChartData(
         wave1,
-        Math.sin(wave2 * (Math.pi / 180.0)),
+        math.sin(wave2 * (math.pi / 180.0)),
       ));
       wave1++;
       wave2++;
@@ -160,13 +162,13 @@ class _FrontPanelState extends State<FrontPanel> {
   }
 
   void updateLiveData() {
-    for (var i = 0; i < 180; i++) {
-      chartData1.add(new _ChartData(i, Math.sin(wave1 * (Math.pi / 180.0))));
+    for (int i = 0; i < 180; i++) {
+      chartData1.add(_ChartData(i, math.sin(wave1 * (math.pi / 180.0))));
       wave1++;
     }
 
-    for (var i = 0; i < 180; i++) {
-      chartData2.add(new _ChartData(i, Math.sin(wave2 * (Math.pi / 180.0))));
+    for (int i = 0; i < 180; i++) {
+      chartData2.add(_ChartData(i, math.sin(wave2 * (math.pi / 180.0))));
       wave2++;
     }
 
@@ -177,7 +179,7 @@ class _FrontPanelState extends State<FrontPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -189,19 +191,18 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore: prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -209,15 +210,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -226,7 +227,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -267,13 +268,13 @@ class _BackPanelState extends State<BackPanel> {
 }
 
 void updateLiveData() {
-  for (var i = 0; i < 180; i++) {
-    chartData1.add(new _ChartData(i, Math.sin(wave1 * (Math.pi / 180.0))));
+  for (int i = 0; i < 180; i++) {
+    chartData1.add(_ChartData(i, math.sin(wave1 * (math.pi / 180.0))));
     wave1++;
   }
 
-  for (var i = 0; i < 180; i++) {
-    chartData2.add(new _ChartData(i, Math.sin(wave2 * (Math.pi / 180.0))));
+  for (int i = 0; i < 180; i++) {
+    chartData2.add(_ChartData(i, math.sin(wave2 * (math.pi / 180.0))));
     wave2++;
   }
 

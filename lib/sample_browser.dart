@@ -9,9 +9,11 @@ import 'package:flutter_examples/widgets/search_bar.dart';
 import 'package:flutter_examples/widgets/widget.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'model/model.dart';
-import 'model/helper.dart';
 import 'package:flutter/material.dart';
+import 'model/helper.dart';
+import 'model/model.dart';
+
+
 
 class SampleBrowser extends StatelessWidget {
   @override
@@ -39,11 +41,11 @@ class _HomePageState extends State<HomePage> {
   SampleListModel sampleListModel;
   List<Widget> colorPaletteWidgets;
   List<Color> colors;
-  final controller = ScrollController();
+  final dynamic controller = ScrollController();
   double cOpacity = 0.0;
   double screenHeight;
   ThemeData _currentThemeData;
-  Color _currentBackgroundColor = Color.fromRGBO(0, 116, 228, 1);
+  Color _currentBackgroundColor = const Color.fromRGBO(0, 116, 228, 1);
   Color _currentListIconColor;
   Color _currentPaletteColor;
   bool _lightThemeSelected = true;
@@ -54,9 +56,9 @@ class _HomePageState extends State<HomePage> {
     _currentThemeData = ThemeData.light();
     sampleListModel = SampleListModel();
     lightThemeSelected = sampleListModel.backgroundColor;
-    darkThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+    darkThemeSelected = const Color.fromRGBO(249, 249, 249, 1);
     lightThemeSelectedTextColor = Colors.white;
-    darkThemeSelectedTextColor = Color.fromRGBO(51, 51, 51, 1);
+    darkThemeSelectedTextColor = const Color.fromRGBO(51, 51, 51, 1);
     defaultBorderColor = <Color>[];
     addColors();
     init();
@@ -83,14 +85,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     _orientationPadding = ((MediaQuery.of(context).size.width) / 100) * 20;
-    var smallestDimension = MediaQuery.of(context).size.shortestSide;
+    final dynamic smallestDimension = MediaQuery.of(context).size.shortestSide;
     final bool useMobileLayout = smallestDimension < 600;
     sampleListModel.isTargetMobile = useMobileLayout;
-    return ScopedModel(
+    return ScopedModel<SampleListModel>(
         model: sampleListModel,
         child: ScopedModelDescendant<SampleListModel>(
           rebuildOnChange: true,
-          builder: (context, _, model) => MaterialApp(
+          builder: (BuildContext context, _, SampleListModel model) => MaterialApp(
             debugShowCheckedModeBanner: false,
             home: SafeArea(
               child: Scaffold(
@@ -99,10 +101,10 @@ class _HomePageState extends State<HomePage> {
                   appBar: PreferredSize(
                       preferredSize: Size.fromHeight(60.0),
                       child: Container(
-                        decoration: BoxDecoration(boxShadow: [
+                        decoration: BoxDecoration(boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: model.backgroundColor,
-                            offset: Offset(0, 2.0),
+                            offset: const Offset(0, 2.0),
                             blurRadius: 0.25,
                           )
                         ]),
@@ -123,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                                 height: 40,
                                 width: 40,
                                 child: IconButton(
-                                  icon: new Icon(Icons.settings,
+                                  icon: Icon(Icons.settings,
                                       color: Colors.white),
                                   onPressed: () {
                                     _showSettingsPanel(model);
@@ -137,23 +139,23 @@ class _HomePageState extends State<HomePage> {
                   body: Scaffold(
                     backgroundColor: model.slidingPanelColor,
                     body: SafeArea(
-                      child: new ListView.builder(
+                      child: ListView.builder(
                           controller: controller,
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           itemCount: 2,
-                          itemBuilder: (context, index) {
-                            return new Material(
+                          itemBuilder: (BuildContext context, num index) {
+                            return Material(
                               color: model.backgroundColor,
-                              child: new CustomListView(
+                              child: CustomListView(
                                 header: Container(
                                   color: model.backgroundColor,
                                   child: Column(
                                     children: <Widget>[
                                       index != 0
-                                          ? new Container(
+                                          ? Container(
                                               color: model.backgroundColor,
                                               height: 100.0,
-                                              padding: new EdgeInsets.symmetric(
+                                              padding: const EdgeInsets.symmetric(
                                                   horizontal: 0.0),
                                               alignment: Alignment.centerLeft,
                                               child: Column(
@@ -176,27 +178,27 @@ class _HomePageState extends State<HomePage> {
                                                     child: Container(
                                                         height: 20,
                                                         width: double.infinity,
-                                                        decoration: new BoxDecoration(
+                                                        decoration: BoxDecoration(
                                                             color: model
                                                                 .slidingPanelColor,
                                                             border: Border.all(
                                                                 color: model
                                                                     .slidingPanelColor),
-                                                            borderRadius: new BorderRadius
+                                                            borderRadius: const BorderRadius
                                                                     .only(
                                                                 topLeft:
-                                                                    const Radius
+                                                                    Radius
                                                                             .circular(
                                                                         12.0),
                                                                 topRight:
-                                                                    const Radius
+                                                                    Radius
                                                                             .circular(
                                                                         12.0)),
-                                                            boxShadow: [
+                                                            boxShadow: <BoxShadow>[
                                                               BoxShadow(
                                                                 color: model
                                                                     .slidingPanelColor,
-                                                                offset: Offset(
+                                                                offset: const Offset(
                                                                     0, 2.0),
                                                                 blurRadius:
                                                                     0.25,
@@ -297,7 +299,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> getListViewChildrens(SampleListModel model) {
-    List<Widget> items = <Widget>[];
+    List<Widget> items;
+    items = <Widget>[];
     for (int i = 0; i < model.controlList.length; i++) {
       items.add(Padding(
         padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
@@ -305,7 +308,7 @@ class _HomePageState extends State<HomePage> {
           color: model.slidingPanelColor,
           child: ScopedModelDescendant<SampleListModel>(
               rebuildOnChange: true,
-              builder: (context, _, model) => Material(
+              builder: (BuildContext  context, _, SampleListModel model) => Material(
                   color: model.slidingPanelColor,
                   elevation: 0.0,
                   child: InkWell(
@@ -338,23 +341,23 @@ class _HomePageState extends State<HomePage> {
                                     decoration: BoxDecoration(
                                         shape: BoxShape.rectangle,
                                         color: model.controlList[i].status == 'New'
-                                            ? Color.fromRGBO(101, 193, 0, 1)
+                                            ? const Color.fromRGBO(101, 193, 0, 1)
                                             : model.controlList[i].status == 'Updated'
-                                                ? Color.fromRGBO(
+                                                ? const Color.fromRGBO(
                                                     245, 166, 35, 1)
                                                 : model.controlList[i].status == 'Preview'
-                                                    ? Color.fromRGBO(
+                                                    ? const Color.fromRGBO(
                                                         238, 245, 255, 1)
                                                     : Colors.transparent,
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(10),
                                             bottomLeft: Radius.circular(10))),
-                                    padding: EdgeInsets.fromLTRB(7, 3, 6, 3),
+                                    padding: const EdgeInsets.fromLTRB(7, 3, 6, 3),
                                     child: Text(model.controlList[i].status,
                                         style: TextStyle(
                                             color: model.controlList[i].status ==
                                                     'Preview'
-                                                ? Color.fromRGBO(0, 98, 255, 1)
+                                                ? const Color.fromRGBO(0, 98, 255, 1)
                                                 : Colors.white,
                                             fontSize: 12)))
                               ]),
@@ -380,12 +383,14 @@ class _HomePageState extends State<HomePage> {
                       )))),
         ),
       ));
-      if (i != model.controlList.length - 1) items.add(Divider(height: 15.0));
+      if (i != model.controlList.length - 1) {
+        items.add(const Divider(height: 15.0));
+      }
     }
     for (int i = 0; i < model.sampleList.length; i++) {
       items.add(ScopedModelDescendant<SampleListModel>(
           rebuildOnChange: true,
-          builder: (context, _, model) => Material(
+          builder: (BuildContext  context, _, SampleListModel model) => Material(
               elevation: 0.0,
               color: model.slidingPanelColor,
               child: InkWell(
@@ -404,9 +409,9 @@ class _HomePageState extends State<HomePage> {
                         textAlign: TextAlign.left,
                         softWrap: true,
                         maxLines: 1,
-                        text: new TextSpan(
+                        text: TextSpan(
                           children: <TextSpan>[
-                            new TextSpan(
+                            TextSpan(
                                 text: '${model.sampleList[i].title} in ',
                                 style: TextStyle(
                                     fontFamily: 'MontserratMedium',
@@ -414,7 +419,7 @@ class _HomePageState extends State<HomePage> {
                                     fontSize: 14.0,
                                     color: model.textColor,
                                     letterSpacing: 0.3)),
-                            new TextSpan(
+                            TextSpan(
                                 text: '${model.sampleList[0].category}',
                                 style: TextStyle(
                                     fontSize: 14.0,
@@ -426,10 +431,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   )))));
-      if (i != model.sampleList.length - 1) items.add(Divider(height: 15.0));
+      if (i != model.sampleList.length - 1) {
+        items.add(const Divider(height: 15.0));
+      }
     }
 
-    if (model.sampleList.length == 0 && model.controlList.length == 0) {
+    if (model.sampleList.isEmpty&& model.controlList.isEmpty) {
       items.add(Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
         child: Container(
@@ -444,17 +451,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showSettingsPanel(SampleListModel model) {
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModel(
+        builder: (BuildContext  context) => ScopedModel<SampleListModel>(
             model: sampleListModel,
             child: ScopedModelDescendant<SampleListModel>(
                 rebuildOnChange: true,
-                builder: (context, _, model) => OrientationBuilder(
-                      builder: (context, orientation) {
+                builder: (BuildContext context, _, SampleListModel model) => OrientationBuilder(
+                      builder: (BuildContext  context, Orientation orientation) {
                         return Container(
                             height: 250,
                             child: Column(
@@ -702,14 +709,14 @@ class _HomePageState extends State<HomePage> {
                     ))));
   }
 
-  _applySetting(SampleListModel model) {
+  void _applySetting(SampleListModel model) {
     model.backgroundColor = _currentBackgroundColor;
     if (_lightThemeSelected) {
       lightThemeSelected = model.backgroundColor;
-      darkThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+      darkThemeSelected = const Color.fromRGBO(249, 249, 249, 1);
     } else {
       darkThemeSelected = model.backgroundColor;
-      lightThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+      lightThemeSelected = const Color.fromRGBO(249, 249, 249, 1);
     }
     model.listIconColor = _currentListIconColor;
     model.paletteColor = _currentPaletteColor;
@@ -719,23 +726,23 @@ class _HomePageState extends State<HomePage> {
     Navigator.pop(context);
   }
 
-  _toggleLightTheme(SampleListModel model) {
+  void _toggleLightTheme(SampleListModel model) {
     _lightThemeSelected = true;
     lightThemeSelected = model.backgroundColor;
-    darkThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+    darkThemeSelected = const Color.fromRGBO(249, 249, 249, 1);
     _currentThemeData = ThemeData.light();
     lightThemeSelectedTextColor = Colors.white;
-    darkThemeSelectedTextColor = Color.fromRGBO(51, 51, 51, 1);
+    darkThemeSelectedTextColor = const Color.fromRGBO(51, 51, 51, 1);
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
   }
 
-  _toggleDarkTheme(SampleListModel model) {
+  void _toggleDarkTheme(SampleListModel model) {
     _lightThemeSelected = false;
     darkThemeSelected = model.backgroundColor;
-    lightThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+    lightThemeSelected = const Color.fromRGBO(249, 249, 249, 1);
     _currentThemeData = ThemeData.dark();
-    lightThemeSelectedTextColor = Color.fromRGBO(51, 51, 51, 1);
+    lightThemeSelectedTextColor = const Color.fromRGBO(51, 51, 51, 1);
     darkThemeSelectedTextColor = Colors.white;
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
@@ -743,12 +750,12 @@ class _HomePageState extends State<HomePage> {
 
   void addColors() {
     colors = <Color>[];
-    colors.add(Color.fromRGBO(0, 116, 228, 1));
-    colors.add(Color.fromRGBO(255, 90, 25, 1));
-    colors.add(Color.fromRGBO(251, 53, 105, 1));
-    colors.add(Color.fromRGBO(73, 76, 162, 1));
-    colors.add(Color.fromRGBO(48, 171, 123, 1));
-    defaultBorderColor.add(Color.fromRGBO(87, 89, 208, 1));
+    colors.add(const Color.fromRGBO(0, 116, 228, 1));
+    colors.add(const Color.fromRGBO(255, 90, 25, 1));
+    colors.add(const Color.fromRGBO(251, 53, 105, 1));
+    colors.add(const Color.fromRGBO(73, 76, 162, 1));
+    colors.add(const Color.fromRGBO(48, 171, 123, 1));
+    defaultBorderColor.add(const Color.fromRGBO(87, 89, 208, 1));
     defaultBorderColor.add(Colors.transparent);
     defaultBorderColor.add(Colors.transparent);
     defaultBorderColor.add(Colors.transparent);
@@ -874,9 +881,9 @@ class _HomePageState extends State<HomePage> {
                                               25, 0, 0, 0),
                                           child: Column(
                                             children: <Widget>[
-                                              Padding(
+                                              const Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
+                                                      EdgeInsets.only(
                                                           top: 10)),
                                               Row(children: <Widget>[
                                                 Image.asset(
@@ -902,9 +909,9 @@ class _HomePageState extends State<HomePage> {
                                                               .normal)),
                                                 )
                                               ]),
-                                              Padding(
+                                              const Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
+                                                      EdgeInsets.only(
                                                           top: 10)),
                                             ],
                                           )))),
@@ -925,9 +932,9 @@ class _HomePageState extends State<HomePage> {
                                               25, 0, 0, 0),
                                           child: Column(
                                             children: <Widget>[
-                                              Padding(
+                                              const Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
+                                                      EdgeInsets.only(
                                                           top: 10)),
                                               Row(children: <Widget>[
                                                 Image.asset(
@@ -953,9 +960,9 @@ class _HomePageState extends State<HomePage> {
                                                               .normal)),
                                                 )
                                               ]),
-                                              Padding(
+                                              const Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
+                                                      EdgeInsets.only(
                                                           top: 10)),
                                             ],
                                           )))),
@@ -991,9 +998,9 @@ class _HomePageState extends State<HomePage> {
                                 )
                               ]),
                             ),
-                            Padding(
+                            const Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 15, 0, 0)),
+                                    EdgeInsets.fromLTRB(0, 15, 0, 0)),
                             Material(
                                 color: Colors.transparent,
                                 child: InkWell(
@@ -1005,9 +1012,9 @@ class _HomePageState extends State<HomePage> {
                                     },
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
+                                        const Padding(
                                             padding:
-                                                const EdgeInsets.only(top: 10)),
+                                                EdgeInsets.only(top: 10)),
                                         Row(
                                           children: <Widget>[
                                             Padding(
@@ -1048,9 +1055,9 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
+                                        const Padding(
                                             padding:
-                                                const EdgeInsets.only(top: 10)),
+                                                EdgeInsets.only(top: 10)),
                                       ],
                                     ))),
                             Material(
@@ -1064,9 +1071,9 @@ class _HomePageState extends State<HomePage> {
                                     },
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
+                                        const Padding(
                                             padding:
-                                                const EdgeInsets.only(top: 10)),
+                                                EdgeInsets.only(top: 10)),
                                         Row(
                                           children: <Widget>[
                                             Padding(
@@ -1108,9 +1115,9 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
+                                        const Padding(
                                             padding:
-                                                const EdgeInsets.only(top: 10)),
+                                                EdgeInsets.only(top: 10)),
                                       ],
                                     ))),
                             Material(
@@ -1124,9 +1131,9 @@ class _HomePageState extends State<HomePage> {
                                     },
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
+                                        const Padding(
                                             padding:
-                                                const EdgeInsets.only(top: 10)),
+                                                EdgeInsets.only(top: 10)),
                                         Row(
                                           children: <Widget>[
                                             Padding(
@@ -1168,9 +1175,9 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
+                                        const Padding(
                                             padding:
-                                                const EdgeInsets.only(top: 10)),
+                                                EdgeInsets.only(top: 10)),
                                       ],
                                     ))),
                           ],
@@ -1196,7 +1203,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                       Align(
                           alignment: Alignment.bottomCenter,
-                          child: Text('Version 1.0.0-beta',
+                          child: Text('Version 17.3.14',
                               style: TextStyle(
                                   color: _model.drawerTextIconColor,
                                   fontSize: 12,

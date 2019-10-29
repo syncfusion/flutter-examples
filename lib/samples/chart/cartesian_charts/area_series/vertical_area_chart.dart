@@ -6,18 +6,18 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AreaVertical extends StatefulWidget {
-  final SubItemList sample;
   const AreaVertical(this.sample, {Key key}) : super(key: key);
+  final SubItemList sample;
 
   @override
   _AreaVerticalState createState() => _AreaVerticalState(sample);
 }
 
 class _AreaVerticalState extends State<AreaVertical> {
+_AreaVerticalState(this.sample);  
   final SubItemList sample;
-  _AreaVerticalState(this.sample);
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _AreaVerticalState extends State<AreaVertical> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -77,7 +77,7 @@ class _AreaVerticalState extends State<AreaVertical> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -85,21 +85,22 @@ class _AreaVerticalState extends State<AreaVertical> {
 }
 
 class FrontPanel extends StatefulWidget {
+  //ignore:prefer_const_constructors_in_immutables 
+  FrontPanel(this.subItemList);  
   final SubItemList subItemList;
-  FrontPanel(this.subItemList);
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -111,18 +112,18 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore: prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -130,15 +131,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -147,7 +148,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -209,21 +210,21 @@ SfCartesianChart getVerticalAreaChart(bool isTileView) {
 
 List<AreaSeries<_AreaData, DateTime>> getAreaSeries(bool isTileView) {
   final List<_AreaData> chartData = <_AreaData>[
-    _AreaData(new DateTime(2000, 0, 1), 0.61, 0.03, 0.48, 0.23),
-    _AreaData(new DateTime(2001, 0, 1), 0.81, 0.05, 0.53, 0.17),
-    _AreaData(new DateTime(2002, 0, 1), 0.91, 0.06, 0.57, 0.17),
-    _AreaData(new DateTime(2003, 0, 1), 1, 0.09, 0.61, 0.20),
-    _AreaData(new DateTime(2004, 0, 1), 1.19, 0.14, 0.63, 0.23),
-    _AreaData(new DateTime(2005, 0, 1), 1.47, 0.20, 0.64, 0.36),
-    _AreaData(new DateTime(2006, 0, 1), 1.74, 0.29, 0.66, 0.43),
-    _AreaData(new DateTime(2007, 0, 1), 1.98, 0.46, 0.76, 0.52),
-    _AreaData(new DateTime(2008, 0, 1), 1.99, 0.64, 0.77, 0.72),
-    _AreaData(new DateTime(2009, 0, 1), 1.70, 0.75, 0.55, 1.29),
-    _AreaData(new DateTime(2010, 0, 1), 1.48, 1.06, 0.54, 1.38),
-    _AreaData(new DateTime(2011, 0, 1), 1.38, 1.25, 0.57, 1.82),
-    _AreaData(new DateTime(2012, 0, 1), 1.66, 1.55, 0.61, 2.16),
-    _AreaData(new DateTime(2013, 0, 1), 1.66, 1.55, 0.67, 2.51),
-    _AreaData(new DateTime(2014, 0, 1), 1.67, 1.65, 0.67, 2.61),
+    _AreaData(DateTime(2000, 0, 1), 0.61, 0.03, 0.48, 0.23),
+    _AreaData(DateTime(2001, 0, 1), 0.81, 0.05, 0.53, 0.17),
+    _AreaData(DateTime(2002, 0, 1), 0.91, 0.06, 0.57, 0.17),
+    _AreaData(DateTime(2003, 0, 1), 1, 0.09, 0.61, 0.20),
+    _AreaData(DateTime(2004, 0, 1), 1.19, 0.14, 0.63, 0.23),
+    _AreaData(DateTime(2005, 0, 1), 1.47, 0.20, 0.64, 0.36),
+    _AreaData(DateTime(2006, 0, 1), 1.74, 0.29, 0.66, 0.43),
+    _AreaData(DateTime(2007, 0, 1), 1.98, 0.46, 0.76, 0.52),
+    _AreaData(DateTime(2008, 0, 1), 1.99, 0.64, 0.77, 0.72),
+    _AreaData(DateTime(2009, 0, 1), 1.70, 0.75, 0.55, 1.29),
+    _AreaData(DateTime(2010, 0, 1), 1.48, 1.06, 0.54, 1.38),
+    _AreaData(DateTime(2011, 0, 1), 1.38, 1.25, 0.57, 1.82),
+    _AreaData(DateTime(2012, 0, 1), 1.66, 1.55, 0.61, 2.16),
+    _AreaData(DateTime(2013, 0, 1), 1.66, 1.55, 0.67, 2.51),
+    _AreaData(DateTime(2014, 0, 1), 1.67, 1.65, 0.67, 2.61),
   ];
   return <AreaSeries<_AreaData, DateTime>>[
     AreaSeries<_AreaData, DateTime>(

@@ -10,19 +10,19 @@ import 'package:url_launcher/url_launcher.dart';
 Timer timer;
 
 class CartesianDynamicAnimation extends StatefulWidget {
-  final SubItemList sample;
   const CartesianDynamicAnimation(this.sample, {Key key}) : super(key: key);
-
+  final SubItemList sample;
+  
   @override
   _CartesianDynamicAnimationState createState() =>
       _CartesianDynamicAnimationState(sample);
 }
 
 class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
-  final SubItemList sample;
   _CartesianDynamicAnimationState(this.sample);
+  final SubItemList sample;
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   
 
   @override
@@ -50,7 +50,7 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -85,7 +85,7 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -93,11 +93,12 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore: prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
-
+  final SubItemList subItemList;
+  
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 List<_DynamicData> chartData = <_DynamicData>[
@@ -110,8 +111,8 @@ List<_DynamicData> chartData = <_DynamicData>[
 ];
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
   bool enableTooltip = false;
   bool enableMarker = false;
   bool enableDatalabel = false;
@@ -141,7 +142,7 @@ class _FrontPanelState extends State<FrontPanel> {
     });
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -188,15 +189,15 @@ class _FrontPanelState extends State<FrontPanel> {
   }
 
   void _showSettingsPanel(SampleListModel model) {
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleListModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _, SampleListModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 120,
                     child: Padding(
@@ -335,19 +336,19 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore: prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
-
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
+  
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
@@ -355,15 +356,15 @@ class _BackPanelState extends State<BackPanel> {
     // _selectedseriesType = _seriesTypes.first;
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -372,7 +373,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -433,7 +434,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
     return <LineSeries<_DynamicData, String>>[
       LineSeries<_DynamicData, String>(
         dataSource: chartData,
-         color: Color.fromRGBO(0, 168, 181, 1),
+         color: const Color.fromRGBO(0, 168, 181, 1),
         width: 2,
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
@@ -455,7 +456,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
     return <ColumnSeries<_DynamicData, String>>[
       ColumnSeries<_DynamicData, String>(
         dataSource: chartData,
-         color: Color.fromRGBO(0, 168, 181, 1),
+         color: const Color.fromRGBO(0, 168, 181, 1),
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
         markerSettings: MarkerSettings(
@@ -477,7 +478,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
     return <SplineSeries<_DynamicData, String>>[
       SplineSeries<_DynamicData, String>(
         dataSource: chartData,
-         color: Color.fromRGBO(0, 168, 181, 1),
+         color: const Color.fromRGBO(0, 168, 181, 1),
         width: 2,
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
@@ -499,7 +500,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
     return <AreaSeries<_DynamicData, String>>[
       AreaSeries<_DynamicData, String>(
         dataSource: chartData,
-         color: Color.fromRGBO(0, 168, 181, 1),
+         color: const Color.fromRGBO(0, 168, 181, 1),
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
         dataLabelSettings: DataLabelSettings(
@@ -521,7 +522,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
       StepLineSeries<_DynamicData, String>(
         dataSource: chartData,
         width: 2,
-         color: Color.fromRGBO(0, 168, 181, 1),
+         color: const Color.fromRGBO(0, 168, 181, 1),
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
         dataLabelSettings: DataLabelSettings(
@@ -543,7 +544,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
     return <BarSeries<_DynamicData, String>>[
       BarSeries<_DynamicData, String>(
         dataSource: chartData,
-        color: Color.fromRGBO(0, 168, 181, 1),
+        color: const Color.fromRGBO(0, 168, 181, 1),
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
         dataLabelSettings: DataLabelSettings(
@@ -568,7 +569,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
         dataSource: chartData,
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
-        color: Color.fromRGBO(0, 168, 181, 1),
+        color: const Color.fromRGBO(0, 168, 181, 1),
         dataLabelSettings: DataLabelSettings(
             color: Colors.blue,
             alignment: ChartAlignment.center,
@@ -588,7 +589,7 @@ List<ChartSeries<_DynamicData, String>> getAnimationData(
     return <BubbleSeries<_DynamicData, String>>[
       BubbleSeries<_DynamicData, String>(
         dataSource: chartData,
-         color: Color.fromRGBO(0, 168, 181, 1),
+         color: const Color.fromRGBO(0, 168, 181, 1),
         xValueMapper: (_DynamicData sales, _) => sales.country,
         yValueMapper: (_DynamicData sales, _) => sales.sales,
         sizeValueMapper: (_DynamicData sales, _) => sales.sales,

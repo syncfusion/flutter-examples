@@ -1,11 +1,47 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
-import 'dart:math' as math;
 
-const _flingVelocity = 2.0;
+const num _flingVelocity = 2.0;
 
 // ignore: must_be_immutable
 class Backdrop extends StatefulWidget {
+  Backdrop({
+    this.needCloseButton = true,
+    this.enableBackPanelAnimation = false,
+    this.frontPanelOpenPercentage = 0.3,
+    this.sampleListModel,
+    @required this.frontLayer,
+    @required this.backLayer,
+    @required this.sideDrawer,
+    this.frontHeader,
+    this.borderRadius,
+    this.shape,
+    this.frontHeaderHeight = 20.0,
+    this.headerClosingHeight,
+    this.titleVisibleOnPanelClosed = true,
+    this.frontPanelPadding = EdgeInsets.zero,
+    this.toggleFrontLayer = true,
+    this.color,
+
+    //--------Appbar properties------------
+    this.appBarLeadingMenuIcon,
+    this.appBarAnimatedLeadingMenuIcon,
+    this.appBarAutomaticallyImplyLeading = true,
+    this.appBarTitle,
+    this.appBarActions,
+    this.appBarBackgroundColor,
+    this.appBarIconTheme,
+    this.appBarTextTheme,
+    this.appBarCenterTitle,
+    this.appBarTitleSpacing = NavigationToolbar.kMiddleSpacing,
+    this.panelVisible,
+  })  : assert(frontLayer != null),
+        assert(frontHeaderHeight > 0.0 ||
+            (appBarLeadingMenuIcon != null ||
+                appBarAnimatedLeadingMenuIcon != null)),
+        assert(backLayer != null);
+
   //----------------------Front and Back Panel properties-----------------------
 
   /// This is the front panel which will contain the main body.
@@ -143,62 +179,29 @@ class Backdrop extends StatefulWidget {
 
   final bool needCloseButton;
 
-  Backdrop({
-    this.needCloseButton = true,
-    this.enableBackPanelAnimation = false,
-    this.frontPanelOpenPercentage = 0.3,
-    this.sampleListModel,
-    @required this.frontLayer,
-    @required this.backLayer,
-    @required this.sideDrawer,
-    this.frontHeader,
-    this.borderRadius,
-    this.shape,
-    this.frontHeaderHeight = 20.0,
-    this.headerClosingHeight,
-    this.titleVisibleOnPanelClosed = true,
-    this.frontPanelPadding = EdgeInsets.zero,
-    this.toggleFrontLayer = true,
-    this.color,
-
-    //--------Appbar properties------------
-    this.appBarLeadingMenuIcon,
-    this.appBarAnimatedLeadingMenuIcon,
-    this.appBarAutomaticallyImplyLeading = true,
-    this.appBarTitle,
-    this.appBarActions,
-    this.appBarBackgroundColor,
-    this.appBarIconTheme,
-    this.appBarTextTheme,
-    this.appBarCenterTitle,
-    this.appBarTitleSpacing = NavigationToolbar.kMiddleSpacing,
-    this.panelVisible,
-  })  : assert(frontLayer != null),
-        assert(frontHeaderHeight > 0.0 ||
-            (appBarLeadingMenuIcon != null ||
-                appBarAnimatedLeadingMenuIcon != null)),
-        assert(backLayer != null);
-
   @override
   BackdropState createState() => BackdropState(controller, sampleListModel);
 }
 
 class BackdropState extends State<Backdrop>
     with SingleTickerProviderStateMixin {
-  static double frontPanelHeight = 0;
-  bool panelVisible;
-  final _backDropKey = GlobalKey(debugLabel: 'Backdrop');
-  bool test;
-  AnimationController controller;
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey(debugLabel: 'Scaffold');
-  SampleListModel sampleListModel;
-
   BackdropState(
       AnimationController _controller, SampleListModel _sampleListModel,
       {this.test = false}) {
+    // ignore: prefer_initializing_formals
     controller = _controller;
+    // ignore: prefer_initializing_formals
     sampleListModel = _sampleListModel;
   }
+
+  static double frontPanelHeight = 0;
+  bool panelVisible;
+  final dynamic _backDropKey = GlobalKey(debugLabel: 'Backdrop');
+  bool test;
+  AnimationController controller;
+  final GlobalKey<ScaffoldState> _scaffoldKey =
+      GlobalKey(debugLabel: 'Scaffold');
+  SampleListModel sampleListModel;
 
   @override
   void initState() {
@@ -208,10 +211,12 @@ class BackdropState extends State<Backdrop>
         vsync: this,
         duration: Duration(milliseconds: 100),
         value: (widget.panelVisible?.value ?? true) ? 1.0 : 0.0)
-      ..addStatusListener((status) {
+      ..addStatusListener((AnimationStatus status) {
         if (status == AnimationStatus.completed)
           panelVisible = true;
-        else if (status == AnimationStatus.dismissed) panelVisible = false;
+        else if (status == AnimationStatus.dismissed) {
+          panelVisible = false;
+        }
       })
       ..addListener(() {
         setState(() {});
@@ -221,7 +226,7 @@ class BackdropState extends State<Backdrop>
 
     // Ensure that the value notifier is updated when the panel is opened or closed
     if (widget.panelVisible != null) {
-      controller.addStatusListener((status) {
+      controller.addStatusListener((AnimationStatus status) {
         if (status == AnimationStatus.completed)
           widget.panelVisible.value = true;
         else if (status == AnimationStatus.dismissed)
@@ -259,7 +264,8 @@ class BackdropState extends State<Backdrop>
 
   void _handleDragEnd(DragEndDetails details) {
     if (controller.isAnimating ||
-        controller.status == AnimationStatus.completed) return;
+        controller.status == AnimationStatus.completed) 
+          return;
 
     final double fVelocity =
         details.velocity.pixelsPerSecond.dy / _backdropHeight;
@@ -297,7 +303,7 @@ class BackdropState extends State<Backdrop>
         ];
       }
 
-      Widget res = CrossFadeTransition(
+      final Widget res = CrossFadeTransition(
         progress: controller,
         alignment: AlignmentDirectional.centerStart,
         child0:
@@ -318,17 +324,17 @@ class BackdropState extends State<Backdrop>
     return toolBarWidgets;
   }
 
-  Size panelSize = Size(0, 0);
+  Size panelSize = const Size(0, 0);
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context, constraints) {
+      builder: (BuildContext context, BoxConstraints constraints) {
         panelSize = constraints.biggest;
         double closedPercentage = 0;
         double closedPercentageSearch = 0;
         if (widget.enableBackPanelAnimation) {
           closedPercentage = widget.titleVisibleOnPanelClosed
-              ? (panelSize.height - (panelSize.height - (frontPanelHeight))) /
+              ? (panelSize.height - (panelSize.height - frontPanelHeight)) /
                   panelSize.height
               : 1.0;
 
@@ -338,11 +344,11 @@ class BackdropState extends State<Backdrop>
               : 1.0;
         } else {
           closedPercentage =
-              (panelSize.height - (panelSize.height - (frontPanelHeight))) /
+              (panelSize.height - (panelSize.height - frontPanelHeight)) /
                   panelSize.height;
           closedPercentageSearch = 0.0;
         }
-        final panelDetailsPosition = Tween<Offset>(
+        final Animation<Offset> panelDetailsPosition = Tween<Offset>(
                 begin: Offset(0.0, closedPercentage),
                 end: Offset(0.0, closedPercentageSearch))
             .animate(controller.view);
@@ -362,7 +368,7 @@ class BackdropState extends State<Backdrop>
                     alignment: AlignmentDirectional.centerStart,
                     child0:
                         Semantics(namesRoute: true, child: widget.appBarTitle),
-                    child1: Semantics(namesRoute: true, child: Text('')),
+                    child1: Semantics(namesRoute: true, child: const Text('')),
                   ),
                   actions: appBarMenuButton(controller),
                   elevation: 0.0,
@@ -411,7 +417,7 @@ class BackdropState extends State<Backdrop>
 
   double _getParallax() {
     if (widget.enableBackPanelAnimation) {
-      return -controller.value * (frontPanelHeight) * 0.5;
+      return -controller.value * frontPanelHeight * 0.5;
     } else {
       return 0;
     }
@@ -476,17 +482,6 @@ class CrossFadeTransition extends AnimatedWidget {
 }
 
 class BackdropPanel extends StatelessWidget {
-  final VoidCallback onTap;
-  final GestureDragUpdateCallback onVerticalDragUpdate;
-  final GestureDragEndCallback onVerticalDragEnd;
-  final Widget frontHeader;
-  final Widget child;
-  final BorderRadius borderRadius;
-  final ShapeBorder shape;
-  final double frontHeaderHeight;
-  final EdgeInsets padding;
-  final Color color;
-
   const BackdropPanel({
     Key key,
     this.onTap,
@@ -500,6 +495,17 @@ class BackdropPanel extends StatelessWidget {
     this.padding,
     this.color,
   }) : super(key: key);
+
+  final VoidCallback onTap;
+  final GestureDragUpdateCallback onVerticalDragUpdate;
+  final GestureDragEndCallback onVerticalDragEnd;
+  final Widget frontHeader;
+  final Widget child;
+  final BorderRadius borderRadius;
+  final ShapeBorder shape;
+  final double frontHeaderHeight;
+  final EdgeInsets padding;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {

@@ -6,20 +6,19 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScatterDefault extends StatefulWidget {
-  final SubItemList sample;
   const ScatterDefault(this.sample, {Key key}) : super(key: key);
+  final SubItemList sample;
 
   @override
   _ScatterDefaultState createState() => _ScatterDefaultState(sample);
 }
 
 class _ScatterDefaultState extends State<ScatterDefault> {
+  _ScatterDefaultState(this.sample);
   final SubItemList sample;
 
-  _ScatterDefaultState(this.sample);
-
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -45,7 +44,7 @@ class _ScatterDefaultState extends State<ScatterDefault> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -79,7 +78,7 @@ class _ScatterDefaultState extends State<ScatterDefault> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -87,22 +86,23 @@ class _ScatterDefaultState extends State<ScatterDefault> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+//ignore:prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
+  final SubItemList subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -140,34 +140,34 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+ //ignore:prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
-
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
+  
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -176,7 +176,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -236,17 +236,17 @@ SfCartesianChart getDefaultScatterChart(bool isTileView) {
 
 List<ScatterSeries<_ScatterData, DateTime>> getScatterSeries(bool isTileView) {
   final List<_ScatterData> chartData = <_ScatterData>[
-    _ScatterData(new DateTime(2006, 1, 1), 0.01, -0.03, 0.10),
-    _ScatterData(new DateTime(2007, 1, 1), 0.03, -0.02, 0.08),
-    _ScatterData(new DateTime(2008, 1, 1), -0.06, -0.13, -0.03),
-    _ScatterData(new DateTime(2009, 1, 1), -0.03, -0.04, 0.04),
-    _ScatterData(new DateTime(2010, 1, 1), 0.09, 0.07, 0.19),
-    _ScatterData(new DateTime(2011, 1, 1), 0, 0.04, 0),
-    _ScatterData(new DateTime(2012, 1, 1), 0.01, -0.01, -0.09),
-    _ScatterData(new DateTime(2013, 1, 1), 0.05, 0.05, 0.10),
-    _ScatterData(new DateTime(2014, 1, 1), 0, 0.08, 0.05),
-    _ScatterData(new DateTime(2015, 1, 1), 0.1, 0.01, -0.04),
-    _ScatterData(new DateTime(2016, 1, 1), 0.08, 0, 0.02),
+    _ScatterData( DateTime(2006, 1, 1), 0.01, -0.03, 0.10),
+    _ScatterData( DateTime(2007, 1, 1), 0.03, -0.02, 0.08),
+    _ScatterData( DateTime(2008, 1, 1), -0.06, -0.13, -0.03),
+    _ScatterData( DateTime(2009, 1, 1), -0.03, -0.04, 0.04),
+    _ScatterData( DateTime(2010, 1, 1), 0.09, 0.07, 0.19),
+    _ScatterData( DateTime(2011, 1, 1), 0, 0.04, 0),
+    _ScatterData( DateTime(2012, 1, 1), 0.01, -0.01, -0.09),
+    _ScatterData( DateTime(2013, 1, 1), 0.05, 0.05, 0.10),
+    _ScatterData( DateTime(2014, 1, 1), 0, 0.08, 0.05),
+    _ScatterData( DateTime(2015, 1, 1), 0.1, 0.01, -0.04),
+    _ScatterData( DateTime(2016, 1, 1), 0.08, 0, 0.02),
   ];
   return <ScatterSeries<_ScatterData, DateTime>>[
     ScatterSeries<_ScatterData, DateTime>(
@@ -268,7 +268,7 @@ List<ScatterSeries<_ScatterData, DateTime>> getScatterSeries(bool isTileView) {
     ScatterSeries<_ScatterData, DateTime>(
       enableTooltip: true,
       dataSource: chartData,
-      color: Color.fromRGBO(0, 168, 181, 1),
+      color: const Color.fromRGBO(0, 168, 181, 1),
       xValueMapper: (_ScatterData sales, _) => sales.year,
       yValueMapper: (_ScatterData sales, _) => sales.y2,
       name: 'India',

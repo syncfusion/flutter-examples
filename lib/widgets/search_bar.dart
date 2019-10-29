@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 
 class SearchBar extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
   SearchBar({Key key, this.sampleListModel}) : super(key: key);
   final SampleListModel sampleListModel;
 
   @override
-  _SearchBarState createState() => new _SearchBarState(sampleListModel);
+  _SearchBarState createState() => _SearchBarState(sampleListModel);
 }
 
 class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
-  final SampleListModel sampleListModel;
-
   _SearchBarState(this.sampleListModel);
+  
+  final SampleListModel sampleListModel;
 
   TextEditingController editingController = TextEditingController();
 
@@ -20,7 +21,8 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
 
   List<SubItemList> duplicateSampleItems;
 
-  var items = List<SampleList>();
+  //ignore: prefer_collection_literals
+  List<SampleList> items = List<SampleList>();
   Widget searchIcon = Icon(Icons.search, color: Colors.grey);
   final FocusNode _isFocus = FocusNode();
   bool isOpen = false;
@@ -52,25 +54,28 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   }
 
   void filterSearchResults(String query) {
-    List<SampleList> dummySearchControlList = List<SampleList>();
+    // ignore: prefer_collection_literals
+    final List<SampleList> dummySearchControlList = List<SampleList>();
     dummySearchControlList.addAll(duplicateControlItems);
 
-    List<SubItemList> dummySearchSamplesList = List<SubItemList>();
+    // ignore: prefer_collection_literals
+    final List<SubItemList> dummySearchSamplesList = List<SubItemList>();
     dummySearchSamplesList.addAll(duplicateSampleItems);
 
     if (query.isNotEmpty) {
       searchIcon = null;
-      List<SampleList> dummyControlListData = List<SampleList>();
+      // ignore: prefer_collection_literals
+      final List<SampleList> dummyControlListData = List<SampleList>();
       for (int i = 0; i < dummySearchControlList.length; i++) {
-        var item = dummySearchControlList[i];
+        final SampleList item = dummySearchControlList[i];
         if (item.title.toLowerCase().contains(query.toLowerCase())) {
           dummyControlListData.add(item);
         }
       }
-
-      List<SubItemList> dummySampleListData = List<SubItemList>();
+      // ignore: prefer_collection_literals
+      final List<SubItemList> dummySampleListData = List<SubItemList>();
       for (int i = 0; i < dummySearchSamplesList.length; i++) {
-        var item = dummySearchSamplesList[i];
+        final SubItemList item = dummySearchSamplesList[i];
         if (item.title.toLowerCase().contains(query.toLowerCase())) {
           dummySampleListData.add(item);
         }
@@ -103,13 +108,13 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
           width: double.infinity,
           decoration: BoxDecoration(
               color: sampleListModel.searchBoxColor,
-              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              borderRadius: const BorderRadius.all(Radius.circular(5.0))),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: Container(
               child: TextField(
                   focusNode: _isFocus,
-                  onChanged: (value) {
+                  onChanged: (String value) {
                     filterSearchResults(value);
                   },
                   onEditingComplete: () {
@@ -117,8 +122,8 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                   },
                   controller: editingController,
                   decoration: InputDecoration(
-                      labelStyle: TextStyle(fontFamily: 'MontserratMedium'),
-                      hintText: "Search",
+                      labelStyle:const TextStyle(fontFamily: 'MontserratMedium'),
+                      hintText: 'Search',
                       border: InputBorder.none,
                       hintStyle: TextStyle(
                           fontSize: 15,

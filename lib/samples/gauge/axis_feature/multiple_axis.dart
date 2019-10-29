@@ -6,18 +6,18 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MultipleAxisExample extends StatefulWidget {
-  final SubItemList sample;
   const MultipleAxisExample(this.sample, {Key key}) : super(key: key);
-
+  final SubItemList sample;
+  
   @override
   _MultipleAxisExampleState createState() => _MultipleAxisExampleState(sample);
 }
 
 class _MultipleAxisExampleState extends State<MultipleAxisExample> {
-  final SubItemList sample;
   _MultipleAxisExampleState(this.sample);
+  final SubItemList sample;
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _MultipleAxisExampleState extends State<MultipleAxisExample> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
           child: Backdrop(
             needCloseButton: false,
             panelVisible: frontPanelVisible,
@@ -77,7 +77,7 @@ class _MultipleAxisExampleState extends State<MultipleAxisExample> {
             headerClosingHeight: 350,
             titleVisibleOnPanelClosed: true,
             color: model.cardThemeColor,
-            borderRadius: BorderRadius.vertical(
+            borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(12), bottom: Radius.circular(0)),
           ),
         ));
@@ -85,16 +85,17 @@ class _MultipleAxisExampleState extends State<MultipleAxisExample> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore: prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
-
+  final SubItemList subItemList;
+  
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
   @override
   Widget build(BuildContext context) {
     setState((){
@@ -102,7 +103,7 @@ class _FrontPanelState extends State<FrontPanel> {
     });
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -114,34 +115,34 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore: prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
-
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
+  
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
 
@@ -151,7 +152,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -197,14 +198,14 @@ SfRadialGauge getMultipleAxisGauge(bool isTileView) {
 
       RadialAxis(minimum:  32 , maximum: 212, interval: 36,
         radiusFactor: isTileView ? 0.5 :_radius, labelOffset: 15, needsRotateLabels: true,
-        minorTickStyle: MinorTickStyle(color: Color(0xFF00A8B5), thickness: 1.5,
+        minorTickStyle: MinorTickStyle(color: const Color(0xFF00A8B5), thickness: 1.5,
             lengthUnit: GaugeSizeUnit.factor,
             length: 0.07),
-        majorTickStyle: MajorTickStyle(color: Color(0xFF00A8B5), thickness: 1.5,
+        majorTickStyle: MajorTickStyle(color: const Color(0xFF00A8B5), thickness: 1.5,
             lengthUnit: GaugeSizeUnit.factor,
             length: 0.15),
-        axisLineStyle: AxisLineStyle(color:Color(0xFF00A8B5), thickness: 3, ),
-        axisLabelStyle: GaugeTextStyle(color: Color(0xFF00A8B5), fontSize: 12),
+        axisLineStyle: AxisLineStyle(color:const Color(0xFF00A8B5), thickness: 3, ),
+        axisLabelStyle: GaugeTextStyle(color: const Color(0xFF00A8B5), fontSize: 12),
 
       ),
       RadialAxis(minimum:  0 , maximum: 100, interval: 10,
@@ -221,9 +222,9 @@ SfRadialGauge getMultipleAxisGauge(bool isTileView) {
           axisLabelStyle: GaugeTextStyle(fontSize: 12),
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(angle: 90, positionFactor: 1,
-              widget: Row(children: <Widget>[Container(child: Text('33°C  :', style: TextStyle(fontSize: 12,
+              widget: Row(children: <Widget>[Container(child: const Text('33°C  :', style: TextStyle(fontSize: 12,
                    fontWeight: FontWeight.bold, fontFamily: 'Times'),)),
-                Container(child: Text(' 91.4°F', style: TextStyle(fontSize: 12,
+                Container(child: const Text(' 91.4°F', style: TextStyle(fontSize: 12,
                     color: Color(0xFF00A8B5), fontWeight: FontWeight.bold, fontFamily: 'Times'),))],)
             )
           ],

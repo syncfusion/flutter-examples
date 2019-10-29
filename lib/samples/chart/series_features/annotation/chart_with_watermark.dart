@@ -6,18 +6,18 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AnnotationDefault extends StatefulWidget {
-  final SubItemList sample;
   const AnnotationDefault(this.sample, {Key key}) : super(key: key);
-
+  final SubItemList sample;
+  
   @override
   _AnnotationDefaultState createState() => _AnnotationDefaultState(sample);
 }
 
 class _AnnotationDefaultState extends State<AnnotationDefault> {
-  final SubItemList sample;
   _AnnotationDefaultState(this.sample);
+  final SubItemList sample;
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -43,14 +43,14 @@ class _AnnotationDefaultState extends State<AnnotationDefault> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 frontHeader: Container(
                     color: Colors.transparent,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[],
+                      children: const <Widget>[],
                     )),
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -102,7 +102,7 @@ class _AnnotationDefaultState extends State<AnnotationDefault> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -110,22 +110,23 @@ class _AnnotationDefaultState extends State<AnnotationDefault> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore: prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
-
+  final SubItemList subItemList;
+  
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;  
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -137,34 +138,34 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore: prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
-
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
+  
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -173,7 +174,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -236,11 +237,11 @@ SfCartesianChart getDefaultAnnotationChart(bool isTileView,[Brightness currentTh
     annotations: <CartesianChartAnnotation>[
       CartesianChartAnnotation(
         widget: Container(
-          child: Text(
+          child: const Text(
             '€ - \$ ',
             style: TextStyle(
                 color:Color.fromRGBO(216, 225, 227,1),
-                // color: currentTheme == Brightness.light ? Color.fromRGBO(0, 0, 0, 0.15) : Color.fromRGBO(255, 255, 255, 0.3),
+                // color: currentTheme == Brightness.light? const Color.fromRGBO(0, 0, 0, 0.15) : Color.fromRGBO(255, 255, 255, 0.3),
                 fontWeight: FontWeight.bold,
                 fontSize: 80),
           ),
@@ -311,7 +312,7 @@ List<LineSeries<_DateTimeData, DateTime>> getAnnotationLineSeries(
       dataSource: chartData,
       xValueMapper: (_DateTimeData data, _) => data.year,
       yValueMapper: (_DateTimeData data, _) => data.y,
-      color: Color.fromRGBO(242, 117, 7, 1),
+      color: const Color.fromRGBO(242, 117, 7, 1),
     )
   ];
 }

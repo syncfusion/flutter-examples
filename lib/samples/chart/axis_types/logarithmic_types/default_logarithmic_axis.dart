@@ -6,8 +6,9 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LogarithmicAxisDefault extends StatefulWidget {
-  final SubItemList sample;
   const LogarithmicAxisDefault(this.sample, {Key key}) : super(key: key);
+
+  final SubItemList sample;
 
   @override
   _LogarithmicAxisDefaultState createState() =>
@@ -15,12 +16,12 @@ class LogarithmicAxisDefault extends StatefulWidget {
 }
 
 class _LogarithmicAxisDefaultState extends State<LogarithmicAxisDefault> {
-  final SubItemList sample;
 
   _LogarithmicAxisDefaultState(this.sample);
+  final SubItemList sample;
 
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -46,7 +47,7 @@ class _LogarithmicAxisDefaultState extends State<LogarithmicAxisDefault> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _,SampleListModel model) => SafeArea(
               child: Backdrop(
                 frontHeaderHeight: 20,
                 needCloseButton: false,
@@ -81,7 +82,7 @@ class _LogarithmicAxisDefaultState extends State<LogarithmicAxisDefault> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -89,24 +90,25 @@ class _LogarithmicAxisDefaultState extends State<LogarithmicAxisDefault> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore:prefer_const_constructors_in_immutables 
   FrontPanel(this.subItemList);
-
+  final SubItemList subItemList;
+  
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
+  _FrontPanelState(this.sample);
   final SubItemList sample;
   TextEditingController editingController = TextEditingController();
   TextEditingController spacingEditingController = TextEditingController();
-  _FrontPanelState(this.sample);
-
+  
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _,SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -118,18 +120,19 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore:prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+  final SubItemList sample;
+ final  GlobalKey _globalKey = GlobalKey();
+  
 
   @override
   void initState() {
@@ -137,15 +140,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+   void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -154,7 +157,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _,SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -214,16 +217,16 @@ SfCartesianChart getDefaultLogarithmicAxisChart(bool isTileView) {
 
 List<LineSeries<_ChartData, DateTime>> _getSeries(bool isTileView) {
   final List<_ChartData> chartData = <_ChartData>[
-    _ChartData(new DateTime(1996, 1, 1), 200),
-    _ChartData(new DateTime(1997, 1, 1), 400),
-    _ChartData(new DateTime(1998, 1, 1), 600),
-    _ChartData(new DateTime(1999, 1, 1), 700),
-    _ChartData(new DateTime(2000, 1, 1), 1400),
-    _ChartData(new DateTime(2001, 1, 1), 2000),
-    _ChartData(new DateTime(2002, 1, 1), 4000),
-    _ChartData(new DateTime(2003, 1, 1), 6000),
-    _ChartData(new DateTime(2004, 1, 1), 8000),
-    _ChartData(new DateTime(2005, 1, 1), 11000)
+    _ChartData(DateTime(1996, 1, 1), 200),
+    _ChartData(DateTime(1997, 1, 1), 400),
+    _ChartData(DateTime(1998, 1, 1), 600),
+    _ChartData(DateTime(1999, 1, 1), 700),
+    _ChartData(DateTime(2000, 1, 1), 1400),
+    _ChartData(DateTime(2001, 1, 1), 2000),
+    _ChartData(DateTime(2002, 1, 1), 4000),
+    _ChartData(DateTime(2003, 1, 1), 6000),
+    _ChartData(DateTime(2004, 1, 1), 8000),
+    _ChartData(DateTime(2005, 1, 1), 11000)
   ];
   return <LineSeries<_ChartData, DateTime>>[
     LineSeries<_ChartData, DateTime>(

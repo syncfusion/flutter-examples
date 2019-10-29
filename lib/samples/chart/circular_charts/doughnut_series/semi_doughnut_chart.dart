@@ -8,18 +8,18 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DoughnutSemi extends StatefulWidget {
-  final SubItemList sample;
   const DoughnutSemi(this.sample, {Key key}) : super(key: key);
+  final SubItemList sample;
 
   @override
   _DoughnutSemiState createState() => _DoughnutSemiState(sample);
 }
 
 class _DoughnutSemiState extends State<DoughnutSemi> {
-  final SubItemList sample;
   _DoughnutSemiState(this.sample);
+  final SubItemList sample;
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -45,7 +45,7 @@ class _DoughnutSemiState extends State<DoughnutSemi> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -79,7 +79,7 @@ class _DoughnutSemiState extends State<DoughnutSemi> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -87,23 +87,24 @@ class _DoughnutSemiState extends State<DoughnutSemi> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore:prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
+  final SubItemList subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
   int startAngle = 270;
   int endAngle = 90;
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -122,19 +123,19 @@ class _FrontPanelState extends State<FrontPanel> {
   }
 
   void _showSettingsPanel(SampleListModel model) {
-    double height =
+   final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleListModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _, SampleListModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 170,
                     child: Padding(
@@ -196,7 +197,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                                   maxValue: 270,
                                                   initialValue:
                                                       startAngle.toDouble(),
-                                                  onChanged: (val) =>
+                                                  onChanged: (dynamic val) =>
                                                       setState(() {
                                                         startAngle =
                                                             val.toInt();
@@ -252,7 +253,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                                   maxValue: 270,
                                                   initialValue:
                                                       endAngle.toDouble(),
-                                                  onChanged: (val) =>
+                                                  onChanged: (dynamic val) =>
                                                       setState(() {
                                                         endAngle = val.toInt();
                                                       }),
@@ -290,18 +291,18 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+ //ignore:prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample; 
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -309,15 +310,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -326,7 +327,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(

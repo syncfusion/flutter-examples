@@ -7,18 +7,18 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RadialBarCustomized extends StatefulWidget {
-  final SubItemList sample;
   const RadialBarCustomized(this.sample, {Key key}) : super(key: key);
+  final SubItemList sample;
 
   @override
   _RadialBarCustomizedState createState() => _RadialBarCustomizedState(sample);
 }
 
 class _RadialBarCustomizedState extends State<RadialBarCustomized> {
-  final SubItemList sample;
   _RadialBarCustomizedState(this.sample);
+  final SubItemList sample;
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _RadialBarCustomizedState extends State<RadialBarCustomized> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -94,7 +94,7 @@ class _RadialBarCustomizedState extends State<RadialBarCustomized> {
                 headerClosingHeight: 350,
                 color: model.cardThemeColor,
                 titleVisibleOnPanelClosed: true,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -102,22 +102,23 @@ class _RadialBarCustomizedState extends State<RadialBarCustomized> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore:prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
+  final SubItemList subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -129,18 +130,18 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore:prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample; 
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -148,15 +149,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -165,7 +166,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -206,23 +207,23 @@ class _BackPanelState extends State<BackPanel> {
 }
 
 SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
-  List<_RadialData> dataSources = [
-    _RadialData('Vehicle', 62.70, '10%', Color.fromRGBO(69, 186, 161, 1.0)),
-    _RadialData('Education', 29.20, '10%', Color.fromRGBO(230, 135, 111, 1.0)),
-    _RadialData('Home', 85.20, '100%', Color.fromRGBO(145, 132, 202, 1.0)),
-    _RadialData('Personal', 45.70, '100%', Color.fromRGBO(235, 96, 143, 1.0))
+  final List<_RadialData> dataSources = <_RadialData>[
+    _RadialData('Vehicle', 62.70, '10%', const Color.fromRGBO(69, 186, 161, 1.0)),
+    _RadialData('Education', 29.20, '10%', const Color.fromRGBO(230, 135, 111, 1.0)),
+    _RadialData('Home', 85.20, '100%', const Color.fromRGBO(145, 132, 202, 1.0)),
+    _RadialData('Personal', 45.70, '100%', const Color.fromRGBO(235, 96, 143, 1.0))
   ];
 
-  List<CircularChartAnnotation> annotationSources = [
+  final List<CircularChartAnnotation> annotationSources =<CircularChartAnnotation>[
     CircularChartAnnotation(
       angle: 0,
       radius: '0%',
       widget: Container(
-        child: new Image.asset(
+        child:  Image.asset(
           'images/car_legend.png',
           width: 20,
           height: 20,
-          color: Color.fromRGBO(69, 186, 161, 1.0),
+          color: const Color.fromRGBO(69, 186, 161, 1.0),
         ),
       ),
     ),
@@ -230,11 +231,11 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
       angle: 0,
       radius: '0%',
       widget: Container(
-        child: new Image.asset(
+        child:  Image.asset(
           'images/book.png',
           width: 20,
           height: 20,
-          color: Color.fromRGBO(230, 135, 111, 1.0),
+          color: const Color.fromRGBO(230, 135, 111, 1.0),
         ),
       ),
     ),
@@ -242,25 +243,25 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
       angle: 0,
       radius: '0%',
       widget: Container(
-        child: new Image.asset('images/home.png',
-            width: 20, height: 20, color: Color.fromRGBO(145, 132, 202, 1.0)),
+        child:  Image.asset('images/home.png',
+            width: 20, height: 20, color: const Color.fromRGBO(145, 132, 202, 1.0)),
       ),
     ),
     CircularChartAnnotation(
       angle: 0,
       radius: '0%',
       widget: Container(
-        child: new Image.asset(
+        child:  Image.asset(
           'images/personal_loan.png',
           width: 20,
           height: 20,
-          color: Color.fromRGBO(235, 96,  143, 1.0),
+          color: const Color.fromRGBO(235, 96,  143, 1.0),
         ),
       ),
     ),
   ];
 
-  dynamic colors = [
+  const dynamic colors =<dynamic>[
     Color.fromRGBO(69,  186, 161, 1.0),
     Color.fromRGBO(230, 135, 111, 1.0),
     Color.fromRGBO(145, 132, 202, 1.0),
@@ -285,10 +286,10 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
                     annotations: <CircularChartAnnotation>[
                       annotationSources[index],
                     ],
-                    series: [
+                    series: <RadialBarSeries<_RadialData, String>>[
                       RadialBarSeries<_RadialData, String>(
                         animationDuration: 0,
-                        dataSource: [dataSources[index]],
+                        dataSource: <_RadialData>[dataSources[index]],
                         maximumValue: 100,
                         radius: '100%',
                         cornerStyle: CornerStyle.bothCurve,
@@ -321,7 +322,7 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
         height: '90%',
         width:'90%',
         widget: Container(
-          child: new Image.asset(
+          child:  Image.asset(
             'images/person.png',
             height: 100.0,
             width: 100.0,
@@ -334,10 +335,10 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
 
 List<RadialBarSeries<_RadialData, String>> getRadialBarCustomizedSeries() {
   final List<_RadialData> chartData = <_RadialData>[
-    _RadialData('Vehicle', 62.70, '100%', Color.fromRGBO(69, 186, 161, 1.0)),
-    _RadialData('Education', 29.20, '100%', Color.fromRGBO(230, 135, 111, 1.0)),
-    _RadialData('Home', 85.20, '100%', Color.fromRGBO(145, 132, 202, 1.0)),
-    _RadialData('Personal', 45.70, '100%', Color.fromRGBO(235, 96, 143, 1.0))
+    _RadialData('Vehicle', 62.70, '100%', const Color.fromRGBO(69, 186, 161, 1.0)),
+    _RadialData('Education', 29.20, '100%', const Color.fromRGBO(230, 135, 111, 1.0)),
+    _RadialData('Home', 85.20, '100%', const Color.fromRGBO(145, 132, 202, 1.0)),
+    _RadialData('Personal', 45.70, '100%', const Color.fromRGBO(235, 96, 143, 1.0))
   ];
   return <RadialBarSeries<_RadialData, String>>[
     RadialBarSeries<_RadialData, String>(

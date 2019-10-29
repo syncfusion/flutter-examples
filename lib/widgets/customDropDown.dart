@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DropDown extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   DropDown({@required this.value, @required this.valueChanged, this.item});
 
   final String value;

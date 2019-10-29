@@ -1,28 +1,26 @@
+import 'dart:math';
 import 'dart:ui';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'dart:math';
-
 import 'package:url_launcher/url_launcher.dart';
 
 class SplineCustomization extends StatefulWidget {
-  final SubItemList sample;
   const SplineCustomization(this.sample, {Key key}) : super(key: key);
+  final SubItemList sample;
 
   @override
   _SplineVerticalState createState() => _SplineVerticalState(sample);
 }
 
 class _SplineVerticalState extends State<SplineCustomization> {
+  _SplineVerticalState(this.sample);
   final SubItemList sample;
 
-  _SplineVerticalState(this.sample);
-
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -48,7 +46,7 @@ class _SplineVerticalState extends State<SplineCustomization> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 frontHeaderHeight: 20,
                 toggleFrontLayer: false,
@@ -84,7 +82,7 @@ class _SplineVerticalState extends State<SplineCustomization> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -92,24 +90,25 @@ class _SplineVerticalState extends State<SplineCustomization> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+//ignore:prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
+  final SubItemList subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
+  _FrontPanelState(this.sample);
   final SubItemList sample;
   bool enableLegend = true;
   double animaionDuration = 1500;
-  _FrontPanelState(this.sample);
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -121,18 +120,18 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+//ignore:prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -140,15 +139,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -157,7 +156,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -272,15 +271,16 @@ class CustomSplineSeries<T, D> extends SplineSeries<T, D> {
 
   @override
   ChartSegment createSegment() {
-    return CustomPainter(randomNumber.nextInt(4));
+    return SplineCustomPainter(randomNumber.nextInt(4));
   }
 }
 
 List<num> yValues;
 List<num> xValues;
 
-class CustomPainter extends SplineSegment {
-  CustomPainter(int value) {
+class SplineCustomPainter extends SplineSegment {
+  SplineCustomPainter(int value) {
+    //ignore: prefer_initializing_formals
     index = value;
     yValues = <num>[];
     xValues = <num>[];
@@ -305,8 +305,8 @@ class CustomPainter extends SplineSegment {
   Paint getStrokePaint() {
     final Paint customerStrokePaint = Paint();
     customerStrokePaint.color = currentSegmentIndex < 4
-        ? Color.fromRGBO(0, 168, 181, 1)
-        : Color.fromRGBO(246, 114, 128, 1);
+       ? const Color.fromRGBO(0, 168, 181, 1)
+        :const Color.fromRGBO(246, 114, 128, 1);
     customerStrokePaint.strokeWidth = 2;
     customerStrokePaint.style = PaintingStyle.stroke;
     return customerStrokePaint;
@@ -338,7 +338,7 @@ class CustomPainter extends SplineSegment {
     if (currentSegmentIndex == series.segments.length - 1) {
       double maximum;
       maximum = yValues.reduce(max);
-      final TextSpan span = TextSpan(
+      const TextSpan span =  TextSpan(
         style: TextStyle(
             color: Color.fromRGBO(0, 168, 181, 1),
             fontSize: 12.0,
@@ -349,9 +349,9 @@ class CustomPainter extends SplineSegment {
           TextPainter(text: span, textDirection: TextDirection.ltr);
       tp.layout();
       tp.paint(canvas, Offset(xValues[1], maximum + tp.size.height));
-      final TextSpan span1 = TextSpan(
+      const TextSpan span1 = TextSpan(
         style: TextStyle(
-            color: Color.fromRGBO(246, 114, 128, 1),
+            color:  Color.fromRGBO(246, 114, 128, 1),
             fontSize: 12.0,
             fontFamily: 'Roboto'),
         text: 'Imaginary data',

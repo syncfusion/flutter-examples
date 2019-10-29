@@ -9,18 +9,18 @@ import 'package:flutter_examples/widgets/checkbox.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DefaultTrackball extends StatefulWidget {
-  final SubItemList sample;
   const DefaultTrackball(this.sample, {Key key}) : super(key: key);
-
+  final SubItemList sample;
+  
   @override
   _DefaultTrackballState createState() => _DefaultTrackballState(sample);
 }
 
 class _DefaultTrackballState extends State<DefaultTrackball> {
-  final SubItemList sample;
   _DefaultTrackballState(this.sample);
-  bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final SubItemList sample;
+    bool panelOpen;
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _DefaultTrackballState extends State<DefaultTrackball> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -98,7 +98,7 @@ class _DefaultTrackballState extends State<DefaultTrackball> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -106,16 +106,17 @@ class _DefaultTrackballState extends State<DefaultTrackball> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore: prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
+  final SubItemList subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
   bool showAlways = true;
   final List<String> _modeList =
       <String>['floatAllPoints', 'groupAllPoints', 'nearestPoint'].toList();
@@ -133,7 +134,7 @@ class _FrontPanelState extends State<FrontPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -153,19 +154,19 @@ class _FrontPanelState extends State<FrontPanel> {
   }
 
   void _showSettingsPanel(SampleListModel model) {
-    double height =
+    final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.4
             : 0.5;
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleListModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _, SampleListModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                   height: 220,
                   child: Padding(
@@ -260,7 +261,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                               style: TextStyle(
                                                   color: _selectedMode !=
                                                           'groupAllPoints'
-                                                      ? Color.fromRGBO(
+                                                      ? const Color.fromRGBO(
                                                           0, 0, 0, 0.3)
                                                       : model.textColor,
                                                   fontSize: 16,
@@ -320,7 +321,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                           BottomSheetCheckbox(
                                             activeColor: model.backgroundColor,
                                             switchValue: showAlways,
-                                            valueChanged: (value) {
+                                            valueChanged: (dynamic value) {
                                               setState(() {
                                                 showAlways = value;
                                               });
@@ -378,34 +379,34 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore: prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
-
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
+  
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -414,7 +415,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -480,19 +481,19 @@ SfCartesianChart getDefaultTrackballChart(bool isTileView,
 
 List<LineSeries<_TrackballData, DateTime>> getLineSeries(bool isTileView) {
   final List<_TrackballData> chartData = <_TrackballData>[
-    _TrackballData(new DateTime(2000, 2, 11), 15, 39, 60),
-    _TrackballData(new DateTime(2000, 9, 14), 20, 30, 55),
-    _TrackballData(new DateTime(2001, 2, 11), 25, 28, 48),
-    _TrackballData(new DateTime(2001, 9, 16), 21, 35, 57),
-    _TrackballData(new DateTime(2002, 2, 7), 13, 39, 62),
-    _TrackballData(new DateTime(2002, 9, 7), 18, 41, 64),
-    _TrackballData(new DateTime(2003, 2, 11), 24, 45, 57),
-    _TrackballData(new DateTime(2003, 9, 14), 23, 48, 53),
-    _TrackballData(new DateTime(2004, 2, 6), 19, 54, 63),
-    _TrackballData(new DateTime(2004, 9, 6), 31, 55, 50),
-    _TrackballData(new DateTime(2005, 2, 11), 39, 57, 66),
-    _TrackballData(new DateTime(2005, 9, 11), 50, 60, 65),
-    _TrackballData(new DateTime(2006, 2, 11), 24, 60, 79),
+    _TrackballData(DateTime(2000, 2, 11), 15, 39, 60),
+    _TrackballData(DateTime(2000, 9, 14), 20, 30, 55),
+    _TrackballData(DateTime(2001, 2, 11), 25, 28, 48),
+    _TrackballData(DateTime(2001, 9, 16), 21, 35, 57),
+    _TrackballData(DateTime(2002, 2, 7), 13, 39, 62),
+    _TrackballData(DateTime(2002, 9, 7), 18, 41, 64),
+    _TrackballData(DateTime(2003, 2, 11), 24, 45, 57),
+    _TrackballData(DateTime(2003, 9, 14), 23, 48, 53),
+    _TrackballData(DateTime(2004, 2, 6), 19, 54, 63),
+    _TrackballData(DateTime(2004, 9, 6), 31, 55, 50),
+    _TrackballData(DateTime(2005, 2, 11), 39, 57, 66),
+    _TrackballData(DateTime(2005, 9, 11), 50, 60, 65),
+    _TrackballData(DateTime(2006, 2, 11), 24, 60, 79),
   ];
   return <LineSeries<_TrackballData, DateTime>>[
     LineSeries<_TrackballData, DateTime>(
