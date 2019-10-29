@@ -9,18 +9,20 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../widgets/bottom_sheet.dart';
 
 class PlotBandRecurrence extends StatefulWidget {
-  final SubItemList sample;
   const PlotBandRecurrence(this.sample, {Key key}) : super(key: key);
+
+  final SubItemList sample;
 
   @override
   _PlotBandRecurrenceState createState() => _PlotBandRecurrenceState(sample);
 }
 
 class _PlotBandRecurrenceState extends State<PlotBandRecurrence> {
-  final SubItemList sample;
   _PlotBandRecurrenceState(this.sample);
+
+  final SubItemList sample;
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -46,11 +48,12 @@ class _PlotBandRecurrenceState extends State<PlotBandRecurrence> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _,SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
                 sampleListModel: model,
+                toggleFrontLayer: false,
                 frontPanelOpenPercentage: 0.28,
                 appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
                 appBarActions: <Widget>[
@@ -69,25 +72,6 @@ class _PlotBandRecurrenceState extends State<PlotBandRecurrence> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.info_outline,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          if (frontPanelVisible.value)
-                            frontPanelVisible.value = false;
-                          else
-                            frontPanelVisible.value = true;
-                        },
-                      ),
-                    ),
-                  ),
                 ],
                 appBarTitle: AnimatedSwitcher(
                     duration: Duration(milliseconds: 1000),
@@ -98,7 +82,7 @@ class _PlotBandRecurrenceState extends State<PlotBandRecurrence> {
                 headerClosingHeight: 350,
                 color: model.cardThemeColor,
                 titleVisibleOnPanelClosed: true,
-                borderRadius: BorderRadius.vertical(
+                borderRadius:const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -106,16 +90,20 @@ class _PlotBandRecurrenceState extends State<PlotBandRecurrence> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  
+  //ignore: prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
 
+  final SubItemList subItemList;
+
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+
+  final SubItemList sample;
   bool xAxis = false, yAxis = true;
 
   @override
@@ -129,7 +117,7 @@ class _FrontPanelState extends State<FrontPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _,SampleListModel model) {
           return Scaffold(
              backgroundColor:model.cardThemeColor,
               body: Padding(
@@ -148,19 +136,19 @@ class _FrontPanelState extends State<FrontPanel> {
   }
 
   void _showSettingsPanel(SampleListModel model) {
-    double height =
+    final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleListModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _,SampleListModel model) => Padding(
+                padding:const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 180,
                     child: Padding(
@@ -215,7 +203,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                               activeColor:
                                                   model.backgroundColor,
                                               switchValue: xAxis,
-                                              valueChanged: (value) {
+                                              valueChanged: (dynamic value) {
                                                 setState(() {
                                                   xAxis = value;
                                                 });
@@ -238,7 +226,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                               activeColor:
                                                   model.backgroundColor,
                                               switchValue: yAxis,
-                                              valueChanged: (value) {
+                                              valueChanged: (dynamic value) {
                                                 setState(() {
                                                   yAxis = value;
                                                 });
@@ -256,18 +244,21 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
 
+  //ignore: prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+
+ final SubItemList sample;
+ final  GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -275,15 +266,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  dynamic _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -292,7 +283,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _,SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -335,7 +326,7 @@ class _BackPanelState extends State<BackPanel> {
 SfCartesianChart getPlotBandRecurrenceChart(bool isTileView,
     [bool xVisible, bool yVisible]) {
   return SfCartesianChart(
-    title: ChartTitle(text: isTileView ? '' : "World pollution report"),
+    title: ChartTitle(text: isTileView ? '' : 'World pollution report'),
     legend: Legend(isVisible: !isTileView),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
@@ -357,7 +348,7 @@ SfCartesianChart getPlotBandRecurrenceChart(bool isTileView,
               start: DateTime(1965, 1, 1),
               end: DateTime(2010, 1, 1),
               shouldRenderAboveSeries:false,
-              color: Color.fromRGBO(227, 228, 230, 0.4))
+              color: const Color.fromRGBO(227, 228, 230, 0.4))
         ]),
     primaryYAxis: NumericAxis(
         isVisible: true,
@@ -374,7 +365,7 @@ SfCartesianChart getPlotBandRecurrenceChart(bool isTileView,
               end: 18000,
               repeatUntil: 18000,
               shouldRenderAboveSeries:false,
-              color: Color.fromRGBO(227, 228, 230, 0.1))
+              color: const Color.fromRGBO(227, 228, 230, 0.1))
         ],
         majorGridLines: MajorGridLines(color: Colors.grey),
         majorTickLines: MajorTickLines(size: 0),

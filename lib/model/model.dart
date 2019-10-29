@@ -150,101 +150,7 @@ class SubItemList {
 }
 
 class SampleListModel extends Model {
-  bool isTargetMobile;
-  List<SampleList> controlList;
-  List<SampleList> searchControlListItems; // To handle search
-  List<SubItemList> sampleList;
-  List<SubItemList> searchSampleListItems; // To handle search
-
-  int selectedIndex = 0;
-  Color backgroundColor = Color.fromRGBO(0, 116, 228, 1);
-  Color slidingPanelColor = Color.fromRGBO(250, 250, 250, 1);
-  Color paletteColor;
-  ThemeData themeData = ThemeData.light();
-  Color searchBoxColor = Colors.white;
-  Color listIconColor = Color.fromRGBO(0, 116, 228, 1);
-  Color listDescriptionTextColor = Colors.grey;
-  Color textColor = Color.fromRGBO(51, 51, 51, 1);
-  String codeViewerIcon = 'images/code.png';
-  String informationIcon = 'images/info.png';
-  Brightness theme = Brightness.light;
-  Color drawerTextIconColor = Colors.black;
-  Color drawerIconColor = Colors.black;
-  Color drawerBackgroundColor = Colors.white;
-  Color bottomSheetBackgroundColor = Colors.white;
-  final isTileView = true;
-  Color cardThemeColor = Colors.white;
-
-  // For Axis Types
-  List<SubItemList> numericAxisSubItemList;
-  List<SubItemList> categoryAxisSubItemList;
-  List<SubItemList> dateTimeAxisSubItemList;
-  List<SubItemList> logarithmicAxisSubItemList;
-  List<SubItemList> axisFeaturesSubItemList;
-  List<SubItemList> multipleAxisSubItemList;
-  List<SubItemList> labelIntersectActionSubItemList;
-  List<SubItemList> edgeLabelPlacementSubItemList;
-  List<List<SubItemList>> axisSubItemList;
-  List<List<SubItemList>> axesFeaturesSubItemList;
-
-  // Cartesian Types
-  List<SubItemList> lineSeriesSubItemList;
-  List<SubItemList> columnSeriesSubItemList;
-  List<SubItemList> splineSeriesSubItemList;
-  List<SubItemList> areaSeriesSubItemList;
-  List<SubItemList> barSeriesSubItemList;
-  List<SubItemList> bubbleSeriesSubItemList;
-  List<SubItemList> scatterSeriesSubItemList;
-  List<SubItemList> stepLineSeriesSubItemList;
-  List<SubItemList> rangeColumnSeriesSubItemList;
-  List<SubItemList> stackedSeriesSubItemList;
-  List<SubItemList> legendSubItemList;
-  List<SubItemList> markerSubItemList;
-  List<SubItemList> dataLabelSubItemList;
-  List<SubItemList> annotationSubItemList;
-  List<SubItemList> sortingSubItemList;
-  List<SubItemList> animationSubItemList;
-  List<SubItemList> emptyPointSubItemList;
-  List<List<SubItemList>> cartesianSubItemList;
-  List<List<SubItemList>> accumulationSubItemList;
-  List<List<SubItemList>> pyramidSubItemList;
-  List<List<SubItemList>> funnelSubItemList;
-  List<List<SubItemList>> otherFeaturesSubItemList;
-  List<List<SubItemList>> legendFeaturesSubItemList;
-  List<List<SubItemList>> userInteractionSubItemList;
-  List<List<SubItemList>> dynamicUpdatesSubItemList;
-
-  // dynamic updates
-  List<SubItemList> liveUpdateSubItemList;
-  List<SubItemList> liveVerticalSubItemList;
-  List<SubItemList> randomUpdateDataSubItemList;
-
-  // User Interactions Types
-  List<SubItemList> tooltipSubItemList;
-  List<SubItemList> zoomingPanningSubItemList;
-  List<SubItemList> crossHairSubItemList;
-  List<SubItemList> trackballSubItemList;
-  List<SubItemList> selectionSubItemList;
-
-  // Accumulation Types
-  List<SubItemList> pieSeriesSubItemList;
-  List<SubItemList> doughnutSeriesSubItemList;
-  List<SubItemList> radialBarSeriesSubItemList;
-
-  //Triangular Types
-  List<SubItemList> pyramidSeriesSubItemList;
-  List<SubItemList> funnelSeriesSubItemList;
-
-  //Radial gauge examples
-  List<List<SubItemList>> radialGaugeSubItemList;
-  List<SubItemList> radialAxisSubItemList;
-  List<SubItemList> radialPointersSubItemList;
-  List<SubItemList> radialRangesSubItemList;
-  List<SubItemList> radialAnnotationSubItemList;
-  List<SubItemList> radialInteractionSubItemList;
-  List<SubItemList> radialAnimationSubItemList;
-  List<SubItemList> radialShowCaseSubItemList;
-
+  
   SampleListModel() {
     controlList = <SampleList>[];
     searchControlListItems = <SampleList>[];
@@ -539,7 +445,6 @@ class SampleListModel extends Model {
     legendFeaturesSubItemList = <List<SubItemList>>[];
     userInteractionSubItemList = <List<SubItemList>>[];
     dynamicUpdatesSubItemList = <List<SubItemList>>[];
-
     // dynamic updates
     liveUpdateSubItemList = <SubItemList>[];
     liveVerticalSubItemList = <SubItemList>[];
@@ -1362,6 +1267,102 @@ class SampleListModel extends Model {
     }
   }
 
+  bool isTargetMobile;
+  List<SampleList> controlList;
+  List<SampleList> searchControlListItems; // To handle search
+  List<SubItemList> sampleList;
+  List<SubItemList> searchSampleListItems; // To handle search
+
+  int selectedIndex = 0;
+  Color backgroundColor = const Color.fromRGBO(0, 116, 228, 1);
+  Color slidingPanelColor = const Color.fromRGBO(250, 250, 250, 1);
+  Color paletteColor;
+  ThemeData themeData = ThemeData.light();
+  Color searchBoxColor = Colors.white;
+  Color listIconColor = const Color.fromRGBO(0, 116, 228, 1);
+  Color listDescriptionTextColor = Colors.grey;
+  Color textColor = const Color.fromRGBO(51, 51, 51, 1);
+  String codeViewerIcon = 'images/code.png';
+  String informationIcon = 'images/info.png';
+  Brightness theme = Brightness.light;
+  Color drawerTextIconColor = Colors.black;
+  Color drawerIconColor = Colors.black;
+  Color drawerBackgroundColor = Colors.white;
+  Color bottomSheetBackgroundColor = Colors.white;
+  final bool isTileView = true;
+  Color cardThemeColor = Colors.white;
+
+  // For Axis Types
+  List<SubItemList> numericAxisSubItemList;
+  List<SubItemList> categoryAxisSubItemList;
+  List<SubItemList> dateTimeAxisSubItemList;
+  List<SubItemList> logarithmicAxisSubItemList;
+  List<SubItemList> axisFeaturesSubItemList;
+  List<SubItemList> multipleAxisSubItemList;
+  List<SubItemList> labelIntersectActionSubItemList;
+  List<SubItemList> edgeLabelPlacementSubItemList;
+  List<List<SubItemList>> axisSubItemList;
+  List<List<SubItemList>> axesFeaturesSubItemList;
+
+  // Cartesian Types
+  List<SubItemList> lineSeriesSubItemList;
+  List<SubItemList> columnSeriesSubItemList;
+  List<SubItemList> splineSeriesSubItemList;
+  List<SubItemList> areaSeriesSubItemList;
+  List<SubItemList> barSeriesSubItemList;
+  List<SubItemList> bubbleSeriesSubItemList;
+  List<SubItemList> scatterSeriesSubItemList;
+  List<SubItemList> stepLineSeriesSubItemList;
+  List<SubItemList> rangeColumnSeriesSubItemList;
+  List<SubItemList> stackedSeriesSubItemList;
+  List<SubItemList> legendSubItemList;
+  List<SubItemList> markerSubItemList;
+  List<SubItemList> dataLabelSubItemList;
+  List<SubItemList> annotationSubItemList;
+  List<SubItemList> sortingSubItemList;
+  List<SubItemList> animationSubItemList;
+  List<SubItemList> emptyPointSubItemList;
+  List<List<SubItemList>> cartesianSubItemList;
+  List<List<SubItemList>> accumulationSubItemList;
+  List<List<SubItemList>> pyramidSubItemList;
+  List<List<SubItemList>> funnelSubItemList;
+  List<List<SubItemList>> otherFeaturesSubItemList;
+  List<List<SubItemList>> legendFeaturesSubItemList;
+  List<List<SubItemList>> userInteractionSubItemList;
+  List<List<SubItemList>> dynamicUpdatesSubItemList;
+  List<List<SubItemList>> calendarSubItemList;
+
+  // dynamic updates
+  List<SubItemList> liveUpdateSubItemList;
+  List<SubItemList> liveVerticalSubItemList;
+  List<SubItemList> randomUpdateDataSubItemList;
+
+  // User Interactions Types
+  List<SubItemList> tooltipSubItemList;
+  List<SubItemList> zoomingPanningSubItemList;
+  List<SubItemList> crossHairSubItemList;
+  List<SubItemList> trackballSubItemList;
+  List<SubItemList> selectionSubItemList;
+
+  // Accumulation Types
+  List<SubItemList> pieSeriesSubItemList;
+  List<SubItemList> doughnutSeriesSubItemList;
+  List<SubItemList> radialBarSeriesSubItemList;
+
+  //Triangular Types
+  List<SubItemList> pyramidSeriesSubItemList;
+  List<SubItemList> funnelSeriesSubItemList;
+
+  //Radial gauge examples
+  List<List<SubItemList>> radialGaugeSubItemList;
+  List<SubItemList> radialAxisSubItemList;
+  List<SubItemList> radialPointersSubItemList;
+  List<SubItemList> radialRangesSubItemList;
+  List<SubItemList> radialAnnotationSubItemList;
+  List<SubItemList> radialInteractionSubItemList;
+  List<SubItemList> radialAnimationSubItemList;
+  List<SubItemList> radialShowCaseSubItemList;
+
   void changeTheme(ThemeData _themeData) {
     themeData = _themeData;
     switch (_themeData.brightness) {
@@ -1373,11 +1374,11 @@ class SampleListModel extends Model {
           drawerIconColor = Colors.black;
           drawerBackgroundColor = Colors.white;
           bottomSheetBackgroundColor = Colors.white;
-          backgroundColor = paletteColor ?? Color.fromRGBO(0, 116, 228, 1);
-          listIconColor = paletteColor ?? Color.fromRGBO(0, 116, 228, 1);
+          backgroundColor = paletteColor ?? const Color.fromRGBO(0, 116, 228, 1);
+          listIconColor = paletteColor ?? const Color.fromRGBO(0, 116, 228, 1);
           searchBoxColor = Colors.white;
           listDescriptionTextColor = Colors.grey;
-          textColor = Color.fromRGBO(51, 51, 51, 1);
+          textColor = const Color.fromRGBO(51, 51, 51, 1);
           theme = Brightness.light;
           cardThemeColor = Colors.white;
           break;
@@ -1386,17 +1387,17 @@ class SampleListModel extends Model {
         {
           drawerTextIconColor = Colors.white;
           drawerIconColor = Colors.white;
-          slidingPanelColor = Color.fromRGBO(32, 33, 37, 1);
+          slidingPanelColor = const Color.fromRGBO(32, 33, 37, 1);
           drawerBackgroundColor = Colors.black;
-          bottomSheetBackgroundColor = Color.fromRGBO(34, 39, 51, 1);
-          backgroundColor = paletteColor ?? Color.fromRGBO(0, 116, 228, 1);
+          bottomSheetBackgroundColor = const Color.fromRGBO(34, 39, 51, 1);
+          backgroundColor = paletteColor ?? const Color.fromRGBO(0, 116, 228, 1);
           listIconColor = paletteColor ?? Colors.white;
           searchBoxColor = Colors.white;
-          listDescriptionTextColor = Color.fromRGBO(242,242,242,1);
-          textColor = Color.fromRGBO(242,242,242,1);
+          listDescriptionTextColor = const Color.fromRGBO(242,242,242,1);
+          textColor = const Color.fromRGBO(242,242,242,1);
           theme = Brightness.dark;
           // cardThemeColor = Colors.black.withOpacity(0.7);
-          cardThemeColor = Color.fromRGBO(23,27,36,1);
+          cardThemeColor = const Color.fromRGBO(23,27,36,1);
           break;
         }
       default:
@@ -1406,11 +1407,11 @@ class SampleListModel extends Model {
           bottomSheetBackgroundColor = Colors.white;
           drawerIconColor = Colors.white;
           slidingPanelColor = Colors.white;
-          backgroundColor = Color.fromRGBO(0, 116, 228, 1);
+          backgroundColor = const Color.fromRGBO(0, 116, 228, 1);
           searchBoxColor = Colors.white;
-          listIconColor = Color.fromRGBO(0, 116, 228, 1);
+          listIconColor = const Color.fromRGBO(0, 116, 228, 1);
           listDescriptionTextColor = Colors.white;
-          textColor = Color.fromRGBO(51, 51, 51, 1);
+          textColor = const Color.fromRGBO(51, 51, 51, 1);
           theme = Brightness.light;
           cardThemeColor = Colors.white;
           break;

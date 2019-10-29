@@ -6,18 +6,18 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RadialBarAngle extends StatefulWidget {
-  final SubItemList sample;
   const RadialBarAngle(this.sample, {Key key}) : super(key: key);
+  final SubItemList sample;
 
   @override
   _RadialBarAngleState createState() => _RadialBarAngleState(sample);
 }
 
 class _RadialBarAngleState extends State<RadialBarAngle> {
+   _RadialBarAngleState(this.sample);
   final SubItemList sample;
-  _RadialBarAngleState(this.sample);
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _RadialBarAngleState extends State<RadialBarAngle> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -77,7 +77,7 @@ class _RadialBarAngleState extends State<RadialBarAngle> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -85,22 +85,23 @@ class _RadialBarAngleState extends State<RadialBarAngle> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore:prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
+  final SubItemList subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -112,18 +113,18 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore:prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample; 
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
+   _BackPanelState(this.sample);
   final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
-  _BackPanelState(this.sample);
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -131,15 +132,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -148,7 +149,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -204,13 +205,13 @@ SfCircularChart getAngleRadialBarChart(bool isTileView) {
 List<RadialBarSeries<_RadialData, String>> getRadialBarSeries(bool isTileView) {
   final List<_RadialData> chartData = <_RadialData>[
     _RadialData('Move 65%\n338/520 CAL', 65, 'Move  ', null,
-        Color.fromRGBO(0, 201, 230, 1.0)),
+        const Color.fromRGBO(0, 201, 230, 1.0)),
     _RadialData('Exercise 43%\n13/30 MIN', 43, 'Exercise  ', null,
-        Color.fromRGBO(63, 224, 0, 1.0)),
+        const Color.fromRGBO(63, 224, 0, 1.0)),
     _RadialData('Stand 58%\n7/12 HR', 58, 'Stand  ', null,
-        Color.fromRGBO(226, 1, 26, 1.0)),
+        const Color.fromRGBO(226, 1, 26, 1.0)),
   ];
-  var list = <RadialBarSeries<_RadialData, String>>[
+   final List<RadialBarSeries<_RadialData, String>> list = <RadialBarSeries<_RadialData, String>>[
     RadialBarSeries<_RadialData, String>(
         pointRadiusMapper: (_RadialData data, _) => data.radius,
         maximumValue: 100,

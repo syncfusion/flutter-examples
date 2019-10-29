@@ -7,18 +7,18 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LineMultiColor extends StatefulWidget {
-  final SubItemList sample;
   const LineMultiColor(this.sample, {Key key}) : super(key: key);
+  final SubItemList sample;
 
   @override
   _LineMultiColorState createState() => _LineMultiColorState(sample);
 }
 
 class _LineMultiColorState extends State<LineMultiColor> {
+   _LineMultiColorState(this.sample);
   final SubItemList sample;
-  _LineMultiColorState(this.sample);
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _LineMultiColorState extends State<LineMultiColor> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -95,7 +95,7 @@ class _LineMultiColorState extends State<LineMultiColor> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -103,16 +103,17 @@ class _LineMultiColorState extends State<LineMultiColor> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore:prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
+  final SubItemList subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
+   _FrontPanelState(this.sample);
   final SubItemList sample;
-  _FrontPanelState(this.sample);
   bool enableTooltip = false;
   bool enableMarker = false;
 
@@ -120,7 +121,7 @@ class _FrontPanelState extends State<FrontPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -132,18 +133,18 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+//ignore:prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample; 
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -151,15 +152,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -168,7 +169,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -235,27 +236,27 @@ SfCartesianChart getMultiColorLineChart(bool isTileView) {
 
 List<LineSeries<_ChartData, DateTime>> getLineSeries(bool isTileView) {
   final List<_ChartData> chartData = <_ChartData>[
-    _ChartData(DateTime(1925), 415, Color.fromRGBO(248, 184, 131, 1)),
-    _ChartData(DateTime(1926), 408, Color.fromRGBO(248, 184, 131, 1)),
-    _ChartData(DateTime(1927), 415, Color.fromRGBO(248, 184, 131, 1)),
-    _ChartData(DateTime(1928), 350, Color.fromRGBO(248, 184, 131, 1)),
-    _ChartData(DateTime(1929), 375, Color.fromRGBO(248, 184, 131, 1)),
-    _ChartData(DateTime(1930), 500, Color.fromRGBO(248, 184, 131, 1)),
-    _ChartData(DateTime(1931), 390, Color.fromRGBO(229, 101, 144, 1)),
-    _ChartData(DateTime(1932), 450, Color.fromRGBO(229, 101, 144, 1)),
-    _ChartData(DateTime(1933), 440, Color.fromRGBO(229, 101, 144, 1)),
-    _ChartData(DateTime(1934), 350, Color.fromRGBO(229, 101, 144, 1)),
-    _ChartData(DateTime(1935), 400, Color.fromRGBO(229, 101, 144, 1)),
-    _ChartData(DateTime(1936), 365, Color.fromRGBO(53, 124, 210, 1)),
-    _ChartData(DateTime(1937), 490, Color.fromRGBO(53, 124, 210, 1)),
-    _ChartData(DateTime(1938), 400, Color.fromRGBO(53, 124, 210, 1)),
-    _ChartData(DateTime(1939), 520, Color.fromRGBO(53, 124, 210, 1)),
-    _ChartData(DateTime(1940), 510, Color.fromRGBO(53, 124, 210, 1)),
-    _ChartData(DateTime(1941), 395, Color.fromRGBO(0, 189, 174, 1)),
-    _ChartData(DateTime(1942), 380, Color.fromRGBO(0, 189, 174, 1)),
-    _ChartData(DateTime(1943), 404, Color.fromRGBO(0, 189, 174, 1)),
-    _ChartData(DateTime(1944), 400, Color.fromRGBO(0, 189, 174, 1)),
-    _ChartData(DateTime(1945), 500, Color.fromRGBO(0, 189, 174, 1))
+    _ChartData(DateTime(1925), 415, const Color.fromRGBO(248, 184, 131, 1)),
+    _ChartData(DateTime(1926), 408, const Color.fromRGBO(248, 184, 131, 1)),
+    _ChartData(DateTime(1927), 415, const Color.fromRGBO(248, 184, 131, 1)),
+    _ChartData(DateTime(1928), 350, const Color.fromRGBO(248, 184, 131, 1)),
+    _ChartData(DateTime(1929), 375, const Color.fromRGBO(248, 184, 131, 1)),
+    _ChartData(DateTime(1930), 500, const Color.fromRGBO(248, 184, 131, 1)),
+    _ChartData(DateTime(1931), 390, const Color.fromRGBO(229, 101, 144, 1)),
+    _ChartData(DateTime(1932), 450, const Color.fromRGBO(229, 101, 144, 1)),
+    _ChartData(DateTime(1933), 440, const Color.fromRGBO(229, 101, 144, 1)),
+    _ChartData(DateTime(1934), 350, const Color.fromRGBO(229, 101, 144, 1)),
+    _ChartData(DateTime(1935), 400, const Color.fromRGBO(229, 101, 144, 1)),
+    _ChartData(DateTime(1936), 365, const Color.fromRGBO(53, 124, 210, 1)),
+    _ChartData(DateTime(1937), 490, const Color.fromRGBO(53, 124, 210, 1)),
+    _ChartData(DateTime(1938), 400, const Color.fromRGBO(53, 124, 210, 1)),
+    _ChartData(DateTime(1939), 520, const Color.fromRGBO(53, 124, 210, 1)),
+    _ChartData(DateTime(1940), 510, const Color.fromRGBO(53, 124, 210, 1)),
+    _ChartData(DateTime(1941), 395, const Color.fromRGBO(0, 189, 174, 1)),
+    _ChartData(DateTime(1942), 380, const Color.fromRGBO(0, 189, 174, 1)),
+    _ChartData(DateTime(1943), 404, const Color.fromRGBO(0, 189, 174, 1)),
+    _ChartData(DateTime(1944), 400, const Color.fromRGBO(0, 189, 174, 1)),
+    _ChartData(DateTime(1945), 500, const Color.fromRGBO(0, 189, 174, 1))
   ];
   return <LineSeries<_ChartData, DateTime>>[
     LineSeries<_ChartData, DateTime>(

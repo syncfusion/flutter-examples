@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AnimateOpacityWidget extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   AnimateOpacityWidget(
       {@required this.opacity, @required this.child, this.controller});
 
@@ -24,8 +25,8 @@ class AnimateOpacityWidgetState extends State<AnimateOpacityWidget> {
     super.initState();
   }
 
-  onScroll() {
-    var opacity = widget.controller.offset * 0.01;
+  void onScroll() {
+    final num opacity = widget.controller.offset * 0.01;
     if (opacity >= 0 && opacity <= 1) {
       setState(() {
         _opacity = opacity;

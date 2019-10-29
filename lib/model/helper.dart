@@ -141,73 +141,73 @@ import 'model.dart';
 
 void onTapControlItem(
     BuildContext context, SampleListModel model, int position) {
-  var sample = model.controlList[position];
+  final SampleList sample = model.controlList[position];
   model.selectedIndex = position;
   if (sample.title == 'Cartesian Charts') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => CartesianTypes()));
+            builder: (BuildContext context) => const CartesianTypes()));
   }
   if (sample.title == 'Axis Types') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => AxisTypes()));
+            builder: (BuildContext context) => const AxisTypes()));
   }
   if (sample.title == 'Axis Features') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => AxesFeatures()));
+            builder: (BuildContext context) => const AxesFeatures()));
   }
   if (sample.title == 'Circular Charts') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => CircularTypes()));
+            builder: (BuildContext context) => const CircularTypes()));
   }
   if (sample.title == 'Radial Gauge') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => RadialGaugeExamples()));
+            builder: (BuildContext context) => const RadialGaugeExamples()));
   }
   if (sample.title == 'Pyramid Chart') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => PyramidFeatures()));
+            builder: (BuildContext context) => const PyramidFeatures()));
   }
   if (sample.title == 'Funnel Chart') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => FunnelCharts()));
+            builder: (BuildContext context) => const FunnelCharts()));
   }
   if (sample.title == 'Series Features') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => SeriesFeatures()));
+            builder: (BuildContext context) => const SeriesFeatures()));
   }
   if (sample.title == 'Legend') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => LegendFeatures()));
+            builder: (BuildContext context) => const LegendFeatures()));
   }
   if (sample.title == 'User Interactions') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => InteractionTypes()));
+            builder: (BuildContext context) => const InteractionTypes()));
   }
   if (sample.title == 'Dynamic Updates') {
     Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => DynamicUpdates()));
+            builder: (BuildContext context) => const DynamicUpdates()));
   }
 }
 
@@ -1006,18 +1006,277 @@ void onTapSampleItem(BuildContext context, SubItemList sample) {
 }
 
 String getStatus(List<SubItemList> model) {
-    int newCount = 0;
-    int updateCount = 0;
-    for (int i = 0; i < model.length;
-        i++) {
-      if (model.length > 0 && model[i].status!=null) {
-            if(model[i].status == 'New'){
-              newCount++;
-            }else if(model[i].status == 'Updated'){
-              updateCount++;
-            } 
+  int newCount = 0;
+  int updateCount = 0;
+  for (int i = 0; i < model.length; i++) {
+    if (model.isNotEmpty && model[i].status != null) {
+      if (model[i].status == 'New') {
+        newCount++;
+      } else if (model[i].status == 'Updated') {
+        updateCount++;
       }
     }
-    return (newCount == model.length) ? 'N' : (newCount!=0 || updateCount!=0) ? 'U' : '';    
   }
-//......................End User Interactions......................................//
+  return (newCount == model.length)
+      ? 'N'
+      : (newCount != 0 || updateCount != 0) ? 'U' : '';
+}
+
+List<Widget> getTabs(SampleListModel model) {
+  final List<Widget> tabs = <Widget>[];
+  for (int i = 0;
+      i < model.controlList[model.selectedIndex].subItemList.length;
+      i++) {
+    if (model.controlList[model.selectedIndex].subItemList[i].isNotEmpty) {
+      final String str =
+          getStatus(model.controlList[model.selectedIndex].subItemList[i]);
+      tabs.add(Tab(
+          child: Row(
+        children: <Widget>[
+          Text(model
+                  .controlList[model.selectedIndex].subItemList[i][0]?.category
+                  .toString() +
+              (str != '' ? '  ' : '')),
+          Container(
+            height: 20,
+            width: 20,
+            decoration: BoxDecoration(
+              color: str == 'N'
+                 ? const Color.fromRGBO(101, 193, 0, 1)
+                  : str == 'U'
+                     ? const Color.fromRGBO(245, 166, 35, 1)
+                      : Colors.transparent,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              str,
+              style: TextStyle(fontSize: 12),
+            ),
+          ),
+        ],
+      )));
+    }
+  }
+  return tabs;
+}
+
+List<Widget> getCardViewChildren(SampleListModel model) {
+  final List<Widget> tabChildren = <Widget>[];
+  for (int i = 0;
+      i < model.controlList[model.selectedIndex].subItemList.length;
+      i++) {
+    tabChildren.add(ListView.builder(
+        cacheExtent: model
+            .controlList[model.selectedIndex].subItemList[i].length
+            .toDouble(),
+        addAutomaticKeepAlives: true,
+        itemCount: model.controlList[model.selectedIndex].subItemList[i].length,
+        itemBuilder: (BuildContext context, int position) {
+          return Container(
+            color: model.slidingPanelColor,
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Card(
+                          elevation: 2,
+                          color: model.cardThemeColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3.0),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              InkWell(
+                                splashColor: Colors.grey.withOpacity(0.4),
+                                onTap: () {
+                                  Feedback.forLongPress(context);
+                                  onTapSampleItem(
+                                      context,
+                                      model.controlList[model.selectedIndex]
+                                          .subItemList[i][position]);
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          '${model.controlList[model.selectedIndex].subItemList[i][position].title}',
+                                          textAlign: TextAlign.left,
+                                          softWrap: true,
+                                          textScaleFactor: 1,
+                                          overflow: TextOverflow.fade,
+                                          style: TextStyle(
+                                              fontFamily: 'MontserratMedium',
+                                              fontSize: 16.0,
+                                              color: model.textColor,
+                                              letterSpacing: 0.2),
+                                        ),
+                                        Container(
+                                            child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                    color: model.controlList[model.selectedIndex].subItemList[i][position].status != null
+                                                        ? (model.controlList[model.selectedIndex].subItemList[i][position].status == 'New'
+                                                           ? const Color.fromRGBO(
+                                                                101, 193, 0, 1)
+                                                            : const Color.fromRGBO(
+                                                                245, 166, 35, 1))
+                                                        : Colors.transparent,
+                                                    shape: BoxShape.rectangle,
+                                                    borderRadius: const BorderRadius.all(
+                                                        Radius.circular(10.0))),
+                                                padding: const EdgeInsets.fromLTRB(
+                                                    6, 3, 6, 3),
+                                                child: Text(
+                                                    model.controlList[model.selectedIndex].subItemList[i][position].status != null
+                                                        ? model.controlList[model.selectedIndex].subItemList[i][position].status
+                                                        : '',
+                                                    style: TextStyle(color: Colors.white))),
+                                            const Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 15),
+                                            ),
+                                            Container(
+                                              height: 24,
+                                              width: 24,
+                                              color: Colors.transparent,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        5, 0, 5, 5),
+                                                child: Image.asset(
+                                                    'images/fullscreen.png',
+                                                    fit: BoxFit.contain,
+                                                    height: 20,
+                                                    width: 20,
+                                                    color: model.listIconColor),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                      ]),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {},
+                                splashColor: Colors.grey.withOpacity(0.4),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: 230,
+                                    child: model
+                                        .controlList[model.selectedIndex]
+                                        .subItemList[i][position]
+                                        .previewWidget,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }));
+  }
+  return tabChildren;
+}
+
+///Below methods for calendar control - (to show the samples in tabview instead of tileview)
+List<Widget> getSecondaryTabBar(SampleListModel model) {
+ final List<Widget> tabs = <Widget>[];
+  for (int i = 0;
+      i < model.controlList[model.selectedIndex].subItemList.length;
+      i++) {
+    if (model.controlList[model.selectedIndex].subItemList[i].isNotEmpty) {
+      tabs.add(Container(
+        alignment: Alignment.center,
+        child: DefaultTabController(
+            length:
+                model.controlList[model.selectedIndex].subItemList[i].length,
+            child: Scaffold(
+                appBar: PreferredSize(
+                  child: AppBar(
+                    backgroundColor: model.backgroundColor,
+                    bottom: TabBar(
+                      indicator: UnderlineTabIndicator(
+                        borderSide: BorderSide(
+                            width: 3.0, color: const Color.fromRGBO(252, 220, 0, 1)),
+                      ),
+                      isScrollable: true,
+                      tabs: getSecondaryTabs(model, i),
+                    ),
+                  ),
+                  preferredSize: Size.fromHeight(48.0),
+                ),
+                body: TabBarView(children: getTabViewChildren(model, i)))),
+      ));
+    }
+  }
+  return tabs;
+}
+
+List<Widget> getSecondaryTabs(SampleListModel model, int i) {
+  final List<Widget> tabs = <Widget>[];
+  for (int j = 0;
+      j < model.controlList[model.selectedIndex].subItemList[i].length;
+      j++) {
+    final String str =
+        getStatus(model.controlList[model.selectedIndex].subItemList[i]);
+    tabs.add(Tab(
+        child: Row(
+      children: <Widget>[
+        Text(
+          model.controlList[model.selectedIndex].subItemList[i][j].title +
+              (str != '' ? '  ' : ''),
+        ),
+        Container(
+          height: 20,
+          width: 20,
+          decoration: BoxDecoration(
+            color: str == 'N'
+                ? const Color.fromRGBO(101, 193, 0, 1)
+                : str == 'U'
+                   ? const Color.fromRGBO(245, 166, 35, 1)
+                    : Colors.transparent,
+            shape: BoxShape.circle,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            str,
+            style: TextStyle(fontSize: 12),
+          ),
+        ),
+      ],
+    )));
+  }
+  return tabs;
+}
+
+List<Widget> getTabViewChildren(SampleListModel model, int i) {
+  final List<Widget> tabs = <Widget>[];
+  for (int j = 0;
+      j < model.controlList[model.selectedIndex].subItemList[i].length;
+      j++) {
+    tabs.add(Container(
+        child: model
+            .controlList[model.selectedIndex].subItemList[i][j].previewWidget));
+  }
+  return tabs;
+}

@@ -3,7 +3,9 @@ library button_picker;
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   CustomButton({
+    // ignore: avoid_unused_constructor_parameters
     Key key,
     @required this.minValue,
     @required this.maxValue,
@@ -84,7 +86,7 @@ class _CustomButton extends State<CustomButton> {
         if (widget.loop) {
           setState(() {
             /// Calculate the correct value if you go over maxValue in a loop
-            double diff = (_counter + widget.step) - widget.maxValue;
+            final num diff = (_counter + widget.step) - widget.maxValue;
             _counter = diff >= 1 ? widget.minValue + diff - 1 : widget.minValue;
           });
         }
@@ -95,7 +97,7 @@ class _CustomButton extends State<CustomButton> {
       if (_counter - widget.step < widget.minValue) {
         if (widget.loop) {
           setState(() {
-            double diff = widget.minValue - (_counter - widget.step);
+            final num diff = widget.minValue - (_counter - widget.step);
             _counter = diff >= 1 ? widget.maxValue - diff + 1 : widget.maxValue;
           });
         }

@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import './render.dart';
 
+//ignore: prefer_generic_function_type_aliases
 typedef Widget StickyHeaderWidgetBuilder(
     BuildContext context, double stuckAmount);
 
 class CustomListView extends MultiChildRenderObjectWidget {
-  /// Constructs a new [CustomListView] widget.
+  /// Constructs a [CustomListView] widget.
   CustomListView({
     Key key,
     @required this.header,
     @required this.content,
-    this.overlapHeaders: false,
+    this.overlapHeaders = false,
     this.callback,
   }) : super(
           key: key,
-          children: [content, header],
+          children: <Widget>[content, header],
         );
 
   /// Header to be shown at the top of the parent [Scrollable] content.
@@ -33,12 +34,12 @@ class CustomListView extends MultiChildRenderObjectWidget {
 
   @override
   CustomListViewRenderer createRenderObject(BuildContext context) {
-    var scrollable = Scrollable.of(context);
+    final ScrollableState scrollable = Scrollable.of(context);
     assert(scrollable != null);
-    return new CustomListViewRenderer(
+    return CustomListViewRenderer(
       scrollable: scrollable,
-      callback: this.callback,
-      overlapHeaders: this.overlapHeaders,
+      callback: callback,
+      overlapHeaders: overlapHeaders,
     );
   }
 
@@ -47,8 +48,8 @@ class CustomListView extends MultiChildRenderObjectWidget {
       BuildContext context, CustomListViewRenderer renderObject) {
     renderObject
       ..scrollable = Scrollable.of(context)
-      ..callback = this.callback
-      ..overlapHeaders = this.overlapHeaders;
+      ..callback = callback
+      ..overlapHeaders = overlapHeaders;
   }
 }
 
@@ -60,12 +61,12 @@ class CustomListView extends MultiChildRenderObjectWidget {
 /// Place this widget inside a [ListView], [GridView], [CustomScrollView], [SingleChildScrollView] or similar.
 ///
 class CustomListViewBuilder extends StatefulWidget {
-  /// Constructs a new [CustomListViewBuilder] widget.
+  /// Constructs a [CustomListViewBuilder] widget.
   const CustomListViewBuilder({
     Key key,
     @required this.builder,
     this.content,
-    this.overlapHeaders: false,
+    this.overlapHeaders = false,
   }) : super(key: key);
 
   /// Called when the sticky amount changes for the header.
@@ -80,7 +81,7 @@ class CustomListViewBuilder extends StatefulWidget {
 
   @override
   _CustomListViewBuilderState createState() =>
-      new _CustomListViewBuilderState();
+      _CustomListViewBuilderState();
 }
 
 class _CustomListViewBuilderState extends State<CustomListViewBuilder> {
@@ -88,10 +89,10 @@ class _CustomListViewBuilderState extends State<CustomListViewBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return new CustomListView(
+    return CustomListView(
       overlapHeaders: widget.overlapHeaders,
-      header: new LayoutBuilder(
-        builder: (context, _) => widget.builder(context, _stuckAmount ?? 0.0),
+      header: LayoutBuilder(
+        builder: (BuildContext context, _) => widget.builder(context, _stuckAmount ?? 0.0),
       ),
       content: widget.content,
       callback: (double stuckAmount) {

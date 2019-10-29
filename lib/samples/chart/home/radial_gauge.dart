@@ -27,12 +27,12 @@ class _RadialGaugeExamplesState extends State<RadialGaugeExamples>
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) => Theme(
+        builder: (BuildContext context, _, SampleListModel model) => Theme(
             data: model.themeData,
             child: SafeArea(
               child: DefaultTabController(
                 length:
-                model.controlList[model.selectedIndex].subItemList.length,
+                    model.controlList[model.selectedIndex].subItemList.length,
                 child: Scaffold(
                   appBar: AppBar(
                     leading: IconButton(
@@ -43,7 +43,7 @@ class _RadialGaugeExamplesState extends State<RadialGaugeExamples>
                     bottom: TabBar(
                       indicator: UnderlineTabIndicator(
                         borderSide: BorderSide(
-                            width: 5.0, color: Color.fromRGBO(252, 220, 0, 1)),
+                            width: 5.0, color: const Color.fromRGBO(252, 220, 0, 1)),
                       ),
                       isScrollable: true,
                       tabs: getTabs(model),
@@ -57,135 +57,11 @@ class _RadialGaugeExamplesState extends State<RadialGaugeExamples>
                             letterSpacing: 0.3)),
                   ),
                   body: TabBarView(
-                    children: getTabViewChildrens(model),
+                    children: getCardViewChildren(model),
                   ),
                 ),
               ),
             )));
-  }
-
-  List<Widget> getTabs(SampleListModel model) {
-    List<Widget> tabs = <Widget>[];
-    for (int i = 0;
-    i < model.controlList[model.selectedIndex].subItemList.length;
-    i++) {
-      if (model.controlList[model.selectedIndex].subItemList[i].length > 0) {
-        tabs.add(Tab(
-            text: model
-                .controlList[model.selectedIndex].subItemList[i][0]?.category));
-      }
-    }
-    return tabs;
-  }
-
-  List<Widget> getTabViewChildrens(SampleListModel model) {
-    List<Widget> tabChildren = <Widget>[];
-    for (int i = 0;
-    i < model.controlList[model.selectedIndex].subItemList.length;
-    i++) {
-      tabChildren.add(ListView.builder(
-          cacheExtent: model
-              .controlList[model.selectedIndex].subItemList[i].length
-              .toDouble(),
-          addAutomaticKeepAlives: true,
-          itemCount:
-          model.controlList[model.selectedIndex].subItemList[i].length,
-          itemBuilder: (BuildContext context, int position) {
-            return Container(
-              color: model.slidingPanelColor,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Card(
-                            elevation: 2,
-                            color: model.cardThemeColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3.0),
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                InkWell(
-                                  splashColor: Colors.grey.withOpacity(0.4),
-                                  onTap: () {
-                                    Feedback.forLongPress(context);
-                                    onTapSampleItem(
-                                        context,
-                                        model.controlList[model.selectedIndex]
-                                            .subItemList[i][position]);
-                                  },
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.fromLTRB(10, 5, 5, 5),
-                                    child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            '${model.controlList[model.selectedIndex].subItemList[i][position].title}',
-                                            textAlign: TextAlign.left,
-                                            softWrap: true,
-                                            textScaleFactor: 1,
-                                            overflow: TextOverflow.fade,
-                                            style: TextStyle(
-                                                fontFamily: 'MontserratMedium',
-                                                fontSize: 16.0,
-                                                color: model.textColor,
-                                                letterSpacing: 0.3),
-                                          ),
-                                          Container(
-                                            height: 30,
-                                            width: 30,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding:
-                                              const EdgeInsets.fromLTRB(
-                                                  5, 0, 5, 5),
-                                              child: Image.asset(
-                                                  'images/fullscreen.png',
-                                                  fit: BoxFit.contain,
-                                                  height: 20,
-                                                  width: 20,
-                                                  color: model.listIconColor),
-                                            ),
-                                          ),
-                                        ]),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {},
-                                  splashColor: Colors.grey.withOpacity(0.4),
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      height: 230,
-                                      child: model
-                                          .controlList[model.selectedIndex]
-                                          .subItemList[i][position]
-                                          .previewWidget,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }));
-    }
-    return tabChildren;
   }
 
   @override

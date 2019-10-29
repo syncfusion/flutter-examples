@@ -6,18 +6,18 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DistanceTrackerExample extends StatefulWidget {
-  final SubItemList sample;
   const DistanceTrackerExample(this.sample, {Key key}) : super(key: key);
+  final SubItemList sample;
 
   @override
   _DistanceTrackerExampleState createState() => _DistanceTrackerExampleState(sample);
 }
 
 class _DistanceTrackerExampleState extends State<DistanceTrackerExample> {
-  final SubItemList sample;
   _DistanceTrackerExampleState(this.sample);
+  final SubItemList sample;
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _DistanceTrackerExampleState extends State<DistanceTrackerExample> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
           child: Backdrop(
             needCloseButton: false,
             panelVisible: frontPanelVisible,
@@ -77,7 +77,7 @@ class _DistanceTrackerExampleState extends State<DistanceTrackerExample> {
             headerClosingHeight: 350,
             titleVisibleOnPanelClosed: true,
             color: model.cardThemeColor,
-            borderRadius: BorderRadius.vertical(
+            borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(12), bottom: Radius.circular(0)),
           ),
         ));
@@ -85,21 +85,22 @@ class _DistanceTrackerExampleState extends State<DistanceTrackerExample> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore:prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
+  final SubItemList subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -111,18 +112,18 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+  //ignore:prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -130,15 +131,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -147,7 +148,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -201,7 +202,7 @@ SfRadialGauge getDistanceTrackerExample(bool isTileView) {
             style: TextStyle(fontWeight: FontWeight.bold,
               fontStyle: FontStyle.italic, fontSize: isTileView ? 20 : 30
           )),
-            Padding(padding: EdgeInsets.fromLTRB(0,2,0,0),
+            Padding(padding: const EdgeInsets.fromLTRB(0,2,0,0),
               child: Text('km/h',
                 style: TextStyle(fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic, fontSize: isTileView ? 12 : 14
@@ -219,7 +220,7 @@ SfRadialGauge getDistanceTrackerExample(bool isTileView) {
         pointers: <GaugePointer>[RangePointer(value: 142,
             width: 17, pointerOffset: -2, enableAnimation: true,
             cornerStyle: CornerStyle.bothCurve,
-          color: Color(0xFFF67280),
+          color: const Color(0xFFF67280),
         )]
       ),
 

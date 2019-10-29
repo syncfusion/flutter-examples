@@ -6,20 +6,19 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BubbleGradient extends StatefulWidget {
-  final SubItemList sample;
   const BubbleGradient(this.sample, {Key key}) : super(key: key);
+  final SubItemList sample;
 
   @override
   _BubbleGradientState createState() => _BubbleGradientState(sample);
 }
 
 class _BubbleGradientState extends State<BubbleGradient> {
+ _BubbleGradientState(this.sample); 
   final SubItemList sample;
 
-  _BubbleGradientState(this.sample);
-
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -45,7 +44,7 @@ class _BubbleGradientState extends State<BubbleGradient> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -95,7 +94,7 @@ class _BubbleGradientState extends State<BubbleGradient> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -103,22 +102,23 @@ class _BubbleGradientState extends State<BubbleGradient> {
 }
 
 class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
+  //ignore:prefer_const_constructors_in_immutables
   FrontPanel(this.subItemList);
+  final SubItemList subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
   _FrontPanelState(this.sample);
+  final SubItemList sample;
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleListModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
             body: Padding(
@@ -131,18 +131,19 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
+//ignore:prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+  final SubItemList sample;
+  final GlobalKey _globalKey = GlobalKey();
+  
 
   @override
   void initState() {
@@ -150,15 +151,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+  void _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -167,7 +168,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -233,12 +234,12 @@ SfCartesianChart getGradientBubbleChart(bool isTileView) {
 
 List<BubbleSeries<_BubbleGradient, String>> getBubbleSeries(bool isTileView) {
   final List<_BubbleGradient> chartData = <_BubbleGradient>[
+     _BubbleGradient('England', 3, 0, const Color.fromRGBO(233, 132, 30, 1)),
     _BubbleGradient('India', 3, 2, const Color.fromRGBO(0, 255, 255, 1)),
+    _BubbleGradient('Pakistan', 2, 1, const Color.fromRGBO(255, 200, 102, 1)), 
     _BubbleGradient('West\nIndies', 3, 2, const Color.fromRGBO(0, 0, 0, 1)),
-    _BubbleGradient('Sri\nLanka', 3, 1, const Color.fromRGBO(255, 340, 102, 1)),
-    _BubbleGradient('Pakistan', 2, 1, const Color.fromRGBO(255, 200, 102, 1)),
-    _BubbleGradient('England', 3, 0, const Color.fromRGBO(233, 132, 30, 1)),
-    _BubbleGradient('New\nZealand', 1, 0, const Color.fromRGBO(200, 0, 102, 1)),
+    _BubbleGradient('Sri\nLanka', 3, 1, const Color.fromRGBO(255, 340, 102, 1)),      
+    _BubbleGradient('New\nZealand', 1, 0, const Color.fromRGBO(200, 0, 102, 1)) 
   ];
   final List<Color> color = <Color>[];
   color.add(Colors.blue[50]);

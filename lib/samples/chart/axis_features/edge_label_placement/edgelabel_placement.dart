@@ -9,18 +9,20 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EdgeLabel extends StatefulWidget {
-  final SubItemList sample;
   const EdgeLabel(this.sample, {Key key}) : super(key: key);
+
+  final SubItemList sample;
 
   @override
   _EdgeLabelState createState() => _EdgeLabelState(sample);
 }
 
 class _EdgeLabelState extends State<EdgeLabel> {
+    _EdgeLabelState(this.sample);
+
   final SubItemList sample;
-  _EdgeLabelState(this.sample);
   bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -46,7 +48,7 @@ class _EdgeLabelState extends State<EdgeLabel> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
+        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
               child: Backdrop(
                 needCloseButton: false,
                 panelVisible: frontPanelVisible,
@@ -80,7 +82,7 @@ class _EdgeLabelState extends State<EdgeLabel> {
                 headerClosingHeight: 350,
                 titleVisibleOnPanelClosed: true,
                 color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
+                borderRadius:const BorderRadius.vertical(
                     top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
             ));
@@ -88,16 +90,19 @@ class _EdgeLabelState extends State<EdgeLabel> {
 }
 
 class FrontPanel extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
+    FrontPanel(this.subItemList);
+
   final SubItemList subItemList;
-  FrontPanel(this.subItemList);
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+  _FrontPanelState createState() => _FrontPanelState(subItemList);
 }
 
 class _FrontPanelState extends State<FrontPanel> {
+    _FrontPanelState(this.sample);
+
   final SubItemList sample;
-  _FrontPanelState(this.sample);
   bool enableTooltip = false;
   bool enableMarker = false;
   bool enableDatalabel = false;
@@ -111,7 +116,7 @@ class _FrontPanelState extends State<FrontPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _,SampleListModel model) {
           return Scaffold(
              backgroundColor:model.cardThemeColor,
               body: Padding(
@@ -178,19 +183,19 @@ class _FrontPanelState extends State<FrontPanel> {
   }
 
   void _showSettingsPanel(SampleListModel model) {
-    double height =
+    final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleListModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _,SampleListModel model) => Padding(
+                padding:const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 120,
                     child: Padding(
@@ -291,18 +296,22 @@ class _FrontPanelState extends State<FrontPanel> {
 }
 
 class BackPanel extends StatefulWidget {
-  final SubItemList sample;
 
+  //ignore: prefer_const_constructors_in_immutables
   BackPanel(this.sample);
+
+  final SubItemList sample;
 
   @override
   _BackPanelState createState() => _BackPanelState(sample);
 }
 
 class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
   _BackPanelState(this.sample);
+
+  final SubItemList sample;
+
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -310,15 +319,15 @@ class _BackPanelState extends State<BackPanel> {
     super.initState();
   }
 
-  _afterLayout(_) {
+ dynamic _afterLayout(dynamic _) {
     _getSizesAndPosition();
   }
 
-  _getSizesAndPosition() {
+  void _getSizesAndPosition() {
     final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
     BackdropState.frontPanelHeight =
         position.dy + (size.height - appbarHeight) + 20;
   }
@@ -327,7 +336,7 @@ class _BackPanelState extends State<BackPanel> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleListModel>(
       rebuildOnChange: true,
-      builder: (context, _, model) {
+      builder: (BuildContext context, _, SampleListModel model) {
         return Container(
           color: model.backgroundColor,
           child: Padding(
@@ -398,18 +407,18 @@ SfCartesianChart getEdgeLabelPlacementChart(bool isTileView,
 
 List<ChartSeries<_ChartData, DateTime>> getLineSeries(bool isTileView) {
   final List<_ChartData> chartData = <_ChartData>[
-    _ChartData(new DateTime(2005, 4, 1), 37.99, 28.22),
-    _ChartData(new DateTime(2006, 4, 1), 43.5, 30.45),
-    _ChartData(new DateTime(2007, 4, 1), 43, 30.25),
-    _ChartData(new DateTime(2008, 4, 1), 45.5, 31.76),
-    _ChartData(new DateTime(2009, 4, 1), 44.7, 30.86),
-    _ChartData(new DateTime(2010, 4, 1), 48, 38.1),
-    _ChartData(new DateTime(2011, 4, 1), 58.5, 37.75),
-    _ChartData(new DateTime(2012, 4, 1), 65.6, 40.91),
-    _ChartData(new DateTime(2013, 4, 1), 66.09, 48.63),
-    _ChartData(new DateTime(2014, 4, 1), 72.26, 55.48),
-    _ChartData(new DateTime(2015, 4, 1), 60.49, 49.71),
-    _ChartData(new DateTime(2016, 4, 1), 59.68, 48.33)
+    _ChartData( DateTime(2005, 4, 1), 37.99, 28.22),
+    _ChartData( DateTime(2006, 4, 1), 43.5, 30.45),
+    _ChartData( DateTime(2007, 4, 1), 43, 30.25),
+    _ChartData( DateTime(2008, 4, 1), 45.5, 31.76),
+    _ChartData( DateTime(2009, 4, 1), 44.7, 30.86),
+    _ChartData( DateTime(2010, 4, 1), 48, 38.1),
+    _ChartData( DateTime(2011, 4, 1), 58.5, 37.75),
+    _ChartData( DateTime(2012, 4, 1), 65.6, 40.91),
+    _ChartData( DateTime(2013, 4, 1), 66.09, 48.63),
+    _ChartData( DateTime(2014, 4, 1), 72.26, 55.48),
+    _ChartData( DateTime(2015, 4, 1), 60.49, 49.71),
+    _ChartData( DateTime(2016, 4, 1), 59.68, 48.33)
   ];
   return <ChartSeries<_ChartData, DateTime>>[
     SplineSeries<_ChartData, DateTime>(
