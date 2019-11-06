@@ -69,7 +69,7 @@ class _RadialImageAnnotationState extends State<RadialImageAnnotation> {
               ),
             ],
             appBarTitle: AnimatedSwitcher(
-                duration: Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 1000),
                 child: Text(sample.title.toString())),
             backLayer: BackPanel(sample),
             frontLayer: FrontPanel(sample),
@@ -203,7 +203,7 @@ SfRadialGauge getRadialImageAnnotation(bool isTileView) {
             GaugeAnnotation(widget: Column(children: <Widget>[Container(
                 width: isTileView ? 30.00 : 50.00 ,
                 height: isTileView ? 30.00 : 50.00,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: ExactAssetImage('images/sun.png'),
                     fit: BoxFit.fitHeight,

@@ -98,7 +98,7 @@ class _LiveUpdateState extends State<LiveUpdate> {
                   ),
                 ],
                 appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
+                    duration: const Duration(milliseconds: 1000),
                     child: Text(sample.title.toString())),
                 backLayer: BackPanel(sample),
                 frontLayer: FrontPanel(sample),
@@ -131,7 +131,7 @@ class _FrontPanelState extends State<FrontPanel> {
       chartData2.clear();
     }
     updateLiveData();
-    timer = Timer.periodic(Duration(milliseconds: 2), updateData);
+    timer = Timer.periodic(const Duration(milliseconds: 2), updateData);
   }
 
   Timer timer;

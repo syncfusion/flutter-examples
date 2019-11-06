@@ -41,9 +41,9 @@ class _RadialGaugeExamplesState extends State<RadialGaugeExamples>
                     ),
                     backgroundColor: model.backgroundColor,
                     bottom: TabBar(
-                      indicator: UnderlineTabIndicator(
+                      indicator: const UnderlineTabIndicator(
                         borderSide: BorderSide(
-                            width: 5.0, color: const Color.fromRGBO(252, 220, 0, 1)),
+                            width: 5.0, color: Color.fromRGBO(252, 220, 0, 1)),
                       ),
                       isScrollable: true,
                       tabs: getTabs(model),

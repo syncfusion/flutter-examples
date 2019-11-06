@@ -70,7 +70,7 @@ class _ClockExampleState extends State<ClockExample> {
               ),
             ],
             appBarTitle: AnimatedSwitcher(
-                duration: Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 1000),
                 child: Text(sample.title.toString())),
             backLayer: BackPanel(sample),
             frontLayer: FrontPanel(sample),
@@ -102,7 +102,7 @@ class _FrontPanelState extends State<FrontPanel> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(milliseconds: 1000), updateData);
+    timer = Timer.periodic(const Duration(milliseconds: 1000), updateData);
   }
 
   void updateData(Timer timer){
