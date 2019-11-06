@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                   resizeToAvoidBottomPadding: true,
                   drawer: getSideDrawer(model),
                   appBar: PreferredSize(
-                      preferredSize: Size.fromHeight(60.0),
+                      preferredSize: const Size.fromHeight(60.0),
                       child: Container(
                         decoration: BoxDecoration(boxShadow: <BoxShadow>[
                           BoxShadow(
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                           title: AnimateOpacityWidget(
                               controller: controller,
                               opacity: cOpacity,
-                              child: Text('Flutter UI Widgets',
+                              child: const Text('Flutter UI Widgets',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontFamily: 'MontserratMedium'))),
@@ -250,8 +250,8 @@ class _HomePageState extends State<HomePage> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold))),
-                                                    Padding(
-                                                      padding: const EdgeInsets
+                                                    const Padding(
+                                                      padding: EdgeInsets
                                                               .fromLTRB(
                                                           0, 12, 0, 0),
                                                       child: Text(
@@ -695,7 +695,7 @@ class _HomePageState extends State<HomePage> {
                                       child: RaisedButton(
                                           color: model.backgroundColor,
                                           onPressed: () => _applySetting(model),
-                                          child: Text('APPLY',
+                                          child: const Text('APPLY',
                                               style: TextStyle(
                                                   fontFamily:
                                                       'MontserratMedium',
@@ -1040,7 +1040,7 @@ class _HomePageState extends State<HomePage> {
                                                             'Roboto-Regular',
                                                         fontWeight: FontWeight
                                                             .normal))),
-                                            Spacer(),
+                                            const Spacer(),
                                             Container(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
@@ -1100,7 +1100,7 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                           FontWeight.normal)),
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             Container(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
@@ -1160,7 +1160,7 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                           FontWeight.normal)),
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             Container(
                                               padding:
                                                   const EdgeInsets.fromLTRB(

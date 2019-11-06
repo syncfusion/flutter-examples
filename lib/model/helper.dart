@@ -1051,7 +1051,7 @@ List<Widget> getTabs(SampleListModel model) {
             alignment: Alignment.center,
             child: Text(
               str,
-              style: TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12),
             ),
           ),
         ],
@@ -1141,7 +1141,7 @@ List<Widget> getCardViewChildren(SampleListModel model) {
                                                     model.controlList[model.selectedIndex].subItemList[i][position].status != null
                                                         ? model.controlList[model.selectedIndex].subItemList[i][position].status
                                                         : '',
-                                                    style: TextStyle(color: Colors.white))),
+                                                    style: const TextStyle(color: Colors.white))),
                                             const Padding(
                                               padding:
                                                   EdgeInsets.only(left: 15),
@@ -1215,15 +1215,15 @@ List<Widget> getSecondaryTabBar(SampleListModel model) {
                   child: AppBar(
                     backgroundColor: model.backgroundColor,
                     bottom: TabBar(
-                      indicator: UnderlineTabIndicator(
+                      indicator: const UnderlineTabIndicator(
                         borderSide: BorderSide(
-                            width: 3.0, color: const Color.fromRGBO(252, 220, 0, 1)),
+                            width: 3.0, color: Color.fromRGBO(252, 220, 0, 1)),
                       ),
                       isScrollable: true,
                       tabs: getSecondaryTabs(model, i),
                     ),
                   ),
-                  preferredSize: Size.fromHeight(48.0),
+                  preferredSize: const Size.fromHeight(48.0),
                 ),
                 body: TabBarView(children: getTabViewChildren(model, i)))),
       ));
@@ -1260,7 +1260,7 @@ List<Widget> getSecondaryTabs(SampleListModel model, int i) {
           alignment: Alignment.center,
           child: Text(
             str,
-            style: TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 12),
           ),
         ),
       ],

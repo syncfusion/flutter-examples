@@ -77,7 +77,7 @@ class _CartesianDynamicAnimationState extends State<CartesianDynamicAnimation> {
                
                 ],
                 appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
+                    duration: const Duration(milliseconds: 1000),
                     child: Text(sample.title.toString())),
                 backLayer: BackPanel(sample),
                 frontLayer: FrontPanel(sample),
@@ -135,7 +135,7 @@ class _FrontPanelState extends State<FrontPanel> {
   @override
   Widget build(BuildContext context) {
     chartData = getChartData();
-    timer = Timer(Duration(seconds: 3), () {
+    timer = Timer(const Duration(seconds: 3), () {
       setState(() {
         chartData = getChartData();
       });

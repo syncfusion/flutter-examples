@@ -86,7 +86,7 @@ class _ColumnTrackerState extends State<ColumnTracker> {
                   ),
                 ],
                 appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
+                    duration: const Duration(milliseconds: 1000),
                     child: Text(sample.title.toString())),
                 backLayer: BackPanel(sample),
                 frontLayer: FrontPanel(sample),

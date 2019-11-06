@@ -71,7 +71,7 @@ class _RadialEaseExampleState extends State<RadialEaseExample> {
               ),
             ],
             appBarTitle: AnimatedSwitcher(
-                duration: Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 1000),
                 child: Text(sample.title.toString())),
             backLayer: BackPanel(sample),
             frontLayer: FrontPanel(sample),
@@ -221,7 +221,7 @@ SfRadialGauge getRadialEaseExample(bool isTileView) {
         annotations: <GaugeAnnotation>[
           GaugeAnnotation( positionFactor: 1, axisValue: 0,
         widget: Container(height: isTileView ? 30 : 45, width:isTileView ? 30 : 45,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: ExactAssetImage('images/shotput.png'),
                 fit: BoxFit.fitHeight,

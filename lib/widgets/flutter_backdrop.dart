@@ -209,7 +209,7 @@ class BackdropState extends State<Backdrop>
     panelVisible = widget.panelVisible?.value;
     controller = AnimationController(
         vsync: this,
-        duration: Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 100),
         value: (widget.panelVisible?.value ?? true) ? 1.0 : 0.0)
       ..addStatusListener((AnimationStatus status) {
         if (status == AnimationStatus.completed)
@@ -359,7 +359,7 @@ class BackdropState extends State<Backdrop>
             key: _scaffoldKey,
             backgroundColor: sampleListModel.backgroundColor,
             appBar: PreferredSize(
-                preferredSize: Size.fromHeight(60.0), // here the desired height
+                preferredSize: const Size.fromHeight(60.0), // here the desired height
                 child: AppBar(
                   automaticallyImplyLeading:
                       widget.appBarAutomaticallyImplyLeading,
