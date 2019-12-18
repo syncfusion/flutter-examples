@@ -1,15 +1,16 @@
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../../model/helper.dart';
+import '../../../../model/model.dart';
 
+//ignore: must_be_immutable
 class LabelAction extends StatefulWidget {
-  const LabelAction(this.sample, {Key key}) : super(key: key);
-  final SubItemList sample;
+  LabelAction({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _LabelActionState createState() => _LabelActionState(sample);
@@ -18,108 +19,71 @@ class LabelAction extends StatefulWidget {
 class _LabelActionState extends State<LabelAction> {
   _LabelActionState(this.sample);
 
-  final SubItemList sample;
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(LabelAction oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
-
+  final SubItem sample;
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.codeViewerIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/handling_label_collision/handling_label_collision.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.informationIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          if (frontPanelVisible.value)
-                            frontPanelVisible.value = false;
-                          else
-                            frontPanelVisible.value = true;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
+    return getScopedModel(null, sample, LabelCollisionFrontPanel(sample));
   }
 }
 
-class FrontPanel extends StatefulWidget {
-
-  //ignore:prefer_const_constructors_in_immutables 
-  FrontPanel(this.subItemList);
-
-  final SubItemList subItemList;
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(subItemList);
+SfCartesianChart getLabelIntersectActionChart(bool isTileView,
+    [AxisLabelIntersectAction _labelIntersectAction]) {
+  return SfCartesianChart(
+    plotAreaBorderWidth: 0,
+    title:
+        ChartTitle(text: isTileView ? '' : 'Football players with most goals'),
+    primaryXAxis: CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+        labelIntersectAction: _labelIntersectAction),
+    primaryYAxis: NumericAxis(
+        axisLine: AxisLine(width: 0),
+        interval: 40,
+        majorTickLines: MajorTickLines(size: 0)),
+    series: getLabelIntersectActionSeries(isTileView),
+    tooltipBehavior: TooltipBehavior(
+        enable: true,
+        format: 'point.x : point.y Goals',
+        header: '',
+        canShowMarker: false),
+  );
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  _FrontPanelState(this.sample);
-  final SubItemList sample;
-  bool enableTooltip = false;
-  bool enableMarker = false;
-  bool enableDatalabel = false;
+List<ColumnSeries<ChartSampleData, String>> getLabelIntersectActionSeries(
+    bool isTileView) {
+  final List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(x: 'Josef Bican', y: 805),
+    ChartSampleData(x: 'Romário', y: 772),
+    ChartSampleData(x: 'Pelé', y: 761),
+    ChartSampleData(x: 'Ferenc Puskás', y: 746),
+    ChartSampleData(x: 'Gerd Müller', y: 735),
+    ChartSampleData(x: 'Ronaldo', y: 707),
+    ChartSampleData(x: 'Messi', y: 698)
+  ];
+  return <ColumnSeries<ChartSampleData, String>>[
+    ColumnSeries<ChartSampleData, String>(
+        enableTooltip: true,
+        dataSource: chartData,
+        xValueMapper: (ChartSampleData data, _) => data.x,
+        yValueMapper: (ChartSampleData data, _) => data.y,
+        dataLabelSettings: DataLabelSettings(
+            isVisible: true, labelAlignment: ChartDataLabelAlignment.top))
+  ];
+}
+
+class LabelCollisionFrontPanel extends StatefulWidget {
+  //ignore:prefer_const_constructors_in_immutables
+  LabelCollisionFrontPanel(this.subItemList);
+
+  final SubItem subItemList;
+
+  @override
+  _LabelCollisionFrontPanelState createState() =>
+      _LabelCollisionFrontPanelState(subItemList);
+}
+
+class _LabelCollisionFrontPanelState extends State<LabelCollisionFrontPanel> {
+  _LabelCollisionFrontPanelState(this.sample);
+  final SubItem sample;
   final List<String> _labelList = <String>[
     'hide',
     'none',
@@ -136,11 +100,11 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
+    return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
-        builder: (BuildContext context, _,SampleListModel model) {
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-             backgroundColor:model.cardThemeColor,
+              backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
@@ -189,7 +153,7 @@ class _FrontPanelState extends State<FrontPanel> {
         });
   }
 
-  void onPositionTypeChange(String item, SampleListModel model) {
+  void onPositionTypeChange(String item, SampleModel model) {
     setState(() {
       _selectedType = item;
       if (_selectedType == 'hide') {
@@ -213,16 +177,16 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void _showSettingsPanel(SampleListModel model) {
+  void _showSettingsPanel(SampleModel model) {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (BuildContext context, _,SampleListModel model) => Padding(
-                padding:const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _, SampleModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 120,
                     child: Padding(
@@ -278,7 +242,6 @@ class _FrontPanelState extends State<FrontPanel> {
                                                     const EdgeInsets.fromLTRB(
                                                         20, 0, 0, 0),
                                                 height: 50,
-                                                width: 150,
                                                 child: Align(
                                                   alignment:
                                                       Alignment.bottomCenter,
@@ -320,133 +283,4 @@ class _FrontPanelState extends State<FrontPanel> {
                               ]),
                             )))))));
   }
-}
-
-class BackPanel extends StatefulWidget {
-
-  //ignore: prefer_const_constructors_in_immutables
-  BackPanel(this.sample);
-
-  final SubItemList sample;
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-    _BackPanelState(this.sample);
-
-  final SubItemList sample;
-  final GlobalKey _globalKey = GlobalKey();
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  dynamic _afterLayout(dynamic _) {
-    _getSizesAndPosition();
-  }
-
-  void _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final Size size = renderBoxRed.size;
-    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
-     const double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (BuildContext context, _,SampleListModel model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-SfCartesianChart getLabelIntersectActionChart(bool isTileView,
-    [AxisLabelIntersectAction _labelIntersectAction]) {
-  return SfCartesianChart(
-    plotAreaBorderWidth: 0,
-    title:
-        ChartTitle(text: isTileView ? '' : 'Football players with most goals'),
-    primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
-        labelIntersectAction: _labelIntersectAction),
-    primaryYAxis: NumericAxis(
-        axisLine: AxisLine(width: 0),
-        interval: 40,
-        majorTickLines: MajorTickLines(size: 0)),
-    series: getLineSeries(isTileView),
-    tooltipBehavior: TooltipBehavior(
-        enable: true,
-        format: 'point.x : point.y Goals',
-        header: '',
-        canShowMarker: false),
-  );
-}
-
-List<ColumnSeries<_ChartData, String>> getLineSeries(bool isTileView) {
-  final List<_ChartData> chartData = <_ChartData>[
-    _ChartData('Josef Bican', 805),
-    _ChartData('Romário', 772),
-    _ChartData('Pelé', 761),
-    _ChartData('Ferenc Puskás', 746),
-    _ChartData('Gerd Müller', 735),
-    _ChartData('Ronaldo', 707),
-    _ChartData('Messi', 698)
-  ];
-  return <ColumnSeries<_ChartData, String>>[
-    ColumnSeries<_ChartData, String>(
-        enableTooltip: true,
-        dataSource: chartData,
-        xValueMapper: (_ChartData data, _) => data.xVal,
-        yValueMapper: (_ChartData data, _) => data.yVal,
-        dataLabelSettings: DataLabelSettings(
-            isVisible: true, labelAlignment: ChartDataLabelAlignment.top))
-  ];
-}
-
-class _ChartData {
-  _ChartData(this.xVal, this.yVal);
-  final String xVal;
-  final double yVal;
 }
