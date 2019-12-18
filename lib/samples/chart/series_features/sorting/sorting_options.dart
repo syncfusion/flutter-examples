@@ -1,23 +1,24 @@
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/helper.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+//ignore: must_be_immutable
 class SortingDefault extends StatefulWidget {
-  const SortingDefault(this.sample, {Key key}) : super(key: key);
-  final SubItemList sample;
-  
+  SortingDefault({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _SortingDefaultState createState() => _SortingDefaultState(sample);
 }
 
 class _SortingDefaultState extends State<SortingDefault> {
   _SortingDefaultState(this.sample);
-  final SubItemList sample;
+  final SubItem sample;
   bool panelOpen;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
@@ -31,11 +32,6 @@ class _SortingDefaultState extends State<SortingDefault> {
   void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   void didUpdateWidget(SortingDefault oldWidget) {
     super.didUpdateWidget(oldWidget);
     frontPanelVisible.removeListener(_subscribeToValueNotifier);
@@ -44,81 +40,64 @@ class _SortingDefaultState extends State<SortingDefault> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon:
-                            Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/sorting/sorting_options.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.info_outline,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          if (frontPanelVisible.value)
-                            frontPanelVisible.value = false;
-                          else
-                            frontPanelVisible.value = true;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
+    return getScopedModel(null, sample, SortingFrontPanel(sample));
   }
 }
 
-class FrontPanel extends StatefulWidget {
-  //ignore: prefer_const_constructors_in_immutables
-  FrontPanel(this.subItemList);
-  final SubItemList subItemList;
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(subItemList);
+SfCartesianChart getDefaultSortingChart(bool isTileView,
+    [String _sortby, SortingOrder _sortingOrder]) {
+  return SfCartesianChart(
+    title: ChartTitle(text: isTileView ? '' : "World's tallest buildings"),
+    plotAreaBorderWidth: 0,
+    primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+    primaryYAxis: NumericAxis(
+        minimum: 500,
+        maximum: 900,
+        interval: 100,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0)),
+    series: getDefaultSortingSeries(isTileView, _sortby, _sortingOrder),
+    tooltipBehavior:
+        TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+  );
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  _FrontPanelState(this.sample);
-  final SubItemList sample;
-  bool enableTooltip = false;
-  bool enableMarker = false;
-  bool enableDatalabel = false;
+List<BarSeries<ChartSampleData, String>> getDefaultSortingSeries(
+    bool isTileView,
+    [String _sortby,
+    SortingOrder _sortingOrder]) {
+  final List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(x: 'Burj \n Khalifa', y: 828),
+    ChartSampleData(x: 'Goldin \n Finance 117', y: 597),
+    ChartSampleData(x: 'Makkah Clock \n Royal Tower', y: 601),
+    ChartSampleData(x: 'Ping An \n Finance Center', y: 599),
+    ChartSampleData(x: 'Shanghai \n Tower', y: 632),
+  ];
+  return <BarSeries<ChartSampleData, String>>[
+    BarSeries<ChartSampleData, String>(
+      dataSource: chartData,
+      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      yValueMapper: (ChartSampleData sales, _) => sales.y,
+      sortingOrder: _sortingOrder != null ? _sortingOrder : SortingOrder.none,
+      dataLabelSettings: DataLabelSettings(
+          isVisible: true, labelAlignment: ChartDataLabelAlignment.auto),
+      sortFieldValueMapper: (ChartSampleData sales, _) =>
+          _sortby == 'x' ? sales.x : sales.y,
+    )
+  ];
+}
+class SortingFrontPanel extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
+  SortingFrontPanel(this.subItemList);
+  final SubItem subItemList;
+
+  @override
+  _SortingFrontPanelState createState() => _SortingFrontPanelState(subItemList);
+}
+
+class _SortingFrontPanelState extends State<SortingFrontPanel> {
+  _SortingFrontPanelState(this.sample);
+  final SubItem sample;
   bool isSorting = true;
   final List<String> _labelList = <String>['y', 'x'].toList();
   final List<String> _sortList =
@@ -131,9 +110,9 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
+    return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
-        builder: (BuildContext context, _, SampleListModel model) {
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -184,7 +163,7 @@ class _FrontPanelState extends State<FrontPanel> {
         });
   }
 
-  void onPositionTypeChange(String item, SampleListModel model) {
+  void onPositionTypeChange(String item, SampleModel model) {
     setState(() {
       _selectedType = item;
       if (_selectedType == 'y') {
@@ -196,7 +175,7 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void onSortingTypeChange(String item, SampleListModel model) {
+  void onSortingTypeChange(String item, SampleModel model) {
     setState(() {
       _selectedSortType = item;
       if (_selectedSortType == 'descending') {
@@ -209,15 +188,15 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void _showSettingsPanel(SampleListModel model) {
+  void _showSettingsPanel(SampleModel model) {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleListModel model) => Padding(
+            builder: (BuildContext context, _, SampleModel model) => Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 170,
@@ -368,128 +347,4 @@ class _FrontPanelState extends State<FrontPanel> {
                               ]),
                             )))))));
   }
-}
-
-class BackPanel extends StatefulWidget {
-  //ignore: prefer_const_constructors_in_immutables
-  BackPanel(this.sample);
-  final SubItemList sample;
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  _BackPanelState(this.sample);
-  final SubItemList sample;
-  final GlobalKey _globalKey = GlobalKey();
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  void _afterLayout(dynamic _) {
-    _getSizesAndPosition();
-  }
-
-  void _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final Size size = renderBoxRed.size;
-    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
-    const double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (BuildContext context, _, SampleListModel model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-SfCartesianChart getDefaultSortingChart(bool isTileView,
-    [String _sortby, SortingOrder _sortingOrder]) {
-  return SfCartesianChart(
-    title: ChartTitle(text: isTileView ? '' : "World's tallest buildings"),
-    plotAreaBorderWidth: 0,
-    primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
-    primaryYAxis: NumericAxis(
-        minimum: 500,
-        maximum: 900,
-        interval: 100,
-        axisLine: AxisLine(width: 0),
-        majorTickLines: MajorTickLines(size: 0)),
-    series: getLineSeries(isTileView, _sortby, _sortingOrder),
-    tooltipBehavior:
-        TooltipBehavior(enable: true, canShowMarker: false, header: ''),
-  );
-}
-
-List<BarSeries<_SortingData, String>> getLineSeries(bool isTileView,
-    [String _sortby, SortingOrder _sortingOrder]) {
-  final List<_SortingData> chartData = <_SortingData>[
-    _SortingData('Burj \n Khalifa', 828),
-    _SortingData('Goldin \n Finance 117', 597),
-    _SortingData('Makkah Clock \n Royal Tower', 601),
-    _SortingData('Ping An \n Finance Center', 599),
-    _SortingData('Shanghai \n Tower', 632),
-  ];
-  return <BarSeries<_SortingData, String>>[
-    BarSeries<_SortingData, String>(
-      dataSource: chartData,
-      xValueMapper: (_SortingData sales, _) => sales.name,
-      yValueMapper: (_SortingData sales, _) => sales.height,
-      sortingOrder: _sortingOrder != null ? _sortingOrder : SortingOrder.none,
-      dataLabelSettings: DataLabelSettings(
-          isVisible: true, labelAlignment: ChartDataLabelAlignment.auto),
-      sortFieldValueMapper: (_SortingData sales, _) =>
-          _sortby == 'x' ? sales.name : sales.height,
-    )
-  ];
-}
-
-class _SortingData {
-  _SortingData(this.name, this.height);
-  final String name;
-  final double height;
 }

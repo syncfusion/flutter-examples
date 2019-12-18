@@ -1,105 +1,85 @@
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/helper.dart';
 import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter/material.dart';
 
+//ignore: must_be_immutable
 class FunnelSmartLabels extends StatefulWidget {
-  const FunnelSmartLabels(this.sample, {Key key}) : super(key: key);
-  final SubItemList sample;
-  
+  FunnelSmartLabels({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _FunnelSmartLabelState createState() => _FunnelSmartLabelState(sample);
 }
 
 class _FunnelSmartLabelState extends State<FunnelSmartLabels> {
   _FunnelSmartLabelState(this.sample);
-  final SubItemList sample;
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(FunnelSmartLabels oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                toggleFrontLayer: false,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.codeViewerIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/funnel_charts/funnel_with_smart_labels.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
+    return getScopedModel(null, sample, FunnelSmartLabelFrontPanel(sample));
   }
 }
 
-class FrontPanel extends StatefulWidget {
-  //ignore: prefer_const_constructors_in_immutables
-  FrontPanel(this.subItemList);
-  final SubItemList subItemList;
-  
-  @override
-  _FrontPanelState createState() => _FrontPanelState(subItemList);
+SfFunnelChart getFunnelSmartLabelChart(bool isTileView,
+    [ChartDataLabelPosition _labelPosition, SmartLabelMode _mode]) {
+  return SfFunnelChart(
+    smartLabelMode: isTileView ? SmartLabelMode.shift : _mode,
+    title: ChartTitle(text: isTileView ? '' : 'Tournament details'),
+    tooltipBehavior: TooltipBehavior(
+      enable: true,
+    ),
+    series: _getFunnelSeries(
+      isTileView,
+      _labelPosition,
+    ),
+  );
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  _FrontPanelState(this.sample);
-  final SubItemList sample;
+FunnelSeries<ChartSampleData, String> _getFunnelSeries(bool isTileView,
+    [ChartDataLabelPosition _labelPosition]) {
+  final List<ChartSampleData> pieData = <ChartSampleData>[
+    ChartSampleData(x: 'Finals', y: 2),
+    ChartSampleData(x: 'Semifinals', y: 4),
+    ChartSampleData(x: 'Quarter finals', y: 8),
+    ChartSampleData(x: 'League matches', y: 16),
+    ChartSampleData(x: 'Participated', y: 32),
+    ChartSampleData(x: 'Eligible', y: 36),
+    ChartSampleData(x: 'Applicants', y: 40),
+  ];
+  return FunnelSeries<ChartSampleData, String>(
+      width: '60%',
+      dataSource: pieData,
+      xValueMapper: (ChartSampleData data, _) => data.x,
+      yValueMapper: (ChartSampleData data, _) => data.y,
+      dataLabelSettings: DataLabelSettings(
+          isVisible: true,
+          labelPosition:
+              isTileView ? ChartDataLabelPosition.outside : _labelPosition,
+          useSeriesColor: true));
+}
+
+class FunnelSmartLabelFrontPanel extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
+  FunnelSmartLabelFrontPanel(this.subItemList);
+  final SubItem subItemList;
+
+  @override
+  _FunnelSmartLabelFrontPanelState createState() =>
+      _FunnelSmartLabelFrontPanelState(subItemList);
+}
+
+class _FunnelSmartLabelFrontPanelState
+    extends State<FunnelSmartLabelFrontPanel> {
+  _FunnelSmartLabelFrontPanelState(this.sample);
+  final SubItem sample;
   final List<String> _labelPositon = <String>['outside', 'inside'].toList();
-  ChartDataLabelPosition _selectedLabelPosition = ChartDataLabelPosition.outside;
+  ChartDataLabelPosition _selectedLabelPosition =
+      ChartDataLabelPosition.outside;
   String _selectedPosition;
 
   final List<String> _modeList = <String>['shift', 'none', 'hide'].toList();
@@ -115,11 +95,11 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
+    return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
-        builder: (BuildContext context, _, SampleListModel model) {
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor: model.cardThemeColor,
+              backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
@@ -153,7 +133,7 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void onSmartLabelModeChange(String item, SampleListModel model) {
+  void onSmartLabelModeChange(String item, SampleModel model) {
     setState(() {
       _smartLabelMode = item;
       if (_smartLabelMode == 'shift') {
@@ -168,7 +148,7 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void _showSettingsPanel(SampleListModel model) {
+  void _showSettingsPanel(SampleModel model) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
@@ -178,9 +158,9 @@ class _FrontPanelState extends State<FrontPanel> {
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleListModel model) => Padding(
+            builder: (BuildContext context, _, SampleModel model) => Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 170,
@@ -331,127 +311,4 @@ class _FrontPanelState extends State<FrontPanel> {
                               ]),
                             )))))));
   }
-}
-
-class BackPanel extends StatefulWidget {
-  //ignore: prefer_const_constructors_in_immutables
-  BackPanel(this.sample);
-  final SubItemList sample;
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  _BackPanelState(this.sample);
-  final SubItemList sample;
-  final GlobalKey _globalKey = GlobalKey();
-  
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  void _afterLayout(dynamic _) {
-    _getSizesAndPosition();
-  }
-
-  void _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final Size size = renderBoxRed.size;
-    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
-    const double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (BuildContext context, _, SampleListModel model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-SfFunnelChart getFunnelSmartLabelChart(bool isTileView,
-    [ChartDataLabelPosition _labelPosition, SmartLabelMode _mode]) {
-  return SfFunnelChart(
-    smartLabelMode: isTileView ? SmartLabelMode.shift : _mode,
-    title: ChartTitle(text: isTileView ? '' : 'Tournament details'),
-    tooltipBehavior: TooltipBehavior(
-      enable: true,
-    ),
-    series: _getFunnelSeries(
-      isTileView,
-      _labelPosition,
-    ),
-  );
-}
-
-FunnelSeries<_FunnelData, String> _getFunnelSeries(bool isTileView,
-    [ChartDataLabelPosition _labelPosition]) {
-  final List<_FunnelData> pieData = <_FunnelData>[
-    _FunnelData('Finals', 2),
-    _FunnelData('Semifinals', 4),
-    _FunnelData('Quarter finals', 8),
-    _FunnelData('League matches', 16),
-    _FunnelData('Participated', 32),
-    _FunnelData('Eligible', 36),
-    _FunnelData('Applicants', 40),
-  ];
-  return FunnelSeries<_FunnelData, String>(
-      width: '60%',
-      dataSource: pieData,
-      xValueMapper: (_FunnelData data, _) => data.xData,
-      yValueMapper: (_FunnelData data, _) => data.yData,
-      // textFieldMapper: (_FunnelData data, _) => data.xData,
-      //  pointColorMapper: (_FunnelData data, _) => data.color,
-      dataLabelSettings: DataLabelSettings(
-          isVisible: true,
-          labelPosition: isTileView ? ChartDataLabelPosition.outside : _labelPosition,
-          useSeriesColor: true));
-}
-
-class _FunnelData {
-  _FunnelData(this.xData, this.yData, [this.text, this.color]);
-  final String xData;
-  final num yData;
-  final String text;
-  final Color color;
 }

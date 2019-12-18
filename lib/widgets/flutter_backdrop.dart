@@ -2,8 +2,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 
-const num _flingVelocity = 2.0;
-
 // ignore: must_be_immutable
 class Backdrop extends StatefulWidget {
   Backdrop({
@@ -169,7 +167,7 @@ class Backdrop extends StatefulWidget {
 
   AnimationController controller;
 
-  final SampleListModel sampleListModel;
+  final SampleModel sampleListModel;
 
   final double frontPanelOpenPercentage;
 
@@ -186,14 +184,15 @@ class Backdrop extends StatefulWidget {
 class BackdropState extends State<Backdrop>
     with SingleTickerProviderStateMixin {
   BackdropState(
-      AnimationController _controller, SampleListModel _sampleListModel,
+      AnimationController _controller, SampleModel _sampleListModel,
       {this.test = false}) {
     // ignore: prefer_initializing_formals
     controller = _controller;
     // ignore: prefer_initializing_formals
     sampleListModel = _sampleListModel;
   }
-
+  
+  final num _flingVelocity = 2.0;
   static double frontPanelHeight = 0;
   bool panelVisible;
   final dynamic _backDropKey = GlobalKey(debugLabel: 'Backdrop');
@@ -201,7 +200,7 @@ class BackdropState extends State<Backdrop>
   AnimationController controller;
   final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey(debugLabel: 'Scaffold');
-  SampleListModel sampleListModel;
+  SampleModel sampleListModel;
 
   @override
   void initState() {

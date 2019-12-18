@@ -1,7 +1,8 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-
-version: 1.0.0+1
+version: 17.4.40    
+author: Syncfusion <support@syncfusion.com>
+homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -15,13 +16,16 @@ dependencies:
   flutter_gallery_assets: 0.1.8
   url_launcher: ^5.0.3
   intl: ^0.16.0
-  syncfusion_flutter_charts: ^17.3.14
-  syncfusion_flutter_gauges: 17.3.14-beta.1
-       
+  syncfusion_flutter_calendar: ^17.4.40-beta
+  syncfusion_flutter_charts: ^17.4.40
+  syncfusion_flutter_gauges: ^17.4.40-beta
+  syncfusion_flutter_core: ^17.4.40
+
 flutter:
   uses-material-design: true
   assets:
     - images/
+    - lib/sample_details.json
   fonts:
     - family: MontserratBold
       fonts:

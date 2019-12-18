@@ -1,15 +1,15 @@
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/widgets/bottom_sheet.dart';
+import 'package:flutter_examples/widgets/custom_button.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/bottom_sheet.dart';
-import 'package:flutter_examples/widgets/custom_button.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+//ignore: must_be_immutable
 class DoughnutSemi extends StatefulWidget {
-  const DoughnutSemi(this.sample, {Key key}) : super(key: key);
-  final SubItemList sample;
+  DoughnutSemi({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _DoughnutSemiState createState() => _DoughnutSemiState(sample);
@@ -17,96 +17,70 @@ class DoughnutSemi extends StatefulWidget {
 
 class _DoughnutSemiState extends State<DoughnutSemi> {
   _DoughnutSemiState(this.sample);
-  final SubItemList sample;
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(DoughnutSemi oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (BuildContext context, _, SampleListModel model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                toggleFrontLayer: false,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.codeViewerIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/doughnut_series/semi_doughnut_chart.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
+    return getScopedModel(null, sample, SemiDoughnutFrontPanel(sample));
   }
 }
 
-class FrontPanel extends StatefulWidget {
-  //ignore:prefer_const_constructors_in_immutables
-  FrontPanel(this.subItemList);
-  final SubItemList subItemList;
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(subItemList);
+SfCircularChart getSemiDoughnutChart(bool isTileView,
+    [int startAngle, int endAngle]) {
+  return SfCircularChart(
+    title: ChartTitle(text: isTileView ? '' : 'Sales by sales person'),
+    legend: Legend(isVisible: isTileView ? false : true),
+    centerY: isTileView ? '65%' : '60%',
+    series: getSemiDoughnutSeries(isTileView, startAngle, endAngle),
+    tooltipBehavior: TooltipBehavior(enable: true),
+  );
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  _FrontPanelState(this.sample);
-  final SubItemList sample;
+List<DoughnutSeries<ChartSampleData, String>> getSemiDoughnutSeries(
+    bool isTileView, int startAngle, int endAngle) {
+  final List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(x: 'David', y: 75, text: 'David 74%'),
+    ChartSampleData(x: 'Steve', y: 35, text: 'Steve 35%'),
+    ChartSampleData(x: 'Jack', y: 39, text: 'Jack 39%'),
+    ChartSampleData(x: 'Others', y: 75, text: 'Others 75%')
+  ];
+  return <DoughnutSeries<ChartSampleData, String>>[
+    DoughnutSeries<ChartSampleData, String>(
+        dataSource: chartData,
+        innerRadius: '70%',
+        radius: isTileView ? '100%' : '59%',
+        startAngle: isTileView ? 270 : startAngle,
+        endAngle: isTileView ? 90 : endAngle,
+        xValueMapper: (ChartSampleData data, _) => data.x,
+        yValueMapper: (ChartSampleData data, _) => data.y,
+        dataLabelMapper: (ChartSampleData data, _) => data.text,
+        dataLabelSettings: DataLabelSettings(
+            isVisible: true, labelPosition: ChartDataLabelPosition.outside))
+  ];
+}
+
+class SemiDoughnutFrontPanel extends StatefulWidget {
+  //ignore:prefer_const_constructors_in_immutables
+  SemiDoughnutFrontPanel(this.subItemList);
+  final SubItem subItemList;
+
+  @override
+  _SemiDoughnutFrontPanelState createState() =>
+      _SemiDoughnutFrontPanelState(subItemList);
+}
+
+class _SemiDoughnutFrontPanelState extends State<SemiDoughnutFrontPanel> {
+  _SemiDoughnutFrontPanelState(this.sample);
+  final SubItem sample;
   int startAngle = 270;
   int endAngle = 90;
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
+    return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
-        builder: (BuildContext context, _, SampleListModel model) {
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor: model.cardThemeColor,
+              backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
@@ -122,8 +96,8 @@ class _FrontPanelState extends State<FrontPanel> {
         });
   }
 
-  void _showSettingsPanel(SampleListModel model) {
-   final double height =
+  void _showSettingsPanel(SampleModel model) {
+    final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
@@ -132,9 +106,9 @@ class _FrontPanelState extends State<FrontPanel> {
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleListModel model) => Padding(
+            builder: (BuildContext context, _, SampleModel model) => Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 170,
@@ -199,9 +173,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                                       startAngle.toDouble(),
                                                   onChanged: (dynamic val) =>
                                                       setState(() {
-                                                        startAngle =
-                                                            val.toInt();
-                                                      }),
+                                                    startAngle = val.toInt();
+                                                  }),
                                                   step: 10,
                                                   horizontal: true,
                                                   loop: false,
@@ -255,8 +228,8 @@ class _FrontPanelState extends State<FrontPanel> {
                                                       endAngle.toDouble(),
                                                   onChanged: (dynamic val) =>
                                                       setState(() {
-                                                        endAngle = val.toInt();
-                                                      }),
+                                                    endAngle = val.toInt();
+                                                  }),
                                                   step: 10,
                                                   horizontal: true,
                                                   loop: false,
@@ -288,120 +261,4 @@ class _FrontPanelState extends State<FrontPanel> {
                               ]),
                             )))))));
   }
-}
-
-class BackPanel extends StatefulWidget {
- //ignore:prefer_const_constructors_in_immutables
-  BackPanel(this.sample);
-  final SubItemList sample; 
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  _BackPanelState(this.sample);
-  final SubItemList sample;
-  final GlobalKey _globalKey = GlobalKey();
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  void _afterLayout(dynamic _) {
-    _getSizesAndPosition();
-  }
-
-  void _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final Size size = renderBoxRed.size;
-    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
-    const double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (BuildContext context, _, SampleListModel model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-SfCircularChart getSemiDoughnutChart(bool isTileView,
-    [int startAngle, int endAngle]) {
-  return SfCircularChart(
-    title: ChartTitle(text: isTileView ? '' : 'Sales by sales person'),
-    legend: Legend(isVisible: isTileView ? false : true),
-    series: getDoughnutSeries(isTileView, startAngle, endAngle),
-    tooltipBehavior: TooltipBehavior(enable: true),
-  );
-}
-
-List<DoughnutSeries<_DoughnutData, String>> getDoughnutSeries(
-    bool isTileView, int startAngle, int endAngle) {
-  final List<_DoughnutData> chartData = <_DoughnutData>[
-    _DoughnutData('David', 75, 'David 74%'),
-    _DoughnutData('Steve', 35, 'Steve 35%'),
-    _DoughnutData('Jack', 39, 'Jack 39%'),
-    _DoughnutData('Others', 75, 'Others 75%')
-  ];
-  return <DoughnutSeries<_DoughnutData, String>>[
-    DoughnutSeries<_DoughnutData, String>(
-        dataSource: chartData,
-        innerRadius: '70%',
-        startAngle: isTileView ? 270 : startAngle,
-        endAngle: isTileView ? 90 : endAngle,
-        xValueMapper: (_DoughnutData data, _) => data.xData,
-        yValueMapper: (_DoughnutData data, _) => data.yData,
-        dataLabelMapper: (_DoughnutData data, _) => data.text,
-        dataLabelSettings: DataLabelSettings(
-            isVisible: true, labelPosition: ChartDataLabelPosition.inside))
-  ];
-}
-
-class _DoughnutData {
-  _DoughnutData(this.xData, this.yData, this.text);
-  final String xData;
-  final num yData;
-  final String text;
 }
