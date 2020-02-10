@@ -1,122 +1,117 @@
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/widgets/bottom_sheet.dart';
+import 'package:flutter_examples/widgets/checkbox.dart';
+import 'package:flutter_examples/widgets/customDropDown.dart';
+import 'package:flutter_examples/widgets/custom_button.dart';
+import 'package:intl/intl.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_examples/widgets/bottom_sheet.dart';
-import 'package:flutter_examples/widgets/checkbox.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+double duration = 2;
+
+//ignore:must_be_immutable
 class DefaultTrackball extends StatefulWidget {
-  final SubItemList sample;
-  const DefaultTrackball(this.sample, {Key key}) : super(key: key);
+  DefaultTrackball({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _DefaultTrackballState createState() => _DefaultTrackballState(sample);
 }
 
 class _DefaultTrackballState extends State<DefaultTrackball> {
-  final SubItemList sample;
   _DefaultTrackballState(this.sample);
-  bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(DefaultTrackball oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon:
-                            Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/trackball/chart_with_trackball.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.info_outline,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          if (frontPanelVisible.value)
-                            frontPanelVisible.value = false;
-                          else
-                            frontPanelVisible.value = true;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
+    return getScopedModel(null, sample, TrackballFrontPanel(sample));
   }
 }
 
-class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
-  FrontPanel(this.subItemList);
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+SfCartesianChart getDefaultTrackballChart(bool isTileView,
+    [TrackballDisplayMode _mode, ChartAlignment _alignment, bool showAlways]) {
+  return SfCartesianChart(
+    title: ChartTitle(text: isTileView ? '' : 'Average sales per person'),
+    plotAreaBorderWidth: 0,
+    primaryXAxis: DateTimeAxis(
+        dateFormat: DateFormat.y(),
+        majorGridLines: MajorGridLines(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift),
+    primaryYAxis: NumericAxis(
+        title: AxisTitle(text: isTileView ? '' : 'Revenue'),
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(width: 0)),
+    series: getDefaultTrackballSeries(isTileView),
+    trackballBehavior: TrackballBehavior(
+        enable: true,
+        hideDelay: duration * 1000,
+        lineType: TrackballLineType.vertical,
+        activationMode: ActivationMode.singleTap,
+        tooltipAlignment: _alignment,
+        tooltipDisplayMode: _mode,
+        tooltipSettings: InteractiveTooltip(format: 'point.x : point.y'),
+        shouldAlwaysShow: isTileView ? true : showAlways),
+  );
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
-  _FrontPanelState(this.sample);
-  bool showAlways = true;
+List<LineSeries<ChartSampleData, DateTime>> getDefaultTrackballSeries(
+    bool isTileView) {
+  final List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(x: DateTime(2000, 2, 11), y: 15, yValue2: 39, yValue3: 60),
+    ChartSampleData(x: DateTime(2000, 9, 14), y: 20, yValue2: 30, yValue3: 55),
+    ChartSampleData(x: DateTime(2001, 2, 11), y: 25, yValue2: 28, yValue3: 48),
+    ChartSampleData(x: DateTime(2001, 9, 16), y: 21, yValue2: 35, yValue3: 57),
+    ChartSampleData(x: DateTime(2002, 2, 7), y: 13, yValue2: 39, yValue3: 62),
+    ChartSampleData(x: DateTime(2002, 9, 7), y: 18, yValue2: 41, yValue3: 64),
+    ChartSampleData(x: DateTime(2003, 2, 11), y: 24, yValue2: 45, yValue3: 57),
+    ChartSampleData(x: DateTime(2003, 9, 14), y: 23, yValue2: 48, yValue3: 53),
+    ChartSampleData(x: DateTime(2004, 2, 6), y: 19, yValue2: 54, yValue3: 63),
+    ChartSampleData(x: DateTime(2004, 9, 6), y: 31, yValue2: 55, yValue3: 50),
+    ChartSampleData(x: DateTime(2005, 2, 11), y: 39, yValue2: 57, yValue3: 66),
+    ChartSampleData(x: DateTime(2005, 9, 11), y: 50, yValue2: 60, yValue3: 65),
+    ChartSampleData(x: DateTime(2006, 2, 11), y: 24, yValue2: 60, yValue3: 79),
+  ];
+  return <LineSeries<ChartSampleData, DateTime>>[
+    LineSeries<ChartSampleData, DateTime>(
+        dataSource: chartData,
+        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        width: 2,
+        name: 'John',
+        markerSettings: MarkerSettings(isVisible: true)),
+    LineSeries<ChartSampleData, DateTime>(
+        dataSource: chartData,
+        width: 2,
+        name: 'Andrew',
+        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
+        markerSettings: MarkerSettings(isVisible: true)),
+    LineSeries<ChartSampleData, DateTime>(
+        dataSource: chartData,
+        width: 2,
+        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        yValueMapper: (ChartSampleData sales, _) => sales.yValue3,
+        name: 'Thomas',
+        markerSettings: MarkerSettings(isVisible: true))
+  ];
+}
+
+class TrackballFrontPanel extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
+  TrackballFrontPanel(this.subItemList);
+  final SubItem subItemList;
+
+  @override
+  _TrackballFrontPanelState createState() =>
+      _TrackballFrontPanelState(subItemList);
+}
+
+class _TrackballFrontPanelState extends State<TrackballFrontPanel> {
+  _TrackballFrontPanelState(this.sample);
+  final SubItem sample;
+  bool showAlways = false;
   final List<String> _modeList =
       <String>['floatAllPoints', 'groupAllPoints', 'nearestPoint'].toList();
   String _selectedMode = 'floatAllPoints';
@@ -131,11 +126,11 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
+    return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor: model.cardThemeColor,
+              backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 60),
                 child: Container(
@@ -152,20 +147,20 @@ class _FrontPanelState extends State<FrontPanel> {
         });
   }
 
-  void _showSettingsPanel(SampleListModel model) {
-    double height =
+  void _showSettingsPanel(SampleModel model) {
+    final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.4
             : 0.5;
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _, SampleModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                   height: 220,
                   child: Padding(
@@ -260,7 +255,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                               style: TextStyle(
                                                   color: _selectedMode !=
                                                           'groupAllPoints'
-                                                      ? Color.fromRGBO(
+                                                      ? const Color.fromRGBO(
                                                           0, 0, 0, 0.3)
                                                       : model.textColor,
                                                   fontSize: 16,
@@ -320,11 +315,59 @@ class _FrontPanelState extends State<FrontPanel> {
                                           BottomSheetCheckbox(
                                             activeColor: model.backgroundColor,
                                             switchValue: showAlways,
-                                            valueChanged: (value) {
+                                            valueChanged: (dynamic value) {
                                               setState(() {
                                                 showAlways = value;
                                               });
                                             },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text('Hide delay  ',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: model.textColor)),
+                                          Container(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      40, 0, 0, 0),
+                                              child: CustomButton(
+                                                minValue: 0,
+                                                maxValue: 10,
+                                                initialValue: duration,
+                                                onChanged: (dynamic val) =>
+                                                    setState(() {
+                                                  duration = val;
+                                                }),
+                                                step: 2,
+                                                horizontal: true,
+                                                loop: true,
+                                                padding: 0,
+                                                iconUp: Icons.keyboard_arrow_up,
+                                                iconDown:
+                                                    Icons.keyboard_arrow_down,
+                                                iconLeft:
+                                                    Icons.keyboard_arrow_left,
+                                                iconRight:
+                                                    Icons.keyboard_arrow_right,
+                                                iconUpRightColor:
+                                                    model.textColor,
+                                                iconDownLeftColor:
+                                                    model.textColor,
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: model.textColor),
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -339,7 +382,7 @@ class _FrontPanelState extends State<FrontPanel> {
                 ))));
   }
 
-  void onModeTypeChange(String item, SampleListModel model) {
+  void onModeTypeChange(String item, SampleModel model) {
     setState(() {
       _selectedMode = item;
       if (_selectedMode == 'floatAllPoints') {
@@ -359,7 +402,7 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void onAlignmentChange(String item, SampleListModel model) {
+  void onAlignmentChange(String item, SampleModel model) {
     setState(() {
       _tooltipAlignment = item;
       if (_tooltipAlignment == 'center') {
@@ -375,154 +418,4 @@ class _FrontPanelState extends State<FrontPanel> {
       model.notifyListeners();
     });
   }
-}
-
-class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
-  BackPanel(this.sample);
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
-  _BackPanelState(this.sample);
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  _afterLayout(_) {
-    _getSizesAndPosition();
-  }
-
-  _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (context, _, model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-SfCartesianChart getDefaultTrackballChart(bool isTileView,
-    [TrackballDisplayMode _mode, ChartAlignment _alignment, bool showAlways]) {
-  return SfCartesianChart(
-    title: ChartTitle(text: isTileView ? '' : 'Average sales per person'),
-    plotAreaBorderWidth: 0,
-    primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(width: 0),
-        edgeLabelPlacement: EdgeLabelPlacement.shift),
-    primaryYAxis: NumericAxis(
-        title: AxisTitle(text: isTileView ? '' : 'Revenue'),
-        axisLine: AxisLine(width: 0),
-        majorTickLines: MajorTickLines(width: 0)),
-    series: getLineSeries(isTileView),
-    trackballBehavior: TrackballBehavior(
-        enable: true,
-        lineType: TrackballLineType.vertical,
-        activationMode: ActivationMode.singleTap,
-        tooltipAlignment: _alignment,
-        tooltipDisplayMode: _mode,
-        tooltipSettings: InteractiveTooltip(format: 'point.x : point.y'),
-        shouldAlwaysShow: showAlways),
-  );
-}
-
-List<LineSeries<_TrackballData, DateTime>> getLineSeries(bool isTileView) {
-  final List<_TrackballData> chartData = <_TrackballData>[
-    _TrackballData(new DateTime(2000, 2, 11), 15, 39, 60),
-    _TrackballData(new DateTime(2000, 9, 14), 20, 30, 55),
-    _TrackballData(new DateTime(2001, 2, 11), 25, 28, 48),
-    _TrackballData(new DateTime(2001, 9, 16), 21, 35, 57),
-    _TrackballData(new DateTime(2002, 2, 7), 13, 39, 62),
-    _TrackballData(new DateTime(2002, 9, 7), 18, 41, 64),
-    _TrackballData(new DateTime(2003, 2, 11), 24, 45, 57),
-    _TrackballData(new DateTime(2003, 9, 14), 23, 48, 53),
-    _TrackballData(new DateTime(2004, 2, 6), 19, 54, 63),
-    _TrackballData(new DateTime(2004, 9, 6), 31, 55, 50),
-    _TrackballData(new DateTime(2005, 2, 11), 39, 57, 66),
-    _TrackballData(new DateTime(2005, 9, 11), 50, 60, 65),
-    _TrackballData(new DateTime(2006, 2, 11), 24, 60, 79),
-  ];
-  return <LineSeries<_TrackballData, DateTime>>[
-    LineSeries<_TrackballData, DateTime>(
-        dataSource: chartData,
-        xValueMapper: (_TrackballData sales, _) => sales.year,
-        yValueMapper: (_TrackballData sales, _) => sales.y1,
-        width: 2,
-        name: 'John',
-        markerSettings: MarkerSettings(isVisible: true)),
-    LineSeries<_TrackballData, DateTime>(
-        dataSource: chartData,
-        width: 2,
-        name: 'Andrew',
-        xValueMapper: (_TrackballData sales, _) => sales.year,
-        yValueMapper: (_TrackballData sales, _) => sales.y2,
-        markerSettings: MarkerSettings(isVisible: true)),
-    LineSeries<_TrackballData, DateTime>(
-        dataSource: chartData,
-        width: 2,
-        xValueMapper: (_TrackballData sales, _) => sales.year,
-        yValueMapper: (_TrackballData sales, _) => sales.y3,
-        name: 'Thomas',
-        markerSettings: MarkerSettings(isVisible: true))
-  ];
-}
-
-class _TrackballData {
-  _TrackballData(this.year, this.y1, this.y2, this.y3);
-  final DateTime year;
-  final double y1;
-  final double y2;
-  final double y3;
 }

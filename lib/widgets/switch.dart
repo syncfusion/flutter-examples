@@ -3,13 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetSwitch extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   BottomSheetSwitch(
       {@required this.switchValue,
       @required this.valueChanged,
       this.activeColor});
 
   final bool switchValue;
-  final ValueChanged valueChanged;
+  final ValueChanged<dynamic> valueChanged;
   final Color activeColor;
 
   @override

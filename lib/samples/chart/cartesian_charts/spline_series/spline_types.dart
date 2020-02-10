@@ -1,124 +1,111 @@
+import 'package:flutter_examples/widgets/bottom_sheet.dart';
+import 'package:flutter_examples/widgets/customDropDown.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../widgets/bottom_sheet.dart';
+import '../../../../model/helper.dart';
+import '../../../../model/model.dart';
 
+//ignore: must_be_immutable
 class SplineTypes extends StatefulWidget {
-  final SubItemList sample;
-  const SplineTypes(this.sample, {Key key}) : super(key: key);
+  SplineTypes({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _SplineTypesState createState() => _SplineTypesState(sample);
 }
 
 class _SplineTypesState extends State<SplineTypes> {
-  final SubItemList sample;
-
   _SplineTypesState(this.sample);
-
-  bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(SplineTypes oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
+  SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.codeViewerIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/spline_types.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.informationIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          if (frontPanelVisible.value)
-                            frontPanelVisible.value = false;
-                          else
-                            frontPanelVisible.value = true;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
+   return getScopedModel(null, sample, SplineTypesFrontPanel(sample));
   }
 }
 
-class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
-  FrontPanel(this.subItemList);
 
-  @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+
+SfCartesianChart getTypesSplineChart(bool isTileView,
+    [SplineType _splineType]) {
+  return SfCartesianChart(
+    plotAreaBorderWidth: 0,
+    title: ChartTitle(text: isTileView ? '' : 'Export growth of Brazil'),
+    primaryXAxis: NumericAxis(
+      majorGridLines: MajorGridLines(width: 0),
+      interval: 1,
+    ),
+    primaryYAxis: NumericAxis(
+        labelFormat: '{value}%',
+        minimum: -0.1,
+        maximum: 0.2,
+        interval: 0.1,
+        majorTickLines: MajorTickLines(size: 0)),
+    series: getSplineTypesSeries(isTileView, _splineType),
+    tooltipBehavior:
+        TooltipBehavior(enable: true, header: '', canShowMarker: false),
+  );
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
-  _FrontPanelState(this.sample);
-  bool enableTooltip = false;
-  bool enableMarker = false;
-  bool enableDatalabel = false;
+List<SplineSeries<_ChartData, num>> getSplineTypesSeries(bool isTileView,
+    [SplineType _splineType]) {
+  final List<_ChartData> chartData = <_ChartData>[
+    _ChartData(2011, 0.05),
+    _ChartData(2011.25, 0),
+    _ChartData(2011.50, 0.03),
+    _ChartData(2011.75, 0),
+    _ChartData(2012, 0.04),
+    _ChartData(2012.25, 0.02),
+    _ChartData(2012.50, -0.01),
+    _ChartData(2012.75, 0.01),
+    _ChartData(2013, -0.08),
+    _ChartData(2013.25, -0.02),
+    _ChartData(2013.50, 0.03),
+    _ChartData(2013.75, 0.05),
+    _ChartData(2014, 0.04),
+    _ChartData(2014.25, 0.02),
+    _ChartData(2014.50, 0.04),
+    _ChartData(2014.75, 0),
+    _ChartData(2015, 0.02),
+    _ChartData(2015.25, 0.10),
+    _ChartData(2015.50, 0.09),
+    _ChartData(2015.75, 0.11),
+    _ChartData(2016, 0.12),
+  ];
+  return <SplineSeries<_ChartData, num>>[
+    SplineSeries<_ChartData, num>(
+        enableTooltip: true,
+        splineType: _splineType,
+        dataSource: chartData,
+        xValueMapper: (_ChartData sales, _) => sales.x,
+        yValueMapper: (_ChartData sales, _) => sales.y,
+        width: 2)
+  ];
+}
+
+class _ChartData {
+  _ChartData(this.x, this.y);
+  final double x;
+  final double y;
+}
+
+//ignore: must_be_immutable
+class SplineTypesFrontPanel extends StatefulWidget {
+ //ignore:prefer_const_constructors_in_immutables
+  SplineTypesFrontPanel(this.subItemList);
+  SubItem subItemList;
+
+  @override
+  _SplineTypesFrontPanelState createState() => _SplineTypesFrontPanelState(subItemList);
+}
+
+class _SplineTypesFrontPanelState extends State<SplineTypesFrontPanel> {
+  _SplineTypesFrontPanelState(this.sample);
+  final SubItem sample;
 
   final List<String> _splineList =
       <String>['natural', 'monotonic', 'cardinal', 'clamped'].toList();
@@ -127,9 +114,9 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
+    return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -178,7 +165,7 @@ class _FrontPanelState extends State<FrontPanel> {
         });
   }
 
-  void onPositionTypeChange(String item, SampleListModel model) {
+  void onPositionTypeChange(String item, SampleModel model) {
     setState(() {
       _selectedSplineType = item;
       if (_selectedSplineType == 'natural') {
@@ -196,20 +183,20 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void _showSettingsPanel(SampleListModel model) {
-    double height =
+  void _showSettingsPanel(SampleModel model) {
+    final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _, SampleModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 140,
                     child: Padding(
@@ -308,144 +295,4 @@ class _FrontPanelState extends State<FrontPanel> {
                               ]),
                             )))))));
   }
-}
-
-class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
-  BackPanel(this.sample);
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
-  _BackPanelState(this.sample);
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  _afterLayout(_) {
-    _getSizesAndPosition();
-  }
-
-  _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (context, _, model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-SfCartesianChart getTypesSplineChart(bool isTileView,
-    [SplineType _splineType]) {
-  return SfCartesianChart(
-    plotAreaBorderWidth: 0,
-    title: ChartTitle(text: isTileView ? '' : 'Export growth of Brazil'),
-    primaryXAxis: NumericAxis(
-      majorGridLines: MajorGridLines(width: 0),
-      interval: 1,
-    ),
-    primaryYAxis: NumericAxis(
-        labelFormat: '{value}%',
-        minimum: -0.1,
-        maximum: 0.2,
-        interval: 0.1,
-        majorTickLines: MajorTickLines(size: 0)),
-    series: getSplineSeries(isTileView, _splineType),
-    tooltipBehavior:
-        TooltipBehavior(enable: true, header: '', canShowMarker: false),
-  );
-}
-
-List<SplineSeries<_ChartData, num>> getSplineSeries(bool isTileView,
-    [SplineType _splineType]) {
-  final List<_ChartData> chartData = <_ChartData>[
-    _ChartData(2011, 0.05),
-    _ChartData(2011.25, 0),
-    _ChartData(2011.50, 0.03),
-    _ChartData(2011.75, 0),
-    _ChartData(2012, 0.04),
-    _ChartData(2012.25, 0.02),
-    _ChartData(2012.50, -0.01),
-    _ChartData(2012.75, 0.01),
-    _ChartData(2013, -0.08),
-    _ChartData(2013.25, -0.02),
-    _ChartData(2013.50, 0.03),
-    _ChartData(2013.75, 0.05),
-    _ChartData(2014, 0.04),
-    _ChartData(2014.25, 0.02),
-    _ChartData(2014.50, 0.04),
-    _ChartData(2014.75, 0),
-    _ChartData(2015, 0.02),
-    _ChartData(2015.25, 0.10),
-    _ChartData(2015.50, 0.09),
-    _ChartData(2015.75, 0.11),
-    _ChartData(2016, 0.12),
-  ];
-  return <SplineSeries<_ChartData, num>>[
-    SplineSeries<_ChartData, num>(
-        enableTooltip: true,
-        splineType: _splineType,
-        dataSource: chartData,
-        xValueMapper: (_ChartData sales, _) => sales.x,
-        yValueMapper: (_ChartData sales, _) => sales.y,
-        width: 2)
-  ];
-}
-
-class _ChartData {
-  _ChartData(this.x, this.y);
-  final double x;
-  final double y;
 }

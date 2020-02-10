@@ -1,191 +1,26 @@
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:intl/intl.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../model/helper.dart';
+import '../../../../model/model.dart';
+
+//ignore: must_be_immutable
 class AreaGradient extends StatefulWidget {
-  final SubItemList sample;
-  const AreaGradient(this.sample, {Key key}) : super(key: key);
+  AreaGradient({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _AreaGradientState createState() => _AreaGradientState(sample);
 }
 
 class _AreaGradientState extends State<AreaGradient> {
-  final SubItemList sample;
   _AreaGradientState(this.sample);
-  bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(AreaGradient oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                toggleFrontLayer: false,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.codeViewerIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/area_series/area_with_gradient.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
-  }
-}
-
-class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
-  FrontPanel(this.subItemList);
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
-}
-
-class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
-  _FrontPanelState(this.sample);
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        rebuildOnChange: true,
-        builder: (context, _, model) {
-          return Scaffold(
-            backgroundColor: model.cardThemeColor,
-              body: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-            child: Container(child: getGradientAreaChart(false)),
-          ));
-        });
-  }
-}
-
-class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
-  BackPanel(this.sample);
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
-  _BackPanelState(this.sample);
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  _afterLayout(_) {
-    _getSizesAndPosition();
-  }
-
-  _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (context, _, model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+    return getScopedModel(getGradientAreaChart(false), sample);
   }
 }
 
@@ -205,36 +40,37 @@ SfCartesianChart getGradientAreaChart(bool isTileView) {
         axisLine: AxisLine(width: 0),
         labelFormat: '{value}mm',
         majorTickLines: MajorTickLines(size: 0)),
-    series: getAreaSeries(isTileView),
+    series: getGradientAreaSeries(isTileView),
     tooltipBehavior:
         TooltipBehavior(enable: true, header: '', canShowMarker: false),
   );
 }
 
-List<AreaSeries<_ChartData, DateTime>> getAreaSeries(bool isTileView) {
-  final List<_ChartData> chartData = <_ChartData>[
-    _ChartData(DateTime(1924), 400),
-    _ChartData(DateTime(1925), 415),
-    _ChartData(DateTime(1926), 408),
-    _ChartData(DateTime(1927), 415),
-    _ChartData(DateTime(1928), 350),
-    _ChartData(DateTime(1929), 375),
-    _ChartData(DateTime(1930), 500),
-    _ChartData(DateTime(1931), 390),
-    _ChartData(DateTime(1932), 450),
-    _ChartData(DateTime(1933), 440),
-    _ChartData(DateTime(1934), 350),
-    _ChartData(DateTime(1935), 400),
-    _ChartData(DateTime(1936), 365),
-    _ChartData(DateTime(1937), 490),
-    _ChartData(DateTime(1938), 400),
-    _ChartData(DateTime(1939), 520),
-    _ChartData(DateTime(1940), 510),
-    _ChartData(DateTime(1941), 395),
-    _ChartData(DateTime(1942), 380),
-    _ChartData(DateTime(1943), 404),
-    _ChartData(DateTime(1944), 400),
-    _ChartData(DateTime(1945), 500)
+List<AreaSeries<ChartSampleData, DateTime>> getGradientAreaSeries(
+    bool isTileView) {
+  final List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(x: DateTime(1924), y: 400),
+    ChartSampleData(x: DateTime(1925), y: 415),
+    ChartSampleData(x: DateTime(1926), y: 408),
+    ChartSampleData(x: DateTime(1927), y: 415),
+    ChartSampleData(x: DateTime(1928), y: 350),
+    ChartSampleData(x: DateTime(1929), y: 375),
+    ChartSampleData(x: DateTime(1930), y: 500),
+    ChartSampleData(x: DateTime(1931), y: 390),
+    ChartSampleData(x: DateTime(1932), y: 450),
+    ChartSampleData(x: DateTime(1933), y: 440),
+    ChartSampleData(x: DateTime(1934), y: 350),
+    ChartSampleData(x: DateTime(1935), y: 400),
+    ChartSampleData(x: DateTime(1936), y: 365),
+    ChartSampleData(x: DateTime(1937), y: 490),
+    ChartSampleData(x: DateTime(1938), y: 400),
+    ChartSampleData(x: DateTime(1939), y: 520),
+    ChartSampleData(x: DateTime(1940), y: 510),
+    ChartSampleData(x: DateTime(1941), y: 395),
+    ChartSampleData(x: DateTime(1942), y: 380),
+    ChartSampleData(x: DateTime(1943), y: 404),
+    ChartSampleData(x: DateTime(1944), y: 400),
+    ChartSampleData(x: DateTime(1945), y: 500)
   ];
   final List<Color> color = <Color>[];
   color.add(Colors.blue[50]);
@@ -248,20 +84,14 @@ List<AreaSeries<_ChartData, DateTime>> getAreaSeries(bool isTileView) {
 
   final LinearGradient gradientColors =
       LinearGradient(colors: color, stops: stops);
-  return <AreaSeries<_ChartData, DateTime>>[
-    AreaSeries<_ChartData, DateTime>(
+  return <AreaSeries<ChartSampleData, DateTime>>[
+    AreaSeries<ChartSampleData, DateTime>(
       enableTooltip: true,
       gradient: gradientColors,
       dataSource: chartData,
-      xValueMapper: (_ChartData sales, _) => sales.x,
-      yValueMapper: (_ChartData sales, _) => sales.y,
+      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      yValueMapper: (ChartSampleData sales, _) => sales.y,
       name: 'Annual Rainfall',
     )
   ];
-}
-
-class _ChartData {
-  _ChartData(this.x, this.y);
-  final DateTime x;
-  final double y;
 }

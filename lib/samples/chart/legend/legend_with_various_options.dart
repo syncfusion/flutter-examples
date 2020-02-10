@@ -1,106 +1,78 @@
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/helper.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:flutter_examples/widgets/checkbox.dart';
+import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:url_launcher/url_launcher.dart';
-
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter/material.dart';
+//ignore: must_be_immutable
 class LegendOptions extends StatefulWidget {
-  final SubItemList sample;
-  const LegendOptions(this.sample, {Key key}) : super(key: key);
-
+  LegendOptions({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+  
   @override
   _LegendOptionsState createState() => _LegendOptionsState(sample);
 }
 
 class _LegendOptionsState extends State<LegendOptions> {
-  final SubItemList sample;
   _LegendOptionsState(this.sample);
-  bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(LegendOptions oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
-
+  final SubItem sample;
+  
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                toggleFrontLayer: false,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.codeViewerIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/legend/legend_with_various_options.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
+    return getScopedModel(null, sample, LegendWithOptionsFrontPanel(sample));
+
   }
 }
 
-class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
-  FrontPanel(this.subItemList);
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+SfCircularChart getLegendOptionsChart(bool isTileView,
+    [LegendPosition _position,
+    LegendItemOverflowMode _overflowMode,
+    dynamic toggleVisibility]) {
+  return SfCircularChart(
+    title: ChartTitle(text: isTileView ? '' : 'Expenses by category'),
+    legend: Legend(
+        isVisible: true,
+        position: _position,
+        overflowMode: _overflowMode,
+        toggleSeriesVisibility: toggleVisibility),
+    series: getLegendOptionsSeries(isTileView),
+    tooltipBehavior: TooltipBehavior(enable: true),
+  );
+}
+List<PieSeries<ChartSampleData, String>> getLegendOptionsSeries(bool isTileView) {
+  final List<ChartSampleData> pieData = <ChartSampleData>[
+    ChartSampleData(x:'Tution Fees', y:21),
+    ChartSampleData(x:'Entertainment', y:21),
+    ChartSampleData(x:'Private Gifts', y:8),
+    ChartSampleData(x:'Local Revenue', y:21),
+    ChartSampleData(x:'Federal Revenue', y:16),
+    ChartSampleData(x:'Others', y:8)
+  ];
+  return <PieSeries<ChartSampleData, String>>[
+    PieSeries<ChartSampleData, String>(
+        dataSource: pieData,
+        xValueMapper: (ChartSampleData data, _) => data.x,
+        yValueMapper: (ChartSampleData data, _) => data.y,
+        startAngle: 90,
+        endAngle: 90,
+        dataLabelSettings: DataLabelSettings(isVisible: true)),
+  ];
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
-  _FrontPanelState(this.sample);
-  bool enableTooltip = false;
-  bool enableMarker = false;
-  bool enableDatalabel = false;
+class LegendWithOptionsFrontPanel extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
+  LegendWithOptionsFrontPanel(this.subItemList);
+  final SubItem subItemList;
+  
+  @override
+  _LegendWithOptionsFrontPanelState createState() => _LegendWithOptionsFrontPanelState(subItemList);
+}
+
+class _LegendWithOptionsFrontPanelState extends State<LegendWithOptionsFrontPanel> {
+  _LegendWithOptionsFrontPanelState(this.sample);
+  final SubItem sample;
   bool toggleVisibility = true;
   final List<String> _positionList =
       <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
@@ -114,9 +86,9 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
+    return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -135,20 +107,20 @@ class _FrontPanelState extends State<FrontPanel> {
         });
   }
 
-  void _showSettingsPanel(SampleListModel model) {
-    double height =
+  void _showSettingsPanel(SampleModel model) {
+    final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.4
             : 0.5;
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 20.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _, SampleModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                   height: 220,
                   child: Padding(
@@ -300,7 +272,7 @@ class _FrontPanelState extends State<FrontPanel> {
                                               activeColor:
                                                   model.backgroundColor,
                                               switchValue: toggleVisibility,
-                                              valueChanged: (value) {
+                                              valueChanged: (dynamic value) {
                                                 setState(() {
                                                   toggleVisibility = value;
                                                 });
@@ -320,7 +292,7 @@ class _FrontPanelState extends State<FrontPanel> {
                 ))));
   }
 
-  void onPositionTypeChange(String item, SampleListModel model) {
+  void onPositionTypeChange(String item, SampleModel model) {
     setState(() {
       _selectedPosition = item;
       if (_selectedPosition == 'auto') {
@@ -343,7 +315,7 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void onModeTypeChange(String item, SampleListModel model) {
+  void onModeTypeChange(String item, SampleModel model) {
     setState(() {
       _selectedMode = item;
       if (_selectedMode == 'wrap') {
@@ -361,121 +333,3 @@ class _FrontPanelState extends State<FrontPanel> {
   }
 }
 
-class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
-  BackPanel(this.sample);
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
-  _BackPanelState(this.sample);
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  _afterLayout(_) {
-    _getSizesAndPosition();
-  }
-
-  _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (context, _, model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-List<PieSeries<_PieData, String>> getPieSeries(bool isTileView) {
-  final List<_PieData> pieData = <_PieData>[
-    _PieData('Tution Fees', 21),
-    _PieData('Entertainment', 21),
-    _PieData('Private Gifts', 8),
-    _PieData('Local Revenue', 21),
-    _PieData('Federal Revenue', 16),
-    _PieData('Others', 8)
-  ];
-  return <PieSeries<_PieData, String>>[
-    PieSeries<_PieData, String>(
-        dataSource: pieData,
-        xValueMapper: (_PieData data, _) => data.xData,
-        yValueMapper: (_PieData data, _) => data.yData,
-        startAngle: 90,
-        endAngle: 90,
-        dataLabelSettings: DataLabelSettings(isVisible: true)),
-  ];
-}
-
-class _PieData {
-  _PieData(this.xData, this.yData);
-  final String xData;
-  final num yData;
-}
-
-SfCircularChart getLegendOptionsChart(bool isTileView,
-    [LegendPosition _position,
-    LegendItemOverflowMode _overflowMode,
-    toggleVisibility]) {
-  return SfCircularChart(
-    title: ChartTitle(text: isTileView ? '' : 'Expenses by category'),
-    legend: Legend(
-        isVisible: true,
-        position: _position,
-        overflowMode: _overflowMode,
-        toggleSeriesVisibility: toggleVisibility),
-    series: getPieSeries(isTileView),
-    tooltipBehavior: TooltipBehavior(enable: true),
-  );
-}

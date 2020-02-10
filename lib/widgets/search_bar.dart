@@ -2,33 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 
 class SearchBar extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
   SearchBar({Key key, this.sampleListModel}) : super(key: key);
-  final SampleListModel sampleListModel;
+  final SampleModel sampleListModel;
 
   @override
-  _SearchBarState createState() => new _SearchBarState(sampleListModel);
+  _SearchBarState createState() => _SearchBarState(sampleListModel);
 }
 
 class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
-  final SampleListModel sampleListModel;
-
   _SearchBarState(this.sampleListModel);
+  
+  final SampleModel sampleListModel;
 
   TextEditingController editingController = TextEditingController();
 
-  List<SampleList> duplicateControlItems;
+  List<Control> duplicateControlItems;
 
-  List<SubItemList> duplicateSampleItems;
+  List<SubItem> duplicateSampleItems;
 
-  var items = List<SampleList>();
+  //ignore: prefer_collection_literals
+  List<Control> items = List<Control>();
   Widget searchIcon = Icon(Icons.search, color: Colors.grey);
   final FocusNode _isFocus = FocusNode();
   bool isOpen = false;
 
   @override
   void initState() {
-    duplicateControlItems = sampleListModel.searchControlListItems;
-    duplicateSampleItems = sampleListModel.searchSampleListItems;
+    duplicateControlItems = sampleListModel.searchControlItems;
+    duplicateSampleItems = sampleListModel.searchSampleItems;
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
@@ -52,34 +54,37 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   }
 
   void filterSearchResults(String query) {
-    List<SampleList> dummySearchControlList = List<SampleList>();
-    dummySearchControlList.addAll(duplicateControlItems);
+    // ignore: prefer_collection_literals
+    final List<Control> dummySearchControl = List<Control>();
+    dummySearchControl.addAll(duplicateControlItems);
 
-    List<SubItemList> dummySearchSamplesList = List<SubItemList>();
+    // ignore: prefer_collection_literals
+    final List<SubItem> dummySearchSamplesList = List<SubItem>();
     dummySearchSamplesList.addAll(duplicateSampleItems);
 
     if (query.isNotEmpty) {
       searchIcon = null;
-      List<SampleList> dummyControlListData = List<SampleList>();
-      for (int i = 0; i < dummySearchControlList.length; i++) {
-        var item = dummySearchControlList[i];
+      // ignore: prefer_collection_literals
+      final List<Control> dummyControlData = List<Control>();
+      for (int i = 0; i < dummySearchControl.length; i++) {
+        final Control item = dummySearchControl[i];
         if (item.title.toLowerCase().contains(query.toLowerCase())) {
-          dummyControlListData.add(item);
+          dummyControlData.add(item);
         }
       }
-
-      List<SubItemList> dummySampleListData = List<SubItemList>();
+      // ignore: prefer_collection_literals
+      final List<SubItem> dummySampleData = List<SubItem>();
       for (int i = 0; i < dummySearchSamplesList.length; i++) {
-        var item = dummySearchSamplesList[i];
+        final SubItem item = dummySearchSamplesList[i];
         if (item.title.toLowerCase().contains(query.toLowerCase())) {
-          dummySampleListData.add(item);
+          dummySampleData.add(item);
         }
       }
 
       sampleListModel.controlList.clear();
-      sampleListModel.controlList.addAll(dummyControlListData);
+      sampleListModel.controlList.addAll(dummyControlData);
       sampleListModel.sampleList.clear();
-      sampleListModel.sampleList.addAll(dummySampleListData);
+      sampleListModel.sampleList.addAll(dummySampleData);
       // ignore: invalid_use_of_protected_member
       sampleListModel.notifyListeners();
       return;
@@ -103,13 +108,13 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
           width: double.infinity,
           decoration: BoxDecoration(
               color: sampleListModel.searchBoxColor,
-              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              borderRadius: const BorderRadius.all(Radius.circular(5.0))),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: Container(
               child: TextField(
                   focusNode: _isFocus,
-                  onChanged: (value) {
+                  onChanged: (String value) {
                     filterSearchResults(value);
                   },
                   onEditingComplete: () {
@@ -117,8 +122,8 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                   },
                   controller: editingController,
                   decoration: InputDecoration(
-                      labelStyle: TextStyle(fontFamily: 'MontserratMedium'),
-                      hintText: "Search",
+                      labelStyle:const TextStyle(fontFamily: 'MontserratMedium'),
+                      hintText: 'Search',
                       border: InputBorder.none,
                       hintStyle: TextStyle(
                           fontSize: 15,

@@ -2,18 +2,20 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/bar_series/customized_bar_chart.dart';
 import 'package:flutter_examples/widgets/animateOpacityWidget.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/bar_series/customized_bar_chart.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/search_bar.dart';
 import 'package:flutter_examples/widgets/widget.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'model/model.dart';
-import 'model/helper.dart';
 import 'package:flutter/material.dart';
+import 'model/helper.dart';
+import 'model/model.dart';
 
 class SampleBrowser extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,14 +38,14 @@ class _HomePageState extends State<HomePage> {
   Color darkThemeSelected;
   Color darkThemeSelectedTextColor;
   List<Color> defaultBorderColor;
-  SampleListModel sampleListModel;
+  SampleModel sampleListModel;
   List<Widget> colorPaletteWidgets;
   List<Color> colors;
-  final controller = ScrollController();
+  final dynamic controller = ScrollController();
   double cOpacity = 0.0;
   double screenHeight;
   ThemeData _currentThemeData;
-  Color _currentBackgroundColor = Color.fromRGBO(0, 116, 228, 1);
+  Color _currentBackgroundColor = const Color.fromRGBO(0, 116, 228, 1);
   Color _currentListIconColor;
   Color _currentPaletteColor;
   bool _lightThemeSelected = true;
@@ -52,23 +54,23 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _currentThemeData = ThemeData.light();
-    sampleListModel = SampleListModel();
+    sampleListModel = SampleModel();
     lightThemeSelected = sampleListModel.backgroundColor;
-    darkThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+    darkThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
     lightThemeSelectedTextColor = Colors.white;
-    darkThemeSelectedTextColor = Color.fromRGBO(51, 51, 51, 1);
+    darkThemeSelectedTextColor = const Color.fromRGBO(255, 255, 255, 1);
     defaultBorderColor = <Color>[];
-    addColors();
-    init();
+    _addColors();
+    _init();
     super.initState();
   }
 
-  Future<void> init() async {
+  Future<void> _init() async {
     final ByteData data = await rootBundle.load('images/dashline.png');
-    image = await loadImage(Uint8List.view(data.buffer));
+    image = await _loadImage(Uint8List.view(data.buffer));
   }
 
-  Future<ui.Image> loadImage(List<int> img) async {
+  Future<ui.Image> _loadImage(List<int> img) async {
     final Completer<ui.Image> completer = Completer<ui.Image>();
     ui.decodeImageFromList(img, (ui.Image img) {
       setState(() {
@@ -83,26 +85,27 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     _orientationPadding = ((MediaQuery.of(context).size.width) / 100) * 20;
-    var smallestDimension = MediaQuery.of(context).size.shortestSide;
+    final dynamic smallestDimension = MediaQuery.of(context).size.shortestSide;
     final bool useMobileLayout = smallestDimension < 600;
     sampleListModel.isTargetMobile = useMobileLayout;
-    return ScopedModel(
+    return ScopedModel<SampleModel>(
         model: sampleListModel,
-        child: ScopedModelDescendant<SampleListModel>(
+        child: ScopedModelDescendant<SampleModel>(
           rebuildOnChange: true,
-          builder: (context, _, model) => MaterialApp(
+          builder: (BuildContext context, _, SampleModel model) =>
+              MaterialApp(
             debugShowCheckedModeBanner: false,
             home: SafeArea(
               child: Scaffold(
                   resizeToAvoidBottomPadding: true,
-                  drawer: getSideDrawer(model),
+                  drawer: _getSideDrawer(model),
                   appBar: PreferredSize(
-                      preferredSize: Size.fromHeight(60.0),
+                      preferredSize: const Size.fromHeight(60.0),
                       child: Container(
-                        decoration: BoxDecoration(boxShadow: [
+                        decoration: BoxDecoration(boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: model.backgroundColor,
-                            offset: Offset(0, 2.0),
+                            offset: const Offset(0, 2.0),
                             blurRadius: 0.25,
                           )
                         ]),
@@ -112,349 +115,316 @@ class _HomePageState extends State<HomePage> {
                           title: AnimateOpacityWidget(
                               controller: controller,
                               opacity: cOpacity,
-                              child: Text('Flutter UI Widgets',
+                              child: const Text('Flutter UI Widgets',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontFamily: 'MontserratMedium'))),
                           actions: <Widget>[
-                            Padding(
+                            Container(
                               padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                child: IconButton(
-                                  icon: new Icon(Icons.settings,
-                                      color: Colors.white),
-                                  onPressed: () {
-                                    _showSettingsPanel(model);
-                                  },
-                                ),
+                              height: 40,
+                              width: 40,
+                              child: IconButton(
+                                icon: Icon(Icons.settings, color: Colors.white),
+                                onPressed: () {
+                                  _showSettingsPanel(model);
+                                },
                               ),
                             ),
                           ],
                         ),
                       )),
-                  body: Scaffold(
-                    backgroundColor: model.slidingPanelColor,
-                    body: SafeArea(
-                      child: new ListView.builder(
-                          controller: controller,
-                          physics: ClampingScrollPhysics(),
-                          itemCount: 2,
-                          itemBuilder: (context, index) {
-                            return new Material(
-                              color: model.backgroundColor,
-                              child: new CustomListView(
-                                header: Container(
-                                  color: model.backgroundColor,
-                                  child: Column(
-                                    children: <Widget>[
-                                      index != 0
-                                          ? new Container(
-                                              color: model.backgroundColor,
-                                              height: 100.0,
-                                              padding: new EdgeInsets.symmetric(
-                                                  horizontal: 0.0),
-                                              alignment: Alignment.centerLeft,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.stretch,
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                        20, 20, 20, 0),
-                                                    child: Container(
-                                                        height: 50,
-                                                        child: SearchBar(
-                                                            sampleListModel:
-                                                                model)),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(0, 10, 0, 0),
-                                                    child: Container(
-                                                        height: 20,
-                                                        width: double.infinity,
-                                                        decoration: new BoxDecoration(
-                                                            color: model
-                                                                .slidingPanelColor,
-                                                            border: Border.all(
-                                                                color: model
-                                                                    .slidingPanelColor),
-                                                            borderRadius: new BorderRadius
-                                                                    .only(
-                                                                topLeft:
-                                                                    const Radius
-                                                                            .circular(
-                                                                        12.0),
-                                                                topRight:
-                                                                    const Radius
-                                                                            .circular(
-                                                                        12.0)),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: model
-                                                                    .slidingPanelColor,
-                                                                offset: Offset(
-                                                                    0, 2.0),
-                                                                blurRadius:
-                                                                    0.25,
-                                                              )
-                                                            ])),
-                                                  ),
-                                                ],
-                                              ))
-                                          : Container(
-                                              height: 0,
-                                              color: model.backgroundColor),
-                                    ],
-                                  ),
-                                ),
-                                content: Container(
-                                  color: model.backgroundColor,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        color: model.backgroundColor,
-                                        width: double.infinity,
-                                        child: index == 0
-                                            ? Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        20, 0, 0, 0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .fromLTRB(
-                                                                0, 0, 0, 0),
-                                                        child: Text(
-                                                            'Flutter UI Widgets',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 25,
-                                                                letterSpacing:
-                                                                    0.53,
-                                                                fontFamily:
-                                                                    'MontserratBold',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold))),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .fromLTRB(
-                                                          0, 12, 0, 0),
-                                                      child: Text(
-                                                          'Fast . Fluid . Flexible',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 14,
-                                                              letterSpacing:
-                                                                  0.26,
-                                                              fontFamily:
-                                                                  'MontserratBold',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal)),
-                                                    ),
-                                                  ],
-                                                ))
-                                            : Container(
-                                                color: model.slidingPanelColor,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 0, 20),
-                                                  child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children:
-                                                          getListViewChildrens(
-                                                              model)),
-                                                )),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                  )),
+                  body: _getBodyWidget(model)),
             ),
           ),
         ));
   }
 
-  List<Widget> getListViewChildrens(SampleListModel model) {
-    List<Widget> items = <Widget>[];
-    for (int i = 0; i < model.controlList.length; i++) {
-      items.add(Padding(
-        padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-        child: Container(
-          color: model.slidingPanelColor,
-          child: ScopedModelDescendant<SampleListModel>(
-              rebuildOnChange: true,
-              builder: (context, _, model) => Material(
-                  color: model.slidingPanelColor,
-                  elevation: 0.0,
-                  child: InkWell(
-                      splashColor: Colors.grey.withOpacity(0.4),
-                      onTap: () {
-                        Feedback.forLongPress(context);
-                        onTapControlItem(context, model, i);
-                      },
-                      child: Container(
-                        child: ListTile(
-                          leading: Image.asset(model.controlList[i].image,
-                              fit: BoxFit.cover),
-                          title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  model.controlList[i].title,
-                                  textAlign: TextAlign.left,
-                                  softWrap: true,
-                                  textScaleFactor: 1,
-                                  overflow: TextOverflow.fade,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16.0,
-                                      color: model.textColor,
-                                      letterSpacing: 0.3,
-                                      fontFamily: 'MontserratBold'),
+  Scaffold _getBodyWidget(SampleModel model) {
+    return Scaffold(
+      backgroundColor: model.slidingPanelColor,
+      body: SafeArea(
+        child: ListView.builder(
+            controller: controller,
+            physics: const ClampingScrollPhysics(),
+            itemCount: 2,
+            itemBuilder: (BuildContext context, num index) {
+              return Material(
+                color: model.backgroundColor,
+                child: CustomListView(
+                  header: Container(
+                    color: model.backgroundColor,
+                    child: Column(
+                      children: <Widget>[
+                        index != 0
+                            ? Container(
+                                color: model.backgroundColor,
+                                height: 100.0,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 0.0),
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 20, 20, 0),
+                                      child: Container(
+                                          height: 50,
+                                          child: SearchBar(
+                                              sampleListModel: model)),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 10, 0, 0),
+                                      child: Container(
+                                          height: 20,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                              color: model.slidingPanelColor,
+                                              border: Border.all(
+                                                  color: model
+                                                      .slidingPanelColor),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(12.0),
+                                                      topRight: Radius.circular(
+                                                          12.0)),
+                                              boxShadow: <BoxShadow>[
+                                                BoxShadow(
+                                                  color:
+                                                      model.slidingPanelColor,
+                                                  offset: const Offset(0, 2.0),
+                                                  blurRadius: 0.25,
+                                                )
+                                              ])),
+                                    ),
+                                  ],
+                                ))
+                            : Container(
+                                height: 0, color: model.backgroundColor),
+                      ],
+                    ),
+                  ),
+                  content: Container(
+                    color: model.backgroundColor,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          color: model.backgroundColor,
+                          width: double.infinity,
+                          child: index == 0
+                              ? Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    children: <Widget>[
+                                      const Text('Flutter UI Widgets',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 25,
+                                              letterSpacing: 0.53,
+                                              fontFamily: 'MontserratBold',
+                                              fontWeight: FontWeight.bold)),
+                                      const Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                        child: Text('Fast . Fluid . Flexible',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                letterSpacing: 0.26,
+                                                fontFamily: 'MontserratBold',
+                                                fontWeight: FontWeight.normal)),
+                                      ),
+                                    ],
+                                  ))
+                              : Container(
+                                  color: model.slidingPanelColor,
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: _getListViewChildrens(model)),
                                 ),
-                                Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.rectangle,
-                                        color: model.controlList[i].status == 'New'
-                                            ? Color.fromRGBO(101, 193, 0, 1)
-                                            : model.controlList[i].status == 'Updated'
-                                                ? Color.fromRGBO(
-                                                    245, 166, 35, 1)
-                                                : model.controlList[i].status == 'Preview'
-                                                    ? Color.fromRGBO(
-                                                        238, 245, 255, 1)
-                                                    : Colors.transparent,
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10))),
-                                    padding: EdgeInsets.fromLTRB(7, 3, 6, 3),
-                                    child: Text(model.controlList[i].status,
-                                        style: TextStyle(
-                                            color: model.controlList[i].status ==
-                                                    'Preview'
-                                                ? Color.fromRGBO(0, 98, 255, 1)
-                                                : Colors.white,
-                                            fontSize: 12)))
-                              ]),
-                          subtitle: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0.0, 7.0, 0.0, 0.0),
-                            child: Text(
-                              model.controlList[i].description,
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              textScaleFactor: 1,
-                              overflow: TextOverflow.fade,
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 13,
-                                letterSpacing: 0.24,
-                                fontFamily: 'MontserratMedium',
-                                color: model.listDescriptionTextColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
+      ),
+    );
+  }
+
+  List<Widget> _getListViewChildrens(SampleModel model) {
+    List<Widget> items;
+    items = <Widget>[];
+    for (int i = 0; i < model.controlList.length; i++) {
+      items.add(Container(
+        padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+        color: model.slidingPanelColor,
+        child: ScopedModelDescendant<SampleModel>(
+            rebuildOnChange: true,
+            builder: (BuildContext context, _, SampleModel model) =>
+                Material(
+                    color: model.slidingPanelColor,
+                    elevation: 0.0,
+                    child: InkWell(
+                        splashColor: Colors.grey.withOpacity(0.4),
+                        onTap: () {
+                          Feedback.forLongPress(context);
+                          onTapControlItem(context, model, i);
+                        },
+                        child: Container(
+                          child: ListTile(
+                            leading: Image.asset(model.controlList[i].image,
+                                fit: BoxFit.cover),
+                            title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    model.controlList[i].title,
+                                    textAlign: TextAlign.left,
+                                    softWrap: true,
+                                    textScaleFactor: 1,
+                                    overflow: TextOverflow.fade,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.0,
+                                        color: model.textColor,
+                                        letterSpacing: 0.3,
+                                        fontFamily: 'MontserratBold'),
+                                  ),
+                                  model.controlList[i].status!=null ?
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          color: (model.controlList[i].status == 'New' || model.controlList[i].status == 'new')
+                                              ? const Color.fromRGBO(
+                                                  101, 193, 0, 1)
+                                              : (model.controlList[i].status == 'Updated' || model.controlList[i].status == 'updated')
+                                                  ? const Color.fromRGBO(
+                                                      245, 166, 35, 1)
+                                                  : (model.controlList[i].status == 'Preview' || model.controlList[i].status == 'preview')
+                                                      ? const Color.fromRGBO(
+                                                          238, 245, 255, 1)
+                                                      : Colors.transparent,
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(10),
+                                              bottomLeft: Radius.circular(10))),
+                                      padding:
+                                          const EdgeInsets.fromLTRB(7, 3, 6, 3),
+                                      child: Text(model.controlList[i].status,
+                                          style: TextStyle(
+                                              color: (model.controlList[i].status == 'Preview' || model.controlList[i].status == 'preview') ? const Color.fromRGBO(0, 98, 255, 1) : Colors.white,
+                                              fontSize: 12))):Container()
+                                ]),
+                            subtitle: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(0.0, 7.0, 0.0, 0.0),
+                              child: Text(
+                                model.controlList[i].description,
+                                textAlign: TextAlign.left,
+                                softWrap: true,
+                                textScaleFactor: 1,
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 13,
+                                  letterSpacing: 0.24,
+                                  fontFamily: 'MontserratMedium',
+                                  color: model.listDescriptionTextColor,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )))),
-        ),
+                        )))),
       ));
-      if (i != model.controlList.length - 1) items.add(Divider(height: 15.0));
+      if (i != model.controlList.length - 1) {
+        items.add(const Divider(height: 15.0));
+      }
     }
+    return _getSearchedItems(items, model);
+  }
+
+  List<Widget> _getSearchedItems(List<Widget> items, SampleModel model) {
     for (int i = 0; i < model.sampleList.length; i++) {
-      items.add(ScopedModelDescendant<SampleListModel>(
+      items.add(ScopedModelDescendant<SampleModel>(
           rebuildOnChange: true,
-          builder: (context, _, model) => Material(
+          builder: (BuildContext context, _, SampleModel model) => Material(
               elevation: 0.0,
               color: model.slidingPanelColor,
               child: InkWell(
                   splashColor: Colors.grey.withOpacity(0.4),
                   onTap: () {
                     Feedback.forLongPress(context);
-                    onTapSampleItem(context, model.sampleList[i]);
+                    onTapSampleItem(context, model.sampleList[i], model);
                   },
                   child: Container(
                     height: 40,
                     width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 20, 5, 0),
-                      child: RichText(
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
-                        softWrap: true,
-                        maxLines: 1,
-                        text: new TextSpan(
-                          children: <TextSpan>[
-                            new TextSpan(
-                                text: '${model.sampleList[i].title} in ',
-                                style: TextStyle(
-                                    fontFamily: 'MontserratMedium',
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14.0,
-                                    color: model.textColor,
-                                    letterSpacing: 0.3)),
-                            new TextSpan(
-                                text: '${model.sampleList[0].category}',
-                                style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontFamily: 'MontserratBold',
-                                    color: model.textColor,
-                                    letterSpacing: 0.3)),
-                          ],
-                        ),
+                    padding: const EdgeInsets.fromLTRB(10, 20, 5, 0),
+                    child: RichText(
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      softWrap: true,
+                      maxLines: 1,
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: model.sampleList[i].title ,
+                              style: TextStyle(
+                                  fontFamily: 'MontserratMedium',
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14.0,
+                                  color: model.textColor,
+                                  letterSpacing: 0.3)),
+                        ],
                       ),
                     ),
                   )))));
-      if (i != model.sampleList.length - 1) items.add(Divider(height: 15.0));
+      if (i != model.sampleList.length - 1) {
+        items.add(const Divider(height: 15.0));
+      }
     }
 
-    if (model.sampleList.length == 0 && model.controlList.length == 0) {
-      items.add(Padding(
-        padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-        child: Container(
+    if (model.sampleList.isEmpty && model.controlList.isEmpty) {
+      items.add(
+        Container(
+            padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
             color: model.slidingPanelColor,
             child: Center(
                 child: Text('No results found',
                     style: TextStyle(color: model.textColor, fontSize: 15)))),
-      ));
+      );
     }
-
     return items;
   }
 
-  void _showSettingsPanel(SampleListModel model) {
-    showRoundedModalBottomSheet(
+  void _showSettingsPanel(SampleModel model) {
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModel(
+        builder: (BuildContext context) => ScopedModel<SampleModel>(
             model: sampleListModel,
-            child: ScopedModelDescendant<SampleListModel>(
+            child: ScopedModelDescendant<SampleModel>(
                 rebuildOnChange: true,
-                builder: (context, _, model) => OrientationBuilder(
-                      builder: (context, orientation) {
+                builder: (BuildContext context, _, SampleModel model) =>
+                    OrientationBuilder(
+                      builder: (BuildContext context, Orientation orientation) {
                         return Container(
                             height: 250,
                             child: Column(
@@ -496,26 +466,73 @@ class _HomePageState extends State<HomePage> {
                                   // ListView contains a group of widgets that scroll inside the drawer
                                   child: ListView(
                                     children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 0),
-                                        child: Column(children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 10, 0, 0),
-                                            child: MediaQuery.of(context)
-                                                        .orientation ==
-                                                    Orientation.portrait
-                                                ? Container(
-                                                    child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(15, 0, 10, 0),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: <Widget>[
-                                                        Expanded(
+                                      Column(children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 10, 0, 0),
+                                          child: MediaQuery.of(context)
+                                                      .orientation ==
+                                                  Orientation.portrait
+                                              ? Container(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          15, 0, 10, 0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: RaisedButton(
+                                                            color:
+                                                                lightThemeSelected,
+                                                            onPressed: () =>
+                                                                _toggleLightTheme(
+                                                                    model),
+                                                            child: Text(
+                                                              'Light theme',
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      lightThemeSelectedTextColor,
+                                                                  fontFamily:
+                                                                      'MontserratMedium'),
+                                                            )),
+                                                      ),
+                                                      Expanded(
+                                                        child: RaisedButton(
+                                                            color:
+                                                                darkThemeSelected,
+                                                            onPressed: () =>
+                                                                _toggleDarkTheme(
+                                                                    model),
+                                                            child: Text(
+                                                                'Dark theme',
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        darkThemeSelectedTextColor,
+                                                                    fontFamily:
+                                                                        'MontserratMedium'))),
+                                                      )
+                                                    ],
+                                                  ),
+                                                )
+                                              : Container(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          15, 0, 10, 0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(
+                                                                  _orientationPadding,
+                                                                  0,
+                                                                  0,
+                                                                  0),
                                                           child: RaisedButton(
                                                               elevation: 0,
                                                               color:
@@ -532,7 +549,15 @@ class _HomePageState extends State<HomePage> {
                                                                         'MontserratMedium'),
                                                               )),
                                                         ),
-                                                        Expanded(
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(
+                                                                  0,
+                                                                  0,
+                                                                  _orientationPadding,
+                                                                  0),
                                                           child: RaisedButton(
                                                               elevation: 0,
                                                               color:
@@ -547,74 +572,13 @@ class _HomePageState extends State<HomePage> {
                                                                           darkThemeSelectedTextColor,
                                                                       fontFamily:
                                                                           'MontserratMedium'))),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ))
-                                                : Container(
-                                                    child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(15, 0, 10, 0),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: <Widget>[
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding: EdgeInsets
-                                                                .fromLTRB(
-                                                                    _orientationPadding,
-                                                                    0,
-                                                                    0,
-                                                                    0),
-                                                            child: RaisedButton(
-                                                                elevation: 0,
-                                                                color:
-                                                                    lightThemeSelected,
-                                                                onPressed: () =>
-                                                                    _toggleLightTheme(
-                                                                        model),
-                                                                child: Text(
-                                                                  'Light theme',
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          lightThemeSelectedTextColor,
-                                                                      fontFamily:
-                                                                          'MontserratMedium'),
-                                                                )),
-                                                          ),
                                                         ),
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding: EdgeInsets
-                                                                .fromLTRB(
-                                                                    0,
-                                                                    0,
-                                                                    _orientationPadding,
-                                                                    0),
-                                                            child: RaisedButton(
-                                                                elevation: 0,
-                                                                color:
-                                                                    darkThemeSelected,
-                                                                onPressed: () =>
-                                                                    _toggleDarkTheme(
-                                                                        model),
-                                                                child: Text(
-                                                                    'Dark theme',
-                                                                    style: TextStyle(
-                                                                        color:
-                                                                            darkThemeSelectedTextColor,
-                                                                        fontFamily:
-                                                                            'MontserratMedium'))),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )),
-                                          )
-                                        ]),
-                                      ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                        )
+                                      ]),
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             0, 20, 0, 0),
@@ -637,7 +601,7 @@ class _HomePageState extends State<HomePage> {
                                                               MainAxisAlignment
                                                                   .spaceBetween,
                                                           children:
-                                                              addColorPalettes(
+                                                              _addColorPalettes(
                                                                   model)),
                                                     ),
                                                   ),
@@ -663,7 +627,7 @@ class _HomePageState extends State<HomePage> {
                                                               MainAxisAlignment
                                                                   .spaceBetween,
                                                           children:
-                                                              addColorPalettes(
+                                                              _addColorPalettes(
                                                                   model)),
                                                     ),
                                                   ),
@@ -673,43 +637,35 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                                // This container holds the align
-                                Container(
-                                    // This align moves the children to the bottom
-                                    child: Align(
-                                  alignment: FractionalOffset.bottomCenter,
-                                  // This container holds all the children that will be aligned
-                                  // on the bottom and should not scroll with the above ListView
-                                  child: Container(
-                                    color: Colors.blueAccent,
+                                Align(
+                                    alignment: FractionalOffset.bottomCenter,
                                     child: Container(
+                                      color: Colors.blueAccent,
                                       height: 50,
                                       width: double.infinity,
                                       child: RaisedButton(
                                           color: model.backgroundColor,
                                           onPressed: () => _applySetting(model),
-                                          child: Text('APPLY',
+                                          child: const Text('APPLY',
                                               style: TextStyle(
                                                   fontFamily:
                                                       'MontserratMedium',
                                                   color: Colors.white))),
-                                    ),
-                                  ),
-                                ))
+                                    ))
                               ],
                             ));
                       },
                     ))));
   }
 
-  _applySetting(SampleListModel model) {
+  void _applySetting(SampleModel model) {
     model.backgroundColor = _currentBackgroundColor;
     if (_lightThemeSelected) {
       lightThemeSelected = model.backgroundColor;
-      darkThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+      darkThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
     } else {
       darkThemeSelected = model.backgroundColor;
-      lightThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+      lightThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
     }
     model.listIconColor = _currentListIconColor;
     model.paletteColor = _currentPaletteColor;
@@ -719,43 +675,43 @@ class _HomePageState extends State<HomePage> {
     Navigator.pop(context);
   }
 
-  _toggleLightTheme(SampleListModel model) {
+  void _toggleLightTheme(SampleModel model) {
     _lightThemeSelected = true;
     lightThemeSelected = model.backgroundColor;
-    darkThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+    darkThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
     _currentThemeData = ThemeData.light();
     lightThemeSelectedTextColor = Colors.white;
-    darkThemeSelectedTextColor = Color.fromRGBO(51, 51, 51, 1);
+    darkThemeSelectedTextColor = const Color.fromRGBO(255, 255, 255, 1);
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
   }
 
-  _toggleDarkTheme(SampleListModel model) {
+  void _toggleDarkTheme(SampleModel model) {
     _lightThemeSelected = false;
     darkThemeSelected = model.backgroundColor;
-    lightThemeSelected = Color.fromRGBO(249, 249, 249, 1);
+    lightThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
     _currentThemeData = ThemeData.dark();
-    lightThemeSelectedTextColor = Color.fromRGBO(51, 51, 51, 1);
+    lightThemeSelectedTextColor = const Color.fromRGBO(255, 255, 255, 1);
     darkThemeSelectedTextColor = Colors.white;
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
   }
 
-  void addColors() {
+  void _addColors() {
     colors = <Color>[];
-    colors.add(Color.fromRGBO(0, 116, 228, 1));
-    colors.add(Color.fromRGBO(255, 90, 25, 1));
-    colors.add(Color.fromRGBO(251, 53, 105, 1));
-    colors.add(Color.fromRGBO(73, 76, 162, 1));
-    colors.add(Color.fromRGBO(48, 171, 123, 1));
-    defaultBorderColor.add(Color.fromRGBO(87, 89, 208, 1));
+    colors.add(const Color.fromRGBO(0, 116, 228, 1));
+    colors.add(const Color.fromRGBO(255, 90, 25, 1));
+    colors.add(const Color.fromRGBO(251, 53, 105, 1));
+    colors.add(const Color.fromRGBO(73, 76, 162, 1));
+    colors.add(const Color.fromRGBO(48, 171, 123, 1));
+    defaultBorderColor.add(const Color.fromRGBO(87, 89, 208, 1));
     defaultBorderColor.add(Colors.transparent);
     defaultBorderColor.add(Colors.transparent);
     defaultBorderColor.add(Colors.transparent);
     defaultBorderColor.add(Colors.transparent);
   }
 
-  List<Widget> addColorPalettes(SampleListModel model) {
+  List<Widget> _addColorPalettes(SampleModel model) {
     colorPaletteWidgets = <Widget>[];
     for (int i = 0; i < colors.length; i++) {
       colorPaletteWidgets.add(Material(
@@ -766,7 +722,7 @@ class _HomePageState extends State<HomePage> {
           shape: BoxShape.circle,
         ),
         child: InkWell(
-          onTap: () => changeColorPalette(model, i),
+          onTap: () => _changeColorPalette(model, i),
           child: Icon(
             Icons.brightness_1,
             size: 40.0,
@@ -778,7 +734,7 @@ class _HomePageState extends State<HomePage> {
     return colorPaletteWidgets;
   }
 
-  void changeColorPalette(SampleListModel model, int index) {
+  void _changeColorPalette(SampleModel model, int index) {
     for (int j = 0; j < defaultBorderColor.length; j++) {
       defaultBorderColor[j] = Colors.transparent;
     }
@@ -790,7 +746,7 @@ class _HomePageState extends State<HomePage> {
     model.notifyListeners();
   }
 
-  Widget getSideDrawer(SampleListModel _model) {
+  Widget _getSideDrawer(SampleModel _model) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       double factor;
@@ -817,19 +773,15 @@ class _HomePageState extends State<HomePage> {
                 Stack(children: <Widget>[
                   _lightThemeSelected
                       ? Container(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
-                            child: Image.asset('images/image_nav_banner.png',
-                                fit: BoxFit.cover),
-                          ),
+                          padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
+                          child: Image.asset('images/image_nav_banner.png',
+                              fit: BoxFit.cover),
                         )
                       : Container(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
-                            child: Image.asset(
-                                'images/image_nav_banner_darktheme.png',
-                                fit: BoxFit.cover),
-                          ),
+                          padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
+                          child: Image.asset(
+                              'images/image_nav_banner_darktheme.png',
+                              fit: BoxFit.cover),
                         )
                 ]),
                 Expanded(
@@ -874,10 +826,9 @@ class _HomePageState extends State<HomePage> {
                                               25, 0, 0, 0),
                                           child: Column(
                                             children: <Widget>[
-                                              Padding(
+                                              const Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          top: 10)),
+                                                      EdgeInsets.only(top: 10)),
                                               Row(children: <Widget>[
                                                 Image.asset(
                                                     'images/product.png',
@@ -902,10 +853,9 @@ class _HomePageState extends State<HomePage> {
                                                               .normal)),
                                                 )
                                               ]),
-                                              Padding(
+                                              const Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          top: 10)),
+                                                      EdgeInsets.only(top: 10)),
                                             ],
                                           )))),
                             ),
@@ -925,10 +875,9 @@ class _HomePageState extends State<HomePage> {
                                               25, 0, 0, 0),
                                           child: Column(
                                             children: <Widget>[
-                                              Padding(
+                                              const Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          top: 10)),
+                                                      EdgeInsets.only(top: 10)),
                                               Row(children: <Widget>[
                                                 Image.asset(
                                                     'images/documentation.png',
@@ -953,10 +902,9 @@ class _HomePageState extends State<HomePage> {
                                                               .normal)),
                                                 )
                                               ]),
-                                              Padding(
+                                              const Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          top: 10)),
+                                                      EdgeInsets.only(top: 10)),
                                             ],
                                           )))),
                             ),
@@ -991,9 +939,8 @@ class _HomePageState extends State<HomePage> {
                                 )
                               ]),
                             ),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 15, 0, 0)),
+                            const Padding(
+                                padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
                             Material(
                                 color: Colors.transparent,
                                 child: InkWell(
@@ -1005,9 +952,8 @@ class _HomePageState extends State<HomePage> {
                                     },
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10)),
+                                        const Padding(
+                                            padding: EdgeInsets.only(top: 10)),
                                         Row(
                                           children: <Widget>[
                                             Padding(
@@ -1033,7 +979,7 @@ class _HomePageState extends State<HomePage> {
                                                             'Roboto-Regular',
                                                         fontWeight: FontWeight
                                                             .normal))),
-                                            Spacer(),
+                                            const Spacer(),
                                             Container(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
@@ -1048,9 +994,8 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10)),
+                                        const Padding(
+                                            padding: EdgeInsets.only(top: 10)),
                                       ],
                                     ))),
                             Material(
@@ -1064,9 +1009,8 @@ class _HomePageState extends State<HomePage> {
                                     },
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10)),
+                                        const Padding(
+                                            padding: EdgeInsets.only(top: 10)),
                                         Row(
                                           children: <Widget>[
                                             Padding(
@@ -1093,7 +1037,7 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                           FontWeight.normal)),
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             Container(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
@@ -1108,9 +1052,8 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10)),
+                                        const Padding(
+                                            padding: EdgeInsets.only(top: 10)),
                                       ],
                                     ))),
                             Material(
@@ -1124,9 +1067,8 @@ class _HomePageState extends State<HomePage> {
                                     },
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10)),
+                                        const Padding(
+                                            padding: EdgeInsets.only(top: 10)),
                                         Row(
                                           children: <Widget>[
                                             Padding(
@@ -1153,7 +1095,7 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                           FontWeight.normal)),
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             Container(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
@@ -1168,9 +1110,8 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10)),
+                                        const Padding(
+                                            padding: EdgeInsets.only(top: 10)),
                                       ],
                                     ))),
                           ],
@@ -1196,7 +1137,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                       Align(
                           alignment: Alignment.bottomCenter,
-                          child: Text('Version 1.0.0-beta',
+                          child: Text('Version 17.4.39',
                               style: TextStyle(
                                   color: _model.drawerTextIconColor,
                                   fontSize: 12,
@@ -1210,10 +1151,5 @@ class _HomePageState extends State<HomePage> {
             ),
           )));
     });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

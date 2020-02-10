@@ -1,123 +1,109 @@
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'dart:math';
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/checkbox.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_examples/widgets/customDropDown.dart';
+import 'package:flutter_examples/widgets/custom_button.dart';
+import 'package:intl/intl.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter/material.dart';
 
+double duration = 2;
+
+//ignore:must_be_immutable
 class DefaultCrossHair extends StatefulWidget {
-  final SubItemList sample;
-  const DefaultCrossHair(this.sample, {Key key}) : super(key: key);
-
+  DefaultCrossHair({this.sample, Key key}) : super(key: key);
+  SubItem sample;
   @override
   _DefaultCrossHairState createState() => _DefaultCrossHairState(sample);
 }
 
 class _DefaultCrossHairState extends State<DefaultCrossHair> {
-  final SubItemList sample;
   _DefaultCrossHairState(this.sample);
-  bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(DefaultCrossHair oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon:
-                            Image.asset('images/code.png', color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/crosshair/chart_with_crosshair.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.info_outline,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          if (frontPanelVisible.value)
-                            frontPanelVisible.value = false;
-                          else
-                            frontPanelVisible.value = true;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
+    return getScopedModel(null, sample, CrosshairFrontPanel(sample));
   }
 }
 
-class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
-  FrontPanel(this.subItemList);
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+SfCartesianChart getDefaultCrossHairChart(bool isTileView,
+    [bool alwaysShow, CrosshairLineType lineType, dynamic randomData]) {
+  return SfCartesianChart(
+    plotAreaBorderWidth: 0,
+    primaryXAxis: DateTimeAxis(
+        dateFormat: DateFormat.y(),
+        majorGridLines: MajorGridLines(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        interactiveTooltip: InteractiveTooltip(
+            enable: (isTileView ||
+                    lineType == CrosshairLineType.both ||
+                    lineType == CrosshairLineType.vertical)
+                ? true
+                : false)),
+    crosshairBehavior: CrosshairBehavior(
+        enable: true,
+        hideDelay: duration * 1000,
+        lineWidth: 1,
+        activationMode: ActivationMode.singleTap,
+        shouldAlwaysShow: isTileView ? true : alwaysShow,
+        lineType: isTileView ? CrosshairLineType.both : lineType),
+    primaryYAxis: NumericAxis(
+        axisLine: AxisLine(width: 0),
+        interactiveTooltip: InteractiveTooltip(
+            enable: (isTileView ||
+                    lineType == CrosshairLineType.both ||
+                    lineType == CrosshairLineType.horizontal)
+                ? true
+                : false),
+        majorTickLines: MajorTickLines(width: 0)),
+    series: getDefaultCrossHairSeries(isTileView, randomData),
+  );
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
-  _FrontPanelState(this.sample);
-  bool alwaysShow = true;
+List<LineSeries<ChartSampleData, DateTime>> getDefaultCrossHairSeries(
+    bool isTileView, dynamic randomData) {
+  return <LineSeries<ChartSampleData, DateTime>>[
+    LineSeries<ChartSampleData, DateTime>(
+        dataSource: isTileView ? getDatatTimeData() : randomData,
+        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        width: 2)
+  ];
+}
+
+dynamic getDatatTimeData() {
+  final List<ChartSampleData> randomData = <ChartSampleData>[];
+  final Random rand = Random();
+  double value = 100;
+  for (int i = 1; i < 2000; i++) {
+    if (rand.nextDouble() > 0.5)
+      value += rand.nextDouble();
+    else
+      value -= rand.nextDouble();
+
+    randomData.add(ChartSampleData(x: DateTime(1900, i, 1), y: value));
+  }
+  return randomData;
+}
+
+class CrosshairFrontPanel extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
+  CrosshairFrontPanel(this.subItemList);
+  final SubItem subItemList;
+
+  @override
+  _CrosshairFrontPanelState createState() =>
+      _CrosshairFrontPanelState(subItemList);
+}
+
+class _CrosshairFrontPanelState extends State<CrosshairFrontPanel> {
+  _CrosshairFrontPanelState(this.sample);
+  final SubItem sample;
+  bool alwaysShow = false;
   final List<String> _lineTypeList =
       <String>['both', 'vertical', 'horizontal'].toList();
   String _selectedLineType = 'both';
@@ -131,11 +117,11 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
+    return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor: model.cardThemeColor,
+              backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
@@ -152,20 +138,20 @@ class _FrontPanelState extends State<FrontPanel> {
         });
   }
 
-  void _showSettingsPanel(SampleListModel model) {
-    double height =
+  void _showSettingsPanel(SampleModel model) {
+    final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.4
             : 0.5;
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _, SampleModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                   height: 170,
                   child: Padding(
@@ -266,11 +252,59 @@ class _FrontPanelState extends State<FrontPanel> {
                                           BottomSheetCheckbox(
                                             activeColor: model.backgroundColor,
                                             switchValue: alwaysShow,
-                                            valueChanged: (value) {
+                                            valueChanged: (dynamic value) {
                                               setState(() {
                                                 alwaysShow = value;
                                               });
                                             },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text('Hide delay  ',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: model.textColor)),
+                                          Container(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      40, 0, 0, 0),
+                                              child: CustomButton(
+                                                minValue: 0,
+                                                maxValue: 10,
+                                                initialValue: duration,
+                                                onChanged: (dynamic val) =>
+                                                    setState(() {
+                                                  duration = val;
+                                                }),
+                                                step: 2,
+                                                horizontal: true,
+                                                loop: true,
+                                                padding: 0,
+                                                iconUp: Icons.keyboard_arrow_up,
+                                                iconDown:
+                                                    Icons.keyboard_arrow_down,
+                                                iconLeft:
+                                                    Icons.keyboard_arrow_left,
+                                                iconRight:
+                                                    Icons.keyboard_arrow_right,
+                                                iconUpRightColor:
+                                                    model.textColor,
+                                                iconDownLeftColor:
+                                                    model.textColor,
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: model.textColor),
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -285,7 +319,7 @@ class _FrontPanelState extends State<FrontPanel> {
                 ))));
   }
 
-  void onPositionTypeChange(String item, SampleListModel model) {
+  void onPositionTypeChange(String item, SampleModel model) {
     setState(() {
       _selectedLineType = item;
       if (_selectedLineType == 'both') {
@@ -302,145 +336,4 @@ class _FrontPanelState extends State<FrontPanel> {
       model.notifyListeners();
     });
   }
-}
-
-class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
-  BackPanel(this.sample);
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
-  _BackPanelState(this.sample);
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  _afterLayout(_) {
-    _getSizesAndPosition();
-  }
-
-  _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (context, _, model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-SfCartesianChart getDefaultCrossHairChart(bool isTileView,
-    [bool alwaysShow, CrosshairLineType lineType, dynamic randomData]) {
-  return SfCartesianChart(
-    plotAreaBorderWidth: 0,
-    primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(width: 0),
-        edgeLabelPlacement: EdgeLabelPlacement.shift,
-        interactiveTooltip: InteractiveTooltip(
-            enable: (isTileView ||
-                    lineType == CrosshairLineType.both ||
-                    lineType == CrosshairLineType.vertical)
-                ? true
-                : false)),
-    crosshairBehavior: CrosshairBehavior(
-        enable: true,
-        lineWidth: 1,
-        activationMode: ActivationMode.singleTap,
-        shouldAlwaysShow: isTileView ? true : alwaysShow,
-        lineType: isTileView ? CrosshairLineType.both : lineType),
-    primaryYAxis: NumericAxis(
-        axisLine: AxisLine(width: 0),
-        interactiveTooltip: InteractiveTooltip(
-            enable: (isTileView ||
-                    lineType == CrosshairLineType.both ||
-                    lineType == CrosshairLineType.horizontal)
-                ? true
-                : false),
-        majorTickLines: MajorTickLines(width: 0)),
-    series: getLineSeries(isTileView, randomData),
-  );
-}
-
-List<LineSeries<_DateTimeData, DateTime>> getLineSeries(
-    bool isTileView, dynamic randomData) {
-  return <LineSeries<_DateTimeData, DateTime>>[
-    LineSeries<_DateTimeData, DateTime>(
-        dataSource: isTileView ? getDatatTimeData() : randomData,
-        xValueMapper: (_DateTimeData sales, _) => sales.year,
-        yValueMapper: (_DateTimeData sales, _) => sales.y,
-        width: 2)
-  ];
-}
-
-class _DateTimeData {
-  _DateTimeData(this.year, this.y);
-  final DateTime year;
-  final double y;
-}
-
-dynamic getDatatTimeData() {
-  final List<_DateTimeData> randomData = <_DateTimeData>[];
-  Random rand = new Random();
-  double value = 100;
-  for (int i = 1; i < 2000; i++) {
-    if (rand.nextDouble() > 0.5)
-      value += rand.nextDouble();
-    else
-      value -= rand.nextDouble();
-
-    randomData.add(_DateTimeData(DateTime(1900, i, 1), value));
-  }
-  return randomData;
 }

@@ -1,235 +1,81 @@
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+//ignore: must_be_immutable
 class PieGrouping extends StatefulWidget {
-  final SubItemList sample;
-  const PieGrouping(this.sample, {Key key}) : super(key: key);
+  PieGrouping({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _PieGroupingState createState() => _PieGroupingState(sample);
 }
 
 class _PieGroupingState extends State<PieGrouping> {
-  final SubItemList sample;
   _PieGroupingState(this.sample);
-  bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(PieGrouping oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
-
-  @override
+  final SubItem sample;
+   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.codeViewerIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/pie_series/pie_with_grouping.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.informationIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          if (frontPanelVisible.value)
-                            frontPanelVisible.value = false;
-                          else
-                            frontPanelVisible.value = true;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                color: model.cardThemeColor,
-                titleVisibleOnPanelClosed: true,
-                borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
-  }
-}
-
-class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
-  FrontPanel(this.subItemList);
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
-}
-
-class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
-  _FrontPanelState(this.sample);
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        rebuildOnChange: true,
-        builder: (context, _, model) {
-          return Scaffold(
-            backgroundColor: model.cardThemeColor,
-              body: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-            child: Container(child: getGroupingPieChart(false)),
-          ));
-        });
-  }
-}
-
-class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
-  BackPanel(this.sample);
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
-  _BackPanelState(this.sample);
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  _afterLayout(_) {
-    _getSizesAndPosition();
-  }
-
-  _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (context, _, model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+    return getScopedModel(getGroupingPieChart(false), sample);
   }
 }
 
 SfCircularChart getGroupingPieChart(bool isTileView) {
   return SfCircularChart(
     title: ChartTitle(text: isTileView ? '' : 'Electricity sectors'),
-    series: getPieSeries(isTileView),
+    series: getGroupingPieSeries(isTileView),
     tooltipBehavior:
         TooltipBehavior(enable: true, format: 'point.x : point.y%'),
   );
 }
 
-List<PieSeries<_PieData, String>> getPieSeries(bool isTileView) {
-  final List<_PieData> pieData = <_PieData>[
-    _PieData('Coal', 56.2, 'Coal: 200,704.5 MW (56.2%)', null),
-    _PieData('Large\nHydro', 12.7, 'Large Hydro: 45,399.22 MW (12.7%)', null),
-    _PieData('Small\nHydro', 1.3, 'Small Hydro: 4,594.15 MW (1.3%)', null),
-    _PieData('Wind\nPower', 10, 'Wind Power: 35,815.88 MW (10.0%)', null),
-    _PieData('Solar\nPower', 8, 'Solar Power: 28,679.21 MW (8.0%)',
-        Color.fromRGBO(198, 201, 207, 1)),
-    _PieData('Biomass', 2.6, 'Biomass: 9,269.8 MW (2.6%)', null),
-    _PieData('Nuclear', 1.9, 'Nuclear: 6,780 MW (1.9%)', null),
-    _PieData('Gas', 7, 'Gas: 24,937.22 MW (7.0%)', null),
-    _PieData('Diesel', 0.2, 'Diesel: 637.63 MW (0.2%)', null)
+List<PieSeries<ChartSampleData, String>> getGroupingPieSeries(bool isTileView) {
+  final List<ChartSampleData> pieData = <ChartSampleData>[
+    ChartSampleData(
+        x: 'Coal',
+        y: 56.2,
+        text: 'Coal: 200,704.5 MW (56.2%)',
+        pointColor: null),
+    ChartSampleData(
+        x: 'Large\nHydro',
+        y: 12.7,
+        text: 'Large Hydro: 45,399.22 MW (12.7%)',
+        pointColor: null),
+    ChartSampleData(
+        x: 'Small\nHydro',
+        y: 1.3,
+        text: 'Small Hydro: 4,594.15 MW (1.3%)',
+        pointColor: null),
+    ChartSampleData(
+        x: 'Wind\nPower',
+        y: 10,
+        text: 'Wind Power: 35,815.88 MW (10.0%)',
+        pointColor: null),
+    ChartSampleData(
+        x: 'Solar\nPower',
+        y: 8,
+        text: 'Solar Power: 28,679.21 MW (8.0%)',
+        pointColor: const Color.fromRGBO(198, 201, 207, 1)),
+    ChartSampleData(
+        x: 'Biomass',
+        y: 2.6,
+        text: 'Biomass: 9,269.8 MW (2.6%)',
+        pointColor: null),
+    ChartSampleData(
+        x: 'Nuclear',
+        y: 1.9,
+        text: 'Nuclear: 6,780 MW (1.9%)',
+        pointColor: null),
+    ChartSampleData(
+        x: 'Gas', y: 7, text: 'Gas: 24,937.22 MW (7.0%)', pointColor: null),
+    ChartSampleData(
+        x: 'Diesel', y: 0.2, text: 'Diesel: 637.63 MW (0.2%)', pointColor: null)
   ];
-  return <PieSeries<_PieData, String>>[
-    PieSeries<_PieData, String>(
+  return <PieSeries<ChartSampleData, String>>[
+    PieSeries<ChartSampleData, String>(
         radius: '90%',
-        dataLabelMapper: (_PieData data, _) => data.xData,
+        dataLabelMapper: (ChartSampleData data, _) => data.x,
         dataLabelSettings: DataLabelSettings(
             isVisible: true, labelPosition: ChartDataLabelPosition.inside),
         dataSource: pieData,
@@ -237,16 +83,8 @@ List<PieSeries<_PieData, String>> getPieSeries(bool isTileView) {
         endAngle: 90,
         groupMode: CircularChartGroupMode.value,
         groupTo: 7,
-        pointColorMapper: (_PieData data, _) => data.color,
-        xValueMapper: (_PieData data, _) => data.xData,
-        yValueMapper: (_PieData data, _) => data.yData)
+        pointColorMapper: (ChartSampleData data, _) => data.pointColor,
+        xValueMapper: (ChartSampleData data, _) => data.x,
+        yValueMapper: (ChartSampleData data, _) => data.y)
   ];
-}
-
-class _PieData {
-  _PieData(this.xData, this.yData, [this.text, this.color]);
-  final String xData;
-  final num yData;
-  final String text;
-  final Color color;
 }

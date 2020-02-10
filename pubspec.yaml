@@ -1,7 +1,8 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-
-version: 1.0.0+1
+version: 17.4.39
+author: Syncfusion <support@syncfusion.com>
+homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -15,13 +16,32 @@ dependencies:
   flutter_gallery_assets: 0.1.8
   url_launcher: ^5.0.3
   intl: ^0.16.0
-  syncfusion_flutter_charts: ^17.3.14
-  syncfusion_flutter_gauges: 17.3.14-beta.1
-       
+  syncfusion_flutter_calendar:
+    git:
+      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-calendar
+      path: flutter_calendar/syncfusion_flutter_calendar
+      branch: release/17.4.0.1
+  syncfusion_flutter_charts:
+    git:
+      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-charts
+      path: flutter_charts/syncfusion_flutter_charts
+      branch: release/17.4.0.1
+  syncfusion_flutter_gauges:
+    git:
+      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-gauges
+      path: flutter_gauges/syncfusion_flutter_gauges
+      branch: release/17.4.0.1
+  syncfusion_flutter_core:
+    git:
+      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-core
+      path: syncfusion_flutter_core
+      branch: release/17.4.0.1
+
 flutter:
   uses-material-design: true
   assets:
     - images/
+    - lib/sample_details.json
   fonts:
     - family: MontserratBold
       fonts:

@@ -1,191 +1,28 @@
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/helper.dart';
 import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../model/helper.dart';
+import '../../../../model/model.dart';
+
+//ignore: must_be_immutable
 class MarkerDefault extends StatefulWidget {
-  final SubItemList sample;
-  const MarkerDefault(this.sample, {Key key}) : super(key: key);
+  MarkerDefault({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _MarkerDefaultState createState() => _MarkerDefaultState(sample);
 }
 
 class _MarkerDefaultState extends State<MarkerDefault> {
-  final SubItemList sample;
   _MarkerDefaultState(this.sample);
-  bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(MarkerDefault oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                toggleFrontLayer: false,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.codeViewerIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/marker/various_marker_shapes.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
-  }
-}
-
-class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
-  FrontPanel(this.subItemList);
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
-}
-
-class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
-  _FrontPanelState(this.sample);
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        rebuildOnChange: true,
-        builder: (context, _, model) {
-          return Scaffold(
-            backgroundColor: model.cardThemeColor,
-              body: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-            child: Container(child: getMarkerDefaultChart(false)),
-          ));
-        });
-  }
-}
-
-class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
-  BackPanel(this.sample);
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
-  _BackPanelState(this.sample);
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  _afterLayout(_) {
-    _getSizesAndPosition();
-  }
-
-  _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (context, _, model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+    return getScopedModel(getMarkerDefaultChart(false), sample);
   }
 }
 
@@ -203,58 +40,57 @@ SfCartesianChart getMarkerDefaultChart(bool isTileView) {
         title: AxisTitle(text: isTileView ? '' : 'Count'),
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0)),
-    series: getLineSeries(isTileView),
+    series: getMarkeSeries(isTileView),
     tooltipBehavior: TooltipBehavior(enable: true),
   );
 }
 
-List<LineSeries<_ChartNumeric, DateTime>> getLineSeries(bool isTileView) {
-  final List<_ChartNumeric> chartData = <_ChartNumeric>[
-    _ChartNumeric(DateTime(2018, 3, 1, 8, 0), 60, 28, 15),
-    _ChartNumeric(DateTime(2018, 3, 1, 8, 30), 49, 40, 28),
-    _ChartNumeric(DateTime(2018, 3, 1, 9, 0), 70, 32, 16),
-    _ChartNumeric(DateTime(2018, 3, 1, 9, 30), 56, 36, 66),
-    _ChartNumeric(DateTime(2018, 3, 1, 10, 0), 66, 50, 26),
-    _ChartNumeric(DateTime(2018, 3, 1, 10, 30), 50, 35, 14),
-    _ChartNumeric(DateTime(2018, 3, 1, 11, 0), 55, 32, 20),
+List<LineSeries<ChartSampleData, DateTime>> getMarkeSeries(bool isTileView) {
+  final List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(
+        x: DateTime(2018, 3, 1, 8, 0), y: 60, yValue2: 28, yValue3: 15),
+    ChartSampleData(
+        x: DateTime(2018, 3, 1, 8, 30), y: 49, yValue2: 40, yValue3: 28),
+    ChartSampleData(
+        x: DateTime(2018, 3, 1, 9, 0), y: 70, yValue2: 32, yValue3: 16),
+    ChartSampleData(
+        x: DateTime(2018, 3, 1, 9, 30), y: 56, yValue2: 36, yValue3: 66),
+    ChartSampleData(
+        x: DateTime(2018, 3, 1, 10, 0), y: 66, yValue2: 50, yValue3: 26),
+    ChartSampleData(
+        x: DateTime(2018, 3, 1, 10, 30), y: 50, yValue2: 35, yValue3: 14),
+    ChartSampleData(
+        x: DateTime(2018, 3, 1, 11, 0), y: 55, yValue2: 32, yValue3: 20),
   ];
-  return <LineSeries<_ChartNumeric, DateTime>>[
-    LineSeries<_ChartNumeric, DateTime>(
+  return <LineSeries<ChartSampleData, DateTime>>[
+    LineSeries<ChartSampleData, DateTime>(
       dataSource: chartData,
-      xValueMapper: (_ChartNumeric sales, _) => sales.x,
-      yValueMapper: (_ChartNumeric sales, _) => sales.y1,
+      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      yValueMapper: (ChartSampleData sales, _) => sales.y,
       width: 2,
       name: 'Truck',
       markerSettings: MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.pentagon,
-          image: AssetImage('images/truck.png')),
+          image: const AssetImage('images/truck.png')),
     ),
-    LineSeries<_ChartNumeric, DateTime>(
+    LineSeries<ChartSampleData, DateTime>(
       dataSource: chartData,
       width: 2,
-      xValueMapper: (_ChartNumeric sales, _) => sales.x,
-      yValueMapper: (_ChartNumeric sales, _) => sales.y2,
+      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
       name: 'Bike',
       markerSettings:
           MarkerSettings(isVisible: true, shape: DataMarkerType.triangle),
     ),
-    LineSeries<_ChartNumeric, DateTime>(
+    LineSeries<ChartSampleData, DateTime>(
       dataSource: chartData,
       width: 2,
-      xValueMapper: (_ChartNumeric sales, _) => sales.x,
-      yValueMapper: (_ChartNumeric sales, _) => sales.y3,
+      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      yValueMapper: (ChartSampleData sales, _) => sales.yValue3,
       name: 'Car',
       markerSettings:
           MarkerSettings(isVisible: true, shape: DataMarkerType.rectangle),
     )
   ];
-}
-
-class _ChartNumeric {
-  _ChartNumeric(this.x, this.y1, this.y2, this.y3);
-  final DateTime x;
-  final double y1;
-  final double y2;
-  final double y3;
 }

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 Future<T> showRoundedModalBottomSheet<T>({
   @required BuildContext context,
   @required WidgetBuilder builder,
-  Color color: Colors.white,
-  double radius: 10.0,
-  bool autoResize: true,
-  bool dismissOnTap: true,
+  Color color = Colors.white,
+  double radius = 10.0,
+  bool autoResize = true,
+  bool dismissOnTap = true,
 }) {
   assert(context != null);
   assert(builder != null);
@@ -25,7 +25,7 @@ Future<T> showRoundedModalBottomSheet<T>({
   );
 }
 
-const Duration _kRoundedBottomSheetDuration = const Duration(milliseconds: 300);
+const Duration _kRoundedBottomSheetDuration = Duration(milliseconds: 300);
 const double _kMinFlingVelocity = 600.0;
 const double _kCloseProgressThreshold = 0.5;
 
@@ -83,19 +83,23 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       widget.animationController.status == AnimationStatus.reverse;
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    if (_dismissUnderway) return;
+    if (_dismissUnderway) 
+      return;
     widget.animationController.value -=
         details.primaryDelta / (_childHeight ?? details.primaryDelta);
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    if (_dismissUnderway) return;
+    if (_dismissUnderway) 
+      return;
     if (details.velocity.pixelsPerSecond.dy > _kMinFlingVelocity) {
       final double flingVelocity =
           -details.velocity.pixelsPerSecond.dy / _childHeight;
       if (widget.animationController.value > 0.0)
         widget.animationController.fling(velocity: flingVelocity);
-      if (flingVelocity < 0.0) widget.onClosing();
+      if (flingVelocity < 0.0) {
+        widget.onClosing();
+      }        
     } else if (widget.animationController.value < _kCloseProgressThreshold) {
       if (widget.animationController.value > 0.0)
         widget.animationController.fling(velocity: -1.0);
@@ -151,8 +155,8 @@ class RoundedCornerModalRoute<T> extends PopupRoute<T> {
     this.barrierLabel,
     this.color,
     this.radius,
-    this.autoResize: false,
-    this.dismissOnTap: true,
+    this.autoResize = false,
+    this.dismissOnTap = true,
     RouteSettings settings,
   }) : super(settings: settings);
 
@@ -226,7 +230,7 @@ class _RoundedModalBottomSheetState<T>
     return GestureDetector(
       child: AnimatedBuilder(
         animation: widget.route.animation,
-        builder: (context, child) => CustomSingleChildLayout(
+        builder: (BuildContext context, Widget child) => CustomSingleChildLayout(
               delegate: _RoundedModalBottomSheetLayout(
                   widget.route.autoResize
                       ? MediaQuery.of(context).viewInsets.bottom
@@ -235,7 +239,7 @@ class _RoundedModalBottomSheetState<T>
               child: CustomBottomSheet(
                 animationController: widget.route.animationController,
                 onClosing: () => Navigator.pop(context),
-                builder: (context) => Container(
+                builder: (BuildContext context) => Container(
                       decoration: BoxDecoration(
                         color: widget.route.color,
                         borderRadius: BorderRadius.only(

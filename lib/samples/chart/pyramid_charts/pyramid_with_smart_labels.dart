@@ -1,103 +1,131 @@
-import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/helper.dart';
 import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
+import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+//ignore: must_be_immutable
 class PyramidSmartLabels extends StatefulWidget {
-  final SubItemList sample;
-  const PyramidSmartLabels(this.sample, {Key key}) : super(key: key);
+  PyramidSmartLabels({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _PyramidSmartLabelState createState() => _PyramidSmartLabelState(sample);
 }
 
 class _PyramidSmartLabelState extends State<PyramidSmartLabels> {
-  final SubItemList sample;
   _PyramidSmartLabelState(this.sample);
-  bool panelOpen;
-  final frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(PyramidSmartLabels oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-        builder: (context, _, model) => SafeArea(
-              child: Backdrop(
-                needCloseButton: false,
-                panelVisible: frontPanelVisible,
-                sampleListModel: model,
-                frontPanelOpenPercentage: 0.28,
-                toggleFrontLayer: false,
-                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-                appBarActions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      child: IconButton(
-                        icon: Image.asset(model.codeViewerIcon,
-                            color: Colors.white),
-                        onPressed: () {
-                          launch(
-                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/pyramid_charts/pyramid_with_smart_labels.dart');
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                appBarTitle: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 1000),
-                    child: Text(sample.title.toString())),
-                backLayer: BackPanel(sample),
-                frontLayer: FrontPanel(sample),
-                sideDrawer: null,
-                headerClosingHeight: 350,
-                titleVisibleOnPanelClosed: true,
-                color: model.cardThemeColor,
-                borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12), bottom: Radius.circular(0)),
-              ),
-            ));
+    return getScopedModel(null, sample, PyramidSmartLabelsFrontPanel(sample));
   }
 }
 
-class FrontPanel extends StatefulWidget {
-  final SubItemList subItemList;
-  FrontPanel(this.subItemList);
-
-  @override
-  _FrontPanelState createState() => _FrontPanelState(this.subItemList);
+SfPyramidChart getPyramidSmartLabelChart(bool isTileView,
+    [ChartDataLabelPosition _labelPosition, SmartLabelMode _mode]) {
+  return SfPyramidChart(
+    onTooltipRender: (TooltipArgs args) {
+      final NumberFormat format = NumberFormat.decimalPattern();
+      args.text = format.format(args.dataPoints[args.pointIndex].y).toString();
+    },
+    title:
+        ChartTitle(text: isTileView ? '' : 'Top 10 populated countries - 2019'),
+    tooltipBehavior: TooltipBehavior(enable: true),
+    smartLabelMode: isTileView ? SmartLabelMode.shift : _mode,
+    series: _getPyramidSeries(
+      isTileView,
+      _labelPosition,
+    ),
+  );
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  final SubItemList sample;
-  _FrontPanelState(this.sample);
+PyramidSeries<ChartSampleData, String> _getPyramidSeries(bool isTileView,
+    [ChartDataLabelPosition _labelPosition,
+    LabelIntersectAction _labelIntersectAction]) {
+  final List<ChartSampleData> pieData = <ChartSampleData>[
+    ChartSampleData(
+        x: 'Mexico',
+        y: 127575529,
+        text: null,
+        pointColor: const Color.fromRGBO(238, 238, 238, 1)),
+    ChartSampleData(
+        x: 'Russia ',
+        y: 145872256,
+        text: null,
+        pointColor: const Color.fromRGBO(255, 240, 219, 1)),
+    ChartSampleData(
+        x: 'Bangladesh',
+        y: 163046161,
+        text: null,
+        pointColor: const Color.fromRGBO(255, 205, 96, 1)),
+    ChartSampleData(
+        x: 'Nigeria ',
+        y: 200963599,
+        text: null,
+        pointColor: const Color.fromRGBO(73, 76, 162, 1)),
+    ChartSampleData(
+        x: 'Brazil',
+        y: 211049527,
+        text: null,
+        pointColor: const Color.fromRGBO(0, 168, 181, 1)),
+    ChartSampleData(
+        x: 'Pakistan ',
+        y: 216565318,
+        text: null,
+        pointColor: const Color.fromRGBO(116, 180, 155, 1)),
+    ChartSampleData(
+        x: 'Indonesia',
+        y: 270625568,
+        text: null,
+        pointColor: const Color.fromRGBO(248, 177, 149, 1)),
+    ChartSampleData(
+        x: 'US',
+        y: 329064917,
+        text: null,
+        pointColor: const Color.fromRGBO(246, 114, 128, 1)),
+    ChartSampleData(
+        x: 'India',
+        y: 1366417754,
+        text: null,
+        pointColor: const Color.fromRGBO(192, 108, 132, 1)),
+    ChartSampleData(
+        x: 'China',
+        y: 1433783686,
+        text: null,
+        pointColor: const Color.fromRGBO(53, 92, 125, 1)),
+  ];
+  return PyramidSeries<ChartSampleData, String>(
+      width: '60%',
+      dataSource: pieData,
+      xValueMapper: (ChartSampleData data, _) => data.x,
+      yValueMapper: (ChartSampleData data, _) => data.y,
+      textFieldMapper: (ChartSampleData data, _) => data.x,
+      pointColorMapper: (ChartSampleData data, _) => data.pointColor,
+      dataLabelSettings: DataLabelSettings(
+          isVisible: true,
+          labelPosition:
+              isTileView ? ChartDataLabelPosition.outside : _labelPosition,
+          useSeriesColor: true));
+}
+
+class PyramidSmartLabelsFrontPanel extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
+  PyramidSmartLabelsFrontPanel(this.subItemList);
+  final SubItem subItemList;
+  
+  @override
+  _PyramidSmartLabelsFrontPanelState createState() => _PyramidSmartLabelsFrontPanelState(subItemList);
+}
+
+class _PyramidSmartLabelsFrontPanelState extends State<PyramidSmartLabelsFrontPanel> {
+  _PyramidSmartLabelsFrontPanelState(this.sample);
+  final SubItem sample;
   final List<String> _labelPositon = <String>['outside', 'inside'].toList();
   ChartDataLabelPosition _selectedLabelPosition = ChartDataLabelPosition.outside;
   String _selectedPosition;
@@ -115,9 +143,9 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
+    return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
-        builder: (context, _, model) {
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
               body: Padding(
@@ -177,7 +205,7 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void onSmartLabelModeChange(String item, SampleListModel model) {
+  void onSmartLabelModeChange(String item, SampleModel model) {
     setState(() {
       _smartLabelMode = item;
       if (_smartLabelMode == 'shift') {
@@ -192,20 +220,20 @@ class _FrontPanelState extends State<FrontPanel> {
     });
   }
 
-  void _showSettingsPanel(SampleListModel model) {
-    double height =
+  void _showSettingsPanel(SampleModel model) {
+    final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
-    showRoundedModalBottomSheet(
+    showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (context) => ScopedModelDescendant<SampleListModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (context, _, model) => Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (BuildContext context, _, SampleModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Container(
                     height: 170,
                     child: Padding(
@@ -355,138 +383,4 @@ class _FrontPanelState extends State<FrontPanel> {
                               ]),
                             )))))));
   }
-}
-
-class BackPanel extends StatefulWidget {
-  final SubItemList sample;
-
-  BackPanel(this.sample);
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<BackPanel> {
-  final SubItemList sample;
-  GlobalKey _globalKey = GlobalKey();
-  _BackPanelState(this.sample);
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  _afterLayout(_) {
-    _getSizesAndPosition();
-  }
-
-  _getSizesAndPosition() {
-    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
-    final size = renderBoxRed.size;
-    final position = renderBoxRed.localToGlobal(Offset.zero);
-    double appbarHeight = 60;
-    BackdropState.frontPanelHeight =
-        position.dy + (size.height - appbarHeight) + 20;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleListModel>(
-      rebuildOnChange: true,
-      builder: (context, _, model) {
-        return Container(
-          color: model.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sample.title,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.white,
-                      letterSpacing: 0.53),
-                ),
-                Padding(
-                  key: _globalKey,
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(
-                    sample.description,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                        height: 1.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-SfPyramidChart getPyramidSmartLabelChart(bool isTileView,
-    [ChartDataLabelPosition _labelPosition, SmartLabelMode _mode]) {
-  return SfPyramidChart(
-    onTooltipRender: (TooltipArgs args) {
-      final NumberFormat format = NumberFormat.decimalPattern();
-      args.text = format.format(args.dataPoints[args.pointIndex].y).toString();
-    },
-    title:
-        ChartTitle(text: isTileView ? '' : 'Top 10 populated countries - 2019'),
-    tooltipBehavior: TooltipBehavior(enable: true),
-    smartLabelMode: isTileView ? SmartLabelMode.shift : _mode,
-    series: _getPyramidSeries(
-      isTileView,
-      _labelPosition,
-    ),
-  );
-}
-
-PyramidSeries<_PyramidData, String> _getPyramidSeries(bool isTileView,
-    [ChartDataLabelPosition _labelPosition,
-    LabelIntersectAction _labelIntersectAction]) {
-  final List<_PyramidData> pieData = <_PyramidData>[
-    _PyramidData('Mexico', 127575529, null, Color.fromRGBO(238, 238, 238, 1)),
-    _PyramidData('Russia ', 145872256, null, Color.fromRGBO(255, 240, 219, 1)),
-    _PyramidData(
-        'Bangladesh', 163046161, null, Color.fromRGBO(255, 205, 96, 1)),
-    _PyramidData('Nigeria ', 200963599, null, Color.fromRGBO(73, 76, 162, 1)),
-    _PyramidData('Brazil', 211049527, null, Color.fromRGBO(0, 168, 181, 1)),
-    _PyramidData(
-        'Pakistan ', 216565318, null, Color.fromRGBO(116, 180, 155, 1)),
-    _PyramidData(
-        'Indonesia', 270625568, null, Color.fromRGBO(248, 177, 149, 1)),
-    _PyramidData('US', 329064917, null, Color.fromRGBO(246, 114, 128, 1)),
-    _PyramidData('India', 1366417754, null, Color.fromRGBO(192, 108, 132, 1)),
-    _PyramidData('China', 1433783686, null, Color.fromRGBO(53, 92, 125, 1)),
-  ];
-  return PyramidSeries<_PyramidData, String>(
-      width: '60%',
-      dataSource: pieData,
-      xValueMapper: (_PyramidData data, _) => data.xData,
-      yValueMapper: (_PyramidData data, _) => data.yData,
-      textFieldMapper: (_PyramidData data, _) => data.xData,
-      pointColorMapper: (_PyramidData data, _) => data.color,
-      dataLabelSettings: DataLabelSettings(
-          isVisible: true,
-          labelPosition: isTileView ? ChartDataLabelPosition.outside : _labelPosition,
-          useSeriesColor: true));
-}
-
-class _PyramidData {
-  _PyramidData(this.xData, this.yData, [this.text, this.color]);
-  final String xData;
-  final num yData;
-  final String text;
-  final Color color;
 }
