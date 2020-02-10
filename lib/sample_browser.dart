@@ -1137,7 +1137,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                       Align(
                           alignment: Alignment.bottomCenter,
-                          child: Text('Version 17.4.39',
+                          child: Text('Version 17.4.46',
                               style: TextStyle(
                                   color: _model.drawerTextIconColor,
                                   fontSize: 12,
