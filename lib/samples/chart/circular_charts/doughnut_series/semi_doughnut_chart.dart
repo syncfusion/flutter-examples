@@ -30,7 +30,6 @@ SfCircularChart getSemiDoughnutChart(bool isTileView,
   return SfCircularChart(
     title: ChartTitle(text: isTileView ? '' : 'Sales by sales person'),
     legend: Legend(isVisible: isTileView ? false : true),
-    centerY: isTileView ? '65%' : '60%',
     series: getSemiDoughnutSeries(isTileView, startAngle, endAngle),
     tooltipBehavior: TooltipBehavior(enable: true),
   );
@@ -48,14 +47,13 @@ List<DoughnutSeries<ChartSampleData, String>> getSemiDoughnutSeries(
     DoughnutSeries<ChartSampleData, String>(
         dataSource: chartData,
         innerRadius: '70%',
-        radius: isTileView ? '100%' : '59%',
         startAngle: isTileView ? 270 : startAngle,
         endAngle: isTileView ? 90 : endAngle,
         xValueMapper: (ChartSampleData data, _) => data.x,
         yValueMapper: (ChartSampleData data, _) => data.y,
         dataLabelMapper: (ChartSampleData data, _) => data.text,
         dataLabelSettings: DataLabelSettings(
-            isVisible: true, labelPosition: ChartDataLabelPosition.outside))
+            isVisible: true, labelPosition: ChartDataLabelPosition.inside))
   ];
 }
 
@@ -65,8 +63,7 @@ class SemiDoughnutFrontPanel extends StatefulWidget {
   final SubItem subItemList;
 
   @override
-  _SemiDoughnutFrontPanelState createState() =>
-      _SemiDoughnutFrontPanelState(subItemList);
+  _SemiDoughnutFrontPanelState createState() => _SemiDoughnutFrontPanelState(subItemList);
 }
 
 class _SemiDoughnutFrontPanelState extends State<SemiDoughnutFrontPanel> {
@@ -80,7 +77,7 @@ class _SemiDoughnutFrontPanelState extends State<SemiDoughnutFrontPanel> {
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-              backgroundColor: model.cardThemeColor,
+            backgroundColor: model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
@@ -97,7 +94,7 @@ class _SemiDoughnutFrontPanelState extends State<SemiDoughnutFrontPanel> {
   }
 
   void _showSettingsPanel(SampleModel model) {
-    final double height =
+   final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
@@ -173,8 +170,9 @@ class _SemiDoughnutFrontPanelState extends State<SemiDoughnutFrontPanel> {
                                                       startAngle.toDouble(),
                                                   onChanged: (dynamic val) =>
                                                       setState(() {
-                                                    startAngle = val.toInt();
-                                                  }),
+                                                        startAngle =
+                                                            val.toInt();
+                                                      }),
                                                   step: 10,
                                                   horizontal: true,
                                                   loop: false,
@@ -228,8 +226,8 @@ class _SemiDoughnutFrontPanelState extends State<SemiDoughnutFrontPanel> {
                                                       endAngle.toDouble(),
                                                   onChanged: (dynamic val) =>
                                                       setState(() {
-                                                    endAngle = val.toInt();
-                                                  }),
+                                                        endAngle = val.toInt();
+                                                      }),
                                                   step: 10,
                                                   horizontal: true,
                                                   loop: false,
