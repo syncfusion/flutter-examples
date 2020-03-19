@@ -30,7 +30,7 @@ SfRadialGauge getRadialLabelCustomization(bool isTileView) {
       RadialAxis(
           startAngle: 180,
           endAngle: 360,
-          centerY: 0.7,
+          canScaleToFit: true,
           interval: 10,
           radiusFactor: 0.95,
           labelFormat: '{value}%',

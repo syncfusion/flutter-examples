@@ -167,28 +167,35 @@ class _DynamicSeriesFrontPanelState extends State<DynamicSeriesFrontPanel> {
                     padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
                     child: Container(
                       height: 50,
-                      width: 120,
+                      width: model.isWeb ? 180 : 120,
                       child: InkWell(
                         child: Row(
                           children: <Widget>[
-                            IconButton(
+                             SizedBox(
+                              width: 45,
+                              height: 50,
+                            child:IconButton(
                                 icon: Icon(Icons.add_circle,
                                     size: 50, color: model.backgroundColor),
                                 onPressed: () {
                                   setState(() {
                                     getSeries(model);
                                   });
-                                }),
+                                })),
+                                
                             Padding(
                               padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                              child: IconButton(
+                              child:  SizedBox(
+                              width: 65,
+                              height: 50,
+                              child:IconButton(
                                 icon: Icon(Icons.remove_circle,
                                     size: 50, color: model.backgroundColor),
                                 onPressed: () => setState(() {
                                       getSeries1(model);
                                     }),
                               ),
-                            )
+                        ))
                           ],
                         ),
                       ),

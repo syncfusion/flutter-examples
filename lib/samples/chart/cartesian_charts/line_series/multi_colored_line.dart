@@ -46,7 +46,7 @@ SfCartesianChart getMultiColorLineChart(bool isTileView) {
         enable: true,
         activationMode: ActivationMode.singleTap,
         lineType: TrackballLineType.vertical,
-        tooltipSettings: InteractiveTooltip(format: '{point.x} : {point.y}')),
+        tooltipSettings: InteractiveTooltip(format: 'point.x : point.y')),
   );
 }
 

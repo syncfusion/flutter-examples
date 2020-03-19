@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -62,7 +63,7 @@ SfRadialGauge getRadialNonLinearLabel(bool isTileView) {
                 color: _pointerColor,
                 animationDuration: 1300,
                 animationType: AnimationType.easeOutBack,
-                gradient: const SweepGradient(
+                gradient: kIsWeb ? null : const SweepGradient(
                     colors: <Color>[Color(0xFF9E40DC), Color(0xFFE63B86)],
                     stops: <double>[0.25, 0.75]),
                 enableAnimation: true)

@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -76,11 +77,20 @@ SfRadialGauge getRadialEaseExample(bool isTileView) {
               enableAnimation: true,
               sizeUnit: GaugeSizeUnit.factor,
               animationType: AnimationType.ease,
-              gradient: const SweepGradient(
+              gradient: kIsWeb ? null : const SweepGradient(
                   colors: <Color>[Color(0xFFFFB397), Color(0xFFF46AA0)],
                   stops: <double>[0.25, 0.75]),
             ),
-            MarkerPointer(
+
+            kIsWeb ?MarkerPointer(
+                value: 11.5,
+                markerType: MarkerType.circle,
+                enableAnimation: true,
+                animationType: AnimationType.ease,
+                color: Colors.blue,
+                markerHeight: isTileView ? 30 : 40,
+                markerOffset: 4,
+                markerWidth: isTileView ? 30 : 40) : MarkerPointer(
                 value: 11.5,
                 markerType: MarkerType.image,
                 enableAnimation: true,
@@ -88,7 +98,8 @@ SfRadialGauge getRadialEaseExample(bool isTileView) {
                 imageUrl: 'images/ball.png',
                 markerHeight: isTileView ? 30 : 40,
                 markerOffset: 4,
-                markerWidth: isTileView ? 30 : 40),
+                markerWidth: isTileView ? 30 : 40)
+
           ])
     ],
   );

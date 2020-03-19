@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -50,7 +51,7 @@ SfRadialGauge getRadialEaseInCircExample(bool isTileView) {
                 pointerOffset: 10,
                 value: 45,
                 animationDuration: 1000,
-                gradient: const SweepGradient(
+                gradient: kIsWeb ? null : const SweepGradient(
                     colors: <Color>[Color(0xFF3B3FF3), Color(0xFF46D0ED)],
                     stops: <double>[0.25, 0.75]),
                 animationType: AnimationType.easeInCirc,

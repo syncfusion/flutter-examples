@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -30,7 +31,7 @@ SfRadialGauge getRadialMarkerExample(bool isTileView) {
           startAngle: 180,
           endAngle: 360,
           radiusFactor: 0.9,
-          centerY: 0.6,
+          canScaleToFit: true,
           interval: 10,
           showLabels: false,
           showAxisLine: false,
@@ -74,7 +75,7 @@ SfRadialGauge getRadialMarkerExample(bool isTileView) {
               startValue: 0,
               endValue: 100,
               sizeUnit: GaugeSizeUnit.factor,
-              gradient: const SweepGradient(
+              gradient: kIsWeb ? null : const SweepGradient(
                   colors: <Color>[Color(0xFFAB64F5), Color(0xFF62DBF6)],
                   stops: <double>[0.25, 0.75]),
               startWidth: 0.4,

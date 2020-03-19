@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import '../../../../model/helper.dart';
@@ -59,7 +60,7 @@ List<CustomSplineSeries<ChartSampleData, num>> getSplineCustomizedSeries(
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         width: 2,
-        dashArray: <double>[10, 5]),
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[10, 5]),
   ];
 }
 

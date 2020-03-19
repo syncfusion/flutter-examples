@@ -12,8 +12,10 @@ import '../../../widgets/customDropDown.dart';
 class GettingStartedCalendar extends StatefulWidget {
   GettingStartedCalendar({this.sample, Key key}) : super(key: key);
   SubItem sample;
+
   @override
-  _GettingStartedCalendarState createState() => _GettingStartedCalendarState(sample);
+  _GettingStartedCalendarState createState() =>
+      _GettingStartedCalendarState(sample);
 }
 
 class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
@@ -27,6 +29,7 @@ class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
   List<Color> colorCollection;
   List<Meeting> meetings;
   MeetingDataSource events;
+  DateTime _minDate, _maxDate;
 
   String _view = 'Month';
 
@@ -40,7 +43,6 @@ class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
     'Timeline work week'
   ].toList();
 
-
   @override
   void initState() {
     panelOpen = frontPanelVisible.value;
@@ -49,6 +51,8 @@ class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
     meetings = <Meeting>[];
     addAppointmentDetails();
     events = MeetingDataSource(meetings);
+    _minDate = DateTime.now().subtract(const Duration(days: 365 ~/ 2));
+    _maxDate = DateTime.now().add(const Duration(days: 365 ~/ 2));
     super.initState();
   }
 
@@ -72,7 +76,7 @@ class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
                 child: Container(
                     child: getGettingStartedCalendar(
-                        _calendarView, events, onViewChanged)),
+                        _calendarView, events, onViewChanged, _minDate, _maxDate)),
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
@@ -88,23 +92,17 @@ class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
     _view = value;
     if (value == 'Day') {
       _calendarView = CalendarView.day;
-    }
-    else if (value == 'Week') {
+    } else if (value == 'Week') {
       _calendarView = CalendarView.week;
-    }
-    else if (value == 'Work week') {
+    } else if (value == 'Work week') {
       _calendarView = CalendarView.workWeek;
-    }
-    else if (value == 'Month') {
+    } else if (value == 'Month') {
       _calendarView = CalendarView.month;
-    }
-    else if (value == 'Timeline day') {
+    } else if (value == 'Timeline day') {
       _calendarView = CalendarView.timelineDay;
-    }
-    else if (value == 'Timeline week') {
+    } else if (value == 'Timeline week') {
       _calendarView = CalendarView.timelineWeek;
-    }
-    else if (value == 'Timeline work week') {
+    } else if (value == 'Timeline work week') {
       _calendarView = CalendarView.timelineWorkWeek;
     }
 
@@ -131,8 +129,7 @@ class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
             colorCollection[random.nextInt(9)],
             false,
             '',
-            '')
-        );
+            ''));
       }
     }
 
@@ -171,9 +168,9 @@ class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
 
   void _showSettingsPanel(SampleModel model) {
     final double height =
-    (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
-        ? 0.3
-        : 0.4;
+        (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
+            ? 0.3
+            : 0.4;
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -196,9 +193,9 @@ class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
                                   height: 40,
                                   child: Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text('Settings',
                                           style: TextStyle(
@@ -220,68 +217,72 @@ class _GettingStartedCalendarState extends State<GettingStartedCalendar> {
                                 ),
                                 Padding(
                                   padding:
-                                  const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                                      const EdgeInsets.fromLTRB(10, 50, 0, 0),
                                   child: Container(
-                                        child: Row(
-                                          crossAxisAlignment:
+                                    child: Row(
+                                      crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                          mainAxisAlignment:
+                                      mainAxisAlignment:
                                           MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text('Calendar View   ',
-                                                style: TextStyle(
-                                                    fontSize: 16.0,
-                                                    color: model.textColor)),
-                                            Container(
-                                                padding:
-                                                const EdgeInsets.fromLTRB(
-                                                    15, 0, 0, 0),
-                                                height: 50,
-                                                width: 200,
-                                                child: Align(
-                                                  alignment:
-                                                  Alignment.bottomCenter,
-                                                  child: Theme(
-                                                    data: Theme.of(context)
-                                                        .copyWith(
-                                                        canvasColor: model
-                                                            .bottomSheetBackgroundColor),
-                                                    child: DropDown(
-                                                        value:
-                                                        _view,
-                                                        item: _viewList.map(
-                                                                (String value) {
-                                                              return DropdownMenuItem<
-                                                                  String>(
-                                                                  value: (value !=
-                                                                      null)
-                                                                      ? value
-                                                                      : 'Month',
-                                                                  child: Text(
-                                                                      '$value',
-                                                                      textAlign: TextAlign.center,
-                                                                      style: TextStyle(
-                                                                          color: model
-                                                                              .textColor)));
-                                                            }).toList(),
-                                                        valueChanged: (dynamic value) {
-                                                          onCalendarViewChange(
-                                                              value, model);
-                                                        }),
-                                                  ),
-                                                ))
-                                          ],
-                                        ),
-                                      ),
+                                      children: <Widget>[
+                                        Text('Calendar View   ',
+                                            style: TextStyle(
+                                                fontSize: 16.0,
+                                                color: model.textColor)),
+                                        Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                15, 0, 0, 0),
+                                            height: 50,
+                                            width: 200,
+                                            child: Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Theme(
+                                                data: Theme.of(context).copyWith(
+                                                    canvasColor: model
+                                                        .bottomSheetBackgroundColor),
+                                                child: DropDown(
+                                                    value: _view,
+                                                    item: _viewList
+                                                        .map((String value) {
+                                                      return DropdownMenuItem<
+                                                              String>(
+                                                          value: (value != null)
+                                                              ? value
+                                                              : 'Month',
+                                                          child: Text('$value',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  color: model
+                                                                      .textColor)));
+                                                    }).toList(),
+                                                    valueChanged:
+                                                        (dynamic value) {
+                                                      onCalendarViewChange(
+                                                          value, model);
+                                                    }),
+                                              ),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ]),
                             )))))));
   }
 }
-SfCalendar getGettingStartedCalendar([CalendarView _calendarView, CalendarDataSource _calendarDataSource, ViewChangedCallback viewChangedCallback]) {
-  return SfCalendar(view: _calendarView,
+
+SfCalendar getGettingStartedCalendar(
+    [CalendarView _calendarView,
+    CalendarDataSource _calendarDataSource,
+    ViewChangedCallback viewChangedCallback, DateTime _minDate, DateTime _maxDate]) {
+  return SfCalendar(
+      view: _calendarView,
       dataSource: _calendarDataSource,
       onViewChanged: viewChangedCallback,
+      minDate: _minDate,
+      maxDate: _maxDate,
       monthViewSettings: MonthViewSettings(
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
       timeSlotViewSettings: TimeSlotViewSettings(
@@ -333,8 +334,16 @@ class MeetingDataSource extends CalendarDataSource {
 }
 
 class Meeting {
-  Meeting(this.eventName, this.organizer, this.contactID, this.capacity,
-      this.from, this.to, this.background, this.isAllDay, this.startTimeZone,
+  Meeting(
+      this.eventName,
+      this.organizer,
+      this.contactID,
+      this.capacity,
+      this.from,
+      this.to,
+      this.background,
+      this.isAllDay,
+      this.startTimeZone,
       this.endTimeZone);
 
   String eventName;

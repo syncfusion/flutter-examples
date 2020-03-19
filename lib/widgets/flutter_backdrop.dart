@@ -287,7 +287,10 @@ class BackdropState extends State<Backdrop>
 
       if (controller.value < 0.5) {
         toolBarWidgets = <Widget>[
-          IconButton(
+          Container(
+            height: 60,
+            width:  60,
+            child: IconButton(
             icon: IconButton(
               icon: Icon(
                 Icons.clear,
@@ -298,6 +301,7 @@ class BackdropState extends State<Backdrop>
               },
             ),
             onPressed: () {},
+          )
           )
         ];
       }

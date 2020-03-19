@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -50,7 +51,7 @@ SfRadialGauge getMultipleRangePointerExampleGauge(bool isTileView) {
           pointers:<GaugePointer>[RangePointer(value: 50,  cornerStyle: CornerStyle.bothCurve,
               enableAnimation: true, animationDuration: 1200, animationType: AnimationType.ease,
               sizeUnit: GaugeSizeUnit.factor,
-                 gradient: const SweepGradient(
+                 gradient: kIsWeb ? null : const SweepGradient(
                   colors:<Color>[Color(0xFF6A6EF6), Color(0xFFDB82F5)],
                   stops: <double>[0.25, 0.75]
               ),

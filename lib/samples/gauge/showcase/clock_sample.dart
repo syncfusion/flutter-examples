@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/foundation.dart';
 import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
@@ -136,7 +136,7 @@ SfRadialGauge getClockExample(bool isTileView, [bool isIndexed]) {
           maximum: 12,
           showFirstLabel: false,
           interval: 2,
-          centerX: isTileView ? 0.39 : _centerX,
+          centerX: isTileView ? kIsWeb ? 0.36 : 0.39 : kIsWeb ? 0.43 : _centerX,
           minorTicksPerInterval: 5,
           tickOffset: 0.03,
           minorTickStyle: MinorTickStyle(

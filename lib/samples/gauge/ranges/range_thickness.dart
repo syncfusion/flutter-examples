@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -69,8 +70,8 @@ SfRadialGauge getRangeThicknessExampleGauge(bool isTileView) {
             GaugeRange(
                 startValue: 30,
                 endValue: 100,
-                startWidth: 0.05,
-                gradient: const SweepGradient(
+                startWidth: kIsWeb ? 0.2 : 0.05,
+                gradient: kIsWeb ? null : const SweepGradient(
                     colors: <Color>[Color(0xFF289AB1), Color(0xFF43E695)],
                     stops: <double>[0.25, 0.75]),
                 color: const Color(0xFF289AB1),
