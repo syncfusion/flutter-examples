@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -33,7 +34,7 @@ SfRadialGauge getRadialEaseOutAnimation(bool isTileView) {
           endAngle: 360,
           showTicks: false,
           showLabels: false,
-          centerY: 0.6,
+         canScaleToFit: true,
           radiusFactor: 0.8,
           minimum: 0,
           maximum: 50,
@@ -45,7 +46,7 @@ SfRadialGauge getRadialEaseOutAnimation(bool isTileView) {
               width: 40,
               color: const Color(0xFF00A8B5),
               value: 40,
-              gradient: const SweepGradient(
+              gradient:  kIsWeb ? null :  const SweepGradient(
                   colors: <Color>[Color(0xFFD046CA), Color(0xFF6094EA)],
                   stops: <double>[0.25, 0.75]),
             ),

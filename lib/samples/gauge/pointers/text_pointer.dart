@@ -34,7 +34,7 @@ SfRadialGauge getRadialTextPointer(bool isTileView) {
           endAngle: 360,
           minimum: 0,
           maximum: 120,
-          centerY: 0.65,
+        canScaleToFit: true,
           radiusFactor: 0.79,
           pointers: <GaugePointer>[
             NeedlePointer(
@@ -98,7 +98,7 @@ SfRadialGauge getRadialTextPointer(bool isTileView) {
         minimum: 0,
         maximum: 120,
         radiusFactor: 0.85,
-        centerY: 0.65,
+        canScaleToFit: true,
         pointers: <GaugePointer>[
           MarkerPointer(
               markerType: MarkerType.text,

@@ -38,7 +38,7 @@ Widget getMultipleRangesExampleGauge(bool isTileView) {
           endAngle: 360,
           minimum: 0,
           maximum: 80,
-          centerY: 0.7,
+         canScaleToFit: true,
           radiusFactor: 0.95,
           pointers: <GaugePointer>[
             NeedlePointer(needleStartWidth: 1,

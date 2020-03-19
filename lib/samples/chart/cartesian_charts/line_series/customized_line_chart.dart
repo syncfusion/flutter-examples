@@ -19,6 +19,8 @@ class CustomizedLine extends StatefulWidget {
 
 List<num> xValues;
 List<num> yValues;
+ List<num> xPointValues = <num>[];
+  List<num> yPointValues = <num>[];
 
 class _LineDefaultState extends State<CustomizedLine> {
   _LineDefaultState(this.sample);
@@ -116,6 +118,8 @@ class CustomLineSeries<T, D> extends LineSeries<T, D> {
             animationDuration: animationDuration);
 
   static Random randomNumber = Random();
+  
+  
 
   @override
   ChartSegment createSegment() {
@@ -141,6 +145,8 @@ class LineCustomPainter extends LineSegment {
     Colors.cyan
   ];
 
+
+
   @override
   Paint getStrokePaint() {
     final Paint customerStrokePaint = Paint();
@@ -150,20 +156,27 @@ class LineCustomPainter extends LineSegment {
     return customerStrokePaint;
   }
 
-  @override
-  void onPaint(Canvas canvas) {
-    final double x1 = this.x1, y1 = this.y1, x2 = this.x2, y2 = this.y2;
+  void storeValues(){
+    xPointValues.add(x1);
+    xPointValues.add(x2);
+    yPointValues.add(y1);
+    yPointValues.add(y2);
     xValues.add(x1);
     xValues.add(x2);
     yValues.add(y1);
     yValues.add(y2);
+  }
 
+  @override
+  void onPaint(Canvas canvas) {
+    final double x1 = this.x1, y1 = this.y1, x2 = this.x2, y2 = this.y2;
+   storeValues();
     final Path path = Path();
     path.moveTo(x1, y1);
     path.lineTo(x2, y2);
     canvas.drawPath(path, getStrokePaint());
 
-    if (currentSegmentIndex == series.segments.length - 1) {
+    if (currentSegmentIndex == series.dataSource.length - 2) {
       const double labelPadding = 10;
       final Paint topLinePaint = Paint()
         ..color = Colors.green
@@ -174,15 +187,15 @@ class LineCustomPainter extends LineSegment {
         ..color = Colors.red
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2;
-      maximum = yValues.reduce(max);
-      minimum = yValues.reduce(min);
+      maximum = yPointValues.reduce(max);
+      minimum = yPointValues.reduce(min);
       final Path bottomLinePath = Path();
       final Path topLinePath = Path();
-      bottomLinePath.moveTo(xValues[0], maximum + 5);
-      bottomLinePath.lineTo(xValues[xValues.length - 1], maximum + 5);
+      bottomLinePath.moveTo(xPointValues[0], maximum);
+      bottomLinePath.lineTo(xPointValues[xPointValues.length - 1], maximum);
 
-      topLinePath.moveTo(xValues[0], minimum - 5);
-      topLinePath.lineTo(xValues[xValues.length - 1], minimum - 5);
+      topLinePath.moveTo(xPointValues[0], minimum);
+      topLinePath.lineTo(xPointValues[xPointValues.length - 1], minimum);
       canvas.drawPath(
           _dashPath(
             bottomLinePath,
@@ -206,7 +219,7 @@ class LineCustomPainter extends LineSegment {
           TextPainter(text: span, textDirection: prefix0.TextDirection.ltr);
       tp.layout();
       tp.paint(
-          canvas, Offset(xValues[xValues.length - 4], maximum + labelPadding));
+          canvas, Offset(xPointValues[xPointValues.length - 4], maximum + labelPadding));
       final TextSpan span1 = TextSpan(
         style: TextStyle(
             color: Colors.green[800], fontSize: 12.0, fontFamily: 'Roboto'),
@@ -217,9 +230,10 @@ class LineCustomPainter extends LineSegment {
       tp1.layout();
       tp1.paint(
           canvas,
-          Offset(xValues[0] + labelPadding / 2,
+          Offset(xPointValues[0] + labelPadding / 2,
               minimum - labelPadding - tp1.size.height));
       yValues.clear();
+      yPointValues.clear();
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -31,7 +32,7 @@ SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
           startAngle: 180,
           endAngle: 360,
           showAxisLine: true,
-          centerY: 0.65,
+          canScaleToFit: true,
           interval: 10,
           showLabels: false,
           radiusFactor: 0.9,
@@ -40,7 +41,7 @@ SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
           minorTicksPerInterval: 4,
           pointers: <GaugePointer>[
             RangePointer(
-                gradient: const SweepGradient(
+                gradient:  kIsWeb ? null :  const SweepGradient(
                     colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
                     stops: <double>[0.25, 0.75]),
                 value: 70,
@@ -52,7 +53,7 @@ SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
             NeedlePointer(
                 value: 70,
                 needleStartWidth: 0,
-                needleColor: const Color(0xFFD481FF),
+                needleColor: kIsWeb? null : const Color(0xFFD481FF),
                 lengthUnit: GaugeSizeUnit.factor,
                 needleLength: 1,
                 enableAnimation: true,

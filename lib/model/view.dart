@@ -29,7 +29,10 @@ class _LayoutPageState extends State<LayoutPage> {
     return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) => Theme(
-            data: model.themeData,
+            data: ThemeData(
+              brightness:  model.themeData.brightness,
+              primaryColor: model.backgroundColor
+            ),
             child: SafeArea(
               child: DefaultTabController(
                 length: model.controlList[model.selectedIndex].subItems.length,
@@ -48,9 +51,9 @@ class _LayoutPageState extends State<LayoutPage> {
                                       'card')
                               ? null
                               : TabBar(
-                                onTap: (int index){
-                                  _index = index;
-                                },
+                                  onTap: (int index) {
+                                    _index = index;
+                                  },
                                   indicator: const UnderlineTabIndicator(
                                     borderSide: BorderSide(
                                         width: 5.0,
@@ -65,18 +68,29 @@ class _LayoutPageState extends State<LayoutPage> {
                       title: Text(
                           model.controlList[model.selectedIndex].title
                               .toString(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                              color: Colors.white,
-                              letterSpacing: 0.3)),
+                          style: model.isWeb
+                              ? const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  letterSpacing: 0.4)
+                              : const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                  letterSpacing: 0.3)),
                       actions: (model.controlList[model.selectedIndex]
                                       .sampleList !=
                                   null &&
                               model.controlList[model.selectedIndex]
                                       .displayType !=
-                                  'card' && model.controlList[model.selectedIndex].sampleList[_index].codeLink != null && 
-                                    model.controlList[model.selectedIndex].sampleList[_index].codeLink !='')
+                                  'card' &&
+                              model.controlList[model.selectedIndex]
+                                      .sampleList[_index].codeLink !=
+                                  null &&
+                              model.controlList[model.selectedIndex]
+                                      .sampleList[_index].codeLink !=
+                                  '')
                           ? <Widget>[
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
@@ -87,7 +101,10 @@ class _LayoutPageState extends State<LayoutPage> {
                                     icon: Image.asset('images/code.png',
                                         color: Colors.white),
                                     onPressed: () {
-                                      launch(model.controlList[model.selectedIndex].sampleList[_index].codeLink);
+                                      launch(model
+                                          .controlList[model.selectedIndex]
+                                          .sampleList[_index]
+                                          .codeLink);
                                     },
                                   ),
                                 ),
@@ -96,7 +113,7 @@ class _LayoutPageState extends State<LayoutPage> {
                           : null,
                     ),
                     body: TabBarView(
-                      physics: const NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         children:
                             model.controlList[model.selectedIndex].sampleList !=
                                     null
@@ -168,7 +185,9 @@ class _LayoutPageState extends State<LayoutPage> {
                     alignment: Alignment.center,
                     child: Text(
                       str,
-                      style: TextStyle(fontSize: tabView != 'parent'? 11 : 12, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: tabView != 'parent' ? 11 : 12,
+                          color: Colors.white),
                     ),
                   ),
           ],
@@ -196,6 +215,7 @@ class _LayoutPageState extends State<LayoutPage> {
           itemCount: list.length,
           itemBuilder: (BuildContext context, int position) {
             final String status = list[position].status;
+            final SubItem _subitem =list[position];
             return Container(
               color: model.slidingPanelColor,
               padding: const EdgeInsets.all(5.0),
@@ -229,11 +249,17 @@ class _LayoutPageState extends State<LayoutPage> {
                                     softWrap: true,
                                     textScaleFactor: 1,
                                     overflow: TextOverflow.fade,
-                                    style: TextStyle(
-                                        fontFamily: 'MontserratMedium',
-                                        fontSize: 16.0,
-                                        color: model.textColor,
-                                        letterSpacing: 0.2),
+                                    style: model.isWeb
+                                        ? TextStyle(
+                                            fontFamily: 'HeeboMedium',
+                                            fontSize: 19.0,
+                                            color: model.textColor,
+                                            letterSpacing: 0.2)
+                                        : TextStyle(
+                                            fontFamily: 'HeeboMedium',
+                                            fontSize: 16.0,
+                                            color: model.textColor,
+                                            letterSpacing: 0.2),
                                   ),
                                   Container(
                                       child: Row(
@@ -281,14 +307,21 @@ class _LayoutPageState extends State<LayoutPage> {
                                 ]),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {},
-                          splashColor: Colors.grey.withOpacity(0.4),
+                        Container(
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: SizedBox(
-                                width: double.infinity,
-                                height: 230,
+                                //ignore: avoid_as
+                                width: model.isWeb
+                                    ? _subitem != null
+                                    && _subitem.key == 'clock_sample'
+                                        ? (MediaQuery.of(context).size.height *
+                                            0.6)
+                                        : double.infinity
+                                    : double.infinity,
+                                height: model.isWeb
+                                    ? (MediaQuery.of(context).size.height * 0.6)
+                                    : 230,
                                 child: model.sampleWidget[list[position].key]
                                     [0]),
                           ),
@@ -332,7 +365,7 @@ class _LayoutPageState extends State<LayoutPage> {
                           preferredSize: const Size.fromHeight(46.1),
                         ),
                   body: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: _getSamples(
                           model, list[i].subItems, list[i].displayType)))),
         ));
@@ -371,7 +404,7 @@ class _LayoutPageState extends State<LayoutPage> {
                               preferredSize: const Size.fromHeight(46.1),
                             ),
                   body: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: list[i].type == 'child'
                           ? _getSamples(
                               model, list[i].subItems, list[i].displayType)

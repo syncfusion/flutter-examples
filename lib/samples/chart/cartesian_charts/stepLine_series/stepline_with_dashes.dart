@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import '../../../../model/helper.dart';
@@ -61,27 +62,27 @@ List<StepLineSeries<ChartSampleData, num>> getDashedStepLineSeries(
         yValueMapper: (ChartSampleData data, _) => data.y,
         name: 'USA',
         width: 2,
-        dashArray: <double>[10, 5]),
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[10, 5]),
     StepLineSeries<ChartSampleData, num>(
         dataSource: chartData,
         xValueMapper: (ChartSampleData data, _) => data.x,
         yValueMapper: (ChartSampleData data, _) => data.yValue,
         name: 'UK',
         width: 2,
-        dashArray: <double>[10, 5]),
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[10, 5]),
     StepLineSeries<ChartSampleData, num>(
         dataSource: chartData,
         xValueMapper: (ChartSampleData data, _) => data.x,
         yValueMapper: (ChartSampleData data, _) => data.yValue2,
         name: 'Korea',
         width: 2,
-        dashArray: <double>[10, 5]),
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[10, 5]),
     StepLineSeries<ChartSampleData, num>(
         dataSource: chartData,
         xValueMapper: (ChartSampleData data, _) => data.x,
         yValueMapper: (ChartSampleData data, _) => data.yValue3,
         name: 'Japan',
         width: 2,
-        dashArray: <double>[10, 5])
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[10, 5])
   ];
 }

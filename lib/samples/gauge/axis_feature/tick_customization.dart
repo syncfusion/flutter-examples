@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -40,14 +41,14 @@ SfRadialGauge getRadialTickCustomization(bool isTileView) {
               length: 0.15,
               lengthUnit: GaugeSizeUnit.factor,
               thickness: 1,
-              dashArray: <double>[2, 1]),
+              dashArray: kIsWeb ? null : <double>[2, 1]),
           minorTicksPerInterval: 4,
           interval: 10,
           minorTickStyle: MinorTickStyle(
               length: 0.06,
               thickness: 1,
               lengthUnit: GaugeSizeUnit.factor,
-              dashArray: <double>[2, 1]),
+              dashArray: kIsWeb ? null : <double>[2, 1]),
           pointers: <GaugePointer>[
             NeedlePointer(
                 enableAnimation: true,

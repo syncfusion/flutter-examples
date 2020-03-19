@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ List<LineSeries<_ChartData, num>> getDashedLineSeries(bool isTileView) {
     LineSeries<_ChartData, num>(
         animationDuration: 2500,
         enableTooltip: true,
-        dashArray:<double>[15, 3, 3, 3],
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
         dataSource: chartData,
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y,
@@ -71,7 +72,7 @@ List<LineSeries<_ChartData, num>> getDashedLineSeries(bool isTileView) {
         animationDuration: 2500,
         enableTooltip: true,
         dataSource: chartData,
-        dashArray: <double>[15, 3, 3, 3],
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
         width: 2,
         name: 'Saudi Arabia',
         xValueMapper: (_ChartData sales, _) => sales.x,
@@ -82,7 +83,7 @@ List<LineSeries<_ChartData, num>> getDashedLineSeries(bool isTileView) {
         enableTooltip: true,
         dataSource: chartData,
         width: 2,
-        dashArray: <double>[15, 3, 3, 3],
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
         name: 'Spain',
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y3,
@@ -92,7 +93,7 @@ List<LineSeries<_ChartData, num>> getDashedLineSeries(bool isTileView) {
         enableTooltip: true,
         dataSource: chartData,
         width: 2,
-        dashArray: <double>[15, 3, 3, 3],
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
         name: 'Portugal',
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y4,

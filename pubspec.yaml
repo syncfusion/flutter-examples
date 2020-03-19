@@ -1,6 +1,6 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 17.4.40    
+version: 18.1.36
 author: Syncfusion <support@syncfusion.com>
 homepage: https://github.com/syncfusion/flutter-examples
 
@@ -16,20 +16,26 @@ dependencies:
   flutter_gallery_assets: 0.1.8
   url_launcher: ^5.0.3
   intl: ^0.16.0
-  syncfusion_flutter_calendar: ^17.4.40-beta
-  syncfusion_flutter_charts: ^17.4.40
-  syncfusion_flutter_gauges: ^17.4.40-beta
-  syncfusion_flutter_core: ^17.4.40
+  path_provider: ^1.6.1
+  syncfusion_flutter_calendar: ^18.1.36-beta
+  syncfusion_flutter_datepicker: ^18.1.36-beta
+  syncfusion_flutter_charts: ^18.1.36
+  syncfusion_flutter_gauges: ^18.1.36
+  syncfusion_flutter_sliders: ^18.1.36-beta
+  syncfusion_flutter_pdf: ^18.1.36-beta
+  syncfusion_flutter_barcodes: ^18.1.36-beta
 
 flutter:
   uses-material-design: true
   assets:
     - images/
+    - images/pdf/
+    - assets/pdf/
     - lib/sample_details.json
   fonts:
-    - family: MontserratBold
+    - family: HeeboBold
       fonts:
-        - asset: assets/fonts/Montserrat-Bold.ttf
-    - family: MontserratMedium
+        - asset: assets/fonts/Heebo-Bold.ttf
+    - family: HeeboMedium
       fonts:
-        - asset: assets/fonts/Montserrat-Medium.ttf
+        - asset: assets/fonts/Heebo-Medium.ttf

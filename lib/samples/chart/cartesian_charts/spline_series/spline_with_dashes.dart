@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import '../../../../model/helper.dart';
@@ -64,14 +65,14 @@ List<SplineSeries<ChartSampleData, num>> getDashedSplineSeries(
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         width: 2,
         name: 'Brazil',
-        dashArray: <double>[12, 3, 3, 3],
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[12, 3, 3, 3],
         markerSettings: MarkerSettings(isVisible: true)),
     SplineSeries<ChartSampleData, num>(
         enableTooltip: true,
         dataSource: chartData,
         width: 2,
         name: 'Sweden',
-        dashArray: <double>[12, 3, 3, 3],
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[12, 3, 3, 3],
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
         markerSettings: MarkerSettings(isVisible: true)),
@@ -79,7 +80,7 @@ List<SplineSeries<ChartSampleData, num>> getDashedSplineSeries(
         enableTooltip: true,
         dataSource: chartData,
         width: 2,
-        dashArray: <double>[12, 3, 3, 3],
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[12, 3, 3, 3],
         name: 'Greece',
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.yValue3,

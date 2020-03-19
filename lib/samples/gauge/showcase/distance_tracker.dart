@@ -1,5 +1,7 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../../model/helper.dart';
@@ -101,7 +103,7 @@ SfRadialGauge getDistanceTrackerExample(bool isTileView, [bool isIndexed]) {
               width: 18, pointerOffset: -3,
               cornerStyle: CornerStyle.bothCurve,
               color: const Color(0xFFF67280),
-              gradient: const SweepGradient(
+              gradient: kIsWeb ? null : const SweepGradient(
                   colors: <Color>[Color(0xFFFF7676), Color(0xFFF54EA2)],
                   stops: <double>[0.25, 0.75]
               ),

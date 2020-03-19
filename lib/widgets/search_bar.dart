@@ -122,12 +122,12 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                   },
                   controller: editingController,
                   decoration: InputDecoration(
-                      labelStyle:const TextStyle(fontFamily: 'MontserratMedium'),
+                      labelStyle:const TextStyle(fontFamily: 'HeeboMedium'),
                       hintText: 'Search',
                       border: InputBorder.none,
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                           fontSize: 15,
-                          fontFamily: 'MontserratMedium',
+                          fontFamily: 'HeeboMedium',
                           color: Colors.grey),
                       prefixIcon: searchIcon)),
             ),

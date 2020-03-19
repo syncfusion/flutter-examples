@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_examples/widgets/animateOpacityWidget.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/bar_series/customized_bar_chart.dart';
@@ -14,8 +15,6 @@ import 'model/helper.dart';
 import 'model/model.dart';
 
 class SampleBrowser extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,9 +33,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isSelected = true;
   Color lightThemeSelected;
-  Color lightThemeSelectedTextColor;
   Color darkThemeSelected;
-  Color darkThemeSelectedTextColor;
   List<Color> defaultBorderColor;
   SampleModel sampleListModel;
   List<Widget> colorPaletteWidgets;
@@ -56,9 +53,7 @@ class _HomePageState extends State<HomePage> {
     _currentThemeData = ThemeData.light();
     sampleListModel = SampleModel();
     lightThemeSelected = sampleListModel.backgroundColor;
-    darkThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
-    lightThemeSelectedTextColor = Colors.white;
-    darkThemeSelectedTextColor = const Color.fromRGBO(255, 255, 255, 1);
+    darkThemeSelected = const Color.fromRGBO(247, 245, 245, 1);
     defaultBorderColor = <Color>[];
     _addColors();
     _init();
@@ -84,6 +79,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
+    sampleListModel.isWeb = kIsWeb;
     _orientationPadding = ((MediaQuery.of(context).size.width) / 100) * 20;
     final dynamic smallestDimension = MediaQuery.of(context).size.shortestSide;
     final bool useMobileLayout = smallestDimension < 600;
@@ -92,8 +88,7 @@ class _HomePageState extends State<HomePage> {
         model: sampleListModel,
         child: ScopedModelDescendant<SampleModel>(
           rebuildOnChange: true,
-          builder: (BuildContext context, _, SampleModel model) =>
-              MaterialApp(
+          builder: (BuildContext context, _, SampleModel model) => MaterialApp(
             debugShowCheckedModeBanner: false,
             home: SafeArea(
               child: Scaffold(
@@ -115,15 +110,24 @@ class _HomePageState extends State<HomePage> {
                           title: AnimateOpacityWidget(
                               controller: controller,
                               opacity: cOpacity,
-                              child: const Text('Flutter UI Widgets',
+                          child: sampleListModel.isWeb 
+                              ? const Text('Flutter UI Widgets (Beta)',
                                   style: TextStyle(
                                       fontSize: 18,
-                                      fontFamily: 'MontserratMedium'))),
+                                      fontFamily: 'HeeboMedium'
+                                      ))
+                              : const Text('Flutter UI Widgets',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'HeeboMedium'
+                                      ))),
                           actions: <Widget>[
                             Container(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                              height: 40,
-                              width: 40,
+                              padding: model.isWeb
+                                  ? const EdgeInsets.only(right: 20)
+                                  : const EdgeInsets.only(right: 10),
+                              height: model.isWeb ? 60 : 40,
+                              width: model.isWeb ? 60 : 40,
                               child: IconButton(
                                 icon: Icon(Icons.settings, color: Colors.white),
                                 onPressed: () {
@@ -226,12 +230,20 @@ class _HomePageState extends State<HomePage> {
                                         CrossAxisAlignment.start,
                                     // ignore: prefer_const_literals_to_create_immutables
                                     children: <Widget>[
-                                      const Text('Flutter UI Widgets',
+                                      model.isWeb
+                                       ? const Text('Flutter UI Widgets (Beta)',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 25,
                                               letterSpacing: 0.53,
-                                              fontFamily: 'MontserratBold',
+                                              fontFamily: 'HeeboBold',
+                                              fontWeight: FontWeight.bold))
+                                       :const Text('Flutter UI Widgets',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 25,
+                                              letterSpacing: 0.53,
+                                              fontFamily: 'HeeboBold',
                                               fontWeight: FontWeight.bold)),
                                       const Padding(
                                         padding:
@@ -241,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                                                 color: Colors.white,
                                                 fontSize: 14,
                                                 letterSpacing: 0.26,
-                                                fontFamily: 'MontserratBold',
+                                                fontFamily: 'HeeboBold',
                                                 fontWeight: FontWeight.normal)),
                                       ),
                                     ],
@@ -275,45 +287,46 @@ class _HomePageState extends State<HomePage> {
         color: model.slidingPanelColor,
         child: ScopedModelDescendant<SampleModel>(
             rebuildOnChange: true,
-            builder: (BuildContext context, _, SampleModel model) =>
-                Material(
-                    color: model.slidingPanelColor,
-                    elevation: 0.0,
-                    child: InkWell(
-                        splashColor: Colors.grey.withOpacity(0.4),
-                        onTap: () {
-                          Feedback.forLongPress(context);
-                          onTapControlItem(context, model, i);
-                        },
-                        child: Container(
-                          child: ListTile(
-                            leading: Image.asset(model.controlList[i].image,
-                                fit: BoxFit.cover),
-                            title: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    model.controlList[i].title,
-                                    textAlign: TextAlign.left,
-                                    softWrap: true,
-                                    textScaleFactor: 1,
-                                    overflow: TextOverflow.fade,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0,
-                                        color: model.textColor,
-                                        letterSpacing: 0.3,
-                                        fontFamily: 'MontserratBold'),
-                                  ),
-                                  model.controlList[i].status!=null ?
-                                  Container(
+            builder: (BuildContext context, _, SampleModel model) => Material(
+                color: model.slidingPanelColor,
+                elevation: 0.0,
+                child: InkWell(
+                    splashColor: Colors.grey.withOpacity(0.4),
+                    onTap: () {
+                      Feedback.forLongPress(context);
+                      onTapControlItem(context, model, i);
+                    },
+                    child: Container(
+                      child: ListTile(
+                        leading: Image.asset(model.controlList[i].image,
+                            fit: BoxFit.cover),
+                        title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                model.controlList[i].title,
+                                textAlign: TextAlign.left,
+                                softWrap: true,
+                                textScaleFactor: 1,
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                    color: model.textColor,
+                                    letterSpacing: 0.3,
+                                    fontFamily: 'HeeboBold'),
+                              ),
+                              model.controlList[i].status != null
+                                  ? Container(
                                       decoration: BoxDecoration(
                                           shape: BoxShape.rectangle,
                                           color: (model.controlList[i].status == 'New' || model.controlList[i].status == 'new')
                                               ? const Color.fromRGBO(
                                                   101, 193, 0, 1)
-                                              : (model.controlList[i].status == 'Updated' || model.controlList[i].status == 'updated')
+                                              : (model.controlList[i].status ==
+                                                          'Updated' ||
+                                                      model.controlList[i].status ==
+                                                          'updated')
                                                   ? const Color.fromRGBO(
                                                       245, 166, 35, 1)
                                                   : (model.controlList[i].status == 'Preview' || model.controlList[i].status == 'preview')
@@ -323,33 +336,30 @@ class _HomePageState extends State<HomePage> {
                                           borderRadius: const BorderRadius.only(
                                               topLeft: Radius.circular(10),
                                               bottomLeft: Radius.circular(10))),
-                                      padding:
-                                          const EdgeInsets.fromLTRB(7, 3, 6, 3),
-                                      child: Text(model.controlList[i].status,
-                                          style: TextStyle(
-                                              color: (model.controlList[i].status == 'Preview' || model.controlList[i].status == 'preview') ? const Color.fromRGBO(0, 98, 255, 1) : Colors.white,
-                                              fontSize: 12))):Container()
-                                ]),
-                            subtitle: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(0.0, 7.0, 0.0, 0.0),
-                              child: Text(
-                                model.controlList[i].description,
-                                textAlign: TextAlign.left,
-                                softWrap: true,
-                                textScaleFactor: 1,
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 13,
-                                  letterSpacing: 0.24,
-                                  fontFamily: 'MontserratMedium',
-                                  color: model.listDescriptionTextColor,
-                                ),
-                              ),
+                                      padding: const EdgeInsets.fromLTRB(7, 3, 6, 3),
+                                      child: Text(model.controlList[i].status, style: TextStyle(color: (model.controlList[i].status == 'Preview' || model.controlList[i].status == 'preview') ? const Color.fromRGBO(0, 98, 255, 1) : Colors.white, fontSize: 12)))
+                                  : Container()
+                            ]),
+                        subtitle: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(0.0, 7.0, 0.0, 0.0),
+                          child: Text(
+                            model.controlList[i].description,
+                            textAlign: TextAlign.left,
+                            softWrap: true,
+                            textScaleFactor: 1,
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 13,
+                              letterSpacing: 0.24,
+                              fontFamily: 'HeeboMedium',
+                              color: model.listDescriptionTextColor,
                             ),
                           ),
-                        )))),
+                        ),
+                      ),
+                    )))),
       ));
       if (i != model.controlList.length - 1) {
         items.add(const Divider(height: 15.0));
@@ -383,9 +393,9 @@ class _HomePageState extends State<HomePage> {
                       text: TextSpan(
                         children: <TextSpan>[
                           TextSpan(
-                              text: model.sampleList[i].title ,
+                              text: model.sampleList[i].title,
                               style: TextStyle(
-                                  fontFamily: 'MontserratMedium',
+                                  fontFamily: 'HeeboMedium',
                                   fontWeight: FontWeight.normal,
                                   fontSize: 14.0,
                                   color: model.textColor,
@@ -426,7 +436,7 @@ class _HomePageState extends State<HomePage> {
                     OrientationBuilder(
                       builder: (BuildContext context, Orientation orientation) {
                         return Container(
-                            height: 250,
+                            height: model.isWeb ? 240 : 250,
                             child: Column(
                               children: <Widget>[
                                 Padding(
@@ -446,7 +456,7 @@ class _HomePageState extends State<HomePage> {
                                                   color: model.textColor,
                                                   fontSize: 18,
                                                   letterSpacing: 0.34,
-                                                  fontFamily: 'MontserratBold',
+                                                  fontFamily: 'HeeboBold',
                                                   fontWeight: FontWeight.w500)),
                                           IconButton(
                                             icon: Icon(
@@ -493,9 +503,9 @@ class _HomePageState extends State<HomePage> {
                                                               'Light theme',
                                                               style: TextStyle(
                                                                   color:
-                                                                      lightThemeSelectedTextColor,
+                                                                      lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
                                                                   fontFamily:
-                                                                      'MontserratMedium'),
+                                                                      'HeeboMedium'),
                                                             )),
                                                       ),
                                                       Expanded(
@@ -509,9 +519,9 @@ class _HomePageState extends State<HomePage> {
                                                                 'Dark theme',
                                                                 style: TextStyle(
                                                                     color:
-                                                                        darkThemeSelectedTextColor,
+                                                                        darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
                                                                     fontFamily:
-                                                                        'MontserratMedium'))),
+                                                                        'HeeboMedium'))),
                                                       )
                                                     ],
                                                   ),
@@ -529,7 +539,9 @@ class _HomePageState extends State<HomePage> {
                                                         child: Padding(
                                                           padding: EdgeInsets
                                                               .fromLTRB(
-                                                                  _orientationPadding,
+                                                                  model.isWeb
+                                                                      ? 150
+                                                                      : _orientationPadding,
                                                                   0,
                                                                   0,
                                                                   0),
@@ -544,9 +556,9 @@ class _HomePageState extends State<HomePage> {
                                                                 'Light theme',
                                                                 style: TextStyle(
                                                                     color:
-                                                                        lightThemeSelectedTextColor,
+                                                                        lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
                                                                     fontFamily:
-                                                                        'MontserratMedium'),
+                                                                        'HeeboMedium'),
                                                               )),
                                                         ),
                                                       ),
@@ -556,7 +568,9 @@ class _HomePageState extends State<HomePage> {
                                                               .fromLTRB(
                                                                   0,
                                                                   0,
-                                                                  _orientationPadding,
+                                                                  model.isWeb
+                                                                      ? 150
+                                                                      : _orientationPadding,
                                                                   0),
                                                           child: RaisedButton(
                                                               elevation: 0,
@@ -569,9 +583,9 @@ class _HomePageState extends State<HomePage> {
                                                                   'Dark theme',
                                                                   style: TextStyle(
                                                                       color:
-                                                                          darkThemeSelectedTextColor,
+                                                                          darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
                                                                       fontFamily:
-                                                                          'MontserratMedium'))),
+                                                                          'HeeboMedium'))),
                                                         ),
                                                       )
                                                     ],
@@ -613,11 +627,15 @@ class _HomePageState extends State<HomePage> {
                                                   Expanded(
                                                     child: Padding(
                                                       padding: EdgeInsets.fromLTRB(
-                                                          _orientationPadding +
-                                                              10,
+                                                          model.isWeb
+                                                              ? 200
+                                                              : _orientationPadding +
+                                                                  10,
                                                           0,
-                                                          _orientationPadding +
-                                                              10,
+                                                          model.isWeb
+                                                              ? 200
+                                                              : _orientationPadding +
+                                                                  10,
                                                           30),
                                                       child: Row(
                                                           crossAxisAlignment:
@@ -640,16 +658,32 @@ class _HomePageState extends State<HomePage> {
                                 Align(
                                     alignment: FractionalOffset.bottomCenter,
                                     child: Container(
-                                      color: Colors.blueAccent,
+                                      margin: model.isWeb
+                                          ? const EdgeInsets.only(bottom: 10)
+                                          : const EdgeInsets.all(0),
                                       height: 50,
-                                      width: double.infinity,
+                                      width:
+                                          model.isWeb ? 130 : double.infinity,
                                       child: RaisedButton(
+                                          shape: model.isWeb
+                                              ? RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          18.0),
+                                                  side: BorderSide(
+                                                      color: Colors.blueAccent),
+                                                )
+                                              : RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          0.0),
+                                                ),
                                           color: model.backgroundColor,
                                           onPressed: () => _applySetting(model),
                                           child: const Text('APPLY',
                                               style: TextStyle(
                                                   fontFamily:
-                                                      'MontserratMedium',
+                                                      'HeeboMedium',
                                                   color: Colors.white))),
                                     ))
                               ],
@@ -662,10 +696,10 @@ class _HomePageState extends State<HomePage> {
     model.backgroundColor = _currentBackgroundColor;
     if (_lightThemeSelected) {
       lightThemeSelected = model.backgroundColor;
-      darkThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
+      darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(79, 85, 102, 1) :const Color.fromRGBO(247, 245, 245, 1);
     } else {
       darkThemeSelected = model.backgroundColor;
-      lightThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
+      lightThemeSelected = model.themeData.brightness == Brightness.light ?   const Color.fromRGBO(79, 85, 102, 1) : const Color.fromRGBO(247, 245, 245, 1) ;
     }
     model.listIconColor = _currentListIconColor;
     model.paletteColor = _currentPaletteColor;
@@ -678,10 +712,8 @@ class _HomePageState extends State<HomePage> {
   void _toggleLightTheme(SampleModel model) {
     _lightThemeSelected = true;
     lightThemeSelected = model.backgroundColor;
-    darkThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
+    darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1): const Color.fromRGBO(79, 85, 102, 1);
     _currentThemeData = ThemeData.light();
-    lightThemeSelectedTextColor = Colors.white;
-    darkThemeSelectedTextColor = const Color.fromRGBO(255, 255, 255, 1);
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
   }
@@ -689,10 +721,8 @@ class _HomePageState extends State<HomePage> {
   void _toggleDarkTheme(SampleModel model) {
     _lightThemeSelected = false;
     darkThemeSelected = model.backgroundColor;
-    lightThemeSelected = const Color.fromRGBO(79, 85, 102, 1);
+    lightThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
     _currentThemeData = ThemeData.dark();
-    lightThemeSelectedTextColor = const Color.fromRGBO(255, 255, 255, 1);
-    darkThemeSelectedTextColor = Colors.white;
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
   }
@@ -764,7 +794,8 @@ class _HomePageState extends State<HomePage> {
         }
       }
       return SizedBox(
-          width: MediaQuery.of(context).size.width * factor,
+          width: MediaQuery.of(context).size.width *
+              (_model.isWeb ? 0.23 : factor),
           child: Drawer(
               child: Container(
             color: _model.drawerBackgroundColor,
@@ -1137,7 +1168,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                       Align(
                           alignment: Alignment.bottomCenter,
-                          child: Text('Version 17.4.40',
+                          child: Text('Version 18.1.36',
                               style: TextStyle(
                                   color: _model.drawerTextIconColor,
                                   fontSize: 12,

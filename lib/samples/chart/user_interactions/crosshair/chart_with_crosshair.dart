@@ -157,7 +157,7 @@ class _CrosshairFrontPanelState extends State<CrosshairFrontPanel> {
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Container(
-                        height: MediaQuery.of(context).size.height * height,
+                        height: MediaQuery.of(context).size.height *( model.isWeb ? 0.5 : height),
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
                           child: Stack(

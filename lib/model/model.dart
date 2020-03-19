@@ -139,6 +139,7 @@ class SampleModel extends Model {
   Color bottomSheetBackgroundColor = Colors.white;
   final bool isTileView = true;
   Color cardThemeColor = Colors.white;
+  bool isWeb = false;
 
   void changeTheme(ThemeData _themeData) {
     themeData = _themeData;
@@ -185,8 +186,7 @@ class SampleModel extends Model {
 Future<void> updateControl() async {
   bool isSample = false;
   bool isChild = false;
-  final String jsonText =
-      await rootBundle.loadString('lib/sample_details.json');
+  final String jsonText = await rootBundle.loadString('lib/sample_details.json');
   final List<dynamic> controlList = json.decode(jsonText);
   List<SubItem> subItems = <SubItem>[];
   List<SubItem> subItems1 = <SubItem>[];
@@ -243,7 +243,7 @@ class ChartSampleData {
       this.yValue3,
       this.pointColor,
       this.size,
-      this.text});
+      this.text,this.open,this.close});
   final dynamic x;
   final num y;
   final dynamic xValue;
@@ -253,4 +253,6 @@ class ChartSampleData {
   final Color pointColor;
   final num size;
   final String text;
+  final num open;
+  final num close;
 }

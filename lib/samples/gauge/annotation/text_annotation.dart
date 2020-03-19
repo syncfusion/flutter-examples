@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -33,7 +34,7 @@ SfRadialGauge getRadialTextAnnotation(bool isTileView) {
         endAngle: 180,
         radiusFactor: 0.9,
         axisLineStyle: AxisLineStyle(
-            thickness: 30, dashArray: <double>[8, 10]
+            thickness: 30, dashArray: kIsWeb ? null : <double>[8, 10]
         ),
       ),
       RadialAxis(showTicks: false,
@@ -53,11 +54,11 @@ SfRadialGauge getRadialTextAnnotation(bool isTileView) {
                       fontSize: isTileView ? 18 : 25))))],
           axisLineStyle: AxisLineStyle(
               color:  const Color(0xFF00A8B5),
-              gradient: const SweepGradient(
+              gradient:  kIsWeb ? null : const SweepGradient(
                   colors: <Color>[Color(0xFF06974A), Color(0xFFF2E41F)],
                   stops: <double>[0.25, 0.75]
               ),
-              thickness: 30, dashArray: <double>[8, 10]
+              thickness: 30, dashArray: kIsWeb ? null : <double>[8, 10]
           ))
     ],
   );

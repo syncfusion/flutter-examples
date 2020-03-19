@@ -1,6 +1,6 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/foundation.dart';
 import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
@@ -51,24 +51,24 @@ SfRadialGauge getRangeColorForLabels(bool isTileView) {
                 color: const Color(0xFFF8B195),
                 sizeUnit: GaugeSizeUnit.factor,
                 rangeOffset: 0.06,
-                startWidth: 0.05,
-                endWidth: 0.25),
+                startWidth: kIsWeb ? 0.2 : 0.05,
+                endWidth: kIsWeb ? 0.2 : 0.25),
             GaugeRange(
                 startValue: 35,
                 endValue: 70,
                 rangeOffset: 0.06,
                 sizeUnit: GaugeSizeUnit.factor,
                 color: const Color(0xFFC06C84),
-                startWidth: 0.05,
-                endWidth: 0.25),
+                startWidth: kIsWeb ? 0.2 : 0.05,
+                endWidth: kIsWeb ? 0.2 : 0.25),
             GaugeRange(
                 startValue: 70,
                 endValue: 100,
                 rangeOffset: 0.06,
                 sizeUnit: GaugeSizeUnit.factor,
                 color: const Color(0xFF355C7D),
-                startWidth: 0.05,
-                endWidth: 0.25),
+                startWidth: kIsWeb ? 0.2 : 0.05,
+                endWidth: kIsWeb ? 0.2 : 0.25),
           ])
     ],
   );

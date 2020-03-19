@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -41,7 +42,7 @@ SfRadialGauge getRadialImageAnnotation(bool isTileView) {
                 width: 20,
                 color: const Color(0xFFFFCD60),
                 enableAnimation: true,
-                gradient: const SweepGradient(
+                gradient: kIsWeb ? null : const SweepGradient(
                     colors: <Color>[Color(0xFFFCE38A), Color(0xFFF38181)],
                     stops: <double>[0.25, 0.75]),
                 cornerStyle: CornerStyle.bothCurve)

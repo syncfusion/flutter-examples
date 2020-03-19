@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 Future<T> showRoundedModalBottomSheet<T>({
@@ -197,14 +198,18 @@ class RoundedCornerModalRoute<T> extends PopupRoute<T> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    return MediaQuery.removePadding(
-      context: context,
-      removeTop: true,
-      child: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: RoundedModalBottomSheet<T>(route: this),
-      ),
-    );
+    return Container(
+        margin: kIsWeb
+            ? const EdgeInsets.fromLTRB(250, 0, 250, 0)
+            : const EdgeInsets.all(0),
+        child: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: Theme(
+            data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+            child: RoundedModalBottomSheet<T>(route: this),
+          ),
+        ));
   }
 }
 
