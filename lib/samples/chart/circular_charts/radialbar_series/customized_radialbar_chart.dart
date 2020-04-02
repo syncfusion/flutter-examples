@@ -105,6 +105,7 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
   ];
 
   return SfCircularChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Percentage of loan closure'),
     legend: Legend(
       isVisible: true,

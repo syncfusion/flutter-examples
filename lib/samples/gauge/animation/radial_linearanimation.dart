@@ -1,6 +1,6 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/foundation.dart';
 import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
@@ -28,6 +28,7 @@ Widget getRadialLinearAnimation(bool isTileView) {
   return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return SfRadialGauge(
+          key: kIsWeb ? UniqueKey() : null,
           axes: <RadialAxis>[
             RadialAxis(
                 startAngle: 270,

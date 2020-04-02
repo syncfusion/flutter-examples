@@ -20,8 +20,7 @@ class _OneDimensionalBarcodesState extends State<OneDimensionalBarcodes> {
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   List<String> subjectCollection;
   List<Color> colorCollection;
-
-
+ Widget sampleWidget(SampleModel model) => OneDimensionalBarcodes();
 
   @override
   void initState() {
@@ -95,14 +94,14 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container (
             child: Container(
-                width: 150,
+                width: 200,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
                   child: SfBarcodeGenerator(textAlign: TextAlign.justify,
                     textSpacing: 10,
                     value: '123456789',
                     showValue: true,
-                    symbology: Codabar(),),)),
+                    symbology: Codabar(module: 1),),)),
           ),
        Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,8 +112,8 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                     fontSize: 14, fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports 0123456789-\$:/.+ABCD',
-
+                  child: Text('Supports 0-9,-,\$,:,/,.,+           '
+                      '                                  ',
                       style: TextStyle(fontSize: 12)))
 
             ],
@@ -138,14 +137,14 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 150,
+                width: 200,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 1, 10),
                   child: SfBarcodeGenerator(textAlign: TextAlign.justify,
                     textSpacing: 10,
                     value: 'CODE39',
                     showValue: true,
-                    symbology: Code39(),),)),
+                    symbology: Code39(module: 1),),)),
           ),
 
          Column(
@@ -157,7 +156,8 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                     fontSize: 14, fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports A-Z, 0-9                           ',
+                  child: Text('Supports A-Z, 0-9,-, ., \$, /, +, %, and space   '
+                      '    ',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -181,7 +181,7 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 150,
+                width: 200,
                 child: Padding(
                     padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
                     child: Container(
@@ -191,7 +191,7 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                         textSpacing: 10,
                         value: '051091',
                         showValue: true,
-                        symbology: Code39Extended(),),))),
+                        symbology: Code39Extended(module: 1),),))),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,7 +202,8 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                     fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports only ASCII characters.   ',
+                  child: Text('Supports only ASCII characters.           '
+                      '            ',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -227,7 +228,7 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 150,
+                width: 200,
                 child: Padding(
                     padding: const EdgeInsets.fromLTRB(1, 10, 20, 10),
                     child: Container(child: SfBarcodeGenerator(
@@ -236,7 +237,7 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                       textSpacing: 10,
                       value: '01234567',
                       showValue: true,
-                      symbology: Code93(),),))),
+                      symbology: Code93(module: 1),),))),
           ),
          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +248,7 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                     fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports  0-9 , * , -                     ',
+                  child: Text('Supports  A-Z, 0-9 , -, ., \$, /, +, % and space',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -271,17 +272,17 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 150,
+                width: 200,
                 child: Padding(
                     padding: const EdgeInsets.fromLTRB(1, 10, 25, 10),
                     child: Container(
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
-                        //   backgroundColor: Colors.red,
-                        textSpacing: 10,
+                        textStyle: const TextStyle(fontSize: 10),
+                        textSpacing: 3,
                         value: '72527273070',
                         showValue: true,
-                        symbology: UPCA(),),))),
+                        symbology: UPCA(module: 1),),))),
           ),
        Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,7 +293,8 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                     fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports 11 numbers as input',
+                  child: Text('Supports 11 numbers as input                   '
+                      '      ',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -316,17 +318,17 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 160,
+                width: 200,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 20, 10),
                   child: Container(
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
                         // backgroundColor: Colors.red,
-                        textSpacing: 10,
+                        textSpacing: 3,
                         value: '123456',
                         showValue: true,
-                        symbology: UPCE(),)),)),
+                        symbology: UPCE(module:  kIsWeb ? 2 : 1),)),)),
           ),
         Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,7 +339,8 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                     fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports 6 numbers as input',
+                  child: Text('Supports 6 numbers as input                    '
+                      '     ',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -361,17 +364,17 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 160,
+                width: 200,
                 child: Padding(
                     padding: const EdgeInsets.fromLTRB(1, 10, 20, 10),
                     child: Container(
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
                         // backgroundColor: Colors.red,
-                        textSpacing: 10,
+                        textSpacing: 3,
                         value: '11223344',
                         showValue: true,
-                        symbology: EAN8(),),))),
+                        symbology: EAN8(module: 2),),))),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -382,7 +385,7 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                     fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports 8 numbers as input',
+                  child: Text('Supports 8 numbers as input                    ',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -405,18 +408,18 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 170,
+                width: 200,
                 child: Padding(
                     padding: const EdgeInsets.fromLTRB(7, 10, 35, 10),
                     child: Container(
 
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
-                        //  backgroundColor: Colors.red,
-                        textSpacing: 10,
+                        textStyle: const TextStyle(fontSize: 11),
+                        textSpacing: 3,
                         value: '9735940564824',
                         showValue: true,
-                        symbology: EAN13(),),))),
+                        symbology: EAN13(module: 1),),))),
           ),
        Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -427,7 +430,7 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                     fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports 13 numbers as input',
+                  child: Text('Supports 13 numbers as input                    ',
                       style: TextStyle(fontSize: 12)))
 
             ],
@@ -450,28 +453,28 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 210,
+                width: 200,
                 child: Padding(
-                    padding: const EdgeInsets.fromLTRB(60, 10, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(15, 10, 20, 10),
                     child: Container(
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
                         textSpacing: 10,
                         value: 'CODE128',
                         showValue: true,
-                        symbology: Code128(),),))),
+                        symbology: Code128(module: 1),),))),
           ),
         Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const <Widget>[
-              Padding(padding: EdgeInsets.fromLTRB(45, 10, 1, 1),
+              Padding(padding: EdgeInsets.fromLTRB(25, 10, 1, 1),
                 child: Text(
                     'Code128', style: TextStyle(fontSize: 14,
                     fontWeight: FontWeight.bold)),
               ),
-              Padding(padding: EdgeInsets.fromLTRB(45, 2, 1, 10),
+              Padding(padding: EdgeInsets.fromLTRB(25, 2, 1, 10),
                   child: Text(
-                      'Support 0-9 A-Z a-z and special character   ',
+                      'Support 0-9 A-Z a-z and special character.   ',
                       style: TextStyle(fontSize: 12)))
 
             ],
@@ -494,26 +497,26 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 190,
+                width: 200,
                 child: Padding(
-                    padding: const EdgeInsets.fromLTRB(25, 10, 20, 10),
+                    padding: const EdgeInsets.fromLTRB(25, 10, 30, 10),
                     child: Container(child: SfBarcodeGenerator(
                       textAlign: TextAlign.justify,
                       textSpacing: 10,
                       value: 'CODE128A',
                       showValue: true,
-                      symbology: Code128A(),),))),
+                      symbology: Code128A(module: 1),),))),
           ),
       Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const <Widget>[
-              Padding(padding: EdgeInsets.fromLTRB(25, 10, 1, 1),
+              Padding(padding: EdgeInsets.fromLTRB(15, 10, 1, 1),
                 child: Text(
                     'Code128A', style: TextStyle(fontSize: 14,
                     fontWeight: FontWeight.bold)),
               ),
-              Padding(padding: EdgeInsets.fromLTRB(25, 2, 1, 10),
-                  child: Text('Support 0-9 A-Z and special character',
+              Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
+                  child: Text('Support 0-9 A-Z and special character           ',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -537,26 +540,26 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 170,
+                width: 200,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 10, 1, 10),
+                  padding: const EdgeInsets.fromLTRB(25, 10, 20, 10),
                   child: Container(child: SfBarcodeGenerator(
                     textAlign: TextAlign.justify,
                     textSpacing: 10,
                     value: 'Code128B',
                     showValue: true,
-                    symbology: Code128B(),)),)),
+                    symbology: Code128B(module: 1),)),)),
           ),
          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const <Widget>[
-              Padding(padding: EdgeInsets.fromLTRB(55, 10, 1, 1),
+              Padding(padding: EdgeInsets.fromLTRB(15, 10, 1, 1),
                 child: Text(
                     'Code128B', style: TextStyle(fontSize: 14,
                     fontWeight: FontWeight.bold)),
               ),
-              Padding(padding: EdgeInsets.fromLTRB(55, 2, 1, 10),
-                  child: Text('Support 0-9 A-Z and special character',
+              Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
+                  child: Text('Support 0-9 A-Z and special character           ',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -580,16 +583,16 @@ List<Widget> _getWidgetForWeb(BuildContext context){
         children: <Widget>[
           Container(
             child: Container(
-                width: 150,
+                width: 200,
                 child: Padding(
-                    padding: const EdgeInsets.fromLTRB(1, 10, 40, 10),
+                    padding: const EdgeInsets.fromLTRB(25, 10, 20, 10),
                     child: Container(
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
                         textSpacing: 10,
                         value: '0123456',
                         showValue: true,
-                        symbology: Code128C(),),))),
+                        symbology: Code128C(module: 1),),))),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -600,7 +603,7 @@ List<Widget> _getWidgetForWeb(BuildContext context){
                     fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(25, 2, 1, 10),
-                  child: Text('Support even number of digits',
+                  child: Text('Support even number of digits                 ',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -642,7 +645,7 @@ List<Widget> _getWidget(BuildContext context){
                     fontSize: 14, fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports 0123456789-\$:/.+ABCD',
+                  child: Text('Supports Supports 0-9,-,\$,:,/,.,+',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -686,7 +689,7 @@ List<Widget> _getWidget(BuildContext context){
                     fontSize: 14, fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports A-Z, 0-9',
+                  child: Text('Supports A-Z, 0-9,-, ., \$, /, +, %, and space ',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -777,7 +780,7 @@ List<Widget> _getWidget(BuildContext context){
                     fontWeight: FontWeight.bold)),
               ),
               Padding(padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                  child: Text('Supports  0-9 , * , -',
+                  child: Text('A-Z, 0-9 , -, ., \$, /, +, % and space',
 
                       style: TextStyle(fontSize: 12)))
 
@@ -809,9 +812,9 @@ List<Widget> _getWidget(BuildContext context){
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
                         //   backgroundColor: Colors.red,
-                        textSpacing: 10,
+                        textSpacing: 3,
                         value: '72527273070',
-                        showValue: true,
+                        showValue: true,textStyle: const TextStyle(fontSize: 11),
                         symbology: UPCA(),),))),
           ),
           Expanded(child: Column(
@@ -855,7 +858,7 @@ List<Widget> _getWidget(BuildContext context){
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
                         // backgroundColor: Colors.red,
-                        textSpacing: 10,
+                        textSpacing: 3,
                         value: '123456',
                         showValue: true,
                         symbology: UPCE(),)),)),
@@ -902,7 +905,7 @@ List<Widget> _getWidget(BuildContext context){
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
                         // backgroundColor: Colors.red,
-                        textSpacing: 10,
+                        textSpacing: 3,
                         value: '11223344',
                         showValue: true,
                         symbology: EAN8(),),))),
@@ -946,11 +949,10 @@ List<Widget> _getWidget(BuildContext context){
                     child: Container(
                       child: SfBarcodeGenerator(
                         textAlign: TextAlign.justify,
-                        //  backgroundColor: Colors.red,
-                        textSpacing: 10,
+                        textSpacing: 3,
                         value: '9735940564824',
-                        showValue: true,
-                        symbology: EAN13(),),))),
+                        showValue: true, textStyle: const TextStyle(fontSize: 11),
+                        symbology: EAN13(module: 1),),))),
           ),
           Expanded(child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -28,6 +28,11 @@ class _FunnelDefaultState extends State<FunnelDefault> {
 
 SfFunnelChart getDefaultFunnelChart(bool isTileView,
     [double gapRatio, int neckWidth, int neckHeight, bool explode]) {
+
+  gapRatio ??= 0;
+  neckWidth ??= 20;
+  neckHeight ??= 20;
+  explode ??= true;
   return SfFunnelChart(
     smartLabelMode: SmartLabelMode.shift,
     title: ChartTitle(text: isTileView ? '' : 'Website conversion rate'),
@@ -58,14 +63,15 @@ FunnelSeries<ChartSampleData, String> _getFunnelSeries(bool isTileView,
       dataLabelSettings: DataLabelSettings(isVisible: true));
 }
 
+//ignore: must_be_immutable
 class DefaultFunnelFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  DefaultFunnelFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  DefaultFunnelFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _DefaultFunnelFrontPanelState createState() =>
-      _DefaultFunnelFrontPanelState(subItemList);
+      _DefaultFunnelFrontPanelState(sample);
 }
 
 class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
@@ -75,6 +81,7 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
   int neckWidth = 20;
   int neckHeight = 20;
   bool explode = false;
+  Widget sampleWidget(SampleModel model) => getDefaultFunnelChart(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -88,7 +95,8 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
                     child: getDefaultFunnelChart(
                         false, gapRatio, neckWidth, neckHeight, explode)),
               ),
-              floatingActionButton: Stack(children: <Widget>[
+              floatingActionButton: model.isWeb ? null :
+              Stack(children: <Widget>[
                 Align(
                   alignment: Alignment.bottomRight,
                   child: FloatingActionButton(

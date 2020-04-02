@@ -394,7 +394,8 @@ SfCartesianChart getDefaulBollingerIndicator(bool isTileView,[int _period, int _
   ];
   return SfCartesianChart(
     plotAreaBorderWidth: 0,
-    legend: Legend(isVisible: !isTileView),
+    legend: Legend(isVisible: !isTileView,
+    toggleSeriesVisibility: false,),
     primaryXAxis: DateTimeAxis(
         majorGridLines: MajorGridLines(width: 0),
               dateFormat: DateFormat.MMM(),
@@ -448,13 +449,14 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
+//ignore: must_be_immutable
 class BollingerIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  BollingerIndicatorFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  BollingerIndicatorFrontPanel([this.sample]);
+  SubItem sample;
   @override
   _BollingerIndicatorFrontPanelState createState() =>
-      _BollingerIndicatorFrontPanelState(subItemList);
+      _BollingerIndicatorFrontPanelState(sample);
 }
 
 class _BollingerIndicatorFrontPanelState
@@ -463,7 +465,7 @@ class _BollingerIndicatorFrontPanelState
   final SubItem sample;
   double _period = 14.0;
   double _standardDeviation = 1.0;
-
+Widget sampleWidget(SampleModel model) => getDefaulBollingerIndicator(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -476,7 +478,9 @@ class _BollingerIndicatorFrontPanelState
             child: getDefaulBollingerIndicator(
                 false,_period.toInt(),_standardDeviation.toInt()),
           ),
-          floatingActionButton: Stack(
+          floatingActionButton: model.isWeb ?
+              null :
+          Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,

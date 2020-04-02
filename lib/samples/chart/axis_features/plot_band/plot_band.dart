@@ -29,7 +29,7 @@ class _PlotBandDefaultState extends State<PlotBandDefault> {
 
 SfCartesianChart getPlotBandChart(bool isTileView,
     [bool isHorizontal, bool isVertical, bool isSegment]) {
-  return SfCartesianChart(
+   return SfCartesianChart(
     title: ChartTitle(text: isTileView ? '' : 'Weather report'),
     legend: Legend(isVisible: false),
     plotAreaBorderWidth: 0,
@@ -156,6 +156,7 @@ SfCartesianChart getPlotBandChart(bool isTileView,
 
 List<XyDataSeries<ChartSampleData, dynamic>> _getPlotBandSeries(bool isTileView,
     [bool isSegment]) {
+      isSegment ??=false;
   final dynamic lineData = <ChartSampleData>[
     ChartSampleData(xValue: 'Jan', yValue: 23),
     ChartSampleData(xValue: 'Feb', yValue: 24),
@@ -186,15 +187,16 @@ List<XyDataSeries<ChartSampleData, dynamic>> _getPlotBandSeries(bool isTileView,
   ];
 }
 
+//ignore: must_be_immutable
 class PlotBandFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  PlotBandFrontPanel(this.subItemList);
+  PlotBandFrontPanel([this.sample]);
 
-  final SubItem subItemList;
+  SubItem sample;
 
   @override
   _PlotBandFrontPanelState createState() =>
-      _PlotBandFrontPanelState(subItemList);
+      _PlotBandFrontPanelState(sample);
 }
 
 class _PlotBandFrontPanelState extends State<PlotBandFrontPanel> {
@@ -208,6 +210,9 @@ class _PlotBandFrontPanelState extends State<PlotBandFrontPanel> {
   bool isSegment = false;
 
   String _selectedType;
+
+  Widget sampleWidget(SampleModel model) => getPlotBandChart(false);
+
   @override
   void initState() {
     super.initState();
@@ -233,7 +238,9 @@ class _PlotBandFrontPanelState extends State<PlotBandFrontPanel> {
                     child: getPlotBandChart(
                         false, isHorizontal, isVertical, isSegment)),
               ),
-              floatingActionButton: Stack(
+              floatingActionButton: model.isWeb ? 
+              null :
+              Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,

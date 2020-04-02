@@ -446,13 +446,14 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
+//ignore: must_be_immutable
 class SmaIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  SmaIndicatorFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  SmaIndicatorFrontPanel([this.sample]);
+  SubItem sample;
   @override
   _SmaIndicatorFrontPanelState createState() =>
-      _SmaIndicatorFrontPanelState(subItemList);
+      _SmaIndicatorFrontPanelState(sample);
 }
 
 class _SmaIndicatorFrontPanelState
@@ -460,6 +461,7 @@ class _SmaIndicatorFrontPanelState
   _SmaIndicatorFrontPanelState(this.sample);
   final SubItem sample;
   double _period = 14.0;
+  Widget sampleWidget(SampleModel model) => getDefaulSMAIndicator(false);
 
   @override
   Widget build(BuildContext context) {
@@ -473,7 +475,9 @@ class _SmaIndicatorFrontPanelState
             child: getDefaulSMAIndicator(
                 false,_period.toInt()),
           ),
-          floatingActionButton: Stack(
+          floatingActionButton: model.isWeb ?
+              null :
+          Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,

@@ -1,6 +1,6 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/foundation.dart';
 import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
@@ -33,7 +33,7 @@ SfRadialGauge getRangeDataLabelExample(bool isTileView) {
           showTicks: false,
           minimum: 0,
           maximum: 99,
-          radiusFactor: 0.9,
+          radiusFactor:  kIsWeb ? 0.8 : 0.9,
           ranges: <GaugeRange>[
             GaugeRange(
                 startValue: 0,

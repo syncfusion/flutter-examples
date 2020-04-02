@@ -25,6 +25,7 @@ class _StepLineDashedState extends State<StepLineDashed> {
 
 SfCartesianChart getDashedStepLineChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'CO2 - Intensity analysis'),
     primaryXAxis: NumericAxis(

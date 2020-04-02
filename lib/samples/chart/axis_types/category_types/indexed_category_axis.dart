@@ -29,6 +29,7 @@ class _CategoryIndexedState extends State<CategoryIndexed> {
 SfCartesianChart getIndexedCategoryAxisChart(bool isTileView,
     [bool isIndexed]) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Real GDP growth'),
     plotAreaBorderWidth: 0,
     legend: Legend(isVisible: isTileView ? false : true),
@@ -74,21 +75,22 @@ List<ColumnSeries<ChartSampleData, String>> getIndexedCategoryAxisSeries(
         name: '2016')
   ];
 }
-
+//ignore: must_be_immutable
 class IndexedFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  IndexedFrontPanel(this.sampleList);
-  final SubItem sampleList;
+  IndexedFrontPanel([this.sample]);
+   SubItem sample;
 
   @override
-  _IndexedFrontPanelState createState() => _IndexedFrontPanelState(sampleList);
+  _IndexedFrontPanelState createState() => _IndexedFrontPanelState(sample);
 }
 
 class _IndexedFrontPanelState extends State<IndexedFrontPanel> {
   _IndexedFrontPanelState(this.sample);
   final SubItem sample;
   bool isIndexed = true;
-
+  
+Widget sampleWidget(SampleModel model) => getIndexedCategoryAxisChart(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(

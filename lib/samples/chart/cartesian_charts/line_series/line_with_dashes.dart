@@ -25,6 +25,7 @@ class _LineDashedState extends State<LineDashed> {
 
 SfCartesianChart getDashedLineChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Capital investment as a share of exports'),

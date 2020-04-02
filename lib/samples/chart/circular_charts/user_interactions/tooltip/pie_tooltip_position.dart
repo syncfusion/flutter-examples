@@ -129,19 +129,22 @@ class _ChartData {
   final Color color;
 }
 
+//ignore: must_be_immutable
 class TooltipPositioningPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  TooltipPositioningPanel(this.sampleList);
-  final SubItem sampleList;
+  TooltipPositioningPanel([this.sample]);
+  SubItem sample;
 
   @override
   _TooltipPositioningPanelState createState() =>
-      _TooltipPositioningPanelState(sampleList);
+      _TooltipPositioningPanelState(sample);
 }
 
 class _TooltipPositioningPanelState extends State<TooltipPositioningPanel> {
   _TooltipPositioningPanelState(this.sample);
   final SubItem sample;
+  
+   Widget sampleWidget(SampleModel model) => getPieTooltipPositionChart(true);
 
   // final List<String> _modeList =
   //     <String>['column', 'pie'].toList();
@@ -167,7 +170,8 @@ class _TooltipPositioningPanelState extends State<TooltipPositioningPanel> {
                     child: getPieTooltipPositionChart(
                         false, _chartType, _tooltipPosition, duration)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ? null :
+              FloatingActionButton(
                 onPressed: () {
                   _showSettingsPanel(model);
                 },

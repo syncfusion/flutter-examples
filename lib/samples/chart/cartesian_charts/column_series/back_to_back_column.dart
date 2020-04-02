@@ -25,6 +25,7 @@ class _ColumnBackState extends State<ColumnBack> {
 
 SfCartesianChart getBackColumnChart(bool isTileView) {
   return SfCartesianChart(
+    
       plotAreaBorderWidth: 0,
       enableSideBySideSeriesPlacement: false,
       title:

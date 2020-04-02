@@ -27,6 +27,7 @@ class _RangeColumnWithTrackState extends State<RangeColumnWithTrack> {
 
 SfCartesianChart getRangeColumnwithTrack(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Meeting timings of an employee'),
     primaryXAxis: CategoryAxis(

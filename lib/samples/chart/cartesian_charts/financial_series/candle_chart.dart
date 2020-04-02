@@ -4,6 +4,8 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_examples/widgets/checkbox.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart' 
+        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import '../../../../model/helper.dart';
 import '../../../../model/model.dart';
 
@@ -29,8 +31,9 @@ class _CandleChartState extends State<CandleChart> {
 
 
 
-SfCartesianChart getCandle(bool isTileView,[bool enableSolidCandle]) {
+SfCartesianChart getCandle(bool isTileView,[bool enableSolidCandle, SampleModel model]) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'AAPL - 2016'),
     primaryXAxis: DateTimeAxis(
@@ -47,13 +50,14 @@ SfCartesianChart getCandle(bool isTileView,[bool enableSolidCandle]) {
         interval: 20,
         labelFormat: '\${value}',
         axisLine: AxisLine(width: 0)),
-    series: getCandleSeries(isTileView,enableSolidCandle),
+    series: getCandleSeries(isTileView, enableSolidCandle, model),
     trackballBehavior: TrackballBehavior(enable: true, activationMode: ActivationMode.singleTap),
   );
 }
 
 List<CandleSeries<ChartSampleData, DateTime>> getCandleSeries(
-    bool isTileView,[bool enableSolidCandle]) {
+    bool isTileView,[bool enableSolidCandle, SampleModel sampleModel]) {
+  final bool isExistModel = sampleModel != null && sampleModel.isWeb;
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x:DateTime(2016,01,11), open:98.97, yValue:101.19, y:95.36, close:97.13),
     ChartSampleData(x:DateTime(2016,01,18), open:98.41, yValue:101.46, y:93.42, close:101.42),
@@ -97,7 +101,8 @@ List<CandleSeries<ChartSampleData, DateTime>> getCandleSeries(
   return <CandleSeries<ChartSampleData, DateTime>>[
     CandleSeries<ChartSampleData, DateTime>(
         enableTooltip: true,
-        enableSolidCandles: enableSolidCandle,
+        enableSolidCandles: isExistModel ? sampleModel.properties['Solidcandle']
+        : enableSolidCandle,
         dataSource: chartData,
         name: 'AAPL',
         xValueMapper: (ChartSampleData sales, _) => sales.x,
@@ -109,27 +114,46 @@ List<CandleSeries<ChartSampleData, DateTime>> getCandleSeries(
             isVisible: false))
   ];
 }
+//ignore: must_be_immutable
 class CandleFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  CandleFrontPanel(this.subItemList);
+  CandleFrontPanel([this.sample]);
 
-  final SubItem subItemList;
+  SubItem sample;
 
   @override
   _CandleFrontPanelState createState() =>
-      _CandleFrontPanelState(subItemList);
+      _CandleFrontPanelState(sample);
 }
 
 class _CandleFrontPanelState
     extends State<CandleFrontPanel> {
   _CandleFrontPanelState(this.sample);
   final SubItem sample;
-  bool enableSolidCandle = false;
+  bool enableSolidCandle;
 
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) => getCandle(false, null, model);
+  
   @override
   void initState() {
-    enableSolidCandle = false;
+    initProperties();
     super.initState();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    enableSolidCandle = false;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'Solidcandle': enableSolidCandle
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -139,14 +163,21 @@ class _CandleFrontPanelState
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body: !model.isWeb ?
+              Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 60),
                 child: Container(
-                    child: getCandle(false,enableSolidCandle)),
+                    child: getCandle(false, enableSolidCandle, null)),
+              )
+              :
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Container(
+                    child: getCandle(false, model.properties['Solidcandle'], null)),
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  _showSettingsPanel(model);
+                  _showSettingsPanel(model, false, context);
                 },
                 child: Icon(Icons.graphic_eq, color: Colors.white),
                 backgroundColor: model.backgroundColor,
@@ -154,11 +185,57 @@ class _CandleFrontPanelState
         });
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model, [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: ListView(
+          children: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const Text(
+                    'Properties',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  HandCursor(child: 
+                  IconButton(
+                    icon: Icon(Icons.close, color: model.webIconColor),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ))
+                ]),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Text('Enable solid candles',
+                      style: TextStyle(
+                          color: model.textColor,
+                          fontSize: 14,
+                          letterSpacing: 0.34,
+                          fontWeight: FontWeight.normal)),
+                  BottomSheetCheckbox(
+                    activeColor: model.backgroundColor,
+                    switchValue: model.properties['Solidcandle'],
+                    valueChanged: (dynamic value) {
+                        model.properties['Solidcandle'] = value;
+                      model.sampleOutputContainer.outputKey.currentState.refresh();
+                    },
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    } else { 
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -236,5 +313,7 @@ class _CandleFrontPanelState
                                 ),
                               ]),
                             )))))));
+    }
+  return widget ?? Container();
   }
 }

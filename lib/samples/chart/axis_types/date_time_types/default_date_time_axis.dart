@@ -28,6 +28,7 @@ class _DateTimeDefaultState extends State<DateTimeDefault> {
 
 SfCartesianChart getDefaultDateTimeAxisChart(bool isTileView) {
   return SfCartesianChart(
+    
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isTileView

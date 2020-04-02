@@ -465,13 +465,14 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
+//ignore: must_be_immutable
 class StochasticcIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  StochasticcIndicatorFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  StochasticcIndicatorFrontPanel([this.sample]);
+  SubItem sample;
   @override
   _StochasticcIndicatorFrontPanelState createState() =>
-      _StochasticcIndicatorFrontPanelState(subItemList);
+      _StochasticcIndicatorFrontPanelState(sample);
 }
 
 class _StochasticcIndicatorFrontPanelState
@@ -484,7 +485,7 @@ class _StochasticcIndicatorFrontPanelState
   double _overBought = 80.0;
   double _overSold = 20.0;
   bool _showZones = true;
-
+Widget sampleWidget(SampleModel model) => getDefaultStochasticIndicator(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -497,7 +498,9 @@ class _StochasticcIndicatorFrontPanelState
             child: getDefaultStochasticIndicator(
                 false,_period.toInt(),_kPeriod.toInt(),_dPeriod.toInt(),_overBought,_overSold,_showZones),
           ),
-          floatingActionButton: Stack(
+          floatingActionButton: model.isWeb ?
+              null :
+          Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,

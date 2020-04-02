@@ -1,6 +1,6 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/foundation.dart';
 import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
@@ -26,9 +26,10 @@ class _RadialBounceOutExampleState extends State<RadialBounceOutExample> {
 
 SfRadialGauge getRadialBounceOutExample(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
-          radiusFactor: 0.98,
+          radiusFactor: kIsWeb ? 0.85 : 0.98,
           startAngle: 90,
           endAngle: 330,
           minimum: -8,

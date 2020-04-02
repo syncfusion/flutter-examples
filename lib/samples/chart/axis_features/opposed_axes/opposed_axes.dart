@@ -32,6 +32,7 @@ class _NumericOpposedState extends State<NumericOpposed> {
 
 SfCartesianChart getOpposedNumericAxisChart(bool isTileView) {
   return SfCartesianChart(
+    
     title:
         ChartTitle(text: isTileView ? '' : 'Light vehicle retail sales in US'),
     plotAreaBorderWidth: 0,

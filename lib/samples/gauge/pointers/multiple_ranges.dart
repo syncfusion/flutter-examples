@@ -27,6 +27,7 @@ class _MultipleRangePointerExampleState extends State<MultipleRangePointerExampl
 
 SfRadialGauge getMultipleRangePointerExampleGauge(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb? UniqueKey() : null,
     axes: <RadialAxis>[
 
       RadialAxis( showLabels: false, showTicks: false,

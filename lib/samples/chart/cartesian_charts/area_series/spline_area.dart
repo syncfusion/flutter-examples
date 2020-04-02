@@ -25,6 +25,7 @@ class _SplineAreaState extends State<SplineArea> {
 
 SfCartesianChart getSplineAreaChart(bool isTileView) {
   return SfCartesianChart(
+    
     legend: Legend(isVisible: isTileView ? false : true, opacity: 0.7),
     title: ChartTitle(text: isTileView ? '' : 'Inflation rate'),
     plotAreaBorderWidth: 0,

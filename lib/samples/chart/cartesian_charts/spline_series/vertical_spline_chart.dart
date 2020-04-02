@@ -24,6 +24,7 @@ class _SplineVerticalState extends State<SplineVertical> {
 
 SfCartesianChart getVerticalSplineChart(bool isTileView) {
   return SfCartesianChart(
+    
     isTransposed: true,
     title: ChartTitle(text: isTileView ? '' : 'Climate graph - 2012'),
     plotAreaBorderWidth: 0,

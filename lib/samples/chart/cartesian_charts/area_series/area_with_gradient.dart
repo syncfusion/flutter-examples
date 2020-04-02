@@ -26,6 +26,7 @@ class _AreaGradientState extends State<AreaGradient> {
 
 SfCartesianChart getGradientAreaChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Annual rainfall of Paris'),
     primaryXAxis: DateTimeAxis(
@@ -73,14 +74,12 @@ List<AreaSeries<ChartSampleData, DateTime>> getGradientAreaSeries(
     ChartSampleData(x: DateTime(1945), y: 500)
   ];
   final List<Color> color = <Color>[];
-  color.add(Colors.blue[50]);
-  color.add(Colors.blue[200]);
-  color.add(Colors.blue);
+  color.add(const Color(0xFFB650C8));
+  color.add(const Color(0xFF6A31D5));
 
   final List<double> stops = <double>[];
-  stops.add(0.0);
-  stops.add(0.5);
   stops.add(1.0);
+  stops.add(0.0);
 
   final LinearGradient gradientColors =
       LinearGradient(colors: color, stops: stops);

@@ -4,6 +4,8 @@ import 'package:flutter_examples/model/model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart' 
+        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 //ignore: must_be_immutable
@@ -27,29 +29,34 @@ class _CategoryTicksState extends State<CategoryTicks> {
 }
 
 SfCartesianChart getTicksCategoryAxisChart(bool isTileView,
-    [LabelPlacement _labelPlacement]) {
+    [LabelPlacement _labelPlacement, SampleModel sampleModel]) {
+  final bool isExistModel = sampleModel != null && sampleModel.isWeb;
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Employees task count'),
     plotAreaBorderWidth: 0,
     primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
-        labelPlacement: _labelPlacement != null
+        labelPlacement: isExistModel ? (sampleModel.properties['LabelPlacement'] != null 
+        ? sampleModel.properties['LabelPlacement']
+        : LabelPlacement.betweenTicks)
+        : (_labelPlacement != null
             ? _labelPlacement
-            : LabelPlacement.betweenTicks),
+            : LabelPlacement.betweenTicks)),
     primaryYAxis: NumericAxis(
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(width: 0),
         minimum: 7,
         maximum: 12,
         interval: 1),
-    series: getTicksCategoryAxisSeries(isTileView, _labelPlacement),
+    series: getTicksCategoryAxisSeries(isTileView, _labelPlacement, sampleModel),
     tooltipBehavior:
         TooltipBehavior(enable: true, header: '', canShowMarker: false),
   );
 }
 
 List<LineSeries<ChartSampleData, String>> getTicksCategoryAxisSeries(
-    bool isTileView, LabelPlacement _labelPlacement) {
+    bool isTileView, LabelPlacement _labelPlacement, SampleModel sampleModel) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x: 'John', yValue: 10),
     ChartSampleData(x: 'Parker', yValue: 11),
@@ -66,15 +73,15 @@ List<LineSeries<ChartSampleData, String>> getTicksCategoryAxisSeries(
         markerSettings: MarkerSettings(isVisible: true))
   ];
 }
-
+//ignore: must_be_immutable
 class LabelPlacementFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  LabelPlacementFrontPanel(this.sampleList);
-  final SubItem sampleList;
+  LabelPlacementFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _LabelPlacementFrontPanelState createState() =>
-      _LabelPlacementFrontPanelState(sampleList);
+      _LabelPlacementFrontPanelState(sample);
 }
 
 class _LabelPlacementFrontPanelState extends State<LabelPlacementFrontPanel> {
@@ -82,10 +89,34 @@ class _LabelPlacementFrontPanelState extends State<LabelPlacementFrontPanel> {
   final SubItem sample;
   final List<String> _labelPosition =
       <String>['betweenTicks', 'onTicks'].toList();
+  String _selectedType;
+  LabelPlacement _labelPlacement;
 
-  String _selectedType = 'betweenTicks';
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) => getTicksCategoryAxisChart(false, null, model);
 
-  LabelPlacement _labelPlacement = LabelPlacement.betweenTicks;
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    _selectedType = 'betweenTicks';
+    _labelPlacement = LabelPlacement.betweenTicks;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'SeletedType' : _selectedType,
+        'Labelplacement' : _labelPlacement
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,14 +125,23 @@ class _LabelPlacementFrontPanelState extends State<LabelPlacementFrontPanel> {
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body: !model.isWeb ?
+              Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
-                    child: getTicksCategoryAxisChart(false, _labelPlacement)),
+                    child: getTicksCategoryAxisChart(false, _labelPlacement, null)),
+              )
+              :
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Container(
+                    child: getTicksCategoryAxisChart(false, null, null)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ? 
+              null :
+              FloatingActionButton(
                 onPressed: () {
-                  _showSettingsPanel(model);
+                  _showSettingsPanel(model, false, context);
                 },
                 child: Icon(Icons.graphic_eq, color: Colors.white),
                 backgroundColor: model.backgroundColor,
@@ -110,7 +150,7 @@ class _LabelPlacementFrontPanelState extends State<LabelPlacementFrontPanel> {
   }
 
   void onPositionTypeChange(String item, SampleModel model) {
-    setState(() {
+    // setState(() {
       _selectedType = item;
       if (_selectedType == 'betweenTicks') {
         _labelPlacement = LabelPlacement.betweenTicks;
@@ -118,10 +158,76 @@ class _LabelPlacementFrontPanelState extends State<LabelPlacementFrontPanel> {
       if (_selectedType == 'onTicks') {
         _labelPlacement = LabelPlacement.onTicks;
       }
-    });
+      model.properties['SelectedType'] = _selectedType;
+      model.properties['Labelplacement'] = _labelPlacement;
+      if (model.isWeb)
+        model.sampleOutputContainer.outputKey.currentState.refresh();
+      else
+        setState(() {});
+    // });
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model, [bool init, BuildContext context]) {
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: ListView(
+          children: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const Text(
+                    'Properties',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  HandCursor(child: 
+                  IconButton(
+                    icon: Icon(Icons.close, color: model.textColor),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ))
+                ]),
+            Row(
+                children: <Widget>[
+                  Text('Label placement ',
+                      style: TextStyle(
+                          color: model.textColor,
+                          fontSize: 14,
+                          letterSpacing: 0.34,
+                          fontWeight: FontWeight.normal)),
+                  Container(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      height: 50,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Theme(
+                          data: Theme.of(context).copyWith(
+                              canvasColor: model.bottomSheetBackgroundColor),
+                          child: DropDown(
+                              value: model.properties['SelectedType'],
+                              item: _labelPosition.map((String value) {
+                                return DropdownMenuItem<String>(
+                                    value: (value != null)
+                                        ? value
+                                        : 'betweenTicks',
+                                    child: Text('$value',
+                                        style:
+                                            TextStyle(color: model.textColor)));
+                              }).toList(),
+                              valueChanged: (dynamic value) {
+                                onPositionTypeChange(value.toString(), model);
+                              }),
+                        ),
+                      )),
+                ],
+              ),    
+          ],
+        )
+      );
+    } else {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -203,5 +309,7 @@ class _LabelPlacementFrontPanelState extends State<LabelPlacementFrontPanel> {
                     ),
                   ]),
                 )));
+    }
+  return widget ?? Container();
   }
 }

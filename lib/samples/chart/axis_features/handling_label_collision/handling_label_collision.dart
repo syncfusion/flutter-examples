@@ -69,16 +69,16 @@ List<ColumnSeries<ChartSampleData, String>> getLabelIntersectActionSeries(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.top))
   ];
 }
-
+//ignore: must_be_immutable
 class LabelCollisionFrontPanel extends StatefulWidget {
   //ignore:prefer_const_constructors_in_immutables
-  LabelCollisionFrontPanel(this.subItemList);
+  LabelCollisionFrontPanel([this.sample]);
 
-  final SubItem subItemList;
+  SubItem sample;
 
   @override
   _LabelCollisionFrontPanelState createState() =>
-      _LabelCollisionFrontPanelState(subItemList);
+      _LabelCollisionFrontPanelState(sample);
 }
 
 class _LabelCollisionFrontPanelState extends State<LabelCollisionFrontPanel> {
@@ -98,6 +98,8 @@ class _LabelCollisionFrontPanelState extends State<LabelCollisionFrontPanel> {
   AxisLabelIntersectAction _labelIntersectAction =
       AxisLabelIntersectAction.hide;
 
+  Widget sampleWidget(SampleModel model) => getLabelIntersectActionChart(false);
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -111,7 +113,8 @@ class _LabelCollisionFrontPanelState extends State<LabelCollisionFrontPanel> {
                     child: getLabelIntersectActionChart(
                         false, _labelIntersectAction)),
               ),
-              floatingActionButton: Stack(
+              floatingActionButton: model.isWeb ? null :
+              Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomLeft,
@@ -128,7 +131,7 @@ class _LabelCollisionFrontPanelState extends State<LabelCollisionFrontPanel> {
                               Text('Source: ',
                                   style: TextStyle(
                                       fontSize: 16, color: model.textColor)),
-                              Text('en.wikipedia.org',
+                              const Text('en.wikipedia.org',
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.blue)),
                             ],

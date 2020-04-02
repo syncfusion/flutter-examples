@@ -25,6 +25,7 @@ class _ColumnDefaultState extends State<ColumnDefault> {
 
 SfCartesianChart getDefaultColumnChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Population growth of various countries'),

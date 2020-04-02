@@ -29,6 +29,7 @@ class _CircularSelectionState extends State<CircularSelection> {
 SfCircularChart getCircularSelectionChart(bool isTileView,
     [bool enableMultiSelect]) {
   return SfCircularChart(
+    
     title: ChartTitle(
         text: isTileView ? '' : 'Age distribution by country - 5 to 50 years'),
     selectionGesture: ActivationMode.singleTap,
@@ -63,22 +64,23 @@ List<PieSeries<ChartSampleData, String>> getCircularSelectionSeries(
   ];
 }
 
+//ignore: must_be_immutable
 class SelectionFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  SelectionFrontPanel(this.subItemList);
+  SelectionFrontPanel([this.sample]);
 
-  final SubItem subItemList;
+ SubItem sample;
 
   @override
   _SelectionFrontPanelState createState() =>
-      _SelectionFrontPanelState(subItemList);
+      _SelectionFrontPanelState(sample);
 }
 
 class _SelectionFrontPanelState extends State<SelectionFrontPanel> {
   _SelectionFrontPanelState(this.sample);
   final SubItem sample;
   bool enableMultiSelect = false;
-
+Widget sampleWidget(SampleModel model) => getCircularSelectionChart(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -91,7 +93,8 @@ class _SelectionFrontPanelState extends State<SelectionFrontPanel> {
                 child: Container(
                     child: getCircularSelectionChart(false, enableMultiSelect)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ? null :
+              FloatingActionButton(
                 onPressed: () {
                   _showSettingsPanel(model);
                 },

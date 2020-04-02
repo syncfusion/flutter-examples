@@ -61,14 +61,14 @@ List<PieSeries<ChartSampleData, String>> getSemiPieSeries(
             isVisible: true, labelPosition: ChartDataLabelPosition.inside))
   ];
 }
-
+//ignore: must_be_immutable
 class SemiPieFrontPanel extends StatefulWidget {
   //ignore:prefer_const_constructors_in_immutables
-  SemiPieFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  SemiPieFrontPanel([this.sample]);
+   SubItem sample;
 
   @override
-  _SemiPieFrontPanelState createState() => _SemiPieFrontPanelState(subItemList);
+  _SemiPieFrontPanelState createState() => _SemiPieFrontPanelState(sample);
 }
 
 class _SemiPieFrontPanelState extends State<SemiPieFrontPanel> {
@@ -76,7 +76,7 @@ class _SemiPieFrontPanelState extends State<SemiPieFrontPanel> {
   final SubItem sample;
   int startAngle = 270;
   int endAngle = 90;
-
+Widget sampleWidget(SampleModel model) => getSemiPieChart(true);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -89,7 +89,9 @@ class _SemiPieFrontPanelState extends State<SemiPieFrontPanel> {
                 child: Container(
                     child: getSemiPieChart(false, startAngle, endAngle)),
               ),
-              floatingActionButton: Stack(
+              floatingActionButton: model.isWeb ?
+              Container() :
+              Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomLeft,
@@ -106,7 +108,7 @@ class _SemiPieFrontPanelState extends State<SemiPieFrontPanel> {
                               Text('Source: ',
                                   style: TextStyle(
                                       fontSize: 16, color: model.textColor)),
-                              Text('data.worldbank.org',
+                              const Text('data.worldbank.org',
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.blue)),
                             ],

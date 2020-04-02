@@ -23,6 +23,7 @@ class _AnimationDefaultState extends State<AnimationDefault> {
 
 SfCartesianChart getDefaultAnimationChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Sales report'),
     legend: Legend(isVisible: isTileView ? false : true),
     plotAreaBorderWidth: 0,

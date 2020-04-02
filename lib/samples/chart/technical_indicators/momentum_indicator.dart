@@ -458,13 +458,14 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
+//ignore: must_be_immutable
 class MomentummIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  MomentummIndicatorFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  MomentummIndicatorFrontPanel([this.sample]);
+  SubItem sample;
   @override
   _MomentummIndicatorFrontPanelState createState() =>
-      _MomentummIndicatorFrontPanelState(subItemList);
+      _MomentummIndicatorFrontPanelState(sample);
 }
 
 class _MomentummIndicatorFrontPanelState
@@ -472,6 +473,7 @@ class _MomentummIndicatorFrontPanelState
   _MomentummIndicatorFrontPanelState(this.sample);
   final SubItem sample;
   double _period = 14.0;
+  Widget sampleWidget(SampleModel model) => getDefaulMomentumIndicator(false);
 
   @override
   Widget build(BuildContext context) {
@@ -485,7 +487,9 @@ class _MomentummIndicatorFrontPanelState
             child: getDefaulMomentumIndicator(
                 false,_period.toInt()),
           ),
-          floatingActionButton: Stack(
+          floatingActionButton: model.isWeb ?
+              null :
+          Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,

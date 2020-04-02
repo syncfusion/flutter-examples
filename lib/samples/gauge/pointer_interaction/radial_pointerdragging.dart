@@ -1,8 +1,9 @@
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
 // ignore: must_be_immutable
@@ -22,62 +23,26 @@ class _RadialPointerDraggingState extends State<RadialPointerDragging> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleModel>(
-        builder: (BuildContext context, _, SampleModel model) => SafeArea(
-          child: Backdrop(
-            needCloseButton: false,
-            panelVisible: frontPanelVisible,
-            sampleListModel: model,
-            frontPanelOpenPercentage: 0.28,
-            toggleFrontLayer: false,
-            appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-            appBarActions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  child: IconButton(
-                    icon: Image.asset(model.codeViewerIcon,
-                        color: Colors.white),
-                    onPressed: () {
-                      launch(
-                          'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/gauge/pointer_interaction/radial_pointerdragging.dart');
-                    },
-                  ),
-                ),
-              ),
-            ],
-            appBarTitle: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 1000),
-                child: Text(sample.title.toString())),
-            backLayer: BackPanel(sample),
-            frontLayer: FrontPanel(sample),
-            sideDrawer: null,
-            headerClosingHeight: 350,
-            titleVisibleOnPanelClosed: true,
-            color: model.cardThemeColor,
-            borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(12), bottom: Radius.circular(0)),
-          ),
-        ));
+    return getScopedModel(null, sample, PointerDraggingFrontPanel(sample));
   }
 }
 
-class FrontPanel extends StatefulWidget {
+class PointerDraggingFrontPanel extends StatefulWidget {
   //ignore:prefer_const_constructors_in_immutables
-  FrontPanel(this.subItemList);
+  PointerDraggingFrontPanel([this.subItemList]);
   final SubItem subItemList;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(subItemList);
+  _PointerDraggingFrontPanelState createState() => _PointerDraggingFrontPanelState(subItemList);
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  _FrontPanelState(this.sample);
+class _PointerDraggingFrontPanelState extends State<PointerDraggingFrontPanel> {
+  _PointerDraggingFrontPanelState(this.sample);
   final SubItem sample;
+  
   @override
   Widget build(BuildContext context) {
+    final double _width = MediaQuery.of(context).size.width * 0.3;
     if(MediaQuery.of(context).orientation == Orientation.portrait){
       _firstMarkerSize = 10;
       _annotationFontSize = 25;
@@ -91,7 +56,8 @@ class _FrontPanelState extends State<FrontPanel> {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
               body: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                  padding: kIsWeb ? const EdgeInsets.fromLTRB(5, 20, 5, 20) :
+                  const EdgeInsets.fromLTRB(5, 0, 5, 50),
                   child: Column(
                     children: <Widget>[
                       Expanded(
@@ -135,7 +101,18 @@ class _FrontPanelState extends State<FrontPanel> {
                         ),
                       ),
 
-                      Expanded(
+
+                      kIsWeb ?   Container(
+                        width: _width ,
+                        child:  Slider(
+                          activeColor: const Color(0xFF02AAB0),
+                          inactiveColor: const Color(0xFF00CDAC),
+                          min: 5,
+                          max: 100,
+                          onChanged: onPointerValueChanged,
+                          value: _currentValue ,
+                        ),
+                      ):Expanded(
                         flex: 3, // takes 30% of available width
                         child:   Slider(
                           activeColor: const Color(0xFF02AAB0),

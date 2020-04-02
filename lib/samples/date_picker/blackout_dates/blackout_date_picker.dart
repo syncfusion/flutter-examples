@@ -23,6 +23,8 @@ class _BlackoutDatePickerState extends State<BlackoutDatePicker> {
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   List<DateTime> _blackoutDates;
 
+  Widget sampleWidget(SampleModel model) => BlackoutDatePicker();
+
   @override
   void initState() {
     panelOpen = frontPanelVisible.value;
@@ -43,12 +45,12 @@ class _BlackoutDatePickerState extends State<BlackoutDatePicker> {
   List<DateTime> _getBlackoutDates() {
     final List<DateTime> dates = <DateTime>[];
     final DateTime startDate =
-        DateTime.now().subtract(const Duration(days: 200));
-    final DateTime endDate = DateTime.now().add(const Duration(days: 200));
+        DateTime.now().subtract(const Duration(days: 500));
+    final DateTime endDate = DateTime.now().add(const Duration(days: 500));
     final Random random = Random();
     for (DateTime date = startDate;
         date.isBefore(endDate);
-        date = date.add(Duration(days: random.nextInt(3)))) {
+        date = date.add(Duration(days: random.nextInt(25)))) {
       dates.add(date);
     }
 
@@ -62,23 +64,31 @@ class _BlackoutDatePickerState extends State<BlackoutDatePicker> {
         builder: (BuildContext context, _, SampleModel model) {
           final Widget _cardView = Card(
             elevation: 10,
-            margin: const EdgeInsets.all(30),
-            child: Padding(
+            margin: model.isWeb
+                ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
+                : const EdgeInsets.all(30),
+            child: Container(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-              child: Container(child: getBlackoutDatePicker(_blackoutDates)),
+              color: model.cardThemeColor,
+              child: getBlackoutDatePicker(_blackoutDates),
             ),
           );
           return Scaffold(
-              backgroundColor: model.cardThemeColor,
+              backgroundColor: model.themeData == null ||
+                      model.themeData.brightness == Brightness.light
+                  ? null
+                  : Colors.black,
               body: Column(children: <Widget>[
                 Expanded(
-                    flex: 8,
+                    flex: model.isWeb ? 9 : 8,
                     child: kIsWeb
                         ? Center(
                             child: Container(
-                                width: 500, height: 500, child: _cardView))
+                                width: 400,
+                                height: 600,
+                                child: _cardView))
                         : _cardView),
-                Expanded(flex: 2, child: Container())
+                Expanded(flex: model.isWeb ? 1 : 2, child: Container())
               ]));
         });
   }

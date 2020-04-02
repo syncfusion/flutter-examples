@@ -459,14 +459,14 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
-
+//ignore: must_be_immutable
 class MacdIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  MacdIndicatorFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  MacdIndicatorFrontPanel([this.sample]);
+  SubItem sample;
   @override
   _MacdIndicatorFrontPanelState createState() =>
-      _MacdIndicatorFrontPanelState(subItemList);
+      _MacdIndicatorFrontPanelState(sample);
 }
 
 class _MacdIndicatorFrontPanelState extends State<MacdIndicatorFrontPanel> {
@@ -479,7 +479,7 @@ class _MacdIndicatorFrontPanelState extends State<MacdIndicatorFrontPanel> {
       <String>['Both', 'Line', 'Histogram'].toList();
   String _selectedMacdIndicatorType = 'Both';
   MacdType _macdType = MacdType.both;
-
+Widget sampleWidget(SampleModel model) => getDefaultMACDIndicator(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -492,7 +492,9 @@ class _MacdIndicatorFrontPanelState extends State<MacdIndicatorFrontPanel> {
               child: getDefaultMACDIndicator(false, _period.toInt(),
                   _longPeriod.toInt(), _shortPeriod.toInt(), _macdType),
             ),
-            floatingActionButton: Stack(
+            floatingActionButton: model.isWeb ?
+              null :
+            Stack(
               children: <Widget>[
                 Align(
                   alignment: Alignment.bottomRight,

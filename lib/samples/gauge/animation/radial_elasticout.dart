@@ -27,6 +27,7 @@ class _RadialElasticOutAnimationState extends State<RadialElasticOutAnimation> {
 
 SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           startAngle: 180,

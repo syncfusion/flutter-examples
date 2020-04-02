@@ -94,6 +94,7 @@ SfCartesianChart getAddRemoveSeriesChart(bool isTileView) {
     )
   ];
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
@@ -104,20 +105,21 @@ SfCartesianChart getAddRemoveSeriesChart(bool isTileView) {
   );
 }
 
-
+//ignore: must_be_immutable
 class DynamicSeriesFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  DynamicSeriesFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  DynamicSeriesFrontPanel([this.sample]);
+   SubItem sample;
   
   @override
-  _DynamicSeriesFrontPanelState createState() => _DynamicSeriesFrontPanelState(subItemList);
+  _DynamicSeriesFrontPanelState createState() => _DynamicSeriesFrontPanelState(sample);
 }
 
 class _DynamicSeriesFrontPanelState extends State<DynamicSeriesFrontPanel> {
   _DynamicSeriesFrontPanelState(this.sample);
   final SubItem sample;
   
+  Widget sampleWidget(SampleModel model) => getAddRemoveSeriesChart(false);
   num getRandomInt(num min, num max) {
     final Random random = Random();
     return min + random.nextInt(max - min);

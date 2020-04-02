@@ -24,6 +24,7 @@ class _AreaVerticalState extends State<AreaVertical> {
 
 SfCartesianChart getVerticalAreaChart(bool isTileView) {
   return SfCartesianChart(
+    
     legend: Legend(
         isVisible: isTileView ? false : true,
         overflowMode: LegendItemOverflowMode.wrap,

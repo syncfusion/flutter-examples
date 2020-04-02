@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/switch.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart' 
+        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,7 +30,8 @@ class _NumericInverseState extends State<NumericInverse> {
 }
 
 SfCartesianChart getInversedNumericAxisChart(bool isTileView,
-    [bool isXInversed, bool isYInversed]) {
+    [bool isXInversed, bool isYInversed, SampleModel sampleModel]) {
+  final bool isExistModel = sampleModel != null && sampleModel.isWeb;
   return SfCartesianChart(
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Airports count in US'),
@@ -36,14 +39,14 @@ SfCartesianChart getInversedNumericAxisChart(bool isTileView,
         minimum: 2000,
         maximum: 2010,
         title: AxisTitle(text: isTileView ? '' : 'Year'),
-        isInversed: isXInversed ?? true,
+        isInversed: (isExistModel ? sampleModel.properties['XInversed'] : isXInversed) ?? true,
         majorGridLines: MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift),
     primaryYAxis: NumericAxis(
         numberFormat: NumberFormat.decimalPattern(),
         axisLine: AxisLine(width: 0),
         title: AxisTitle(text: isTileView ? '' : 'Count'),
-        isInversed: isYInversed ?? true,
+        isInversed: (isExistModel ? sampleModel.properties['YInversed'] : isYInversed) ?? true,
         majorTickLines: MajorTickLines(size: 0)),
     series: getInversedNumericSeries(isTileView),
     tooltipBehavior:
@@ -74,15 +77,15 @@ List<LineSeries<ChartSampleData, num>> getInversedNumericSeries(
         markerSettings: MarkerSettings(isVisible: true))
   ];
 }
-
+//ignore: must_be_immutable
 class InversedNumericFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  InversedNumericFrontPanel(this.sampleList);
-  final SubItem sampleList;
+  InversedNumericFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _InversedNumericFrontPanelState createState() =>
-      _InversedNumericFrontPanelState(sampleList);
+      _InversedNumericFrontPanelState(sample);
 }
 
 class _InversedNumericFrontPanelState extends State<InversedNumericFrontPanel> {
@@ -91,6 +94,32 @@ class _InversedNumericFrontPanelState extends State<InversedNumericFrontPanel> {
   bool isYInversed = true;
   bool isXInversed = true;
 
+   Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) => getInversedNumericAxisChart(false, null, null, model);
+
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    isXInversed = true;
+    isYInversed = true;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'XInversed' : isXInversed,
+        'YInversed' : isYInversed
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -98,13 +127,23 @@ class _InversedNumericFrontPanelState extends State<InversedNumericFrontPanel> {
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body: !model.isWeb ?
+              Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
                     child: getInversedNumericAxisChart(
-                        false, isXInversed, isYInversed)),
+                        false, isXInversed, isYInversed, null)),
+              )
+              :
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Container(
+                    child: getInversedNumericAxisChart(
+                        false, null, null, model)),
               ),
-              floatingActionButton: Stack(
+              floatingActionButton: model.isWeb ?
+              null :
+              Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomLeft,
@@ -121,7 +160,7 @@ class _InversedNumericFrontPanelState extends State<InversedNumericFrontPanel> {
                               Text('Source: ',
                                   style: TextStyle(
                                       fontSize: 16, color: model.textColor)),
-                              Text('www.indexmundi.com',
+                              const Text('www.indexmundi.com',
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.blue)),
                             ],
@@ -135,7 +174,7 @@ class _InversedNumericFrontPanelState extends State<InversedNumericFrontPanel> {
                     child: FloatingActionButton(
                       heroTag: null,
                       onPressed: () {
-                        _showSettingsPanel(model);
+                        _showSettingsPanel(model, false, context);
                       },
                       child: Icon(Icons.graphic_eq, color: Colors.white),
                       backgroundColor: model.backgroundColor,
@@ -146,7 +185,85 @@ class _InversedNumericFrontPanelState extends State<InversedNumericFrontPanel> {
         });
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model, [bool init, BuildContext context]) {
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: ListView(
+          children: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const Text(
+                    'Properties',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  HandCursor(child: 
+                  IconButton(
+                    icon: Icon(Icons.close, color: model.webIconColor),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ))
+                ]),
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text('Inverse X axis',
+                            style: TextStyle(
+                                color: model.textColor,
+                                fontSize: 14,
+                                letterSpacing: 0.34,
+                                fontWeight: FontWeight.normal)),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 5),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          child: BottomSheetSwitch(
+                            activeColor: model.backgroundColor,
+                            switchValue: model.properties['XInversed'],
+                            valueChanged: (dynamic value) {
+                                model.properties['XInversed'] = value;
+                              model.sampleOutputContainer.outputKey.currentState.refresh();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text('Inverse Y axis',
+                            style: TextStyle(
+                                color: model.textColor,
+                                fontSize: 14,
+                                letterSpacing: 0.34,
+                                fontWeight: FontWeight.normal)),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 5),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          child: BottomSheetSwitch(
+                            activeColor: model.backgroundColor,
+                            switchValue: model.properties['YInversed'],
+                            valueChanged: (dynamic value) {
+                                model.properties['YInversed'] = value;
+                              model.sampleOutputContainer.outputKey.currentState.refresh();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+          ],
+        )
+      );
+    } else {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -239,5 +356,7 @@ class _InversedNumericFrontPanelState extends State<InversedNumericFrontPanel> {
                     ),
                   ]),
                 )));
+    }
+  return widget ?? Container();
   }
 }

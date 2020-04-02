@@ -29,6 +29,7 @@ class _DateTimeLabelState extends State<DateTimeLabel> {
 
 SfCartesianChart getLabelDateTimeAxisChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Earthquakes in Indonesia'),
     primaryXAxis: DateTimeAxis(

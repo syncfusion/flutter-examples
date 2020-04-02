@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_examples/model/helper.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -88,13 +89,14 @@ List<SplineSeries<ChartSampleData, num>> getLiveUpdateSeries(bool isTileView) {
   ];
 }
 
+//ignore: must_be_immutable
 class LiveHorizontalFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  LiveHorizontalFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  LiveHorizontalFrontPanel([this.sample]);
+  SubItem sample;
   
   @override
-  _LiveHorizontalFrontPanelState createState() => _LiveHorizontalFrontPanelState(subItemList);
+  _LiveHorizontalFrontPanelState createState() => _LiveHorizontalFrontPanelState(sample);
 }
 
 class _LiveHorizontalFrontPanelState extends State<LiveHorizontalFrontPanel> {
@@ -111,6 +113,7 @@ class _LiveHorizontalFrontPanelState extends State<LiveHorizontalFrontPanel> {
 
   Timer timer;
 
+  Widget sampleWidget(SampleModel model) => !kIsWeb ? getLiveUpdateChart(false) : getLiveUpdateChart(true);
   @override
   void dispose() {
     timer?.cancel();
@@ -178,3 +181,4 @@ void updateLiveData() {
 
   wave1 = chartData1.length;
 }
+

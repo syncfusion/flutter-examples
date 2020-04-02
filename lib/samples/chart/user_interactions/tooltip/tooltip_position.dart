@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart' 
+        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 //ignore: must_be_immutable
 class CartesianTooltipPosition extends StatefulWidget {
@@ -22,19 +24,21 @@ class _TooltipPositionState extends State<CartesianTooltipPosition> {
   
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(null, sample, TooltipPositioningPanel(sample));
+    return getScopedModel(null, sample, ChartTooltipPositioningPanel(sample));
     }
 }
 
 dynamic getCartesianTooltipPositionChart(bool isTileView,
-    [String chartType, TooltipPosition _tooltipPosition]) {
+    [String chartType, TooltipPosition _tooltipPosition, SampleModel model]) {
   dynamic _chart;
-  if (isTileView || chartType == 'column')
-    _chart = SfCartesianChart(
+  final bool isExistModel = model != null && model.isWeb;
+   _chart = SfCartesianChart(
       plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Age distribution'),
       tooltipBehavior: TooltipBehavior(
-        enable: true, tooltipPosition: _tooltipPosition, canShowMarker: false
+        enable: true, tooltipPosition: isExistModel
+            ? model.properties['TooltipPosition']
+            : _tooltipPosition, canShowMarker: false
       ),
       primaryXAxis: CategoryAxis(
         title: AxisTitle(text: isTileView ? '' : 'Years'),
@@ -45,15 +49,6 @@ dynamic getCartesianTooltipPositionChart(bool isTileView,
         axisLine: AxisLine(width: 0), majorTickLines: MajorTickLines(size: 0)),
     series: _getCartesianSeries(isTileView),
     );
-  else
-    _chart = SfCircularChart(
-    title: ChartTitle(text: isTileView ? '' : 'Age distribution'),
-    tooltipBehavior: TooltipBehavior(
-      enable: true, tooltipPosition: _tooltipPosition, format: 'point.x : point.yM'
-    ),
-    legend: Legend(isVisible: isTileView ? false : true),
-    series: getPieSeries(isTileView),
-  );
   return _chart;
 }
 final List<_ChartData> chartData = <_ChartData>[
@@ -92,17 +87,18 @@ class _ChartData {
   final Color color;
 }
 
-class TooltipPositioningPanel extends StatefulWidget {
+//ignore: must_be_immutable
+class ChartTooltipPositioningPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  TooltipPositioningPanel(this.sampleList);
-  final SubItem sampleList;
+  ChartTooltipPositioningPanel([this.sample]);
+  SubItem sample;
 
   @override
-  _TooltipPositioningPanelState createState() => _TooltipPositioningPanelState(sampleList);
+  _TooltipPositioningPanelState createState() => _TooltipPositioningPanelState(sample);
 }
 
-class _TooltipPositioningPanelState extends State<TooltipPositioningPanel> {
-  _TooltipPositioningPanelState(this.sample);
+class _TooltipPositioningPanelState extends State<ChartTooltipPositioningPanel> {
+  _TooltipPositioningPanelState([this.sample]);
   final SubItem sample;
 
   // final List<String> _modeList =
@@ -116,6 +112,37 @@ class _TooltipPositioningPanelState extends State<TooltipPositioningPanel> {
   String _selectedTooltipPosition = 'auto';
   TooltipPosition _tooltipPosition = TooltipPosition.auto;
 
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) => getCartesianTooltipPositionChart(false, null, null, model);
+
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+     _selectedTooltipPosition = 'auto';
+     _tooltipPosition = TooltipPosition.auto;
+     _selectedChartType = 'column';
+     _chartType = 'column';
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'SelectedTooltipPosition': _selectedTooltipPosition,
+        'TooltipPosition': _tooltipPosition,
+        'SelectedChartType': _selectedChartType,
+        'ChartType':_chartType
+      });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -123,14 +150,20 @@ class _TooltipPositioningPanelState extends State<TooltipPositioningPanel> {
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body: !model.isWeb ?
+              Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
-                    child: getCartesianTooltipPositionChart(false,_chartType, _tooltipPosition)),
+                    child: getCartesianTooltipPositionChart(false,_chartType, _tooltipPosition, null)),
+              ) 
+              : Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Container(
+                    child: getCartesianTooltipPositionChart(false,null, null, null)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ? null : FloatingActionButton(
                 onPressed: () {
-                  _showSettingsPanel(model);
+                  _showSettingsPanel(model, false, context);
                 },
                 child: Icon(Icons.graphic_eq, color: Colors.white),
                 backgroundColor: model.backgroundColor,
@@ -139,7 +172,7 @@ class _TooltipPositioningPanelState extends State<TooltipPositioningPanel> {
   }
 
   void onPositionTypeChange(String item, SampleModel model) {
-    setState(() {
+    // setState(() {
       _selectedTooltipPosition = item;
       if (_selectedTooltipPosition == 'auto') {
         _tooltipPosition = TooltipPosition.auto;
@@ -147,14 +180,83 @@ class _TooltipPositioningPanelState extends State<TooltipPositioningPanel> {
       if (_selectedTooltipPosition == 'pointer') {
         _tooltipPosition = TooltipPosition.pointer;
       }
-    });
+      model.properties['SelectedTooltipPosition'] = _selectedTooltipPosition;
+      model.properties['TooltipPosition'] = _tooltipPosition;
+      if (model.isWeb)
+        model.sampleOutputContainer.outputKey.currentState.refresh();
+      else
+        setState(() {});
+
+    // });
   }
 
-void _showSettingsPanel(SampleModel model) {
+Widget _showSettingsPanel(SampleModel model, [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
+            Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: ListView(
+          children: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                 const Text(
+                    'Properties',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  HandCursor(child: 
+                  IconButton(
+                    icon: Icon(Icons.close, color: model.webIconColor),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ))
+                ]),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Text('Tooltip position     ',
+                      style: TextStyle(
+                          color: model.textColor,
+                          fontSize: 14,
+                          letterSpacing: 0.34,
+                          fontWeight: FontWeight.normal)),
+                  Container(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      height: 50,
+                      width: 150,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Theme(
+                          data: Theme.of(context).copyWith(
+                              canvasColor: model.bottomSheetBackgroundColor),
+                          child: DropDown(
+                              value:
+                                  model.properties['SelectedTooltipPosition'],
+                              item: _tooltipPositionList.map((String value) {
+                                return DropdownMenuItem<String>(
+                                    value: (value != null) ? value : 'auto',
+                                    child: Text('$value',
+                                        style:
+                                            TextStyle(color: model.textColor)));
+                              }).toList(),
+                              valueChanged: (dynamic value) {
+                                onPositionTypeChange(value.toString(), model);
+                              }),
+                        ),
+                      ))
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    } else {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -267,6 +369,8 @@ void _showSettingsPanel(SampleModel model) {
                             ),
                           )),
                     ))));
+                     }
+   return widget ?? Container();
   }
 
   void onChartTypeChange(String item, SampleModel model) {

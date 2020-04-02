@@ -3,6 +3,8 @@ import 'package:flutter_examples/widgets/custom_button.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart' 
+        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import '../../../../model/helper.dart';
 import '../../../../model/model.dart';
 
@@ -26,7 +28,7 @@ class _BarSpacingState extends State<BarSpacing> {
 }
 
 SfCartesianChart getSpacingBarChart(bool isTileView,
-    [double columnWidth, double columnSpacing]) {
+    [double columnWidth, double columnSpacing, SampleModel model]) {
   return SfCartesianChart(
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Exports & Imports of US'),
@@ -40,13 +42,14 @@ SfCartesianChart getSpacingBarChart(bool isTileView,
       labelFormat: '{value}%',
       title: AxisTitle(text: isTileView ? '' : 'Goods and services (% of GDP)'),
     ),
-    series: getSpacingBarSeries(isTileView, columnWidth, columnSpacing),
+    series: getSpacingBarSeries(isTileView, columnWidth, columnSpacing, model),
     tooltipBehavior: TooltipBehavior(enable: true),
   );
 }
 
 List<BarSeries<ChartSampleData, num>> getSpacingBarSeries(
-    bool isTileView, double columnWidth, double columnSpacing) {
+    bool isTileView, double columnWidth, double columnSpacing, SampleModel model) {
+  final bool isExistModel = model != null && model.isWeb;
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x: 2006, y: 16.219, yValue2: 10.655),
     ChartSampleData(x: 2007, y: 16.461, yValue2: 11.498),
@@ -57,16 +60,24 @@ List<BarSeries<ChartSampleData, num>> getSpacingBarSeries(
   return <BarSeries<ChartSampleData, num>>[
     BarSeries<ChartSampleData, num>(
         enableTooltip: true,
-        width: isTileView ? 0.8 : columnWidth,
-        spacing: isTileView ? 0.2 : columnSpacing,
+        width: isExistModel
+            ? model.properties['BarWidth']
+            : isTileView ? 0.8 : columnWidth,
+        spacing: isExistModel
+            ? model.properties['BarSpacing']
+            : isTileView ? 0.2 : columnSpacing,
         dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         name: 'Import'),
     BarSeries<ChartSampleData, num>(
         enableTooltip: true,
-        width: isTileView ? 0.8 : columnWidth,
-        spacing: isTileView ? 0.2 : columnSpacing,
+        width: isExistModel
+            ? model.properties['BarWidth']
+            : isTileView ? 0.8 : columnWidth,
+        spacing: isExistModel
+            ? model.properties['BarSpacing']
+            : isTileView ? 0.2 : columnSpacing,
         dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
@@ -77,12 +88,12 @@ List<BarSeries<ChartSampleData, num>> getSpacingBarSeries(
 //ignore:must_be_immutable
 class BarSettingsFrontPanel extends StatefulWidget {
   //ignore:prefer_const_constructors_in_immutables
-  BarSettingsFrontPanel(this.subItemList);
-  SubItem subItemList;
+  BarSettingsFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _BarSettingsFrontPanelState createState() =>
-      _BarSettingsFrontPanelState(subItemList);
+      _BarSettingsFrontPanelState(sample);
 }
 
 class _BarSettingsFrontPanelState extends State<BarSettingsFrontPanel> {
@@ -92,6 +103,33 @@ class _BarSettingsFrontPanelState extends State<BarSettingsFrontPanel> {
   double columnSpacing = 0.2;
   TextEditingController editingController = TextEditingController();
   TextEditingController spacingEditingController = TextEditingController();
+   
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) =>
+      getSpacingBarChart(false, null, null, model);
+  
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    columnWidth = 0.8;
+    columnSpacing = 0.2;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'BarWidth': columnWidth,
+        'BarSpacing': columnSpacing
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,15 +138,23 @@ class _BarSettingsFrontPanelState extends State<BarSettingsFrontPanel> {
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body: !model.isWeb ?
+              Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
                     child:
-                        getSpacingBarChart(false, columnWidth, columnSpacing)),
+                        getSpacingBarChart(false, columnWidth, columnSpacing, null)),
+              )
+              :
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Container(
+                    child:
+                        getSpacingBarChart(false, null, null, null)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ? null : FloatingActionButton(
                 onPressed: () {
-                  _showSettingsPanel(model);
+                  _showSettingsPanel(model, false, context);
                 },
                 child: Icon(Icons.graphic_eq, color: Colors.white),
                 backgroundColor: model.backgroundColor,
@@ -116,11 +162,124 @@ class _BarSettingsFrontPanelState extends State<BarSettingsFrontPanel> {
         });
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model, [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: ListView(
+          children: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                 const Text(
+                    'Properties',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  HandCursor(child: 
+                  IconButton(
+                    icon: Icon(Icons.close, color: model.webIconColor),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ))
+                ]),
+            Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text('Width  ',
+                      style: TextStyle(fontSize: 14.0, color: model.textColor)),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                      child: CustomButton(
+                        minValue: 0,
+                        maxValue: 0.9,
+                        initialValue: model.properties['BarWidth'],
+                        onChanged: (dynamic val) {
+                          columnWidth = val;
+                          model.properties['BarWidth'] = columnWidth = val;
+                          if (model.isWeb)
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          else
+                            setState(() {});
+                        },
+                        step: 0.1,
+                        horizontal: true,
+                        loop: true,
+                        padding: 0,
+                        iconUp: Icons.keyboard_arrow_up,
+                        iconDown: Icons.keyboard_arrow_down,
+                        iconLeft: Icons.keyboard_arrow_left,
+                        iconRight: Icons.keyboard_arrow_right,
+                        iconUpRightColor: model.textColor,
+                        iconDownLeftColor: model.textColor,
+                        style:
+                            TextStyle(fontSize: 16.0, color: model.textColor),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    child: Text('Spacing  ',
+                        style:
+                            TextStyle(fontSize: 14.0, color: model.textColor)),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                      child: CustomButton(
+                        minValue: 0,
+                        maxValue: 1,
+                        initialValue: model.properties['BarSpacing'],
+                        onChanged: (dynamic val) {
+                          columnSpacing = val;
+                          model.properties['BarSpacing'] =
+                              columnSpacing = val;
+                          if (model.isWeb)
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          else
+                            setState(() {});
+                        },
+                        step: 0.1,
+                        horizontal: true,
+                        loop: true,
+                        padding: 5.0,
+                        iconUp: Icons.keyboard_arrow_up,
+                        iconDown: Icons.keyboard_arrow_down,
+                        iconLeft: Icons.keyboard_arrow_left,
+                        iconRight: Icons.keyboard_arrow_right,
+                        iconUpRightColor: model.textColor,
+                        iconDownLeftColor: model.textColor,
+                        style:
+                            TextStyle(fontSize: 16.0, color: model.textColor),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -278,5 +437,7 @@ class _BarSettingsFrontPanelState extends State<BarSettingsFrontPanel> {
                         ),
                       )),
                 ))));
+   }
+   return widget ?? Container();
   }
 }

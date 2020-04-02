@@ -3,6 +3,8 @@ import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart' 
+        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import '../../../../model/helper.dart';
 import '../../../../model/model.dart';
 
@@ -27,7 +29,7 @@ class _EmptyPointsState extends State<EmptyPoints> {
 
 
 SfCartesianChart getEmptyPointChart(bool isTileView,
-    [EmptyPointMode _selectedEmptyPointMode]) {
+    [EmptyPointMode _selectedEmptyPointMode, SampleModel model]) {
   return SfCartesianChart(
     plotAreaBorderWidth: 0,
     title: ChartTitle(
@@ -39,14 +41,15 @@ SfCartesianChart getEmptyPointChart(bool isTileView,
         axisLine: AxisLine(width: 0),
         labelFormat: '{value}%',
         majorTickLines: MajorTickLines(size: 0)),
-    series: getEmptyPointSeries(isTileView, _selectedEmptyPointMode),
+    series: getEmptyPointSeries(isTileView, _selectedEmptyPointMode, model),
     tooltipBehavior:
         TooltipBehavior(enable: true, header: '', canShowMarker: false),
   );
 }
 
 List<ColumnSeries<ChartSampleData, String>> getEmptyPointSeries(bool isTileView,
-    [EmptyPointMode _selectedEmptyPointMode]) {
+    [EmptyPointMode _selectedEmptyPointMode, SampleModel model]) {
+      final bool isExistModel = model != null && model.isWeb;
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x:'China', y:0.541),
     ChartSampleData(x:'Brazil', y:null),
@@ -60,7 +63,9 @@ List<ColumnSeries<ChartSampleData, String>> getEmptyPointSeries(bool isTileView,
       enableTooltip: true,
       dataSource: chartData,
       emptyPointSettings: EmptyPointSettings(
-          mode: isTileView ? EmptyPointMode.gap : _selectedEmptyPointMode,
+          mode: isExistModel
+            ? model.properties['SelectedEmptyPointMode']
+            : isTileView ? EmptyPointMode.gap : _selectedEmptyPointMode,
           color: Colors.grey),
       xValueMapper: (ChartSampleData sales, _) => sales.x,
       yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -69,13 +74,14 @@ List<ColumnSeries<ChartSampleData, String>> getEmptyPointSeries(bool isTileView,
     )
   ];
 }
+//ignore: must_be_immutable
 class EmptyPointsFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  EmptyPointsFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  EmptyPointsFrontPanel([this.sample]);
+  SubItem sample;
   
   @override
-  _EmptyPointsFrontPanelState createState() => _EmptyPointsFrontPanelState(subItemList);
+  _EmptyPointsFrontPanelState createState() => _EmptyPointsFrontPanelState(sample);
 }
 
 class _EmptyPointsFrontPanelState extends State<EmptyPointsFrontPanel> {
@@ -85,11 +91,31 @@ class _EmptyPointsFrontPanelState extends State<EmptyPointsFrontPanel> {
       <String>['gap', 'zero', 'average', 'drop'].toList();
   EmptyPointMode _selectedEmptyPointMode = EmptyPointMode.gap;
   String _selectedMode;
+
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) => getEmptyPointChart(false, null, model);
+
   @override
   void initState() {
+    initProperties();
     super.initState();
-    _selectedMode = _emptyPointMode.first; 
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    _selectedMode = 'zero'; 
     _selectedEmptyPointMode = EmptyPointMode.gap;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'SelectedMode': _selectedMode,
+        'SelectedEmptyPointMode': _selectedEmptyPointMode
+      });
+    }
   }
 
   TextEditingController editingController = TextEditingController();
@@ -102,19 +128,24 @@ class _EmptyPointsFrontPanelState extends State<EmptyPointsFrontPanel> {
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body: !model.isWeb ? Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 60),
                 child: Container(
-                    child: getEmptyPointChart(false, _selectedEmptyPointMode)),
+                    child: getEmptyPointChart(false, _selectedEmptyPointMode, null)),
+              ): 
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Container(
+                    child: getEmptyPointChart(false, null, null)),
               ),
-              floatingActionButton: Stack(
+              floatingActionButton: model.isWeb ? null : Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FloatingActionButton(
                       heroTag: null,
                       onPressed: () {
-                        _showSettingsPanel(model);
+                        _showSettingsPanel(model, false, context);
                       },
                       child: Icon(Icons.graphic_eq, color: Colors.white),
                       backgroundColor: model.backgroundColor,
@@ -125,8 +156,8 @@ class _EmptyPointsFrontPanelState extends State<EmptyPointsFrontPanel> {
         });
   }
 
-  void onEmptyPointModeChange(String item) {
-    setState(() {
+  void onEmptyPointModeChange(String item, SampleModel model) {
+    // setState(() {
       _selectedMode = item;
       if (_selectedMode == 'gap') {
         _selectedEmptyPointMode = EmptyPointMode.gap;
@@ -140,14 +171,80 @@ class _EmptyPointsFrontPanelState extends State<EmptyPointsFrontPanel> {
       if (_selectedMode == 'drop') {
         _selectedEmptyPointMode = EmptyPointMode.drop;
       }
-    });
+      model.properties['SelectedMode'] = _selectedMode;
+    model.properties['SelectedEmptyPointMode'] = _selectedEmptyPointMode;
+    if (model.isWeb)
+      model.sampleOutputContainer.outputKey.currentState.refresh();
+    else
+      setState(() {});
+
+    // });
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model, [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
+            Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: ListView(
+          children: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                 const Text(
+                    'Properties',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  HandCursor(child: 
+                  IconButton(
+                    icon: Icon(Icons.close, color: model.webIconColor),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ))
+                ]),
+            Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text('Empty point mode  ',
+                      style: TextStyle(fontSize: 14.0, color: model.textColor)),
+                  Container(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      height: 50,
+                      width: 150,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Theme(
+                          data: Theme.of(context).copyWith(
+                              canvasColor: model.bottomSheetBackgroundColor),
+                          child: DropDown(
+                              value: model.properties['SelectedMode'],
+                              item: _emptyPointMode.map((String value) {
+                                return DropdownMenuItem<String>(
+                                    value: (value != null) ? value : 'zero',
+                                    child: Text('$value',
+                                        style:
+                                            TextStyle(color: model.textColor)));
+                              }).toList(),
+                              valueChanged: (dynamic value) {
+                                onEmptyPointModeChange(value.toString(), model);
+                              }),
+                        ),
+                      ))
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    } else {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -241,7 +338,7 @@ class _EmptyPointsFrontPanelState extends State<EmptyPointsFrontPanel> {
                                                         valueChanged:
                                                             (dynamic value) {
                                                           onEmptyPointModeChange(
-                                                              value.toString());
+                                                              value.toString(), model);
                                                         }),
                                                   ),
                                                 ))
@@ -251,5 +348,7 @@ class _EmptyPointsFrontPanelState extends State<EmptyPointsFrontPanel> {
                                     ]),
                                   )
                                 ]))))))));
+      }
+   return widget ?? Container();
   }
 }

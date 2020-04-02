@@ -31,6 +31,7 @@ class _StepAreaState extends State<StepArea> {
 
 SfCartesianChart getStepAreaChart(bool isTileView) {
   return SfCartesianChart(
+    
     legend: Legend(isVisible: isTileView ? false : true),
     title: ChartTitle(text: isTileView ? '' : 'Temperature variation of Paris'),
     plotAreaBorderWidth: 0,

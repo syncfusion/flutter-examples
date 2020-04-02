@@ -23,13 +23,14 @@ class _DefaultSelectionState extends State<DefaultSelection> {
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(null, sample, SelectionFrontPanel(sample));
+    return getScopedModel(null, sample, CartesianSelectionFrontPanel(sample));
   }
 }
 
 SfCartesianChart getDefaultSelectionChart(bool isTileView,
     [SelectionType _mode, bool enableMultiSelect]) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Age distribution by country'),
     selectionType: _mode,
@@ -81,17 +82,19 @@ List<ColumnSeries<ChartSampleData, String>> getDefaultSelectionSeries(
         name: 'Age 65 & Above')
   ];
 }
-class SelectionFrontPanel extends StatefulWidget {
-  //ignore: prefer_const_constructors_in_immutables
-  SelectionFrontPanel(this.subItemList);
 
-  final SubItem subItemList;
+//ignore: must_be_immutable
+class CartesianSelectionFrontPanel extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
+  CartesianSelectionFrontPanel([this.sample]);
+
+   SubItem sample;
 
   @override
-  _SelectionFrontPanelState createState() => _SelectionFrontPanelState(subItemList);
+  _SelectionFrontPanelState createState() => _SelectionFrontPanelState(sample);
 }
 
-class _SelectionFrontPanelState extends State<SelectionFrontPanel> {
+class _SelectionFrontPanelState extends State<CartesianSelectionFrontPanel> {
   _SelectionFrontPanelState(this.sample);
   final SubItem sample;
   bool enableMultiSelect = false;
@@ -101,7 +104,7 @@ class _SelectionFrontPanelState extends State<SelectionFrontPanel> {
   String _selectedMode = 'point';
 
   SelectionType _mode = SelectionType.point;
-
+Widget sampleWidget(SampleModel model) => getDefaultSelectionChart(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -115,7 +118,9 @@ class _SelectionFrontPanelState extends State<SelectionFrontPanel> {
                     child: getDefaultSelectionChart(
                         false, _mode, enableMultiSelect)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ?
+              null :
+              FloatingActionButton(
                 onPressed: () {
                   _showSettingsPanel(model);
                 },

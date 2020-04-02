@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/custom_button.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart' 
+        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +29,7 @@ class _ColumnSpacingState extends State<ColumnSpacing> {
 }
 
 SfCartesianChart getSpacingColumnChart(bool isTileView,
-    [double columnWidth, double columnSpacing]) {
+    [SampleModel sampleModel, double columnWidth, double columnSpacing]) {
   return SfCartesianChart(
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Winter olympic medals count'),
@@ -39,14 +42,15 @@ SfCartesianChart getSpacingColumnChart(bool isTileView,
         interval: 25,
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0)),
-    series: getDefaultColumn(isTileView, columnWidth, columnSpacing),
+    series: getDefaultColumn(isTileView, columnWidth, columnSpacing, sampleModel),
     legend: Legend(isVisible: isTileView ? false : true),
     tooltipBehavior: TooltipBehavior(enable: true),
   );
 }
 
 List<ColumnSeries<ChartSampleData, String>> getDefaultColumn(bool isTileView,
-    [double columnWidth, double columnSpacing]) {
+    [double columnWidth, double columnSpacing, SampleModel sampleModel]) {
+  final bool isExistModel = sampleModel != null && sampleModel.isWeb;
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x: 'Germany', y: 128, yValue2: 129, yValue3: 101),
     ChartSampleData(x: 'Russia', y: 123, yValue2: 92, yValue3: 93),
@@ -56,8 +60,12 @@ List<ColumnSeries<ChartSampleData, String>> getDefaultColumn(bool isTileView,
   return <ColumnSeries<ChartSampleData, String>>[
     ColumnSeries<ChartSampleData, String>(
         enableTooltip: true,
-        width: isTileView ? 0.8 : columnWidth,
-        spacing: isTileView ? 0.2 : columnSpacing,
+        width: isExistModel
+            ? sampleModel.properties['ColumnWidth']
+            : isTileView ? 0.8 : columnWidth,
+        spacing: isExistModel
+            ? sampleModel.properties['ColumnSpacing']
+            : isTileView ? 0.2 : columnSpacing,
         dataSource: chartData,
         color: const Color.fromRGBO(252, 216, 20, 1),
         xValueMapper: (ChartSampleData sales, _) => sales.x,
@@ -66,8 +74,12 @@ List<ColumnSeries<ChartSampleData, String>> getDefaultColumn(bool isTileView,
     ColumnSeries<ChartSampleData, String>(
         enableTooltip: true,
         dataSource: chartData,
-        width: isTileView ? 0.8 : columnWidth,
-        spacing: isTileView ? 0.2 : columnSpacing,
+        width: isExistModel
+            ? sampleModel.properties['ColumnWidth']
+            : isTileView ? 0.8 : columnWidth,
+        spacing: isExistModel
+            ? sampleModel.properties['ColumnSpacing']
+            : isTileView ? 0.2 : columnSpacing,
         color: const Color.fromRGBO(169, 169, 169, 1),
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
@@ -75,8 +87,12 @@ List<ColumnSeries<ChartSampleData, String>> getDefaultColumn(bool isTileView,
     ColumnSeries<ChartSampleData, String>(
         enableTooltip: true,
         dataSource: chartData,
-        width: isTileView ? 0.8 : columnWidth,
-        spacing: isTileView ? 0.2 : columnSpacing,
+        width: isExistModel
+            ? sampleModel.properties['ColumnWidth']
+            : isTileView ? 0.8 : columnWidth,
+        spacing: isExistModel
+            ? sampleModel.properties['ColumnSpacing']
+            : isTileView ? 0.2 : columnSpacing,
         color: const Color.fromRGBO(205, 127, 50, 1),
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.yValue3,
@@ -87,12 +103,12 @@ List<ColumnSeries<ChartSampleData, String>> getDefaultColumn(bool isTileView,
 //ignore: must_be_immutable
 class ColumnSettingsFrontPanel extends StatefulWidget {
   //ignore:prefer_const_constructors_in_immutables
-  ColumnSettingsFrontPanel(this.subItemList);
-  SubItem subItemList;
+  ColumnSettingsFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _ColumnSettingsFrontPanelState createState() =>
-      _ColumnSettingsFrontPanelState(subItemList);
+      _ColumnSettingsFrontPanelState(sample);
 }
 
 class _ColumnSettingsFrontPanelState extends State<ColumnSettingsFrontPanel> {
@@ -103,6 +119,32 @@ class _ColumnSettingsFrontPanelState extends State<ColumnSettingsFrontPanel> {
   TextEditingController editingController = TextEditingController();
   TextEditingController spacingEditingController = TextEditingController();
 
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) => getSpacingColumnChart(false, model);
+
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    columnWidth = 0.8;
+    columnSpacing = 0.2;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'ColumnWidth': columnWidth,
+        'ColumnSpacing': columnSpacing
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -110,15 +152,23 @@ class _ColumnSettingsFrontPanelState extends State<ColumnSettingsFrontPanel> {
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body: !model.isWeb ?
+              Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
                     child: getSpacingColumnChart(
-                        false, columnWidth, columnSpacing)),
+                        false, null, columnWidth, columnSpacing)),
+              )
+              : 
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Container(
+                    child: getSpacingColumnChart(
+                        false, null, null, null)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ? null : FloatingActionButton(
                 onPressed: () {
-                  _showSettingsPanel(model);
+                  _showSettingsPanel(model, false, context);
                 },
                 child: Icon(Icons.graphic_eq, color: Colors.white),
                 backgroundColor: model.backgroundColor,
@@ -126,167 +176,287 @@ class _ColumnSettingsFrontPanelState extends State<ColumnSettingsFrontPanel> {
         });
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
-    showRoundedModalBottomSheet<dynamic>(
-        dismissOnTap: false,
-        context: context,
-        radius: 12.0,
-        color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
-            rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleModel model) => Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Container(
-                  height: 170,
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * height,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: 40,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text('Settings',
-                                        style: TextStyle(
-                                            color: model.textColor,
-                                            fontSize: 18,
-                                            letterSpacing: 0.34,
-                                            fontWeight: FontWeight.w500)),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: model.textColor,
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: ListView(
+          children: <Widget>[
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                 const Text(
+                    'Properties',
+                    style: TextStyle(fontFamily: 'Roboto-Medium', fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  HandCursor(child: 
+                  IconButton(
+                    icon: Icon(Icons.close, color: model.webIconColor),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ))
+                ]),
+            Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text('Width  ',
+                      style: TextStyle(fontSize: 14.0, color: model.textColor)),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                      child: CustomButton(
+                        minValue: 0,
+                        maxValue: 0.9,
+                        initialValue: model.properties['ColumnWidth'],
+                        onChanged: (dynamic val) {
+                          columnWidth = val;
+                          model.properties['ColumnWidth'] = columnWidth = val;
+                          if (model.isWeb)
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          else
+                            setState(() {});
+                        },
+                        step: 0.1,
+                        horizontal: true,
+                        loop: true,
+                        padding: 0,
+                        iconUp: Icons.keyboard_arrow_up,
+                        iconDown: Icons.keyboard_arrow_down,
+                        iconLeft: Icons.keyboard_arrow_left,
+                        iconRight: Icons.keyboard_arrow_right,
+                        iconUpRightColor: model.textColor,
+                        iconDownLeftColor: model.textColor,
+                        style:
+                            TextStyle(fontSize: 16.0, color: model.textColor),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    child: Text('Spacing  ',
+                        style:
+                            TextStyle(fontSize: 14.0, color: model.textColor)),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                      child: CustomButton(
+                        minValue: 0,
+                        maxValue: 1,
+                        initialValue: model.properties['ColumnSpacing'],
+                        onChanged: (dynamic val) {
+                          columnSpacing = val;
+                          model.properties['ColumnSpacing'] =
+                              columnSpacing = val;
+                          if (model.isWeb)
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          else
+                            setState(() {});
+                        },
+                        step: 0.1,
+                        horizontal: true,
+                        loop: true,
+                        padding: 5.0,
+                        iconUp: Icons.keyboard_arrow_up,
+                        iconDown: Icons.keyboard_arrow_down,
+                        iconLeft: Icons.keyboard_arrow_left,
+                        iconRight: Icons.keyboard_arrow_right,
+                        iconUpRightColor: model.textColor,
+                        iconDownLeftColor: model.textColor,
+                        style:
+                            TextStyle(fontSize: 16.0, color: model.textColor),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      showRoundedModalBottomSheet<dynamic>(
+          dismissOnTap: false,
+          context: context,
+          radius: 12.0,
+          color: model.bottomSheetBackgroundColor,
+          builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
+              rebuildOnChange: false,
+              builder: (BuildContext context, _, SampleModel model) => Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Container(
+                    height: 170,
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * height,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                            child: Stack(
+                              children: <Widget>[
+                                Container(
+                                  height: 40,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text('Settings',
+                                          style: TextStyle(
+                                              color: model.textColor,
+                                              fontSize: 18,
+                                              letterSpacing: 0.34,
+                                              fontWeight: FontWeight.w500)),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: model.textColor,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
                                       ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 50, 0, 0),
-                                child: ListView(
-                                  children: <Widget>[
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text('Width  ',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  color: model.textColor)),
-                                          Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      40, 0, 0, 0),
-                                              child: CustomButton(
-                                                minValue: 0,
-                                                maxValue: 0.9,
-                                                initialValue: columnWidth,
-                                                onChanged: (dynamic val) =>
-                                                    setState(() {
-                                                  columnWidth = val;
-                                                }),
-                                                step: 0.1,
-                                                horizontal: true,
-                                                loop: true,
-                                                padding: 0,
-                                                iconUp: Icons.keyboard_arrow_up,
-                                                iconDown:
-                                                    Icons.keyboard_arrow_down,
-                                                iconLeft:
-                                                    Icons.keyboard_arrow_left,
-                                                iconRight:
-                                                    Icons.keyboard_arrow_right,
-                                                iconUpRightColor:
-                                                    model.textColor,
-                                                iconDownLeftColor:
-                                                    model.textColor,
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: model.textColor),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 15, 0, 0),
-                                            child: Text('Spacing  ',
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                                  child: ListView(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text('Width  ',
                                                 style: TextStyle(
                                                     fontSize: 16.0,
                                                     color: model.textColor)),
-                                          ),
-                                          Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      25, 0, 0, 0),
-                                              child: CustomButton(
-                                                minValue: 0,
-                                                maxValue: 1,
-                                                initialValue: columnSpacing,
-                                                onChanged: (dynamic val) =>
-                                                    setState(() {
-                                                  columnSpacing = val;
-                                                }),
-                                                step: 0.1,
-                                                horizontal: true,
-                                                loop: true,
-                                                padding: 5.0,
-                                                iconUp: Icons.keyboard_arrow_up,
-                                                iconDown:
-                                                    Icons.keyboard_arrow_down,
-                                                iconLeft:
-                                                    Icons.keyboard_arrow_left,
-                                                iconRight:
-                                                    Icons.keyboard_arrow_right,
-                                                iconUpRightColor:
-                                                    model.textColor,
-                                                iconDownLeftColor:
-                                                    model.textColor,
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: model.textColor),
+                                            Container(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        40, 0, 0, 0),
+                                                child: CustomButton(
+                                                  minValue: 0,
+                                                  maxValue: 0.9,
+                                                  initialValue: columnWidth,
+                                                  onChanged: (dynamic val) =>
+                                                      setState(() {
+                                                    columnWidth = val;
+                                                  }),
+                                                  step: 0.1,
+                                                  horizontal: true,
+                                                  loop: true,
+                                                  padding: 0,
+                                                  iconUp:
+                                                      Icons.keyboard_arrow_up,
+                                                  iconDown:
+                                                      Icons.keyboard_arrow_down,
+                                                  iconLeft:
+                                                      Icons.keyboard_arrow_left,
+                                                  iconRight: Icons
+                                                      .keyboard_arrow_right,
+                                                  iconUpRightColor:
+                                                      model.textColor,
+                                                  iconDownLeftColor:
+                                                      model.textColor,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: model.textColor),
+                                                ),
                                               ),
                                             ),
-                                          )
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                      Container(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      0, 15, 0, 0),
+                                              child: Text('Spacing  ',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      color: model.textColor)),
+                                            ),
+                                            Container(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        25, 0, 0, 0),
+                                                child: CustomButton(
+                                                  minValue: 0,
+                                                  maxValue: 1,
+                                                  initialValue: columnSpacing,
+                                                  onChanged: (dynamic val) =>
+                                                      setState(() {
+                                                    columnSpacing = val;
+                                                  }),
+                                                  step: 0.1,
+                                                  horizontal: true,
+                                                  loop: true,
+                                                  padding: 5.0,
+                                                  iconUp:
+                                                      Icons.keyboard_arrow_up,
+                                                  iconDown:
+                                                      Icons.keyboard_arrow_down,
+                                                  iconLeft:
+                                                      Icons.keyboard_arrow_left,
+                                                  iconRight: Icons
+                                                      .keyboard_arrow_right,
+                                                  iconUpRightColor:
+                                                      model.textColor,
+                                                  iconDownLeftColor:
+                                                      model.textColor,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: model.textColor),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      )),
-                ))));
+                        )),
+                  ))));
+    }
+    return widget;
   }
 }

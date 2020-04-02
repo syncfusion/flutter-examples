@@ -28,6 +28,7 @@ class _BarRoundedState extends State<BarRounded> {
 
 SfCartesianChart getRoundedBarChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Population growth rate of countries'),

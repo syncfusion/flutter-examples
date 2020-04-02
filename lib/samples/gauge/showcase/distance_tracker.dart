@@ -29,11 +29,11 @@ class _DistanceTrackerExampleState extends State<DistanceTrackerExample> {
 
 class DistanceTrackerExampleFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  DistanceTrackerExampleFrontPanel(this.sampleList);
-  final SubItem sampleList;
+  DistanceTrackerExampleFrontPanel(this.sample);
+  final SubItem sample;
 
   @override
-  _DistanceTrackerExampleFrontPanelState createState() => _DistanceTrackerExampleFrontPanelState(sampleList);
+  _DistanceTrackerExampleFrontPanelState createState() => _DistanceTrackerExampleFrontPanelState(sample);
 }
 
 class _DistanceTrackerExampleFrontPanelState extends State<DistanceTrackerExampleFrontPanel> {
@@ -69,6 +69,7 @@ class _DistanceTrackerExampleFrontPanelState extends State<DistanceTrackerExampl
 
 SfRadialGauge getDistanceTrackerExample(bool isTileView, [bool isIndexed]) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     enableLoadingAnimation: true,
     axes: <RadialAxis>[
 

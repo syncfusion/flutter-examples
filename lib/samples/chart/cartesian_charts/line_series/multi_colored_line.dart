@@ -27,6 +27,7 @@ class _LineMultiColorState extends State<LineMultiColor> {
 
 SfCartesianChart getMultiColorLineChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Annual rainfall of Paris'),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(

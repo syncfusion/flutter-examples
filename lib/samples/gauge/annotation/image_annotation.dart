@@ -27,10 +27,11 @@ class _RadialImageAnnotationState extends State<RadialImageAnnotation> {
 
 SfRadialGauge getRadialImageAnnotation(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           interval: 10,
-          radiusFactor: 0.95,
+          radiusFactor: kIsWeb ? 0.8 : 0.95,
           startAngle: 0,
           endAngle: 360,
           showTicks: false,

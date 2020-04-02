@@ -27,6 +27,7 @@ ZoomPanBehavior zoomingPanBehavior;
 
 SfCartesianChart getDefaultZoomingChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     legend: Legend(isVisible: isTileView ? false : true, opacity: 0.8),
     title: ChartTitle(text: isTileView ? '' : 'Heigth vs Weight'),
@@ -370,19 +371,20 @@ final List<ChartSampleData> zoomData1 = <ChartSampleData>[
   ChartSampleData(x:180, y:68)
 ];
 
+//ignore: must_be_immutable
 class SelectionZoomingFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  SelectionZoomingFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  SelectionZoomingFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
-  _SelectionZoomingFrontPanelState createState() => _SelectionZoomingFrontPanelState(subItemList);
+  _SelectionZoomingFrontPanelState createState() => _SelectionZoomingFrontPanelState(sample);
 }
 
 class _SelectionZoomingFrontPanelState extends State<SelectionZoomingFrontPanel> {
   _SelectionZoomingFrontPanelState(this.sample);
   final SubItem sample;
-
+Widget sampleWidget(SampleModel model) => getDefaultZoomingChart(false);
   @override
   Widget build(BuildContext context) {
     zoomingPanBehavior =
@@ -396,7 +398,9 @@ class _SelectionZoomingFrontPanelState extends State<SelectionZoomingFrontPanel>
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(child: getDefaultZoomingChart(false)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ?
+              null :
+              FloatingActionButton(
                 onPressed: () => setState(() {
                       zoomingPanBehavior.reset();
                     }),

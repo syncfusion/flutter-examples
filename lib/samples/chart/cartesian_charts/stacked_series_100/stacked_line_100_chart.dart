@@ -26,12 +26,13 @@ class _StackedLineChartState extends State<StackedLine100Chart> {
 
 SfCartesianChart getStackedLine100Chart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Monthly expense of a family'),
     legend: Legend(isVisible: !isTileView),
     primaryXAxis: CategoryAxis(
       majorGridLines: MajorGridLines(width: 0),
-      labelRotation: isTileView ? 0 : 45,
+      labelRotation: isTileView ? 0 : -45,
     ),
     primaryYAxis: NumericAxis(
         rangePadding: ChartRangePadding.none,

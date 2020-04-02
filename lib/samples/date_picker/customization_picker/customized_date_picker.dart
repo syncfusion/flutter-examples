@@ -25,6 +25,8 @@ class _CustomizedDatePickerState extends State<CustomizedDatePicker> {
   List<DateTime> _blackoutDates;
   List<DateTime> _specialDates;
 
+  Widget sampleWidget(SampleModel model) => CustomizedDatePicker();
+
   @override
   void initState() {
     panelOpen = frontPanelVisible.value;
@@ -85,19 +87,21 @@ class _CustomizedDatePickerState extends State<CustomizedDatePicker> {
                 flex: 8,
                 child: Card(
                   elevation: 10,
-                  margin: const EdgeInsets.all(30),
-                  child: Padding(
+                  margin: model.isWeb
+                      ? const EdgeInsets.fromLTRB(30, 30, 30, 0)
+                      : const EdgeInsets.all(30),
+                  child: Container(
                     padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-                    child: Container(
-                        child: getCustomizedDatePicker(
-                            _blackoutDates, _specialDates, model.themeData)),
+                    color: model.cardThemeColor,
+                    child: getCustomizedDatePicker(
+                        _blackoutDates, _specialDates, model.themeData),
                   ),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  padding: EdgeInsets.fromLTRB(30, model.isWeb ? 10 : 0, 30, 0),
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -145,7 +149,11 @@ class _CustomizedDatePickerState extends State<CustomizedDatePicker> {
                                   children: <Widget>[
                                     Icon(
                                       Icons.brightness_1,
-                                      color: const Color(0xFFDFDFDF),
+                                      color: model.themeData == null ||
+                                              model.themeData.brightness ==
+                                                  Brightness.light
+                                          ? const Color(0xFFDFDFDF)
+                                          : const Color(0xFF6F6F6F),
                                       size: 10,
                                     ),
                                     const Padding(
@@ -168,11 +176,16 @@ class _CustomizedDatePickerState extends State<CustomizedDatePicker> {
             ],
           );
           return Scaffold(
-            backgroundColor: model.cardThemeColor,
+            backgroundColor: model.themeData == null ||
+                    model.themeData.brightness == Brightness.light
+                ? null
+                : Colors.black,
             body: kIsWeb
                 ? Center(
-                    child:
-                        Container(width: 500, height: 500, child: _datePicker))
+                    child: Container(
+                        width: 400,
+                        height: 700,
+                        child: _datePicker))
                 : _datePicker,
           );
         });
