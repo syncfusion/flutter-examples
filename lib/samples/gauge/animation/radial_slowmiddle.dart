@@ -1,6 +1,6 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/foundation.dart';
 import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
@@ -26,8 +26,10 @@ class _RadialSlowMiddleAnimationState extends State<RadialSlowMiddleAnimation> {
 
 SfRadialGauge getRadialSlowMiddleAnimation(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
+        radiusFactor: kIsWeb? 0.85 : 0.95,
           startAngle: 270,
           endAngle: 270,
           showAxisLine: false,

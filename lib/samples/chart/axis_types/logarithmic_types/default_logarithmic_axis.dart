@@ -27,6 +27,7 @@ class _LogarithmicAxisDefaultState extends State<LogarithmicAxisDefault> {
 
 SfCartesianChart getDefaultLogarithmicAxisChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 1,
     title:
         ChartTitle(text: isTileView ? '' : 'Growth of a product [1995-2005]'),

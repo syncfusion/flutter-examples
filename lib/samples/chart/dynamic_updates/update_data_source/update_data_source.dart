@@ -55,6 +55,7 @@ class _LiveVerticalState extends State<UpdateDataSource> {
 SfCartesianChart getUpdateDataSourceChart(bool isTileView,
     [List<ChartSampleData> chartData]) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(
         minimum: 0, interval: 1, majorGridLines: MajorGridLines(width: 0)),
@@ -77,19 +78,22 @@ List<ColumnSeries<ChartSampleData, num>> getUpdateDataSourceSeries() {
   ];
 }
 
+//ignore: must_be_immutable
 class UpdateDataFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  UpdateDataFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  UpdateDataFrontPanel([this.sample]);
+  SubItem sample;
   
   @override
-  _UpdateDataFrontPanelState createState() => _UpdateDataFrontPanelState(subItemList);
+  _UpdateDataFrontPanelState createState() => _UpdateDataFrontPanelState(sample);
 }
 
 class _UpdateDataFrontPanelState extends State<UpdateDataFrontPanel> {
   _UpdateDataFrontPanelState(this.sample);
   final SubItem sample;
   final Random random = Random();
+  
+  Widget sampleWidget(SampleModel model) => getUpdateDataSourceChart(false);
   num getRandomInt(num min, num max) {
     return min + random.nextInt(max - min);
   }

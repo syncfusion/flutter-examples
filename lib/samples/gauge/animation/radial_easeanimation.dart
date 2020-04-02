@@ -1,7 +1,6 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
@@ -26,13 +25,14 @@ class _RadialEaseExampleState extends State<RadialEaseExample> {
 
 SfRadialGauge getRadialEaseExample(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ?UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           startAngle: 0,
           endAngle: 360,
           showLabels: false,
           showTicks: false,
-          radiusFactor: 0.9,
+          radiusFactor:  kIsWeb ? 0.8 : 0.9,
           axisLineStyle: AxisLineStyle(
               thicknessUnit: GaugeSizeUnit.factor,
               thickness: isTileView ? 0.07 : 0.1)),
@@ -42,7 +42,7 @@ SfRadialGauge getRadialEaseExample(bool isTileView) {
           showTicks: false,
           labelFormat: '{value}M',
           showAxisLine: false,
-          radiusFactor: 0.9,
+          radiusFactor:  kIsWeb ? 0.8 : 0.9,
           minimum: 0,
           maximum: 15,
           showLastLabel: false,

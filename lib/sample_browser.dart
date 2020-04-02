@@ -14,18 +14,29 @@ import 'package:flutter/material.dart';
 import 'model/helper.dart';
 import 'model/model.dart';
 
+//ignore: must_be_immutable
 class SampleBrowser extends StatelessWidget {
+  ThemeData systemTheme;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Chart Flutter',
-      home: HomePage(),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
+      home: Builder(builder: (BuildContext context){
+              systemTheme = Theme.of(context);
+              return HomePage(sampleBrowser: this);
+      })
     );
   }
 }
 
+//ignore: must_be_immutable
 class HomePage extends StatefulWidget {
+  HomePage({this.sampleBrowser});
+  SampleBrowser sampleBrowser;
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -34,6 +45,7 @@ class _HomePageState extends State<HomePage> {
   bool isSelected = true;
   Color lightThemeSelected;
   Color darkThemeSelected;
+  Color systemThemeSelected;
   List<Color> defaultBorderColor;
   SampleModel sampleListModel;
   List<Widget> colorPaletteWidgets;
@@ -45,15 +57,18 @@ class _HomePageState extends State<HomePage> {
   Color _currentBackgroundColor = const Color.fromRGBO(0, 116, 228, 1);
   Color _currentListIconColor;
   Color _currentPaletteColor;
-  bool _lightThemeSelected = true;
+  bool _lightThemeSelected;
+  bool _systemThemeSelected = true;
   double _orientationPadding;
 
   @override
   void initState() {
-    _currentThemeData = ThemeData.light();
+    _currentThemeData = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? ThemeData.light(): ThemeData.dark();
     sampleListModel = SampleModel();
-    lightThemeSelected = sampleListModel.backgroundColor;
-    darkThemeSelected = const Color.fromRGBO(247, 245, 245, 1);
+    _lightThemeSelected = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? true : false;
+    sampleListModel.changeTheme(widget.sampleBrowser.systemTheme);
+    systemThemeSelected = sampleListModel.backgroundColor;
+    lightThemeSelected = darkThemeSelected = widget.sampleBrowser.systemTheme.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1): const Color.fromRGBO(79, 85, 102, 1);
     defaultBorderColor = <Color>[];
     _addColors();
     _init();
@@ -80,7 +95,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     sampleListModel.isWeb = kIsWeb;
-    _orientationPadding = ((MediaQuery.of(context).size.width) / 100) * 20;
+    _orientationPadding = ((MediaQuery.of(context).size.width) / 100) * 10;
     final dynamic smallestDimension = MediaQuery.of(context).size.shortestSide;
     final bool useMobileLayout = smallestDimension < 600;
     sampleListModel.isTargetMobile = useMobileLayout;
@@ -89,6 +104,7 @@ class _HomePageState extends State<HomePage> {
         child: ScopedModelDescendant<SampleModel>(
           rebuildOnChange: true,
           builder: (BuildContext context, _, SampleModel model) => MaterialApp(
+            title: 'Chart Flutter',
             debugShowCheckedModeBanner: false,
             home: SafeArea(
               child: Scaffold(
@@ -491,37 +507,63 @@ class _HomePageState extends State<HomePage> {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceBetween,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
                                                     children: <Widget>[
                                                       Expanded(
-                                                        child: RaisedButton(
-                                                            color:
-                                                                lightThemeSelected,
-                                                            onPressed: () =>
-                                                                _toggleLightTheme(
-                                                                    model),
-                                                            child: Text(
-                                                              'Light theme',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                  fontFamily:
-                                                                      'HeeboMedium'),
-                                                            )),
-                                                      ),
-                                                      Expanded(
-                                                        child: RaisedButton(
-                                                            color:
-                                                                darkThemeSelected,
-                                                            onPressed: () =>
-                                                                _toggleDarkTheme(
-                                                                    model),
-                                                            child: Text(
-                                                                'Dark theme',
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                                          child: RaisedButton(
+                                                              color:
+                                                                  systemThemeSelected,
+                                                              onPressed: () =>
+                                                                  _toggleSystemTheme(
+                                                                      model),
+                                                              child: Text(
+                                                                'System theme',
                                                                 style: TextStyle(
                                                                     color:
-                                                                        darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
+                                                                        systemThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
                                                                     fontFamily:
-                                                                        'HeeboMedium'))),
+                                                                        'HeeboMedium'),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                                          child: RaisedButton(
+                                                              color:
+                                                                  lightThemeSelected,
+                                                              onPressed: () =>
+                                                                  _toggleLightTheme(
+                                                                      model),
+                                                              child: Text(
+                                                                'Light theme',
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
+                                                                    fontFamily:
+                                                                        'HeeboMedium'),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.all(0.0),
+                                                          child: RaisedButton(
+                                                              color:
+                                                                  darkThemeSelected,
+                                                              onPressed: () =>
+                                                                  _toggleDarkTheme(
+                                                                      model),
+                                                              child: Text(
+                                                                  'Dark theme',
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                          darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
+                                                                      fontFamily:
+                                                                          'HeeboMedium'))),
+                                                        ),
                                                       )
                                                     ],
                                                   ),
@@ -534,6 +576,7 @@ class _HomePageState extends State<HomePage> {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceBetween,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
                                                     children: <Widget>[
                                                       Expanded(
                                                         child: Padding(
@@ -544,6 +587,31 @@ class _HomePageState extends State<HomePage> {
                                                                       : _orientationPadding,
                                                                   0,
                                                                   0,
+                                                                  0),
+                                                          child: RaisedButton(
+                                                              elevation: 0,
+                                                              color:
+                                                                  systemThemeSelected,
+                                                              onPressed: () =>
+                                                                  _toggleSystemTheme(
+                                                                      model),
+                                                              child: Text(
+                                                                'System theme',
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        systemThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
+                                                                    fontFamily:
+                                                                        'HeeboMedium'),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(
+                                                                  _orientationPadding/2,
+                                                                  0,
+                                                                  _orientationPadding/2,
                                                                   0),
                                                           child: RaisedButton(
                                                               elevation: 0,
@@ -694,16 +762,19 @@ class _HomePageState extends State<HomePage> {
 
   void _applySetting(SampleModel model) {
     model.backgroundColor = _currentBackgroundColor;
-    if (_lightThemeSelected) {
-      lightThemeSelected = model.backgroundColor;
-      darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(79, 85, 102, 1) :const Color.fromRGBO(247, 245, 245, 1);
-    } else {
-      darkThemeSelected = model.backgroundColor;
-      lightThemeSelected = model.themeData.brightness == Brightness.light ?   const Color.fromRGBO(79, 85, 102, 1) : const Color.fromRGBO(247, 245, 245, 1) ;
-    }
     model.listIconColor = _currentListIconColor;
     model.paletteColor = _currentPaletteColor;
     model.changeTheme(_currentThemeData);
+    if (_systemThemeSelected) {
+      systemThemeSelected = model.backgroundColor;
+      lightThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
+    } else if (_lightThemeSelected) {
+      lightThemeSelected = model.backgroundColor;
+      systemThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
+    } else {
+      darkThemeSelected = model.backgroundColor;
+      systemThemeSelected = lightThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
+    }
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
     Navigator.pop(context);
@@ -711,8 +782,9 @@ class _HomePageState extends State<HomePage> {
 
   void _toggleLightTheme(SampleModel model) {
     _lightThemeSelected = true;
+    _systemThemeSelected = false;
     lightThemeSelected = model.backgroundColor;
-    darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1): const Color.fromRGBO(79, 85, 102, 1);
+    systemThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
     _currentThemeData = ThemeData.light();
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
@@ -720,9 +792,20 @@ class _HomePageState extends State<HomePage> {
 
   void _toggleDarkTheme(SampleModel model) {
     _lightThemeSelected = false;
+    _systemThemeSelected = false;
     darkThemeSelected = model.backgroundColor;
-    lightThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
+    systemThemeSelected = lightThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
     _currentThemeData = ThemeData.dark();
+    // ignore: invalid_use_of_protected_member
+    model.notifyListeners();
+  }
+
+  void _toggleSystemTheme(SampleModel model) {
+    _systemThemeSelected = true;
+    _lightThemeSelected = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? true : false;
+    systemThemeSelected = model.backgroundColor;
+    lightThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1): const Color.fromRGBO(79, 85, 102, 1);
+    _currentThemeData = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? ThemeData.light() : ThemeData.dark();
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
   }
@@ -1168,7 +1251,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                       Align(
                           alignment: Alignment.bottomCenter,
-                          child: Text('Version 18.1.36',
+                          child: Text('Version 18.1.42',
                               style: TextStyle(
                                   color: _model.drawerTextIconColor,
                                   fontSize: 12,

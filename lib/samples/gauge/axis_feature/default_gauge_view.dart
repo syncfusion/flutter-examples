@@ -1,6 +1,6 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
@@ -37,7 +37,7 @@ SfRadialGauge getDefaultRadialGauge(bool isTileView) {
             fontSize: isTileView ? 12 : 14,
           ),
           labelOffset: 25,
-          radiusFactor: 0.95,
+          radiusFactor: kIsWeb ? 0.8 : 0.95,
           pointers: <GaugePointer>[
             NeedlePointer(
                 needleLength: 0.7,

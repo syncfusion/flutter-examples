@@ -25,6 +25,7 @@ class _LineDefaultState extends State<LineDefault> {
 
 SfCartesianChart getDefaultLineChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Inflation - Consumer price'),
     legend: Legend(

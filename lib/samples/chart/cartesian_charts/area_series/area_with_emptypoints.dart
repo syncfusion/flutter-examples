@@ -26,6 +26,7 @@ class _AreaEmptyState extends State<AreaEmpty> {
 
 SfCartesianChart getEmptyPointAreaChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Inflation rate of US'),
     primaryXAxis: NumericAxis(

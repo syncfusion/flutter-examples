@@ -63,14 +63,15 @@ FunnelSeries<ChartSampleData, String> _getFunnelSeries(bool isTileView,
           useSeriesColor: true));
 }
 
+//ignore: must_be_immutable
 class FunnelSmartLabelFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  FunnelSmartLabelFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  FunnelSmartLabelFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _FunnelSmartLabelFrontPanelState createState() =>
-      _FunnelSmartLabelFrontPanelState(subItemList);
+      _FunnelSmartLabelFrontPanelState(sample);
 }
 
 class _FunnelSmartLabelFrontPanelState
@@ -86,6 +87,7 @@ class _FunnelSmartLabelFrontPanelState
   String _smartLabelMode = 'shift';
   SmartLabelMode _mode = SmartLabelMode.shift;
 
+  Widget sampleWidget(SampleModel model) => getFunnelSmartLabelChart(false);
   @override
   void initState() {
     super.initState();
@@ -106,7 +108,8 @@ class _FunnelSmartLabelFrontPanelState
                     child: getFunnelSmartLabelChart(
                         false, _selectedLabelPosition, _mode)),
               ),
-              floatingActionButton: Stack(children: <Widget>[
+              floatingActionButton: model.isWeb ? null :
+              Stack(children: <Widget>[
                 Align(
                   alignment: Alignment.bottomRight,
                   child: FloatingActionButton(

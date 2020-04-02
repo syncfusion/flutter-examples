@@ -28,6 +28,7 @@ class _MarkerDefaultState extends State<MarkerDefault> {
 
 SfCartesianChart getMarkerDefaultChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Vehicles crossed tollgate'),
     legend: Legend(isVisible: isTileView ? false : true),
     plotAreaBorderWidth: 0,

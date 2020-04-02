@@ -51,7 +51,7 @@ SfRadialGauge getRadialTickCustomization(bool isTileView) {
               dashArray: kIsWeb ? null : <double>[2, 1]),
           pointers: <GaugePointer>[
             NeedlePointer(
-                enableAnimation: true,
+                enableAnimation: kIsWeb? false : true,
                 animationType: AnimationType.ease,
                 animationDuration: 1300,
                 value: 75,

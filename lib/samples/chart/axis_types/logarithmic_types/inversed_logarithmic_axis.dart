@@ -30,6 +30,7 @@ class _LogarithmicAxisInversedState extends State<LogarithmicAxisInversed> {
 SfCartesianChart getInversedLogarithmicAxisChart(bool isTileView) {
   dynamic text;
   return SfCartesianChart(
+    
     onTooltipRender: (TooltipArgs args) {
       final NumberFormat format = NumberFormat.decimalPattern();
       text = format.format(args.dataPoints[args.pointIndex].y).toString();
@@ -47,7 +48,7 @@ SfCartesianChart getInversedLogarithmicAxisChart(bool isTileView) {
       labelIntersectAction: isTileView
           ? AxisLabelIntersectAction.hide
           : AxisLabelIntersectAction.none,
-      labelRotation: isTileView ? 0 : 45,
+      labelRotation: isTileView ? 0 : -45,
     ),
     primaryYAxis: LogarithmicAxis(
       minorTicksPerInterval: 5,

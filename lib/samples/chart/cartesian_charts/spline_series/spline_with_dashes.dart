@@ -29,6 +29,7 @@ class _SplineDashedState extends State<SplineDashed> {
 
 SfCartesianChart getDashedSplineChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Total investment (% of GDP)'),
     legend: Legend(isVisible: isTileView ? false : true),

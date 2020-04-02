@@ -27,13 +27,14 @@ class _RadialNonLinearLabelState extends State<RadialNonLinearLabel> {
 
 SfRadialGauge getRadialNonLinearLabel(bool isTileView) {
   return SfRadialGauge(enableLoadingAnimation : true,
+    key: kIsWeb ? UniqueKey() : null,
     animationDuration: 2500,
     axes: <RadialAxis>[
       CustomAxis(
           labelOffset: 15,
           axisLineStyle: AxisLineStyle(
               thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
-          radiusFactor: 0.9,
+          radiusFactor:  kIsWeb ? 0.8 : 0.9,
           minimum: 0,
           showTicks: false,
           maximum: 150,
@@ -72,7 +73,7 @@ SfRadialGauge getRadialNonLinearLabel(bool isTileView) {
   );
 }
 
-Color _pointerColor = const Color(0xFF494CA2);
+ Color _pointerColor = const Color(0xFF494CA2);
 
 class CustomAxis extends RadialAxis {
   CustomAxis({

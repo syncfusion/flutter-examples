@@ -32,7 +32,7 @@ SfRadialGauge getRadialTextAnnotation(bool isTileView) {
         showLabels: false,
         startAngle: 180,
         endAngle: 180,
-        radiusFactor: 0.9,
+        radiusFactor:  kIsWeb ? 0.8 : 0.9,
         axisLineStyle: AxisLineStyle(
             thickness: 30, dashArray: kIsWeb ? null : <double>[8, 10]
         ),
@@ -41,7 +41,7 @@ SfRadialGauge getRadialTextAnnotation(bool isTileView) {
           showLabels: false,
           startAngle: 180,
           endAngle: 50,
-          radiusFactor: 0.9,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
           annotations: <GaugeAnnotation>[GaugeAnnotation(
               angle: 270, positionFactor: 0, verticalAlignment: GaugeAlignment.far,
 

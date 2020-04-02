@@ -446,13 +446,14 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
+//ignore: must_be_immutable
 class TmaIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  TmaIndicatorFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  TmaIndicatorFrontPanel([this.sample]);
+  SubItem sample;
   @override
   _TmaIndicatorFrontPanelState createState() =>
-      _TmaIndicatorFrontPanelState(subItemList);
+      _TmaIndicatorFrontPanelState(sample);
 }
 
 class _TmaIndicatorFrontPanelState
@@ -460,7 +461,7 @@ class _TmaIndicatorFrontPanelState
   _TmaIndicatorFrontPanelState(this.sample);
   final SubItem sample;
   double _period = 14.0;
-
+Widget sampleWidget(SampleModel model) => getDefaulTMAIndicator(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -473,7 +474,9 @@ class _TmaIndicatorFrontPanelState
             child: getDefaulTMAIndicator(
                 false,_period.toInt()),
           ),
-          floatingActionButton: Stack(
+          floatingActionButton: model.isWeb ?
+          null :
+          Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,

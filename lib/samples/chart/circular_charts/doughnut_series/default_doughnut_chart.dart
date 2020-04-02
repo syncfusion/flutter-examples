@@ -28,6 +28,7 @@ class _DoughnutDefaultState extends State<DoughnutDefault> {
 
 SfCircularChart getDefaultDoughnutChart(bool isTileView) {
   return SfCircularChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Composition of ocean water'),
     legend: Legend(
         isVisible: isTileView ? false : true,

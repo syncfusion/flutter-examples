@@ -24,6 +24,7 @@ class _DataLabelDefaultState extends State<DataLabelDefault> {
 
 SfCartesianChart getDataLabelDefaultChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Gross investments'),
     plotAreaBorderWidth: 0,
     legend: Legend(isVisible: isTileView ? false : true),

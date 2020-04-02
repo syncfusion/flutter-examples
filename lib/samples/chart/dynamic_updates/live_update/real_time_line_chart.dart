@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'package:flutter/foundation.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _LiveLineChartState extends State<LiveLineChart> {
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(null, sample, FrontPanel(sample));
+    return getScopedModel(null, sample, RealTimeLineFrontPanel(sample));
   }
 }
 
@@ -83,20 +84,22 @@ SfCartesianChart getLiveLineChart(bool isTileView,
       ]);
 }
 
-
-class FrontPanel extends StatefulWidget {
+//ignore: must_be_immutable
+class RealTimeLineFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  FrontPanel(this.subItemList);
-  final SubItem subItemList;
+  RealTimeLineFrontPanel([this.sample]);
+   SubItem sample;
 
   @override
-  _FrontPanelState createState() => _FrontPanelState(subItemList);
+  _RealTimeLineFrontPanelState createState() => _RealTimeLineFrontPanelState(sample);
 }
 
-class _FrontPanelState extends State<FrontPanel> {
-  _FrontPanelState(this.sample) {
+class _RealTimeLineFrontPanelState extends State<RealTimeLineFrontPanel> {
+  _RealTimeLineFrontPanelState(this.sample) {
     timer = Timer.periodic(const Duration(milliseconds: 100), updateDataSource);
   }
+  
+  Widget sampleWidget(SampleModel model) => !kIsWeb ? getLiveLineChart(false) : getLiveLineChart(true);
   Timer timer;
   List<_ChartData> chartData = <_ChartData>[
     _ChartData(0, 42),

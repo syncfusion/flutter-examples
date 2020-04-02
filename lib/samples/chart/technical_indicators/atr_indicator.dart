@@ -463,13 +463,14 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
+//ignore: must_be_immutable
 class AtrIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  AtrIndicatorFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  AtrIndicatorFrontPanel([this.sample]);
+  SubItem sample;
   @override
   _AtrIndicatorFrontPanelState createState() =>
-      _AtrIndicatorFrontPanelState(subItemList);
+      _AtrIndicatorFrontPanelState(sample);
 }
 
 class _AtrIndicatorFrontPanelState
@@ -477,7 +478,7 @@ class _AtrIndicatorFrontPanelState
   _AtrIndicatorFrontPanelState(this.sample);
   final SubItem sample;
   double _period = 14.0;
-
+Widget sampleWidget(SampleModel model) => getDefaultATRIndicator(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -490,7 +491,9 @@ class _AtrIndicatorFrontPanelState
             child: getDefaultATRIndicator(
                 false,_period.toInt()),
           ),
-          floatingActionButton: Stack(
+          floatingActionButton: model.isWeb ?
+              null :
+          Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,

@@ -26,6 +26,7 @@ class _StackedAreaChartState extends State<StackedAreaChart> {
 
 SfCartesianChart getStackedAreaChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Sales comparision of fruits in a shop'),

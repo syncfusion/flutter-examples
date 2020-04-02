@@ -27,6 +27,7 @@ class _AnnotationDefaultState extends State<AnnotationDefault> {
 SfCartesianChart getDefaultAnnotationChart(bool isTileView,
     [Brightness currentTheme]) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView

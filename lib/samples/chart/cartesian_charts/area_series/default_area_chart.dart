@@ -27,6 +27,7 @@ class _AreaDefaultState extends State<AreaDefault> {
 
 SfCartesianChart getDefaultAreaChart(bool isTileView) {
   return SfCartesianChart(
+    
     legend: Legend(isVisible: isTileView ? false : true, opacity: 0.7),
     title: ChartTitle(text: isTileView ? '' : 'Average sales comparison'),
     plotAreaBorderWidth: 0,

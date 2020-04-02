@@ -28,6 +28,7 @@ class _SplineDefaultState extends State<SplineDefault> {
 
 SfCartesianChart getDefaultSplineChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Average high/low temperature of London'),

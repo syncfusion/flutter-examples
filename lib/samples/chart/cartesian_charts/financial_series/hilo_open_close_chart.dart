@@ -28,6 +28,7 @@ class _HiloOpenCloseChartState extends State<HiloOpenCloseChart> {
 
 SfCartesianChart getHiloOpenClose(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'AAPL - 2016'),
     primaryXAxis: DateTimeAxis(

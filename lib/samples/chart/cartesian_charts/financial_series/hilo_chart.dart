@@ -28,6 +28,7 @@ class _HiloChartState extends State<HiloChart> {
 
 SfCartesianChart getHilo(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'AAPL - 2016'),
     primaryXAxis: DateTimeAxis(

@@ -1,6 +1,6 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/foundation.dart';
 import '../../../model/helper.dart';
 import '../../../model/model.dart';
 
@@ -26,10 +26,11 @@ class _MultipleNeedleExampleState extends State<MultipleNeedleExample> {
 
 SfRadialGauge getMultipleNeedleExample(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           showAxisLine: false,
-          radiusFactor: 0.5,
+          radiusFactor: kIsWeb ? 0.43 : 0.5,
           startAngle: 270,
           endAngle: 270,
           minimum: 0,
@@ -53,7 +54,7 @@ SfRadialGauge getMultipleNeedleExample(bool isTileView) {
           endAngle: 270,
           minimum: 0,
           maximum: 12,
-          radiusFactor: 0.9,
+          radiusFactor:  kIsWeb ? 0.8 : 0.9,
           showFirstLabel: false,
           interval: 1,
           labelOffset: 10,

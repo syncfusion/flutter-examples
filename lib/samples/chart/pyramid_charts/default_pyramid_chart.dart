@@ -56,14 +56,14 @@ PyramidSeries<ChartSampleData, String> _getPyramidSeries(bool isTileView, [Pyram
         dataLabelSettings: DataLabelSettings(isVisible: true,));
 }
 
-
+//ignore: must_be_immutable
 class DefaultPyramidFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  DefaultPyramidFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  DefaultPyramidFrontPanel([this.sample]);
+  SubItem sample;
   
   @override
-  _DefaultPyramidFrontPanelState createState() => _DefaultPyramidFrontPanelState(subItemList);
+  _DefaultPyramidFrontPanelState createState() => _DefaultPyramidFrontPanelState(sample);
 }
 
 class _DefaultPyramidFrontPanelState extends State<DefaultPyramidFrontPanel> {
@@ -75,6 +75,7 @@ class _DefaultPyramidFrontPanelState extends State<DefaultPyramidFrontPanel> {
   String _selectedMode;
   double gapRatio = 0;
   bool explode = false;
+  Widget sampleWidget(SampleModel model) => getDefaultPyramidChart(false);
    @override
   void initState() {
     super.initState();
@@ -93,7 +94,8 @@ class _DefaultPyramidFrontPanelState extends State<DefaultPyramidFrontPanel> {
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
             child: Container(child: getDefaultPyramidChart(false, _selectedPyramidMode, gapRatio, explode)),
           ),
-          floatingActionButton: Stack(
+          floatingActionButton: model.isWeb ? null :
+          Stack(
                 children: <Widget>[
                    Align(
                     alignment: Alignment.bottomRight,

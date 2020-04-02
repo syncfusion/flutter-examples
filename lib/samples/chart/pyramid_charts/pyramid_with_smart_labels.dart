@@ -114,13 +114,14 @@ PyramidSeries<ChartSampleData, String> _getPyramidSeries(bool isTileView,
           useSeriesColor: true));
 }
 
+//ignore: must_be_immutable
 class PyramidSmartLabelsFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  PyramidSmartLabelsFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  PyramidSmartLabelsFrontPanel([this.sample]);
+  SubItem sample;
   
   @override
-  _PyramidSmartLabelsFrontPanelState createState() => _PyramidSmartLabelsFrontPanelState(subItemList);
+  _PyramidSmartLabelsFrontPanelState createState() => _PyramidSmartLabelsFrontPanelState(sample);
 }
 
 class _PyramidSmartLabelsFrontPanelState extends State<PyramidSmartLabelsFrontPanel> {
@@ -133,7 +134,7 @@ class _PyramidSmartLabelsFrontPanelState extends State<PyramidSmartLabelsFrontPa
   final List<String> _modeList = <String>['shift', 'none', 'hide'].toList();
   String _smartLabelMode = 'shift';
   SmartLabelMode _mode = SmartLabelMode.shift;
-
+Widget sampleWidget(SampleModel model) => getPyramidSmartLabelChart(false);
   @override
   void initState() {
     super.initState();
@@ -154,7 +155,8 @@ class _PyramidSmartLabelsFrontPanelState extends State<PyramidSmartLabelsFrontPa
                     child: getPyramidSmartLabelChart(
                         false, _selectedLabelPosition, _mode)),
               ),
-              floatingActionButton: Stack(children: <Widget>[
+              floatingActionButton: model.isWeb ? null :
+              Stack(children: <Widget>[
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Padding(
@@ -170,7 +172,7 @@ class _PyramidSmartLabelsFrontPanelState extends State<PyramidSmartLabelsFrontPa
                             Text('Source: ',
                                 style: TextStyle(
                                     fontSize: 16, color: model.textColor)),
-                            Text('worldometers.com',
+                            const Text('worldometers.com',
                                 style: TextStyle(
                                     fontSize: 14, color: Colors.blue)),
                           ],

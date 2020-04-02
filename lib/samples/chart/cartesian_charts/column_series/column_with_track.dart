@@ -25,6 +25,7 @@ class _ColumnTrackerState extends State<ColumnTracker> {
 
 SfCartesianChart getTrackerColumnChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Marks of a student'),
     legend: Legend(isVisible: isTileView ? false : true),

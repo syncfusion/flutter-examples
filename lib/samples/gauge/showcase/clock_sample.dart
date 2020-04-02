@@ -25,13 +25,14 @@ class _ClockExampleState extends State<ClockExample> {
   }
 }
 
+//ignore:must_be_immutable 
 class ClockExampleFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  ClockExampleFrontPanel(this.sampleList);
-  final SubItem sampleList;
+  ClockExampleFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
-  _ClockExampleFrontPanelState createState() => _ClockExampleFrontPanelState(sampleList);
+  _ClockExampleFrontPanelState createState() => _ClockExampleFrontPanelState(sample);
 }
 
 class _ClockExampleFrontPanelState extends State<ClockExampleFrontPanel> {
@@ -68,7 +69,29 @@ class _ClockExampleFrontPanelState extends State<ClockExampleFrontPanel> {
   @override
   Widget build(BuildContext context) {
     setState((){
-      _centerX = MediaQuery.of(context).orientation == Orientation.portrait ? 0.3 : 0.45;
+      if(kIsWeb){
+        final Size _size =  MediaQuery.of(context).size;
+        double _radius;
+        bool _isWidth;
+        if(_size.width > _size.height){
+          _radius = _size.height * 0.95;
+          _isWidth = false;
+        }else{
+          _isWidth = true;
+          _radius = _size.width * 0.95;
+        }
+
+        if( _isWidth && _radius  > (_size.width * 0.9)){
+          _centerX = 0.35;
+        }else{
+          _centerX = 0.43;
+        }
+      }else{
+        _centerX = MediaQuery.of(context).orientation == Orientation.portrait ? 0.3 : 0.45;
+      }
+
+
+
     });
     return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
@@ -136,7 +159,7 @@ SfRadialGauge getClockExample(bool isTileView, [bool isIndexed]) {
           maximum: 12,
           showFirstLabel: false,
           interval: 2,
-          centerX: isTileView ? kIsWeb ? 0.36 : 0.39 : kIsWeb ? 0.43 : _centerX,
+          centerX: isTileView ? kIsWeb ?  _centerX ?? 0.35 : 0.39 : kIsWeb ?   _centerX ?? 0.35 : _centerX,
           minorTicksPerInterval: 5,
           tickOffset: 0.03,
           minorTickStyle: MinorTickStyle(
