@@ -560,17 +560,23 @@
                             {
                                 "title": "High low chart",
                                 "key": "hilo_chart",
-                                "status": "New"
+                                "status": "New",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/financial_series/hilo_chart.dart"
+            
                             },
                             {
                                 "title": "Open high low close chart",
                                 "key": "hilo_open_close_chart",
-                                "status": "New"
+                                "status": "New",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/financial_series/hilo_open_close_chart.dart"
+            
                             },
                             {
                                 "title": "Candle chart",
                                 "key": "candle_chart",
-                                "status": "New"
+                                "status": "New",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/financial_series/candle_chart.dart"
+            
                             }
                         ]
                     }
