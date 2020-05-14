@@ -18,14 +18,12 @@ class _ColumnTrackerState extends State<ColumnTracker> {
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getTrackerColumnChart(false),sample); 
+    return getScopedModel(getTrackerColumnChart(false), sample);
   }
 }
 
-
 SfCartesianChart getTrackerColumnChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Marks of a student'),
     legend: Legend(isVisible: isTileView ? false : true),
@@ -47,18 +45,18 @@ SfCartesianChart getTrackerColumnChart(bool isTileView) {
 
 List<ColumnSeries<ChartSampleData, String>> getTracker(bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
-    ChartSampleData(x:'Subject 1',y: 71),
-    ChartSampleData(x:'Subject 2',y: 84),
-    ChartSampleData(x:'Subject 3', y:48),
-    ChartSampleData(x:'Subject 4', y:80),
-    ChartSampleData(x:'Subject 5', y: 76),
+    ChartSampleData(x: 'Subject 1', y: 71),
+    ChartSampleData(x: 'Subject 2', y: 84),
+    ChartSampleData(x: 'Subject 3', y: 48),
+    ChartSampleData(x: 'Subject 4', y: 80),
+    ChartSampleData(x: 'Subject 5', y: 76),
   ];
   return <ColumnSeries<ChartSampleData, String>>[
     ColumnSeries<ChartSampleData, String>(
         enableTooltip: true,
         dataSource: chartData,
         isTrackVisible: true,
-        trackColor:const Color.fromRGBO(198, 201, 207, 1),
+        trackColor: const Color.fromRGBO(198, 201, 207, 1),
         borderRadius: BorderRadius.circular(15),
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -69,4 +67,3 @@ List<ColumnSeries<ChartSampleData, String>> getTracker(bool isTileView) {
             textStyle: ChartTextStyle(fontSize: 10, color: Colors.white)))
   ];
 }
-

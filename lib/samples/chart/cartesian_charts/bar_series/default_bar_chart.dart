@@ -27,7 +27,6 @@ class _BarDefaultState extends State<BarDefault> {
 
 SfCartesianChart getDefaultBarChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Tourism - Number of arrivals'),
     legend: Legend(isVisible: isTileView ? false : true),

@@ -378,12 +378,12 @@ Map<String, List<dynamic>> getSampleWidget() {
     'category_arranged_by_index': <dynamic>[
       getIndexedCategoryAxisChart(isTileView),
       CategoryIndexed(),
-      // IndexedFrontPanel(),
+      IndexedFrontPanel(),
     ],
     'category_label_placement': <dynamic>[
       getTicksCategoryAxisChart(isTileView),
       CategoryTicks(),
-      // LabelPlacementFrontPanel(),
+      LabelPlacementFrontPanel(),
     ],
     'default_datetime_axis': <dynamic>[
       getDefaultDateTimeAxisChart(isTileView),
@@ -415,7 +415,7 @@ Map<String, List<dynamic>> getSampleWidget() {
     'axis_crossing': <dynamic>[
       getAxisCrossingSample(isTileView),
       AxisCrossing(),
-      // AxisCrossingFrontPanel()
+      AxisCrossingFrontPanel()
     ],
     'edgelabel_placement': <dynamic>[
       getEdgeLabelPlacementChart(isTileView),
@@ -425,7 +425,7 @@ Map<String, List<dynamic>> getSampleWidget() {
     'handling_label_collision': <dynamic>[
       getLabelIntersectActionChart(isTileView),
       LabelAction(),
-      // LabelCollisionFrontPanel()
+      LabelCollisionFrontPanel()
     ],
     'multiple_axis_chart': <dynamic>[
       getMultipleAxisLineChart(isTileView),
@@ -438,12 +438,12 @@ Map<String, List<dynamic>> getSampleWidget() {
     'plot_band_recurrence': <dynamic>[
       getPlotBandRecurrenceChart(isTileView),
       PlotBandRecurrence(),
-      // PlotBandRecurrenceFrontPanel()
+      PlotBandRecurrenceFrontPanel()
     ],
     'plot_band': <dynamic>[
       getPlotBandChart(isTileView),
       PlotBandDefault(),
-      // PlotBandFrontPanel()
+      PlotBandFrontPanel()
     ],
 
     //Series Features
@@ -521,59 +521,59 @@ Map<String, List<dynamic>> getSampleWidget() {
     'atr_indicator': <dynamic>[
       getDefaultATRIndicator(isTileView),
       ATRIndicator(),
-      // AtrIndicatorFrontPanel()
+      AtrIndicatorFrontPanel()
     ],
     'bollinger_indicator': <dynamic>[
       getDefaulBollingerIndicator(isTileView),
       BollingerIndicator(),
-      // BollingerIndicatorFrontPanel()
+      BollingerIndicatorFrontPanel()
     ],
     'ema_indicator': <dynamic>[
       getDefaulEMAIndicator(isTileView),
       EMAIndicator(),
-      // EmaIndicatorFrontPanel()
+      EmaIndicatorFrontPanel()
     ],
     'momentum_indicator': <dynamic>[
       getDefaulMomentumIndicator(isTileView),
       MomentummIndicator(),
-      // MomentummIndicatorFrontPanel()
+      MomentummIndicatorFrontPanel()
     ],
     'rsi_indicator': <dynamic>[
       getDefaultRSIIndicator(isTileView),
       RSIIndicator(),
-      // RSIIndicatorFrontPanel()
+      RSIIndicatorFrontPanel()
     ],
     'sma_indicator': <dynamic>[
       getDefaulSMAIndicator(isTileView),
       SMAIndicator(),
-      // SmaIndicatorFrontPanel()
+      SmaIndicatorFrontPanel()
     ],
     'stochastic_indicator': <dynamic>[
       getDefaultStochasticIndicator(isTileView),
       StochasticcIndicator(),
-      // StochasticcIndicatorFrontPanel()
+      StochasticcIndicatorFrontPanel()
     ],
     'tma_indicator': <dynamic>[
       getDefaulTMAIndicator(isTileView),
       TMAIndicator(),
-      // TmaIndicatorFrontPanel()
+      TmaIndicatorFrontPanel()
     ],
     'macd_indicator': <dynamic>[
       getDefaultMACDIndicator(isTileView),
       MACDIndicator(),
-      // MacdIndicatorFrontPanel()
+      MacdIndicatorFrontPanel()
     ],
 
     //User Interaction
     'chart_with_crosshair': <dynamic>[
       getDefaultCrossHairChart(isTileView),
       DefaultCrossHair(),
-      // CrosshairFrontPanel()
+      CrosshairFrontPanel()
     ],
     'selection_modes': <dynamic>[
       getDefaultSelectionChart(isTileView),
       DefaultSelection(),
-      // CartesianSelectionFrontPanel()
+      CartesianSelectionFrontPanel()
     ],
     'default_tooltip': <dynamic>[
       getDefaultTooltipChart(isTileView),
@@ -582,7 +582,7 @@ Map<String, List<dynamic>> getSampleWidget() {
     'chart_with_trackball': <dynamic>[
       getDefaultTrackballChart(isTileView),
       DefaultTrackball(),
-      // TrackballFrontPanel()
+      TrackballFrontPanel()
     ],
     'pinch_zooming': <dynamic>[
       getDefaultPanningChart(isTileView),
@@ -607,12 +607,12 @@ Map<String, List<dynamic>> getSampleWidget() {
     'circular_selection': <dynamic>[
       getCircularSelectionChart(isTileView),
       CircularSelection(),
-      // SelectionFrontPanel()
+      SelectionFrontPanel()
     ],
     'pie_tooltip_position': <dynamic>[
       getPieTooltipPositionChart(isTileView),
       PieTooltipPosition(),
-      // TooltipPositioningPanel()
+      TooltipPositioningPanel()
     ],
 
     //Dynamic updates
@@ -670,7 +670,7 @@ Map<String, List<dynamic>> getSampleWidget() {
     'semi_pie_chart': <dynamic>[
       getSemiPieChart(isTileView),
       PieSemi(),
-      // SemiPieFrontPanel()
+      SemiPieFrontPanel()
     ],
     //Doughnut
     'default_doughnut_chart': <dynamic>[
@@ -692,7 +692,7 @@ Map<String, List<dynamic>> getSampleWidget() {
     'semi_doughnut_chart': <dynamic>[
       getSemiDoughnutChart(isTileView),
       DoughnutSemi(),
-      // SemiDoughnutFrontPanel()
+      SemiDoughnutFrontPanel()
     ],
 
     //Radialbar
@@ -713,7 +713,7 @@ Map<String, List<dynamic>> getSampleWidget() {
     'default_funnel_chart': <dynamic>[
       getDefaultFunnelChart(isTileView),
       FunnelDefault(),
-      // DefaultFunnelFrontPanel()
+      DefaultFunnelFrontPanel()
     ],
     'funnel_with_legend': <dynamic>[
       getLegendFunnelChart(isTileView),
@@ -722,14 +722,14 @@ Map<String, List<dynamic>> getSampleWidget() {
     'funnel_with_smart_labels': <dynamic>[
       getFunnelSmartLabelChart(isTileView),
       FunnelSmartLabels(),
-      // FunnelSmartLabelFrontPanel()
+      FunnelSmartLabelFrontPanel()
     ],
 
     //Pyramid
     'default_pyramid_chart': <dynamic>[
       getDefaultPyramidChart(isTileView),
       PyramidDefault(),
-      // DefaultPyramidFrontPanel()
+      DefaultPyramidFrontPanel()
     ],
     'pyramid_with_legend': <dynamic>[
       getLegendPyramidChart(isTileView),
@@ -738,7 +738,7 @@ Map<String, List<dynamic>> getSampleWidget() {
     'pyramid_with_smart_labels': <dynamic>[
       getPyramidSmartLabelChart(isTileView),
       PyramidSmartLabels(),
-      // PyramidSmartLabelsFrontPanel()
+      PyramidSmartLabelsFrontPanel()
     ],
 
     // Calendar Samples

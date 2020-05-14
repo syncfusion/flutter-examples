@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_examples/model/helper.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
@@ -5,6 +6,8 @@ import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 //ignore: must_be_immutable
 class FunnelSmartLabels extends StatefulWidget {
@@ -26,16 +29,21 @@ class _FunnelSmartLabelState extends State<FunnelSmartLabels> {
 }
 
 SfFunnelChart getFunnelSmartLabelChart(bool isTileView,
-    [ChartDataLabelPosition _labelPosition, SmartLabelMode _mode]) {
+    [ChartDataLabelPosition _labelPosition, SmartLabelMode _mode, SampleModel sampleModel]) {
+  final bool isExistModel = sampleModel != null && sampleModel.isWeb;
   return SfFunnelChart(
-    smartLabelMode: isTileView ? SmartLabelMode.shift : _mode,
+    smartLabelMode: ( isExistModel
+          ? sampleModel.properties['FunnelSmartLabelMode']
+          : _mode) ?? SmartLabelMode.shift,
     title: ChartTitle(text: isTileView ? '' : 'Tournament details'),
     tooltipBehavior: TooltipBehavior(
       enable: true,
     ),
     series: _getFunnelSeries(
       isTileView,
-      _labelPosition,
+      (isExistModel
+          ? sampleModel.properties['FunnelLabelPosition']
+          : _labelPosition)??ChartDataLabelPosition.outside,
     ),
   );
 }
@@ -58,8 +66,7 @@ FunnelSeries<ChartSampleData, String> _getFunnelSeries(bool isTileView,
       yValueMapper: (ChartSampleData data, _) => data.y,
       dataLabelSettings: DataLabelSettings(
           isVisible: true,
-          labelPosition:
-              isTileView ? ChartDataLabelPosition.outside : _labelPosition,
+          labelPosition: isTileView ? ChartDataLabelPosition.outside : _labelPosition,
           useSeriesColor: true));
 }
 
@@ -81,20 +88,39 @@ class _FunnelSmartLabelFrontPanelState
   final List<String> _labelPositon = <String>['outside', 'inside'].toList();
   ChartDataLabelPosition _selectedLabelPosition =
       ChartDataLabelPosition.outside;
-  String _selectedPosition;
+  String _selectedPosition = 'outside';
 
   final List<String> _modeList = <String>['shift', 'none', 'hide'].toList();
   String _smartLabelMode = 'shift';
   SmartLabelMode _mode = SmartLabelMode.shift;
 
-  Widget sampleWidget(SampleModel model) => getFunnelSmartLabelChart(false);
+ 
+  // Widget sampleWidget(SampleModel model) => getLabelIntersectActionChart(false);
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) =>
+      getFunnelSmartLabelChart(false,null, null, model);
+
   @override
   void initState() {
+    initProperties();
     super.initState();
-    _selectedPosition = _labelPositon.first;
-    _selectedLabelPosition = ChartDataLabelPosition.outside;
   }
 
+  void initProperties([SampleModel sampleModel, bool init]) {
+      _selectedPosition = 'outside';
+    _selectedLabelPosition = ChartDataLabelPosition.outside;
+    _smartLabelMode = 'shift';
+   _mode = SmartLabelMode.shift;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'SelectedFunnelSmartLabelMode': _smartLabelMode,
+        'FunnelSmartLabelMode': _mode,
+        'SelectedFunnelLabelPosition': _selectedPosition,
+        'FunnelLabelPosition': _selectedLabelPosition,
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -102,43 +128,52 @@ class _FunnelSmartLabelFrontPanelState
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body: !model.isWeb ? Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
                     child: getFunnelSmartLabelChart(
                         false, _selectedLabelPosition, _mode)),
-              ),
-              floatingActionButton: model.isWeb ? null :
-              Stack(children: <Widget>[
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: () {
-                      _showSettingsPanel(model);
-                    },
-                    child: Icon(Icons.graphic_eq, color: Colors.white),
-                    backgroundColor: model.backgroundColor,
-                  ),
-                ),
-              ]));
+              ) : Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: Container(
+                          child:
+                              getFunnelSmartLabelChart(false, null, null,model)),
+                    ),
+              floatingActionButton: model.isWeb
+                  ? null
+                  : Stack(children: <Widget>[
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {
+                            _showSettingsPanel(model, false, context);
+                          },
+                          child: Icon(Icons.graphic_eq, color: Colors.white),
+                          backgroundColor: model.backgroundColor,
+                        ),
+                      ),
+                    ]));
         });
   }
 
-  void onLabelPositionChange(String item) {
-    setState(() {
-      _selectedPosition = item;
+  void onLabelPositionChange(String item, SampleModel model) {
+    _selectedPosition = item;
       if (_selectedPosition == 'inside') {
         _selectedLabelPosition = ChartDataLabelPosition.inside;
       } else if (_selectedPosition == 'outside') {
         _selectedLabelPosition = ChartDataLabelPosition.outside;
       }
-    });
+    model.properties['SelectedFunnelLabelPosition'] = _selectedPosition;
+    model.properties['FunnelLabelPosition'] = _selectedLabelPosition;
+    if (model.isWeb)
+      model.sampleOutputContainer.outputKey.currentState.refresh();
+    else
+      setState(() {});
   }
 
   void onSmartLabelModeChange(String item, SampleModel model) {
-    setState(() {
-      _smartLabelMode = item;
+   _smartLabelMode = item;
       if (_smartLabelMode == 'shift') {
         _mode = SmartLabelMode.shift;
       }
@@ -148,14 +183,115 @@ class _FunnelSmartLabelFrontPanelState
       if (_smartLabelMode == 'none') {
         _mode = SmartLabelMode.none;
       }
-    });
+    model.properties['SelectedFunnelSmartLabelMode'] = _smartLabelMode;
+    model.properties['FunnelSmartLabelMode'] = _mode;
+    if (model.isWeb)
+      model.sampleOutputContainer.outputKey.currentState.refresh();
+    else
+      setState(() {});
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  
+  Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
+    Widget widget;
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: ListView(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Properties',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    HandCursor(
+                        child: IconButton(
+                      icon: Icon(Icons.close, color: model.textColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ))
+                  ]),
+                   Row(
+                  children: <Widget>[
+                    Text('Label Position  ',
+                        style: TextStyle(
+                            color: model.textColor,
+                            fontSize: 14,
+                            letterSpacing: 0.34,
+                            fontWeight: FontWeight.normal)),
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        height: 50,
+                        width: 135,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                                canvasColor: model.bottomSheetBackgroundColor),
+                            child: DropDown(
+                                value: model.properties[
+                                    'SelectedFunnelLabelPosition'],
+                                item: _labelPositon.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: (value != null) ? value : 'outside',
+                                      child: Text('$value',
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                valueChanged: (dynamic value) {
+                                  onLabelPositionChange(value.toString(), model);
+                                }),
+                          ),
+                        )),
+                  ],
+               
+              ),  Row(
+                  children: <Widget>[
+                    Text('Smart Label mode',
+                        style: TextStyle(
+                            color: model.textColor,
+                            fontSize: 14,
+                            letterSpacing: 0.34,
+                            fontWeight: FontWeight.normal)),
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        height: 50,
+                        width: 135,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                                canvasColor: model.bottomSheetBackgroundColor),
+                            child: DropDown(
+                                value: model.properties[
+                                    'SelectedFunnelSmartLabelMode'],
+                                item: _modeList.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: (value != null) ? value : 'shift',
+                                      child: Text('$value',
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                valueChanged: (dynamic value) {
+                                  onSmartLabelModeChange(value.toString(), model);
+                                }),
+                          ),
+                        )),
+                  ],
+                ),
+            ],
+          ));
+    } else {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -212,7 +348,7 @@ class _FunnelSmartLabelFrontPanelState
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: <Widget>[
-                                            Text('Label Position         ',
+                                            Text('Label Position          ',
                                                 style: TextStyle(
                                                     fontSize: 16.0,
                                                     color: model.textColor)),
@@ -250,7 +386,7 @@ class _FunnelSmartLabelFrontPanelState
                                                         valueChanged:
                                                             (dynamic value) {
                                                           onLabelPositionChange(
-                                                              value.toString());
+                                                              value.toString(), model);
                                                         }),
                                                   ),
                                                 ))
@@ -260,7 +396,7 @@ class _FunnelSmartLabelFrontPanelState
                                       Container(
                                         child: Row(
                                           children: <Widget>[
-                                            Text('Smart label mode ',
+                                            Text('Smart label mode',
                                                 style: TextStyle(
                                                     color: model.textColor,
                                                     fontSize: 16,
@@ -313,5 +449,7 @@ class _FunnelSmartLabelFrontPanelState
                                 ),
                               ]),
                             )))))));
+                            }
+    return widget ?? Container();
   }
 }

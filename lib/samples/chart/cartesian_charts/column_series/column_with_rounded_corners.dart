@@ -28,7 +28,6 @@ class _ColumnRoundedState extends State<ColumnRounded> {
 
 SfCartesianChart getRoundedColumnChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Land area of various cities (sq.km)'),

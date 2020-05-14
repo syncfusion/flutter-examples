@@ -47,43 +47,43 @@ class _GaugeCompassExampleState extends State<GaugeCompassExample> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
         builder: (BuildContext context, _, SampleModel model) => SafeArea(
-          child: Backdrop(
-            needCloseButton: false,
-            panelVisible: frontPanelVisible,
-            sampleListModel: model,
-            frontPanelOpenPercentage: 0.28,
-            toggleFrontLayer: false,
-            appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
-            appBarActions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  child: IconButton(
-                    icon: Image.asset(model.codeViewerIcon,
-                        color: Colors.white),
-                    onPressed: () {
-                      launch(
-                          'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/gauge/showcase/distance_tracker.dart');
-                    },
+              child: Backdrop(
+                needCloseButton: false,
+                panelVisible: frontPanelVisible,
+                sampleListModel: model,
+                frontPanelOpenPercentage: 0.28,
+                toggleFrontLayer: false,
+                appBarAnimatedLeadingMenuIcon: AnimatedIcons.close_menu,
+                appBarActions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        icon: Image.asset(model.codeViewerIcon,
+                            color: Colors.white),
+                        onPressed: () {
+                          launch(
+                              'https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/gauge/showcase/distance_tracker.dart');
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                ],
+                appBarTitle: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 1000),
+                    child: Text(sample.title.toString())),
+                backLayer: BackPanel(sample),
+                frontLayer: FrontPanel(sample),
+                sideDrawer: null,
+                headerClosingHeight: 350,
+                titleVisibleOnPanelClosed: true,
+                color: const Color(0xFF484848),
+                borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(12), bottom: Radius.circular(0)),
               ),
-            ],
-            appBarTitle: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 1000),
-                child: Text(sample.title.toString())),
-            backLayer: BackPanel(sample),
-            frontLayer: FrontPanel(sample),
-            sideDrawer: null,
-            headerClosingHeight: 350,
-            titleVisibleOnPanelClosed: true,
-            color: const Color(0xFF484848),
-            borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(12), bottom: Radius.circular(0)),
-          ),
-        ));
+            ));
   }
 }
 
@@ -102,16 +102,15 @@ class _FrontPanelState extends State<FrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-
-    setState((){
-      if(MediaQuery.of(context).orientation == Orientation.portrait){
+    setState(() {
+      if (MediaQuery.of(context).orientation == Orientation.portrait) {
         _annotationTextSize = 22;
         _markerOffset = 0.71;
         _positionFactor = 0.025;
         _markerHeight = 10;
         _markerWidth = 15;
         _labelfontSize = 11;
-      }else{
+      } else {
         _annotationTextSize = 16;
         _markerOffset = 0.69;
         _positionFactor = 0.05;
@@ -126,20 +125,17 @@ class _FrontPanelState extends State<FrontPanel> {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
               //    backgroundColor: const Color(0xFF484848),
-              body:Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: const <Color>[Color(0xFF484848), Color(0xFF030303)],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter
-                ),
-                ),
+              body: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: const <Color>[
+                      Color(0xFF484848),
+                      Color(0xFF030303)
+                    ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                     child: Container(child: getGaugeCompassExample(false)),
-                  ))
-          );
-
+                  )));
         });
   }
 }
@@ -221,60 +217,93 @@ class _BackPanelState extends State<BackPanel> {
   }
 }
 
-
 Widget getGaugeCompassExample(bool isTileView) {
   _isTileView = isTileView;
   final Widget _widget = SfRadialGauge(
     axes: <RadialAxis>[
-
-      RadialAxis(showAxisLine: false, radiusFactor: 1,showLastLabel: false,
-          needsRotateLabels: true, tickOffset: 0.32, offsetUnit: GaugeSizeUnit.factor,
-
-          onLabelCreated: axisLabelCreated, startAngle: 270, endAngle: 270,labelOffset: 0.05,
-          maximum: 360, minimum: 0, interval: 30, minorTicksPerInterval: 4,
-          axisLabelStyle: GaugeTextStyle(color: const Color(0xFF949494), fontSize: isTileView ? 10 : _labelfontSize),
-          minorTickStyle: MinorTickStyle(color: const Color(0xFF616161),
-              thickness: 1.6, length: 0.058, lengthUnit: GaugeSizeUnit.factor),
-          majorTickStyle: MajorTickStyle(color: const Color(0xFF949494),
-              thickness: 2.3, length: 0.087, lengthUnit: GaugeSizeUnit.factor),
-          backgroundImage:const AssetImage('images/dark_theme_gauge.png'),
-          pointers: <GaugePointer>[MarkerPointer(value: 90,  color: const Color(0xFFDF5F2D),
-              enableAnimation: true, animationDuration: 1200,
-              markerOffset: isTileView ? 0.69 : _markerOffset , offsetUnit: GaugeSizeUnit.factor,
-              markerType: MarkerType.triangle, markerHeight: isTileView ? 8 : _markerHeight,
-              markerWidth: isTileView ? 8 : _markerWidth)],
-          annotations: <GaugeAnnotation>[GaugeAnnotation( angle: 270, positionFactor: _positionFactor,
-              widget: Text('90',
-                style: TextStyle(color: const Color(0xFFDF5F2D), fontWeight: FontWeight.bold, fontSize: isTileView ? 16 : _annotationTextSize),))]
-      )
-
+      RadialAxis(
+          showAxisLine: false,
+          radiusFactor: 1,
+          showLastLabel: false,
+          needsRotateLabels: true,
+          tickOffset: 0.32,
+          offsetUnit: GaugeSizeUnit.factor,
+          onLabelCreated: axisLabelCreated,
+          startAngle: 270,
+          endAngle: 270,
+          labelOffset: 0.05,
+          maximum: 360,
+          minimum: 0,
+          interval: 30,
+          minorTicksPerInterval: 4,
+          axisLabelStyle: GaugeTextStyle(
+              color: const Color(0xFF949494),
+              fontSize: isTileView ? 10 : _labelfontSize),
+          minorTickStyle: MinorTickStyle(
+              color: const Color(0xFF616161),
+              thickness: 1.6,
+              length: 0.058,
+              lengthUnit: GaugeSizeUnit.factor),
+          majorTickStyle: MajorTickStyle(
+              color: const Color(0xFF949494),
+              thickness: 2.3,
+              length: 0.087,
+              lengthUnit: GaugeSizeUnit.factor),
+          backgroundImage: const AssetImage('images/dark_theme_gauge.png'),
+          pointers: <GaugePointer>[
+            MarkerPointer(
+                value: 90,
+                color: const Color(0xFFDF5F2D),
+                enableAnimation: true,
+                animationDuration: 1200,
+                markerOffset: isTileView ? 0.69 : _markerOffset,
+                offsetUnit: GaugeSizeUnit.factor,
+                markerType: MarkerType.triangle,
+                markerHeight: isTileView ? 8 : _markerHeight,
+                markerWidth: isTileView ? 8 : _markerWidth)
+          ],
+          annotations: <GaugeAnnotation>[
+            GaugeAnnotation(
+                angle: 270,
+                positionFactor: _positionFactor,
+                widget: Text(
+                  '90',
+                  style: TextStyle(
+                      color: const Color(0xFFDF5F2D),
+                      fontWeight: FontWeight.bold,
+                      fontSize: isTileView ? 16 : _annotationTextSize),
+                ))
+          ])
     ],
   );
-  if(kIsWeb){
-    return Padding(padding: const EdgeInsets.all(30), child: _widget,);
-  }else{
+  if (kIsWeb) {
+    return Padding(
+      padding: const EdgeInsets.all(30),
+      child: _widget,
+    );
+  } else {
     return _widget;
   }
-
 }
 
 void axisLabelCreated(AxisLabelCreatedArgs args) {
   if (args.text == '90') {
     args.text = 'E';
-    args.labelStyle = GaugeTextStyle(color: const Color(0xFFDF5F2D),
+    args.labelStyle = GaugeTextStyle(
+        color: const Color(0xFFDF5F2D),
         fontSize: _isTileView ? 10 : _labelfontSize);
-  }else{
+  } else {
     if (args.text == '0') {
       args.text = 'N';
-    }else if (args.text == '180') {
+    } else if (args.text == '180') {
       args.text = 'S';
     } else if (args.text == '270') {
       args.text = 'W';
     }
 
-    args.labelStyle = GaugeTextStyle(color: const Color(0xFFFFFFFF),
-        fontSize: _isTileView ? 10 : _labelfontSize
-    );
+    args.labelStyle = GaugeTextStyle(
+        color: const Color(0xFFFFFFFF),
+        fontSize: _isTileView ? 10 : _labelfontSize);
   }
 }
 

@@ -29,7 +29,7 @@ SfRadialGauge getRadialTickCustomization(bool isTileView) {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
-          radiusFactor: 0.9,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
           showAxisLine: false,
           showLastLabel: false,
           startAngle: 270,
@@ -51,7 +51,7 @@ SfRadialGauge getRadialTickCustomization(bool isTileView) {
               dashArray: kIsWeb ? null : <double>[2, 1]),
           pointers: <GaugePointer>[
             NeedlePointer(
-                enableAnimation: kIsWeb? false : true,
+                enableAnimation: kIsWeb ? false : true,
                 animationType: AnimationType.ease,
                 animationDuration: 1300,
                 value: 75,

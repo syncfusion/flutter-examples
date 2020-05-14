@@ -26,7 +26,8 @@ class _RadialNonLinearLabelState extends State<RadialNonLinearLabel> {
 }
 
 SfRadialGauge getRadialNonLinearLabel(bool isTileView) {
-  return SfRadialGauge(enableLoadingAnimation : true,
+  return SfRadialGauge(
+    enableLoadingAnimation: true,
     key: kIsWeb ? UniqueKey() : null,
     animationDuration: 2500,
     axes: <RadialAxis>[
@@ -34,7 +35,7 @@ SfRadialGauge getRadialNonLinearLabel(bool isTileView) {
           labelOffset: 15,
           axisLineStyle: AxisLineStyle(
               thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
-          radiusFactor:  kIsWeb ? 0.8 : 0.9,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
           minimum: 0,
           showTicks: false,
           maximum: 150,
@@ -42,11 +43,13 @@ SfRadialGauge getRadialNonLinearLabel(bool isTileView) {
           pointers: <GaugePointer>[
             NeedlePointer(
                 enableAnimation: true,
-                gradient: LinearGradient(
-                    colors: const <Color>[Color.fromRGBO(203,126,223,0.1), Color(0xFFCB7EDF)],
-                    stops: const <double>[0.25, 0.75],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter),
+                gradient: LinearGradient(colors: const <Color>[
+                  Color.fromRGBO(203, 126, 223, 0.1),
+                  Color(0xFFCB7EDF)
+                ], stops: const <double>[
+                  0.25,
+                  0.75
+                ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
                 animationType: AnimationType.easeOutBack,
                 value: 60,
                 lengthUnit: GaugeSizeUnit.factor,
@@ -64,16 +67,18 @@ SfRadialGauge getRadialNonLinearLabel(bool isTileView) {
                 color: _pointerColor,
                 animationDuration: 1300,
                 animationType: AnimationType.easeOutBack,
-                gradient: kIsWeb ? null : const SweepGradient(
-                    colors: <Color>[Color(0xFF9E40DC), Color(0xFFE63B86)],
-                    stops: <double>[0.25, 0.75]),
+                gradient: kIsWeb
+                    ? null
+                    : const SweepGradient(
+                        colors: <Color>[Color(0xFF9E40DC), Color(0xFFE63B86)],
+                        stops: <double>[0.25, 0.75]),
                 enableAnimation: true)
           ])
     ],
   );
 }
 
- Color _pointerColor = const Color(0xFF494CA2);
+Color _pointerColor = const Color(0xFF494CA2);
 
 class CustomAxis extends RadialAxis {
   CustomAxis({

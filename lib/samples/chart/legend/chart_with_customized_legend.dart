@@ -24,7 +24,6 @@ class _LegendCustomizedState extends State<LegendCustomized> {
 
 SfCartesianChart getLegendCustomizedChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title:
         ChartTitle(text: isTileView ? '' : 'Automobile production by category'),
@@ -43,6 +42,9 @@ SfCartesianChart getLegendCustomizedChart(bool isTileView) {
       },
     ),
     primaryXAxis: NumericAxis(
+        minimum: 2005,
+        maximum: 2008,
+        interval: 1,
         edgeLabelPlacement: EdgeLabelPlacement.shift,
         majorGridLines: MajorGridLines(width: 0)),
     primaryYAxis: NumericAxis(

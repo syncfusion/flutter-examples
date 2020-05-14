@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 //ignore: must_be_immutable
 class MACDIndicator extends StatefulWidget {
@@ -27,7 +29,12 @@ class _MACDIndicatorState extends State<MACDIndicator> {
 }
 
 SfCartesianChart getDefaultMACDIndicator(bool isTileView,
-    [int _period, int _longPeriod, int _shortPeriod, MacdType _macdType]) {
+    [int _period,
+    int _longPeriod,
+    int _shortPeriod,
+    MacdType _macdType,
+    SampleModel model]) {
+  final bool isExistModel = model != null && model.isWeb;
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
       x: DateTime(2016, 01, 04),
@@ -401,16 +408,13 @@ SfCartesianChart getDefaultMACDIndicator(bool isTileView,
       majorGridLines: MajorGridLines(width: 0),
       dateFormat: DateFormat.MMM(),
       interval: 3,
+      intervalType: DateTimeIntervalType.months,
       minimum: DateTime(2016, 01, 01),
       maximum: DateTime(2017, 01, 01),
       // labelRotation: 45,
     ),
     primaryYAxis: NumericAxis(
-      minimum: 70,
-      maximum: 130,
-      interval: 20,
-      axisLine: AxisLine(width: 0)
-    ),
+        minimum: 70, maximum: 130, interval: 20, axisLine: AxisLine(width: 0)),
     axes: <ChartAxis>[
       NumericAxis(
           majorGridLines: MajorGridLines(width: 0),
@@ -421,21 +425,28 @@ SfCartesianChart getDefaultMACDIndicator(bool isTileView,
     ],
     indicators: <TechnicalIndicators<dynamic, dynamic>>[
       MacdIndicator<dynamic, dynamic>(
-          period: _period,
-          longPeriod: _longPeriod ?? 5,
-          shortPeriod: _shortPeriod ?? 2,
+          period:
+              (isExistModel ? model.properties['MacdPeriod'] : _period) ?? 14,
+          longPeriod: (isExistModel
+                  ? model.properties['MacdLongPeriod']
+                  : _longPeriod) ??
+              5,
+          shortPeriod: (isExistModel
+                  ? model.properties['MacdShortPeriod']
+                  : _shortPeriod) ??
+              2,
           signalLineWidth: 2,
-          macdType: _macdType,
+          macdType: isExistModel ? model.properties['MacdType'] : _macdType,
           seriesName: 'AAPL',
           yAxisName: 'agybrd'),
     ],
     trackballBehavior: TrackballBehavior(
-        enable: isTileView ? false : true,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isTileView ? true : false),
-      title: ChartTitle(text: isTileView ? '' : 'AAPL - 2016'),
+      enable: isTileView ? false : true,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+    ),
+    tooltipBehavior: TooltipBehavior(enable: isTileView ? true : false),
+    title: ChartTitle(text: isTileView ? '' : 'AAPL - 2016'),
     series: <ChartSeries<ChartSampleData, dynamic>>[
       HiloOpenCloseSeries<ChartSampleData, dynamic>(
           emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
@@ -459,6 +470,7 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
+
 //ignore: must_be_immutable
 class MacdIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
@@ -479,7 +491,35 @@ class _MacdIndicatorFrontPanelState extends State<MacdIndicatorFrontPanel> {
       <String>['Both', 'Line', 'Histogram'].toList();
   String _selectedMacdIndicatorType = 'Both';
   MacdType _macdType = MacdType.both;
-Widget sampleWidget(SampleModel model) => getDefaultMACDIndicator(false);
+
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) =>
+      getDefaultMACDIndicator(false, null, null, null, null, model);
+
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    _period = 14;
+    _longPeriod = 5.0;
+    _shortPeriod = 2.0;
+    _selectedMacdIndicatorType = 'Both';
+    _macdType = MacdType.both;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'MacdPeriod': _period,
+        'MacdLongPeriod': _longPeriod,
+        'MacdShortPeriod': _shortPeriod,
+        'SelectedMacdType': _selectedMacdIndicatorType,
+        'MacdType': _macdType
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -487,316 +527,457 @@ Widget sampleWidget(SampleModel model) => getDefaultMACDIndicator(false);
       builder: (BuildContext context, _, SampleModel model) {
         return Scaffold(
             backgroundColor: model.cardThemeColor,
-            body: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-              child: getDefaultMACDIndicator(false, _period.toInt(),
-                  _longPeriod.toInt(), _shortPeriod.toInt(), _macdType),
-            ),
-            floatingActionButton: model.isWeb ?
-              null :
-            Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: () {
-                      _showSettingsPanel(model);
-                    },
-                    child: Icon(Icons.graphic_eq, color: Colors.white),
-                    backgroundColor: model.backgroundColor,
+            body: !model.isWeb
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                    child: Container(
+                      child: getDefaultMACDIndicator(false, _period.toInt(),
+                          _longPeriod.toInt(), _shortPeriod.toInt(), _macdType),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Container(
+                        child: getDefaultMACDIndicator(
+                            false, null, null, null, null, model)),
                   ),
-                ),
-              ],
-            ));
+            floatingActionButton: model.isWeb
+                ? null
+                : Stack(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {
+                            _showSettingsPanel(model, false, context);
+                          },
+                          child: Icon(Icons.graphic_eq, color: Colors.white),
+                          backgroundColor: model.backgroundColor,
+                        ),
+                      ),
+                    ],
+                  ));
       },
     );
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.4
             : 0.5;
-    showRoundedModalBottomSheet<dynamic>(
-        dismissOnTap: false,
-        context: context,
-        radius: 20.0,
-        color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
-            rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleModel model) => Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Container(
-                    height: 200,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * height,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: 40,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text('Settings',
-                                        style: TextStyle(
-                                            color: model.textColor,
-                                            fontSize: 18,
-                                            letterSpacing: 0.34,
-                                            fontWeight: FontWeight.w500)),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: model.textColor,
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: ListView(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Properties',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    HandCursor(
+                        child: IconButton(
+                      icon: Icon(Icons.close, color: model.webIconColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ))
+                  ]),
+              Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text('Period     ',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 50,
+                          initialValue: model.properties['MacdPeriod'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['MacdPeriod'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          loop: true,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Long Period',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 50,
+                          initialValue: model.properties['MacdLongPeriod'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['MacdLongPeriod'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          loop: true,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Short Period ',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(23, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 50,
+                          initialValue: model.properties['MacdShortPeriod'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['MacdShortPeriod'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          loop: true,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('MACD Type',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Container(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          height: 50,
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Theme(
+                              data: Theme.of(context).copyWith(
+                                  canvasColor:
+                                      model.bottomSheetBackgroundColor),
+                              child: DropDown(
+                                  value: model.properties['SelectedMacdType'],
+                                  item: _macdIndicatorTypeList
+                                      .map((String value) {
+                                    return DropdownMenuItem<String>(
+                                        value: (value != null) ? value : 'Both',
+                                        child: Text('$value',
+                                            style: TextStyle(
+                                                color: model.textColor)));
+                                  }).toList(),
+                                  valueChanged: (dynamic value) {
+                                    onMacdIndicatorTypeChanged(
+                                        value.toString(), model);
+                                  }),
+                            ),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ));
+    } else {
+      showRoundedModalBottomSheet<dynamic>(
+          dismissOnTap: false,
+          context: context,
+          radius: 20.0,
+          color: model.bottomSheetBackgroundColor,
+          builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
+              rebuildOnChange: false,
+              builder: (BuildContext context, _, SampleModel model) => Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Container(
+                      height: 200,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * height,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                            child: Stack(
+                              children: <Widget>[
+                                Container(
+                                  height: 40,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text('Settings',
+                                          style: TextStyle(
+                                              color: model.textColor,
+                                              fontSize: 18,
+                                              letterSpacing: 0.34,
+                                              fontWeight: FontWeight.w500)),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: model.textColor,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
                                       ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 50, 0, 0),
-                                child: ListView(
-                                  children: <Widget>[
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Period',
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: model.textColor),
-                                          ),
-                                          Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      84, 0, 0, 0),
-                                              child: CustomButton(
-                                                minValue: 0,
-                                                maxValue: 50,
-                                                initialValue: _period,
-                                                onChanged: (dynamic val) =>
-                                                    setState(() {
-                                                  _period = val;
-                                                }),
-                                                step: 1,
-                                                horizontal: true,
-                                                loop: true,
-                                                padding: 0,
-                                                iconUp: Icons.keyboard_arrow_up,
-                                                iconDown:
-                                                    Icons.keyboard_arrow_down,
-                                                iconLeft:
-                                                    Icons.keyboard_arrow_left,
-                                                iconRight:
-                                                    Icons.keyboard_arrow_right,
-                                                iconUpRightColor:
-                                                    model.textColor,
-                                                iconDownLeftColor:
-                                                    model.textColor,
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: model.textColor),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Long Period',
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: model.textColor),
-                                          ),
-                                          Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      50, 0, 0, 0),
-                                              child: CustomButton(
-                                                minValue: 0,
-                                                maxValue: 50,
-                                                initialValue: _longPeriod,
-                                                onChanged: (dynamic val) =>
-                                                    setState(() {
-                                                  _longPeriod = val;
-                                                }),
-                                                step: 1,
-                                                horizontal: true,
-                                                loop: true,
-                                                padding: 0,
-                                                iconUp: Icons.keyboard_arrow_up,
-                                                iconDown:
-                                                    Icons.keyboard_arrow_down,
-                                                iconLeft:
-                                                    Icons.keyboard_arrow_left,
-                                                iconRight:
-                                                    Icons.keyboard_arrow_right,
-                                                iconUpRightColor:
-                                                    model.textColor,
-                                                iconDownLeftColor:
-                                                    model.textColor,
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: model.textColor),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Short period',
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: model.textColor),
-                                          ),
-                                          Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      50, 0, 0, 0),
-                                              child: CustomButton(
-                                                minValue: 0,
-                                                maxValue: 50,
-                                                initialValue: _shortPeriod,
-                                                onChanged: (dynamic val) =>
-                                                    setState(() {
-                                                  _shortPeriod = val;
-                                                }),
-                                                step: 1,
-                                                horizontal: true,
-                                                loop: true,
-                                                padding: 0,
-                                                iconUp: Icons.keyboard_arrow_up,
-                                                iconDown:
-                                                    Icons.keyboard_arrow_down,
-                                                iconLeft:
-                                                    Icons.keyboard_arrow_left,
-                                                iconRight:
-                                                    Icons.keyboard_arrow_right,
-                                                iconUpRightColor:
-                                                    model.textColor,
-                                                iconDownLeftColor:
-                                                    model.textColor,
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: model.textColor),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text('Label placement ',
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                                  child: ListView(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              'Period',
                                               style: TextStyle(
-                                                  color: model.textColor,
-                                                  fontSize: 16,
-                                                  letterSpacing: 0.34,
-                                                  fontWeight:
-                                                      FontWeight.normal)),
-                                          Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      34, 0, 0, 0),
-                                              height: 50,
-                                              child: Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: Theme(
-                                                  data: Theme.of(context).copyWith(
-                                                      canvasColor: model
-                                                          .bottomSheetBackgroundColor),
-                                                  child: DropDown(
-                                                      value:
-                                                          _selectedMacdIndicatorType,
-                                                      item:
-                                                          _macdIndicatorTypeList
-                                                              .map((String
-                                                                  value) {
-                                                        return DropdownMenuItem<
-                                                                String>(
-                                                            value:
-                                                                (value != null)
-                                                                    ? value
-                                                                    : 'Both',
-                                                            child: Text(
-                                                                '$value',
-                                                                style: TextStyle(
-                                                                    color: model
-                                                                        .textColor)));
-                                                      }).toList(),
-                                                      valueChanged:
-                                                          (dynamic value) {
-                                                        onMacdIndicatorTypeChanged(
-                                                            value.toString(),
-                                                            model);
-                                                      }),
+                                                  fontSize: 16.0,
+                                                  color: model.textColor),
+                                            ),
+                                            Container(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        84, 0, 0, 0),
+                                                child: CustomButton(
+                                                  minValue: 0,
+                                                  maxValue: 50,
+                                                  initialValue: _period,
+                                                  onChanged: (dynamic val) =>
+                                                      setState(() {
+                                                    _period = val;
+                                                  }),
+                                                  horizontal: true,
+                                                  loop: true,
+                                                  iconUpRightColor:
+                                                      model.textColor,
+                                                  iconDownLeftColor:
+                                                      model.textColor,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: model.textColor),
                                                 ),
-                                              )),
-                                        ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                      Container(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              'Long Period',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: model.textColor),
+                                            ),
+                                            Container(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        50, 0, 0, 0),
+                                                child: CustomButton(
+                                                  minValue: 0,
+                                                  maxValue: 50,
+                                                  initialValue: _longPeriod,
+                                                  onChanged: (dynamic val) =>
+                                                      setState(() {
+                                                    _longPeriod = val;
+                                                  }),
+                                                 horizontal: true,
+                                                  loop: true,
+                                                  iconUpRightColor:
+                                                      model.textColor,
+                                                  iconDownLeftColor:
+                                                      model.textColor,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: model.textColor),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              'Short period',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: model.textColor),
+                                            ),
+                                            Container(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        50, 0, 0, 0),
+                                                child: CustomButton(
+                                                  minValue: 0,
+                                                  maxValue: 50,
+                                                  initialValue: _shortPeriod,
+                                                  onChanged: (dynamic val) =>
+                                                      setState(() {
+                                                    _shortPeriod = val;
+                                                  }),
+                                                  horizontal: true,
+                                                  loop: true,
+                                                  iconUpRightColor:
+                                                      model.textColor,
+                                                  iconDownLeftColor:
+                                                      model.textColor,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: model.textColor),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text('MACD type      ',
+                                                style: TextStyle(
+                                                    color: model.textColor,
+                                                    fontSize: 16,
+                                                    letterSpacing: 0.34,
+                                                    fontWeight:
+                                                        FontWeight.normal)),
+                                            Container(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        34, 0, 0, 0),
+                                                height: 50,
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  child: Theme(
+                                                    data: Theme.of(context)
+                                                        .copyWith(
+                                                            canvasColor: model
+                                                                .bottomSheetBackgroundColor),
+                                                    child: DropDown(
+                                                        value:
+                                                            _selectedMacdIndicatorType,
+                                                        item:
+                                                            _macdIndicatorTypeList
+                                                                .map((String
+                                                                    value) {
+                                                          return DropdownMenuItem<
+                                                                  String>(
+                                                              value: (value !=
+                                                                      null)
+                                                                  ? value
+                                                                  : 'Both',
+                                                              child: Text(
+                                                                  '$value',
+                                                                  style: TextStyle(
+                                                                      color: model
+                                                                          .textColor)));
+                                                        }).toList(),
+                                                        valueChanged:
+                                                            (dynamic value) {
+                                                          onMacdIndicatorTypeChanged(
+                                                              value.toString(),
+                                                              model);
+                                                        }),
+                                                  ),
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                )));
+                  )));
+    }
+    return widget ?? Container();
   }
 
   void onMacdIndicatorTypeChanged(String item, SampleModel model) {
-    setState(() {
-      _selectedMacdIndicatorType = item;
-      switch (_selectedMacdIndicatorType) {
-        case 'Both':
-          _macdType = MacdType.both;
-          break;
-        case 'Line':
-          _macdType = MacdType.line;
-          break;
-        case 'Histogram':
-          _macdType = MacdType.histogram;
-          break;
-      }
-      // ignore: invalid_use_of_protected_member
-      model.notifyListeners();
-    });
+    _selectedMacdIndicatorType = item;
+    switch (_selectedMacdIndicatorType) {
+      case 'Both':
+        _macdType = MacdType.both;
+        break;
+      case 'Line':
+        _macdType = MacdType.line;
+        break;
+      case 'Histogram':
+        _macdType = MacdType.histogram;
+        break;
+    }
+    model.properties['SelectedMacdType'] = _selectedMacdIndicatorType;
+    model.properties['MacdType'] = _macdType;
+    if (model.isWeb)
+      model.sampleOutputContainer.outputKey.currentState.refresh();
+    else
+      setState(() {});
   }
 }

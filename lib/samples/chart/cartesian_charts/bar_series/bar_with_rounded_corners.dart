@@ -16,7 +16,6 @@ class _BarRoundedState extends State<BarRounded> {
   _BarRoundedState(this.sample);
   final SubItem sample;
 
-  
   @override
   Widget build(BuildContext context) {
     const String sourceLink = 'https://www.indexmundi.com/g/r.aspx?v=24';
@@ -28,7 +27,6 @@ class _BarRoundedState extends State<BarRounded> {
 
 SfCartesianChart getRoundedBarChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Population growth rate of countries'),

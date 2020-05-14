@@ -15,7 +15,7 @@ class NumericLabel extends StatefulWidget {
 class _NumericLabelState extends State<NumericLabel> {
   _NumericLabelState(this.sample);
   final SubItem sample;
-  
+
   @override
   Widget build(BuildContext context) {
     return getScopedModel(getLabelNumericAxisChart(false), sample);
@@ -24,7 +24,6 @@ class _NumericLabelState extends State<NumericLabel> {
 
 SfCartesianChart getLabelNumericAxisChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Farenheit - Celsius conversion'),
     primaryXAxis: NumericAxis(

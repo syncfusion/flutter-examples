@@ -29,11 +29,12 @@ class _SplineDashedState extends State<SplineDashed> {
 
 SfCartesianChart getDashedSplineChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Total investment (% of GDP)'),
     legend: Legend(isVisible: isTileView ? false : true),
-    primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+    primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0),
+    minimum: 1997,
+    maximum: 2005),
     primaryYAxis: NumericAxis(
       minimum: 16,
       maximum: 28,
@@ -56,7 +57,8 @@ List<SplineSeries<ChartSampleData, num>> getDashedSplineSeries(
     ChartSampleData(x: 2001, y: 18.93, yValue2: 22.87, yValue3: 25.69),
     ChartSampleData(x: 2002, y: 17.58, yValue2: 21.87, yValue3: 24.75),
     ChartSampleData(x: 2003, y: 16.83, yValue2: 21.67, yValue3: 27.38),
-    ChartSampleData(x: 2004, y: 17.93, yValue2: 21.65, yValue3: 25.31)
+    ChartSampleData(x: 2004, y: 17.93, yValue2: 21.65, yValue3: 25.31),
+    ChartSampleData(x: 2005, y: 18.93, yValue2: 22.65, yValue3: 25.31)
   ];
   return <SplineSeries<ChartSampleData, num>>[
     SplineSeries<ChartSampleData, num>(

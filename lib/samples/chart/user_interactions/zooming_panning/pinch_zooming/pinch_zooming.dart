@@ -5,8 +5,8 @@ import 'package:flutter_examples/widgets/customDropDown.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/widgets/shared/mobile.dart' 
-        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 //ignore:must_be_immutable
 class DefaultPanning extends StatefulWidget {
@@ -33,16 +33,19 @@ SfCartesianChart getDefaultPanningChart(bool isTileView,
     [ZoomMode _zoomModeType, SampleModel model]) {
   final bool isExistModel = model != null && model.isWeb;
   return SfCartesianChart(
-
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: getDefaultPanningSeries(isTileView),
-      zoomPanBehavior: isExistModel ? zoomingBehavior = ZoomPanBehavior(
-        enablePinching: true, 
-          enablePanning: true) : zoomingBehavior);
+      zoomPanBehavior: isExistModel
+          ? zoomingBehavior = ZoomPanBehavior(
+              enablePinching: true,
+              enablePanning: true,
+              enableMouseWheelZooming: true,
+              zoomMode: model.properties['ZoomModeType'])
+          : zoomingBehavior);
 }
 
 List<AreaSeries<ChartSampleData, DateTime>> getDefaultPanningSeries(
@@ -413,7 +416,6 @@ class PinchZoomingFrontPanel extends StatefulWidget {
 }
 
 class _PinchZoomingFrontPanelState extends State<PinchZoomingFrontPanel> {
-
   _PinchZoomingFrontPanelState(this.sample);
   final SubItem sample;
 
@@ -423,7 +425,8 @@ class _PinchZoomingFrontPanelState extends State<PinchZoomingFrontPanel> {
 
   Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
       _showSettingsPanel(model, init, context);
-  Widget sampleWidget(SampleModel model) => getDefaultPanningChart(false, null, model);
+  Widget sampleWidget(SampleModel model) =>
+      getDefaultPanningChart(false, null, model);
 
   @override
   void initState() {
@@ -437,8 +440,8 @@ class _PinchZoomingFrontPanelState extends State<PinchZoomingFrontPanel> {
   }
 
   void initProperties([SampleModel sampleModel, bool init]) {
-    _selectedModeType = 'x';
-    _zoomModeType = ZoomMode.x;
+    _selectedModeType = 'xy';
+    _zoomModeType = ZoomMode.xy;
     if (sampleModel != null && init) {
       sampleModel.properties.addAll(<dynamic, dynamic>{
         'SelectedModeType': _selectedModeType,
@@ -446,7 +449,7 @@ class _PinchZoomingFrontPanelState extends State<PinchZoomingFrontPanel> {
       });
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     zoomingBehavior = ZoomPanBehavior(
@@ -454,56 +457,53 @@ class _PinchZoomingFrontPanelState extends State<PinchZoomingFrontPanel> {
     return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) {
-          final bool isExistModel = model != null && model.isWeb;
-    zoomingBehavior = ZoomPanBehavior(
-        enablePinching: true, 
-        zoomMode: isExistModel
-            ? model.properties['ZoomModeType']
-            : _zoomModeType, 
-        enablePanning: true);
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body:!model.isWeb ?
-               Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                child: Container(
-                    child: getDefaultPanningChart(false, _zoomModeType, null)),
-              )
-              : Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                child: Container(
-                    child: getDefaultPanningChart(false, null,null)),
-              ),
-              floatingActionButton:  model.isWeb ? null : Container(
-                height: 45,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    FloatingActionButton(
-                      onPressed: () {
-                        _showSettingsPanel(model, false, context);
-                      },
-                      child: Icon(Icons.graphic_eq, color: Colors.white),
-                      backgroundColor: model.backgroundColor,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 5),
-                    ),
-                    FloatingActionButton(
-                      heroTag: false,
-                      onPressed: () {
-                        zoomingBehavior.reset();
-                      },
-                      child: Icon(Icons.refresh, color: Colors.white),
-                      backgroundColor: model.backgroundColor,
+              body: !model.isWeb
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                      child: Container(
+                          child: getDefaultPanningChart(
+                              false, _zoomModeType, null)),
                     )
-                  ],
-                ),
-              ));
+                  : Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: Container(
+                          child: getDefaultPanningChart(false, null, null)),
+                    ),
+              floatingActionButton: model.isWeb
+                  ? null
+                  : Container(
+                      height: 45,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          FloatingActionButton(
+                            onPressed: () {
+                              _showSettingsPanel(model, false, context);
+                            },
+                            child: Icon(Icons.graphic_eq, color: Colors.white),
+                            backgroundColor: model.backgroundColor,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 5),
+                          ),
+                          FloatingActionButton(
+                            heroTag: false,
+                            onPressed: () {
+                              zoomingBehavior.reset();
+                            },
+                            child: Icon(Icons.refresh, color: Colors.white),
+                            backgroundColor: model.backgroundColor,
+                          )
+                        ],
+                      ),
+                    ));
         });
   }
 
-  Widget _showSettingsPanel(SampleModel model, [bool init, BuildContext context]) {
+  Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
     //ignore: unused_local_variable
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
@@ -519,206 +519,199 @@ class _PinchZoomingFrontPanelState extends State<PinchZoomingFrontPanel> {
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                 const Text(
+                  const Text(
                     'Properties',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                  HandCursor(child: 
-                  IconButton(
+                  HandCursor(
+                      child: IconButton(
                     icon: Icon(Icons.close, color: model.textColor),
                     onPressed: () {
                       Navigator.pop(context);
                     },
                   ))
                 ]),
-             Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text('Zoom mode ',
-                                              style: TextStyle(
-                                                  color: model.textColor,
-                                                  fontSize: 16,
-                                                  letterSpacing: 0.34,
-                                                  fontWeight:
-                                                      FontWeight.normal)),
-                                          Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 0, 40, 0),
-                                            height: 50,
-                                            width: 150,
-                                            child: Align(
-                                              alignment: Alignment.bottomCenter,
-                                              child: Theme(
-                                                  data: Theme.of(context).copyWith(
-                                                      canvasColor: model
-                                                          .bottomSheetBackgroundColor),
-                                                  child: DropDown(
-                                                      value:  model.properties['SelectedModeType'],
-                                                      item: _zoomModeTypeList
-                                                          .map((String value) {
-                                                        return DropdownMenuItem<
-                                                                String>(
-                                                            value:
-                                                                (value != null)
-                                                                    ? value
-                                                                    : 'xy',
-                                                            child: Text(
-                                                                '$value',
-                                                                style: TextStyle(
-                                                                    color: model
-                                                                        .textColor)));
-                                                      }).toList(),
-                                                      valueChanged:
-                                                          (dynamic value) {
-                                                        onZoomTypeChange(
-                                                            value, model);
-                                                      })),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),                                
-                                    SizedBox(
-                                      width: 25,
-                                      height: 40,
-                                      child:RaisedButton(
-                                        color: model.backgroundColor.withOpacity(0.8),
-                                        child:const Text('Reset'),
-                                        onPressed: (){
-                                           zoomingBehavior.reset();                                           
-                                        },
-                                      )
-                                    )
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Text('Zoom mode ',
+                      style: TextStyle(
+                          color: model.textColor,
+                          fontSize: 16,
+                          letterSpacing: 0.34,
+                          fontWeight: FontWeight.normal)),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 40, 0),
+                    height: 50,
+                    width: 150,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Theme(
+                          data: Theme.of(context).copyWith(
+                              canvasColor: model.bottomSheetBackgroundColor),
+                          child: DropDown(
+                              value: model.properties['SelectedModeType'],
+                              item: _zoomModeTypeList.map((String value) {
+                                return DropdownMenuItem<String>(
+                                    value: (value != null) ? value : 'xy',
+                                    child: Text('$value',
+                                        style:
+                                            TextStyle(color: model.textColor)));
+                              }).toList(),
+                              valueChanged: (dynamic value) {
+                                onZoomTypeChange(value, model);
+                              })),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+                width: 25,
+                height: 40,
+                child: RaisedButton(
+                  color: model.backgroundColor.withOpacity(0.8),
+                  child: const Text('Reset'),
+                  onPressed: () {
+                    zoomingBehavior.reset();
+                  },
+                ))
           ],
         ),
       );
     } else {
-    showRoundedModalBottomSheet<dynamic>(
-        dismissOnTap: false,
-        context: context,
-        radius: 12.0,
-        color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
-            rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleModel model) => Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Container(
-                  height: 120,
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Container(
-                        height: 120,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: 40,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text('Settings',
-                                        style: TextStyle(
-                                            color: model.textColor,
-                                            fontSize: 18,
-                                            letterSpacing: 0.34,
-                                            fontWeight: FontWeight.w500)),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: model.textColor,
+      showRoundedModalBottomSheet<dynamic>(
+          dismissOnTap: false,
+          context: context,
+          radius: 12.0,
+          color: model.bottomSheetBackgroundColor,
+          builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
+              rebuildOnChange: false,
+              builder: (BuildContext context, _, SampleModel model) => Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Container(
+                    height: 120,
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: Container(
+                          height: 120,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                            child: Stack(
+                              children: <Widget>[
+                                Container(
+                                  height: 40,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text('Settings',
+                                          style: TextStyle(
+                                              color: model.textColor,
+                                              fontSize: 18,
+                                              letterSpacing: 0.34,
+                                              fontWeight: FontWeight.w500)),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: model.textColor,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
                                       ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(15, 50, 0, 0),
-                                child: ListView(
-                                  children: <Widget>[
-                                    Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text('Zoom mode ',
-                                              style: TextStyle(
-                                                  color: model.textColor,
-                                                  fontSize: 16,
-                                                  letterSpacing: 0.34,
-                                                  fontWeight:
-                                                      FontWeight.normal)),
-                                          Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 0, 40, 0),
-                                            height: 50,
-                                            width: 150,
-                                            child: Align(
-                                              alignment: Alignment.bottomCenter,
-                                              child: Theme(
-                                                  data: Theme.of(context).copyWith(
-                                                      canvasColor: model
-                                                          .bottomSheetBackgroundColor),
-                                                  child: DropDown(
-                                                      value: _selectedModeType,
-                                                      item: _zoomModeTypeList
-                                                          .map((String value) {
-                                                        return DropdownMenuItem<
-                                                                String>(
-                                                            value:
-                                                                (value != null)
-                                                                    ? value
-                                                                    : 'x',
-                                                            child: Text(
-                                                                '$value',
-                                                                style: TextStyle(
-                                                                    color: model
-                                                                        .textColor)));
-                                                      }).toList(),
-                                                      valueChanged:
-                                                          (dynamic value) {
-                                                        onZoomTypeChange(
-                                                            value, model);
-                                                      })),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 50, 0, 0),
+                                  child: ListView(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text('Zoom mode ',
+                                                style: TextStyle(
+                                                    color: model.textColor,
+                                                    fontSize: 16,
+                                                    letterSpacing: 0.34,
+                                                    fontWeight:
+                                                        FontWeight.normal)),
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      0, 0, 40, 0),
+                                              height: 50,
+                                              width: 150,
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Theme(
+                                                    data: Theme.of(context)
+                                                        .copyWith(
+                                                            canvasColor: model
+                                                                .bottomSheetBackgroundColor),
+                                                    child: DropDown(
+                                                        value:
+                                                            _selectedModeType,
+                                                        item: _zoomModeTypeList
+                                                            .map(
+                                                                (String value) {
+                                                          return DropdownMenuItem<
+                                                                  String>(
+                                                              value: (value !=
+                                                                      null)
+                                                                  ? value
+                                                                  : 'x',
+                                                              child: Text(
+                                                                  '$value',
+                                                                  style: TextStyle(
+                                                                      color: model
+                                                                          .textColor)));
+                                                        }).toList(),
+                                                        valueChanged:
+                                                            (dynamic value) {
+                                                          onZoomTypeChange(
+                                                              value, model);
+                                                        })),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      )),
-                ))));
-                 }
-   return widget ?? Container();
+                        )),
+                  ))));
+    }
+    return widget ?? Container();
   }
 
   void onZoomTypeChange(String item, SampleModel model) {
     // setState(() {
-      _selectedModeType = item;
-      if (_selectedModeType == 'x') {
-        _zoomModeType = ZoomMode.x;
-      }
-      if (_selectedModeType == 'y') {
-        _zoomModeType = ZoomMode.y;
-      }
-      if (_selectedModeType == 'xy') {
-        _zoomModeType = ZoomMode.xy;
-      }
-      model.properties['SelectedModeType'] = _selectedModeType;
-      model.properties['ZoomModeType'] = _zoomModeType;
-      if (model.isWeb)
-        model.sampleOutputContainer.outputKey.currentState.refresh();
-      else
-        setState(() {});
+    _selectedModeType = item;
+    if (_selectedModeType == 'x') {
+      _zoomModeType = ZoomMode.x;
+    }
+    if (_selectedModeType == 'y') {
+      _zoomModeType = ZoomMode.y;
+    }
+    if (_selectedModeType == 'xy') {
+      _zoomModeType = ZoomMode.xy;
+    }
+    model.properties['SelectedModeType'] = _selectedModeType;
+    model.properties['ZoomModeType'] = _zoomModeType;
+    if (model.isWeb)
+      model.sampleOutputContainer.outputKey.currentState.refresh();
+    else
+      setState(() {});
 
     // });
   }

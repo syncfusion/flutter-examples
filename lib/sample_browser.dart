@@ -20,16 +20,15 @@ class SampleBrowser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Chart Flutter',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.system,
-      home: Builder(builder: (BuildContext context){
-              systemTheme = Theme.of(context);
-              return HomePage(sampleBrowser: this);
-      })
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Chart Flutter',
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.system,
+        home: Builder(builder: (BuildContext context) {
+          systemTheme = Theme.of(context);
+          return HomePage(sampleBrowser: this);
+        }));
   }
 }
 
@@ -63,12 +62,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _currentThemeData = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? ThemeData.light(): ThemeData.dark();
+    _currentThemeData =
+        widget.sampleBrowser.systemTheme.brightness != Brightness.dark
+            ? ThemeData.light()
+            : ThemeData.dark();
     sampleListModel = SampleModel();
-    _lightThemeSelected = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? true : false;
+    _lightThemeSelected =
+        widget.sampleBrowser.systemTheme.brightness != Brightness.dark
+            ? true
+            : false;
     sampleListModel.changeTheme(widget.sampleBrowser.systemTheme);
     systemThemeSelected = sampleListModel.backgroundColor;
-    lightThemeSelected = darkThemeSelected = widget.sampleBrowser.systemTheme.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1): const Color.fromRGBO(79, 85, 102, 1);
+    lightThemeSelected = darkThemeSelected =
+        widget.sampleBrowser.systemTheme.brightness == Brightness.light
+            ? const Color.fromRGBO(247, 245, 245, 1)
+            : const Color.fromRGBO(79, 85, 102, 1);
     defaultBorderColor = <Color>[];
     _addColors();
     _init();
@@ -104,7 +112,6 @@ class _HomePageState extends State<HomePage> {
         child: ScopedModelDescendant<SampleModel>(
           rebuildOnChange: true,
           builder: (BuildContext context, _, SampleModel model) => MaterialApp(
-            title: 'Chart Flutter',
             debugShowCheckedModeBanner: false,
             home: SafeArea(
               child: Scaffold(
@@ -126,17 +133,15 @@ class _HomePageState extends State<HomePage> {
                           title: AnimateOpacityWidget(
                               controller: controller,
                               opacity: cOpacity,
-                          child: sampleListModel.isWeb 
-                              ? const Text('Flutter UI Widgets (Beta)',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: 'HeeboMedium'
-                                      ))
-                              : const Text('Flutter UI Widgets',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: 'HeeboMedium'
-                                      ))),
+                              child: sampleListModel.isWeb
+                                  ? const Text('Flutter UI Widgets (Beta)',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'HeeboMedium'))
+                                  : const Text('Flutter UI Widgets',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'HeeboMedium'))),
                           actions: <Widget>[
                             Container(
                               padding: model.isWeb
@@ -247,20 +252,21 @@ class _HomePageState extends State<HomePage> {
                                     // ignore: prefer_const_literals_to_create_immutables
                                     children: <Widget>[
                                       model.isWeb
-                                       ? const Text('Flutter UI Widgets (Beta)',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25,
-                                              letterSpacing: 0.53,
-                                              fontFamily: 'HeeboBold',
-                                              fontWeight: FontWeight.bold))
-                                       :const Text('Flutter UI Widgets',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25,
-                                              letterSpacing: 0.53,
-                                              fontFamily: 'HeeboBold',
-                                              fontWeight: FontWeight.bold)),
+                                          ? const Text(
+                                              'Flutter UI Widgets (Beta)',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 25,
+                                                  letterSpacing: 0.53,
+                                                  fontFamily: 'HeeboBold',
+                                                  fontWeight: FontWeight.bold))
+                                          : const Text('Flutter UI Widgets',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 25,
+                                                  letterSpacing: 0.53,
+                                                  fontFamily: 'HeeboBold',
+                                                  fontWeight: FontWeight.bold)),
                                       const Padding(
                                         padding:
                                             EdgeInsets.fromLTRB(0, 12, 0, 0),
@@ -448,316 +454,335 @@ class _HomePageState extends State<HomePage> {
             model: sampleListModel,
             child: ScopedModelDescendant<SampleModel>(
                 rebuildOnChange: true,
-                builder: (BuildContext context, _, SampleModel model) =>
-                    OrientationBuilder(
-                      builder: (BuildContext context, Orientation orientation) {
-                        return Container(
-                            height: model.isWeb ? 240 : 250,
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 5, 0, 0),
-                                  child: Stack(children: <Widget>[
-                                    Container(
-                                      height: 40,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Settings',
-                                              style: TextStyle(
+                builder:
+                    (BuildContext context, _, SampleModel model) =>
+                        OrientationBuilder(
+                          builder:
+                              (BuildContext context, Orientation orientation) {
+                            return Container(
+                                height: model.isWeb ? 240 : 250,
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 5, 0, 0),
+                                      child: Stack(children: <Widget>[
+                                        Container(
+                                          height: 40,
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text('Settings',
+                                                  style: TextStyle(
+                                                      color: model.textColor,
+                                                      fontSize: 18,
+                                                      letterSpacing: 0.34,
+                                                      fontFamily: 'HeeboBold',
+                                                      fontWeight:
+                                                          FontWeight.w500)),
+                                              IconButton(
+                                                icon: Icon(
+                                                  Icons.close,
                                                   color: model.textColor,
-                                                  fontSize: 18,
-                                                  letterSpacing: 0.34,
-                                                  fontFamily: 'HeeboBold',
-                                                  fontWeight: FontWeight.w500)),
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.close,
-                                              color: model.textColor,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ]),
+                                    ),
+                                    Expanded(
+                                      // ListView contains a group of widgets that scroll inside the drawer
+                                      child: ListView(
+                                        children: <Widget>[
+                                          Column(children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      0, 10, 0, 0),
+                                              child:
+                                                  MediaQuery.of(context)
+                                                              .orientation ==
+                                                          Orientation.portrait
+                                                      ? Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  15, 0, 10, 0),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: <Widget>[
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .fromLTRB(
+                                                                          0,
+                                                                          0,
+                                                                          5,
+                                                                          0),
+                                                                  child: RaisedButton(
+                                                                      color: systemThemeSelected,
+                                                                      onPressed: () => _toggleSystemTheme(model),
+                                                                      child: Text(
+                                                                        'System theme',
+                                                                        style: TextStyle(
+                                                                            color: systemThemeSelected == const Color.fromRGBO(247, 245, 245, 1)
+                                                                                ? Colors.black
+                                                                                : Colors.white,
+                                                                            fontFamily: 'HeeboMedium'),
+                                                                      )),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .fromLTRB(
+                                                                          0,
+                                                                          0,
+                                                                          5,
+                                                                          0),
+                                                                  child: RaisedButton(
+                                                                      color: lightThemeSelected,
+                                                                      onPressed: () => _toggleLightTheme(model),
+                                                                      child: Text(
+                                                                        'Light theme',
+                                                                        style: TextStyle(
+                                                                            color: lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1)
+                                                                                ? Colors.black
+                                                                                : Colors.white,
+                                                                            fontFamily: 'HeeboMedium'),
+                                                                      )),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          0.0),
+                                                                  child: RaisedButton(
+                                                                      color:
+                                                                          darkThemeSelected,
+                                                                      onPressed: () =>
+                                                                          _toggleDarkTheme(
+                                                                              model),
+                                                                      child: Text(
+                                                                          'Dark theme',
+                                                                          style: TextStyle(
+                                                                              color: darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
+                                                                              fontFamily: 'HeeboMedium'))),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  15, 0, 10, 0),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: <Widget>[
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.fromLTRB(
+                                                                      model.isWeb
+                                                                          ? 150
+                                                                          : _orientationPadding,
+                                                                      0,
+                                                                      0,
+                                                                      0),
+                                                                  child: RaisedButton(
+                                                                      elevation: 0,
+                                                                      color: systemThemeSelected,
+                                                                      onPressed: () => _toggleSystemTheme(model),
+                                                                      child: Text(
+                                                                        'System theme',
+                                                                        style: TextStyle(
+                                                                            color: systemThemeSelected == const Color.fromRGBO(247, 245, 245, 1)
+                                                                                ? Colors.black
+                                                                                : Colors.white,
+                                                                            fontFamily: 'HeeboMedium'),
+                                                                      )),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .fromLTRB(
+                                                                          _orientationPadding /
+                                                                              2,
+                                                                          0,
+                                                                          _orientationPadding /
+                                                                              2,
+                                                                          0),
+                                                                  child: RaisedButton(
+                                                                      elevation: 0,
+                                                                      color: lightThemeSelected,
+                                                                      onPressed: () => _toggleLightTheme(model),
+                                                                      child: Text(
+                                                                        'Light theme',
+                                                                        style: TextStyle(
+                                                                            color: lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1)
+                                                                                ? Colors.black
+                                                                                : Colors.white,
+                                                                            fontFamily: 'HeeboMedium'),
+                                                                      )),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      model.isWeb
+                                                                          ? 150
+                                                                          : _orientationPadding,
+                                                                      0),
+                                                                  child: RaisedButton(
+                                                                      elevation:
+                                                                          0,
+                                                                      color:
+                                                                          darkThemeSelected,
+                                                                      onPressed: () =>
+                                                                          _toggleDarkTheme(
+                                                                              model),
+                                                                      child: Text(
+                                                                          'Dark theme',
+                                                                          style: TextStyle(
+                                                                              color: darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
+                                                                              fontFamily: 'HeeboMedium'))),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                            )
+                                          ]),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 20, 0, 0),
+                                            child: MediaQuery.of(context)
+                                                        .orientation ==
+                                                    Orientation.portrait
+                                                ? Container(
+                                                    child: Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  15,
+                                                                  0,
+                                                                  10,
+                                                                  30),
+                                                          child: Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children:
+                                                                  _addColorPalettes(
+                                                                      model)),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ))
+                                                : Container(
+                                                    child: Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding: EdgeInsets.fromLTRB(
+                                                              model.isWeb
+                                                                  ? 200
+                                                                  : _orientationPadding +
+                                                                      10,
+                                                              0,
+                                                              model.isWeb
+                                                                  ? 200
+                                                                  : _orientationPadding +
+                                                                      10,
+                                                              30),
+                                                          child: Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children:
+                                                                  _addColorPalettes(
+                                                                      model)),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )),
                                           ),
                                         ],
                                       ),
-                                    )
-                                  ]),
-                                ),
-                                Expanded(
-                                  // ListView contains a group of widgets that scroll inside the drawer
-                                  child: ListView(
-                                    children: <Widget>[
-                                      Column(children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 10, 0, 0),
-                                          child: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.portrait
-                                              ? Container(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          15, 0, 10, 0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                                          child: RaisedButton(
-                                                              color:
-                                                                  systemThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleSystemTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                'System theme',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        systemThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                    fontFamily:
-                                                                        'HeeboMedium'),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                                          child: RaisedButton(
-                                                              color:
-                                                                  lightThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleLightTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                'Light theme',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                    fontFamily:
-                                                                        'HeeboMedium'),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.all(0.0),
-                                                          child: RaisedButton(
-                                                              color:
-                                                                  darkThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleDarkTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                  'Dark theme',
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                      fontFamily:
-                                                                          'HeeboMedium'))),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                )
-                                              : Container(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          15, 0, 10, 0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  model.isWeb
-                                                                      ? 150
-                                                                      : _orientationPadding,
-                                                                  0,
-                                                                  0,
-                                                                  0),
-                                                          child: RaisedButton(
-                                                              elevation: 0,
-                                                              color:
-                                                                  systemThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleSystemTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                'System theme',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        systemThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                    fontFamily:
-                                                                        'HeeboMedium'),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  _orientationPadding/2,
-                                                                  0,
-                                                                  _orientationPadding/2,
-                                                                  0),
-                                                          child: RaisedButton(
-                                                              elevation: 0,
-                                                              color:
-                                                                  lightThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleLightTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                'Light theme',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                    fontFamily:
-                                                                        'HeeboMedium'),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  0,
-                                                                  0,
-                                                                  model.isWeb
-                                                                      ? 150
-                                                                      : _orientationPadding,
-                                                                  0),
-                                                          child: RaisedButton(
-                                                              elevation: 0,
-                                                              color:
-                                                                  darkThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleDarkTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                  'Dark theme',
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                      fontFamily:
-                                                                          'HeeboMedium'))),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                        )
-                                      ]),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 20, 0, 0),
-                                        child: MediaQuery.of(context)
-                                                    .orientation ==
-                                                Orientation.portrait
-                                            ? Container(
-                                                child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .fromLTRB(
-                                                          15, 0, 10, 30),
-                                                      child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children:
-                                                              _addColorPalettes(
-                                                                  model)),
+                                    ),
+                                    Align(
+                                        alignment:
+                                            FractionalOffset.bottomCenter,
+                                        child: Container(
+                                          margin: model.isWeb
+                                              ? const EdgeInsets.only(
+                                                  bottom: 10)
+                                              : const EdgeInsets.all(0),
+                                          height: 50,
+                                          width: model.isWeb
+                                              ? 130
+                                              : double.infinity,
+                                          child: RaisedButton(
+                                              shape: model.isWeb
+                                                  ? RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              18.0),
+                                                      side: BorderSide(
+                                                          color: Colors
+                                                              .blueAccent),
+                                                    )
+                                                  : RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              0.0),
                                                     ),
-                                                  ),
-                                                ],
-                                              ))
-                                            : Container(
-                                                child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: EdgeInsets.fromLTRB(
-                                                          model.isWeb
-                                                              ? 200
-                                                              : _orientationPadding +
-                                                                  10,
-                                                          0,
-                                                          model.isWeb
-                                                              ? 200
-                                                              : _orientationPadding +
-                                                                  10,
-                                                          30),
-                                                      child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children:
-                                                              _addColorPalettes(
-                                                                  model)),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Align(
-                                    alignment: FractionalOffset.bottomCenter,
-                                    child: Container(
-                                      margin: model.isWeb
-                                          ? const EdgeInsets.only(bottom: 10)
-                                          : const EdgeInsets.all(0),
-                                      height: 50,
-                                      width:
-                                          model.isWeb ? 130 : double.infinity,
-                                      child: RaisedButton(
-                                          shape: model.isWeb
-                                              ? RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          18.0),
-                                                  side: BorderSide(
-                                                      color: Colors.blueAccent),
-                                                )
-                                              : RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          0.0),
-                                                ),
-                                          color: model.backgroundColor,
-                                          onPressed: () => _applySetting(model),
-                                          child: const Text('APPLY',
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      'HeeboMedium',
-                                                  color: Colors.white))),
-                                    ))
-                              ],
-                            ));
-                      },
-                    ))));
+                                              color: model.backgroundColor,
+                                              onPressed: () =>
+                                                  _applySetting(model),
+                                              child: const Text('APPLY',
+                                                  style: TextStyle(
+                                                      fontFamily: 'HeeboMedium',
+                                                      color: Colors.white))),
+                                        ))
+                                  ],
+                                ));
+                          },
+                        ))));
   }
 
   void _applySetting(SampleModel model) {
@@ -767,13 +792,22 @@ class _HomePageState extends State<HomePage> {
     model.changeTheme(_currentThemeData);
     if (_systemThemeSelected) {
       systemThemeSelected = model.backgroundColor;
-      lightThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
+      lightThemeSelected = darkThemeSelected =
+          model.themeData.brightness == Brightness.light
+              ? const Color.fromRGBO(247, 245, 245, 1)
+              : const Color.fromRGBO(79, 85, 102, 1);
     } else if (_lightThemeSelected) {
       lightThemeSelected = model.backgroundColor;
-      systemThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
+      systemThemeSelected = darkThemeSelected =
+          model.themeData.brightness == Brightness.light
+              ? const Color.fromRGBO(247, 245, 245, 1)
+              : const Color.fromRGBO(79, 85, 102, 1);
     } else {
       darkThemeSelected = model.backgroundColor;
-      systemThemeSelected = lightThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
+      systemThemeSelected = lightThemeSelected =
+          model.themeData.brightness == Brightness.light
+              ? const Color.fromRGBO(247, 245, 245, 1)
+              : const Color.fromRGBO(79, 85, 102, 1);
     }
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
@@ -784,7 +818,10 @@ class _HomePageState extends State<HomePage> {
     _lightThemeSelected = true;
     _systemThemeSelected = false;
     lightThemeSelected = model.backgroundColor;
-    systemThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
+    systemThemeSelected = darkThemeSelected =
+        model.themeData.brightness == Brightness.light
+            ? const Color.fromRGBO(247, 245, 245, 1)
+            : const Color.fromRGBO(79, 85, 102, 1);
     _currentThemeData = ThemeData.light();
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
@@ -794,7 +831,10 @@ class _HomePageState extends State<HomePage> {
     _lightThemeSelected = false;
     _systemThemeSelected = false;
     darkThemeSelected = model.backgroundColor;
-    systemThemeSelected = lightThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
+    systemThemeSelected = lightThemeSelected =
+        model.themeData.brightness == Brightness.light
+            ? const Color.fromRGBO(247, 245, 245, 1)
+            : const Color.fromRGBO(79, 85, 102, 1);
     _currentThemeData = ThemeData.dark();
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
@@ -802,10 +842,19 @@ class _HomePageState extends State<HomePage> {
 
   void _toggleSystemTheme(SampleModel model) {
     _systemThemeSelected = true;
-    _lightThemeSelected = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? true : false;
+    _lightThemeSelected =
+        widget.sampleBrowser.systemTheme.brightness != Brightness.dark
+            ? true
+            : false;
     systemThemeSelected = model.backgroundColor;
-    lightThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1): const Color.fromRGBO(79, 85, 102, 1);
-    _currentThemeData = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? ThemeData.light() : ThemeData.dark();
+    lightThemeSelected = darkThemeSelected =
+        model.themeData.brightness == Brightness.light
+            ? const Color.fromRGBO(247, 245, 245, 1)
+            : const Color.fromRGBO(79, 85, 102, 1);
+    _currentThemeData =
+        widget.sampleBrowser.systemTheme.brightness != Brightness.dark
+            ? ThemeData.light()
+            : ThemeData.dark();
     // ignore: invalid_use_of_protected_member
     model.notifyListeners();
   }
@@ -1251,7 +1300,7 @@ class _HomePageState extends State<HomePage> {
                           )),
                       Align(
                           alignment: Alignment.bottomCenter,
-                          child: Text('Version 18.1.42',
+                          child: Text('Version 18.1.52',
                               style: TextStyle(
                                   color: _model.drawerTextIconColor,
                                   fontSize: 12,

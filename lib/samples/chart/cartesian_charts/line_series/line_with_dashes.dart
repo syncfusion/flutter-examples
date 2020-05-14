@@ -7,25 +7,24 @@ import '../../../../model/helper.dart';
 //ignore: must_be_immutable
 class LineDashed extends StatefulWidget {
   LineDashed({this.sample, Key key}) : super(key: key);
-   SubItem sample;
+  SubItem sample;
 
   @override
   _LineDashedState createState() => _LineDashedState(sample);
 }
 
 class _LineDashedState extends State<LineDashed> {
-   _LineDashedState(this.sample);
-   final SubItem sample;
-  
+  _LineDashedState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getDashedLineChart(false),sample);
-    }
+    return getScopedModel(getDashedLineChart(false), sample);
+  }
 }
 
 SfCartesianChart getDashedLineChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Capital investment as a share of exports'),

@@ -86,17 +86,18 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
         key: scaffoldKey,
         drawer: (MediaQuery.of(context).size.width > 768)
             ? Container()
-            :  SizedBox(
-                width:MediaQuery.of(context).size.width *(MediaQuery.of(context).size.width < 500 ? 0.65 : 0.4),
-                child:Drawer(
-                  key: const PageStorageKey<String>('pagescrollmaintain'),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: SampleInputContainer(
-                        sampleModel: model,
-                        category: category,
-                        key: sampleInputKey,
-                        webLayoutPageState: this)))),
+            : SizedBox(
+                width: MediaQuery.of(context).size.width *
+                    (MediaQuery.of(context).size.width < 500 ? 0.65 : 0.4),
+                child: Drawer(
+                    key: const PageStorageKey<String>('pagescrollmaintain'),
+                    child: Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: SampleInputContainer(
+                            sampleModel: model,
+                            category: category,
+                            key: sampleInputKey,
+                            webLayoutPageState: this)))),
         endDrawer: showWebThemeSettings(model),
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60.0),
@@ -110,38 +111,37 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
               ]),
               child: AppBar(
                 leading: (MediaQuery.of(context).size.width > 768)
-            ? Container()
-            : HandCursor(
-                child: IconButton(
-                 icon: Icon(Icons.menu, color: Colors.white),
-                 onPressed: () {
-                   if(outputContainer!=null){
-                     final GlobalKey globalKey =
-                          outputContainer.key;
-                     final SampleOutputContainerState outputContainerState =
-                          globalKey.currentState;
-                     if (outputContainerState
-                          .outputScaffoldKey.currentState.isEndDrawerOpen) {
-                       Navigator.pop(context);
-                      }}
-                     scaffoldKey.currentState.openDrawer();
-                   },
-                  ),
-                 ),
+                    ? Container()
+                    : HandCursor(
+                        child: IconButton(
+                          icon: Icon(Icons.menu, color: Colors.white),
+                          onPressed: () {
+                            if (outputContainer != null) {
+                              final GlobalKey globalKey = outputContainer.key;
+                              final SampleOutputContainerState
+                                  outputContainerState = globalKey.currentState;
+                              if (outputContainerState.outputScaffoldKey
+                                  .currentState.isEndDrawerOpen) {
+                                Navigator.pop(context);
+                              }
+                            }
+                            scaffoldKey.currentState.openDrawer();
+                          },
+                        ),
+                      ),
                 automaticallyImplyLeading:
                     MediaQuery.of(context).size.width <= 768,
                 elevation: 0.0,
                 backgroundColor: model.backgroundColor,
-                titleSpacing: MediaQuery.of(context).size.width <= 768 ? 0 : -30,
-                title: Row(
-                   children: <Widget>[
+                titleSpacing:
+                    MediaQuery.of(context).size.width <= 768 ? 0 : -30,
+                title: Row(children: <Widget>[
                   const Text('Flutter UI Widgets ',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           letterSpacing: 0.53,
-                          fontFamily: 'HeeboBold',
-                          fontWeight: FontWeight.bold)),
+                          fontFamily: 'Roboto-Medium')),
                   Container(
                       padding: const EdgeInsets.fromLTRB(3, 0, 3, 0),
                       decoration: const BoxDecoration(
@@ -152,22 +152,24 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                         style: TextStyle(
                             fontSize: 14,
                             letterSpacing: 0.26,
-                            fontFamily: 'HeeboMedium',
+                            fontFamily: 'Roboto-Medium',
                             color: Colors.black),
                       ))
                 ]),
                 actions: <Widget>[
-                  MediaQuery.of(context).size.width < 500 ? Container(height:0,width: 9) :
-                  Container(
-                      child: Container(
-                          padding: const EdgeInsets.only(top: 0, right: 10),
-                          width: MediaQuery.of(context).size.width * 0.215,
-                          height: MediaQuery.of(context).size.height * 0.0445,
-                          child: HandCursor(
-                            child: SearchBar(
-                              sampleListModel: model,
-                            ),
-                          ))),
+                  MediaQuery.of(context).size.width < 500
+                      ? Container(height: 0, width: 9)
+                      : Container(
+                          child: Container(
+                              padding: const EdgeInsets.only(top: 0, right: 10),
+                              width: MediaQuery.of(context).size.width * 0.215,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.0445,
+                              child: HandCursor(
+                                child: SearchBar(
+                                  sampleListModel: model,
+                                ),
+                              ))),
                   Container(
                     height: 60,
                     width: 60,
@@ -175,15 +177,15 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                       child: IconButton(
                         icon: Icon(Icons.settings, color: Colors.white),
                         onPressed: () {
-                          if(outputContainer!=null){
-                           final GlobalKey globalKey =
-                          outputContainer.key;
-                      final SampleOutputContainerState outputContainerState =
-                          globalKey.currentState;
-                      if (outputContainerState
-                          .outputScaffoldKey.currentState.isEndDrawerOpen) {
-                        Navigator.pop(context);
-                      }}
+                          if (outputContainer != null) {
+                            final GlobalKey globalKey = outputContainer.key;
+                            final SampleOutputContainerState
+                                outputContainerState = globalKey.currentState;
+                            if (outputContainerState.outputScaffoldKey
+                                .currentState.isEndDrawerOpen) {
+                              Navigator.pop(context);
+                            }
+                          }
                           scaffoldKey.currentState.openEndDrawer();
                         },
                       ),
@@ -304,10 +306,10 @@ class _SampleInputContainerState extends State<SampleInputContainer> {
             webLayoutPageState: widget.webLayoutPageState,
             item: item)
         : Material(
-           color: model.webBackgroundColor,
+            color: model.webBackgroundColor,
             child: HandCursor(
                 child: InkWell(
-                  hoverColor: Colors.grey.withOpacity(0.2),
+                    hoverColor: Colors.grey.withOpacity(0.2),
                     onTap: () {
                       final GlobalKey globalKey =
                           widget.webLayoutPageState.outputContainer.key;
@@ -340,10 +342,11 @@ class _SampleInputContainerState extends State<SampleInputContainer> {
     final dynamic list = category.controlList[category.selectedIndex].subItems;
     final List<Widget> _children = <Widget>[];
     for (int i = 0; i < list.length; i++) {
-      final bool isNeedSelect =
-        widget.webLayoutPageState.selectSample == null ? i == 0 : widget.webLayoutPageState.selectSample == list[i].title;
+      final bool isNeedSelect = widget.webLayoutPageState.selectSample == null
+          ? i == 0
+          : widget.webLayoutPageState.selectSample == list[i].title;
       _children.add(Material(
-        color: model.webBackgroundColor,
+          color: model.webBackgroundColor,
           child: list[i].type != 'parent' && list[i].type != 'child'
               ? HandCursor(
                   child: InkWell(
@@ -360,8 +363,8 @@ class _SampleInputContainerState extends State<SampleInputContainer> {
                             width: 5,
                             padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
                             alignment: Alignment.centerLeft,
-                            child: const Opacity(
-                                opacity: 0.0, child: Text('1'))),
+                            child:
+                                const Opacity(opacity: 0.0, child: Text('1'))),
                         Expanded(
                             child: Container(
                                 padding:
@@ -443,7 +446,9 @@ class _SampleInputContainerState extends State<SampleInputContainer> {
                   child: InkWell(
                 child: Row(
                   children: <Widget>[
-                   const Padding(padding:  EdgeInsets.only(left: 16),),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 16),
+                    ),
                     Container(
                         child: Icon(Icons.arrow_back,
                             size: 20, color: sampleModel.backgroundColor)),
@@ -463,7 +468,7 @@ class _SampleInputContainerState extends State<SampleInputContainer> {
                 onTap: () {
                   changeCursorStyleOnNavigation();
                   Navigator.pop(context);
-                  if(MediaQuery.of(context).size.width <= 768){
+                  if (MediaQuery.of(context).size.width <= 768) {
                     Navigator.pop(context);
                   }
                 },
@@ -563,16 +568,15 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
       isNeedPropertyPanel = true;
     }
     propertiesPanel = PropertiesPanel(
-      sampleModel: model,
+        sampleModel: model,
         key: propertiesPanelKey,
         webLayoutPageState: widget.webLayoutPageState,
         renderWidget: const Text('Properties'));
     return Theme(
-          data: ThemeData(
-              brightness:  model.themeData.brightness,
-              primaryColor: model.backgroundColor
-            ),
-          child: Expanded(
+      data: ThemeData(
+          brightness: model.themeData.brightness,
+          primaryColor: model.backgroundColor),
+      child: Expanded(
           child: Container(
               color: model.webOutputContainerColor,
               padding: const EdgeInsets.all(15),
@@ -584,8 +588,9 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                       child: Text(_sample.title,
                           style: TextStyle(
                               color: model.textColor,
+                              letterSpacing: 0.39,
                               fontSize: 18,
-                              fontFamily: 'HeeboBold'))),
+                              fontFamily: 'Roboto-Medium'))),
                   Container(
                       padding: const EdgeInsets.only(left: 10, top: 10),
                       alignment: Alignment.centerLeft,
@@ -593,7 +598,7 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                           needTabs == true
                               ? orginText + ' > ' + _sample.title
                               : orginText,
-                          style:  TextStyle(
+                          style: TextStyle(
                               color: model.textColor.withOpacity(0.65),
                               fontSize: 14,
                               letterSpacing: 0.3,
@@ -601,8 +606,7 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                   const Padding(padding: EdgeInsets.only(top: 20)),
                   Expanded(
                       child: Scaffold(
-                          backgroundColor:
-                              model.webOutputContainerColor,
+                          backgroundColor: model.webOutputContainerColor,
                           key: outputScaffoldKey,
                           endDrawer: propertiesPanel,
                           body: needTabs == true
@@ -614,7 +618,11 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                       decoration: BoxDecoration(
                                         color: model.webOutputContainerColor,
                                         border: Border.all(
-                                            color: model.theme == Brightness.light ?  Colors.grey[300] : Colors.transparent, width: 1),
+                                            color:
+                                                model.theme == Brightness.light
+                                                    ? Colors.grey[300]
+                                                    : Colors.transparent,
+                                            width: 1),
                                         borderRadius: BorderRadius.circular(3),
                                       ),
                                       child: Column(
@@ -623,79 +631,70 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                               height: 36,
                                               decoration: BoxDecoration(
                                                 color: model.webInputColor,
-                                               border: Border(bottom: BorderSide(color: model.webDividerColor, width: 0.8)),
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: model
+                                                            .webDividerColor,
+                                                        width: 0.8)),
                                               ),
                                               padding: MediaQuery.of(context)
-                                                                        .size
-                                                                        .width<500 ? 
-                                                                        const EdgeInsets.fromLTRB(2,5,2,0):
-                                                                        const EdgeInsets.fromLTRB(
-                                                  10, 5, 10,0),
+                                                          .size
+                                                          .width <
+                                                      500
+                                                  ? const EdgeInsets.fromLTRB(
+                                                      2, 5, 2, 0)
+                                                  : const EdgeInsets.fromLTRB(
+                                                      10, 0, 10, 0),
                                               child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: <Widget>[
                                                     Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
+                                                        width: MediaQuery.of(context)
                                                                 .size
                                                                 .width *
-                                                            ((MediaQuery.of(context)
-                                                                        .size
-                                                                        .width <=
-                                                                    768 && MediaQuery.of(context)
-                                                                        .size
-                                                                        .width>500)
-                                                                ?  0.82
+                                                            ((MediaQuery.of(context).size.width <=
+                                                                        768 &&
+                                                                    MediaQuery.of(context)
+                                                                            .size
+                                                                            .width >
+                                                                        500)
+                                                                ? 0.82
                                                                 : 0.67),
                                                         child:
                                                             SingleChildScrollView(
-                                                              key: PageStorageKey<String>((subItems.isNotEmpty ? subItems[0].title :'') + 'tabscroll'),
+                                                                key: PageStorageKey<
+                                                                    String>((subItems
+                                                                            .isNotEmpty
+                                                                        ? subItems[0]
+                                                                            .title
+                                                                        : '') +
+                                                                    'tabscroll'),
                                                                 scrollDirection:
                                                                     Axis.horizontal,
                                                                 child: HandCursor(
-                                                                    child: TabBar(
-                                                                      
-                                                                  indicatorPadding:EdgeInsets.zero,
-                                                                  indicatorColor: model
-                                                                      .backgroundColor,
-                                                                  onTap: (int
-                                                                      value) {
-                                                                    final GlobalKey
-                                                                        globalKey =
-                                                                        widget
-                                                                            .webLayoutPageState
-                                                                            .outputContainer
-                                                                            .key;
-                                                                    final SampleOutputContainerState
-                                                                        outputContainerState =
-                                                                        globalKey
-                                                                            .currentState;
-                                                                    outputContainerState
-                                                                            .sample =
-                                                                        subItems[
-                                                                            value];
-                                                                    outputContainerState
-                                                                            .needTabs =
-                                                                        true;
-                                                                    outputContainerState
-                                                                            .subItems =
-                                                                        subItems;
-                                                                    outputContainerState
-                                                                            .tabIndex =
-                                                                        value;
-                                                                    outputContainerState
-                                                                        .refresh();
-                                                                  },
-                                                                  labelColor: model
-                                                                      .backgroundColor,
-                                                                  unselectedLabelColor: model.webTabTextColor,
-                                                                  isScrollable:
-                                                                      true,
-                                                                  tabs: _getTabs(
-                                                                      subItems),
-                                                                )))),
+                                                                    child: Material(
+                                                                        color: model.webInputColor,
+                                                                        child: InkWell(
+                                                                            hoverColor: model.backgroundColor.withOpacity(0.3),
+                                                                            child: TabBar(
+                                                                              indicatorPadding: EdgeInsets.zero,
+                                                                              indicatorColor: model.backgroundColor,
+                                                                              onTap: (int value) {
+                                                                                final GlobalKey globalKey = widget.webLayoutPageState.outputContainer.key;
+                                                                                final SampleOutputContainerState outputContainerState = globalKey.currentState;
+                                                                                outputContainerState.sample = subItems[value];
+                                                                                outputContainerState.needTabs = true;
+                                                                                outputContainerState.subItems = subItems;
+                                                                                outputContainerState.tabIndex = value;
+                                                                                outputContainerState.refresh();
+                                                                              },
+                                                                              labelColor: model.backgroundColor,
+                                                                              unselectedLabelColor: model.webTabTextColor,
+                                                                              isScrollable: true,
+                                                                              tabs: _getTabs(subItems),
+                                                                            )))))),
                                                     Container(
                                                       child: Row(
                                                         children: <Widget>[
@@ -736,9 +735,10 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                                                       child: Icon(
                                                                           Icons
                                                                               .menu,
-                                                                          color: model
-                                                                              .webIconColor),
-                                                                      onTap: () {
+                                                                          color:
+                                                                              model.webIconColor),
+                                                                      onTap:
+                                                                          () {
                                                                         outputScaffoldKey
                                                                             .currentState
                                                                             .openEndDrawer();
@@ -753,13 +753,13 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                                   ])),
                                           Expanded(
                                               child: Container(
-                                            color: model.webSampleBackgroundColor,
+                                            color:
+                                                model.webSampleBackgroundColor,
                                             child: TabBarView(
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
                                                 children: _getTabViewChildren(
-                                                    model,
-                                                    subItems)),
+                                                    model, subItems)),
                                           )),
                                         ],
                                       )))
@@ -767,7 +767,10 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                   decoration: BoxDecoration(
                                     color: model.webOutputContainerColor,
                                     border: Border.all(
-                                        color:model.theme == Brightness.light ?  Colors.grey[300] : Colors.transparent, width: 1),
+                                        color: model.theme == Brightness.light
+                                            ? Colors.grey[300]
+                                            : Colors.transparent,
+                                        width: 1),
                                     borderRadius: BorderRadius.circular(3),
                                   ),
                                   child: Column(
@@ -776,7 +779,10 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                         height: 36,
                                         decoration: BoxDecoration(
                                           color: model.webInputColor,
-                                          border: Border(bottom: BorderSide(color: model.webDividerColor, width: 0.8)),
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: model.webDividerColor,
+                                                  width: 0.8)),
                                         ),
                                         padding: const EdgeInsets.fromLTRB(
                                             10, 5, 10, 5),
@@ -788,8 +794,8 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                                   child: Row(
                                                 children: <Widget>[
                                                   const Padding(
-                                                    padding:
-                                                        EdgeInsets.only(left: 15),
+                                                    padding: EdgeInsets.only(
+                                                        left: 15),
                                                   ),
                                                   Container(
                                                     height: 24,
@@ -797,15 +803,17 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                                     child: HandCursor(
                                                         child: InkWell(
                                                       child: Icon(Icons.code,
-                                                          color: model.webIconColor),
+                                                          color: model
+                                                              .webIconColor),
                                                       onTap: () {
-                                                        launch(_sample.codeLink);
+                                                        launch(
+                                                            _sample.codeLink);
                                                       },
                                                     )),
                                                   ),
                                                   const Padding(
-                                                    padding:
-                                                        EdgeInsets.only(left: 15),
+                                                    padding: EdgeInsets.only(
+                                                        left: 15),
                                                   ),
                                                   index == 2
                                                       ? Container(
@@ -815,7 +823,8 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                                               child: InkWell(
                                                             child: Icon(
                                                                 Icons.menu,
-                                                                color: model.webIconColor),
+                                                                color: model
+                                                                    .webIconColor),
                                                             onTap: () {
                                                               outputScaffoldKey
                                                                   .currentState
@@ -833,13 +842,15 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                         children: <Widget>[
                                           Expanded(
                                               child: Container(
-                                             color: model.webSampleBackgroundColor,
+                                            color:
+                                                model.webSampleBackgroundColor,
                                             child: OutputContainer(
                                                 key: GlobalKey(),
                                                 isPropertyPanelCreated: false,
                                                 isNeedPropertyPanel:
                                                     isNeedPropertyPanel,
-                                                propertiesPanel: propertiesPanel,
+                                                propertiesPanel:
+                                                    propertiesPanel,
                                                 webLayoutPageState:
                                                     widget.webLayoutPageState,
                                                 sampleModel: model,
@@ -848,28 +859,30 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                                           _sample.sourceLink != null &&
                                                   _sample.sourceLink != ''
                                               ? Align(
-                                                  alignment: Alignment.centerLeft,
+                                                  alignment:
+                                                      Alignment.centerLeft,
                                                   child: Container(
-                                                    padding:
-                                                        const EdgeInsets.fromLTRB(
-                                                            15, 0, 0, 20),
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(15, 0, 0, 20),
                                                     height: 35,
                                                     child: Row(
                                                       children: <Widget>[
                                                         Text(
                                                           'Source: ',
                                                           style: TextStyle(
-                                                              color: model.textColor),
+                                                              color: model
+                                                                  .textColor),
                                                         ),
                                                         InkWell(
                                                           onTap: () => launch(
-                                                              _sample.sourceLink),
+                                                              _sample
+                                                                  .sourceLink),
                                                           child: Text(
-                                                              _sample.sourceText,
-                                                              style:
-                                                                  const TextStyle(
-                                                                      color: Colors
-                                                                          .blue)),
+                                                              _sample
+                                                                  .sourceText,
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
                                                         ),
                                                       ],
                                                     ),
@@ -885,6 +898,7 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
                           padding: const EdgeInsets.only(left: 10, top: 18),
                           alignment: Alignment.centerLeft,
                           child: Text(_sample.description,
+                          textAlign: TextAlign.justify,
                               style: TextStyle(
                                   color: model.textColor,
                                   fontSize: 14,
@@ -905,9 +919,10 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
             child: Row(
           children: <Widget>[
             Text(list[i].title.toString() + (str != '' ? '  ' : ''),
-                style:const  TextStyle(
-                  letterSpacing: 0.5,
-                    fontSize: 14, fontFamily: 'Roboto-Medium')),
+                style: const TextStyle(
+                    letterSpacing: 0.5,
+                    fontSize: 14,
+                    fontFamily: 'Roboto-Medium')),
             str == ''
                 ? Container()
                 : Container(
@@ -942,8 +957,7 @@ class SampleOutputContainerState extends State<SampleOutputContainer> {
           ? 0
           : model.sampleWidget[list[i].key][0] == null ? 1 : 2;
 
-      final dynamic output =
-          model.sampleWidget[list[i].key][index];
+      final dynamic output = model.sampleWidget[list[i].key][index];
       if (index == 2) {
         output.sample = sample;
         isNeedPropertyPanel = true;
@@ -1125,11 +1139,10 @@ class PropertiesPanelState extends State<PropertiesPanel> {
         ?.propertyWidget(widget.sampleModel, widget.initProperty, context);
     widget.initProperty = false;
     return Theme(
-        data: ThemeData(
-              brightness:  widget.sampleModel.themeData.brightness,
-              primaryColor: widget.sampleModel.backgroundColor
-            ),
-        child: Drawer(
+      data: ThemeData(
+          brightness: widget.sampleModel.themeData.brightness,
+          primaryColor: widget.sampleModel.backgroundColor),
+      child: Drawer(
           elevation: 3,
           child: SizedBox(
               child: Container(
@@ -1185,10 +1198,9 @@ class TileContainerState extends State<TileContainer> {
     if (list != null && list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {
         final String status = getStatus(list[i]);
-        final bool isNeedSelect =
-            widget.webLayoutPageState.selectSample == null
-                ? i == 0 && widget.expansionKey.expansionIndex == 0
-                : widget.webLayoutPageState.selectSample == list[i].title;
+        final bool isNeedSelect = widget.webLayoutPageState.selectSample == null
+            ? i == 0 && widget.expansionKey.expansionIndex == 0
+            : widget.webLayoutPageState.selectSample == list[i].title;
         nextLevelChildren.add(list[i].type == 'sample'
             ? Material(
                 color: model.webBackgroundColor,
@@ -1219,8 +1231,8 @@ class TileContainerState extends State<TileContainer> {
                               text +
                               ' > ' +
                               list[i].title;
-                          widget.webLayoutPageState.selectSample =
-                              widget.webLayoutPageState.selectSample = list[i].title;
+                          widget.webLayoutPageState.selectSample = widget
+                              .webLayoutPageState.selectSample = list[i].title;
                           _sampleInputContainerState.refresh();
                           outputContainerState.refresh();
                         },
@@ -1247,7 +1259,6 @@ class TileContainerState extends State<TileContainer> {
                                       child: Text(list[i].title,
                                           style: TextStyle(
                                               fontSize: 13,
-                                              letterSpacing: -0.09,
                                               fontFamily: 'Roboto-Regular',
                                               color: isNeedSelect
                                                   ? model.backgroundColor
@@ -1291,8 +1302,8 @@ class TileContainerState extends State<TileContainer> {
                             color: isNeedSelect
                                 ? model.backgroundColor
                                 : Colors.transparent,
-                            child: const Opacity(
-                                opacity: 0.0, child: Text('1'))),
+                            child:
+                                const Opacity(opacity: 0.0, child: Text('1'))),
                         Expanded(
                             child: Container(
                                 alignment: Alignment.centerLeft,
@@ -1300,24 +1311,25 @@ class TileContainerState extends State<TileContainer> {
                                     left: 18, top: 7, bottom: 7),
                                 child: Text(list[i].title,
                                     style: TextStyle(
-                                       fontSize: 13,
-                                       letterSpacing: -0.09,
-                                              fontFamily: 'Roboto-Regular',
+                                        fontSize: 13,
+                                        fontFamily: 'Roboto-Regular',
                                         color: isNeedSelect
                                             ? model.backgroundColor
                                             : model.textColor)))),
-                        status != null && status != '' ? Container(
-                            decoration: BoxDecoration(
-                                color: status == 'New'
+                        status != null && status != ''
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    color: status == 'New'
                                         ? const Color.fromRGBO(101, 193, 0, 1)
                                         : const Color.fromRGBO(245, 166, 35, 1),
-                                shape: BoxShape.rectangle,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0))),
-                            padding: const EdgeInsets.fromLTRB(6, 3, 6, 3),
-                            child: Text(status,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.white))): Container(),
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10.0))),
+                                padding: const EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                child: Text(status,
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.white)))
+                            : Container(),
                         status != null && status != ''
                             ? const Padding(padding: EdgeInsets.only(right: 5))
                             : Container(),
@@ -1351,8 +1363,9 @@ class TileContainerState extends State<TileContainer> {
                         ' > ' +
                         list[i].title;
 
-                    widget.webLayoutPageState..selectSample =
-                        widget.webLayoutPageState.selectSample = list[i].title;
+                    widget.webLayoutPageState
+                      ..selectSample = widget.webLayoutPageState.selectSample =
+                          list[i].title;
                     _sampleInputContainerState.refresh();
                     outputContainerState.refresh();
                   },
@@ -1385,12 +1398,11 @@ class TileContainerState extends State<TileContainer> {
       title: Text(widget.item.title,
           style: TextStyle(
               color: model.textColor,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+              fontSize: 13,
               letterSpacing: -0.19,
               fontFamily: 'Roboto-Medium')),
       key: MediaQuery.of(context).size.width <= 768
-          ?  PageStorageKey<String>(widget.item.title)
+          ? PageStorageKey<String>(widget.item.title)
           : UniqueKey(),
       children:
           _getNextLevelChild(model, widget.item.subItems, widget.item.title),

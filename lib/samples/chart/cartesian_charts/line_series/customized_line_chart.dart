@@ -19,8 +19,8 @@ class CustomizedLine extends StatefulWidget {
 
 List<num> xValues;
 List<num> yValues;
- List<num> xPointValues = <num>[];
-  List<num> yPointValues = <num>[];
+List<num> xPointValues = <num>[];
+List<num> yPointValues = <num>[];
 
 class _LineDefaultState extends State<CustomizedLine> {
   _LineDefaultState(this.sample);
@@ -33,7 +33,6 @@ class _LineDefaultState extends State<CustomizedLine> {
 
 SfCartesianChart getCustomizedLineChart(bool isTileView) {
   return SfCartesianChart(
-    
     title: ChartTitle(
         text: isTileView ? '' : 'Capital investment as a share of exports'),
     primaryXAxis: DateTimeAxis(
@@ -119,8 +118,6 @@ class CustomLineSeries<T, D> extends LineSeries<T, D> {
             animationDuration: animationDuration);
 
   static Random randomNumber = Random();
-  
-  
 
   @override
   ChartSegment createSegment() {
@@ -146,8 +143,6 @@ class LineCustomPainter extends LineSegment {
     Colors.cyan
   ];
 
-
-
   @override
   Paint getStrokePaint() {
     final Paint customerStrokePaint = Paint();
@@ -157,7 +152,7 @@ class LineCustomPainter extends LineSegment {
     return customerStrokePaint;
   }
 
-  void storeValues(){
+  void storeValues() {
     xPointValues.add(x1);
     xPointValues.add(x2);
     yPointValues.add(y1);
@@ -171,7 +166,7 @@ class LineCustomPainter extends LineSegment {
   @override
   void onPaint(Canvas canvas) {
     final double x1 = this.x1, y1 = this.y1, x2 = this.x2, y2 = this.y2;
-   storeValues();
+    storeValues();
     final Path path = Path();
     path.moveTo(x1, y1);
     path.lineTo(x2, y2);
@@ -220,7 +215,9 @@ class LineCustomPainter extends LineSegment {
           TextPainter(text: span, textDirection: prefix0.TextDirection.ltr);
       tp.layout();
       tp.paint(
-          canvas, Offset(xPointValues[xPointValues.length - 4], maximum + labelPadding));
+          canvas,
+          Offset(
+              xPointValues[xPointValues.length - 4], maximum + labelPadding));
       final TextSpan span1 = TextSpan(
         style: TextStyle(
             color: Colors.green[800], fontSize: 12.0, fontFamily: 'Roboto'),

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/custom_button.dart';
-import 'package:flutter_examples/widgets/shared/mobile.dart' 
-        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,8 @@ SfCartesianChart getSpacingColumnChart(bool isTileView,
         interval: 25,
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0)),
-    series: getDefaultColumn(isTileView, columnWidth, columnSpacing, sampleModel),
+    series:
+        getDefaultColumn(isTileView, columnWidth, columnSpacing, sampleModel),
     legend: Legend(isVisible: isTileView ? false : true),
     tooltipBehavior: TooltipBehavior(enable: true),
   );
@@ -152,27 +153,28 @@ class _ColumnSettingsFrontPanelState extends State<ColumnSettingsFrontPanel> {
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: !model.isWeb ?
-              Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                child: Container(
-                    child: getSpacingColumnChart(
-                        false, null, columnWidth, columnSpacing)),
-              )
-              : 
-              Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                child: Container(
-                    child: getSpacingColumnChart(
-                        false, null, null, null)),
-              ),
-              floatingActionButton: model.isWeb ? null : FloatingActionButton(
-                onPressed: () {
-                  _showSettingsPanel(model, false, context);
-                },
-                child: Icon(Icons.graphic_eq, color: Colors.white),
-                backgroundColor: model.backgroundColor,
-              ));
+              body: !model.isWeb
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                      child: Container(
+                          child: getSpacingColumnChart(
+                              false, null, columnWidth, columnSpacing)),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: Container(
+                          child:
+                              getSpacingColumnChart(false, null, null, null)),
+                    ),
+              floatingActionButton: model.isWeb
+                  ? null
+                  : FloatingActionButton(
+                      onPressed: () {
+                        _showSettingsPanel(model, false, context);
+                      },
+                      child: Icon(Icons.graphic_eq, color: Colors.white),
+                      backgroundColor: model.backgroundColor,
+                    ));
         });
   }
 
@@ -192,12 +194,15 @@ class _ColumnSettingsFrontPanelState extends State<ColumnSettingsFrontPanel> {
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                 const Text(
+                  const Text(
                     'Properties',
-                    style: TextStyle(fontFamily: 'Roboto-Medium', fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Roboto-Medium',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
-                  HandCursor(child: 
-                  IconButton(
+                  HandCursor(
+                      child: IconButton(
                     icon: Icon(Icons.close, color: model.webIconColor),
                     onPressed: () {
                       Navigator.pop(context);

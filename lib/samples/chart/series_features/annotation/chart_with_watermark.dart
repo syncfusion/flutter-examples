@@ -27,13 +27,15 @@ class _AnnotationDefaultState extends State<AnnotationDefault> {
 SfCartesianChart getDefaultAnnotationChart(bool isTileView,
     [Brightness currentTheme]) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView
             ? ''
             : 'Euro to USD monthly exchange rate - 2015 to 2018'),
-    primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
+    primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0),
+    minimum: DateTime(2015, 1, 1),
+    maximum: DateTime(2019, 1, 1),
+    intervalType: DateTimeIntervalType.years),
     primaryYAxis: NumericAxis(
       axisLine: AxisLine(width: 0),
       labelFormat: '\${value}',
@@ -117,8 +119,9 @@ List<LineSeries<ChartSampleData, DateTime>> getAnnotationLineSeries(
     ChartSampleData(x: DateTime(2018, 9, 1), y: 1.16),
     ChartSampleData(x: DateTime(2018, 10, 1), y: 1.13),
     ChartSampleData(x: DateTime(2018, 11, 1), y: 1.14),
-    ChartSampleData(x: DateTime(2018, 12, 1), y: 1.15)
-  ];
+    ChartSampleData(x: DateTime(2018, 12, 1), y: 1.15),
+    ChartSampleData(x: DateTime(2019, 1, 1), y: 1.17)
+    ];
   return <LineSeries<ChartSampleData, DateTime>>[
     LineSeries<ChartSampleData, DateTime>(
       dataSource: chartData,

@@ -6,6 +6,8 @@ import 'package:flutter_examples/widgets/custom_button.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 //ignore: must_be_immutable
 class FunnelDefault extends StatefulWidget {
@@ -27,12 +29,21 @@ class _FunnelDefaultState extends State<FunnelDefault> {
 }
 
 SfFunnelChart getDefaultFunnelChart(bool isTileView,
-    [double gapRatio, int neckWidth, int neckHeight, bool explode]) {
-
-  gapRatio ??= 0;
-  neckWidth ??= 20;
-  neckHeight ??= 20;
-  explode ??= true;
+    [double gapRatio, int neckWidth, int neckHeight, bool explode,
+    SampleModel model]) {  
+  final bool isExistModel = model != null && model.isWeb;
+  gapRatio = (isExistModel
+                    ? model.properties['FunnelGapRatio']
+                    : gapRatio) ?? 0;
+  neckWidth = (isExistModel
+                    ? model.properties['FunnelNeckWidth']
+                    : neckWidth) ?? 20;
+  neckHeight = (isExistModel
+                    ? model.properties['FunnelNeckHeight']
+                    : neckHeight) ?? 20;
+  explode = (isExistModel
+                    ? model.properties['FunnelExplode']
+                    : explode) ?? true;
   return SfFunnelChart(
     smartLabelMode: SmartLabelMode.shift,
     title: ChartTitle(text: isTileView ? '' : 'Website conversion rate'),
@@ -81,7 +92,31 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
   int neckWidth = 20;
   int neckHeight = 20;
   bool explode = false;
-  Widget sampleWidget(SampleModel model) => getDefaultFunnelChart(false);
+   Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) =>
+      getDefaultFunnelChart(false, null, null, null, null, model);
+
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+     gapRatio = 0;
+   neckWidth = 20;
+   neckHeight = 20;
+   explode = false;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'FunnelGapRatio': gapRatio,
+        'FunnelNeckWidth': neckWidth,
+        'FunnelNeckHeight': neckHeight,
+        'FunnelExplode': explode
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -89,34 +124,183 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body: !model.isWeb? Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
                     child: getDefaultFunnelChart(
                         false, gapRatio, neckWidth, neckHeight, explode)),
-              ),
-              floatingActionButton: model.isWeb ? null :
-              Stack(children: <Widget>[
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: () {
-                      _showSettingsPanel(model);
-                    },
-                    child: Icon(Icons.graphic_eq, color: Colors.white),
-                    backgroundColor: model.backgroundColor,
+              ) : Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Container(
+                        child: getDefaultFunnelChart(
+                            false, null, null, null, null, model)),
                   ),
-                ),
-              ]));
+              floatingActionButton: model.isWeb
+                  ? null
+                  : Stack(children: <Widget>[
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {
+                            _showSettingsPanel(model, false, context);
+                          },
+                          child: Icon(Icons.graphic_eq, color: Colors.white),
+                          backgroundColor: model.backgroundColor,
+                        ),
+                      ),
+                    ]));
         });
   }
 
-  void _showSettingsPanel(SampleModel model) {
+ Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
-            ? 0.3
-            : 0.4;
+            ? 0.4
+            : 0.5;
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: ListView(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Properties',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    HandCursor(
+                        child: IconButton(
+                      icon: Icon(Icons.close, color: model.webIconColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ))
+                  ]),
+              Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text('Gap Ratio   ',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 0.5,
+                          step: 0.1,
+                          initialValue: model.properties['FunnelGapRatio'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['FunnelGapRatio'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Neck height  ',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 50,
+                          initialValue: model.properties['FunnelNeckHeight'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['FunnelNeckHeight'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          step: 10,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Neck Width  ',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 50,
+                          initialValue: model.properties['FunnelNeckWidth'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['FunnelNeckWidth'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          step:10,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Explode   ',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: BottomSheetCheckbox(
+                          activeColor: model.backgroundColor,
+                          switchValue: model.properties['FunnelExplode'],
+                          valueChanged: (dynamic value) {
+                            model.properties['FunnelExplode'] = value;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ));
+    } else {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -193,15 +377,6 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
                                                   step: 0.1,
                                                   horizontal: true,
                                                   loop: false,
-                                                  padding: 0,
-                                                  iconUp:
-                                                      Icons.keyboard_arrow_up,
-                                                  iconDown:
-                                                      Icons.keyboard_arrow_down,
-                                                  iconLeft:
-                                                      Icons.keyboard_arrow_left,
-                                                  iconRight: Icons
-                                                      .keyboard_arrow_right,
                                                   iconUpRightColor:
                                                       model.textColor,
                                                   iconDownLeftColor:
@@ -243,15 +418,6 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
                                                   step: 10,
                                                   horizontal: true,
                                                   loop: false,
-                                                  padding: 0,
-                                                  iconUp:
-                                                      Icons.keyboard_arrow_up,
-                                                  iconDown:
-                                                      Icons.keyboard_arrow_down,
-                                                  iconLeft:
-                                                      Icons.keyboard_arrow_left,
-                                                  iconRight: Icons
-                                                      .keyboard_arrow_right,
                                                   iconUpRightColor:
                                                       model.textColor,
                                                   iconDownLeftColor:
@@ -280,7 +446,7 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.fromLTRB(
-                                                        40, 0, 0, 0),
+                                                        35, 0, 0, 0),
                                                 child: CustomButton(
                                                   minValue: 0,
                                                   maxValue: 50,
@@ -293,15 +459,6 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
                                                   step: 10,
                                                   horizontal: true,
                                                   loop: false,
-                                                  padding: 0,
-                                                  iconUp:
-                                                      Icons.keyboard_arrow_up,
-                                                  iconDown:
-                                                      Icons.keyboard_arrow_down,
-                                                  iconLeft:
-                                                      Icons.keyboard_arrow_left,
-                                                  iconRight: Icons
-                                                      .keyboard_arrow_right,
                                                   iconUpRightColor:
                                                       model.textColor,
                                                   iconDownLeftColor:
@@ -327,7 +484,7 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
                                                         FontWeight.normal)),
                                             const Padding(
                                                 padding: EdgeInsets.fromLTRB(
-                                                    40, 0, 0, 0)),
+                                                    30, 0, 0, 0)),
                                             BottomSheetCheckbox(
                                               activeColor:
                                                   model.backgroundColor,
@@ -346,5 +503,7 @@ class _DefaultFunnelFrontPanelState extends State<DefaultFunnelFrontPanel> {
                                 ),
                               ]),
                             )))))));
+                             }
+    return widget ?? Container();
   }
 }

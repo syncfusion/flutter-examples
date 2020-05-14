@@ -13,19 +13,17 @@ class BubbleGradient extends StatefulWidget {
 }
 
 class _BubbleGradientState extends State<BubbleGradient> {
- _BubbleGradientState(this.sample); 
+  _BubbleGradientState(this.sample);
   final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-   return getScopedModel(getGradientBubbleChart(false),sample);   
-    }
+    return getScopedModel(getGradientBubbleChart(false), sample);
+  }
 }
-
 
 SfCartesianChart getGradientBubbleChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Circket World cup statistics - till 2015'),
@@ -48,14 +46,39 @@ SfCartesianChart getGradientBubbleChart(bool isTileView) {
   );
 }
 
-List<BubbleSeries<ChartSampleData, String>> getGradientBubbleSeries(bool isTileView) {
+List<BubbleSeries<ChartSampleData, String>> getGradientBubbleSeries(
+    bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
-     ChartSampleData(x:'England', y:3, yValue:0, pointColor: const Color.fromRGBO(233, 132, 30, 1)),
-    ChartSampleData(x:'India', y:3, yValue:2, pointColor:const Color.fromRGBO(0, 255, 255, 1)),
-    ChartSampleData(x:'Pakistan', y:2, yValue:1, pointColor:const Color.fromRGBO(255, 200, 102, 1)), 
-    ChartSampleData(x:'West\nIndies', y:3, yValue:2, pointColor:const Color.fromRGBO(0, 0, 0, 1)),
-    ChartSampleData(x:'Sri\nLanka', y:3, yValue:1, pointColor:const Color.fromRGBO(255, 340, 102, 1)),      
-    ChartSampleData(x:'New\nZealand', y:1, yValue:0,pointColor: const Color.fromRGBO(200, 0, 102, 1)) 
+    ChartSampleData(
+        x: 'England',
+        y: 3,
+        yValue: 0,
+        pointColor: const Color.fromRGBO(233, 132, 30, 1)),
+    ChartSampleData(
+        x: 'India',
+        y: 3,
+        yValue: 2,
+        pointColor: const Color.fromRGBO(0, 255, 255, 1)),
+    ChartSampleData(
+        x: 'Pakistan',
+        y: 2,
+        yValue: 1,
+        pointColor: const Color.fromRGBO(255, 200, 102, 1)),
+    ChartSampleData(
+        x: 'West\nIndies',
+        y: 3,
+        yValue: 2,
+        pointColor: const Color.fromRGBO(0, 0, 0, 1)),
+    ChartSampleData(
+        x: 'Sri\nLanka',
+        y: 3,
+        yValue: 1,
+        pointColor: const Color.fromRGBO(255, 340, 102, 1)),
+    ChartSampleData(
+        x: 'New\nZealand',
+        y: 1,
+        yValue: 0,
+        pointColor: const Color.fromRGBO(200, 0, 102, 1))
   ];
   final List<Color> color = <Color>[];
   color.add(Colors.blue[50]);

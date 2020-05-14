@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class PyramidLegend extends StatefulWidget {
   PyramidLegend({this.sample, Key key}) : super(key: key);
   SubItem sample;
-  
+
   @override
   _PyramidLegendState createState() => _PyramidLegendState(sample);
 }
@@ -15,10 +15,10 @@ class PyramidLegend extends StatefulWidget {
 class _PyramidLegendState extends State<PyramidLegend> {
   _PyramidLegendState(this.sample);
   final SubItem sample;
-  
+
   @override
   Widget build(BuildContext context) {
-     return getScopedModel(getLegendPyramidChart(false), sample);
+    return getScopedModel(getLegendPyramidChart(false), sample);
   }
 }
 
@@ -48,34 +48,33 @@ SfPyramidChart getLegendPyramidChart(bool isTileView) {
 
 PyramidSeries<ChartSampleData, String> _getPyramidSeries(bool isTileView) {
   final List<ChartSampleData> pieData = <ChartSampleData>[
-    ChartSampleData(x:'Ray', y:7.3),
+    ChartSampleData(x: 'Ray', y: 7.3),
     ChartSampleData(
-      x:'Michael',
-      y:6.6,
+      x: 'Michael',
+      y: 6.6,
     ),
     ChartSampleData(
-      x:'John ',
-     y: 3,
+      x: 'John ',
+      y: 3,
     ),
     ChartSampleData(
-      x:'Mercy',
-      y:0.8,
+      x: 'Mercy',
+      y: 0.8,
     ),
     ChartSampleData(
-     x:'Tina ',
-      y:1.4,
+      x: 'Tina ',
+      y: 1.4,
     ),
     ChartSampleData(
-      x:'Stephen',
-      y:5.2,
+      x: 'Stephen',
+      y: 5.2,
     ),
   ];
   return PyramidSeries<ChartSampleData, String>(
-        dataSource: pieData,
-        xValueMapper: (ChartSampleData data, _) => data.x,
-        yValueMapper: (ChartSampleData data, _) => data.y,
-        dataLabelSettings: DataLabelSettings(
-            isVisible: isTileView ? false : true,
-            labelPosition: ChartDataLabelPosition.inside));
+      dataSource: pieData,
+      xValueMapper: (ChartSampleData data, _) => data.x,
+      yValueMapper: (ChartSampleData data, _) => data.y,
+      dataLabelSettings: DataLabelSettings(
+          isVisible: isTileView ? false : true,
+          labelPosition: ChartDataLabelPosition.inside));
 }
-

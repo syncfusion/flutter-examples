@@ -1,6 +1,6 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 18.1.42
+version: 18.1.52
 author: Syncfusion <support@syncfusion.com>
 homepage: https://github.com/syncfusion/flutter-examples
 
@@ -17,13 +17,13 @@ dependencies:
   url_launcher: ^5.0.3
   intl: ^0.16.0
   path_provider: ^1.6.1
-  syncfusion_flutter_calendar: ^18.1.42-beta
-  syncfusion_flutter_datepicker: ^18.1.42-beta
-  syncfusion_flutter_charts: ^18.1.42
-  syncfusion_flutter_gauges: ^18.1.42
-  syncfusion_flutter_sliders: ^18.1.42-beta
-  syncfusion_flutter_pdf: ^18.1.42-beta
-  syncfusion_flutter_barcodes: ^18.1.42-beta
+  syncfusion_flutter_calendar: ^18.1.52-beta
+  syncfusion_flutter_datepicker: ^18.1.52-beta
+  syncfusion_flutter_charts: ^18.1.52
+  syncfusion_flutter_gauges: ^18.1.52
+  syncfusion_flutter_sliders: ^18.1.52-beta
+  syncfusion_flutter_pdf: ^18.1.52-beta
+  syncfusion_flutter_barcodes: ^18.1.52-beta
 
 
 flutter:
@@ -39,3 +39,12 @@ flutter:
     - family: HeeboMedium
       fonts:
         - asset: assets/fonts/Heebo-Medium.ttf
+    - family: Roboto-Bold
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf
+    - family: Roboto-Medium
+      fonts:
+        - asset: assets/fonts/Roboto-Medium.ttf
+    - family: Roboto-Regular
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf

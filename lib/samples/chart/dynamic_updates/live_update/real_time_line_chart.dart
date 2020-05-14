@@ -11,7 +11,7 @@ Timer timer;
 
 //ignore: must_be_immutable
 class LiveLineChart extends StatefulWidget {
-   LiveLineChart({this.sample, Key key}) : super(key: key);
+  LiveLineChart({this.sample, Key key}) : super(key: key);
   SubItem sample;
 
   @override
@@ -22,12 +22,11 @@ class _LiveLineChartState extends State<LiveLineChart> {
   _LiveLineChartState(this.sample);
   final SubItem sample;
 
-
   @override
   void dispose() {
     super.dispose();
     timer?.cancel();
-  } 
+  }
 
   @override
   void initState() {
@@ -39,7 +38,6 @@ class _LiveLineChartState extends State<LiveLineChart> {
     return getScopedModel(null, sample, RealTimeLineFrontPanel(sample));
   }
 }
-
 
 SfCartesianChart getLiveLineChart(bool isTileView,
     [List<_ChartData> chartData]) {
@@ -88,18 +86,20 @@ SfCartesianChart getLiveLineChart(bool isTileView,
 class RealTimeLineFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
   RealTimeLineFrontPanel([this.sample]);
-   SubItem sample;
+  SubItem sample;
 
   @override
-  _RealTimeLineFrontPanelState createState() => _RealTimeLineFrontPanelState(sample);
+  _RealTimeLineFrontPanelState createState() =>
+      _RealTimeLineFrontPanelState(sample);
 }
 
 class _RealTimeLineFrontPanelState extends State<RealTimeLineFrontPanel> {
   _RealTimeLineFrontPanelState(this.sample) {
     timer = Timer.periodic(const Duration(milliseconds: 100), updateDataSource);
   }
-  
-  Widget sampleWidget(SampleModel model) => !kIsWeb ? getLiveLineChart(false) : getLiveLineChart(true);
+
+  Widget sampleWidget(SampleModel model) =>
+      !kIsWeb ? getLiveLineChart(false) : getLiveLineChart(true);
   Timer timer;
   List<_ChartData> chartData = <_ChartData>[
     _ChartData(0, 42),
@@ -154,7 +154,8 @@ class _RealTimeLineFrontPanelState extends State<RealTimeLineFrontPanel> {
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-              backgroundColor: model.cardThemeColor,
+              backgroundColor:
+                  model.isWeb ? Colors.transparent : model.cardThemeColor,
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(child: getLiveLineChart(false, chartData)),
@@ -162,7 +163,6 @@ class _RealTimeLineFrontPanelState extends State<RealTimeLineFrontPanel> {
         });
   }
 }
-
 
 class _ChartData {
   _ChartData(this.country, this.sales);

@@ -1,6 +1,8 @@
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/checkbox.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +31,9 @@ class _PlotBandRecurrenceState extends State<PlotBandRecurrence> {
 }
 
 SfCartesianChart getPlotBandRecurrenceChart(bool isTileView,
-    [bool xVisible, bool yVisible]) {
+    [bool xVisible, bool yVisible, SampleModel sampleModel]) {
+  final bool isExistModel = sampleModel != null && sampleModel.isWeb;
   return SfCartesianChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'World pollution report'),
     legend: Legend(isVisible: !isTileView),
     plotAreaBorderWidth: 0,
@@ -46,10 +48,13 @@ SfCartesianChart getPlotBandRecurrenceChart(bool isTileView,
         plotBands: <PlotBand>[
           PlotBand(
               isRepeatable: true,
-              isVisible: isTileView ? false : xVisible,
+              isVisible: (isExistModel
+                      ? sampleModel.properties['XAxisRecurrence']
+                      : xVisible) ??
+                  false,
               repeatEvery: 10,
               sizeType: DateTimeIntervalType.years,
-              size: 5,
+              size: (isExistModel && sampleModel.isWeb) ? 3: 5,
               repeatUntil: DateTime(2010, 1, 1),
               start: DateTime(1965, 1, 1),
               end: DateTime(2010, 1, 1),
@@ -64,7 +69,10 @@ SfCartesianChart getPlotBandRecurrenceChart(bool isTileView,
         plotBands: <PlotBand>[
           PlotBand(
               isRepeatable: true,
-              isVisible: isTileView ? true : yVisible,
+              isVisible: (isExistModel
+                      ? sampleModel.properties['YAxisRecurrence']
+                      : yVisible) ??
+                  true,
               repeatEvery: 4000,
               size: 2000,
               start: 0,
@@ -108,6 +116,7 @@ List<ColumnSeries<ChartSampleData, DateTime>> _getPlotBandRecurrenceSeries(
     )
   ];
 }
+
 //ignore: must_be_immutable
 class PlotBandRecurrenceFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
@@ -126,12 +135,26 @@ class _PlotBandRecurrenceFrontPanelState
   final SubItem sample;
   bool xAxis = false, yAxis = true;
 
- Widget sampleWidget(SampleModel model) => getPlotBandRecurrenceChart(false);
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) =>
+      getPlotBandRecurrenceChart(false, null, null, model);
+
   @override
   void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
     xAxis = false;
     yAxis = true;
-    super.initState();
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'XAxisRecurrence': xAxis,
+        'YAxisRecurrence': yAxis
+      });
+    }
   }
 
   @override
@@ -141,14 +164,22 @@ class _PlotBandRecurrenceFrontPanelState
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 5, 60),
-                child: Container(
-                    child: getPlotBandRecurrenceChart(false, xAxis, yAxis)),
-              ),
+              body: !model.isWeb
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 60),
+                      child: Container(
+                          child:
+                              getPlotBandRecurrenceChart(false, xAxis, yAxis)),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: Container(
+                          child: getPlotBandRecurrenceChart(
+                              false, null, null, model)),
+                    ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  _showSettingsPanel(model);
+                  _showSettingsPanel(model, false, context);
                 },
                 child: Icon(Icons.graphic_eq, color: Colors.white),
                 backgroundColor: model.backgroundColor,
@@ -156,110 +187,194 @@ class _PlotBandRecurrenceFrontPanelState
         });
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
-    showRoundedModalBottomSheet<dynamic>(
-        dismissOnTap: false,
-        context: context,
-        radius: 12.0,
-        color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
-            rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleModel model) => Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Container(
-                    height: 180,
-                    child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: Container(
-                            height: MediaQuery.of(context).size.height * height,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                              child: Stack(children: <Widget>[
-                                Container(
-                                  height: 40,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('Settings',
-                                          style: TextStyle(
-                                              color: model.textColor,
-                                              fontSize: 18,
-                                              letterSpacing: 0.34,
-                                              fontWeight: FontWeight.w500)),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.close,
-                                          color: model.textColor,
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: ListView(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Properties',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    HandCursor(
+                        child: IconButton(
+                      icon: Icon(Icons.close, color: model.webIconColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ))
+                  ]),
+              Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text('X Axis',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: BottomSheetCheckbox(
+                          activeColor: model.backgroundColor,
+                          switchValue: model.properties['XAxisRecurrence'],
+                          valueChanged: (dynamic value) {
+                            model.properties['XAxisRecurrence'] = value;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Y Axis',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: BottomSheetCheckbox(
+                          activeColor: model.backgroundColor,
+                          switchValue: model.properties['YAxisRecurrence'],
+                          valueChanged: (dynamic value) {
+                            model.properties['YAxisRecurrence'] = value;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ));
+    } else {
+      showRoundedModalBottomSheet<dynamic>(
+          dismissOnTap: false,
+          context: context,
+          radius: 12.0,
+          color: model.bottomSheetBackgroundColor,
+          builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
+              rebuildOnChange: false,
+              builder: (BuildContext context, _, SampleModel model) => Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Container(
+                      height: 180,
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * height,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                                child: Stack(children: <Widget>[
+                                  Container(
+                                    height: 40,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text('Settings',
+                                            style: TextStyle(
+                                                color: model.textColor,
+                                                fontSize: 18,
+                                                letterSpacing: 0.34,
+                                                fontWeight: FontWeight.w500)),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.close,
+                                            color: model.textColor,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
                                         ),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 50, 0, 0),
-                                  child: ListView(
-                                    children: <Widget>[
-                                      Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text('X Axis',
-                                                style: TextStyle(
-                                                    color: model.textColor,
-                                                    fontSize: 16,
-                                                    letterSpacing: 0.34,
-                                                    fontWeight:
-                                                        FontWeight.normal)),
-                                            BottomSheetCheckbox(
-                                              activeColor:
-                                                  model.backgroundColor,
-                                              switchValue: xAxis,
-                                              valueChanged: (dynamic value) {
-                                                setState(() {
-                                                  xAxis = value;
-                                                });
-                                              },
-                                            ),
-                                          ],
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                                    child: ListView(
+                                      children: <Widget>[
+                                        Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text('X Axis',
+                                                  style: TextStyle(
+                                                      color: model.textColor,
+                                                      fontSize: 16,
+                                                      letterSpacing: 0.34,
+                                                      fontWeight:
+                                                          FontWeight.normal)),
+                                              BottomSheetCheckbox(
+                                                activeColor:
+                                                    model.backgroundColor,
+                                                switchValue: xAxis,
+                                                valueChanged: (dynamic value) {
+                                                  setState(() {
+                                                    xAxis = value;
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text('Y Axis',
-                                                style: TextStyle(
-                                                    color: model.textColor,
-                                                    fontSize: 16,
-                                                    letterSpacing: 0.34,
-                                                    fontWeight:
-                                                        FontWeight.normal)),
-                                            BottomSheetCheckbox(
-                                              activeColor:
-                                                  model.backgroundColor,
-                                              switchValue: yAxis,
-                                              valueChanged: (dynamic value) {
-                                                setState(() {
-                                                  yAxis = value;
-                                                });
-                                              },
-                                            ),
-                                          ],
+                                        Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text('Y Axis',
+                                                  style: TextStyle(
+                                                      color: model.textColor,
+                                                      fontSize: 16,
+                                                      letterSpacing: 0.34,
+                                                      fontWeight:
+                                                          FontWeight.normal)),
+                                              BottomSheetCheckbox(
+                                                activeColor:
+                                                    model.backgroundColor,
+                                                switchValue: yAxis,
+                                                valueChanged: (dynamic value) {
+                                                  setState(() {
+                                                    yAxis = value;
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ]),
-                            )))))));
+                                ]),
+                              )))))));
+    }
+    return widget ?? Container();
   }
 }

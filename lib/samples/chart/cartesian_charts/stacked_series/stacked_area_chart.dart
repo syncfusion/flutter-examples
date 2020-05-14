@@ -26,7 +26,6 @@ class _StackedAreaChartState extends State<StackedAreaChart> {
 
 SfCartesianChart getStackedAreaChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Sales comparision of fruits in a shop'),
@@ -35,6 +34,7 @@ SfCartesianChart getStackedAreaChart(bool isTileView) {
     primaryXAxis: DateTimeAxis(
         majorGridLines: MajorGridLines(width: 0),
         intervalType: DateTimeIntervalType.years,
+        interval: 1,
         dateFormat: DateFormat.y()),
     primaryYAxis: NumericAxis(
         axisLine: AxisLine(width: 0),

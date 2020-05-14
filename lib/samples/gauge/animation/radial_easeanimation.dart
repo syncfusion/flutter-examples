@@ -25,14 +25,14 @@ class _RadialEaseExampleState extends State<RadialEaseExample> {
 
 SfRadialGauge getRadialEaseExample(bool isTileView) {
   return SfRadialGauge(
-    key: kIsWeb ?UniqueKey() : null,
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           startAngle: 0,
           endAngle: 360,
           showLabels: false,
           showTicks: false,
-          radiusFactor:  kIsWeb ? 0.8 : 0.9,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
           axisLineStyle: AxisLineStyle(
               thicknessUnit: GaugeSizeUnit.factor,
               thickness: isTileView ? 0.07 : 0.1)),
@@ -42,7 +42,7 @@ SfRadialGauge getRadialEaseExample(bool isTileView) {
           showTicks: false,
           labelFormat: '{value}M',
           showAxisLine: false,
-          radiusFactor:  kIsWeb ? 0.8 : 0.9,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
           minimum: 0,
           maximum: 15,
           showLastLabel: false,
@@ -77,29 +77,31 @@ SfRadialGauge getRadialEaseExample(bool isTileView) {
               enableAnimation: true,
               sizeUnit: GaugeSizeUnit.factor,
               animationType: AnimationType.ease,
-              gradient: kIsWeb ? null : const SweepGradient(
-                  colors: <Color>[Color(0xFFFFB397), Color(0xFFF46AA0)],
-                  stops: <double>[0.25, 0.75]),
+              gradient: kIsWeb
+                  ? null
+                  : const SweepGradient(
+                      colors: <Color>[Color(0xFFFFB397), Color(0xFFF46AA0)],
+                      stops: <double>[0.25, 0.75]),
             ),
-
-            kIsWeb ?MarkerPointer(
-                value: 11.5,
-                markerType: MarkerType.circle,
-                enableAnimation: true,
-                animationType: AnimationType.ease,
-                color: Colors.blue,
-                markerHeight: isTileView ? 30 : 40,
-                markerOffset: 4,
-                markerWidth: isTileView ? 30 : 40) : MarkerPointer(
-                value: 11.5,
-                markerType: MarkerType.image,
-                enableAnimation: true,
-                animationType: AnimationType.ease,
-                imageUrl: 'images/ball.png',
-                markerHeight: isTileView ? 30 : 40,
-                markerOffset: 4,
-                markerWidth: isTileView ? 30 : 40)
-
+            kIsWeb
+                ? MarkerPointer(
+                    value: 11.5,
+                    markerType: MarkerType.circle,
+                    enableAnimation: true,
+                    animationType: AnimationType.ease,
+                    color: Colors.blue,
+                    markerHeight: isTileView ? 30 : 40,
+                    markerOffset: 4,
+                    markerWidth: isTileView ? 30 : 40)
+                : MarkerPointer(
+                    value: 11.5,
+                    markerType: MarkerType.image,
+                    enableAnimation: true,
+                    animationType: AnimationType.ease,
+                    imageUrl: 'images/ball.png',
+                    markerHeight: isTileView ? 30 : 40,
+                    markerOffset: 4,
+                    markerWidth: isTileView ? 30 : 40)
           ])
     ],
   );

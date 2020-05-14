@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class VerticalLineLiveUpdate extends StatefulWidget {
   VerticalLineLiveUpdate({this.sample, Key key}) : super(key: key);
   SubItem sample;
-  
+
   @override
   _LiveUpdateState createState() => _LiveUpdateState(sample);
 }
@@ -18,38 +18,38 @@ class VerticalLineLiveUpdate extends StatefulWidget {
 int count;
 
 List<ChartSampleData> chartData = <ChartSampleData>[
-  ChartSampleData(x:10,y: 0),
-  ChartSampleData(x:9, y:0),
-  ChartSampleData(x:8, y:0),
-  ChartSampleData(x:7, y:4),
-  ChartSampleData(x:6, y:-3),
-  ChartSampleData(x:5, y:0),
-  ChartSampleData(x:4, y:-2),
-  ChartSampleData(x:3, y:2),
-  ChartSampleData(x:2, y:-3),
-  ChartSampleData(x:1, y:3),
-  ChartSampleData(x:0, y:-4),
+  ChartSampleData(x: 0, y: -4),
+  ChartSampleData(x: 1, y: 3),
+  ChartSampleData(x: 2, y: -3),
+  ChartSampleData(x: 3, y: 2),
+  ChartSampleData(x: 4, y: -2),
+  ChartSampleData(x: 5, y: 0),
+  ChartSampleData(x: 6, y: -3),
+  ChartSampleData(x: 7, y: 4),
+  ChartSampleData(x: 8, y: 0),
+  ChartSampleData(x: 9, y: 0),
+  ChartSampleData(x: 10, y: 0)
 ];
 Timer timer;
 
 class _LiveUpdateState extends State<VerticalLineLiveUpdate> {
   _LiveUpdateState(this.sample);
   final SubItem sample;
- 
+
   @override
   void initState() {
     chartData = <ChartSampleData>[
-      ChartSampleData(x:0, y:0),
+      ChartSampleData(x: 0, y: 0),
     ];
     super.initState();
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return getScopedModel(null, sample, VerticalLiveDataFrontPanel(sample));
-   }
+  }
 }
- 
+
 SfCartesianChart getVerticalLineUpdateChart(bool isTileView) {
   return SfCartesianChart(
     isTransposed: true,
@@ -72,6 +72,7 @@ List<LineSeries<ChartSampleData, num>> getVerticalLineSeries() {
   return <LineSeries<ChartSampleData, num>>[
     LineSeries<ChartSampleData, num>(
       dataSource: chartData,
+      animationDuration: 0,
       xValueMapper: (ChartSampleData sales, _) => sales.x,
       yValueMapper: (ChartSampleData sales, _) => sales.y,
       width: 2,
@@ -86,14 +87,16 @@ class VerticalLiveDataFrontPanel extends StatefulWidget {
   SubItem sample;
 
   @override
-  _VerticalLiveDataFrontPanelState createState() => _VerticalLiveDataFrontPanelState(sample);
+  _VerticalLiveDataFrontPanelState createState() =>
+      _VerticalLiveDataFrontPanelState(sample);
 }
 
-class _VerticalLiveDataFrontPanelState extends State<VerticalLiveDataFrontPanel> {
+class _VerticalLiveDataFrontPanelState
+    extends State<VerticalLiveDataFrontPanel> {
   _VerticalLiveDataFrontPanelState(this.sample) {
     count = 0;
   }
-  
+
   Widget sampleWidget(SampleModel model) => getVerticalLineUpdateChart(false);
   @override
   void initState() {
@@ -104,6 +107,8 @@ class _VerticalLiveDataFrontPanelState extends State<VerticalLiveDataFrontPanel>
   @override
   void dispose() {
     super.dispose();
+    count = 0;
+    chartData = <ChartSampleData>[];
     timer.cancel();
   }
 
@@ -120,7 +125,8 @@ class _VerticalLiveDataFrontPanelState extends State<VerticalLiveDataFrontPanel>
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor: model.cardThemeColor,
+            backgroundColor:
+                model.isWeb ? Colors.transparent : model.cardThemeColor,
             body: Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
               child: Container(child: getVerticalLineUpdateChart(false)),
@@ -128,31 +134,36 @@ class _VerticalLiveDataFrontPanelState extends State<VerticalLiveDataFrontPanel>
           );
         });
   }
-  
-num getRandomInt(num min, num max) {
-  final Random random = Random();
-  return min + random.nextInt(max - min);
-}
 
-List<ChartSampleData> getChartData() {
-  count = count + 1;
-  if (count > 350) {
-    timer.cancel();
-  } else if (count > 300) {
-    chartData.add(ChartSampleData(x:chartData.length, y:getRandomInt(0, 1)));
-  } else if (count > 250) {
-    chartData.add(ChartSampleData(x:chartData.length, y:getRandomInt(-2, 1)));
-  } else if (count > 180) {
-    chartData.add(ChartSampleData(x:chartData.length, y:getRandomInt(-3, 2)));
-  } else if (count > 100) {
-    chartData.add(ChartSampleData(x:chartData.length, y:getRandomInt(-7, 6)));
-  } else if (count < 50) {
-    chartData.add(ChartSampleData(x:chartData.length, y:getRandomInt(-3, 3)));
-  } else {
-    chartData.add(ChartSampleData(x:chartData.length, y:getRandomInt(-9, 9)));
+  num getRandomInt(num min, num max) {
+    final Random random = Random();
+    return min + random.nextInt(max - min);
   }
 
-  return chartData;
+  List<ChartSampleData> getChartData() {
+    count = count + 1;
+    if (count > 350 || chartData.length > 350) {
+      timer.cancel();
+    } else if (count > 300) {
+      chartData
+          .add(ChartSampleData(x: chartData.length, y: getRandomInt(0, 1)));
+    } else if (count > 250) {
+      chartData
+          .add(ChartSampleData(x: chartData.length, y: getRandomInt(-2, 1)));
+    } else if (count > 180) {
+      chartData
+          .add(ChartSampleData(x: chartData.length, y: getRandomInt(-3, 2)));
+    } else if (count > 100) {
+      chartData
+          .add(ChartSampleData(x: chartData.length, y: getRandomInt(-7, 6)));
+    } else if (count < 50) {
+      chartData
+          .add(ChartSampleData(x: chartData.length, y: getRandomInt(-3, 3)));
+    } else {
+      chartData
+          .add(ChartSampleData(x: chartData.length, y: getRandomInt(-9, 9)));
+    }
+
+    return chartData;
+  }
 }
-}
- 

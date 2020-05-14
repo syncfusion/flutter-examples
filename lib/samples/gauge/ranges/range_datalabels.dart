@@ -33,7 +33,7 @@ SfRadialGauge getRangeDataLabelExample(bool isTileView) {
           showTicks: false,
           minimum: 0,
           maximum: 99,
-          radiusFactor:  kIsWeb ? 0.8 : 0.9,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
           ranges: <GaugeRange>[
             GaugeRange(
                 startValue: 0,

@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 //ignore: must_be_immutable
 class RSIIndicator extends StatefulWidget {
@@ -27,35 +29,40 @@ class _RSIIndicatorState extends State<RSIIndicator> {
   }
 }
 
-SfCartesianChart getDefaultRSIIndicator(bool isTileView,[int _period, double _overBought, double _overSold, bool _showZones]) {
+SfCartesianChart getDefaultRSIIndicator(bool isTileView,
+    [int _period,
+    double _overBought,
+    double _overSold,
+    bool _showZones,
+    SampleModel model]) {
+  final bool isExistModel = model != null && model.isWeb;
   return SfCartesianChart(
-    plotAreaBorderWidth: 0,
+      plotAreaBorderWidth: 0,
       legend: Legend(isVisible: isTileView ? false : true),
       primaryXAxis: DateTimeAxis(
-          majorGridLines: MajorGridLines(width: 0),
-              dateFormat: DateFormat.MMM(),
-              interval:3,
-              minimum: DateTime(2016,01,01),
-              maximum: DateTime(2017,01,01),
-              // labelRotation: 45,
-              ),
-      primaryYAxis: NumericAxis(
-        minimum: 70,
-        maximum: 130,
-        interval: 20,
-        labelFormat: '\${value}',
-        axisLine: AxisLine(width: 0)
+        majorGridLines: MajorGridLines(width: 0),
+        dateFormat: DateFormat.MMM(),
+        interval: 3,
+        intervalType: DateTimeIntervalType.months,
+        minimum: DateTime(2016, 01, 01),
+        maximum: DateTime(2017, 01, 01),
+        // labelRotation: 45,
       ),
+      primaryYAxis: NumericAxis(
+          minimum: 70,
+          maximum: 130,
+          interval: 20,
+          labelFormat: '\${value}',
+          axisLine: AxisLine(width: 0)),
       axes: <ChartAxis>[
         NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          opposedPosition: true,
-          name: 'yaxes',
-          minimum: 10,
-          maximum: 110,
-          interval: 20,
-          axisLine: AxisLine(width: 0)
-        )
+            majorGridLines: MajorGridLines(width: 0),
+            opposedPosition: true,
+            name: 'yaxes',
+            minimum: 10,
+            maximum: 110,
+            interval: 20,
+            axisLine: AxisLine(width: 0))
       ],
       trackballBehavior: TrackballBehavior(
         enable: isTileView ? false : true,
@@ -67,11 +74,19 @@ SfCartesianChart getDefaultRSIIndicator(bool isTileView,[int _period, double _ov
         RsiIndicator<ChartSampleData, dynamic>(
             seriesName: 'AAPL',
             yAxisName: 'yaxes',
-            overbought: _overBought ?? 80,
-            oversold: _overSold ?? 20,
-            showZones: _showZones,
-            // name: 'rsi indicator',
-            period: _period),
+            overbought: (isExistModel
+                    ? model.properties['RsiOverBought']
+                    : _overBought) ??
+                80,
+            oversold:
+                (isExistModel ? model.properties['RsiOverSold'] : _overSold) ??
+                    20,
+            showZones: (isExistModel
+                    ? model.properties['RsiShowZones']
+                    : _showZones) ??
+                true,
+            period:
+                (isExistModel ? model.properties['RsiPeriod'] : _period) ?? 14),
       ],
       title: ChartTitle(text: isTileView ? '' : 'AAPL - 2016'),
       series: getDataLabelHilotSeries(isTileView));
@@ -468,6 +483,7 @@ List<ChartSeries<ChartSampleData, dynamic>> getDataLabelHilotSeries(
         name: 'AAPL'),
   ];
 }
+
 //ignore: must_be_immutable
 class RSIIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
@@ -478,256 +494,413 @@ class RSIIndicatorFrontPanel extends StatefulWidget {
       _RSIIndicatorFrontPanelState(sample);
 }
 
-class _RSIIndicatorFrontPanelState
-    extends State<RSIIndicatorFrontPanel> {
+class _RSIIndicatorFrontPanelState extends State<RSIIndicatorFrontPanel> {
   _RSIIndicatorFrontPanelState(this.sample);
   final SubItem sample;
   double _period = 14.0;
   double _overBought = 80.0;
   double _overSold = 20.0;
   bool _showZones = true;
-  Widget sampleWidget(SampleModel model) => getDefaultRSIIndicator(false);
+
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) =>
+      getDefaultRSIIndicator(false, null, null, null, null, model);
+
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    _period = 14.0;
+    _overBought = 80.0;
+    _overSold = 20.0;
+    _showZones = true;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'RsiPeriod': _period,
+        'RsiOverBought': _overBought,
+        'RsiOverSold': _overSold,
+        'RsiShowZones': _showZones
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
       rebuildOnChange: true,
       builder: (BuildContext context, _, SampleModel model) {
         return Scaffold(
-          backgroundColor: model.cardThemeColor,
-          body: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-            child: getDefaultRSIIndicator(
-                false,_period.toInt(),_overBought,_overSold,_showZones),
-          ),
-          floatingActionButton: model.isWeb ?
-              null :
-          Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () {
-                        _showSettingsPanel(model);
-                      },
-                      child: Icon(Icons.graphic_eq, color: Colors.white),
-                      backgroundColor: model.backgroundColor,
+            backgroundColor: model.cardThemeColor,
+            body: !model.isWeb
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                    child: Container(
+                      child: getDefaultRSIIndicator(false, _period.toInt(),
+                          _overBought, _overSold, _showZones),
                     ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Container(
+                        child: getDefaultRSIIndicator(
+                            false, null, null, null, null, model)),
                   ),
-                ],
-              )
-        );
+            floatingActionButton: model.isWeb
+                ? null
+                : Stack(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {
+                            _showSettingsPanel(model, false, context);
+                          },
+                          child: Icon(Icons.graphic_eq, color: Colors.white),
+                          backgroundColor: model.backgroundColor,
+                        ),
+                      ),
+                    ],
+                  ));
       },
     );
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.4
             : 0.5;
-    showRoundedModalBottomSheet<dynamic>(
-        dismissOnTap: false,
-        context: context,
-        radius: 20.0,
-        color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
-            rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleModel model) => Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Container(
-                    height: 200,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * height,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height: 40,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text('Settings',
-                                        style: TextStyle(
-                                            color: model.textColor,
-                                            fontSize: 18,
-                                            letterSpacing: 0.34,
-                                            fontWeight: FontWeight.w500)),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: model.textColor,
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: ListView(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Properties',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    HandCursor(
+                        child: IconButton(
+                      icon: Icon(Icons.close, color: model.webIconColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ))
+                  ]),
+              Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text('Period    ',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 50,
+                          initialValue: model.properties['RsiPeriod'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['RsiPeriod'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          loop: true,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('OverBought',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 100,
+                          initialValue: model.properties['RsiOverBought'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['RsiOverBought'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          loop: true,
+                          step: 2,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('OverSold ',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 50,
+                          initialValue: model.properties['RsiOverSold'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['RsiOverSold'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          loop: true,
+                          step:2,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Show Zones',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 5),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: BottomSheetCheckbox(
+                          activeColor: model.backgroundColor,
+                          switchValue: model.properties['RsiShowZones'],
+                          valueChanged: (dynamic value) {
+                            model.properties['RsiShowZones'] = value;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ));
+    } else {
+      showRoundedModalBottomSheet<dynamic>(
+          dismissOnTap: false,
+          context: context,
+          radius: 20.0,
+          color: model.bottomSheetBackgroundColor,
+          builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
+              rebuildOnChange: false,
+              builder: (BuildContext context, _, SampleModel model) => Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Container(
+                      height: 200,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * height,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                            child: Stack(
+                              children: <Widget>[
+                                Container(
+                                  height: 40,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text('Settings',
+                                          style: TextStyle(
+                                              color: model.textColor,
+                                              fontSize: 18,
+                                              letterSpacing: 0.34,
+                                              fontWeight: FontWeight.w500)),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: model.textColor,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
                                       ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 50, 0, 0),
-                                child: ListView(
-                                  children: <Widget>[
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Period',
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: model.textColor),
-                                          ),
-                                          Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      80, 0, 0, 0),
-                                              child: CustomButton(
-                                                minValue: 0,
-                                                maxValue: 50,
-                                                initialValue:
-                                                    _period,
-                                                onChanged: (dynamic val) =>
-                                                    setState(() {
-                                                  _period =
-                                                      val;
-                                                }),
-                                                step: 1,
-                                                horizontal: true,
-                                                loop: true,
-                                                padding: 0,
-                                                iconUp: Icons.keyboard_arrow_up,
-                                                iconDown:
-                                                    Icons.keyboard_arrow_down,
-                                                iconLeft:
-                                                    Icons.keyboard_arrow_left,
-                                                iconRight:
-                                                    Icons.keyboard_arrow_right,
-                                                iconUpRightColor:
-                                                    model.textColor,
-                                                iconDownLeftColor:
-                                                    model.textColor,
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: model.textColor),
-                                              ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                                  child: ListView(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              'Period',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: model.textColor),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Overbought',
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: model.textColor),
-                                          ),
-                                          Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      50, 0, 0, 0),
-                                              child: CustomButton(
-                                                minValue: 0,
-                                                maxValue: 100,
-                                                initialValue: _overBought,
-                                                onChanged: (dynamic val) =>
-                                                    setState(() {
-                                                  _overBought = val;
-                                                }),
-                                                step: 1,
-                                                horizontal: true,
-                                                loop: true,
-                                                padding: 0,
-                                                iconUp: Icons.keyboard_arrow_up,
-                                                iconDown:
-                                                    Icons.keyboard_arrow_down,
-                                                iconLeft:
-                                                    Icons.keyboard_arrow_left,
-                                                iconRight:
-                                                    Icons.keyboard_arrow_right,
-                                                iconUpRightColor:
-                                                    model.textColor,
-                                                iconDownLeftColor:
-                                                    model.textColor,
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: model.textColor),
+                                            Container(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        80, 0, 0, 0),
+                                                child: CustomButton(
+                                                  minValue: 0,
+                                                  maxValue: 50,
+                                                  initialValue: _period,
+                                                  onChanged: (dynamic val) =>
+                                                      setState(() {
+                                                    _period = val;
+                                                  }),
+                                                  step: 1,
+                                                  horizontal: true,
+                                                  loop: true,
+                                                  
+                                                  iconUpRightColor:
+                                                      model.textColor,
+                                                  iconDownLeftColor:
+                                                      model.textColor,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: model.textColor),
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                        ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Oversold',
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: model.textColor),
-                                          ),
-                                          Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      65, 0, 0, 0),
-                                              child: CustomButton(
-                                                minValue: 0,
-                                                maxValue: 50,
-                                                initialValue: _overSold,
-                                                onChanged: (dynamic val) =>
-                                                    setState(() {
-                                                  _overSold = val;
-                                                }),
-                                                step: 1,
-                                                horizontal: true,
-                                                loop: true,
-                                                padding: 0,
-                                                iconUp: Icons.keyboard_arrow_up,
-                                                iconDown:
-                                                    Icons.keyboard_arrow_down,
-                                                iconLeft:
-                                                    Icons.keyboard_arrow_left,
-                                                iconRight:
-                                                    Icons.keyboard_arrow_right,
-                                                iconUpRightColor:
-                                                    model.textColor,
-                                                iconDownLeftColor:
-                                                    model.textColor,
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: model.textColor),
+                                      Container(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              'Overbought',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: model.textColor),
+                                            ),
+                                            Container(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        50, 0, 0, 0),
+                                                child: CustomButton(
+                                                  minValue: 0,
+                                                  maxValue: 100,
+                                                  initialValue: _overBought,
+                                                  onChanged: (dynamic val) =>
+                                                      setState(() {
+                                                    _overBought = val;
+                                                  }),
+                                                  step: 1,
+                                                  horizontal: true,
+                                                  loop: true,
+                                                  padding: 0,
+                                                  
+                                                  iconUpRightColor:
+                                                      model.textColor,
+                                                  iconDownLeftColor:
+                                                      model.textColor,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: model.textColor),
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                        ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
+                                      Container(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              'Oversold',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: model.textColor),
+                                            ),
+                                            Container(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        65, 0, 0, 0),
+                                                child: CustomButton(
+                                                  minValue: 0,
+                                                  maxValue: 50,
+                                                  initialValue: _overSold,
+                                                  onChanged: (dynamic val) =>
+                                                      setState(() {
+                                                    _overSold = val;
+                                                  }),
+                                                  step: 1,
+                                                  horizontal: true,
+                                                  loop: true,
+                                                  
+                                                  iconUpRightColor:
+                                                      model.textColor,
+                                                  iconDownLeftColor:
+                                                      model.textColor,
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: model.textColor),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
                                         child: Row(
                                           children: <Widget>[
                                             Text('Show zones',
@@ -737,33 +910,35 @@ class _RSIIndicatorFrontPanelState
                                                     letterSpacing: 0.34,
                                                     fontWeight:
                                                         FontWeight.normal)),
-                                             Container(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      47, 0, 0, 0),
-                                              child:BottomSheetCheckbox(
-                                              activeColor:
-                                                  model.backgroundColor,
-                                              switchValue: _showZones,
-                                              valueChanged: (dynamic value) {
-                                                setState(() {
-                                                  _showZones = value;
-                                                });
-                                              },
-                                            ))),
+                                            Container(
+                                                child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(20, 0, 0, 0),
+                                                    child: BottomSheetCheckbox(
+                                                      activeColor:
+                                                          model.backgroundColor,
+                                                      switchValue: _showZones,
+                                                      valueChanged:
+                                                          (dynamic value) {
+                                                        setState(() {
+                                                          _showZones = value;
+                                                        });
+                                                      },
+                                                    ))),
                                           ],
                                         ),
                                       ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                )));
+                  )));
+    }
+    return widget ?? Container();
   }
 }

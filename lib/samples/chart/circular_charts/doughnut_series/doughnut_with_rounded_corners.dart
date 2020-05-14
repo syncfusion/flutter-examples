@@ -24,7 +24,6 @@ class _DoughnutRoundedState extends State<DoughnutRounded> {
 
 SfCircularChart getRoundedDoughnutChart(bool isTileView) {
   return SfCircularChart(
-    
     legend: Legend(
         isVisible: isTileView ? false : true,
         overflowMode: LegendItemOverflowMode.wrap),

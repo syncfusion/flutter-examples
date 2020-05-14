@@ -18,15 +18,16 @@ class _ColumnVerticalState extends State<ColumnVertical> {
 
   @override
   Widget build(BuildContext context) {
-    const String sourceLink = 'https://www.statista.com/statistics/263393/global-pc-shipments-since-1st-quarter-2009-by-vendor/';
+    const String sourceLink =
+        'https://www.statista.com/statistics/263393/global-pc-shipments-since-1st-quarter-2009-by-vendor/';
     const String source = 'www.statista.com';
-    return getScopedModel(getCustomizedColumnChart(false),sample,null, sourceLink,source);
+    return getScopedModel(
+        getCustomizedColumnChart(false), sample, null, sourceLink, source);
   }
 }
 
 SfCartesianChart getCustomizedColumnChart(bool isTileView) {
   return SfCartesianChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'PC vendor shipments - 2015 Q1'),
     primaryXAxis: CategoryAxis(
       majorGridLines: MajorGridLines(width: 0),
@@ -42,13 +43,25 @@ SfCartesianChart getCustomizedColumnChart(bool isTileView) {
   );
 }
 
-List<CustomColumnSeries<ChartSampleData, String>> getCustomizedColumnSeries(bool isTileView) {
+List<CustomColumnSeries<ChartSampleData, String>> getCustomizedColumnSeries(
+    bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
-    ChartSampleData(x:'HP Inc', y:12.54, pointColor:const Color.fromARGB(53, 92, 125, 1)),
-    ChartSampleData(x:'Lenovo', y:13.46, pointColor:const Color.fromARGB(192, 108, 132, 1)),
-    ChartSampleData(x:'Dell', y:9.18, pointColor:const Color.fromARGB(246, 114, 128, 1)),
-    ChartSampleData(x:'Apple', y:4.56, pointColor:const Color.fromARGB(248, 177, 149, 1)),
-    ChartSampleData(x:'Asus', y:5.29, pointColor:const Color.fromARGB(116, 180, 155, 1)),
+    ChartSampleData(
+        x: 'HP Inc',
+        y: 12.54,
+        pointColor: const Color.fromARGB(53, 92, 125, 1)),
+    ChartSampleData(
+        x: 'Lenovo',
+        y: 13.46,
+        pointColor: const Color.fromARGB(192, 108, 132, 1)),
+    ChartSampleData(
+        x: 'Dell', y: 9.18, pointColor: const Color.fromARGB(246, 114, 128, 1)),
+    ChartSampleData(
+        x: 'Apple',
+        y: 4.56,
+        pointColor: const Color.fromARGB(248, 177, 149, 1)),
+    ChartSampleData(
+        x: 'Asus', y: 5.29, pointColor: const Color.fromARGB(116, 180, 155, 1)),
   ];
   return <CustomColumnSeries<ChartSampleData, String>>[
     CustomColumnSeries<ChartSampleData, String>(
@@ -160,4 +173,3 @@ class ColumnCustomPainter extends ColumnSegment {
     canvas.drawPath(path, paint);
   }
 }
-

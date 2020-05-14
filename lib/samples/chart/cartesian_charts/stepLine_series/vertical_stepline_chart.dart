@@ -26,7 +26,6 @@ class _StepLineVerticalState extends State<StepLineVertical> {
 
 SfCartesianChart getVerticalStepLineChart(bool isTileView) {
   return SfCartesianChart(
-    
     legend: Legend(isVisible: isTileView ? false : true),
     title: ChartTitle(text: isTileView ? '' : 'Unemployment rates 1975 - 2010'),
     primaryXAxis: DateTimeAxis(

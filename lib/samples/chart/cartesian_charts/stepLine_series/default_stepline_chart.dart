@@ -24,10 +24,12 @@ class _StepLineDefaultState extends State<StepLineDefault> {
 
 SfCartesianChart getDefaultStepLineChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Electricity-Production'),
-    primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+    primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0),
+    minimum: 2000,
+    maximum: 2012,
+    interval: 2),
     primaryYAxis: NumericAxis(
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0),
@@ -53,7 +55,8 @@ List<StepLineSeries<ChartSampleData, num>> getDefaultStepLineSeries(
     ChartSampleData(x: 2008, y: 500, yValue2: 300),
     ChartSampleData(x: 2009, y: 473, yValue2: 173),
     ChartSampleData(x: 2010, y: 520, yValue2: 220),
-    ChartSampleData(x: 2011, y: 509, yValue2: 309)
+    ChartSampleData(x: 2011, y: 509, yValue2: 309),
+    ChartSampleData(x: 2012, y: 709, yValue2: 409)
   ];
   return <StepLineSeries<ChartSampleData, num>>[
     StepLineSeries<ChartSampleData, num>(

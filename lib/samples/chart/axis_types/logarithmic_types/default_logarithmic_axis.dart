@@ -20,14 +20,12 @@ class _LogarithmicAxisDefaultState extends State<LogarithmicAxisDefault> {
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(
-        getDefaultLogarithmicAxisChart(false), sample);
+    return getScopedModel(getDefaultLogarithmicAxisChart(false), sample);
   }
 }
 
 SfCartesianChart getDefaultLogarithmicAxisChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 1,
     title:
         ChartTitle(text: isTileView ? '' : 'Growth of a product [1995-2005]'),

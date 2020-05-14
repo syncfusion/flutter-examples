@@ -6,11 +6,10 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_examples/widgets/shared/mobile.dart' 
-        if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 import '../../../../model/helper.dart';
-import '../../../../model/model.dart';
 
 //ignore: must_be_immutable
 class EdgeLabel extends StatefulWidget {
@@ -48,15 +47,18 @@ SfCartesianChart getEdgeLabelPlacementChart(bool isTileView,
         dateFormat: DateFormat.y(),
         intervalType: DateTimeIntervalType.years,
         maximum: DateTime(2016, 4, 1),
-        edgeLabelPlacement: isExistModel ? sampleModel.properties['EdgeLabelPlacement'] : 
-            isTileView ? EdgeLabelPlacement.shift : _edgeLabelPlacement),
+        edgeLabelPlacement: isExistModel
+            ? sampleModel.properties['EdgeLabelPlacement']
+            : isTileView ? EdgeLabelPlacement.shift : _edgeLabelPlacement),
     primaryYAxis: NumericAxis(
       majorTickLines: MajorTickLines(width: 0.5),
       axisLine: AxisLine(width: 0),
       labelFormat: '₹{value}',
       minimum: 20,
       maximum: 80,
-      edgeLabelPlacement: isExistModel ? sampleModel.properties['EdgeLabelPlacement'] : _edgeLabelPlacement,
+      edgeLabelPlacement: isExistModel
+          ? sampleModel.properties['EdgeLabelPlacement']
+          : _edgeLabelPlacement,
       title: AxisTitle(text: isTileView ? '' : 'Rupees per litre'),
     ),
     series: getEdgeLabelPlacementSeries(isTileView),
@@ -121,7 +123,8 @@ class _EdgeLabelPlaceFrontPanelState extends State<EdgeLabelPlaceFrontPanel> {
 
   Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
       _showSettingsPanel(model, init, context);
-  Widget sampleWidget(SampleModel model) => getEdgeLabelPlacementChart(false, null, model);
+  Widget sampleWidget(SampleModel model) =>
+      getEdgeLabelPlacementChart(false, null, model);
 
   @override
   void initState() {
@@ -134,8 +137,8 @@ class _EdgeLabelPlaceFrontPanelState extends State<EdgeLabelPlaceFrontPanel> {
     _edgeLabelPlacement = EdgeLabelPlacement.shift;
     if (sampleModel != null && init) {
       sampleModel.properties.addAll(<dynamic, dynamic>{
-        'SelectedType' : _selectedType,
-        'EdgeLabelPlacement' : _edgeLabelPlacement
+        'SelectedEdgeLabelType': _selectedType,
+        'EdgeLabelPlacement': _edgeLabelPlacement
       });
     }
   }
@@ -152,23 +155,21 @@ class _EdgeLabelPlaceFrontPanelState extends State<EdgeLabelPlaceFrontPanel> {
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: !model.isWeb ?
-              Padding(
+              body: !model.isWeb
+                  ? Padding(
                       padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                       child: Container(
                           child: getEdgeLabelPlacementChart(
                               false, _edgeLabelPlacement, null)),
-              )
-              :
-              Padding(
+                    )
+                  : Padding(
                       padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                       child: Container(
-                          child: getEdgeLabelPlacementChart(
-                              false, null, null)),
-              ),  
-              floatingActionButton: model.isWeb ?
-              null :
-              Stack(
+                          child: getEdgeLabelPlacementChart(false, null, null)),
+                    ),
+              floatingActionButton: model.isWeb
+                  ? null
+                  : Stack(
                       children: <Widget>[
                         Align(
                           alignment: Alignment.bottomLeft,
@@ -196,17 +197,16 @@ class _EdgeLabelPlaceFrontPanelState extends State<EdgeLabelPlaceFrontPanel> {
                           ),
                         ),
                         Align(
-                                alignment: Alignment.bottomRight,
-                                child: FloatingActionButton(
-                                  heroTag: null,
-                                  onPressed: () {
-                                    _showSettingsPanel(model, false, context);
-                                  },
-                                  child: Icon(Icons.graphic_eq,
-                                      color: Colors.white),
-                                  backgroundColor: model.backgroundColor,
-                                ),
-                              ),
+                          alignment: Alignment.bottomRight,
+                          child: FloatingActionButton(
+                            heroTag: null,
+                            onPressed: () {
+                              _showSettingsPanel(model, false, context);
+                            },
+                            child: Icon(Icons.graphic_eq, color: Colors.white),
+                            backgroundColor: model.backgroundColor,
+                          ),
+                        ),
                       ],
                     ));
         });
@@ -214,18 +214,18 @@ class _EdgeLabelPlaceFrontPanelState extends State<EdgeLabelPlaceFrontPanel> {
 
   void onPositionTypeChange(String item, SampleModel model) {
     // setState(() {
-      _selectedType = item;
-      if (_selectedType == 'hide') {
-        _edgeLabelPlacement = EdgeLabelPlacement.hide;
-      }
-      if (_selectedType == 'none') {
-        _edgeLabelPlacement = EdgeLabelPlacement.none;
-      }
-      if (_selectedType == 'shift') {
-        _edgeLabelPlacement = EdgeLabelPlacement.shift;
-      }
-    // });
-    model.properties['SelectedType'] = _selectedType;
+    _selectedType = item;
+    if (_selectedType == 'hide') {
+      _edgeLabelPlacement = EdgeLabelPlacement.hide;
+    }
+    if (_selectedType == 'none') {
+      _edgeLabelPlacement = EdgeLabelPlacement.none;
+    }
+    if (_selectedType == 'shift') {
+      _edgeLabelPlacement = EdgeLabelPlacement.shift;
+    }
+    // }); 
+    model.properties['SelectedEdgeLabelType'] = _selectedType;
     model.properties['EdgeLabelPlacement'] = _edgeLabelPlacement;
     if (model.isWeb)
       model.sampleOutputContainer.outputKey.currentState.refresh();
@@ -233,7 +233,8 @@ class _EdgeLabelPlaceFrontPanelState extends State<EdgeLabelPlaceFrontPanel> {
       setState(() {});
   }
 
-  Widget _showSettingsPanel(SampleModel model, [bool init, BuildContext context]) {
+  Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
@@ -242,25 +243,26 @@ class _EdgeLabelPlaceFrontPanelState extends State<EdgeLabelPlaceFrontPanel> {
     if (model.isWeb) {
       initProperties(model, init);
       widget = Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-        child: ListView(
-          children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const Text(
-                    'Properties',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  HandCursor(child: 
-                  IconButton(
-                    icon: Icon(Icons.close, color: model.textColor),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ))
-                ]),
-            Container(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: ListView(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Properties',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    HandCursor(
+                        child: IconButton(
+                      icon: Icon(Icons.close, color: model.textColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ))
+                  ]),
+              Container(
                 child: Row(
                   children: <Widget>[
                     Text('Edge label placement',
@@ -279,7 +281,7 @@ class _EdgeLabelPlaceFrontPanelState extends State<EdgeLabelPlaceFrontPanel> {
                             data: Theme.of(context).copyWith(
                                 canvasColor: model.bottomSheetBackgroundColor),
                             child: DropDown(
-                                value: model.properties['SelectedType'],
+                                value: model.properties['SelectedEdgeLabelType'],
                                 item: _edgeList.map((String value) {
                                   return DropdownMenuItem<String>(
                                       value: (value != null) ? value : 'hide',
@@ -295,115 +297,116 @@ class _EdgeLabelPlaceFrontPanelState extends State<EdgeLabelPlaceFrontPanel> {
                   ],
                 ),
               ),
-          ],
-        )
-      );
+            ],
+          ));
     } else {
-    showRoundedModalBottomSheet<dynamic>(
-        dismissOnTap: false,
-        context: context,
-        radius: 12.0,
-        color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
-            rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleModel model) => Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Container(
-                    height: 120,
-                    child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: Container(
-                            height: MediaQuery.of(context).size.height * height,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                              child: Stack(children: <Widget>[
-                                Container(
-                                  height: 40,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('Settings',
-                                          style: TextStyle(
-                                              color: model.textColor,
-                                              fontSize: 18,
-                                              letterSpacing: 0.34,
-                                              fontWeight: FontWeight.w500)),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.close,
-                                          color: model.textColor,
+      showRoundedModalBottomSheet<dynamic>(
+          dismissOnTap: false,
+          context: context,
+          radius: 12.0,
+          color: model.bottomSheetBackgroundColor,
+          builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
+              rebuildOnChange: false,
+              builder: (BuildContext context, _, SampleModel model) => Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Container(
+                      height: 120,
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * height,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                                child: Stack(children: <Widget>[
+                                  Container(
+                                    height: 40,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text('Settings',
+                                            style: TextStyle(
+                                                color: model.textColor,
+                                                fontSize: 18,
+                                                letterSpacing: 0.34,
+                                                fontWeight: FontWeight.w500)),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.close,
+                                            color: model.textColor,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
                                         ),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 50, 0, 0),
-                                  child: ListView(
-                                    children: <Widget>[
-                                      Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text('Edge label placement',
-                                                style: TextStyle(
-                                                    color: model.textColor,
-                                                    fontSize: 16,
-                                                    letterSpacing: 0.34,
-                                                    fontWeight:
-                                                        FontWeight.normal)),
-                                            Container(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        20, 0, 0, 0),
-                                                height: 50,
-                                                width: 100,
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  child: Theme(
-                                                    data: Theme.of(context)
-                                                        .copyWith(
-                                                            canvasColor: model
-                                                                .bottomSheetBackgroundColor),
-                                                    child: DropDown(
-                                                        value: _selectedType,
-                                                        item: _edgeList.map(
-                                                            (String value) {
-                                                          return DropdownMenuItem<
-                                                                  String>(
-                                                              value: (value !=
-                                                                      null)
-                                                                  ? value
-                                                                  : 'hide',
-                                                              child: Text(
-                                                                  '$value',
-                                                                  style: TextStyle(
-                                                                      color: model
-                                                                          .textColor)));
-                                                        }).toList(),
-                                                        valueChanged:
-                                                            (dynamic value) {
-                                                          onPositionTypeChange(
-                                                              value.toString(),
-                                                              model);
-                                                        }),
-                                                  ),
-                                                )),
-                                          ],
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                                    child: ListView(
+                                      children: <Widget>[
+                                        Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text('Edge label placement',
+                                                  style: TextStyle(
+                                                      color: model.textColor,
+                                                      fontSize: 16,
+                                                      letterSpacing: 0.34,
+                                                      fontWeight:
+                                                          FontWeight.normal)),
+                                              Container(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          20, 0, 0, 0),
+                                                  height: 50,
+                                                  width: 100,
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Theme(
+                                                      data: Theme.of(context)
+                                                          .copyWith(
+                                                              canvasColor: model
+                                                                  .bottomSheetBackgroundColor),
+                                                      child: DropDown(
+                                                          value: _selectedType,
+                                                          item: _edgeList.map(
+                                                              (String value) {
+                                                            return DropdownMenuItem<
+                                                                    String>(
+                                                                value: (value !=
+                                                                        null)
+                                                                    ? value
+                                                                    : 'hide',
+                                                                child: Text(
+                                                                    '$value',
+                                                                    style: TextStyle(
+                                                                        color: model
+                                                                            .textColor)));
+                                                          }).toList(),
+                                                          valueChanged:
+                                                              (dynamic value) {
+                                                            onPositionTypeChange(
+                                                                value
+                                                                    .toString(),
+                                                                model);
+                                                          }),
+                                                    ),
+                                                  )),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ]),
-                            )))))));
+                                ]),
+                              )))))));
     }
     return widget ?? Container();
   }

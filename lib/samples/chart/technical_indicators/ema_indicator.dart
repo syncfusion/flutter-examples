@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 //ignore: must_be_immutable
 class EMAIndicator extends StatefulWidget {
@@ -21,11 +23,12 @@ class _EMAIndicatorState extends State<EMAIndicator> {
   final SubItem sample;
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(null, sample,EmaIndicatorFrontPanel(sample));
+    return getScopedModel(null, sample, EmaIndicatorFrontPanel(sample));
   }
 }
 
-SfCartesianChart getDefaulEMAIndicator(bool isTileView,[int _period]) {
+SfCartesianChart getDefaulEMAIndicator(bool isTileView, [int _period, SampleModel model]) {
+  final bool isExistModel = model != null && model.isWeb;
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
       x: DateTime(2016, 01, 04),
@@ -396,31 +399,30 @@ SfCartesianChart getDefaulEMAIndicator(bool isTileView,[int _period]) {
     legend: Legend(isVisible: !isTileView),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(width: 0),
-              dateFormat: DateFormat.MMM(),
-              interval:3,
-              minimum: DateTime(2016,01,01),
-              maximum: DateTime(2017,01,01),
-              // labelRotation: 45,
-              ),
-    primaryYAxis: NumericAxis(
-      minimum: 70,
-      maximum: 130,
-      interval: 20,
-      labelFormat: '\${value}',
-      axisLine: AxisLine(width: 0)
+      majorGridLines: MajorGridLines(width: 0),
+      dateFormat: DateFormat.MMM(),
+      interval: 3,
+      intervalType: DateTimeIntervalType.months,
+      minimum: DateTime(2016, 01, 01),
+      maximum: DateTime(2017, 01, 01),
+      // labelRotation: 45,
     ),
+    primaryYAxis: NumericAxis(
+        minimum: 70,
+        maximum: 130,
+        interval: 20,
+        labelFormat: '\${value}',
+        axisLine: AxisLine(width: 0)),
     trackballBehavior: TrackballBehavior(
-        enable: isTileView ? false : true,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isTileView ? true : false),
-      indicators: <TechnicalIndicators<ChartSampleData, dynamic>>[
+      enable: isTileView ? false : true,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+    ),
+    tooltipBehavior: TooltipBehavior(enable: isTileView ? true : false),
+    indicators: <TechnicalIndicators<ChartSampleData, dynamic>>[
       EmaIndicator<ChartSampleData, dynamic>(
           seriesName: 'AAPL',
-          // name: 'Ema indicator',
-          period: _period),
+          period: (isExistModel ? model.properties['EmaPeriod'] : _period) ?? 14),
     ],
     title: ChartTitle(text: isTileView ? '' : 'AAPL - 2016'),
     series: <ChartSeries<ChartSampleData, dynamic>>[
@@ -446,6 +448,7 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
+
 //ignore: must_be_immutable
 class EmaIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
@@ -456,52 +459,136 @@ class EmaIndicatorFrontPanel extends StatefulWidget {
       _EmaIndicatorFrontPanelState(sample);
 }
 
-class _EmaIndicatorFrontPanelState
-    extends State<EmaIndicatorFrontPanel> {
+class _EmaIndicatorFrontPanelState extends State<EmaIndicatorFrontPanel> {
   _EmaIndicatorFrontPanelState(this.sample);
   final SubItem sample;
   double _period = 14.0;
-Widget sampleWidget(SampleModel model) => getDefaulEMAIndicator(false);
+
+  
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) =>
+      getDefaulEMAIndicator(false, null, model);
+
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    _period = 14;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{'EmaPeriod': _period});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
       rebuildOnChange: true,
       builder: (BuildContext context, _, SampleModel model) {
         return Scaffold(
-          backgroundColor: model.cardThemeColor,
-          body: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-            child: getDefaulEMAIndicator(
-                false,_period.toInt()),
-          ),
-          floatingActionButton: model.isWeb ?
-              null :
-          Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () {
-                        _showSettingsPanel(model);
-                      },
-                      child: Icon(Icons.graphic_eq, color: Colors.white),
-                      backgroundColor: model.backgroundColor,
-                    ),
+            backgroundColor: model.cardThemeColor,
+            body: !model.isWeb
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                    child: Container(
+                        child: getDefaulEMAIndicator(false, _period.toInt())),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Container(
+                        child: getDefaulEMAIndicator(false, null, model)),
                   ),
-                ],
-              )
-        );
+           
+            floatingActionButton: model.isWeb
+                ? null
+                : Stack(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {
+                            _showSettingsPanel(model, false, context);
+                          },
+                          child: Icon(Icons.graphic_eq, color: Colors.white),
+                          backgroundColor: model.backgroundColor,
+                        ),
+                      ),
+                    ],
+                  ));
       },
     );
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.4
             : 0.5;
-    showRoundedModalBottomSheet<dynamic>(
+    Widget widget;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: ListView(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Properties',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    HandCursor(
+                        child: IconButton(
+                      icon: Icon(Icons.close, color: model.webIconColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ))
+                  ]),
+              Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text('Period',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: CustomButton(
+                          minValue: 0,
+                          maxValue: 50,
+                          initialValue: model.properties['EmaPeriod'],
+                          onChanged: (dynamic val) => setState(() {
+                            model.properties['EmaPeriod'] = val;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          }),
+                          horizontal: true,
+                          loop: true,
+                          iconUpRightColor: model.textColor,
+                          iconDownLeftColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 15.0, color: model.textColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ));
+    } else {
+      showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 20.0,
@@ -571,12 +658,10 @@ Widget sampleWidget(SampleModel model) => getDefaulEMAIndicator(false);
                                               child: CustomButton(
                                                 minValue: 0,
                                                 maxValue: 50,
-                                                initialValue:
-                                                    _period,
+                                                initialValue: _period,
                                                 onChanged: (dynamic val) =>
                                                     setState(() {
-                                                  _period =
-                                                      val;
+                                                  _period = val;
                                                 }),
                                                 step: 1,
                                                 horizontal: true,
@@ -612,5 +697,7 @@ Widget sampleWidget(SampleModel model) => getDefaulEMAIndicator(false);
                     ),
                   ),
                 )));
+                }
+    return widget ?? Container();
   }
 }

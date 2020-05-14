@@ -17,7 +17,6 @@ class _StackedColumn100ChartState extends State<StackedColumn100Chart> {
   _StackedColumn100ChartState(this.sample);
   final SubItem sample;
 
- 
   @override
   Widget build(BuildContext context) {
     return getScopedModel(getStackedColumn100Chart(false), sample);
@@ -26,7 +25,6 @@ class _StackedColumn100ChartState extends State<StackedColumn100Chart> {
 
 SfCartesianChart getStackedColumn100Chart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title:
         ChartTitle(text: isTileView ? '' : 'Quarterly wise sales of products'),

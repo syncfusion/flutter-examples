@@ -28,11 +28,11 @@ class _RangeAreaState extends State<RangeArea> {
 
 SfCartesianChart getRangeAreaChart(bool isTileView) {
   return SfCartesianChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Average temperature variation'),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
         dateFormat: DateFormat.y(),
+        intervalType: DateTimeIntervalType.years,
         majorGridLines: MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift),
     primaryYAxis: NumericAxis(
@@ -70,8 +70,9 @@ List<ChartSeries<_RangeAreaData, DateTime>> _getRangeAreaSeries(
       dataSource: chartData,
       name: 'London',
       borderWidth: 2,
-      borderColor: Colors.blue,
-      color: Colors.blue[50],
+      opacity: 0.5,
+      borderColor: const Color.fromRGBO(50, 198, 255, 1),
+      color: const Color.fromRGBO(50, 198, 255, 1),
       borderDrawMode: RangeAreaBorderMode.excludeSides,
       xValueMapper: (_RangeAreaData sales, _) => sales.month,
       highValueMapper: (_RangeAreaData sales, _) => sales.high,

@@ -15,7 +15,7 @@ class PieGrouping extends StatefulWidget {
 class _PieGroupingState extends State<PieGrouping> {
   _PieGroupingState(this.sample);
   final SubItem sample;
-   @override
+  @override
   Widget build(BuildContext context) {
     return getScopedModel(getGroupingPieChart(false), sample);
   }
@@ -23,7 +23,6 @@ class _PieGroupingState extends State<PieGrouping> {
 
 SfCircularChart getGroupingPieChart(bool isTileView) {
   return SfCircularChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Electricity sectors'),
     series: getGroupingPieSeries(isTileView),
     tooltipBehavior:

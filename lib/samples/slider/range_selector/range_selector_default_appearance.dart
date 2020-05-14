@@ -18,8 +18,7 @@ class DefaultRangeSelectorPage extends StatefulWidget {
       _DefaultRangeSelectorPageState(sample);
 }
 
-class _DefaultRangeSelectorPageState
-    extends State<DefaultRangeSelectorPage> {
+class _DefaultRangeSelectorPageState extends State<DefaultRangeSelectorPage> {
   _DefaultRangeSelectorPageState(this.sample);
 
   final SubItem sample;
@@ -81,6 +80,7 @@ class _DefaultRangeSelectorPageState
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
+    final SfRangeSliderThemeData sliderThemeData = SfRangeSelectorTheme.of(context);
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Container(
         margin: const EdgeInsets.all(0),
@@ -112,13 +112,17 @@ class _DefaultRangeSelectorPageState
                   data: SfRangeSliderThemeData(
                       brightness: themeData.brightness,
                       labelOffset: const Offset(0, 0),
-                      activeLabelStyle: TextStyle(
+                      activeLabelStyle: kIsWeb
+                          ? sliderThemeData.activeLabelStyle
+                          : TextStyle(
                           fontSize: 10,
-                          color: themeData.textTheme.body2.color
+                          color: themeData.textTheme.bodyText1.color
                               .withOpacity(0.87)),
-                      inactiveLabelStyle: TextStyle(
+                      inactiveLabelStyle: kIsWeb
+                          ? sliderThemeData.inactiveLabelStyle
+                          : TextStyle(
                           fontSize: 10,
-                          color: themeData.textTheme.body2.color
+                          color: themeData.textTheme.bodyText1.color
                               .withOpacity(0.87))),
                   child: SfRangeSelector(
                     min: min,

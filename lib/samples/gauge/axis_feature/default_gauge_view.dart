@@ -24,7 +24,8 @@ class _RadialGaugeDefaultState extends State<RadialGaugeDefault> {
 }
 
 SfRadialGauge getDefaultRadialGauge(bool isTileView) {
-  return SfRadialGauge(  enableLoadingAnimation: true,
+  return SfRadialGauge(
+    enableLoadingAnimation: true,
     axes: <RadialAxis>[
       RadialAxis(
           interval: 10,

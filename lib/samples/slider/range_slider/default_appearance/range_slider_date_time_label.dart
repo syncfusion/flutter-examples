@@ -13,12 +13,10 @@ class DateRangeSliderPage extends StatefulWidget {
   SubItem sample;
 
   @override
-  _DateRangeSliderPageState createState() =>
-      _DateRangeSliderPageState(sample);
+  _DateRangeSliderPageState createState() => _DateRangeSliderPageState(sample);
 }
 
-class _DateRangeSliderPageState
-    extends State<DateRangeSliderPage> {
+class _DateRangeSliderPageState extends State<DateRangeSliderPage> {
   _DateRangeSliderPageState(this.sample);
   final SubItem sample;
   Widget rangeSlider;
@@ -48,8 +46,10 @@ class DateRangeSlider extends StatefulWidget {
 }
 
 class _DateRangeSliderState extends State<DateRangeSlider> {
-  SfRangeValues _yearValues = SfRangeValues(DateTime(2002, 4, 01), DateTime(2003, 10, 01));
-  SfRangeValues _hourValues = SfRangeValues(DateTime(2010, 01, 01, 13, 00, 00), DateTime(2010, 01, 01, 17, 00, 00));
+  SfRangeValues _yearValues =
+      SfRangeValues(DateTime(2002, 4, 01), DateTime(2003, 10, 01));
+  SfRangeValues _hourValues = SfRangeValues(
+      DateTime(2010, 01, 01, 13, 00, 00), DateTime(2010, 01, 01, 17, 00, 00));
 
   SfRangeSlider _yearRangeSlider() {
     return SfRangeSlider(
@@ -68,7 +68,8 @@ class _DateRangeSliderState extends State<DateRangeSlider> {
         });
       },
       showTooltip: true,
-      tooltipTextFormatterCallback: (dynamic actualLabel, String formattedText) {
+      tooltipTextFormatterCallback:
+          (dynamic actualLabel, String formattedText) {
         return DateFormat.yMMM().format(actualLabel);
       },
     );
@@ -92,7 +93,8 @@ class _DateRangeSliderState extends State<DateRangeSlider> {
         });
       },
       showTooltip: true,
-      tooltipTextFormatterCallback: (dynamic actualLabel, String formattedText) {
+      tooltipTextFormatterCallback:
+          (dynamic actualLabel, String formattedText) {
         return DateFormat('h:mm a').format(actualLabel);
       },
     );

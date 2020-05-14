@@ -151,7 +151,7 @@
     },    
     {
         "title": "PDF",
-        "description": "Demos of the non-UI flutter PDF library to create PDF files.",
+        "description": "Demos of the non-UI Flutter PDF library to create PDF files.",
         "image": "images/pdf.png",
         "status": "New",
         "category": "File Formats",
@@ -174,7 +174,7 @@
                 "type": "sample",
                 "title": "Headers and Footers",
                 "key": "header_and_footer",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/header_and_footers/header_and_footers.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/header_and_footer/header_and_footer.dart"
             }
         ]
     },
@@ -561,22 +561,19 @@
                                 "title": "High low chart",
                                 "key": "hilo_chart",
                                 "status": "New",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/financial_series/hilo_chart.dart"
-            
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart/cartesian_charts/financial_series/hilo_chart.dart"
                             },
                             {
                                 "title": "Open high low close chart",
                                 "key": "hilo_open_close_chart",
                                 "status": "New",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/financial_series/hilo_open_close_chart.dart"
-            
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart/cartesian_charts/financial_series/hilo_open_close_chart.dart"
                             },
                             {
                                 "title": "Candle chart",
                                 "key": "candle_chart",
                                 "status": "New",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/financial_series/candle_chart.dart"
-            
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart/cartesian_charts/financial_series/candle_chart.dart"
                             }
                         ]
                     }
@@ -635,13 +632,13 @@
                             {
                                 "title": "Arranged by index",
                                 "key": "category_arranged_by_index",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/category_types/category_arranged_by_index.dart",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/category_types/indexed_category_axis.dart",
                                 "description": "By default, category data points will be arranged based on the x values. In this sample, you can arrange the data points based on the index value."
                             },
                             {
                                 "title": "Label placement",
                                 "key": "category_label_placement",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/category_types/category_label_placement.dart",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/category_types/label_placement.dart",
                                 "description": "",
                                 "status": ""
                             }
@@ -655,7 +652,7 @@
                             {
                                 "title": "Default Date time axis",
                                 "key": "default_datetime_axis",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/date_time_types/default_datetime_axis.dart",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/date_time_types/default_date_time_axis.dart",
                                 "description": "",
                                 "status": "",
                                 "sourceLink": "https://www.x-rates.com/graph/?from=USD&to=INR&amount=1",
@@ -664,7 +661,7 @@
                             {
                                 "title": "Date time axis with label format",
                                 "key": "datetime_axis_with_label_format",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/date_time_types/datetime_axis_with_label_format.dart",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/date_time_types/date_time_axis_with_label_format.dart",
                                 "description": "",
                                 "status": "",
                                 "sourceLink": "https://en.wikipedia.org/wiki/List_of_earthquakes_in_Indonesia",
@@ -743,7 +740,7 @@
                     {
                         "title": "Plot band recurrence",
                         "key": "plot_band_recurrence",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/plot_band/plot_band_recurrence.dart"
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/plot_band/Plot_band_recurrence.dart"
                     }
                 ]
             },
@@ -892,21 +889,21 @@
                                 "title": "Pinch zooming",
                                 "key": "pinch_zooming",
                                 "description": "Pinch zooming and panning is enabled in this sample. Pinch the chart to zoom it and swipe the zoomed chart to pan it.",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/zooming_panning/pinch_zooming.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/zooming_panning/pinch_zooming/pinch_zooming.dart"
                             },
                             {
                                 "title": "Selection zooming",
                                 "key": "selection_zooming",
                                 "showInWeb": false,
                                 "description": "This sample depicts the working of selection zooming. Long press and drag on the chart to select the region for zooming.",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/zooming_panning/selection_zooming.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/zooming_panning/selection_zooming/selection_zooming.dart"
                             },
                             {
                                 "title": "Zooming with custom buttons",
                                 "key": "zooming_with_custom_buttons",
                                 "showInWeb": false,
                                 "description": "This sample demonstrates zooming and panning with custom buttons.",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/zooming_panning/zooming_with_custom_buttons.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/zooming_panning/zooming_with_custom_button/zooming_with_custom_buttons.dart"
                             }
                         ]
                     },
@@ -914,12 +911,10 @@
                         "type": "child",
                         "title": "Crosshair",
                         "displayType": "card",
-                        "showInWeb": false,
                         "subItems": [
                             {
                                 "title": "Chart with crosshair",
                                 "key": "chart_with_crosshair",
-                                "showInWeb": false,
                                 "description": "Crosshair is enabled in this sample. Tap the chart to display a crosshair and drag the chart to change the position of the crosshair continuously.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/crosshair/chart_with_crosshair.dart"
                             }
@@ -1053,7 +1048,6 @@
                             {
                                 "title": "Real-time spline chart",
                                 "key": "real_time_spline_chart",
-                                "showInWeb": false,
                                 "description": "This sample demonstrates the live chart. A new data point is added at the end and a point is removed at the start in certain time interval continuously.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/dynamic_updates/live_update/real_time_spline_chart.dart"
                             },
@@ -1072,21 +1066,18 @@
                     },
                     {
                         "type": "child",
-                        "showInWeb":false,
                         "title": "Add/Remove Data",
                         "displayType": "card",
                         "subItems": [
                             {
                                 "title": "Add/remove points",
                                 "key": "add_remove_points",
-                                "showInWeb": false,
                                 "description": "Add or remove the data points from a chart using the buttons placed in the sample.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/dynamic_updates/add_remove_data/add_remove_points.dart"
                             },
                             {
                                 "title": "Add/remove series",
                                 "key": "add_remove_series",
-                                "showInWeb": false,
                                 "description": "Add or remove series from the chart using the buttons placed in the sample.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/dynamic_updates/add_remove_data/add_remove_series.dart"
                             }
@@ -1256,7 +1247,7 @@
         ]
     },
     {
-        "title": "Calendar",
+        "title": "Event Calendar",
         "description": "Demos of multiple calendar views and its features",
         "image": "images/calendar.png",
         "status": "Updated",

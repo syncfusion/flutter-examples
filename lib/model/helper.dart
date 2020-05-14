@@ -663,7 +663,7 @@ Widget getSideDrawer(SampleModel _model) {
                         )),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('Version 18.1.42',
+                        child: Text('Version 18.1.52',
                             style: TextStyle(
                                 color: _model.drawerTextIconColor,
                                 fontSize: 12,
@@ -689,9 +689,11 @@ Widget getFooter(BuildContext context, SampleModel model) {
       ),
       color: model.webFooterColor,
     ),
-    padding:isMobile ? EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 0,
-        MediaQuery.of(context).size.width * 0.025, 0): EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.05, 0,
-        MediaQuery.of(context).size.width * 0.05, 0),
+    padding: isMobile
+        ? EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 0,
+            MediaQuery.of(context).size.width * 0.025, 0)
+        : EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.05, 0,
+            MediaQuery.of(context).size.width * 0.05, 0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -758,14 +760,14 @@ Widget getFooter(BuildContext context, SampleModel model) {
             ? HandCursor(
                 child: InkWell(
                   onTap: () => launch('https://www.syncfusion.com'),
-                    child: Image.asset(model.syncfusionIcon,
+                  child: Image.asset(model.syncfusionIcon,
                       fit: BoxFit.contain, height: 25, width: 80),
                 ),
-            )
+              )
             : HandCursor(
                 child: InkWell(
                   onTap: () => launch('https://www.syncfusion.com'),
-                    child: Image.asset(model.syncfusionIcon,
+                  child: Image.asset(model.syncfusionIcon,
                       fit: BoxFit.contain, height: 25, width: 120),
                 ),
               ),

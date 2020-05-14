@@ -16,8 +16,7 @@ class ScaleRangeSliderPage extends StatefulWidget {
       _ScaleRangeSliderPageState(sample);
 }
 
-class _ScaleRangeSliderPageState
-    extends State<ScaleRangeSliderPage> {
+class _ScaleRangeSliderPageState extends State<ScaleRangeSliderPage> {
   _ScaleRangeSliderPageState(this.sample);
   final SubItem sample;
   Widget rangeSlider;
@@ -35,8 +34,7 @@ class _ScaleRangeSliderPageState
       body: MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
           ? rangeSlider
           : SingleChildScrollView(
-              child: Container(
-                  height: 300, child: rangeSlider)),
+              child: Container(height: 300, child: rangeSlider)),
     );
   }
 }
@@ -44,12 +42,10 @@ class _ScaleRangeSliderPageState
 // ignore: must_be_immutable
 class ScaleRangeSlider extends StatefulWidget {
   @override
-  _ScaleRangeSliderState createState() =>
-      _ScaleRangeSliderState();
+  _ScaleRangeSliderState createState() => _ScaleRangeSliderState();
 }
 
-class _ScaleRangeSliderState
-    extends State<ScaleRangeSlider> {
+class _ScaleRangeSliderState extends State<ScaleRangeSlider> {
   SfRangeValues _divisonSliderValues = const SfRangeValues(20.0, 80.0);
   SfRangeValues _tickSliderValues = const SfRangeValues(20.0, 80.0);
   SfRangeValues _labelSliderValues = const SfRangeValues(20.0, 80.0);
@@ -82,8 +78,7 @@ class _ScaleRangeSliderState
           setState(() {
             _tickSliderValues = values;
           });
-        }
-    );
+        });
   }
 
   SfRangeSlider _sliderWithLabel() {
@@ -97,8 +92,7 @@ class _ScaleRangeSliderState
           setState(() {
             _labelSliderValues = values;
           });
-        }
-    );
+        });
   }
 
   Widget _getWebLayout() {
@@ -116,7 +110,7 @@ class _ScaleRangeSliderState
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-         title('Divisors'),
+        title('Divisors'),
         _sliderWithDivisor(),
         columnSpacing40,
         title('Labels'),
