@@ -79,19 +79,22 @@ List<LineSeries<ChartSampleData, num>> getVerticalLineSeries() {
   ];
 }
 
+//ignore: must_be_immutable
 class VerticalLiveDataFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  VerticalLiveDataFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  VerticalLiveDataFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
-  _VerticalLiveDataFrontPanelState createState() => _VerticalLiveDataFrontPanelState(subItemList);
+  _VerticalLiveDataFrontPanelState createState() => _VerticalLiveDataFrontPanelState(sample);
 }
 
 class _VerticalLiveDataFrontPanelState extends State<VerticalLiveDataFrontPanel> {
   _VerticalLiveDataFrontPanelState(this.sample) {
     count = 0;
   }
+  
+  Widget sampleWidget(SampleModel model) => getVerticalLineUpdateChart(false);
   @override
   void initState() {
     super.initState();

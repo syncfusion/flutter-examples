@@ -24,6 +24,7 @@ class _PieSmartLabelsState extends State<PieSmartLabels> {
 
 SfCircularChart getSmartLabelPieChart(bool isTileView) {
   return SfCircularChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Largest islands in the world'),
     series: gettSmartLabelPieSeries(isTileView),
     tooltipBehavior: TooltipBehavior(enable: true),

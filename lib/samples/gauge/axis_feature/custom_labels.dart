@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/helper.dart';
@@ -35,7 +36,7 @@ Widget getGaugeCustomLabels(bool isTileView, [bool isIndexed]) {
             RadialAxis(
               startAngle: 270,
               endAngle: 270,
-              radiusFactor: 0.9,
+              radiusFactor: kIsWeb ? 0.8 : 0.9,
               minimum: 0,
               maximum: 80,
               axisLineStyle:
@@ -53,7 +54,7 @@ Widget getGaugeCustomLabels(bool isTileView, [bool isIndexed]) {
                     value: 70,
                     lengthUnit: GaugeSizeUnit.factor,
                     needleLength: 0.55,
-                    needleEndWidth: isTileView ? 10 :
+                    needleEndWidth: kIsWeb ? 18 : isTileView ? 10 :
                     _orientation == Orientation.portrait ? 18: 10,
                     gradient: const LinearGradient(colors: <Color>[
                       Color(0xFFFF6B78),
@@ -68,7 +69,7 @@ Widget getGaugeCustomLabels(bool isTileView, [bool isIndexed]) {
                     ]),
                     needleColor: const Color(0xFFF67280),
                     knobStyle: KnobStyle(
-                        knobRadius: 0.1,
+                        knobRadius: kIsWeb ? 0.098 : 0.09,
                         sizeUnit: GaugeSizeUnit.factor,
                         color: Colors.white)),
                 NeedlePointer(
@@ -88,10 +89,10 @@ Widget getGaugeCustomLabels(bool isTileView, [bool isIndexed]) {
                     lengthUnit: GaugeSizeUnit.factor,
                     needleColor: _brightness == Brightness.dark ?
         const Color(0xFF888888): const Color(0xFFFCACACA),
-                    needleEndWidth: isTileView ? 10 :
+                    needleEndWidth:  kIsWeb ? 18 : isTileView ? 10 :
                     _orientation == Orientation.portrait ? 18: 10,
                     knobStyle: KnobStyle(
-                        knobRadius: 0.1,
+                        knobRadius: kIsWeb ? 0.098 : 0.09,
                         sizeUnit: GaugeSizeUnit.factor,
                         color: Colors.white))
               ],

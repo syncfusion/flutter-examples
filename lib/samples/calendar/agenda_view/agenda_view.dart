@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_examples/model/model.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 //ignore: must_be_immutable
@@ -25,6 +26,8 @@ class _AgendaViewCalendarState extends State<AgendaViewCalendar> {
   List<Meeting> meetings;
   MeetingDataSource events;
   DateTime selectedDate;
+
+  Widget sampleWidget(SampleModel model) => AgendaViewCalendar();
 
   @override
   void initState() {
@@ -49,7 +52,14 @@ class _AgendaViewCalendarState extends State<AgendaViewCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return getAgendaViewCalendar(events, onViewChanged, selectedDate);
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
+          return Container(
+              color: model.cardThemeColor,
+              child:
+                  getAgendaViewCalendar(events, onViewChanged, selectedDate));
+        });
   }
 
   void addAppointmentDetails() {
@@ -81,11 +91,11 @@ class _AgendaViewCalendarState extends State<AgendaViewCalendar> {
   void addAppointments() {
     final Random random = Random();
     final DateTime rangeStartDate =
-    DateTime.now().add(const Duration(days: -(365 ~/ 2)));
+        DateTime.now().add(const Duration(days: -(365 ~/ 2)));
     final DateTime rangeEndDate = DateTime.now().add(const Duration(days: 365));
     for (DateTime i = rangeStartDate;
-    i.isBefore(rangeEndDate);
-    i = i.add(const Duration(days: 1))) {
+        i.isBefore(rangeEndDate);
+        i = i.add(const Duration(days: 1))) {
       final DateTime date = i;
       final int count = 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
@@ -139,8 +149,8 @@ class _AgendaViewCalendarState extends State<AgendaViewCalendar> {
 
 SfCalendar getAgendaViewCalendar(
     [CalendarDataSource _calendarDataSource,
-      ViewChangedCallback onViewChanged,
-      DateTime selectedDate]) {
+    ViewChangedCallback onViewChanged,
+    DateTime selectedDate]) {
   return SfCalendar(
     view: CalendarView.month,
     initialSelectedDate: selectedDate,

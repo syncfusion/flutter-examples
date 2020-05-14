@@ -24,6 +24,7 @@ class _StepLineDefaultState extends State<StepLineDefault> {
 
 SfCartesianChart getDefaultStepLineChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Electricity-Production'),
     primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),

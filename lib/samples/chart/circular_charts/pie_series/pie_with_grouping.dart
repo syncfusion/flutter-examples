@@ -23,6 +23,7 @@ class _PieGroupingState extends State<PieGrouping> {
 
 SfCircularChart getGroupingPieChart(bool isTileView) {
   return SfCircularChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Electricity sectors'),
     series: getGroupingPieSeries(isTileView),
     tooltipBehavior:

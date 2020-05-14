@@ -160,7 +160,7 @@ class _LayoutPageState extends State<LayoutPage> {
     final List<Widget> tabs = <Widget>[];
     for (int i = 0; i < list.length; i++) {
       if (list.isNotEmpty) {
-        final String str = _getStatus(list[i]);
+        final String str = getStatus(list[i]);
         tabs.add(Tab(
             child: Row(
           children: <Widget>[
@@ -414,42 +414,5 @@ class _LayoutPageState extends State<LayoutPage> {
       }
     }
     return tabs;
-  }
-
-  String _getStatus(SubItem item) {
-    String status = '';
-    if (item.subItems == null) {
-      status = (item.status == 'new' || item.status == 'New')
-          ? 'N'
-          : (item.status == 'updated' || item.status == 'Updated') ? 'U' : '';
-    } else {
-      int newCount = 0;
-      int updateCount = 0;
-      for (int i = 0; i < item.subItems.length; i++) {
-        if (item.subItems[i].subItems == null) {
-          if (item.subItems[i].status == 'New' ||
-              item.subItems[i].status == 'new') {
-            newCount++;
-          } else if (item.subItems[i].status == 'Updated' ||
-              item.subItems[i].status == 'updated') {
-            updateCount++;
-          }
-        } else {
-          for (int j = 0; j < item.subItems[i].subItems.length; j++) {
-            if (item.subItems[i].subItems[j].status == 'New' ||
-                item.subItems[i].subItems[j].status == 'new') {
-              newCount++;
-            } else if (item.subItems[i].subItems[j].status == 'Updated' ||
-                item.subItems[i].subItems[j].status == 'updated') {
-              updateCount++;
-            }
-          }
-        }
-      }
-      status = (newCount != 0 && newCount == item.subItems.length)
-          ? 'N'
-          : (newCount != 0 || updateCount != 0) ? 'U' : '';
-    }
-    return status;
-  }
+  }  
 }

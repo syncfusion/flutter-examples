@@ -28,6 +28,7 @@ class _DoughnutSemiState extends State<DoughnutSemi> {
 SfCircularChart getSemiDoughnutChart(bool isTileView,
     [int startAngle, int endAngle]) {
   return SfCircularChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Sales by sales person'),
     legend: Legend(isVisible: isTileView ? false : true),
     centerY: isTileView ? '65%' : '60%',
@@ -59,14 +60,15 @@ List<DoughnutSeries<ChartSampleData, String>> getSemiDoughnutSeries(
   ];
 }
 
+//ignore: must_be_immutable
 class SemiDoughnutFrontPanel extends StatefulWidget {
   //ignore:prefer_const_constructors_in_immutables
-  SemiDoughnutFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  SemiDoughnutFrontPanel([this.sample]);
+   SubItem sample;
 
   @override
   _SemiDoughnutFrontPanelState createState() =>
-      _SemiDoughnutFrontPanelState(subItemList);
+      _SemiDoughnutFrontPanelState(sample);
 }
 
 class _SemiDoughnutFrontPanelState extends State<SemiDoughnutFrontPanel> {
@@ -74,6 +76,7 @@ class _SemiDoughnutFrontPanelState extends State<SemiDoughnutFrontPanel> {
   final SubItem sample;
   int startAngle = 270;
   int endAngle = 90;
+  Widget sampleWidget(SampleModel model) => getSemiDoughnutChart(true);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -86,7 +89,8 @@ class _SemiDoughnutFrontPanelState extends State<SemiDoughnutFrontPanel> {
                 child: Container(
                     child: getSemiDoughnutChart(false, startAngle, endAngle)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ? null :
+              FloatingActionButton(
                 onPressed: () {
                   _showSettingsPanel(model);
                 },

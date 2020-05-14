@@ -81,15 +81,16 @@ List<ChartSeries<ChartSampleData, dynamic>> getSeries(bool isTileView) {
   ];
 }
 
+//ignore: must_be_immutable
 class AxisCrossingFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  AxisCrossingFrontPanel(this.subItemList);
+  AxisCrossingFrontPanel([this.sample]);
 
-  final SubItem subItemList;
+  SubItem sample;
 
   @override
   _AxisCrossingFrontPanelState createState() =>
-      _AxisCrossingFrontPanelState(subItemList);
+      _AxisCrossingFrontPanelState(sample);
 }
 
 class _AxisCrossingFrontPanelState extends State<AxisCrossingFrontPanel> {
@@ -102,6 +103,10 @@ class _AxisCrossingFrontPanelState extends State<AxisCrossingFrontPanel> {
   String _selectedAxis;
   double crossAt = 0;
   bool isPlaceLabelsNearAxisLine = true;
+
+  
+  Widget sampleWidget(SampleModel model) => getAxisCrossingSample(false);
+
   @override
   void initState() {
     super.initState();
@@ -122,7 +127,9 @@ class _AxisCrossingFrontPanelState extends State<AxisCrossingFrontPanel> {
                     child: getAxisCrossingSample(false, _selectedAxisType,
                         crossAt, isPlaceLabelsNearAxisLine)),
               ),
-              floatingActionButton: Stack(children: <Widget>[
+              floatingActionButton: model.isWeb ?
+              null :
+              Stack(children: <Widget>[
                 Align(
                   alignment: Alignment.bottomRight,
                   child: FloatingActionButton(

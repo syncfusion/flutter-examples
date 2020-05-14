@@ -468,13 +468,14 @@ List<ChartSeries<ChartSampleData, dynamic>> getDataLabelHilotSeries(
         name: 'AAPL'),
   ];
 }
+//ignore: must_be_immutable
 class RSIIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  RSIIndicatorFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  RSIIndicatorFrontPanel([this.sample]);
+  SubItem sample;
   @override
   _RSIIndicatorFrontPanelState createState() =>
-      _RSIIndicatorFrontPanelState(subItemList);
+      _RSIIndicatorFrontPanelState(sample);
 }
 
 class _RSIIndicatorFrontPanelState
@@ -485,6 +486,7 @@ class _RSIIndicatorFrontPanelState
   double _overBought = 80.0;
   double _overSold = 20.0;
   bool _showZones = true;
+  Widget sampleWidget(SampleModel model) => getDefaultRSIIndicator(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -497,7 +499,9 @@ class _RSIIndicatorFrontPanelState
             child: getDefaultRSIIndicator(
                 false,_period.toInt(),_overBought,_overSold,_showZones),
           ),
-          floatingActionButton: Stack(
+          floatingActionButton: model.isWeb ?
+              null :
+          Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,

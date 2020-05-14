@@ -28,6 +28,7 @@ class _ScatterDefaultState extends State<ScatterDefault> {
 
 SfCartesianChart getDefaultScatterChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Export growth rate'),
     legend: Legend(isVisible: isTileView ? false : true),

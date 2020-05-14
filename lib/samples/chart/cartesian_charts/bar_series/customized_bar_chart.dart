@@ -35,6 +35,7 @@ class _BarCustomizationState extends State<BarCustomization> {
 
 SfCartesianChart getCustomizedBarChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(
         text:
             isTileView ? '' : 'Popular Android apps in the Google play store'),

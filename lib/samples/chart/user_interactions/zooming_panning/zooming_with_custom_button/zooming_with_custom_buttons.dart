@@ -80,6 +80,7 @@ class _ButtonZoomingState extends State<ButtonZooming> {
 
 SfCartesianChart getButtonZoomingChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
     primaryYAxis: NumericAxis(
@@ -99,21 +100,22 @@ List<LineSeries<ChartSampleData, num>> getButtonZoomingSeries(bool isTileView) {
   ];
 }
 
+//ignore: must_be_immutable
 class ZoomingWithButtonFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  ZoomingWithButtonFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  ZoomingWithButtonFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _ZoomingWithButtonFrontPanelState createState() =>
-      _ZoomingWithButtonFrontPanelState(subItemList);
+      _ZoomingWithButtonFrontPanelState(sample);
 }
 
 class _ZoomingWithButtonFrontPanelState
     extends State<ZoomingWithButtonFrontPanel> {
   _ZoomingWithButtonFrontPanelState(this.sample);
   final SubItem sample;
-
+Widget sampleWidget(SampleModel model) => getButtonZoomingChart(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(

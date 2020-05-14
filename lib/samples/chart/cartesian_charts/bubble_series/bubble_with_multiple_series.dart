@@ -24,6 +24,7 @@ class _BubbleMultiSeriesState extends State<BubbleMultiSeries> {
 
 SfCartesianChart getMultipleSeriesBubbleChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'World countries details'),
     primaryXAxis: NumericAxis(

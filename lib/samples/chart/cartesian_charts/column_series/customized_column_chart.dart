@@ -26,6 +26,7 @@ class _ColumnVerticalState extends State<ColumnVertical> {
 
 SfCartesianChart getCustomizedColumnChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'PC vendor shipments - 2015 Q1'),
     primaryXAxis: CategoryAxis(
       majorGridLines: MajorGridLines(width: 0),

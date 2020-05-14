@@ -33,6 +33,7 @@ class _DefaultCrossHairState extends State<DefaultCrossHair> {
 SfCartesianChart getDefaultCrossHairChart(bool isTileView,
     [bool alwaysShow, CrosshairLineType lineType, dynamic randomData]) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
         dateFormat: DateFormat.y(),
@@ -89,19 +90,19 @@ dynamic getDatatTimeData() {
   }
   return randomData;
 }
-
+//ignore: must_be_immutable
 class CrosshairFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  CrosshairFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  CrosshairFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _CrosshairFrontPanelState createState() =>
-      _CrosshairFrontPanelState(subItemList);
+      _CrosshairFrontPanelState(sample);
 }
 
 class _CrosshairFrontPanelState extends State<CrosshairFrontPanel> {
-  _CrosshairFrontPanelState(this.sample);
+  _CrosshairFrontPanelState([this.sample]);
   final SubItem sample;
   bool alwaysShow = false;
   final List<String> _lineTypeList =
@@ -109,6 +110,7 @@ class _CrosshairFrontPanelState extends State<CrosshairFrontPanel> {
   String _selectedLineType = 'both';
   CrosshairLineType _lineType = CrosshairLineType.both;
   dynamic randomData;
+  Widget sampleWidget(SampleModel model) => getDefaultCrossHairChart(true);
   @override
   void initState() {
     super.initState();
@@ -128,7 +130,9 @@ class _CrosshairFrontPanelState extends State<CrosshairFrontPanel> {
                     child: getDefaultCrossHairChart(
                         false, alwaysShow, _lineType, randomData)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ?
+              null :
+              FloatingActionButton(
                 onPressed: () {
                   _showSettingsPanel(model);
                 },

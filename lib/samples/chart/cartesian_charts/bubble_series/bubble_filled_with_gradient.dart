@@ -25,6 +25,7 @@ class _BubbleGradientState extends State<BubbleGradient> {
 
 SfCartesianChart getGradientBubbleChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Circket World cup statistics - till 2015'),

@@ -24,6 +24,7 @@ class _RadialBarDefaultState extends State<RadialBarDefault> {
 
 SfCircularChart getDefaultRadialBarChart(bool isTileView) {
   return SfCircularChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Short put distance'),
     series: getRadialBarDefaultSeries(isTileView),
     tooltipBehavior:

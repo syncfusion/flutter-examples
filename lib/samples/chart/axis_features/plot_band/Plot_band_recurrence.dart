@@ -31,6 +31,7 @@ class _PlotBandRecurrenceState extends State<PlotBandRecurrence> {
 SfCartesianChart getPlotBandRecurrenceChart(bool isTileView,
     [bool xVisible, bool yVisible]) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'World pollution report'),
     legend: Legend(isVisible: !isTileView),
     plotAreaBorderWidth: 0,
@@ -107,16 +108,16 @@ List<ColumnSeries<ChartSampleData, DateTime>> _getPlotBandRecurrenceSeries(
     )
   ];
 }
-
+//ignore: must_be_immutable
 class PlotBandRecurrenceFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  PlotBandRecurrenceFrontPanel(this.subItemList);
+  PlotBandRecurrenceFrontPanel([this.sample]);
 
-  final SubItem subItemList;
+  SubItem sample;
 
   @override
   _PlotBandRecurrenceFrontPanelState createState() =>
-      _PlotBandRecurrenceFrontPanelState(subItemList);
+      _PlotBandRecurrenceFrontPanelState(sample);
 }
 
 class _PlotBandRecurrenceFrontPanelState
@@ -125,6 +126,7 @@ class _PlotBandRecurrenceFrontPanelState
   final SubItem sample;
   bool xAxis = false, yAxis = true;
 
+ Widget sampleWidget(SampleModel model) => getPlotBandRecurrenceChart(false);
   @override
   void initState() {
     xAxis = false;

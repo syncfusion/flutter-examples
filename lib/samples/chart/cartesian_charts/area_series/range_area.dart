@@ -28,6 +28,7 @@ class _RangeAreaState extends State<RangeArea> {
 
 SfCartesianChart getRangeAreaChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Average temperature variation'),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(

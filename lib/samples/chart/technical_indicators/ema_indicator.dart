@@ -446,13 +446,14 @@ class ChartSampleData {
   final double low;
   final DateTime x;
 }
+//ignore: must_be_immutable
 class EmaIndicatorFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  EmaIndicatorFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  EmaIndicatorFrontPanel([this.sample]);
+  SubItem sample;
   @override
   _EmaIndicatorFrontPanelState createState() =>
-      _EmaIndicatorFrontPanelState(subItemList);
+      _EmaIndicatorFrontPanelState(sample);
 }
 
 class _EmaIndicatorFrontPanelState
@@ -460,7 +461,7 @@ class _EmaIndicatorFrontPanelState
   _EmaIndicatorFrontPanelState(this.sample);
   final SubItem sample;
   double _period = 14.0;
-
+Widget sampleWidget(SampleModel model) => getDefaulEMAIndicator(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -473,7 +474,9 @@ class _EmaIndicatorFrontPanelState
             child: getDefaulEMAIndicator(
                 false,_period.toInt()),
           ),
-          floatingActionButton: Stack(
+          floatingActionButton: model.isWeb ?
+              null :
+          Stack(
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomRight,

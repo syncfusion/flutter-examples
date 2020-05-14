@@ -24,6 +24,7 @@ class _DoughnutDefaultState extends State<DoughnutCustomization> {
 
 SfCircularChart getDoughnutCustomizationChart(bool isTileView) {
   return SfCircularChart(
+    
     annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
           widget: Container(

@@ -24,6 +24,7 @@ class _CategoryDefaultState extends State<CategoryDefault> {
 
 SfCartesianChart getDefaultCategoryAxisChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Internet Users - 2016'),
     plotAreaBorderWidth: 0,
     primaryXAxis: CategoryAxis(

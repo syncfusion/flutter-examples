@@ -42,6 +42,7 @@ class _LiveVerticalState extends State<AddDataPoints> {
 
 SfCartesianChart getAddRemovePointsChart(bool isTileView,[List<ChartSampleData> chartData]) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
@@ -77,19 +78,21 @@ List<LineSeries<ChartSampleData, num>> getAddRemovePointSeries(
   ];
 }
 
+//ignore: must_be_immutable
 class DynamicPointFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  DynamicPointFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  DynamicPointFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _DynamicPointFrontPanelState createState() =>
-      _DynamicPointFrontPanelState(subItemList);
+      _DynamicPointFrontPanelState(sample);
 }
 
 class _DynamicPointFrontPanelState extends State<DynamicPointFrontPanel> {
   _DynamicPointFrontPanelState(this.sample);
   final SubItem sample;
+  Widget sampleWidget(SampleModel model) => getAddRemovePointsChart(false);
   num getRandomInt(num min, num max) {
     final Random random = Random();
     return min + random.nextInt(max - min);

@@ -390,6 +390,7 @@ SfCartesianChart getDefaultAdIndicator(bool isTileView) {
         volume: 84354060),
   ];
   return SfCartesianChart(
+    
     legend: Legend(isVisible: !isTileView),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(

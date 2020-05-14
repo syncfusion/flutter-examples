@@ -33,6 +33,7 @@ class _DefaultTrackballState extends State<DefaultTrackball> {
 SfCartesianChart getDefaultTrackballChart(bool isTileView,
     [TrackballDisplayMode _mode, ChartAlignment _alignment, bool showAlways]) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Average sales per person'),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
@@ -98,14 +99,15 @@ List<LineSeries<ChartSampleData, DateTime>> getDefaultTrackballSeries(
   ];
 }
 
+//ignore: must_be_immutable
 class TrackballFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  TrackballFrontPanel(this.subItemList);
-  final SubItem subItemList;
+  TrackballFrontPanel([this.sample]);
+  SubItem sample;
 
   @override
   _TrackballFrontPanelState createState() =>
-      _TrackballFrontPanelState(subItemList);
+      _TrackballFrontPanelState(sample);
 }
 
 class _TrackballFrontPanelState extends State<TrackballFrontPanel> {
@@ -123,7 +125,7 @@ class _TrackballFrontPanelState extends State<TrackballFrontPanel> {
   String _tooltipAlignment = 'center';
 
   ChartAlignment _alignment = ChartAlignment.center;
-
+Widget sampleWidget(SampleModel model) => getDefaultTrackballChart(false);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -137,7 +139,9 @@ class _TrackballFrontPanelState extends State<TrackballFrontPanel> {
                     child: getDefaultTrackballChart(
                         false, _mode, _alignment, showAlways)),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: model.isWeb ?
+              null :
+              FloatingActionButton(
                 onPressed: () {
                   _showSettingsPanel(model);
                 },

@@ -27,6 +27,7 @@ class _SplineVerticalState extends State<SplineCustomization> {
 
 SfCartesianChart getCustomizedSplineChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Product sales prediction'),
     plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(

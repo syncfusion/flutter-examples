@@ -24,6 +24,7 @@ class _ScatterShapesState extends State<ScatterShapes> {
 
 SfCartesianChart getShapesScatterChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Inflation Analysis'),
     primaryXAxis: NumericAxis(

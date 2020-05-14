@@ -5,6 +5,8 @@
         "image": "images/Date_range_picker.png",
         "status": "New",
         "displayType": "tab",
+        "category": "Calendar",
+        "controlId": 8,
         "subItems": [
             {
                 "type": "sample",
@@ -37,6 +39,8 @@
         "description": "Demos of range slider and its features",
         "image": "images/range_slider.png",
         "status": "New",
+        "category": "Editors",
+        "controlId": 10,
         "subItems": [
             {
                 "type": "child",
@@ -47,21 +51,21 @@
                         "type": "sample",
                         "title": "States",
                         "key": "default_range_slider",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/default_line_chart.dart",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/slider/range_slider/default_appearance/default_range_slider.dart",
                         "description": ""
                     },
                     {
                         "type": "sample",
                         "title": "Divisors, labels, and ticks",
                         "key": "range_slider_divisor_label_tick",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/line_with_dashes.dart",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/slider/range_slider/default_appearance/range_slider_divisor_label_tick.dart",
                         "description": ""
                     },
                     {
                         "type": "sample",
                         "title": "Date interval",
                         "key": "range_slider_date_time_label",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/default_line_chart.dart",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/slider/range_slider/default_appearance/range_slider_date_time_label.dart",
                         "description": ""
                     }
                 ]
@@ -74,14 +78,14 @@
                     {
                         "type": "sample",
                         "title": "Color customization",
-                        "key": "size_customization",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/default_line_chart.dart"
+                        "key": "color_customization",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/slider/range_slider/customization/color_customization/color_customization.dart"
                     },
                     {
                         "type": "sample",
                         "title": "Shape customization",
-                        "key": "color_customization",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/default_line_chart.dart"
+                        "key": "shape_customization",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/slider/range_slider/customization/shape_customization/shape_customization.dart"
                     }
                 ]
             }
@@ -92,25 +96,27 @@
         "description": "Demos of range selector and its features",
         "image": "images/range_selector.png",
         "status": "New",
+        "category": "Editors",
         "displayType": "tab",
+        "controlId": 11,
         "subItems": [
             {
                 "type": "sample",
                 "title": "Default",
                 "key": "range_selector_default_appearance",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/getting_started/getting_started.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/slider/range_selector/range_selector_default_appearance.dart"
             },
             {
                 "type": "sample",
                 "title": "Selection",
                 "key": "range_selector_with_selection",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/appointment_editor/appointment_editor.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/slider/range_selector/range_selector_with_selection.dart"
             },
             {
                 "type": "sample",
                 "title": "Zooming",
                 "key": "range_selector_with_zooming",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/recurrence/recurrence.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/slider/range_selector/range_selector_with_zooming.dart"
             }
         ]
     },
@@ -119,78 +125,56 @@
         "description": "Demos of multiple one dimensional and QRCode",
         "image": "images/barcode.png",
         "status": "New",
+        "category": "Data Visualization",
         "displayType": "tab",
+        "controlId": 6,
         "subItems": [
             {
                 "type": "sample",
                 "title": "One dimensional",
                 "key": "one_dimensional_types",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/barcodes/one_dimensional/one_dimensional.dart"
             },
             {
                 "type": "sample",
                 "title": "QR Code",
                 "key": "qr_code_generator",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/barcodes/two_dimensional/qr_code.dart"
+            },
+            {
+                "type": "sample",
+                "title": "Data Matrix",
+                "key": "data_matrix_generator",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/barcodes/data_matrix/data_matrix.dart"
             }
         ]
-    },
+    },    
     {
         "title": "PDF",
         "description": "Demos of the non-UI flutter PDF library to create PDF files.",
         "image": "images/pdf.png",
         "status": "New",
-        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/hello_word/hello_word.dart",
+        "category": "File Formats",
         "displayType": "tab",
+        "controlId": 9,
         "subItems": [
             {
                 "type": "sample",
-                "title": "Hello World",
-                "key": "hello_world",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/hello_word/hello_word.dart",
-                "description": "Generate a new PDF document from scratch"
+                "title": "Invoice",
+                "key": "invoice",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/invoice/invoice.dart"
             },
             {
                 "type": "sample",
-                "title": "Bullets and Lists",
-                "key": "bullets_and_lists",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/bullets_and_lists/bullets_and_lists.dart",
-                "description": "Generate a new PDF document from scratch"
+                "title": "Course Completion Certificate",
+                "key": "certificate",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/certificate/certificate.dart"
             },
             {
                 "type": "sample",
                 "title": "Headers and Footers",
-                "key": "header_and_footers",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/header_and_footers/header_and_footers.dart",
-                "description": "Generate a new PDF document from scratch"
-            },
-            {
-                "type": "sample",
-                "title": "Table",
-                "key": "pdf_table",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/table/table.dart",
-                "description": "Generate a new PDF document from scratch"
-            },
-            {
-                "type": "sample",
-                "title": "RTL Text",
-                "key": "rtl_text_pdf",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/rtl_text/rtl_text.dart",
-                "description": "Generate a new PDF document from scratch"
-            },
-            {
-                "type": "sample",
-                "title": "Image to PDF",
-                "key": "image_to_pdf",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/image_to_pdf/image_to_pdf.dart",
-                "description": "Generate a new PDF document from scratch"
-            },
-            {
-                "type": "sample",
-                "title": "Bookmarks",
-                "key": "bookmarks_pdf",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/bookmarks/bookmarks.dart",
-                "description": "Generate a new PDF document from scratch"
+                "key": "header_and_footer",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/header_and_footers/header_and_footers.dart"
             }
         ]
     },
@@ -199,6 +183,8 @@
         "description": "Demos of various chart types supported in cartesian axes",
         "image": "images/cartesian_types.png",
         "status": "Updated",
+        "category": "Data Visualization",
+        "controlId": 1,
         "subItems": [
             {
                 "type": "parent",
@@ -220,6 +206,7 @@
                                 "type": "sample",
                                 "title": "Line with dashes",
                                 "key": "line_with_dashes",
+                                "showInWeb": false,
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/line_with_dashes.dart",
                                 "description": "Line chart is rendered with dashes in this sample."
                             },
@@ -233,6 +220,7 @@
                             {
                                 "type": "sample",
                                 "title": "Customized line chart",
+                                "showInWeb": false,
                                 "key": "customized_line_chart",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/line_series/customized_line_chart.dart",
                                 "description": ""
@@ -252,7 +240,9 @@
                             {
                                 "title": "Column with rounded corners",
                                 "key": "column_with_rounded_corners",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/column_series/column_with_rounded_corners.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/column_series/column_with_rounded_corners.dart",
+                                "sourceLink": "https://www.worldatlas.com/articles/largest-cities-in-the-world-by-land-area.html",
+                                "sourceText": "www.worldatlas.com"
                             },
                             {
                                 "title": "Back to back column",
@@ -276,7 +266,9 @@
                                 "title": "Customized column chart",
                                 "key": "customized_column_chart",
                                 "description": "This sample demonstrates the rendering of custom columns. Here, the top edges of the columns are changed to form a triangle.",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/column_series/customized_column_chart.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/column_series/customized_column_chart.dart",
+                                "sourceLink": "https://www.statista.com/statistics/263393/global-pc-shipments-since-1st-quarter-2009-by-vendor/",
+                                "sourceText": "www.statista.com"
                             }
                         ]
                     },
@@ -288,18 +280,25 @@
                             {
                                 "title": "Default spline chart",
                                 "key": "default_spline_chart",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/default_spline_chart.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/default_spline_chart.dart",
+                                "sourceLink": "https://www.holiday-weather.com/london/averages/",
+                                "sourceText": "www.holiday-weather.com"
                             },
                             {
                                 "title": "Spline with dashes",
+                                "showInWeb": false,
                                 "key": "spline_with_dashes",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/spline_with_dashes.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/spline_with_dashes.dart",
+                                "sourceLink": "https://tcdata360.worldbank.org/indicators/inv.all.pct?country=BRA&indicator=345&countries=GRC,SWE&viz=line_chart&years=1997,2004",
+                                "sourceText": "tcdata360.worldbank.org"
                             },
                             {
                                 "title": "Spline types",
                                 "key": "spline_types",
                                 "description": "This sample demonstrates various types of splines. Type can be changed by modifying the options in the properties panel.",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/spline_types.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/spline_types.dart",
+                                "sourceLink": "https://tcdata360.worldbank.org/indicators/ex.grw?country=BRA&indicator=401&viz=line_chart&years=2010Q3,2016Q2",
+                                "sourceText": "tcdata360.worldbank.org"
                             },
                             {
                                 "title": "Vertical spline chart",
@@ -309,6 +308,7 @@
                             {
                                 "title": "Customized spline chart",
                                 "key": "customized_spline_chart",
+                                "showInWeb": false,
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/spline_series/customized_spline_chart.dart"
                             }
                         ]
@@ -348,7 +348,9 @@
                             {
                                 "title": "Step area chart",
                                 "key": "step_area",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/area_series/step_area.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/area_series/step_area.dart",
+                                "sourceLink": "https://www.accuweather.com/en/fr/paris/623/march-weather/623?year=2019",
+                                "sourceText": "www.accuweather.com"
                             },
                             {
                                 "title": "Range area chart",
@@ -370,7 +372,9 @@
                             {
                                 "title": "Bar with rounded corners",
                                 "key": "bar_with_rounded_corners",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/bar_series/bar_with_rounded_corners.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/bar_series/bar_with_rounded_corners.dart",
+                                "sourceLink": "https://www.indexmundi.com/g/r.aspx?v=24",
+                                "sourceText": "www.indexmundi.com"
                             },
                             {
                                 "title": "Bar width and spacing",
@@ -387,8 +391,11 @@
                             {
                                 "title": "Customized bar chart",
                                 "key": "customized_bar_chart",
+                                "showInWeb": false,
                                 "description": "This sample demonstrates the rendering of custom bars. Here, the bars are filled with images, to look like  pattern fill.",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/bar_series/customized_bar_chart.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/bar_series/customized_bar_chart.dart",
+                                "sourceLink": "https://www.makeuseof.com/tag/most-popular-android-apps/",
+                                "sourceText": "www.makeuseof.com"
                             }
                         ]
                     },
@@ -426,9 +433,11 @@
                         "displayType": "card",
                         "subItems": [
                             {
-                                "title": "Default with scatter",
+                                "title": "Default scatter",
                                 "key": "default_scatter_chart",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/scatter_series/default_scatter_chart.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/scatter_series/default_scatter_chart.dart",
+                                "sourceLink": "https://tcdata360.worldbank.org/indicators/ex.grw?country=BRA&indicator=401&countries=IND,CAN&viz=line_chart&years=2013Q2,2016Q2",
+                                "sourceText": "tcdata360.worldbank.org"
                             },
                             {
                                 "title": "Scatter with various shapes",
@@ -451,6 +460,7 @@
                             {
                                 "title": "Step line with dashes",
                                 "key": "stepline_with_dashes",
+                                "showInWeb": false,
                                 "description": "A step line chart is rendered with dashes in this sample.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/stepLine_series/stepline_with_dashes.dart"
                             },
@@ -470,12 +480,16 @@
                             {
                                 "title": "Default range column chart",
                                 "key": "default_rangecolumn_chart",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/rangecolumn_series/default_rangecolumn_chart.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/rangecolumn_series/default_rangecolumn_chart.dart",
+                                "sourceLink": "https://www.holiday-weather.com/london/averages/",
+                                "sourceText": "www.holiday-weather.com"
                             },
                             {
                                 "title": "Transposed range column",
                                 "key": "vertical_rangecolumn_chart",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/rangecolumn_series/vertical_rangecolumn_chart.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/rangecolumn_series/vertical_rangecolumn_chart.dart",
+                                "sourceLink": "https://www.holiday-weather.com/sydney/averages/",
+                                "sourceText": "www.holiday-weather.com"
                             },
                             {
                                 "title": "Range column with track",
@@ -513,7 +527,7 @@
                     },
                     {
                         "type": "child",
-                        "title": "Stacked 100 Charts",
+                        "title": "100% Stacked Charts",
                         "displayType": "card",
                         "subItems": [
                             {
@@ -546,17 +560,23 @@
                             {
                                 "title": "High low chart",
                                 "key": "hilo_chart",
-                                "status": "New"
+                                "status": "New",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/financial_series/hilo_chart.dart"
+            
                             },
                             {
                                 "title": "Open high low close chart",
                                 "key": "hilo_open_close_chart",
-                                "status": "New"
+                                "status": "New",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/financial_series/hilo_open_close_chart.dart"
+            
                             },
                             {
                                 "title": "Candle chart",
                                 "key": "candle_chart",
-                                "status": "New"
+                                "status": "New",
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/financial_series/candle_chart.dart"
+            
                             }
                         ]
                     }
@@ -577,7 +597,9 @@
                                 "key": "default_numeric_axis",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/numeric_types/default_numeric_axis.dart",
                                 "description": "",
-                                "status": ""
+                                "status": "",
+                                "sourceLink": "https://www.google.com/search?q=india+vs+australia+odi+result+2019&oq=indian+vs+australia+odi+res&aqs=chrome.2.69i57j0l5.11336j1j4&sourceid=chrome&ie=UTF-8",
+                                "sourceText": "www.google.com"
                             },
                             {
                                 "type": "sample",
@@ -592,7 +614,9 @@
                                 "key": "inversed_numeric_axis",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/numeric_types/inversed_numeric_axis.dart",
                                 "description": "",
-                                "status": ""
+                                "status": "",
+                                "sourceLink": "https://www.indexmundi.com/g/g.aspx?c=us&v=121",
+                                "sourceText": "www.indexmundi.com"
                             }
                         ]
                     },
@@ -633,14 +657,18 @@
                                 "key": "default_datetime_axis",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/date_time_types/default_datetime_axis.dart",
                                 "description": "",
-                                "status": ""
+                                "status": "",
+                                "sourceLink": "https://www.x-rates.com/graph/?from=USD&to=INR&amount=1",
+                                "sourceText": "www.x-rates.com"
                             },
                             {
                                 "title": "Date time axis with label format",
                                 "key": "datetime_axis_with_label_format",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/date_time_types/datetime_axis_with_label_format.dart",
                                 "description": "",
-                                "status": ""
+                                "status": "",
+                                "sourceLink": "https://en.wikipedia.org/wiki/List_of_earthquakes_in_Indonesia",
+                                "sourceText": "en.wikipedia.org"
                             }
                         ]
                     },
@@ -661,7 +689,9 @@
                                 "key": "inversed_logarithmic_axis",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_types/logarithmic_types/inversed_logarithmic_axis.dart",
                                 "description": "",
-                                "status": ""
+                                "status": "",
+                                "sourceLink": "https://www.worldometers.info/world-population/population-by-country/",
+                                "sourceText": "www.worldometers.info"
                             }
                         ]
                     }
@@ -675,22 +705,30 @@
                     {
                         "title": "Opposed axes",
                         "key": "opposed_axes",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/opposed_axes/opposed_axes.dart"
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/opposed_axes/opposed_axes.dart",
+                        "sourceLink": "https://www.statista.com/statistics/199983/us-vehicle-sales-since-1951/",
+                        "sourceText": "www.statista.com"
                     },
                     {
                         "title": "Handling labels collision",
                         "key": "handling_label_collision",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/handling_label_collision/handling_label_collision.dart"
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/handling_label_collision/handling_label_collision.dart",
+                        "sourceLink": "https://en.wikipedia.org/wiki/List_of_men%27s_footballers_with_500_or_more_goals",
+                        "sourceText": "en.wikipedia.org"
                     },
                     {
                         "title": "Edge label placement",
                         "key": "edgelabel_placement",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/edge_label_placement/edgelabel_placement.dart"
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/edge_label_placement/edgelabel_placement.dart",
+                        "sourceLink": "https://www.mycarhelpline.com/index.php?option=com_easyblog&view=entry&id=808&Itemid=91",
+                        "sourceText": "www.mycarhelpline.com"
                     },
                     {
                         "title": "Multiple axis chart",
                         "key": "multiple_axis_chart",
-                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/multiple_axis_chart/multiple_axis_chart.dart"
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/axis_features/multiple_axis_chart/multiple_axis_chart.dart",
+                        "sourceLink": "https://www.accuweather.com/en/us/new-york-ny/10007/month/349727?monyr=5/01/2019",
+                        "sourceText": "www.accuweather.com"
                     },
                     {
                         "title": "Axis crossing",
@@ -733,7 +771,7 @@
                             {
                                 "title": "Default data labels",
                                 "key": "default_datalabels",
-                                "code Link": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/data_label/default_datalabels.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/data_label/default_datalabels.dart"
                             }
                         ]
                     },
@@ -765,7 +803,9 @@
                                 "title": "Sorting options",
                                 "key": "sorting_options",
                                 "description": "This sample depicts the sorting feature in a chart. The data points can be sorted in the ascending or descending order based on the x or y value.",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/sorting/sorting_options.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/sorting/sorting_options.dart",
+                                "sourceLink": "https://www.emporis.com/statistics/worlds-tallest-buildings",
+                                "sourceText": "www.emporis.com"
                             }
                         ]
                     },
@@ -782,6 +822,7 @@
                             {
                                 "title": "Dynamic update",
                                 "key": "dynamic_animation",
+                                "showInWeb": false,
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/series_features/animation/dynamic_animation.dart"
                             }
                         ]
@@ -830,7 +871,9 @@
                                 "title": "Default tooltip",
                                 "key": "default_tooltip",
                                 "description": "Tooltip is enabled in this sample and to see a tooltip in action, tap the data points in the chart.",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/tooltip/default_tooltip.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/tooltip/default_tooltip.dart",
+                                "sourceLink": "https://www.indexmundi.com/g/g.aspx?v=72&c=gm&c=mx&l=en",
+                                "sourceText": "www.indexmundi.com"
                             },
                             {
                                 "title": "Tooltip position",
@@ -854,12 +897,14 @@
                             {
                                 "title": "Selection zooming",
                                 "key": "selection_zooming",
+                                "showInWeb": false,
                                 "description": "This sample depicts the working of selection zooming. Long press and drag on the chart to select the region for zooming.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/zooming_panning/selection_zooming.dart"
                             },
                             {
                                 "title": "Zooming with custom buttons",
                                 "key": "zooming_with_custom_buttons",
+                                "showInWeb": false,
                                 "description": "This sample demonstrates zooming and panning with custom buttons.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/zooming_panning/zooming_with_custom_buttons.dart"
                             }
@@ -869,10 +914,12 @@
                         "type": "child",
                         "title": "Crosshair",
                         "displayType": "card",
+                        "showInWeb": false,
                         "subItems": [
                             {
                                 "title": "Chart with crosshair",
                                 "key": "chart_with_crosshair",
+                                "showInWeb": false,
                                 "description": "Crosshair is enabled in this sample. Tap the chart to display a crosshair and drag the chart to change the position of the crosshair continuously.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/user_interactions/crosshair/chart_with_crosshair.dart"
                             }
@@ -914,12 +961,16 @@
                     {
                         "title": "Default rendering",
                         "key": "default_trendlines_with_options",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/trendline/default_trendline.dart"
                     },
                     {
                         "title": "Trendline forecast",
                         "key": "trendline_forecast_with_options",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/trendline/trendline_forecast_options.dart",
+                        "sourceLink": "https://www.ofx.com/en-au/forex-news/historical-exchange-rates/yearly-average-rates/",
+                        "sourceText": "www.ofx.com"
                     }
                 ]
             },
@@ -931,52 +982,62 @@
                     {
                         "title": "Accumulation Distribution",
                         "key": "accumulation_distribution",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/ad_indicator.dart"
                     },
                     {
                         "title": "ATR Indicator",
                         "key": "atr_indicator",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/atr_indicator.dart"
                     },
                     {
                         "title": "Bollinger Indicator",
                         "key": "bollinger_indicator",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/bollinger_indicator.dart"
                     },
                     {
                         "title": "EMA Indicator",
                         "key": "ema_indicator",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/ema_indicator.dart"
                     },
                     {
                         "title": "Momentum Indicator",
                         "key": "momentum_indicator",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/momentum_indicator.dart"
                     },
                     {
                         "title": "RSI Indicator",
                         "key": "rsi_indicator",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/rsi_indicator.dart"
                     },
                     {
                         "title": "SMA Indicator",
                         "key": "sma_indicator",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/sma_indicator.dart"
                     },
                     {
                         "title": "Stochastic Indicator",
                         "key": "stochastic_indicator",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/stochastic_indicator.dart"
                     },
                     {
                         "title": "TMA Indicator",
                         "key": "tma_indicator",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/tma_indicator.dart"
                     },
                     {
                         "title": "MACD Indicator",
                         "key": "macd_indicator",
-                        "status": "New"
+                        "status": "New",
+                        "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/technical_indicators/macd_indicator.dart"
                     }
                 ]
             },
@@ -992,6 +1053,7 @@
                             {
                                 "title": "Real-time spline chart",
                                 "key": "real_time_spline_chart",
+                                "showInWeb": false,
                                 "description": "This sample demonstrates the live chart. A new data point is added at the end and a point is removed at the start in certain time interval continuously.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/dynamic_updates/live_update/real_time_spline_chart.dart"
                             },
@@ -1010,18 +1072,21 @@
                     },
                     {
                         "type": "child",
+                        "showInWeb":false,
                         "title": "Add/Remove Data",
                         "displayType": "card",
                         "subItems": [
                             {
                                 "title": "Add/remove points",
                                 "key": "add_remove_points",
+                                "showInWeb": false,
                                 "description": "Add or remove the data points from a chart using the buttons placed in the sample.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/dynamic_updates/add_remove_data/add_remove_points.dart"
                             },
                             {
                                 "title": "Add/remove series",
                                 "key": "add_remove_series",
+                                "showInWeb": false,
                                 "description": "Add or remove series from the chart using the buttons placed in the sample.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/dynamic_updates/add_remove_data/add_remove_series.dart"
                             }
@@ -1030,11 +1095,13 @@
                     {
                         "type": "child",
                         "title": "Update Data Source",
+                        "showInWeb": false,
                         "displayType": "card",
                         "subItems": [
                             {
                                 "title": "Update data source",
                                 "key": "update_data_source",
+                                "showInWeb": false,
                                 "description": "The data source bound to this chart can be changed with random values dynamically, by tapping the button placed in this sample.",
                                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/dynamic_updates/update_data_source/update_data_source.dart"
                             }
@@ -1048,6 +1115,8 @@
         "title": "Circular Charts",
         "description": "Demos of various circular chart types including pie and doughnut",
         "image": "images/circle_series.png",
+        "category": "Data Visualization",
+        "controlId": 2,
         "subItems": [
             {
                 "type": "parent",
@@ -1072,7 +1141,9 @@
                             {
                                 "title": "Semi-pie chart",
                                 "key": "semi_pie_chart",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/pie_series/semi_pie_chart.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/pie_series/semi_pie_chart.dart",
+                                "sourceLink": "https://data.worldbank.org/indicator/sp.rur.totl.zs",
+                                "sourceText": "data.worldbank.org"
                             },
                             {
                                 "title": "Pie with grouping",
@@ -1095,7 +1166,9 @@
                             {
                                 "title": "Default doughnut chart",
                                 "key": "default_doughnut_chart",
-                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/doughnut_series/default_doughnut_chart.dart"
+                                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/doughnut_series/default_doughnut_chart.dart",
+                                "sourceLink": "https://www.pngkit.com/view/u2q8y3w7r5y3t4o0_composition-of-ocean-water-earths-oceans-elements-percentage/",
+                                "sourceText": "www.pngkit.com"
                             },
                             {
                                 "title": "Doughnut with center elevation",
@@ -1187,7 +1260,9 @@
         "description": "Demos of multiple calendar views and its features",
         "image": "images/calendar.png",
         "status": "Updated",
+        "category": "Calendar",
         "displayType": "tab",
+        "controlId": 7,
         "subItems": [
             {
                 "type": "sample",
@@ -1220,6 +1295,8 @@
         "title": "Radial Gauge",
         "description": "Demos of radial gauges and its feature",
         "image": "images/circle_gauge.png",
+        "category": "Data Visualization",
+        "controlId": 3,
         "subItems": [
             {
                 "type": "child",
@@ -1488,6 +1565,8 @@
         "image": "images/funnel.png",
         "status": "",
         "displayType": "card",
+        "category": "Data Visualization",
+        "controlId": 5,
         "subItems": [
             {
                 "title": "Default funnel chart",
@@ -1512,6 +1591,8 @@
         "image": "images/pyramid.png",
         "status": "",
         "displayType": "card",
+        "category": "Data Visualization",
+        "controlId": 4,
         "subItems": [
             {
                 "title": "Default pyramid chart",
@@ -1521,7 +1602,9 @@
             {
                 "title": "Pyramid with smart labels",
                 "key": "pyramid_with_smart_labels",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/pyramid_charts/pyramid_with_smart_labels.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/pyramid_charts/pyramid_with_smart_labels.dart",
+                "sourceLink": "https://www.worldometers.info/world-population/population-by-country/",
+                "sourceText": "www.worldometers.info"
             },
             {
                 "title": "Pyramid with legend",

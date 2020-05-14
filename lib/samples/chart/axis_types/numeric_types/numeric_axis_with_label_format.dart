@@ -24,6 +24,7 @@ class _NumericLabelState extends State<NumericLabel> {
 
 SfCartesianChart getLabelNumericAxisChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Farenheit - Celsius conversion'),
     primaryXAxis: NumericAxis(

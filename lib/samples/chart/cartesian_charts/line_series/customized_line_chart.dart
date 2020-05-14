@@ -33,6 +33,7 @@ class _LineDefaultState extends State<CustomizedLine> {
 
 SfCartesianChart getCustomizedLineChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(
         text: isTileView ? '' : 'Capital investment as a share of exports'),
     primaryXAxis: DateTimeAxis(

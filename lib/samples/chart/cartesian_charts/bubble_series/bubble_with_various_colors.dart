@@ -26,6 +26,7 @@ class _BubblePointColorState extends State<BubblePointColor> {
 
 SfCartesianChart getPointColorBubbleChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Countries by area'),
     plotAreaBorderWidth: 0,
     primaryXAxis: CategoryAxis(

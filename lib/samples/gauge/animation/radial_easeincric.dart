@@ -27,8 +27,10 @@ class _RadialEaseInCircExampleState extends State<RadialEaseInCircExample> {
 
 SfRadialGauge getRadialEaseInCircExample(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
+        radiusFactor: kIsWeb? 0.85 : 0.95,
           showAxisLine: false,
           ticksPosition: ElementsPosition.outside,
           labelsPosition: ElementsPosition.outside,

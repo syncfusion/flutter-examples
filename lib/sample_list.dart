@@ -1,10 +1,5 @@
-import 'package:flutter_examples/samples/pdf/bullets_and_lists/bullets_and_lists.dart';
-import 'package:flutter_examples/samples/pdf/hello_world/hello_world.dart';
-import 'package:flutter_examples/samples/pdf/header_and_footers/header_and_footers.dart';
-import 'package:flutter_examples/samples/pdf/image_to_pdf/image_to_pdf.dart';
-import 'package:flutter_examples/samples/pdf/rtl_text/rtl_text.dart';
-import 'package:flutter_examples/samples/pdf/table/table.dart';
-import 'package:flutter_examples/samples/pdf/bookmarks/bookmarks.dart';
+import 'package:flutter/foundation.dart';
+import 'samples/barcodes/data_matrix/data_matrix.dart';
 import 'samples/barcodes/one_dimensional/one_dimensional.dart';
 import 'samples/barcodes/two_dimensional/qr_code.dart';
 import 'samples/calendar/agenda_view/agenda_view.dart';
@@ -171,637 +166,812 @@ import 'samples/gauge/showcase/clock_sample.dart';
 import 'samples/gauge/showcase/distance_tracker.dart';
 import 'samples/gauge/showcase/gauge_compass.dart';
 import 'samples/gauge/showcase/gauge_overview.dart';
-import 'samples/range_slider/range_selector/range_selector_default_appearance.dart';
-import 'samples/range_slider/range_selector/range_selector_with_selection.dart';
-import 'samples/range_slider/range_selector/range_selector_with_zooming.dart';
-import 'samples/range_slider/range_slider/customization/color_customization.dart';
-import 'samples/range_slider/range_slider/customization/size_customization.dart';
-import 'samples/range_slider/range_slider/default_appearance/default_range_slider.dart';
-import 'samples/range_slider/range_slider/default_appearance/range_slider_date_time_label.dart';
-import 'samples/range_slider/range_slider/default_appearance/range_slider_divisor_label_tick.dart';
-import 'samples/range_slider/range_slider/shape_customization/thumb_customization.dart';
-import 'samples/range_slider/range_slider/shape_customization/track_customization.dart';
+import 'samples/pdf/certificate/certificate.dart';
+import 'samples/pdf/header_and_footer/header_and_footer.dart';
+import 'samples/pdf/invoice/invoice.dart';
+import 'samples/slider/range_selector/range_selector_default_appearance.dart';
+import 'samples/slider/range_selector/range_selector_with_selection.dart';
+import 'samples/slider/range_selector/range_selector_with_zooming.dart';
+import 'samples/slider/range_slider/customization/color_customization/color_customization.dart';
+import 'samples/slider/range_slider/customization/shape_customization/shape_customization.dart';
+import 'samples/slider/range_slider/default_appearance/default_range_slider.dart';
+import 'samples/slider/range_slider/default_appearance/range_slider_date_time_label.dart';
+import 'samples/slider/range_slider/default_appearance/range_slider_divisor_label_tick.dart';
 
 Map<String, List<dynamic>> getSampleWidget() {
+  const bool isTileView = !kIsWeb;
   return <String, List<dynamic>>{
     //cartesian charts
-    'default_line_chart': <dynamic>[getDefaultLineChart(true), LineDefault()],
-    'line_with_dashes': <dynamic>[getDashedLineChart(true), LineDashed()],
+    'default_line_chart': <dynamic>[
+      getDefaultLineChart(isTileView),
+      LineDefault()
+    ],
+    'line_with_dashes': <dynamic>[getDashedLineChart(isTileView), LineDashed()],
     'multi_colored_line': <dynamic>[
-      getMultiColorLineChart(true),
+      getMultiColorLineChart(isTileView),
       LineMultiColor()
     ],
     'customized_line_chart': <dynamic>[
-      getCustomizedLineChart(true),
+      getCustomizedLineChart(isTileView),
       CustomizedLine()
     ],
     'default_column_chart': <dynamic>[
-      getDefaultColumnChart(true),
+      getDefaultColumnChart(isTileView),
       ColumnDefault()
     ],
     'column_with_rounded_corners': <dynamic>[
-      getRoundedColumnChart(true),
+      getRoundedColumnChart(isTileView),
       ColumnRounded()
     ],
-    'back_to_back_column': <dynamic>[getBackColumnChart(true), ColumnBack()],
+    'back_to_back_column': <dynamic>[
+      getBackColumnChart(isTileView),
+      ColumnBack()
+    ],
     'column_with_track': <dynamic>[
-      getTrackerColumnChart(true),
+      getTrackerColumnChart(isTileView),
       ColumnTracker()
     ],
     'column_width_and_spacing': <dynamic>[
-      getSpacingColumnChart(true),
-      ColumnSpacing()
+      getSpacingColumnChart(isTileView),
+      ColumnSpacing(),
+      ColumnSettingsFrontPanel()
     ],
     'customized_column_chart': <dynamic>[
-      getCustomizedColumnChart(true),
+      getCustomizedColumnChart(isTileView),
       ColumnVertical()
     ],
     'default_spline_chart': <dynamic>[
-      getDefaultSplineChart(true),
+      getDefaultSplineChart(isTileView),
       SplineDefault()
     ],
-    'spline_with_dashes': <dynamic>[getDashedSplineChart(true), SplineDashed()],
-    'spline_types': <dynamic>[getTypesSplineChart(true), SplineTypes()],
+    'spline_with_dashes': <dynamic>[
+      getDashedSplineChart(isTileView),
+      SplineDashed()
+    ],
+    'spline_types': <dynamic>[
+      getTypesSplineChart(isTileView),
+      SplineTypes(),
+      SplineTypesFrontPanel()
+    ],
     'vertical_spline_chart': <dynamic>[
-      getVerticalSplineChart(true),
+      getVerticalSplineChart(isTileView),
       SplineVertical()
     ],
     'customized_spline_chart': <dynamic>[
-      getCustomizedSplineChart(true),
+      getCustomizedSplineChart(isTileView),
       SplineCustomization()
     ],
-    'default_area_chart': <dynamic>[getDefaultAreaChart(true), AreaDefault()],
-    'area_with_gradient': <dynamic>[getGradientAreaChart(true), AreaGradient()],
+    'default_area_chart': <dynamic>[
+      getDefaultAreaChart(isTileView),
+      AreaDefault()
+    ],
+    'area_with_gradient': <dynamic>[
+      getGradientAreaChart(isTileView),
+      AreaGradient()
+    ],
     'area_with_emptypoints': <dynamic>[
-      getEmptyPointAreaChart(true),
+      getEmptyPointAreaChart(isTileView),
       AreaEmpty()
     ],
     'vertical_area_chart': <dynamic>[
-      getVerticalAreaChart(true),
+      getVerticalAreaChart(isTileView),
       AreaVertical()
     ],
-    'range_area': <dynamic>[getRangeAreaChart(true), RangeArea()],
-    'step_area': <dynamic>[getStepAreaChart(true), StepArea()],
-    'spline_area': <dynamic>[getSplineAreaChart(true), SplineArea()],
-    'default_bar_chart': <dynamic>[getDefaultBarChart(true), BarDefault()],
+    'range_area': <dynamic>[getRangeAreaChart(isTileView), RangeArea()],
+    'step_area': <dynamic>[getStepAreaChart(isTileView), StepArea()],
+    'spline_area': <dynamic>[getSplineAreaChart(isTileView), SplineArea()],
+    'default_bar_chart': <dynamic>[
+      getDefaultBarChart(isTileView),
+      BarDefault()
+    ],
     'bar_with_rounded_corners': <dynamic>[
-      getRoundedBarChart(true),
+      getRoundedBarChart(isTileView),
       BarRounded()
     ],
-    'bar_width_and_spacing': <dynamic>[getSpacingBarChart(true), BarSpacing()],
-    'bar_with_track': <dynamic>[getTrackerBarChart(true), BarTracker()],
+    'bar_width_and_spacing': <dynamic>[
+      getSpacingBarChart(isTileView),
+      BarSpacing(),
+      BarSettingsFrontPanel()
+    ],
+    'bar_with_track': <dynamic>[getTrackerBarChart(isTileView), BarTracker()],
     'customized_bar_chart': <dynamic>[
-      getCustomizedBarChart(true),
+      getCustomizedBarChart(isTileView),
       BarCustomization()
     ],
     'default_bubble_chart': <dynamic>[
-      getDefaultBubbleChart(true),
+      getDefaultBubbleChart(isTileView),
       BubbleDefault()
     ],
     'bubble_with_various_colors': <dynamic>[
-      getPointColorBubbleChart(true),
+      getPointColorBubbleChart(isTileView),
       BubblePointColor()
     ],
     'bubble_filled_with_gradient': <dynamic>[
-      getGradientBubbleChart(true),
+      getGradientBubbleChart(isTileView),
       BubbleGradient()
     ],
     'bubble_with_multiple_series': <dynamic>[
-      getMultipleSeriesBubbleChart(true),
+      getMultipleSeriesBubbleChart(isTileView),
       BubbleMultiSeries()
     ],
     'default_scatter_chart': <dynamic>[
-      getDefaultScatterChart(true),
+      getDefaultScatterChart(isTileView),
       ScatterDefault()
     ],
     'scatter_with_various_shapes': <dynamic>[
-      getShapesScatterChart(true),
+      getShapesScatterChart(isTileView),
       ScatterShapes()
     ],
     'default_stepline_chart': <dynamic>[
-      getDefaultStepLineChart(true),
+      getDefaultStepLineChart(isTileView),
       StepLineDefault()
     ],
     'stepline_with_dashes': <dynamic>[
-      getDashedStepLineChart(true),
+      getDashedStepLineChart(isTileView),
       StepLineDashed()
     ],
     'vertical_stepline_chart': <dynamic>[
-      getVerticalStepLineChart(true),
+      getVerticalStepLineChart(isTileView),
       StepLineVertical()
     ],
     'default_rangecolumn_chart': <dynamic>[
-      getDefaultRangeColumnChart(true),
+      getDefaultRangeColumnChart(isTileView),
       RangeColumnDefault()
     ],
     'vertical_rangecolumn_chart': <dynamic>[
-      getRangeBarChart(true),
+      getRangeBarChart(isTileView),
       RangeBarChart()
     ],
     'rangecolumn_with_track': <dynamic>[
-      getRangeColumnwithTrack(true),
+      getRangeColumnwithTrack(isTileView),
       RangeColumnWithTrack()
     ],
     'stacked_line_chart': <dynamic>[
-      getStackedLineChart(true),
+      getStackedLineChart(isTileView),
       StackedLineChart()
     ],
     'stacked_area_chart': <dynamic>[
-      getStackedAreaChart(true),
+      getStackedAreaChart(isTileView),
       StackedAreaChart()
     ],
     'stacked_column_chart': <dynamic>[
-      getStackedColumnChart(true),
+      getStackedColumnChart(isTileView),
       StackedColumnChart()
     ],
-    'stacked_bar_chart': <dynamic>[getStackedBarChart(true), StackedBarChart()],
+    'stacked_bar_chart': <dynamic>[
+      getStackedBarChart(isTileView),
+      StackedBarChart()
+    ],
     'stacked_area_100_chart': <dynamic>[
-      getStackedArea100Chart(true),
+      getStackedArea100Chart(isTileView),
       StackedArea100Chart()
     ],
     'stacked_bar_100_chart': <dynamic>[
-      getStackedBar100Chart(true),
+      getStackedBar100Chart(isTileView),
       StackedBar100Chart()
     ],
     'stacked_column_100_chart': <dynamic>[
-      getStackedColumn100Chart(true),
+      getStackedColumn100Chart(isTileView),
       StackedColumn100Chart()
     ],
     'stacked_line_100_chart': <dynamic>[
-      getStackedLine100Chart(true),
+      getStackedLine100Chart(isTileView),
       StackedLine100Chart()
     ],
     'default_numeric_axis': <dynamic>[
-      getDefaultNumericAxisChart(true),
+      getDefaultNumericAxisChart(isTileView),
       NumericDefault()
     ],
     'numeric_axis_with_label_format': <dynamic>[
-      getLabelNumericAxisChart(true),
+      getLabelNumericAxisChart(isTileView),
       NumericLabel()
     ],
     'inversed_numeric_axis': <dynamic>[
-      getInversedNumericAxisChart(true),
-      NumericInverse()
+      getInversedNumericAxisChart(isTileView),
+      NumericInverse(),
+      InversedNumericFrontPanel()
     ],
     'default_category_axis': <dynamic>[
-      getDefaultCategoryAxisChart(true),
+      getDefaultCategoryAxisChart(isTileView),
       CategoryDefault()
     ],
     'category_arranged_by_index': <dynamic>[
-      getIndexedCategoryAxisChart(true),
-      CategoryIndexed()
+      getIndexedCategoryAxisChart(isTileView),
+      CategoryIndexed(),
+      // IndexedFrontPanel(),
     ],
     'category_label_placement': <dynamic>[
-      getTicksCategoryAxisChart(true),
-      CategoryTicks()
+      getTicksCategoryAxisChart(isTileView),
+      CategoryTicks(),
+      // LabelPlacementFrontPanel(),
     ],
     'default_datetime_axis': <dynamic>[
-      getDefaultDateTimeAxisChart(true),
+      getDefaultDateTimeAxisChart(isTileView),
       DateTimeDefault()
     ],
     'datetime_axis_with_label_format': <dynamic>[
-      getLabelDateTimeAxisChart(true),
+      getLabelDateTimeAxisChart(isTileView),
       DateTimeLabel()
     ],
     'default_logarithmic_axis': <dynamic>[
-      getDefaultLogarithmicAxisChart(true),
+      getDefaultLogarithmicAxisChart(isTileView),
       LogarithmicAxisDefault()
     ],
     'inversed_logarithmic_axis': <dynamic>[
-      getInversedLogarithmicAxisChart(true),
+      getInversedLogarithmicAxisChart(isTileView),
       LogarithmicAxisInversed()
     ],
-    'hilo_chart': <dynamic>[getHilo(true), HiloChart()],
+    'hilo_chart': <dynamic>[getHilo(isTileView), HiloChart()],
     'hilo_open_close_chart': <dynamic>[
-      getHiloOpenClose(true),
+      getHiloOpenClose(isTileView),
       HiloOpenCloseChart()
     ],
-    'candle_chart': <dynamic>[getCandle(true), CandleChart()],
+    'candle_chart': <dynamic>[
+      getCandle(isTileView),
+      CandleChart(),
+      CandleFrontPanel()
+    ],
     //Axis Features
-    'axis_crossing': <dynamic>[getAxisCrossingSample(true), AxisCrossing()],
+    'axis_crossing': <dynamic>[
+      getAxisCrossingSample(isTileView),
+      AxisCrossing(),
+      // AxisCrossingFrontPanel()
+    ],
     'edgelabel_placement': <dynamic>[
-      getEdgeLabelPlacementChart(true),
-      EdgeLabel()
+      getEdgeLabelPlacementChart(isTileView),
+      EdgeLabel(),
+      EdgeLabelPlaceFrontPanel()
     ],
     'handling_label_collision': <dynamic>[
-      getLabelIntersectActionChart(true),
-      LabelAction()
+      getLabelIntersectActionChart(isTileView),
+      LabelAction(),
+      // LabelCollisionFrontPanel()
     ],
     'multiple_axis_chart': <dynamic>[
-      getMultipleAxisLineChart(true),
+      getMultipleAxisLineChart(isTileView),
       MultipleAxis()
     ],
     'opposed_axes': <dynamic>[
-      getOpposedNumericAxisChart(true),
+      getOpposedNumericAxisChart(isTileView),
       NumericOpposed()
     ],
     'plot_band_recurrence': <dynamic>[
-      getPlotBandRecurrenceChart(true),
-      PlotBandRecurrence()
+      getPlotBandRecurrenceChart(isTileView),
+      PlotBandRecurrence(),
+      // PlotBandRecurrenceFrontPanel()
     ],
-    'plot_band': <dynamic>[getPlotBandChart(true), PlotBandDefault()],
+    'plot_band': <dynamic>[
+      getPlotBandChart(isTileView),
+      PlotBandDefault(),
+      // PlotBandFrontPanel()
+    ],
 
     //Series Features
     'dynamic_animation': <dynamic>[
-      getDynamicAnimationChart(true),
-      CartesianDynamicAnimation()
+      getDynamicAnimationChart(isTileView),
+      CartesianDynamicAnimation(),
+      DynamicFrontPanel()
     ],
     'series_animation': <dynamic>[
-      getDefaultAnimationChart(true),
+      getDefaultAnimationChart(isTileView),
       AnimationDefault()
     ],
     'chart_with_annotation': <dynamic>[
-      getWatermarkAnnotationChart(true),
+      getWatermarkAnnotationChart(isTileView),
       AnnotationWatermark()
     ],
     'chart_with_watermark': <dynamic>[
-      getDefaultAnnotationChart(true),
+      getDefaultAnnotationChart(isTileView),
       AnnotationDefault()
     ],
     'default_datalabels': <dynamic>[
-      getDataLabelDefaultChart(true),
+      getDataLabelDefaultChart(isTileView),
       DataLabelDefault()
     ],
     'chart_with_empty_points': <dynamic>[
-      getEmptyPointChart(true),
-      EmptyPoints()
+      getEmptyPointChart(isTileView),
+      EmptyPoints(),
+      EmptyPointsFrontPanel()
     ],
     'various_marker_shapes': <dynamic>[
-      getMarkerDefaultChart(true),
+      getMarkerDefaultChart(isTileView),
       MarkerDefault()
     ],
     'sorting_options': <dynamic>[
-      getDefaultSortingChart(true),
-      SortingDefault()
+      getDefaultSortingChart(isTileView),
+      SortingDefault(),
+      SortingFrontPanel()
     ],
     'default_trendlines_with_options': <dynamic>[
-      getTrendLineDefaultChart(true),
-      TrendLineDefault()
+      getTrendLineDefaultChart(isTileView),
+      TrendLineDefault(),
+      TrendLineDefaultWithOptionsFrontPanel()
     ],
     'trendline_forecast_with_options': <dynamic>[
-      getTrendLineForecastChart(true),
-      TrendLineForecast()
+      getTrendLineForecastChart(isTileView),
+      TrendLineForecast(),
+      TrendLineForecastWithOptionsFrontPanel()
     ],
 
     //Legend
     'chart_with_customized_legend': <dynamic>[
-      getLegendCustomizedChart(true),
+      getLegendCustomizedChart(isTileView),
       LegendCustomized()
     ],
     'chart_with_legend': <dynamic>[
-      getLegendDefaultChart(true),
+      getLegendDefaultChart(isTileView),
       LegendDefault()
     ],
     'legend_with_various_options': <dynamic>[
-      getLegendOptionsChart(true),
-      LegendOptions()
+      getLegendOptionsChart(isTileView),
+      LegendOptions(),
+      LegendWithOptionsFrontPanel()
     ],
     'cartesian_legend_various_options': <dynamic>[
-      getCartesianLegendOptionsChart(true),
-      CartesianLegendOptions()
+      getCartesianLegendOptionsChart(isTileView),
+      CartesianLegendOptions(),
+      CartesianLegendWithOptionsFrontPanel()
     ],
 
     //Technical Indicators
     'accumulation_distribution': <dynamic>[
-      getDefaultAdIndicator(true),
+      getDefaultAdIndicator(isTileView),
       AdIndicator()
     ],
-    'atr_indicator': <dynamic>[getDefaultATRIndicator(true), ATRIndicator()],
+    'atr_indicator': <dynamic>[
+      getDefaultATRIndicator(isTileView),
+      ATRIndicator(),
+      // AtrIndicatorFrontPanel()
+    ],
     'bollinger_indicator': <dynamic>[
-      getDefaulBollingerIndicator(true),
-      BollingerIndicator()
+      getDefaulBollingerIndicator(isTileView),
+      BollingerIndicator(),
+      // BollingerIndicatorFrontPanel()
     ],
-    'ema_indicator': <dynamic>[getDefaulEMAIndicator(true), EMAIndicator()],
+    'ema_indicator': <dynamic>[
+      getDefaulEMAIndicator(isTileView),
+      EMAIndicator(),
+      // EmaIndicatorFrontPanel()
+    ],
     'momentum_indicator': <dynamic>[
-      getDefaulMomentumIndicator(true),
-      MomentummIndicator()
+      getDefaulMomentumIndicator(isTileView),
+      MomentummIndicator(),
+      // MomentummIndicatorFrontPanel()
     ],
-    'rsi_indicator': <dynamic>[getDefaultRSIIndicator(true), RSIIndicator()],
-    'sma_indicator': <dynamic>[getDefaulSMAIndicator(true), SMAIndicator()],
+    'rsi_indicator': <dynamic>[
+      getDefaultRSIIndicator(isTileView),
+      RSIIndicator(),
+      // RSIIndicatorFrontPanel()
+    ],
+    'sma_indicator': <dynamic>[
+      getDefaulSMAIndicator(isTileView),
+      SMAIndicator(),
+      // SmaIndicatorFrontPanel()
+    ],
     'stochastic_indicator': <dynamic>[
-      getDefaultStochasticIndicator(true),
-      StochasticcIndicator()
+      getDefaultStochasticIndicator(isTileView),
+      StochasticcIndicator(),
+      // StochasticcIndicatorFrontPanel()
     ],
-    'tma_indicator': <dynamic>[getDefaulTMAIndicator(true), TMAIndicator()],
-    'macd_indicator': <dynamic>[getDefaultMACDIndicator(true), MACDIndicator()],
+    'tma_indicator': <dynamic>[
+      getDefaulTMAIndicator(isTileView),
+      TMAIndicator(),
+      // TmaIndicatorFrontPanel()
+    ],
+    'macd_indicator': <dynamic>[
+      getDefaultMACDIndicator(isTileView),
+      MACDIndicator(),
+      // MacdIndicatorFrontPanel()
+    ],
 
     //User Interaction
     'chart_with_crosshair': <dynamic>[
-      getDefaultCrossHairChart(true),
-      DefaultCrossHair()
+      getDefaultCrossHairChart(isTileView),
+      DefaultCrossHair(),
+      // CrosshairFrontPanel()
     ],
     'selection_modes': <dynamic>[
-      getDefaultSelectionChart(true),
-      DefaultSelection()
+      getDefaultSelectionChart(isTileView),
+      DefaultSelection(),
+      // CartesianSelectionFrontPanel()
     ],
     'default_tooltip': <dynamic>[
-      getDefaultTooltipChart(true),
+      getDefaultTooltipChart(isTileView),
       DefaultTooltip()
     ],
     'chart_with_trackball': <dynamic>[
-      getDefaultTrackballChart(true),
-      DefaultTrackball()
+      getDefaultTrackballChart(isTileView),
+      DefaultTrackball(),
+      // TrackballFrontPanel()
     ],
-    'pinch_zooming': <dynamic>[getDefaultPanningChart(true), DefaultPanning()],
+    'pinch_zooming': <dynamic>[
+      getDefaultPanningChart(isTileView),
+      DefaultPanning(),
+      PinchZoomingFrontPanel()
+    ],
     'selection_zooming': <dynamic>[
-      getDefaultZoomingChart(true),
-      DefaultZooming()
+      getDefaultZoomingChart(isTileView),
+      DefaultZooming(),
+      SelectionZoomingFrontPanel()
     ],
     'zooming_with_custom_buttons': <dynamic>[
-      getButtonZoomingChart(true),
-      ButtonZooming()
+      getButtonZoomingChart(isTileView),
+      ButtonZooming(),
+      ZoomingWithButtonFrontPanel()
     ],
     'tooltip_position': <dynamic>[
-      getCartesianTooltipPositionChart(true),
-      CartesianTooltipPosition()
+      getCartesianTooltipPositionChart(isTileView),
+      CartesianTooltipPosition(),
+      ChartTooltipPositioningPanel()
     ],
     'circular_selection': <dynamic>[
-      getCircularSelectionChart(true),
-      CircularSelection()
+      getCircularSelectionChart(isTileView),
+      CircularSelection(),
+      // SelectionFrontPanel()
     ],
     'pie_tooltip_position': <dynamic>[
-      getPieTooltipPositionChart(true),
-      PieTooltipPosition()
+      getPieTooltipPositionChart(isTileView),
+      PieTooltipPosition(),
+      // TooltipPositioningPanel()
     ],
 
     //Dynamic updates
     'add_remove_points': <dynamic>[
-      getAddRemovePointsChart(true),
-      AddDataPoints()
+      getAddRemovePointsChart(isTileView),
+      AddDataPoints(),
+      DynamicPointFrontPanel()
     ],
-    'add_remove_series': <dynamic>[getAddRemoveSeriesChart(true), AddSeries()],
-    'real_time_spline_chart': <dynamic>[getLiveUpdateChart(true), LiveUpdate()],
-    'vertical_live_chart': <dynamic>[
-      getVerticalLineUpdateChart(true),
-      VerticalLineLiveUpdate()
+    'add_remove_series': <dynamic>[
+      getAddRemoveSeriesChart(isTileView),
+      AddSeries(),
+      DynamicSeriesFrontPanel()
     ],
+    'real_time_spline_chart': !kIsWeb
+        ? <dynamic>[
+            getLiveUpdateChart(isTileView),
+            LiveUpdate(),
+          ]
+        : <dynamic>[LiveHorizontalFrontPanel()],
+    'vertical_live_chart': !kIsWeb
+        ? <dynamic>[
+            getVerticalLineUpdateChart(isTileView),
+            VerticalLineLiveUpdate(),
+          ]
+        : <dynamic>[VerticalLiveDataFrontPanel()],
     'update_data_source': <dynamic>[
-      getUpdateDataSourceChart(true),
-      UpdateDataSource()
+      getUpdateDataSourceChart(isTileView),
+      UpdateDataSource(),
+      UpdateDataFrontPanel()
     ],
-    'real_time_line_chart': <dynamic>[getLiveLineChart(true), LiveLineChart()],
+    'real_time_line_chart': !kIsWeb
+        ? <dynamic>[
+            getLiveLineChart(isTileView),
+            LiveLineChart(),
+          ]
+        : <dynamic>[RealTimeLineFrontPanel()],
 
     //Pie
-    'default_pie_chart': <dynamic>[getDefaultPieChart(true), PieDefault()],
-    'pie_with_grouping': <dynamic>[getGroupingPieChart(true), PieGrouping()],
+    'default_pie_chart': <dynamic>[
+      getDefaultPieChart(isTileView),
+      PieDefault()
+    ],
+    'pie_with_grouping': <dynamic>[
+      getGroupingPieChart(isTileView),
+      PieGrouping()
+    ],
     'pie_with_smart_labels': <dynamic>[
-      getSmartLabelPieChart(true),
+      getSmartLabelPieChart(isTileView),
       PieSmartLabels()
     ],
-    'pie_with_various_radius': <dynamic>[getRadiusPieChart(true), PieRadius()],
-    'semi_pie_chart': <dynamic>[getSemiPieChart(true), PieSemi()],
-
+    'pie_with_various_radius': <dynamic>[
+      getRadiusPieChart(isTileView),
+      PieRadius()
+    ],
+    'semi_pie_chart': <dynamic>[
+      getSemiPieChart(isTileView),
+      PieSemi(),
+      // SemiPieFrontPanel()
+    ],
     //Doughnut
     'default_doughnut_chart': <dynamic>[
-      getDefaultDoughnutChart(true),
+      getDefaultDoughnutChart(isTileView),
       DoughnutDefault()
     ],
     'doughnut_with_center_elevation': <dynamic>[
-      getElevationDoughnutChart(true),
+      getElevationDoughnutChart(isTileView),
       DoughnutElevation()
     ],
     'doughnut_with_color_mapping': <dynamic>[
-      getDoughnutCustomizationChart(true),
+      getDoughnutCustomizationChart(isTileView),
       DoughnutCustomization()
     ],
     'doughnut_with_rounded_corners': <dynamic>[
-      getRoundedDoughnutChart(true),
+      getRoundedDoughnutChart(isTileView),
       DoughnutRounded()
     ],
     'semi_doughnut_chart': <dynamic>[
-      getSemiDoughnutChart(true),
-      DoughnutSemi()
+      getSemiDoughnutChart(isTileView),
+      DoughnutSemi(),
+      // SemiDoughnutFrontPanel()
     ],
 
     //Radialbar
     'customized_radialbar_chart': <dynamic>[
-      getCustomizedRadialBarChart(true),
+      getCustomizedRadialBarChart(isTileView),
       RadialBarCustomized()
     ],
     'default_radialbar_chart': <dynamic>[
-      getDefaultRadialBarChart(true),
+      getDefaultRadialBarChart(isTileView),
       RadialBarDefault()
     ],
     'radialbar_with_legend': <dynamic>[
-      getAngleRadialBarChart(true),
+      getAngleRadialBarChart(isTileView),
       RadialBarAngle()
     ],
 
     //Funnel
     'default_funnel_chart': <dynamic>[
-      getDefaultFunnelChart(true),
-      FunnelDefault()
+      getDefaultFunnelChart(isTileView),
+      FunnelDefault(),
+      // DefaultFunnelFrontPanel()
     ],
-    'funnel_with_legend': <dynamic>[getLegendFunnelChart(true), FunnelLegend()],
+    'funnel_with_legend': <dynamic>[
+      getLegendFunnelChart(isTileView),
+      FunnelLegend()
+    ],
     'funnel_with_smart_labels': <dynamic>[
-      getFunnelSmartLabelChart(true),
-      FunnelSmartLabels()
+      getFunnelSmartLabelChart(isTileView),
+      FunnelSmartLabels(),
+      // FunnelSmartLabelFrontPanel()
     ],
 
     //Pyramid
     'default_pyramid_chart': <dynamic>[
-      getDefaultPyramidChart(true),
-      PyramidDefault()
+      getDefaultPyramidChart(isTileView),
+      PyramidDefault(),
+      // DefaultPyramidFrontPanel()
     ],
     'pyramid_with_legend': <dynamic>[
-      getLegendPyramidChart(true),
+      getLegendPyramidChart(isTileView),
       PyramidLegend()
     ],
     'pyramid_with_smart_labels': <dynamic>[
-      getPyramidSmartLabelChart(true),
-      PyramidSmartLabels()
+      getPyramidSmartLabelChart(isTileView),
+      PyramidSmartLabels(),
+      // PyramidSmartLabelsFrontPanel()
     ],
 
     // Calendar Samples
     'getting_started_calendar': <dynamic>[
-      getGettingStartedCalendar(),
+      kIsWeb ? GettingStartedCalendar() : getGettingStartedCalendar(),
+      GettingStartedCalendar(),
       GettingStartedCalendar(),
     ],
     'recurrence_calendar': <dynamic>[
-      getRecurrenceCalendar(),
+      kIsWeb ? RecurrenceCalendar() : getRecurrenceCalendar(),
+      RecurrenceCalendar(),
       RecurrenceCalendar()
     ],
     'agenda_view_calendar': <dynamic>[
-      getAgendaViewCalendar(),
+      kIsWeb ? AgendaViewCalendar() : getAgendaViewCalendar(),
       AgendaViewCalendar()
     ],
     'appointment_editor_calendar': <dynamic>[
-      getAppointmentEditorCalendar(),
+      kIsWeb ? CalendarAppointmentEditor() : getAppointmentEditorCalendar(),
+      CalendarAppointmentEditor(),
       CalendarAppointmentEditor()
     ],
 
     // Date picker Samples
     'getting_started_date_picker': <dynamic>[
-      getGettingStartedDatePicker(),
+      kIsWeb ? GettingStartedDatePicker() : getGettingStartedDatePicker(),
+      GettingStartedDatePicker(),
       GettingStartedDatePicker()
     ],
-    'blackout_picker': <dynamic>[getBlackoutDatePicker(), BlackoutDatePicker()],
-    'customized_picker': <dynamic>[
-      getCustomizedDatePicker(),
-      CustomizedDatePicker()
+    'blackout_picker': <dynamic>[
+      kIsWeb ? BlackoutDatePicker() : getBlackoutDatePicker(),
+      BlackoutDatePicker(),
     ],
-    'popup_picker': <dynamic>[getPopUpDatePicker(), PopUpDatePicker()],
+    'customized_picker': <dynamic>[
+      kIsWeb ? CustomizedDatePicker() : getCustomizedDatePicker(),
+      CustomizedDatePicker(),
+    ],
+    'popup_picker': <dynamic>[
+      kIsWeb ? PopUpDatePicker() : getPopUpDatePicker(),
+      PopUpDatePicker(),
+    ],
 
     //Gauge
     'radial_bounce': <dynamic>[
-      getRadialBounceOutExample(true),
+      getRadialBounceOutExample(isTileView),
       RadialBounceOutExample()
     ],
     'radial_easeanimation': <dynamic>[
-      getRadialEaseExample(true),
+      getRadialEaseExample(isTileView),
       RadialEaseExample()
     ],
     'radial_easeincric': <dynamic>[
-      getRadialEaseInCircExample(true),
+      getRadialEaseInCircExample(isTileView),
       RadialEaseInCircExample()
     ],
     'radial_easeout': <dynamic>[
-      getRadialEaseOutAnimation(true),
+      getRadialEaseOutAnimation(isTileView),
       RadialEaseOutAnimation()
     ],
     'radial_elasticout': <dynamic>[
-      getRadialElasticOutAnimation(true),
+      getRadialElasticOutAnimation(isTileView),
       RadialElasticOutAnimation()
     ],
     'radial_linearanimation': <dynamic>[
-      getRadialLinearAnimation(true),
+      getRadialLinearAnimation(isTileView),
       RadialLinearAnimation()
     ],
     'radial_slowmiddle': <dynamic>[
-      getRadialSlowMiddleAnimation(true),
+      getRadialSlowMiddleAnimation(isTileView),
       RadialSlowMiddleAnimation()
     ],
-    'direct_compass': <dynamic>[getRadialCompass(true), RadialCompass()],
+    'direct_compass': <dynamic>[getRadialCompass(isTileView), RadialCompass()],
     'image_annotation': <dynamic>[
-      getRadialImageAnnotation(true),
+      getRadialImageAnnotation(isTileView),
       RadialImageAnnotation()
     ],
     'text_annotation': <dynamic>[
-      getRadialTextAnnotation(true),
+      getRadialTextAnnotation(isTileView),
       RadialTextAnnotation()
     ],
-    'custom_labels': <dynamic>[getGaugeCustomLabels(true), GaugeCustomLabels()],
+    'custom_labels': <dynamic>[
+      getGaugeCustomLabels(isTileView),
+      GaugeCustomLabels()
+    ],
     'default_gauge_view': <dynamic>[
-      getDefaultRadialGauge(true),
+      getDefaultRadialGauge(isTileView),
       RadialGaugeDefault()
     ],
     'multiple_axis': <dynamic>[
-      getMultipleAxisGauge(true),
+      getMultipleAxisGauge(isTileView, kIsWeb ? false : true),
       MultipleAxisExample()
     ],
     'non_linearable': <dynamic>[
-      getRadialNonLinearLabel(true),
+      getRadialNonLinearLabel(isTileView),
       RadialNonLinearLabel()
     ],
     'radiallabel_customization': <dynamic>[
-      getRadialLabelCustomization(true),
+      getRadialLabelCustomization(isTileView),
       RadialLabelCustomization()
     ],
     'range_colors': <dynamic>[
-      getRangeColorForLabels(true),
+      getRangeColorForLabels(isTileView),
       RangeColorForLabels()
     ],
     'tick_customization': <dynamic>[
-      getRadialTickCustomization(true),
+      getRadialTickCustomization(isTileView),
       RadialTickCustomization()
     ],
-    'radial_pointerdragging': <dynamic>[
-      getRadialPointerDragging(true),
-      RadialPointerDragging()
-    ],
-    'radial_slider': <dynamic>[getRadialSlider(true), RadialSlider()],
+    'radial_pointerdragging': !kIsWeb
+        ? <dynamic>[
+            getRadialPointerDragging(isTileView),
+            RadialPointerDragging()
+          ]
+        : <dynamic>[PointerDraggingFrontPanel()],
+    'radial_slider': !kIsWeb
+        ? <dynamic>[getRadialSlider(isTileView), RadialSlider()]
+        : <dynamic>[RadialSliderFrontPanel()],
     'multiple_needle': <dynamic>[
-      getMultipleNeedleExample(true),
+      getMultipleNeedleExample(isTileView),
       MultipleNeedleExample()
     ],
     'range_pointer': <dynamic>[
-      getMultipleRangePointerExampleGauge(true),
+      getMultipleRangePointerExampleGauge(isTileView),
       MultipleRangePointerExample()
     ],
     'radial_marker': <dynamic>[
-      getRadialMarkerExample(true),
+      getRadialMarkerExample(isTileView),
       RadialMarkerExample()
     ],
-    'text_pointer': <dynamic>[getRadialTextPointer(true), RadialTextPointer()],
+    'text_pointer': <dynamic>[
+      getRadialTextPointer(isTileView),
+      RadialTextPointer()
+    ],
     'multiple_ranges': <dynamic>[
-      getMultipleRangesExampleGauge(true),
+      getMultipleRangesExampleGauge(isTileView),
       MultipleRangesExample()
     ],
     'range_datalabels': <dynamic>[
-      getRangeDataLabelExample(true),
+      getRangeDataLabelExample(isTileView),
       RangeDataLabelExample()
     ],
     'range_thickness': <dynamic>[
-      getRangeThicknessExampleGauge(true),
+      getRangeThicknessExampleGauge(isTileView),
       RangeThicknessExample()
     ],
-    'clock_sample': <dynamic>[getClockExample(true), ClockExample()],
+    'clock_sample': !kIsWeb
+        ? <dynamic>[
+            getClockExample(isTileView),
+            ClockExample(),
+          ]
+        : <dynamic>[ClockExampleFrontPanel()],
     'distance_tracker': <dynamic>[
-      getDistanceTrackerExample(true),
+      getDistanceTrackerExample(isTileView),
       DistanceTrackerExample()
     ],
     'gauge_overview': <dynamic>[
-      getGaugeOverviewExample(true),
+      getGaugeOverviewExample(isTileView),
       GaugeOverviewExample()
     ],
     'gauge_compass': <dynamic>[
-      getGaugeCompassExample(true),
+      getGaugeCompassExample(isTileView),
       GaugeCompassExample()
     ],
 
     // PDF samples
-    'hello_world': <dynamic>[null, HelloWorldPdf()],
-    'bullets_and_lists': <dynamic>[null, BulletsAndListsPdf()],
-    'pdf_table': <dynamic>[null, PdfTable()],
-    'rtl_text_pdf': <dynamic>[null, RTLTextPdf()],
-    'image_to_pdf': <dynamic>[null, ImageToPdf()],
-    'header_and_footers': <dynamic>[null, HeaderAndFooterPdf()],
-    'bookmarks_pdf': <dynamic>[null, BookmarksPdf()],
+    'invoice': <dynamic>[null, InvoicePdf(), InvoicePdf()],
+    'certificate': <dynamic>[
+      null,
+      CourseCompletionCertificatePdf(),
+      CourseCompletionCertificatePdf()
+    ],
+    'header_and_footer': <dynamic>[
+      null,
+      HeaderAndFooterPdf(),
+      HeaderAndFooterPdf()
+    ],
 
     // Barcode samples
     'one_dimensional_types': <dynamic>[
-      getOneDimensionalBarcodes,
-      OneDimensionalBarcodes()
+      kIsWeb ? OneDimensionalBarcodes() : getOneDimensionalBarcodes,
+      OneDimensionalBarcodes(),
     ],
-    'qr_code_generator': <dynamic>[getQRCodeGenerator(), QRCodeGenerator()],
+    'qr_code_generator': <dynamic>[
+      getQRCodeGenerator(),
+      QRCodeGenerator(),
+      QRCodeGenerator()
+    ],
+    'data_matrix_generator': <dynamic>[
+      getDataMatrixGenerator(),
+      DataMatrixGenerator(),
+      DataMatrixGenerator()
+    ],
 
     // range slider
     'default_range_slider': <dynamic>[
-      DefaultRangeSlider(),
-      RangeSliderDefaultPage()
+      null,
+      DefaultRangeSliderPage(),
+      DefaultRangeSliderPage(),
     ],
     'range_slider_divisor_label_tick': <dynamic>[
-      IntervalCustomizedRangeSlider(),
-      SliderIntervalCustomization()
+      null,
+      ScaleRangeSliderPage(),
+      ScaleRangeSliderPage(),
     ],
     'range_slider_date_time_label': <dynamic>[
-      DateTimeRangeSlider(),
-      RangeSliderDateTimeLabelPage()
+      null,
+      DateRangeSliderPage(),
+      DateRangeSliderPage(),
     ],
     'color_customization': <dynamic>[
-      ColorCustomizedRangeSlider(),
-      RangeSliderColorCustomizationPage()
+      null,
+      ColorCustomizedRangeSliderPage(),
+      ColorCustomizedRangeSliderPage(),
     ],
-    'size_customization': <dynamic>[
-      SizeCustomizedRangeSlider(),
-      RangeSliderSizeCustomizationPage()
-    ],
-    'thumb_customization': <dynamic>[
-      ThumbCustomizedRangeSlider(),
-      RangeSliderThumbCustomizationPage()
-    ],
-    'track_customization': <dynamic>[
-      TrackCustomizedRangeSlider(),
-      RangeSliderTrackCustomizationPage()
+    'shape_customization': <dynamic>[
+      null,
+      ShapeCustomizedRangeSliderPage(),
+      ShapeCustomizedRangeSliderPage(),
     ],
     'range_selector_default_appearance': <dynamic>[
       null,
-      RangeSelectorDefaultAppearance()
+      DefaultRangeSelectorPage(),
+      DefaultRangeSelectorPage()
     ],
     'range_selector_with_selection': <dynamic>[
       null,
+      RangeSelectorSelectionPage(),
       RangeSelectorSelectionPage()
     ],
-    'range_selector_with_zooming': <dynamic>[null, RangeSelectorZoomingPage()],
+    'range_selector_with_zooming': <dynamic>[
+      null,
+      RangeSelectorZoomingPage(),
+      RangeSelectorZoomingPage()
+    ],
   };
 }

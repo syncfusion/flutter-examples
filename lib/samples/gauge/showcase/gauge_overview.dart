@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -27,11 +28,11 @@ class _GaugeOverviewExampleState extends State<GaugeOverviewExample> {
 
 class GaugeOverviewFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  GaugeOverviewFrontPanel(this.sampleList);
-  final SubItem sampleList;
+  GaugeOverviewFrontPanel(this.sample);
+  final SubItem sample;
 
   @override
-  _GaugeOverviewFrontPanelState createState() => _GaugeOverviewFrontPanelState(sampleList);
+  _GaugeOverviewFrontPanelState createState() => _GaugeOverviewFrontPanelState(sample);
 }
 
 class _GaugeOverviewFrontPanelState extends State<GaugeOverviewFrontPanel> {
@@ -72,7 +73,7 @@ SfRadialGauge getGaugeOverviewExample(bool isTileView, [bool isIndexed]) {
           interval: isTileView ? 20 : _interval,
           minorTicksPerInterval: 9,
           showAxisLine: false,
-          radiusFactor: 0.9,
+          radiusFactor:  kIsWeb ? 0.8: 0.9,
           labelOffset: 8,
           ranges: <GaugeRange>[
             GaugeRange(

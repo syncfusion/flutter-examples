@@ -28,6 +28,7 @@ class _NumericDefaultState extends State<NumericDefault> {
 
 SfCartesianChart getDefaultNumericAxisChart(bool isTileView) {
   return SfCartesianChart(
+    
     title: ChartTitle(text: isTileView ? '' : 'Australia vs India ODI - 2019'),
     plotAreaBorderWidth: 0,
     legend: Legend(

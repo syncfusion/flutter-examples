@@ -28,6 +28,7 @@ class _DefaultTooltipState extends State<DefaultTooltip> {
 
 SfCartesianChart getDefaultTooltipChart(bool isTileView) {
   return SfCartesianChart(
+    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Labour force'),
     legend: Legend(isVisible: isTileView ? false : true),

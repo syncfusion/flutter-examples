@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/widgets/flutter_backdrop.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -221,9 +222,9 @@ class _BackPanelState extends State<BackPanel> {
 }
 
 
-SfRadialGauge getGaugeCompassExample(bool isTileView) {
+Widget getGaugeCompassExample(bool isTileView) {
   _isTileView = isTileView;
-  return SfRadialGauge(
+  final Widget _widget = SfRadialGauge(
     axes: <RadialAxis>[
 
       RadialAxis(showAxisLine: false, radiusFactor: 1,showLastLabel: false,
@@ -249,6 +250,12 @@ SfRadialGauge getGaugeCompassExample(bool isTileView) {
 
     ],
   );
+  if(kIsWeb){
+    return Padding(padding: const EdgeInsets.all(30), child: _widget,);
+  }else{
+    return _widget;
+  }
+
 }
 
 void axisLabelCreated(AxisLabelCreatedArgs args) {

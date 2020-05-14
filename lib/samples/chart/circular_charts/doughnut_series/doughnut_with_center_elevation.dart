@@ -24,6 +24,7 @@ class _DoughnutDefaultState extends State<DoughnutElevation> {
 
 SfCircularChart getElevationDoughnutChart(bool isTileView) {
   return SfCircularChart(
+    
     annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
           height: '100%',
