@@ -141,12 +141,10 @@ class SampleModel extends Model {
                   .add(controlList[index].childList[i].subItems[j]);
             else {
               //ignore: prefer_foreach
-              for (SubItem sample in controlList[index]
-                  .childList[i]
-                  .subItems[j]
-                  .subItems){
-                     searchSampleItems.add(sample);
-                  }
+              for (SubItem sample
+                  in controlList[index].childList[i].subItems[j].subItems) {
+                searchSampleItems.add(sample);
+              }
             }
           }
         }
@@ -194,18 +192,18 @@ class SampleModel extends Model {
   Color bottomSheetBackgroundColor = Colors.white;
   final bool isTileView = true;
   Color cardThemeColor = Colors.white;
-  Color webBackgroundColor = const  Color.fromRGBO(246, 246, 246, 1);
+  Color webBackgroundColor = const Color.fromRGBO(246, 246, 246, 1);
   Color webIconColor = const Color.fromRGBO(111, 111, 111, 1);
   bool isWeb = false;
-  Color webInputColor = const Color.fromRGBO(242,242,242,1);
+  Color webInputColor = const Color.fromRGBO(242, 242, 242, 1);
   Color webOutputContainerColor = Colors.white;
   Color webCardColor = Colors.white;
-  Color webFooterColor = const Color.fromRGBO(234,234,234,1);
-  Color webDividerColor = const Color.fromRGBO(204, 204, 204,1);
+  Color webFooterColor = const Color.fromRGBO(234, 234, 234, 1);
+  Color webDividerColor = const Color.fromRGBO(204, 204, 204, 1);
   Color webSampleBackgroundColor = Colors.white;
-  Color webTabTextColor = const Color.fromRGBO(89, 89, 89,1);
+  Color webTabTextColor = const Color.fromRGBO(89, 89, 89, 1);
   String syncfusionIcon = 'images/syncfusion.png';
-  Color webDividerColor2 = const Color.fromRGBO(238, 238, 238,1);
+  Color webDividerColor2 = const Color.fromRGBO(238, 238, 238, 1);
 
   Color lightThemeSelected;
   Color darkThemeSelected;
@@ -217,29 +215,30 @@ class SampleModel extends Model {
   Color currentPaletteColor;
   bool isLightThemeSelected = true;
 
-   dynamic sampleOutputContainer;
+  dynamic sampleOutputContainer;
   Map<dynamic, dynamic> properties = <dynamic, dynamic>{};
   GlobalKey globalKey;
-  
+
   void changeTheme(ThemeData _themeData) {
     themeData = _themeData;
     switch (_themeData.brightness) {
       case Brightness.dark:
         {
           syncfusionIcon = 'images/syncfusion_dark.png';
-          webDividerColor = const Color.fromRGBO(61, 61, 61,1);
-          webDividerColor2 = const Color.fromRGBO(61, 61, 61,1);
+          webDividerColor = const Color.fromRGBO(61, 61, 61, 1);
+          webDividerColor2 = const Color.fromRGBO(61, 61, 61, 1);
           webTabTextColor = Colors.white;
-          webCardColor = const Color.fromRGBO(48, 48, 48,1);
+          webCardColor = const Color.fromRGBO(48, 48, 48, 1);
           webIconColor = const Color.fromRGBO(230, 230, 230, 1);
-          webOutputContainerColor = Colors.black;
-          webInputColor = const Color.fromRGBO(44,44,44,1);
+          webOutputContainerColor = const Color.fromRGBO(23, 23, 23, 1);
+          webInputColor = const Color.fromRGBO(44, 44, 44, 1);
           webBackgroundColor = const Color.fromRGBO(33, 33, 33, 1);
-          webFooterColor = const Color.fromRGBO(33,33,33,1);
-          webSampleBackgroundColor = const Color.fromRGBO(33,33,33,1);
+          webFooterColor = const Color.fromRGBO(33, 33, 33, 1);
+          webSampleBackgroundColor = const Color.fromRGBO(33, 33, 33, 1);
           drawerTextIconColor = Colors.white;
           drawerIconColor = Colors.white;
-          slidingPanelColor = Colors.black;//const Color.fromRGBO(32, 33, 37, 1);
+          slidingPanelColor =
+              Colors.black; //const Color.fromRGBO(32, 33, 37, 1);
           drawerBackgroundColor = Colors.black;
           bottomSheetBackgroundColor = const Color.fromRGBO(34, 39, 51, 1);
           backgroundColor =
@@ -249,21 +248,21 @@ class SampleModel extends Model {
           listDescriptionTextColor = const Color.fromRGBO(242, 242, 242, 1);
           textColor = const Color.fromRGBO(242, 242, 242, 1);
           theme = Brightness.dark;
-          cardThemeColor = const Color.fromRGBO(23, 27, 36, 1);          
+          cardThemeColor = const Color.fromRGBO(23, 27, 36, 1);
           break;
         }
       default:
         {
           syncfusionIcon = 'images/syncfusion.png';
-          webDividerColor = const Color.fromRGBO(204,204,204,1);
-          webDividerColor2 = const Color.fromRGBO(238, 238, 238,1);
-          webTabTextColor = const Color.fromRGBO(89, 89, 89,1);
+          webDividerColor = const Color.fromRGBO(204, 204, 204, 1);
+          webDividerColor2 = const Color.fromRGBO(238, 238, 238, 1);
+          webTabTextColor = const Color.fromRGBO(89, 89, 89, 1);
           webCardColor = Colors.white;
           webIconColor = const Color.fromRGBO(111, 111, 111, 1);
           webOutputContainerColor = Colors.white;
-          webInputColor = const Color.fromRGBO(242,242,242,1);
-          webBackgroundColor =const  Color.fromRGBO(246, 246, 246, 1);
-          webFooterColor = const Color.fromRGBO(234,234,234,1);
+          webInputColor = const Color.fromRGBO(242, 242, 242, 1);
+          webBackgroundColor = const Color.fromRGBO(246, 246, 246, 1);
+          webFooterColor = const Color.fromRGBO(234, 234, 234, 1);
           webSampleBackgroundColor = Colors.white;
           drawerTextIconColor = Colors.black;
           drawerIconColor = Colors.black;
@@ -301,19 +300,27 @@ Future<void> updateControl() async {
       subItems.add(SubItem.fromJson(SampleModel.controlList1[i].subItems[j]));
       if (subItems[j].type == 'parent') {
         for (int k = 0; k < subItems[j].subItems.length; k++) {
-          if(!isWeb ||  SubItem.fromJson(subItems[j].subItems[k]).showInWeb != false){
-          subItems1.add(SubItem.fromJson(subItems[j].subItems[k]));
-          for (int l = 0; l < subItems1[subItems1.length -1].subItems.length; l++) {
-            if (!isWeb ||
-                SubItem.fromJson(subItems1[subItems1.length-1].subItems[l]).showInWeb != false)
-              subItems2.add(SubItem.fromJson(subItems1[subItems1.length-1].subItems[l]));
+          if (!isWeb ||
+              SubItem.fromJson(subItems[j].subItems[k]).showInWeb != false) {
+            subItems1.add(SubItem.fromJson(subItems[j].subItems[k]));
+            for (int l = 0;
+                l < subItems1[subItems1.length - 1].subItems.length;
+                l++) {
+              if (!isWeb ||
+                  SubItem.fromJson(subItems1[subItems1.length - 1].subItems[l])
+                          .showInWeb !=
+                      false)
+                subItems2.add(SubItem.fromJson(
+                    subItems1[subItems1.length - 1].subItems[l]));
+            }
+            subItems1[subItems1.length - 1].subItems = subItems2;
+            subItems2 = <SubItem>[];
           }
-          subItems1[subItems1.length-1].subItems = subItems2;
-          subItems2 = <SubItem>[];
-        }}
+        }
         subItems[j].subItems = subItems1;
         subItems1 = <SubItem>[];
-      } else if (subItems[j].type == 'child' && (!isWeb ||  subItems[j].showInWeb != false)) {
+      } else if (subItems[j].type == 'child' &&
+          (!isWeb || subItems[j].showInWeb != false)) {
         isChild = true;
         for (int k = 0; k < subItems[j].subItems.length; k++) {
           if (!isWeb ||

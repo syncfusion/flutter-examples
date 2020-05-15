@@ -24,11 +24,11 @@ class _DivisorCustomizedRangeSliderState
           inactiveTrackColor: _inactiveColor.withOpacity(0.5),
           activeTrackColor: _activeColor,
           thumbColor: _activeColor,
-          inactiveDivisorColor: const Color.fromARGB(255, 214, 214, 214).withOpacity(1),
+          inactiveDivisorColor:
+              const Color.fromARGB(255, 214, 214, 214).withOpacity(1),
           activeDivisorColor: const Color.fromARGB(255, 255, 0, 58),
           overlayColor: _activeColor.withOpacity(0.12),
-          tooltipBackgroundColor: _activeColor
-      ),
+          tooltipBackgroundColor: _activeColor),
       child: SfRangeSlider(
         min: 0.0,
         max: 100.0,

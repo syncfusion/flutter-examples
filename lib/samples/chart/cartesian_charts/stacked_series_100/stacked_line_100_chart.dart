@@ -16,17 +16,14 @@ class _StackedLineChartState extends State<StackedLine100Chart> {
   _StackedLineChartState(this.sample);
   final SubItem sample;
 
- 
   @override
   Widget build(BuildContext context) {
     return getScopedModel(getStackedLine100Chart(false), sample);
-   
   }
 }
 
 SfCartesianChart getStackedLine100Chart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Monthly expense of a family'),
     legend: Legend(isVisible: !isTileView),
@@ -39,8 +36,7 @@ SfCartesianChart getStackedLine100Chart(bool isTileView) {
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0)),
     series: _getStackedLine100Series(isTileView),
-    tooltipBehavior:
-        TooltipBehavior(enable: true),
+    tooltipBehavior: TooltipBehavior(enable: true),
   );
 }
 

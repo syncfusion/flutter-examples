@@ -22,15 +22,14 @@ class _LogarithmicAxisInversedState extends State<LogarithmicAxisInversed> {
     const String sourceLink =
         'https://www.worldometers.info/world-population/population-by-country/';
     const String source = 'www.worldometers.info';
-    return getScopedModel(getInversedLogarithmicAxisChart(false),
-         sample, null, sourceLink, source);
+    return getScopedModel(getInversedLogarithmicAxisChart(false), sample, null,
+        sourceLink, source);
   }
 }
 
 SfCartesianChart getInversedLogarithmicAxisChart(bool isTileView) {
   dynamic text;
   return SfCartesianChart(
-    
     onTooltipRender: (TooltipArgs args) {
       final NumberFormat format = NumberFormat.decimalPattern();
       text = format.format(args.dataPoints[args.pointIndex].y).toString();

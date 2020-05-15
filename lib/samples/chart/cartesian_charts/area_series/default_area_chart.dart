@@ -1,7 +1,7 @@
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
- 
+
 import '../../../../model/helper.dart';
 import '../../../../model/model.dart';
 
@@ -15,19 +15,17 @@ class AreaDefault extends StatefulWidget {
 }
 
 class _AreaDefaultState extends State<AreaDefault> {
-  _AreaDefaultState(this.sample); 
+  _AreaDefaultState(this.sample);
   final SubItem sample;
-  
+
   @override
   Widget build(BuildContext context) {
-     return getScopedModel(getDefaultAreaChart(false),sample);
+    return getScopedModel(getDefaultAreaChart(false), sample);
   }
 }
 
-
 SfCartesianChart getDefaultAreaChart(bool isTileView) {
   return SfCartesianChart(
-    
     legend: Legend(isVisible: isTileView ? false : true, opacity: 0.7),
     title: ChartTitle(text: isTileView ? '' : 'Average sales comparison'),
     plotAreaBorderWidth: 0,
@@ -48,14 +46,15 @@ SfCartesianChart getDefaultAreaChart(bool isTileView) {
   );
 }
 
-List<AreaSeries<ChartSampleData, DateTime>> getDefaultAreaSeries(bool isTileView) {
+List<AreaSeries<ChartSampleData, DateTime>> getDefaultAreaSeries(
+    bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
-    ChartSampleData(x:DateTime(2000, 1, 1), y:4, yValue2:2.6),
-    ChartSampleData(x:DateTime(2001, 1, 1), y:3.0, yValue2:2.8),
-    ChartSampleData(x:DateTime(2002, 1, 1), y:3.8, yValue2:2.6),
-    ChartSampleData(x:DateTime(2003, 1, 1), y:3.4, yValue2:3),
-    ChartSampleData(x:DateTime(2004, 1, 1), y:3.2, yValue2:3.6),
-    ChartSampleData(x:DateTime(2005, 1, 1), y:3.9, yValue2:3),
+    ChartSampleData(x: DateTime(2000, 1, 1), y: 4, yValue2: 2.6),
+    ChartSampleData(x: DateTime(2001, 1, 1), y: 3.0, yValue2: 2.8),
+    ChartSampleData(x: DateTime(2002, 1, 1), y: 3.8, yValue2: 2.6),
+    ChartSampleData(x: DateTime(2003, 1, 1), y: 3.4, yValue2: 3),
+    ChartSampleData(x: DateTime(2004, 1, 1), y: 3.2, yValue2: 3.6),
+    ChartSampleData(x: DateTime(2005, 1, 1), y: 3.9, yValue2: 3),
   ];
   return <AreaSeries<ChartSampleData, DateTime>>[
     AreaSeries<ChartSampleData, DateTime>(

@@ -30,20 +30,19 @@ class _ColorCustomizedRangeSliderPageState
     rangeSlider = ColorCustomizedRangeSlider();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body:
-        MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
-            ? rangeSlider
-            : SingleChildScrollView(
-            child: Container(
-                height: 350,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                  child: Container(child: rangeSlider),
-                ))));
+            MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+                ? rangeSlider
+                : SingleChildScrollView(
+                    child: Container(
+                        height: 350,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                          child: Container(child: rangeSlider),
+                        ))));
   }
 }
 
@@ -54,8 +53,8 @@ class ColorCustomizedRangeSlider extends StatefulWidget {
       _ColorCustomizedRangeSliderState();
 }
 
-class _ColorCustomizedRangeSliderState extends State<ColorCustomizedRangeSlider> {
-
+class _ColorCustomizedRangeSliderState
+    extends State<ColorCustomizedRangeSlider> {
   Widget _getWebLayout() {
     return Container(
       alignment: Alignment.center,

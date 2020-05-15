@@ -12,14 +12,14 @@ class RadialPointerDragging extends StatefulWidget {
   SubItem sample;
 
   @override
-  _RadialPointerDraggingState createState() => _RadialPointerDraggingState(sample);
+  _RadialPointerDraggingState createState() =>
+      _RadialPointerDraggingState(sample);
 }
 
 class _RadialPointerDraggingState extends State<RadialPointerDragging> {
   _RadialPointerDraggingState(this.sample);
   final SubItem sample;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,20 +33,21 @@ class PointerDraggingFrontPanel extends StatefulWidget {
   final SubItem subItemList;
 
   @override
-  _PointerDraggingFrontPanelState createState() => _PointerDraggingFrontPanelState(subItemList);
+  _PointerDraggingFrontPanelState createState() =>
+      _PointerDraggingFrontPanelState(subItemList);
 }
 
 class _PointerDraggingFrontPanelState extends State<PointerDraggingFrontPanel> {
   _PointerDraggingFrontPanelState(this.sample);
   final SubItem sample;
-  
+
   @override
   Widget build(BuildContext context) {
     final double _width = MediaQuery.of(context).size.width * 0.3;
-    if(MediaQuery.of(context).orientation == Orientation.portrait){
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
       _firstMarkerSize = 10;
       _annotationFontSize = 25;
-    }else{
+    } else {
       _firstMarkerSize = 5;
       _annotationFontSize = 15;
     }
@@ -54,83 +55,98 @@ class _PointerDraggingFrontPanelState extends State<PointerDraggingFrontPanel> {
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-              backgroundColor: model.cardThemeColor,
+              backgroundColor:
+                  model.isWeb ? Colors.transparent : model.cardThemeColor,
               body: Padding(
-                  padding: kIsWeb ? const EdgeInsets.fromLTRB(5, 20, 5, 20) :
-                  const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                  padding: kIsWeb
+                      ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
+                      : const EdgeInsets.fromLTRB(5, 0, 5, 50),
                   child: Column(
                     children: <Widget>[
                       Expanded(
                         flex: 7, // takes 30% of available width
-                        child:   SfRadialGauge(
-                            axes: <RadialAxis>[
-                              RadialAxis( axisLineStyle: AxisLineStyle(thickness: 0.2,
+                        child: SfRadialGauge(axes: <RadialAxis>[
+                          RadialAxis(
+                              axisLineStyle: AxisLineStyle(
+                                  thickness: 0.2,
                                   thicknessUnit: GaugeSizeUnit.factor),
-                                  showTicks: false, showLabels: true,
-                                  onAxisTapped: onPointerValueChanged,
-                                  pointers: <GaugePointer>[RangePointer(value: _currentValue,
-                                      onValueChanged: onPointerValueChanged,
-                                      onValueChangeEnd: onPointerValueChanged,
-                                      onValueChanging: onPointerValueChanging,
-                                      enableDragging: true,
-                                      width: 0.2, sizeUnit: GaugeSizeUnit.factor
-                                  ),
-                                    MarkerPointer(value: _markerValue,
-                                      color: Colors.white, markerHeight:  _firstMarkerSize,
-                                      markerWidth: _firstMarkerSize, markerType: MarkerType.circle,
-                                    ),
-
-                                  ],
-                                  annotations:<GaugeAnnotation>[
-                                    GaugeAnnotation( widget: Row(
+                              showTicks: false,
+                              showLabels: true,
+                              onAxisTapped: onPointerValueChanged,
+                              pointers: <GaugePointer>[
+                                RangePointer(
+                                    value: _currentValue,
+                                    onValueChanged: onPointerValueChanged,
+                                    onValueChangeEnd: onPointerValueChanged,
+                                    onValueChanging: onPointerValueChanging,
+                                    enableDragging: true,
+                                    width: 0.2,
+                                    sizeUnit: GaugeSizeUnit.factor),
+                                MarkerPointer(
+                                  value: _markerValue,
+                                  color: Colors.white,
+                                  markerHeight: _firstMarkerSize,
+                                  markerWidth: _firstMarkerSize,
+                                  markerType: MarkerType.circle,
+                                ),
+                              ],
+                              annotations: <GaugeAnnotation>[
+                                GaugeAnnotation(
+                                    widget: Row(
                                       children: <Widget>[
-                                        Text('$_annotationValue',
-                                          style: TextStyle(fontSize: _annotationFontSize,
-                                              fontFamily: 'Times', fontWeight: FontWeight.bold,
+                                        Text(
+                                          '$_annotationValue',
+                                          style: TextStyle(
+                                              fontSize: _annotationFontSize,
+                                              fontFamily: 'Times',
+                                              fontWeight: FontWeight.bold,
                                               color: const Color(0xFF00A8B5)),
                                         ),
-                                        Text(' %', style: TextStyle(fontSize:  _annotationFontSize,
-                                            fontFamily: 'Times',fontWeight: FontWeight.bold,
-                                            color: const Color(0xFF00A8B5)),)
+                                        Text(
+                                          ' %',
+                                          style: TextStyle(
+                                              fontSize: _annotationFontSize,
+                                              fontFamily: 'Times',
+                                              fontWeight: FontWeight.bold,
+                                              color: const Color(0xFF00A8B5)),
+                                        )
                                       ],
                                     ),
-                                        positionFactor: 0.13, angle: 0
-                                    )]
-                              )
-                            ]
-                        ),
+                                    positionFactor: 0.13,
+                                    angle: 0)
+                              ])
+                        ]),
                       ),
-
-
-                      kIsWeb ?   Container(
-                        width: _width ,
-                        child:  Slider(
-                          activeColor: const Color(0xFF02AAB0),
-                          inactiveColor: const Color(0xFF00CDAC),
-                          min: 5,
-                          max: 100,
-                          onChanged: onPointerValueChanged,
-                          value: _currentValue ,
-                        ),
-                      ):Expanded(
-                        flex: 3, // takes 30% of available width
-                        child:   Slider(
-                          activeColor: const Color(0xFF02AAB0),
-                          inactiveColor: const Color(0xFF00CDAC),
-                          min: 5,
-                          max: 100,
-                          onChanged: onPointerValueChanged,
-                          value: _currentValue ,
-                        ),
-                      ),
+                      kIsWeb
+                          ? Container(
+                              width: _width,
+                              child: Slider(
+                                activeColor: const Color(0xFF02AAB0),
+                                inactiveColor: const Color(0xFF00CDAC),
+                                min: 5,
+                                max: 100,
+                                onChanged: onPointerValueChanged,
+                                value: _currentValue,
+                              ),
+                            )
+                          : Expanded(
+                              flex: 3, // takes 30% of available width
+                              child: Slider(
+                                activeColor: const Color(0xFF02AAB0),
+                                inactiveColor: const Color(0xFF00CDAC),
+                                min: 5,
+                                max: 100,
+                                onChanged: onPointerValueChanged,
+                                value: _currentValue,
+                              ),
+                            ),
                     ],
-                  )
-              ));
+                  )));
         });
   }
 
-  void onPointerValueChanged(double value){
-    if(value.toInt() > 6){
+  void onPointerValueChanged(double value) {
+    if (value.toInt() > 6) {
       setState(() {
         _currentValue = value.roundToDouble();
         final int _value = _currentValue.toInt();
@@ -140,14 +156,12 @@ class _PointerDraggingFrontPanelState extends State<PointerDraggingFrontPanel> {
     }
   }
 
-  void onPointerValueChanging(ValueChangingArgs args){
-    if(args.value.toInt() <= 6){
+  void onPointerValueChanging(ValueChangingArgs args) {
+    if (args.value.toInt() <= 6) {
       args.cancel = true;
     }
   }
 }
-
-
 
 class BackPanel extends StatefulWidget {
   //ignore:prefer_const_constructors_in_immutables
@@ -227,48 +241,54 @@ class _BackPanelState extends State<BackPanel> {
 }
 
 Widget getRadialPointerDragging(bool isTileView) {
-
-  return SfRadialGauge(
-      axes: <RadialAxis>[
-        RadialAxis( axisLineStyle: AxisLineStyle(thickness: 0.2,
-            thicknessUnit: GaugeSizeUnit.factor),
-            showTicks: false, showLabels: false,
-            radiusFactor: 1,
-            pointers: <GaugePointer>[RangePointer(value: _currentValue,
-                width: 0.2, sizeUnit: GaugeSizeUnit.factor
-            ),
-              MarkerPointer(value: _markerValue,
-                color: Colors.white, markerHeight: 5,
-                markerWidth: 5, markerType: MarkerType.circle,
-              ),
-
-
-            ],
-            annotations:<GaugeAnnotation>[
-              GaugeAnnotation( widget: Row(
+  return SfRadialGauge(axes: <RadialAxis>[
+    RadialAxis(
+        axisLineStyle:
+            AxisLineStyle(thickness: 0.2, thicknessUnit: GaugeSizeUnit.factor),
+        showTicks: false,
+        showLabels: false,
+        radiusFactor: 1,
+        pointers: <GaugePointer>[
+          RangePointer(
+              value: _currentValue, width: 0.2, sizeUnit: GaugeSizeUnit.factor),
+          MarkerPointer(
+            value: _markerValue,
+            color: Colors.white,
+            markerHeight: 5,
+            markerWidth: 5,
+            markerType: MarkerType.circle,
+          ),
+        ],
+        annotations: <GaugeAnnotation>[
+          GaugeAnnotation(
+              widget: Row(
                 children: <Widget>[
-                  Text('$_annotationValue',
-                    style: const TextStyle(fontSize: 20,
-                        fontFamily: 'Times', fontWeight: FontWeight.bold,
+                  Text(
+                    '$_annotationValue',
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
                         color: Color(0xFF00A8B5)),
                   ),
-                  const Text(' %', style: TextStyle(fontSize: 20,
-                      fontFamily: 'Times',fontWeight: FontWeight.bold,
-                      color: Color(0xFF00A8B5)),)
+                  const Text(
+                    ' %',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF00A8B5)),
+                  )
                 ],
               ),
-                  positionFactor: 0.13, angle: 0
-              )]
-        )
-      ]
-  );
-
-
+              positionFactor: 0.13,
+              angle: 0)
+        ])
+  ]);
 }
-
 
 double _currentValue = 60;
 double _markerValue = 58;
 double _firstMarkerSize = 10;
 double _annotationFontSize = 25;
-String _annotationValue ='60';
+String _annotationValue = '60';

@@ -24,7 +24,6 @@ class _RadialBarAngleState extends State<RadialBarAngle> {
 
 SfCircularChart getAngleRadialBarChart(bool isTileView) {
   return SfCircularChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Activity tracker'),
     legend: Legend(
         isVisible: true,
@@ -61,7 +60,7 @@ List<RadialBarSeries<ChartSampleData, String>> getRadialBarSeries(
   final List<RadialBarSeries<ChartSampleData, String>> list =
       <RadialBarSeries<ChartSampleData, String>>[
     RadialBarSeries<ChartSampleData, String>(
-       animationDuration: 0,
+        animationDuration: 0,
         pointRadiusMapper: (ChartSampleData data, _) => data.xValue,
         maximumValue: 100,
         radius: '100%',

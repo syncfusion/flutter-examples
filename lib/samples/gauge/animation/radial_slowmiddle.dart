@@ -6,8 +6,8 @@ import '../../../model/model.dart';
 
 //ignore: must_be_immutable
 class RadialSlowMiddleAnimation extends StatefulWidget {
-   RadialSlowMiddleAnimation({this.sample, Key key}) : super(key: key);
-   SubItem sample;
+  RadialSlowMiddleAnimation({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _RadialSlowMiddleAnimationState createState() =>
@@ -29,7 +29,7 @@ SfRadialGauge getRadialSlowMiddleAnimation(bool isTileView) {
     key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
-        radiusFactor: kIsWeb? 0.85 : 0.95,
+          radiusFactor: kIsWeb ? 0.85 : 0.95,
           startAngle: 270,
           endAngle: 270,
           showAxisLine: false,

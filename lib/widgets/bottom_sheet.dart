@@ -84,15 +84,17 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       widget.animationController.status == AnimationStatus.reverse;
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    if (_dismissUnderway) 
+    if (_dismissUnderway) {
       return;
+    }
     widget.animationController.value -=
         details.primaryDelta / (_childHeight ?? details.primaryDelta);
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    if (_dismissUnderway) 
+    if (_dismissUnderway) {
       return;
+    }
     if (details.velocity.pixelsPerSecond.dy > _kMinFlingVelocity) {
       final double flingVelocity =
           -details.velocity.pixelsPerSecond.dy / _childHeight;
@@ -100,7 +102,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
         widget.animationController.fling(velocity: flingVelocity);
       if (flingVelocity < 0.0) {
         widget.onClosing();
-      }        
+      }
     } else if (widget.animationController.value < _kCloseProgressThreshold) {
       if (widget.animationController.value > 0.0)
         widget.animationController.fling(velocity: -1.0);
@@ -235,29 +237,30 @@ class _RoundedModalBottomSheetState<T>
     return GestureDetector(
       child: AnimatedBuilder(
         animation: widget.route.animation,
-        builder: (BuildContext context, Widget child) => CustomSingleChildLayout(
-              delegate: _RoundedModalBottomSheetLayout(
-                  widget.route.autoResize
-                      ? MediaQuery.of(context).viewInsets.bottom
-                      : 0.0,
-                  widget.route.animation.value),
-              child: CustomBottomSheet(
-                animationController: widget.route.animationController,
-                onClosing: () => Navigator.pop(context),
-                builder: (BuildContext context) => Container(
-                      decoration: BoxDecoration(
-                        color: widget.route.color,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(widget.route.radius),
-                          topRight: Radius.circular(widget.route.radius),
-                        ),
-                      ),
-                      child: SafeArea(
-                        child: Builder(builder: widget.route.builder),
-                      ),
-                    ),
+        builder: (BuildContext context, Widget child) =>
+            CustomSingleChildLayout(
+          delegate: _RoundedModalBottomSheetLayout(
+              widget.route.autoResize
+                  ? MediaQuery.of(context).viewInsets.bottom
+                  : 0.0,
+              widget.route.animation.value),
+          child: CustomBottomSheet(
+            animationController: widget.route.animationController,
+            onClosing: () => Navigator.pop(context),
+            builder: (BuildContext context) => Container(
+              decoration: BoxDecoration(
+                color: widget.route.color,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(widget.route.radius),
+                  topRight: Radius.circular(widget.route.radius),
+                ),
+              ),
+              child: SafeArea(
+                child: Builder(builder: widget.route.builder),
               ),
             ),
+          ),
+        ),
       ),
     );
   }

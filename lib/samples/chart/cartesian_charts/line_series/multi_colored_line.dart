@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../model/helper.dart';
 import '../../../../model/model.dart';
- 
+
 //ignore: must_be_immutable
 class LineMultiColor extends StatefulWidget {
   LineMultiColor({this.sample, Key key}) : super(key: key);
@@ -15,24 +15,25 @@ class LineMultiColor extends StatefulWidget {
 }
 
 class _LineMultiColorState extends State<LineMultiColor> {
-   _LineMultiColorState(this.sample);
+  _LineMultiColorState(this.sample);
   final SubItem sample;
-  
+
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getMultiColorLineChart(false),sample);
-   
+    return getScopedModel(getMultiColorLineChart(false), sample);
   }
 }
 
 SfCartesianChart getMultiColorLineChart(bool isTileView) {
   return SfCartesianChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Annual rainfall of Paris'),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
         intervalType: DateTimeIntervalType.years,
         dateFormat: DateFormat.y(),
+        minimum: DateTime(1925),
+        maximum: DateTime(1945),
+        interval: 5,
         majorGridLines: MajorGridLines(width: 0),
         title: AxisTitle(text: 'Year')),
     primaryYAxis: NumericAxis(
@@ -51,7 +52,8 @@ SfCartesianChart getMultiColorLineChart(bool isTileView) {
   );
 }
 
-List<LineSeries<_ChartData, DateTime>> getMultiColoredLineSeries(bool isTileView) {
+List<LineSeries<_ChartData, DateTime>> getMultiColoredLineSeries(
+    bool isTileView) {
   final List<_ChartData> chartData = <_ChartData>[
     _ChartData(DateTime(1925), 415, const Color.fromRGBO(248, 184, 131, 1)),
     _ChartData(DateTime(1926), 408, const Color.fromRGBO(248, 184, 131, 1)),

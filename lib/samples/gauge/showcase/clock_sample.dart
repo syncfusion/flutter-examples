@@ -25,14 +25,15 @@ class _ClockExampleState extends State<ClockExample> {
   }
 }
 
-//ignore:must_be_immutable 
+//ignore:must_be_immutable
 class ClockExampleFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
   ClockExampleFrontPanel([this.sample]);
   SubItem sample;
 
   @override
-  _ClockExampleFrontPanelState createState() => _ClockExampleFrontPanelState(sample);
+  _ClockExampleFrontPanelState createState() =>
+      _ClockExampleFrontPanelState(sample);
 }
 
 class _ClockExampleFrontPanelState extends State<ClockExampleFrontPanel> {
@@ -47,14 +48,12 @@ class _ClockExampleFrontPanelState extends State<ClockExampleFrontPanel> {
     timer = Timer.periodic(const Duration(milliseconds: 1000), updateData);
   }
 
-  void updateData(Timer timer){
+  void updateData(Timer timer) {
     final double _previousValue = _value;
-    setState((){
-      if(_previousValue >= 0 &&_previousValue < 12){
+    setState(() {
+      if (_previousValue >= 0 && _previousValue < 12) {
         _value = _value + 0.2;
-      }
-      else {
-
+      } else {
         _value = 0.2;
       }
     });
@@ -68,46 +67,43 @@ class _ClockExampleFrontPanelState extends State<ClockExampleFrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    setState((){
-      if(kIsWeb){
-        final Size _size =  MediaQuery.of(context).size;
+    setState(() {
+      if (kIsWeb) {
+        final Size _size = MediaQuery.of(context).size;
         double _radius;
         bool _isWidth;
-        if(_size.width > _size.height){
+        if (_size.width > _size.height) {
           _radius = _size.height * 0.95;
           _isWidth = false;
-        }else{
+        } else {
           _isWidth = true;
           _radius = _size.width * 0.95;
         }
 
-        if( _isWidth && _radius  > (_size.width * 0.9)){
+        if (_isWidth && _radius > (_size.width * 0.9)) {
           _centerX = 0.35;
-        }else{
+        } else {
           _centerX = 0.43;
         }
-      }else{
-        _centerX = MediaQuery.of(context).orientation == Orientation.portrait ? 0.3 : 0.45;
+      } else {
+        _centerX = MediaQuery.of(context).orientation == Orientation.portrait
+            ? 0.3
+            : 0.45;
       }
-
-
-
     });
     return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor: model.cardThemeColor,
+            backgroundColor:
+                model.isWeb ? Colors.transparent : model.cardThemeColor,
             body: Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-              child: Container(
-                  child: getClockExample(false, isIndexed)),
+              child: Container(child: getClockExample(false, isIndexed)),
             ),
           );
         });
   }
-
-
 }
 
 SfRadialGauge getClockExample(bool isTileView, [bool isIndexed]) {
@@ -159,7 +155,9 @@ SfRadialGauge getClockExample(bool isTileView, [bool isIndexed]) {
           maximum: 12,
           showFirstLabel: false,
           interval: 2,
-          centerX: isTileView ? kIsWeb ?  _centerX ?? 0.35 : 0.39 : kIsWeb ?   _centerX ?? 0.35 : _centerX,
+          centerX: isTileView
+              ? kIsWeb ? _centerX ?? 0.35 : 0.39
+              : kIsWeb ? _centerX ?? 0.35 : _centerX,
           minorTicksPerInterval: 5,
           tickOffset: 0.03,
           minorTickStyle: MinorTickStyle(

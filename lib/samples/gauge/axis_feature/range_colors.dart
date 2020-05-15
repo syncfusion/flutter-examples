@@ -34,7 +34,8 @@ SfRadialGauge getRangeColorForLabels(bool isTileView) {
           endAngle: 270,
           useRangeColorForAxis: true,
           radiusFactor: 0.95,
-          interval: 10, showFirstLabel: false,
+          interval: 10,
+          showFirstLabel: false,
           isInversed: true,
           axisLabelStyle:
               GaugeTextStyle(fontWeight: FontWeight.w500, fontSize: 12),

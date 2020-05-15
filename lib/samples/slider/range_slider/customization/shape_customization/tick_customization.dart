@@ -27,8 +27,7 @@ class _TickCustomizedRangeSliderState extends State<TickCustomizedRangeSlider> {
           activeMinorTickColor: _activeColor,
           thumbColor: _activeColor,
           tickOffset: const Offset(0, 4),
-          tooltipBackgroundColor: _activeColor
-      ),
+          tooltipBackgroundColor: _activeColor),
       child: SfRangeSlider(
         min: 0.0,
         max: 100.0,
@@ -55,10 +54,10 @@ class _TickShape extends SfTickShape {
   void paint(PaintingContext context, Offset offset, Offset startThumbCenter,
       Offset endThumbCenter,
       {bool isEnabled,
-        RenderProxyBox parentBox,
-        SfRangeSliderThemeData themeData,
-        Animation<double> animation,
-        TextDirection textDirection}) {
+      RenderProxyBox parentBox,
+      SfRangeSliderThemeData themeData,
+      Animation<double> animation,
+      TextDirection textDirection}) {
     final Size tickSize = getPreferredSize(themeData, isEnabled);
     final bool isTickRightOfThumb = endThumbCenter == null
         ? offset.dx > startThumbCenter.dx
@@ -93,10 +92,10 @@ class _MinorTickShape extends SfMinorTickShape {
   void paint(PaintingContext context, Offset offset, Offset startThumbCenter,
       Offset endThumbCenter,
       {bool isEnabled,
-        RenderProxyBox parentBox,
-        SfRangeSliderThemeData themeData,
-        Animation<double> animation,
-        TextDirection textDirection}) {
+      RenderProxyBox parentBox,
+      SfRangeSliderThemeData themeData,
+      Animation<double> animation,
+      TextDirection textDirection}) {
     final Size minorTickSize = getPreferredSize(themeData, isEnabled);
     final bool isMinorTickRightOfThumb = endThumbCenter == null
         ? offset.dx > startThumbCenter.dx

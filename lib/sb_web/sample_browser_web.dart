@@ -80,8 +80,7 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.white,
                                           fontSize: 28,
                                           letterSpacing: 0.53,
-                                          fontFamily: 'HeeboBold',
-                                          fontWeight: FontWeight.bold)),
+                                          fontFamily: 'Roboto-Bold')),
                                   Container(
                                       padding:
                                           const EdgeInsets.fromLTRB(3, 0, 3, 0),
@@ -94,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                                         style: TextStyle(
                                             fontSize: 14,
                                             letterSpacing: 0.26,
-                                            fontFamily: 'HeeboMedium',
+                                            fontFamily: 'Roboto-Medium',
                                             color: Colors.black),
                                       ))
                                 ]),
@@ -102,6 +101,7 @@ class _HomePageState extends State<HomePage> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 14,
+                                        fontFamily: 'Roboto-Regular',
                                         letterSpacing: 0.26,
                                         fontWeight: FontWeight.normal)),
                               ],
@@ -125,7 +125,8 @@ class _HomePageState extends State<HomePage> {
                                       ))),
                           Container(
                             padding: MediaQuery.of(context).size.width < 500
-                             ? const EdgeInsets.only(top: 20, left: 5) : const EdgeInsets.only(top: 10, right: 20),
+                                ? const EdgeInsets.only(top: 20, left: 5)
+                                : const EdgeInsets.only(top: 10, right: 20),
                             height: 60,
                             width: 60,
                             child: HandCursor(
@@ -216,17 +217,16 @@ class _HomePageState extends State<HomePage> {
         width: width,
         child: Column(children: <Widget>[
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 15, bottom: 10),
-            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(top: 15, bottom: 2),
             child: Text(
               category.categoryName,
               style: TextStyle(
                   color: model.backgroundColor,
                   fontSize: 16,
-                  fontFamily: 'HeeboBold'),
+                  fontFamily: 'Roboto-Bold'),
             ),
           ),
-           Divider(
+          Divider(
             color: model.webDividerColor2,
             thickness: 1,
           ),
@@ -248,6 +248,7 @@ class _HomePageState extends State<HomePage> {
                         color: model.webCardColor,
                         elevation: 0.0,
                         child: InkWell(
+                            splashFactory: InkRipple.splashFactory,
                             hoverColor: Colors.grey.withOpacity(0.2),
                             onTap: () {
                               onTapControlItemWeb(context, model, category, i);
@@ -256,7 +257,7 @@ class _HomePageState extends State<HomePage> {
                             child: Container(
                               child: ListTile(
                                 contentPadding:
-                                    const EdgeInsets.fromLTRB(16, 2, 0, 0),
+                                    const EdgeInsets.fromLTRB(12, 2, 0, 0),
                                 leading: Image.asset(control.image,
                                     fit: BoxFit.cover),
                                 title: Row(
@@ -270,10 +271,10 @@ class _HomePageState extends State<HomePage> {
                                         textScaleFactor: 1,
                                         overflow: TextOverflow.fade,
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold,
                                             fontSize: 12,
+                                            letterSpacing: 0.1,
                                             color: model.textColor,
-                                            fontFamily: 'HeeboBold'),
+                                            fontFamily: 'Roboto-Bold'),
                                       ),
                                       control.status != null
                                           ? Container(
@@ -297,30 +298,26 @@ class _HomePageState extends State<HomePage> {
                                                       topLeft: Radius.circular(10),
                                                       bottomLeft: Radius.circular(10))),
                                               padding: const EdgeInsets.fromLTRB(7, 3, 6, 3),
-                                              child: Text(control.status, style: TextStyle(color: (control.status == 'Preview' || control.status == 'preview') ? const Color.fromRGBO(0, 98, 255, 1) : Colors.white, fontSize: 12)))
+                                              child: Text(control.status, style: TextStyle(fontFamily: 'Roboto-Medium', color: (control.status == 'Preview' || control.status == 'preview') ? const Color.fromRGBO(0, 98, 255, 1) : Colors.white, fontSize: 12)))
                                           : Container()
                                     ]),
-
                                 subtitle: Container(
-                                    // color: model.webCardColor,
                                     child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0.0, 7.0, 15.0, 0.0),
-                                      child: Text(
-                                        control.description,
-                                        textAlign: TextAlign.left,
-                                        softWrap: true,
-                                        textScaleFactor: 1,
-                                        overflow: TextOverflow.fade,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 12,
-                                          fontFamily: 'Helvetica',
-                                          color:
-                                              Color.fromRGBO(128, 128, 128, 1),
-                                        ),
-                                      ),
-                                    )),
+                                  padding: const EdgeInsets.fromLTRB(
+                                      0.0, 7.0, 12.0, 0.0),
+                                  child: Text(
+                                    control.description,
+                                    textAlign: TextAlign.left,
+                                    softWrap: true,
+                                    textScaleFactor: 1,
+                                    overflow: TextOverflow.fade,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 12,
+                                      color: Color.fromRGBO(128, 128, 128, 1),
+                                    ),
+                                  ),
+                                )),
                               ),
                             ))))),
       ));
@@ -343,8 +340,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _getWebBodyWidget(SampleModel model) {
-    return MediaQuery.of(context).size.height < 700 || MediaQuery.of(context).size.width <= 820
-        || (MediaQuery.of(context).size.height < 840 && MediaQuery.of(context).size.width <= 1060)
+    return MediaQuery.of(context).size.height < 700 ||
+            MediaQuery.of(context).size.width <= 820 ||
+            (MediaQuery.of(context).size.height < 840 &&
+                MediaQuery.of(context).size.width <= 1060)
         ? SizedBox(
             height: MediaQuery.of(context).size.height - 70,
             child: ListView(children: <Widget>[

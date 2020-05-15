@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_examples/model/helper.dart';
 import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/widgets/bottom_sheet.dart';
@@ -7,6 +8,8 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 //ignore: must_be_immutable
 class PyramidSmartLabels extends StatefulWidget {
@@ -28,7 +31,8 @@ class _PyramidSmartLabelState extends State<PyramidSmartLabels> {
 }
 
 SfPyramidChart getPyramidSmartLabelChart(bool isTileView,
-    [ChartDataLabelPosition _labelPosition, SmartLabelMode _mode]) {
+    [ChartDataLabelPosition _labelPosition, SmartLabelMode _mode, SampleModel sampleModel]) {
+  final bool isExistModel = sampleModel != null && sampleModel.isWeb;
   return SfPyramidChart(
     onTooltipRender: (TooltipArgs args) {
       final NumberFormat format = NumberFormat.decimalPattern();
@@ -37,10 +41,14 @@ SfPyramidChart getPyramidSmartLabelChart(bool isTileView,
     title:
         ChartTitle(text: isTileView ? '' : 'Top 10 populated countries - 2019'),
     tooltipBehavior: TooltipBehavior(enable: true),
-    smartLabelMode: isTileView ? SmartLabelMode.shift : _mode,
+     smartLabelMode: ( isExistModel
+          ? sampleModel.properties['PyramidSmartLabelMode']
+          : _mode) ?? SmartLabelMode.shift,
     series: _getPyramidSeries(
       isTileView,
-      _labelPosition,
+       (isExistModel
+          ? sampleModel.properties['PyramidLabelPosition']
+          : _labelPosition)??ChartDataLabelPosition.outside,
     ),
   );
 }
@@ -109,8 +117,7 @@ PyramidSeries<ChartSampleData, String> _getPyramidSeries(bool isTileView,
       pointColorMapper: (ChartSampleData data, _) => data.pointColor,
       dataLabelSettings: DataLabelSettings(
           isVisible: true,
-          labelPosition:
-              isTileView ? ChartDataLabelPosition.outside : _labelPosition,
+          labelPosition:isTileView ? ChartDataLabelPosition.outside : _labelPosition,
           useSeriesColor: true));
 }
 
@@ -119,97 +126,129 @@ class PyramidSmartLabelsFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
   PyramidSmartLabelsFrontPanel([this.sample]);
   SubItem sample;
-  
+
   @override
-  _PyramidSmartLabelsFrontPanelState createState() => _PyramidSmartLabelsFrontPanelState(sample);
+  _PyramidSmartLabelsFrontPanelState createState() =>
+      _PyramidSmartLabelsFrontPanelState(sample);
 }
 
-class _PyramidSmartLabelsFrontPanelState extends State<PyramidSmartLabelsFrontPanel> {
+class _PyramidSmartLabelsFrontPanelState
+    extends State<PyramidSmartLabelsFrontPanel> {
   _PyramidSmartLabelsFrontPanelState(this.sample);
   final SubItem sample;
   final List<String> _labelPositon = <String>['outside', 'inside'].toList();
-  ChartDataLabelPosition _selectedLabelPosition = ChartDataLabelPosition.outside;
-  String _selectedPosition;
+  ChartDataLabelPosition _selectedLabelPosition =
+      ChartDataLabelPosition.outside;
+   String _selectedPosition = 'outside';
 
   final List<String> _modeList = <String>['shift', 'none', 'hide'].toList();
   String _smartLabelMode = 'shift';
   SmartLabelMode _mode = SmartLabelMode.shift;
-Widget sampleWidget(SampleModel model) => getPyramidSmartLabelChart(false);
+
+ 
+  // Widget sampleWidget(SampleModel model) => getLabelIntersectActionChart(false);
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) =>
+      getPyramidSmartLabelChart(false,null, null, model);
+
   @override
   void initState() {
+    initProperties();
     super.initState();
-    _selectedPosition = _labelPositon.first;
-    _selectedLabelPosition = ChartDataLabelPosition.outside;
   }
 
+  void initProperties([SampleModel sampleModel, bool init]) {
+      _selectedPosition = 'outside';
+    _selectedLabelPosition = ChartDataLabelPosition.outside;
+    _smartLabelMode = 'shift';
+   _mode = SmartLabelMode.shift;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'SelectedPyramidSmartLabelMode': _smartLabelMode,
+        'PyramidSmartLabelMode': _mode,
+        'SelectedPyramidLabelPosition': _selectedPosition,
+        'PyramidLabelPosition': _selectedLabelPosition,
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor: model.cardThemeColor,
-              body: Padding(
+              backgroundColor: model.cardThemeColor,
+              body:!model.isWeb ? Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
                     child: getPyramidSmartLabelChart(
                         false, _selectedLabelPosition, _mode)),
-              ),
-              floatingActionButton: model.isWeb ? null :
-              Stack(children: <Widget>[
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
-                    child: Container(
-                      height: 50,
-                      width: 250,
-                      child: InkWell(
-                        onTap: () => launch(
-                            'https://www.worldometers.info/world-population/population-by-country/'),
-                        child: Row(
-                          children: <Widget>[
-                            Text('Source: ',
-                                style: TextStyle(
-                                    fontSize: 16, color: model.textColor)),
-                            const Text('worldometers.com',
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.blue)),
-                          ],
+              ) : Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: Container(
+                          child:
+                              getPyramidSmartLabelChart(false, null, null,model)),
+                    ),
+              floatingActionButton: model.isWeb
+                  ? null
+                  : Stack(children: <Widget>[
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                          child: Container(
+                            height: 50,
+                            width: 250,
+                            child: InkWell(
+                              onTap: () => launch(
+                                  'https://www.worldometers.info/world-population/population-by-country/'),
+                              child: Row(
+                                children: <Widget>[
+                                  Text('Source: ',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: model.textColor)),
+                                  const Text('worldometers.com',
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.blue)),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: () {
-                      _showSettingsPanel(model);
-                    },
-                    child: Icon(Icons.graphic_eq, color: Colors.white),
-                    backgroundColor: model.backgroundColor,
-                  ),
-                ),
-              ]));
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {
+                            _showSettingsPanel(model, false, context);
+                          },
+                          child: Icon(Icons.graphic_eq, color: Colors.white),
+                          backgroundColor: model.backgroundColor,
+                        ),
+                      ),
+                    ]));
         });
   }
-
-  void onLabelPositionChange(String item) {
-    setState(() {
-      _selectedPosition = item;
+ void onLabelPositionChange(String item, SampleModel model) {
+    _selectedPosition = item;
       if (_selectedPosition == 'inside') {
         _selectedLabelPosition = ChartDataLabelPosition.inside;
       } else if (_selectedPosition == 'outside') {
         _selectedLabelPosition = ChartDataLabelPosition.outside;
       }
-    });
+    model.properties['SelectedPyramidLabelPosition'] = _selectedPosition;
+    model.properties['PyramidLabelPosition'] = _selectedLabelPosition;
+    if (model.isWeb)
+      model.sampleOutputContainer.outputKey.currentState.refresh();
+    else
+      setState(() {});
   }
 
   void onSmartLabelModeChange(String item, SampleModel model) {
-    setState(() {
-      _smartLabelMode = item;
+   _smartLabelMode = item;
       if (_smartLabelMode == 'shift') {
         _mode = SmartLabelMode.shift;
       }
@@ -219,14 +258,115 @@ Widget sampleWidget(SampleModel model) => getPyramidSmartLabelChart(false);
       if (_smartLabelMode == 'none') {
         _mode = SmartLabelMode.none;
       }
-    });
+    model.properties['SelectedPyramidSmartLabelMode'] = _smartLabelMode;
+    model.properties['PyramidSmartLabelMode'] = _mode;
+    if (model.isWeb)
+      model.sampleOutputContainer.outputKey.currentState.refresh();
+    else
+      setState(() {});
   }
 
-  void _showSettingsPanel(SampleModel model) {
+  
+  Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
+    Widget widget;
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
             ? 0.3
             : 0.4;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: ListView(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Properties',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    HandCursor(
+                        child: IconButton(
+                      icon: Icon(Icons.close, color: model.textColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ))
+                  ]),
+                   Row(
+                  children: <Widget>[
+                    Text('Label Position  ',
+                        style: TextStyle(
+                            color: model.textColor,
+                            fontSize: 14,
+                            letterSpacing: 0.34,
+                            fontWeight: FontWeight.normal)),
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        height: 50,
+                        width: 135,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                                canvasColor: model.bottomSheetBackgroundColor),
+                            child: DropDown(
+                                value: model.properties[
+                                    'SelectedPyramidLabelPosition'],
+                                item: _labelPositon.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: (value != null) ? value : 'outside',
+                                      child: Text('$value',
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                valueChanged: (dynamic value) {
+                                  onLabelPositionChange(value.toString(), model);
+                                }),
+                          ),
+                        )),
+                  ],
+               
+              ),  Row(
+                  children: <Widget>[
+                    Text('Smart Label mode',
+                        style: TextStyle(
+                            color: model.textColor,
+                            fontSize: 14,
+                            letterSpacing: 0.34,
+                            fontWeight: FontWeight.normal)),
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        height: 50,
+                        width: 135,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                                canvasColor: model.bottomSheetBackgroundColor),
+                            child: DropDown(
+                                value: model.properties[
+                                    'SelectedPyramidSmartLabelMode'],
+                                item: _modeList.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: (value != null) ? value : 'shift',
+                                      child: Text('$value',
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                valueChanged: (dynamic value) {
+                                  onSmartLabelModeChange(value.toString(), model);
+                                }),
+                          ),
+                        )),
+                  ],
+                ),
+            ],
+          ));
+    } else {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
@@ -283,14 +423,14 @@ Widget sampleWidget(SampleModel model) => getPyramidSmartLabelChart(false);
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: <Widget>[
-                                            Text('Label position         ',
+                                            Text('Label position       ',
                                                 style: TextStyle(
                                                     fontSize: 16.0,
                                                     color: model.textColor)),
                                             Container(
                                                 padding:
                                                     const EdgeInsets.fromLTRB(
-                                                        20, 0, 0, 0),
+                                                        47, 0, 0, 0),
                                                 height: 50,
                                                 width: 150,
                                                 child: Align(
@@ -321,7 +461,7 @@ Widget sampleWidget(SampleModel model) => getPyramidSmartLabelChart(false);
                                                         valueChanged:
                                                             (dynamic value) {
                                                           onLabelPositionChange(
-                                                              value.toString());
+                                                              value.toString(), model);
                                                         }),
                                                   ),
                                                 )),
@@ -384,5 +524,7 @@ Widget sampleWidget(SampleModel model) => getPyramidSmartLabelChart(false);
                                 ),
                               ]),
                             )))))));
+                             }
+    return widget ?? Container();
   }
 }

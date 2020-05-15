@@ -24,7 +24,6 @@ class _PieDefaultState extends State<PieDefault> {
 
 SfCircularChart getDefaultPieChart(bool isTileView) {
   return SfCircularChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Sales by sales person'),
     legend: Legend(isVisible: isTileView ? false : true),
     series: getDefaultPieSeries(isTileView),

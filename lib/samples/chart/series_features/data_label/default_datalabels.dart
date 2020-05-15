@@ -24,13 +24,13 @@ class _DataLabelDefaultState extends State<DataLabelDefault> {
 
 SfCartesianChart getDataLabelDefaultChart(bool isTileView) {
   return SfCartesianChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Gross investments'),
     plotAreaBorderWidth: 0,
     legend: Legend(isVisible: isTileView ? false : true),
     primaryXAxis: NumericAxis(
         minimum: 2006,
-        maximum: 2010,
+        maximum: 2011,
+        interval: 1,
         title: AxisTitle(text: isTileView ? '' : 'Year'),
         majorGridLines: MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift),

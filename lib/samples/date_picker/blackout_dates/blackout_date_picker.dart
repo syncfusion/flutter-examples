@@ -84,9 +84,7 @@ class _BlackoutDatePickerState extends State<BlackoutDatePicker> {
                     child: kIsWeb
                         ? Center(
                             child: Container(
-                                width: 400,
-                                height: 600,
-                                child: _cardView))
+                                width: 400, height: 600, child: _cardView))
                         : _cardView),
                 Expanded(flex: model.isWeb ? 1 : 2, child: Container())
               ]));

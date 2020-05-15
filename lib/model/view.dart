@@ -22,17 +22,17 @@ class _LayoutPageState extends State<LayoutPage> {
     super.dispose();
   }
 
+  int _index = 0;
+  int _index1 = 0;
   @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
-    int _index = 0;
     return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) => Theme(
             data: ThemeData(
-              brightness:  model.themeData.brightness,
-              primaryColor: model.backgroundColor
-            ),
+                brightness: model.themeData.brightness,
+                primaryColor: model.backgroundColor),
             child: SafeArea(
               child: DefaultTabController(
                 length: model.controlList[model.selectedIndex].subItems.length,
@@ -79,18 +79,24 @@ class _LayoutPageState extends State<LayoutPage> {
                                   fontSize: 16.0,
                                   color: Colors.white,
                                   letterSpacing: 0.3)),
-                      actions: (model.controlList[model.selectedIndex]
-                                      .sampleList !=
-                                  null &&
-                              model.controlList[model.selectedIndex]
-                                      .displayType !=
-                                  'card' &&
-                              model.controlList[model.selectedIndex]
-                                      .sampleList[_index].codeLink !=
-                                  null &&
-                              model.controlList[model.selectedIndex]
-                                      .sampleList[_index].codeLink !=
-                                  '')
+                      actions: ((model.controlList[model.selectedIndex]
+                                          .sampleList !=
+                                      null &&
+                                  model.controlList[model.selectedIndex]
+                                          .displayType !=
+                                      'card' &&
+                                  model.controlList[model.selectedIndex]
+                                          .sampleList[_index].codeLink !=
+                                      null &&
+                                  model.controlList[model.selectedIndex]
+                                          .sampleList[_index].codeLink !=
+                                      '') ||
+                              (model.controlList[model.selectedIndex]
+                                          .childList !=
+                                      null &&
+                                  model.controlList[model.selectedIndex]
+                                          .childList[_index].displayType ==
+                                      'tab'))
                           ? <Widget>[
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
@@ -102,9 +108,19 @@ class _LayoutPageState extends State<LayoutPage> {
                                         color: Colors.white),
                                     onPressed: () {
                                       launch(model
-                                          .controlList[model.selectedIndex]
-                                          .sampleList[_index]
-                                          .codeLink);
+                                                  .controlList[
+                                                      model.selectedIndex]
+                                                  .sampleList ==
+                                              null
+                                          ? model
+                                              .controlList[model.selectedIndex]
+                                              .childList[_index]
+                                              .subItems[_index1]
+                                              .codeLink
+                                          : model
+                                              .controlList[model.selectedIndex]
+                                              .sampleList[_index]
+                                              .codeLink);
                                     },
                                   ),
                                 ),
@@ -215,7 +231,7 @@ class _LayoutPageState extends State<LayoutPage> {
           itemCount: list.length,
           itemBuilder: (BuildContext context, int position) {
             final String status = list[position].status;
-            final SubItem _subitem =list[position];
+            final SubItem _subitem = list[position];
             return Container(
               color: model.slidingPanelColor,
               padding: const EdgeInsets.all(5.0),
@@ -313,8 +329,8 @@ class _LayoutPageState extends State<LayoutPage> {
                             child: SizedBox(
                                 //ignore: avoid_as
                                 width: model.isWeb
-                                    ? _subitem != null
-                                    && _subitem.key == 'clock_sample'
+                                    ? _subitem != null &&
+                                            _subitem.key == 'clock_sample'
                                         ? (MediaQuery.of(context).size.height *
                                             0.6)
                                         : double.infinity
@@ -354,6 +370,9 @@ class _LayoutPageState extends State<LayoutPage> {
                             backgroundColor:
                                 const Color.fromRGBO(241, 241, 241, 1),
                             bottom: TabBar(
+                              onTap: (int index) {
+                                _index1 = index;
+                              },
                               unselectedLabelColor: Colors.black,
                               labelColor: Colors.blue,
                               indicatorColor: Colors.transparent,
@@ -414,5 +433,5 @@ class _LayoutPageState extends State<LayoutPage> {
       }
     }
     return tabs;
-  }  
+  }
 }

@@ -30,7 +30,7 @@ SfRadialGauge getRadialEaseInCircExample(bool isTileView) {
     key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
-        radiusFactor: kIsWeb? 0.85 : 0.95,
+          radiusFactor: kIsWeb ? 0.85 : 0.95,
           showAxisLine: false,
           ticksPosition: ElementsPosition.outside,
           labelsPosition: ElementsPosition.outside,
@@ -53,9 +53,11 @@ SfRadialGauge getRadialEaseInCircExample(bool isTileView) {
                 pointerOffset: 10,
                 value: 45,
                 animationDuration: 1000,
-                gradient: kIsWeb ? null : const SweepGradient(
-                    colors: <Color>[Color(0xFF3B3FF3), Color(0xFF46D0ED)],
-                    stops: <double>[0.25, 0.75]),
+                gradient: kIsWeb
+                    ? null
+                    : const SweepGradient(
+                        colors: <Color>[Color(0xFF3B3FF3), Color(0xFF46D0ED)],
+                        stops: <double>[0.25, 0.75]),
                 animationType: AnimationType.easeInCirc,
                 enableAnimation: true,
                 color: const Color(0xFFF8B195))

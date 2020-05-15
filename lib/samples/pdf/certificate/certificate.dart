@@ -75,8 +75,7 @@ class _CertificatePdfState extends State<CourseCompletionCertificatePdf> {
                                     ? Colors.grey
                                     : Colors.lightBlue)),
                         controller: _courceNameController,
-                        style: TextStyle(
-                          color: model.textColor)),
+                        style: TextStyle(color: model.textColor)),
                     TextFormField(
                         decoration: InputDecoration(
                             labelText: 'Date',
@@ -85,8 +84,7 @@ class _CertificatePdfState extends State<CourseCompletionCertificatePdf> {
                                     ? Colors.grey
                                     : Colors.lightBlue)),
                         controller: _dateController,
-                        style: TextStyle(
-                           color: model.textColor),
+                        style: TextStyle(color: model.textColor),
                         onTap: () {
                           _selectDate(context);
                         }),

@@ -28,11 +28,12 @@ class _MarkerDefaultState extends State<MarkerDefault> {
 
 SfCartesianChart getMarkerDefaultChart(bool isTileView) {
   return SfCartesianChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Vehicles crossed tollgate'),
     legend: Legend(isVisible: isTileView ? false : true),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
+      minimum: DateTime(2018, 3, 1, 8, 0),
+      maximum: DateTime(2018, 3, 1, 11, 0),
       majorGridLines: MajorGridLines(width: 0),
       dateFormat: DateFormat.Hm(),
       title: AxisTitle(text: isTileView ? '' : 'Time'),

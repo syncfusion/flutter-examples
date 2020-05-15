@@ -28,13 +28,13 @@ class _DefaultTooltipState extends State<DefaultTooltip> {
 
 SfCartesianChart getDefaultTooltipChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Labour force'),
     legend: Legend(isVisible: isTileView ? false : true),
     primaryXAxis: NumericAxis(
         minimum: 2004,
         maximum: 2013,
+        interval: 1,
         title: AxisTitle(text: isTileView ? '' : 'Year'),
         majorGridLines: MajorGridLines(width: 0)),
     primaryYAxis: NumericAxis(

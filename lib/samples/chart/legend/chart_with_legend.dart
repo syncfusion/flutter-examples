@@ -24,7 +24,6 @@ class _LegendDefaultState extends State<LegendDefault> {
 
 SfCircularChart getLegendDefaultChart(bool isTileView) {
   return SfCircularChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Electricity sectors'),
     legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
     series: getLegendDefaultSeries(isTileView),

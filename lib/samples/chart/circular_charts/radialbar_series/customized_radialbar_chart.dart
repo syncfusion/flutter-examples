@@ -105,7 +105,6 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
   ];
 
   return SfCircularChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Percentage of loan closure'),
     legend: Legend(
       isVisible: true,
@@ -125,19 +124,18 @@ SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
                     ],
                     series: <RadialBarSeries<ChartSampleData, String>>[
                       RadialBarSeries<ChartSampleData, String>(
-                        animationDuration: 0,
-                        dataSource: <ChartSampleData>[dataSources[index]],
-                        maximumValue: 100,
-                        radius: '100%',
-                        cornerStyle: CornerStyle.bothCurve,
-                        xValueMapper: (ChartSampleData data, _) => point.x,
-                        yValueMapper: (ChartSampleData data, _) => data.y,
-                        pointColorMapper: (ChartSampleData data, _) =>
-                            data.pointColor,
-                        innerRadius: '70%',
-                        pointRadiusMapper: (ChartSampleData data, _) =>
-                            data.text
-                      ),
+                          animationDuration: 0,
+                          dataSource: <ChartSampleData>[dataSources[index]],
+                          maximumValue: 100,
+                          radius: '100%',
+                          cornerStyle: CornerStyle.bothCurve,
+                          xValueMapper: (ChartSampleData data, _) => point.x,
+                          yValueMapper: (ChartSampleData data, _) => data.y,
+                          pointColorMapper: (ChartSampleData data, _) =>
+                              data.pointColor,
+                          innerRadius: '70%',
+                          pointRadiusMapper: (ChartSampleData data, _) =>
+                              data.text),
                     ],
                   )),
               Container(

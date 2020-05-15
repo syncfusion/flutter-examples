@@ -6,6 +6,8 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/widgets/shared/mobile.dart'
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 //ignore:must_be_immutable
 class DefaultSelection extends StatefulWidget {
@@ -28,14 +30,19 @@ class _DefaultSelectionState extends State<DefaultSelection> {
 }
 
 SfCartesianChart getDefaultSelectionChart(bool isTileView,
-    [SelectionType _mode, bool enableMultiSelect]) {
+    [SelectionType _mode, bool enableMultiSelect,
+    SampleModel model]) {
+      final bool isExistModel = model != null && model.isWeb;
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Age distribution by country'),
-    selectionType: _mode,
+    selectionType: isExistModel
+                    ? model.properties['SelectionType']
+                    : _mode,
     selectionGesture: ActivationMode.singleTap,
-    enableMultiSelection: enableMultiSelect,
+    enableMultiSelection: isExistModel
+                    ? model.properties['EnableMultiSelection']
+                    : enableMultiSelect,
     primaryXAxis: CategoryAxis(
         title: AxisTitle(text: isTileView ? '' : 'Countries'),
         majorGridLines: MajorGridLines(width: 0),
@@ -88,7 +95,7 @@ class CartesianSelectionFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
   CartesianSelectionFrontPanel([this.sample]);
 
-   SubItem sample;
+  SubItem sample;
 
   @override
   _SelectionFrontPanelState createState() => _SelectionFrontPanelState(sample);
@@ -104,7 +111,31 @@ class _SelectionFrontPanelState extends State<CartesianSelectionFrontPanel> {
   String _selectedMode = 'point';
 
   SelectionType _mode = SelectionType.point;
-Widget sampleWidget(SampleModel model) => getDefaultSelectionChart(false);
+  
+  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
+      _showSettingsPanel(model, init, context);
+  Widget sampleWidget(SampleModel model) =>
+      getDefaultSelectionChart(false, null, null, model);
+
+  @override
+  void initState() {
+    initProperties();
+    super.initState();
+  }
+
+  void initProperties([SampleModel sampleModel, bool init]) {
+    _selectedMode = 'point';
+ _mode = SelectionType.point;
+    enableMultiSelect = false;
+    if (sampleModel != null && init) {
+      sampleModel.properties.addAll(<dynamic, dynamic>{
+        'SelectedSelectionType': _selectedMode,
+        'SelectionType': _mode,
+        'EnableMultiSelection': enableMultiSelect
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<SampleModel>(
@@ -112,167 +143,252 @@ Widget sampleWidget(SampleModel model) => getDefaultSelectionChart(false);
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
               backgroundColor: model.cardThemeColor,
-              body: Padding(
+              body:!model.isWeb ?Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: Container(
                     child: getDefaultSelectionChart(
                         false, _mode, enableMultiSelect)),
+              ):Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Container(
+                    child: getDefaultSelectionChart(
+                        false, null, null, model)),
               ),
-              floatingActionButton: model.isWeb ?
-              null :
-              FloatingActionButton(
-                onPressed: () {
-                  _showSettingsPanel(model);
-                },
-                child: Icon(Icons.graphic_eq, color: Colors.white),
-                backgroundColor: model.backgroundColor,
-              ));
+              floatingActionButton: model.isWeb
+                  ? null
+                  : FloatingActionButton(
+                      onPressed: () {
+                        _showSettingsPanel(model, false, context);
+                      },
+                      child: Icon(Icons.graphic_eq, color: Colors.white),
+                      backgroundColor: model.backgroundColor,
+                    ));
         });
   }
 
-  void _showSettingsPanel(SampleModel model) {
+ Widget _showSettingsPanel(SampleModel model,
+      [bool init, BuildContext context]) {
+    Widget widget;
     final double height =
         (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
-            ? 0.3
-            : 0.4;
+            ? 0.4
+            : 0.5;
+    if (model.isWeb) {
+      initProperties(model, init);
+      widget = Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: ListView(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Properties',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    HandCursor(
+                        child: IconButton(
+                      icon: Icon(Icons.close, color: model.webIconColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ))
+                  ]),
+              Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text('Mode        ',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      Container(
+                          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          height: 50,
+                          width: 135,
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Theme(
+                              data: Theme.of(context).copyWith(
+                                  canvasColor:
+                                      model.bottomSheetBackgroundColor),
+                              child: DropDown(
+                                  value: model
+                                      .properties['SelectedSelectionType'],
+                                  item: _modeList.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                        value: (value != null) ? value : 'point',
+                                        child: Text('$value',
+                                            style: TextStyle(
+                                                color: model.textColor)));
+                                  }).toList(),
+                                  valueChanged: (dynamic value) {
+                                    onModeTypeChange(value.toString(), model);
+                                  }),
+                            ),
+                          )),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Enable multi-selection',
+                          style: TextStyle(
+                              color: model.textColor,
+                              fontSize: 14,
+                              letterSpacing: 0.34,
+                              fontWeight: FontWeight.normal)),
+                      BottomSheetCheckbox(
+                          activeColor: model.backgroundColor,
+                          switchValue: model.properties['EnableMultiSelection'],
+                          valueChanged: (dynamic value) {
+                            model.properties['EnableMultiSelection'] = value;
+                            model.sampleOutputContainer.outputKey.currentState
+                                .refresh();
+                          },
+                       
+                      ),
+                    ],
+                  ),
+                 
+                ],
+              ),
+            ],
+          ));
+    } else {
     showRoundedModalBottomSheet<dynamic>(
         dismissOnTap: false,
         context: context,
         radius: 12.0,
         color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModelDescendant<
-                SampleModel>(
+        builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
             rebuildOnChange: false,
-            builder: (BuildContext context, _, SampleModel model) =>
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Container(
-                      height: 170,
-                      child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * height,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                              child: Stack(
-                                children: <Widget>[
-                                  Container(
-                                    height: 40,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text('Settings',
-                                            style: TextStyle(
-                                                color: model.textColor,
-                                                fontSize: 18,
-                                                letterSpacing: 0.34,
-                                                fontWeight: FontWeight.w500)),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.close,
+            builder: (BuildContext context, _, SampleModel model) => Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Container(
+                  height: 170,
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * height,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                height: 40,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('Settings',
+                                        style: TextStyle(
                                             color: model.textColor,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ],
+                                            fontSize: 18,
+                                            letterSpacing: 0.34,
+                                            fontWeight: FontWeight.w500)),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: model.textColor,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
                                     ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                                    child: ListView(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text('Mode ',
-                                                  style: TextStyle(
-                                                      color: model.textColor,
-                                                      fontSize: 16,
-                                                      letterSpacing: 0.34,
-                                                      fontWeight:
-                                                          FontWeight.normal)),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        150, 0, 0, 0),
-                                                height: 50,
-                                                width: 250,
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.bottomLeft,
-                                                  child: Theme(
-                                                      data: Theme.of(context)
-                                                          .copyWith(
-                                                              canvasColor: model
-                                                                  .bottomSheetBackgroundColor),
-                                                      child: DropDown(
-                                                          value: _selectedMode,
-                                                          item: _modeList.map(
-                                                              (String value) {
-                                                            return DropdownMenuItem<
-                                                                    String>(
-                                                                value: (value !=
-                                                                        null)
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                                child: ListView(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text('Mode ',
+                                              style: TextStyle(
+                                                  color: model.textColor,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0.34,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                          Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                150, 0, 0, 0),
+                                            height: 50,
+                                            width: 250,
+                                            child: Align(
+                                              alignment: Alignment.bottomLeft,
+                                              child: Theme(
+                                                  data: Theme.of(context).copyWith(
+                                                      canvasColor: model
+                                                          .bottomSheetBackgroundColor),
+                                                  child: DropDown(
+                                                      value: _selectedMode,
+                                                      item: _modeList
+                                                          .map((String value) {
+                                                        return DropdownMenuItem<
+                                                                String>(
+                                                            value:
+                                                                (value != null)
                                                                     ? value
                                                                     : 'point',
-                                                                child: Text(
-                                                                    '$value',
-                                                                    style: TextStyle(
-                                                                        color: model
-                                                                            .textColor)));
-                                                          }).toList(),
-                                                          valueChanged:
-                                                              (dynamic value) {
-                                                            onModeTypeChange(
-                                                                value, model);
-                                                          })),
-                                                ),
-                                              ),
-                                            ],
+                                                            child: Text(
+                                                                '$value',
+                                                                style: TextStyle(
+                                                                    color: model
+                                                                        .textColor)));
+                                                      }).toList(),
+                                                      valueChanged:
+                                                          (dynamic value) {
+                                                        onModeTypeChange(
+                                                            value, model);
+                                                      })),
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text('Enable multi-selection ',
-                                                  style: TextStyle(
-                                                      color: model.textColor,
-                                                      fontSize: 16,
-                                                      letterSpacing: 0.34,
-                                                      fontWeight:
-                                                          FontWeight.normal)),
-                                              BottomSheetCheckbox(
-                                                activeColor:
-                                                    model.backgroundColor,
-                                                switchValue: enableMultiSelect,
-                                                valueChanged: (dynamic value) {
-                                                  setState(() {
-                                                    enableMultiSelect = value;
-                                                  });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )),
-                    ))));
+                                    Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text('Enable multi-selection ',
+                                              style: TextStyle(
+                                                  color: model.textColor,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0.34,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                          BottomSheetCheckbox(
+                                            activeColor: model.backgroundColor,
+                                            switchValue: enableMultiSelect,
+                                            valueChanged: (dynamic value) {
+                                              setState(() {
+                                                enableMultiSelect = value;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )),
+                ))));
+                 }
+    return widget ?? Container();
   }
 
   void onModeTypeChange(String item, SampleModel model) {
-    setState(() {
-      _selectedMode = item;
+    _selectedMode = item;
       if (_selectedMode == 'point') {
         _mode = SelectionType.point;
       }
@@ -282,9 +398,11 @@ Widget sampleWidget(SampleModel model) => getDefaultSelectionChart(false);
       if (_selectedMode == 'cluster') {
         _mode = SelectionType.cluster;
       }
-      // ignore: invalid_use_of_protected_member
-      model.notifyListeners();
-    });
+     model.properties['SelectedSelectionType'] = _selectedMode;
+    model.properties['SelectionType'] = _mode;
+    if (model.isWeb)
+      model.sampleOutputContainer.outputKey.currentState.refresh();
+    else
+      setState(() {});
   }
 }
-

@@ -115,7 +115,7 @@ class _CustomButton extends State<CustomButton> {
             ? _counter.toStringAsFixed(0)
             : _counter.toStringAsFixed(1),
         style: widget.style == null
-            ? Theme.of(context).textTheme.headline
+            ? Theme.of(context).textTheme.headline5
             : widget.style);
   }
 

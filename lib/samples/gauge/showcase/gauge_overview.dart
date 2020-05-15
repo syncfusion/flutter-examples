@@ -32,7 +32,8 @@ class GaugeOverviewFrontPanel extends StatefulWidget {
   final SubItem sample;
 
   @override
-  _GaugeOverviewFrontPanelState createState() => _GaugeOverviewFrontPanelState(sample);
+  _GaugeOverviewFrontPanelState createState() =>
+      _GaugeOverviewFrontPanelState(sample);
 }
 
 class _GaugeOverviewFrontPanelState extends State<GaugeOverviewFrontPanel> {
@@ -42,28 +43,29 @@ class _GaugeOverviewFrontPanelState extends State<GaugeOverviewFrontPanel> {
 
   @override
   Widget build(BuildContext context) {
-    setState((){
-      _interval = MediaQuery.of(context).orientation == Orientation.portrait ?  10 :  20;
+    setState(() {
+      _interval =
+          MediaQuery.of(context).orientation == Orientation.portrait ? 10 : 20;
     });
     return ScopedModelDescendant<SampleModel>(
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-              backgroundColor: model.cardThemeColor,
-              body: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                child: Container(
-                    child: getGaugeOverviewExample(false, isIndexed)),
-              ),
+            backgroundColor: model.cardThemeColor,
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+              child:
+                  Container(child: getGaugeOverviewExample(false, isIndexed)),
+            ),
           );
         });
   }
-
-
 }
 
 SfRadialGauge getGaugeOverviewExample(bool isTileView, [bool isIndexed]) {
-  return SfRadialGauge(  animationDuration: 3500, enableLoadingAnimation: true,
+  return SfRadialGauge(
+    animationDuration: 3500,
+    enableLoadingAnimation: true,
     axes: <RadialAxis>[
       RadialAxis(
           startAngle: 130,
@@ -73,7 +75,7 @@ SfRadialGauge getGaugeOverviewExample(bool isTileView, [bool isIndexed]) {
           interval: isTileView ? 20 : _interval,
           minorTicksPerInterval: 9,
           showAxisLine: false,
-          radiusFactor:  kIsWeb ? 0.8: 0.9,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
           labelOffset: 8,
           ranges: <GaugeRange>[
             GaugeRange(

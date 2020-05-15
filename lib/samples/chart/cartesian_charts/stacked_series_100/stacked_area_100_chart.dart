@@ -25,13 +25,13 @@ class _StackedAreaChartState extends State<StackedArea100Chart> {
 
 SfCartesianChart getStackedArea100Chart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(
         text: isTileView ? '' : 'Sales comparision of fruits in a shop'),
     legend: Legend(
         isVisible: !isTileView, overflowMode: LegendItemOverflowMode.wrap),
     primaryXAxis: DateTimeAxis(
+      interval: 2,
         majorGridLines: MajorGridLines(width: 0),
         intervalType: DateTimeIntervalType.years,
         dateFormat: DateFormat.y()),
@@ -63,7 +63,8 @@ List<ChartSeries<_ChartData, DateTime>> getStackedAreaSeries(bool isTileView) {
     _ChartData(DateTime(2013, 1, 1), 1.66, 1.55, 0.67, 2.51),
     _ChartData(DateTime(2014, 1, 1), 1.67, 1.65, 0.67, 2.61),
     _ChartData(DateTime(2015, 1, 1), 1.98, 1.96, 0.98, 2.93),
-  ];
+    _ChartData(DateTime(2016, 1, 1), 1.67, 1.65, 0.67, 2.61),
+    ];
   return <ChartSeries<_ChartData, DateTime>>[
     StackedArea100Series<_ChartData, DateTime>(
         animationDuration: 2500,

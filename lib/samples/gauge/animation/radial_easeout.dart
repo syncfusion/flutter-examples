@@ -26,7 +26,6 @@ class _RadialEaseOutAnimationState extends State<RadialEaseOutAnimation> {
 }
 
 SfRadialGauge getRadialEaseOutAnimation(bool isTileView) {
-
   return SfRadialGauge(
     key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
@@ -35,7 +34,7 @@ SfRadialGauge getRadialEaseOutAnimation(bool isTileView) {
           endAngle: 360,
           showTicks: false,
           showLabels: false,
-         canScaleToFit: true,
+          canScaleToFit: true,
           radiusFactor: 0.8,
           minimum: 0,
           maximum: 50,
@@ -47,14 +46,15 @@ SfRadialGauge getRadialEaseOutAnimation(bool isTileView) {
               width: 40,
               color: const Color(0xFF00A8B5),
               value: 40,
-              gradient:  kIsWeb ? null :  const SweepGradient(
-                  colors: <Color>[Color(0xFFD046CA), Color(0xFF6094EA)],
-                  stops: <double>[0.25, 0.75]),
+              gradient: kIsWeb
+                  ? null
+                  : const SweepGradient(
+                      colors: <Color>[Color(0xFFD046CA), Color(0xFF6094EA)],
+                      stops: <double>[0.25, 0.75]),
             ),
             NeedlePointer(
                 knobStyle: KnobStyle(
-                    knobRadius: 5,
-                    sizeUnit: GaugeSizeUnit.logicalPixel),
+                    knobRadius: 5, sizeUnit: GaugeSizeUnit.logicalPixel),
                 needleEndWidth: 2,
                 needleStartWidth: 2,
                 lengthUnit: GaugeSizeUnit.factor,

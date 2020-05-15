@@ -52,8 +52,9 @@ SfCartesianChart getDynamicAnimationChart(bool isTileView,
         majorTickLines: MajorTickLines(size: 0)),
     series: getAnimationData(
         isTileView,
-        isTileView ? 'Column' : isExistModel
-            ? model.properties['SelectedType'] : _selectedType),
+        isTileView
+            ? 'Column'
+            : isExistModel ? model.properties['SelectedType'] : _selectedType),
   );
 }
 

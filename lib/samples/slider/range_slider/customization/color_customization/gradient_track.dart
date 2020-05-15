@@ -8,7 +8,8 @@ import 'package:flutter_examples/samples/slider/slider_utils.dart';
 
 class GradientTrackRangeSlider extends StatefulWidget {
   @override
-  _GradientTrackRangeSliderState createState() => _GradientTrackRangeSliderState();
+  _GradientTrackRangeSliderState createState() =>
+      _GradientTrackRangeSliderState();
 }
 
 LinearGradient get redGradientColor {
@@ -38,8 +39,7 @@ class _GradientTrackRangeSliderState extends State<GradientTrackRangeSlider> {
       data: SfRangeSliderThemeData(
         inactiveTrackColor: _inactiveColor,
         thumbColor: Colors.white,
-        overlayColor:
-        const Color.fromARGB(255, 255, 146, 1).withOpacity(0.12),
+        overlayColor: const Color.fromARGB(255, 255, 146, 1).withOpacity(0.12),
         trackHeight: 8.0,
         trackCornerRadius: 4.0,
       ),
@@ -52,8 +52,8 @@ class _GradientTrackRangeSliderState extends State<GradientTrackRangeSlider> {
             _redGradientSliderValues = values;
           });
         },
-        thumbShape: _ThumbShape(
-            redGradientColor.colors[0], redGradientColor.colors[1]),
+        thumbShape:
+            _ThumbShape(redGradientColor.colors[0], redGradientColor.colors[1]),
         overlayShape: _OverlayShape(
             redGradientColor.colors[0], redGradientColor.colors[1]),
         trackShape: _TrackShape(redGradientColor),
@@ -66,8 +66,7 @@ class _GradientTrackRangeSliderState extends State<GradientTrackRangeSlider> {
       data: SfRangeSliderThemeData(
         inactiveTrackColor: _inactiveColor,
         thumbColor: Colors.white,
-        overlayColor:
-        const Color.fromARGB(255, 0, 238, 217).withOpacity(0.12),
+        overlayColor: const Color.fromARGB(255, 0, 238, 217).withOpacity(0.12),
         trackHeight: 8.0,
         trackCornerRadius: 4.0,
       ),
@@ -95,8 +94,8 @@ class _GradientTrackRangeSliderState extends State<GradientTrackRangeSlider> {
       children: <Widget>[
         TrackColorCustomizedRangeSlider(),
         const SizedBox(height: 25),
-         title('Gradient color'),
-         columnSpacing10,
+        title('Gradient color'),
+        columnSpacing10,
         _redGradientRangeSlider(),
         const SizedBox(height: 25.0),
         _blueGradientRangeSlider()
@@ -114,11 +113,11 @@ class _ThumbShape extends SfThumbShape {
   @override
   void paint(PaintingContext context, Offset center,
       {bool isEnabled,
-        RenderProxyBox parentBox,
-        SfRangeSliderThemeData themeData,
-        Animation<double> animation,
-        TextDirection textDirection,
-        SfThumb thumb}) {
+      RenderProxyBox parentBox,
+      SfRangeSliderThemeData themeData,
+      Animation<double> animation,
+      TextDirection textDirection,
+      SfThumb thumb}) {
     super.paint(context, center,
         isEnabled: isEnabled,
         parentBox: parentBox,
@@ -146,10 +145,10 @@ class _OverlayShape extends SfOverlayShape {
   @override
   void paint(PaintingContext context, Offset center,
       {bool isEnabled,
-        RenderProxyBox parentBox,
-        SfRangeSliderThemeData themeData,
-        Animation<double> animation,
-        SfThumb thumb}) {
+      RenderProxyBox parentBox,
+      SfRangeSliderThemeData themeData,
+      Animation<double> animation,
+      SfThumb thumb}) {
     final double radius = getPreferredSize(themeData, isEnabled).width / 2;
     final Tween<double> tween = Tween<double>(begin: 0.0, end: radius);
 
@@ -169,20 +168,19 @@ class _TrackShape extends SfTrackShape {
   final Gradient gradient;
   @override
   void paint(
-      PaintingContext context,
-      Offset offset,
-      Offset startThumbCenter,
-      Offset endThumbCenter, {
-        bool isEnabled,
-        RenderProxyBox parentBox,
-        SfRangeSliderThemeData themeData,
-        Animation<double> animation,
-        TextDirection textDirection,
-      }) {
-
+    PaintingContext context,
+    Offset offset,
+    Offset startThumbCenter,
+    Offset endThumbCenter, {
+    bool isEnabled,
+    RenderProxyBox parentBox,
+    SfRangeSliderThemeData themeData,
+    Animation<double> animation,
+    TextDirection textDirection,
+  }) {
     final Radius radius = Radius.circular(themeData.trackCornerRadius);
     final Rect actualTrackRect =
-    getPreferredRect(parentBox, themeData, offset, isEnabled);
+        getPreferredRect(parentBox, themeData, offset, isEnabled);
 
     if (endThumbCenter == null) {
       final Paint paint = Paint()
@@ -263,8 +261,7 @@ class _TrackColorCustomizedRangeSliderState
           activeTickColor: _activeColor,
           inactiveMinorTickColor: _inactiveTickColor,
           activeMinorTickColor: _activeColor,
-          inactiveTrackColor: const Color.fromRGBO(194, 194, 194, 0.5)
-      ),
+          inactiveTrackColor: const Color.fromRGBO(194, 194, 194, 0.5)),
       child: SfRangeSlider(
         min: _min,
         max: _max,

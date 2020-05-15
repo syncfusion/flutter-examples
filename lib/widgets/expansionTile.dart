@@ -122,17 +122,17 @@ class _ExpansionTileState extends State<CustomExpansionTile>
                 dense: true,
                 leading: widget.leading,
                 title: Padding(
-                  padding: const EdgeInsets.only(top : 0 , bottom: 5),
+                  padding: const EdgeInsets.only(top: 0, bottom: 5),
                   child: DefaultTextStyle(
                     style: Theme.of(context)
                         .textTheme
-                        .subhead
+                        .subtitle1
                         .copyWith(color: titleColor),
                     child: widget.title,
                   ),
                 ),
                 trailing: Padding(
-                  padding: const EdgeInsets.only(top : 0 , bottom: 5),
+                  padding: const EdgeInsets.only(top: 0, bottom: 5),
                   child: widget.trailing ??
                       RotationTransition(
                         turns: _iconTurns,
@@ -161,7 +161,7 @@ class _ExpansionTileState extends State<CustomExpansionTile>
     final ThemeData theme = Theme.of(context);
     _borderColorTween..end = Colors.transparent;
     _headerColorTween
-      ..begin = theme.textTheme.subhead.color
+      ..begin = theme.textTheme.subtitle1.color
       ..end = theme.accentColor;
     _iconColorTween
       ..begin = theme.unselectedWidgetColor

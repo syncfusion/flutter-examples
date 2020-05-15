@@ -75,9 +75,11 @@ SfRadialGauge getRadialMarkerExample(bool isTileView) {
               startValue: 0,
               endValue: 100,
               sizeUnit: GaugeSizeUnit.factor,
-              gradient: kIsWeb ? null : const SweepGradient(
-                  colors: <Color>[Color(0xFFAB64F5), Color(0xFF62DBF6)],
-                  stops: <double>[0.25, 0.75]),
+              gradient: kIsWeb
+                  ? null
+                  : const SweepGradient(
+                      colors: <Color>[Color(0xFFAB64F5), Color(0xFF62DBF6)],
+                      stops: <double>[0.25, 0.75]),
               startWidth: 0.4,
               endWidth: 0.4,
               color: const Color(0xFF00A8B5),

@@ -28,7 +28,6 @@ class _RangeBarChartState extends State<RangeBarChart> {
 
 SfCartesianChart getRangeBarChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 1,
     title: ChartTitle(
         text: isTileView ? '' : 'Temperature variation – Sydney vs Melbourne'),

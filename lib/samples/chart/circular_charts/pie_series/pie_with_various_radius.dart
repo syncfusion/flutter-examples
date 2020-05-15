@@ -24,7 +24,6 @@ class _PieRadiusState extends State<PieRadius> {
 
 SfCircularChart getRadiusPieChart(bool isTileView) {
   return SfCircularChart(
-    
     title: ChartTitle(
         text:
             isTileView ? '' : 'Various countries population density and area'),

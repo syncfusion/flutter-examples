@@ -228,9 +228,9 @@ class _TrendLineDefaultWithOptionsFrontPanelState
                         fontWeight: FontWeight.normal),
                   ),
                   Container(
-                    padding: const EdgeInsets.fromLTRB(45, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     height: 50,
-                    width: 150,
+                    width: 160,
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Theme(
@@ -242,7 +242,8 @@ class _TrendLineDefaultWithOptionsFrontPanelState
                             return DropdownMenuItem<String>(
                               value: value != null ? value : 'Linear',
                               child: Text('$value',
-                                  style: TextStyle(color: model.textColor, fontSize: 14)),
+                                  style: TextStyle(
+                                      color: model.textColor, fontSize: 14)),
                             );
                           }).toList(),
                           valueChanged: (dynamic value) {

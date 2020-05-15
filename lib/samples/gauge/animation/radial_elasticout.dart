@@ -42,9 +42,11 @@ SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
           minorTicksPerInterval: 4,
           pointers: <GaugePointer>[
             RangePointer(
-                gradient:  kIsWeb ? null :  const SweepGradient(
-                    colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
-                    stops: <double>[0.25, 0.75]),
+                gradient: kIsWeb
+                    ? null
+                    : const SweepGradient(
+                        colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
+                        stops: <double>[0.25, 0.75]),
                 value: 70,
                 width: 5,
                 animationDuration: 2000,
@@ -54,7 +56,7 @@ SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
             NeedlePointer(
                 value: 70,
                 needleStartWidth: 0,
-                needleColor: kIsWeb? null : const Color(0xFFD481FF),
+                needleColor: kIsWeb ? null : const Color(0xFFD481FF),
                 lengthUnit: GaugeSizeUnit.factor,
                 needleLength: 1,
                 enableAnimation: true,

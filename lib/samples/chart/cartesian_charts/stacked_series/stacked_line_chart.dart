@@ -24,7 +24,6 @@ class _StackedLineChartState extends State<StackedLineChart> {
 
 SfCartesianChart getStackedLineChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Monthly expense of a family'),
     legend: Legend(isVisible: !isTileView),

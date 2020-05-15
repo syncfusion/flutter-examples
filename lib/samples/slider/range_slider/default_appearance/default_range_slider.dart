@@ -35,7 +35,8 @@ class _DefaultRangeSliderPageState extends State<DefaultRangeSliderPage> {
     return Scaffold(
       body: MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
           ? rangeSlider
-          : SingleChildScrollView(child: Container(height: 300, child: rangeSlider)),
+          : SingleChildScrollView(
+              child: Container(height: 300, child: rangeSlider)),
     );
   }
 }
@@ -52,11 +53,7 @@ class _DefaultRangeSliderState extends State<DefaultRangeSlider> {
 
   SfRangeSlider _inactiveRangeSlider() {
     //ignore: missing_required_param
-    return SfRangeSlider(
-        min: 0.0,
-        max: 100.0,
-        values: _inactiveSliderValues
-    );
+    return SfRangeSlider(min: 0.0, max: 100.0, values: _inactiveSliderValues);
   }
 
   SfRangeSlider _activeRangeSlider() {
@@ -89,10 +86,10 @@ class _DefaultRangeSliderState extends State<DefaultRangeSlider> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-         title('Enabled'),
+        title('Enabled'),
         _activeRangeSlider(),
-         columnSpacing40,
-         title('Disabled'),
+        columnSpacing40,
+        title('Disabled'),
         _inactiveRangeSlider(),
       ],
     );

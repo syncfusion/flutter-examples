@@ -20,10 +20,12 @@ class CustomListViewRenderer extends RenderBox
         _scrollable = scrollable,
         _callback = callback,
         _overlapHeaders = overlapHeaders {
-    if (content != null) 
+    if (content != null) {
       add(content);
-    if (header != null) 
+    }
+    if (header != null) {
       add(header);
+    }
   }
 
   RenderCustomListViewCallback _callback;
@@ -100,8 +102,7 @@ class CustomListViewRenderer extends RenderBox
     assert(size.isFinite);
 
     // place content underneath header
-    final MultiChildLayoutParentData contentParentData =
-        _contentBox.parentData;
+    final MultiChildLayoutParentData contentParentData = _contentBox.parentData;
     contentParentData.offset =
         Offset(0.0, _overlapHeaders ? 0.0 : headerHeight);
 
@@ -110,8 +111,7 @@ class CustomListViewRenderer extends RenderBox
 
     // place header over content relative to scroll offset
     final double maxOffset = height - headerHeight;
-    final MultiChildLayoutParentData headerParentData =
-        _headerBox.parentData;
+    final MultiChildLayoutParentData headerParentData = _headerBox.parentData;
     headerParentData.offset =
         Offset(0.0, max(0.0, min(-stuckOffset, maxOffset)));
 

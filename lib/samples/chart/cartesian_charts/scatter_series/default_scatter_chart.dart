@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import '../../../../model/helper.dart';
@@ -28,12 +29,16 @@ class _ScatterDefaultState extends State<ScatterDefault> {
 
 SfCartesianChart getDefaultScatterChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Export growth rate'),
     legend: Legend(isVisible: isTileView ? false : true),
     primaryXAxis: DateTimeAxis(
-      labelIntersectAction: AxisLabelIntersectAction.multipleRows,
+      dateFormat: DateFormat.y(),
+      minimum: DateTime(2004, 1, 1),
+      maximum: DateTime(2018, 1, 1),
+      interval: 2,
+      intervalType: DateTimeIntervalType.years,
+      // labelIntersectAction: AxisLabelIntersectAction.multipleRows,
       majorGridLines: MajorGridLines(width: 0),
     ),
     primaryYAxis: NumericAxis(

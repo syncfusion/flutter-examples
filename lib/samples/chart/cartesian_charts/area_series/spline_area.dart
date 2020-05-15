@@ -25,12 +25,14 @@ class _SplineAreaState extends State<SplineArea> {
 
 SfCartesianChart getSplineAreaChart(bool isTileView) {
   return SfCartesianChart(
-    
     legend: Legend(isVisible: isTileView ? false : true, opacity: 0.7),
     title: ChartTitle(text: isTileView ? '' : 'Inflation rate'),
     plotAreaBorderWidth: 0,
     primaryXAxis: NumericAxis(
+        minimum: 2010,
+        maximum: 2018,
         majorGridLines: MajorGridLines(width: 0),
+        interval: 2,
         edgeLabelPlacement: EdgeLabelPlacement.shift),
     primaryYAxis: NumericAxis(
         labelFormat: '{value}%',

@@ -43,9 +43,11 @@ SfRadialGauge getRadialImageAnnotation(bool isTileView) {
                 width: 20,
                 color: const Color(0xFFFFCD60),
                 enableAnimation: true,
-                gradient: kIsWeb ? null : const SweepGradient(
-                    colors: <Color>[Color(0xFFFCE38A), Color(0xFFF38181)],
-                    stops: <double>[0.25, 0.75]),
+                gradient: kIsWeb
+                    ? null
+                    : const SweepGradient(
+                        colors: <Color>[Color(0xFFFCE38A), Color(0xFFF38181)],
+                        stops: <double>[0.25, 0.75]),
                 cornerStyle: CornerStyle.bothCurve)
           ],
           annotations: <GaugeAnnotation>[
@@ -57,7 +59,7 @@ SfRadialGauge getRadialImageAnnotation(bool isTileView) {
                         height: isTileView ? 30.00 : 50.00,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image:ExactAssetImage('images/sun.png'),
+                            image: ExactAssetImage('images/sun.png'),
                             fit: BoxFit.fill,
                           ),
                         )),

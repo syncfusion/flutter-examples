@@ -25,7 +25,6 @@ class _ColumnBackState extends State<ColumnBack> {
 
 SfCartesianChart getBackColumnChart(bool isTileView) {
   return SfCartesianChart(
-    
       plotAreaBorderWidth: 0,
       enableSideBySideSeriesPlacement: false,
       title:
@@ -34,6 +33,7 @@ SfCartesianChart getBackColumnChart(bool isTileView) {
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
+        interval: 2000000,
           majorTickLines: MajorTickLines(size: 0),
           numberFormat: NumberFormat.compact(),
           majorGridLines: MajorGridLines(width: 0),
@@ -48,10 +48,7 @@ List<ColumnSeries<ChartSampleData, String>> getBackToBackColumn(
     ChartSampleData(
         x: 'France', y: 63621381, yValue: 65027507, yValue2: 66316092),
     ChartSampleData(
-        x: 'United Kingdom',
-        y: 60846820,
-        yValue: 62766365,
-        yValue2: 64613160),
+        x: 'United Kingdom', y: 60846820, yValue: 62766365, yValue2: 64613160),
     ChartSampleData(
         x: 'Italy', y: 58143979, yValue: 59277417, yValue2: 60789140),
   ];

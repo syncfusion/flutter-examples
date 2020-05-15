@@ -71,9 +71,11 @@ SfRadialGauge getRangeThicknessExampleGauge(bool isTileView) {
                 startValue: 30,
                 endValue: 100,
                 startWidth: kIsWeb ? 0.2 : 0.05,
-                gradient: kIsWeb ? null : const SweepGradient(
-                    colors: <Color>[Color(0xFF289AB1), Color(0xFF43E695)],
-                    stops: <double>[0.25, 0.75]),
+                gradient: kIsWeb
+                    ? null
+                    : const SweepGradient(
+                        colors: <Color>[Color(0xFF289AB1), Color(0xFF43E695)],
+                        stops: <double>[0.25, 0.75]),
                 color: const Color(0xFF289AB1),
                 rangeOffset: 0.08,
                 endWidth: 0.2,

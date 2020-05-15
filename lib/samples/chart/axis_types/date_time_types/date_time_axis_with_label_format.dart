@@ -22,20 +22,21 @@ class _DateTimeLabelState extends State<DateTimeLabel> {
     const String sourceLink =
         'https://en.wikipedia.org/wiki/List_of_earthquakes_in_Indonesia';
     const String source = 'en.wikipedia.org';
-    return getScopedModel(getLabelDateTimeAxisChart(false),
-        sample, null, sourceLink, source);
+    return getScopedModel(
+        getLabelDateTimeAxisChart(false), sample, null, sourceLink, source);
   }
 }
 
 SfCartesianChart getLabelDateTimeAxisChart(bool isTileView) {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
     title: ChartTitle(text: isTileView ? '' : 'Earthquakes in Indonesia'),
     primaryXAxis: DateTimeAxis(
         intervalType: DateTimeIntervalType.months,
         majorGridLines: MajorGridLines(width: 0),
         interval: 2,
+        minimum: DateTime(2019, 4, 12),
+        maximum: DateTime(2017, 10, 31),
         labelIntersectAction: AxisLabelIntersectAction.rotate45,
         dateFormat: DateFormat.yMd()),
     primaryYAxis: NumericAxis(

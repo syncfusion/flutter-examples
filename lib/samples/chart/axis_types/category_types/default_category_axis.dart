@@ -14,17 +14,15 @@ class CategoryDefault extends StatefulWidget {
 class _CategoryDefaultState extends State<CategoryDefault> {
   _CategoryDefaultState(this.sample);
   final SubItem sample;
- 
- @override
+
+  @override
   Widget build(BuildContext context) {
-    return getScopedModel(
-        getDefaultCategoryAxisChart(false), sample);
+    return getScopedModel(getDefaultCategoryAxisChart(false), sample);
   }
 }
 
 SfCartesianChart getDefaultCategoryAxisChart(bool isTileView) {
   return SfCartesianChart(
-    
     title: ChartTitle(text: isTileView ? '' : 'Internet Users - 2016'),
     plotAreaBorderWidth: 0,
     primaryXAxis: CategoryAxis(
@@ -42,27 +40,17 @@ List<ColumnSeries<ChartSampleData, String>> getDefaultCategory(
     bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
-        x: 'South\nKorea',
-        yValue: 39,
-        pointColor: Colors.teal[300]),
+        x: 'South\nKorea', yValue: 39, pointColor: Colors.teal[300]),
     ChartSampleData(
         x: 'India',
         yValue: 20,
         pointColor: const Color.fromRGBO(53, 124, 210, 1)),
+    ChartSampleData(x: 'South\nAfrica', yValue: 61, pointColor: Colors.pink),
+    ChartSampleData(x: 'China', yValue: 65, pointColor: Colors.orange),
+    ChartSampleData(x: 'France', yValue: 45, pointColor: Colors.green),
     ChartSampleData(
-        x: 'South\nAfrica',
-        yValue: 61,
-        pointColor: Colors.pink),
-    ChartSampleData(
-        x: 'China', yValue: 65, pointColor: Colors.orange),
-    ChartSampleData(
-        x: 'France', yValue: 45, pointColor: Colors.green),
-    ChartSampleData(
-        x: 'Saudi\nArabia',
-        yValue: 10,
-        pointColor: Colors.pink[300]),
-    ChartSampleData(
-        x: 'Japan', yValue: 16, pointColor: Colors.purple[300]),
+        x: 'Saudi\nArabia', yValue: 10, pointColor: Colors.pink[300]),
+    ChartSampleData(x: 'Japan', yValue: 16, pointColor: Colors.purple[300]),
     ChartSampleData(
         x: 'Mexico',
         yValue: 31,

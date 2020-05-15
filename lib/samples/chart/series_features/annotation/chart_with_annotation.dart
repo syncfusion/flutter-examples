@@ -26,7 +26,6 @@ class _AnnotationWatermarkState extends State<AnnotationWatermark> {
 
 SfCartesianChart getWatermarkAnnotationChart(bool isTileView) {
   return SfCartesianChart(
-    
       title: ChartTitle(
           text: isTileView ? '' : 'UK social media reach, by platform'),
       plotAreaBorderWidth: 0,

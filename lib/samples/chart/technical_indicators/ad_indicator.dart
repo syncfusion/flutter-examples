@@ -390,24 +390,23 @@ SfCartesianChart getDefaultAdIndicator(bool isTileView) {
         volume: 84354060),
   ];
   return SfCartesianChart(
-    
     legend: Legend(isVisible: !isTileView),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(width: 0),
-              dateFormat: DateFormat.MMM(),
-              interval:3,
-              minimum: DateTime(2016,01,01),
-              maximum: DateTime(2017,01,01),
-              // labelRotation: 45,
-              ),
-    primaryYAxis: NumericAxis(
-      minimum: 70,
-      maximum: 130,
-      interval: 20,
-      labelFormat: '\${value}',
-      axisLine: AxisLine(width: 0)
+      majorGridLines: MajorGridLines(width: 0),
+      dateFormat: DateFormat.MMM(),
+      interval: 3,
+      intervalType: DateTimeIntervalType.months,
+      minimum: DateTime(2016, 01, 01),
+      maximum: DateTime(2017, 01, 01),
+      // labelRotation: 45,
     ),
+    primaryYAxis: NumericAxis(
+        minimum: 70,
+        maximum: 130,
+        interval: 20,
+        labelFormat: '\${value}',
+        axisLine: AxisLine(width: 0)),
     axes: <ChartAxis>[
       NumericAxis(
         axisLine: AxisLine(width: 0),
@@ -421,19 +420,19 @@ SfCartesianChart getDefaultAdIndicator(bool isTileView) {
       )
     ],
     trackballBehavior: TrackballBehavior(
-        enable: isTileView ? false : true,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isTileView ? true : false),
-      indicators: <TechnicalIndicators<ChartSampleData, dynamic>>[
+      enable: isTileView ? false : true,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+    ),
+    tooltipBehavior: TooltipBehavior(enable: isTileView ? true : false),
+    indicators: <TechnicalIndicators<ChartSampleData, dynamic>>[
       AccumulationDistributionIndicator<ChartSampleData, dynamic>(
         seriesName: 'AAPL',
         yAxisName: 'yaxes',
         // name: 'ad indicator',
       ),
     ],
-    title: ChartTitle(text : isTileView ? '' : 'AAPL - 2016'),
+    title: ChartTitle(text: isTileView ? '' : 'AAPL - 2016'),
     series: <ChartSeries<ChartSampleData, dynamic>>[
       HiloOpenCloseSeries<ChartSampleData, dynamic>(
           emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),

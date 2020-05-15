@@ -25,7 +25,6 @@ class _BubbleDefaultState extends State<BubbleDefault> {
 
 SfCartesianChart getDefaultBubbleChart(bool isTileView) {
   return SfCartesianChart(
-    
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isTileView ? '' : 'World countries details'),
       primaryXAxis: NumericAxis(

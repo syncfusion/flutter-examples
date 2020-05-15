@@ -26,7 +26,7 @@ class _MultipleNeedleExampleState extends State<MultipleNeedleExample> {
 
 SfRadialGauge getMultipleNeedleExample(bool isTileView) {
   return SfRadialGauge(
-    key: kIsWeb? UniqueKey() : null,
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           showAxisLine: false,
@@ -54,7 +54,7 @@ SfRadialGauge getMultipleNeedleExample(bool isTileView) {
           endAngle: 270,
           minimum: 0,
           maximum: 12,
-          radiusFactor:  kIsWeb ? 0.8 : 0.9,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
           showFirstLabel: false,
           interval: 1,
           labelOffset: 10,

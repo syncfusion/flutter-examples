@@ -15,26 +15,28 @@ class DateTimeDefault extends StatefulWidget {
 class _DateTimeDefaultState extends State<DateTimeDefault> {
   _DateTimeDefaultState(this.sample);
   final SubItem sample;
- 
+
   @override
   Widget build(BuildContext context) {
     const String sourceLink =
         'https://www.x-rates.com/graph/?from=USD&to=INR&amount=1';
     const String source = 'www.x-rates.com';
-    return getScopedModel(getDefaultDateTimeAxisChart(false),
-        sample, null, sourceLink, source);
+    return getScopedModel(
+        getDefaultDateTimeAxisChart(false), sample, null, sourceLink, source);
   }
 }
 
 SfCartesianChart getDefaultDateTimeAxisChart(bool isTileView) {
   return SfCartesianChart(
-    
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isTileView
               ? ''
               : 'Euro to USD monthly exchange rate - 2015 to 2018'),
-      primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0),
+      minimum: DateTime(2015, 1, 1),
+      maximum: DateTime(2019, 1, 1),
+      intervalType: DateTimeIntervalType.years),
       primaryYAxis: NumericAxis(
         minimum: 1,
         maximum: 1.35,
@@ -102,7 +104,8 @@ List<LineSeries<ChartSampleData, DateTime>> getDefaultDateTimeSeries(
     ChartSampleData(x: DateTime(2018, 9, 1), yValue: 1.16),
     ChartSampleData(x: DateTime(2018, 10, 1), yValue: 1.13),
     ChartSampleData(x: DateTime(2018, 11, 1), yValue: 1.14),
-    ChartSampleData(x: DateTime(2018, 12, 1), yValue: 1.15)
+    ChartSampleData(x: DateTime(2018, 12, 1), yValue: 1.15),
+    ChartSampleData(x: DateTime(2019, 1, 1), yValue: 1.17)
   ];
   return <LineSeries<ChartSampleData, DateTime>>[
     LineSeries<ChartSampleData, DateTime>(

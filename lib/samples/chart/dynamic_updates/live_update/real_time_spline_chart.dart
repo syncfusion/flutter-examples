@@ -7,7 +7,6 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
-
 //ignore: must_be_immutable
 class LiveUpdate extends StatefulWidget {
   LiveUpdate({this.sample, Key key}) : super(key: key);
@@ -20,16 +19,16 @@ class LiveUpdate extends StatefulWidget {
 Timer timer;
 
 List<ChartSampleData> chartData1 = <ChartSampleData>[
-  ChartSampleData(x:0, y:0),
-  ChartSampleData(x:1, y:-2),
-  ChartSampleData(x:2, y:2),
-  ChartSampleData(x:3, y:0)
+  ChartSampleData(x: 0, y: 0),
+  ChartSampleData(x: 1, y: -2),
+  ChartSampleData(x: 2, y: 2),
+  ChartSampleData(x: 3, y: 0)
 ];
 List<ChartSampleData> chartData2 = <ChartSampleData>[
-  ChartSampleData(x:0, y:0),
-  ChartSampleData(x:1, y:2),
-  ChartSampleData(x:2, y:-2),
-  ChartSampleData(x:3, y:0)
+  ChartSampleData(x: 0, y: 0),
+  ChartSampleData(x: 1, y: 2),
+  ChartSampleData(x: 2, y: -2),
+  ChartSampleData(x: 3, y: 0)
 ];
 bool canStopTimer = false;
 int wave1;
@@ -94,9 +93,10 @@ class LiveHorizontalFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
   LiveHorizontalFrontPanel([this.sample]);
   SubItem sample;
-  
+
   @override
-  _LiveHorizontalFrontPanelState createState() => _LiveHorizontalFrontPanelState(sample);
+  _LiveHorizontalFrontPanelState createState() =>
+      _LiveHorizontalFrontPanelState(sample);
 }
 
 class _LiveHorizontalFrontPanelState extends State<LiveHorizontalFrontPanel> {
@@ -108,12 +108,13 @@ class _LiveHorizontalFrontPanelState extends State<LiveHorizontalFrontPanel> {
       chartData2.clear();
     }
     updateLiveData();
-    timer = Timer.periodic(const Duration(milliseconds: 2), updateData);
+    timer = Timer.periodic(const Duration(milliseconds: 5), updateData);
   }
 
   Timer timer;
 
-  Widget sampleWidget(SampleModel model) => !kIsWeb ? getLiveUpdateChart(false) : getLiveUpdateChart(true);
+  Widget sampleWidget(SampleModel model) =>
+      !kIsWeb ? getLiveUpdateChart(false) : getLiveUpdateChart(true);
   @override
   void dispose() {
     timer?.cancel();
@@ -121,18 +122,18 @@ class _LiveHorizontalFrontPanelState extends State<LiveHorizontalFrontPanel> {
   }
 
   final SubItem sample;
-  
+
   void updateData(Timer timer) {
     setState(() {
       chartData1.removeAt(0);
-      chartData1.add(ChartSampleData(x:
-        wave1,
-       y: math.sin(wave1 * (math.pi / 180.0)),
+      chartData1.add(ChartSampleData(
+        x: wave1,
+        y: math.sin(wave1 * (math.pi / 180.0)),
       ));
       chartData2.removeAt(0);
-      chartData2.add(ChartSampleData(x:
-        wave1,
-        y:math.sin(wave2 * (math.pi / 180.0)),
+      chartData2.add(ChartSampleData(
+        x: wave1,
+        y: math.sin(wave2 * (math.pi / 180.0)),
       ));
       wave1++;
       wave2++;
@@ -141,12 +142,14 @@ class _LiveHorizontalFrontPanelState extends State<LiveHorizontalFrontPanel> {
 
   void updateLiveData() {
     for (int i = 0; i < 180; i++) {
-      chartData1.add(ChartSampleData(x:i, y:math.sin(wave1 * (math.pi / 180.0))));
+      chartData1
+          .add(ChartSampleData(x: i, y: math.sin(wave1 * (math.pi / 180.0))));
       wave1++;
     }
 
     for (int i = 0; i < 180; i++) {
-      chartData2.add(ChartSampleData(x:i, y:math.sin(wave2 * (math.pi / 180.0))));
+      chartData2
+          .add(ChartSampleData(x: i, y: math.sin(wave2 * (math.pi / 180.0))));
       wave2++;
     }
 
@@ -159,26 +162,28 @@ class _LiveHorizontalFrontPanelState extends State<LiveHorizontalFrontPanel> {
         rebuildOnChange: true,
         builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor: model.cardThemeColor,
+              backgroundColor:
+                  model.isWeb ? Colors.transparent : model.cardThemeColor,
               body: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-            child: Container(child: getLiveUpdateChart(false)),
-          ));
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                child: Container(child: getLiveUpdateChart(false)),
+              ));
         });
   }
 }
 
 void updateLiveData() {
   for (int i = 0; i < 180; i++) {
-    chartData1.add(ChartSampleData(x:i, y:math.sin(wave1 * (math.pi / 180.0))));
+    chartData1
+        .add(ChartSampleData(x: i, y: math.sin(wave1 * (math.pi / 180.0))));
     wave1++;
   }
 
   for (int i = 0; i < 180; i++) {
-    chartData2.add(ChartSampleData(x:i,y: math.sin(wave2 * (math.pi / 180.0))));
+    chartData2
+        .add(ChartSampleData(x: i, y: math.sin(wave2 * (math.pi / 180.0))));
     wave2++;
   }
 
   wave1 = chartData1.length;
 }
-

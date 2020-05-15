@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class FunnelLegend extends StatefulWidget {
   FunnelLegend({this.sample, Key key}) : super(key: key);
   SubItem sample;
-  
+
   @override
   _FunnelLegendState createState() => _FunnelLegendState(sample);
 }
@@ -15,12 +15,13 @@ class FunnelLegend extends StatefulWidget {
 class _FunnelLegendState extends State<FunnelLegend> {
   _FunnelLegendState(this.sample);
   final SubItem sample;
-  
+
   @override
   Widget build(BuildContext context) {
-     return getScopedModel(getLegendFunnelChart(false), sample);
+    return getScopedModel(getLegendFunnelChart(false), sample);
   }
 }
+
 SfFunnelChart getLegendFunnelChart(bool isTileView) {
   return SfFunnelChart(
     smartLabelMode: SmartLabelMode.none,
@@ -35,19 +36,19 @@ SfFunnelChart getLegendFunnelChart(bool isTileView) {
 
 FunnelSeries<ChartSampleData, String> _getFunnelSeries(bool isTileView) {
   final List<ChartSampleData> pieData = <ChartSampleData>[
-    ChartSampleData(x:'Others', y:10, text:'10%'),
-    ChartSampleData(x:'Medical ', y:11, text:'11%'),
-    ChartSampleData(x:'Saving ', y:14, text:'14%'),
-    ChartSampleData(x:'Shopping',y: 17, text:'17%'),
-    ChartSampleData(x:'Travel', y:21, text:'21%'),
-    ChartSampleData(x:'Food', y:27, text:'27%'),
+    ChartSampleData(x: 'Others', y: 10, text: '10%'),
+    ChartSampleData(x: 'Medical ', y: 11, text: '11%'),
+    ChartSampleData(x: 'Saving ', y: 14, text: '14%'),
+    ChartSampleData(x: 'Shopping', y: 17, text: '17%'),
+    ChartSampleData(x: 'Travel', y: 21, text: '21%'),
+    ChartSampleData(x: 'Food', y: 27, text: '27%'),
   ];
   return FunnelSeries<ChartSampleData, String>(
-        dataSource: pieData,
-        textFieldMapper: (ChartSampleData data, _) => data.text,
-        xValueMapper: (ChartSampleData data, _) => data.x,
-        yValueMapper: (ChartSampleData data, _) => data.y,
-        dataLabelSettings: DataLabelSettings(
-            isVisible: isTileView ? false : true,
-            labelPosition: ChartDataLabelPosition.inside));
+      dataSource: pieData,
+      textFieldMapper: (ChartSampleData data, _) => data.text,
+      xValueMapper: (ChartSampleData data, _) => data.x,
+      yValueMapper: (ChartSampleData data, _) => data.y,
+      dataLabelSettings: DataLabelSettings(
+          isVisible: isTileView ? false : true,
+          labelPosition: ChartDataLabelPosition.inside));
 }

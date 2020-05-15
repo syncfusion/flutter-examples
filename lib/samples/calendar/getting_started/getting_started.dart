@@ -6,7 +6,7 @@ import 'package:flutter_examples/model/model.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter_examples/widgets/shared/mobile.dart'
-if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
+    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
 import '../../../widgets/bottom_sheet.dart';
 import '../../../widgets/customDropDown.dart';

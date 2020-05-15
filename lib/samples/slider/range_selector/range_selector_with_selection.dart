@@ -154,11 +154,11 @@ class _RangeSelectorSelectionPageState extends State<RangeSelectorSelectionPage>
                             const Color.fromRGBO(194, 194, 194, 1),
                         activeLabelStyle: TextStyle(
                             fontSize: 12,
-                            color: themeData.textTheme.body2.color
+                            color: themeData.textTheme.bodyText1.color
                                 .withOpacity(0.87)),
                         inactiveLabelStyle: TextStyle(
                             fontSize: 12,
-                            color: themeData.textTheme.body2.color
+                            color: themeData.textTheme.bodyText1.color
                                 .withOpacity(0.87)),
                         inactiveRegionColor: Colors.transparent),
                     child: SfRangeSelector(
