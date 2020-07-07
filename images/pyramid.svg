@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="70px" height="70px" viewBox="0 0 70 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Pyramid</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#0CCAC4" offset="0%"></stop>
+            <stop stop-color="#0E76C9" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Pyramid" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M61.116,54 L67,65 L3,65 L8.849,54 L61.116,54 Z M53.092,39 L58.679,49.444 L11.272,49.444 L16.825,39 L53.092,39 Z M45.068,24 L50.952,35 L18.952,35 L24.801,24 L45.068,24 Z M34.9049061,5 L42.928,20 L26.928,20 L34.9049061,5 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+    </g>
+</svg>

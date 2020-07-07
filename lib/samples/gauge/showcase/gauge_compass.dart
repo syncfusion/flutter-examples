@@ -1,0 +1,128 @@
+import 'package:flutter_examples/model/sample_view.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+class GaugeCompassExample extends SampleView {
+  const GaugeCompassExample(Key key) : super(key: key);
+
+  @override
+  _GaugeCompassExampleState createState() => _GaugeCompassExampleState();
+}
+
+class _GaugeCompassExampleState extends SampleViewState {
+  _GaugeCompassExampleState();
+
+  @override
+  Widget build(BuildContext context) {
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      _annotationTextSize = 22;
+      _markerOffset = 0.71;
+      _positionFactor = 0.025;
+      _markerHeight = 10;
+      _markerWidth = 15;
+      _labelFontSize = 11;
+    } else {
+      _annotationTextSize = kIsWeb ? 22 : 16;
+      _markerOffset =  kIsWeb ? 0.71 : 0.69;
+      _positionFactor = kIsWeb ? 0.025 : 0.05;
+      _markerHeight = kIsWeb ? 10 : 5;
+      _markerWidth = kIsWeb ? 15: 10;
+      _labelFontSize = kIsWeb ? 11: 10;
+    }
+    final Widget _widget = SfRadialGauge(
+      axes: <RadialAxis>[
+        RadialAxis(
+            showAxisLine: false,
+            radiusFactor: 1,
+            showLastLabel: false,
+            needsRotateLabels: true,
+            tickOffset: 0.32,
+            offsetUnit: GaugeSizeUnit.factor,
+            onLabelCreated: _axisLabelCreated,
+            startAngle: 270,
+            endAngle: 270,
+            labelOffset: 0.05,
+            maximum: 360,
+            minimum: 0,
+            interval: 30,
+            minorTicksPerInterval: 4,
+            axisLabelStyle: GaugeTextStyle(
+                color: const Color(0xFF949494),
+                fontSize: isCardView ? 10 : _labelFontSize),
+            minorTickStyle: MinorTickStyle(
+                color: const Color(0xFF616161),
+                thickness: 1.6,
+                length: 0.058,
+                lengthUnit: GaugeSizeUnit.factor),
+            majorTickStyle: MajorTickStyle(
+                color: const Color(0xFF949494),
+                thickness: 2.3,
+                length: 0.087,
+                lengthUnit: GaugeSizeUnit.factor),
+            backgroundImage: const AssetImage('images/dark_theme_gauge.png'),
+            pointers: <GaugePointer>[
+              MarkerPointer(
+                  value: 90,
+                  color: const Color(0xFFDF5F2D),
+                  enableAnimation: true,
+                  animationDuration: 1200,
+                  markerOffset: isCardView ? 0.69 : _markerOffset,
+                  offsetUnit: GaugeSizeUnit.factor,
+                  markerType: MarkerType.triangle,
+                  markerHeight: isCardView  ? 8 : _markerHeight,
+                  markerWidth: isCardView  ? 8 : _markerWidth)
+            ],
+            annotations: <GaugeAnnotation>[
+              GaugeAnnotation(
+                  angle: 270,
+                  positionFactor: _positionFactor,
+                  widget: Text(
+                    '90',
+                    style: TextStyle(
+                        color: const Color(0xFFDF5F2D),
+                        fontWeight: FontWeight.bold,
+                        fontSize: isCardView  ? 16 : _annotationTextSize),
+                  ))
+            ])
+      ],
+    );
+    if (kIsWeb) {
+      return Padding(
+        padding: const EdgeInsets.all(35),
+        child: _widget,
+      );
+    } else {
+      return _widget;
+    }
+  }
+
+  void _axisLabelCreated(AxisLabelCreatedArgs args) {
+    if (args.text == '90') {
+      args.text = 'E';
+      args.labelStyle = GaugeTextStyle(
+          color: const Color(0xFFDF5F2D),
+          fontSize: isCardView ? 10 : _labelFontSize);
+    } else {
+      if (args.text == '0') {
+        args.text = 'N';
+      } else if (args.text == '180') {
+        args.text = 'S';
+      } else if (args.text == '270') {
+        args.text = 'W';
+      }
+
+      args.labelStyle = GaugeTextStyle(
+          color: const Color(0xFFFFFFFF),
+          fontSize: isCardView ? 10 : _labelFontSize);
+    }
+  }
+
+  double _annotationTextSize = 22;
+  double _positionFactor = 0.025;
+  double _markerHeight = 10;
+  double _markerWidth = 15;
+  double _markerOffset = 0.71;
+  double _labelFontSize = 10;
+}
+
