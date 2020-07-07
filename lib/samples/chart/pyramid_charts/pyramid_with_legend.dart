@@ -1,29 +1,28 @@
-/// Package import
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
+//ignore: must_be_immutable
+class PyramidLegend extends StatefulWidget {
+  PyramidLegend({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
-/// Local imports
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-
-class PyramidLegend extends SampleView {
-  const PyramidLegend(Key key) : super(key: key);
-  
   @override
-  _PyramidLegendState createState() => _PyramidLegendState();
+  _PyramidLegendState createState() => _PyramidLegendState(sample);
 }
 
-class _PyramidLegendState extends SampleViewState {
-  _PyramidLegendState();
+class _PyramidLegendState extends State<PyramidLegend> {
+  _PyramidLegendState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getLegendPyramidChart();
+    return getScopedModel(getLegendPyramidChart(false), sample);
   }
+}
 
-SfPyramidChart getLegendPyramidChart() {
+SfPyramidChart getLegendPyramidChart(bool isTileView) {
   return SfPyramidChart(
     onTooltipRender: (TooltipArgs args) {
       List<String> data;
@@ -40,15 +39,14 @@ SfPyramidChart getLegendPyramidChart() {
     },
     smartLabelMode: SmartLabelMode.none,
     title:
-        ChartTitle(text: isCardView ? '' : 'Experience of employees in a team'),
+        ChartTitle(text: isTileView ? '' : 'Experience of employees in a team'),
     legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
-    /// To enable the legend for pyramid. And to cusmize the legend options here.
     tooltipBehavior: TooltipBehavior(enable: true),
-    series: _getPyramidSeries(isCardView),
+    series: _getPyramidSeries(isTileView),
   );
 }
 
-PyramidSeries<ChartSampleData, String> _getPyramidSeries(bool isCardView) {
+PyramidSeries<ChartSampleData, String> _getPyramidSeries(bool isTileView) {
   final List<ChartSampleData> pieData = <ChartSampleData>[
     ChartSampleData(x: 'Ray', y: 7.3),
     ChartSampleData(
@@ -77,7 +75,6 @@ PyramidSeries<ChartSampleData, String> _getPyramidSeries(bool isCardView) {
       xValueMapper: (ChartSampleData data, _) => data.x,
       yValueMapper: (ChartSampleData data, _) => data.y,
       dataLabelSettings: DataLabelSettings(
-          isVisible: isCardView ? false : true,
+          isVisible: isTileView ? false : true,
           labelPosition: ChartDataLabelPosition.inside));
-}
 }

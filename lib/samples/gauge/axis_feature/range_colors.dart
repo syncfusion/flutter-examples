@@ -1,25 +1,29 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class RangeColorForLabels extends SampleView {
-  const RangeColorForLabels(Key key) : super(key: key);
-  
+class RangeColorForLabels extends StatefulWidget {
+  RangeColorForLabels({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
-  _RangeColorForLabelsState createState() => _RangeColorForLabelsState();
+  _RangeColorForLabelsState createState() => _RangeColorForLabelsState(sample);
 }
 
-class _RangeColorForLabelsState extends SampleViewState {
-  _RangeColorForLabelsState();
-  
+class _RangeColorForLabelsState extends State<RangeColorForLabels> {
+  _RangeColorForLabelsState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRangeColorForLabels();
+    return getScopedModel(getRangeColorForLabels(false), sample);
   }
+}
 
-SfRadialGauge getRangeColorForLabels() {
+SfRadialGauge getRangeColorForLabels(bool isTileView) {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -69,5 +73,4 @@ SfRadialGauge getRangeColorForLabels() {
           ])
     ],
   );
-}
 }

@@ -36,15 +36,15 @@ class _ShapeCustomizedRangeSliderPageState
   Widget build(BuildContext context) {
     return Scaffold(
         body:
-        MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
-            ? rangeSlider
-            : SingleChildScrollView(
-            child: Container(
-                height: 500,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                  child: Container(child: rangeSlider),
-                ))));
+            MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+                ? rangeSlider
+                : SingleChildScrollView(
+                    child: Container(
+                        height: 500,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                          child: Container(child: rangeSlider),
+                        ))));
   }
 }
 
@@ -55,8 +55,8 @@ class ShapeCustomizedRangeSlider extends StatefulWidget {
       _ShapeCustomizedRangeSliderState();
 }
 
-class _ShapeCustomizedRangeSliderState extends State<ShapeCustomizedRangeSlider> {
-
+class _ShapeCustomizedRangeSliderState
+    extends State<ShapeCustomizedRangeSlider> {
   Widget _getWebLayout() {
     return Container(
       alignment: Alignment.center,

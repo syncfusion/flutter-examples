@@ -1,44 +1,39 @@
-/// Package import
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
+//ignore: must_be_immutable
+class DoughnutRounded extends StatefulWidget {
+  DoughnutRounded({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
-/// Local imports
-import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
-
-/// Render the rounded corner doughnut series.
-class DoughnutRounded extends SampleView {
-  const DoughnutRounded(Key key) : super(key: key);
-  
   @override
-  _DoughnutRoundedState createState() => _DoughnutRoundedState();
+  _DoughnutRoundedState createState() => _DoughnutRoundedState(sample);
 }
 
-/// State class of rounded corner doughnut series.
-class _DoughnutRoundedState extends SampleViewState {
-  _DoughnutRoundedState();
+class _DoughnutRoundedState extends State<DoughnutRounded> {
+  _DoughnutRoundedState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getRoundedDoughnutChart();
+    return getScopedModel(getRoundedDoughnutChart(false), sample);
   }
+}
 
-/// Returns the circular charts with rounded corner doughnut series.
-SfCircularChart getRoundedDoughnutChart() {
+SfCircularChart getRoundedDoughnutChart(bool isTileView) {
   return SfCircularChart(
     legend: Legend(
-        isVisible: isCardView ? false : true,
+        isVisible: isTileView ? false : true,
         overflowMode: LegendItemOverflowMode.wrap),
-    title: ChartTitle(text: isCardView ? '' : 'Software development cycle'),
-    series: getRoundedDoughnutSeries(isCardView),
+    title: ChartTitle(text: isTileView ? '' : 'Software development cycle'),
+    series: getRoundedDoughnutSeries(isTileView),
   );
 }
 
-/// Returns the list of rounded corner doughunut series.
 List<DoughnutSeries<ChartSampleData, String>> getRoundedDoughnutSeries(
-    bool isCardView) {
+    bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x: 'Planning', y: 10),
     ChartSampleData(x: 'Analysis', y: 10),
@@ -58,5 +53,4 @@ List<DoughnutSeries<ChartSampleData, String>> getRoundedDoughnutSeries(
       yValueMapper: (ChartSampleData data, _) => data.y,
     ),
   ];
-}
 }

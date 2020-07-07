@@ -1,27 +1,31 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class RadialTickCustomization extends SampleView {
-  const RadialTickCustomization(Key key) : super(key: key);
+class RadialTickCustomization extends StatefulWidget {
+  RadialTickCustomization({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
   _RadialTickCustomizationState createState() =>
-      _RadialTickCustomizationState();
+      _RadialTickCustomizationState(sample);
 }
 
-class _RadialTickCustomizationState extends SampleViewState {
-  _RadialTickCustomizationState();
+class _RadialTickCustomizationState extends State<RadialTickCustomization> {
+  _RadialTickCustomizationState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getRadialTickCustomization();
+    return getScopedModel(getRadialTickCustomization(false), sample);
   }
+}
 
-SfRadialGauge getRadialTickCustomization() {
+SfRadialGauge getRadialTickCustomization(bool isTileView) {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -72,5 +76,4 @@ SfRadialGauge getRadialTickCustomization() {
   );
 }
 
-final Color _tickCustomizationNeedleColor = const Color(0xFF494CA2);
-}
+Color _tickCustomizationNeedleColor = const Color(0xFF494CA2);

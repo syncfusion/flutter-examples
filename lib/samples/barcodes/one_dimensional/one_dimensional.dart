@@ -1,23 +1,27 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/foundation.dart';
 
-class OneDimensionalBarcodes extends SampleView{
- const OneDimensionalBarcodes({Key key}) : super(key: key);
+//ignore: must_be_immutable
+class OneDimensionalBarcodes extends StatefulWidget {
+  OneDimensionalBarcodes({this.sample, Key key}) : super(key: key);
+  SubItem sample;
   @override
   _OneDimensionalBarcodesState createState() =>
-      _OneDimensionalBarcodesState();
+      _OneDimensionalBarcodesState(sample);
 }
 
-class _OneDimensionalBarcodesState extends SampleViewState {
-  _OneDimensionalBarcodesState();
+class _OneDimensionalBarcodesState extends State<OneDimensionalBarcodes> {
+  _OneDimensionalBarcodesState(this.sample);
 
+  final SubItem sample;
   bool panelOpen;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   List<String> subjectCollection;
   List<Color> colorCollection;
-  
+  Widget sampleWidget(SampleModel model) => OneDimensionalBarcodes();
 
   @override
   void initState() {
@@ -48,8 +52,12 @@ class _OneDimensionalBarcodesState extends SampleViewState {
 
       _padding = EdgeInsets.fromLTRB(_margin, 20, _margin, 0);
     }
-    return Scaffold(
-            backgroundColor: model.isWeb ? Colors.transparent : model.cardThemeColor,
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
+          return Scaffold(
+            backgroundColor:
+                model.isWeb ? Colors.transparent : model.cardThemeColor,
             body: Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
               child: Padding(
@@ -58,6 +66,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
               ),
             ),
           );
+        });
   }
 }
 

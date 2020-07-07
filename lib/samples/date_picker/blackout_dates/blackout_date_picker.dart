@@ -2,22 +2,28 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class BlackoutDatePicker extends SampleView {
-  const BlackoutDatePicker(Key key) : super(key: key);
+//ignore: must_be_immutable
+class BlackoutDatePicker extends StatefulWidget {
+  BlackoutDatePicker({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _BlackoutDatePickerState createState() => _BlackoutDatePickerState();
+  _BlackoutDatePickerState createState() => _BlackoutDatePickerState(sample);
 }
 
-class _BlackoutDatePickerState extends SampleViewState {
-  _BlackoutDatePickerState();
+class _BlackoutDatePickerState extends State<BlackoutDatePicker> {
+  _BlackoutDatePickerState(this.sample);
 
+  final SubItem sample;
   bool panelOpen;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   List<DateTime> _blackoutDates;
+
+  Widget sampleWidget(SampleModel model) => BlackoutDatePicker();
 
   @override
   void initState() {
@@ -53,42 +59,43 @@ class _BlackoutDatePickerState extends SampleViewState {
 
   @override
   Widget build([BuildContext context]) {
-    final Widget _cardView = Card(
-      elevation: 10,
-      margin: model.isWeb
-          ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
-          : const EdgeInsets.all(30),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-        color:
-            model.isWeb ? model.webSampleBackgroundColor : model.cardThemeColor,
-        child: Theme(
-            data: model.themeData.copyWith(accentColor: model.backgroundColor),
-            child: getBlackoutDatePicker(_blackoutDates)),
-      ),
-    );
-    return Scaffold(
-        backgroundColor: model.themeData == null ||
-                model.themeData.brightness == Brightness.light
-            ? null
-            : const Color(0x171A21),
-        body: Column(children: <Widget>[
-          Expanded(
-              flex: model.isWeb ? 9 : 8,
-              child: kIsWeb
-                  ? Center(
-                      child:
-                          Container(width: 400, height: 600, child: _cardView))
-                  : _cardView),
-          Expanded(flex: model.isWeb ? 1 : 2, child: Container())
-        ]));
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
+          final Widget _cardView = Card(
+            elevation: 10,
+            margin: model.isWeb
+                ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
+                : const EdgeInsets.all(30),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+              color: model.cardThemeColor,
+              child: getBlackoutDatePicker(_blackoutDates),
+            ),
+          );
+          return Scaffold(
+              backgroundColor: model.themeData == null ||
+                      model.themeData.brightness == Brightness.light
+                  ? null
+                  : Colors.black,
+              body: Column(children: <Widget>[
+                Expanded(
+                    flex: model.isWeb ? 9 : 8,
+                    child: kIsWeb
+                        ? Center(
+                            child: Container(
+                                width: 400, height: 600, child: _cardView))
+                        : _cardView),
+                Expanded(flex: model.isWeb ? 1 : 2, child: Container())
+              ]));
+        });
   }
 }
 
 SfDateRangePicker getBlackoutDatePicker([List<DateTime> dates]) {
   return SfDateRangePicker(
     monthCellStyle: DateRangePickerMonthCellStyle(
-        blackoutDateTextStyle: const TextStyle(
+        blackoutDateTextStyle: TextStyle(
             color: Colors.red, decoration: TextDecoration.lineThrough)),
     monthViewSettings: DateRangePickerMonthViewSettings(
         showTrailingAndLeadingDates: true, blackoutDates: dates),

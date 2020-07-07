@@ -1,22 +1,29 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class CustomizedDatePicker extends SampleView {
-  const CustomizedDatePicker(Key key) : super(key: key);
+//ignore: must_be_immutable
+class CustomizedDatePicker extends StatefulWidget {
+  CustomizedDatePicker({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _CustomizedDatePickerState createState() => _CustomizedDatePickerState();
+  _CustomizedDatePickerState createState() =>
+      _CustomizedDatePickerState(sample);
 }
 
-class _CustomizedDatePickerState extends SampleViewState {
-  _CustomizedDatePickerState();
+class _CustomizedDatePickerState extends State<CustomizedDatePicker> {
+  _CustomizedDatePickerState(this.sample);
 
+  final SubItem sample;
   bool panelOpen;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   List<DateTime> _specialDates;
+
+  Widget sampleWidget(SampleModel model) => CustomizedDatePicker();
 
   @override
   void initState() {
@@ -54,34 +61,36 @@ class _CustomizedDatePickerState extends SampleViewState {
 
   @override
   Widget build([BuildContext context]) {
-    final Widget _datePicker = Card(
-      elevation: 10,
-      margin: model.isWeb
-          ? const EdgeInsets.fromLTRB(30, 60, 30, 0)
-          : const EdgeInsets.all(30),
-      child: Container(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          color: model.isWeb
-              ? model.webSampleBackgroundColor
-              : model.cardThemeColor,
-          child: getCustomizedDatePicker(_specialDates, model.themeData)),
-    );
-    return Scaffold(
-      backgroundColor: model.themeData == null ||
-              model.themeData.brightness == Brightness.light
-          ? null
-          :  const Color(0x171A21),
-      body: Column(children: <Widget>[
-        Expanded(
-            flex: model.isWeb ? 9 : 8,
-            child: kIsWeb
-                ? Center(
-                    child:
-                        Container(width: 400, height: 600, child: _datePicker))
-                : _datePicker),
-        Expanded(flex: model.isWeb ? 1 : 2, child: Container())
-      ]),
-    );
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
+          final Widget _datePicker = Card(
+            elevation: 10,
+            margin: model.isWeb
+                ? const EdgeInsets.fromLTRB(30, 60, 30, 0)
+                : const EdgeInsets.all(30),
+            child: Container(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+                color: model.cardThemeColor,
+                child: getCustomizedDatePicker(_specialDates, model.themeData)),
+          );
+          return Scaffold(
+            backgroundColor: model.themeData == null ||
+                    model.themeData.brightness == Brightness.light
+                ? null
+                : Colors.black,
+            body: Column(children: <Widget>[
+              Expanded(
+                  flex: model.isWeb ? 9 : 8,
+                  child: kIsWeb
+                      ? Center(
+                          child: Container(
+                              width: 400, height: 600, child: _datePicker))
+                      : _datePicker),
+              Expanded(flex: model.isWeb ? 1 : 2, child: Container())
+            ]),
+          );
+        });
   }
 }
 
@@ -102,9 +111,6 @@ SfDateRangePicker getCustomizedDatePicker(
 
   return SfDateRangePicker(
     selectionShape: DateRangePickerSelectionShape.rectangle,
-    selectionColor: highlightColor,
-    selectionTextStyle:
-        TextStyle(color: isDark ? Colors.black : Colors.white, fontSize: 14),
     minDate: DateTime.now().add(const Duration(days: -200)),
     maxDate: DateTime.now().add(const Duration(days: 500)),
     headerStyle: DateRangePickerHeaderStyle(
@@ -132,11 +138,14 @@ SfDateRangePicker getCustomizedDatePicker(
       disabledDatesTextStyle: TextStyle(
         color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe),
       ),
+      selectionColor: highlightColor,
       weekendTextStyle: TextStyle(
         color: highlightColor,
       ),
       textStyle: TextStyle(color: cellTextColor, fontSize: 14),
       specialDatesTextStyle: TextStyle(color: cellTextColor, fontSize: 14),
+      selectionTextStyle:
+          TextStyle(color: isDark ? Colors.black : Colors.white, fontSize: 14),
       todayTextStyle: TextStyle(color: highlightColor, fontSize: 14),
     ),
     yearCellStyle: DateRangePickerYearCellStyle(

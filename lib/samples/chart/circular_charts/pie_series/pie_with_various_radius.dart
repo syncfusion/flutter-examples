@@ -1,46 +1,41 @@
-/// Package import
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
+//ignore: must_be_immutable
+class PieRadius extends StatefulWidget {
+  PieRadius({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
-/// Local imports
-import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
-
-/// Render the pie series with various radius.
-class PieRadius extends SampleView {
-  const PieRadius(Key key) : super(key: key);
-  
   @override
-  _PieRadiusState createState() => _PieRadiusState();
+  _PieRadiusState createState() => _PieRadiusState(sample);
 }
 
-/// State class of pie series with various radius.
-class _PieRadiusState extends SampleViewState {
-  _PieRadiusState();
+class _PieRadiusState extends State<PieRadius> {
+  _PieRadiusState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getRadiusPieChart();
+    return getScopedModel(getRadiusPieChart(false), sample);
   }
+}
 
-/// Returns the circular charts with pie series.
-SfCircularChart getRadiusPieChart() {
+SfCircularChart getRadiusPieChart(bool isTileView) {
   return SfCircularChart(
     title: ChartTitle(
         text:
-            isCardView ? '' : 'Various countries population density and area'),
+            isTileView ? '' : 'Various countries population density and area'),
     legend: Legend(
-        isVisible: isCardView ? false : true,
+        isVisible: isTileView ? false : true,
         overflowMode: LegendItemOverflowMode.wrap),
-    series: _getRadiusPieSeries(isCardView),
+    series: _getRadiusPieSeries(isTileView),
     tooltipBehavior: TooltipBehavior(enable: true),
   );
 }
 
-/// Returns the list of pie series.
-List<PieSeries<ChartSampleData, String>> _getRadiusPieSeries(bool isCardView) {
+List<PieSeries<ChartSampleData, String>> _getRadiusPieSeries(bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x: 'Argentina', y: 505370, text: '45%'),
     ChartSampleData(x: 'Belgium', y: 551500, text: '53.7%'),
@@ -62,5 +57,4 @@ List<PieSeries<ChartSampleData, String>> _getRadiusPieSeries(bool isCardView) {
         dataLabelSettings: DataLabelSettings(
             isVisible: true, labelPosition: ChartDataLabelPosition.outside))
   ];
-}
 }

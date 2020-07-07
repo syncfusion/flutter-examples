@@ -1,36 +1,44 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class GaugeOverviewExample extends SampleView {
-  const GaugeOverviewExample(Key key) : super(key: key);
-  
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
+
+// ignore: must_be_immutable
+class GaugeOverviewExample extends StatefulWidget {
+  GaugeOverviewExample({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _GaugeOverviewExampleState createState() =>
-      _GaugeOverviewExampleState();
+      _GaugeOverviewExampleState(sample);
 }
 
-class _GaugeOverviewExampleState extends SampleViewState {
-  _GaugeOverviewExampleState();
+class _GaugeOverviewExampleState extends State<GaugeOverviewExample> {
+  _GaugeOverviewExampleState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return GaugeOverviewFrontPanel();
+    return getScopedModel(null, sample, GaugeOverviewFrontPanel(sample));
   }
 }
 
-class GaugeOverviewFrontPanel extends SampleView {
+class GaugeOverviewFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  GaugeOverviewFrontPanel();
+  GaugeOverviewFrontPanel(this.sample);
+  final SubItem sample;
 
   @override
   _GaugeOverviewFrontPanelState createState() =>
-      _GaugeOverviewFrontPanelState();
+      _GaugeOverviewFrontPanelState(sample);
 }
 
-class _GaugeOverviewFrontPanelState extends SampleViewState {
-  _GaugeOverviewFrontPanelState();
+class _GaugeOverviewFrontPanelState extends State<GaugeOverviewFrontPanel> {
+  _GaugeOverviewFrontPanelState(this.sample);
+  final SubItem sample;
   bool isIndexed = true;
 
   @override
@@ -39,17 +47,22 @@ class _GaugeOverviewFrontPanelState extends SampleViewState {
       _interval =
           MediaQuery.of(context).orientation == Orientation.portrait ? 10 : 20;
     });
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor:  model.isWeb ? Colors.transparent : model.cardThemeColor,
+            backgroundColor: model.cardThemeColor,
             body: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
               child:
-                  Container(child: getGaugeOverviewExample(isIndexed)),
+                  Container(child: getGaugeOverviewExample(false, isIndexed)),
             ),
           );
+        });
   }
+}
 
-SfRadialGauge getGaugeOverviewExample(bool isIndexed) {
+SfRadialGauge getGaugeOverviewExample(bool isTileView, [bool isIndexed]) {
   return SfRadialGauge(
     animationDuration: 3500,
     enableLoadingAnimation: true,
@@ -59,7 +72,7 @@ SfRadialGauge getGaugeOverviewExample(bool isIndexed) {
           endAngle: 50,
           minimum: -50,
           maximum: 150,
-          interval: isCardView ? 20 : _interval,
+          interval: isTileView ? 20 : _interval,
           minorTicksPerInterval: 9,
           showAxisLine: false,
           radiusFactor: kIsWeb ? 0.8 : 0.9,
@@ -124,26 +137,26 @@ SfRadialGauge getGaugeOverviewExample(bool isIndexed) {
               value: 22.5,
               needleLength: 0.6,
               lengthUnit: GaugeSizeUnit.factor,
-              needleStartWidth: isCardView ? 0 : 1,
-              needleEndWidth: isCardView ? 5 : 8,
+              needleStartWidth: isTileView ? 0 : 1,
+              needleEndWidth: isTileView ? 5 : 8,
               animationType: AnimationType.easeOutBack,
               enableAnimation: true,
               animationDuration: 1200,
               knobStyle: KnobStyle(
-                  knobRadius: isCardView ? 0.06 : 0.09,
+                  knobRadius: isTileView ? 0.06 : 0.09,
                   sizeUnit: GaugeSizeUnit.factor,
                   borderColor: const Color(0xFFF8B195),
                   color: Colors.white,
-                  borderWidth: isCardView ? 0.035 : 0.05),
+                  borderWidth: isTileView ? 0.035 : 0.05),
               tailStyle: TailStyle(
                   color: const Color(0xFFF8B195),
-                  width: isCardView ? 4 : 8,
+                  width: isTileView ? 4 : 8,
                   lengthUnit: GaugeSizeUnit.factor,
-                  length: isCardView ? 0.15 : 0.2),
+                  length: isTileView ? 0.15 : 0.2),
               needleColor: const Color(0xFFF8B195),
             )
           ],
-          axisLabelStyle: GaugeTextStyle(fontSize: isCardView ? 10 : 12),
+          axisLabelStyle: GaugeTextStyle(fontSize: isTileView ? 10 : 12),
           majorTickStyle: MajorTickStyle(
               length: 0.25, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
           minorTickStyle: MinorTickStyle(
@@ -153,4 +166,3 @@ SfRadialGauge getGaugeOverviewExample(bool isIndexed) {
 }
 
 double _interval = 10;
-}

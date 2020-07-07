@@ -80,8 +80,7 @@ class CustomListViewBuilder extends StatefulWidget {
   final bool overlapHeaders;
 
   @override
-  _CustomListViewBuilderState createState() =>
-      _CustomListViewBuilderState();
+  _CustomListViewBuilderState createState() => _CustomListViewBuilderState();
 }
 
 class _CustomListViewBuilderState extends State<CustomListViewBuilder> {
@@ -92,7 +91,8 @@ class _CustomListViewBuilderState extends State<CustomListViewBuilder> {
     return CustomListView(
       overlapHeaders: widget.overlapHeaders,
       header: LayoutBuilder(
-        builder: (BuildContext context, _) => widget.builder(context, _stuckAmount ?? 0.0),
+        builder: (BuildContext context, _) =>
+            widget.builder(context, _stuckAmount ?? 0.0),
       ),
       content: widget.content,
       callback: (double stuckAmount) {

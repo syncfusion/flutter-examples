@@ -1,33 +1,29 @@
-/// Package imports
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
+//ignore: must_be_immutable
+class RadialBarCustomized extends StatefulWidget {
+  RadialBarCustomized({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
-/// Local imports
-import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
-
-/// Render the radial bar customization.
-class RadialBarCustomized extends SampleView {
-  const RadialBarCustomized(Key key) : super(key: key);
-  
   @override
-  _RadialBarCustomizedState createState() => _RadialBarCustomizedState();
+  _RadialBarCustomizedState createState() => _RadialBarCustomizedState(sample);
 }
 
-/// State class of radial bar customization.
-class _RadialBarCustomizedState extends SampleViewState {
-  _RadialBarCustomizedState();
+class _RadialBarCustomizedState extends State<RadialBarCustomized> {
+  _RadialBarCustomizedState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getCustomizedRadialBarChart();
+    return getScopedModel(getCustomizedRadialBarChart(false), sample);
   }
+}
 
-/// Return the circular chart with radial customization.
-SfCircularChart getCustomizedRadialBarChart() {
+SfCircularChart getCustomizedRadialBarChart(bool isTileView) {
   final List<ChartSampleData> dataSources = <ChartSampleData>[
     ChartSampleData(
         x: 'Vehicle',
@@ -109,7 +105,7 @@ SfCircularChart getCustomizedRadialBarChart() {
   ];
 
   return SfCircularChart(
-    title: ChartTitle(text: isCardView ? '' : 'Percentage of loan closure'),
+    title: ChartTitle(text: isTileView ? '' : 'Percentage of loan closure'),
     legend: Legend(
       isVisible: true,
       overflowMode: LegendItemOverflowMode.wrap,
@@ -173,7 +169,6 @@ SfCircularChart getCustomizedRadialBarChart() {
   );
 }
 
-/// Returns the list of radial bar which need to be customized.
 List<RadialBarSeries<ChartSampleData, String>> getRadialBarCustomizedSeries() {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
@@ -209,10 +204,8 @@ List<RadialBarSeries<ChartSampleData, String>> getRadialBarCustomizedSeries() {
       xValueMapper: (ChartSampleData data, _) => data.x,
       yValueMapper: (ChartSampleData data, _) => data.y,
       pointRadiusMapper: (ChartSampleData data, _) => data.text,
-      /// Color mapper for each bar in radial bar series, which is get from datasource.
       pointColorMapper: (ChartSampleData data, _) => data.pointColor,
       legendIconType: LegendIconType.circle,
     ),
   ];
-}
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
 
 Future<T> showRoundedModalBottomSheet<T>({
   @required BuildContext context,
@@ -85,7 +84,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       widget.animationController.status == AnimationStatus.reverse;
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    if (_dismissUnderway){
+    if (_dismissUnderway) {
       return;
     }
     widget.animationController.value -=
@@ -93,7 +92,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    if (_dismissUnderway){
+    if (_dismissUnderway) {
       return;
     }
     if (details.velocity.pixelsPerSecond.dy > _kMinFlingVelocity) {
@@ -230,15 +229,7 @@ class _RoundedModalBottomSheetState<T>
     extends State<RoundedModalBottomSheet<T>> {
   @override
   void initState() {
-    final SampleModel model = SampleModel.instance;
-    model.addListener(_handleChange);
     super.initState();
-  }
-
-  void _handleChange(){
-    if(mounted){
-      setState(() {});
-    }
   }
 
   @override

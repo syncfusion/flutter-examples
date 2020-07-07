@@ -1,22 +1,34 @@
-import 'package:flutter_examples/model/sample_view.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
- 
-class RadialSlider extends SampleView {
-  const RadialSlider(Key key) : super(key: key);
-  
+import 'package:flutter_examples/widgets/flutter_backdrop.dart';
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
+
+// ignore: must_be_immutable
+class RadialSlider extends StatefulWidget {
+  RadialSlider({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
-  _RadialSliderState createState() => _RadialSliderState();
+  _RadialSliderState createState() => _RadialSliderState(sample);
 }
 
-class _RadialSliderState extends SampleViewState {
-  _RadialSliderState();
+class _RadialSliderState extends State<RadialSlider> {
+  _RadialSliderState(this.sample);
+  final SubItem sample;
+  bool panelOpen;
+  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
+
   @override
   void initState() {
+    panelOpen = frontPanelVisible.value;
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
     super.initState();
   }
 
+  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
 
   @override
   void dispose() {
@@ -26,8 +38,29 @@ class _RadialSliderState extends SampleViewState {
   @override
   void didUpdateWidget(RadialSlider oldWidget) {
     super.didUpdateWidget(oldWidget);
+    frontPanelVisible.removeListener(_subscribeToValueNotifier);
+    frontPanelVisible.addListener(_subscribeToValueNotifier);
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return getScopedModel(null, sample, RadialSliderFrontPanel(sample));
+  }
+}
+
+class RadialSliderFrontPanel extends StatefulWidget {
+  //ignore:prefer_const_constructors_in_immutables
+  RadialSliderFrontPanel([this.subItemList]);
+  final SubItem subItemList;
+
+  @override
+  _RadialSliderFrontPanelState createState() =>
+      _RadialSliderFrontPanelState(subItemList);
+}
+
+class _RadialSliderFrontPanelState extends State<RadialSliderFrontPanel> {
+  _RadialSliderFrontPanelState(this.sample);
+  final SubItem sample;
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
@@ -41,9 +74,12 @@ class _RadialSliderState extends SampleViewState {
       _thickness = 0.1;
       _borderWidth = 4;
     }
-    return isCardView ? getRadialSlider(isCardView)
-    : Scaffold(
-              backgroundColor: model.isWeb ? Colors.transparent : model.cardThemeColor,
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
+          return Scaffold(
+              backgroundColor:
+                  model.isWeb ? Colors.transparent : model.cardThemeColor,
               body: Padding(
                 padding: kIsWeb
                     ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
@@ -98,7 +134,6 @@ class _RadialSliderState extends SampleViewState {
                       annotations: <GaugeAnnotation>[
                         GaugeAnnotation(
                             widget: Row(
-                              mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
                                   '$_annotationValue',
@@ -137,10 +172,10 @@ class _RadialSliderState extends SampleViewState {
                             positionFactor: 0.1,
                             angle: 0)
                       ])
-                ])
+                ]),
               ));
+        });
   }
-
 
   void onFirstPointerValueChanged(double value) {
     setState(() {
@@ -207,6 +242,83 @@ class _RadialSliderState extends SampleViewState {
   }
 }
 
+class BackPanel extends StatefulWidget {
+  //ignore:prefer_const_constructors_in_immutables
+  BackPanel(this.sample);
+  final SubItem sample;
+
+  @override
+  _BackPanelState createState() => _BackPanelState(sample);
+}
+
+class _BackPanelState extends State<BackPanel> {
+  _BackPanelState(this.sample);
+  final SubItem sample;
+  final GlobalKey _globalKey = GlobalKey();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    super.initState();
+  }
+
+  void _afterLayout(dynamic _) {
+    _getSizesAndPosition();
+  }
+
+  void _getSizesAndPosition() {
+    final RenderBox renderBoxRed = _globalKey.currentContext.findRenderObject();
+    final Size size = renderBoxRed.size;
+    final Offset position = renderBoxRed.localToGlobal(Offset.zero);
+    const double appbarHeight = 60;
+    BackdropState.frontPanelHeight =
+        position.dy + (size.height - appbarHeight) + 20;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleModel>(
+      rebuildOnChange: true,
+      builder: (BuildContext context, _, SampleModel model) {
+        return Container(
+          color: model.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  sample.title,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28.0,
+                      color: Colors.white,
+                      letterSpacing: 0.53),
+                ),
+                Padding(
+                  key: _globalKey,
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Text(
+                    sample.description,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.white,
+                        letterSpacing: 0.3,
+                        height: 1.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
 Widget getRadialSlider(bool isTileView) {
   return SfRadialGauge(axes: <RadialAxis>[
     RadialAxis(
@@ -241,9 +353,9 @@ Widget getRadialSlider(bool isTileView) {
         ],
         ranges: <GaugeRange>[
           GaugeRange(
-              endValue: 8,
+              endValue: _secondMarkerValue,
               sizeUnit: GaugeSizeUnit.factor,
-              startValue: 2,
+              startValue: _firstMarkerValue,
               startWidth: 0.06,
               endWidth: 0.06)
         ],

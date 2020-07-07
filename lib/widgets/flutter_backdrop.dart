@@ -262,9 +262,9 @@ class BackdropState extends State<Backdrop>
 
   void _handleDragEnd(DragEndDetails details) {
     if (controller.isAnimating ||
-        controller.status == AnimationStatus.completed){
-          return;
-        }
+        controller.status == AnimationStatus.completed) {
+      return;
+    }
 
     final double fVelocity =
         details.velocity.pixelsPerSecond.dy / _backdropHeight;
@@ -292,7 +292,7 @@ class BackdropState extends State<Backdrop>
               width: 60,
               child: IconButton(
                 icon: IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.clear,
                     color: Colors.white,
                   ),

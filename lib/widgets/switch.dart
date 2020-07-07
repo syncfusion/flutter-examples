@@ -28,8 +28,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.scale(
-      scale: 0.8,
+    return Container(
       child: CupertinoSwitch(
           activeColor: widget.activeColor,
           value: _switchValue,

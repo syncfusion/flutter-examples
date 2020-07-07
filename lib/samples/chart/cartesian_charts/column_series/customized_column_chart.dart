@@ -1,85 +1,120 @@
-/// Package import
-import 'package:flutter/material.dart';
-
-/// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Local imports
+import 'package:flutter/material.dart';
+import '../../../../model/helper.dart';
 import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
 
-class ColumnVertical extends SampleView {
-  const ColumnVertical(Key key) : super(key: key);
+//ignore: must_be_immutable
+class ColumnVertical extends StatefulWidget {
+  ColumnVertical({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _ColumnVerticalState createState() => _ColumnVerticalState();
+  _ColumnVerticalState createState() => _ColumnVerticalState(sample);
 }
 
-class _ColumnVerticalState extends SampleViewState {
-  _ColumnVerticalState();
+class _ColumnVerticalState extends State<ColumnVertical> {
+  _ColumnVerticalState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getCustomizedColumnChart();
-  }
-
-  SfCartesianChart getCustomizedColumnChart() {
-    return SfCartesianChart(
-      title:
-          ChartTitle(text: isCardView ? '' : 'PC vendor shipments - 2015 Q1'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
-      ),
-      primaryYAxis: NumericAxis(
-          labelFormat: '{value}M',
-          title: AxisTitle(text: isCardView ? '' : 'Shipments in million'),
-          majorGridLines: MajorGridLines(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: <ChartSeries<ChartSampleData, String>>[
-        ColumnSeries<ChartSampleData, String>(
-          onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-            return CustomColumnSeriesRenderer();
-          },
-          enableTooltip: true,
-          isTrackVisible: false,
-          dataLabelSettings: DataLabelSettings(
-              isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
-          dataSource: <ChartSampleData>[
-            ChartSampleData(
-                x: 'HP Inc',
-                y: 12.54,
-                pointColor: const Color.fromARGB(53, 92, 125, 1)),
-            ChartSampleData(
-                x: 'Lenovo',
-                y: 13.46,
-                pointColor: const Color.fromARGB(192, 108, 132, 1)),
-            ChartSampleData(
-                x: 'Dell',
-                y: 9.18,
-                pointColor: const Color.fromARGB(246, 114, 128, 1)),
-            ChartSampleData(
-                x: 'Apple',
-                y: 4.56,
-                pointColor: const Color.fromARGB(248, 177, 149, 1)),
-            ChartSampleData(
-                x: 'Asus',
-                y: 5.29,
-                pointColor: const Color.fromARGB(116, 180, 155, 1)),
-          ],
-          width: 0.8,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
-        )
-      ],
-      tooltipBehavior:
-          TooltipBehavior(enable: true, canShowMarker: false, header: ''),
-    );
+    const String sourceLink =
+        'https://www.statista.com/statistics/263393/global-pc-shipments-since-1st-quarter-2009-by-vendor/';
+    const String source = 'www.statista.com';
+    return getScopedModel(
+        getCustomizedColumnChart(false), sample, null, sourceLink, source);
   }
 }
 
-class CustomColumnSeriesRenderer extends ColumnSeriesRenderer {
-  CustomColumnSeriesRenderer();
+SfCartesianChart getCustomizedColumnChart(bool isTileView) {
+  return SfCartesianChart(
+    title: ChartTitle(text: isTileView ? '' : 'PC vendor shipments - 2015 Q1'),
+    primaryXAxis: CategoryAxis(
+      majorGridLines: MajorGridLines(width: 0),
+    ),
+    primaryYAxis: NumericAxis(
+        labelFormat: '{value}M',
+        title: AxisTitle(text: isTileView ? '' : 'Shipments in million'),
+        majorGridLines: MajorGridLines(width: 0),
+        majorTickLines: MajorTickLines(size: 0)),
+    series: getCustomizedColumnSeries(isTileView),
+    tooltipBehavior:
+        TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+  );
+}
+
+List<CustomColumnSeries<ChartSampleData, String>> getCustomizedColumnSeries(
+    bool isTileView) {
+  final List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(
+        x: 'HP Inc',
+        y: 12.54,
+        pointColor: const Color.fromARGB(53, 92, 125, 1)),
+    ChartSampleData(
+        x: 'Lenovo',
+        y: 13.46,
+        pointColor: const Color.fromARGB(192, 108, 132, 1)),
+    ChartSampleData(
+        x: 'Dell', y: 9.18, pointColor: const Color.fromARGB(246, 114, 128, 1)),
+    ChartSampleData(
+        x: 'Apple',
+        y: 4.56,
+        pointColor: const Color.fromARGB(248, 177, 149, 1)),
+    ChartSampleData(
+        x: 'Asus', y: 5.29, pointColor: const Color.fromARGB(116, 180, 155, 1)),
+  ];
+  return <CustomColumnSeries<ChartSampleData, String>>[
+    CustomColumnSeries<ChartSampleData, String>(
+      enableTooltip: true,
+      isTrackVisible: false,
+      dataLabelSettings: DataLabelSettings(
+          isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
+      dataSource: chartData,
+      width: 0.8,
+      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      yValueMapper: (ChartSampleData sales, _) => sales.y,
+      pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
+    )
+  ];
+}
+
+class CustomColumnSeries<T, D> extends ColumnSeries<T, D> {
+  CustomColumnSeries({
+    @required List<T> dataSource,
+    @required ChartValueMapper<T, D> xValueMapper,
+    @required ChartValueMapper<T, num> yValueMapper,
+    @required ChartValueMapper<T, Color> pointColorMapper,
+    String xAxisName,
+    String yAxisName,
+    Color color,
+    double width,
+    MarkerSettings markerSettings,
+    EmptyPointSettings emptyPointSettings,
+    DataLabelSettings dataLabelSettings,
+    bool visible,
+    bool enableTooltip,
+    double animationDuration,
+    Color trackColor,
+    Color trackBorderColor,
+    bool isTrackVisible,
+  }) : super(
+            xValueMapper: xValueMapper,
+            yValueMapper: yValueMapper,
+            pointColorMapper: pointColorMapper,
+            dataSource: dataSource,
+            xAxisName: xAxisName,
+            yAxisName: yAxisName,
+            color: color,
+            isTrackVisible: isTrackVisible,
+            trackColor: trackColor,
+            trackBorderColor: trackBorderColor,
+            width: width,
+            markerSettings: markerSettings,
+            emptyPointSettings: emptyPointSettings,
+            dataLabelSettings: dataLabelSettings,
+            isVisible: visible,
+            enableTooltip: enableTooltip,
+            animationDuration: animationDuration);
 
   @override
   ChartSegment createSegment() {

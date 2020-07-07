@@ -1,43 +1,38 @@
-/// Package import
-import 'package:flutter/material.dart';
-
-/// Chart import
+import 'package:flutter_examples/model/helper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/model.dart';
 
-/// Local imports
-import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
+//ignore: must_be_immutable
+class RadialBarDefault extends StatefulWidget {
+  RadialBarDefault({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
-/// Render the default radial bar.
-class RadialBarDefault extends SampleView {
-  const RadialBarDefault(Key key) : super(key: key);
-  
   @override
-  _RadialBarDefaultState createState() => _RadialBarDefaultState();
+  _RadialBarDefaultState createState() => _RadialBarDefaultState(sample);
 }
 
-/// State class of radial bar.
-class _RadialBarDefaultState extends SampleViewState {
-  _RadialBarDefaultState();
- 
+class _RadialBarDefaultState extends State<RadialBarDefault> {
+  _RadialBarDefaultState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getDefaultRadialBarChart();
+    return getScopedModel(getDefaultRadialBarChart(false), sample);
   }
+}
 
-/// Returns the circular chart with radial series.
-SfCircularChart getDefaultRadialBarChart() {
+SfCircularChart getDefaultRadialBarChart(bool isTileView) {
   return SfCircularChart(
-    title: ChartTitle(text: isCardView ? '' : 'Shot put distance'),
-    series: getRadialBarDefaultSeries(isCardView),
+    title: ChartTitle(text: isTileView ? '' : 'Short put distance'),
+    series: getRadialBarDefaultSeries(isTileView),
     tooltipBehavior:
         TooltipBehavior(enable: true, format: 'point.x : point.ym'),
   );
 }
 
-/// Returns the list of radial series.
 List<RadialBarSeries<ChartSampleData, String>> getRadialBarDefaultSeries(
-    bool isCardView) {
+    bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
         x: 'John',
@@ -50,7 +45,7 @@ List<RadialBarSeries<ChartSampleData, String>> getRadialBarDefaultSeries(
         text: '100%',
         pointColor: const Color.fromRGBO(246, 114, 128, 1.0)),
     ChartSampleData(
-        x: 'Don',
+        x: 'Doe',
         y: 12,
         text: '100%',
         pointColor: const Color.fromRGBO(61, 205, 171, 1.0)),
@@ -64,7 +59,7 @@ List<RadialBarSeries<ChartSampleData, String>> getRadialBarDefaultSeries(
     RadialBarSeries<ChartSampleData, String>(
         maximumValue: 15,
         dataLabelSettings: DataLabelSettings(
-            isVisible: true, textStyle: const TextStyle(fontSize: 10.0)),
+            isVisible: true, textStyle: ChartTextStyle(fontSize: 10.0)),
         dataSource: chartData,
         cornerStyle: CornerStyle.bothCurve,
         gap: '10%',
@@ -75,5 +70,4 @@ List<RadialBarSeries<ChartSampleData, String>> getRadialBarDefaultSeries(
         pointColorMapper: (ChartSampleData data, _) => data.pointColor,
         dataLabelMapper: (ChartSampleData data, _) => data.x)
   ];
-}
 }

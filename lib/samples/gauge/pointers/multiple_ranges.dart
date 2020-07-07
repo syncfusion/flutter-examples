@@ -1,28 +1,34 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
+
 // ignore: must_be_immutable
-class MultipleRangePointerExample extends SampleView {
-  const MultipleRangePointerExample(Key key) : super(key: key);
-  
+class MultipleRangePointerExample extends StatefulWidget {
+  MultipleRangePointerExample({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _MultipleRangePointerExampleState createState() =>
-      _MultipleRangePointerExampleState();
+      _MultipleRangePointerExampleState(sample);
 }
 
 class _MultipleRangePointerExampleState
-    extends SampleViewState {
-  _MultipleRangePointerExampleState();
+    extends State<MultipleRangePointerExample> {
+  _MultipleRangePointerExampleState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getMultipleRangePointerExampleGauge();
+    return getScopedModel(getMultipleRangePointerExampleGauge(false), sample);
   }
+}
 
-SfRadialGauge getMultipleRangePointerExampleGauge() {
+SfRadialGauge getMultipleRangePointerExampleGauge(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           showLabels: false,
@@ -38,14 +44,13 @@ SfRadialGauge getMultipleRangePointerExampleGauge() {
             GaugeAnnotation(
                 angle: 180,
                 widget: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Container(
                       child: Text(
                         '50',
                         style: TextStyle(
                             fontFamily: 'Times',
-                            fontSize: isCardView ? 18 : 22,
+                            fontSize: isTileView ? 18 : 22,
                             fontWeight: FontWeight.w400,
                             fontStyle: FontStyle.italic),
                       ),
@@ -55,7 +60,7 @@ SfRadialGauge getMultipleRangePointerExampleGauge() {
                         ' / 100',
                         style: TextStyle(
                             fontFamily: 'Times',
-                            fontSize: isCardView ? 18 : 22,
+                            fontSize: isTileView ? 18 : 22,
                             fontWeight: FontWeight.w400,
                             fontStyle: FontStyle.italic),
                       ),
@@ -81,5 +86,4 @@ SfRadialGauge getMultipleRangePointerExampleGauge() {
           ]),
     ],
   );
-}
 }

@@ -1,27 +1,33 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
-class RadialImageAnnotation extends SampleView {
-  const RadialImageAnnotation(Key key) : super(key: key);
-  
+// ignore: must_be_immutable
+class RadialImageAnnotation extends StatefulWidget {
+  RadialImageAnnotation({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _RadialImageAnnotationState createState() =>
-      _RadialImageAnnotationState();
+      _RadialImageAnnotationState(sample);
 }
 
-class _RadialImageAnnotationState extends SampleViewState {
-  _RadialImageAnnotationState();
-  
+class _RadialImageAnnotationState extends State<RadialImageAnnotation> {
+  _RadialImageAnnotationState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRadialImageAnnotation();
+    return getScopedModel(getRadialImageAnnotation(false), sample);
   }
+}
 
-SfRadialGauge getRadialImageAnnotation() {
+SfRadialGauge getRadialImageAnnotation(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           interval: 10,
@@ -47,11 +53,10 @@ SfRadialGauge getRadialImageAnnotation() {
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
                 widget: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Container(
-                        width: isCardView ? 30.00 : 50.00,
-                        height: isCardView ? 30.00 : 50.00,
+                        width: isTileView ? 30.00 : 50.00,
+                        height: isTileView ? 30.00 : 50.00,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: ExactAssetImage('images/sun.png'),
@@ -64,7 +69,7 @@ SfRadialGauge getRadialImageAnnotation() {
                         child: Text('73°F',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: isCardView ? 15.00 : 25)),
+                                fontSize: isTileView ? 15.00 : 25)),
                       ),
                     )
                   ],
@@ -74,5 +79,4 @@ SfRadialGauge getRadialImageAnnotation() {
           ])
     ],
   );
-}
 }

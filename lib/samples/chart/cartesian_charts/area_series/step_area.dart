@@ -31,13 +31,15 @@ class _StepAreaState extends State<StepArea> {
 
 SfCartesianChart getStepAreaChart(bool isTileView) {
   return SfCartesianChart(
-    
     legend: Legend(isVisible: isTileView ? false : true),
     title: ChartTitle(text: isTileView ? '' : 'Temperature variation of Paris'),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
+        minimum: DateTime(2019, 3, 1),
+        maximum: DateTime(2019, 3, 19),
+        interval: 3,
         majorGridLines: MajorGridLines(width: 0),
-        edgeLabelPlacement: EdgeLabelPlacement.shift),
+        ),
     primaryYAxis: NumericAxis(
         labelFormat: '{value}°C',
         interval: isTileView ? 4 : 2,
@@ -69,7 +71,7 @@ List<ChartSeries<_RangeAreaData, DateTime>> getStepAreaSeries(bool isTileView) {
     _RangeAreaData(DateTime(2019, 3, 16), 14, 9),
     _RangeAreaData(DateTime(2019, 3, 17), 11, 4),
     _RangeAreaData(DateTime(2019, 3, 18), 11, 2),
-    // _RangeAreaData(DateTime(2019,3,19), 13, 0),
+    _RangeAreaData(DateTime(2019,3,19), 13, 0),
     // _RangeAreaData(DateTime(2019,3,20), 14, 2),
     // _RangeAreaData(DateTime(2019,3,21), 16, 3),
     // _RangeAreaData(DateTime(2019,3,22), 18, 4),

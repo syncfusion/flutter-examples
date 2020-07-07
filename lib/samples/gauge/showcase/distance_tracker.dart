@@ -1,39 +1,48 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'package:scoped_model/scoped_model.dart';
+
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class DistanceTrackerExample extends SampleView {
-  const DistanceTrackerExample(Key key) : super(key: key);
-  
+class DistanceTrackerExample extends StatefulWidget {
+  DistanceTrackerExample({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _DistanceTrackerExampleState createState() =>
-      _DistanceTrackerExampleState();
+      _DistanceTrackerExampleState(sample);
 }
 
-class _DistanceTrackerExampleState extends SampleViewState {
-  _DistanceTrackerExampleState();
+class _DistanceTrackerExampleState extends State<DistanceTrackerExample> {
+  _DistanceTrackerExampleState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return DistanceTrackerExampleFrontPanel();
+    return getScopedModel(
+        null, sample, DistanceTrackerExampleFrontPanel(sample));
   }
 }
 
-class DistanceTrackerExampleFrontPanel extends SampleView {
+class DistanceTrackerExampleFrontPanel extends StatefulWidget {
   //ignore: prefer_const_constructors_in_immutables
-  DistanceTrackerExampleFrontPanel();
+  DistanceTrackerExampleFrontPanel(this.sample);
+  final SubItem sample;
 
   @override
   _DistanceTrackerExampleFrontPanelState createState() =>
-      _DistanceTrackerExampleFrontPanelState();
+      _DistanceTrackerExampleFrontPanelState(sample);
 }
 
 class _DistanceTrackerExampleFrontPanelState
-    extends SampleViewState {
-  _DistanceTrackerExampleFrontPanelState();
+    extends State<DistanceTrackerExampleFrontPanel> {
+  _DistanceTrackerExampleFrontPanelState(this.sample);
+  final SubItem sample;
+  bool isIndexed = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,21 +50,27 @@ class _DistanceTrackerExampleFrontPanelState
       if (MediaQuery.of(context).orientation == Orientation.portrait) {
         _markerValue = 138;
       } else {
-        _markerValue = kIsWeb ? 138: 136;
+        _markerValue = 136;
       }
     });
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
-            backgroundColor:  model.isWeb ? Colors.transparent : model.cardThemeColor,
+            backgroundColor: model.cardThemeColor,
             body: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
               child:
-                  getDistanceTrackerExample(),
+                  Container(child: getDistanceTrackerExample(false, isIndexed)),
             ),
           );
+        });
   }
+}
 
-SfRadialGauge getDistanceTrackerExample() {
+SfRadialGauge getDistanceTrackerExample(bool isTileView, [bool isIndexed]) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     enableLoadingAnimation: true,
     axes: <RadialAxis>[
       RadialAxis(
@@ -71,13 +86,12 @@ SfRadialGauge getDistanceTrackerExample() {
                 angle: 90,
                 positionFactor: 0,
                 widget: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text('142',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
-                            fontSize: isCardView ? 20 : 30)),
+                            fontSize: isTileView ? 20 : 30)),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                       child: Text(
@@ -85,7 +99,7 @@ SfRadialGauge getDistanceTrackerExample() {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic,
-                            fontSize: isCardView ? 12 : 14),
+                            fontSize: isTileView ? 12 : 14),
                       ),
                     )
                   ],
@@ -95,14 +109,14 @@ SfRadialGauge getDistanceTrackerExample() {
                 positionFactor: 1.1,
                 widget: Container(
                   child: Text('0',
-                      style: TextStyle(fontSize: isCardView ? 12 : 14)),
+                      style: TextStyle(fontSize: isTileView ? 12 : 14)),
                 )),
             GaugeAnnotation(
                 angle: 54,
                 positionFactor: 1.1,
                 widget: Container(
                   child: Text('240',
-                      style: TextStyle(fontSize: isCardView ? 12 : 14)),
+                      style: TextStyle(fontSize: isTileView ? 12 : 14)),
                 )),
           ],
           pointers: <GaugePointer>[
@@ -119,7 +133,7 @@ SfRadialGauge getDistanceTrackerExample() {
                       stops: <double>[0.25, 0.75]),
             ),
             MarkerPointer(
-              value: isCardView ? 136 : _markerValue,
+              value: isTileView ? 136 : _markerValue,
               color: Colors.white,
               markerType: MarkerType.circle,
             ),
@@ -129,4 +143,3 @@ SfRadialGauge getDistanceTrackerExample() {
 }
 
 double _markerValue = 138;
-}

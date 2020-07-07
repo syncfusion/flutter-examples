@@ -1,26 +1,31 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
+
 // ignore: must_be_immutable
-class RadialTextAnnotation extends SampleView {
-  const RadialTextAnnotation(Key key) : super(key: key);
-  
+class RadialTextAnnotation extends StatefulWidget {
+  RadialTextAnnotation({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _RadialTextAnnotationState createState() =>
-      _RadialTextAnnotationState();
+      _RadialTextAnnotationState(sample);
 }
 
-class _RadialTextAnnotationState extends SampleViewState {
-  _RadialTextAnnotationState();
+class _RadialTextAnnotationState extends State<RadialTextAnnotation> {
+  _RadialTextAnnotationState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getRadialTextAnnotation();
+    return getScopedModel(getRadialTextAnnotation(false), sample);
   }
+}
 
-SfRadialGauge getRadialTextAnnotation() {
+SfRadialGauge getRadialTextAnnotation(bool isTileView) {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -49,7 +54,7 @@ SfRadialGauge getRadialTextAnnotation() {
                             fontStyle: FontStyle.italic,
                             fontFamily: 'Times',
                             fontWeight: FontWeight.bold,
-                            fontSize: isCardView ? 18 : 25))))
+                            fontSize: isTileView ? 18 : 25))))
           ],
           axisLineStyle: AxisLineStyle(
               color: const Color(0xFF00A8B5),
@@ -62,5 +67,4 @@ SfRadialGauge getRadialTextAnnotation() {
               dashArray: kIsWeb ? null : <double>[8, 10]))
     ],
   );
-}
 }

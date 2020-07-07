@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
+import 'package:flutter_examples/model/model.dart';
 import 'package:intl/intl.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:flutter_examples/samples/pdf/helper/save_file_mobile.dart'
     if (dart.library.html) 'package:flutter_examples/samples/pdf/helper/save_file_web.dart';
 
-class InvoicePdf extends SampleView {
-  const InvoicePdf(Key key) : super(key: key);
+//ignore: must_be_immutable
+class InvoicePdf extends StatefulWidget {
+  InvoicePdf({this.sample, Key key}) : super(key: key);
+  SubItem sample;
   @override
-  _InvoicePdfState createState() => _InvoicePdfState();
+  _InvoicePdfState createState() => _InvoicePdfState(sample);
 }
 
-class _InvoicePdfState extends SampleViewState {
-  _InvoicePdfState();
+class _InvoicePdfState extends State<InvoicePdf> {
+  _InvoicePdfState(this.sample);
+
+  final SubItem sample;
 
   @override
   void initState() {
@@ -21,6 +26,9 @@ class _InvoicePdfState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
             body: Padding(
@@ -46,6 +54,7 @@ class _InvoicePdfState extends SampleViewState {
               ),
             ),
           );
+        });
   }
 
   Future<void> generatePDF() async {

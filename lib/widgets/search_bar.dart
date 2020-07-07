@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:flutter_examples/widgets/shared/mobile.dart'
     if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import '../model/helper.dart';
@@ -37,11 +36,8 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   bool isOpen = false;
   OverlayEntry _overlayEntry;
   String hint = 'Search';
-
-  List<OverlayEntry> overlayEntries;
   @override
   void initState() {
-    overlayEntries = <OverlayEntry>[];
     over = Overlay.of(context);
     duplicateControlItems = sampleListModel.searchControlItems;
     duplicateSampleItems = sampleListModel.searchSampleItems;
@@ -58,17 +54,35 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
               onPressed: () {
                 editingController.text = '';
                 filterSearchResults('');
-                if (sampleListModel.isMobileResolution)
+                if (!kIsWeb)
                   setState(() {
                     closeIcon = null;
                   });
               })
           : null;
-      if (_isFocus.hasFocus && !sampleListModel.isMobileResolution) {
+      if (_isFocus.hasFocus && sampleListModel.isWeb) {
         filterSearchResults(editingController.text);
-      } else if (!sampleListModel.isMobileResolution) {
+        _overlayEntry = _createOverlayEntry();
+        try {
+          _overlayEntry.remove();
+          over.insert(_overlayEntry);
+        } catch (e) {
+          over.insert(_overlayEntry);
+        }
+      } else if (sampleListModel.isWeb) {
         Timer(const Duration(milliseconds: 200), () {
-          removeOverlayEntries();
+          if (_overlayEntry != null) {
+            try {
+              _overlayEntry.remove();
+              try {
+                over.dispose();
+              } catch (e) {
+                over.dispose();
+              }
+            } catch (e) {
+              over.dispose();
+            }
+          }
         });
       }
       if (editingController.text.isEmpty)
@@ -76,9 +90,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
           searchIcon = _isFocus.hasFocus || editingController.text.isNotEmpty
               ? null
               : Icon(Icons.search,
-                  color: sampleListModel.isWeb
-                      ? Colors.white.withOpacity(0.5)
-                      : Colors.grey);
+                  color: kIsWeb ? Colors.white.withOpacity(0.5) : Colors.grey);
         });
       hint = _isFocus.hasFocus ? '' : 'Search';
     });
@@ -108,7 +120,6 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   }
 
   void filterSearchResults(String query) {
-    removeOverlayEntries();
     // ignore: prefer_collection_literals
     final List<Control> dummySearchControl = List<Control>();
     dummySearchControl.addAll(duplicateControlItems);
@@ -140,31 +151,16 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
       sampleListModel.sampleList.addAll(dummySampleData);
       sampleListModel.searchResults.clear();
       sampleListModel.searchResults.addAll(dummySampleData);
-      if(sampleListModel.isMobileResolution){
-        //ignore: invalid_use_of_protected_member
-        sampleListModel.notifyListeners();
-      }else{        
-        _overlayEntry = _createOverlayEntry();
-        overlayEntries.add(_overlayEntry);
-        over.insert(_overlayEntry);
-        return;
-      }
+      // ignore: invalid_use_of_protected_member
+      sampleListModel.notifyListeners();
+      return;
     } else {
       sampleListModel.searchResults.clear();
       sampleListModel.controlList.addAll(duplicateControlItems);
       sampleListModel.sampleList.clear();
+      // ignore: invalid_use_of_protected_member
+      sampleListModel.notifyListeners();
     }
-  }
-
-  void removeOverlayEntries() {
-    if (overlayEntries != null && overlayEntries.isNotEmpty) {
-      for (OverlayEntry overlayEntry in overlayEntries) {
-        if (overlayEntry != null) {
-          overlayEntry.remove();
-        }
-      }
-    }
-    overlayEntries.clear();
   }
 
   OverlayEntry _createOverlayEntry() {
@@ -233,33 +229,29 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                                                 'Roboto-Regular'),
                                                       )),
                                                   onTap: () {
+                                                    try {
+                                                      _overlayEntry.remove();
+                                                    }
+                                                    //ignore: empty_catches
+                                                    catch (e) {}
                                                     _overlayEntry
                                                         .maintainState = false;
                                                     changeCursorStyleOnNavigation();
-                                                    _overlayEntry.opaque =
-                                                        false;
-                                                    removeOverlayEntries();
-                                                    final dynamic
-                                                        _renderSample =
-                                                        sampleListModel
-                                                                .sampleWidget[
-                                                            sampleListModel
-                                                                .searchResults[
-                                                                    index]
-                                                                .key];
-                                                    final SampleView
-                                                        _sampleView =
-                                                        _renderSample(
-                                                            GlobalKey<State>());
-                                                    if(_renderSample != null) {
-                                                        !sampleListModel.isWeb
-                                                          ? expandSample(
-                                                            context,
-                                                            sampleListModel
+                                                    over.deactivate();
+                                                    try {
+                                                      _overlayEntry.opaque =
+                                                          false;
+                                                      _overlayEntry.remove();
+                                                    } catch (e) {
+                                                      over.deactivate();
+                                                    }
+                                                    sampleListModel.sampleWidget[
+                                                                sampleListModel
                                                                     .searchResults[
-                                                                index],
-                                                            sampleListModel)
-                                                          : Navigator.push<
+                                                                        index]
+                                                                    .key][0] !=
+                                                            null
+                                                        ? Navigator.push<
                                                                 dynamic>(
                                                             context,
                                                             MaterialPageRoute<
@@ -271,7 +263,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                                                           appBar:
                                                                               AppBar(
                                                                             backgroundColor:
-                                                                                sampleListModel.paletteColor,
+                                                                                sampleListModel.backgroundColor,
                                                                             title:
                                                                                 Text(sampleListModel.searchResults[index].title),
                                                                           ),
@@ -283,11 +275,16 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                                                                 Container(
                                                                               color: sampleListModel.webCardColor,
                                                                               padding: const EdgeInsets.all(10),
-                                                                              child: _sampleView,
+                                                                              child: sampleListModel.sampleWidget[sampleListModel.searchResults[index].key][0],
                                                                             ),
                                                                           ),
-                                                                        )));
-                                                    }
+                                                                        )))
+                                                        : onTapSampleItem(
+                                                            context,
+                                                            sampleListModel
+                                                                    .searchResults[
+                                                                index],
+                                                            sampleListModel);
                                                   }))));
                                 })),
               ),
@@ -311,14 +308,14 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                   : sampleListModel.searchBoxColor,
               borderRadius: const BorderRadius.all(Radius.circular(5.0))),
           child: Padding(
-            padding: EdgeInsets.only(left: (_isFocus.hasFocus || searchIcon == null) ? 10 : 0, ),
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: Container(
                 child: TextField(
               cursorColor: kIsWeb ? Colors.white : Colors.grey,
               focusNode: _isFocus,
               onChanged: (String value) {
                 closeIcon =
-                    _isFocus.hasFocus && (editingController.text.isNotEmpty)
+                    _isFocus.hasFocus && editingController.text.isNotEmpty
                         ? IconButton(
                             splashColor: Colors.transparent,
                             hoverColor: Colors.transparent,
@@ -328,13 +325,12 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                             onPressed: () {
                               editingController.text = '';
                               filterSearchResults('');
-                              if (sampleListModel.isMobileResolution)
+                              if (!kIsWeb)
                                 setState(() {
                                   closeIcon = null;
                                 });
                             })
                         : null;
-                setState(() {});
                 filterSearchResults(value);
               },
               onEditingComplete: () {
@@ -345,7 +341,6 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                   color: kIsWeb ? Colors.white : Colors.grey,
                   fontSize: 13),
               controller: editingController,
-              textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                   labelStyle: const TextStyle(
                       fontFamily: 'Roboto-Regular',

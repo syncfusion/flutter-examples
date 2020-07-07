@@ -1,6 +1,6 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 18.2.44
+version: 18.1.52
 author: Syncfusion <support@syncfusion.com>
 homepage: https://github.com/syncfusion/flutter-examples
 
@@ -12,65 +12,18 @@ dependencies:
     sdk: flutter
   flutter:
     sdk: flutter
+  scoped_model: 1.0.1
   flutter_gallery_assets: 0.1.8
   url_launcher: ^5.0.3
   intl: ^0.16.0
   path_provider: ^1.6.1
-
-  syncfusion_flutter_datagrid:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-datagrid
-      path: flutter_datagrid/syncfusion_flutter_datagrid
-      branch: release/18.2.0.1
-      ref: release/18.2.0.1
-  syncfusion_flutter_calendar:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-calendar
-      path: flutter_calendar/syncfusion_flutter_calendar
-      branch: release/18.2.0.1
-      ref: release/18.2.0.1
-  syncfusion_flutter_datepicker:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-datepicker
-      path: flutter_datepicker/syncfusion_flutter_datepicker
-      branch: release/18.2.0.1
-      ref: release/18.2.0.1
-  syncfusion_flutter_charts:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-charts
-      path: flutter_charts/syncfusion_flutter_charts
-      branch: release/18.2.0.1
-      ref: release/18.2.0.1
-  syncfusion_flutter_gauges:
-    git: 
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-gauges
-      path: flutter_gauges/syncfusion_flutter_gauges
-      branch: release/18.2.0.1
-      ref: release/18.2.0.1
-  syncfusion_flutter_sliders:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-sliders
-      path: flutter_sliders/syncfusion_flutter_sliders
-      branch: release/18.2.0.1
-      ref: release/18.2.0.1
-  syncfusion_flutter_pdf:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-pdf
-      path: flutter_pdf/syncfusion_flutter_pdf
-      branch: release/18.2.0.1
-      ref: release/18.2.0.1
-  syncfusion_flutter_barcodes:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-barcodes
-      path: flutter_barcodes/syncfusion_flutter_barcodes
-      branch: release/18.2.0.1
-      ref: release/18.2.0.1
-  syncfusion_flutter_maps:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-maps
-      path: flutter_maps/syncfusion_flutter_maps
-      branch: release/18.2.0.1
-      ref: release/18.2.0.1
+  syncfusion_flutter_calendar: ^18.1.52-beta
+  syncfusion_flutter_datepicker: ^18.1.52-beta
+  syncfusion_flutter_charts: ^18.1.52
+  syncfusion_flutter_gauges: ^18.1.52
+  syncfusion_flutter_sliders: ^18.1.52-beta
+  syncfusion_flutter_pdf: ^18.1.52-beta
+  syncfusion_flutter_barcodes: ^18.1.52-beta
 
 
 flutter:
@@ -79,13 +32,6 @@ flutter:
     - images/
     - images/pdf/
     - lib/sample_details.json
-    - world_map.json
-    - africa_continent_map.json
-    - asia_continent_map.json
-    - australia.json
-    - california.json
-    - europe.json
-    - usa.json
   fonts:
     - family: HeeboBold
       fonts:

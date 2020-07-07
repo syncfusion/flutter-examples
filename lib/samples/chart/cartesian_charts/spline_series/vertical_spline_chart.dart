@@ -1,36 +1,33 @@
-/// Package import
-import 'package:flutter/material.dart';
-
-/// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter/material.dart';
+import '../../../../model/helper.dart';
+import '../../../../model/model.dart';
 
-/// Local imports
-import '../../../../model/sample_view.dart';
-
-/// Renders the vertical spline chartt sample.
-class SplineVertical extends SampleView {
-  const SplineVertical(Key key) : super(key: key);
+//ignore: must_be_immutable
+class SplineVertical extends StatefulWidget {
+  SplineVertical({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _SplineVerticalState createState() => _SplineVerticalState();
+  _SplineVerticalState createState() => _SplineVerticalState(sample);
 }
 
-/// State class of the vertical spline chart.
-class _SplineVerticalState extends SampleViewState {
-  _SplineVerticalState();
+class _SplineVerticalState extends State<SplineVertical> {
+  _SplineVerticalState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getVerticalSplineChart();
+    return getScopedModel(getVerticalSplineChart(false), sample);
   }
+}
 
-  /// Returns the vertical spline chart.
-  SfCartesianChart getVerticalSplineChart() {
+SfCartesianChart getVerticalSplineChart(bool isTileView) {
   return SfCartesianChart(
     isTransposed: true,
-    title: ChartTitle(text: isCardView ? '' : 'Climate graph - 2012'),
+    title: ChartTitle(text: isTileView ? '' : 'Climate graph - 2012'),
     plotAreaBorderWidth: 0,
-    legend: Legend(isVisible: isCardView ? false : true),
+    legend: Legend(isVisible: isTileView ? false : true),
     primaryXAxis: CategoryAxis(
         majorTickLines: MajorTickLines(size: 0), axisLine: AxisLine(width: 0)),
     primaryYAxis: NumericAxis(
@@ -39,13 +36,13 @@ class _SplineVerticalState extends SampleViewState {
         interval: 10,
         labelFormat: '{value}°C',
         majorGridLines: MajorGridLines(width: 0)),
-    series: getVerticalSplineSeries(),
+    series: getVerticalSplineSeries(isTileView),
     tooltipBehavior: TooltipBehavior(enable: true),
   );
 }
 
-/// Returns the list of chart series which need to render on the vertical spline chart.
-List<SplineSeries<_ChartData, String>> getVerticalSplineSeries() {
+List<SplineSeries<_ChartData, String>> getVerticalSplineSeries(
+    bool isTileView) {
   final List<_ChartData> chartData = <_ChartData>[
     _ChartData('Jan', -1, 7),
     _ChartData('Mar', 12, 2),
@@ -73,9 +70,7 @@ List<SplineSeries<_ChartData, String>> getVerticalSplineSeries() {
     )
   ];
 }
-}
 
-/// Private class for storing the spline series data points.
 class _ChartData {
   _ChartData(this.x, this.y, this.y2);
   final String x;

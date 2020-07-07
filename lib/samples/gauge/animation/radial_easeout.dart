@@ -1,28 +1,33 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
+
 //ignore: must_be_immutable
-class RadialEaseOutAnimation extends SampleView {
-  const RadialEaseOutAnimation(Key key) : super(key: key);
-  
+class RadialEaseOutAnimation extends StatefulWidget {
+  RadialEaseOutAnimation({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _RadialEaseOutAnimationState createState() =>
-      _RadialEaseOutAnimationState();
+      _RadialEaseOutAnimationState(sample);
 }
 
-class _RadialEaseOutAnimationState extends SampleViewState {
-  _RadialEaseOutAnimationState();
-  
+class _RadialEaseOutAnimationState extends State<RadialEaseOutAnimation> {
+  _RadialEaseOutAnimationState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRadialEaseOutAnimation();
+    return getScopedModel(getRadialEaseOutAnimation(false), sample);
   }
 }
 
-SfRadialGauge getRadialEaseOutAnimation() {
+SfRadialGauge getRadialEaseOutAnimation(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           startAngle: 180,

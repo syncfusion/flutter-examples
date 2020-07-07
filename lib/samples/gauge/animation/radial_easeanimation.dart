@@ -1,27 +1,31 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 //ignore: must_be_immutable
-class RadialEaseExample extends SampleView {
-  const RadialEaseExample(Key key) : super(key: key);
-  
+class RadialEaseExample extends StatefulWidget {
+  RadialEaseExample({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
-  _RadialEaseExampleState createState() => _RadialEaseExampleState();
+  _RadialEaseExampleState createState() => _RadialEaseExampleState(sample);
 }
 
-class _RadialEaseExampleState extends SampleViewState {
-  _RadialEaseExampleState();
- 
+class _RadialEaseExampleState extends State<RadialEaseExample> {
+  _RadialEaseExampleState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRadialEaseExample();
+    return getScopedModel(getRadialEaseExample(false), sample);
   }
+}
 
-
-SfRadialGauge getRadialEaseExample() {
+SfRadialGauge getRadialEaseExample(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           startAngle: 0,
@@ -31,7 +35,7 @@ SfRadialGauge getRadialEaseExample() {
           radiusFactor: kIsWeb ? 0.8 : 0.9,
           axisLineStyle: AxisLineStyle(
               thicknessUnit: GaugeSizeUnit.factor,
-              thickness: isCardView ? 0.07 : 0.1)),
+              thickness: isTileView ? 0.07 : 0.1)),
       RadialAxis(
           startAngle: 170,
           endAngle: 170,
@@ -43,17 +47,17 @@ SfRadialGauge getRadialEaseExample() {
           maximum: 15,
           showLastLabel: false,
           axisLabelStyle: GaugeTextStyle(
-              fontSize: isCardView ? 10 : 12, fontWeight: FontWeight.w500),
+              fontSize: isTileView ? 10 : 12, fontWeight: FontWeight.w500),
           labelOffset: 25,
-          interval: isCardView ? 1 : _interval,
+          interval: isTileView ? 1 : _interval,
           needsRotateLabels: true,
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
                 positionFactor: 1,
                 axisValue: 0,
                 widget: Container(
-                    height: isCardView ? 30 : 45,
-                    width: isCardView ? 30 : 45,
+                    height: isTileView ? 30 : 45,
+                    width: isTileView ? 30 : 45,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: ExactAssetImage('images/shotput.png'),
@@ -86,22 +90,21 @@ SfRadialGauge getRadialEaseExample() {
                     enableAnimation: true,
                     animationType: AnimationType.ease,
                     color: Colors.blue,
-                    markerHeight: isCardView ? 30 : 40,
+                    markerHeight: isTileView ? 30 : 40,
                     markerOffset: 4,
-                    markerWidth: isCardView ? 30 : 40)
+                    markerWidth: isTileView ? 30 : 40)
                 : MarkerPointer(
                     value: 11.5,
                     markerType: MarkerType.image,
                     enableAnimation: true,
                     animationType: AnimationType.ease,
                     imageUrl: 'images/ball.png',
-                    markerHeight: isCardView ? 30 : 40,
+                    markerHeight: isTileView ? 30 : 40,
                     markerOffset: 4,
-                    markerWidth: isCardView ? 30 : 40)
+                    markerWidth: isTileView ? 30 : 40)
           ])
     ],
   );
 }
 
-final double _interval = 1;
-}
+double _interval = 1;

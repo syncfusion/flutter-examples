@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/sample_view.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:flutter_examples/samples/pdf/helper/save_file_mobile.dart'
     if (dart.library.html) 'package:flutter_examples/samples/pdf/helper/save_file_web.dart';
 
-class HeaderAndFooterPdf extends SampleView {
-  const HeaderAndFooterPdf(Key key) : super(key: key);
+//ignore: must_be_immutable
+class HeaderAndFooterPdf extends StatefulWidget {
+  HeaderAndFooterPdf({this.sample, Key key}) : super(key: key);
+  SubItem sample;
   @override
-  _HeaderAndFooterPdfState createState() => _HeaderAndFooterPdfState();
+  _HeaderAndFooterPdfState createState() => _HeaderAndFooterPdfState(sample);
 }
 
-class _HeaderAndFooterPdfState extends SampleViewState {
-  _HeaderAndFooterPdfState();
+class _HeaderAndFooterPdfState extends State<HeaderAndFooterPdf> {
+  _HeaderAndFooterPdfState(this.sample);
+
+  final SubItem sample;
 
   @override
   void initState() {
@@ -21,6 +26,9 @@ class _HeaderAndFooterPdfState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
             body: Padding(
@@ -46,6 +54,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
               ),
             ),
           );
+        });
   }
 
   Future<void> generatePDF() async {

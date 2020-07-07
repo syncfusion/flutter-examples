@@ -1,40 +1,36 @@
-/// Package import
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Local imports
-import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
-
 //ignore: must_be_immutable
-class PieGrouping extends SampleView {
-  const PieGrouping(Key key) : super(key: key);
+class PieGrouping extends StatefulWidget {
+  PieGrouping({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _PieGroupingState createState() => _PieGroupingState();
+  _PieGroupingState createState() => _PieGroupingState(sample);
 }
 
-class _PieGroupingState extends SampleViewState {
-  _PieGroupingState();
+class _PieGroupingState extends State<PieGrouping> {
+  _PieGroupingState(this.sample);
+  final SubItem sample;
   @override
   Widget build(BuildContext context) {
-    return getGroupingPieChart();
+    return getScopedModel(getGroupingPieChart(false), sample);
   }
+}
 
-/// Return the circular charts with pie series.
-SfCircularChart getGroupingPieChart() {
+SfCircularChart getGroupingPieChart(bool isTileView) {
   return SfCircularChart(
-    title: ChartTitle(text: isCardView ? '' : 'Electricity sectors'),
-    series: getGroupingPieSeries(isCardView),
+    title: ChartTitle(text: isTileView ? '' : 'Electricity sectors'),
+    series: getGroupingPieSeries(isTileView),
     tooltipBehavior:
         TooltipBehavior(enable: true, format: 'point.x : point.y%'),
   );
 }
 
-/// Return the list of pie series which need to be grouping.
-List<PieSeries<ChartSampleData, String>> getGroupingPieSeries(bool isCardView) {
+List<PieSeries<ChartSampleData, String>> getGroupingPieSeries(bool isTileView) {
   final List<ChartSampleData> pieData = <ChartSampleData>[
     ChartSampleData(
         x: 'Coal',
@@ -85,12 +81,10 @@ List<PieSeries<ChartSampleData, String>> getGroupingPieSeries(bool isCardView) {
         dataSource: pieData,
         startAngle: 90,
         endAngle: 90,
-        /// To enable and specify the group mode for pie chart.
         groupMode: CircularChartGroupMode.value,
         groupTo: 7,
         pointColorMapper: (ChartSampleData data, _) => data.pointColor,
         xValueMapper: (ChartSampleData data, _) => data.x,
         yValueMapper: (ChartSampleData data, _) => data.y)
   ];
-}
 }

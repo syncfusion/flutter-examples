@@ -1,23 +1,29 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 
-class RadialTextPointer extends SampleView {
-  const RadialTextPointer(Key key) : super(key: key);
-  
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
+
+// ignore: must_be_immutable
+class RadialTextPointer extends StatefulWidget {
+  RadialTextPointer({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
-  _RadialTextPointerState createState() => _RadialTextPointerState();
+  _RadialTextPointerState createState() => _RadialTextPointerState(sample);
 }
 
-class _RadialTextPointerState extends SampleViewState {
-  _RadialTextPointerState();
-  
+class _RadialTextPointerState extends State<RadialTextPointer> {
+  _RadialTextPointerState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRadialTextPointer();
+    return getScopedModel(getRadialTextPointer(false), sample);
   }
+}
 
-SfRadialGauge getRadialTextPointer() {
+SfRadialGauge getRadialTextPointer(bool isTileView) {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -100,7 +106,7 @@ SfRadialGauge getRadialTextPointer() {
               value: 20.5,
               textStyle: GaugeTextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: isCardView ? 14 : 18,
+                  fontSize: isTileView ? 14 : 18,
                   fontFamily: 'Times'),
               offsetUnit: GaugeSizeUnit.factor,
               markerOffset: -0.12),
@@ -110,7 +116,7 @@ SfRadialGauge getRadialTextPointer() {
               value: 60.5,
               textStyle: GaugeTextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: isCardView ? 14 : 18,
+                  fontSize: isTileView ? 14 : 18,
                   fontFamily: 'Times'),
               offsetUnit: GaugeSizeUnit.factor,
               markerOffset: -0.12),
@@ -120,7 +126,7 @@ SfRadialGauge getRadialTextPointer() {
               value: 100.5,
               textStyle: GaugeTextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: isCardView ? 14 : 18,
+                  fontSize: isTileView ? 14 : 18,
                   fontFamily: 'Times'),
               offsetUnit: GaugeSizeUnit.factor,
               markerOffset: -0.12)
@@ -128,5 +134,4 @@ SfRadialGauge getRadialTextPointer() {
       ),
     ],
   );
-}
 }

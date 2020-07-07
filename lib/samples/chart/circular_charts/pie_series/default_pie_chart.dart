@@ -1,41 +1,36 @@
-/// Package import
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Local imports
-import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
-
-/// Render the default pie series.
-class PieDefault extends SampleView {
-  const PieDefault(Key key) : super(key: key);
+//ignore: must_be_immutable
+class PieDefault extends StatefulWidget {
+  PieDefault({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _PieDefaultState createState() => _PieDefaultState();
+  _PieDefaultState createState() => _PieDefaultState(sample);
 }
 
-/// State class of pie series.
-class _PieDefaultState extends SampleViewState {
-  _PieDefaultState();
-  
+class _PieDefaultState extends State<PieDefault> {
+  _PieDefaultState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getDefaultPieChart();
+    return getScopedModel(getDefaultPieChart(false), sample);
   }
+}
 
-/// Returns the circular  chart with pie series.
-SfCircularChart getDefaultPieChart() {
+SfCircularChart getDefaultPieChart(bool isTileView) {
   return SfCircularChart(
-    title: ChartTitle(text: isCardView ? '' : 'Sales by sales person'),
-    legend: Legend(isVisible: isCardView ? false : true),
-    series: getDefaultPieSeries(isCardView),
+    title: ChartTitle(text: isTileView ? '' : 'Sales by sales person'),
+    legend: Legend(isVisible: isTileView ? false : true),
+    series: getDefaultPieSeries(isTileView),
   );
 }
 
-/// Returns the list of pie series.
-List<PieSeries<ChartSampleData, String>> getDefaultPieSeries(bool isCardView) {
+List<PieSeries<ChartSampleData, String>> getDefaultPieSeries(bool isTileView) {
   final List<ChartSampleData> pieData = <ChartSampleData>[
     ChartSampleData(x: 'David', y: 30, text: 'David \n 30%'),
     ChartSampleData(x: 'Steve', y: 35, text: 'Steve \n 35%'),
@@ -55,5 +50,4 @@ List<PieSeries<ChartSampleData, String>> getDefaultPieSeries(bool isCardView) {
         endAngle: 90,
         dataLabelSettings: DataLabelSettings(isVisible: true)),
   ];
-}
 }

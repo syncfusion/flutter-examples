@@ -56,7 +56,8 @@ class _ThumbCustomizedRangeSliderState
   SfRangeSliderTheme _doubleStrokeThumbRangeSlider() {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-        inactiveTrackColor: const Color.fromARGB(255, 200, 200, 200).withOpacity(0.5),
+        inactiveTrackColor:
+            const Color.fromARGB(255, 200, 200, 200).withOpacity(0.5),
         tooltipBackgroundColor: const Color.fromARGB(255, 0, 178, 206),
       ),
       child: SfRangeSlider(
@@ -79,7 +80,7 @@ class _ThumbCustomizedRangeSliderState
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-       title('Thumb'),
+      title('Thumb'),
       _doubleStrokeThumbRangeSlider(),
       const SizedBox(height: 30),
       _strokeThumbRangeSlider(),
@@ -93,11 +94,11 @@ class _ThumbShape extends SfThumbShape {
   @override
   void paint(PaintingContext context, Offset center,
       {bool isEnabled,
-        RenderProxyBox parentBox,
-        SfRangeSliderThemeData themeData,
-        Animation<double> animation,
-        TextDirection textDirection,
-        SfThumb thumb}) {
+      RenderProxyBox parentBox,
+      SfRangeSliderThemeData themeData,
+      Animation<double> animation,
+      TextDirection textDirection,
+      SfThumb thumb}) {
     super.paint(context, center,
         isEnabled: isEnabled,
         parentBox: parentBox,

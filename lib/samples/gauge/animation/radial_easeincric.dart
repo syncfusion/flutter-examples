@@ -1,27 +1,33 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
+
 //ignore: must_be_immutable
-class RadialEaseInCircExample extends SampleView {
-  const RadialEaseInCircExample(Key key) : super(key: key);
-  
+class RadialEaseInCircExample extends StatefulWidget {
+  RadialEaseInCircExample({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _RadialEaseInCircExampleState createState() =>
-      _RadialEaseInCircExampleState();
+      _RadialEaseInCircExampleState(sample);
 }
 
 class _RadialEaseInCircExampleState extends State<RadialEaseInCircExample> {
-  _RadialEaseInCircExampleState();
-  
+  _RadialEaseInCircExampleState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRadialEaseInCircExample();
+    return getScopedModel(getRadialEaseInCircExample(false), sample);
   }
+}
 
-SfRadialGauge getRadialEaseInCircExample() {
+SfRadialGauge getRadialEaseInCircExample(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           radiusFactor: kIsWeb ? 0.85 : 0.95,
@@ -58,5 +64,4 @@ SfRadialGauge getRadialEaseInCircExample() {
           ])
     ],
   );
-}
 }

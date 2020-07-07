@@ -1,27 +1,32 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class MultipleNeedleExample extends SampleView {
-  const MultipleNeedleExample(Key key) : super(key: key);
-  
+class MultipleNeedleExample extends StatefulWidget {
+  MultipleNeedleExample({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _MultipleNeedleExampleState createState() =>
-      _MultipleNeedleExampleState();
+      _MultipleNeedleExampleState(sample);
 }
 
-class _MultipleNeedleExampleState extends SampleViewState {
-  _MultipleNeedleExampleState();
-  
+class _MultipleNeedleExampleState extends State<MultipleNeedleExample> {
+  _MultipleNeedleExampleState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getMultipleNeedleExample();
+    return getScopedModel(getMultipleNeedleExample(false), sample);
   }
+}
 
-SfRadialGauge getMultipleNeedleExample() {
+SfRadialGauge getMultipleNeedleExample(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           showAxisLine: false,
@@ -53,7 +58,7 @@ SfRadialGauge getMultipleNeedleExample() {
           showFirstLabel: false,
           interval: 1,
           labelOffset: 10,
-          axisLabelStyle: GaugeTextStyle(fontSize: isCardView ? 10 : 12),
+          axisLabelStyle: GaugeTextStyle(fontSize: isTileView ? 10 : 12),
           minorTicksPerInterval: 5,
           onLabelCreated: mainAxisLabelCreated,
           minorTickStyle: MinorTickStyle(
@@ -67,7 +72,7 @@ SfRadialGauge getMultipleNeedleExample() {
                 needleColor: const Color(0xFFF67280),
                 lengthUnit: GaugeSizeUnit.factor,
                 needleStartWidth: 0,
-                needleEndWidth: isCardView ? 3 : 5,
+                needleEndWidth: isTileView ? 3 : 5,
                 enableAnimation: true,
                 knobStyle: KnobStyle(knobRadius: 0),
                 animationType: AnimationType.ease),
@@ -77,7 +82,7 @@ SfRadialGauge getMultipleNeedleExample() {
                 lengthUnit: GaugeSizeUnit.factor,
                 needleColor: const Color(0xFFF67280),
                 needleStartWidth: 0,
-                needleEndWidth: isCardView ? 3 : 5,
+                needleEndWidth: isTileView ? 3 : 5,
                 enableAnimation: true,
                 animationType: AnimationType.ease,
                 knobStyle: KnobStyle(
@@ -85,7 +90,7 @@ SfRadialGauge getMultipleNeedleExample() {
                     borderWidth: 0.015,
                     color: Colors.white,
                     sizeUnit: GaugeSizeUnit.factor,
-                    knobRadius: isCardView ? 0.04 : 0.05)),
+                    knobRadius: isTileView ? 0.04 : 0.05)),
           ]),
     ],
   );
@@ -95,5 +100,4 @@ void mainAxisLabelCreated(AxisLabelCreatedArgs args) {
   if (args.text == '12') {
     args.text = '12h';
   }
-}
 }

@@ -1,23 +1,20 @@
-/// Dart imports
 import 'dart:math';
 import 'dart:ui';
-
-/// Package imports
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:intl/intl.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
+import '../../../../model/helper.dart';
+import '../../../../model/model.dart';
 
-/// Local import
-import '../../../../model/sample_view.dart';
-
-class CustomizedLine extends SampleView {
-  const CustomizedLine(Key key) : super(key: key);
+//ignore: must_be_immutable
+class CustomizedLine extends StatefulWidget {
+  CustomizedLine({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _LineDefaultState createState() => _LineDefaultState();
+  _LineDefaultState createState() => _LineDefaultState(sample);
 }
 
 List<num> xValues;
@@ -25,58 +22,61 @@ List<num> yValues;
 List<num> xPointValues = <num>[];
 List<num> yPointValues = <num>[];
 
-class _LineDefaultState extends SampleViewState {
-  _LineDefaultState();
-
+class _LineDefaultState extends State<CustomizedLine> {
+  _LineDefaultState(this.sample);
+  final SubItem sample;
   @override
   Widget build(BuildContext context) {
-    return getCustomizedLineChart();
+    return getScopedModel(getCustomizedLineChart(false), sample);
   }
+}
 
-  SfCartesianChart getCustomizedLineChart() {
-    return SfCartesianChart(
-      title: ChartTitle(
-          text: isCardView ? '' : 'Capital investment as a share of exports'),
-      primaryXAxis: DateTimeAxis(
-        edgeLabelPlacement: EdgeLabelPlacement.shift,
-        dateFormat: DateFormat.yMMM(),
-        intervalType: DateTimeIntervalType.months,
-        interval: 3,
-      ),
-      primaryYAxis: NumericAxis(
-          labelFormat: '{value}%',
-          minimum: 1,
-          maximum: 3.5,
-          interval: 0.5,
-          majorGridLines: MajorGridLines(color: Colors.transparent)),
-      series: <ChartSeries<_ChartData, DateTime>>[
-        LineSeries<_ChartData, DateTime>(
-            onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-              return CustomLineSeriesRenderer();
-            },
-            animationDuration: 2500,
-            enableTooltip: true,
-            dataSource: <_ChartData>[
-              _ChartData(DateTime(2018, 7), 2.9),
-              _ChartData(DateTime(2018, 8), 2.7),
-              _ChartData(DateTime(2018, 9), 2.3),
-              _ChartData(DateTime(2018, 10), 2.5),
-              _ChartData(DateTime(2018, 11), 2.2),
-              _ChartData(DateTime(2018, 12), 1.9),
-              _ChartData(DateTime(2019, 1), 1.6),
-              _ChartData(DateTime(2019, 2), 1.5),
-              _ChartData(DateTime(2019, 3), 1.9),
-              _ChartData(DateTime(2019, 4), 2),
-            ],
-            xValueMapper: (_ChartData sales, _) => sales.x,
-            yValueMapper: (_ChartData sales, _) => sales.y,
-            width: 2,
-            markerSettings: MarkerSettings(isVisible: true)),
-      ],
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
-    );
-  }
+SfCartesianChart getCustomizedLineChart(bool isTileView) {
+  return SfCartesianChart(
+    title: ChartTitle(
+        text: isTileView ? '' : 'Capital investment as a share of exports'),
+    primaryXAxis: DateTimeAxis(
+      edgeLabelPlacement: EdgeLabelPlacement.shift,
+      dateFormat: DateFormat.yMMM(),
+      intervalType: DateTimeIntervalType.months,
+      interval: 3,
+    ),
+    primaryYAxis: NumericAxis(
+        labelFormat: '{value}%',
+        minimum: 1,
+        maximum: 3.5,
+        interval: 0.5,
+        majorGridLines: MajorGridLines(color: Colors.transparent)),
+    series: getCustomizedLineSeries(isTileView),
+    tooltipBehavior:
+        TooltipBehavior(enable: true, header: '', canShowMarker: false),
+  );
+}
+
+List<CustomLineSeries<_ChartData, DateTime>> getCustomizedLineSeries(
+    bool isTileView) {
+  final dynamic chartData = <_ChartData>[
+    _ChartData(DateTime(2018, 7), 2.9),
+    _ChartData(DateTime(2018, 8), 2.7),
+    _ChartData(DateTime(2018, 9), 2.3),
+    _ChartData(DateTime(2018, 10), 2.5),
+    _ChartData(DateTime(2018, 11), 2.2),
+    _ChartData(DateTime(2018, 12), 1.9),
+    _ChartData(DateTime(2019, 1), 1.6),
+    _ChartData(DateTime(2019, 2), 1.5),
+    _ChartData(DateTime(2019, 3), 1.9),
+    _ChartData(DateTime(2019, 4), 2),
+  ];
+  return <CustomLineSeries<_ChartData, DateTime>>[
+    CustomLineSeries<_ChartData, DateTime>(
+        animationDuration: 2500,
+        enableToolTip: true,
+        dataSource: chartData,
+        xValueMapper: (_ChartData sales, _) => sales.x,
+        yValueMapper: (_ChartData sales, _) => sales.y,
+        width: 2,
+        markerSettings: MarkerSettings(isVisible: true)),
+  ];
 }
 
 class _ChartData {
@@ -85,8 +85,37 @@ class _ChartData {
   final double y;
 }
 
-class CustomLineSeriesRenderer extends LineSeriesRenderer {
-  CustomLineSeriesRenderer();
+class CustomLineSeries<T, D> extends LineSeries<T, D> {
+  CustomLineSeries({
+    @required List<T> dataSource,
+    @required ChartValueMapper<T, D> xValueMapper,
+    @required ChartValueMapper<T, num> yValueMapper,
+    String xAxisName,
+    String yAxisName,
+    Color color,
+    double width,
+    MarkerSettings markerSettings,
+    EmptyPointSettings emptyPointSettings,
+    DataLabelSettings dataLabel,
+    bool visible,
+    bool enableToolTip,
+    List<double> dashArray,
+    double animationDuration,
+  }) : super(
+            xValueMapper: xValueMapper,
+            yValueMapper: yValueMapper,
+            dataSource: dataSource,
+            xAxisName: xAxisName,
+            yAxisName: yAxisName,
+            color: color,
+            width: width,
+            markerSettings: markerSettings,
+            emptyPointSettings: emptyPointSettings,
+            dataLabelSettings: dataLabel,
+            isVisible: visible,
+            enableTooltip: enableToolTip,
+            dashArray: dashArray,
+            animationDuration: animationDuration);
 
   static Random randomNumber = Random();
 

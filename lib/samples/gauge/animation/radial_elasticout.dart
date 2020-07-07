@@ -1,27 +1,33 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
-class RadialElasticOutAnimation extends SampleView {
-  const RadialElasticOutAnimation(Key key) : super(key: key);
-  
+//ignore: must_be_immutable
+class RadialElasticOutAnimation extends StatefulWidget {
+  RadialElasticOutAnimation({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _RadialElasticOutAnimationState createState() =>
-      _RadialElasticOutAnimationState();
+      _RadialElasticOutAnimationState(sample);
 }
 
-class _RadialElasticOutAnimationState extends SampleViewState {
-  _RadialElasticOutAnimationState();
-  
+class _RadialElasticOutAnimationState extends State<RadialElasticOutAnimation> {
+  _RadialElasticOutAnimationState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRadialElasticOutAnimation();
+    return getScopedModel(getRadialElasticOutAnimation(false), sample);
   }
+}
 
-SfRadialGauge getRadialElasticOutAnimation() {
+SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
   return SfRadialGauge(
+    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           startAngle: 180,
@@ -65,5 +71,4 @@ SfRadialGauge getRadialElasticOutAnimation() {
           axisLineStyle: AxisLineStyle(color: Colors.transparent))
     ],
   );
-}
 }

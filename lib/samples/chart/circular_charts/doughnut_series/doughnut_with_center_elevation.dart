@@ -1,34 +1,29 @@
-/// Package import
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
+//ignore: must_be_immutable
+class DoughnutElevation extends StatefulWidget {
+  DoughnutElevation({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
-/// Local imports
-import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
-
-/// Render the doughnut series with center elevation.
-class DoughnutElevation extends SampleView {
-  const DoughnutElevation(Key key) : super(key: key);
-  
   @override
-  _DoughnutDefaultState createState() => _DoughnutDefaultState();
+  _DoughnutDefaultState createState() => _DoughnutDefaultState(sample);
 }
 
-/// State class of doughnut series with center elevation.
-class _DoughnutDefaultState extends SampleViewState {
-  _DoughnutDefaultState();
+class _DoughnutDefaultState extends State<DoughnutElevation> {
+  _DoughnutDefaultState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getElevationDoughnutChart();
+    return getScopedModel(getElevationDoughnutChart(false), sample);
   }
+}
 
-/// Returns the circular charts with center elevation dughnut series.
-SfCircularChart getElevationDoughnutChart() {
+SfCircularChart getElevationDoughnutChart(bool isTileView) {
   return SfCircularChart(
-    /// It used to set the annotation on circular chart.
     annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
           height: '100%',
@@ -47,15 +42,14 @@ SfCircularChart getElevationDoughnutChart() {
                       color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25))))
     ],
     title: ChartTitle(
-        text: isCardView ? '' : 'Progress of a task',
-        textStyle: const TextStyle(fontSize: 20)),
-    series: getElevationDoughnutSeries(isCardView),
+        text: isTileView ? '' : 'Progress of a task',
+        textStyle: ChartTextStyle(fontSize: 20)),
+    series: getElevationDoughnutSeries(isTileView),
   );
 }
 
-/// Returns the list of doughnut series which need to be center elevation.
 List<DoughnutSeries<ChartSampleData, String>> getElevationDoughnutSeries(
-    bool isCardView) {
+    bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
         x: 'A', y: 62, pointColor: const Color.fromRGBO(0, 220, 252, 1)),
@@ -71,5 +65,4 @@ List<DoughnutSeries<ChartSampleData, String>> getElevationDoughnutSeries(
         yValueMapper: (ChartSampleData data, _) => data.y,
         pointColorMapper: (ChartSampleData data, _) => data.pointColor)
   ];
-}
 }

@@ -1,30 +1,34 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 //ignore: must_be_immutable
-class RadialLinearAnimation extends SampleView {
-  const RadialLinearAnimation(Key key) : super(key: key);
-  
+class RadialLinearAnimation extends StatefulWidget {
+  RadialLinearAnimation({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _RadialLinearAnimationState createState() =>
-      _RadialLinearAnimationState();
+      _RadialLinearAnimationState(sample);
 }
 
-class _RadialLinearAnimationState extends SampleViewState {
-  _RadialLinearAnimationState();
-  
+class _RadialLinearAnimationState extends State<RadialLinearAnimation> {
+  _RadialLinearAnimationState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRadialLinearAnimation(false);
+    return getScopedModel(getRadialLinearAnimation(false), sample);
   }
+}
 
-
-Widget getRadialLinearAnimation(bool isCardView) {
+Widget getRadialLinearAnimation(bool isTileView) {
   return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
     return SfRadialGauge(
+      key: kIsWeb ? UniqueKey() : null,
       axes: <RadialAxis>[
         RadialAxis(
             startAngle: 270,
@@ -43,7 +47,7 @@ Widget getRadialLinearAnimation(bool isCardView) {
                   color: _linearMarkerColor),
               NeedlePointer(
                   knobStyle: KnobStyle(
-                      knobRadius: isCardView
+                      knobRadius: isTileView
                           ? 0.065
                           : MediaQuery.of(context).orientation ==
                                   Orientation.portrait
@@ -69,6 +73,5 @@ Widget getRadialLinearAnimation(bool isCardView) {
   });
 }
 
-final Color _linearNeedleColor = const Color(0xFF355C7D);
-final Color _linearMarkerColor = const Color(0xFFF67280);
-}
+Color _linearNeedleColor = const Color(0xFF355C7D);
+Color _linearMarkerColor = const Color(0xFFF67280);

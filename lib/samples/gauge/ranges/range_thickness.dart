@@ -1,26 +1,31 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
+
 // ignore: must_be_immutable
-class RangeThicknessExample extends SampleView {
-  const RangeThicknessExample(Key key) : super(key: key);
-  
+class RangeThicknessExample extends StatefulWidget {
+  RangeThicknessExample({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _RangeThicknessExampleState createState() =>
-      _RangeThicknessExampleState();
+      _RangeThicknessExampleState(sample);
 }
 
-class _RangeThicknessExampleState extends SampleViewState {
-  _RangeThicknessExampleState();
- 
+class _RangeThicknessExampleState extends State<RangeThicknessExample> {
+  _RangeThicknessExampleState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRangeThicknessExampleGauge();
+    return getScopedModel(getRangeThicknessExampleGauge(false), sample);
   }
+}
 
-SfRadialGauge getRangeThicknessExampleGauge() {
+SfRadialGauge getRangeThicknessExampleGauge(bool isTileView) {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -78,5 +83,4 @@ SfRadialGauge getRangeThicknessExampleGauge() {
           ]),
     ],
   );
-}
 }

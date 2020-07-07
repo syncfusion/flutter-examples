@@ -1,65 +1,61 @@
-/// Package import
-import 'package:flutter/material.dart';
-
-/// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Local imports
+import 'package:flutter/material.dart';
+import '../../../../model/helper.dart';
 import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
 
-/// Renders the rounded bar chart sample.
-class BarRounded extends SampleView {
-  const BarRounded(Key key) : super(key: key);
+//ignore: must_be_immutable
+class BarRounded extends StatefulWidget {
+  BarRounded({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _BarRoundedState createState() => _BarRoundedState();
+  _BarRoundedState createState() => _BarRoundedState(sample);
 }
 
-/// State class of the rounded bar chart.
-class _BarRoundedState extends SampleViewState {
-  _BarRoundedState();
+class _BarRoundedState extends State<BarRounded> {
+  _BarRoundedState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getRoundedBarChart();
+    const String sourceLink = 'https://www.indexmundi.com/g/r.aspx?v=24';
+    const String source = 'www.indexmundi.com';
+    return getScopedModel(
+        getRoundedBarChart(false), sample, null, sourceLink, source);
   }
+}
 
-  /// Returns the rounded cartesian bar chart.
-  SfCartesianChart getRoundedBarChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      title: ChartTitle(
-          text: isCardView ? '' : 'Population growth rate of countries'),
-      primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          minimum: -2, maximum: 2, majorTickLines: MajorTickLines(size: 0)),
-      series: getRoundedBarSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
-    );
-  }
+SfCartesianChart getRoundedBarChart(bool isTileView) {
+  return SfCartesianChart(
+    plotAreaBorderWidth: 0,
+    title: ChartTitle(
+        text: isTileView ? '' : 'Population growth rate of countries'),
+    primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+    primaryYAxis: NumericAxis(
+        minimum: -2, maximum: 2, majorTickLines: MajorTickLines(size: 0)),
+    series: getRoundedBarSeries(isTileView),
+    tooltipBehavior:
+        TooltipBehavior(enable: true, header: '', canShowMarker: false),
+  );
+}
 
-  /// Returns the list of chart series which need to render on the rounded bar chart.
-  List<BarSeries<ChartSampleData, String>> getRoundedBarSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Iceland', y: 1.13),
-      ChartSampleData(x: 'Moldova', y: -1.05),
-      ChartSampleData(x: 'Malaysia', y: 1.37),
-      ChartSampleData(x: 'American Samoa', y: -1.3),
-      ChartSampleData(x: 'Singapore', y: 1.82),
-      ChartSampleData(x: 'Puerto Rico', y: -1.74),
-      ChartSampleData(x: 'Algeria', y: 1.7)
-    ];
-    return <BarSeries<ChartSampleData, String>>[
-      BarSeries<ChartSampleData, String>(
-        enableTooltip: true,
-        dataSource: chartData,
-        /// If we set the border radius value for bar series, then the series will appear as rounder corner.
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
-      ),
-    ];
-  }
+List<BarSeries<ChartSampleData, String>> getRoundedBarSeries(bool isTileView) {
+  final List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(x: 'Iceland', y: 1.13),
+    ChartSampleData(x: 'Moldova', y: -1.05),
+    ChartSampleData(x: 'Malaysia', y: 1.37),
+    ChartSampleData(x: 'American Samoa', y: -1.3),
+    ChartSampleData(x: 'Singapore', y: 1.82),
+    ChartSampleData(x: 'Puerto Rico', y: -1.74),
+    ChartSampleData(x: 'Algeria', y: 1.7)
+  ];
+  return <BarSeries<ChartSampleData, String>>[
+    BarSeries<ChartSampleData, String>(
+      enableTooltip: true,
+      dataSource: chartData,
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      yValueMapper: (ChartSampleData sales, _) => sales.y,
+    ),
+  ];
 }

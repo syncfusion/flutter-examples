@@ -1,26 +1,23 @@
-/// Dart imports
 import 'dart:async';
 import 'dart:math' as math;
-
-/// Package imports
 import 'package:flutter/foundation.dart';
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Local imports
-import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
-
-class LiveUpdate extends SampleView {
-  const LiveUpdate(Key key) : super(key: key);
+//ignore: must_be_immutable
+class LiveUpdate extends StatefulWidget {
+  LiveUpdate({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _LiveUpdateState createState() => _LiveUpdateState();
+  _LiveUpdateState createState() => _LiveUpdateState(sample);
 }
 
 Timer timer;
+
 List<ChartSampleData> chartData1 = <ChartSampleData>[
   ChartSampleData(x: 0, y: 0),
   ChartSampleData(x: 1, y: -2),
@@ -36,13 +33,11 @@ List<ChartSampleData> chartData2 = <ChartSampleData>[
 bool canStopTimer = false;
 int wave1;
 int wave2, count = 1;
-// ChartSeriesController _chartSeriesController1;
-// ChartSeriesController _chartSeriesController2;
 
-class _LiveUpdateState extends SampleViewState {
-  _LiveUpdateState() {
-    timer = Timer.periodic(const Duration(milliseconds: 5), updateData);
-  }
+class _LiveUpdateState extends State<LiveUpdate> {
+  _LiveUpdateState(this.sample);
+  Timer timer;
+  final SubItem sample;
 
   @override
   void initState() {
@@ -53,13 +48,6 @@ class _LiveUpdateState extends SampleViewState {
       ChartSampleData(x: 0, y: 0),
     ];
     super.initState();
-    wave1 = 0;
-    wave2 = 180;
-    if (chartData1.isNotEmpty && chartData2.isNotEmpty) {
-      chartData1.clear();
-      chartData2.clear();
-    }
-    updateLiveData();
   }
 
   @override
@@ -70,67 +58,72 @@ class _LiveUpdateState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getLiveUpdateChart();
+    return getScopedModel(null, sample, LiveHorizontalFrontPanel(sample));
   }
+}
 
-  SfCartesianChart getLiveUpdateChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: getLiveUpdateSeries(),
-    );
-  }
+SfCartesianChart getLiveUpdateChart(bool isTileView) {
+  return SfCartesianChart(
+    plotAreaBorderWidth: 0,
+    primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+    primaryYAxis: NumericAxis(
+        axisLine: AxisLine(width: 0), majorTickLines: MajorTickLines(size: 0)),
+    series: getLiveUpdateSeries(false),
+  );
+}
 
-  List<SplineSeries<ChartSampleData, num>> getLiveUpdateSeries() {
-    return <SplineSeries<ChartSampleData, num>>[
-      SplineSeries<ChartSampleData, num>(
-        // onRendererCreated: (ChartSeriesController controller1) {
-        //       _chartSeriesController1 = controller1;
-        //     },
-          dataSource:  chartData1,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          width: 2),
-      SplineSeries<ChartSampleData, num>(
-        // onRendererCreated: (ChartSeriesController controller2) {
-        //       _chartSeriesController2 = controller2;
-        //     },
-        dataSource:  chartData2,
-        width: 2,
+List<SplineSeries<ChartSampleData, num>> getLiveUpdateSeries(bool isTileView) {
+  return <SplineSeries<ChartSampleData, num>>[
+    SplineSeries<ChartSampleData, num>(
+        dataSource: chartData1,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-      )
-    ];
+        width: 2),
+    SplineSeries<ChartSampleData, num>(
+      dataSource: chartData2,
+      width: 2,
+      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      yValueMapper: (ChartSampleData sales, _) => sales.y,
+    )
+  ];
+}
+
+//ignore: must_be_immutable
+class LiveHorizontalFrontPanel extends StatefulWidget {
+  //ignore: prefer_const_constructors_in_immutables
+  LiveHorizontalFrontPanel([this.sample]);
+  SubItem sample;
+
+  @override
+  _LiveHorizontalFrontPanelState createState() =>
+      _LiveHorizontalFrontPanelState(sample);
+}
+
+class _LiveHorizontalFrontPanelState extends State<LiveHorizontalFrontPanel> {
+  _LiveHorizontalFrontPanelState(this.sample) {
+    wave1 = 0;
+    wave2 = 180;
+    if (chartData1.isNotEmpty && chartData2.isNotEmpty) {
+      chartData1.clear();
+      chartData2.clear();
+    }
+    updateLiveData();
+    timer = Timer.periodic(const Duration(milliseconds: 5), updateData);
   }
 
+  Timer timer;
+
+  Widget sampleWidget(SampleModel model) =>
+      !kIsWeb ? getLiveUpdateChart(false) : getLiveUpdateChart(true);
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  final SubItem sample;
+
   void updateData(Timer timer) {
-    // if (isCardView != null && !isCardView) {
-    //   chartData1.removeAt(0);
-    //   chartData1.add(ChartSampleData(
-    //     x: wave1,
-    //     y: math.sin(wave1 * (math.pi / 180.0)),
-    //   ));
-    //   _chartSeriesController1.updateDataSource(
-    //       addedDataIndexes: <int>[chartData1.length - 1],
-    //       removedDataIndexes: <int>[0],
-    //     );
-    //     chartData2.removeAt(0);
-    //   chartData2.add(ChartSampleData(
-    //     x: wave1,
-    //     y: math.sin(wave2 * (math.pi / 180.0)),
-    //   ));
-    //   _chartSeriesController2.updateDataSource(
-    //       addedDataIndexes: <int>[chartData2.length - 1],
-    //       removedDataIndexes: <int>[0],
-    //     );
-    //     wave1++;
-    //   wave2++;
-    // }
-   
-   if(mounted){
     setState(() {
       chartData1.removeAt(0);
       chartData1.add(ChartSampleData(
@@ -145,7 +138,6 @@ class _LiveUpdateState extends SampleViewState {
       wave1++;
       wave2++;
     });
-   }
   }
 
   void updateLiveData() {
@@ -163,4 +155,35 @@ class _LiveUpdateState extends SampleViewState {
 
     wave1 = chartData1.length;
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
+          return Scaffold(
+              backgroundColor:
+                  model.isWeb ? Colors.transparent : model.cardThemeColor,
+              body: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                child: Container(child: getLiveUpdateChart(false)),
+              ));
+        });
+  }
+}
+
+void updateLiveData() {
+  for (int i = 0; i < 180; i++) {
+    chartData1
+        .add(ChartSampleData(x: i, y: math.sin(wave1 * (math.pi / 180.0))));
+    wave1++;
+  }
+
+  for (int i = 0; i < 180; i++) {
+    chartData2
+        .add(ChartSampleData(x: i, y: math.sin(wave2 * (math.pi / 180.0))));
+    wave2++;
+  }
+
+  wave1 = chartData1.length;
 }

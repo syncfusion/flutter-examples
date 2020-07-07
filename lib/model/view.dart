@@ -1,32 +1,19 @@
-/// Package imports
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Local imports
-import 'helper.dart';
-import 'model.dart';
-import 'sample_view.dart';
-
-///Render the sample layout.
 class LayoutPage extends StatefulWidget {
-  const LayoutPage({this.category,this.sampleModel, Key key}) : super(key: key);
-  final WidgetCategory category;
-  final SampleModel sampleModel;
+  const LayoutPage({Key key}) : super(key: key);
+
   @override
   _LayoutPageState createState() => _LayoutPageState();
 }
 
-
-/// State class of layout.
 class _LayoutPageState extends State<LayoutPage> {
-  SampleModel model;
-  WidgetCategory category;
-  
   @override
   void initState() {
-      model = widget.sampleModel;
-    category = widget.category;
-  
     super.initState();
   }
 
@@ -38,25 +25,28 @@ class _LayoutPageState extends State<LayoutPage> {
   int _index = 0;
   int _index1 = 0;
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
-    return Theme(
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) => Theme(
             data: ThemeData(
                 brightness: model.themeData.brightness,
                 primaryColor: model.backgroundColor),
             child: SafeArea(
               child: DefaultTabController(
-                length: category.controlList[category.selectedIndex].subItems.length,
+                length: model.controlList[model.selectedIndex].subItems.length,
                 child: Scaffold(
                     appBar: AppBar(
                       leading: IconButton(
-                        icon: const Icon(Icons.arrow_back),
+                        icon: Icon(Icons.arrow_back),
                         onPressed: () => Navigator.pop(context, false),
                       ),
-                      backgroundColor: model.paletteColor,
+                      backgroundColor: model.backgroundColor,
                       bottom:
-                          (category.controlList[category.selectedIndex].sampleList !=
+                          (model.controlList[model.selectedIndex].sampleList !=
                                       null &&
-                                  category.controlList[category.selectedIndex]
+                                  model.controlList[model.selectedIndex]
                                           .displayType ==
                                       'card')
                               ? null
@@ -71,34 +61,40 @@ class _LayoutPageState extends State<LayoutPage> {
                                   ),
                                   isScrollable: true,
                                   tabs: _getTabs(
-                                      category.controlList[category.selectedIndex]
+                                      model.controlList[model.selectedIndex]
                                           .subItems,
                                       'parent'),
                                 ),
                       title: Text(
-                          category.controlList[category.selectedIndex].title
+                          model.controlList[model.selectedIndex].title
                               .toString(),
-                          style: const TextStyle(
+                          style: model.isWeb
+                              ? const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  letterSpacing: 0.4)
+                              : const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.0,
                                   color: Colors.white,
                                   letterSpacing: 0.3)),
-                      actions: ((category.controlList[category.selectedIndex]
+                      actions: ((model.controlList[model.selectedIndex]
                                           .sampleList !=
                                       null &&
-                                  category.controlList[category.selectedIndex]
+                                  model.controlList[model.selectedIndex]
                                           .displayType !=
                                       'card' &&
-                                  category.controlList[category.selectedIndex]
+                                  model.controlList[model.selectedIndex]
                                           .sampleList[_index].codeLink !=
                                       null &&
-                                  category.controlList[category.selectedIndex]
+                                  model.controlList[model.selectedIndex]
                                           .sampleList[_index].codeLink !=
                                       '') ||
-                              (category.controlList[category.selectedIndex]
+                              (model.controlList[model.selectedIndex]
                                           .childList !=
                                       null &&
-                                  category.controlList[category.selectedIndex]
+                                  model.controlList[model.selectedIndex]
                                           .childList[_index].displayType ==
                                       'tab'))
                           ? <Widget>[
@@ -111,18 +107,18 @@ class _LayoutPageState extends State<LayoutPage> {
                                     icon: Image.asset('images/code.png',
                                         color: Colors.white),
                                     onPressed: () {
-                                      launch(category
+                                      launch(model
                                                   .controlList[
-                                                      category.selectedIndex]
+                                                      model.selectedIndex]
                                                   .sampleList ==
                                               null
-                                          ? category
-                                              .controlList[category.selectedIndex]
+                                          ? model
+                                              .controlList[model.selectedIndex]
                                               .childList[_index]
                                               .subItems[_index1]
                                               .codeLink
-                                          : category
-                                              .controlList[category.selectedIndex]
+                                          : model
+                                              .controlList[model.selectedIndex]
                                               .sampleList[_index]
                                               .codeLink);
                                     },
@@ -135,35 +131,33 @@ class _LayoutPageState extends State<LayoutPage> {
                     body: TabBarView(
                         physics: const NeverScrollableScrollPhysics(),
                         children:
-                            category.controlList[category.selectedIndex].sampleList !=
+                            model.controlList[model.selectedIndex].sampleList !=
                                     null
                                 ? _getSamples(
                                     model,
-                                    category.controlList[category.selectedIndex]
+                                    model.controlList[model.selectedIndex]
                                         .sampleList,
-                                    category.controlList[category.selectedIndex]
+                                    model.controlList[model.selectedIndex]
                                         .displayType)
-                                : (category.controlList[category.selectedIndex]
+                                : (model.controlList[model.selectedIndex]
                                                 .childList !=
                                             null &&
-                                        _checkType(category
-                                            .controlList[category.selectedIndex]
+                                        _checkType(model
+                                            .controlList[model.selectedIndex]
                                             .subItems))
                                     ? _getChildTabViewChildren(
                                         model,
-                                        category.controlList[category.selectedIndex]
+                                        model.controlList[model.selectedIndex]
                                             .childList)
                                     : _getParentTabViewChildren(
                                         model,
-                                        category.controlList[category.selectedIndex]
+                                        model.controlList[model.selectedIndex]
                                             .subItems))),
               ),
-            ));
+            )));
   }
 
-
-/// Return true, list type doesn't contain child.
-  bool _checkType(List<SubItem> list) {
+  bool _checkType(List<dynamic> list) {
     for (int i = 0; i < list.length; i++) {
       if (list[i].type != 'child') {
         return false;
@@ -173,17 +167,17 @@ class _LayoutPageState extends State<LayoutPage> {
   }
 
   List<Widget> _getSamples(
-          SampleModel model, List<SubItem> list, String displayType) =>
+          SampleModel model, List<dynamic> list, String displayType) =>
       displayType == 'card'
           ? _getCardViewChildren(model, list)
           : _getFullViewChildren(model, list);
 
-  List<Widget> _getTabs(List<SubItem> list, [String tabView]) {
-    final List<Widget> _tabs = <Widget>[];
+  List<Widget> _getTabs(List<dynamic> list, [String tabView]) {
+    final List<Widget> tabs = <Widget>[];
     for (int i = 0; i < list.length; i++) {
       if (list.isNotEmpty) {
         final String str = getStatus(list[i]);
-        _tabs.add(Tab(
+        tabs.add(Tab(
             child: Row(
           children: <Widget>[
             Text(list[i].title.toString() + (str != '' ? '  ' : ''),
@@ -194,13 +188,13 @@ class _LayoutPageState extends State<LayoutPage> {
             str == ''
                 ? Container()
                 : Container(
-                    height: tabView != 'parent' ? 17 : 20,
-                    width: tabView != 'parent' ? 17 : 20,
+                    height: 20,
+                    width: 20,
                     decoration: BoxDecoration(
                       color: str == 'N'
-                          ? const Color.fromRGBO(55, 153, 30, 1)
+                          ? const Color.fromRGBO(101, 193, 0, 1)
                           : str == 'U'
-                              ? const Color.fromRGBO(246, 117, 0, 1)
+                              ? const Color.fromRGBO(245, 166, 35, 1)
                               : Colors.transparent,
                       shape: BoxShape.circle,
                     ),
@@ -216,94 +210,30 @@ class _LayoutPageState extends State<LayoutPage> {
         )));
       }
     }
-    return _tabs;
+    return tabs;
   }
 
-/// To displaying sample in full screen height, it doesn't contains expanded view.
-  List<Widget> _getFullViewChildren(SampleModel model, List<SubItem> list) {
-    final List<dynamic> _tabs = <Widget>[];
+  List<Widget> _getFullViewChildren(SampleModel model, List<dynamic> list) {
+    final List<Widget> tabs = <Widget>[];
     for (int j = 0; j < list.length; j++) {
-      final SubItem sample = list[j];
-      final bool _needsFloatingBotton =
-          (sample.sourceLink != null && sample.sourceLink != '') ||
-              sample.needsPropertyPanel == true;
-      dynamic _sampleView = model.sampleWidget[list[j].key];
-      _sampleView = _sampleView(GlobalKey<State>());
-      _tabs.add(
-        Scaffold(
-          backgroundColor: model.cardThemeColor,
-          body:  Container(child: _sampleView),          
-          floatingActionButton: _needsFloatingBotton
-              ? Stack(children: <Widget>[
-                  (sample.sourceLink != null && sample.sourceLink != '')
-                      ? Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                            child: Container(
-                              height: 50,
-                              width: 250,
-                              child: InkWell(
-                                onTap: () => launch(sample.sourceLink),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text('Source: ',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: model.textColor)),
-                                    Text(sample.sourceText,
-                                        style: const TextStyle(
-                                            fontSize: 14, color: Colors.blue)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : Container(),
-                  sample.needsPropertyPanel != true
-                      ? Container()
-                      : Align(
-                          alignment: Alignment.bottomRight,
-                          child: FloatingActionButton(
-                            heroTag: null,
-                            onPressed: () {
-                              final GlobalKey _sampleKey = _sampleView.key;
-                              final SampleViewState _sampleState =
-                                  _sampleKey.currentState;
-                              final Widget _settingsContent =
-                                  _sampleState.buildSettings(context);
-                              getBottomSheet(context, _settingsContent);
-                            },
-                            child: const Icon(Icons.graphic_eq,
-                                color: Colors.white),
-                            backgroundColor: model.paletteColor,
-                          ),
-                        ),
-                ])
-              : null,
-        ),
-      );
+      model.sampleWidget[list[j].key][1].sample = list[j];
+      tabs.add(Container(child: model.sampleWidget[list[j].key][1]));
     }
-    return _tabs;
+    return tabs;
   }
 
-
-/// To displaying sample in cards, it contains expanded sample view option.
-  List<Widget> _getCardViewChildren(SampleModel model, List<SubItem> list) {
-    final List<Widget> _tabChildren = <Widget>[];
-    dynamic sample;
-    for (int i = 0; i < list.length; i++) {    
-      _tabChildren.add(ListView.builder(
+  List<Widget> _getCardViewChildren(SampleModel model, List<dynamic> list) {
+    final List<Widget> tabChildren = <Widget>[];
+    for (int i = 0; i < list.length; i++) {
+      tabChildren.add(ListView.builder(
           cacheExtent: (list.length).toDouble(),
           addAutomaticKeepAlives: true,
           itemCount: list.length,
           itemBuilder: (BuildContext context, int position) {
             final String status = list[position].status;
-            sample = model.sampleWidget[list[position].key];
-            sample = sample(GlobalKey<State>());
+            final SubItem _subitem = list[position];
             return Container(
-              color: model.themeData.brightness == Brightness.dark ? Colors.black : const Color.fromRGBO(250, 250, 250, 1),
+              color: model.slidingPanelColor,
               padding: const EdgeInsets.all(5.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -321,7 +251,7 @@ class _LayoutPageState extends State<LayoutPage> {
                           splashColor: Colors.grey.withOpacity(0.4),
                           onTap: () {
                             Feedback.forLongPress(context);
-                            expandSample(context, list[position], model);
+                            onTapSampleItem(context, list[position], model);
                           },
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -335,7 +265,13 @@ class _LayoutPageState extends State<LayoutPage> {
                                     softWrap: true,
                                     textScaleFactor: 1,
                                     overflow: TextOverflow.fade,
-                                    style: TextStyle(
+                                    style: model.isWeb
+                                        ? TextStyle(
+                                            fontFamily: 'HeeboMedium',
+                                            fontSize: 19.0,
+                                            color: model.textColor,
+                                            letterSpacing: 0.2)
+                                        : TextStyle(
                                             fontFamily: 'HeeboMedium',
                                             fontSize: 16.0,
                                             color: model.textColor,
@@ -349,21 +285,21 @@ class _LayoutPageState extends State<LayoutPage> {
                                               color: (status != null && status != '')
                                                   ? (status == 'New' || status == 'new'
                                                       ? const Color.fromRGBO(
-                                                          55, 153, 30, 1)
+                                                          101, 193, 0, 1)
                                                       : const Color.fromRGBO(
-                                                          246, 117, 0, 1))
+                                                          245, 166, 35, 1))
                                                   : Colors.transparent,
                                               shape: BoxShape.rectangle,
                                               borderRadius:
                                                   const BorderRadius.all(
                                                       Radius.circular(10.0))),
                                           padding: const EdgeInsets.fromLTRB(
-                                              5, 2.7, 5, 2.7),
+                                              6, 3, 6, 3),
                                           child: Text(
                                               (status == 'New' || status == 'new')
                                                   ? 'New'
                                                   : (status == 'Updated' || status == 'updated') ? 'Updated' : '',
-                                              style: const TextStyle(fontSize: 12, color: Colors.white))),
+                                              style: const TextStyle(color: Colors.white))),
                                       const Padding(
                                         padding: EdgeInsets.only(left: 15),
                                       ),
@@ -379,7 +315,7 @@ class _LayoutPageState extends State<LayoutPage> {
                                               fit: BoxFit.contain,
                                               height: 20,
                                               width: 20,
-                                              color: model.backgroundColor),
+                                              color: model.listIconColor),
                                         ),
                                       ),
                                     ],
@@ -391,9 +327,19 @@ class _LayoutPageState extends State<LayoutPage> {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: SizedBox(
-                                width: double.infinity,
-                                height: 230,
-                                child: sample),
+                                //ignore: avoid_as
+                                width: model.isWeb
+                                    ? _subitem != null &&
+                                            _subitem.key == 'clock_sample'
+                                        ? (MediaQuery.of(context).size.height *
+                                            0.6)
+                                        : double.infinity
+                                    : double.infinity,
+                                height: model.isWeb
+                                    ? (MediaQuery.of(context).size.height * 0.6)
+                                    : 230,
+                                child: model.sampleWidget[list[position].key]
+                                    [0]),
                           ),
                         ),
                       ],
@@ -404,15 +350,15 @@ class _LayoutPageState extends State<LayoutPage> {
             );
           }));
     }
-    return _tabChildren;
+    return tabChildren;
   }
 
-  /// If child type given to control subitems.
-  List<Widget> _getChildTabViewChildren(SampleModel model, List<SubItem> list) {
-    final List<Widget> _tabs = <Widget>[];
+  ///if child type given to control subitems
+  List<Widget> _getChildTabViewChildren(SampleModel model, List<dynamic> list) {
+    final List<Widget> tabs = <Widget>[];
     for (int i = 0; i < list.length; i++) {
       if (list[i].subItems.isNotEmpty) {
-        _tabs.add(Container(
+        tabs.add(Container(
           alignment: Alignment.center,
           child: DefaultTabController(
               length: list[i].subItems.length,
@@ -444,16 +390,16 @@ class _LayoutPageState extends State<LayoutPage> {
         ));
       }
     }
-    return _tabs;
+    return tabs;
   }
 
-  /// If parent type given to control's subitem.
+  ///if parent type given to control's subitem
   List<Widget> _getParentTabViewChildren(
-      SampleModel model, List<SubItem> list) {
-    final List<Widget> _tabs = <Widget>[];
+      SampleModel model, List<dynamic> list) {
+    final List<Widget> tabs = <Widget>[];
     for (int i = 0; i < list.length; i++) {
       if (list[i].subItems.isNotEmpty) {
-        _tabs.add(Container(
+        tabs.add(Container(
           alignment: Alignment.center,
           child: DefaultTabController(
               length: list[i].subItems.length,
@@ -486,6 +432,6 @@ class _LayoutPageState extends State<LayoutPage> {
         ));
       }
     }
-    return _tabs;
+    return tabs;
   }
 }

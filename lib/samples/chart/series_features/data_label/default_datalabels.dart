@@ -1,56 +1,53 @@
-/// Package import
-import 'package:flutter/material.dart';
-
-/// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Local imports
+import 'package:flutter/material.dart';
+import '../../../../model/helper.dart';
 import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
 
-/// Renders the chart with default data labels sample.
-class DataLabelDefault extends SampleView {
-  const DataLabelDefault(Key key) : super(key: key);
+//ignore: must_be_immutable
+class DataLabelDefault extends StatefulWidget {
+  DataLabelDefault({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _DataLabelDefaultState createState() => _DataLabelDefaultState();
+  _DataLabelDefaultState createState() => _DataLabelDefaultState(sample);
 }
 
-/// State class of the chart with default data labels.
-class _DataLabelDefaultState extends SampleViewState {
-  _DataLabelDefaultState();
+class _DataLabelDefaultState extends State<DataLabelDefault> {
+  _DataLabelDefaultState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getDataLabelDefaultChart();
+    return getScopedModel(getDataLabelDefaultChart(false), sample);
   }
+}
 
-  /// Returns the chart with default data labels.
-  SfCartesianChart getDataLabelDefaultChart() {
+SfCartesianChart getDataLabelDefaultChart(bool isTileView) {
   return SfCartesianChart(
-    title: ChartTitle(text: isCardView ? '' : 'Gross investments'),
+    title: ChartTitle(text: isTileView ? '' : 'Gross investments'),
     plotAreaBorderWidth: 0,
-    legend: Legend(isVisible: isCardView ? false : true),
+    legend: Legend(isVisible: isTileView ? false : true),
     primaryXAxis: NumericAxis(
         minimum: 2006,
-        maximum: 2010,
-        title: AxisTitle(text: isCardView ? '' : 'Year'),
+        maximum: 2011,
+        interval: 1,
+        title: AxisTitle(text: isTileView ? '' : 'Year'),
         majorGridLines: MajorGridLines(width: 0),
-        edgeLabelPlacement: EdgeLabelPlacement.shift,
-        interval: 1),
+        edgeLabelPlacement: EdgeLabelPlacement.shift),
     primaryYAxis: NumericAxis(
         minimum: 15,
         maximum: 30,
         labelFormat: '{value}%',
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0)),
-    series: getDataLabelDefaultSeries(),
+    series: getDataLabelDefaultSeries(isTileView),
     tooltipBehavior: TooltipBehavior(enable: true),
   );
 }
 
-/// Returns the list of chart series which need to render on the chart with default data labels.
-List<SplineSeries<ChartSampleData, num>> getDataLabelDefaultSeries() {
+List<SplineSeries<ChartSampleData, num>> getDataLabelDefaultSeries(
+  bool isTileView,
+) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x: 2006, y: 21.8, yValue: 18.2),
     ChartSampleData(x: 2007, y: 24.9, yValue: 21),
@@ -84,11 +81,9 @@ List<SplineSeries<ChartSampleData, num>> getDataLabelDefaultSeries() {
         yValueMapper: (ChartSampleData sales, _) => sales.yValue,
         markerSettings: MarkerSettings(isVisible: true),
         name: 'Russia',
-        /// To enable the data label for cartesian chart.
         dataLabelSettings: DataLabelSettings(
             isVisible: true,
             useSeriesColor: true,
             labelAlignment: ChartDataLabelAlignment.top))
   ];
-}
 }

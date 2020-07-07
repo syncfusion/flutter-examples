@@ -1,76 +1,100 @@
-/// Dart imports
 import 'dart:math';
 import 'dart:ui';
-
-/// Package imports
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
-/// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Local imports
+import 'package:flutter/material.dart';
+import '../../../../model/helper.dart';
 import '../../../../model/model.dart';
-import '../../../../model/sample_view.dart';
 
-/// Renders the customized spline chart sample.
-class SplineCustomization extends SampleView {
-  const SplineCustomization(Key key) : super(key: key);
+//ignore: must_be_immutable
+class SplineCustomization extends StatefulWidget {
+  SplineCustomization({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _SplineVerticalState createState() => _SplineVerticalState();
+  _SplineVerticalState createState() => _SplineVerticalState(sample);
 }
 
-/// State class of customized spline chart.
-class _SplineVerticalState extends SampleViewState {
-  _SplineVerticalState();
+class _SplineVerticalState extends State<SplineCustomization> {
+  _SplineVerticalState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getCustomizedSplineChart();
-  }
-
-  /// Returns the customized spline chart.
-  SfCartesianChart getCustomizedSplineChart() {
-    return SfCartesianChart(
-      title: ChartTitle(text: isCardView ? '' : 'Product sales prediction'),
-      plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
-      ),
-      primaryYAxis: NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          minimum: 1.2,
-          maximum: 2.4,
-          interval: 0.2),
-      series: <ChartSeries<ChartSampleData, num>>[
-        SplineSeries<ChartSampleData, num>(
-            onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-              return CustomSplineSeriesRenderer();
-            },
-            dataSource: <ChartSampleData>[
-              ChartSampleData(x: 2016, y: 2),
-              ChartSampleData(x: 2017, y: 1.5),
-              ChartSampleData(x: 2018, y: 2),
-              ChartSampleData(x: 2019, y: 1.75),
-              ChartSampleData(x: 2020, y: 1.5),
-              ChartSampleData(x: 2021, y: 2),
-              ChartSampleData(x: 2022, y: 1.5),
-              ChartSampleData(x: 2023, y: 2.2),
-              ChartSampleData(x: 2024, y: 1.9),
-            ],
-            xValueMapper: (ChartSampleData sales, _) => sales.x,
-            yValueMapper: (ChartSampleData sales, _) => sales.y,
-            width: 2,
-            dashArray: kIsWeb ? <double>[0, 0] : <double>[10, 5]),
-      ],
-    );
+    return getScopedModel(getCustomizedSplineChart(false), sample);
   }
 }
 
-/// custom spline series class overriding the original spline series class.
-class CustomSplineSeriesRenderer extends SplineSeriesRenderer {
-  CustomSplineSeriesRenderer();
+SfCartesianChart getCustomizedSplineChart(bool isTileView) {
+  return SfCartesianChart(
+    title: ChartTitle(text: isTileView ? '' : 'Product sales prediction'),
+    plotAreaBorderWidth: 0,
+    primaryXAxis: NumericAxis(
+      majorGridLines: MajorGridLines(width: 0),
+    ),
+    primaryYAxis: NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
+        minimum: 1.2,
+        maximum: 2.4,
+        interval: 0.2),
+    series: getSplineCustomizedSeries(isTileView),
+  );
+}
+
+List<CustomSplineSeries<ChartSampleData, num>> getSplineCustomizedSeries(
+    bool isTileView) {
+  final List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(x: 2016, y: 2),
+    ChartSampleData(x: 2017, y: 1.5),
+    ChartSampleData(x: 2018, y: 2),
+    ChartSampleData(x: 2019, y: 1.75),
+    ChartSampleData(x: 2020, y: 1.5),
+    ChartSampleData(x: 2021, y: 2),
+    ChartSampleData(x: 2022, y: 1.5),
+    ChartSampleData(x: 2023, y: 2.2),
+    ChartSampleData(x: 2024, y: 1.9),
+  ];
+  return <CustomSplineSeries<ChartSampleData, num>>[
+    CustomSplineSeries<ChartSampleData, num>(
+        dataSource: chartData,
+        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        width: 2,
+        dashArray: kIsWeb ? <double>[0, 0] : <double>[10, 5]),
+  ];
+}
+
+class CustomSplineSeries<T, D> extends SplineSeries<T, D> {
+  CustomSplineSeries(
+      {@required List<T> dataSource,
+      @required ChartValueMapper<T, D> xValueMapper,
+      @required ChartValueMapper<T, num> yValueMapper,
+      String xAxisName,
+      String yAxisName,
+      Color color,
+      double width,
+      MarkerSettings marker,
+      EmptyPointSettings emptyPointSettings,
+      DataLabelSettings dataLabel,
+      bool visible,
+      bool enableToolTip,
+      List<double> dashArray,
+      double animationDuration})
+      : super(
+            xValueMapper: xValueMapper,
+            yValueMapper: yValueMapper,
+            dataSource: dataSource,
+            xAxisName: xAxisName,
+            yAxisName: yAxisName,
+            color: color,
+            width: width,
+            markerSettings: marker,
+            emptyPointSettings: emptyPointSettings,
+            dataLabelSettings: dataLabel,
+            isVisible: visible,
+            enableTooltip: enableToolTip,
+            dashArray: dashArray,
+            animationDuration: animationDuration);
 
   static Random randomNumber = Random();
 
@@ -82,11 +106,7 @@ class CustomSplineSeriesRenderer extends SplineSeriesRenderer {
 
 List<num> yVal;
 List<num> xVal;
-double textXOffset, textYOffset;
-double text1XOffset, text1YOffset;
 
-
-/// custom spline painter class for customized spline series.
 class SplineCustomPainter extends SplineSegment {
   SplineCustomPainter(int value) {
     //ignore: prefer_initializing_formals
@@ -144,16 +164,9 @@ class SplineCustomPainter extends SplineSegment {
         ? canvas.drawPath(path, getStrokePaint())
         : drawDashedLine(canvas, series, strokePaint, path, true);
 
-    if(currentSegmentIndex == 5){
-      textXOffset = xVal[0];
-      textYOffset = yVal[1];
-    }  
-    if(currentSegmentIndex == 1){
-      text1XOffset = xVal[0];
-      text1YOffset = yVal[0];
-    }  
-
-    if (currentSegmentIndex == series.dataSource.length - 2) {
+    if (currentSegmentIndex == series.segments.length - 1) {
+      double maximum;
+      maximum = yVal.reduce(max);
       const TextSpan span = TextSpan(
         style: TextStyle(
             color: Color.fromRGBO(0, 168, 181, 1),
@@ -164,7 +177,7 @@ class SplineCustomPainter extends SplineSegment {
       final TextPainter tp =
           TextPainter(text: span, textDirection: TextDirection.ltr);
       tp.layout();
-      tp.paint(canvas, Offset(text1XOffset, text1YOffset + tp.size.height));
+      tp.paint(canvas, Offset(xVal[1], maximum + tp.size.height));
       const TextSpan span1 = TextSpan(
         style: TextStyle(
             color: Color.fromRGBO(246, 114, 128, 1),
@@ -175,7 +188,7 @@ class SplineCustomPainter extends SplineSegment {
       final TextPainter tp1 =
           TextPainter(text: span1, textDirection: TextDirection.ltr);
       tp1.layout();
-      tp1.paint(canvas, Offset(textXOffset, textYOffset + tp.size.height));
+      tp1.paint(canvas, Offset(xVal[10], maximum + tp.size.height));
     }
   }
 }
@@ -183,13 +196,13 @@ class SplineCustomPainter extends SplineSegment {
 void drawDashedLine(Canvas canvas, CartesianSeries<dynamic, dynamic> series,
     Paint paint, Path path, bool isSeries,
     [List<Path> pathList, List<Color> colorList]) {
-  bool _even = false;
+  bool even = false;
   for (int i = 1; i < series.dashArray.length; i = i + 2) {
     if (series.dashArray[i] == 0) {
-      _even = true;
+      even = true;
     }
   }
-  if (_even == false) {
+  if (even == false) {
     paint.isAntiAlias = true;
     canvas.drawPath(
         dashPath(
@@ -209,22 +222,22 @@ Path dashPath(
   if (source == null) {
     return null;
   }
-  const double _intialValue = 0.0;
-  final Path _path = Path();
+  const double intialValue = 0.0;
+  final Path path = Path();
   for (final PathMetric measurePath in source.computeMetrics()) {
-    double _distance = _intialValue;
-    bool _draw = true;
-    while (_distance < measurePath.length) {
+    double distance = intialValue;
+    bool draw = true;
+    while (distance < measurePath.length) {
       final double length = dashArray.next;
-      if (_draw) {
-        _path.addPath(measurePath.extractPath(_distance, _distance + length),
-            Offset.zero);
+      if (draw) {
+        path.addPath(
+            measurePath.extractPath(distance, distance + length), Offset.zero);
       }
-      _distance += length;
-      _draw = !_draw;
+      distance += length;
+      draw = !draw;
     }
   }
-  return _path;
+  return path;
 }
 
 class CircularIntervalList<T> {

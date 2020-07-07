@@ -1,26 +1,31 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart' as _picker;
 
-class PopUpDatePicker extends SampleView {
-  const PopUpDatePicker(Key key) : super(key: key);
+//ignore: must_be_immutable
+class PopUpDatePicker extends StatefulWidget {
+  PopUpDatePicker({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _PopUpDatePickerState createState() => _PopUpDatePickerState();
+  _PopUpDatePickerState createState() => _PopUpDatePickerState(sample);
 }
 
-class _PopUpDatePickerState extends SampleViewState
+class _PopUpDatePickerState extends State<PopUpDatePicker>
     with SingleTickerProviderStateMixin {
-  _PopUpDatePickerState();
+  _PopUpDatePickerState(this.sample);
 
+  final SubItem sample;
   bool panelOpen;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   DateTime _startDate;
   DateTime _endDate;
   int _value;
+
+  Widget sampleWidget(SampleModel model) => PopUpDatePicker();
 
   @override
   void initState() {
@@ -71,9 +76,7 @@ class _PopUpDatePickerState extends SampleViewState
         elevation: 10,
         margin: const EdgeInsets.all(10),
         child: Container(
-            color: model.isWeb
-                ? model.webSampleBackgroundColor
-                : model.cardThemeColor,
+            color: model.cardThemeColor,
             child: ListView(
                 padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                 children: <Widget>[
@@ -408,7 +411,7 @@ class _PopUpDatePickerState extends SampleViewState
                             shape: BoxShape.rectangle,
                             color: model.backgroundColor),
                         padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                        child: const Text(
+                        child: Text(
                           'SEARCH',
                           style: TextStyle(
                               color: Colors.white,
@@ -433,16 +436,20 @@ class _PopUpDatePickerState extends SampleViewState
 
   @override
   Widget build([BuildContext context]) {
-    return Scaffold(
-        backgroundColor: model.themeData == null ||
-                model.themeData.brightness == Brightness.light
-            ? null
-            : const Color(0x171A21),
-        body: kIsWeb
-            ? Center(
-                child: Container(
-                    width: 500, height: 500, child: _getBooking(model)))
-            : _getBooking(model));
+    return ScopedModelDescendant<SampleModel>(
+        rebuildOnChange: true,
+        builder: (BuildContext context, _, SampleModel model) {
+          return Container(
+              color: model.themeData == null ||
+                      model.themeData.brightness == Brightness.light
+                  ? null
+                  : Colors.black,
+              child: kIsWeb
+                  ? Center(
+                      child: Container(
+                          width: 500, height: 500, child: _getBooking(model)))
+                  : _getBooking(model));
+        });
   }
 }
 
@@ -471,37 +478,13 @@ class _DateRangePickerState extends State<DateRangePicker> {
   DateTime date;
   _picker.DateRangePickerController _controller;
   _picker.PickerDateRange range;
-  bool _isWeb;
 
   @override
   void initState() {
     date = widget.date;
     range = widget.range;
     _controller = _picker.DateRangePickerController();
-    _isWeb = false;
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    //// Extra small devices (phones, 600px and down)
-//// @media only screen and (max-width: 600px) {...}
-////
-//// Small devices (portrait tablets and large phones, 600px and up)
-//// @media only screen and (min-width: 600px) {...}
-////
-//// Medium devices (landscape tablets, 768px and up)
-//// media only screen and (min-width: 768px) {...}
-////
-//// Large devices (laptops/desktops, 992px and up)
-//// media only screen and (min-width: 992px) {...}
-////
-//// Extra large devices (large laptops and desktops, 1200px and up)
-//// media only screen and (min-width: 1200px) {...}
-//// Default width to render the mobile UI in web, if the device width exceeds
-//// the given width agenda view will render the web UI.
-    _isWeb = MediaQuery.of(context).size.width > 767;
-    super.didChangeDependencies();
   }
 
   @override
@@ -511,21 +494,11 @@ class _DateRangePickerState extends State<DateRangePicker> {
       child: ButtonBar(
         children: <Widget>[
           FlatButton(
-            splashColor: widget.model.backgroundColor
-                .withOpacity(widget.model.backgroundColor.opacity * 0.2),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: widget.model.backgroundColor),
-            ),
+            child: const Text('Cancel'),
             onPressed: () => Navigator.pop(context, null),
           ),
           FlatButton(
-            splashColor: widget.model.backgroundColor
-                .withOpacity(widget.model.backgroundColor.opacity * 0.2),
-            child: Text(
-              'OK',
-              style: TextStyle(color: widget.model.backgroundColor),
-            ),
+            child: const Text('OK'),
             onPressed: () {
               if (range != null) {
                 Navigator.pop(context, range);
@@ -601,17 +574,19 @@ class _DateRangePickerState extends State<DateRangePicker> {
       controller: _controller,
       initialDisplayDate: widget.displayDate,
       showNavigationArrow: true,
-      enableMultiView: range != null && _isWeb,
       selectionMode: range == null
           ? _picker.DateRangePickerSelectionMode.single
           : _picker.DateRangePickerSelectionMode.range,
       minDate: widget.minDate,
       maxDate: widget.maxDate,
       todayHighlightColor: Colors.transparent,
+      monthCellStyle: _picker.DateRangePickerMonthCellStyle(
+          todayTextStyle: const TextStyle(color: Colors.blue, fontSize: 13)),
+      yearCellStyle: _picker.DateRangePickerYearCellStyle(
+          todayTextStyle: const TextStyle(color: Colors.blue, fontSize: 13)),
       headerStyle: _picker.DateRangePickerHeaderStyle(
           textAlign: TextAlign.center,
-          textStyle:
-              TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
+          textStyle: TextStyle(color: Colors.blue[700], fontSize: 15)),
       onSelectionChanged:
           (_picker.DateRangePickerSelectionChangedArgs details) {
         setState(() {
@@ -625,28 +600,23 @@ class _DateRangePickerState extends State<DateRangePicker> {
     );
 
     return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
-            height: 400,
-            width: range != null && _isWeb ? 500 : 300,
-            color: widget.model.isWeb
-                ? widget.model.webSampleBackgroundColor
-                : widget.model.cardThemeColor,
-            child: Theme(
-              data: widget.model.themeData
-                  .copyWith(accentColor: widget.model.backgroundColor),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  selectedDateWidget,
-                  Flexible(
-                      child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                          child: pickerWidget)),
-                  footerWidget,
-                ],
-              ),
-            )));
+          height: 400,
+          width: 300,
+          color: widget.model.cardThemeColor,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              selectedDateWidget,
+              Flexible(
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: pickerWidget)),
+              footerWidget,
+            ],
+          ),
+        ));
   }
 }

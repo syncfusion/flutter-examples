@@ -430,9 +430,9 @@ class _RangeSelectorZoomingPageState extends State<RangeSelectorZoomingPage>
                           showLabels: true,
                           lockRange: true,
                           labelFormatterCallback: (dynamic actualLabel, String formattedText){
-                              String label = DateFormat.MMM().format(actualLabel);
-                              label = (kIsWeb && mediaQueryData.size.width <= 1000) ? label[0]: label;
-                              return label;
+                            String label = DateFormat.MMM().format(actualLabel);
+                            label = (kIsWeb && mediaQueryData.size.width <= 1000) ? label[0]: label;
+                            return label;
                           },
                           onChanged: (SfRangeValues values) {},
                           child: Container(

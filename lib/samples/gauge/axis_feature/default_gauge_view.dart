@@ -1,24 +1,29 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
-class RadialGaugeDefault extends SampleView {
-  const RadialGaugeDefault(Key key) : super(key: key);
-  
+// ignore: must_be_immutable
+class RadialGaugeDefault extends StatefulWidget {
+  RadialGaugeDefault({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
-  _RadialGaugeDefaultState createState() => _RadialGaugeDefaultState();
+  _RadialGaugeDefaultState createState() => _RadialGaugeDefaultState(sample);
 }
 
-class _RadialGaugeDefaultState extends SampleViewState {
-  _RadialGaugeDefaultState();
-  
+class _RadialGaugeDefaultState extends State<RadialGaugeDefault> {
+  _RadialGaugeDefaultState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getDefaultRadialGauge();
+    return getScopedModel(getDefaultRadialGauge(false), sample);
   }
+}
 
-SfRadialGauge getDefaultRadialGauge() {
+SfRadialGauge getDefaultRadialGauge(bool isTileView) {
   return SfRadialGauge(
     enableLoadingAnimation: true,
     axes: <RadialAxis>[
@@ -30,7 +35,7 @@ SfRadialGauge getDefaultRadialGauge() {
           ),
           showTicks: false,
           axisLabelStyle: GaugeTextStyle(
-            fontSize: isCardView ? 12 : 14,
+            fontSize: isTileView ? 12 : 14,
           ),
           labelOffset: 25,
           radiusFactor: kIsWeb ? 0.8 : 0.95,
@@ -41,7 +46,7 @@ SfRadialGauge getDefaultRadialGauge() {
                 lengthUnit: GaugeSizeUnit.factor,
                 needleColor: _needleColor,
                 needleStartWidth: 0,
-                needleEndWidth: isCardView ? 3 : 4,
+                needleEndWidth: isTileView ? 3 : 4,
                 knobStyle: KnobStyle(
                     sizeUnit: GaugeSizeUnit.factor,
                     color: _needleColor,
@@ -51,5 +56,4 @@ SfRadialGauge getDefaultRadialGauge() {
   );
 }
 
-final Color _needleColor = const Color(0xFFC06C84);
-}
+Color _needleColor = const Color(0xFFC06C84);

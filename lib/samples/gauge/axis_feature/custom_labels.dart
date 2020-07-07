@@ -1,26 +1,30 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class GaugeCustomLabels extends SampleView {
-  const GaugeCustomLabels(Key key) : super(key: key);
-  
+class GaugeCustomLabels extends StatefulWidget {
+  GaugeCustomLabels({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
-  _GaugeCustomLabelsState createState() => _GaugeCustomLabelsState();
+  _GaugeCustomLabelsState createState() => _GaugeCustomLabelsState(sample);
 }
 
-class _GaugeCustomLabelsState extends SampleViewState {
-  _GaugeCustomLabelsState();
+class _GaugeCustomLabelsState extends State<GaugeCustomLabels> {
+  _GaugeCustomLabelsState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getGaugeCustomLabels();
+    return getScopedModel(getGaugeCustomLabels(false), sample);
   }
+}
 
-Widget getGaugeCustomLabels() {
+Widget getGaugeCustomLabels(bool isTileView, [bool isIndexed]) {
   return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
     final Orientation _orientation = MediaQuery.of(context).orientation;
@@ -51,7 +55,7 @@ Widget getGaugeCustomLabels() {
                 needleLength: 0.55,
                 needleEndWidth: kIsWeb
                     ? 18
-                    : isCardView
+                    : isTileView
                         ? 10
                         : _orientation == Orientation.portrait ? 18 : 10,
                 gradient: const LinearGradient(colors: <Color>[
@@ -90,7 +94,7 @@ Widget getGaugeCustomLabels() {
                     : const Color(0xFFFCACACA),
                 needleEndWidth: kIsWeb
                     ? 18
-                    : isCardView
+                    : isTileView
                         ? 10
                         : _orientation == Orientation.portrait ? 18 : 10,
                 knobStyle: KnobStyle(
@@ -122,5 +126,4 @@ void labelCreated(AxisLabelCreatedArgs args) {
   } else if (args.text == '70') {
     args.text = 'NW';
   }
-}
 }

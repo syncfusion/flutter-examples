@@ -1,26 +1,30 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class MultipleRangesExample extends SampleView {
-  const MultipleRangesExample(Key key) : super(key: key);
-  
+class MultipleRangesExample extends StatefulWidget {
+  MultipleRangesExample({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _MultipleRangesExampleState createState() =>
-      _MultipleRangesExampleState();
+      _MultipleRangesExampleState(sample);
 }
 
-class _MultipleRangesExampleState extends SampleViewState {
-  _MultipleRangesExampleState();
-  
+class _MultipleRangesExampleState extends State<MultipleRangesExample> {
+  _MultipleRangesExampleState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getMultipleRangesExampleGauge();
+    return getScopedModel(getMultipleRangesExampleGauge(false), sample);
   }
+}
 
-Widget getMultipleRangesExampleGauge() {
+Widget getMultipleRangesExampleGauge(bool isTileView) {
   return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
     return SfRadialGauge(
@@ -39,7 +43,7 @@ Widget getMultipleRangesExampleGauge() {
               NeedlePointer(
                   needleStartWidth: 1,
                   value: 30,
-                  needleEndWidth: isCardView
+                  needleEndWidth: isTileView
                       ? 5
                       : MediaQuery.of(context).orientation ==
                               Orientation.portrait
@@ -85,5 +89,4 @@ Widget getMultipleRangesExampleGauge() {
       ],
     );
   });
-}
 }

@@ -1,32 +1,28 @@
-/// Package imports
+import 'package:flutter_examples/model/helper.dart';
+import 'package:flutter_examples/model/model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Local imports
-import '../../../model/sample_view.dart';
-
-/// Renders the OHLC chart with Accumulation distribution indicator samples.
-class AdIndicator extends SampleView {
-  const AdIndicator(Key key) : super(key: key);
+//ignore: must_be_immutable
+class AdIndicator extends StatefulWidget {
+  AdIndicator({this.sample, Key key}) : super(key: key);
+  SubItem sample;
 
   @override
-  _AdIndicatorState createState() => _AdIndicatorState();
+  _AdIndicatorState createState() => _AdIndicatorState(sample);
 }
 
-/// State class of the OHLC chart with Accumulation distribution indicator.
-class _AdIndicatorState extends SampleViewState {
-  _AdIndicatorState();
-
+class _AdIndicatorState extends State<AdIndicator> {
+  _AdIndicatorState(this.sample);
+  final SubItem sample;
   @override
   Widget build(BuildContext context) {
-    return getDefaultAdIndicator();
+    return getScopedModel(getDefaultAdIndicator(false), sample);
   }
+}
 
-  /// Returns the OHLC chart with Accumulation distribution indicator.
-  SfCartesianChart getDefaultAdIndicator() {
+SfCartesianChart getDefaultAdIndicator(bool isTileView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
         x: DateTime(2016, 01, 04),
@@ -394,12 +390,13 @@ class _AdIndicatorState extends SampleViewState {
         volume: 84354060),
   ];
   return SfCartesianChart(
-    legend: Legend(isVisible: !isCardView),
+    legend: Legend(isVisible: !isTileView),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
       majorGridLines: MajorGridLines(width: 0),
       dateFormat: DateFormat.MMM(),
       interval: 3,
+      intervalType: DateTimeIntervalType.months,
       minimum: DateTime(2016, 01, 01),
       maximum: DateTime(2017, 01, 01),
       // labelRotation: 45,
@@ -423,20 +420,19 @@ class _AdIndicatorState extends SampleViewState {
       )
     ],
     trackballBehavior: TrackballBehavior(
-      enable: isCardView ? false : true,
+      enable: isTileView ? false : true,
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     ),
-    tooltipBehavior: TooltipBehavior(enable: isCardView ? true : false),
+    tooltipBehavior: TooltipBehavior(enable: isTileView ? true : false),
     indicators: <TechnicalIndicators<ChartSampleData, dynamic>>[
-      /// AD indicator mentioned here.
       AccumulationDistributionIndicator<ChartSampleData, dynamic>(
         seriesName: 'AAPL',
         yAxisName: 'yaxes',
         // name: 'ad indicator',
       ),
     ],
-    title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
+    title: ChartTitle(text: isTileView ? '' : 'AAPL - 2016'),
     series: <ChartSeries<ChartSampleData, dynamic>>[
       HiloOpenCloseSeries<ChartSampleData, dynamic>(
           emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
@@ -452,9 +448,7 @@ class _AdIndicatorState extends SampleViewState {
     ],
   );
 }
-}
 
-/// Class for storing the OHLC chart series data points.
 class ChartSampleData {
   ChartSampleData(
       {this.x, this.open, this.close, this.high, this.low, this.volume});

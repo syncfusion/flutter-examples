@@ -1,26 +1,30 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class RangeDataLabelExample extends SampleView {
-  const RangeDataLabelExample(Key key) : super(key: key);
-  
+class RangeDataLabelExample extends StatefulWidget {
+  RangeDataLabelExample({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _RangeDataLabelExampleState createState() =>
-      _RangeDataLabelExampleState();
+      _RangeDataLabelExampleState(sample);
 }
 
-class _RangeDataLabelExampleState extends SampleViewState {
-  _RangeDataLabelExampleState();
+class _RangeDataLabelExampleState extends State<RangeDataLabelExample> {
+  _RangeDataLabelExampleState(this.sample);
+  final SubItem sample;
 
   @override
   Widget build(BuildContext context) {
-    return getRangeDataLabelExample();
+    return getScopedModel(getRangeDataLabelExample(false), sample);
   }
+}
 
-SfRadialGauge getRangeDataLabelExample() {
+SfRadialGauge getRangeDataLabelExample(bool isTileView) {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -38,7 +42,7 @@ SfRadialGauge getRangeDataLabelExample() {
                 label: 'Slow',
                 sizeUnit: GaugeSizeUnit.factor,
                 labelStyle: GaugeTextStyle(
-                    fontFamily: 'Times', fontSize: isCardView ? 16 : 20),
+                    fontFamily: 'Times', fontSize: isTileView ? 16 : 20),
                 startWidth: 0.65,
                 endWidth: 0.65),
             GaugeRange(
@@ -47,7 +51,7 @@ SfRadialGauge getRangeDataLabelExample() {
               color: const Color(0xFFFFBA00),
               label: 'Moderate',
               labelStyle: GaugeTextStyle(
-                  fontFamily: 'Times', fontSize: isCardView ? 16 : 20),
+                  fontFamily: 'Times', fontSize: isTileView ? 16 : 20),
               startWidth: 0.65,
               endWidth: 0.65,
               sizeUnit: GaugeSizeUnit.factor,
@@ -58,7 +62,7 @@ SfRadialGauge getRangeDataLabelExample() {
               color: const Color(0xFF00AB47),
               label: 'Fast',
               labelStyle: GaugeTextStyle(
-                  fontFamily: 'Times', fontSize: isCardView ? 16 : 20),
+                  fontFamily: 'Times', fontSize: isTileView ? 16 : 20),
               sizeUnit: GaugeSizeUnit.factor,
               startWidth: 0.65,
               endWidth: 0.65,
@@ -87,5 +91,4 @@ SfRadialGauge getRangeDataLabelExample() {
           ])
     ],
   );
-}
 }

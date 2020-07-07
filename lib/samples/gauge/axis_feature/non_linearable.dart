@@ -1,30 +1,34 @@
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/helper.dart';
+import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class RadialNonLinearLabel extends SampleView {
-  const RadialNonLinearLabel(Key key) : super(key: key);
-  
+class RadialNonLinearLabel extends StatefulWidget {
+  RadialNonLinearLabel({this.sample, Key key}) : super(key: key);
+  SubItem sample;
+
   @override
   _RadialNonLinearLabelState createState() =>
-      _RadialNonLinearLabelState();
+      _RadialNonLinearLabelState(sample);
 }
 
-class _RadialNonLinearLabelState extends SampleViewState {
-  _RadialNonLinearLabelState();
-  
+class _RadialNonLinearLabelState extends State<RadialNonLinearLabel> {
+  _RadialNonLinearLabelState(this.sample);
+  final SubItem sample;
+
   @override
   Widget build(BuildContext context) {
-    return getRadialNonLinearLabel(isCardView);
+    return getScopedModel(getRadialNonLinearLabel(false), sample);
   }
 }
 
-SfRadialGauge getRadialNonLinearLabel(bool isCardView) {
+SfRadialGauge getRadialNonLinearLabel(bool isTileView) {
   return SfRadialGauge(
     enableLoadingAnimation: true,
+    key: kIsWeb ? UniqueKey() : null,
     animationDuration: 2500,
     axes: <RadialAxis>[
       CustomAxis(
@@ -39,10 +43,10 @@ SfRadialGauge getRadialNonLinearLabel(bool isCardView) {
           pointers: <GaugePointer>[
             NeedlePointer(
                 enableAnimation: true,
-                gradient: const LinearGradient(colors: <Color>[
+                gradient: LinearGradient(colors: const <Color>[
                   Color.fromRGBO(203, 126, 223, 0.1),
                   Color(0xFFCB7EDF)
-                ], stops: <double>[
+                ], stops: const <double>[
                   0.25,
                   0.75
                 ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
@@ -50,8 +54,8 @@ SfRadialGauge getRadialNonLinearLabel(bool isCardView) {
                 value: 60,
                 lengthUnit: GaugeSizeUnit.factor,
                 animationDuration: 1300,
-                needleStartWidth: isCardView ? 3 : 4,
-                needleEndWidth: isCardView ? 6 : 8,
+                needleStartWidth: isTileView ? 3 : 4,
+                needleEndWidth: isTileView ? 6 : 8,
                 needleLength: 0.8,
                 knobStyle: KnobStyle(
                   knobRadius: 0,
