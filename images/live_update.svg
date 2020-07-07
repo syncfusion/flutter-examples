@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="70px" height="70px" viewBox="0 0 70 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>Live Update</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="72.9748999%" y1="0%" x2="-17.1751459%" y2="116.998625%" id="linearGradient-1">
+            <stop stop-color="#0BD1C3" offset="0%"></stop>
+            <stop stop-color="#0653C7" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Live-Update" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M57.6568542,61.6568542 L8.65685425,61.6568542 C8.1045695,61.6568542 7.6045695,61.4329966 7.24264069,61.0710678 C6.88071187,60.709139 6.65685425,60.209139 6.65685425,59.6568542 L6.65685425,10.6568542 L3,10.6568542 L8.65685425,5 L14.3137085,10.6568542 L10.6568542,10.6568542 L10.6568542,57.6568542 L57.6568542,57.6568542 L57.6568542,54 L63.3137085,59.6568542 L57.6568542,65.3137085 L57.6568542,61.6568542 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+        <polyline id="Path-5" stroke="#0997C5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="14.3137085 51.3782844 22.6107782 38.1916542 32.3806219 44.8585078 41.6493498 29.5433327 49.335203 35.6051104 63.3137085 11"></polyline>
+        <polyline id="Path-6" stroke="#0997C5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="translate(60.000000, 16.000000) rotate(-9.000000) translate(-60.000000, -16.000000) " points="55 11 65 11 65 21"></polyline>
+    </g>
+</svg>

@@ -1,0 +1,4 @@
+user-agent: *
+disallow: /assets/lib/sample_details.json
+
+Sitemap: https://flutter.syncfusion.com/sitemap.xml
