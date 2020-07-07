@@ -1,46 +1,48 @@
-import 'package:syncfusion_flutter_charts/charts.dart';
+/// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../model/helper.dart';
-import '../../../../model/model.dart';
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-//ignore: must_be_immutable
-class BubblePointColor extends StatefulWidget {
-  BubblePointColor({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+/// Local imports
+import '../../../../model/model.dart';
+import '../../../../model/sample_view.dart';
+
+/// Renders the bubble chart with point color sample
+class BubblePointColor extends SampleView {
+  const BubblePointColor(Key key) : super(key: key);
 
   @override
-  _BubblePointColorState createState() => _BubblePointColorState(sample);
+  _BubblePointColorState createState() => _BubblePointColorState();
 }
 
-class _BubblePointColorState extends State<BubblePointColor> {
-  _BubblePointColorState(this.sample);
-  final SubItem sample;
+/// State class of the bubble chart with point color
+class _BubblePointColorState extends SampleViewState {
+  _BubblePointColorState();
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getPointColorBubbleChart(false), sample);
+    return getPointColorBubbleChart();
   }
-}
 
-SfCartesianChart getPointColorBubbleChart(bool isTileView) {
+  /// Returns the bubble chart with point color
+  SfCartesianChart getPointColorBubbleChart() {
   return SfCartesianChart(
-    
-    title: ChartTitle(text: isTileView ? '' : 'Countries by area'),
+    title: ChartTitle(text: isCardView ? '' : 'Countries by area'),
     plotAreaBorderWidth: 0,
     primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
         labelIntersectAction: AxisLabelIntersectAction.rotate45),
     primaryYAxis: NumericAxis(
         numberFormat: NumberFormat.compact(),
-        title: AxisTitle(text: isTileView ? '' : 'Area(km²)'),
+        title: AxisTitle(text: isCardView ? '' : 'Area(km²)'),
         axisLine: AxisLine(width: 0),
         minimum: 650000,
         maximum: 1500000,
         rangePadding: ChartRangePadding.additional,
         majorTickLines: MajorTickLines(size: 0)),
-    series: getPointColorBubbleSeries(isTileView),
+    series: getPointColorBubbleSeries(),
     tooltipBehavior: TooltipBehavior(
         textAlignment: ChartAlignment.near,
         enable: true,
@@ -50,8 +52,8 @@ SfCartesianChart getPointColorBubbleChart(bool isTileView) {
   );
 }
 
-List<BubbleSeries<ChartSampleData, String>> getPointColorBubbleSeries(
-    bool isTileView) {
+/// Returns the list of chart series which need to render on the bubble chart
+List<BubbleSeries<ChartSampleData, String>> getPointColorBubbleSeries() {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
         x: 'Namibia',
@@ -110,8 +112,10 @@ List<BubbleSeries<ChartSampleData, String>> getPointColorBubbleSeries(
       opacity: 0.8,
       xValueMapper: (ChartSampleData sales, _) => sales.x,
       yValueMapper: (ChartSampleData sales, _) => sales.y,
+      /// It helps to render a bubble series as various colors, which is given by user from data soruce.
       pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
       sizeValueMapper: (ChartSampleData sales, _) => sales.size,
     )
   ];
+}
 }

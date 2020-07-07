@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:flutter_examples/widgets/shared/mobile.dart'
     if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import '../model/helper.dart';
@@ -36,8 +37,11 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   bool isOpen = false;
   OverlayEntry _overlayEntry;
   String hint = 'Search';
+
+  List<OverlayEntry> overlayEntries;
   @override
   void initState() {
+    overlayEntries = <OverlayEntry>[];
     over = Overlay.of(context);
     duplicateControlItems = sampleListModel.searchControlItems;
     duplicateSampleItems = sampleListModel.searchSampleItems;
@@ -48,38 +52,23 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
           ? IconButton(
               splashColor: Colors.transparent,
               hoverColor: Colors.transparent,
-              icon:
-                  const Icon(Icons.close,size: kIsWeb ? 20 : 24, color: kIsWeb ? Colors.white : Colors.grey),
+              icon: const Icon(Icons.close,
+                  size: kIsWeb ? 20 : 24,
+                  color: kIsWeb ? Colors.white : Colors.grey),
               onPressed: () {
                 editingController.text = '';
                 filterSearchResults('');
-                if (!kIsWeb)
+                if (sampleListModel.isMobileResolution)
                   setState(() {
                     closeIcon = null;
                   });
               })
           : null;
-      if (_isFocus.hasFocus && sampleListModel.isWeb) {
+      if (_isFocus.hasFocus && !sampleListModel.isMobileResolution) {
         filterSearchResults(editingController.text);
-        _overlayEntry = _createOverlayEntry();
-        try {
-          _overlayEntry.remove();
-          over.insert(_overlayEntry);
-        } catch (e) {
-          over.insert(_overlayEntry);
-        }
-      } else if (sampleListModel.isWeb) {
+      } else if (!sampleListModel.isMobileResolution) {
         Timer(const Duration(milliseconds: 200), () {
-          if (_overlayEntry != null) {
-            try {
-              _overlayEntry.remove();
-              try {
-                over.dispose();
-              } catch (e) {over.dispose();}
-            } catch (e) {
-              over.dispose();
-            }
-          }
+          removeOverlayEntries();
         });
       }
       if (editingController.text.isEmpty)
@@ -87,7 +76,9 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
           searchIcon = _isFocus.hasFocus || editingController.text.isNotEmpty
               ? null
               : Icon(Icons.search,
-                  color: kIsWeb ? Colors.white.withOpacity(0.5) : Colors.grey);
+                  color: sampleListModel.isWeb
+                      ? Colors.white.withOpacity(0.5)
+                      : Colors.grey);
         });
       hint = _isFocus.hasFocus ? '' : 'Search';
     });
@@ -117,6 +108,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   }
 
   void filterSearchResults(String query) {
+    removeOverlayEntries();
     // ignore: prefer_collection_literals
     final List<Control> dummySearchControl = List<Control>();
     dummySearchControl.addAll(duplicateControlItems);
@@ -148,16 +140,31 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
       sampleListModel.sampleList.addAll(dummySampleData);
       sampleListModel.searchResults.clear();
       sampleListModel.searchResults.addAll(dummySampleData);
-      // ignore: invalid_use_of_protected_member
-      sampleListModel.notifyListeners();
-      return;
+      if(sampleListModel.isMobileResolution){
+        //ignore: invalid_use_of_protected_member
+        sampleListModel.notifyListeners();
+      }else{        
+        _overlayEntry = _createOverlayEntry();
+        overlayEntries.add(_overlayEntry);
+        over.insert(_overlayEntry);
+        return;
+      }
     } else {
       sampleListModel.searchResults.clear();
       sampleListModel.controlList.addAll(duplicateControlItems);
       sampleListModel.sampleList.clear();
-      // ignore: invalid_use_of_protected_member
-      sampleListModel.notifyListeners();
     }
+  }
+
+  void removeOverlayEntries() {
+    if (overlayEntries != null && overlayEntries.isNotEmpty) {
+      for (OverlayEntry overlayEntry in overlayEntries) {
+        if (overlayEntry != null) {
+          overlayEntry.remove();
+        }
+      }
+    }
+    overlayEntries.clear();
   }
 
   OverlayEntry _createOverlayEntry() {
@@ -183,92 +190,106 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
             child: Scrollbar(
               child: Card(
                 color: sampleListModel.webCardColor,
-                child: editingController.text.isEmpty ||
-                        _isFocus.hasFocus == false
-                    ? null
-                    : (sampleListModel.searchResults.isEmpty
-                        ? ListTile(
-                            title:  Text('No results found',
-                                style: TextStyle(
-                                    color: sampleListModel.textColor,
-                                    fontSize: 13,
-                                    fontFamily: 'Roboto-Regular')),
-                            onTap: () {},
-                          )
-                        : ListView.builder(
-                            padding: const EdgeInsets.all(0),
-                            itemCount: sampleListModel.searchResults.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return HandCursor(
-                                  child: ListTile(
-                                      title: Text(
-                                        sampleListModel
-                                            .searchResults[index].title,
-                                        style:  TextStyle(
-                                            color: sampleListModel.textColor,
-                                            fontSize: 13,
-                                            fontFamily: 'Roboto-Regular'),
-                                      ),
-                                      onTap: () {
-                                        try{
-                                        //ignore: empty_catches
-                                        _overlayEntry.remove();}catch(e){}
-                                        _overlayEntry.maintainState = false;
-                                        changeCursorStyleOnNavigation();
-                                        over.deactivate();
-                                        try{
-                                          _overlayEntry.opaque =false;
-                                          _overlayEntry.remove();
-                                        }catch(e){
-                                          over.deactivate();
-                                        }
-                                        sampleListModel.sampleWidget[
-                                                    sampleListModel
-                                                        .searchResults[index]
-                                                        .key][0] !=
-                                                null
-                                            ? Navigator.push<dynamic>(
-                                                context,
-                                                MaterialPageRoute<dynamic>(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        Scaffold(
-                                                          appBar: AppBar(
-                                                            backgroundColor:
+                child:
+                    editingController.text.isEmpty || _isFocus.hasFocus == false
+                        ? null
+                        : (sampleListModel.searchResults.isEmpty
+                            ? ListTile(
+                                title: Text('No results found',
+                                    style: TextStyle(
+                                        color: sampleListModel.textColor,
+                                        fontSize: 13,
+                                        fontFamily: 'Roboto-Regular')),
+                                onTap: () {},
+                              )
+                            : ListView.builder(
+                                padding: const EdgeInsets.all(0),
+                                itemCount: sampleListModel.searchResults.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return HandCursor(
+                                      child: SizedBox(
+                                          height: 38,
+                                          child: Material(
+                                              color:
+                                                  sampleListModel.webCardColor,
+                                              child: InkWell(
+                                                  hoverColor: Colors.grey
+                                                      .withOpacity(0.2),
+                                                  child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: Text(
+                                                        sampleListModel
+                                                            .searchResults[
+                                                                index]
+                                                            .title,
+                                                        style: TextStyle(
+                                                            color:
                                                                 sampleListModel
-                                                                    .backgroundColor,
-                                                            title: Text(
-                                                                sampleListModel
+                                                                    .textColor,
+                                                            fontSize: 13,
+                                                            fontFamily:
+                                                                'Roboto-Regular'),
+                                                      )),
+                                                  onTap: () {
+                                                    _overlayEntry
+                                                        .maintainState = false;
+                                                    changeCursorStyleOnNavigation();
+                                                    _overlayEntry.opaque =
+                                                        false;
+                                                    removeOverlayEntries();
+                                                    final dynamic
+                                                        _renderSample =
+                                                        sampleListModel
+                                                                .sampleWidget[
+                                                            sampleListModel
+                                                                .searchResults[
+                                                                    index]
+                                                                .key];
+                                                    final SampleView
+                                                        _sampleView =
+                                                        _renderSample(
+                                                            GlobalKey<State>());
+                                                    if(_renderSample != null) {
+                                                        !sampleListModel.isWeb
+                                                          ? expandSample(
+                                                            context,
+                                                            sampleListModel
                                                                     .searchResults[
-                                                                        index]
-                                                                    .title),
-                                                          ),
-                                                          body: Theme(
-                                                            data: ThemeData(
-                                                                brightness:  sampleListModel.themeData.brightness,
-                                                                primaryColor: sampleListModel.backgroundColor
-                                                              ),
-                                                            child: Container(
-                                                              color: sampleListModel.webSampleBackgroundColor,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(10),
-                                                              child: sampleListModel
-                                                                      .sampleWidget[
-                                                                  sampleListModel
-                                                                      .searchResults[
-                                                                          index]
-                                                                      .key][0],
-                                                            ),
-                                                          ),
-                                                        )))
-                                            : onTapSampleItem(
-                                                context,
-                                                sampleListModel
-                                                    .searchResults[index],
-                                                sampleListModel);
-                                      }));
-                            })),
+                                                                index],
+                                                            sampleListModel)
+                                                          : Navigator.push<
+                                                                dynamic>(
+                                                            context,
+                                                            MaterialPageRoute<
+                                                                    dynamic>(
+                                                                builder:
+                                                                    (BuildContext
+                                                                            context) =>
+                                                                        Scaffold(
+                                                                          appBar:
+                                                                              AppBar(
+                                                                            backgroundColor:
+                                                                                sampleListModel.paletteColor,
+                                                                            title:
+                                                                                Text(sampleListModel.searchResults[index].title),
+                                                                          ),
+                                                                          body:
+                                                                              Theme(
+                                                                            data:
+                                                                                ThemeData(brightness: sampleListModel.themeData.brightness, primaryColor: sampleListModel.backgroundColor),
+                                                                            child:
+                                                                                Container(
+                                                                              color: sampleListModel.webCardColor,
+                                                                              padding: const EdgeInsets.all(10),
+                                                                              child: _sampleView,
+                                                                            ),
+                                                                          ),
+                                                                        )));
+                                                    }
+                                                  }))));
+                                })),
               ),
             ),
           );
@@ -282,7 +303,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          height: sampleListModel.isWeb ? 35 : 45 ,
+          height: sampleListModel.isWeb ? 35 : 45,
           width: double.infinity,
           decoration: BoxDecoration(
               color: kIsWeb
@@ -290,28 +311,30 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                   : sampleListModel.searchBoxColor,
               borderRadius: const BorderRadius.all(Radius.circular(5.0))),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            padding: EdgeInsets.only(left: (_isFocus.hasFocus || searchIcon == null) ? 10 : 0, ),
             child: Container(
                 child: TextField(
               cursorColor: kIsWeb ? Colors.white : Colors.grey,
               focusNode: _isFocus,
               onChanged: (String value) {
                 closeIcon =
-                    _isFocus.hasFocus && editingController.text.isNotEmpty
+                    _isFocus.hasFocus && (editingController.text.isNotEmpty)
                         ? IconButton(
                             splashColor: Colors.transparent,
                             hoverColor: Colors.transparent,
-                            icon: const Icon(Icons.close,size: kIsWeb ? 20 : 24,
+                            icon: const Icon(Icons.close,
+                                size: kIsWeb ? 20 : 24,
                                 color: kIsWeb ? Colors.white : Colors.grey),
                             onPressed: () {
                               editingController.text = '';
                               filterSearchResults('');
-                              if (!kIsWeb)
+                              if (sampleListModel.isMobileResolution)
                                 setState(() {
                                   closeIcon = null;
                                 });
                             })
                         : null;
+                setState(() {});
                 filterSearchResults(value);
               },
               onEditingComplete: () {
@@ -322,6 +345,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                   color: kIsWeb ? Colors.white : Colors.grey,
                   fontSize: 13),
               controller: editingController,
+              textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                   labelStyle: const TextStyle(
                       fontFamily: 'Roboto-Regular',

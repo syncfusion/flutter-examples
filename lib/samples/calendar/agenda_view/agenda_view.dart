@@ -1,24 +1,21 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-//ignore: must_be_immutable
-class AgendaViewCalendar extends StatefulWidget {
-  AgendaViewCalendar({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+class AgendaViewCalendar extends SampleView {
+  const AgendaViewCalendar(Key key) : super(key: key);
 
   @override
-  _AgendaViewCalendarState createState() => _AgendaViewCalendarState(sample);
+  _AgendaViewCalendarState createState() => _AgendaViewCalendarState();
 }
 
-class _AgendaViewCalendarState extends State<AgendaViewCalendar> {
-  _AgendaViewCalendarState(this.sample);
+class _AgendaViewCalendarState extends SampleViewState {
+  _AgendaViewCalendarState();
 
-  final SubItem sample;
   bool panelOpen;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   List<String> subjectCollection;
@@ -26,14 +23,14 @@ class _AgendaViewCalendarState extends State<AgendaViewCalendar> {
   List<Meeting> meetings;
   MeetingDataSource events;
   DateTime selectedDate;
-
-  Widget sampleWidget(SampleModel model) => AgendaViewCalendar();
+  ScrollController controller;
 
   @override
   void initState() {
     panelOpen = frontPanelVisible.value;
     frontPanelVisible.addListener(_subscribeToValueNotifier);
     meetings = <Meeting>[];
+    controller = ScrollController();
     selectedDate = DateTime.now();
     addAppointmentDetails();
     addAppointments();
@@ -52,14 +49,38 @@ class _AgendaViewCalendarState extends State<AgendaViewCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleModel>(
-        rebuildOnChange: true,
-        builder: (BuildContext context, _, SampleModel model) {
-          return Container(
-              color: model.cardThemeColor,
-              child:
-                  getAgendaViewCalendar(events, onViewChanged, selectedDate));
-        });
+    final double _screenHeight = MediaQuery.of(context).size.height;
+    final Widget _calendar = Theme(
+        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        child: getAgendaViewCalendar(
+            events,
+            onViewChanged,
+            model.isWeb
+                ? (_screenHeight < 600 ? 250 : _screenHeight * 0.4)
+                : null,
+            selectedDate));
+    return model.isWeb && _screenHeight < 600
+        ? Scrollbar(
+            isAlwaysShown: true,
+            controller: controller,
+            child: ListView(
+              controller: controller,
+              children: <Widget>[
+                Container(
+                  color: model.isWeb
+                      ? model.webSampleBackgroundColor
+                      : model.cardThemeColor,
+                  height: 450,
+                  child: _calendar,
+                )
+              ],
+            ))
+        : Container(
+            color: model.isWeb
+                ? model.webSampleBackgroundColor
+                : model.cardThemeColor,
+            child: _calendar,
+          );
   }
 
   void addAppointmentDetails() {
@@ -145,21 +166,26 @@ class _AgendaViewCalendarState extends State<AgendaViewCalendar> {
       setState(() {});
     });
   }
-}
 
-SfCalendar getAgendaViewCalendar(
-    [CalendarDataSource _calendarDataSource,
-    ViewChangedCallback onViewChanged,
-    DateTime selectedDate]) {
-  return SfCalendar(
-    view: CalendarView.month,
-    initialSelectedDate: selectedDate,
-    onViewChanged: onViewChanged,
-    dataSource: _calendarDataSource,
-    monthViewSettings: MonthViewSettings(showAgenda: true),
-    timeSlotViewSettings: TimeSlotViewSettings(
-        minimumAppointmentDuration: const Duration(minutes: 60)),
-  );
+  SfCalendar getAgendaViewCalendar(
+      [CalendarDataSource _calendarDataSource,
+      ViewChangedCallback onViewChanged,
+      double _agendaViewHeight,
+      DateTime selectedDate]) {
+    return SfCalendar(
+      view: CalendarView.month,
+      initialSelectedDate: selectedDate,
+      showNavigationArrow: kIsWeb,
+      onViewChanged: onViewChanged,
+      dataSource: _calendarDataSource,
+      monthViewSettings: MonthViewSettings(
+          showAgenda: true,
+          numberOfWeeksInView: kIsWeb ? 2 : 6,
+          agendaViewHeight: _agendaViewHeight ?? -1),
+      timeSlotViewSettings: TimeSlotViewSettings(
+          minimumAppointmentDuration: const Duration(minutes: 60)),
+    );
+  }
 }
 
 class MeetingDataSource extends CalendarDataSource {

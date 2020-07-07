@@ -1,36 +1,40 @@
+/// Package imports
 import 'package:flutter/foundation.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
-import '../../../../model/helper.dart';
-import '../../../../model/model.dart';
 
-//ignore: must_be_immutable
-class StepLineDashed extends StatefulWidget {
-  StepLineDashed({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+/// Local imports
+import '../../../../model/model.dart';
+import '../../../../model/sample_view.dart';
+
+/// Renders the dashed stepline chart sample.
+class StepLineDashed extends SampleView {
+  const StepLineDashed(Key key) : super(key: key);
 
   @override
-  _StepLineDashedState createState() => _StepLineDashedState(sample);
+  _StepLineDashedState createState() => _StepLineDashedState();
 }
 
-class _StepLineDashedState extends State<StepLineDashed> {
-  _StepLineDashedState(this.sample);
-  final SubItem sample;
+/// State class of the dashed stepline chart.
+class _StepLineDashedState extends SampleViewState {
+  _StepLineDashedState();
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getDashedStepLineChart(false), sample);
+    return getDashedStepLineChart();
   }
-}
 
-SfCartesianChart getDashedStepLineChart(bool isTileView) {
+  /// Returns the dashed cartesian stepline chart.
+  SfCartesianChart getDashedStepLineChart() {
   return SfCartesianChart(
-    
     plotAreaBorderWidth: 0,
-    title: ChartTitle(text: isTileView ? '' : 'CO2 - Intensity analysis'),
+    title: ChartTitle(text: isCardView ? '' : 'CO2 - Intensity analysis'),
     primaryXAxis: NumericAxis(
+      interval: 1,
       majorGridLines: MajorGridLines(width: 0),
-      title: AxisTitle(text: isTileView ? '' : 'Year'),
+      title: AxisTitle(text: isCardView ? '' : 'Year'),
     ),
     primaryYAxis: NumericAxis(
       axisLine: AxisLine(width: 0),
@@ -38,16 +42,16 @@ SfCartesianChart getDashedStepLineChart(bool isTileView) {
       maximum: 600,
       interval: 30,
       majorTickLines: MajorTickLines(size: 0),
-      title: AxisTitle(text: isTileView ? '' : 'Intensity (g/kWh)'),
+      title: AxisTitle(text: isCardView ? '' : 'Intensity (g/kWh)'),
     ),
-    legend: Legend(isVisible: isTileView ? false : true),
+    legend: Legend(isVisible: isCardView ? false : true),
     tooltipBehavior: TooltipBehavior(enable: true),
-    series: getDashedStepLineSeries(isTileView),
+    series: getDashedStepLineSeries(),
   );
 }
 
-List<StepLineSeries<ChartSampleData, num>> getDashedStepLineSeries(
-    bool isTileView) {
+/// Returns the list of chart series which need to render on the stepline chart.
+List<StepLineSeries<ChartSampleData, num>> getDashedStepLineSeries() {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x: 2006, y: 378, yValue: 463, yValue2: 519, yValue3: 570),
     ChartSampleData(x: 2007, y: 416, yValue: 449, yValue2: 508, yValue3: 579),
@@ -86,4 +90,5 @@ List<StepLineSeries<ChartSampleData, num>> getDashedStepLineSeries(
         width: 2,
         dashArray: kIsWeb ? <double>[0, 0] : <double>[10, 5])
   ];
+}
 }

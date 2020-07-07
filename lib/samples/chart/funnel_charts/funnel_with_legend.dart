@@ -1,53 +1,57 @@
-import 'package:flutter_examples/model/helper.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+/// Package import
 import 'package:flutter/material.dart';
 
-//ignore: must_be_immutable
-class FunnelLegend extends StatefulWidget {
-  FunnelLegend({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+/// Local imports
+import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/model/sample_view.dart';
+
+class FunnelLegend extends SampleView {
+  const FunnelLegend(Key key) : super(key: key);
   
   @override
-  _FunnelLegendState createState() => _FunnelLegendState(sample);
+  _FunnelLegendState createState() => _FunnelLegendState();
 }
 
-class _FunnelLegendState extends State<FunnelLegend> {
-  _FunnelLegendState(this.sample);
-  final SubItem sample;
-  
+class _FunnelLegendState extends SampleViewState {
+  _FunnelLegendState();
+
   @override
   Widget build(BuildContext context) {
-     return getScopedModel(getLegendFunnelChart(false), sample);
+    return getLegendFunnelChart();
   }
-}
-SfFunnelChart getLegendFunnelChart(bool isTileView) {
+
+SfFunnelChart getLegendFunnelChart() {
   return SfFunnelChart(
     smartLabelMode: SmartLabelMode.none,
     title: ChartTitle(
-        text: isTileView ? '' : 'Monthly expenditure of an individual'),
+        text: isCardView ? '' : 'Monthly expenditure of an individual'),
+    /// To enable the legend for funnel chart.
     legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
     tooltipBehavior:
         TooltipBehavior(enable: true, format: 'point.x : point.y%'),
-    series: _getFunnelSeries(isTileView),
+    series: _getFunnelSeries(isCardView),
   );
 }
 
-FunnelSeries<ChartSampleData, String> _getFunnelSeries(bool isTileView) {
+FunnelSeries<ChartSampleData, String> _getFunnelSeries(bool isCardView) {
   final List<ChartSampleData> pieData = <ChartSampleData>[
-    ChartSampleData(x:'Others', y:10, text:'10%'),
-    ChartSampleData(x:'Medical ', y:11, text:'11%'),
-    ChartSampleData(x:'Saving ', y:14, text:'14%'),
-    ChartSampleData(x:'Shopping',y: 17, text:'17%'),
-    ChartSampleData(x:'Travel', y:21, text:'21%'),
-    ChartSampleData(x:'Food', y:27, text:'27%'),
+    ChartSampleData(x: 'Others', y: 10, text: '10%'),
+    ChartSampleData(x: 'Medical ', y: 11, text: '11%'),
+    ChartSampleData(x: 'Saving ', y: 14, text: '14%'),
+    ChartSampleData(x: 'Shopping', y: 17, text: '17%'),
+    ChartSampleData(x: 'Travel', y: 21, text: '21%'),
+    ChartSampleData(x: 'Food', y: 27, text: '27%'),
   ];
   return FunnelSeries<ChartSampleData, String>(
-        dataSource: pieData,
-        textFieldMapper: (ChartSampleData data, _) => data.text,
-        xValueMapper: (ChartSampleData data, _) => data.x,
-        yValueMapper: (ChartSampleData data, _) => data.y,
-        dataLabelSettings: DataLabelSettings(
-            isVisible: isTileView ? false : true,
-            labelPosition: ChartDataLabelPosition.inside));
+      dataSource: pieData,
+      textFieldMapper: (ChartSampleData data, _) => data.text,
+      xValueMapper: (ChartSampleData data, _) => data.x,
+      yValueMapper: (ChartSampleData data, _) => data.y,
+      dataLabelSettings: DataLabelSettings(
+          isVisible: isCardView ? false : true,
+          labelPosition: ChartDataLabelPosition.inside));
+}
 }

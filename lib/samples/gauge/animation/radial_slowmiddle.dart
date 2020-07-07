@@ -1,35 +1,30 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
 //ignore: must_be_immutable
-class RadialSlowMiddleAnimation extends StatefulWidget {
-   RadialSlowMiddleAnimation({this.sample, Key key}) : super(key: key);
-   SubItem sample;
-
+class RadialSlowMiddleAnimation extends SampleView {
+  const RadialSlowMiddleAnimation(Key key) : super(key: key);
+  
   @override
   _RadialSlowMiddleAnimationState createState() =>
-      _RadialSlowMiddleAnimationState(sample);
+      _RadialSlowMiddleAnimationState();
 }
 
-class _RadialSlowMiddleAnimationState extends State<RadialSlowMiddleAnimation> {
-  _RadialSlowMiddleAnimationState(this.sample);
-  final SubItem sample;
+class _RadialSlowMiddleAnimationState extends SampleViewState {
+  _RadialSlowMiddleAnimationState();
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRadialSlowMiddleAnimation(false), sample);
+    return getRadialSlowMiddleAnimation();
   }
-}
 
-SfRadialGauge getRadialSlowMiddleAnimation(bool isTileView) {
+SfRadialGauge getRadialSlowMiddleAnimation() {
   return SfRadialGauge(
-    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
-        radiusFactor: kIsWeb? 0.85 : 0.95,
+          radiusFactor: kIsWeb ? 0.85 : 0.95,
           startAngle: 270,
           endAngle: 270,
           showAxisLine: false,
@@ -89,4 +84,5 @@ SfRadialGauge getRadialSlowMiddleAnimation(bool isTileView) {
   );
 }
 
-Color _slowMiddleNeedleColor = const Color(0xFF355C7D);
+final Color _slowMiddleNeedleColor = const Color(0xFF355C7D);
+}

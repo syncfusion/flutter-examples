@@ -1,31 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart' as _picker;
 
-//ignore: must_be_immutable
-class PopUpDatePicker extends StatefulWidget {
-  PopUpDatePicker({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+class PopUpDatePicker extends SampleView {
+  const PopUpDatePicker(Key key) : super(key: key);
 
   @override
-  _PopUpDatePickerState createState() => _PopUpDatePickerState(sample);
+  _PopUpDatePickerState createState() => _PopUpDatePickerState();
 }
 
-class _PopUpDatePickerState extends State<PopUpDatePicker>
+class _PopUpDatePickerState extends SampleViewState
     with SingleTickerProviderStateMixin {
-  _PopUpDatePickerState(this.sample);
+  _PopUpDatePickerState();
 
-  final SubItem sample;
   bool panelOpen;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   DateTime _startDate;
   DateTime _endDate;
   int _value;
-
-  Widget sampleWidget(SampleModel model) => PopUpDatePicker();
 
   @override
   void initState() {
@@ -76,7 +71,9 @@ class _PopUpDatePickerState extends State<PopUpDatePicker>
         elevation: 10,
         margin: const EdgeInsets.all(10),
         child: Container(
-            color: model.cardThemeColor,
+            color: model.isWeb
+                ? model.webSampleBackgroundColor
+                : model.cardThemeColor,
             child: ListView(
                 padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                 children: <Widget>[
@@ -84,81 +81,81 @@ class _PopUpDatePickerState extends State<PopUpDatePicker>
                       padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
                       child: Center(
                           child: Wrap(
-                            spacing: 5,
-                            children: List<Widget>.generate(
-                              2,
-                                  (int index) {
-                                return ChoiceChip(
-                                  label: Text(
-                                    index == 0 ? 'One-way' : 'Round-Trip',
-                                    style: TextStyle(
-                                        color: _value == index
-                                            ? Colors.white
-                                            : Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20),
-                                  ),
-                                  selected: _value == index,
-                                  selectedColor: model.backgroundColor,
-                                  backgroundColor: Colors.white,
-                                  onSelected: (bool selected) {
-                                    setState(() {
-                                      _value = index;
-                                    });
-                                  },
-                                );
+                        spacing: 5,
+                        children: List<Widget>.generate(
+                          2,
+                          (int index) {
+                            return ChoiceChip(
+                              label: Text(
+                                index == 0 ? 'One-way' : 'Round-Trip',
+                                style: TextStyle(
+                                    color: _value == index
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20),
+                              ),
+                              selected: _value == index,
+                              selectedColor: model.backgroundColor,
+                              backgroundColor: Colors.white,
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  _value = index;
+                                });
                               },
-                            ).toList(),
-                          ))),
+                            );
+                          },
+                        ).toList(),
+                      ))),
                   Container(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Expanded(
-                                flex: 3,
-                                child: Column(
-                                  children: const <Widget>[
-                                    Text(
-                                      'From',
+                        Expanded(
+                            flex: 3,
+                            child: Column(
+                              children: const <Widget>[
+                                Text(
+                                  'From',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  child: Text('CLE',
                                       style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 12),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                                      child: Text('CLE',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600)),
-                                    )
-                                  ],
-                                )),
-                            const Expanded(
-                              flex: 4,
-                              child: Text(''),
-                            ),
-                            Expanded(
-                                flex: 3,
-                                child: Column(
-                                  children: const <Widget>[
-                                    Text(
-                                      'Destination',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600)),
+                                )
+                              ],
+                            )),
+                        const Expanded(
+                          flex: 4,
+                          child: Text(''),
+                        ),
+                        Expanded(
+                            flex: 3,
+                            child: Column(
+                              children: const <Widget>[
+                                Text(
+                                  'Destination',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  child: Text('NYC',
                                       style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 12),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                                      child: Text('NYC',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600)),
-                                    ),
-                                  ],
-                                ))
-                          ])),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600)),
+                                ),
+                              ],
+                            ))
+                      ])),
                   const Padding(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                       child: Divider(
@@ -168,177 +165,180 @@ class _PopUpDatePickerState extends State<PopUpDatePicker>
                       )),
                   _value == 0
                       ? GestureDetector(
-                      child: Row(
-                        children: <Widget>[
-                          const Expanded(
-                            flex: 3,
-                            child: Center(
-                              child: Text('Depart',
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12)),
-                            ),
+                          child: Row(
+                            children: <Widget>[
+                              const Expanded(
+                                flex: 3,
+                                child: Center(
+                                  child: Text('Depart',
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12)),
+                                ),
+                              ),
+                              const Expanded(flex: 4, child: Text('')),
+                              Expanded(
+                                flex: 3,
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            5, 5, 5, 0),
+                                        child: Text(
+                                            DateFormat('dd MMM yy')
+                                                .format(_startDate),
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600))),
+                                    Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            5, 5, 5, 0),
+                                        child: Text(
+                                            DateFormat('EEEE')
+                                                .format(_startDate),
+                                            style: const TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 12))),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-                          const Expanded(flex: 4, child: Text('')),
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        5, 5, 5, 0),
-                                    child: Text(
-                                        DateFormat('dd MMM yy')
-                                            .format(_startDate),
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600))),
-                                Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        5, 5, 5, 0),
-                                    child: Text(
-                                        DateFormat('EEEE')
-                                            .format(_startDate),
-                                        style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12))),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      onTap: () async {
-                        final DateTime date = await showDialog<dynamic>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return DateRangePicker(_startDate, null,
-                                  displayDate: _startDate,
-                                  minDate: DateTime.now(), model: model);
-                            });
-                        if (date != null) {
-                          _onSelectedDateChanged(date);
-                        }
-                      })
+                          onTap: () async {
+                            final DateTime date = await showDialog<dynamic>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return DateRangePicker(_startDate, null,
+                                      displayDate: _startDate,
+                                      minDate: DateTime.now(),
+                                      model: model);
+                                });
+                            if (date != null) {
+                              _onSelectedDateChanged(date);
+                            }
+                          })
                       : Container(
-                    height: 60,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                            flex: 3,
-                            child: GestureDetector(
-                                child: Column(
-                                  children: <Widget>[
-                                    const Text('Depart',
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12)),
-                                    Padding(
-                                        padding:
-                                        const EdgeInsets.fromLTRB(
-                                            5, 5, 5, 0),
-                                        child: Text(
-                                            DateFormat('dd MMM yy')
-                                                .format(_startDate),
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight:
-                                                FontWeight.w600))),
-                                    Padding(
-                                        padding:
-                                        const EdgeInsets.fromLTRB(
-                                            5, 5, 5, 0),
-                                        child: Text(
-                                            DateFormat('EEEE')
-                                                .format(_startDate),
-                                            style: const TextStyle(
-                                                color: Colors.grey,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                                fontSize: 12))),
-                                  ],
-                                ),
-                                onTap: () async {
-                                  final _picker.PickerDateRange range =
-                                  await showDialog<dynamic>(
-                                      context: context,
-                                      builder:
-                                          (BuildContext context) {
-                                        return DateRangePicker(
-                                          null,
-                                          _picker.PickerDateRange(
-                                            _startDate, _endDate,),
-                                          displayDate: _startDate,
-                                          minDate: DateTime.now(),
-                                          model: model,
-                                        );
-                                      });
+                          height: 60,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                  flex: 3,
+                                  child: GestureDetector(
+                                      child: Column(
+                                        children: <Widget>[
+                                          const Text('Depart',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 12)),
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      5, 5, 5, 0),
+                                              child: Text(
+                                                  DateFormat('dd MMM yy')
+                                                      .format(_startDate),
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600))),
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      5, 5, 5, 0),
+                                              child: Text(
+                                                  DateFormat('EEEE')
+                                                      .format(_startDate),
+                                                  style: const TextStyle(
+                                                      color: Colors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 12))),
+                                        ],
+                                      ),
+                                      onTap: () async {
+                                        final _picker.PickerDateRange range =
+                                            await showDialog<dynamic>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return DateRangePicker(
+                                                    null,
+                                                    _picker.PickerDateRange(
+                                                      _startDate,
+                                                      _endDate,
+                                                    ),
+                                                    displayDate: _startDate,
+                                                    minDate: DateTime.now(),
+                                                    model: model,
+                                                  );
+                                                });
 
-                                  if (range != null) {
-                                    _onSelectedRangeChanged(range);
-                                  }
-                                })),
-                        const Expanded(flex: 4, child: Text('')),
-                        Expanded(
-                            flex: 3,
-                            child: GestureDetector(
-                                child: Column(
-                                  children: <Widget>[
-                                    const Text('Return',
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12)),
-                                    Padding(
-                                        padding:
-                                        const EdgeInsets.fromLTRB(
-                                            5, 5, 5, 0),
-                                        child: Text(
-                                            DateFormat('dd MMM yy')
-                                                .format(_endDate),
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight:
-                                                FontWeight.w600))),
-                                    Padding(
-                                        padding:
-                                        const EdgeInsets.fromLTRB(
-                                            5, 5, 5, 0),
-                                        child: Text(
-                                            DateFormat('EEEE')
-                                                .format(_endDate),
-                                            style: const TextStyle(
-                                                color: Colors.grey,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                                fontSize: 12))),
-                                  ],
-                                ),
-                                onTap: () async {
-                                  final _picker.PickerDateRange range =
-                                  await showDialog<dynamic>(
-                                      context: context,
-                                      builder:
-                                          (BuildContext context) {
-                                        return DateRangePicker(
-                                          null,
-                                          _picker.PickerDateRange(
-                                              _startDate, _endDate),
-                                          displayDate: _endDate,
-                                          minDate: DateTime.now(),
-                                          model: model,
-                                        );
-                                      });
+                                        if (range != null) {
+                                          _onSelectedRangeChanged(range);
+                                        }
+                                      })),
+                              const Expanded(flex: 4, child: Text('')),
+                              Expanded(
+                                  flex: 3,
+                                  child: GestureDetector(
+                                      child: Column(
+                                        children: <Widget>[
+                                          const Text('Return',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 12)),
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      5, 5, 5, 0),
+                                              child: Text(
+                                                  DateFormat('dd MMM yy')
+                                                      .format(_endDate),
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600))),
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      5, 5, 5, 0),
+                                              child: Text(
+                                                  DateFormat('EEEE')
+                                                      .format(_endDate),
+                                                  style: const TextStyle(
+                                                      color: Colors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 12))),
+                                        ],
+                                      ),
+                                      onTap: () async {
+                                        final _picker.PickerDateRange range =
+                                            await showDialog<dynamic>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return DateRangePicker(
+                                                    null,
+                                                    _picker.PickerDateRange(
+                                                        _startDate, _endDate),
+                                                    displayDate: _endDate,
+                                                    minDate: DateTime.now(),
+                                                    model: model,
+                                                  );
+                                                });
 
-                                  if (range != null) {
-                                    _onSelectedRangeChanged(range);
-                                  }
-                                }))
-                      ],
-                    ),
-                  ),
+                                        if (range != null) {
+                                          _onSelectedRangeChanged(range);
+                                        }
+                                      }))
+                            ],
+                          ),
+                        ),
                   const Padding(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                       child: Divider(
@@ -350,82 +350,82 @@ class _PopUpDatePickerState extends State<PopUpDatePicker>
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Expanded(
-                                flex: 3,
-                                child: Column(
-                                  children: const <Widget>[
-                                    Text(
-                                      'Travellers',
+                        Expanded(
+                            flex: 3,
+                            child: Column(
+                              children: const <Widget>[
+                                Text(
+                                  'Travellers',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  child: Text('1 Adult',
                                       style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 12),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                                      child: Text('1 Adult',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600)),
-                                    )
-                                  ],
-                                )),
-                            const Expanded(
-                              flex: 4,
-                              child: Text(''),
-                            ),
-                            Expanded(
-                                flex: 3,
-                                child: Column(
-                                  children: const <Widget>[
-                                    Text(
-                                      'Class',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600)),
+                                )
+                              ],
+                            )),
+                        const Expanded(
+                          flex: 4,
+                          child: Text(''),
+                        ),
+                        Expanded(
+                            flex: 3,
+                            child: Column(
+                              children: const <Widget>[
+                                Text(
+                                  'Class',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  child: Text('Economy',
                                       style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 12),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                                      child: Text('Economy',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600)),
-                                    ),
-                                  ],
-                                ))
-                          ])),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600)),
+                                ),
+                              ],
+                            ))
+                      ])),
                   const Padding(
                       padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                       child: Text('')),
                   ListTile(
                     title: Center(
                         child: InkWell(
-                          borderRadius: BorderRadius.circular(18),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(18),
-                                shape: BoxShape.rectangle,
-                                color: model.backgroundColor),
-                            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                            child: Text(
-                              'SEARCH',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  backgroundColor: Colors.transparent,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18),
-                            ),
+                      borderRadius: BorderRadius.circular(18),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            shape: BoxShape.rectangle,
+                            color: model.backgroundColor),
+                        padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                        child: const Text(
+                          'SEARCH',
+                          style: TextStyle(
+                              color: Colors.white,
+                              backgroundColor: Colors.transparent,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18),
+                        ),
+                      ),
+                      onTap: () {
+                        Scaffold.of(context).showSnackBar(const SnackBar(
+                          content: Text(
+                            'Searching...',
                           ),
-                          onTap: () {
-                            Scaffold.of(context).showSnackBar(const SnackBar(
-                              content: Text(
-                                'Searching...',
-                              ),
-                              duration: Duration(milliseconds: 200),
-                            ));
-                          },
-                        )),
+                          duration: Duration(milliseconds: 200),
+                        ));
+                      },
+                    )),
                     contentPadding: const EdgeInsets.fromLTRB(10, 10, 5, 0),
                   ),
                 ])));
@@ -433,20 +433,16 @@ class _PopUpDatePickerState extends State<PopUpDatePicker>
 
   @override
   Widget build([BuildContext context]) {
-    return ScopedModelDescendant<SampleModel>(
-        rebuildOnChange: true,
-        builder: (BuildContext context, _, SampleModel model) {
-          return Container(
-              color: model.themeData == null ||
-                  model.themeData.brightness == Brightness.light
-                  ? null
-                  : Colors.black,
-              child: kIsWeb
-                  ? Center(
-                  child: Container(
-                      width: 500, height: 500, child: _getBooking(model)))
-                  : _getBooking(model));
-        });
+    return Scaffold(
+        backgroundColor: model.themeData == null ||
+                model.themeData.brightness == Brightness.light
+            ? null
+            : const Color(0x171A21),
+        body: kIsWeb
+            ? Center(
+                child: Container(
+                    width: 500, height: 500, child: _getBooking(model)))
+            : _getBooking(model));
   }
 }
 
@@ -475,13 +471,37 @@ class _DateRangePickerState extends State<DateRangePicker> {
   DateTime date;
   _picker.DateRangePickerController _controller;
   _picker.PickerDateRange range;
+  bool _isWeb;
 
   @override
   void initState() {
     date = widget.date;
     range = widget.range;
     _controller = _picker.DateRangePickerController();
+    _isWeb = false;
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    //// Extra small devices (phones, 600px and down)
+//// @media only screen and (max-width: 600px) {...}
+////
+//// Small devices (portrait tablets and large phones, 600px and up)
+//// @media only screen and (min-width: 600px) {...}
+////
+//// Medium devices (landscape tablets, 768px and up)
+//// media only screen and (min-width: 768px) {...}
+////
+//// Large devices (laptops/desktops, 992px and up)
+//// media only screen and (min-width: 992px) {...}
+////
+//// Extra large devices (large laptops and desktops, 1200px and up)
+//// media only screen and (min-width: 1200px) {...}
+//// Default width to render the mobile UI in web, if the device width exceeds
+//// the given width agenda view will render the web UI.
+    _isWeb = MediaQuery.of(context).size.width > 767;
+    super.didChangeDependencies();
   }
 
   @override
@@ -491,11 +511,21 @@ class _DateRangePickerState extends State<DateRangePicker> {
       child: ButtonBar(
         children: <Widget>[
           FlatButton(
-            child: const Text('Cancel'),
+            splashColor: widget.model.backgroundColor
+                .withOpacity(widget.model.backgroundColor.opacity * 0.2),
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: widget.model.backgroundColor),
+            ),
             onPressed: () => Navigator.pop(context, null),
           ),
           FlatButton(
-            child: const Text('OK'),
+            splashColor: widget.model.backgroundColor
+                .withOpacity(widget.model.backgroundColor.opacity * 0.2),
+            child: Text(
+              'OK',
+              style: TextStyle(color: widget.model.backgroundColor),
+            ),
             onPressed: () {
               if (range != null) {
                 Navigator.pop(context, range);
@@ -515,55 +545,55 @@ class _DateRangePickerState extends State<DateRangePicker> {
             height: 30,
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: range == null ||
-                range.startDate == null ||
-                range.endDate == null ||
-                range.startDate == range.endDate
+                    range.startDate == null ||
+                    range.endDate == null ||
+                    range.startDate == range.endDate
                 ? Text(
-              DateFormat('dd MMM, yyyy').format(range == null
-                  ? date
-                  : (range.startDate != null
-                  ? range.startDate
-                  : range.endDate)),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.w600),
-            )
-                : Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 5,
-                  child: Text(
-                    DateFormat('dd MMM, yyyy').format(
-                        range.startDate.isAfter(range.endDate)
-                            ? range.endDate
-                            : range.startDate),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Container(
-                    child: const VerticalDivider(
-                      thickness: 1,
-                    )),
-                Expanded(
-                  flex: 5,
-                  child: Text(
-                    DateFormat('dd MMM, yyyy').format(
-                        range.startDate.isAfter(range.endDate)
+                    DateFormat('dd MMM, yyyy').format(range == null
+                        ? date
+                        : (range.startDate != null
                             ? range.startDate
-                            : range.endDate),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                            : range.endDate)),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ],
-            )));
+                  )
+                : Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 5,
+                        child: Text(
+                          DateFormat('dd MMM, yyyy').format(
+                              range.startDate.isAfter(range.endDate)
+                                  ? range.endDate
+                                  : range.startDate),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Container(
+                          child: const VerticalDivider(
+                        thickness: 1,
+                      )),
+                      Expanded(
+                        flex: 5,
+                        child: Text(
+                          DateFormat('dd MMM, yyyy').format(
+                              range.startDate.isAfter(range.endDate)
+                                  ? range.startDate
+                                  : range.endDate),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  )));
 
     _controller.selectedDate = date;
     _controller.selectedRange = range;
@@ -571,19 +601,17 @@ class _DateRangePickerState extends State<DateRangePicker> {
       controller: _controller,
       initialDisplayDate: widget.displayDate,
       showNavigationArrow: true,
+      enableMultiView: range != null && _isWeb,
       selectionMode: range == null
           ? _picker.DateRangePickerSelectionMode.single
           : _picker.DateRangePickerSelectionMode.range,
       minDate: widget.minDate,
       maxDate: widget.maxDate,
       todayHighlightColor: Colors.transparent,
-      monthCellStyle: _picker.DateRangePickerMonthCellStyle(
-          todayTextStyle: const TextStyle(color: Colors.blue, fontSize: 13)),
-      yearCellStyle: _picker.DateRangePickerYearCellStyle(
-          todayTextStyle: const TextStyle(color: Colors.blue, fontSize: 13)),
       headerStyle: _picker.DateRangePickerHeaderStyle(
           textAlign: TextAlign.center,
-          textStyle: TextStyle(color: Colors.blue[700], fontSize: 15)),
+          textStyle:
+              TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
       onSelectionChanged:
           (_picker.DateRangePickerSelectionChangedArgs details) {
         setState(() {
@@ -597,23 +625,28 @@ class _DateRangePickerState extends State<DateRangePicker> {
     );
 
     return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         child: Container(
-          height: 400,
-          width: 300,
-          color: widget.model.cardThemeColor,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              selectedDateWidget,
-              Flexible(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                      child: pickerWidget)),
-              footerWidget,
-            ],
-          ),
-        ));
+            height: 400,
+            width: range != null && _isWeb ? 500 : 300,
+            color: widget.model.isWeb
+                ? widget.model.webSampleBackgroundColor
+                : widget.model.cardThemeColor,
+            child: Theme(
+              data: widget.model.themeData
+                  .copyWith(accentColor: widget.model.backgroundColor),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  selectedDateWidget,
+                  Flexible(
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                          child: pickerWidget)),
+                  footerWidget,
+                ],
+              ),
+            )));
   }
 }

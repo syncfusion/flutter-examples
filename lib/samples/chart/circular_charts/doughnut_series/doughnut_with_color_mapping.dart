@@ -1,45 +1,49 @@
-import 'package:flutter_examples/model/helper.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+/// Package import
 import 'package:flutter/material.dart';
 
-//ignore: must_be_immutable
-class DoughnutCustomization extends StatefulWidget {
-  DoughnutCustomization({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
 
+/// Local imports
+import '../../../../model/model.dart';
+import '../../../../model/sample_view.dart';
+
+/// Render the doughnut series with color mapping.
+class DoughnutCustomization extends SampleView {
+  const DoughnutCustomization(Key key) : super(key: key);
+  
   @override
-  _DoughnutDefaultState createState() => _DoughnutDefaultState(sample);
+  _DoughnutDefaultState createState() => _DoughnutDefaultState();
 }
 
-class _DoughnutDefaultState extends State<DoughnutCustomization> {
-  _DoughnutDefaultState(this.sample);
-  final SubItem sample;
-
+/// State class of doughnut series with color mapping.
+class _DoughnutDefaultState extends SampleViewState {
+  _DoughnutDefaultState();
+  
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getDoughnutCustomizationChart(false), sample);
+    return getDoughnutCustomizationChart();
   }
-}
 
-SfCircularChart getDoughnutCustomizationChart(bool isTileView) {
+/// Returns the circular chart with color mapping doughnut series.
+SfCircularChart getDoughnutCustomizationChart() {
   return SfCircularChart(
-    
     annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
           widget: Container(
-              child: Text('90%',
+              child: const Text('90%',
                   style: TextStyle(color: Colors.grey, fontSize: 25))))
     ],
     title: ChartTitle(
-        text: isTileView ? '' : 'Work progress',
-        textStyle: ChartTextStyle(fontSize: 20)),
-    series: getDoughnutCustomizationSeries(isTileView),
+        text: isCardView ? '' : 'Work progress',
+        textStyle: const TextStyle(fontSize: 20)),
+    series: getDoughnutCustomizationSeries(isCardView),
   );
 }
 
+/// Return the list of doughnut series which need to be color mapping.
 List<DoughnutSeries<ChartSampleData, String>> getDoughnutCustomizationSeries(
-    bool isTileView) {
+    bool isCardView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
         x: 'A', y: 10, pointColor: const Color.fromRGBO(255, 4, 0, 1)),
@@ -86,12 +90,14 @@ List<DoughnutSeries<ChartSampleData, String>> getDoughnutCustomizationSeries(
     DoughnutSeries<ChartSampleData, String>(
       dataSource: chartData,
       radius: '100%',
-      strokeColor: Colors.white,
+      strokeColor: model.themeData.brightness == Brightness.light ? Colors.white : Colors.black,
       strokeWidth: 2,
       xValueMapper: (ChartSampleData data, _) => data.x,
       yValueMapper: (ChartSampleData data, _) => data.y,
+      /// The property used to apply the color for each douchnut series.
       pointColorMapper: (ChartSampleData data, _) => data.pointColor,
       dataLabelMapper: (ChartSampleData data, _) => data.x,
     ),
   ];
+}
 }

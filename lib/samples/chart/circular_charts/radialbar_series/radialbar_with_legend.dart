@@ -1,43 +1,48 @@
-import 'package:flutter_examples/model/helper.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+/// Package import
 import 'package:flutter/material.dart';
 
-//ignore: must_be_immutable
-class RadialBarAngle extends StatefulWidget {
-  RadialBarAngle({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
 
+/// Local imports
+import '../../../../model/model.dart';
+import '../../../../model/sample_view.dart';
+
+/// Render the radial series with legend.
+class RadialBarAngle extends SampleView {
+  const RadialBarAngle(Key key) : super(key: key);
+  
   @override
-  _RadialBarAngleState createState() => _RadialBarAngleState(sample);
+  _RadialBarAngleState createState() => _RadialBarAngleState();
 }
 
-class _RadialBarAngleState extends State<RadialBarAngle> {
-  _RadialBarAngleState(this.sample);
-  final SubItem sample;
+/// State class of radial series with legend.
+class _RadialBarAngleState extends SampleViewState {
+  _RadialBarAngleState();
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getAngleRadialBarChart(false), sample);
+    return getAngleRadialBarChart();
   }
-}
 
-SfCircularChart getAngleRadialBarChart(bool isTileView) {
+/// Retunrs the circular charts with radial series.
+SfCircularChart getAngleRadialBarChart() {
   return SfCircularChart(
-    
-    title: ChartTitle(text: isTileView ? '' : 'Activity tracker'),
+    title: ChartTitle(text: isCardView ? '' : 'Activity tracker'),
+    /// To enable the legend for radial bar.
     legend: Legend(
         isVisible: true,
         iconHeight: 20,
         iconWidth: 20,
         overflowMode: LegendItemOverflowMode.wrap),
     tooltipBehavior: TooltipBehavior(enable: true, format: 'point.x'),
-    series: getRadialBarSeries(isTileView),
+    series: getRadialBarSeries(isCardView),
   );
 }
 
+/// Returns the list of radial bar with legend.
 List<RadialBarSeries<ChartSampleData, String>> getRadialBarSeries(
-    bool isTileView) {
+    bool isCardView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
         x: 'Move 65%\n338/520 CAL',
@@ -61,7 +66,7 @@ List<RadialBarSeries<ChartSampleData, String>> getRadialBarSeries(
   final List<RadialBarSeries<ChartSampleData, String>> list =
       <RadialBarSeries<ChartSampleData, String>>[
     RadialBarSeries<ChartSampleData, String>(
-       animationDuration: 0,
+        animationDuration: 0,
         pointRadiusMapper: (ChartSampleData data, _) => data.xValue,
         maximumValue: 100,
         radius: '100%',
@@ -76,4 +81,5 @@ List<RadialBarSeries<ChartSampleData, String>> getRadialBarSeries(
         dataLabelSettings: DataLabelSettings(isVisible: true))
   ];
   return list;
+}
 }

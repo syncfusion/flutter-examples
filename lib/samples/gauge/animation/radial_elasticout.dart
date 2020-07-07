@@ -1,33 +1,27 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
-//ignore: must_be_immutable
-class RadialElasticOutAnimation extends StatefulWidget {
-  RadialElasticOutAnimation({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class RadialElasticOutAnimation extends SampleView {
+  const RadialElasticOutAnimation(Key key) : super(key: key);
+  
   @override
   _RadialElasticOutAnimationState createState() =>
-      _RadialElasticOutAnimationState(sample);
+      _RadialElasticOutAnimationState();
 }
 
-class _RadialElasticOutAnimationState extends State<RadialElasticOutAnimation> {
-  _RadialElasticOutAnimationState(this.sample);
-  final SubItem sample;
-
+class _RadialElasticOutAnimationState extends SampleViewState {
+  _RadialElasticOutAnimationState();
+  
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRadialElasticOutAnimation(false), sample);
+    return getRadialElasticOutAnimation();
   }
-}
 
-SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
+SfRadialGauge getRadialElasticOutAnimation() {
   return SfRadialGauge(
-    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           startAngle: 180,
@@ -42,9 +36,11 @@ SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
           minorTicksPerInterval: 4,
           pointers: <GaugePointer>[
             RangePointer(
-                gradient:  kIsWeb ? null :  const SweepGradient(
-                    colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
-                    stops: <double>[0.25, 0.75]),
+                gradient: kIsWeb
+                    ? null
+                    : const SweepGradient(
+                        colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
+                        stops: <double>[0.25, 0.75]),
                 value: 70,
                 width: 5,
                 animationDuration: 2000,
@@ -54,7 +50,7 @@ SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
             NeedlePointer(
                 value: 70,
                 needleStartWidth: 0,
-                needleColor: kIsWeb? null : const Color(0xFFD481FF),
+                needleColor: kIsWeb ? null : const Color(0xFFD481FF),
                 lengthUnit: GaugeSizeUnit.factor,
                 needleLength: 1,
                 enableAnimation: true,
@@ -69,4 +65,5 @@ SfRadialGauge getRadialElasticOutAnimation(bool isTileView) {
           axisLineStyle: AxisLineStyle(color: Colors.transparent))
     ],
   );
+}
 }

@@ -1,83 +1,82 @@
+/// Dart imports
 import 'dart:math';
 import 'dart:ui';
-import 'package:syncfusion_flutter_charts/charts.dart';
+
+/// Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:intl/intl.dart';
 
-import '../../../../model/helper.dart';
-import '../../../../model/model.dart';
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-//ignore: must_be_immutable
-class CustomizedLine extends StatefulWidget {
-  CustomizedLine({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+/// Local import
+import '../../../../model/sample_view.dart';
+
+class CustomizedLine extends SampleView {
+  const CustomizedLine(Key key) : super(key: key);
 
   @override
-  _LineDefaultState createState() => _LineDefaultState(sample);
+  _LineDefaultState createState() => _LineDefaultState();
 }
 
 List<num> xValues;
 List<num> yValues;
- List<num> xPointValues = <num>[];
-  List<num> yPointValues = <num>[];
+List<num> xPointValues = <num>[];
+List<num> yPointValues = <num>[];
 
-class _LineDefaultState extends State<CustomizedLine> {
-  _LineDefaultState(this.sample);
-  final SubItem sample;
+class _LineDefaultState extends SampleViewState {
+  _LineDefaultState();
+
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getCustomizedLineChart(false), sample);
+    return getCustomizedLineChart();
   }
-}
 
-SfCartesianChart getCustomizedLineChart(bool isTileView) {
-  return SfCartesianChart(
-    
-    title: ChartTitle(
-        text: isTileView ? '' : 'Capital investment as a share of exports'),
-    primaryXAxis: DateTimeAxis(
-      edgeLabelPlacement: EdgeLabelPlacement.shift,
-      dateFormat: DateFormat.yMMM(),
-      intervalType: DateTimeIntervalType.months,
-      interval: 3,
-    ),
-    primaryYAxis: NumericAxis(
-        labelFormat: '{value}%',
-        minimum: 1,
-        maximum: 3.5,
-        interval: 0.5,
-        majorGridLines: MajorGridLines(color: Colors.transparent)),
-    series: getCustomizedLineSeries(isTileView),
-    tooltipBehavior:
-        TooltipBehavior(enable: true, header: '', canShowMarker: false),
-  );
-}
-
-List<CustomLineSeries<_ChartData, DateTime>> getCustomizedLineSeries(
-    bool isTileView) {
-  final dynamic chartData = <_ChartData>[
-    _ChartData(DateTime(2018, 7), 2.9),
-    _ChartData(DateTime(2018, 8), 2.7),
-    _ChartData(DateTime(2018, 9), 2.3),
-    _ChartData(DateTime(2018, 10), 2.5),
-    _ChartData(DateTime(2018, 11), 2.2),
-    _ChartData(DateTime(2018, 12), 1.9),
-    _ChartData(DateTime(2019, 1), 1.6),
-    _ChartData(DateTime(2019, 2), 1.5),
-    _ChartData(DateTime(2019, 3), 1.9),
-    _ChartData(DateTime(2019, 4), 2),
-  ];
-  return <CustomLineSeries<_ChartData, DateTime>>[
-    CustomLineSeries<_ChartData, DateTime>(
-        animationDuration: 2500,
-        enableToolTip: true,
-        dataSource: chartData,
-        xValueMapper: (_ChartData sales, _) => sales.x,
-        yValueMapper: (_ChartData sales, _) => sales.y,
-        width: 2,
-        markerSettings: MarkerSettings(isVisible: true)),
-  ];
+  SfCartesianChart getCustomizedLineChart() {
+    return SfCartesianChart(
+      title: ChartTitle(
+          text: isCardView ? '' : 'Capital investment as a share of exports'),
+      primaryXAxis: DateTimeAxis(
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        dateFormat: DateFormat.yMMM(),
+        intervalType: DateTimeIntervalType.months,
+        interval: 3,
+      ),
+      primaryYAxis: NumericAxis(
+          labelFormat: '{value}%',
+          minimum: 1,
+          maximum: 3.5,
+          interval: 0.5,
+          majorGridLines: MajorGridLines(color: Colors.transparent)),
+      series: <ChartSeries<_ChartData, DateTime>>[
+        LineSeries<_ChartData, DateTime>(
+            onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
+              return CustomLineSeriesRenderer();
+            },
+            animationDuration: 2500,
+            enableTooltip: true,
+            dataSource: <_ChartData>[
+              _ChartData(DateTime(2018, 7), 2.9),
+              _ChartData(DateTime(2018, 8), 2.7),
+              _ChartData(DateTime(2018, 9), 2.3),
+              _ChartData(DateTime(2018, 10), 2.5),
+              _ChartData(DateTime(2018, 11), 2.2),
+              _ChartData(DateTime(2018, 12), 1.9),
+              _ChartData(DateTime(2019, 1), 1.6),
+              _ChartData(DateTime(2019, 2), 1.5),
+              _ChartData(DateTime(2019, 3), 1.9),
+              _ChartData(DateTime(2019, 4), 2),
+            ],
+            xValueMapper: (_ChartData sales, _) => sales.x,
+            yValueMapper: (_ChartData sales, _) => sales.y,
+            width: 2,
+            markerSettings: MarkerSettings(isVisible: true)),
+      ],
+      tooltipBehavior:
+          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+    );
+  }
 }
 
 class _ChartData {
@@ -86,41 +85,10 @@ class _ChartData {
   final double y;
 }
 
-class CustomLineSeries<T, D> extends LineSeries<T, D> {
-  CustomLineSeries({
-    @required List<T> dataSource,
-    @required ChartValueMapper<T, D> xValueMapper,
-    @required ChartValueMapper<T, num> yValueMapper,
-    String xAxisName,
-    String yAxisName,
-    Color color,
-    double width,
-    MarkerSettings markerSettings,
-    EmptyPointSettings emptyPointSettings,
-    DataLabelSettings dataLabel,
-    bool visible,
-    bool enableToolTip,
-    List<double> dashArray,
-    double animationDuration,
-  }) : super(
-            xValueMapper: xValueMapper,
-            yValueMapper: yValueMapper,
-            dataSource: dataSource,
-            xAxisName: xAxisName,
-            yAxisName: yAxisName,
-            color: color,
-            width: width,
-            markerSettings: markerSettings,
-            emptyPointSettings: emptyPointSettings,
-            dataLabelSettings: dataLabel,
-            isVisible: visible,
-            enableTooltip: enableToolTip,
-            dashArray: dashArray,
-            animationDuration: animationDuration);
+class CustomLineSeriesRenderer extends LineSeriesRenderer {
+  CustomLineSeriesRenderer();
 
   static Random randomNumber = Random();
-  
-  
 
   @override
   ChartSegment createSegment() {
@@ -146,8 +114,6 @@ class LineCustomPainter extends LineSegment {
     Colors.cyan
   ];
 
-
-
   @override
   Paint getStrokePaint() {
     final Paint customerStrokePaint = Paint();
@@ -157,7 +123,7 @@ class LineCustomPainter extends LineSegment {
     return customerStrokePaint;
   }
 
-  void storeValues(){
+  void storeValues() {
     xPointValues.add(x1);
     xPointValues.add(x2);
     yPointValues.add(y1);
@@ -171,7 +137,7 @@ class LineCustomPainter extends LineSegment {
   @override
   void onPaint(Canvas canvas) {
     final double x1 = this.x1, y1 = this.y1, x2 = this.x2, y2 = this.y2;
-   storeValues();
+    storeValues();
     final Path path = Path();
     path.moveTo(x1, y1);
     path.lineTo(x2, y2);
@@ -220,7 +186,9 @@ class LineCustomPainter extends LineSegment {
           TextPainter(text: span, textDirection: prefix0.TextDirection.ltr);
       tp.layout();
       tp.paint(
-          canvas, Offset(xPointValues[xPointValues.length - 4], maximum + labelPadding));
+          canvas,
+          Offset(
+              xPointValues[xPointValues.length - 4], maximum + labelPadding));
       final TextSpan span1 = TextSpan(
         style: TextStyle(
             color: Colors.green[800], fontSize: 12.0, fontFamily: 'Roboto'),

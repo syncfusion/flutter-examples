@@ -1,107 +1,108 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class GaugeCustomLabels extends StatefulWidget {
-  GaugeCustomLabels({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class GaugeCustomLabels extends SampleView {
+  const GaugeCustomLabels(Key key) : super(key: key);
+  
   @override
-  _GaugeCustomLabelsState createState() => _GaugeCustomLabelsState(sample);
+  _GaugeCustomLabelsState createState() => _GaugeCustomLabelsState();
 }
 
-class _GaugeCustomLabelsState extends State<GaugeCustomLabels> {
-  _GaugeCustomLabelsState(this.sample);
-  final SubItem sample;
+class _GaugeCustomLabelsState extends SampleViewState {
+  _GaugeCustomLabelsState();
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel( getGaugeCustomLabels(false), sample);
+    return getGaugeCustomLabels();
   }
-}
 
-
-Widget getGaugeCustomLabels(bool isTileView, [bool isIndexed]) {
+Widget getGaugeCustomLabels() {
   return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Orientation _orientation = MediaQuery.of(context).orientation;
-        final Brightness _brightness = Theme.of(context).brightness;
+    final Orientation _orientation = MediaQuery.of(context).orientation;
+    final Brightness _brightness = Theme.of(context).brightness;
 
-        return SfRadialGauge(
-          axes: <RadialAxis>[
-            RadialAxis(
-              startAngle: 270,
-              endAngle: 270,
-              radiusFactor: kIsWeb ? 0.8 : 0.9,
-              minimum: 0,
-              maximum: 80,
-              axisLineStyle:
-              AxisLineStyle(thicknessUnit: GaugeSizeUnit.factor, thickness: 0.1),
-              interval: 10,
-              needsRotateLabels: true,
-              axisLabelStyle: GaugeTextStyle(fontSize: 12),
-              minorTicksPerInterval: 0,
-              majorTickStyle: MajorTickStyle(
-                  thickness: 1.5, lengthUnit: GaugeSizeUnit.factor, length: 0.07),
-              showLabels: true,
-              onLabelCreated: labelCreated,
-              pointers: <GaugePointer>[
-                NeedlePointer(
-                    value: 70,
-                    lengthUnit: GaugeSizeUnit.factor,
-                    needleLength: 0.55,
-                    needleEndWidth: kIsWeb ? 18 : isTileView ? 10 :
-                    _orientation == Orientation.portrait ? 18: 10,
-                    gradient: const LinearGradient(colors: <Color>[
-                      Color(0xFFFF6B78),
-                      Color(0xFFFF6B78),
-                      Color(0xFFE20A22),
-                      Color(0xFFE20A22)
-                    ], stops: <double>[
-                      0,
-                      0.5,
-                      0.5,
-                      1
-                    ]),
-                    needleColor: const Color(0xFFF67280),
-                    knobStyle: KnobStyle(
-                        knobRadius: kIsWeb ? 0.098 : 0.09,
-                        sizeUnit: GaugeSizeUnit.factor,
-                        color: Colors.white)),
-                NeedlePointer(
-                    gradient: const LinearGradient(colors: <Color>[
-                      Color(0xFFE3DFDF),
-                      Color(0xFFE3DFDF),
-                      Color(0xFF7A7A7A),
-                      Color(0xFF7A7A7A)
-                    ], stops: <double>[
-                      0,
-                      0.5,
-                      0.5,
-                      1
-                    ]),
-                    value: 30,
-                    needleLength: 0.55,
-                    lengthUnit: GaugeSizeUnit.factor,
-                    needleColor: _brightness == Brightness.dark ?
-        const Color(0xFF888888): const Color(0xFFFCACACA),
-                    needleEndWidth:  kIsWeb ? 18 : isTileView ? 10 :
-                    _orientation == Orientation.portrait ? 18: 10,
-                    knobStyle: KnobStyle(
-                        knobRadius: kIsWeb ? 0.098 : 0.09,
-                        sizeUnit: GaugeSizeUnit.factor,
-                        color: Colors.white))
-              ],
-            )
+    return SfRadialGauge(
+      axes: <RadialAxis>[
+        RadialAxis(
+          startAngle: 270,
+          endAngle: 270,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
+          minimum: 0,
+          maximum: 80,
+          axisLineStyle: AxisLineStyle(
+              thicknessUnit: GaugeSizeUnit.factor, thickness: 0.1),
+          interval: 10,
+          needsRotateLabels: true,
+          axisLabelStyle: GaugeTextStyle(fontSize: 12),
+          minorTicksPerInterval: 0,
+          majorTickStyle: MajorTickStyle(
+              thickness: 1.5, lengthUnit: GaugeSizeUnit.factor, length: 0.07),
+          showLabels: true,
+          onLabelCreated: labelCreated,
+          pointers: <GaugePointer>[
+            NeedlePointer(
+                value: 70,
+                lengthUnit: GaugeSizeUnit.factor,
+                needleLength: 0.55,
+                needleEndWidth: kIsWeb
+                    ? 18
+                    : isCardView
+                        ? 10
+                        : _orientation == Orientation.portrait ? 18 : 10,
+                gradient: const LinearGradient(colors: <Color>[
+                  Color(0xFFFF6B78),
+                  Color(0xFFFF6B78),
+                  Color(0xFFE20A22),
+                  Color(0xFFE20A22)
+                ], stops: <double>[
+                  0,
+                  0.5,
+                  0.5,
+                  1
+                ]),
+                needleColor: const Color(0xFFF67280),
+                knobStyle: KnobStyle(
+                    knobRadius: kIsWeb ? 0.098 : 0.09,
+                    sizeUnit: GaugeSizeUnit.factor,
+                    color: Colors.white)),
+            NeedlePointer(
+                gradient: const LinearGradient(colors: <Color>[
+                  Color(0xFFE3DFDF),
+                  Color(0xFFE3DFDF),
+                  Color(0xFF7A7A7A),
+                  Color(0xFF7A7A7A)
+                ], stops: <double>[
+                  0,
+                  0.5,
+                  0.5,
+                  1
+                ]),
+                value: 30,
+                needleLength: 0.55,
+                lengthUnit: GaugeSizeUnit.factor,
+                needleColor: _brightness == Brightness.dark
+                    ? const Color(0xFF888888)
+                    : const Color(0xFFFCACACA),
+                needleEndWidth: kIsWeb
+                    ? 18
+                    : isCardView
+                        ? 10
+                        : _orientation == Orientation.portrait ? 18 : 10,
+                knobStyle: KnobStyle(
+                    knobRadius: kIsWeb ? 0.098 : 0.09,
+                    sizeUnit: GaugeSizeUnit.factor,
+                    color: Colors.white))
           ],
-        );
+        )
+      ],
+    );
   });
 }
-
 
 void labelCreated(AxisLabelCreatedArgs args) {
   if (args.text == '80' || args.text == '0') {
@@ -121,4 +122,5 @@ void labelCreated(AxisLabelCreatedArgs args) {
   } else if (args.text == '70') {
     args.text = 'NW';
   }
+}
 }

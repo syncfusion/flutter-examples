@@ -1,21 +1,18 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class MultipleAxisExample extends StatefulWidget {
-   MultipleAxisExample({this.sample, Key key}) : super(key: key);
-   SubItem sample;
+class MultipleAxisExample extends SampleView {
+  const MultipleAxisExample(Key key) : super(key: key);
   
   @override
-  _MultipleAxisExampleState createState() => _MultipleAxisExampleState(sample);
+  _MultipleAxisExampleState createState() => _MultipleAxisExampleState();
 }
 
-class _MultipleAxisExampleState extends State<MultipleAxisExample> {
-  _MultipleAxisExampleState(this.sample);
-  final SubItem sample;
+class _MultipleAxisExampleState extends SampleViewState {
+  _MultipleAxisExampleState();
   bool panelOpen;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
 
@@ -42,158 +39,96 @@ class _MultipleAxisExampleState extends State<MultipleAxisExample> {
 
   @override
   Widget build(BuildContext context) {
-   return getScopedModel( _getRadialGauge(context), sample);
+    return _getRadialGauge(context);
   }
 
-  SfRadialGauge _getRadialGauge(BuildContext context){
-    return SfRadialGauge(
-        axes: <RadialAxis>[
-          RadialAxis(minimum: 32,
-            maximum: 212,
-            interval: 36,
-            radiusFactor:
-            MediaQuery
-                .of(context)
-                .orientation == Orientation.portrait ? 0.6 : 0.5,
-            labelOffset: 15,
-            needsRotateLabels: true,
-            minorTickStyle: MinorTickStyle(
-                color: const Color(0xFF00A8B5), thickness: 1.5,
-                lengthUnit: GaugeSizeUnit.factor,
-                length: 0.07),
-            majorTickStyle: MajorTickStyle(
-                color: const Color(0xFF00A8B5), thickness: 1.5,
-                lengthUnit: GaugeSizeUnit.factor,
-                length: 0.15),
-            axisLineStyle: AxisLineStyle(
-              color: const Color(0xFF00A8B5), thickness: 3,),
-            axisLabelStyle: GaugeTextStyle(
-                color: const Color(0xFF00A8B5), fontSize: 12),
-
+  SfRadialGauge _getRadialGauge(BuildContext context) {
+    return SfRadialGauge(axes: <RadialAxis>[
+      RadialAxis(
+        minimum: 32,
+        maximum: 212,
+        interval: 36,
+        radiusFactor: MediaQuery.of(context).orientation == Orientation.portrait
+            ? isCardView ? 0.5 : 0.6
+            : 0.5,
+        labelOffset: 15,
+        needsRotateLabels: true,
+        minorTickStyle: MinorTickStyle(
+            color: const Color(0xFF00A8B5),
+            thickness: 1.5,
+            lengthUnit: GaugeSizeUnit.factor,
+            length: 0.07),
+        majorTickStyle: MajorTickStyle(
+            color: const Color(0xFF00A8B5),
+            thickness: 1.5,
+            lengthUnit: GaugeSizeUnit.factor,
+            length: 0.15),
+        axisLineStyle: AxisLineStyle(
+          color: const Color(0xFF00A8B5),
+          thickness: 3,
+        ),
+        axisLabelStyle:
+            GaugeTextStyle(color: const Color(0xFF00A8B5), fontSize: 12),
+      ),
+      RadialAxis(
+          minimum: 0,
+          maximum: 100,
+          interval: 10,
+          ticksPosition: ElementsPosition.outside,
+          labelsPosition: ElementsPosition.outside,
+          minorTicksPerInterval: 5,
+          radiusFactor: 0.95,
+          labelOffset: 15,
+          minorTickStyle: MinorTickStyle(
+              thickness: 1.5, length: 0.07, lengthUnit: GaugeSizeUnit.factor),
+          majorTickStyle: MinorTickStyle(
+            thickness: 1.5,
+            length: 0.15,
+            lengthUnit: GaugeSizeUnit.factor,
           ),
-          RadialAxis(minimum: 0,
-              maximum: 100,
-              interval: 10,
-              ticksPosition: ElementsPosition.outside,
-              labelsPosition: ElementsPosition.outside,
-
-              minorTicksPerInterval: 5,
-              radiusFactor: 0.95,
-              labelOffset: 15,
-              minorTickStyle: MinorTickStyle(thickness: 1.5,
-                  length: 0.07, lengthUnit: GaugeSizeUnit.factor),
-              majorTickStyle: MinorTickStyle(thickness: 1.5,
-                length: 0.15, lengthUnit: GaugeSizeUnit.factor,),
-              axisLineStyle: AxisLineStyle(thickness: 3,),
-              axisLabelStyle: GaugeTextStyle(fontSize: 12),
-              annotations: <GaugeAnnotation>[
-                GaugeAnnotation(angle: 90, positionFactor: 1,
-                    widget: Row(children: <Widget>[
-                      Container(child: const Text(
-                        '33°C  :', style: TextStyle(fontSize: 12,
+          axisLineStyle: AxisLineStyle(
+            thickness: 3,
+          ),
+          axisLabelStyle: GaugeTextStyle(fontSize: 12),
+          annotations: <GaugeAnnotation>[
+            GaugeAnnotation(
+                angle: 90,
+                positionFactor: 1,
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                        child: const Text(
+                      '33°C  :',
+                      style: TextStyle(
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Times'),)),
-                      Container(child: const Text(
-                        ' 91.4°F', style: TextStyle(fontSize: 12,
+                          fontFamily: 'Times'),
+                    )),
+                    Container(
+                        child: const Text(
+                      ' 91.4°F',
+                      style: TextStyle(
+                          fontSize: 12,
                           color: Color(0xFF00A8B5),
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Times'),))
-                    ],)
-                )
-              ],
-              pointers: <GaugePointer>[NeedlePointer(needleLength: 0.68,
-                lengthUnit: GaugeSizeUnit.factor,
-                needleStartWidth: 0,
-                needleEndWidth: 3,
-                value: 33,
-                enableAnimation: true,
-                knobStyle: KnobStyle(knobRadius: 6.5,
-                    sizeUnit: GaugeSizeUnit.logicalPixel
-                ),)
-              ]
-          ),
-        ]
-    );
+                          fontFamily: 'Times'),
+                    ))
+                  ],
+                ))
+          ],
+          pointers: <GaugePointer>[
+            NeedlePointer(
+              needleLength: 0.68,
+              lengthUnit: GaugeSizeUnit.factor,
+              needleStartWidth: 0,
+              needleEndWidth: 3,
+              value: 33,
+              enableAnimation: true,
+              knobStyle: KnobStyle(
+                  knobRadius: 6.5, sizeUnit: GaugeSizeUnit.logicalPixel),
+            )
+          ]),
+    ]);
   }
 }
-
-
-Widget getMultipleAxisGauge(bool isTileView,  bool _enableAnimation) {
-  return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return SfRadialGauge(
-            axes: <RadialAxis>[
-              RadialAxis(minimum: 32,
-                maximum: 212,
-                interval: 36,
-                radiusFactor: isTileView ? 0.5 :
-                MediaQuery
-                    .of(context)
-                    .orientation == Orientation.portrait ? 0.6 : 0.5,
-                labelOffset: 15,
-                needsRotateLabels: true,
-                minorTickStyle: MinorTickStyle(
-                    color: const Color(0xFF00A8B5), thickness: 1.5,
-                    lengthUnit: GaugeSizeUnit.factor,
-                    length: 0.07),
-                majorTickStyle: MajorTickStyle(
-                    color: const Color(0xFF00A8B5), thickness: 1.5,
-                    lengthUnit: GaugeSizeUnit.factor,
-                    length: 0.15),
-                axisLineStyle: AxisLineStyle(
-                  color: const Color(0xFF00A8B5), thickness: 3,),
-                axisLabelStyle: GaugeTextStyle(
-                    color: const Color(0xFF00A8B5), fontSize: 12),
-
-              ),
-              RadialAxis(minimum: 0,
-                  maximum: 100,
-                  interval: 10,
-                  ticksPosition: ElementsPosition.outside,
-                  labelsPosition: ElementsPosition.outside,
-
-                  minorTicksPerInterval: 5,
-                  radiusFactor: 0.95,
-                  labelOffset: 15,
-                  minorTickStyle: MinorTickStyle(thickness: 1.5,
-                      length: 0.07, lengthUnit: GaugeSizeUnit.factor),
-                  majorTickStyle: MinorTickStyle(thickness: 1.5,
-                    length: 0.15, lengthUnit: GaugeSizeUnit.factor,),
-                  axisLineStyle: AxisLineStyle(thickness: 3,),
-                  axisLabelStyle: GaugeTextStyle(fontSize: 12),
-                  annotations: <GaugeAnnotation>[
-                    GaugeAnnotation(angle: 90, positionFactor: 1,
-                        widget: Row(children: <Widget>[
-                          Container(child: const Text(
-                            '33°C  :', style: TextStyle(fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Times'),)),
-                          Container(child: const Text(
-                            ' 91.4°F', style: TextStyle(fontSize: 12,
-                              color: Color(0xFF00A8B5),
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Times'),))
-                        ],)
-                    )
-                  ],
-                  pointers: <GaugePointer>[NeedlePointer(needleLength: 0.68,
-                    lengthUnit: GaugeSizeUnit.factor,
-                    needleStartWidth: 0,
-                    needleEndWidth: 3,
-                    value: 33,
-                    enableAnimation: _enableAnimation,
-                    knobStyle: KnobStyle(knobRadius: 6.5,
-                        sizeUnit: GaugeSizeUnit.logicalPixel
-                    ),)
-                  ]
-              ),
-            ]
-        );
-      });
-}
-
-
-
-
-
-

@@ -1,28 +1,32 @@
-import 'package:flutter_examples/model/helper.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+/// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-//ignore: must_be_immutable
-class AdIndicator extends StatefulWidget {
-  AdIndicator({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+/// Local imports
+import '../../../model/sample_view.dart';
+
+/// Renders the OHLC chart with Accumulation distribution indicator samples.
+class AdIndicator extends SampleView {
+  const AdIndicator(Key key) : super(key: key);
 
   @override
-  _AdIndicatorState createState() => _AdIndicatorState(sample);
+  _AdIndicatorState createState() => _AdIndicatorState();
 }
 
-class _AdIndicatorState extends State<AdIndicator> {
-  _AdIndicatorState(this.sample);
-  final SubItem sample;
+/// State class of the OHLC chart with Accumulation distribution indicator.
+class _AdIndicatorState extends SampleViewState {
+  _AdIndicatorState();
+
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getDefaultAdIndicator(false), sample);
+    return getDefaultAdIndicator();
   }
-}
 
-SfCartesianChart getDefaultAdIndicator(bool isTileView) {
+  /// Returns the OHLC chart with Accumulation distribution indicator.
+  SfCartesianChart getDefaultAdIndicator() {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(
         x: DateTime(2016, 01, 04),
@@ -390,24 +394,22 @@ SfCartesianChart getDefaultAdIndicator(bool isTileView) {
         volume: 84354060),
   ];
   return SfCartesianChart(
-    
-    legend: Legend(isVisible: !isTileView),
+    legend: Legend(isVisible: !isCardView),
     plotAreaBorderWidth: 0,
     primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(width: 0),
-              dateFormat: DateFormat.MMM(),
-              interval:3,
-              minimum: DateTime(2016,01,01),
-              maximum: DateTime(2017,01,01),
-              // labelRotation: 45,
-              ),
-    primaryYAxis: NumericAxis(
-      minimum: 70,
-      maximum: 130,
-      interval: 20,
-      labelFormat: '\${value}',
-      axisLine: AxisLine(width: 0)
+      majorGridLines: MajorGridLines(width: 0),
+      dateFormat: DateFormat.MMM(),
+      interval: 3,
+      minimum: DateTime(2016, 01, 01),
+      maximum: DateTime(2017, 01, 01),
+      // labelRotation: 45,
     ),
+    primaryYAxis: NumericAxis(
+        minimum: 70,
+        maximum: 130,
+        interval: 20,
+        labelFormat: '\${value}',
+        axisLine: AxisLine(width: 0)),
     axes: <ChartAxis>[
       NumericAxis(
         axisLine: AxisLine(width: 0),
@@ -421,19 +423,20 @@ SfCartesianChart getDefaultAdIndicator(bool isTileView) {
       )
     ],
     trackballBehavior: TrackballBehavior(
-        enable: isTileView ? false : true,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isTileView ? true : false),
-      indicators: <TechnicalIndicators<ChartSampleData, dynamic>>[
+      enable: isCardView ? false : true,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+    ),
+    tooltipBehavior: TooltipBehavior(enable: isCardView ? true : false),
+    indicators: <TechnicalIndicators<ChartSampleData, dynamic>>[
+      /// AD indicator mentioned here.
       AccumulationDistributionIndicator<ChartSampleData, dynamic>(
         seriesName: 'AAPL',
         yAxisName: 'yaxes',
         // name: 'ad indicator',
       ),
     ],
-    title: ChartTitle(text : isTileView ? '' : 'AAPL - 2016'),
+    title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
     series: <ChartSeries<ChartSampleData, dynamic>>[
       HiloOpenCloseSeries<ChartSampleData, dynamic>(
           emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
@@ -449,7 +452,9 @@ SfCartesianChart getDefaultAdIndicator(bool isTileView) {
     ],
   );
 }
+}
 
+/// Class for storing the OHLC chart series data points.
 class ChartSampleData {
   ChartSampleData(
       {this.x, this.open, this.close, this.high, this.low, this.volume});

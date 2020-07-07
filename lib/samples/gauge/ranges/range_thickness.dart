@@ -1,31 +1,26 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
-
 // ignore: must_be_immutable
-class RangeThicknessExample extends StatefulWidget {
-  RangeThicknessExample({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class RangeThicknessExample extends SampleView {
+  const RangeThicknessExample(Key key) : super(key: key);
+  
   @override
   _RangeThicknessExampleState createState() =>
-      _RangeThicknessExampleState(sample);
+      _RangeThicknessExampleState();
 }
 
-class _RangeThicknessExampleState extends State<RangeThicknessExample> {
-  _RangeThicknessExampleState(this.sample);
-  final SubItem sample;
-
+class _RangeThicknessExampleState extends SampleViewState {
+  _RangeThicknessExampleState();
+ 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRangeThicknessExampleGauge(false), sample);
+    return getRangeThicknessExampleGauge();
   }
-}
 
-SfRadialGauge getRangeThicknessExampleGauge(bool isTileView) {
+SfRadialGauge getRangeThicknessExampleGauge() {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -71,9 +66,11 @@ SfRadialGauge getRangeThicknessExampleGauge(bool isTileView) {
                 startValue: 30,
                 endValue: 100,
                 startWidth: kIsWeb ? 0.2 : 0.05,
-                gradient: kIsWeb ? null : const SweepGradient(
-                    colors: <Color>[Color(0xFF289AB1), Color(0xFF43E695)],
-                    stops: <double>[0.25, 0.75]),
+                gradient: kIsWeb
+                    ? null
+                    : const SweepGradient(
+                        colors: <Color>[Color(0xFF289AB1), Color(0xFF43E695)],
+                        stops: <double>[0.25, 0.75]),
                 color: const Color(0xFF289AB1),
                 rangeOffset: 0.08,
                 endWidth: 0.2,
@@ -81,4 +78,5 @@ SfRadialGauge getRangeThicknessExampleGauge(bool isTileView) {
           ]),
     ],
   );
+}
 }

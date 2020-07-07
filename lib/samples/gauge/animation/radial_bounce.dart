@@ -1,32 +1,28 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
 //ignore: must_be_immutable
-class RadialBounceOutExample extends StatefulWidget {
-  RadialBounceOutExample({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+class RadialBounceOutExample extends SampleView {
+  const RadialBounceOutExample(Key key) : super(key: key);
 
   @override
   _RadialBounceOutExampleState createState() =>
-      _RadialBounceOutExampleState(sample);
+      _RadialBounceOutExampleState();
 }
 
-class _RadialBounceOutExampleState extends State<RadialBounceOutExample> {
-  _RadialBounceOutExampleState(this.sample);
-  final SubItem sample;
-
+class _RadialBounceOutExampleState extends SampleViewState {
+  _RadialBounceOutExampleState();
+  
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRadialBounceOutExample(false), sample);
+    return getRadialBounceOutExample();
   }
-}
 
-SfRadialGauge getRadialBounceOutExample(bool isTileView) {
+
+SfRadialGauge getRadialBounceOutExample() {
   return SfRadialGauge(
-    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           radiusFactor: kIsWeb ? 0.85 : 0.98,
@@ -40,7 +36,7 @@ SfRadialGauge getRadialBounceOutExample(bool isTileView) {
           labelOffset: 8,
           axisLabelStyle: GaugeTextStyle(
               fontFamily: 'Times',
-              fontSize: isTileView ? 10 : 12,
+              fontSize: isCardView ? 10 : 12,
               fontWeight: FontWeight.w800,
               fontStyle: FontStyle.italic),
           minorTicksPerInterval: 9,
@@ -72,4 +68,5 @@ SfRadialGauge getRadialBounceOutExample(bool isTileView) {
               thickness: 0.1)),
     ],
   );
+}
 }

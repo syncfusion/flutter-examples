@@ -1,36 +1,30 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
-
 //ignore: must_be_immutable
-class RadialEaseInCircExample extends StatefulWidget {
-  RadialEaseInCircExample({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class RadialEaseInCircExample extends SampleView {
+  const RadialEaseInCircExample(Key key) : super(key: key);
+  
   @override
   _RadialEaseInCircExampleState createState() =>
-      _RadialEaseInCircExampleState(sample);
+      _RadialEaseInCircExampleState();
 }
 
 class _RadialEaseInCircExampleState extends State<RadialEaseInCircExample> {
-  _RadialEaseInCircExampleState(this.sample);
-  final SubItem sample;
-
+  _RadialEaseInCircExampleState();
+  
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRadialEaseInCircExample(false), sample);
+    return getRadialEaseInCircExample();
   }
-}
 
-SfRadialGauge getRadialEaseInCircExample(bool isTileView) {
+SfRadialGauge getRadialEaseInCircExample() {
   return SfRadialGauge(
-    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
-        radiusFactor: kIsWeb? 0.85 : 0.95,
+          radiusFactor: kIsWeb ? 0.85 : 0.95,
           showAxisLine: false,
           ticksPosition: ElementsPosition.outside,
           labelsPosition: ElementsPosition.outside,
@@ -53,13 +47,16 @@ SfRadialGauge getRadialEaseInCircExample(bool isTileView) {
                 pointerOffset: 10,
                 value: 45,
                 animationDuration: 1000,
-                gradient: kIsWeb ? null : const SweepGradient(
-                    colors: <Color>[Color(0xFF3B3FF3), Color(0xFF46D0ED)],
-                    stops: <double>[0.25, 0.75]),
+                gradient: kIsWeb
+                    ? null
+                    : const SweepGradient(
+                        colors: <Color>[Color(0xFF3B3FF3), Color(0xFF46D0ED)],
+                        stops: <double>[0.25, 0.75]),
                 animationType: AnimationType.easeInCirc,
                 enableAnimation: true,
                 color: const Color(0xFFF8B195))
           ])
     ],
   );
+}
 }

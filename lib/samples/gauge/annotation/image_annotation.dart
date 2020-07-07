@@ -1,33 +1,27 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
-// ignore: must_be_immutable
-class RadialImageAnnotation extends StatefulWidget {
-  RadialImageAnnotation({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class RadialImageAnnotation extends SampleView {
+  const RadialImageAnnotation(Key key) : super(key: key);
+  
   @override
   _RadialImageAnnotationState createState() =>
-      _RadialImageAnnotationState(sample);
+      _RadialImageAnnotationState();
 }
 
-class _RadialImageAnnotationState extends State<RadialImageAnnotation> {
-  _RadialImageAnnotationState(this.sample);
-  final SubItem sample;
-
+class _RadialImageAnnotationState extends SampleViewState {
+  _RadialImageAnnotationState();
+  
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRadialImageAnnotation(false), sample);
+    return getRadialImageAnnotation();
   }
-}
 
-SfRadialGauge getRadialImageAnnotation(bool isTileView) {
+SfRadialGauge getRadialImageAnnotation() {
   return SfRadialGauge(
-    key: kIsWeb ? UniqueKey() : null,
     axes: <RadialAxis>[
       RadialAxis(
           interval: 10,
@@ -43,21 +37,24 @@ SfRadialGauge getRadialImageAnnotation(bool isTileView) {
                 width: 20,
                 color: const Color(0xFFFFCD60),
                 enableAnimation: true,
-                gradient: kIsWeb ? null : const SweepGradient(
-                    colors: <Color>[Color(0xFFFCE38A), Color(0xFFF38181)],
-                    stops: <double>[0.25, 0.75]),
+                gradient: kIsWeb
+                    ? null
+                    : const SweepGradient(
+                        colors: <Color>[Color(0xFFFCE38A), Color(0xFFF38181)],
+                        stops: <double>[0.25, 0.75]),
                 cornerStyle: CornerStyle.bothCurve)
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
                 widget: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Container(
-                        width: isTileView ? 30.00 : 50.00,
-                        height: isTileView ? 30.00 : 50.00,
+                        width: isCardView ? 30.00 : 50.00,
+                        height: isCardView ? 30.00 : 50.00,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image:ExactAssetImage('images/sun.png'),
+                            image: ExactAssetImage('images/sun.png'),
                             fit: BoxFit.fill,
                           ),
                         )),
@@ -67,7 +64,7 @@ SfRadialGauge getRadialImageAnnotation(bool isTileView) {
                         child: Text('73°F',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: isTileView ? 15.00 : 25)),
+                                fontSize: isCardView ? 15.00 : 25)),
                       ),
                     )
                   ],
@@ -77,4 +74,5 @@ SfRadialGauge getRadialImageAnnotation(bool isTileView) {
           ])
     ],
   );
+}
 }

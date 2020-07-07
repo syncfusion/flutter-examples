@@ -1,30 +1,25 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
-// ignore: must_be_immutable
-class RadialLabelCustomization extends StatefulWidget {
-  RadialLabelCustomization({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class RadialLabelCustomization extends SampleView {
+  const RadialLabelCustomization(Key key) : super(key: key);
+  
   @override
   _RadialLabelCustomizationState createState() =>
-      _RadialLabelCustomizationState(sample);
+      _RadialLabelCustomizationState();
 }
 
-class _RadialLabelCustomizationState extends State<RadialLabelCustomization> {
-  _RadialLabelCustomizationState(this.sample);
-  final SubItem sample;
-
+class _RadialLabelCustomizationState extends SampleViewState {
+  _RadialLabelCustomizationState();
+  
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRadialLabelCustomization(false), sample);
+    return getRadialLabelCustomization();
   }
-}
 
-SfRadialGauge getRadialLabelCustomization(bool isTileView) {
+SfRadialGauge getRadialLabelCustomization() {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -64,4 +59,5 @@ SfRadialGauge getRadialLabelCustomization(bool isTileView) {
               AxisLineStyle(thickness: 3, color: const Color(0xFF00A8B5))),
     ],
   );
+}
 }

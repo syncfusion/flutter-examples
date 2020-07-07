@@ -1,29 +1,25 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
 //ignore: must_be_immutable
-class RadialCompass extends StatefulWidget {
-  RadialCompass({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class RadialCompass extends SampleView {
+  const RadialCompass(Key key) : super(key: key);
+  
   @override
-  _RadialCompassState createState() => _RadialCompassState(sample);
+  _RadialCompassState createState() => _RadialCompassState();
 }
 
-class _RadialCompassState extends State<RadialCompass> {
-  _RadialCompassState(this.sample);
-  final SubItem sample;
+class _RadialCompassState extends SampleViewState {
+  _RadialCompassState();
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRadialCompass(false), sample);
+    return getRadialCompass();
   }
-}
 
-SfRadialGauge getRadialCompass(bool isTileView) {
+SfRadialGauge getRadialCompass() {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -87,7 +83,7 @@ SfRadialGauge getRadialCompass(bool isTileView) {
                       style: TextStyle(
                           fontFamily: 'Times',
                           fontWeight: FontWeight.bold,
-                          fontSize: isTileView ? 12 : 18)),
+                          fontSize: isCardView ? 12 : 18)),
                 )),
             GaugeAnnotation(
                 angle: 310,
@@ -97,7 +93,7 @@ SfRadialGauge getRadialCompass(bool isTileView) {
                       style: TextStyle(
                           fontFamily: 'Times',
                           fontWeight: FontWeight.bold,
-                          fontSize: isTileView ? 12 : 18)),
+                          fontSize: isCardView ? 12 : 18)),
                 )),
             GaugeAnnotation(
                 angle: 129,
@@ -107,7 +103,7 @@ SfRadialGauge getRadialCompass(bool isTileView) {
                       style: TextStyle(
                           fontFamily: 'Times',
                           fontWeight: FontWeight.bold,
-                          fontSize: isTileView ? 12 : 18)),
+                          fontSize: isCardView ? 12 : 18)),
                 )),
             GaugeAnnotation(
                 angle: 50,
@@ -117,9 +113,10 @@ SfRadialGauge getRadialCompass(bool isTileView) {
                       style: TextStyle(
                           fontFamily: 'Times',
                           fontWeight: FontWeight.bold,
-                          fontSize: isTileView ? 12 : 18)),
+                          fontSize: isCardView ? 12 : 18)),
                 ))
           ])
     ],
   );
+}
 }

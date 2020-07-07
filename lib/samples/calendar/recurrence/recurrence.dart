@@ -1,28 +1,23 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:flutter_examples/widgets/bottom_sheet.dart';
 import 'package:flutter_examples/widgets/customDropDown.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_examples/widgets/shared/mobile.dart'
-    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 
-//ignore: must_be_immutable
-class RecurrenceCalendar extends StatefulWidget {
-  RecurrenceCalendar({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+class RecurrenceCalendar extends SampleView {
+  const RecurrenceCalendar(Key key) : super(key: key);
 
   @override
-  RecurrenceCalendarState createState() => RecurrenceCalendarState(sample);
+  RecurrenceCalendarState createState() => RecurrenceCalendarState();
 }
 
-class RecurrenceCalendarState extends State<RecurrenceCalendar> {
-  RecurrenceCalendarState([this.sample]);
+class RecurrenceCalendarState extends SampleViewState {
+  RecurrenceCalendarState();
 
-  final SubItem sample;
   bool panelOpen;
   final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   CalendarView _calendarView;
@@ -40,16 +35,20 @@ class RecurrenceCalendarState extends State<RecurrenceCalendar> {
     'Month agenda',
     'Timeline day',
     'Timeline week',
-    'Timeline work week'
+    'Timeline work week',
+    'Schedule'
   ].toList();
 
-  Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
-      _showSettingsPanel(model, init, context);
+  ScrollController controller;
 
-  Widget sampleWidget(SampleModel model) => RecurrenceCalendar();
+  /// Global key used to maintain the state, when we change the parent of the
+  /// widget
+  GlobalKey _globalKey;
 
   @override
   void initState() {
+    _globalKey = GlobalKey();
+    controller = ScrollController();
     initProperties();
     panelOpen = frontPanelVisible.value;
     frontPanelVisible.addListener(_subscribeToValueNotifier);
@@ -83,51 +82,46 @@ class RecurrenceCalendarState extends State<RecurrenceCalendar> {
 
   @override
   Widget build([BuildContext context]) {
-    return ScopedModelDescendant<SampleModel>(
-        rebuildOnChange: true,
-        builder: (BuildContext context, _, SampleModel model) {
-          if (model != null && model.isWeb && model.properties.isEmpty) {
-            initProperties(model, true);
-          }
-          return Scaffold(
-              backgroundColor: model.themeData == null ||
-                      model.themeData.brightness == Brightness.light
-                  ? null
-                  : Colors.black,
-              body: !model.isWeb
-                  ? Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-                      child: Container(
-                          color: model.cardThemeColor,
-                          child: getRecurrenceCalendar(
-                              _calendarView,
-                              AppointmentDataSource(_appointments),
-                              _showAgenda,
-                              model)),
-                    )
-                  : Row(children: <Widget>[
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                        child: Container(
-                            color: model.cardThemeColor,
-                            child: getRecurrenceCalendar(
-                                _calendarView,
-                                AppointmentDataSource(_appointments),
-                                _showAgenda,
-                                model)),
-                      ))
-                    ]),
-              floatingActionButton: model.isWeb
-                  ? null
-                  : FloatingActionButton(
-                      onPressed: () {
-                        _showSettingsPanel(model, false, context);
-                      },
-                      child: Icon(Icons.graphic_eq, color: Colors.white),
-                      backgroundColor: model.backgroundColor,
-                    ));
-        });
+    final Widget _calendar = Theme(
+      /// The key set here to maintain the state, when we change the parent of the
+      /// widget
+      key: _globalKey,
+        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        child: getRecurrenceCalendar(
+          _calendarView,
+          AppointmentDataSource(_appointments),
+          _showAgenda,
+        ));
+
+    final double _screenHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
+        body: Row(children: <Widget>[
+          Expanded(
+            child: (_view == 'Month' || _view == 'Month agenda') &&
+                model.isWeb &&
+                _screenHeight < 800
+                ? Scrollbar(
+                    isAlwaysShown: true,
+                    controller: controller,
+                    child: ListView(
+                      controller: controller,
+                      children: <Widget>[
+                        Container(
+                          color: model.isWeb
+                              ? model.webSampleBackgroundColor
+                              : model.cardThemeColor,
+                          height: 600,
+                          child: _calendar,
+                        )
+                      ],
+                    ))
+                : Container(
+                    color: model.isWeb
+                        ? model.webSampleBackgroundColor
+                        : model.cardThemeColor,
+                    child: _calendar),
+          )
+        ]),);
   }
 
   void createRecursiveAppointments() {
@@ -355,6 +349,7 @@ class RecurrenceCalendarState extends State<RecurrenceCalendar> {
 
   void onCalendarViewChange(String value, SampleModel model) {
     _view = value;
+    _showAgenda = false;
     if (value == 'Day') {
       _calendarView = CalendarView.day;
     } else if (value == 'Week') {
@@ -363,7 +358,6 @@ class RecurrenceCalendarState extends State<RecurrenceCalendar> {
       _calendarView = CalendarView.workWeek;
     } else if (value == 'Month') {
       _calendarView = CalendarView.month;
-      _showAgenda = false;
     } else if (value == 'Timeline day') {
       _calendarView = CalendarView.timelineDay;
     } else if (value == 'Timeline week') {
@@ -373,215 +367,71 @@ class RecurrenceCalendarState extends State<RecurrenceCalendar> {
     } else if (value == 'Month agenda') {
       _calendarView = CalendarView.month;
       _showAgenda = true;
+    } else if (value == 'Schedule') {
+      _calendarView = CalendarView.schedule;
     }
 
     model.properties['View'] = _view;
     model.properties['CalendarView'] = _calendarView;
     model.properties['ShowAgenda'] = _showAgenda;
-    if (model.isWeb) {
-      model.sampleOutputContainer.outputKey.currentState.refresh();
-    } else {
-      setState(() {});
-    }
+    setState(() {});
   }
 
-  Widget _showSettingsPanel(SampleModel model,
-      [bool init, BuildContext context]) {
-    final double height =
-        (MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
-            ? 0.3
-            : 0.4;
-    Widget widget;
-    if (model.isWeb) {
-      initProperties(model, init);
-      widget = Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-        child: ListView(
+  Widget buildSettings(BuildContext context) {
+    return ListView(children: <Widget>[
+      Container(
+        height: 40,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const Text(
-                    'Properties',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                  ),
-                  HandCursor(
-                      child: IconButton(
-                    icon: Icon(Icons.close, color: model.textColor),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ))
-                ]),
-            const Divider(
-              thickness: 1,
-            ),
+            Text('Calendar View   ',
+                style: TextStyle(fontSize: 16.0, color: model.textColor)),
             Container(
-              child: Row(
-                children: <Widget>[
-                  Text('Calendar View',
-                      style: TextStyle(
-                          color: model.textColor,
-                          fontSize: 16,
-                          letterSpacing: 0.34,
-                          fontWeight: FontWeight.normal)),
-                  Container(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      height: 50,
-                      width: 150,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Theme(
-                          data: Theme.of(context).copyWith(
-                              canvasColor: model.bottomSheetBackgroundColor),
-                          child: DropDown(
-                              value: model.properties['View'],
-                              item: _viewList.map((String value) {
-                                return DropdownMenuItem<String>(
-                                    value: (value != null) ? value : 'Month',
-                                    child: Text('$value',
-                                        style:
-                                            TextStyle(color: model.textColor)));
-                              }).toList(),
-                              valueChanged: (dynamic value) {
-                                onCalendarViewChange(value, model);
-                              }),
-                        ),
-                      )),
-                ],
-              ),
-            ),
+                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                height: 50,
+                width: 200,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        canvasColor: model.bottomSheetBackgroundColor),
+                    child: DropDown(
+                        value: _view,
+                        item: _viewList.map((String value) {
+                          return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'Month',
+                              child: Text('$value',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: model.textColor)));
+                        }).toList(),
+                        valueChanged: (dynamic value) {
+                          onCalendarViewChange(value, model);
+                        }),
+                  ),
+                ))
           ],
         ),
-      );
-    } else {
-      showRoundedModalBottomSheet<dynamic>(
-          dismissOnTap: false,
-          context: context,
-          radius: 12.0,
-          color: model.bottomSheetBackgroundColor,
-          builder: (BuildContext context) => ScopedModelDescendant<SampleModel>(
-              rebuildOnChange: false,
-              builder: (BuildContext context, _, SampleModel model) => Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Container(
-                      height: 170,
-                      child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * height,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                                child: Stack(children: <Widget>[
-                                  Container(
-                                    height: 40,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text('Settings',
-                                            style: TextStyle(
-                                                color: model.textColor,
-                                                fontSize: 18,
-                                                letterSpacing: 0.34,
-                                                fontWeight: FontWeight.w500)),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.close,
-                                            color: model.textColor,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(10, 50, 0, 0),
-                                    child: Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text('Calendar View   ',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  color: model.textColor)),
-                                          Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      15, 0, 0, 0),
-                                              height: 50,
-                                              width: 200,
-                                              child: Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: Theme(
-                                                  data: Theme.of(context).copyWith(
-                                                      canvasColor: model
-                                                          .bottomSheetBackgroundColor),
-                                                  child: DropDown(
-                                                      value: _view,
-                                                      item: _viewList
-                                                          .map((String value) {
-                                                        return DropdownMenuItem<
-                                                                String>(
-                                                            value: (value !=
-                                                                    null)
-                                                                ? value
-                                                                : 'Month',
-                                                            child: Text(
-                                                                '$value',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style: TextStyle(
-                                                                    color: model
-                                                                        .textColor)));
-                                                      }).toList(),
-                                                      valueChanged:
-                                                          (dynamic value) {
-                                                        onCalendarViewChange(
-                                                            value, model);
-                                                      }),
-                                                ),
-                                              ))
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ]),
-                              )))))));
-    }
-    return widget ?? Container();
+      ),
+    ]);
   }
-}
 
-SfCalendar getRecurrenceCalendar(
-    [CalendarView _calendarView,
-    CalendarDataSource _calendarDataSource,
-    bool showAgenda,
-    SampleModel model]) {
-  final bool isExistModel = model != null && model.isWeb;
-  return SfCalendar(
-    view: isExistModel ? model.properties['CalendarView'] : _calendarView,
-    dataSource: _calendarDataSource,
-    monthViewSettings: MonthViewSettings(
-        showAgenda: isExistModel ? model.properties['ShowAgenda'] : showAgenda,
-        appointmentDisplayMode:
-            isExistModel && model.properties['ShowAgenda'] ||
-                    !isExistModel && showAgenda != null && showAgenda
-                ? MonthAppointmentDisplayMode.indicator
-                : MonthAppointmentDisplayMode.appointment,
-        appointmentDisplayCount: isExistModel ? 3 : 4),
-  );
+  SfCalendar getRecurrenceCalendar(
+      [CalendarView _calendarView,
+      CalendarDataSource _calendarDataSource,
+      bool showAgenda]) {
+    return SfCalendar(
+      view: _calendarView,
+      showNavigationArrow: kIsWeb,
+      dataSource: _calendarDataSource,
+      monthViewSettings: MonthViewSettings(
+          showAgenda: showAgenda,
+          appointmentDisplayMode: showAgenda != null && showAgenda
+              ? MonthAppointmentDisplayMode.indicator
+              : MonthAppointmentDisplayMode.appointment,
+          appointmentDisplayCount: 4),
+    );
+  }
 }
 
 class AppointmentDataSource extends CalendarDataSource {

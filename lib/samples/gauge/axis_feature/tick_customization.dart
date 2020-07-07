@@ -1,35 +1,31 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class RadialTickCustomization extends StatefulWidget {
-  RadialTickCustomization({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+class RadialTickCustomization extends SampleView {
+  const RadialTickCustomization(Key key) : super(key: key);
 
   @override
   _RadialTickCustomizationState createState() =>
-      _RadialTickCustomizationState(sample);
+      _RadialTickCustomizationState();
 }
 
-class _RadialTickCustomizationState extends State<RadialTickCustomization> {
-  _RadialTickCustomizationState(this.sample);
-  final SubItem sample;
+class _RadialTickCustomizationState extends SampleViewState {
+  _RadialTickCustomizationState();
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRadialTickCustomization(false), sample);
+    return getRadialTickCustomization();
   }
-}
 
-SfRadialGauge getRadialTickCustomization(bool isTileView) {
+SfRadialGauge getRadialTickCustomization() {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
-          radiusFactor: 0.9,
+          radiusFactor: kIsWeb ? 0.8 : 0.9,
           showAxisLine: false,
           showLastLabel: false,
           startAngle: 270,
@@ -51,7 +47,7 @@ SfRadialGauge getRadialTickCustomization(bool isTileView) {
               dashArray: kIsWeb ? null : <double>[2, 1]),
           pointers: <GaugePointer>[
             NeedlePointer(
-                enableAnimation: kIsWeb? false : true,
+                enableAnimation: kIsWeb ? false : true,
                 animationType: AnimationType.ease,
                 animationDuration: 1300,
                 value: 75,
@@ -76,4 +72,5 @@ SfRadialGauge getRadialTickCustomization(bool isTileView) {
   );
 }
 
-Color _tickCustomizationNeedleColor = const Color(0xFF494CA2);
+final Color _tickCustomizationNeedleColor = const Color(0xFF494CA2);
+}

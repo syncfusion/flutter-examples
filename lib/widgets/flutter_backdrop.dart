@@ -183,15 +183,14 @@ class Backdrop extends StatefulWidget {
 
 class BackdropState extends State<Backdrop>
     with SingleTickerProviderStateMixin {
-  BackdropState(
-      AnimationController _controller, SampleModel _sampleListModel,
+  BackdropState(AnimationController _controller, SampleModel _sampleListModel,
       {this.test = false}) {
     // ignore: prefer_initializing_formals
     controller = _controller;
     // ignore: prefer_initializing_formals
     sampleListModel = _sampleListModel;
   }
-  
+
   final num _flingVelocity = 2.0;
   static double frontPanelHeight = 0;
   bool panelVisible;
@@ -263,8 +262,9 @@ class BackdropState extends State<Backdrop>
 
   void _handleDragEnd(DragEndDetails details) {
     if (controller.isAnimating ||
-        controller.status == AnimationStatus.completed) 
+        controller.status == AnimationStatus.completed){
           return;
+        }
 
     final double fVelocity =
         details.velocity.pixelsPerSecond.dy / _backdropHeight;
@@ -288,21 +288,20 @@ class BackdropState extends State<Backdrop>
       if (controller.value < 0.5) {
         toolBarWidgets = <Widget>[
           Container(
-            height: 60,
-            width:  60,
-            child: IconButton(
-            icon: IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                toggleBackdropPanelVisibility();
-              },
-            ),
-            onPressed: () {},
-          )
-          )
+              height: 60,
+              width: 60,
+              child: IconButton(
+                icon: IconButton(
+                  icon: const Icon(
+                    Icons.clear,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    toggleBackdropPanelVisibility();
+                  },
+                ),
+                onPressed: () {},
+              ))
         ];
       }
 
@@ -362,7 +361,8 @@ class BackdropState extends State<Backdrop>
             key: _scaffoldKey,
             backgroundColor: sampleListModel.backgroundColor,
             appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(60.0), // here the desired height
+                preferredSize:
+                    const Size.fromHeight(60.0), // here the desired height
                 child: AppBar(
                   automaticallyImplyLeading:
                       widget.appBarAutomaticallyImplyLeading,

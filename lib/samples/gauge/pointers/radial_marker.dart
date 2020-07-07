@@ -1,30 +1,26 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class RadialMarkerExample extends StatefulWidget {
-  RadialMarkerExample({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class RadialMarkerExample extends SampleView {
+  const RadialMarkerExample(Key key) : super(key: key);
+  
   @override
-  _RadialMarkerExampleState createState() => _RadialMarkerExampleState(sample);
+  _RadialMarkerExampleState createState() => _RadialMarkerExampleState();
 }
 
-class _RadialMarkerExampleState extends State<RadialMarkerExample> {
-  _RadialMarkerExampleState(this.sample);
-  final SubItem sample;
-
+class _RadialMarkerExampleState extends SampleViewState {
+  _RadialMarkerExampleState();
+  
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRadialMarkerExample(false), sample);
+    return getRadialMarkerExample();
   }
-}
 
-SfRadialGauge getRadialMarkerExample(bool isTileView) {
+SfRadialGauge getRadialMarkerExample() {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -51,7 +47,7 @@ SfRadialGauge getRadialMarkerExample(bool isTileView) {
                 widget: Container(
                     child: Text('Min',
                         style: TextStyle(
-                            fontSize: isTileView ? 12 : 16,
+                            fontSize: isCardView ? 12 : 16,
                             fontWeight: FontWeight.bold)))),
             GaugeAnnotation(
                 angle: 270,
@@ -59,7 +55,7 @@ SfRadialGauge getRadialMarkerExample(bool isTileView) {
                 widget: Container(
                     child: Text('70%',
                         style: TextStyle(
-                            fontSize: isTileView ? 12 : 16,
+                            fontSize: isCardView ? 12 : 16,
                             fontWeight: FontWeight.bold)))),
             GaugeAnnotation(
                 angle: 5,
@@ -67,7 +63,7 @@ SfRadialGauge getRadialMarkerExample(bool isTileView) {
                 widget: Container(
                     child: Text('Max',
                         style: TextStyle(
-                            fontSize: isTileView ? 12 : 16,
+                            fontSize: isCardView ? 12 : 16,
                             fontWeight: FontWeight.bold))))
           ],
           ranges: <GaugeRange>[
@@ -75,9 +71,11 @@ SfRadialGauge getRadialMarkerExample(bool isTileView) {
               startValue: 0,
               endValue: 100,
               sizeUnit: GaugeSizeUnit.factor,
-              gradient: kIsWeb ? null : const SweepGradient(
-                  colors: <Color>[Color(0xFFAB64F5), Color(0xFF62DBF6)],
-                  stops: <double>[0.25, 0.75]),
+              gradient: kIsWeb
+                  ? null
+                  : const SweepGradient(
+                      colors: <Color>[Color(0xFFAB64F5), Color(0xFF62DBF6)],
+                      stops: <double>[0.25, 0.75]),
               startWidth: 0.4,
               endWidth: 0.4,
               color: const Color(0xFF00A8B5),
@@ -86,4 +84,5 @@ SfRadialGauge getRadialMarkerExample(bool isTileView) {
           showTicks: false),
     ],
   );
+}
 }

@@ -1,39 +1,39 @@
-import 'package:flutter_examples/model/helper.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+/// Package import
 import 'package:flutter/material.dart';
+
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+/// Local imports
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:flutter_examples/model/model.dart';
 
-//ignore: must_be_immutable
-class LegendDefault extends StatefulWidget {
-  LegendDefault({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class LegendDefault extends SampleView {
+  const LegendDefault(Key key) : super(key: key);
+  
   @override
-  _LegendDefaultState createState() => _LegendDefaultState(sample);
+  _LegendDefaultState createState() => _LegendDefaultState();
 }
 
-class _LegendDefaultState extends State<LegendDefault> {
-  _LegendDefaultState(this.sample);
-  final SubItem sample;
+class _LegendDefaultState extends SampleViewState {
+  _LegendDefaultState();
 
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getLegendDefaultChart(false), sample);
+    return getLegendDefaultChart();
   }
-}
 
-SfCircularChart getLegendDefaultChart(bool isTileView) {
+SfCircularChart getLegendDefaultChart() {
   return SfCircularChart(
-    
-    title: ChartTitle(text: isTileView ? '' : 'Electricity sectors'),
+    title: ChartTitle(text: isCardView ? '' : 'Electricity sectors'),
     legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
-    series: getLegendDefaultSeries(isTileView),
+    series: getLegendDefaultSeries(isCardView),
     tooltipBehavior: TooltipBehavior(enable: true),
   );
 }
 
 List<DoughnutSeries<ChartSampleData, String>> getLegendDefaultSeries(
-    bool isTileView) {
+    bool isCardView) {
   final List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x: 'Coal', y: 56.2),
     ChartSampleData(x: 'Large Hydro', y: 12.7),
@@ -55,4 +55,5 @@ List<DoughnutSeries<ChartSampleData, String>> getLegendDefaultSeries(
         dataLabelSettings: DataLabelSettings(
             isVisible: true, labelPosition: ChartDataLabelPosition.outside)),
   ];
+}
 }

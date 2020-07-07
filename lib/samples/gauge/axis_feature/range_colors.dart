@@ -1,29 +1,25 @@
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import '../../../model/helper.dart';
-import '../../../model/model.dart';
 
 // ignore: must_be_immutable
-class RangeColorForLabels extends StatefulWidget {
-  RangeColorForLabels({this.sample, Key key}) : super(key: key);
-  SubItem sample;
-
+class RangeColorForLabels extends SampleView {
+  const RangeColorForLabels(Key key) : super(key: key);
+  
   @override
-  _RangeColorForLabelsState createState() => _RangeColorForLabelsState(sample);
+  _RangeColorForLabelsState createState() => _RangeColorForLabelsState();
 }
 
-class _RangeColorForLabelsState extends State<RangeColorForLabels> {
-  _RangeColorForLabelsState(this.sample);
-  final SubItem sample;
-
+class _RangeColorForLabelsState extends SampleViewState {
+  _RangeColorForLabelsState();
+  
   @override
   Widget build(BuildContext context) {
-    return getScopedModel(getRangeColorForLabels(false), sample);
+    return getRangeColorForLabels();
   }
-}
 
-SfRadialGauge getRangeColorForLabels(bool isTileView) {
+SfRadialGauge getRangeColorForLabels() {
   return SfRadialGauge(
     axes: <RadialAxis>[
       RadialAxis(
@@ -34,7 +30,8 @@ SfRadialGauge getRangeColorForLabels(bool isTileView) {
           endAngle: 270,
           useRangeColorForAxis: true,
           radiusFactor: 0.95,
-          interval: 10, showFirstLabel: false,
+          interval: 10,
+          showFirstLabel: false,
           isInversed: true,
           axisLabelStyle:
               GaugeTextStyle(fontWeight: FontWeight.w500, fontSize: 12),
@@ -72,4 +69,5 @@ SfRadialGauge getRangeColorForLabels(bool isTileView) {
           ])
     ],
   );
+}
 }

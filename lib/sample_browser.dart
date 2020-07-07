@@ -1,18 +1,17 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/widgets/animateOpacityWidget.dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/bar_series/customized_bar_chart.dart';
-import 'package:flutter_examples/widgets/bottom_sheet.dart';
-import 'package:flutter_examples/widgets/search_bar.dart';
-import 'package:flutter_examples/widgets/widget.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'model/helper.dart';
 import 'model/model.dart';
+import 'samples/chart/cartesian_charts/bar_series/customized_bar_chart.dart';
+import 'widgets/animateOpacityWidget.dart';
+import 'widgets/search_bar.dart';
+import 'widgets/shared/mobile.dart'
+    if (dart.library.html) 'widgets/shared/web.dart';
 
 //ignore: must_be_immutable
 class SampleBrowser extends StatelessWidget {
@@ -20,16 +19,15 @@ class SampleBrowser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Chart Flutter',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.system,
-      home: Builder(builder: (BuildContext context){
-              systemTheme = Theme.of(context);
-              return HomePage(sampleBrowser: this);
-      })
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Demos & Examples of Syncfusion Flutter Widgets',
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.system,
+        home: Builder(builder: (BuildContext context) {
+          systemTheme = Theme.of(context);
+          return HomePage(sampleBrowser: this);
+        }));
   }
 }
 
@@ -42,37 +40,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isSelected = true;
-  Color lightThemeSelected;
-  Color darkThemeSelected;
-  Color systemThemeSelected;
-  List<Color> defaultBorderColor;
   SampleModel sampleListModel;
-  List<Widget> colorPaletteWidgets;
-  List<Color> colors;
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  int columnCount;
+  double _cardWidth;
+  double _sidePadding;
   final dynamic controller = ScrollController();
-  double cOpacity = 0.0;
-  double screenHeight;
-  ThemeData _currentThemeData;
-  Color _currentBackgroundColor = const Color.fromRGBO(0, 116, 228, 1);
-  Color _currentListIconColor;
-  Color _currentPaletteColor;
-  bool _lightThemeSelected;
-  bool _systemThemeSelected = true;
-  double _orientationPadding;
-
   @override
   void initState() {
-    _currentThemeData = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? ThemeData.light(): ThemeData.dark();
-    sampleListModel = SampleModel();
-    _lightThemeSelected = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? true : false;
-    sampleListModel.changeTheme(widget.sampleBrowser.systemTheme);
-    systemThemeSelected = sampleListModel.backgroundColor;
-    lightThemeSelected = darkThemeSelected = widget.sampleBrowser.systemTheme.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1): const Color.fromRGBO(79, 85, 102, 1);
-    defaultBorderColor = <Color>[];
+    sampleListModel = SampleModel.instance;
+    sampleListModel.isWeb = kIsWeb;
+    if (sampleListModel.isWeb) {
+      sampleListModel.currentThemeData = ThemeData.light();
+      sampleListModel.paletteBorderColors = <Color>[];
+      sampleListModel.changeTheme(sampleListModel.currentThemeData);
+    } else {
+      sampleListModel.currentThemeData =
+          widget.sampleBrowser.systemTheme.brightness != Brightness.dark
+              ? ThemeData.light()
+              : ThemeData.dark();
+      sampleListModel.changeTheme(widget.sampleBrowser.systemTheme);
+    }
     _addColors();
     _init();
+    sampleListModel.addListener(_handleChange);
     super.initState();
+  }
+
+  void _handleChange() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _init() async {
@@ -93,343 +91,537 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    screenHeight = MediaQuery.of(context).size.height;
-    sampleListModel.isWeb = kIsWeb;
-    _orientationPadding = ((MediaQuery.of(context).size.width) / 100) * 10;
-    final dynamic smallestDimension = MediaQuery.of(context).size.shortestSide;
-    final bool useMobileLayout = smallestDimension < 600;
-    sampleListModel.isTargetMobile = useMobileLayout;
-    return ScopedModel<SampleModel>(
-        model: sampleListModel,
-        child: ScopedModelDescendant<SampleModel>(
-          rebuildOnChange: true,
-          builder: (BuildContext context, _, SampleModel model) => MaterialApp(
-            title: 'Chart Flutter',
-            debugShowCheckedModeBanner: false,
-            home: SafeArea(
-              child: Scaffold(
-                  resizeToAvoidBottomPadding: true,
-                  drawer: _getSideDrawer(model),
-                  appBar: PreferredSize(
-                      preferredSize: const Size.fromHeight(60.0),
-                      child: Container(
-                        decoration: BoxDecoration(boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: model.backgroundColor,
-                            offset: const Offset(0, 2.0),
-                            blurRadius: 0.25,
-                          )
-                        ]),
-                        child: AppBar(
-                          elevation: 0.0,
-                          backgroundColor: model.backgroundColor,
-                          title: AnimateOpacityWidget(
-                              controller: controller,
-                              opacity: cOpacity,
-                          child: sampleListModel.isWeb 
-                              ? const Text('Flutter UI Widgets (Beta)',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: 'HeeboMedium'
-                                      ))
-                              : const Text('Flutter UI Widgets',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: 'HeeboMedium'
-                                      ))),
-                          actions: <Widget>[
-                            Container(
-                              padding: model.isWeb
-                                  ? const EdgeInsets.only(right: 20)
-                                  : const EdgeInsets.only(right: 10),
-                              height: model.isWeb ? 60 : 40,
-                              width: model.isWeb ? 60 : 40,
-                              child: IconButton(
-                                icon: Icon(Icons.settings, color: Colors.white),
-                                onPressed: () {
-                                  _showSettingsPanel(model);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
-                  body: _getBodyWidget(model)),
-            ),
-          ),
-        ));
-  }
-
-  Scaffold _getBodyWidget(SampleModel model) {
-    return Scaffold(
-      backgroundColor: model.slidingPanelColor,
-      body: SafeArea(
-        child: ListView.builder(
-            controller: controller,
-            physics: const ClampingScrollPhysics(),
-            itemCount: 2,
-            itemBuilder: (BuildContext context, num index) {
-              return Material(
-                color: model.backgroundColor,
-                child: CustomListView(
-                  header: Container(
-                    color: model.backgroundColor,
-                    child: Column(
-                      children: <Widget>[
-                        index != 0
-                            ? Container(
-                                color: model.backgroundColor,
-                                height: 100.0,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 0.0),
-                                alignment: Alignment.centerLeft,
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          20, 20, 20, 0),
-                                      child: Container(
-                                          height: 50,
-                                          child: SearchBar(
-                                              sampleListModel: model)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 10, 0, 0),
-                                      child: Container(
-                                          height: 20,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              color: model.slidingPanelColor,
-                                              border: Border.all(
-                                                  color: model
-                                                      .slidingPanelColor),
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(12.0),
-                                                      topRight: Radius.circular(
-                                                          12.0)),
-                                              boxShadow: <BoxShadow>[
-                                                BoxShadow(
-                                                  color:
-                                                      model.slidingPanelColor,
-                                                  offset: const Offset(0, 2.0),
-                                                  blurRadius: 0.25,
-                                                )
-                                              ])),
-                                    ),
-                                  ],
-                                ))
-                            : Container(
-                                height: 0, color: model.backgroundColor),
-                      ],
-                    ),
-                  ),
-                  content: Container(
-                    color: model.backgroundColor,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
+    final SampleModel model = sampleListModel;
+    model.isMobileResolution = (MediaQuery.of(context).size.width) < 768;
+    return MaterialApp(
+      title: 'Demos & Examples of Syncfusion Flutter Widgets',
+      debugShowCheckedModeBanner: false,
+      home: SafeArea(
+        child: model.isMobileResolution
+            ? Scaffold(
+                resizeToAvoidBottomPadding: true,
+                drawer: getSideDrawer(model),
+                key: scaffoldKey,
+                backgroundColor: model.webBackgroundColor,
+                endDrawer: model.isWeb ? showWebThemeSettings(model) : null,
+                appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(46.0),
+                    child: AppBar(
+                      elevation: 0.0,
+                      backgroundColor: model.paletteColor,
+                      title: AnimateOpacityWidget(
+                          controller: controller,
+                          opacity: 0,
+                          child: const Text('Flutter UI Widgets',
+                              style: TextStyle(
+                                  fontSize: 18, fontFamily: 'HeeboMedium'))),
+                      actions: <Widget>[
                         Container(
-                          color: model.backgroundColor,
-                          width: double.infinity,
-                          child: index == 0
-                              ? Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    children: <Widget>[
-                                      model.isWeb
-                                       ? const Text('Flutter UI Widgets (Beta)',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25,
-                                              letterSpacing: 0.53,
-                                              fontFamily: 'HeeboBold',
-                                              fontWeight: FontWeight.bold))
-                                       :const Text('Flutter UI Widgets',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25,
-                                              letterSpacing: 0.53,
-                                              fontFamily: 'HeeboBold',
-                                              fontWeight: FontWeight.bold)),
-                                      const Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 12, 0, 0),
-                                        child: Text('Fast . Fluid . Flexible',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14,
-                                                letterSpacing: 0.26,
-                                                fontFamily: 'HeeboBold',
-                                                fontWeight: FontWeight.normal)),
-                                      ),
-                                    ],
-                                  ))
-                              : Container(
-                                  color: model.slidingPanelColor,
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: _getListViewChildrens(model)),
-                                ),
+                          height: 40,
+                          width: 40,
+                          child: IconButton(
+                            icon:
+                                const Icon(Icons.settings, color: Colors.white),
+                            onPressed: () {
+                              model.isWeb
+                                  ? scaffoldKey.currentState.openEndDrawer()
+                                  : showBottomSettingsPanel(
+                                      model, context, widget);
+                            },
+                          ),
                         ),
                       ],
-                    ),
-                  ),
-                ),
-              );
-            }),
+                    )),
+                body: Container(
+                    transform: Matrix4.translationValues(0, -1, 0),
+                    child: _getScrollableWidget(model)))
+            : Scaffold(
+                key: scaffoldKey,
+                backgroundColor: model.webBackgroundColor,
+                endDrawer: showWebThemeSettings(model),
+                resizeToAvoidBottomPadding: true,
+                appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(90.0),
+                    child: AppBar(
+                      leading: Container(),
+                      elevation: 0.0,
+                      backgroundColor: model.paletteColor,
+                      flexibleSpace: Container(
+                          transform: Matrix4.translationValues(0, 4, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(24, 10, 0, 0),
+                                  child: Row(children: <Widget>[
+                                    const Text('Flutter UI Widgets ',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            letterSpacing: 0.53,
+                                            fontFamily: 'Roboto-Bold')),
+                                    Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            3, 0, 3, 0),
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            color: Color.fromRGBO(
+                                                245, 188, 14, 1)),
+                                        child: const Text(
+                                          'BETA',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              letterSpacing: 0.26,
+                                              fontFamily: 'Roboto-Medium',
+                                              color: Colors.black),
+                                        ))
+                                  ])),
+                              const Padding(
+                                  padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                                  child: Text('Fast . Fluid . Flexible',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontFamily: 'Roboto-Regular',
+                                          letterSpacing: 0.26,
+                                          fontWeight: FontWeight.normal))),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 15),
+                              ),
+                              Container(
+                                  alignment: Alignment.bottomCenter,
+                                  width: double.infinity,
+                                  height: 16,
+                                  decoration: BoxDecoration(
+                                      color: model.webBackgroundColor,
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(12.0),
+                                          topRight: Radius.circular(12.0)),
+                                      boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                          color: model.webBackgroundColor,
+                                          offset: const Offset(0, 2.0),
+                                          blurRadius: 0.25,
+                                        )
+                                      ]))
+                            ],
+                          )),
+                      actions: <Widget>[
+                        MediaQuery.of(context).size.width < 500
+                            ? Container(height: 0, width: 9)
+                            : Container(
+                                child: Container(
+                                    padding: const EdgeInsets.only(
+                                        top: 10, right: 10),
+                                    width: MediaQuery.of(context).size.width >=
+                                            830
+                                        ? 400
+                                        : MediaQuery.of(context).size.width / 2,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.0445,
+                                    child: HandCursor(
+                                      child: SearchBar(
+                                        sampleListModel: model,
+                                      ),
+                                    ))),
+                        Container(
+                          padding: MediaQuery.of(context).size.width < 500
+                              ? const EdgeInsets.only(top: 20, left: 5)
+                              : const EdgeInsets.only(top: 10, right: 20),
+                          height: 60,
+                          width: 60,
+                          child: HandCursor(
+                            child: IconButton(
+                              icon: const Icon(Icons.settings,
+                                  color: Colors.white),
+                              onPressed: () {
+                                scaffoldKey.currentState.openEndDrawer();
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+                body: _getWebBodyWidget(model)),
       ),
     );
   }
 
-  List<Widget> _getListViewChildrens(SampleModel model) {
-    List<Widget> items;
-    items = <Widget>[];
-    for (int i = 0; i < model.controlList.length; i++) {
-      items.add(Container(
-        padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-        color: model.slidingPanelColor,
-        child: ScopedModelDescendant<SampleModel>(
-            rebuildOnChange: true,
-            builder: (BuildContext context, _, SampleModel model) => Material(
-                color: model.slidingPanelColor,
+  /// get scrollable widget to getting stickable view
+  Widget _getScrollableWidget(SampleModel model) {
+    final List<Widget> searchResults = _getSearchedItems(model);
+    return Container(
+        color: model.paletteColor,
+        child: GlowingOverscrollIndicator(
+            color: model.paletteColor,
+            axisDirection: AxisDirection.down,
+            child: CustomScrollView(
+              controller: controller,
+              physics: const ClampingScrollPhysics(),
+              slivers: <Widget>[
+                SliverToBoxAdapter(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      child: Text('Flutter UI Widgets',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              letterSpacing: 0.53,
+                              fontFamily: 'HeeboBold',
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 8, 0, 0),
+                      child: Text('Fast . Fluid . Flexible',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              letterSpacing: 0.26,
+                              fontFamily: 'HeeboBold',
+                              fontWeight: FontWeight.normal)),
+                    )
+                  ],
+                )),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: PersistentHeaderDelegate(model),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(<Widget>[
+                    Container(
+                        color: model.webBackgroundColor,
+                        child: searchResults.isNotEmpty
+                            ? Container(
+                                height: MediaQuery.of(context).size.height,
+                                child: ListView(children: searchResults))
+                            : Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: _getControls(model, context))),
+                  ]),
+                )
+              ],
+            )));
+  }
+
+  /// Add the palette colors
+  void _addColors() {
+    sampleListModel.paletteColors = <Color>[
+      const Color.fromRGBO(0, 116, 227, 1),
+      const Color.fromRGBO(230, 74, 25, 1),
+      const Color.fromRGBO(216, 27, 96, 1),
+      const Color.fromRGBO(103, 58, 184, 1),
+      const Color.fromRGBO(2, 137, 123, 1)
+    ];
+    sampleListModel.darkPaletteColors = <Color>[
+      const Color.fromRGBO(68, 138, 255, 1),
+      const Color.fromRGBO(255, 110, 64, 1),
+      const Color.fromRGBO(238, 79, 132, 1),
+      const Color.fromRGBO(180, 137, 255, 1),
+      const Color.fromRGBO(29, 233, 182, 1)
+    ];
+    sampleListModel.paletteBorderColors = <Color>[
+      const Color.fromRGBO(0, 116, 227, 1),
+      Colors.transparent,
+      Colors.transparent,
+      Colors.transparent,
+      Colors.transparent
+    ];
+  }
+
+  /// get the home page body contents in the web
+  Widget _getWebBodyWidget(SampleModel model) {
+    final double deviceWidth = MediaQuery.of(context).size.width;
+    _sidePadding = deviceWidth > 1060
+        ? deviceWidth * 0.038
+        : deviceWidth >= 768 ? deviceWidth * 0.041 : deviceWidth * 0.05;
+    final Widget _controlWidget = Container(
+        padding: EdgeInsets.only(
+           top:deviceWidth > 1060 ? 15 : 10),
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _getControls(model, context),
+        ));
+    return MediaQuery.of(context).size.height < 700 ||
+            (MediaQuery.of(context).size.height < 840 &&
+                MediaQuery.of(context).size.width <= 1060)
+        ? SizedBox(
+            height: MediaQuery.of(context).size.height - 60,
+            child: ListView(children: <Widget>[
+              Container(color: model.webBackgroundColor, child: _controlWidget),
+              Container(height: _sidePadding),
+              getFooter(context, model)
+            ]))
+        : SizedBox(
+            child: ListView(children: <Widget>[
+            Container(
+              padding: const EdgeInsets.only(bottom: 4),
+                height: MediaQuery.of(context).size.height - 150,
+                color: model.webBackgroundColor,
+                child: _controlWidget),
+            getFooter(context, model)
+          ]));
+  }
+
+  /// get category wise control list resolution base
+  List<Widget> _getControls(SampleModel model, BuildContext context) {
+    final double deviceWidth = MediaQuery.of(context).size.width;
+    num padding;
+    if (deviceWidth > 1060) {
+      padding = deviceWidth * 0.011;
+      _cardWidth = (deviceWidth * 0.9) / 3;
+      ///setting max cardwidth, spcing between cards in higher resolutions
+      if (deviceWidth > 3000){
+        _cardWidth = 2800/3;
+        _sidePadding = (deviceWidth - 2740) * 0.5;
+        padding = 30;
+      }
+      columnCount = 3;
+      return <Widget>[
+        Padding(padding: EdgeInsets.only(left: _sidePadding)),
+        Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+          _getCategoryWidget(model, model.categoryList[0]),
+          Padding(padding: EdgeInsets.only(top: padding)),
+          _getCategoryWidget(model, model.categoryList[2]),
+          Padding(padding: EdgeInsets.only(top: padding)),
+          _getCategoryWidget(model, model.categoryList[3]),
+        ]),
+        Padding(padding: EdgeInsets.only(left: padding)),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[_getCategoryWidget(model, model.categoryList[1])],
+        ),
+        Padding(padding: EdgeInsets.only(left: padding)),
+        Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+          _getCategoryWidget(model, model.categoryList[4]),
+        ]),
+        Padding(padding: EdgeInsets.only(left: _sidePadding))
+      ];
+    } else if (deviceWidth >= 768) {
+      padding = deviceWidth * 0.018;
+      _cardWidth = (deviceWidth * 0.9) / 2;
+      columnCount = 2;
+      return <Widget>[
+        Padding(padding: EdgeInsets.only(left: _sidePadding)),
+        Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+          _getCategoryWidget(model, model.categoryList[0]),
+          Padding(padding: EdgeInsets.only(top: padding)),
+          _getCategoryWidget(model, model.categoryList[1])
+        ]),
+        Padding(padding: EdgeInsets.only(left: padding)),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            _getCategoryWidget(model, model.categoryList[2]),
+            Padding(padding: EdgeInsets.only(top: padding)),
+            _getCategoryWidget(model, model.categoryList[3]),
+            Padding(padding: EdgeInsets.only(top: padding)),
+            _getCategoryWidget(model, model.categoryList[4]),
+            Padding(padding: EdgeInsets.only(top: padding)),
+          ],
+        ),
+        Padding(padding: EdgeInsets.only(left: _sidePadding)),
+      ];
+    } else {
+      columnCount = 1;
+      _cardWidth = deviceWidth * 0.9;
+      padding = deviceWidth * 0.035;
+      _sidePadding = (deviceWidth * 0.1) / 2;
+      return <Widget>[
+        Padding(padding: EdgeInsets.only(left: _sidePadding)),
+        Column(children: <Widget>[
+          Padding(padding: EdgeInsets.only(top: (_sidePadding - 16).abs())),
+          _getCategoryWidget(model, model.categoryList[0]),
+          Padding(padding: EdgeInsets.only(top: padding)),
+          _getCategoryWidget(model, model.categoryList[1]),
+          Padding(padding: EdgeInsets.only(top: padding)),
+          _getCategoryWidget(model, model.categoryList[2]),
+          Padding(padding: EdgeInsets.only(top: padding)),
+          _getCategoryWidget(model, model.categoryList[3]),
+          Padding(padding: EdgeInsets.only(top: padding)),
+          _getCategoryWidget(model, model.categoryList[4]),
+          Padding(padding: EdgeInsets.only(top: _sidePadding)),
+        ]),
+        Padding(padding: EdgeInsets.only(left: _sidePadding)),
+      ];
+    }
+  }
+
+  /// get the rounded corner layout for given category
+  Widget _getCategoryWidget(SampleModel model, WidgetCategory category) {
+    final double width = _cardWidth;
+    return Container(
+        padding: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+            color: model.webCardColor,
+            border: Border.all(
+                color: const Color.fromRGBO(0, 0, 0, 0.12), width: 1.1),
+            borderRadius: const BorderRadius.all(Radius.circular(12))),
+        width: width,
+        child: Column(children: <Widget>[
+          Container(
+            padding: const EdgeInsets.only(top: 15, bottom: 2),
+            child: Text(
+              category.categoryName,
+              style: TextStyle(
+                  color: model.backgroundColor,
+                  fontSize: 16,
+                  fontFamily: 'Roboto-Bold'),
+            ),
+          ),
+          Divider(
+            color: model.themeData.brightness == Brightness.dark
+                ? const Color.fromRGBO(61, 61, 61, 1)
+                : const Color.fromRGBO(238, 238, 238, 1),
+            thickness: 1,
+          ),
+          Column(children: _getControlListView(category, model))
+        ]));
+  }
+
+  /// get the list view of the controls in the specified category
+  List<Widget> _getControlListView(WidgetCategory category, SampleModel model) {
+    final List<Widget> items = <Widget>[];
+    String status;
+    for (int i = 0; i < category.controlList.length; i++) {
+      final Control control = category.controlList[i];
+      status =
+          (control.status == 'preview' || control.status == 'Preview') &&
+                  !model.isWeb &&
+                  Platform.isIOS
+              ? 'New'
+              : control.status;
+      items.add(HandCursor(
+        child: Container(
+            color: model.webCardColor,
+            child: Material(
+                color: model.webCardColor,
                 elevation: 0.0,
                 child: InkWell(
-                    splashColor: Colors.grey.withOpacity(0.4),
+                    splashFactory: InkRipple.splashFactory,
+                    hoverColor: Colors.grey.withOpacity(0.2),
                     onTap: () {
-                      Feedback.forLongPress(context);
-                      onTapControlItem(context, model, i);
+                      !model.isWeb
+                          ? onTapControlItem(context, model, category, i)
+                          : onTapControlItemWeb(context, model, category, i);
+                      model.searchResults.clear();
                     },
                     child: Container(
                       child: ListTile(
-                        leading: Image.asset(model.controlList[i].image,
-                            fit: BoxFit.cover),
+                        contentPadding:  EdgeInsets.fromLTRB(12, 2, 0, category.controlList.length > 3 ? 6 :0),
+                        leading: Image.asset(control.image, fit: BoxFit.cover),
                         title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                model.controlList[i].title,
+                                control.title,
                                 textAlign: TextAlign.left,
                                 softWrap: true,
                                 textScaleFactor: 1,
                                 overflow: TextOverflow.fade,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0,
+                                    fontSize: 12,
+                                    letterSpacing: 0.1,
                                     color: model.textColor,
-                                    letterSpacing: 0.3,
-                                    fontFamily: 'HeeboBold'),
+                                    fontFamily: 'Roboto-Bold'),
                               ),
-                              model.controlList[i].status != null
+                              status != null
                                   ? Container(
                                       decoration: BoxDecoration(
                                           shape: BoxShape.rectangle,
-                                          color: (model.controlList[i].status == 'New' || model.controlList[i].status == 'new')
+                                          color: status.toLowerCase() == 'new'
                                               ? const Color.fromRGBO(
-                                                  101, 193, 0, 1)
-                                              : (model.controlList[i].status ==
-                                                          'Updated' ||
-                                                      model.controlList[i].status ==
-                                                          'updated')
+                                                  55, 153, 30, 1)
+                                              : status.toLowerCase() == 'updated'
                                                   ? const Color.fromRGBO(
-                                                      245, 166, 35, 1)
-                                                  : (model.controlList[i].status == 'Preview' || model.controlList[i].status == 'preview')
+                                                      246, 117, 0, 1)
+                                                  : status.toLowerCase() == 'preview'
                                                       ? const Color.fromRGBO(
-                                                          238, 245, 255, 1)
+                                                          74, 90, 231, 1)
                                                       : Colors.transparent,
                                           borderRadius: const BorderRadius.only(
                                               topLeft: Radius.circular(10),
                                               bottomLeft: Radius.circular(10))),
-                                      padding: const EdgeInsets.fromLTRB(7, 3, 6, 3),
-                                      child: Text(model.controlList[i].status, style: TextStyle(color: (model.controlList[i].status == 'Preview' || model.controlList[i].status == 'preview') ? const Color.fromRGBO(0, 98, 255, 1) : Colors.white, fontSize: 12)))
+                                      padding: const EdgeInsets.fromLTRB(6, 2.7, 4, 2.7),
+                                      child: Text(status, style: const TextStyle(fontFamily: 'Roboto-Medium', color: Colors.white, fontSize: 10.5)))
                                   : Container()
                             ]),
-                        subtitle: Padding(
+                        subtitle: Container(
+                            child: Padding(
                           padding:
-                              const EdgeInsets.fromLTRB(0.0, 7.0, 0.0, 0.0),
+                              const EdgeInsets.fromLTRB(0.0, 7.0, 12.0, 0.0),
                           child: Text(
-                            model.controlList[i].description,
+                            control.description,
                             textAlign: TextAlign.left,
                             softWrap: true,
                             textScaleFactor: 1,
                             overflow: TextOverflow.fade,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontSize: 13,
-                              letterSpacing: 0.24,
-                              fontFamily: 'HeeboMedium',
-                              color: model.listDescriptionTextColor,
+                              fontSize: 12,
+                              color: Color.fromRGBO(128, 128, 128, 1),
                             ),
                           ),
-                        ),
+                        )),
                       ),
                     )))),
       ));
-      if (i != model.controlList.length - 1) {
-        items.add(const Divider(height: 15.0));
-      }
     }
-    return _getSearchedItems(items, model);
+    return items;
   }
 
-  List<Widget> _getSearchedItems(List<Widget> items, SampleModel model) {
+  /// returns searched result
+  List<Widget> _getSearchedItems(SampleModel model) {
+    final List<Widget> items = <Widget>[];
     for (int i = 0; i < model.sampleList.length; i++) {
-      items.add(ScopedModelDescendant<SampleModel>(
-          rebuildOnChange: true,
-          builder: (BuildContext context, _, SampleModel model) => Material(
-              elevation: 0.0,
-              color: model.slidingPanelColor,
-              child: InkWell(
-                  splashColor: Colors.grey.withOpacity(0.4),
-                  onTap: () {
-                    Feedback.forLongPress(context);
-                    onTapSampleItem(context, model.sampleList[i], model);
-                  },
-                  child: Container(
-                    height: 40,
-                    width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(10, 20, 5, 0),
-                    child: RichText(
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      softWrap: true,
-                      maxLines: 1,
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: model.sampleList[i].title,
-                              style: TextStyle(
-                                  fontFamily: 'HeeboMedium',
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 14.0,
-                                  color: model.textColor,
-                                  letterSpacing: 0.3)),
-                        ],
-                      ),
-                    ),
-                  )))));
-      if (i != model.sampleList.length - 1) {
-        items.add(const Divider(height: 15.0));
-      }
+      items.add(Material(
+          elevation: 0.0,
+          color: model.webBackgroundColor,
+          child: InkWell(
+              splashColor: Colors.grey.withOpacity(0.4),
+              onTap: () {
+                Feedback.forLongPress(context);
+                expandSample(context, model.sampleList[i], model);
+              },
+              child: Container(
+                alignment: Alignment.centerLeft,
+                height: 40,
+                padding: const EdgeInsets.fromLTRB(20, 10, 5, 10),
+                child: RichText(
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.left,
+                  softWrap: true,
+                  maxLines: 1,
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: model.sampleList[i].title,
+                          style: TextStyle(
+                              fontFamily: 'HeeboMedium',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14.0,
+                              color: model.textColor,
+                              letterSpacing: 0.3)),
+                    ],
+                  ),
+                ),
+              ))));
+      items.add(Divider(
+        color: model.webDividerColor,
+        thickness: 1,
+      ));
     }
 
     if (model.sampleList.isEmpty && model.controlList.isEmpty) {
       items.add(
         Container(
             padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: model.slidingPanelColor,
+            color: model.webBackgroundColor,
             child: Center(
                 child: Text('No results found',
                     style: TextStyle(color: model.textColor, fontSize: 15)))),
@@ -437,833 +629,55 @@ class _HomePageState extends State<HomePage> {
     }
     return items;
   }
+}
 
-  void _showSettingsPanel(SampleModel model) {
-    showRoundedModalBottomSheet<dynamic>(
-        dismissOnTap: false,
-        context: context,
-        radius: 12.0,
-        color: model.bottomSheetBackgroundColor,
-        builder: (BuildContext context) => ScopedModel<SampleModel>(
-            model: sampleListModel,
-            child: ScopedModelDescendant<SampleModel>(
-                rebuildOnChange: true,
-                builder: (BuildContext context, _, SampleModel model) =>
-                    OrientationBuilder(
-                      builder: (BuildContext context, Orientation orientation) {
-                        return Container(
-                            height: model.isWeb ? 240 : 250,
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 5, 0, 0),
-                                  child: Stack(children: <Widget>[
-                                    Container(
-                                      height: 40,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('Settings',
-                                              style: TextStyle(
-                                                  color: model.textColor,
-                                                  fontSize: 18,
-                                                  letterSpacing: 0.34,
-                                                  fontFamily: 'HeeboBold',
-                                                  fontWeight: FontWeight.w500)),
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.close,
-                                              color: model.textColor,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ]),
-                                ),
-                                Expanded(
-                                  // ListView contains a group of widgets that scroll inside the drawer
-                                  child: ListView(
-                                    children: <Widget>[
-                                      Column(children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 10, 0, 0),
-                                          child: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.portrait
-                                              ? Container(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          15, 0, 10, 0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                                          child: RaisedButton(
-                                                              color:
-                                                                  systemThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleSystemTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                'System theme',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        systemThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                    fontFamily:
-                                                                        'HeeboMedium'),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                                          child: RaisedButton(
-                                                              color:
-                                                                  lightThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleLightTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                'Light theme',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                    fontFamily:
-                                                                        'HeeboMedium'),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.all(0.0),
-                                                          child: RaisedButton(
-                                                              color:
-                                                                  darkThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleDarkTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                  'Dark theme',
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                      fontFamily:
-                                                                          'HeeboMedium'))),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                )
-                                              : Container(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          15, 0, 10, 0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  model.isWeb
-                                                                      ? 150
-                                                                      : _orientationPadding,
-                                                                  0,
-                                                                  0,
-                                                                  0),
-                                                          child: RaisedButton(
-                                                              elevation: 0,
-                                                              color:
-                                                                  systemThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleSystemTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                'System theme',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        systemThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                    fontFamily:
-                                                                        'HeeboMedium'),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  _orientationPadding/2,
-                                                                  0,
-                                                                  _orientationPadding/2,
-                                                                  0),
-                                                          child: RaisedButton(
-                                                              elevation: 0,
-                                                              color:
-                                                                  lightThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleLightTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                'Light theme',
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        lightThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                    fontFamily:
-                                                                        'HeeboMedium'),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  0,
-                                                                  0,
-                                                                  model.isWeb
-                                                                      ? 150
-                                                                      : _orientationPadding,
-                                                                  0),
-                                                          child: RaisedButton(
-                                                              elevation: 0,
-                                                              color:
-                                                                  darkThemeSelected,
-                                                              onPressed: () =>
-                                                                  _toggleDarkTheme(
-                                                                      model),
-                                                              child: Text(
-                                                                  'Dark theme',
-                                                                  style: TextStyle(
-                                                                      color:
-                                                                          darkThemeSelected == const Color.fromRGBO(247, 245, 245, 1) ? Colors.black : Colors.white,
-                                                                      fontFamily:
-                                                                          'HeeboMedium'))),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                        )
-                                      ]),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 20, 0, 0),
-                                        child: MediaQuery.of(context)
-                                                    .orientation ==
-                                                Orientation.portrait
-                                            ? Container(
-                                                child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .fromLTRB(
-                                                          15, 0, 10, 30),
-                                                      child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children:
-                                                              _addColorPalettes(
-                                                                  model)),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ))
-                                            : Container(
-                                                child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: EdgeInsets.fromLTRB(
-                                                          model.isWeb
-                                                              ? 200
-                                                              : _orientationPadding +
-                                                                  10,
-                                                          0,
-                                                          model.isWeb
-                                                              ? 200
-                                                              : _orientationPadding +
-                                                                  10,
-                                                          30),
-                                                      child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children:
-                                                              _addColorPalettes(
-                                                                  model)),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Align(
-                                    alignment: FractionalOffset.bottomCenter,
-                                    child: Container(
-                                      margin: model.isWeb
-                                          ? const EdgeInsets.only(bottom: 10)
-                                          : const EdgeInsets.all(0),
-                                      height: 50,
-                                      width:
-                                          model.isWeb ? 130 : double.infinity,
-                                      child: RaisedButton(
-                                          shape: model.isWeb
-                                              ? RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          18.0),
-                                                  side: BorderSide(
-                                                      color: Colors.blueAccent),
-                                                )
-                                              : RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          0.0),
-                                                ),
-                                          color: model.backgroundColor,
-                                          onPressed: () => _applySetting(model),
-                                          child: const Text('APPLY',
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      'HeeboMedium',
-                                                  color: Colors.white))),
-                                    ))
-                              ],
-                            ));
-                      },
-                    ))));
+/// Search bar, rounded corner
+class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+  PersistentHeaderDelegate(SampleModel sampleModel) {
+    _sampleListModel = sampleModel;
   }
-
-  void _applySetting(SampleModel model) {
-    model.backgroundColor = _currentBackgroundColor;
-    model.listIconColor = _currentListIconColor;
-    model.paletteColor = _currentPaletteColor;
-    model.changeTheme(_currentThemeData);
-    if (_systemThemeSelected) {
-      systemThemeSelected = model.backgroundColor;
-      lightThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
-    } else if (_lightThemeSelected) {
-      lightThemeSelected = model.backgroundColor;
-      systemThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
-    } else {
-      darkThemeSelected = model.backgroundColor;
-      systemThemeSelected = lightThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
-    }
-    // ignore: invalid_use_of_protected_member
-    model.notifyListeners();
-    Navigator.pop(context);
-  }
-
-  void _toggleLightTheme(SampleModel model) {
-    _lightThemeSelected = true;
-    _systemThemeSelected = false;
-    lightThemeSelected = model.backgroundColor;
-    systemThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
-    _currentThemeData = ThemeData.light();
-    // ignore: invalid_use_of_protected_member
-    model.notifyListeners();
-  }
-
-  void _toggleDarkTheme(SampleModel model) {
-    _lightThemeSelected = false;
-    _systemThemeSelected = false;
-    darkThemeSelected = model.backgroundColor;
-    systemThemeSelected = lightThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1) : const Color.fromRGBO(79, 85, 102, 1);
-    _currentThemeData = ThemeData.dark();
-    // ignore: invalid_use_of_protected_member
-    model.notifyListeners();
-  }
-
-  void _toggleSystemTheme(SampleModel model) {
-    _systemThemeSelected = true;
-    _lightThemeSelected = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? true : false;
-    systemThemeSelected = model.backgroundColor;
-    lightThemeSelected = darkThemeSelected = model.themeData.brightness == Brightness.light ? const Color.fromRGBO(247, 245, 245, 1): const Color.fromRGBO(79, 85, 102, 1);
-    _currentThemeData = widget.sampleBrowser.systemTheme.brightness != Brightness.dark ? ThemeData.light() : ThemeData.dark();
-    // ignore: invalid_use_of_protected_member
-    model.notifyListeners();
-  }
-
-  void _addColors() {
-    colors = <Color>[];
-    colors.add(const Color.fromRGBO(0, 116, 228, 1));
-    colors.add(const Color.fromRGBO(255, 90, 25, 1));
-    colors.add(const Color.fromRGBO(251, 53, 105, 1));
-    colors.add(const Color.fromRGBO(73, 76, 162, 1));
-    colors.add(const Color.fromRGBO(48, 171, 123, 1));
-    defaultBorderColor.add(const Color.fromRGBO(87, 89, 208, 1));
-    defaultBorderColor.add(Colors.transparent);
-    defaultBorderColor.add(Colors.transparent);
-    defaultBorderColor.add(Colors.transparent);
-    defaultBorderColor.add(Colors.transparent);
-  }
-
-  List<Widget> _addColorPalettes(SampleModel model) {
-    colorPaletteWidgets = <Widget>[];
-    for (int i = 0; i < colors.length; i++) {
-      colorPaletteWidgets.add(Material(
-          child: Ink(
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          border: Border.all(color: defaultBorderColor[i], width: 2.0),
-          shape: BoxShape.circle,
-        ),
-        child: InkWell(
-          onTap: () => _changeColorPalette(model, i),
-          child: Icon(
-            Icons.brightness_1,
-            size: 40.0,
-            color: colors[i],
-          ),
-        ),
-      )));
-    }
-    return colorPaletteWidgets;
-  }
-
-  void _changeColorPalette(SampleModel model, int index) {
-    for (int j = 0; j < defaultBorderColor.length; j++) {
-      defaultBorderColor[j] = Colors.transparent;
-    }
-    defaultBorderColor[index] = colors[index];
-    _currentBackgroundColor = colors[index];
-    _currentListIconColor = colors[index];
-    _currentPaletteColor = colors[index];
-    // ignore: invalid_use_of_protected_member
-    model.notifyListeners();
-  }
-
-  Widget _getSideDrawer(SampleModel _model) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      double factor;
-      if (_model.isTargetMobile) {
-        if (constraints.maxHeight > constraints.maxWidth) {
-          factor = 0.75;
-        } else {
-          factor = 0.45;
-        }
-      } else {
-        if (constraints.maxHeight > constraints.maxWidth) {
-          factor = 0.5;
-        } else {
-          factor = 0.4;
-        }
-      }
-      return SizedBox(
-          width: MediaQuery.of(context).size.width *
-              (_model.isWeb ? 0.23 : factor),
-          child: Drawer(
-              child: Container(
-            color: _model.drawerBackgroundColor,
-            child: Column(
-              children: <Widget>[
-                Stack(children: <Widget>[
-                  _lightThemeSelected
-                      ? Container(
-                          padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
-                          child: Image.asset('images/image_nav_banner.png',
-                              fit: BoxFit.cover),
+  SampleModel _sampleListModel;
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox(
+      height: 90,
+      child: Container(
+          color: _sampleListModel.paletteColor,
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                height: 70,
+                child: SearchBar(sampleListModel: _sampleListModel),
+              ),
+              Container(
+                  height: 20,
+                  decoration: BoxDecoration(
+                      color: _sampleListModel.webBackgroundColor,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12.0),
+                          topRight: Radius.circular(12.0)),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: _sampleListModel.webBackgroundColor,
+                          offset: const Offset(0, 2.0),
+                          blurRadius: 0.25,
                         )
-                      : Container(
-                          padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
-                          child: Image.asset(
-                              'images/image_nav_banner_darktheme.png',
-                              fit: BoxFit.cover),
-                        )
-                ]),
-                Expanded(
-                  // ListView contains a group of widgets that scroll inside the drawer
-                  child: ListView(
-                    children: <Widget>[
-                      SingleChildScrollView(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                              child: Text('Fast . Fluid . Flexible',
-                                  style: TextStyle(
-                                      color: _model.drawerTextIconColor,
-                                      fontSize: 14,
-                                      letterSpacing: 0.26,
-                                      fontFamily: 'Roboto-Regular',
-                                      fontWeight: FontWeight.normal)),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                              child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                      splashColor: Colors.grey.withOpacity(0.4),
-                                      onTap: () {
-                                        Feedback.forLongPress(context);
-                                        launch(
-                                            'https://www.syncfusion.com/flutter-widgets');
-                                      },
-                                      child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              25, 0, 0, 0),
-                                          child: Column(
-                                            children: <Widget>[
-                                              const Padding(
-                                                  padding:
-                                                      EdgeInsets.only(top: 10)),
-                                              Row(children: <Widget>[
-                                                Image.asset(
-                                                    'images/product.png',
-                                                    fit: BoxFit.contain,
-                                                    height: 22,
-                                                    width: 22,
-                                                    color:
-                                                        _model.drawerIconColor),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          15, 0, 0, 0),
-                                                  child: Text('Product page',
-                                                      style: TextStyle(
-                                                          color: _model
-                                                              .drawerTextIconColor,
-                                                          fontSize: 16,
-                                                          letterSpacing: 0.4,
-                                                          fontFamily:
-                                                              'Roboto-Regular',
-                                                          fontWeight: FontWeight
-                                                              .normal)),
-                                                )
-                                              ]),
-                                              const Padding(
-                                                  padding:
-                                                      EdgeInsets.only(top: 10)),
-                                            ],
-                                          )))),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                              child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                      splashColor: Colors.grey.withOpacity(0.4),
-                                      onTap: () {
-                                        Feedback.forLongPress(context);
-                                        launch(
-                                            'https://help.syncfusion.com/flutter/introduction/overview');
-                                      },
-                                      child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              25, 0, 0, 0),
-                                          child: Column(
-                                            children: <Widget>[
-                                              const Padding(
-                                                  padding:
-                                                      EdgeInsets.only(top: 10)),
-                                              Row(children: <Widget>[
-                                                Image.asset(
-                                                    'images/documentation.png',
-                                                    fit: BoxFit.contain,
-                                                    height: 22,
-                                                    width: 22,
-                                                    color:
-                                                        _model.drawerIconColor),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          15, 0, 0, 0),
-                                                  child: Text('Documentation',
-                                                      style: TextStyle(
-                                                          color: _model
-                                                              .drawerTextIconColor,
-                                                          fontSize: 16,
-                                                          letterSpacing: 0.4,
-                                                          fontFamily:
-                                                              'Roboto-Regular',
-                                                          fontWeight: FontWeight
-                                                              .normal)),
-                                                )
-                                              ]),
-                                              const Padding(
-                                                  padding:
-                                                      EdgeInsets.only(top: 10)),
-                                            ],
-                                          )))),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 100, 0),
-                        child: Container(
-                            height: 2,
-                            width: 5,
-                            decoration:
-                                BoxDecoration(color: _model.backgroundColor)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
-                              child: Row(children: <Widget>[
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                  child: Text('Other products',
-                                      style: TextStyle(
-                                          color: _model.drawerTextIconColor,
-                                          fontSize: 16,
-                                          letterSpacing: 0.4,
-                                          fontFamily: 'Roboto-Regular',
-                                          fontWeight: FontWeight.bold)),
-                                )
-                              ]),
-                            ),
-                            const Padding(
-                                padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
-                            Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                    splashColor: Colors.grey.withOpacity(0.4),
-                                    onTap: () {
-                                      Feedback.forLongPress(context);
-                                      launch(
-                                          'https://play.google.com/store/apps/details?id=com.syncfusion.samplebrowser&hl=en');
-                                    },
-                                    child: Column(
-                                      children: <Widget>[
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 10)),
-                                        Row(
-                                          children: <Widget>[
-                                            Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        25, 0, 0, 0),
-                                                child: Image.asset(
-                                                    'images/img_xamarin.png',
-                                                    fit: BoxFit.contain,
-                                                    height: 28,
-                                                    width: 28)),
-                                            Container(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        10, 0, 0, 0),
-                                                child: Text('Xamarin Demo',
-                                                    style: TextStyle(
-                                                        color: _model
-                                                            .drawerTextIconColor,
-                                                        fontSize: 16,
-                                                        letterSpacing: 0.4,
-                                                        fontFamily:
-                                                            'Roboto-Regular',
-                                                        fontWeight: FontWeight
-                                                            .normal))),
-                                            const Spacer(),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 0, 10, 0),
-                                              child: Image.asset(
-                                                  'images/open_arrow.png',
-                                                  fit: BoxFit.contain,
-                                                  color: _model.paletteColor ??
-                                                      Colors.blue,
-                                                  height: 16,
-                                                  width: 16),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 10)),
-                                      ],
-                                    ))),
-                            Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                    splashColor: Colors.grey.withOpacity(0.4),
-                                    onTap: () {
-                                      Feedback.forLongPress(context);
-                                      launch(
-                                          'https://play.google.com/store/apps/details?id=com.syncfusion.xamarin.uikit&hl=en');
-                                    },
-                                    child: Column(
-                                      children: <Widget>[
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 10)),
-                                        Row(
-                                          children: <Widget>[
-                                            Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        25, 0, 0, 0),
-                                                child: Image.asset(
-                                                    'images/img_xamarin_ui.png',
-                                                    fit: BoxFit.contain,
-                                                    height: 28,
-                                                    width: 28)),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      10, 0, 0, 0),
-                                              child: Text('Xamarin UI kit Demo',
-                                                  style: TextStyle(
-                                                      color: _model
-                                                          .drawerTextIconColor,
-                                                      fontSize: 16,
-                                                      letterSpacing: 0.4,
-                                                      fontFamily:
-                                                          'Roboto-Regular',
-                                                      fontWeight:
-                                                          FontWeight.normal)),
-                                            ),
-                                            const Spacer(),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 0, 10, 0),
-                                              child: Image.asset(
-                                                  'images/open_arrow.png',
-                                                  fit: BoxFit.contain,
-                                                  color: _model.paletteColor ??
-                                                      Colors.blue,
-                                                  height: 16,
-                                                  width: 16),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 10)),
-                                      ],
-                                    ))),
-                            Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                    splashColor: Colors.grey.withOpacity(0.4),
-                                    onTap: () {
-                                      Feedback.forLongPress(context);
-                                      launch(
-                                          'https://play.google.com/store/apps/details?id=com.Syncfusion.ej2&hl=en');
-                                    },
-                                    child: Column(
-                                      children: <Widget>[
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 10)),
-                                        Row(
-                                          children: <Widget>[
-                                            Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        25, 0, 0, 0),
-                                                child: Image.asset(
-                                                    'images/img_JS.png',
-                                                    fit: BoxFit.contain,
-                                                    height: 28,
-                                                    width: 28)),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      10, 0, 0, 0),
-                                              child: Text('JavaScript Demo',
-                                                  style: TextStyle(
-                                                      color: _model
-                                                          .drawerTextIconColor,
-                                                      fontSize: 16,
-                                                      letterSpacing: 0.4,
-                                                      fontFamily:
-                                                          'Roboto-Regular',
-                                                      fontWeight:
-                                                          FontWeight.normal)),
-                                            ),
-                                            const Spacer(),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 0, 10, 0),
-                                              child: Image.asset(
-                                                  'images/open_arrow.png',
-                                                  fit: BoxFit.contain,
-                                                  color: _model.paletteColor ??
-                                                      Colors.blue,
-                                                  height: 16,
-                                                  width: 16),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 10)),
-                                      ],
-                                    ))),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // This container holds the align
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Image.asset(
-                            'images/syncfusion.png',
-                            fit: BoxFit.contain,
-                            height: 50,
-                            width: 100,
-                            color: _model.drawerIconColor,
-                          )),
-                      Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Text('Version 18.1.42',
-                              style: TextStyle(
-                                  color: _model.drawerTextIconColor,
-                                  fontSize: 12,
-                                  letterSpacing: 0.4,
-                                  fontFamily: 'Roboto-Regular',
-                                  fontWeight: FontWeight.normal)))
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )));
-    });
+                      ])),
+            ],
+          )),
+    );
+  }
+
+  @override
+  double get maxExtent => 90;
+
+  @override
+  double get minExtent => 90;
+
+  @override
+  bool shouldRebuild(PersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }

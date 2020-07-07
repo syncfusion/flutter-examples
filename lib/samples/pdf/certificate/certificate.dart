@@ -2,25 +2,20 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/model.dart';
+import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:flutter_examples/samples/pdf/helper/save_file_mobile.dart'
     if (dart.library.html) 'package:flutter_examples/samples/pdf/helper/save_file_web.dart';
 
-//ignore: must_be_immutable
-class CourseCompletionCertificatePdf extends StatefulWidget {
-  CourseCompletionCertificatePdf({this.sample, Key key}) : super(key: key);
-  SubItem sample;
+class CourseCompletionCertificatePdf extends SampleView {
+  const CourseCompletionCertificatePdf(Key key) : super(key: key);
   @override
-  _CertificatePdfState createState() => _CertificatePdfState(sample);
+  _CertificatePdfState createState() => _CertificatePdfState();
 }
 
-class _CertificatePdfState extends State<CourseCompletionCertificatePdf> {
-  _CertificatePdfState(this.sample);
-
-  final SubItem sample;
+class _CertificatePdfState extends SampleViewState {
+  _CertificatePdfState();
 
   final TextEditingController _dateController = TextEditingController(
       text: DateFormat('MMMM d, yyyy').format(DateTime.now()));
@@ -44,9 +39,6 @@ class _CertificatePdfState extends State<CourseCompletionCertificatePdf> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<SampleModel>(
-        rebuildOnChange: true,
-        builder: (BuildContext context, _, SampleModel model) {
           return Scaffold(
             backgroundColor: model.cardThemeColor,
             body: Center(
@@ -62,7 +54,7 @@ class _CertificatePdfState extends State<CourseCompletionCertificatePdf> {
                         decoration: InputDecoration(
                             labelText: 'Recipient Name',
                             labelStyle: TextStyle(
-                                color: model.isLightThemeSelected
+                                color: model.themeData.brightness == Brightness.light 
                                     ? Colors.grey
                                     : Colors.lightBlue)),
                         controller: _nameController,
@@ -71,22 +63,20 @@ class _CertificatePdfState extends State<CourseCompletionCertificatePdf> {
                         decoration: InputDecoration(
                             labelText: 'Course Name',
                             labelStyle: TextStyle(
-                                color: model.isLightThemeSelected
+                                color: model.themeData.brightness == Brightness.light 
                                     ? Colors.grey
                                     : Colors.lightBlue)),
                         controller: _courceNameController,
-                        style: TextStyle(
-                          color: model.textColor)),
+                        style: TextStyle(color: model.textColor)),
                     TextFormField(
                         decoration: InputDecoration(
                             labelText: 'Date',
                             labelStyle: TextStyle(
-                                color: model.isLightThemeSelected
+                                color: model.themeData.brightness == Brightness.light 
                                     ? Colors.grey
                                     : Colors.lightBlue)),
                         controller: _dateController,
-                        style: TextStyle(
-                           color: model.textColor),
+                        style: TextStyle(color: model.textColor),
                         onTap: () {
                           _selectDate(context);
                         }),
@@ -103,7 +93,6 @@ class _CertificatePdfState extends State<CourseCompletionCertificatePdf> {
               ),
             ),
           );
-        });
   }
 
   Future<void> _createCertificate() async {
