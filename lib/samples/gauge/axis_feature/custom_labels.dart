@@ -37,7 +37,7 @@ Widget getGaugeCustomLabels() {
           axisLineStyle: AxisLineStyle(
               thicknessUnit: GaugeSizeUnit.factor, thickness: 0.1),
           interval: 10,
-          needsRotateLabels: true,
+          canRotateLabels: true,
           axisLabelStyle: GaugeTextStyle(fontSize: 12),
           minorTicksPerInterval: 0,
           majorTickStyle: MajorTickStyle(

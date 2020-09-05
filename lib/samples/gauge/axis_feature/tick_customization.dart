@@ -30,7 +30,7 @@ SfRadialGauge getRadialTickCustomization() {
           showLastLabel: false,
           startAngle: 270,
           endAngle: 270,
-          needsRotateLabels: true,
+          canRotateLabels: true,
           labelsPosition: ElementsPosition.outside,
           axisLabelStyle: GaugeTextStyle(fontSize: 12),
           majorTickStyle: MajorTickStyle(

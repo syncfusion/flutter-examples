@@ -36,7 +36,7 @@ class _GaugeCompassExampleState extends SampleViewState {
             showAxisLine: false,
             radiusFactor: 1,
             showLastLabel: false,
-            needsRotateLabels: true,
+            canRotateLabels: true,
             tickOffset: 0.32,
             offsetUnit: GaugeSizeUnit.factor,
             onLabelCreated: _axisLabelCreated,

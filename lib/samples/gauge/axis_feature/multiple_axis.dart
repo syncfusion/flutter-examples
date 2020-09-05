@@ -52,7 +52,7 @@ class _MultipleAxisExampleState extends SampleViewState {
             ? isCardView ? 0.5 : 0.6
             : 0.5,
         labelOffset: 15,
-        needsRotateLabels: true,
+        canRotateLabels: true,
         minorTickStyle: MinorTickStyle(
             color: const Color(0xFF00A8B5),
             thickness: 1.5,

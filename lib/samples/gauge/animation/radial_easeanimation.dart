@@ -46,7 +46,7 @@ SfRadialGauge getRadialEaseExample() {
               fontSize: isCardView ? 10 : 12, fontWeight: FontWeight.w500),
           labelOffset: 25,
           interval: isCardView ? 1 : _interval,
-          needsRotateLabels: true,
+          canRotateLabels: true,
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
                 positionFactor: 1,
