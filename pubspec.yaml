@@ -16,15 +16,15 @@ dependencies:
   url_launcher: ^5.0.3
   intl: ^0.16.0
   path_provider: ^1.6.1
-  syncfusion_flutter_datagrid: ^18.2.44
-  syncfusion_flutter_calendar: ^18.2.44-beta
-  syncfusion_flutter_datepicker: ^18.2.44-beta
-  syncfusion_flutter_charts: ^18.2.44
-  syncfusion_flutter_gauges: ^18.2.44
-  syncfusion_flutter_sliders: ^18.2.44-beta
-  syncfusion_flutter_pdf: ^18.2.44-beta
-  syncfusion_flutter_barcodes: ^18.2.44-beta
-  syncfusion_flutter_maps: ^18.2.44-beta
+  syncfusion_flutter_datagrid: ^18.2.56-beta
+  syncfusion_flutter_calendar: ^18.2.56
+  syncfusion_flutter_datepicker: ^18.2.56-beta
+  syncfusion_flutter_charts: ^18.2.56
+  syncfusion_flutter_gauges: ^18.2.56
+  syncfusion_flutter_sliders: ^18.2.56-beta
+  syncfusion_flutter_pdf: ^18.2.56-beta
+  syncfusion_flutter_barcodes: ^18.2.56-beta
+  syncfusion_flutter_maps: ^18.2.56-beta
   
 flutter:
   uses-material-design: true

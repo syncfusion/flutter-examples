@@ -33,7 +33,7 @@ SfRadialGauge getRadialSlowMiddleAnimation() {
           minimum: 0,
           maximum: 12,
           interval: 1,
-          needsRotateLabels: true,
+          canRotateLabels: true,
           majorTickStyle: MajorTickStyle(
               length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
           minorTicksPerInterval: 4,

@@ -30,7 +30,7 @@ SfRadialGauge getRangeThicknessExampleGauge() {
           ticksPosition: ElementsPosition.outside,
           labelsPosition: ElementsPosition.outside,
           radiusFactor: 0.9,
-          needsRotateLabels: true,
+          canRotateLabels: true,
           majorTickStyle: MajorTickStyle(
             length: 0.1,
             thickness: 1.5,
