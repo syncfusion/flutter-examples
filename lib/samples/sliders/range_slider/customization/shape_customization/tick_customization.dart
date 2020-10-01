@@ -1,11 +1,21 @@
+///Dart import
 import 'dart:math' as math;
+
+///flutter package import
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart' show NumberFormat;
+
+///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+///Local imports
+import '../../../../../model/sample_view.dart';
+
+///Renders range slider with customized tick
 class TickCustomizedRangeSlider extends SampleView {
   @override
   _TickCustomizedRangeSliderState createState() =>
@@ -54,16 +64,14 @@ class _TickCustomizedRangeSliderState extends SampleViewState {
 
 class _TickShape extends SfTickShape {
   @override
-  void paint(PaintingContext context, Offset offset,
-      Offset thumbCenter,
-      Offset startThumbCenter,
-      Offset endThumbCenter,
+  void paint(PaintingContext context, Offset offset, Offset thumbCenter,
+      Offset startThumbCenter, Offset endThumbCenter,
       {RenderBox parentBox,
-        SfSliderThemeData themeData,
-        SfRangeValues currentValues,
-        dynamic currentValue,
-        Animation<double> enableAnimation,
-        TextDirection textDirection}) {
+      SfSliderThemeData themeData,
+      SfRangeValues currentValues,
+      dynamic currentValue,
+      Animation<double> enableAnimation,
+      TextDirection textDirection}) {
     final Size tickSize = getPreferredSize(themeData);
     final bool isTickRightOfThumb = endThumbCenter == null
         ? offset.dx > thumbCenter.dx
@@ -100,16 +108,14 @@ class _TickShape extends SfTickShape {
 
 class _MinorTickShape extends SfTickShape {
   @override
-  void paint(PaintingContext context, Offset offset,
-      Offset thumbCenter,
-      Offset startThumbCenter,
-      Offset endThumbCenter,
+  void paint(PaintingContext context, Offset offset, Offset thumbCenter,
+      Offset startThumbCenter, Offset endThumbCenter,
       {RenderBox parentBox,
-        SfSliderThemeData themeData,
-        SfRangeValues currentValues,
-        dynamic currentValue,
-        Animation<double> enableAnimation,
-        TextDirection textDirection}) {
+      SfSliderThemeData themeData,
+      SfRangeValues currentValues,
+      dynamic currentValue,
+      Animation<double> enableAnimation,
+      TextDirection textDirection}) {
     final Size minorTickSize = getPreferredSize(themeData);
     final bool isMinorTickRightOfThumb = endThumbCenter == null
         ? offset.dx > thumbCenter.dx

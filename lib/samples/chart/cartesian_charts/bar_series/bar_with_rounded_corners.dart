@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
-/// Renders the rounded bar chart sample.
+/// Renders the rounded corner bar chart sample.
 class BarRounded extends SampleView {
+  /// Creates the rounded corner bar chart sample.
   const BarRounded(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _BarRoundedState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getRoundedBarChart();
+    return _getRoundedBarChart();
   }
 
   /// Returns the rounded cartesian bar chart.
-  SfCartesianChart getRoundedBarChart() {
+  SfCartesianChart _getRoundedBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -34,14 +34,15 @@ class _BarRoundedState extends SampleViewState {
       primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           minimum: -2, maximum: 2, majorTickLines: MajorTickLines(size: 0)),
-      series: getRoundedBarSeries(),
+      series: _getRoundedBarSeries(),
       tooltipBehavior:
           TooltipBehavior(enable: true, header: '', canShowMarker: false),
     );
   }
 
-  /// Returns the list of chart series which need to render on the rounded bar chart.
-  List<BarSeries<ChartSampleData, String>> getRoundedBarSeries() {
+  /// Returns the list of chart series
+  /// which need to render on the rounded bar chart.
+  List<BarSeries<ChartSampleData, String>> _getRoundedBarSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 'Iceland', y: 1.13),
       ChartSampleData(x: 'Moldova', y: -1.05),
@@ -53,9 +54,10 @@ class _BarRoundedState extends SampleViewState {
     ];
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
-        enableTooltip: true,
         dataSource: chartData,
-        /// If we set the border radius value for bar series, then the series will appear as rounder corner.
+
+        /// If we set the border radius value for bar series,
+        /// then the series will appear as rounder corner.
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,

@@ -1,10 +1,19 @@
+///Dart imports
 import 'dart:math';
 
+///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
+
+///calendar import
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+///Local import
+import '../../../model/sample_view.dart';
+import '../getting_started/getting_started.dart';
+
+/// Widget class of Schedule view calendar
 class ScheduleViewCalendar extends SampleView {
+  /// Creates Schedule view calendar
   const ScheduleViewCalendar(Key key) : super(key: key);
 
   @override
@@ -14,8 +23,6 @@ class ScheduleViewCalendar extends SampleView {
 class _ScheduleViewCalendarState extends SampleViewState {
   _ScheduleViewCalendarState();
 
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   List<String> subjectCollection;
   List<Color> colorCollection;
   List<Appointment> appointments;
@@ -23,8 +30,6 @@ class _ScheduleViewCalendarState extends SampleViewState {
 
   @override
   void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
     appointments = <Appointment>[];
     addAppointmentDetails();
     addAppointments();
@@ -32,6 +37,7 @@ class _ScheduleViewCalendarState extends SampleViewState {
     super.initState();
   }
 
+  /// Creates the required appointment details as a list.
   void addAppointmentDetails() {
     subjectCollection = <String>[];
     subjectCollection.add('General Meeting');
@@ -57,6 +63,8 @@ class _ScheduleViewCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFF0A8043));
   }
 
+  /// Method that creates the collection the data source for calendar, with
+  /// required information.
   void addAppointments() {
     final Random random = Random();
     final DateTime rangeStartDate =
@@ -64,7 +72,7 @@ class _ScheduleViewCalendarState extends SampleViewState {
     final DateTime rangeEndDate = DateTime.now().add(const Duration(days: 365));
     for (DateTime i = rangeStartDate;
         i.isBefore(rangeEndDate);
-        i = i.add(const Duration(days: 1))) {
+        i = i.add(Duration(days: random.nextInt(10)))) {
       final DateTime date = i;
       final int count = 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
@@ -89,16 +97,7 @@ class _ScheduleViewCalendarState extends SampleViewState {
         endTime: date.add(const Duration(hours: 1)),
         color: colorCollection[random.nextInt(9)],
         isAllDay: false,
-        recurrenceRule: 'FREQ=DAILY;INTERVAL=1'));
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void didUpdateWidget(ScheduleViewCalendar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
+        recurrenceRule: 'FREQ=DAILY;INTERVAL=10'));
   }
 
   @override
@@ -106,20 +105,25 @@ class _ScheduleViewCalendarState extends SampleViewState {
     return Theme(
         data: model.themeData.copyWith(accentColor: model.backgroundColor),
         child: Container(
-            color: model.isWeb
-                ? model.webSampleBackgroundColor
-                : model.cardThemeColor,
-            child: getScheduleViewCalendar(events: events)));
+            color: model.cardThemeColor,
+            child: getScheduleViewCalendar(
+                events: events, scheduleViewBuilder: scheduleViewBuilder)));
   }
 
-  SfCalendar getScheduleViewCalendar({_DataSource events}) {
+  /// returns the calendar widget based on the properties passed
+  SfCalendar getScheduleViewCalendar(
+      {_DataSource events, dynamic scheduleViewBuilder}) {
     return SfCalendar(
+      showDatePickerButton: true,
+      scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
       view: CalendarView.schedule,
       dataSource: events,
     );
   }
 }
 
+/// An object to set the appointment collection data source to collection, and
+/// allows to add, remove or reset the appointment collection.
 class _DataSource extends CalendarDataSource {
   _DataSource(List<Appointment> source) {
     appointments = source;

@@ -1,11 +1,18 @@
-import 'package:flutter/foundation.dart';
+///Package imports
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
+import 'package:flutter/scheduler.dart';
+
+///calendar import
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+///Local import
+import '../../../model/sample_view.dart';
+import '../appointment_editor/appointment_editor.dart';
+
+/// Widget class of shift scheduler calendar
 class ShiftScheduler extends SampleView {
+  /// Creates calendar of shift scheduler
   const ShiftScheduler(Key key) : super(key: key);
 
   @override
@@ -15,257 +22,487 @@ class ShiftScheduler extends SampleView {
 class _ShiftSchedulerState extends SampleViewState {
   _ShiftSchedulerState();
 
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-  List<String> subjectCollection;
-  List<Color> colorCollection;
-  List<Shift> shiftCollection;
-  List<String> employeeCollection;
-  List<String> userImages;
-  ShiftDataSource events;
-  ScrollController controller;
-  String _selectedEmployee;
-  int _selectedEmployeeIndex;
+  List<String> _subjectCollection;
+  List<Color> _colorCollection;
+  List<Appointment> _shiftCollection;
+  List<CalendarResource> _employeeCollection;
+  List<TimeRegion> _specialTimeRegions;
+  List<String> _nameCollection;
+  List<String> _userImages;
+  _ShiftDataSource _events;
+  Appointment _selectedAppointment;
+  bool _isAllDay = false;
+  String _subject = '';
+  DateTime _startDate, _endDate;
+  int _selectedColorIndex = 0;
+  List<String> _colorNames;
+  List<String> _timeZoneCollection;
+  CalendarController _calendarController;
+
+  final List<CalendarView> _allowedViews = <CalendarView>[
+    CalendarView.timelineDay,
+    CalendarView.timelineWeek,
+    CalendarView.timelineWorkWeek,
+    CalendarView.timelineMonth
+  ];
 
   @override
   void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    shiftCollection = <Shift>[];
-    userImages = <String>[];
-    controller = ScrollController();
-    _selectedEmployee = 'John';
-    _selectedEmployeeIndex = 0;
-    addAppointmentDetails();
-    addAppointments();
-    events = ShiftDataSource(shiftCollection);
+    _calendarController = CalendarController();
+    _calendarController.view = CalendarView.timelineWeek;
+    _selectedAppointment = null;
+    _shiftCollection = <Appointment>[];
+    _employeeCollection = <CalendarResource>[];
+    _specialTimeRegions = <TimeRegion>[];
+    _userImages = <String>[];
+    _addResourceDetails();
+    _addResources();
+    _addSpecialRegions();
+    _addAppointmentDetails();
+    _addAppointments();
+    _events = _ShiftDataSource(_shiftCollection, _employeeCollection);
     super.initState();
   }
 
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
+  /// Navigates to appointment editor page when the calendar elements tapped
+  /// other than the header, handled the editor fields based on tapped element.
+  void _onCalendarTapped(CalendarTapDetails calendarTapDetails) {
+    /// Condition added to open the editor, when the calendar elements tapped
+    /// other than the header.
+    if (calendarTapDetails.targetElement == CalendarElement.header ||
+        calendarTapDetails.targetElement == CalendarElement.viewHeader) {
+      return;
+    }
 
-  @override
-  void didUpdateWidget(ShiftScheduler oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
+    _selectedAppointment = null;
 
-  void onSelectedEmployeeChange(String value, SampleModel model) {
-    _selectedEmployee = value;
-    _selectedEmployeeIndex = employeeCollection.indexOf(_selectedEmployee);
-    addAppointments();
-    events = ShiftDataSource(shiftCollection);
-    setState(() {});
+    /// Navigates the calendar to day view,
+    /// when we tap on month cells in mobile.
+    if (!model.isWeb && _calendarController.view == CalendarView.month) {
+      _calendarController.view = CalendarView.day;
+    } else {
+      if (calendarTapDetails.appointments != null &&
+          calendarTapDetails.targetElement == CalendarElement.appointment) {
+        _selectedAppointment = calendarTapDetails.appointments[0];
+      }
+
+      final DateTime selectedDate = calendarTapDetails.date;
+      final CalendarElement targetElement = calendarTapDetails.targetElement;
+
+      /// To open the appointment editor for web,
+      /// when the screen width is greater than 767.
+      if (model.isWeb && !model.isMobileResolution) {
+        final bool _isAppointmentTapped =
+            calendarTapDetails.targetElement == CalendarElement.appointment;
+        showDialog<Widget>(
+            context: context,
+            builder: (BuildContext context) {
+              final List<Appointment> appointment = <Appointment>[];
+              Appointment newAppointment;
+
+              /// Creates a new appointment, which is displayed on the tapped
+              /// calendar element, when the editor is opened.
+              if (_selectedAppointment == null) {
+                _isAllDay = calendarTapDetails.targetElement ==
+                    CalendarElement.allDayPanel;
+                _selectedColorIndex = 0;
+                _subject = '';
+                final DateTime date = calendarTapDetails.date;
+                _startDate = date;
+                _endDate = date.add(const Duration(hours: 1));
+
+                newAppointment = Appointment(
+                  startTime: _startDate,
+                  endTime: _endDate,
+                  resourceIds: <Object>[calendarTapDetails.resource.id],
+                  color: _colorCollection[_selectedColorIndex],
+                  isAllDay: _isAllDay,
+                  subject: _subject == '' ? '(No title)' : _subject,
+                );
+                appointment.add(newAppointment);
+
+                _events.appointments.add(appointment[0]);
+
+                SchedulerBinding.instance
+                    .addPostFrameCallback((Duration duration) {
+                  _events.notifyListeners(
+                      CalendarDataSourceAction.add, appointment);
+                });
+
+                _selectedAppointment = newAppointment;
+              }
+
+              return WillPopScope(
+                onWillPop: () async {
+                  if (newAppointment != null) {
+                    /// To remove the created appointment when the pop-up closed
+                    /// without saving the appointment.
+                    _events.appointments
+                        .removeAt(_events.appointments.indexOf(newAppointment));
+                    _events.notifyListeners(CalendarDataSourceAction.remove,
+                        <Appointment>[]..add(newAppointment));
+                  }
+                  return true;
+                },
+                child: Center(
+                    child: Container(
+                        width: _isAppointmentTapped ? 400 : 500,
+                        height: _isAppointmentTapped
+                            ? (_selectedAppointment.location == null ||
+                                    _selectedAppointment.location.isEmpty
+                                ? 200
+                                : 250)
+                            : 450,
+                        child: Theme(
+                            data: model.themeData,
+                            child: Card(
+                              margin: const EdgeInsets.all(0.0),
+                              color: model.cardThemeColor,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4))),
+                              child: _isAppointmentTapped
+                                  ? displayAppointmentDetails(
+                                      context,
+                                      targetElement,
+                                      selectedDate,
+                                      model,
+                                      _selectedAppointment,
+                                      _colorCollection,
+                                      _colorNames,
+                                      _events,
+                                      _timeZoneCollection)
+                                  : PopUpAppointmentEditor(
+                                      model,
+                                      newAppointment,
+                                      appointment,
+                                      _events,
+                                      _colorCollection,
+                                      _colorNames,
+                                      _selectedAppointment,
+                                      _timeZoneCollection),
+                            )))),
+              );
+            });
+      } else {
+        /// Navigates to the appointment editor page on mobile
+        Navigator.push<Widget>(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => AppointmentEditor(
+                  model,
+                  _selectedAppointment,
+                  targetElement,
+                  selectedDate,
+                  _colorCollection,
+                  _colorNames,
+                  _events,
+                  _timeZoneCollection,
+                  calendarTapDetails.resource)),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final Widget _calendarUI = Column(
-      children: <Widget>[
-        Expanded(
-            flex: 1,
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  height: 50,
-                  width: 200,
-                  alignment: Alignment.centerRight,
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
-                    child: DropDown(
-                        value: _selectedEmployee,
-                        isExpanded: true,
-                        item: employeeCollection.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'John',
-                              child: Row(
-                                children: <Widget>[
-                                  CircleAvatar(
-                                    backgroundImage: ExactAssetImage(userImages[
-                                        employeeCollection.indexOf(value)]),
-                                    minRadius: 10,
-                                    maxRadius: 13,
-                                  ),
-                                  Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 0, 0),
-                                      child: Text('$value',
-                                          style: TextStyle(
-                                              color: model.textColor)))
-                                ],
-                              ));
-                        }).toList(),
-                        valueChanged: (dynamic value) {
-                          onSelectedEmployeeChange(value, model);
-                        }),
-                  ),
-                ))),
-        Expanded(
-            flex: 9,
-            child: Theme(
-                data: model.themeData
-                    .copyWith(accentColor: model.backgroundColor),
-                child: getShiftScheduler(events)))
-      ],
+    return Container(
+      color: model.cardThemeColor,
+      child: Theme(
+          data: model.themeData.copyWith(accentColor: model.backgroundColor),
+          child: _getShiftScheduler(_events, _onCalendarTapped)),
     );
-    final double _screenHeight = MediaQuery.of(context).size.height;
-    return model.isWeb && _screenHeight < 800
-        ? Scrollbar(
-            isAlwaysShown: true,
-            controller: controller,
-            child: ListView(
-              controller: controller,
-              children: <Widget>[
-                Container(
-                  color: model.isWeb
-                      ? model.webSampleBackgroundColor
-                      : model.cardThemeColor,
-                  height: 600,
-                  child: _calendarUI,
-                )
-              ],
-            ))
-        : Container(
-            color: model.isWeb
-                ? model.webSampleBackgroundColor
-                : model.cardThemeColor,
-            child: _calendarUI,
-          );
   }
 
-  void addAppointmentDetails() {
-    subjectCollection = <String>[];
-    subjectCollection.add('Morning');
-    subjectCollection.add('Evening');
-    subjectCollection.add('Night');
-    subjectCollection.add('General');
+  /// Creates the required resource details as list
+  void _addResourceDetails() {
+    _nameCollection = <String>[];
+    _nameCollection.add('John');
+    _nameCollection.add('Bryan');
+    _nameCollection.add('Robert');
+    _nameCollection.add('Kenny');
+    _nameCollection.add('Tia');
+    _nameCollection.add('Theresa');
+    _nameCollection.add('Edith');
+    _nameCollection.add('Brooklyn');
+    _nameCollection.add('James William');
+    _nameCollection.add('Sophia');
+    _nameCollection.add('Elena');
+    _nameCollection.add('Stephen');
+    _nameCollection.add('Zoey Addison');
+    _nameCollection.add('Daniel');
+    _nameCollection.add('Emilia');
+    _nameCollection.add('Kinsley Elena');
+    _nameCollection.add('Daniel');
+    _nameCollection.add('William');
+    _nameCollection.add('Addison');
+    _nameCollection.add('Ruby');
 
-    colorCollection = <Color>[];
-    colorCollection.add(const Color(0xFFFC571D));
-    colorCollection.add(const Color(0xFF36B37B));
-    colorCollection.add(const Color(0xFF3D4FB5));
-    colorCollection.add(const Color(0xFF8B1FA9));
-
-    employeeCollection = <String>[];
-    employeeCollection.add('John');
-    employeeCollection.add('Bryan');
-    employeeCollection.add('Robert');
-    employeeCollection.add('Kenny');
-    employeeCollection.add('Tia');
-    employeeCollection.add('Theresa');
-    employeeCollection.add('Edith');
-
-    userImages = <String>[];
-    userImages.add('images/people_1.png');
-    userImages.add('images/people_2.png');
-    userImages.add('images/people_3.png');
-    userImages.add('images/people_4.png');
-    userImages.add('images/people_5.png');
-    userImages.add('images/people_6.png');
-    userImages.add('images/people_7.png');
-    userImages.add('images/people_8.png');
+    _userImages = <String>[];
+    _userImages.add('images/People_Circle5.png');
+    _userImages.add('images/People_Circle8.png');
+    _userImages.add('images/People_Circle18.png');
+    _userImages.add('images/People_Circle23.png');
+    _userImages.add('images/People_Circle25.png');
+    _userImages.add('images/People_Circle20.png');
+    _userImages.add('images/People_Circle13.png');
+    _userImages.add('images/People_Circle11.png');
+    _userImages.add('images/People_Circle27.png');
+    _userImages.add('images/People_Circle26.png');
+    _userImages.add('images/People_Circle24.png');
+    _userImages.add('images/People_Circle15.png');
   }
 
-  void addAppointments() {
-    shiftCollection = <Shift>[];
-    final DateTime date =
-        DateTime.now().add(Duration(days: -210 + _selectedEmployeeIndex));
-    final String _employeeName = employeeCollection[_selectedEmployeeIndex];
-    for (int j = 0; j < 3; j++) {
-      final DateTime _shiftStartTime = date.add(Duration(days: j * 2));
-      shiftCollection.add(Shift(
-          _employeeName,
-          subjectCollection[j],
-          _shiftStartTime,
-          _shiftStartTime,
-          true,
-          colorCollection[j],
-          _getWeeklyRecurrenceFromWeekday(_shiftStartTime.weekday)));
+  /// Creates the required appointment details as a list.
+  void _addAppointmentDetails() {
+    _subjectCollection = <String>[];
+    _subjectCollection.add('General Meeting');
+    _subjectCollection.add('Plan Execution');
+    _subjectCollection.add('Project Plan');
+    _subjectCollection.add('Consulting');
+    _subjectCollection.add('Support');
+    _subjectCollection.add('Development Meeting');
+    _subjectCollection.add('Scrum');
+    _subjectCollection.add('Project Completion');
+    _subjectCollection.add('Release updates');
+    _subjectCollection.add('Performance Check');
+
+    _colorCollection = <Color>[];
+    _colorCollection.add(const Color(0xFF0F8644));
+    _colorCollection.add(const Color(0xFF8B1FA9));
+    _colorCollection.add(const Color(0xFFD20100));
+    _colorCollection.add(const Color(0xFFFC571D));
+    _colorCollection.add(const Color(0xFF85461E));
+    _colorCollection.add(const Color(0xFF36B37B));
+    _colorCollection.add(const Color(0xFF3D4FB5));
+    _colorCollection.add(const Color(0xFFE47C73));
+    _colorCollection.add(const Color(0xFF636363));
+
+    _colorNames = <String>[];
+    _colorNames.add('Green');
+    _colorNames.add('Purple');
+    _colorNames.add('Red');
+    _colorNames.add('Orange');
+    _colorNames.add('Caramel');
+    _colorNames.add('Light Green');
+    _colorNames.add('Blue');
+    _colorNames.add('Peach');
+    _colorNames.add('Gray');
+
+    _timeZoneCollection = <String>[];
+    _timeZoneCollection.add('Default Time');
+    _timeZoneCollection.add('AUS Central Standard Time');
+    _timeZoneCollection.add('AUS Eastern Standard Time');
+    _timeZoneCollection.add('Afghanistan Standard Time');
+    _timeZoneCollection.add('Alaskan Standard Time');
+    _timeZoneCollection.add('Arab Standard Time');
+    _timeZoneCollection.add('Arabian Standard Time');
+    _timeZoneCollection.add('Arabic Standard Time');
+    _timeZoneCollection.add('Argentina Standard Time');
+    _timeZoneCollection.add('Atlantic Standard Time');
+    _timeZoneCollection.add('Azerbaijan Standard Time');
+    _timeZoneCollection.add('Azores Standard Time');
+    _timeZoneCollection.add('Bahia Standard Time');
+    _timeZoneCollection.add('Bangladesh Standard Time');
+    _timeZoneCollection.add('Belarus Standard Time');
+    _timeZoneCollection.add('Canada Central Standard Time');
+    _timeZoneCollection.add('Cape Verde Standard Time');
+    _timeZoneCollection.add('Caucasus Standard Time');
+    _timeZoneCollection.add('Cen. Australia Standard Time');
+    _timeZoneCollection.add('Central America Standard Time');
+    _timeZoneCollection.add('Central Asia Standard Time');
+    _timeZoneCollection.add('Central Brazilian Standard Time');
+    _timeZoneCollection.add('Central Europe Standard Time');
+    _timeZoneCollection.add('Central European Standard Time');
+    _timeZoneCollection.add('Central Pacific Standard Time');
+    _timeZoneCollection.add('Central Standard Time');
+    _timeZoneCollection.add('China Standard Time');
+    _timeZoneCollection.add('Dateline Standard Time');
+    _timeZoneCollection.add('E. Africa Standard Time');
+    _timeZoneCollection.add('E. Australia Standard Time');
+    _timeZoneCollection.add('E. South America Standard Time');
+    _timeZoneCollection.add('Eastern Standard Time');
+    _timeZoneCollection.add('Egypt Standard Time');
+    _timeZoneCollection.add('Ekaterinburg Standard Time');
+    _timeZoneCollection.add('FLE Standard Time');
+    _timeZoneCollection.add('Fiji Standard Time');
+    _timeZoneCollection.add('GMT Standard Time');
+    _timeZoneCollection.add('GTB Standard Time');
+    _timeZoneCollection.add('Georgian Standard Time');
+    _timeZoneCollection.add('Greenland Standard Time');
+    _timeZoneCollection.add('Greenwich Standard Time');
+    _timeZoneCollection.add('Hawaiian Standard Time');
+    _timeZoneCollection.add('India Standard Time');
+    _timeZoneCollection.add('Iran Standard Time');
+    _timeZoneCollection.add('Israel Standard Time');
+    _timeZoneCollection.add('Jordan Standard Time');
+    _timeZoneCollection.add('Kaliningrad Standard Time');
+    _timeZoneCollection.add('Korea Standard Time');
+    _timeZoneCollection.add('Libya Standard Time');
+    _timeZoneCollection.add('Line Islands Standard Time');
+    _timeZoneCollection.add('Magadan Standard Time');
+    _timeZoneCollection.add('Mauritius Standard Time');
+    _timeZoneCollection.add('Middle East Standard Time');
+    _timeZoneCollection.add('Montevideo Standard Time');
+    _timeZoneCollection.add('Morocco Standard Time');
+    _timeZoneCollection.add('Mountain Standard Time');
+    _timeZoneCollection.add('Mountain Standard Time (Mexico)');
+    _timeZoneCollection.add('Myanmar Standard Time');
+    _timeZoneCollection.add('N. Central Asia Standard Time');
+    _timeZoneCollection.add('Namibia Standard Time');
+    _timeZoneCollection.add('Nepal Standard Time');
+    _timeZoneCollection.add('New Zealand Standard Time');
+    _timeZoneCollection.add('Newfoundland Standard Time');
+    _timeZoneCollection.add('North Asia East Standard Time');
+    _timeZoneCollection.add('North Asia Standard Time');
+    _timeZoneCollection.add('Pacific SA Standard Time');
+    _timeZoneCollection.add('Pacific Standard Time');
+    _timeZoneCollection.add('Pacific Standard Time (Mexico)');
+    _timeZoneCollection.add('Pakistan Standard Time');
+    _timeZoneCollection.add('Paraguay Standard Time');
+    _timeZoneCollection.add('Romance Standard Time');
+    _timeZoneCollection.add('Russia Time Zone 10');
+    _timeZoneCollection.add('Russia Time Zone 11');
+    _timeZoneCollection.add('Russia Time Zone 3');
+    _timeZoneCollection.add('Russian Standard Time');
+    _timeZoneCollection.add('SA Eastern Standard Time');
+    _timeZoneCollection.add('SA Pacific Standard Time');
+    _timeZoneCollection.add('SA Western Standard Time');
+    _timeZoneCollection.add('SE Asia Standard Time');
+    _timeZoneCollection.add('Samoa Standard Time');
+    _timeZoneCollection.add('Singapore Standard Time');
+    _timeZoneCollection.add('South Africa Standard Time');
+    _timeZoneCollection.add('Sri Lanka Standard Time');
+    _timeZoneCollection.add('Syria Standard Time');
+    _timeZoneCollection.add('Taipei Standard Time');
+    _timeZoneCollection.add('Tasmania Standard Time');
+    _timeZoneCollection.add('Tokyo Standard Time');
+    _timeZoneCollection.add('Tonga Standard Time');
+    _timeZoneCollection.add('Turkey Standard Time');
+    _timeZoneCollection.add('US Eastern Standard Time');
+    _timeZoneCollection.add('US Mountain Standard Time');
+    _timeZoneCollection.add('UTC');
+    _timeZoneCollection.add('UTC+12');
+    _timeZoneCollection.add('UTC-02');
+    _timeZoneCollection.add('UTC-11');
+    _timeZoneCollection.add('Ulaanbaatar Standard Time');
+    _timeZoneCollection.add('Venezuela Standard Time');
+    _timeZoneCollection.add('Vladivostok Standard Time');
+    _timeZoneCollection.add('W. Australia Standard Time');
+    _timeZoneCollection.add('W. Central Africa Standard Time');
+    _timeZoneCollection.add('W. Europe Standard Time');
+    _timeZoneCollection.add('West Asia Standard Time');
+    _timeZoneCollection.add('West Pacific Standard Time');
+    _timeZoneCollection.add('Yakutsk Standard Time');
+  }
+
+  /// Method that creates the resource collection for the calendar, with the
+  /// required information.
+  void _addResources() {
+    Random random = Random();
+    for (int i = 0; i < _nameCollection.length; i++) {
+      _employeeCollection.add(CalendarResource(
+          displayName: _nameCollection[i],
+          id: '000' + i.toString(),
+          color: Color.fromRGBO(
+              random.nextInt(255), random.nextInt(255), random.nextInt(255), 1),
+          image:
+              i < _userImages.length ? ExactAssetImage(_userImages[i]) : null));
     }
   }
 
-  String _getWeeklyRecurrenceFromWeekday(int weekday) {
-    String endString = 'MO,TU';
-    if (weekday == 2) {
-      endString = 'TU,WE';
-    } else if (weekday == 3) {
-      endString = 'WE,TH';
-    } else if (weekday == 4) {
-      endString = 'TH,FR';
-    } else if (weekday == 5) {
-      endString = 'FR,SA';
-    } else if (weekday == 6) {
-      endString = 'SA,SU';
-    } else if (weekday == 7) {
-      endString = 'SU,MO';
-    }
+  /// Method that creates the collection the time region for calendar, with
+  /// required information.
+  void _addSpecialRegions() {
+    final DateTime date = DateTime.now();
+    Random random = Random();
+    for (int i = 0; i < _employeeCollection.length; i++) {
+      _specialTimeRegions.add(TimeRegion(
+          startTime: DateTime(date.year, date.month, date.day, 13, 0, 0),
+          endTime: DateTime(date.year, date.month, date.day, 14, 0, 0),
+          text: 'Lunch',
+          resourceIds: <Object>[_employeeCollection[i].id],
+          recurrenceRule: 'FREQ=DAILY;INTERVAL=1'));
 
-    return 'FREQ=WEEKLY;INTERVAL=1;BYDAY=' + endString + ';UNTIL=20301231';
+      if (i % 2 == 0) {
+        continue;
+      }
+
+      final DateTime startDate = DateTime(
+          date.year, date.month, date.day, 17 + random.nextInt(7), 0, 0);
+
+      _specialTimeRegions.add(TimeRegion(
+        startTime: startDate,
+        endTime: startDate.add(Duration(hours: 3)),
+        text: 'Not Available',
+        enablePointerInteraction: false,
+        resourceIds: <Object>[_employeeCollection[i].id],
+      ));
+    }
   }
 
-  SfCalendar getShiftScheduler([CalendarDataSource _calendarDataSource]) {
+  /// Method that creates the collection the data source for calendar, with
+  /// required information.
+  void _addAppointments() {
+    _shiftCollection = <Appointment>[];
+    final Random random = Random();
+    for (int i = 0; i < _employeeCollection.length; i++) {
+      final List<String> _employeeIds = <String>[_employeeCollection[i].id];
+      if (i == _employeeCollection.length - 1) {
+        int index = random.nextInt(5);
+        index = index == i ? index + 1 : index;
+        _employeeIds.add(_employeeCollection[index].id);
+      }
+
+      for (int k = 0; k < 365; k++) {
+        if (_employeeIds.length > 1 && k % 2 == 0) {
+          continue;
+        }
+        for (int j = 0; j < 2; j++) {
+          final DateTime date = DateTime.now().add(Duration(days: k + j));
+          int startHour = 9 + random.nextInt(6);
+          startHour =
+              startHour >= 13 && startHour <= 14 ? startHour + 1 : startHour;
+          final DateTime _shiftStartTime =
+              DateTime(date.year, date.month, date.day, startHour, 0, 0);
+          _shiftCollection.add(Appointment(
+              startTime: _shiftStartTime,
+              endTime: _shiftStartTime.add(Duration(hours: 1)),
+              subject: _subjectCollection[random.nextInt(8)],
+              color: _colorCollection[random.nextInt(8)],
+              startTimeZone: '',
+              endTimeZone: '',
+              resourceIds: _employeeIds));
+        }
+      }
+    }
+  }
+
+  /// Returns the calendar widget based on the properties passed
+  SfCalendar _getShiftScheduler(
+      [CalendarDataSource _calendarDataSource,
+      dynamic calendarTapCallback,
+      dynamic viewChangedCallback]) {
     return SfCalendar(
-      view: CalendarView.month,
-      showNavigationArrow: kIsWeb,
+      showDatePickerButton: true,
+      controller: _calendarController,
+      allowedViews: _allowedViews,
+      specialRegions: _specialTimeRegions,
+      showNavigationArrow: model.isWeb,
       dataSource: _calendarDataSource,
-      monthViewSettings: MonthViewSettings(
-          appointmentDisplayCount: 3,
-          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+      onViewChanged: viewChangedCallback,
+      onTap: calendarTapCallback,
     );
   }
 }
 
-class ShiftDataSource extends CalendarDataSource {
-  ShiftDataSource(this.source);
-
-  List<Shift> source;
-
-  @override
-  List<dynamic> get appointments => source;
-
-  @override
-  DateTime getStartTime(int index) {
-    return source[index].from;
+/// An object to set the appointment collection data source to collection, which
+/// used to map the custom appointment data to the calendar appointment, and
+/// allows to add, remove or reset the appointment collection.
+class _ShiftDataSource extends CalendarDataSource {
+  _ShiftDataSource(
+      List<Appointment> source, List<CalendarResource> resourceColl) {
+    appointments = source;
+    resources = resourceColl;
   }
-
-  @override
-  DateTime getEndTime(int index) {
-    return source[index].to;
-  }
-
-  @override
-  String getSubject(int index) {
-    return source[index].shift;
-  }
-
-  @override
-  Color getColor(int index) {
-    return source[index].background;
-  }
-
-  @override
-  bool isAllDay(int index) {
-    return source[index].isAllDay;
-  }
-
-  @override
-  String getRecurrenceRule(int index) {
-    return source[index].recurrenceRule;
-  }
-}
-
-class Shift {
-  Shift(this.employeeName, this.shift, this.from, this.to, this.isAllDay,
-      this.background, this.recurrenceRule);
-
-  String employeeName;
-  String shift;
-  DateTime from;
-  DateTime to;
-  bool isAllDay;
-  Color background;
-  String recurrenceRule;
 }

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
-import '../../../../widgets/customDropDown.dart';
+import '../../../../widgets/custom_dropdown.dart';
 
 /// Renders the chart with sorting options sample.
 class SortingDefault extends SampleView {
+  /// Creates the chart with sorting options sample.
   const SortingDefault(Key key) : super(key: key);
 
   @override
@@ -41,7 +41,9 @@ class _SortingDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultSortingChart();
+    return Padding(
+        padding: EdgeInsets.only(bottom: model.isWeb ? 0 : 60),
+        child: _getDefaultSortingChart());
   }
 
   @override
@@ -75,7 +77,7 @@ class _SortingDefaultState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onPositionTypeChange(value.toString());
+                            _onPositionTypeChange(value.toString());
                           }),
                     ),
                   )),
@@ -109,7 +111,7 @@ class _SortingDefaultState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onSortingTypeChange(value.toString());
+                            _onSortingTypeChange(value.toString());
                           }),
                     ),
                   )),
@@ -119,11 +121,11 @@ class _SortingDefaultState extends SampleViewState {
       ],
     );
   }
-  
+
   /// Returns the Cartesian chart with sorting options.
-  SfCartesianChart getDefaultSortingChart() {
+  SfCartesianChart _getDefaultSortingChart() {
     return SfCartesianChart(
-      title: ChartTitle(text: isCardView ? '' : "World's tallest buildings"),
+      title: ChartTitle(text: "World's tallest buildings"),
       plotAreaBorderWidth: 0,
       primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
@@ -132,14 +134,15 @@ class _SortingDefaultState extends SampleViewState {
           interval: 100,
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: getDefaultSortingSeries(),
+      series: _getDefaultSortingSeries(),
       tooltipBehavior:
           TooltipBehavior(enable: true, canShowMarker: false, header: ''),
     );
   }
 
-  /// Returns the list of chart series which need to render on the chart with sorting options.
-  List<BarSeries<ChartSampleData, String>> getDefaultSortingSeries() {
+  /// Returns the list of chart series which need to
+  /// render on the chart with sorting options.
+  List<BarSeries<ChartSampleData, String>> _getDefaultSortingSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 'Burj \n Khalifa', y: 828),
       ChartSampleData(x: 'Goldin \n Finance 117', y: 597),
@@ -152,7 +155,7 @@ class _SortingDefaultState extends SampleViewState {
         dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        sortingOrder: _sortingOrder != null ? _sortingOrder : SortingOrder.none,
+        sortingOrder: _sortingOrder ?? SortingOrder.none,
         dataLabelSettings: DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.auto),
         sortFieldValueMapper: (ChartSampleData sales, _) =>
@@ -162,7 +165,7 @@ class _SortingDefaultState extends SampleViewState {
   }
 
   /// Method to update the selected sortBy type in the chart on change.
-  void onPositionTypeChange(String item) {
+  void _onPositionTypeChange(String item) {
     _selectedType = item;
     if (_selectedType == 'y') {
       _sortby = 'y';
@@ -170,11 +173,13 @@ class _SortingDefaultState extends SampleViewState {
     if (_selectedType == 'x') {
       _sortby = 'x';
     }
-    setState(() {});
+    setState(() {
+      /// update the sorting by value change
+    });
   }
 
   /// Method to update the selected sording order in the chart on change.
-  void onSortingTypeChange(String item) {
+  void _onSortingTypeChange(String item) {
     _selectedSortType = item;
     if (_selectedSortType == 'descending') {
       _sortingOrder = SortingOrder.descending;
@@ -183,6 +188,8 @@ class _SortingDefaultState extends SampleViewState {
     } else {
       _sortingOrder = SortingOrder.none;
     }
-    setState(() {});
+    setState(() {
+      /// update the sorting order type change
+    });
   }
 }

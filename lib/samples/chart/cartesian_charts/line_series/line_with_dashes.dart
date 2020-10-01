@@ -1,5 +1,4 @@
 /// Package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Chart import
@@ -8,23 +7,25 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local import
 import '../../../../model/sample_view.dart';
 
+///Renders dashed line series sample
 class LineDashed extends SampleView {
-  const LineDashed(Key key)
-      : super(key: key);
+  ///Creates dashed line series sample
+  const LineDashed(Key key) : super(key: key);
 
   @override
   _LineDashedState createState() => _LineDashedState();
 }
 
 class _LineDashedState extends SampleViewState {
-  _LineDashedState();  
+  _LineDashedState();
 
   @override
   Widget build(BuildContext context) {
-    return getDashedLineChart();
+    return _getDashedLineChart();
   }
 
-  SfCartesianChart getDashedLineChart() {
+  /// Get the cartesian chart with dashed line series
+  SfCartesianChart _getDashedLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -43,13 +44,13 @@ class _LineDashedState extends SampleViewState {
           labelFormat: '{value}%',
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(color: Colors.transparent)),
-      series: getDashedLineSeries(),
+      series: _getDashedLineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
-  /// The method returns line series to chart.
-  List<LineSeries<_ChartData, num>> getDashedLineSeries() {
+  /// The method returns dashed line series to chart.
+  List<LineSeries<_ChartData, num>> _getDashedLineSeries() {
     final List<_ChartData> chartData = <_ChartData>[
       _ChartData(2010, 6.6, 9.0, 15.1, 18.8),
       _ChartData(2011, 6.3, 9.3, 15.5, 18.5),
@@ -62,9 +63,9 @@ class _LineDashedState extends SampleViewState {
     return <LineSeries<_ChartData, num>>[
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          enableTooltip: true,
+
           /// The property uses to render a line with dashes.
-          dashArray: kIsWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
+          dashArray: model.isWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
@@ -73,9 +74,8 @@ class _LineDashedState extends SampleViewState {
           markerSettings: MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          enableTooltip: true,
           dataSource: chartData,
-          dashArray: kIsWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
+          dashArray: model.isWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
           width: 2,
           name: 'Saudi Arabia',
           xValueMapper: (_ChartData sales, _) => sales.x,
@@ -83,20 +83,18 @@ class _LineDashedState extends SampleViewState {
           markerSettings: MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          enableTooltip: true,
           dataSource: chartData,
           width: 2,
-          dashArray: kIsWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
+          dashArray: model.isWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
           name: 'Spain',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y3,
           markerSettings: MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          enableTooltip: true,
           dataSource: chartData,
           width: 2,
-          dashArray: kIsWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
+          dashArray: model.isWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
           name: 'Portugal',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y4,

@@ -8,37 +8,37 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the chart with add and remove series options sample.
 class AddSeries extends SampleView {
+  /// Creates the chart with add and remove series options sample.
   const AddSeries(Key key) : super(key: key);
 
   @override
   _LiveVerticalState createState() => _LiveVerticalState();
 }
 
-/// List holding the collection of chart series data points.
-List<ChartSampleData> chartData = <ChartSampleData>[
-  ChartSampleData(x: 0, y: 10),
-  ChartSampleData(x: 1, y: 13),
-  ChartSampleData(x: 2, y: 20),
-  ChartSampleData(x: 3, y: 10),
-  ChartSampleData(x: 4, y: 32),
-  ChartSampleData(x: 5, y: 19)
-];
-
 /// State class of the chart with add and remove series options.
 class _LiveVerticalState extends SampleViewState {
   _LiveVerticalState();
+
+  /// List holding the collection of chart series data points.
+  static List<ChartSampleData> chartData = <ChartSampleData>[
+    ChartSampleData(x: 0, y: 10),
+    ChartSampleData(x: 1, y: 13),
+    ChartSampleData(x: 2, y: 20),
+    ChartSampleData(x: 3, y: 10),
+    ChartSampleData(x: 4, y: 32),
+    ChartSampleData(x: 5, y: 19)
+  ];
+
   int count = 0;
   List<LineSeries<ChartSampleData, int>> series =
       <LineSeries<ChartSampleData, int>>[
     LineSeries<ChartSampleData, int>(
       dataSource: chartData,
       width: 2,
-      enableTooltip: true,
       xValueMapper: (ChartSampleData sales, _) => sales.x,
       yValueMapper: (ChartSampleData sales, _) => sales.y,
     ),
@@ -52,7 +52,6 @@ class _LiveVerticalState extends SampleViewState {
         ChartSampleData(x: 5, y: 48)
       ],
       width: 2,
-      enableTooltip: true,
       xValueMapper: (ChartSampleData sales, _) => sales.x,
       yValueMapper: (ChartSampleData sales, _) => sales.y,
     ),
@@ -67,52 +66,53 @@ class _LiveVerticalState extends SampleViewState {
           padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
           child: Container(child: getAddRemoveSeriesChart()),
         ),
-        floatingActionButton: isCardView ? null : 
-        Stack(children: <Widget>[
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
-              child: Container(
-                height: 50,
-                width: model.isWeb ? 180 : 120,
-                child: InkWell(
-                  splashColor: Colors.transparent,
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                          width: model.isWeb ? 65 : 45,
-                          height: 50,
-                          child: IconButton(
-                            splashColor: Colors.transparent,
-                              icon: Icon(Icons.add_circle,
-                                  size: 50, color: model.backgroundColor),
-                              onPressed: () {
-                                setState(() {
-                                  getSeries(model);
-                                });
-                              })),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: SizedBox(
-                            width: 65,
-                            height: 50,
-                            child: IconButton(
-                              splashColor: Colors.transparent,
-                              icon: Icon(Icons.remove_circle,
-                                  size: 50, color: model.backgroundColor),
-                              onPressed: () => setState(() {
-                                getSeries1(model);
-                              }),
-                            ),
-                          ))
-                    ],
+        floatingActionButton: isCardView
+            ? null
+            : Stack(children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+                    child: Container(
+                      height: 50,
+                      width: model.isWeb ? 180 : 120,
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(
+                                width: model.isWeb ? 65 : 45,
+                                height: 50,
+                                child: IconButton(
+                                    splashColor: Colors.transparent,
+                                    icon: Icon(Icons.add_circle,
+                                        size: 50, color: model.backgroundColor),
+                                    onPressed: () {
+                                      setState(() {
+                                        _addSeries();
+                                      });
+                                    })),
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: SizedBox(
+                                  width: 65,
+                                  height: 50,
+                                  child: IconButton(
+                                    splashColor: Colors.transparent,
+                                    icon: Icon(Icons.remove_circle,
+                                        size: 50, color: model.backgroundColor),
+                                    onPressed: () => setState(() {
+                                      _removeSeries();
+                                    }),
+                                  ),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          )
-        ]));
+                )
+              ]));
   }
 
   /// Returns the chart with add and remove series options.
@@ -129,7 +129,6 @@ class _LiveVerticalState extends SampleViewState {
           ChartSampleData(x: 5, y: 19)
         ],
         width: 2,
-        enableTooltip: true,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
@@ -143,7 +142,6 @@ class _LiveVerticalState extends SampleViewState {
           ChartSampleData(x: 5, y: 48)
         ],
         width: 2,
-        enableTooltip: true,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       )
@@ -160,23 +158,27 @@ class _LiveVerticalState extends SampleViewState {
     );
   }
 
-  num getRandomInt(num min, num max) {
+  ///Get the random data point
+  num _getRandomInt(num min, num max) {
     final Random _random = Random();
     return min + _random.nextInt(max - min);
   }
 
-  void getSeries1(SampleModel model) {
+  ///Remove the series from chart
+  void _removeSeries() {
     if (series != null && series.isNotEmpty) {
       series.removeLast();
     }
   }
 
-  void getSeries(SampleModel model) {
+  ///Add series into the chart
+  void _addSeries() {
     final List<ChartSampleData> chartData1 = <ChartSampleData>[];
     for (int i = 0; i <= 6; i++) {
-      chartData1.add(ChartSampleData(x: i, y: getRandomInt(10, 50)));
+      chartData1.add(ChartSampleData(x: i, y: _getRandomInt(10, 50)));
     }
     series.add(LineSeries<ChartSampleData, int>(
+      key: ValueKey('${series.length}'),
       dataSource: chartData1,
       xValueMapper: (ChartSampleData sales, _) => sales.x,
       yValueMapper: (ChartSampleData sales, _) => sales.y,

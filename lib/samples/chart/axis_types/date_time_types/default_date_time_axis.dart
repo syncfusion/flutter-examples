@@ -1,15 +1,15 @@
 /// Package import
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the line chart with default data time axis sample.
 class DateTimeDefault extends SampleView {
+  /// Creates the line chart with default data time axis sample.
   const DateTimeDefault(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _DateTimeDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultDateTimeAxisChart();
+    return _getDefaultDateTimeAxisChart();
   }
 
   /// Returns the line chart with default datetime axis.
-  SfCartesianChart getDefaultDateTimeAxisChart() {
+  SfCartesianChart _getDefaultDateTimeAxisChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(
@@ -43,7 +43,7 @@ class _DateTimeDefaultState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0),
         ),
-        series: getDefaultDateTimeSeries(),
+        series: _getDefaultDateTimeSeries(),
         trackballBehavior: TrackballBehavior(
             enable: true,
             activationMode: ActivationMode.singleTap,
@@ -52,7 +52,7 @@ class _DateTimeDefaultState extends SampleViewState {
   }
 
   /// Returns the line chart with default data time axis.
-  List<LineSeries<ChartSampleData, DateTime>> getDefaultDateTimeSeries() {
+  List<LineSeries<ChartSampleData, DateTime>> _getDefaultDateTimeSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: DateTime(2015, 1, 1), yValue: 1.13),
       ChartSampleData(x: DateTime(2015, 2, 1), yValue: 1.12),

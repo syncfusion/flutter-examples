@@ -1,0 +1,223 @@
+/// Dart import
+import 'dart:async';
+import 'dart:io';
+import 'dart:ui' as dart_ui;
+
+///Package imports
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+
+/// Chart import
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+
+/// Local imports
+import '../../../model/sample_view.dart';
+
+import '../../pdf/helper/save_file_mobile.dart'
+    if (dart.library.html) '../../pdf/helper/save_file_web.dart';
+
+///Renders default column chart sample
+class Export extends SampleView {
+  ///Renders default column chart sample
+  const Export(Key key) : super(key: key);
+
+  @override
+  _ExportState createState() => _ExportState();
+}
+
+class _ExportState extends SampleViewState {
+  _ExportState();
+  final GlobalKey<SfCartesianChartState> _chartKey = GlobalKey();
+  // ScaffoldState _scaffoldState;
+
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        key: scaffoldKey,
+        body: Column(children: [
+          Expanded(child: _getDefaultColumnChart()),
+          Container(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Row(
+                children: [
+                  Spacer(),
+                  Container(
+                      decoration: BoxDecoration(boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: const Offset(0, 4.0),
+                          blurRadius: 4.0,
+                        ),
+                      ], shape: BoxShape.circle, color: model.backgroundColor),
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        onPressed: () {
+                          scaffoldKey.currentState.showSnackBar(SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            duration: Duration(milliseconds: 100),
+                            content:
+                                Text("Chart has been exported as PNG image"),
+                          ));
+                          _renderImage();
+                        },
+                        icon: Icon(Icons.image, color: Colors.white),
+                      )),
+                  Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: const Offset(0, 4.0),
+                          blurRadius: 4.0,
+                        ),
+                      ], shape: BoxShape.circle, color: model.backgroundColor),
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        onPressed: () {
+                          scaffoldKey.currentState.showSnackBar(SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            duration: Duration(milliseconds: 2000),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            content:
+                                Text("Chart is being exported as PDF document"),
+                          ));
+                          _renderPdf();
+                        },
+                        icon: Icon(Icons.picture_as_pdf, color: Colors.white),
+                      )),
+                ],
+              ))
+        ]));
+  }
+
+  /// Get default column chart
+  SfCartesianChart _getDefaultColumnChart() {
+    return SfCartesianChart(
+      legend: Legend(isVisible: true),
+      key: _chartKey,
+      plotAreaBackgroundColor: model.cardThemeColor,
+      backgroundColor: model.cardThemeColor,
+      plotAreaBorderWidth: 0,
+      plotAreaBorderColor: Colors.grey.withOpacity(0.7),
+      title: ChartTitle(text: 'Average rainfall amount (mm) and rainy days'),
+      primaryXAxis: CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      primaryYAxis: NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
+        minimum: 0,
+        maximum: 250,
+        interval: 50,
+        // title: AxisTitle(text: 'Average rainfall in mm')
+      ),
+      axes: [
+        NumericAxis(
+            name: 'YAxis',
+            // title: AxisTitle(text: 'Rainy days'),
+            opposedPosition: true,
+            majorGridLines: MajorGridLines(width: 0),
+            minimum: 0,
+            maximum: 30,
+            interval: 5)
+      ],
+      series: _getDefaultColumnSeries(),
+      tooltipBehavior: TooltipBehavior(enable: true),
+    );
+  }
+
+  /// Get default column series
+  List<ChartSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
+    final List<ChartSampleData> chartData = <ChartSampleData>[
+      ChartSampleData(x: 'Jan \'19', y: 184.9, yValue: 17),
+      ChartSampleData(x: 'Feb \'19', y: 160.3, yValue: 18),
+      ChartSampleData(x: 'Mar \'19', y: 70.6, yValue: 13),
+      ChartSampleData(x: 'Apr \'19', y: 201.4, yValue: 17),
+      ChartSampleData(x: 'May \'19', y: 86.7, yValue: 15),
+      ChartSampleData(x: 'Jun \'19', y: 151.5, yValue: 23),
+    ];
+    return <ChartSeries<ChartSampleData, String>>[
+      ColumnSeries<ChartSampleData, String>(
+          name: 'Rainy days',
+          dataSource: chartData,
+          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          yValueMapper: (ChartSampleData sales, _) => sales.yValue,
+          yAxisName: 'YAxis'),
+      LineSeries<ChartSampleData, String>(
+          name: 'Rainfall amount',
+          dataSource: chartData,
+          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          yValueMapper: (ChartSampleData sales, _) => sales.y,
+          markerSettings: MarkerSettings(isVisible: true)),
+    ];
+  }
+
+  Future<void> _renderImage() async {
+    final bytes = await _readImageData();
+    if (bytes != null) {
+      final Directory documentDirectory =
+          await getApplicationDocumentsDirectory();
+      final String path = documentDirectory.path;
+      final String imageName = 'cartesianchart.png';
+      imageCache.clear();
+      File file = new File('$path/$imageName');
+      file.writeAsBytesSync(bytes);
+
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(),
+              body: Center(
+                child: Container(
+                  color: Colors.white,
+                  child: Image.file(file),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> _renderPdf() async {
+    final PdfDocument document = PdfDocument();
+    final PdfBitmap bitmap = PdfBitmap(await _readImageData());
+    document.pageSettings.orientation =
+        MediaQuery.of(context).orientation == Orientation.landscape
+            ? PdfPageOrientation.landscape
+            : PdfPageOrientation.portrait;
+    document.pageSettings.margins.all = 0;
+    document.pageSettings.size =
+        Size(bitmap.width.toDouble(), bitmap.height.toDouble());
+    final PdfPage page = document.pages.add();
+    final Size pageSize = page.getClientSize();
+    page.graphics.drawImage(
+        bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+
+    scaffoldKey.currentState.hideCurrentSnackBar();
+    scaffoldKey.currentState.showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      duration: Duration(milliseconds: 200),
+      content: Text("Chart has been exported as PDF document."),
+    ));
+    final List<int> bytes = document.save();
+    document.dispose();
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'cartesian_chart.pdf');
+  }
+
+  Future<List<int>> _readImageData() async {
+    dart_ui.Image data = await _chartKey.currentState.toImage(pixelRatio: 3.0);
+    final bytes = await data.toByteData(format: dart_ui.ImageByteFormat.png);
+    return bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+  }
+}

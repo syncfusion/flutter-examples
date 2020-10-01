@@ -6,11 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the Area chart with gradient sample.
 class AreaGradient extends SampleView {
+  /// Creates the Area chart with gradient sample.
   const AreaGradient(Key key) : super(key: key);
 
   @override
@@ -23,11 +23,11 @@ class _AreaGradientState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getGradientAreaChart();
+    return _getGradientAreaChart();
   }
 
   /// Returns the cartesian area chart with gradient.
-  SfCartesianChart getGradientAreaChart() {
+  SfCartesianChart _getGradientAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Annual rainfall of Paris'),
@@ -43,14 +43,15 @@ class _AreaGradientState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           labelFormat: '{value}mm',
           majorTickLines: MajorTickLines(size: 0)),
-      series: getGradientAreaSeries(),
+      series: _getGradientAreaSeries(),
       tooltipBehavior:
           TooltipBehavior(enable: true, header: '', canShowMarker: false),
     );
   }
 
-  /// Returns the list of chart series which need to render on the gradient area chart.
-  List<AreaSeries<ChartSampleData, DateTime>> getGradientAreaSeries() {
+  /// Returns the list of chart series
+  /// which need to render on the gradient area chart.
+  List<AreaSeries<ChartSampleData, DateTime>> _getGradientAreaSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: DateTime(1924), y: 400),
       ChartSampleData(x: DateTime(1925), y: 415),
@@ -83,11 +84,12 @@ class _AreaGradientState extends SampleViewState {
     stops.add(0.0);
     stops.add(1.0);
 
-    final LinearGradient gradientColors =
-        LinearGradient(colors: color, stops: stops, transform: GradientRotation(270.toDouble() * 3.14 / 180));
+    final LinearGradient gradientColors = LinearGradient(
+        colors: color,
+        stops: stops,
+        transform: GradientRotation(270.toDouble() * 3.14 / 180));
     return <AreaSeries<ChartSampleData, DateTime>>[
       AreaSeries<ChartSampleData, DateTime>(
-        enableTooltip: true,
         /// To apply the gradient colors here.
         gradient: gradientColors,
         dataSource: chartData,

@@ -1,12 +1,20 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
+///flutter package import
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
 
+///Core theme import
+import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+///Local imports
+import '../../../../model/sample_view.dart';
+import '../../slider_utils.dart';
+
+/// Renders slider with step duration
 class SliderStepDurationPage extends SampleView {
+  /// Creates slider with step duration
   const SliderStepDurationPage(Key key) : super(key: key);
 
   @override
@@ -20,12 +28,13 @@ class _SliderStepDurationPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    rangeSlider = SliderStepDurationView();
+    rangeSlider = _SliderStepDurationView();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(height: 300, child: rangeSlider),
@@ -33,8 +42,7 @@ class _SliderStepDurationPageState extends SampleViewState {
   }
 }
 
-// ignore: must_be_immutable
-class SliderStepDurationView extends SampleView {
+class _SliderStepDurationView extends SampleView {
   @override
   _SliderStepDurationState createState() => _SliderStepDurationState();
 }
@@ -104,10 +112,7 @@ class _SliderStepDurationState extends SampleViewState {
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(
@@ -127,6 +132,6 @@ class _SliderStepDurationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWeb ? _getWebLayout() : _getMobileLayout();
   }
 }

@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import 
+/// Local import
 import '../../../../model/sample_view.dart';
 
 /// Renders the stacked column 100 chart sample.
 class StackedColumn100Chart extends SampleView {
+  /// Creates the stacked column 100 chart sample.
   const StackedColumn100Chart(Key key) : super(key: key);
 
   @override
@@ -21,11 +22,11 @@ class _StackedColumn100ChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getStackedColumn100Chart();
+    return _getStackedColumn100Chart();
   }
 
   /// Returns the cartesian stacked column 100 chart.
-  SfCartesianChart getStackedColumn100Chart() {
+  SfCartesianChart _getStackedColumn100Chart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -45,7 +46,8 @@ class _StackedColumn100ChartState extends SampleViewState {
     );
   }
 
-  /// Returns the list of chart series which need to render on the stacked column 1oo chart.
+  /// Returns the list of chart series
+  /// which need to render on the stacked column 1oo chart.
   List<ChartSeries<_ChartData, String>> _getStackedColumnSeries() {
     final List<_ChartData> chartData = <_ChartData>[
       _ChartData('Q1', 50, 55, 72, 65),
@@ -55,28 +57,24 @@ class _StackedColumn100ChartState extends SampleViewState {
     ];
     return <ChartSeries<_ChartData, String>>[
       StackedColumn100Series<_ChartData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           dataLabelSettings: DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y1,
           name: 'Product A'),
       StackedColumn100Series<_ChartData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           dataLabelSettings: DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2,
           name: 'Product B'),
       StackedColumn100Series<_ChartData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           dataLabelSettings: DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y3,
           name: 'Product C'),
       StackedColumn100Series<_ChartData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           dataLabelSettings: DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,

@@ -1,13 +1,19 @@
-//import 'dart:async';
+/// Dart import
 import 'dart:async';
 import 'dart:math' as math;
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 
+/// Package imports
+import 'package:flutter/material.dart';
+
+/// Barcode import
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+/// Local import
+import '../../../model/sample_view.dart';
+
+/// Renders real time value change data grid
 class RealTimeUpdateDataGrid extends SampleView {
+  /// Creates real time value change data grid
   const RealTimeUpdateDataGrid({Key key}) : super(key: key);
 
   @override
@@ -15,19 +21,18 @@ class RealTimeUpdateDataGrid extends SampleView {
       _RealTimeUpdateDataGridPageState();
 }
 
-List<Stock> _stockData;
+List<_Stock> _stockData;
 
 class _RealTimeUpdateDataGridPageState extends SampleViewState {
   _RealTimeUpdateDataGridPageState();
 
-  Widget sampleWidget(SampleModel model) => const RealTimeUpdateDataGrid();
-
   final math.Random _random = math.Random();
 
-  final RealTimeUpdateDataGridSource _realTimeUpdateDataGridSource =
-      RealTimeUpdateDataGridSource();
+  final _RealTimeUpdateDataGridSource _realTimeUpdateDataGridSource =
+      _RealTimeUpdateDataGridSource();
 
   Timer _timer;
+  bool _isLandscapeInMobileView;
 
   final Map<double, Image> _images = <double, Image>{
     1: Image.asset(
@@ -108,10 +113,10 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
     'HFTB',
   ];
 
-  List<Stock> generateList(int count) {
-    final List<Stock> stockData = <Stock>[];
+  List<_Stock> _generateList(int count) {
+    final List<_Stock> stockData = <_Stock>[];
     for (int i = 1; i < _symbols.length; i++) {
-      stockData.add(Stock(
+      stockData.add(_Stock(
           _symbols[i],
           _stocks[_random.nextInt(_stocks.length - 1)],
           50.0 + _random.nextInt(40),
@@ -124,17 +129,17 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    _stockData = generateList(100);
+    _stockData = _generateList(100);
     _timer = Timer.periodic(const Duration(milliseconds: 200), (Timer args) {
       timerTick(args);
     });
   }
 
   void timerTick(Timer args) {
-    changeRows(100);
+    _changeRows(100);
   }
 
-  void changeRows(int count) {
+  void _changeRows(int count) {
     if (_stockData.length < count) {
       count = _stockData.length;
     }
@@ -143,19 +148,19 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
       final int recNo = _random.nextInt(_stockData.length - 1);
 
       _stockData[recNo].stock = _stocks[(_random.nextInt(_stocks.length - 1))];
-      _realTimeUpdateDataGridSource.notifyDataSourceListeners(
+      _realTimeUpdateDataGridSource.updateDataSource(
           rowColumnIndex: RowColumnIndex(recNo, 1));
 
       _stockData[recNo].open = 50.0 + _random.nextInt(40);
-      _realTimeUpdateDataGridSource.notifyDataSourceListeners(
+      _realTimeUpdateDataGridSource.updateDataSource(
           rowColumnIndex: RowColumnIndex(recNo, 2));
 
       _stockData[recNo].previousClose = 50.0 + _random.nextInt(30);
-      _realTimeUpdateDataGridSource.notifyDataSourceListeners(
+      _realTimeUpdateDataGridSource.updateDataSource(
           rowColumnIndex: RowColumnIndex(recNo, 3));
 
       _stockData[recNo].lastTrade = 50 + _random.nextInt(20);
-      _realTimeUpdateDataGridSource.notifyDataSourceListeners(
+      _realTimeUpdateDataGridSource.updateDataSource(
           rowColumnIndex: RowColumnIndex(recNo, 4));
     }
   }
@@ -166,15 +171,16 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
       cellBuilder: (BuildContext context, GridColumn column, int rowIndex) {
         if (column.mappingName == 'stock') {
           final double stock = _stockData[rowIndex].stock;
-          if (stock >= 0.5)
-            return getWidget(_images[1], stock);
-          else
-            return getWidget(_images[0], stock);
+          return stock >= 0.5
+              ? _getWidget(_images[1], stock)
+              : _getWidget(_images[0], stock);
         } else {
           return null;
         }
       },
-      columnWidthMode: kIsWeb ? ColumnWidthMode.fill : ColumnWidthMode.header,
+      columnWidthMode: model.isWeb || _isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.header,
       columns: <GridColumn>[
         GridTextColumn(mappingName: 'symbol')
           ..headerText = 'Symbol'
@@ -200,13 +206,13 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
     );
   }
 
-  Widget getWidget(Image image, double stack) {
+  Widget _getWidget(Image image, double stack) {
     return Container(
       padding: const EdgeInsets.all(4),
       color: Colors.transparent,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: kIsWeb
+        children: model.isWeb
             ? <Widget>[
                 Container(width: 20, child: image),
                 Container(
@@ -218,8 +224,10 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
               ]
             : <Widget>[
                 Container(child: image),
-                const SizedBox(width: 6.0,),
-                Expanded(
+                const SizedBox(
+                  width: 6.0,
+                ),
+                Flexible(
                   child: Text(
                     stack.toString(),
                     textScaleFactor: 1.0,
@@ -228,6 +236,13 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
               ],
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _isLandscapeInMobileView = !model.isWeb &&
+        MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   @override
@@ -242,8 +257,9 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
   }
 }
 
-class Stock {
-  Stock(this.symbol, this.stock, this.open, this.previousClose, this.lastTrade);
+class _Stock {
+  _Stock(
+      this.symbol, this.stock, this.open, this.previousClose, this.lastTrade);
   String symbol;
   double stock;
   double open;
@@ -251,28 +267,32 @@ class Stock {
   int lastTrade;
 }
 
-class RealTimeUpdateDataGridSource extends DataGridSource {
-  RealTimeUpdateDataGridSource();
+class _RealTimeUpdateDataGridSource extends DataGridSource<_Stock> {
+  _RealTimeUpdateDataGridSource();
   @override
-  List<Object> get dataSource => _stockData;
+  List<_Stock> get dataSource => _stockData;
   @override
-  Object getCellValue(int rowIndex, String columnName) {
+  Object getValue(_Stock _stock, String columnName) {
     switch (columnName) {
       case 'symbol':
-        return _stockData[rowIndex].symbol;
+        return _stock.symbol;
         break;
       case 'open':
-        return _stockData[rowIndex].open;
+        return _stock.open;
         break;
       case 'previousClose':
-        return _stockData[rowIndex].previousClose;
+        return _stock.previousClose;
         break;
       case 'lastTrade':
-        return _stockData[rowIndex].lastTrade;
+        return _stock.lastTrade;
         break;
       default:
         return 'empty';
         break;
     }
+  }
+
+  void updateDataSource({RowColumnIndex rowColumnIndex}) {
+    notifyDataSourceListeners(rowColumnIndex: rowColumnIndex);
   }
 }

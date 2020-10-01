@@ -1,12 +1,20 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
+///flutter package import
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
 
+///Core theme import
+import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+///Local imports
+import '../../../../../model/sample_view.dart';
+import '../../../slider_utils.dart';
+
+///Renders slider with customized color
 class SliderColorCustomizationPage extends SampleView {
+  ///Creates slider with customized color
   const SliderColorCustomizationPage(Key key) : super(key: key);
 
   @override
@@ -21,12 +29,13 @@ class _SliderColorCustomizationPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    slider = SliderColorCustomization();
+    slider = _SliderColorCustomization();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? slider
         : SingleChildScrollView(
             child: Container(height: 325, child: slider),
@@ -34,8 +43,7 @@ class _SliderColorCustomizationPageState extends SampleViewState {
   }
 }
 
-// ignore: must_be_immutable
-class SliderColorCustomization extends SampleView {
+class _SliderColorCustomization extends SampleView {
   @override
   _SliderColorCustomizationState createState() =>
       _SliderColorCustomizationState();
@@ -51,8 +59,6 @@ class _SliderColorCustomizationState extends SampleViewState {
             activeTrackColor: Colors.teal,
             inactiveTrackColor: Colors.teal.withOpacity(0.24),
             thumbColor: Colors.teal,
-            activeTrackHeight: 5.0,
-            inactiveTrackHeight: 5.0,
             tooltipBackgroundColor: Colors.teal,
             overlayColor: Colors.teal.withOpacity(0.24)),
         child: SfSlider(
@@ -74,10 +80,10 @@ class _SliderColorCustomizationState extends SampleViewState {
   SfSliderTheme _sliderWithThumbStrokeColorCustomization() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-            activeTrackHeight: 5.0,
-            inactiveTrackHeight: 5.0,
-            inactiveDivisorColor: kIsWeb ? model.webBackgroundColor: model.cardThemeColor,
-            activeDivisorColor: kIsWeb ? model.webBackgroundColor: model.cardThemeColor,
+            inactiveDivisorColor:
+                model.isWeb ? model.webBackgroundColor : model.cardThemeColor,
+            activeDivisorColor:
+                model.isWeb ? model.webBackgroundColor : model.cardThemeColor,
             activeDivisorStrokeWidth: 2,
             activeDivisorStrokeColor: Colors.deepOrange.withOpacity(0.24),
             inactiveDivisorStrokeWidth: 2,
@@ -87,7 +93,8 @@ class _SliderColorCustomizationState extends SampleViewState {
             activeTrackColor: Colors.deepOrange,
             inactiveTrackColor: Colors.deepOrange.withOpacity(0.24),
             overlayColor: Colors.deepOrange.withOpacity(0.12),
-            thumbColor: kIsWeb ? model.webBackgroundColor: model.cardThemeColor,
+            thumbColor:
+                model.isWeb ? model.webBackgroundColor : model.cardThemeColor,
             thumbStrokeWidth: 2.0,
             tooltipBackgroundColor: Colors.deepOrange,
             thumbStrokeColor: Colors.deepOrange),
@@ -118,10 +125,7 @@ class _SliderColorCustomizationState extends SampleViewState {
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(
@@ -141,6 +145,6 @@ class _SliderColorCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWeb ? _getWebLayout() : _getMobileLayout();
   }
 }

@@ -1,11 +1,19 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
+///flutter package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
 
+///Core theme import
+import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+///Local imports
+import '../../../../../model/sample_view.dart';
+import '../../../slider_utils.dart';
+
+///Renders slider with customized thumb
 class ThumbCustomizationSliderPage extends SampleView {
+  ///Creates slider with customized thumb
   const ThumbCustomizationSliderPage(Key key) : super(key: key);
 
   @override
@@ -20,12 +28,13 @@ class _ThumbCustomizationSliderPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    slider = ThumbCustomizationSlider();
+    slider = _ThumbCustomizationSlider();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? slider
         : SingleChildScrollView(
             child: Container(height: 300, child: slider),
@@ -33,8 +42,7 @@ class _ThumbCustomizationSliderPageState extends SampleViewState {
   }
 }
 
-// ignore: must_be_immutable
-class ThumbCustomizationSlider extends SampleView {
+class _ThumbCustomizationSlider extends SampleView {
   @override
   _ThumbCustomizationSliderState createState() =>
       _ThumbCustomizationSliderState();
@@ -49,10 +57,9 @@ class _ThumbCustomizationSliderState extends SampleViewState {
   SfSliderTheme _thumbIconSlider() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-            thumbRadius: 16,
-            tooltipBackgroundColor: model.backgroundColor,
-            activeTrackHeight: 5.0,
-            inactiveTrackHeight: 5.0),
+          thumbRadius: 16,
+          tooltipBackgroundColor: model.backgroundColor,
+        ),
         child: SfSlider(
           interval: 2.0,
           min: _thumbMin,
@@ -87,8 +94,7 @@ class _ThumbCustomizationSliderState extends SampleViewState {
 
   SfSliderTheme _thumbCustomizationSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(
-            activeTrackHeight: 3.0, inactiveTrackHeight: 3.0, thumbRadius: 14),
+        data: SfSliderThemeData(thumbRadius: 14),
         child: SfSlider(
           interval: 2.0,
           min: 0.0,
@@ -121,10 +127,7 @@ class _ThumbCustomizationSliderState extends SampleViewState {
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(
@@ -144,6 +147,6 @@ class _ThumbCustomizationSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWeb ? _getWebLayout() : _getMobileLayout();
   }
 }

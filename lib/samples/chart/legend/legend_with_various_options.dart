@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/widgets/checkbox.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
+import '../../../model/sample_view.dart';
+import '../../../widgets/checkbox.dart';
+import '../../../widgets/custom_dropdown.dart';
 
+/// Renders the Pie chart with legend
 class LegendOptions extends SampleView {
+  /// Creates the doughnut chart with legend
   const LegendOptions(Key key) : super(key: key);
 
   @override
@@ -28,7 +29,8 @@ class _LegendOptionsState extends SampleViewState {
   final List<String> _modeList = <String>['wrap', 'scroll', 'none'].toList();
   String _selectedMode = 'wrap';
   LegendItemOverflowMode _overflowMode = LegendItemOverflowMode.wrap;
-  
+
+  @override
   Widget buildSettings(BuildContext context) {
     return ListView(
       children: <Widget>[
@@ -59,7 +61,7 @@ class _LegendOptionsState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onPositionTypeChange(value.toString(), model);
+                            _onPositionTypeChange(value.toString());
                           })),
                 ),
               ),
@@ -92,7 +94,7 @@ class _LegendOptionsState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onModeTypeChange(value, model);
+                            _onModeTypeChange(value);
                           })),
                 ),
               ),
@@ -110,7 +112,7 @@ class _LegendOptionsState extends SampleViewState {
                       fontWeight: FontWeight.normal)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: BottomSheetCheckbox(
+                child: CustomCheckBox(
                   activeColor: model.backgroundColor,
                   switchValue: toggleVisibility,
                   valueChanged: (dynamic value) {
@@ -129,170 +131,79 @@ class _LegendOptionsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getLegendOptionsChart();
+    return _getLegendOptionsChart();
   }
 
-SfCircularChart getLegendOptionsChart() {
-  // final bool isExistModel = sampleModel != null && sampleModel.isWeb;
-  return SfCircularChart(
-    title: ChartTitle(text: isCardView ? '' : 'Expenses by category'),
-    legend: Legend(
-        isVisible: true,
-        position: /*isExistModel ? sampleModel.properties['Position'] :*/ _position,
-        overflowMode: 
-        // isExistModel
-        //     ? sampleModel.properties['OverflowMode']
-             _overflowMode,
-        toggleSeriesVisibility: 
-        // isExistModel
-        //     ? sampleModel.properties['ToggleVisibility']
-             toggleVisibility),
-    series: getLegendOptionsSeries(isCardView),
-    tooltipBehavior: TooltipBehavior(enable: true),
-  );
-}
+  ///Get the circular chart which has legend
+  SfCircularChart _getLegendOptionsChart() {
+    return SfCircularChart(
+      title: ChartTitle(text: isCardView ? '' : 'Expenses by category'),
+      legend: Legend(
+          isVisible: true,
+          position: _position,
+          overflowMode: _overflowMode,
+          toggleSeriesVisibility: toggleVisibility),
+      series: _getLegendOptionsSeries(),
+      tooltipBehavior: TooltipBehavior(enable: true),
+    );
+  }
 
-List<PieSeries<ChartSampleData, String>> getLegendOptionsSeries(
-    bool isCardView) {
-  final List<ChartSampleData> pieData = <ChartSampleData>[
-    ChartSampleData(x: 'Tution Fees', y: 21),
-    ChartSampleData(x: 'Entertainment', y: 21),
-    ChartSampleData(x: 'Private Gifts', y: 8),
-    ChartSampleData(x: 'Local Revenue', y: 21),
-    ChartSampleData(x: 'Federal Revenue', y: 16),
-    ChartSampleData(x: 'Others', y: 8)
-  ];
-  return <PieSeries<ChartSampleData, String>>[
-    PieSeries<ChartSampleData, String>(
-        dataSource: pieData,
-        xValueMapper: (ChartSampleData data, _) => data.x,
-        yValueMapper: (ChartSampleData data, _) => data.y,
-        startAngle: 90,
-        endAngle: 90,
-        dataLabelSettings: DataLabelSettings(isVisible: true)),
-  ];
-}
+  ///Get the pie series
+  List<PieSeries<ChartSampleData, String>> _getLegendOptionsSeries() {
+    final List<ChartSampleData> pieData = <ChartSampleData>[
+      ChartSampleData(x: 'Tution Fees', y: 21),
+      ChartSampleData(x: 'Entertainment', y: 21),
+      ChartSampleData(x: 'Private Gifts', y: 8),
+      ChartSampleData(x: 'Local Revenue', y: 21),
+      ChartSampleData(x: 'Federal Revenue', y: 16),
+      ChartSampleData(x: 'Others', y: 8)
+    ];
+    return <PieSeries<ChartSampleData, String>>[
+      PieSeries<ChartSampleData, String>(
+          dataSource: pieData,
+          xValueMapper: (ChartSampleData data, _) => data.x,
+          yValueMapper: (ChartSampleData data, _) => data.y,
+          startAngle: 90,
+          endAngle: 90,
+          dataLabelSettings: DataLabelSettings(isVisible: true)),
+    ];
+  }
 
-//ignore: must_be_immutable
-// class LegendWithOptionsFrontPanel extends StatefulWidget {
-//   //ignore: prefer_const_constructors_in_immutables
-//   LegendWithOptionsFrontPanel([this.sample]);
-//   SubItem sample;
-
-//   @override
-//   _LegendWithOptionsFrontPanelState createState() =>
-//       _LegendWithOptionsFrontPanelState(sample);
-// }
-
-// class _LegendWithOptionsFrontPanelState
-//     extends State<LegendWithOptionsFrontPanel> {
-//   _LegendWithOptionsFrontPanelState(this.sample);
-//   final SubItem sample;
-  
-//   Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
-//       _showSettingsPanel(model, init, context);
-//   Widget sampleWidget(SampleModel model) =>
-//       getLegendOptionsChart(false, null, null, null, model);
-
-//   @override
-//   void initState() {
-//     initProperties();
-//     super.initState();
-//   }
-
-//   void initProperties([SampleModel sampleModel, bool init]) {
-//     toggleVisibility = true;
-//     _selectedPosition = 'auto';
-//     _position = LegendPosition.auto;
-//     _selectedMode = 'wrap';
-//     _overflowMode = LegendItemOverflowMode.wrap;
-//     if (sampleModel != null && init) {
-//       sampleModel.properties.addAll(<dynamic, dynamic>{
-//         'SelectedPosition': _selectedPosition,
-//         'Position': _position,
-//         'SelectedMode': _selectedMode,
-//         'OverflowMode': _overflowMode,
-//         'ToggleVisibility': toggleVisibility
-//       });
-//     }
-//   }
-
-//   @override
-//   void dispose() {
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ScopedModelDescendant<SampleModel>(
-//         rebuildOnChange: true,
-//         builder: (BuildContext context, _, SampleModel model) {
-//           return Scaffold(
-//               backgroundColor: model.cardThemeColor,
-//               body: !model.isWeb
-//                   ? Padding(
-//                       padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-//                       child: Container(
-//                           child: getLegendOptionsChart(false, _position,
-//                               _overflowMode, toggleVisibility, null)),
-//                     )
-//                   : Padding(
-//                       padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-//                       child: Container(
-//                           child: getLegendOptionsChart(
-//                               false, null, null, null, null)),
-//                     ),
-//               floatingActionButton: model.isWeb
-//                   ? null
-//                   : FloatingActionButton(
-//                       onPressed: () {
-//                         _showSettingsPanel(model, false, context);
-//                       },
-//                       child: Icon(Icons.graphic_eq, color: Colors.white),
-//                       backgroundColor: model.backgroundColor,
-//                     ));
-//         });
-//   }
-
-
-
-  void onPositionTypeChange(String item, SampleModel model) {
+  ///Changing the legend position
+  void _onPositionTypeChange(String item) {
     setState(() {
-    _selectedPosition = item;
-    if (_selectedPosition == 'auto') {
-      _position = LegendPosition.auto;
-    }
-    if (_selectedPosition == 'bottom') {
-      _position = LegendPosition.bottom;
-    }
-    if (_selectedPosition == 'right') {
-      _position = LegendPosition.right;
-    }
-    if (_selectedPosition == 'left') {
-      _position = LegendPosition.left;
-    }
-    if (_selectedPosition == 'top') {
-      _position = LegendPosition.top;
-    }
-    model.properties['SelectedPosition'] = _selectedPosition;
-    model.properties['Position'] = _position;
+      _selectedPosition = item;
+      if (_selectedPosition == 'auto') {
+        _position = LegendPosition.auto;
+      }
+      if (_selectedPosition == 'bottom') {
+        _position = LegendPosition.bottom;
+      }
+      if (_selectedPosition == 'right') {
+        _position = LegendPosition.right;
+      }
+      if (_selectedPosition == 'left') {
+        _position = LegendPosition.left;
+      }
+      if (_selectedPosition == 'top') {
+        _position = LegendPosition.top;
+      }
     });
   }
 
-  void onModeTypeChange(String item, SampleModel model) {
+  ///Change the legend overflow mode
+  void _onModeTypeChange(String item) {
     setState(() {
-    _selectedMode = item;
-    if (_selectedMode == 'wrap') {
-      _overflowMode = LegendItemOverflowMode.wrap;
-    }
-    if (_selectedMode == 'scroll') {
-      _overflowMode = LegendItemOverflowMode.scroll;
-    }
-    if (_selectedMode == 'none') {
-      _overflowMode = LegendItemOverflowMode.none;
-    }
-    model.properties['SelectedMode'] = _selectedMode;
-    model.properties['OverflowMode'] = _overflowMode;
+      _selectedMode = item;
+      if (_selectedMode == 'wrap') {
+        _overflowMode = LegendItemOverflowMode.wrap;
+      }
+      if (_selectedMode == 'scroll') {
+        _overflowMode = LegendItemOverflowMode.scroll;
+      }
+      if (_selectedMode == 'none') {
+        _overflowMode = LegendItemOverflowMode.none;
+      }
     });
   }
 }

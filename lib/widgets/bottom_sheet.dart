@@ -1,13 +1,16 @@
+///Flutter package imports
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
 
+///Local import
+import '../model/model.dart';
+
+/// To show the setting panel content on the bottom sheet
 Future<T> showRoundedModalBottomSheet<T>({
   @required BuildContext context,
   @required WidgetBuilder builder,
   Color color = Colors.white,
   double radius = 10.0,
-  bool autoResize = true,
   bool dismissOnTap = true,
 }) {
   assert(context != null);
@@ -16,11 +19,11 @@ Future<T> showRoundedModalBottomSheet<T>({
   assert(color != null && color != Colors.transparent);
   return Navigator.push<T>(
     context,
-    RoundedCornerModalRoute<T>(
+    _RoundedCornerModalRoute<T>(
       builder: builder,
       color: color,
       radius: radius,
-      autoResize: autoResize,
+      autoResize: true,
       dismissOnTap: dismissOnTap,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
     ),
@@ -31,7 +34,10 @@ const Duration _kRoundedBottomSheetDuration = Duration(milliseconds: 300);
 const double _kMinFlingVelocity = 600.0;
 const double _kCloseProgressThreshold = 0.5;
 
+/// Buttom sheets can be extend from the Bottomsheet widget
+/// displayed with the [showModalBottomSheet]
 class CustomBottomSheet extends StatefulWidget {
+  /// holds the informtion of customized bottom sheet
   const CustomBottomSheet(
       {Key key,
       this.animationController,
@@ -63,7 +69,8 @@ class CustomBottomSheet extends StatefulWidget {
   @override
   _CustomBottomSheetState createState() => _CustomBottomSheetState();
 
-  /// Creates an animation controller suitable for controlling a [CustomBottomSheet].
+  /// Creates an animation controller suitable for
+  /// controlling a [CustomBottomSheet].
   static AnimationController createAnimationController(TickerProvider vsync) {
     return AnimationController(
       duration: _kRoundedBottomSheetDuration,
@@ -85,7 +92,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       widget.animationController.status == AnimationStatus.reverse;
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    if (_dismissUnderway){
+    if (_dismissUnderway) {
       return;
     }
     widget.animationController.value -=
@@ -93,20 +100,22 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    if (_dismissUnderway){
+    if (_dismissUnderway) {
       return;
     }
     if (details.velocity.pixelsPerSecond.dy > _kMinFlingVelocity) {
       final double flingVelocity =
           -details.velocity.pixelsPerSecond.dy / _childHeight;
-      if (widget.animationController.value > 0.0)
+      if (widget.animationController.value > 0.0) {
         widget.animationController.fling(velocity: flingVelocity);
+      }
       if (flingVelocity < 0.0) {
         widget.onClosing();
       }
     } else if (widget.animationController.value < _kCloseProgressThreshold) {
-      if (widget.animationController.value > 0.0)
+      if (widget.animationController.value > 0.0) {
         widget.animationController.fling(velocity: -1.0);
+      }
       widget.onClosing();
     } else {
       widget.animationController.forward();
@@ -153,8 +162,8 @@ class _RoundedModalBottomSheetLayout extends SingleChildLayoutDelegate {
   }
 }
 
-class RoundedCornerModalRoute<T> extends PopupRoute<T> {
-  RoundedCornerModalRoute({
+class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
+  _RoundedCornerModalRoute({
     this.builder,
     this.barrierLabel,
     this.color,
@@ -210,16 +219,16 @@ class RoundedCornerModalRoute<T> extends PopupRoute<T> {
           removeTop: true,
           child: Theme(
             data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-            child: RoundedModalBottomSheet<T>(route: this),
+            child: _RoundedModalBottomSheet<T>(route: this),
           ),
         ));
   }
 }
 
-class RoundedModalBottomSheet<T> extends StatefulWidget {
-  const RoundedModalBottomSheet({Key key, this.route}) : super(key: key);
+class _RoundedModalBottomSheet<T> extends StatefulWidget {
+  const _RoundedModalBottomSheet({Key key, this.route}) : super(key: key);
 
-  final RoundedCornerModalRoute<T> route;
+  final _RoundedCornerModalRoute<T> route;
 
   @override
   _RoundedModalBottomSheetState<T> createState() =>
@@ -227,7 +236,7 @@ class RoundedModalBottomSheet<T> extends StatefulWidget {
 }
 
 class _RoundedModalBottomSheetState<T>
-    extends State<RoundedModalBottomSheet<T>> {
+    extends State<_RoundedModalBottomSheet<T>> {
   @override
   void initState() {
     final SampleModel model = SampleModel.instance;
@@ -235,9 +244,19 @@ class _RoundedModalBottomSheetState<T>
     super.initState();
   }
 
-  void _handleChange(){
-    if(mounted){
-      setState(() {});
+  @override
+  void dispose() {
+    final SampleModel model = SampleModel.instance;
+    model.removeListener(_handleChange);
+    super.dispose();
+  }
+
+  ///Notify the framework by calling this method
+  void _handleChange() {
+    if (mounted) {
+      setState(() {
+        // The listenable's state was changed already.
+      });
     }
   }
 

@@ -1,0 +1,6 @@
+include: syncfusion_flutter_core/analysis_options.yaml
+
+analyzer:
+  errors:
+    lines_longer_than_80_chars: ignore
+    include_file_not_found: ignore

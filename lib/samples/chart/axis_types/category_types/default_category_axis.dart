@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the column chart with default category axis.
 class CategoryDefault extends SampleView {
+  /// Creates the column chart with default category x axis.
   const CategoryDefault(Key key) : super(key: key);
 
   @override
@@ -22,28 +22,29 @@ class _CategoryDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultCategoryAxisChart();
+    return _getDefaultCategoryAxisChart();
   }
 
   /// Returns the column chart with default category x-axis.
-  SfCartesianChart getDefaultCategoryAxisChart() {
+  SfCartesianChart _getDefaultCategoryAxisChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Internet Users - 2016'),
       plotAreaBorderWidth: 0,
+
       /// X axis as category axis placed here.
       primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           minimum: 0, maximum: 80, isVisible: false, labelFormat: '{value}M'),
-      series: getDefaultCategory(),
+      series: _getDefaultCategory(),
       tooltipBehavior:
           TooltipBehavior(enable: true, header: '', canShowMarker: false),
     );
   }
 
   /// Returns the list of chart series which need to render on the column chart.
-  List<ColumnSeries<ChartSampleData, String>> getDefaultCategory() {
+  List<ColumnSeries<ChartSampleData, String>> _getDefaultCategory() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'South\nKorea', yValue: 39, pointColor: Colors.teal[300]),

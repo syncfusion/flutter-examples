@@ -6,15 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/checkbox.dart';
 import '../../../../widgets/shared/mobile.dart'
     if (dart.library.html) '../../../../widgets/shared/web.dart';
 
-
 /// Renders the column chart with plotband recurrrence.
 class PlotBandRecurrence extends SampleView {
+  /// Creates the column chart with plotband recurrrence.
   const PlotBandRecurrence(Key key) : super(key: key);
 
   @override
@@ -35,7 +34,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getPlotBandRecurrenceChart();
+    return _getPlotBandRecurrenceChart();
   }
 
   @override
@@ -52,7 +51,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
                       letterSpacing: 0.34,
                       fontWeight: FontWeight.normal)),
               HandCursor(
-                child: BottomSheetCheckbox(
+                child: CustomCheckBox(
                   activeColor: model.backgroundColor,
                   switchValue: xAxis,
                   valueChanged: (dynamic value) {
@@ -75,7 +74,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
                       letterSpacing: 0.34,
                       fontWeight: FontWeight.normal)),
               HandCursor(
-                child: BottomSheetCheckbox(
+                child: CustomCheckBox(
                   activeColor: model.backgroundColor,
                   switchValue: yAxis,
                   valueChanged: (dynamic value) {
@@ -93,7 +92,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
   }
 
   /// Returns the ccolumn chart with plot band recurrence.
-  SfCartesianChart getPlotBandRecurrenceChart() {
+  SfCartesianChart _getPlotBandRecurrenceChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'World pollution report'),
       legend: Legend(isVisible: !isCardView),
@@ -106,11 +105,12 @@ class _PlotBandRecurrenceState extends SampleViewState {
           edgeLabelPlacement: EdgeLabelPlacement.hide,
           minimum: DateTime(1975, 1, 1),
           maximum: DateTime(2010, 1, 1),
+
           /// API for X axis plot band.
           plotBands: <PlotBand>[
             PlotBand(
                 isRepeatable: true,
-                isVisible: xAxis?? false,
+                isVisible: xAxis ?? false,
                 repeatEvery: 10,
                 sizeType: DateTimeIntervalType.years,
                 size: model.isWeb ? 3 : 5,
@@ -118,13 +118,15 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 start: DateTime(1965, 1, 1),
                 end: DateTime(2010, 1, 1),
                 shouldRenderAboveSeries: false,
-                color: model.themeData.brightness == Brightness.light ? const Color.fromRGBO(227, 228, 230, 0.4) : const Color.fromRGBO(70, 70, 70, 1))
+                color: model.themeData.brightness == Brightness.light
+                    ? const Color.fromRGBO(227, 228, 230, 0.4)
+                    : const Color.fromRGBO(70, 70, 70, 1))
           ]),
       primaryYAxis: NumericAxis(
-          isVisible: true,
           minimum: 0,
           interval: 2000,
           maximum: 18000,
+
           /// API for Y axis plot band.
           plotBands: <PlotBand>[
             PlotBand(
@@ -136,7 +138,9 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 end: 18000,
                 repeatUntil: 18000,
                 shouldRenderAboveSeries: false,
-                color: model.themeData.brightness == Brightness.light ? const Color.fromRGBO(227, 228, 230, 0.1) : const Color.fromRGBO(70, 70, 70, 1))
+                color: model.themeData.brightness == Brightness.light
+                    ? const Color.fromRGBO(227, 228, 230, 0.1)
+                    : const Color.fromRGBO(70, 70, 70, 1))
           ],
           majorGridLines: MajorGridLines(color: Colors.grey),
           majorTickLines: MajorTickLines(size: 0),

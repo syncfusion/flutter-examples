@@ -1,12 +1,15 @@
+///Package import
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
+///Local import
+import '../../../../../model/sample_view.dart';
+import '../../../slider_utils.dart';
+import 'gradient_track.dart';
 
-import '../color_customization/gradient_track.dart';
-
+///Renders range slider with customized color
 class ColorCustomizedRangeSliderPage extends SampleView {
+  ///Creates range slider with customized color
   const ColorCustomizedRangeSliderPage(Key key) : super(key: key);
 
   @override
@@ -21,12 +24,13 @@ class _ColorCustomizedRangeSliderPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    rangeSlider = ColorCustomizedRangeSlider();
+    rangeSlider = _ColorCustomizedRangeSlider();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(
@@ -38,15 +42,14 @@ class _ColorCustomizedRangeSliderPageState extends SampleViewState {
   }
 }
 
-// ignore: must_be_immutable
-class ColorCustomizedRangeSlider extends StatefulWidget {
+class _ColorCustomizedRangeSlider extends StatefulWidget {
   @override
   _ColorCustomizedRangeSliderState createState() =>
       _ColorCustomizedRangeSliderState();
 }
 
 class _ColorCustomizedRangeSliderState
-    extends State<ColorCustomizedRangeSlider> {
+    extends State<_ColorCustomizedRangeSlider> {
   Widget _getWebLayout() {
     return Container(
       alignment: Alignment.center,
@@ -59,10 +62,7 @@ class _ColorCustomizedRangeSliderState
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(

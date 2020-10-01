@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import 'package:flutter_examples/widgets/customDropDown.dart';
 import '../../../../model/sample_view.dart';
+import '../../../../widgets/custom_dropdown.dart';
 
 /// Renders the cartesian chart with tooltip position option sample.
 class CartesianTooltipPosition extends SampleView {
+  /// Creates the cartesian chart with tooltip position option sample.
   const CartesianTooltipPosition(Key key) : super(key: key);
 
   @override
@@ -33,7 +34,7 @@ class _TooltipPositionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getCartesianTooltipPositionChart();
+    return _getCartesianTooltipPositionChart();
   }
 
   @override
@@ -67,7 +68,7 @@ class _TooltipPositionState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onPositionTypeChange(value.toString());
+                            _onPositionTypeChange(value.toString());
                           }),
                     ),
                   ))
@@ -79,13 +80,13 @@ class _TooltipPositionState extends SampleViewState {
   }
 
   /// Returns the cartesian chart with tooltip position option.
-  SfCartesianChart getCartesianTooltipPositionChart() {
-    dynamic _chart;
-    _chart = SfCartesianChart(
+  SfCartesianChart _getCartesianTooltipPositionChart() {
+    return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Age distribution'),
       tooltipBehavior: TooltipBehavior(
           enable: true,
+
           /// To specify the tooltip position, whethter its auto or pointer.
           tooltipPosition: _tooltipPosition,
           canShowMarker: false),
@@ -99,7 +100,6 @@ class _TooltipPositionState extends SampleViewState {
           majorTickLines: MajorTickLines(size: 0)),
       series: _getCartesianSeries(),
     );
-    return _chart;
   }
 
   /// list of chart series data points.
@@ -123,7 +123,8 @@ class _TooltipPositionState extends SampleViewState {
     _ChartData('>65', 28.92, const Color.fromRGBO(116, 180, 155, 1))
   ];
 
-  ///Returns the list of chart series which need to render on the cartesian chart.
+  ///Returns the list of chart series
+  ///which need to render on the cartesian chart.
   List<ChartSeries<_ChartData, String>> _getCartesianSeries() {
     return <ColumnSeries<_ChartData, String>>[
       ColumnSeries<_ChartData, String>(
@@ -136,7 +137,7 @@ class _TooltipPositionState extends SampleViewState {
   }
 
   /// Method to update the tooltip position in the chart on change.
-  void onPositionTypeChange(String item) {
+  void _onPositionTypeChange(String item) {
     _selectedTooltipPosition = item;
     if (_selectedTooltipPosition == 'auto') {
       _tooltipPosition = TooltipPosition.auto;
@@ -144,7 +145,9 @@ class _TooltipPositionState extends SampleViewState {
     if (_selectedTooltipPosition == 'pointer') {
       _tooltipPosition = TooltipPosition.pointer;
     }
-    setState(() {});
+    setState(() {
+      /// update the tooltip position changes
+    });
   }
 }
 

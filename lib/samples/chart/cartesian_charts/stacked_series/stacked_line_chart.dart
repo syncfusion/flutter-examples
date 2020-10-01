@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the stacked line chart sample.
 class StackedLineChart extends SampleView {
+  /// Creates the stacked line chart sample.
   const StackedLineChart(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _StackedLineChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getStackedLineChart();
+    return _getStackedLineChart();
   }
 
   /// Returns the cartesian stacked line chart.
-  SfCartesianChart getStackedLineChart() {
+  SfCartesianChart _getStackedLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Monthly expense of a family'),
@@ -40,54 +40,76 @@ class _StackedLineChartState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           labelFormat: '\${value}',
           majorTickLines: MajorTickLines(size: 0)),
-      series: getStackedLineSeries(),
+      series: _getStackedLineSeries(),
       trackballBehavior: TrackballBehavior(
           enable: true, activationMode: ActivationMode.singleTap),
-      tooltipBehavior:
-          TooltipBehavior(enable: false, header: '', canShowMarker: false),
     );
   }
 
-  /// Returns the list of chart seris which need to render on the stacked line chart.
-  List<StackedLineSeries<ChartSampleData, String>> getStackedLineSeries() {
+  /// Returns the list of chart seris which need to render
+  /// on the stacked line chart.
+  List<StackedLineSeries<ChartSampleData, String>> _getStackedLineSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Food', y: 55, yValue: 40, yValue2: 45, yValue3: 48),
       ChartSampleData(
-          x: 'Transport', y: 33, yValue: 45, yValue2: 54, yValue3: 28),
+          x: 'Food',
+          y: 55,
+          yValue: 40,
+          secondSeriesYValue: 45,
+          thirdSeriesYValue: 48),
       ChartSampleData(
-          x: 'Medical', y: 43, yValue: 23, yValue2: 20, yValue3: 34),
+          x: 'Transport',
+          y: 33,
+          yValue: 45,
+          secondSeriesYValue: 54,
+          thirdSeriesYValue: 28),
       ChartSampleData(
-          x: 'Clothes', y: 32, yValue: 54, yValue2: 23, yValue3: 54),
-      ChartSampleData(x: 'Books', y: 56, yValue: 18, yValue2: 43, yValue3: 55),
-      ChartSampleData(x: 'Others', y: 23, yValue: 54, yValue2: 33, yValue3: 56),
+          x: 'Medical',
+          y: 43,
+          yValue: 23,
+          secondSeriesYValue: 20,
+          thirdSeriesYValue: 34),
+      ChartSampleData(
+          x: 'Clothes',
+          y: 32,
+          yValue: 54,
+          secondSeriesYValue: 23,
+          thirdSeriesYValue: 54),
+      ChartSampleData(
+          x: 'Books',
+          y: 56,
+          yValue: 18,
+          secondSeriesYValue: 43,
+          thirdSeriesYValue: 55),
+      ChartSampleData(
+          x: 'Others',
+          y: 23,
+          yValue: 54,
+          secondSeriesYValue: 33,
+          thirdSeriesYValue: 56),
     ];
     return <StackedLineSeries<ChartSampleData, String>>[
       StackedLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Father',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Mother',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
+          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Son',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue3,
+          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Daughter',
           markerSettings: MarkerSettings(isVisible: true))
     ];

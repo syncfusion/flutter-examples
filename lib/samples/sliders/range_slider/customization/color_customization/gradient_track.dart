@@ -1,24 +1,22 @@
+///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 
+///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
+///Local imports
+import '../../../../../model/sample_view.dart';
+import '../../../slider_utils.dart';
 
+/// Renders range slider with gradient track
 class GradientTrackRangeSlider extends SampleView {
   @override
   _GradientTrackRangeSliderState createState() =>
       _GradientTrackRangeSliderState();
-}
-
-LinearGradient get blueGradientColor {
-  final List<Color> colors = <Color>[];
-  colors.add(const Color.fromARGB(255, 0, 238, 217));
-  colors.add(const Color.fromARGB(255, 88, 124, 241));
-  final List<double> stops = <double>[0.0, 1.0];
-  return LinearGradient(colors: colors, stops: stops);
 }
 
 class _GradientTrackRangeSliderState extends SampleViewState {
@@ -26,6 +24,13 @@ class _GradientTrackRangeSliderState extends SampleViewState {
   SfRangeValues _sliderValues = const SfRangeValues(20.0, 80.0);
 
   final Color _inactiveColor = const Color.fromRGBO(194, 194, 194, 0.5);
+  LinearGradient get _blueGradientColor {
+    final List<Color> colors = <Color>[];
+    colors.add(const Color.fromARGB(255, 0, 238, 217));
+    colors.add(const Color.fromARGB(255, 88, 124, 241));
+    final List<double> stops = <double>[0.0, 1.0];
+    return LinearGradient(colors: colors, stops: stops);
+  }
 
   SfRangeSliderTheme _blueGradientRangeSlider() {
     return SfRangeSliderTheme(
@@ -47,10 +52,10 @@ class _GradientTrackRangeSliderState extends SampleViewState {
           });
         },
         thumbShape: _ThumbShape(
-            blueGradientColor.colors[0], blueGradientColor.colors[1]),
+            _blueGradientColor.colors[0], _blueGradientColor.colors[1]),
         overlayShape: _OverlayShape(
-            blueGradientColor.colors[0], blueGradientColor.colors[1]),
-        trackShape: _TrackShape(blueGradientColor),
+            _blueGradientColor.colors[0], _blueGradientColor.colors[1]),
+        trackShape: _TrackShape(_blueGradientColor),
       ),
     );
   }
@@ -58,8 +63,6 @@ class _GradientTrackRangeSliderState extends SampleViewState {
   SfRangeSliderTheme _rangeSliderWithThumbCustomization() {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-          activeTrackHeight: 5.0,
-          inactiveTrackHeight: 5.0,
           inactiveDivisorColor: Colors.white,
           activeDivisorColor: Colors.white,
           activeDivisorStrokeWidth: 2,
@@ -73,8 +76,7 @@ class _GradientTrackRangeSliderState extends SampleViewState {
           overlayColor: Colors.tealAccent.withOpacity(0.12),
           thumbColor: Colors.white,
           thumbStrokeWidth: 2.0,
-          thumbStrokeColor: Colors.tealAccent
-      ),
+          thumbStrokeColor: Colors.tealAccent),
       child: SfRangeSlider(
         min: 0.0,
         max: 100.0,
@@ -95,7 +97,7 @@ class _GradientTrackRangeSliderState extends SampleViewState {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        TrackColorCustomizedRangeSlider(),
+        _TrackColorCustomizedRangeSlider(),
         const SizedBox(height: 25),
         title('Thumb and divisor stroke color'),
         columnSpacing10,
@@ -119,14 +121,14 @@ class _ThumbShape extends SfThumbShape {
   @override
   void paint(PaintingContext context, Offset center,
       {RenderBox parentBox,
-        RenderBox child,
-        SfSliderThemeData themeData,
-        SfRangeValues currentValues,
-        dynamic currentValue,
-        Paint paint,
-        Animation<double> enableAnimation,
-        TextDirection textDirection,
-        SfThumb thumb}) {
+      RenderBox child,
+      SfSliderThemeData themeData,
+      SfRangeValues currentValues,
+      dynamic currentValue,
+      Paint paint,
+      Animation<double> enableAnimation,
+      TextDirection textDirection,
+      SfThumb thumb}) {
     super.paint(context, center,
         parentBox: parentBox,
         child: child,
@@ -157,12 +159,12 @@ class _OverlayShape extends SfOverlayShape {
   @override
   void paint(PaintingContext context, Offset center,
       {RenderBox parentBox,
-        SfSliderThemeData themeData,
-        SfRangeValues currentValues,
-        dynamic currentValue,
-        Paint paint,
-        Animation<double> animation,
-        SfThumb thumb}) {
+      SfSliderThemeData themeData,
+      SfRangeValues currentValues,
+      dynamic currentValue,
+      Paint paint,
+      Animation<double> animation,
+      SfThumb thumb}) {
     final double radius = getPreferredSize(themeData).width / 2;
     final Tween<double> tween = Tween<double>(begin: 0.0, end: radius);
 
@@ -184,20 +186,20 @@ class _TrackShape extends SfTrackShape {
 
   @override
   void paint(
-      PaintingContext context,
-      Offset offset,
-      Offset thumbCenter,
-      Offset startThumbCenter,
-      Offset endThumbCenter,{
-        RenderBox parentBox,
-        SfSliderThemeData themeData,
-        SfRangeValues currentValues,
-        dynamic currentValue,
-        Animation<double> enableAnimation,
-        Paint inactivePaint,
-        Paint activePaint,
-        TextDirection textDirection,
-      }) {
+    PaintingContext context,
+    Offset offset,
+    Offset thumbCenter,
+    Offset startThumbCenter,
+    Offset endThumbCenter, {
+    RenderBox parentBox,
+    SfSliderThemeData themeData,
+    SfRangeValues currentValues,
+    dynamic currentValue,
+    Animation<double> enableAnimation,
+    Paint inactivePaint,
+    Paint activePaint,
+    TextDirection textDirection,
+  }) {
     final Radius radius = Radius.circular(themeData.trackCornerRadius);
     final Rect actualTrackRect = getPreferredRect(parentBox, themeData, offset);
 
@@ -258,14 +260,13 @@ class _TrackShape extends SfTrackShape {
   }
 }
 
-class TrackColorCustomizedRangeSlider extends SampleView {
+class _TrackColorCustomizedRangeSlider extends SampleView {
   @override
   _TrackColorCustomizedRangeSliderState createState() =>
       _TrackColorCustomizedRangeSliderState();
 }
 
-class _TrackColorCustomizedRangeSliderState
-    extends SampleViewState {
+class _TrackColorCustomizedRangeSliderState extends SampleViewState {
   final double _min = 0.0;
   final double _max = 6.0;
   final Color _activeColor = const Color.fromRGBO(255, 125, 30, 1);

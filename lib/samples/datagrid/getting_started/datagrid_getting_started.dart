@@ -1,29 +1,38 @@
+///Dart import
 import 'dart:math' as math;
-import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:flutter_examples/model/model.dart';
 
+/// Package imports
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+/// Barcode import
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+///Core theme import
+import 'package:syncfusion_flutter_core/theme.dart';
+
+/// Local import
+import '../../../model/sample_view.dart';
+
+/// Render getting started data grid
 class GettingStartedDataGrid extends SampleView {
+  /// Creates getting started data grid
   const GettingStartedDataGrid({Key key}) : super(key: key);
 
   @override
   _GettingStartedDataGridState createState() => _GettingStartedDataGridState();
 }
 
-List<Team> _teamData;
-List<Employee> _employeeCollection;
+List<_Team> _teamData;
+List<_Employee> _employeeCollection;
 
 class _GettingStartedDataGridState extends SampleViewState {
   _GettingStartedDataGridState();
   final math.Random random = math.Random();
 
-  final TeamDataGridSource _teamDataGridSource = TeamDataGridSource();
-  final EmployeeDataGridSource _employeeDataGridSource =
-      EmployeeDataGridSource();
+  final _TeamDataGridSource _teamDataGridSource = _TeamDataGridSource();
+  final _EmployeeDataGridSource _employeeDataGridSource =
+      _EmployeeDataGridSource();
   final List<String> employees = <String>[
     'Michael',
     'Kathryn',
@@ -255,12 +264,10 @@ class _GettingStartedDataGridState extends SampleViewState {
     85,
   ];
 
-  Widget sampleWidget(SampleModel model) => const GettingStartedDataGrid();
-
-  List<Team> generateTeam(int count) {
-    final List<Team> teamData = <Team>[];
+  List<_Team> generateTeam(int count) {
+    final List<_Team> teamData = <_Team>[];
     for (int i = 0; i < count - 1; i++) {
-      teamData.add(Team(
+      teamData.add(_Team(
         teamName[i],
         pct[i],
         gb[i],
@@ -273,10 +280,10 @@ class _GettingStartedDataGridState extends SampleViewState {
     return teamData;
   }
 
-  List<Employee> generateEmployeeData(int count) {
-    final List<Employee> employee = <Employee>[];
+  List<_Employee> generateEmployeeData(int count) {
+    final List<_Employee> employee = <_Employee>[];
     for (int i = 0; i < employees.length - 1; i++) {
-      employee.add(Employee(
+      employee.add(_Employee(
           employees[i],
           designation[random.nextInt(designation.length - 1)],
           employees[i].toLowerCase() +
@@ -336,15 +343,20 @@ class _GettingStartedDataGridState extends SampleViewState {
     );
   }
 
-  Widget getWidget(dynamic image, String text) {
+  Widget getWidget(Widget image, String text) {
     return Container(
       color: Colors.transparent,
       child: Row(
         children: <Widget>[
           Container(
-            child: image,),
+            child: image,
+          ),
           const SizedBox(width: 6),
-          Expanded(child: Text(text,overflow: TextOverflow.ellipsis,))
+          Expanded(
+              child: Text(
+            text,
+            overflow: TextOverflow.ellipsis,
+          ))
         ],
       ),
     );
@@ -406,14 +418,16 @@ class _GettingStartedDataGridState extends SampleViewState {
       final String location = _employeeCollection[rowIndex].location;
       return Padding(
         padding: const EdgeInsets.only(left: 16.0),
-        child: getWidget(Icon(Icons.location_on,size: 20), location),
+        child: getWidget(const Icon(Icons.location_on, size: 20), location),
       );
     } else if (column.mappingName == 'employeeName') {
       final String employeeName = _employeeCollection[rowIndex].employeeName;
-        return Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: getWidget(Icon(Icons.account_circle,size: 30,color: Colors.blue[300]), employeeName),
-        );
+      return Padding(
+        padding: const EdgeInsets.only(left: 16.0),
+        child: getWidget(
+            Icon(Icons.account_circle, size: 30, color: Colors.blue[300]),
+            employeeName),
+      );
     } else if (column.mappingName == 'trustworthiness') {
       final String trust = _employeeCollection[rowIndex].trustworthiness;
       if (trust == 'Perfect') {
@@ -454,8 +468,9 @@ class _GettingStartedDataGridState extends SampleViewState {
             return DataGridCellStyle(
                 textStyle: TextStyle(color: Colors.red[500]));
           }
-        } else
+        } else {
           return null;
+        }
       },
       columns: <GridColumn>[
         GridWidgetColumn(mappingName: 'employeeName')
@@ -500,12 +515,12 @@ class _GettingStartedDataGridState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: kIsWeb ? _webSample() : _mobileSample());
+    return Scaffold(body: model.isWeb ? _webSample() : _mobileSample());
   }
 }
 
-class Team {
-  Team(
+class _Team {
+  _Team(
     this.team,
     this.winPercentage,
     this.gamesBehind,
@@ -521,27 +536,27 @@ class Team {
   final Image image;
 }
 
-class TeamDataGridSource extends DataGridSource {
-  TeamDataGridSource();
+class _TeamDataGridSource extends DataGridSource<_Team> {
+  _TeamDataGridSource();
   @override
-  List<Object> get dataSource => _teamData;
+  List<_Team> get dataSource => _teamData;
   @override
-  Object getCellValue(int rowIndex, String columnName) {
+  Object getValue(_Team _team, String columnName) {
     switch (columnName) {
       case 'team':
-        return _teamData[rowIndex].team;
+        return _team.team;
         break;
       case 'pct':
-        return _teamData[rowIndex].winPercentage;
+        return _team.winPercentage;
         break;
       case 'gb':
-        return _teamData[rowIndex].gamesBehind;
+        return _team.gamesBehind;
         break;
       case 'wins':
-        return _teamData[rowIndex].wins;
+        return _team.wins;
         break;
       case 'losses':
-        return _teamData[rowIndex].losses;
+        return _team.losses;
         break;
       default:
         return 'empty';
@@ -550,8 +565,8 @@ class TeamDataGridSource extends DataGridSource {
   }
 }
 
-class Employee {
-  Employee(
+class _Employee {
+  _Employee(
     this.employeeName,
     this.designation,
     this.mail,
@@ -573,27 +588,27 @@ class Employee {
   final String address;
 }
 
-class EmployeeDataGridSource extends DataGridSource {
-  EmployeeDataGridSource();
+class _EmployeeDataGridSource extends DataGridSource<_Employee> {
+  _EmployeeDataGridSource();
   @override
-  List<Object> get dataSource => _employeeCollection;
+  List<_Employee> get dataSource => _employeeCollection;
   @override
-  Object getCellValue(int rowIndex, String columnName) {
+  Object getValue(_Employee _employee, String columnName) {
     switch (columnName) {
       case 'mail':
-        return _employeeCollection[rowIndex].mail;
+        return _employee.mail;
         break;
       case 'status':
-        return _employeeCollection[rowIndex].status;
+        return _employee.status;
         break;
       case 'designation':
-        return _employeeCollection[rowIndex].designation;
+        return _employee.designation;
         break;
       case 'salary':
-        return _employeeCollection[rowIndex].salary;
+        return _employee.salary;
         break;
       case 'address':
-        return _employeeCollection[rowIndex].address;
+        return _employee.address;
         break;
       default:
         return 'empty';

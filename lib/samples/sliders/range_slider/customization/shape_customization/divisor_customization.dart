@@ -1,20 +1,26 @@
+///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
+///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+///Local imports
+import '../../../../../model/model.dart';
+import '../../../../../model/sample_view.dart';
+
+///Renders range slider with customized divisor
 class DivisorCustomizedRangeSlider extends SampleView {
   @override
   _DivisorCustomizedRangeSliderState createState() =>
       _DivisorCustomizedRangeSliderState();
 }
 
-class _DivisorCustomizedRangeSliderState
-    extends SampleViewState {
+class _DivisorCustomizedRangeSliderState extends SampleViewState {
   final Color _inactiveColor = const Color.fromARGB(255, 194, 194, 194);
   final Color _activeColor = const Color.fromARGB(255, 255, 0, 58);
   SfRangeValues _values = const SfRangeValues(30.0, 70.0);
@@ -25,8 +31,6 @@ class _DivisorCustomizedRangeSliderState
       data: SfRangeSliderThemeData(
           inactiveTrackColor: _inactiveColor.withOpacity(0.5),
           activeTrackColor: _activeColor,
-          inactiveTrackHeight: 5.0,
-          activeTrackHeight: 5.0,
           thumbColor: _activeColor,
           inactiveDivisorColor:
               const Color.fromARGB(255, 214, 214, 214).withOpacity(1),
@@ -52,24 +56,20 @@ class _DivisorCustomizedRangeSliderState
   }
 }
 
- class _DivisorShape extends SfDivisorShape {
-
-   _DivisorShape(this.model);
-   SampleModel model;
+class _DivisorShape extends SfDivisorShape {
+  _DivisorShape(this.model);
+  SampleModel model;
 
   @override
-  void paint(PaintingContext context, Offset center,
-      Offset thumbCenter,
-      Offset startThumbCenter,
-      Offset endThumbCenter,
+  void paint(PaintingContext context, Offset center, Offset thumbCenter,
+      Offset startThumbCenter, Offset endThumbCenter,
       {RenderBox parentBox,
-        SfSliderThemeData themeData,
-        SfRangeValues currentValues,
-        dynamic currentValue,
-        Paint paint,
-        Animation<double> enableAnimation,
-        TextDirection textDirection})
-  {
+      SfSliderThemeData themeData,
+      SfRangeValues currentValues,
+      dynamic currentValue,
+      Paint paint,
+      Animation<double> enableAnimation,
+      TextDirection textDirection}) {
     bool isActive;
 
     switch (textDirection) {
@@ -88,6 +88,8 @@ class _DivisorCustomizedRangeSliderState
         Paint()
           ..isAntiAlias = true
           ..style = PaintingStyle.fill
-          ..color = isActive ? themeData.activeDivisorColor : model.themeData.canvasColor);
+          ..color = isActive
+              ? themeData.activeDivisorColor
+              : model.themeData.canvasColor);
   }
 }

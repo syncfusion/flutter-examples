@@ -1,130 +1,124 @@
+///Dart imports
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
+import 'package:flutter/scheduler.dart';
 
+///calendar import
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+
+///Local import
+import '../../../model/sample_view.dart';
+import '../getting_started/getting_started.dart';
+
+/// Widget class of recurrence calendar
 class RecurrenceCalendar extends SampleView {
+  /// Creates recurrence calendar
   const RecurrenceCalendar(Key key) : super(key: key);
 
   @override
-  RecurrenceCalendarState createState() => RecurrenceCalendarState();
+  _RecurrenceCalendarState createState() => _RecurrenceCalendarState();
 }
 
-class RecurrenceCalendarState extends SampleViewState {
-  RecurrenceCalendarState();
+class _RecurrenceCalendarState extends SampleViewState {
+  _RecurrenceCalendarState();
 
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-  CalendarView _calendarView;
   List<Appointment> _appointments;
-  bool _showAgenda;
   List<Color> colorCollection;
+  CalendarController calendarController;
 
-  String _view;
-
-  final List<String> _viewList = <String>[
-    'Day',
-    'Week',
-    'Work week',
-    'Month',
-    'Month agenda',
-    'Timeline day',
-    'Timeline week',
-    'Timeline work week',
-    'Schedule'
-  ].toList();
+  final List<CalendarView> _allowedViews = <CalendarView>[
+    CalendarView.day,
+    CalendarView.week,
+    CalendarView.workWeek,
+    CalendarView.month,
+    CalendarView.schedule
+  ];
 
   ScrollController controller;
 
   /// Global key used to maintain the state, when we change the parent of the
   /// widget
   GlobalKey _globalKey;
+  CalendarView _view;
 
   @override
   void initState() {
     _globalKey = GlobalKey();
     controller = ScrollController();
-    initProperties();
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
+    calendarController = CalendarController();
+    calendarController.view = CalendarView.week;
+    _view = CalendarView.week;
     _appointments = <Appointment>[];
     _addColorCollection();
-    createRecursiveAppointments();
+    _createRecursiveAppointments();
     super.initState();
-  }
-
-  void initProperties([SampleModel sampleModel, bool init]) {
-    _view = 'Week';
-    _calendarView = CalendarView.week;
-    _showAgenda = false;
-    if (sampleModel != null && init) {
-      sampleModel.properties.addAll(<dynamic, dynamic>{
-        'CalendarView': _calendarView,
-        'View': _view,
-        'ShowAgenda': _showAgenda
-      });
-    }
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void didUpdateWidget(RecurrenceCalendar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
   }
 
   @override
   Widget build([BuildContext context]) {
     final Widget _calendar = Theme(
-      /// The key set here to maintain the state, when we change the parent of the
-      /// widget
-      key: _globalKey,
+
+        /// The key set here to maintain the state, when we change
+        /// the parent of the widget
+        key: _globalKey,
         data: model.themeData.copyWith(accentColor: model.backgroundColor),
-        child: getRecurrenceCalendar(
-          _calendarView,
-          AppointmentDataSource(_appointments),
-          _showAgenda,
-        ));
+        child: _getRecurrenceCalendar(
+            calendarController,
+            _AppointmentDataSource(_appointments),
+            _onViewChanged,
+            scheduleViewBuilder));
 
     final double _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        body: Row(children: <Widget>[
-          Expanded(
-            child: (_view == 'Month' || _view == 'Month agenda') &&
-                model.isWeb &&
-                _screenHeight < 800
-                ? Scrollbar(
-                    isAlwaysShown: true,
+      body: Row(children: <Widget>[
+        Expanded(
+          child: calendarController.view == CalendarView.month &&
+                  model.isWeb &&
+                  _screenHeight < 800
+              ? Scrollbar(
+                  isAlwaysShown: true,
+                  controller: controller,
+                  child: ListView(
                     controller: controller,
-                    child: ListView(
-                      controller: controller,
-                      children: <Widget>[
-                        Container(
-                          color: model.isWeb
-                              ? model.webSampleBackgroundColor
-                              : model.cardThemeColor,
-                          height: 600,
-                          child: _calendar,
-                        )
-                      ],
-                    ))
-                : Container(
-                    color: model.isWeb
-                        ? model.webSampleBackgroundColor
-                        : model.cardThemeColor,
-                    child: _calendar),
-          )
-        ]),);
+                    children: <Widget>[
+                      Container(
+                        color: model.cardThemeColor,
+                        height: 600,
+                        child: _calendar,
+                      )
+                    ],
+                  ))
+              : Container(color: model.cardThemeColor, child: _calendar),
+        )
+      ]),
+    );
   }
 
-  void createRecursiveAppointments() {
+  /// The method called whenever the calendar view navigated to previous/next
+  /// view or switched to different calendar view.
+  void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
+    if (_view == calendarController.view ||
+        !model.isWeb ||
+        (_view != CalendarView.month &&
+            calendarController.view != CalendarView.month)) {
+      return;
+    }
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        _view = calendarController.view;
+
+        /// Update the current view when the calendar view changed to
+        /// month view or from month view.
+      });
+    });
+  }
+
+  /// Creates the data source with the recurrence appointments by adding required
+  /// information on it.
+  void _createRecursiveAppointments() {
     final Random random = Random();
     //Recurrence Appointment 1
     final Appointment alternativeDayAppointment = Appointment();
@@ -333,6 +327,8 @@ class RecurrenceCalendarState extends SampleViewState {
     _appointments.add(customYearlyAppointment);
   }
 
+  /// Adds the collection of color in a list for the appointment data source for
+  /// calendar.
   void _addColorCollection() {
     colorCollection = <Color>[];
     colorCollection.add(const Color(0xFF0F8644));
@@ -347,95 +343,31 @@ class RecurrenceCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFF0A8043));
   }
 
-  void onCalendarViewChange(String value, SampleModel model) {
-    _view = value;
-    _showAgenda = false;
-    if (value == 'Day') {
-      _calendarView = CalendarView.day;
-    } else if (value == 'Week') {
-      _calendarView = CalendarView.week;
-    } else if (value == 'Work week') {
-      _calendarView = CalendarView.workWeek;
-    } else if (value == 'Month') {
-      _calendarView = CalendarView.month;
-    } else if (value == 'Timeline day') {
-      _calendarView = CalendarView.timelineDay;
-    } else if (value == 'Timeline week') {
-      _calendarView = CalendarView.timelineWeek;
-    } else if (value == 'Timeline work week') {
-      _calendarView = CalendarView.timelineWorkWeek;
-    } else if (value == 'Month agenda') {
-      _calendarView = CalendarView.month;
-      _showAgenda = true;
-    } else if (value == 'Schedule') {
-      _calendarView = CalendarView.schedule;
-    }
-
-    model.properties['View'] = _view;
-    model.properties['CalendarView'] = _calendarView;
-    model.properties['ShowAgenda'] = _showAgenda;
-    setState(() {});
-  }
-
-  Widget buildSettings(BuildContext context) {
-    return ListView(children: <Widget>[
-      Container(
-        height: 40,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text('Calendar View   ',
-                style: TextStyle(fontSize: 16.0, color: model.textColor)),
-            Container(
-                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                height: 50,
-                width: 200,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
-                    child: DropDown(
-                        value: _view,
-                        item: _viewList.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'Month',
-                              child: Text('$value',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        valueChanged: (dynamic value) {
-                          onCalendarViewChange(value, model);
-                        }),
-                  ),
-                ))
-          ],
-        ),
-      ),
-    ]);
-  }
-
-  SfCalendar getRecurrenceCalendar(
-      [CalendarView _calendarView,
+  /// Returns the calendar widget based on the properties passed
+  SfCalendar _getRecurrenceCalendar(
+      [CalendarController _calendarController,
       CalendarDataSource _calendarDataSource,
-      bool showAgenda]) {
+      dynamic onViewChanged,
+      dynamic scheduleViewBuilder]) {
     return SfCalendar(
-      view: _calendarView,
-      showNavigationArrow: kIsWeb,
+      showNavigationArrow: model.isWeb,
+      controller: _calendarController,
+      allowedViews: _allowedViews,
+      scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
+      showDatePickerButton: true,
+      onViewChanged: onViewChanged,
       dataSource: _calendarDataSource,
       monthViewSettings: MonthViewSettings(
-          showAgenda: showAgenda,
-          appointmentDisplayMode: showAgenda != null && showAgenda
-              ? MonthAppointmentDisplayMode.indicator
-              : MonthAppointmentDisplayMode.appointment,
+          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
           appointmentDisplayCount: 4),
     );
   }
 }
 
-class AppointmentDataSource extends CalendarDataSource {
-  AppointmentDataSource(this.source);
+/// An object to set the appointment collection data source to collection, and
+/// allows to add, remove or reset the appointment collection.
+class _AppointmentDataSource extends CalendarDataSource {
+  _AppointmentDataSource(this.source);
 
   List<Appointment> source;
 

@@ -1,25 +1,28 @@
+//ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
+/// Cursor tracks the movement shows as hand symbol
 class HandCursor extends MouseRegion {
-  //ignore: prefer_const_constructors_in_immutables
-  HandCursor({@required Widget child})
+  /// holds the mouse events
+  const HandCursor({@required Widget child})
       : super(
           child: child,
           onHover: _mouseHover,
           onExit: _mouseExit,
         );
-  static final html.Element appContainer =
+  static final html.Element _appContainer =
       html.window.document.getElementById('app-container');
 
   static void _mouseHover(PointerEvent event) =>
-      appContainer.style.cursor = 'pointer';
+      _appContainer.style.cursor = 'pointer';
 
   static void _mouseExit(PointerEvent event) =>
-      appContainer.style.cursor = 'default';
+      _appContainer.style.cursor = 'default';
 }
 
+/// change the cursor into hand cursor on navigation
 void changeCursorStyleOnNavigation() {
-  HandCursor.appContainer.style.cursor = 'default';
+  HandCursor._appContainer.style.cursor = 'default';
 }

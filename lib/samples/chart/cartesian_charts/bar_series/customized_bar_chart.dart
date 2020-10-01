@@ -9,21 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Render the customized bar chart sample.
 class BarCustomization extends SampleView {
+  /// Creates the customized bar chart sample.
   const BarCustomization(Key key) : super(key: key);
 
   @override
   _BarCustomizationState createState() => _BarCustomizationState();
 }
 
+/// dashed array image renders inside of  bars
 ui.Image image;
-bool isImageloaded = false;
 
-List<num> values;
+/// Set image loaded info
+bool isImageloaded = false;
 
 /// State class of the customized bar chart.
 class _BarCustomizationState extends SampleViewState {
@@ -31,11 +32,11 @@ class _BarCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getCustomizedBarChart();
+    return _getCustomizedBarChart();
   }
 
   /// Returns the customized cartesian bar chart.
-  SfCartesianChart getCustomizedBarChart() {
+  SfCartesianChart _getCustomizedBarChart() {
     return SfCartesianChart(
       title: ChartTitle(
           text: isCardView
@@ -45,16 +46,14 @@ class _BarCustomizationState extends SampleViewState {
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          title: AxisTitle(text: 'Downloads in Billion'),
+          title: AxisTitle(text: isCardView ? '' : 'Downloads in Billion'),
           majorGridLines: MajorGridLines(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: <ChartSeries<ChartSampleData, String>>[
         BarSeries<ChartSampleData, String>(
-          onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-            return CustomBarSeriesRenderer();
+          onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
+            return _CustomBarSeriesRenderer();
           },
-          enableTooltip: true,
-          isTrackVisible: false,
           dataLabelSettings: DataLabelSettings(isVisible: true),
           dataSource: <ChartSampleData>[
             ChartSampleData(
@@ -78,9 +77,10 @@ class _BarCustomizationState extends SampleViewState {
   }
 }
 
-/// Custom bar series class that extend the original bar series to create Customized bar chart.
-class CustomBarSeriesRenderer extends BarSeriesRenderer {
-  CustomBarSeriesRenderer();
+/// Custom bar series class that extend the original bar series
+/// to create Customized bar chart.
+class _CustomBarSeriesRenderer extends BarSeriesRenderer {
+  _CustomBarSeriesRenderer();
 
   @override
   ChartSegment createSegment() {
@@ -90,8 +90,6 @@ class CustomBarSeriesRenderer extends BarSeriesRenderer {
 
 /// custom bar painter for the customized bar chart series.
 class BarCustomPainter extends BarSegment {
-  List<num> values = <num>[];
-
   @override
   void onPaint(Canvas canvas) {
     final Float64List deviceTransform = Float64List(16)

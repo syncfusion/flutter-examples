@@ -7,7 +7,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local import
 import '../../../../model/sample_view.dart';
 
+///Renders default line series chart
 class LineDefault extends SampleView {
+  ///Creates default line series chart
   const LineDefault(Key key) : super(key: key);
 
   @override
@@ -15,14 +17,15 @@ class LineDefault extends SampleView {
 }
 
 class _LineDefaultState extends SampleViewState {
-  _LineDefaultState();  
+  _LineDefaultState();
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultLineChart();
+    return _getDefaultLineChart();
   }
 
-  SfCartesianChart getDefaultLineChart() {
+  /// Get the cartesian chart with default line series
+  SfCartesianChart _getDefaultLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Inflation - Consumer price'),
@@ -37,13 +40,13 @@ class _LineDefaultState extends SampleViewState {
           labelFormat: '{value}%',
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(color: Colors.transparent)),
-      series: getDefaultLineSeries(),
+      series: _getDefaultLineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
   /// The method returns line series to chart.
-  List<LineSeries<_ChartData, num>> getDefaultLineSeries() {
+  List<LineSeries<_ChartData, num>> _getDefaultLineSeries() {
     final List<_ChartData> chartData = <_ChartData>[
       _ChartData(2005, 21, 28),
       _ChartData(2006, 24, 44),
@@ -56,7 +59,6 @@ class _LineDefaultState extends SampleViewState {
     return <LineSeries<_ChartData, num>>[
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
@@ -65,7 +67,6 @@ class _LineDefaultState extends SampleViewState {
           markerSettings: MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          enableTooltip: true,
           dataSource: chartData,
           width: 2,
           name: 'England',

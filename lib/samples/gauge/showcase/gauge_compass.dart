@@ -1,9 +1,16 @@
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:flutter/foundation.dart';
+/// Flutter package imports
 import 'package:flutter/material.dart';
 
+/// Gauge imports
+
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+/// Locals imports
+import '../../../model/sample_view.dart';
+
+/// Renders the gauge compass sample.
 class GaugeCompassExample extends SampleView {
+  /// Creates the gauge compass sample.
   const GaugeCompassExample(Key key) : super(key: key);
 
   @override
@@ -23,23 +30,22 @@ class _GaugeCompassExampleState extends SampleViewState {
       _markerWidth = 15;
       _labelFontSize = 11;
     } else {
-      _annotationTextSize = kIsWeb ? 22 : 16;
-      _markerOffset =  kIsWeb ? 0.71 : 0.69;
-      _positionFactor = kIsWeb ? 0.025 : 0.05;
-      _markerHeight = kIsWeb ? 10 : 5;
-      _markerWidth = kIsWeb ? 15: 10;
-      _labelFontSize = kIsWeb ? 11: 10;
+      _annotationTextSize = model.isWeb ? 22 : 16;
+      _markerOffset = model.isWeb ? 0.71 : 0.69;
+      _positionFactor = model.isWeb ? 0.025 : 0.05;
+      _markerHeight = model.isWeb ? 10 : 5;
+      _markerWidth = model.isWeb ? 15 : 10;
+      _labelFontSize = model.isWeb ? 11 : 10;
     }
     final Widget _widget = SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
             showAxisLine: false,
             radiusFactor: 1,
-            showLastLabel: false,
-            needsRotateLabels: true,
+            canRotateLabels: true,
             tickOffset: 0.32,
             offsetUnit: GaugeSizeUnit.factor,
-            onLabelCreated: _axisLabelCreated,
+            onLabelCreated: _handleAxisLabelCreated,
             startAngle: 270,
             endAngle: 270,
             labelOffset: 0.05,
@@ -70,8 +76,8 @@ class _GaugeCompassExampleState extends SampleViewState {
                   markerOffset: isCardView ? 0.69 : _markerOffset,
                   offsetUnit: GaugeSizeUnit.factor,
                   markerType: MarkerType.triangle,
-                  markerHeight: isCardView  ? 8 : _markerHeight,
-                  markerWidth: isCardView  ? 8 : _markerWidth)
+                  markerHeight: isCardView ? 8 : _markerHeight,
+                  markerWidth: isCardView ? 8 : _markerWidth)
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
@@ -82,12 +88,12 @@ class _GaugeCompassExampleState extends SampleViewState {
                     style: TextStyle(
                         color: const Color(0xFFDF5F2D),
                         fontWeight: FontWeight.bold,
-                        fontSize: isCardView  ? 16 : _annotationTextSize),
+                        fontSize: isCardView ? 16 : _annotationTextSize),
                   ))
             ])
       ],
     );
-    if (kIsWeb) {
+    if (model.isWeb) {
       return Padding(
         padding: const EdgeInsets.all(35),
         child: _widget,
@@ -97,12 +103,15 @@ class _GaugeCompassExampleState extends SampleViewState {
     }
   }
 
-  void _axisLabelCreated(AxisLabelCreatedArgs args) {
+  /// Handled callback for change numeric value to compass directional letter.
+  void _handleAxisLabelCreated(AxisLabelCreatedArgs args) {
     if (args.text == '90') {
       args.text = 'E';
       args.labelStyle = GaugeTextStyle(
           color: const Color(0xFFDF5F2D),
           fontSize: isCardView ? 10 : _labelFontSize);
+    } else if (args.text == '360') {
+      args.text = '';
     } else {
       if (args.text == '0') {
         args.text = 'N';
@@ -125,4 +134,3 @@ class _GaugeCompassExampleState extends SampleViewState {
   double _markerOffset = 0.71;
   double _labelFontSize = 10;
 }
-

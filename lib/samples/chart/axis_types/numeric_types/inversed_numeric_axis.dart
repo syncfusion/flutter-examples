@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/shared/mobile.dart'
     if (dart.library.html) '../../../../widgets/shared/web.dart';
@@ -14,6 +13,7 @@ import '../../../../widgets/switch.dart';
 
 /// Renders the inversed numeric axis sample.
 class NumericInverse extends SampleView {
+  /// Creates the inversed numeric axis sample.
   const NumericInverse(Key key) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class _NumericInverseState extends SampleViewState {
           Padding(
             padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
             child: HandCursor(
-              child: BottomSheetSwitch(
+              child: CustomSwitch(
                 activeColor: model.backgroundColor,
                 switchValue: isXInversed,
                 valueChanged: (dynamic value) {
@@ -54,7 +54,7 @@ class _NumericInverseState extends SampleViewState {
           Padding(
             padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
             child: HandCursor(
-              child: BottomSheetSwitch(
+              child: CustomSwitch(
                 activeColor: model.backgroundColor,
                 switchValue: isYInversed,
                 valueChanged: (dynamic value) {
@@ -76,7 +76,8 @@ class _NumericInverseState extends SampleViewState {
   }
 
   /// Returns the Cartesian chart with inversed x and y axis.
-  /// Can change the isInversed bool value by toggle the custom button presented in property panel.
+  /// Can change the isInversed bool value by toggle the custom button
+  /// presented in property panel.
   SfCartesianChart getChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
@@ -101,7 +102,8 @@ class _NumericInverseState extends SampleViewState {
     );
   }
 
-  /// Returns the list of Chart series which need to render on the inversed numeric axis.
+  /// Returns the list of Chart series
+  /// which need to render on the inversed numeric axis.
   List<LineSeries<ChartSampleData, num>> getInversedNumericSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(xValue: 2000, yValue: 14720),
@@ -116,7 +118,6 @@ class _NumericInverseState extends SampleViewState {
     ];
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.xValue,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,

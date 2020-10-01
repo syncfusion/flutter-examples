@@ -6,11 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the stepline chart with inversed logarithmic axis sample.
 class LogarithmicAxisInversed extends SampleView {
+  /// Creates the stepline chart with inversed logarithmic axis sample.
   const LogarithmicAxisInversed(Key key) : super(key: key);
 
   @override
@@ -24,12 +24,12 @@ class _LogarithmicAxisInversedState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getInversedLogarithmicAxisChart();
+    return _getInversedLogarithmicAxisChart();
   }
 
   /// Returns the stepline chart with inversed logarithmic axis.
-  SfCartesianChart getInversedLogarithmicAxisChart() {
-    dynamic text;
+  SfCartesianChart _getInversedLogarithmicAxisChart() {
+    String text;
     return SfCartesianChart(
       onTooltipRender: (TooltipArgs args) {
         final NumberFormat format = NumberFormat.decimalPattern();
@@ -38,8 +38,9 @@ class _LogarithmicAxisInversedState extends SampleViewState {
       },
       onAxisLabelRender: (AxisLabelRenderArgs args) {
         final NumberFormat format = NumberFormat.decimalPattern();
-        if (args.axisName == 'primaryYAxis')
+        if (args.axisName == 'primaryYAxis') {
           args.text = format.format(double.parse(args.text)).toString();
+        }
       },
       plotAreaBorderWidth: 0,
       title:
@@ -63,7 +64,8 @@ class _LogarithmicAxisInversedState extends SampleViewState {
     );
   }
 
-  /// Returns the list of chart series which need to render on the stepline chart.
+  /// Returns the list of chart series
+  /// which need to render on the stepline chart.
   List<ChartSeries<ChartSampleData, String>> _getInversedLogarithmicSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 'China', yValue: 1433783686),
@@ -78,7 +80,6 @@ class _LogarithmicAxisInversedState extends SampleViewState {
     ];
     return <ChartSeries<ChartSampleData, String>>[
       StepLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,

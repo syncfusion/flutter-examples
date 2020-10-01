@@ -1,9 +1,15 @@
+///Dart import
 import 'dart:io';
+
+///Package imports
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
+///To save the pdf file in the device
 class FileSaveHelper {
   static const MethodChannel _platformCall = MethodChannel('launchFile');
+
+  ///To save the pdf file in the device
   static Future<void> saveAndLaunchFile(
       List<int> bytes, String fileName) async {
     final Directory directory = await getApplicationDocumentsDirectory();

@@ -1,5 +1,4 @@
 /// Package imports
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -7,16 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import 'package:flutter_examples/widgets/customDropDown.dart';
-import 'package:flutter_examples/widgets/custom_button.dart';
-import 'package:flutter_examples/widgets/shared/mobile.dart'
-    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
-
-import '../../../model/model.dart';
 import '../../../model/sample_view.dart';
+import '../../../widgets/custom_button.dart';
+import '../../../widgets/custom_dropdown.dart';
+import '../../../widgets/shared/mobile.dart'
+    if (dart.library.html) '../../../widgets/shared/web.dart';
 
-/// Render the dtefaul trendline chart sample.
+/// Render the default trendline chart sample.
 class TrendLineDefault extends SampleView {
+  /// craetes the default trendline chart sample
   const TrendLineDefault(Key key) : super(key: key);
 
   @override
@@ -52,7 +50,7 @@ class _TrendLineDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getTrendLineDefaultChart();
+    return _getTrendLineDefaultChart();
   }
 
   @override
@@ -83,13 +81,13 @@ class _TrendLineDefaultState extends SampleViewState {
                       value: _selectedTrendLineType,
                       item: _trendlineTypeList.map((String value) {
                         return DropdownMenuItem<String>(
-                          value: value != null ? value : 'Linear',
+                          value: value ?? 'Linear',
                           child: Text('$value',
                               style: TextStyle(color: model.textColor)),
                         );
                       }).toList(),
                       valueChanged: (dynamic value) {
-                        onTrendLineTypeChanged(value.toString(), model);
+                        _onTrendLineTypeChanged(value.toString());
                       },
                     ),
                   ),
@@ -118,19 +116,17 @@ class _TrendLineDefaultState extends SampleViewState {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(37, 0, 0, 0),
                     child: HandCursor(
-                      child: CustomButton(
+                      child: CustomDirectionalButtons(
                         minValue: 2,
                         maxValue: 6,
                         initialValue: _polynomialOrder.toDouble(),
-                        onChanged: (dynamic val) => setState(() {
+                        onChanged: (double val) => setState(() {
                           _polynomialOrder = val.floor();
                         }),
                         step: 1,
-                        horizontal: true,
                         loop: true,
                         padding: 0,
-                        iconUpRightColor: model.textColor,
-                        iconDownLeftColor: model.textColor,
+                        iconColor: model.textColor,
                         style:
                             TextStyle(fontSize: 16.0, color: model.textColor),
                       ),
@@ -157,19 +153,17 @@ class _TrendLineDefaultState extends SampleViewState {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(103, 0, 0, 0),
                     child: HandCursor(
-                      child: CustomButton(
+                      child: CustomDirectionalButtons(
                         minValue: 2,
                         maxValue: periodMaxValue.toDouble(),
                         initialValue: _period.toDouble(),
-                        onChanged: (dynamic val) => setState(() {
+                        onChanged: (double val) => setState(() {
                           _period = val.floor();
                         }),
                         step: 1,
-                        horizontal: true,
                         loop: true,
                         padding: 0,
-                        iconUpRightColor: model.textColor,
-                        iconDownLeftColor: model.textColor,
+                        iconColor: model.textColor,
                         style:
                             TextStyle(fontSize: 16.0, color: model.textColor),
                       ),
@@ -183,14 +177,14 @@ class _TrendLineDefaultState extends SampleViewState {
       ],
     );
   }
-  
+
   /// Returns the column chart with defaul trendline types.
-  SfCartesianChart getTrendLineDefaultChart() {
+  SfCartesianChart _getTrendLineDefaultChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'No. of website visitors in a week'),
-      legend: Legend(isVisible: isCardView ? false : true),
+      legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
@@ -202,13 +196,14 @@ class _TrendLineDefaultState extends SampleViewState {
         interval: !isCardView ? 5000 : 10000,
         labelFormat: '{value}',
       ),
-      series: getTrendLineDefaultSeries(),
+      series: _getTrendLineDefaultSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
-  /// Returns the list of chart series which need to render on the column chart with defaul trendline.
-  List<ColumnSeries<ChartSampleData, String>> getTrendLineDefaultSeries() {
+  /// Returns the list of chart series which
+  /// need to render on the column chart with defaul trendline.
+  List<ColumnSeries<ChartSampleData, String>> _getTrendLineDefaultSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(text: 'Sun', yValue: 12500),
       ChartSampleData(text: 'Mon', yValue: 14000),
@@ -230,7 +225,7 @@ class _TrendLineDefaultState extends SampleViewState {
                 type: _type,
                 width: 3,
                 color: const Color.fromRGBO(192, 108, 132, 1),
-                dashArray: kIsWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
+                dashArray: model.isWeb ? <double>[0, 0] : <double>[15, 3, 3, 3],
                 enableTooltip: true,
                 polynomialOrder: _polynomialOrder,
                 period: _period)
@@ -239,7 +234,7 @@ class _TrendLineDefaultState extends SampleViewState {
   }
 
   /// Method to update the selected trendline type for the chart.
-  void onTrendLineTypeChanged(String item, SampleModel model) {
+  void _onTrendLineTypeChanged(String item) {
     _selectedTrendLineType = item;
     switch (_selectedTrendLineType) {
       case 'Linear':
@@ -261,6 +256,8 @@ class _TrendLineDefaultState extends SampleViewState {
         _type = TrendlineType.movingAverage;
         break;
     }
-    setState(() {});
+    setState(() {
+      /// update the trend line  changes
+    });
   }
 }

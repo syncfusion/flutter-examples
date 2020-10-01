@@ -1,17 +1,16 @@
 /// Package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
-import '../../../../widgets/customDropDown.dart';
+import '../../../../widgets/custom_dropdown.dart';
 
 /// Renders the spline types cahrt sample.
 class SplineTypes extends SampleView {
+  /// Creates the spline types cahrt sample.
   const SplineTypes(Key key) : super(key: key);
 
   @override
@@ -36,7 +35,7 @@ class _SplineTypesState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getTypesSplineChart();
+    return _getTypesSplineChart();
   }
 
   @override
@@ -70,7 +69,7 @@ class _SplineTypesState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onPositionTypeChange(value.toString(), model);
+                            _onPositionTypeChange(value.toString());
                           }),
                     ),
                   )),
@@ -82,7 +81,7 @@ class _SplineTypesState extends SampleViewState {
   }
 
   /// Returns the spline types chart.
-  SfCartesianChart getTypesSplineChart() {
+  SfCartesianChart _getTypesSplineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Export growth of Brazil'),
@@ -96,14 +95,14 @@ class _SplineTypesState extends SampleViewState {
           maximum: 0.2,
           interval: 0.1,
           majorTickLines: MajorTickLines(size: 0)),
-      series: getSplineTypesSeries(),
+      series: _getSplineTypesSeries(),
       tooltipBehavior:
           TooltipBehavior(enable: true, header: '', canShowMarker: false),
     );
   }
 
   /// Returns the list of chart series which need to render on the spline chart.
-  List<SplineSeries<_ChartData, num>> getSplineTypesSeries() {
+  List<SplineSeries<_ChartData, num>> _getSplineTypesSeries() {
     final List<_ChartData> chartData = <_ChartData>[
       _ChartData(2011, 0.05),
       _ChartData(2011.25, 0),
@@ -129,7 +128,7 @@ class _SplineTypesState extends SampleViewState {
     ];
     return <SplineSeries<_ChartData, num>>[
       SplineSeries<_ChartData, num>(
-          enableTooltip: true,
+
           /// To set the spline type here.
           splineType: _spline,
           dataSource: chartData,
@@ -140,7 +139,7 @@ class _SplineTypesState extends SampleViewState {
   }
 
   /// Method to change the spline type using dropdown menu.
-  void onPositionTypeChange(String item, SampleModel model) {
+  void _onPositionTypeChange(String item) {
     _selectedSplineType = item;
     if (_selectedSplineType == 'natural') {
       _spline = SplineType.natural;
@@ -154,7 +153,9 @@ class _SplineTypesState extends SampleViewState {
     if (_selectedSplineType == 'clamped') {
       _spline = SplineType.clamped;
     }
-    setState(() {});
+    setState(() {
+      /// update the spline type changes
+    });
   }
 }
 

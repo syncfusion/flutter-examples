@@ -1,12 +1,20 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
+///flutter package import
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
 
+///Core theme import
+import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+///Local imports
+import '../../../../../model/sample_view.dart';
+import '../../../slider_utils.dart';
+
+///Renders slider with customized size
 class SliderSizeCustomizationPage extends SampleView {
+  ///Creates slider with customized size
   const SliderSizeCustomizationPage(Key key) : super(key: key);
 
   @override
@@ -21,12 +29,13 @@ class _SliderSizeCustomizationPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    slider = SfSliderSizeCustomization();
+    slider = _SfSliderSizeCustomization();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? slider
         : SingleChildScrollView(
             child: Container(height: 300, child: slider),
@@ -34,8 +43,7 @@ class _SliderSizeCustomizationPageState extends SampleViewState {
   }
 }
 
-// ignore: must_be_immutable
-class SfSliderSizeCustomization extends SampleView {
+class _SfSliderSizeCustomization extends SampleView {
   @override
   _SfSliderSizeCustomizationState createState() =>
       _SfSliderSizeCustomizationState();
@@ -84,7 +92,7 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
   SfSliderTheme _sliderWithTrackCustomization() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-            activeTrackHeight: 8.0,
+            activeTrackHeight: 10.0,
             inactiveTrackHeight: 4.0,
             trackCornerRadius: 6.0,
             tooltipBackgroundColor: model.backgroundColor),
@@ -115,10 +123,7 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(
@@ -138,6 +143,6 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWeb ? _getWebLayout() : _getMobileLayout();
   }
 }

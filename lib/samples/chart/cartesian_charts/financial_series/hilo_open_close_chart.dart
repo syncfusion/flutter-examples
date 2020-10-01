@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/checkbox.dart';
 
+///Renders default High-low-open-close series chart
 class HiloOpenCloseChart extends SampleView {
+  ///Creates default High-low-open-close series chart
   const HiloOpenCloseChart(Key key) : super(key: key);
 
   @override
@@ -19,7 +20,8 @@ class HiloOpenCloseChart extends SampleView {
 
 class _HiloOpenCloseChartState extends SampleViewState {
   _HiloOpenCloseChartState();
-  bool toggleVisibility;
+  bool _toggleVisibility;
+  @override
   Widget buildSettings(BuildContext context) {
     return ListView(
       children: <Widget>[
@@ -34,12 +36,12 @@ class _HiloOpenCloseChartState extends SampleViewState {
                       fontWeight: FontWeight.normal)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: BottomSheetCheckbox(
+                child: CustomCheckBox(
                   activeColor: model.backgroundColor,
-                  switchValue: toggleVisibility,
+                  switchValue: _toggleVisibility,
                   valueChanged: (dynamic value) {
                     setState(() {
-                      toggleVisibility = value;
+                      _toggleVisibility = value;
                     });
                   },
                 ),
@@ -53,10 +55,11 @@ class _HiloOpenCloseChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getHiloOpenClose();
+    return _getHiloOpenClose();
   }
 
-  SfCartesianChart getHiloOpenClose() {
+  ///Get the cartesian chart with hilo open close series
+  SfCartesianChart _getHiloOpenClose() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
@@ -73,355 +76,343 @@ class _HiloOpenCloseChartState extends SampleViewState {
           interval: 20,
           labelFormat: '\${value}',
           axisLine: AxisLine(width: 0)),
-      series: getHiloOpenCloseSeries(isCardView, toggleVisibility),
+      series: _getHiloOpenCloseSeries(),
       trackballBehavior: TrackballBehavior(
           enable: true, activationMode: ActivationMode.singleTap),
     );
   }
 
-  List<HiloOpenCloseSeries<ChartSampleData, DateTime>> getHiloOpenCloseSeries(
-      bool isCardView, dynamic toggleVisibility) {
+  ///Get the hilo open close series
+  List<HiloOpenCloseSeries<ChartSampleData, DateTime>>
+      _getHiloOpenCloseSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(
           x: DateTime(2016, 01, 11),
-          yValue2: 98.97,
+          secondSeriesYValue: 98.97,
           yValue: 101.19,
           y: 95.36,
-          yValue3: 97.13),
+          thirdSeriesYValue: 97.13),
       ChartSampleData(
           x: DateTime(2016, 01, 18),
-          yValue2: 98.41,
+          secondSeriesYValue: 98.41,
           yValue: 101.46,
           y: 93.42,
-          yValue3: 101.42),
+          thirdSeriesYValue: 101.42),
       ChartSampleData(
           x: DateTime(2016, 01, 25),
-          yValue2: 101.52,
+          secondSeriesYValue: 101.52,
           yValue: 101.53,
           y: 92.39,
-          yValue3: 97.34),
+          thirdSeriesYValue: 97.34),
       ChartSampleData(
           x: DateTime(2016, 02, 01),
-          yValue2: 96.47,
+          secondSeriesYValue: 96.47,
           yValue: 97.33,
           y: 93.69,
-          yValue3: 94.02),
+          thirdSeriesYValue: 94.02),
       ChartSampleData(
           x: DateTime(2016, 02, 08),
-          yValue2: 93.13,
+          secondSeriesYValue: 93.13,
           yValue: 96.35,
           y: 92.59,
-          yValue3: 93.99),
+          thirdSeriesYValue: 93.99),
       ChartSampleData(
           x: DateTime(2016, 02, 15),
-          yValue2: 91.02,
+          secondSeriesYValue: 91.02,
           yValue: 94.89,
           y: 90.61,
-          yValue3: 92.04),
+          thirdSeriesYValue: 92.04),
       ChartSampleData(
           x: DateTime(2016, 02, 22),
-          yValue2: 96.31,
+          secondSeriesYValue: 96.31,
           yValue: 98.0237,
           y: 98.0237,
-          yValue3: 96.31),
+          thirdSeriesYValue: 96.31),
       ChartSampleData(
           x: DateTime(2016, 02, 29),
-          yValue2: 99.86,
+          secondSeriesYValue: 99.86,
           yValue: 106.75,
           y: 99.65,
-          yValue3: 106.01),
+          thirdSeriesYValue: 106.01),
       ChartSampleData(
           x: DateTime(2016, 03, 07),
-          yValue2: 102.39,
+          secondSeriesYValue: 102.39,
           yValue: 102.83,
           y: 100.15,
-          yValue3: 102.26),
+          thirdSeriesYValue: 102.26),
       ChartSampleData(
           x: DateTime(2016, 03, 14),
-          yValue2: 101.91,
+          secondSeriesYValue: 101.91,
           yValue: 106.5,
           y: 101.78,
-          yValue3: 105.92),
+          thirdSeriesYValue: 105.92),
       ChartSampleData(
           x: DateTime(2016, 03, 21),
-          yValue2: 105.93,
+          secondSeriesYValue: 105.93,
           yValue: 107.65,
           y: 104.89,
-          yValue3: 105.67),
+          thirdSeriesYValue: 105.67),
       ChartSampleData(
           x: DateTime(2016, 03, 28),
-          yValue2: 106,
+          secondSeriesYValue: 106,
           yValue: 110.42,
           y: 104.88,
-          yValue3: 109.99),
+          thirdSeriesYValue: 109.99),
       ChartSampleData(
           x: DateTime(2016, 04, 04),
-          yValue2: 110.42,
+          secondSeriesYValue: 110.42,
           yValue: 112.19,
           y: 108.121,
-          yValue3: 108.66),
+          thirdSeriesYValue: 108.66),
       ChartSampleData(
           x: DateTime(2016, 04, 11),
-          yValue2: 108.97,
+          secondSeriesYValue: 108.97,
           yValue: 112.39,
           y: 108.66,
-          yValue3: 109.85),
+          thirdSeriesYValue: 109.85),
       ChartSampleData(
           x: DateTime(2016, 04, 18),
-          yValue2: 108.89,
+          secondSeriesYValue: 108.89,
           yValue: 108.95,
           y: 104.62,
-          yValue3: 105.68),
+          thirdSeriesYValue: 105.68),
       ChartSampleData(
           x: DateTime(2016, 04, 25),
-          yValue2: 105,
+          secondSeriesYValue: 105,
           yValue: 105.65,
           y: 92.51,
-          yValue3: 93.74),
+          thirdSeriesYValue: 93.74),
       ChartSampleData(
           x: DateTime(2016, 05, 02),
-          yValue2: 93.965,
+          secondSeriesYValue: 93.965,
           yValue: 95.9,
           y: 91.85,
-          yValue3: 92.72),
+          thirdSeriesYValue: 92.72),
       ChartSampleData(
           x: DateTime(2016, 05, 09),
-          yValue2: 93,
+          secondSeriesYValue: 93,
           yValue: 93.77,
           y: 89.47,
-          yValue3: 90.52),
+          thirdSeriesYValue: 90.52),
       ChartSampleData(
           x: DateTime(2016, 05, 16),
-          yValue2: 92.39,
+          secondSeriesYValue: 92.39,
           yValue: 95.43,
           y: 91.65,
-          yValue3: 95.22),
+          thirdSeriesYValue: 95.22),
       ChartSampleData(
           x: DateTime(2016, 05, 23),
-          yValue2: 95.87,
+          secondSeriesYValue: 95.87,
           yValue: 100.73,
           y: 95.67,
-          yValue3: 100.35),
+          thirdSeriesYValue: 100.35),
       ChartSampleData(
           x: DateTime(2016, 05, 30),
-          yValue2: 99.6,
+          secondSeriesYValue: 99.6,
           yValue: 100.4,
           y: 96.63,
-          yValue3: 97.92),
+          thirdSeriesYValue: 97.92),
       ChartSampleData(
           x: DateTime(2016, 06, 06),
-          yValue2: 97.99,
+          secondSeriesYValue: 97.99,
           yValue: 101.89,
           y: 97.55,
-          yValue3: 98.83),
+          thirdSeriesYValue: 98.83),
       ChartSampleData(
           x: DateTime(2016, 06, 13),
-          yValue2: 98.69,
+          secondSeriesYValue: 98.69,
           yValue: 99.12,
           y: 95.3,
-          yValue3: 95.33),
+          thirdSeriesYValue: 95.33),
       ChartSampleData(
           x: DateTime(2016, 06, 20),
-          yValue2: 96,
+          secondSeriesYValue: 96,
           yValue: 96.89,
           y: 92.65,
-          yValue3: 93.4),
+          thirdSeriesYValue: 93.4),
       ChartSampleData(
           x: DateTime(2016, 06, 27),
-          yValue2: 93,
+          secondSeriesYValue: 93,
           yValue: 96.465,
           y: 91.5,
-          yValue3: 95.89),
+          thirdSeriesYValue: 95.89),
       ChartSampleData(
           x: DateTime(2016, 07, 04),
-          yValue2: 95.39,
+          secondSeriesYValue: 95.39,
           yValue: 96.89,
           y: 94.37,
-          yValue3: 96.68),
+          thirdSeriesYValue: 96.68),
       ChartSampleData(
           x: DateTime(2016, 07, 11),
-          yValue2: 96.75,
+          secondSeriesYValue: 96.75,
           yValue: 99.3,
           y: 96.73,
-          yValue3: 98.78),
+          thirdSeriesYValue: 98.78),
       ChartSampleData(
           x: DateTime(2016, 07, 18),
-          yValue2: 98.7,
+          secondSeriesYValue: 98.7,
           yValue: 101,
           y: 98.31,
-          yValue3: 98.66),
+          thirdSeriesYValue: 98.66),
       ChartSampleData(
           x: DateTime(2016, 07, 25),
-          yValue2: 98.25,
+          secondSeriesYValue: 98.25,
           yValue: 104.55,
           y: 96.42,
-          yValue3: 104.21),
+          thirdSeriesYValue: 104.21),
       ChartSampleData(
           x: DateTime(2016, 08, 01),
-          yValue2: 104.41,
+          secondSeriesYValue: 104.41,
           yValue: 107.65,
           y: 104,
-          yValue3: 107.48),
+          thirdSeriesYValue: 107.48),
       ChartSampleData(
           x: DateTime(2016, 08, 08),
-          yValue2: 107.52,
+          secondSeriesYValue: 107.52,
           yValue: 108.94,
           y: 107.16,
-          yValue3: 108.18),
+          thirdSeriesYValue: 108.18),
       ChartSampleData(
           x: DateTime(2016, 08, 15),
-          yValue2: 108.14,
+          secondSeriesYValue: 108.14,
           yValue: 110.23,
           y: 108.08,
-          yValue3: 109.36),
+          thirdSeriesYValue: 109.36),
       ChartSampleData(
           x: DateTime(2016, 08, 22),
-          yValue2: 108.86,
+          secondSeriesYValue: 108.86,
           yValue: 109.32,
           y: 106.31,
-          yValue3: 106.94),
+          thirdSeriesYValue: 106.94),
       ChartSampleData(
           x: DateTime(2016, 08, 29),
-          yValue2: 106.62,
+          secondSeriesYValue: 106.62,
           yValue: 108,
           y: 105.5,
-          yValue3: 107.73),
+          thirdSeriesYValue: 107.73),
       ChartSampleData(
           x: DateTime(2016, 09, 05),
-          yValue2: 107.9,
+          secondSeriesYValue: 107.9,
           yValue: 108.76,
           y: 103.13,
-          yValue3: 103.13),
+          thirdSeriesYValue: 103.13),
       ChartSampleData(
           x: DateTime(2016, 09, 12),
-          yValue2: 102.65,
+          secondSeriesYValue: 102.65,
           yValue: 116.13,
           y: 102.53,
-          yValue3: 114.92),
+          thirdSeriesYValue: 114.92),
       ChartSampleData(
           x: DateTime(2016, 09, 19),
-          yValue2: 115.19,
+          secondSeriesYValue: 115.19,
           yValue: 116.18,
           y: 111.55,
-          yValue3: 112.71),
+          thirdSeriesYValue: 112.71),
       ChartSampleData(
           x: DateTime(2016, 09, 26),
-          yValue2: 111.64,
+          secondSeriesYValue: 111.64,
           yValue: 114.64,
           y: 111.55,
-          yValue3: 113.05),
+          thirdSeriesYValue: 113.05),
       ChartSampleData(
           x: DateTime(2016, 10, 03),
-          yValue2: 112.71,
+          secondSeriesYValue: 112.71,
           yValue: 114.56,
           y: 112.28,
-          yValue3: 114.06),
+          thirdSeriesYValue: 114.06),
       ChartSampleData(
           x: DateTime(2016, 10, 10),
-          yValue2: 115.02,
+          secondSeriesYValue: 115.02,
           yValue: 118.69,
           y: 114.72,
-          yValue3: 117.63),
+          thirdSeriesYValue: 117.63),
       ChartSampleData(
           x: DateTime(2016, 10, 17),
-          yValue2: 117.33,
+          secondSeriesYValue: 117.33,
           yValue: 118.21,
           y: 113.8,
-          yValue3: 116.6),
+          thirdSeriesYValue: 116.6),
       ChartSampleData(
           x: DateTime(2016, 10, 24),
-          yValue2: 117.1,
+          secondSeriesYValue: 117.1,
           yValue: 118.36,
           y: 113.31,
-          yValue3: 113.72),
+          thirdSeriesYValue: 113.72),
       ChartSampleData(
           x: DateTime(2016, 10, 31),
-          yValue2: 113.65,
+          secondSeriesYValue: 113.65,
           yValue: 114.23,
           y: 108.11,
-          yValue3: 108.84),
+          thirdSeriesYValue: 108.84),
       ChartSampleData(
           x: DateTime(2016, 11, 07),
-          yValue2: 110.08,
+          secondSeriesYValue: 110.08,
           yValue: 111.72,
           y: 105.83,
-          yValue3: 108.43),
+          thirdSeriesYValue: 108.43),
       ChartSampleData(
           x: DateTime(2016, 11, 14),
-          yValue2: 107.71,
+          secondSeriesYValue: 107.71,
           yValue: 110.54,
           y: 104.08,
-          yValue3: 110.06),
+          thirdSeriesYValue: 110.06),
       ChartSampleData(
           x: DateTime(2016, 11, 21),
-          yValue2: 114.12,
+          secondSeriesYValue: 114.12,
           yValue: 115.42,
           y: 115.42,
-          yValue3: 114.12),
+          thirdSeriesYValue: 114.12),
       ChartSampleData(
           x: DateTime(2016, 11, 28),
-          yValue2: 111.43,
+          secondSeriesYValue: 111.43,
           yValue: 112.465,
           y: 108.85,
-          yValue3: 109.9),
+          thirdSeriesYValue: 109.9),
       ChartSampleData(
           x: DateTime(2016, 12, 05),
-          yValue2: 110,
+          secondSeriesYValue: 110,
           yValue: 114.7,
           y: 108.25,
-          yValue3: 113.95),
+          thirdSeriesYValue: 113.95),
       ChartSampleData(
           x: DateTime(2016, 12, 12),
-          yValue2: 113.29,
+          secondSeriesYValue: 113.29,
           yValue: 116.73,
           y: 112.49,
-          yValue3: 115.97),
+          thirdSeriesYValue: 115.97),
       ChartSampleData(
           x: DateTime(2016, 12, 19),
-          yValue2: 115.8,
+          secondSeriesYValue: 115.8,
           yValue: 117.5,
           y: 115.59,
-          yValue3: 116.52),
+          thirdSeriesYValue: 116.52),
       ChartSampleData(
           x: DateTime(2016, 12, 26),
-          yValue2: 116.52,
+          secondSeriesYValue: 116.52,
           yValue: 118.0166,
           y: 115.43,
-          yValue3: 115.82),
+          thirdSeriesYValue: 115.82),
     ];
     return <HiloOpenCloseSeries<ChartSampleData, DateTime>>[
       HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          enableTooltip: true,
           dataSource: chartData,
           name: 'AAPL',
-          showIndicationForSameValues: isCardView ? true : toggleVisibility,
+          showIndicationForSameValues: isCardView ? true : _toggleVisibility,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
+
           /// High, low, open and close values used to render the HLOC series.
           lowValueMapper: (ChartSampleData sales, _) => sales.y,
           highValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          openValueMapper: (ChartSampleData sales, _) => sales.yValue2,
-          closeValueMapper: (ChartSampleData sales, _) => sales.yValue3,
-          dataLabelSettings: DataLabelSettings(isVisible: false))
+          openValueMapper: (ChartSampleData sales, _) =>
+              sales.secondSeriesYValue,
+          closeValueMapper: (ChartSampleData sales, _) =>
+              sales.thirdSeriesYValue)
     ];
   }
 
   @override
   void initState() {
-    initProperties();
+    _toggleVisibility = true;
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void initProperties([SampleModel sampleModel, bool init]) {
-    toggleVisibility = true;
-
-    if (sampleModel != null && init) {
-      sampleModel.properties
-          .addAll(<dynamic, dynamic>{'ToggleVisibility': toggleVisibility});
-    }
   }
 }

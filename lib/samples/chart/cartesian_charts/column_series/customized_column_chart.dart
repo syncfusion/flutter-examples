@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
+/// Renders customized Column chart
 class ColumnVertical extends SampleView {
+  /// Creates customized Column chart
   const ColumnVertical(Key key) : super(key: key);
 
   @override
@@ -20,10 +21,11 @@ class _ColumnVerticalState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getCustomizedColumnChart();
+    return _getCustomizedColumnChart();
   }
 
-  SfCartesianChart getCustomizedColumnChart() {
+  /// Get customized column chart
+  SfCartesianChart _getCustomizedColumnChart() {
     return SfCartesianChart(
       title:
           ChartTitle(text: isCardView ? '' : 'PC vendor shipments - 2015 Q1'),
@@ -37,10 +39,9 @@ class _ColumnVerticalState extends SampleViewState {
           majorTickLines: MajorTickLines(size: 0)),
       series: <ChartSeries<ChartSampleData, String>>[
         ColumnSeries<ChartSampleData, String>(
-          onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-            return CustomColumnSeriesRenderer();
+          onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
+            return _CustomColumnSeriesRenderer();
           },
-          enableTooltip: true,
           isTrackVisible: false,
           dataLabelSettings: DataLabelSettings(
               isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
@@ -78,16 +79,16 @@ class _ColumnVerticalState extends SampleViewState {
   }
 }
 
-class CustomColumnSeriesRenderer extends ColumnSeriesRenderer {
-  CustomColumnSeriesRenderer();
+class _CustomColumnSeriesRenderer extends ColumnSeriesRenderer {
+  _CustomColumnSeriesRenderer();
 
   @override
   ChartSegment createSegment() {
-    return ColumnCustomPainter();
+    return _ColumnCustomPainter();
   }
 }
 
-class ColumnCustomPainter extends ColumnSegment {
+class _ColumnCustomPainter extends ColumnSegment {
   List<Color> colorList = <Color>[
     const Color.fromRGBO(53, 92, 125, 1),
     const Color.fromRGBO(192, 108, 132, 1),
@@ -128,7 +129,7 @@ class ColumnCustomPainter extends ColumnSegment {
     paint.color = getFillPaint().color;
     paint.style = PaintingStyle.fill;
     final Path path = Path();
-    final dynamic factor = segmentRect.height * (1 - animationFactor);
+    final double factor = segmentRect.height * (1 - animationFactor);
     path.moveTo(x - width / 2, y + factor + height);
     path.lineTo(x, (segmentRect.top + factor + height) - height);
     path.lineTo(x + width / 2, y + factor + height);

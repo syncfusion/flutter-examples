@@ -1,12 +1,19 @@
+// Dart imports
 import 'dart:async';
 import 'dart:math' as math;
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
-// ignore: must_be_immutable
+/// Flutter package imports
+import 'package:flutter/material.dart';
+
+/// Gauge imports
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+/// Local imports
+import '../../../model/sample_view.dart';
+
+/// Renders the gauge clock sample.
 class ClockExample extends SampleView {
+  /// Creates the gauge clock sample.
   const ClockExample(Key key) : super(key: key);
 
   @override
@@ -15,41 +22,20 @@ class ClockExample extends SampleView {
 
 class _ClockExampleState extends SampleViewState {
   _ClockExampleState();
-
-  @override
-  Widget build(BuildContext context) {
-    return ClockExampleFrontPanel();
-  }
-}
-
-//ignore:must_be_immutable
-class ClockExampleFrontPanel extends SampleView {
-  //ignore: prefer_const_constructors_in_immutables
-  ClockExampleFrontPanel();
-
-  @override
-  _ClockExampleFrontPanelState createState() => _ClockExampleFrontPanelState();
-}
-
-class _ClockExampleFrontPanelState extends SampleViewState {
-  _ClockExampleFrontPanelState();
-  bool isIndexed = true;
   Timer timer;
 
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: 1000), updateData);
+    // update the needle pointer in 1 second interval
+    timer = Timer.periodic(const Duration(milliseconds: 1000), _updateData);
   }
 
-  void updateData(Timer timer) {
+  void _updateData(Timer timer) {
     final double _previousValue = _value;
     setState(() {
-      if (_previousValue >= 0 && _previousValue < 12) {
-        _value = _value + 0.2;
-      } else {
-        _value = 0.2;
-      }
+      _value =
+          (_previousValue >= 0 && _previousValue < 12) ? _value + 0.2 : 0.2;
     });
   }
 
@@ -63,23 +49,21 @@ class _ClockExampleFrontPanelState extends SampleViewState {
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
     final double _containerSize = math.min(_size.width, _size.height);
-    return Scaffold(
-      backgroundColor: model.isWeb ? Colors.transparent : model.cardThemeColor,
-      body: Padding(
-          padding: const EdgeInsets.all(5),
-          child: Center(
-            child: Container(
-              height: _containerSize,
-              width: _containerSize,
-              child: getClockExample(isIndexed),
-            ),
-          )),
+    return Center(
+      child: Container(
+        height: _containerSize,
+        width: _containerSize,
+        child: _getClockExample(),
+      ),
     );
   }
 
-  SfRadialGauge getClockExample([bool isIndexed]) {
+  /// Returns the gauge clock
+  SfRadialGauge _getClockExample() {
     return SfRadialGauge(
       axes: <RadialAxis>[
+        /// Renders inner axis and positioned it using CenterX and
+        /// CenterY properties and reduce the radius using radiusFactor
         RadialAxis(
             startAngle: 270,
             endAngle: 270,
@@ -113,6 +97,9 @@ class _ClockExampleFrontPanelState extends SampleViewState {
                 ),
               )
             ]),
+
+        /// Renders inner axis and positioned it using CenterX and
+        /// CenterY properties and reduce the radius using radiusFactor
         RadialAxis(
             startAngle: 270,
             endAngle: 270,
@@ -126,7 +113,7 @@ class _ClockExampleFrontPanelState extends SampleViewState {
             maximum: 12,
             showFirstLabel: false,
             interval: 2,
-            centerX: isCardView ? 0.38 : kIsWeb ? 0.38 : 0.335,
+            centerX: isCardView ? 0.38 : model.isWeb ? 0.38 : 0.335,
             minorTicksPerInterval: 5,
             tickOffset: 0.03,
             minorTickStyle: MinorTickStyle(
@@ -149,6 +136,7 @@ class _ClockExampleFrontPanelState extends SampleViewState {
                 knobStyle: KnobStyle(knobRadius: 0),
               )
             ]),
+        // Renders outer axis
         RadialAxis(
             startAngle: 270,
             endAngle: 270,
@@ -156,7 +144,7 @@ class _ClockExampleFrontPanelState extends SampleViewState {
             maximum: 12,
             showFirstLabel: false,
             interval: 1,
-            radiusFactor: kIsWeb ? 0.8 : 0.95,
+            radiusFactor: model.isWeb ? 0.8 : 0.95,
             labelOffset: 0.1,
             offsetUnit: GaugeSizeUnit.factor,
             minorTicksPerInterval: 4,
@@ -214,4 +202,3 @@ class _ClockExampleFrontPanelState extends SampleViewState {
   double _value = 0;
   final Color _needleColor = const Color(0xFF355C7D);
 }
-

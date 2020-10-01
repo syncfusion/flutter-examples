@@ -11,70 +11,76 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local imports
 import '../../../../model/sample_view.dart';
 
+/// Renders the column chart sample with dynamically updated data points.
 class AnimationColumnDefault extends SampleView {
+  /// Creates the column chart sample with dynamically updated data points.
   const AnimationColumnDefault(Key key) : super(key: key);
-  
+
   @override
-  _AnimationColumnDefaultState createState() =>
-      _AnimationColumnDefaultState();
+  _AnimationColumnDefaultState createState() => _AnimationColumnDefaultState();
 }
 
 class _AnimationColumnDefaultState extends SampleViewState {
   _AnimationColumnDefaultState();
-  Timer timer;
-  
+
+  List<_ChartData> _chartData;
+  Timer _timer;
+
   @override
   Widget build(BuildContext context) {
     _getChartData();
-    timer = Timer(const Duration(seconds: 2), () {
+    _timer = Timer(const Duration(seconds: 2), () {
       setState(() {
         _getChartData();
       });
     });
-    return getAnimationColumnChart();
+    return _getAnimationColumnChart();
   }
 
-SfCartesianChart getAnimationColumnChart() {
-  return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          majorTickLines: MajorTickLines(color: Colors.transparent),
-          axisLine: AxisLine(width: 0),
-          minimum: 0,
-          maximum: 100),
-      series: _getDefaultColumnSeries());
-}
+  /// Get the cartesian chart
+  SfCartesianChart _getAnimationColumnChart() {
+    return SfCartesianChart(
+        plotAreaBorderWidth: 0,
+        primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryYAxis: NumericAxis(
+            majorTickLines: MajorTickLines(color: Colors.transparent),
+            axisLine: AxisLine(width: 0),
+            minimum: 0,
+            maximum: 100),
+        series: _getDefaultColumnSeries());
+  }
 
-List<ColumnSeries<_ChartData, num>> _getDefaultColumnSeries() {
-  return <ColumnSeries<_ChartData, num>>[
-    ColumnSeries<_ChartData, num>(
-        dataSource: _chartData,
-        xValueMapper: (_ChartData sales, _) => sales.x,
-        yValueMapper: (_ChartData sales, _) => sales.y)
-  ];
-}
+  /// Get the column series
+  List<ColumnSeries<_ChartData, num>> _getDefaultColumnSeries() {
+    return <ColumnSeries<_ChartData, num>>[
+      ColumnSeries<_ChartData, num>(
+          dataSource: _chartData,
+          xValueMapper: (_ChartData sales, _) => sales.x,
+          yValueMapper: (_ChartData sales, _) => sales.y)
+    ];
+  }
 
   @override
   void dispose() {
     super.dispose();
-    timer.cancel();
+    _timer.cancel();
   }
+
+  ///Generate random value
   num _getRandomInt(num min, num max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }
 
+  ///Generate random data points
   void _getChartData() {
     _chartData = <_ChartData>[];
     for (int i = 1; i < 8; i++) {
       _chartData.add(_ChartData(i, _getRandomInt(0, 100)));
     }
-    timer?.cancel();
+    _timer?.cancel();
   }
 }
-
-List<_ChartData> _chartData;
 
 class _ChartData {
   _ChartData(this.x, this.y);

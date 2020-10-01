@@ -8,15 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
-import '../../../../widgets/customDropDown.dart';
+import '../../../../widgets/custom_dropdown.dart';
 
-
-Timer timer;
+Timer _timer;
 
 /// Renders the Cartesian chart with dynamic animation sample.
 class CartesianDynamicAnimation extends SampleView {
+  /// Creates the Cartesian chart with dynamic animation sample.
   const CartesianDynamicAnimation(Key key) : super(key: key);
 
   @override
@@ -50,18 +49,18 @@ class _CartesianDynamicAnimationState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    timer.cancel();
+    _timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    chartData = getChartData();
-    timer = Timer(const Duration(seconds: 3), () {
+    chartData = _getChartData();
+    _timer = Timer(const Duration(seconds: 3), () {
       setState(() {
-        chartData = getChartData();
+        chartData = _getChartData();
       });
     });
-    return getDynamicAnimationChart();
+    return _getDynamicAnimationChart();
   }
 
   @override
@@ -95,7 +94,7 @@ class _CartesianDynamicAnimationState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onSeriesTypeChange(value.toString(), model);
+                            _onSeriesTypeChange(value.toString());
                           }),
                     ),
                   )),
@@ -107,8 +106,7 @@ class _CartesianDynamicAnimationState extends SampleViewState {
   }
 
   /// Returns the the Cartesian chart with dynamic animation.
-  SfCartesianChart getDynamicAnimationChart(
-      [String _selectedType, SampleModel model]) {
+  SfCartesianChart _getDynamicAnimationChart([String _selectedType]) {
     return SfCartesianChart(
       primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
@@ -118,7 +116,7 @@ class _CartesianDynamicAnimationState extends SampleViewState {
           interval: 20,
           maximum: 80,
           majorTickLines: MajorTickLines(size: 0)),
-      series: getAnimationData(),
+      series: _getAnimationData(),
     );
   }
 
@@ -132,9 +130,9 @@ class _CartesianDynamicAnimationState extends SampleViewState {
     ChartSampleData(x: '6', y: 65, pointColor: Colors.brown[300]),
   ];
 
-  /// Returns the list of chart series which need to render on the 
+  /// Returns the list of chart series which need to render on the
   /// Cartesian chart with dynamic animation.
-  List<ChartSeries<ChartSampleData, String>> getAnimationData() {
+  List<ChartSeries<ChartSampleData, String>> _getAnimationData() {
     if (_selectedType == 'Line') {
       return <LineSeries<ChartSampleData, String>>[
         LineSeries<ChartSampleData, String>(
@@ -317,8 +315,9 @@ class _CartesianDynamicAnimationState extends SampleViewState {
     return null;
   }
 
-  /// Method to get the chartdata for the cartesian chart in order to do dynmaic animation.
-  List<ChartSampleData> getChartData() {
+  /// Method to get the chartdata for the cartesian chart in order
+  /// to do dynmaic animation.
+  List<ChartSampleData> _getChartData() {
     if (count == 0) {
       chartData = <ChartSampleData>[
         ChartSampleData(x: '1', y: 76, pointColor: Colors.yellow),
@@ -350,16 +349,17 @@ class _CartesianDynamicAnimationState extends SampleViewState {
       ];
       count = 0;
     }
-    if (timer != null) {
-      timer.cancel();
+    if (_timer != null) {
+      _timer.cancel();
     }
     return chartData;
   }
 
-
   /// Method to update the series type in the chart on change.
-  void onSeriesTypeChange(String item, SampleModel model) {
+  void _onSeriesTypeChange(String item) {
     _selectedType = item;
-    setState(() {});
+    setState(() {
+      /// update the series type changes
+    });
   }
 }

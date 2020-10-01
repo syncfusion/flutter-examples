@@ -6,11 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the chart with various marker shapes sample.
 class MarkerDefault extends SampleView {
+  /// Creates the chart with various marker shapes sample.
   const MarkerDefault(Key key) : super(key: key);
 
   @override
@@ -23,46 +23,68 @@ class _MarkerDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getMarkerDefaultChart();
+    return _getMarkerDefaultChart();
   }
 
   /// Returns the chart with various marker shapes.
-  SfCartesianChart getMarkerDefaultChart() {
+  SfCartesianChart _getMarkerDefaultChart() {
     return SfCartesianChart(
-      title: ChartTitle(text: isCardView ? '' : 'Vehicles crossed tollgate'),
-      legend: Legend(isVisible: isCardView ? false : true),
+      title: ChartTitle(text: 'Vehicles crossed tollgate'),
+      legend: Legend(isVisible: true),
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
         majorGridLines: MajorGridLines(width: 0),
         dateFormat: DateFormat.Hm(),
-        title: AxisTitle(text: isCardView ? '' : 'Time'),
+        title: AxisTitle(text: 'Time'),
       ),
       primaryYAxis: NumericAxis(
-          title: AxisTitle(text: isCardView ? '' : 'Count'),
+          title: AxisTitle(text: 'Count'),
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: getMarkeSeries(),
+      series: _getMarkeSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
-  /// Returns the list of chart which need to render on the chart with various marker shapes.
-  List<LineSeries<ChartSampleData, DateTime>> getMarkeSeries() {
+  /// Returns the list of chart which need to
+  /// render on the chart with various marker shapes.
+  List<LineSeries<ChartSampleData, DateTime>> _getMarkeSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 8, 0), y: 60, yValue2: 28, yValue3: 15),
+          x: DateTime(2018, 3, 1, 8, 0),
+          y: 60,
+          secondSeriesYValue: 28,
+          thirdSeriesYValue: 15),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 8, 30), y: 49, yValue2: 40, yValue3: 28),
+          x: DateTime(2018, 3, 1, 8, 30),
+          y: 49,
+          secondSeriesYValue: 40,
+          thirdSeriesYValue: 28),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 9, 0), y: 70, yValue2: 32, yValue3: 16),
+          x: DateTime(2018, 3, 1, 9, 0),
+          y: 70,
+          secondSeriesYValue: 32,
+          thirdSeriesYValue: 16),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 9, 30), y: 56, yValue2: 36, yValue3: 66),
+          x: DateTime(2018, 3, 1, 9, 30),
+          y: 56,
+          secondSeriesYValue: 36,
+          thirdSeriesYValue: 66),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 10, 0), y: 66, yValue2: 50, yValue3: 26),
+          x: DateTime(2018, 3, 1, 10, 0),
+          y: 66,
+          secondSeriesYValue: 50,
+          thirdSeriesYValue: 26),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 10, 30), y: 50, yValue2: 35, yValue3: 14),
+          x: DateTime(2018, 3, 1, 10, 30),
+          y: 50,
+          secondSeriesYValue: 35,
+          thirdSeriesYValue: 14),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 11, 0), y: 55, yValue2: 32, yValue3: 20),
+          x: DateTime(2018, 3, 1, 11, 0),
+          y: 55,
+          secondSeriesYValue: 32,
+          thirdSeriesYValue: 20),
     ];
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
@@ -73,6 +95,7 @@ class _MarkerDefaultState extends SampleViewState {
         name: 'Truck',
         markerSettings: MarkerSettings(
             isVisible: true,
+
             /// To return the marker shape to marker settings.
             shape: DataMarkerType.pentagon,
             image: const AssetImage('images/truck.png')),
@@ -81,7 +104,7 @@ class _MarkerDefaultState extends SampleViewState {
         dataSource: chartData,
         width: 2,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
-        yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
+        yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
         name: 'Bike',
         markerSettings:
             MarkerSettings(isVisible: true, shape: DataMarkerType.triangle),
@@ -90,7 +113,7 @@ class _MarkerDefaultState extends SampleViewState {
         dataSource: chartData,
         width: 2,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
-        yValueMapper: (ChartSampleData sales, _) => sales.yValue3,
+        yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
         name: 'Car',
         markerSettings:
             MarkerSettings(isVisible: true, shape: DataMarkerType.rectangle),

@@ -1,17 +1,16 @@
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/checkbox.dart';
 
-//ignore: must_be_immutable
+///Renders histogram chart sample
 class HistogramDefault extends SampleView {
+  ///Creates histogram chart sample
   const HistogramDefault(Key key) : super(key: key);
 
   @override
@@ -20,7 +19,8 @@ class HistogramDefault extends SampleView {
 
 class _HistogramDefaultState extends SampleViewState {
   _HistogramDefaultState();
-  bool showLine = true;
+  bool _showDistributionCurve = true;
+  @override
   Widget buildSettings(BuildContext context) {
     return ListView(
       children: <Widget>[
@@ -35,12 +35,12 @@ class _HistogramDefaultState extends SampleViewState {
                       fontWeight: FontWeight.normal)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: BottomSheetCheckbox(
+                child: CustomCheckBox(
                   activeColor: model.backgroundColor,
-                  switchValue: showLine,
+                  switchValue: _showDistributionCurve,
                   valueChanged: (dynamic value) {
                     setState(() {
-                      showLine = value;
+                      _showDistributionCurve = value;
                     });
                   },
                 ),
@@ -54,14 +54,16 @@ class _HistogramDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultHistogramChart();
+    return Padding(
+        padding: EdgeInsets.only(bottom: model.isWeb ? 0 : 60),
+        child: _getDefaultHistogramChart());
   }
 
-  SfCartesianChart getDefaultHistogramChart() {
+  /// Get the cartesian chart with histogram series
+  SfCartesianChart _getDefaultHistogramChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      legend: Legend(isVisible: false),
-      title: ChartTitle(text: isCardView ? '' : 'Examination Result'),
+      title: ChartTitle(text: 'Examination Result'),
       primaryXAxis: NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
         minimum: 0,
@@ -73,13 +75,13 @@ class _HistogramDefaultState extends SampleViewState {
           maximum: 50,
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: _getHistogramSeries(isCardView, showLine),
+      series: _getHistogramSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
-  List<HistogramSeries<ChartSampleData, double>> _getHistogramSeries(
-      bool isCardView, dynamic showLine) {
+  ///Get the histogram series
+  List<HistogramSeries<ChartSampleData, double>> _getHistogramSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 5.250),
       ChartSampleData(x: 7.750),
@@ -186,13 +188,16 @@ class _HistogramDefaultState extends SampleViewState {
       HistogramSeries<ChartSampleData, double>(
         name: 'Score',
         dataSource: chartData,
+
         /// If we enable this property distribution line is sets in histogram.
-        showNormalDistributionCurve: !isCardView ? showLine : true,
+        showNormalDistributionCurve: _showDistributionCurve,
+
         /// It used to add the color for distribution line.
         curveColor: const Color.fromRGBO(192, 108, 132, 1),
         binInterval: 20,
+
         /// It used to add the dashes line for distribution line.
-        curveDashArray: kIsWeb ? <double>[0, 0] : <double>[12, 3, 3, 3],
+        curveDashArray: model.isWeb ? <double>[0, 0] : <double>[12, 3, 3, 3],
         width: 0.99,
         curveWidth: 2.5,
         yValueMapper: (ChartSampleData sales, _) => sales.x,
@@ -207,20 +212,7 @@ class _HistogramDefaultState extends SampleViewState {
 
   @override
   void initState() {
-    initProperties();
+    _showDistributionCurve = true;
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void initProperties([SampleModel sampleModel, bool init]) {
-    showLine = true;
-
-    if (sampleModel != null && init) {
-      sampleModel.properties.addAll(<dynamic, dynamic>{'ShowLine': showLine});
-    }
   }
 }

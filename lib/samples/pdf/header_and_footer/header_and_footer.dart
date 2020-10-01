@@ -1,11 +1,18 @@
+///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:flutter_examples/samples/pdf/helper/save_file_mobile.dart'
-    if (dart.library.html) 'package:flutter_examples/samples/pdf/helper/save_file_web.dart';
 
+///Pdf import
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+
+///Local imports
+import '../../../model/sample_view.dart';
+import '../helper/save_file_mobile.dart'
+    if (dart.library.html) '../helper/save_file_web.dart';
+
+/// Render pdf with header and footer
 class HeaderAndFooterPdf extends SampleView {
+  /// Creates pdf with header and footer
   const HeaderAndFooterPdf(Key key) : super(key: key);
   @override
   _HeaderAndFooterPdfState createState() => _HeaderAndFooterPdfState();
@@ -15,45 +22,40 @@ class _HeaderAndFooterPdfState extends SampleViewState {
   _HeaderAndFooterPdfState();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-          return Scaffold(
-            backgroundColor: model.cardThemeColor,
-            body: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                        'This sample shows how to create a PDF document with a header and footer. Also, the generated PDF document contains hyperlinks, bookmarks, and table of contents.',
-                        style: TextStyle(fontSize: 16, color: model.textColor)),
-                    const SizedBox(height: 20, width: 30),
-                    Align(
-                        alignment: Alignment.center,
-                        child: FlatButton(
-                            child: const Text('Generate PDF',
-                                style: TextStyle(color: Colors.white)),
-                            color: model.backgroundColor,
-                            onPressed: generatePDF))
-                  ],
-                ),
-              ),
-            ),
-          );
+    return Scaffold(
+      backgroundColor: model.cardThemeColor,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                  'This sample shows how to create a PDF document with a header and footer. Also, the generated PDF document contains hyperlinks, bookmarks, and table of contents.',
+                  style: TextStyle(fontSize: 16, color: model.textColor)),
+              const SizedBox(height: 20, width: 30),
+              Align(
+                  alignment: Alignment.center,
+                  child: FlatButton(
+                      child: const Text('Generate PDF',
+                          style: TextStyle(color: Colors.white)),
+                      color: model.backgroundColor,
+                      onPressed: _generatePDF))
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Future<void> generatePDF() async {
+  Future<void> _generatePDF() async {
     //Create a new PDF document
     final PdfDocument document = PdfDocument();
     //Draw image
     document.pages.add().graphics.drawImage(
-        PdfBitmap(await _readImageDate('Pdf_Succinctly_img_1.jpg')),
+        PdfBitmap(await _readImageData('Pdf_Succinctly_img_1.jpg')),
         const Rect.fromLTWH(50, 50, 425, 642));
     final PdfPage titlePage = document.pages.add();
     //Draw text
@@ -63,7 +65,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
             titlePage.getClientSize().height),
         format: PdfStringFormat(alignment: PdfTextAlignment.center));
     titlePage.graphics.drawImage(
-        PdfBitmap(await _readImageDate('Pdf_Succinctly_img_5.jpg')),
+        PdfBitmap(await _readImageData('Pdf_Succinctly_img_5.jpg')),
         const Rect.fromLTWH(40, 110, 435, 5));
     final PdfStringFormat format =
         PdfStringFormat(alignment: PdfTextAlignment.center);
@@ -178,7 +180,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         false);
     final PdfPage page2 = document.pages.add();
     page2.graphics.drawImage(
-        PdfBitmap(await _readImageDate('Pdf_Succinctly_img_2.jpg')),
+        PdfBitmap(await _readImageData('Pdf_Succinctly_img_2.jpg')),
         const Rect.fromLTWH(10, 0, 495, 600));
     result = _addParagraph(
         page2,
@@ -228,7 +230,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         false);
     final PdfPage page3 = document.pages.add();
     page3.graphics.drawImage(
-        PdfBitmap(await _readImageDate('Pdf_Succinctly_img_3.jpg')),
+        PdfBitmap(await _readImageData('Pdf_Succinctly_img_3.jpg')),
         const Rect.fromLTWH(20, 0, 300, 400));
     result = _addParagraph(page3, 'Cross-Reference Table',
         Rect.fromLTWH(20, 425, 495, pageSize.height), true);
@@ -294,14 +296,14 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         Rect.fromLTWH(20, result.bounds.bottom + 20, 495, pageSize.height),
         false);
     result.page.graphics.drawImage(
-        PdfBitmap(await _readImageDate('Pdf_Succinctly_img_4.jpg')),
+        PdfBitmap(await _readImageData('Pdf_Succinctly_img_4.jpg')),
         Rect.fromLTWH(20, result.bounds.bottom + 20, 495, 400));
 
     //Save and dispose the document.
     final List<int> bytes = document.save();
     document.dispose();
     //Launch file.
-    FileSaveHelper.saveAndLaunchFile(bytes, 'HeaderAndFooter.pdf');
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'HeaderAndFooter.pdf');
   }
 
   PdfLayoutResult _addParagraph(
@@ -344,7 +346,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
     page.graphics.drawString(pageNo.toString(), font,
         bounds:
             Rect.fromLTWH(480, bounds.top + 5, bounds.width, bounds.height));
-    final PdfAnnotation annotation = PdfDocumentLinkAnnotation(
+    final PdfDocumentLinkAnnotation annotation = PdfDocumentLinkAnnotation(
         Rect.fromLTWH(isTitle ? bounds.left : bounds.left + 20, bounds.top - 45,
             isTitle ? bounds.width : bounds.width - 20, font.height),
         PdfDestination(destPage, Offset(x, y)));
@@ -364,7 +366,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
             bounds.top + 5, bounds.width, bounds.height));
   }
 
-  Future<List<int>> _readImageDate(String name) async {
+  Future<List<int>> _readImageData(String name) async {
     final ByteData data = await rootBundle.load('images/pdf/$name');
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }

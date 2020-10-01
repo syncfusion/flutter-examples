@@ -13,6 +13,7 @@ import '../../../../model/sample_view.dart';
 
 /// Renders the Range area chart sample.
 class RangeArea extends SampleView {
+  /// Creates the Range area chart sample.
   const RangeArea(Key key) : super(key: key);
 
   @override
@@ -25,14 +26,13 @@ class _RangeAreaState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getRangeAreaChart();
+    return _getRangeAreaChart();
   }
 
   /// Returns the Cartesian Range area chart.
-  SfCartesianChart getRangeAreaChart() {
+  SfCartesianChart _getRangeAreaChart() {
     return SfCartesianChart(
-      title:
-          ChartTitle(text: isCardView ? '' : 'Average temperature variation'),
+      title: ChartTitle(text: 'Average temperature variation'),
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
           dateFormat: DateFormat.y(),
@@ -49,28 +49,28 @@ class _RangeAreaState extends SampleViewState {
   }
 
   /// Gets the random data for the Rnage area chart series.
-  dynamic getData() {
-    List<_RangeAreaData> _chartData;
-    _chartData = <_RangeAreaData>[];
+  List<ChartSampleData> _getData() {
+    List<ChartSampleData> _chartData;
+    _chartData = <ChartSampleData>[];
     double _value = 30;
     for (int i = 0; i < 100; i++) {
       final Random _yValue = Random();
-      if (_yValue.nextDouble() > .5) {
-        _value += Random().nextDouble();
-      } else {
-        _value -= Random().nextDouble();
-      }
-      _chartData
-          .add(_RangeAreaData(DateTime(2000, i + 2, i), _value, _value + 10));
+      (_yValue.nextDouble() > .5)
+          ? _value += Random().nextDouble()
+          : _value -= Random().nextDouble();
+
+      _chartData.add(ChartSampleData(
+          x: DateTime(2000, i + 2, i), high: _value, low: _value + 10));
     }
     return _chartData;
   }
 
-  /// Returns the list of Chart series which need to render on the Range area chart.
-  List<ChartSeries<_RangeAreaData, DateTime>> _getRangeAreaSeries() {
-    final List<_RangeAreaData> chartData = getData();
-    return <ChartSeries<_RangeAreaData, DateTime>>[
-      RangeAreaSeries<_RangeAreaData, DateTime>(
+  /// Returns the list of Chart series
+  /// which need to render on the Range area chart.
+  List<ChartSeries<ChartSampleData, DateTime>> _getRangeAreaSeries() {
+    final List<ChartSampleData> chartData = _getData();
+    return <ChartSeries<ChartSampleData, DateTime>>[
+      RangeAreaSeries<ChartSampleData, DateTime>(
         dataSource: chartData,
         name: 'London',
         borderWidth: 2,
@@ -78,18 +78,10 @@ class _RangeAreaState extends SampleViewState {
         borderColor: const Color.fromRGBO(50, 198, 255, 1),
         color: const Color.fromRGBO(50, 198, 255, 1),
         borderDrawMode: RangeAreaBorderMode.excludeSides,
-        xValueMapper: (_RangeAreaData sales, _) => sales.month,
-        highValueMapper: (_RangeAreaData sales, _) => sales.high,
-        lowValueMapper: (_RangeAreaData sales, _) => sales.low,
+        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        highValueMapper: (ChartSampleData sales, _) => sales.high,
+        lowValueMapper: (ChartSampleData sales, _) => sales.low,
       )
     ];
   }
-}
-
-/// Private class for storing the Range area chart data points.
-class _RangeAreaData {
-  _RangeAreaData(this.month, this.high, this.low);
-  final DateTime month;
-  final double high;
-  final double low;
 }

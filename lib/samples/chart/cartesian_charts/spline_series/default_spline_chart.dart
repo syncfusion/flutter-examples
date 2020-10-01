@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the defaul spline chart sample.
 class SplineDefault extends SampleView {
+  /// Creates the defaul spline chart Series.
   const SplineDefault(Key key) : super(key: key);
 
   @override
@@ -22,16 +22,16 @@ class _SplineDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultSplineChart();
+    return _getDefaultSplineChart();
   }
 
   /// Returns the defaul spline chart.
-  SfCartesianChart getDefaultSplineChart() {
+  SfCartesianChart _getDefaultSplineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Average high/low temperature of London'),
-      legend: Legend(isVisible: isCardView ? false : true),
+      legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
           majorGridLines: MajorGridLines(width: 0),
           labelPlacement: LabelPlacement.onTicks),
@@ -42,30 +42,41 @@ class _SplineDefaultState extends SampleViewState {
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           labelFormat: '{value}°F',
           majorTickLines: MajorTickLines(size: 0)),
-      series: getDefaultSplineSeries(),
+      series: _getDefaultSplineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
   /// Returns the list of chart series which need to render on the spline chart.
-  List<SplineSeries<ChartSampleData, String>> getDefaultSplineSeries() {
+  List<SplineSeries<ChartSampleData, String>> _getDefaultSplineSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Jan', y: 43, yValue2: 37, yValue3: 41),
-      ChartSampleData(x: 'Feb', y: 45, yValue2: 37, yValue3: 45),
-      ChartSampleData(x: 'Mar', y: 50, yValue2: 39, yValue3: 48),
-      ChartSampleData(x: 'Apr', y: 55, yValue2: 43, yValue3: 52),
-      ChartSampleData(x: 'May', y: 63, yValue2: 48, yValue3: 57),
-      ChartSampleData(x: 'Jun', y: 68, yValue2: 54, yValue3: 61),
-      ChartSampleData(x: 'Jul', y: 72, yValue2: 57, yValue3: 66),
-      ChartSampleData(x: 'Aug', y: 70, yValue2: 57, yValue3: 66),
-      ChartSampleData(x: 'Sep', y: 66, yValue2: 54, yValue3: 63),
-      ChartSampleData(x: 'Oct', y: 57, yValue2: 48, yValue3: 55),
-      ChartSampleData(x: 'Nov', y: 50, yValue2: 43, yValue3: 50),
-      ChartSampleData(x: 'Dec', y: 45, yValue2: 37, yValue3: 45)
+      ChartSampleData(
+          x: 'Jan', y: 43, secondSeriesYValue: 37, thirdSeriesYValue: 41),
+      ChartSampleData(
+          x: 'Feb', y: 45, secondSeriesYValue: 37, thirdSeriesYValue: 45),
+      ChartSampleData(
+          x: 'Mar', y: 50, secondSeriesYValue: 39, thirdSeriesYValue: 48),
+      ChartSampleData(
+          x: 'Apr', y: 55, secondSeriesYValue: 43, thirdSeriesYValue: 52),
+      ChartSampleData(
+          x: 'May', y: 63, secondSeriesYValue: 48, thirdSeriesYValue: 57),
+      ChartSampleData(
+          x: 'Jun', y: 68, secondSeriesYValue: 54, thirdSeriesYValue: 61),
+      ChartSampleData(
+          x: 'Jul', y: 72, secondSeriesYValue: 57, thirdSeriesYValue: 66),
+      ChartSampleData(
+          x: 'Aug', y: 70, secondSeriesYValue: 57, thirdSeriesYValue: 66),
+      ChartSampleData(
+          x: 'Sep', y: 66, secondSeriesYValue: 54, thirdSeriesYValue: 63),
+      ChartSampleData(
+          x: 'Oct', y: 57, secondSeriesYValue: 48, thirdSeriesYValue: 55),
+      ChartSampleData(
+          x: 'Nov', y: 50, secondSeriesYValue: 43, thirdSeriesYValue: 50),
+      ChartSampleData(
+          x: 'Dec', y: 45, secondSeriesYValue: 37, thirdSeriesYValue: 45)
     ];
     return <SplineSeries<ChartSampleData, String>>[
       SplineSeries<ChartSampleData, String>(
-        enableTooltip: true,
         dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -73,12 +84,11 @@ class _SplineDefaultState extends SampleViewState {
         name: 'High',
       ),
       SplineSeries<ChartSampleData, String>(
-        enableTooltip: true,
         dataSource: chartData,
         name: 'Low',
         markerSettings: MarkerSettings(isVisible: true),
         xValueMapper: (ChartSampleData sales, _) => sales.x,
-        yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
+        yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
       )
     ];
   }

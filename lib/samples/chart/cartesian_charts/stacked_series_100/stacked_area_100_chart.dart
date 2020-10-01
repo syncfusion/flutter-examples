@@ -10,6 +10,7 @@ import '../../../../model/sample_view.dart';
 
 /// Renders the stacked area 100 chart sample.
 class StackedArea100Chart extends SampleView {
+  /// Creates the stacked area 100 chart sample.
   const StackedArea100Chart(Key key) : super(key: key);
 
   @override
@@ -22,11 +23,11 @@ class _StackedAreaChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getStackedArea100Chart();
+    return _getStackedArea100Chart();
   }
 
   /// Returns the stacked area 100 chart.
-  SfCartesianChart getStackedArea100Chart() {
+  SfCartesianChart _getStackedArea100Chart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -41,14 +42,15 @@ class _StackedAreaChartState extends SampleViewState {
           rangePadding: ChartRangePadding.none,
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: getStackedAreaSeries(),
+      series: _getStackedAreaSeries(),
       tooltipBehavior:
           TooltipBehavior(enable: true, header: '', canShowMarker: false),
     );
   }
 
-  /// Returns the list of chart series which need to render on the stacked area 100 chart.
-  List<ChartSeries<_ChartData, DateTime>> getStackedAreaSeries() {
+  /// Returns the list of chart series
+  /// which need to render on the stacked area 100 chart.
+  List<ChartSeries<_ChartData, DateTime>> _getStackedAreaSeries() {
     final List<_ChartData> chartData = <_ChartData>[
       _ChartData(DateTime(2000, 1, 1), 0.61, 0.03, 0.48, 0.23),
       _ChartData(DateTime(2001, 1, 1), 0.81, 0.05, 0.53, 0.17),
@@ -70,28 +72,24 @@ class _StackedAreaChartState extends SampleViewState {
     return <ChartSeries<_ChartData, DateTime>>[
       StackedArea100Series<_ChartData, DateTime>(
           animationDuration: 2500,
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.organic,
           name: 'Apple'),
       StackedArea100Series<_ChartData, DateTime>(
           animationDuration: 2500,
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.fairTrade,
           name: 'Orange'),
       StackedArea100Series<_ChartData, DateTime>(
           animationDuration: 2500,
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.veg,
           name: 'Pears'),
       StackedArea100Series<_ChartData, DateTime>(
           animationDuration: 2500,
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.others,

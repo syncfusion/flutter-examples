@@ -3,46 +3,43 @@ import 'dart:async';
 import 'dart:math' as math;
 
 /// Package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
+///Renders real time spline chart
 class LiveUpdate extends SampleView {
+  ///Creates real time spline chart
   const LiveUpdate(Key key) : super(key: key);
 
   @override
   _LiveUpdateState createState() => _LiveUpdateState();
 }
 
-Timer timer;
-List<ChartSampleData> chartData1 = <ChartSampleData>[
-  ChartSampleData(x: 0, y: 0),
-  ChartSampleData(x: 1, y: -2),
-  ChartSampleData(x: 2, y: 2),
-  ChartSampleData(x: 3, y: 0)
-];
-List<ChartSampleData> chartData2 = <ChartSampleData>[
-  ChartSampleData(x: 0, y: 0),
-  ChartSampleData(x: 1, y: 2),
-  ChartSampleData(x: 2, y: -2),
-  ChartSampleData(x: 3, y: 0)
-];
-bool canStopTimer = false;
-int wave1;
-int wave2, count = 1;
-// ChartSeriesController _chartSeriesController1;
-// ChartSeriesController _chartSeriesController2;
-
 class _LiveUpdateState extends SampleViewState {
   _LiveUpdateState() {
-    timer = Timer.periodic(const Duration(milliseconds: 5), updateData);
+    timer = Timer.periodic(const Duration(milliseconds: 5), _updateData);
   }
+  Timer timer;
+  List<ChartSampleData> chartData1 = <ChartSampleData>[
+    ChartSampleData(x: 0, y: 0),
+    ChartSampleData(x: 1, y: -2),
+    ChartSampleData(x: 2, y: 2),
+    ChartSampleData(x: 3, y: 0)
+  ];
+  List<ChartSampleData> chartData2 = <ChartSampleData>[
+    ChartSampleData(x: 0, y: 0),
+    ChartSampleData(x: 1, y: 2),
+    ChartSampleData(x: 2, y: -2),
+    ChartSampleData(x: 3, y: 0)
+  ];
+  bool canStopTimer = false;
+  int wave1;
+  int wave2, count = 1;
 
   @override
   void initState() {
@@ -59,7 +56,7 @@ class _LiveUpdateState extends SampleViewState {
       chartData1.clear();
       chartData2.clear();
     }
-    updateLiveData();
+    _updateLiveData();
   }
 
   @override
@@ -70,35 +67,31 @@ class _LiveUpdateState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getLiveUpdateChart();
+    return _getLiveUpdateChart();
   }
 
-  SfCartesianChart getLiveUpdateChart() {
+  ///Get the cartesian chart widget
+  SfCartesianChart _getLiveUpdateChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: getLiveUpdateSeries(),
+      series: _getLiveUpdateSeries(),
     );
   }
 
-  List<SplineSeries<ChartSampleData, num>> getLiveUpdateSeries() {
+  ///Get the series which contains live updated data points
+  List<SplineSeries<ChartSampleData, num>> _getLiveUpdateSeries() {
     return <SplineSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
-        // onRendererCreated: (ChartSeriesController controller1) {
-        //       _chartSeriesController1 = controller1;
-        //     },
-          dataSource:  chartData1,
+          dataSource: chartData1,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           width: 2),
       SplineSeries<ChartSampleData, num>(
-        // onRendererCreated: (ChartSeriesController controller2) {
-        //       _chartSeriesController2 = controller2;
-        //     },
-        dataSource:  chartData2,
+        dataSource: chartData2,
         width: 2,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -106,49 +99,26 @@ class _LiveUpdateState extends SampleViewState {
     ];
   }
 
-  void updateData(Timer timer) {
-    // if (isCardView != null && !isCardView) {
-    //   chartData1.removeAt(0);
-    //   chartData1.add(ChartSampleData(
-    //     x: wave1,
-    //     y: math.sin(wave1 * (math.pi / 180.0)),
-    //   ));
-    //   _chartSeriesController1.updateDataSource(
-    //       addedDataIndexes: <int>[chartData1.length - 1],
-    //       removedDataIndexes: <int>[0],
-    //     );
-    //     chartData2.removeAt(0);
-    //   chartData2.add(ChartSampleData(
-    //     x: wave1,
-    //     y: math.sin(wave2 * (math.pi / 180.0)),
-    //   ));
-    //   _chartSeriesController2.updateDataSource(
-    //       addedDataIndexes: <int>[chartData2.length - 1],
-    //       removedDataIndexes: <int>[0],
-    //     );
-    //     wave1++;
-    //   wave2++;
-    // }
-   
-   if(mounted){
-    setState(() {
-      chartData1.removeAt(0);
-      chartData1.add(ChartSampleData(
-        x: wave1,
-        y: math.sin(wave1 * (math.pi / 180.0)),
-      ));
-      chartData2.removeAt(0);
-      chartData2.add(ChartSampleData(
-        x: wave1,
-        y: math.sin(wave2 * (math.pi / 180.0)),
-      ));
-      wave1++;
-      wave2++;
-    });
-   }
+  void _updateData(Timer timer) {
+    if (mounted) {
+      setState(() {
+        chartData1.removeAt(0);
+        chartData1.add(ChartSampleData(
+          x: wave1,
+          y: math.sin(wave1 * (math.pi / 180.0)),
+        ));
+        chartData2.removeAt(0);
+        chartData2.add(ChartSampleData(
+          x: wave1,
+          y: math.sin(wave2 * (math.pi / 180.0)),
+        ));
+        wave1++;
+        wave2++;
+      });
+    }
   }
 
-  void updateLiveData() {
+  void _updateLiveData() {
     for (int i = 0; i < 180; i++) {
       chartData1
           .add(ChartSampleData(x: i, y: math.sin(wave1 * (math.pi / 180.0))));

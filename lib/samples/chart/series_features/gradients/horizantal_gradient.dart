@@ -7,8 +7,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local imports
 import '../../../../model/sample_view.dart';
 
-/// Render the horizontal gradient.
+/// Render chart series with horizontal gradient.
 class HorizantalGradient extends SampleView {
+  /// Creates chart series with horizontal gradient.
   const HorizantalGradient(Key key) : super(key: key);
 
   @override
@@ -21,11 +22,11 @@ class _HorizantalGradientState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getHorizantalGradientAreaChart();
+    return _getHorizantalGradientAreaChart();
   }
 
-/// Return the circular chart with horizontal gradient.
-  SfCartesianChart getHorizantalGradientAreaChart() {
+  /// Return the circular chart with horizontal gradient.
+  SfCartesianChart _getHorizantalGradientAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Total investment (% of GDP)'),
@@ -42,7 +43,7 @@ class _HorizantalGradientState extends SampleViewState {
           labelFormat: '{value}%',
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: getGradientAreaSeries(isCardView),
+      series: _getGradientAreaSeries(),
       onMarkerRender: (MarkerRenderArgs args) {
         if (args.pointIndex == 0) {
           args.color = const Color.fromRGBO(207, 124, 168, 1);
@@ -65,8 +66,8 @@ class _HorizantalGradientState extends SampleViewState {
     );
   }
 
-/// Returns the list of spline area series with horizontal gradient.
-  List<ChartSeries<_ChartData, String>> getGradientAreaSeries(bool isCardView) {
+  /// Returns the list of spline area series with horizontal gradient.
+  List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
     final List<_ChartData> chartData = <_ChartData>[
       _ChartData(x: '1997', y: 17.70),
       _ChartData(x: '1998', y: 18.20),
@@ -95,6 +96,7 @@ class _HorizantalGradientState extends SampleViewState {
           0.2,
           0.9
         ]),
+
         /// To set the gradient colors for series.
         gradient: const LinearGradient(colors: <Color>[
           Color.fromRGBO(224, 139, 207, 0.9),

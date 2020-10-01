@@ -13,28 +13,32 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local import
 import '../../../../model/sample_view.dart';
 
+/// Renders customized line chart
 class CustomizedLine extends SampleView {
+  /// Creates customized line chart sample
   const CustomizedLine(Key key) : super(key: key);
 
   @override
   _LineDefaultState createState() => _LineDefaultState();
 }
 
-List<num> xValues;
-List<num> yValues;
-List<num> xPointValues = <num>[];
-List<num> yPointValues = <num>[];
+List<num> _xValues;
+List<num> _yValues;
+List<num> _xPointValues = <num>[];
+List<num> _yPointValues = <num>[];
 
 class _LineDefaultState extends SampleViewState {
   _LineDefaultState();
 
   @override
   Widget build(BuildContext context) {
-    return getCustomizedLineChart();
+    return _getCustomizedLineChart();
   }
 
-  SfCartesianChart getCustomizedLineChart() {
+  ///Get the cartesian chart
+  SfCartesianChart _getCustomizedLineChart() {
     return SfCartesianChart(
+      plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Capital investment as a share of exports'),
       primaryXAxis: DateTimeAxis(
@@ -51,11 +55,25 @@ class _LineDefaultState extends SampleViewState {
           majorGridLines: MajorGridLines(color: Colors.transparent)),
       series: <ChartSeries<_ChartData, DateTime>>[
         LineSeries<_ChartData, DateTime>(
+          animationDuration: 0,
+          dataSource: <_ChartData>[
+            _ChartData(DateTime(2018, 7), 3.5),
+            _ChartData(DateTime(2019, 4), 3.5),
+            _ChartData(DateTime(2019, 4), 1),
+          ],
+          xValueMapper: (_ChartData sales, _) => sales.x,
+          yValueMapper: (_ChartData sales, _) => sales.y,
+          enableTooltip: false,
+          width: 2,
+          color: model.themeData.brightness == Brightness.dark
+              ? Colors.grey
+              : Colors.black,
+        ),
+        LineSeries<_ChartData, DateTime>(
             onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-              return CustomLineSeriesRenderer();
+              return _CustomLineSeriesRenderer(series);
             },
             animationDuration: 2500,
-            enableTooltip: true,
             dataSource: <_ChartData>[
               _ChartData(DateTime(2018, 7), 2.9),
               _ChartData(DateTime(2018, 8), 2.7),
@@ -85,25 +103,27 @@ class _ChartData {
   final double y;
 }
 
-class CustomLineSeriesRenderer extends LineSeriesRenderer {
-  CustomLineSeriesRenderer();
+class _CustomLineSeriesRenderer extends LineSeriesRenderer {
+  _CustomLineSeriesRenderer(this.series);
 
+  final LineSeries<dynamic, dynamic> series;
   static Random randomNumber = Random();
 
   @override
   ChartSegment createSegment() {
-    return LineCustomPainter(randomNumber.nextInt(4));
+    return _LineCustomPainter(randomNumber.nextInt(4), series);
   }
 }
 
-class LineCustomPainter extends LineSegment {
-  LineCustomPainter(int value) {
+class _LineCustomPainter extends LineSegment {
+  _LineCustomPainter(int value, this.series) {
     //ignore: prefer_initializing_formals
     index = value;
-    xValues = <num>[];
-    yValues = <num>[];
+    _xValues = <num>[];
+    _yValues = <num>[];
   }
 
+  final LineSeries<dynamic, dynamic> series;
   double maximum, minimum;
   int index;
   List<Color> colors = <Color>[
@@ -123,21 +143,24 @@ class LineCustomPainter extends LineSegment {
     return customerStrokePaint;
   }
 
-  void storeValues() {
-    xPointValues.add(x1);
-    xPointValues.add(x2);
-    yPointValues.add(y1);
-    yPointValues.add(y2);
-    xValues.add(x1);
-    xValues.add(x2);
-    yValues.add(y1);
-    yValues.add(y2);
+  void _storeValues() {
+    _xPointValues.add(points[0].dx);
+    _xPointValues.add(points[1].dx);
+    _yPointValues.add(points[0].dy);
+    _yPointValues.add(points[1].dy);
+    _xValues.add(points[0].dx);
+    _xValues.add(points[1].dx);
+    _yValues.add(points[0].dy);
+    _yValues.add(points[1].dy);
   }
 
   @override
   void onPaint(Canvas canvas) {
-    final double x1 = this.x1, y1 = this.y1, x2 = this.x2, y2 = this.y2;
-    storeValues();
+    final double x1 = points[0].dx,
+        y1 = points[0].dy,
+        x2 = points[1].dx,
+        y2 = points[1].dy;
+    _storeValues();
     final Path path = Path();
     path.moveTo(x1, y1);
     path.lineTo(x2, y2);
@@ -154,15 +177,15 @@ class LineCustomPainter extends LineSegment {
         ..color = Colors.red
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2;
-      maximum = yPointValues.reduce(max);
-      minimum = yPointValues.reduce(min);
+      maximum = _yPointValues.reduce(max);
+      minimum = _yPointValues.reduce(min);
       final Path bottomLinePath = Path();
       final Path topLinePath = Path();
-      bottomLinePath.moveTo(xPointValues[0], maximum);
-      bottomLinePath.lineTo(xPointValues[xPointValues.length - 1], maximum);
+      bottomLinePath.moveTo(_xPointValues[0], maximum);
+      bottomLinePath.lineTo(_xPointValues[_xPointValues.length - 1], maximum);
 
-      topLinePath.moveTo(xPointValues[0], minimum);
-      topLinePath.lineTo(xPointValues[xPointValues.length - 1], minimum);
+      topLinePath.moveTo(_xPointValues[0], minimum);
+      topLinePath.lineTo(_xPointValues[_xPointValues.length - 1], minimum);
       canvas.drawPath(
           _dashPath(
             bottomLinePath,
@@ -188,7 +211,7 @@ class LineCustomPainter extends LineSegment {
       tp.paint(
           canvas,
           Offset(
-              xPointValues[xPointValues.length - 4], maximum + labelPadding));
+              _xPointValues[_xPointValues.length - 4], maximum + labelPadding));
       final TextSpan span1 = TextSpan(
         style: TextStyle(
             color: Colors.green[800], fontSize: 12.0, fontFamily: 'Roboto'),
@@ -199,10 +222,10 @@ class LineCustomPainter extends LineSegment {
       tp1.layout();
       tp1.paint(
           canvas,
-          Offset(xPointValues[0] + labelPadding / 2,
+          Offset(_xPointValues[0] + labelPadding / 2,
               minimum - labelPadding - tp1.size.height));
-      yValues.clear();
-      yPointValues.clear();
+      _yValues.clear();
+      _yPointValues.clear();
     }
   }
 }

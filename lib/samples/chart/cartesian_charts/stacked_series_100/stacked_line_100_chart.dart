@@ -9,6 +9,7 @@ import '../../../../model/sample_view.dart';
 
 /// Renders the stacked line 100 chart sample.
 class StackedLine100Chart extends SampleView {
+  /// Creates the stacked line 100 chart sample.
   const StackedLine100Chart(Key key) : super(key: key);
 
   @override
@@ -21,11 +22,11 @@ class _StackedLineChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getStackedLine100Chart();
+    return _getStackedLine100Chart();
   }
 
   /// Returns the cartesian stacked line 100 chart.
-  SfCartesianChart getStackedLine100Chart() {
+  SfCartesianChart _getStackedLine100Chart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Monthly expense of a family'),
@@ -43,7 +44,8 @@ class _StackedLineChartState extends SampleViewState {
     );
   }
 
-  /// Returns the list of char series which need to render on the stacked line 100 chart.
+  /// Returns the list of char series
+  /// which need to render on the stacked line 100 chart.
   List<ChartSeries<_ChartData, String>> _getStackedLine100Series() {
     final List<_ChartData> chartData = <_ChartData>[
       _ChartData('Food', 55, 40, 45, 48),
@@ -55,28 +57,24 @@ class _StackedLineChartState extends SampleViewState {
     ];
     return <ChartSeries<_ChartData, String>>[
       StackedLine100Series<_ChartData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.father,
           name: 'Father',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLine100Series<_ChartData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.mother,
           name: 'Mother',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLine100Series<_ChartData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.son,
           name: 'Son',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLine100Series<_ChartData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.daughter,

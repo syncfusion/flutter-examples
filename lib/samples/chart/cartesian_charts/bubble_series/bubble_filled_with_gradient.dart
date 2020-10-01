@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the bubble with gradient chart sample
 class BubbleGradient extends SampleView {
+  /// Creates the bubble with gradient chart sample
   const BubbleGradient(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _BubbleGradientState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getGradientBubbleChart();
+    return _getGradientBubbleChart();
   }
 
   /// Returns the cartesian bubble cahrt with gradient
-  SfCartesianChart getGradientBubbleChart() {
+  SfCartesianChart _getGradientBubbleChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -42,16 +42,14 @@ class _BubbleGradientState extends SampleViewState {
           minimum: 0,
           maximum: 4,
           interval: 1),
-      series: getGradientBubbleSeries(),
-      tooltipBehavior: TooltipBehavior(
-        enable: true, header: '', canShowMarker: false,
-        // format: 'point.x\nFinal : point.y\nWin : point.size'
-      ),
+      series: _getGradientBubbleSeries(),
+      tooltipBehavior:
+          TooltipBehavior(enable: true, header: '', canShowMarker: false),
     );
   }
 
   /// Returns the list of chart series which need to render on the bubble chart
-  List<BubbleSeries<ChartSampleData, String>> getGradientBubbleSeries() {
+  List<BubbleSeries<ChartSampleData, String>> _getGradientBubbleSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'England',

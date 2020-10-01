@@ -1,16 +1,16 @@
 /// Package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
+import '../../../model/sample_view.dart';
+import '../../../widgets/custom_dropdown.dart';
 
+/// Renders the funnel chart with smart data label
 class FunnelSmartLabels extends SampleView {
+  /// Creates the funnel chart eith legend
   const FunnelSmartLabels(Key key) : super(key: key);
 
   @override
@@ -28,6 +28,7 @@ class _FunnelSmartLabelState extends SampleViewState {
   String _smartLabelMode = 'shift';
   SmartLabelMode _mode = SmartLabelMode.shift;
 
+  @override
   Widget buildSettings(BuildContext context) {
     return ListView(
       children: <Widget>[
@@ -56,7 +57,7 @@ class _FunnelSmartLabelState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onLabelPositionChange(value.toString(), model);
+                            _onLabelPositionChange(value.toString());
                           }),
                     ),
                   ))
@@ -90,7 +91,7 @@ class _FunnelSmartLabelState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onSmartLabelModeChange(value.toString(), model);
+                            _onSmartLabelModeChange(value.toString());
                           }),
                     ),
                   )),
@@ -100,156 +101,65 @@ class _FunnelSmartLabelState extends SampleViewState {
       ],
     );
   }
+
   @override
   Widget build(BuildContext context) {
-    return getFunnelSmartLabelChart();
+    return _getFunnelSmartLabelChart();
   }
 
-SfFunnelChart getFunnelSmartLabelChart() {
-  // final bool isExistModel = sampleModel != null && sampleModel.isWeb;
-  return SfFunnelChart(
-    smartLabelMode: _mode ?? SmartLabelMode.shift,
-    title: ChartTitle(text: isCardView ? '' : 'Tournament details'),
-    tooltipBehavior: TooltipBehavior(
-      enable: true,
-    ),
-    series: _getFunnelSeries(
-      isCardView,
-      _selectedPosition != null 
-      ? _selectedPosition.contains('outside') 
-        ? ChartDataLabelPosition.outside
-        : ChartDataLabelPosition.inside
-      : ChartDataLabelPosition.inside,
-    ),
-  );
-}
+  ///Get the funnel chart with smart data label
+  SfFunnelChart _getFunnelSmartLabelChart() {
+    return SfFunnelChart(
+      smartLabelMode: _mode ?? SmartLabelMode.shift,
+      title: ChartTitle(text: isCardView ? '' : 'Tournament details'),
+      tooltipBehavior: TooltipBehavior(
+        enable: true,
+      ),
+      series: _getFunnelSeries(),
+    );
+  }
 
-FunnelSeries<ChartSampleData, String> _getFunnelSeries(bool isCardView,
-    [ChartDataLabelPosition _labelPosition]) {
-  final List<ChartSampleData> pieData = <ChartSampleData>[
-    ChartSampleData(x: 'Finals', y: 2),
-    ChartSampleData(x: 'Semifinals', y: 4),
-    ChartSampleData(x: 'Quarter finals', y: 8),
-    ChartSampleData(x: 'League matches', y: 16),
-    ChartSampleData(x: 'Participated', y: 32),
-    ChartSampleData(x: 'Eligible', y: 36),
-    ChartSampleData(x: 'Applicants', y: 40),
-  ];
-  return FunnelSeries<ChartSampleData, String>(
-      width: '60%',
-      dataSource: pieData,
-      xValueMapper: (ChartSampleData data, _) => data.x,
-      yValueMapper: (ChartSampleData data, _) => data.y,
-      /// To enable the data label for funnel chart.
-      dataLabelSettings: DataLabelSettings(
-          isVisible: true,
-          labelPosition:
-              isCardView ? ChartDataLabelPosition.outside : _labelPosition,
-          useSeriesColor: true));
-}
+  ///Get the funnel series with smart data label
+  FunnelSeries<ChartSampleData, String> _getFunnelSeries() {
+    final List<ChartSampleData> pieData = <ChartSampleData>[
+      ChartSampleData(x: 'Finals', y: 2),
+      ChartSampleData(x: 'Semifinals', y: 4),
+      ChartSampleData(x: 'Quarter finals', y: 8),
+      ChartSampleData(x: 'League matches', y: 16),
+      ChartSampleData(x: 'Participated', y: 32),
+      ChartSampleData(x: 'Eligible', y: 36),
+      ChartSampleData(x: 'Applicants', y: 40),
+    ];
+    return FunnelSeries<ChartSampleData, String>(
+        width: '60%',
+        dataSource: pieData,
+        xValueMapper: (ChartSampleData data, _) => data.x,
+        yValueMapper: (ChartSampleData data, _) => data.y,
 
-//ignore: must_be_immutable
-// class FunnelSmartLabelFrontPanel extends StatefulWidget {
-//   //ignore: prefer_const_constructors_in_immutables
-//   FunnelSmartLabelFrontPanel([this.sample]);
-//   SubItem sample;
+        /// To enable the data label for funnel chart.
+        dataLabelSettings: DataLabelSettings(
+            isVisible: true,
+            labelPosition: isCardView
+                ? ChartDataLabelPosition.outside
+                : _selectedLabelPosition,
+            useSeriesColor: true));
+  }
 
-//   @override
-//   _FunnelSmartLabelFrontPanelState createState() =>
-//       _FunnelSmartLabelFrontPanelState(sample);
-// }
-
-// class _FunnelSmartLabelFrontPanelState
-//     extends State<FunnelSmartLabelFrontPanel> {
-//   _FunnelSmartLabelFrontPanelState(this.sample);
-//   final SubItem sample;
-//   final List<String> _labelPosition = <String>['outside', 'inside'].toList();
-//   ChartDataLabelPosition _selectedLabelPosition =
-//       ChartDataLabelPosition.outside;
-//   String _selectedPosition = 'outside';
-
-//   final List<String> _modeList = <String>['shift', 'none', 'hide'].toList();
-//   String _smartLabelMode = 'shift';
-//   SmartLabelMode _mode = SmartLabelMode.shift;
-
-//   // Widget sampleWidget(SampleModel model) => getLabelIntersectActionChart(false);
-//   // Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
-//   //     _showSettingsPanel(model, init, context);
-//   // Widget sampleWidget(SampleModel model) =>
-//   //     getFunnelSmartLabelChart(false,null, null, model);
-
-//   @override
-//   void initState() {
-//     initProperties();
-//     super.initState();
-//   }
-
-//   void initProperties([SampleModel sampleModel, bool init]) {
-//     _selectedPosition = 'outside';
-//     _selectedLabelPosition = ChartDataLabelPosition.outside;
-//     _smartLabelMode = 'shift';
-//     _mode = SmartLabelMode.shift;
-//     if (sampleModel != null && init) {
-//       sampleModel.properties.addAll(<dynamic, dynamic>{
-//         'SelectedFunnelSmartLabelMode': _smartLabelMode,
-//         'FunnelSmartLabelMode': _mode,
-//         'SelectedFunnelLabelPosition': _selectedPosition,
-//         'FunnelLabelPosition': _selectedLabelPosition,
-//       });
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ScopedModelDescendant<SampleModel>(
-//         rebuildOnChange: true,
-//         builder: (BuildContext context, _, SampleModel model) {
-//           return Scaffold(
-//               backgroundColor: model.cardThemeColor,
-//               body: !model.isWeb
-//                   ? Padding(
-//                       padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-//                       child: Container(
-//                           child: getFunnelSmartLabelChart(
-//                               false, _selectedLabelPosition, _mode)),
-//                     )
-//                   : Padding(
-//                       padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-//                       child: Container(
-//                           child: getFunnelSmartLabelChart(
-//                               false, null, null, model)),
-//                     ),
-//               floatingActionButton: model.isWeb
-//                   ? null
-//                   : Stack(children: <Widget>[
-//                       Align(
-//                         alignment: Alignment.bottomRight,
-//                         child: FloatingActionButton(
-//                           heroTag: null,
-//                           onPressed: () {
-//                             _showSettingsPanel(model, false, context);
-//                           },
-//                           child: Icon(Icons.graphic_eq, color: Colors.white),
-//                           backgroundColor: model.backgroundColor,
-//                         ),
-//                       ),
-//                     ]));
-//         });
-//   }
-
-  void onLabelPositionChange(String item, SampleModel model) {
+  ///change the data label position
+  void _onLabelPositionChange(String item) {
     _selectedPosition = item;
     if (_selectedPosition == 'inside') {
       _selectedLabelPosition = ChartDataLabelPosition.inside;
     } else if (_selectedPosition == 'outside') {
       _selectedLabelPosition = ChartDataLabelPosition.outside;
     }
-    model.properties['SelectedFunnelLabelPosition'] = _selectedPosition;
-    model.properties['FunnelLabelPosition'] = _selectedLabelPosition;
-      setState(() {});
+    setState(() {
+      /// update the label position type change
+    });
   }
 
-  void onSmartLabelModeChange(String item, SampleModel model) {
+  ///Change the data label mode
+  void _onSmartLabelModeChange(String item) {
     _smartLabelMode = item;
     if (_smartLabelMode == 'shift') {
       _mode = SmartLabelMode.shift;
@@ -260,8 +170,8 @@ FunnelSeries<ChartSampleData, String> _getFunnelSeries(bool isCardView,
     if (_smartLabelMode == 'none') {
       _mode = SmartLabelMode.none;
     }
-    model.properties['SelectedFunnelSmartLabelMode'] = _smartLabelMode;
-    model.properties['FunnelSmartLabelMode'] = _mode;
-      setState(() {});
+    setState(() {
+      /// update the smart data label mode changes
+    });
   }
 }

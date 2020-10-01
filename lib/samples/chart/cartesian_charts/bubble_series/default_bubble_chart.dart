@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Render the default bubble chart sample
 class BubbleDefault extends SampleView {
+  /// Creates the default bubble chart sample
   const BubbleDefault(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _BubbleDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultBubbleChart();
+    return _getDefaultBubbleChart();
   }
 
   /// Rreturns the default bubble chart
-  SfCartesianChart getDefaultBubbleChart() {
+  SfCartesianChart _getDefaultBubbleChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(text: isCardView ? '' : 'World countries details'),
@@ -46,11 +46,12 @@ class _BubbleDefaultState extends SampleViewState {
             canShowMarker: false,
             format:
                 'point.x\nLiteracy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB'),
-        series: getDefaultBubbleSeries());
+        series: _getDefaultBubbleSeries());
   }
 
-  /// Returns the list of chart series which need to render on the default bubble chart
-  List<BubbleSeries<ChartSampleData, num>> getDefaultBubbleSeries() {
+  /// Returns the list of chart series
+  /// which need to render on the default bubble chart
+  List<BubbleSeries<ChartSampleData, num>> _getDefaultBubbleSeries() {
     final List<ChartSampleData> bubbleData = <ChartSampleData>[
       ChartSampleData(x: 'China', xValue: 92.2, y: 7.8, size: 1.347),
       ChartSampleData(x: 'India', xValue: 74, y: 6.5, size: 1.241),
@@ -72,7 +73,6 @@ class _BubbleDefaultState extends SampleViewState {
     ];
     return <BubbleSeries<ChartSampleData, num>>[
       BubbleSeries<ChartSampleData, num>(
-        enableTooltip: true,
         opacity: 0.7,
         dataSource: bubbleData,
         xValueMapper: (ChartSampleData sales, _) => sales.xValue,

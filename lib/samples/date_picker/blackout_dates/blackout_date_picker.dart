@@ -1,11 +1,18 @@
+/// Dart import
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
+///Package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
+
+///Date picker imports
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+///Local import
+import '../../../model/sample_view.dart';
+
+/// Renders datepicker for blackout
 class BlackoutDatePicker extends SampleView {
+  /// Creates datepicker for blackout
   const BlackoutDatePicker(Key key) : super(key: key);
 
   @override
@@ -15,27 +22,17 @@ class BlackoutDatePicker extends SampleView {
 class _BlackoutDatePickerState extends SampleViewState {
   _BlackoutDatePickerState();
 
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   List<DateTime> _blackoutDates;
+  Orientation _deviceOrientation;
 
   @override
   void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
     _blackoutDates = _getBlackoutDates();
     super.initState();
   }
 
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void didUpdateWidget(BlackoutDatePicker oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
-
+  /// Returns the list of dates that set to the blackout dates property of
+  /// date range picker.
   List<DateTime> _getBlackoutDates() {
     final List<DateTime> dates = <DateTime>[];
     final DateTime startDate =
@@ -52,6 +49,12 @@ class _BlackoutDatePickerState extends SampleViewState {
   }
 
   @override
+  void didChangeDependencies() {
+    _deviceOrientation = MediaQuery.of(context).orientation;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build([BuildContext context]) {
     final Widget _cardView = Card(
       elevation: 10,
@@ -60,11 +63,10 @@ class _BlackoutDatePickerState extends SampleViewState {
           : const EdgeInsets.all(30),
       child: Container(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-        color:
-            model.isWeb ? model.webSampleBackgroundColor : model.cardThemeColor,
+        color: model.isWeb ? model.cardThemeColor : model.cardThemeColor,
         child: Theme(
             data: model.themeData.copyWith(accentColor: model.backgroundColor),
-            child: getBlackoutDatePicker(_blackoutDates)),
+            child: _getBlackoutDatePicker(_blackoutDates)),
       ),
     );
     return Scaffold(
@@ -75,22 +77,35 @@ class _BlackoutDatePickerState extends SampleViewState {
         body: Column(children: <Widget>[
           Expanded(
               flex: model.isWeb ? 9 : 8,
-              child: kIsWeb
+              child: model.isWeb
                   ? Center(
                       child:
                           Container(width: 400, height: 600, child: _cardView))
-                  : _cardView),
-          Expanded(flex: model.isWeb ? 1 : 2, child: Container())
+                  : ListView(children: <Widget>[
+                      Container(
+                        height: 450,
+                        child: _cardView,
+                      )
+                    ])),
+          Expanded(
+              flex: model.isWeb
+                  ? 1
+                  : model.isMobileResolution &&
+                          _deviceOrientation == Orientation.landscape
+                      ? 0
+                      : 1,
+              child: Container())
         ]));
   }
-}
 
-SfDateRangePicker getBlackoutDatePicker([List<DateTime> dates]) {
-  return SfDateRangePicker(
-    monthCellStyle: DateRangePickerMonthCellStyle(
-        blackoutDateTextStyle: const TextStyle(
-            color: Colors.red, decoration: TextDecoration.lineThrough)),
-    monthViewSettings: DateRangePickerMonthViewSettings(
-        showTrailingAndLeadingDates: true, blackoutDates: dates),
-  );
+  /// Returns the date range picker widget based on the properties passed.
+  SfDateRangePicker _getBlackoutDatePicker([List<DateTime> dates]) {
+    return SfDateRangePicker(
+      monthCellStyle: DateRangePickerMonthCellStyle(
+          blackoutDateTextStyle: const TextStyle(
+              color: Colors.red, decoration: TextDecoration.lineThrough)),
+      monthViewSettings: DateRangePickerMonthViewSettings(
+          showTrailingAndLeadingDates: true, blackoutDates: dates),
+    );
+  }
 }

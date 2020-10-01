@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
+/// Renders column chart with trackers
 class ColumnTracker extends SampleView {
-  const ColumnTracker(Key key) : super(key: key);   
+  /// Renders column chart with trackers
+  const ColumnTracker(Key key) : super(key: key);
 
   @override
   _ColumnTrackerState createState() => _ColumnTrackerState();
@@ -19,14 +20,15 @@ class _ColumnTrackerState extends SampleViewState {
   _ColumnTrackerState();
   @override
   Widget build(BuildContext context) {
-    return getTrackerColumnChart();
+    return _getTrackerColumnChart();
   }
 
-  SfCartesianChart getTrackerColumnChart() {
+  /// Get column series with track
+  SfCartesianChart _getTrackerColumnChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Marks of a student'),
-      legend: Legend(isVisible: isCardView ? false : true),
+      legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           minimum: 0,
@@ -34,7 +36,7 @@ class _ColumnTrackerState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorGridLines: MajorGridLines(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: getTracker(),
+      series: _getTracker(),
       tooltipBehavior: TooltipBehavior(
           enable: true,
           canShowMarker: false,
@@ -43,7 +45,8 @@ class _ColumnTrackerState extends SampleViewState {
     );
   }
 
-  List<ColumnSeries<ChartSampleData, String>> getTracker() {
+  /// Get column series with tracker
+  List<ColumnSeries<ChartSampleData, String>> _getTracker() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 'Subject 1', y: 71),
       ChartSampleData(x: 'Subject 2', y: 84),
@@ -53,8 +56,8 @@ class _ColumnTrackerState extends SampleViewState {
     ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
+
           /// We can enable the track for column here.
           isTrackVisible: true,
           trackColor: const Color.fromRGBO(198, 201, 207, 1),

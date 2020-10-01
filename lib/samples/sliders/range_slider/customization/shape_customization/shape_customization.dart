@@ -1,14 +1,18 @@
-import 'package:flutter/foundation.dart';
+///Package imports
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
+///Local imports
+import '../../../../../model/sample_view.dart';
+import '../../../slider_utils.dart';
 
-import '../shape_customization/divisor_customization.dart';
-import '../shape_customization/thumb_customization.dart';
-import '../shape_customization/tick_customization.dart';
+import 'divisor_customization.dart';
+import 'thumb_customization.dart';
+import 'tick_customization.dart';
 
+/// Renders range slider with customized shapes
 class ShapeCustomizedRangeSliderPage extends SampleView {
+  /// Creates range slider with customized shapes
   const ShapeCustomizedRangeSliderPage(Key key) : super(key: key);
 
   @override
@@ -23,12 +27,13 @@ class _ShapeCustomizedRangeSliderPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    rangeSlider = ShapeCustomizedRangeSlider();
+    rangeSlider = _ShapeCustomizedRangeSlider();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(
@@ -40,8 +45,7 @@ class _ShapeCustomizedRangeSliderPageState extends SampleViewState {
   }
 }
 
-// ignore: must_be_immutable
-class ShapeCustomizedRangeSlider extends SampleView {
+class _ShapeCustomizedRangeSlider extends SampleView {
   @override
   _ShapeCustomizedRangeSliderState createState() =>
       _ShapeCustomizedRangeSliderState();
@@ -60,10 +64,7 @@ class _ShapeCustomizedRangeSliderState extends SampleViewState {
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(
@@ -82,6 +83,6 @@ class _ShapeCustomizedRangeSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWeb ? _getWebLayout() : _getMobileLayout();
   }
 }

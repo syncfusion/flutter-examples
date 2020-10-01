@@ -1,13 +1,15 @@
 /// Package import
 import 'package:flutter/material.dart';
+
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../../model/sample_view.dart';
 
-/// Render the vertical gradient.
+/// Render chart series with vertical gradient.
 class VerticalGradient extends SampleView {
+  /// Creates chart series with vertical gradient.
   const VerticalGradient(Key key) : super(key: key);
 
   @override
@@ -26,11 +28,11 @@ class _VerticalGradientState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getVerticalGradientAreaChart();
+    return _getVerticalGradientAreaChart();
   }
 
-/// Returns the list of spline area series with vertical gradient.
-  List<ChartSeries<_ChartData, String>> getGradientAreaSeries(bool isCardView) {
+  /// Returns the list of spline area series with vertical gradient.
+  List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
     final List<_ChartData> chartData = <_ChartData>[
       _ChartData(x: '1997', y: 22.44),
       _ChartData(x: '1998', y: 25.18),
@@ -51,9 +53,9 @@ class _VerticalGradientState extends SampleViewState {
 
     return <ChartSeries<_ChartData, String>>[
       SplineAreaSeries<_ChartData, String>(
-          enableTooltip: true,
+
           /// To set the gradient colors for series.
-          gradient: const LinearGradient(colors:  <Color>[
+          gradient: const LinearGradient(colors: <Color>[
             Color.fromRGBO(269, 210, 255, 1),
             Color.fromRGBO(143, 236, 154, 1)
           ], stops: <double>[
@@ -68,8 +70,7 @@ class _VerticalGradientState extends SampleViewState {
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y),
       SplineAreaSeries<_ChartData, String>(
-          enableTooltip: true,
-          gradient: const LinearGradient(colors:  <Color>[
+          gradient: const LinearGradient(colors: <Color>[
             Color.fromRGBO(140, 108, 245, 1),
             Color.fromRGBO(125, 185, 253, 1)
           ], stops: <double>[
@@ -95,13 +96,10 @@ class _VerticalGradientState extends SampleViewState {
     ];
   }
 
-/// Return the circular chart with vertical gradient.
-  SfCartesianChart getVerticalGradientAreaChart() {
+  /// Return the circular chart with vertical gradient.
+  SfCartesianChart _getVerticalGradientAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      // legend: Legend(
-      //   isVisible: isCardView ? false: true
-      // ),
       primaryXAxis: CategoryAxis(
           labelPlacement: LabelPlacement.onTicks,
           interval: model.isWeb ? 1 : null,
@@ -115,7 +113,7 @@ class _VerticalGradientState extends SampleViewState {
         axisLine: AxisLine(width: 0),
       ),
       trackballBehavior: TrackballBehavior(enable: true),
-      series: getGradientAreaSeries(isCardView),
+      series: _getGradientAreaSeries(),
     );
   }
 }

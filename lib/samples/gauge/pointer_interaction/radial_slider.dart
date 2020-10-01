@@ -1,32 +1,24 @@
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+/// Flutter package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
- 
-class RadialSlider extends SampleView {
-  const RadialSlider(Key key) : super(key: key);
-  
+
+/// Gauge imports
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+/// Local imports
+import '../../../model/sample_view.dart';
+
+/// Renders the gauge radial range range slider
+class RadialRangeSliderExample extends SampleView {
+  /// Creates the gauge radial range range slider
+  const RadialRangeSliderExample(Key key) : super(key: key);
+
   @override
-  _RadialSliderState createState() => _RadialSliderState();
+  _RadialRangeSliderExampleState createState() =>
+      _RadialRangeSliderExampleState();
 }
 
-class _RadialSliderState extends SampleViewState {
-  _RadialSliderState();
-  @override
-  void initState() {
-    super.initState();
-  }
-
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(RadialSlider oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
+class _RadialRangeSliderExampleState extends SampleViewState {
+  _RadialRangeSliderExampleState();
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +33,13 @@ class _RadialSliderState extends SampleViewState {
       _thickness = 0.1;
       _borderWidth = 4;
     }
-    return isCardView ? getRadialSlider(isCardView)
-    : Scaffold(
-              backgroundColor: model.isWeb ? Colors.transparent : model.cardThemeColor,
-              body: Padding(
-                padding: kIsWeb
+    return isCardView
+        ? _getRadialRangeSlider(isCardView)
+        : Scaffold(
+            backgroundColor:
+                model.isWeb ? Colors.transparent : model.cardThemeColor,
+            body: Padding(
+                padding: model.isWeb
                     ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
                     : const EdgeInsets.fromLTRB(5, 0, 5, 50),
                 child: SfRadialGauge(axes: <RadialAxis>[
@@ -53,7 +47,7 @@ class _RadialSliderState extends SampleViewState {
                       axisLineStyle: AxisLineStyle(
                           thickness: _thickness,
                           thicknessUnit: GaugeSizeUnit.factor),
-                      radiusFactor: kIsWeb ? 0.8 : 0.95,
+                      radiusFactor: model.isWeb ? 0.8 : 0.95,
                       minorTicksPerInterval: 4,
                       showFirstLabel: false,
                       minimum: 0,
@@ -64,8 +58,8 @@ class _RadialSliderState extends SampleViewState {
                       pointers: <GaugePointer>[
                         MarkerPointer(
                           value: _firstMarkerValue,
-                          onValueChanged: onFirstPointerValueChanged,
-                          onValueChanging: onFirstPointerValueChanging,
+                          onValueChanged: _handleFirstPointerValueChanged,
+                          onValueChanging: _handleFirstPointerValueChanging,
                           enableDragging: true,
                           borderColor: const Color(0xFFFFCD60),
                           borderWidth: _borderWidth,
@@ -76,8 +70,8 @@ class _RadialSliderState extends SampleViewState {
                         ),
                         MarkerPointer(
                           value: _secondMarkerValue,
-                          onValueChanged: onSecondPointerValueChanged,
-                          onValueChanging: onSecondPointerValueChanging,
+                          onValueChanged: _handleSecondPointerValueChanged,
+                          onValueChanging: _handleSecondPointerValueChanging,
                           color: Colors.white,
                           enableDragging: true,
                           borderColor: const Color(0xFFFFCD60),
@@ -137,12 +131,11 @@ class _RadialSliderState extends SampleViewState {
                             positionFactor: 0.1,
                             angle: 0)
                       ])
-                ])
-              ));
+                ])));
   }
 
-
-  void onFirstPointerValueChanged(double value) {
+  /// Dragged pointer new value is updated to range.
+  void _handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
       final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
@@ -152,7 +145,9 @@ class _RadialSliderState extends SampleViewState {
     });
   }
 
-  void onFirstPointerValueChanging(ValueChangingArgs args) {
+  /// Cancelled the dragging when pointer value reaching the axis end/start value, greater/less than another
+  /// pointer value
+  void _handleFirstPointerValueChanging(ValueChangingArgs args) {
     if (args.value >= _secondMarkerValue ||
         (args.value - _firstMarkerValue).abs() > 1) {
       if (args.value >= _secondMarkerValue) {
@@ -168,7 +163,9 @@ class _RadialSliderState extends SampleViewState {
     }
   }
 
-  void onSecondPointerValueChanging(ValueChangingArgs args) {
+  /// Cancelled the dragging when pointer value reaching the axis end/start value, greater/less than another
+  /// pointer value
+  void _handleSecondPointerValueChanging(ValueChangingArgs args) {
     if (args.value <= _firstMarkerValue ||
         (args.value - _secondMarkerValue).abs() > 1) {
       if (args.value <= _firstMarkerValue) {
@@ -184,7 +181,8 @@ class _RadialSliderState extends SampleViewState {
     }
   }
 
-  void onSecondPointerValueChanged(double value) {
+  /// Dragged pointer new value is updated to range.
+  void _handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
       final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
@@ -194,80 +192,82 @@ class _RadialSliderState extends SampleViewState {
     });
   }
 
+  /// Calculate the minutes value from pointer value to update in annotation.
   void _calculateMinutes(int _value) {
     final double _minutes =
         (_firstMarkerValue - _secondMarkerValue).abs() - _value;
-    final List<String> _minsList = _minutes.toStringAsFixed(2).split('.');
-    double _currentMinutes = double.parse(_minsList[1]);
+    final List<String> _minList = _minutes.toStringAsFixed(2).split('.');
+    double _currentMinutes = double.parse(_minList[1]);
     _currentMinutes =
         _currentMinutes > 60 ? _currentMinutes - 60 : _currentMinutes;
     final String _actualValue = _currentMinutes.toInt().toString();
     _minutesValue =
         _actualValue.length == 1 ? '0' + _actualValue : _actualValue;
   }
-}
 
-Widget getRadialSlider(bool isTileView) {
-  return SfRadialGauge(axes: <RadialAxis>[
-    RadialAxis(
-        axisLineStyle:
-            AxisLineStyle(thickness: 0.06, thicknessUnit: GaugeSizeUnit.factor),
-        minorTicksPerInterval: 4,
-        showFirstLabel: false,
-        minimum: 0,
-        maximum: 12,
-        interval: 1,
-        startAngle: 270,
-        endAngle: 270,
-        pointers: <GaugePointer>[
-          MarkerPointer(
-            value: 2,
-            borderColor: const Color(0xFFFFCD60),
-            borderWidth: 3,
-            color: Colors.white,
-            markerHeight: 15,
-            markerWidth: 15,
-            markerType: MarkerType.circle,
-          ),
-          MarkerPointer(
-            value: 8,
-            color: Colors.white,
-            borderColor: const Color(0xFFFFCD60),
-            markerHeight: 15,
-            borderWidth: 3,
-            markerWidth: 15,
-            markerType: MarkerType.circle,
-          ),
-        ],
-        ranges: <GaugeRange>[
-          GaugeRange(
-              endValue: 8,
-              sizeUnit: GaugeSizeUnit.factor,
-              startValue: 2,
-              startWidth: 0.06,
-              endWidth: 0.06)
-        ],
-        annotations: <GaugeAnnotation>[
-          GaugeAnnotation(
-              widget: const Text(
-                '6 hr 40 m',
-                style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Times',
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF00A8B5)),
-              ),
-              positionFactor: 0.05,
-              angle: 0)
-        ])
-  ]);
-}
+  /// Returns the radial range slider gauge
+  Widget _getRadialRangeSlider(bool isTileView) {
+    return SfRadialGauge(axes: <RadialAxis>[
+      RadialAxis(
+          axisLineStyle: AxisLineStyle(
+              thickness: 0.06, thicknessUnit: GaugeSizeUnit.factor),
+          minorTicksPerInterval: 4,
+          showFirstLabel: false,
+          minimum: 0,
+          maximum: 12,
+          interval: 1,
+          startAngle: 270,
+          endAngle: 270,
+          pointers: <GaugePointer>[
+            MarkerPointer(
+              value: 2,
+              borderColor: const Color(0xFFFFCD60),
+              borderWidth: 3,
+              color: Colors.white,
+              markerHeight: 15,
+              markerWidth: 15,
+              markerType: MarkerType.circle,
+            ),
+            MarkerPointer(
+              value: 8,
+              color: Colors.white,
+              borderColor: const Color(0xFFFFCD60),
+              markerHeight: 15,
+              borderWidth: 3,
+              markerWidth: 15,
+              markerType: MarkerType.circle,
+            ),
+          ],
+          ranges: <GaugeRange>[
+            GaugeRange(
+                endValue: 8,
+                sizeUnit: GaugeSizeUnit.factor,
+                startValue: 2,
+                startWidth: 0.06,
+                endWidth: 0.06)
+          ],
+          annotations: <GaugeAnnotation>[
+            GaugeAnnotation(
+                widget: const Text(
+                  '6 hr 40 m',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'Times',
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF00A8B5)),
+                ),
+                positionFactor: 0.05,
+                angle: 0)
+          ])
+    ]);
+  }
 
-double _borderWidth = 5;
-double _firstMarkerValue = 2;
-double _secondMarkerValue = 8;
-double _markerSize = 25;
-double _annotationFontSize = 25;
-double _thickness = 0.06;
-String _annotationValue = '6';
-String _minutesValue = '40';
+  double _borderWidth = 5;
+  double _firstMarkerValue = 2;
+  double _secondMarkerValue = 8;
+  double _markerSize = 25;
+  double _annotationFontSize = 25;
+  double _thickness = 0.06;
+  String _annotationValue = '6';
+  String _minutesValue = '40';
+}
