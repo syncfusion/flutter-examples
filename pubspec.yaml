@@ -24,7 +24,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^18.3.35-beta
   syncfusion_flutter_charts: ^18.3.35
   syncfusion_flutter_gauges: ^18.3.35
-  syncfusion_flutter_sliders: ^18.3.35
+  syncfusion_flutter_sliders: ^18.3.35-beta
   syncfusion_flutter_pdf: ^18.3.35-beta
   syncfusion_flutter_barcodes: ^18.3.35
   syncfusion_officechart: ^18.3.35-beta
