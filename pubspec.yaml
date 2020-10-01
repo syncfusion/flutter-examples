@@ -1,6 +1,6 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 18.1.52
+version: 18.2.44
 author: Syncfusion <support@syncfusion.com>
 homepage: https://github.com/syncfusion/flutter-examples
 
@@ -12,42 +12,33 @@ dependencies:
     sdk: flutter
   flutter:
     sdk: flutter
-  scoped_model: 1.0.1
   flutter_gallery_assets: 0.1.8
   url_launcher: ^5.0.3
   intl: ^0.16.0
-  path_provider: ^1.6.18
-  http: ^0.12.2
-
-  syncfusion_flutter_datagrid: ^18.3.35-beta
-  syncfusion_flutter_calendar: ^18.3.35
-  syncfusion_flutter_datepicker: ^18.3.35-beta
-  syncfusion_flutter_charts: ^18.3.35
-  syncfusion_flutter_gauges: ^18.3.35
-  syncfusion_flutter_sliders: ^18.3.35
-  syncfusion_flutter_pdf: ^18.3.35-beta
-  syncfusion_flutter_barcodes: ^18.3.35
-  syncfusion_officechart: ^18.3.35-beta
-  syncfusion_flutter_maps: ^18.3.35-beta
-  syncfusion_flutter_signaturepad: ^18.3.35-beta
-  syncfusion_flutter_pdfviewer: ^18.3.35-beta
+  path_provider: ^1.6.1
+  syncfusion_flutter_datagrid: ^18.2.56-beta
+  syncfusion_flutter_calendar: ^18.2.56
+  syncfusion_flutter_datepicker: ^18.2.56-beta
+  syncfusion_flutter_charts: ^18.2.56
+  syncfusion_flutter_gauges: ^18.2.56
+  syncfusion_flutter_sliders: ^18.2.56-beta
+  syncfusion_flutter_pdf: ^18.2.56-beta
+  syncfusion_flutter_barcodes: ^18.2.56-beta
+  syncfusion_flutter_maps: ^18.2.56-beta
   
 flutter:
   uses-material-design: true
   assets:
     - images/
     - images/pdf/
-    - images/xlsio/
-    - assets/pdf/
     - lib/sample_details.json
     - world_map.json
-    - africa.json
+    - africa_continent_map.json
+    - asia_continent_map.json
+    - australia.json
+    - california.json
     - europe.json
-    - india.json
     - usa.json
-    - south_america.json
-    - product_data.json
-    - chart_data.json
   fonts:
     - family: HeeboBold
       fonts:
