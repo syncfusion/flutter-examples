@@ -1,18 +1,17 @@
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/checkbox.dart';
-import '../../../../widgets/customDropDown.dart';
+import '../../../../widgets/custom_dropdown.dart';
 
 /// Render the pie series with smart labels.
 class PieSmartLabels extends SampleView {
+  /// Creates the pie series with smart labels.
   const PieSmartLabels(Key key) : super(key: key);
 
   @override
@@ -31,6 +30,7 @@ class _PieSmartLabelsState extends SampleViewState {
   ChartDataLabelPosition _labelPosition;
   ConnectorType _connectorType;
 
+  @override
   Widget buildSettings(BuildContext context) {
     return ListView(
       children: <Widget>[
@@ -63,7 +63,7 @@ class _PieSmartLabelsState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onPositionTypeChange(value.toString(), model);
+                            _onPositionTypeChange(value.toString());
                           })),
                 ),
               ),
@@ -81,7 +81,7 @@ class _PieSmartLabelsState extends SampleViewState {
                       fontWeight: FontWeight.normal)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: BottomSheetCheckbox(
+                child: CustomCheckBox(
                   activeColor: model.backgroundColor,
                   switchValue: isSmartLabelMode,
                   valueChanged: (dynamic value) {
@@ -123,7 +123,7 @@ class _PieSmartLabelsState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onLineTypeChange(value.toString(), model);
+                            _onLineTypeChange(value.toString());
                           })),
                 ),
               ),
@@ -141,7 +141,7 @@ class _PieSmartLabelsState extends SampleViewState {
                       fontWeight: FontWeight.normal)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: BottomSheetCheckbox(
+                child: CustomCheckBox(
                   activeColor: model.backgroundColor,
                   switchValue: isZeroVisible,
                   valueChanged: (dynamic value) {
@@ -160,27 +160,21 @@ class _PieSmartLabelsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getSmartLabelPieChart();
+    return _getSmartLabelPieChart();
   }
 
-/// Returns the circular charts with pie series.
-  SfCircularChart getSmartLabelPieChart() {
+  /// Returns the circular charts with pie series.
+  SfCircularChart _getSmartLabelPieChart() {
     return SfCircularChart(
-      title: ChartTitle(text: isCardView ? '' : 'Monthly expenditure of an individual'),
-      series: gettSmartLabelPieSeries(isCardView, _labelPosition,
-          _connectorType, isZeroVisible, isSmartLabelMode, model),
+      title: ChartTitle(
+          text: isCardView ? '' : 'Monthly expenditure of an individual'),
+      series: _gettSmartLabelPieSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
-/// Returns the list of pie series which need to be labeled.
-  List<PieSeries<ChartSampleData, String>> gettSmartLabelPieSeries(
-      bool isCardView,
-      ChartDataLabelPosition labelPosition,
-      ConnectorType connectorType,
-      bool zeroVisibility,
-      bool smartLabel,
-      SampleModel model) {
+  /// Returns the pie series with smart data labels.
+  List<PieSeries<ChartSampleData, String>> _gettSmartLabelPieSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 'Food', y: 38),
       ChartSampleData(x: 'Loan due', y: 0),
@@ -188,12 +182,12 @@ class _PieSmartLabelsState extends SampleViewState {
       ChartSampleData(x: 'Movies', y: 0),
       ChartSampleData(x: 'Travel', y: 27),
       ChartSampleData(x: 'Shopping', y: 19),
-      ChartSampleData(x: 'Savings', y: 9),   
+      ChartSampleData(x: 'Savings', y: 9),
       ChartSampleData(x: 'Others', y: 5),
       ChartSampleData(x: 'Rent', y: 5),
       ChartSampleData(x: 'Insurance', y: 4),
-      ChartSampleData(x: 'Tax', y:3),
-      ChartSampleData(x: 'PF', y:4),
+      ChartSampleData(x: 'Tax', y: 3),
+      ChartSampleData(x: 'PF', y: 4),
     ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
@@ -202,39 +196,28 @@ class _PieSmartLabelsState extends SampleViewState {
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.x,
           radius: '55%',
-          // startAngle: 105,
-          // endAngle: 105,
+
           /// By using this property we can enable the smart label mode.
-          enableSmartLabels: !isCardView ? smartLabel : true,
+          enableSmartLabels: !isCardView ? isSmartLabelMode : true,
           dataLabelSettings: DataLabelSettings(
               isVisible: true,
-              showZeroValue: !isCardView && !zeroVisibility ? true : false,
+              showZeroValue: !isCardView && !isZeroVisible ? true : false,
               labelPosition:
-                  !isCardView ? labelPosition : ChartDataLabelPosition.outside,
+                  !isCardView ? _labelPosition : ChartDataLabelPosition.outside,
               connectorLineSettings: ConnectorLineSettings(
-                  type: !isCardView ? connectorType : ConnectorType.curve)))
+                  type: !isCardView ? _connectorType : ConnectorType.curve)))
     ];
   }
 
   @override
   void initState() {
-    initProperties();
+    _labelPosition = ChartDataLabelPosition.outside;
+    _connectorType = ConnectorType.curve;
     super.initState();
   }
 
-  void initProperties([SampleModel sampleModel, bool init]) {
-    _labelPosition = ChartDataLabelPosition.outside;
-    _connectorType = ConnectorType.curve;
-    if (sampleModel != null && init) {
-      sampleModel.properties.addAll(<dynamic, dynamic>{
-        'LabelPosition': _labelPosition,
-        'ConnectorLineType': _connectorLine
-      });
-    }
-  }
-
-/// Method for changeing the connector line in pie series.
-  void onLineTypeChange(String item, SampleModel model) {
+  /// Method for changeing the connector line in pie series.
+  void _onLineTypeChange(String item) {
     setState(() {
       _connectorLine = item;
       if (_connectorLine == 'curve') {
@@ -244,18 +227,10 @@ class _PieSmartLabelsState extends SampleViewState {
         _connectorType = ConnectorType.line;
       }
     });
-    model.properties['LineType'] = _connectorLine;
-    // if (model.isWeb)
-    //   model.sampleOutputContainer.outputKey.currentState.refresh();
-    // else
-    //   setState(() {
-    //     // ignore: invalid_use_of_protected_member
-    //     model.notifyListeners();
-    //   });
   }
 
-/// Method for changing the data label position.
-  void onPositionTypeChange(String item, SampleModel model) {
+  /// Method for changing the data label position.
+  void _onPositionTypeChange(String item) {
     setState(() {
       _selectedPosition = item;
       if (_selectedPosition == 'outside') {
@@ -265,13 +240,5 @@ class _PieSmartLabelsState extends SampleViewState {
         _labelPosition = ChartDataLabelPosition.inside;
       }
     });
-    model.properties['LabelPosition'] = _selectedPosition;
-    // if (model.isWeb)
-    //   model.sampleOutputContainer.outputKey.currentState.refresh();
-    // else
-    //   setState(() {
-    //     // ignore: invalid_use_of_protected_member
-    //     model.notifyListeners();
-    //   });
   }
 }

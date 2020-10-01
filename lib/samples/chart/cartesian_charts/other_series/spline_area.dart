@@ -2,33 +2,34 @@
 import 'package:flutter/material.dart';
 
 /// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart'; 
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local import
 import '../../../../model/sample_view.dart';
 
 /// Renders the spline area chart sample.
 class SplineArea extends SampleView {
+  /// Creates the spline area chart sample.
   const SplineArea(Key key) : super(key: key);
 
   @override
   _SplineAreaState createState() => _SplineAreaState();
 }
 
-/// State class of the spline area chart. 
+/// State class of the spline area chart.
 class _SplineAreaState extends SampleViewState {
   _SplineAreaState();
 
   @override
   Widget build(BuildContext context) {
-    return getSplineAreaChart();
+    return _getSplineAreaChart();
   }
 
   /// Returns the cartesian spline are chart.
-  SfCartesianChart getSplineAreaChart() {
+  SfCartesianChart _getSplineAreaChart() {
     return SfCartesianChart(
-      legend: Legend(isVisible: isCardView ? false : true, opacity: 0.7),
-      title: ChartTitle(text: isCardView ? '' : 'Inflation rate'),
+      legend: Legend(isVisible: true, opacity: 0.7),
+      title: ChartTitle(text: 'Inflation rate'),
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
           interval: 1,
@@ -43,7 +44,8 @@ class _SplineAreaState extends SampleViewState {
     );
   }
 
-  /// Returns the list of chart series which need to render on the spline area chart.
+  /// Returns the list of chart series
+  /// which need to render on the spline area chart.
   List<ChartSeries<_SplineAreaData, double>> _getSplieAreaSeries() {
     final List<_SplineAreaData> chartData = <_SplineAreaData>[
       _SplineAreaData(2010, 10.53, 3.3),
@@ -69,7 +71,7 @@ class _SplineAreaState extends SampleViewState {
       SplineAreaSeries<_SplineAreaData, double>(
         dataSource: chartData,
         borderColor: const Color.fromRGBO(192, 108, 132, 1),
-        color: const Color.fromRGBO(192, 108, 132,0.6),
+        color: const Color.fromRGBO(192, 108, 132, 0.6),
         borderWidth: 2,
         name: 'China',
         xValueMapper: (_SplineAreaData sales, _) => sales.year,

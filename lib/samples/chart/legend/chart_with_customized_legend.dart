@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import 'package:flutter_examples/model/model.dart';
 import '../../../model/sample_view.dart';
 
 /// Renders the line chart with customized legends sample.
 class LegendCustomized extends SampleView {
+  /// Creates the line chart with customized legends sample.
   const LegendCustomized(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _LegendCustomizedState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getLegendCustomizedChart();
+    return _getLegendCustomizedChart();
   }
 
   /// Returns the line chart with customized legends.
-  SfCartesianChart getLegendCustomizedChart() {
+  SfCartesianChart _getLegendCustomizedChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -40,7 +40,7 @@ class _LegendCustomizedState extends SampleViewState {
               height: 30,
               width: 90,
               child: Row(children: <Widget>[
-                Container(child: getImage(index)),
+                Container(child: _getImage(index)),
                 Container(child: Text(series.name)),
               ]));
         },
@@ -54,18 +54,38 @@ class _LegendCustomizedState extends SampleViewState {
           maximum: 120,
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(color: Colors.transparent)),
-      series: getLegendCustomizedSeries(),
+      series: _getLegendCustomizedSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
   /// Returns the list of chart series which need to render on the line chart.
-  List<ChartSeries<ChartSampleData, num>> getLegendCustomizedSeries() {
+  List<ChartSeries<ChartSampleData, num>> _getLegendCustomizedSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 2005, y: 38, yValue: 49, yValue2: 56, yValue3: 67),
-      ChartSampleData(x: 2006, y: 20, yValue: 40, yValue2: 50, yValue3: 60),
-      ChartSampleData(x: 2007, y: 60, yValue: 72, yValue2: 84, yValue3: 96),
-      ChartSampleData(x: 2008, y: 50, yValue: 65, yValue2: 80, yValue3: 90),
+      ChartSampleData(
+          x: 2005,
+          y: 38,
+          yValue: 49,
+          secondSeriesYValue: 56,
+          thirdSeriesYValue: 67),
+      ChartSampleData(
+          x: 2006,
+          y: 20,
+          yValue: 40,
+          secondSeriesYValue: 50,
+          thirdSeriesYValue: 60),
+      ChartSampleData(
+          x: 2007,
+          y: 60,
+          yValue: 72,
+          secondSeriesYValue: 84,
+          thirdSeriesYValue: 96),
+      ChartSampleData(
+          x: 2008,
+          y: 50,
+          yValue: 65,
+          secondSeriesYValue: 80,
+          thirdSeriesYValue: 90),
     ];
     return <ChartSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
@@ -88,21 +108,21 @@ class _LegendCustomizedState extends SampleViewState {
           width: 2,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
+          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Bike'),
       LineSeries<ChartSampleData, num>(
           markerSettings: MarkerSettings(isVisible: true),
           width: 2,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue3,
+          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Bicycle')
     ];
   }
 
   /// Method to get the images for customizing the legends of line chart series.
-  dynamic getImage(int index) {
-    final dynamic images = <dynamic>[
+  Image _getImage(int index) {
+    final List<Image> images = <Image>[
       Image.asset('images/truck_legend.png'),
       Image.asset('images/car_legend.png'),
       Image.asset('images/bike_legend.png'),

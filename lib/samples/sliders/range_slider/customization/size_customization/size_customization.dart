@@ -1,12 +1,21 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
+///flutter package import
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
 
+///Core theme import
+import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+///Local imports
+import '../../../../../model/sample_view.dart';
+import '../../../slider_utils.dart';
+
+///Renders range slider with customized size
 class SfRangeSliderSizeCustomizationPage extends SampleView {
+  ///Creates range slider with customized divisor
   const SfRangeSliderSizeCustomizationPage(Key key) : super(key: key);
 
   @override
@@ -21,12 +30,13 @@ class _SfRangeSliderSizeCustomizationPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    rangeSlider = SfRangeSliderSizeCustomization();
+    rangeSlider = _SfRangeSliderSizeCustomization();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(height: 300, child: rangeSlider),
@@ -34,8 +44,7 @@ class _SfRangeSliderSizeCustomizationPageState extends SampleViewState {
   }
 }
 
-// ignore: must_be_immutable
-class SfRangeSliderSizeCustomization extends SampleView {
+class _SfRangeSliderSizeCustomization extends SampleView {
   @override
   _SfRangeSliderSizeCustomizationState createState() =>
       _SfRangeSliderSizeCustomizationState();
@@ -99,7 +108,6 @@ class _SfRangeSliderSizeCustomizationState extends SampleViewState {
             max: 50.0,
             stepSize: 25,
             showTicks: true,
-            //showDivisors: true,
             values: _values,
             onChanged: (SfRangeValues values) {
               setState(() {
@@ -121,10 +129,7 @@ class _SfRangeSliderSizeCustomizationState extends SampleViewState {
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(
@@ -144,6 +149,6 @@ class _SfRangeSliderSizeCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWeb ? _getWebLayout() : _getMobileLayout();
   }
 }

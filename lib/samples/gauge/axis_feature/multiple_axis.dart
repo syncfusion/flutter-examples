@@ -1,47 +1,30 @@
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+/// Flutter package imports
 import 'package:flutter/material.dart';
 
+/// Gauge imports
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-// ignore: must_be_immutable
+/// Local imports
+import '../../../model/sample_view.dart';
+
+/// Renders the gauge multiple axis sample
 class MultipleAxisExample extends SampleView {
+  /// Creates the gauge multiple axis sample
   const MultipleAxisExample(Key key) : super(key: key);
-  
+
   @override
   _MultipleAxisExampleState createState() => _MultipleAxisExampleState();
 }
 
 class _MultipleAxisExampleState extends SampleViewState {
   _MultipleAxisExampleState();
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-
-  @override
-  void initState() {
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-    super.initState();
-  }
-
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(MultipleAxisExample oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
 
   @override
   Widget build(BuildContext context) {
     return _getRadialGauge(context);
   }
 
+  /// Returns the default axis gauge
   SfRadialGauge _getRadialGauge(BuildContext context) {
     return SfRadialGauge(axes: <RadialAxis>[
       RadialAxis(

@@ -1,13 +1,18 @@
+///Dart imports
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
+///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
+
+///calendar import
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+///Local import
+import '../../../model/sample_view.dart';
+
+/// Widget of special region schedule
 class SpecialRegionsCalendar extends SampleView {
+  /// Creates calendar for special regions
   const SpecialRegionsCalendar(Key key) : super(key: key);
 
   @override
@@ -17,19 +22,16 @@ class SpecialRegionsCalendar extends SampleView {
 class _SpecialRegionsCalendarState extends SampleViewState {
   _SpecialRegionsCalendarState();
 
-  CalendarView _calendarView;
-  bool panelOpen;
   List<TimeRegion> regions;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-  String _view = 'Week';
-  final List<String> _viewList = <String>[
-    'Day',
-    'Week',
-    'Work week',
-    'Timeline day',
-    'Timeline week',
-    'Timeline work week'
-  ].toList();
+  CalendarController calendarController;
+  final List<CalendarView> _allowedViews = <CalendarView>[
+    CalendarView.day,
+    CalendarView.week,
+    CalendarView.workWeek,
+    CalendarView.timelineDay,
+    CalendarView.timelineWeek,
+    CalendarView.timelineWorkWeek
+  ];
 
   List<String> subjectCollection;
   List<Color> colorCollection;
@@ -38,26 +40,17 @@ class _SpecialRegionsCalendarState extends SampleViewState {
 
   @override
   void initState() {
-    initProperties();
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
     _appointments = <Appointment>[];
-    addAppointmentDetails();
-    addAppointments();
+    calendarController = CalendarController();
+    calendarController.view = CalendarView.week;
+    _addAppointmentDetails();
+    _addAppointments();
     events = _DataSource(_appointments);
     _addRegions();
     super.initState();
   }
 
-  void initProperties([SampleModel sampleModel, bool init]) {
-    _view = 'Week';
-    _calendarView = CalendarView.week;
-    if (sampleModel != null && init) {
-      sampleModel.properties.addAll(
-          <dynamic, dynamic>{'CalendarView': _calendarView, 'View': _view});
-    }
-  }
-
+  /// Adds the special time region for the calendar with the required information
   void _addRegions() {
     regions = <TimeRegion>[];
     final DateTime date =
@@ -66,7 +59,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
       startTime: DateTime(date.year, date.month, date.day),
       endTime: DateTime(date.year, date.month, date.day, 9, 0, 0),
       enablePointerInteraction: false,
-      textStyle: TextStyle(color: Colors.black45, fontSize: 15),
+      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
       color: Colors.grey.withOpacity(0.2),
       recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
     ));
@@ -75,7 +68,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
       startTime: DateTime(date.year, date.month, date.day, 18, 0, 0),
       endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
       enablePointerInteraction: false,
-      textStyle: TextStyle(color: Colors.black45, fontSize: 15),
+      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
       color: Colors.grey.withOpacity(0.2),
       recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
     ));
@@ -84,7 +77,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
       startTime: DateTime(date.year, date.month, date.day, 13, 0, 0),
       endTime: DateTime(date.year, date.month, date.day, 14, 0, 0),
       enablePointerInteraction: false,
-      textStyle: TextStyle(color: Colors.black45, fontSize: 15),
+      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
       color: Colors.grey.withOpacity(0.2),
       recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
     ));
@@ -93,13 +86,14 @@ class _SpecialRegionsCalendarState extends SampleViewState {
       startTime: DateTime(date.year, date.month, date.day, 0, 0, 0),
       endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
       enablePointerInteraction: false,
-      textStyle: TextStyle(color: Colors.black45, fontSize: 15),
+      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
       color: Colors.grey.withOpacity(0.2),
       recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=SA,SU',
     ));
   }
 
-  void addAppointmentDetails() {
+  /// Creates the required appointment details as a list.
+  void _addAppointmentDetails() {
     subjectCollection = <String>[];
     subjectCollection.add('General Meeting');
     subjectCollection.add('Plan Execution');
@@ -125,7 +119,9 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFF0A8043));
   }
 
-  void addAppointments() {
+  /// Method that creates the collection the data source for calendar, with
+  /// required information.
+  void _addAppointments() {
     final Random random = Random();
     final DateTime rangeStartDate =
         DateTime.now().add(const Duration(days: -(365 ~/ 2)));
@@ -148,100 +144,29 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     }
   }
 
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
-  @override
-  void didUpdateWidget(SpecialRegionsCalendar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Row(children: <Widget>[
-          Expanded(
-              child: Container(
-            color: model.isWeb
-                ? model.webSampleBackgroundColor
-                : model.cardThemeColor,
-            child: Theme(
-                data: model.themeData
-                    .copyWith(accentColor: model.backgroundColor),
-                child: getSpecialRegionCalendar(
-                    regions: regions, view: _calendarView, dataSource: events)),
-          ))
-        ]));
+      Expanded(
+          child: Container(
+        color: model.cardThemeColor,
+        child: Theme(
+            data: model.themeData.copyWith(accentColor: model.backgroundColor),
+            child: _getSpecialRegionCalendar(
+                regions: regions, dataSource: events)),
+      ))
+    ]));
   }
 
-  Widget buildSettings(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          child: Row(
-            children: <Widget>[
-              Text('Calendar View',
-                  style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                      letterSpacing: 0.34,
-                      fontWeight: FontWeight.normal)),
-              Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  height: 50,
-                  // width: 150,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                          canvasColor: model.bottomSheetBackgroundColor),
-                      child: DropDown(
-                          value: _view,
-                          item: _viewList.map((String value) {
-                            return DropdownMenuItem<String>(
-                                value: (value != null) ? value : 'Week',
-                                child: Text('$value',
-                                    style: TextStyle(color: model.textColor)));
-                          }).toList(),
-                          valueChanged: (dynamic value) {
-                            onCalendarViewChange(value, model);
-                          }),
-                    ),
-                  )),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  void onCalendarViewChange(String value, SampleModel model) {
-    _view = value;
-    if (value == 'Day') {
-      _calendarView = CalendarView.day;
-    } else if (value == 'Week') {
-      _calendarView = CalendarView.week;
-    } else if (value == 'Work week') {
-      _calendarView = CalendarView.workWeek;
-    } else if (value == 'Timeline day') {
-      _calendarView = CalendarView.timelineDay;
-    } else if (value == 'Timeline week') {
-      _calendarView = CalendarView.timelineWeek;
-    } else if (value == 'Timeline work week') {
-      _calendarView = CalendarView.timelineWorkWeek;
-    }
-
-    model.properties['View'] = _view;
-    model.properties['CalendarView'] = _calendarView;
-    setState(() {});
-  }
-
-  SfCalendar getSpecialRegionCalendar(
-      {List<TimeRegion> regions, CalendarView view, _DataSource dataSource}) {
+  /// Return the calendar widget based on the properties passed
+  SfCalendar _getSpecialRegionCalendar(
+      {List<TimeRegion> regions, _DataSource dataSource}) {
     return SfCalendar(
-      view: view,
-      showNavigationArrow: kIsWeb,
+      showNavigationArrow: model.isWeb,
+      controller: calendarController,
+      showDatePickerButton: true,
+      allowedViews: _allowedViews,
       specialRegions: regions,
       timeSlotViewSettings: TimeSlotViewSettings(
           minimumAppointmentDuration: const Duration(minutes: 30)),
@@ -250,6 +175,8 @@ class _SpecialRegionsCalendarState extends SampleViewState {
   }
 }
 
+/// An object to set the appointment collection data source to collection, and
+/// allows to add, remove or reset the appointment collection.
 class _DataSource extends CalendarDataSource {
   _DataSource(List<Appointment> appointments) {
     this.appointments = appointments;

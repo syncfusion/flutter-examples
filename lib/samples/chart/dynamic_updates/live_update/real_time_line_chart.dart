@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:math' as math;
 
 /// Package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Chart import
@@ -14,6 +13,7 @@ import '../../../../model/sample_view.dart';
 
 /// Renders the realtime line chart sample.
 class LiveLineChart extends SampleView {
+  /// Creates the realtime line chart sample.
   const LiveLineChart(Key key) : super(key: key);
 
   @override
@@ -23,7 +23,8 @@ class LiveLineChart extends SampleView {
 /// State class of the realtime line chart.
 class _LiveLineChartState extends SampleViewState {
   _LiveLineChartState() {
-    timer = Timer.periodic(const Duration(milliseconds: 100), updateDataSource);
+    timer =
+        Timer.periodic(const Duration(milliseconds: 100), _updateDataSource);
   }
 
   Timer timer;
@@ -52,11 +53,6 @@ class _LiveLineChartState extends SampleViewState {
   ChartSeriesController _chartSeriesController;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     timer?.cancel();
     super.dispose();
@@ -64,11 +60,11 @@ class _LiveLineChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getLiveLineChart();
+    return _getLiveLineChart();
   }
 
   /// Returns the realtime Cartesian line chart.
-  SfCartesianChart getLiveLineChart() {
+  SfCartesianChart _getLiveLineChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
@@ -80,20 +76,19 @@ class _LiveLineChartState extends SampleViewState {
             onRendererCreated: (ChartSeriesController controller) {
               _chartSeriesController = controller;
             },
-            dataSource:  chartData,
+            dataSource: chartData,
             color: const Color.fromRGBO(192, 108, 132, 1),
             xValueMapper: (_ChartData sales, _) => sales.country,
             yValueMapper: (_ChartData sales, _) => sales.sales,
             animationDuration: 0,
-            dataLabelSettings: DataLabelSettings(
-                isVisible: false, labelAlignment: ChartDataLabelAlignment.top),
           )
         ]);
   }
 
-  void updateDataSource(Timer timer) {
+  ///Continously updating the data source based on timer
+  void _updateDataSource(Timer timer) {
     if (isCardView != null) {
-      chartData.add(_ChartData(count, getRandomInt(10, 100)));
+      chartData.add(_ChartData(count, _getRandomInt(10, 100)));
       if (chartData.length == 20) {
         chartData.removeAt(0);
         _chartSeriesController.updateDataSource(
@@ -109,7 +104,8 @@ class _LiveLineChartState extends SampleViewState {
     }
   }
 
-  num getRandomInt(num min, num max) {
+  ///Get the random data
+  num _getRandomInt(num min, num max) {
     final math.Random _random = math.Random();
     return min + _random.nextInt(max - min);
   }

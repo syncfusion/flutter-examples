@@ -1,11 +1,18 @@
+///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:flutter_examples/samples/pdf/helper/save_file_mobile.dart'
-    if (dart.library.html) 'package:flutter_examples/samples/pdf/helper/save_file_web.dart';
 
+///Pdf import
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+
+///Local imports
+import '../../../model/sample_view.dart';
+import '../helper/save_file_mobile.dart'
+    if (dart.library.html) '../helper/save_file_web.dart';
+
+/// Render pdf of invoice
 class InvoicePdf extends SampleView {
+  /// Render pdf of invoice
   const InvoicePdf(Key key) : super(key: key);
   @override
   _InvoicePdfState createState() => _InvoicePdfState();
@@ -15,40 +22,35 @@ class _InvoicePdfState extends SampleViewState {
   _InvoicePdfState();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-          return Scaffold(
-            backgroundColor: model.cardThemeColor,
-            body: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                        'The PDF package is a non-UI and reusable flutter library to create PDF reports programmatically with formatted text, images, tables, links, list, header and footer, and more.\r\n\r\nThis sample showcase how to create a simple invoice report using PDF grid with built-in styles.',
-                        style: TextStyle(fontSize: 16, color: model.textColor)),
-                    const SizedBox(height: 20, width: 30),
-                    Align(
-                        alignment: Alignment.center,
-                        child: FlatButton(
-                            child: const Text('Generate PDF',
-                                style: TextStyle(color: Colors.white)),
-                            color: model.backgroundColor,
-                            onPressed: generatePDF))
-                  ],
-                ),
-              ),
-            ),
-          );
+    return Scaffold(
+      backgroundColor: model.cardThemeColor,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                  'The PDF package is a non-UI and reusable flutter library to create PDF reports programmatically with formatted text, images, tables, links, list, header and footer, and more.\r\n\r\nThis sample showcase how to create a simple invoice report using PDF grid with built-in styles.',
+                  style: TextStyle(fontSize: 16, color: model.textColor)),
+              const SizedBox(height: 20, width: 30),
+              Align(
+                  alignment: Alignment.center,
+                  child: FlatButton(
+                      child: const Text('Generate PDF',
+                          style: TextStyle(color: Colors.white)),
+                      color: model.backgroundColor,
+                      onPressed: _generatePDF))
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Future<void> generatePDF() async {
+  Future<void> _generatePDF() async {
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
     //Add page to the PDF
@@ -60,22 +62,22 @@ class _InvoicePdfState extends SampleViewState {
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
         pen: PdfPen(PdfColor(142, 170, 219, 255)));
     //Generate PDF grid.
-    final PdfGrid grid = getGrid();
+    final PdfGrid grid = _getGrid();
     //Draw the header section by creating text element
-    final PdfLayoutResult result = drawHeader(page, pageSize, grid);
+    final PdfLayoutResult result = _drawHeader(page, pageSize, grid);
     //Draw grid
-    drawGrid(page, grid, result);
+    _drawGrid(page, grid, result);
     //Add invoice footer
-    drawFooter(page, pageSize);
+    _drawFooter(page, pageSize);
     //Save and dispose the document.
     final List<int> bytes = document.save();
     document.dispose();
     //Launch file.
-    FileSaveHelper.saveAndLaunchFile(bytes, 'Invoice.pdf');
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'Invoice.pdf');
   }
 
   //Draws the invoice header
-  PdfLayoutResult drawHeader(PdfPage page, Size pageSize, PdfGrid grid) {
+  PdfLayoutResult _drawHeader(PdfPage page, Size pageSize, PdfGrid grid) {
     //Draw rectangle
     page.graphics.drawRectangle(
         brush: PdfSolidBrush(PdfColor(91, 126, 215, 255)),
@@ -89,7 +91,7 @@ class _InvoicePdfState extends SampleViewState {
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 90),
         brush: PdfSolidBrush(PdfColor(65, 104, 205)));
-    page.graphics.drawString('\$' + getTotalAmount(grid).toString(),
+    page.graphics.drawString('\$' + _getTotalAmount(grid).toString(),
         PdfStandardFont(PdfFontFamily.helvetica, 18),
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 100),
         brush: PdfBrushes.white,
@@ -122,7 +124,7 @@ class _InvoicePdfState extends SampleViewState {
   }
 
   //Draws the grid
-  void drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
+  void _drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
     Rect totalPriceCellBounds;
     Rect quantityCellBounds;
     //Invoke the beginCellLayout event.
@@ -145,7 +147,7 @@ class _InvoicePdfState extends SampleViewState {
             result.bounds.bottom + 10,
             quantityCellBounds.width,
             quantityCellBounds.height));
-    page.graphics.drawString(getTotalAmount(grid).toString(),
+    page.graphics.drawString(_getTotalAmount(grid).toString(),
         PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
         bounds: Rect.fromLTWH(
             totalPriceCellBounds.left,
@@ -155,7 +157,7 @@ class _InvoicePdfState extends SampleViewState {
   }
 
   //Draw the invoice footer data.
-  void drawFooter(PdfPage page, Size pageSize) {
+  void _drawFooter(PdfPage page, Size pageSize) {
     final PdfPen linePen =
         PdfPen(PdfColor(142, 170, 219, 255), dashStyle: PdfDashStyle.custom);
     linePen.dashPattern = <double>[3, 3];
@@ -172,7 +174,7 @@ class _InvoicePdfState extends SampleViewState {
   }
 
   //Create PDF grid and return
-  PdfGrid getGrid() {
+  PdfGrid _getGrid() {
     //Create a PDF grid
     final PdfGrid grid = PdfGrid();
     //Secify the columns count to the grid.
@@ -188,12 +190,14 @@ class _InvoicePdfState extends SampleViewState {
     headerRow.cells[2].value = 'Price';
     headerRow.cells[3].value = 'Quantity';
     headerRow.cells[4].value = 'Total';
-    addProducts('CA-1098', 'AWC Logo Cap', 8.99, 2, 17.98, grid);
-    addProducts('LJ-0192', 'Long-Sleeve Logo Jersey,M', 49.99, 3, 149.97, grid);
-    addProducts('So-B909-M', 'Mountain Bike Socks,M', 9.5, 2, 19, grid);
-    addProducts('LJ-0192', 'Long-Sleeve Logo Jersey,M', 49.99, 4, 199.96, grid);
-    addProducts('FK-5136', 'ML Fork', 175.49, 6, 1052.94, grid);
-    addProducts('HL-U509', 'Sports-100 Helmet,Black', 34.99, 1, 34.99, grid);
+    _addProducts('CA-1098', 'AWC Logo Cap', 8.99, 2, 17.98, grid);
+    _addProducts(
+        'LJ-0192', 'Long-Sleeve Logo Jersey,M', 49.99, 3, 149.97, grid);
+    _addProducts('So-B909-M', 'Mountain Bike Socks,M', 9.5, 2, 19, grid);
+    _addProducts(
+        'LJ-0192', 'Long-Sleeve Logo Jersey,M', 49.99, 4, 199.96, grid);
+    _addProducts('FK-5136', 'ML Fork', 175.49, 6, 1052.94, grid);
+    _addProducts('HL-U509', 'Sports-100 Helmet,Black', 34.99, 1, 34.99, grid);
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
     grid.columns[1].width = 200;
     for (int i = 0; i < headerRow.cells.count; i++) {
@@ -215,7 +219,7 @@ class _InvoicePdfState extends SampleViewState {
   }
 
   //Create and row for the grid.
-  void addProducts(String productId, String productName, double price,
+  void _addProducts(String productId, String productName, double price,
       int quantity, double total, PdfGrid grid) {
     final PdfGridRow row = grid.rows.add();
     row.cells[0].value = productId;
@@ -226,7 +230,7 @@ class _InvoicePdfState extends SampleViewState {
   }
 
   //Get the total amount.
-  double getTotalAmount(PdfGrid grid) {
+  double _getTotalAmount(PdfGrid grid) {
     double total = 0;
     for (int i = 0; i < grid.rows.count; i++) {
       final String value = grid.rows[i].cells[grid.columns.count - 1].value;

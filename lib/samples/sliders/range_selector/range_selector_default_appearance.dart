@@ -1,16 +1,28 @@
-import 'package:flutter/foundation.dart';
+///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
+
+///Chart import
 import 'package:syncfusion_flutter_charts/charts.dart' hide LabelPlacement;
+
+///Core import
 import 'package:syncfusion_flutter_core/core.dart';
+
+///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+///Local import
+import '../../../model/sample_view.dart';
+
+/// Renders default range selector widget
 class DefaultRangeSelectorPage extends SampleView {
+  /// Creates default range selector widget
   const DefaultRangeSelectorPage(Key key) : super(key: key);
-  
+
   @override
   _DefaultRangeSelectorPageState createState() =>
       _DefaultRangeSelectorPageState();
@@ -20,24 +32,24 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
   _DefaultRangeSelectorPageState();
 
   final DateTime min = DateTime(2002, 01, 01), max = DateTime(2011, 01, 01);
-  List<Data> chartData;
+  List<ChartSampleData> chartData;
   RangeController rangeController;
   LinearGradient gradientColors;
 
   @override
   void initState() {
     super.initState();
-    chartData = <Data>[
-      Data(x: DateTime(2002, 01, 01), y: 2.2),
-      Data(x: DateTime(2003, 01, 01), y: 3.4),
-      Data(x: DateTime(2004, 01, 01), y: 2.8),
-      Data(x: DateTime(2005, 01, 01), y: 1.6),
-      Data(x: DateTime(2006, 01, 01), y: 2.3),
-      Data(x: DateTime(2007, 01, 01), y: 2.5),
-      Data(x: DateTime(2008, 01, 01), y: 2.9),
-      Data(x: DateTime(2009, 01, 01), y: 3.8),
-      Data(x: DateTime(2010, 01, 01), y: 1.4),
-      Data(x: DateTime(2011, 01, 01), y: 3.1),
+    chartData = <ChartSampleData>[
+      ChartSampleData(x: DateTime(2002, 01, 01), y: 2.2),
+      ChartSampleData(x: DateTime(2003, 01, 01), y: 3.4),
+      ChartSampleData(x: DateTime(2004, 01, 01), y: 2.8),
+      ChartSampleData(x: DateTime(2005, 01, 01), y: 1.6),
+      ChartSampleData(x: DateTime(2006, 01, 01), y: 2.3),
+      ChartSampleData(x: DateTime(2007, 01, 01), y: 2.5),
+      ChartSampleData(x: DateTime(2008, 01, 01), y: 2.9),
+      ChartSampleData(x: DateTime(2009, 01, 01), y: 3.8),
+      ChartSampleData(x: DateTime(2010, 01, 01), y: 1.4),
+      ChartSampleData(x: DateTime(2011, 01, 01), y: 3.1),
     ];
     rangeController = RangeController(
       start: DateTime(2005, 01, 01),
@@ -88,14 +100,14 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                   0,
                   mediaQueryData.orientation == Orientation.portrait
                       ? 50
-                      : kIsWeb ? 15 : 2,
+                      : model.isWeb ? 15 : 2,
                   0,
                   5),
               child: const SizedBox(
                 height: 30,
                 child: Center(
                   child: Text(
-                    'Inflation rate in percentage',
+                    'Inflation Rate In Percentage',
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -106,24 +118,30 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
               child: Center(
                 child: SfRangeSelectorTheme(
                   data: SfRangeSelectorThemeData(
-                      brightness: themeData.brightness,
-                      labelOffset: const Offset(0, 0),
-                      activeLabelStyle: TextStyle(
-                          fontSize: 10,
-                          color: themeData.textTheme.bodyText1.color
-                              .withOpacity(0.87)),
-                      inactiveLabelStyle: TextStyle(
-                          fontSize: 10,
-                          color: themeData.textTheme.bodyText1.color
-                              .withOpacity(0.87))),
+                    labelOffset: const Offset(0, 0),
+                    activeLabelStyle: TextStyle(
+                        fontSize: 10,
+                        color: themeData.textTheme.bodyText1.color
+                            .withOpacity(0.87)),
+                    inactiveLabelStyle: TextStyle(
+                        fontSize: 10,
+                        color: themeData.textTheme.bodyText1.color
+                            .withOpacity(0.87)),
+                    inactiveRegionColor:
+                        themeData.brightness == Brightness.light
+                            ? Colors.white.withOpacity(0.75)
+                            : Color.fromRGBO(33, 33, 33, 0.75),
+                  ),
                   child: SfRangeSelector(
                     min: min,
                     max: max,
                     labelPlacement: LabelPlacement.betweenTicks,
-                    interval:
-                        (kIsWeb && mediaQueryData.size.width <= 1000) ? 2 : 1,
+                    interval: (model.isWeb && mediaQueryData.size.width <= 1000)
+                        ? 2
+                        : 1,
                     controller: rangeController,
                     dateFormat: DateFormat.y(),
+                    dateIntervalType: DateIntervalType.years,
                     showTicks: true,
                     showLabels: true,
                     showTooltip: true,
@@ -132,7 +150,9 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                       return DateFormat.yMMMd().format(actualLabel).toString();
                     },
                     onChanged: (SfRangeValues values) {
-                      setState(() {});
+                      setState(() {
+                        /// update the range value changes
+                      });
                     },
                     child: Container(
                       child: SfCartesianChart(
@@ -144,23 +164,25 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                         ),
                         primaryYAxis: NumericAxis(isVisible: false, maximum: 4),
                         plotAreaBorderWidth: 0,
-                        series: <SplineAreaSeries<Data, DateTime>>[
-                          SplineAreaSeries<Data, DateTime>(
+                        series: <SplineAreaSeries<ChartSampleData, DateTime>>[
+                          SplineAreaSeries<ChartSampleData, DateTime>(
                               dataSource: chartData,
-                              xValueMapper: (Data sales, _) => sales.x,
-                              yValueMapper: (Data sales, _) => sales.y,
+                              xValueMapper: (ChartSampleData sales, _) =>
+                                  sales.x,
+                              yValueMapper: (ChartSampleData sales, _) =>
+                                  sales.y,
                               gradient: gradientColors,
                               animationDuration: 0)
                         ],
                       ),
                       width: mediaQueryData.orientation == Orientation.landscape
-                          ? kIsWeb
+                          ? model.isWeb
                               ? mediaQueryData.size.width * 0.6
                               : mediaQueryData.size.width
                           : mediaQueryData.size.width,
                       height: mediaQueryData.orientation == Orientation.portrait
                           ? mediaQueryData.size.height * 0.45
-                          : kIsWeb
+                          : model.isWeb
                               ? mediaQueryData.size.height * 0.38
                               : mediaQueryData.size.height * 0.4,
                     ),
@@ -173,7 +195,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                     height: mediaQueryData.size.height,
                     padding: EdgeInsets.only(
                         top: (mediaQueryData.size.height -
-                                (kIsWeb ? 150 : 100)) *
+                                (model.isWeb ? 150 : 100)) *
                             0.8),
                     child: SizedBox(
                         height: 15,
@@ -187,10 +209,4 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
           ],
         ));
   }
-}
-
-class Data {
-  Data({this.x, this.y});
-  final DateTime x;
-  final double y;
 }

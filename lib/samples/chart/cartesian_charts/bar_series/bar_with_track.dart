@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
-/// Renders the tracker bar chart sample.
+/// Renders the bar chart sample with tracker.
 class BarTracker extends SampleView {
+  /// Creates the bar chart sample with tracker.
   const BarTracker(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _BarTrackerState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getTrackerBarChart();
+    return _getTrackerBarChart();
   }
 
   /// Returns the bar chart with trackers.
-  SfCartesianChart getTrackerBarChart() {
+  SfCartesianChart _getTrackerBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Working hours of employees'),
@@ -39,14 +39,15 @@ class _BarTrackerState extends SampleViewState {
           minimum: 0,
           maximum: 8,
           majorTickLines: MajorTickLines(size: 0)),
-      series: getTrackerBarSeries(),
+      series: _getTrackerBarSeries(),
       tooltipBehavior:
           TooltipBehavior(enable: true, header: '', canShowMarker: false),
     );
   }
 
-  /// Returns the lsit of chart series which need to render on the bar chart with trackers.
-  List<BarSeries<ChartSampleData, String>> getTrackerBarSeries() {
+  /// Returns the lsit of chart series
+  /// which need to render on the bar chart with trackers.
+  List<BarSeries<ChartSampleData, String>> _getTrackerBarSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 'Mike', y: 7.5),
       ChartSampleData(x: 'Chris', y: 7),
@@ -60,7 +61,9 @@ class _BarTrackerState extends SampleViewState {
         dataSource: chartData,
         borderRadius: BorderRadius.circular(15),
         trackColor: const Color.fromRGBO(198, 201, 207, 1),
-        /// If we enable this property as true, then we can show the track of series.
+
+        /// If we enable this property as true,
+        /// then we can show the track of series.
         isTrackVisible: true,
         dataLabelSettings: DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.top),

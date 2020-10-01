@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the chart with annotation sample.
 class AnnotationWatermark extends SampleView {
+  /// Creates the chart with annotation sample.
   const AnnotationWatermark(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _AnnotationWatermarkState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getWatermarkAnnotationChart();
+    return _getWatermarkAnnotationChart();
   }
 
   /// Returns the Cartesian chart with annotation.
-  SfCartesianChart getWatermarkAnnotationChart() {
+  SfCartesianChart _getWatermarkAnnotationChart() {
     return SfCartesianChart(
         title: ChartTitle(
             text: isCardView ? '' : 'UK social media reach, by platform'),
@@ -41,7 +41,8 @@ class _AnnotationWatermarkState extends SampleViewState {
             maximum: 120,
             axisLine: AxisLine(width: 0),
             majorTickLines: MajorTickLines(width: 0)),
-        series: getWatermarkAnnotationSeries(),
+        series: _getWatermarkAnnotationSeries(),
+
         /// To set the annotation content for chart.
         annotations: <CartesianChartAnnotation>[
           CartesianChartAnnotation(
@@ -101,9 +102,10 @@ class _AnnotationWatermarkState extends SampleViewState {
         ]);
   }
 
-  /// Returns the list of series which need to render on the chart with annotation.
-  List<ColumnSeries<ChartSampleData, String>> getWatermarkAnnotationSeries() {
-    final dynamic chartData = <ChartSampleData>[
+  /// Returns the list of series which need to
+  /// render on the chart with annotation.
+  List<ColumnSeries<ChartSampleData, String>> _getWatermarkAnnotationSeries() {
+    final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'Facebook',
           y: 90,

@@ -26,7 +26,7 @@ public class MainActivity extends FlutterActivity {
     new MethodChannel(getFlutterView(), "launchFile").setMethodCallHandler(new MethodChannel.MethodCallHandler() {
       @Override
       public void onMethodCall(MethodCall call, MethodChannel.Result result) {
-        if (call.method.equals("viewPdf")) {
+        if (call.method.equals("viewPdf") || call.method.equals("viewExcel")) {
           String path = call.argument("file_path");
           if(!checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)){
             requestPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
@@ -65,7 +65,10 @@ public class MainActivity extends FlutterActivity {
       }else {
         uri = Uri.fromFile(file);
       }
-      intent.setDataAndType(uri, "application/pdf");
+      if(filePath.contains(".pdf"))
+        intent.setDataAndType(uri, "application/pdf");
+      else
+        intent.setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
       try{
         this.startActivity(intent);
       }catch (Exception e){

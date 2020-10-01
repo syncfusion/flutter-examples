@@ -1,18 +1,18 @@
 /// Package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
+
 /// Local imports
-import 'package:flutter_examples/widgets/custom_button.dart';
-import 'package:flutter_examples/widgets/shared/mobile.dart'
-    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
-
-import '../../../model/model.dart';
 import '../../../model/sample_view.dart';
+import '../../../widgets/custom_button.dart';
+import '../../../widgets/shared/mobile.dart'
+    if (dart.library.html) '../../../widgets/shared/web.dart';
 
-/// Renders the spline cahrt with trende forcasting sample.
+/// Renders the spline chart with trend forcasting sample.
 class TrendLineForecast extends SampleView {
+  /// Renders the spline chart with trend forcasting sample.
   const TrendLineForecast(Key key) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class _TrendLineForecastState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getTrendLineForecastChart();
+    return _getTrendLineForecastChart();
   }
 
   @override
@@ -54,19 +54,17 @@ class _TrendLineForecastState extends SampleViewState {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
                   child: HandCursor(
-                    child: CustomButton(
+                    child: CustomDirectionalButtons(
                       minValue: 0,
                       maxValue: 50,
                       initialValue: _forwardForecastValue,
-                      onChanged: (dynamic val) => setState(() {
+                      onChanged: (double val) => setState(() {
                         _forwardForecastValue = val;
                       }),
                       step: 1,
-                      horizontal: true,
                       loop: true,
                       padding: 0,
-                      iconUpRightColor: model.textColor,
-                      iconDownLeftColor: model.textColor,
+                      iconColor: model.textColor,
                       style: TextStyle(fontSize: 20.0, color: model.textColor),
                     ),
                   ),
@@ -88,19 +86,17 @@ class _TrendLineForecastState extends SampleViewState {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
                   child: HandCursor(
-                    child: CustomButton(
+                    child: CustomDirectionalButtons(
                       minValue: 0,
                       maxValue: 50,
                       initialValue: _backwardForecastValue,
-                      onChanged: (dynamic val) => setState(() {
+                      onChanged: (double val) => setState(() {
                         _backwardForecastValue = val;
                       }),
                       step: 1,
-                      horizontal: true,
                       loop: true,
                       padding: 0,
-                      iconUpRightColor: model.textColor,
-                      iconDownLeftColor: model.textColor,
+                      iconColor: model.textColor,
                       style: TextStyle(fontSize: 20.0, color: model.textColor),
                     ),
                   ),
@@ -114,7 +110,7 @@ class _TrendLineForecastState extends SampleViewState {
   }
 
   /// Returns the spline chart with trendline forcating.
-  SfCartesianChart getTrendLineForecastChart() {
+  SfCartesianChart _getTrendLineForecastChart() {
     int j = 0;
     final List<ChartSampleData> trendLineData = <ChartSampleData>[];
     final List<double> yValue = <double>[
@@ -152,11 +148,10 @@ class _TrendLineForecastState extends SampleViewState {
             text: isCardView
                 ? ''
                 : 'Euro to USD yearly exchange rate - 1999 to 2019'),
-        legend: Legend(isVisible: isCardView ? false : true),
+        legend: Legend(isVisible: !isCardView),
         tooltipBehavior: TooltipBehavior(enable: true),
-        primaryXAxis: NumericAxis(
-            majorGridLines: MajorGridLines(width: 0),
-            interval: 2),
+        primaryXAxis:
+            NumericAxis(majorGridLines: MajorGridLines(width: 0), interval: 2),
         primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Dollars'),
           axisLine: AxisLine(width: 0),
@@ -178,9 +173,10 @@ class _TrendLineForecastState extends SampleViewState {
                 Trendline(
                     type: TrendlineType.linear,
                     width: 3,
-                    dashArray: kIsWeb ? <double>[0, 0] : <double>[10, 10],
+                    dashArray: model.isWeb ? <double>[0, 0] : <double>[10, 10],
                     name: 'Linear',
                     enableTooltip: true,
+
                     /// Here we mention the forward and backward forecast value.
                     forwardForecast: _forwardForecastValue,
                     backwardForecast: _backwardForecastValue)

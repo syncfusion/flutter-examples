@@ -1,12 +1,20 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
+///flutter package import
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
 
+///Core theme import
+import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+///Local imports
+import '../../../../model/sample_view.dart';
+import '../../slider_utils.dart';
+
+/// Renders the range slider with interval selection
 class RangeSliderIntervalSelectionPage extends SampleView {
+  /// Renders the range slider with interval selection
   const RangeSliderIntervalSelectionPage(Key key) : super(key: key);
 
   @override
@@ -21,12 +29,13 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    rangeSlider = RangeSliderIntervalSelection();
+    rangeSlider = _RangeSliderIntervalSelection();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(height: 325, child: rangeSlider),
@@ -34,8 +43,7 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
   }
 }
 
-// ignore: must_be_immutable
-class RangeSliderIntervalSelection extends SampleView {
+class _RangeSliderIntervalSelection extends SampleView {
   @override
   _RangeSliderIntervalSelectionState createState() =>
       _RangeSliderIntervalSelectionState();
@@ -109,10 +117,7 @@ class _RangeSliderIntervalSelectionState extends SampleViewState {
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(
@@ -144,6 +149,6 @@ class _RangeSliderIntervalSelectionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWeb ? _getWebLayout() : _getMobileLayout();
   }
 }

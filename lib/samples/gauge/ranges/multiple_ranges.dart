@@ -1,28 +1,31 @@
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+/// Flutter package imports
 import 'package:flutter/material.dart';
 
+/// Gauge imports
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-// ignore: must_be_immutable
+/// Local imports
+import '../../../model/sample_view.dart';
+
+/// Renders the gauge multiple range sample
 class MultipleRangesExample extends SampleView {
+  /// Creates the gauge multiple range sample
   const MultipleRangesExample(Key key) : super(key: key);
-  
+
   @override
-  _MultipleRangesExampleState createState() =>
-      _MultipleRangesExampleState();
+  _MultipleRangesExampleState createState() => _MultipleRangesExampleState();
 }
 
 class _MultipleRangesExampleState extends SampleViewState {
   _MultipleRangesExampleState();
-  
+
   @override
   Widget build(BuildContext context) {
-    return getMultipleRangesExampleGauge();
+    return _getMultipleRangesExampleGauge(context);
   }
 
-Widget getMultipleRangesExampleGauge() {
-  return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
+  /// Returns the multiple range gauge
+  SfRadialGauge _getMultipleRangesExampleGauge(BuildContext context) {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -84,6 +87,5 @@ Widget getMultipleRangesExampleGauge() {
             ]),
       ],
     );
-  });
-}
+  }
 }

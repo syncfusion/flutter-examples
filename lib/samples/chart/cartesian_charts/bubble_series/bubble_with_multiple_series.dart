@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the multiple bubble series chart sample
 class BubbleMultiSeries extends SampleView {
+  /// Creates the multiple bubble series chart
   const BubbleMultiSeries(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _BubbleMultiSeriesState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getMultipleSeriesBubbleChart();
+    return _getMultipleSeriesBubbleChart();
   }
 
   /// Returns the multiple bubble series chart
-  SfCartesianChart getMultipleSeriesBubbleChart() {
+  SfCartesianChart _getMultipleSeriesBubbleChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'World countries details'),
@@ -39,7 +39,7 @@ class _BubbleMultiSeriesState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(width: 0),
           title: AxisTitle(text: isCardView ? '' : 'GDP growth rate')),
-      series: getMultipleBubbleSeries(),
+      series: _getMultipleBubbleSeries(),
       legend: Legend(
           isVisible: isCardView ? false : true,
           overflowMode: LegendItemOverflowMode.wrap),
@@ -53,8 +53,9 @@ class _BubbleMultiSeriesState extends SampleViewState {
     );
   }
 
-  /// Returns the list of chart sereis which need to render on the multiple bubble series
-  List<BubbleSeries<ChartSampleData, num>> getMultipleBubbleSeries() {
+  /// Returns the list of chart sereis
+  /// which need to render on the multiple bubble series
+  List<BubbleSeries<ChartSampleData, num>> _getMultipleBubbleSeries() {
     final List<ChartSampleData> asia = <ChartSampleData>[
       ChartSampleData(x: 'China', xValue: 92.2, y: 7.8, size: 1.347),
       ChartSampleData(x: 'India', xValue: 74, y: 6.5, size: 1.241),
@@ -83,7 +84,6 @@ class _BubbleMultiSeriesState extends SampleViewState {
     return <BubbleSeries<ChartSampleData, num>>[
       BubbleSeries<ChartSampleData, num>(
           opacity: 0.7,
-          enableTooltip: true,
           name: 'North America',
           dataSource: northAmerica,
           xValueMapper: (ChartSampleData sales, _) => sales.xValue,
@@ -91,7 +91,6 @@ class _BubbleMultiSeriesState extends SampleViewState {
           sizeValueMapper: (ChartSampleData sales, _) => sales.size),
       BubbleSeries<ChartSampleData, num>(
           opacity: 0.7,
-          enableTooltip: true,
           name: 'Europe',
           dataSource: europe,
           xValueMapper: (ChartSampleData sales, _) => sales.xValue,
@@ -99,7 +98,6 @@ class _BubbleMultiSeriesState extends SampleViewState {
           sizeValueMapper: (ChartSampleData sales, _) => sales.size),
       BubbleSeries<ChartSampleData, num>(
           opacity: 0.7,
-          enableTooltip: true,
           dataSource: asia,
           name: 'Asia',
           xValueMapper: (ChartSampleData sales, _) => sales.xValue,
@@ -107,7 +105,6 @@ class _BubbleMultiSeriesState extends SampleViewState {
           sizeValueMapper: (ChartSampleData sales, _) => sales.size),
       BubbleSeries<ChartSampleData, num>(
           opacity: 0.7,
-          enableTooltip: true,
           name: 'Africa',
           dataSource: africa,
           xValueMapper: (ChartSampleData sales, _) => sales.xValue,

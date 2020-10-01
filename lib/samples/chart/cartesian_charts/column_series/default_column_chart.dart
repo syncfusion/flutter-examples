@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
+///Renders default column chart sample
 class ColumnDefault extends SampleView {
-  const ColumnDefault(Key key) : super(key: key); 
+  ///Renders default column chart sample
+  const ColumnDefault(Key key) : super(key: key);
 
   @override
   _ColumnDefaultState createState() => _ColumnDefaultState();
@@ -17,14 +18,14 @@ class ColumnDefault extends SampleView {
 
 class _ColumnDefaultState extends SampleViewState {
   _ColumnDefaultState();
-  
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultColumnChart();
+    return _getDefaultColumnChart();
   }
 
-  SfCartesianChart getDefaultColumnChart() {
+  /// Get default column chart
+  SfCartesianChart _getDefaultColumnChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -36,13 +37,14 @@ class _ColumnDefaultState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           labelFormat: '{value}%',
           majorTickLines: MajorTickLines(size: 0)),
-      series: getDefaultColumnSeries(),
+      series: _getDefaultColumnSeries(),
       tooltipBehavior:
           TooltipBehavior(enable: true, header: '', canShowMarker: false),
     );
   }
 
-  List<ColumnSeries<ChartSampleData, String>> getDefaultColumnSeries() {
+  /// Get default column series
+  List<ColumnSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 'China', y: 0.541),
       ChartSampleData(x: 'Brazil', y: 0.818),
@@ -53,7 +55,6 @@ class _ColumnDefaultState extends SampleViewState {
     ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-        enableTooltip: true,
         dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,

@@ -1,5 +1,4 @@
 /// Package imports
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
+import '../../../model/sample_view.dart';
+import '../../../widgets/custom_dropdown.dart';
 
+/// Renders the pyramid chart with smart data labels
 class PyramidSmartLabels extends SampleView {
+  /// Creates the pyramid chart with smart data labels
   const PyramidSmartLabels(Key key) : super(key: key);
 
   @override
@@ -29,6 +29,7 @@ class _PyramidSmartLabelState extends SampleViewState {
   String _smartLabelMode = 'shift';
   SmartLabelMode _mode = SmartLabelMode.shift;
 
+  @override
   Widget buildSettings(BuildContext context) {
     return ListView(
       children: <Widget>[
@@ -57,7 +58,7 @@ class _PyramidSmartLabelState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onLabelPositionChange(value.toString(), model);
+                            _onLabelPositionChange(value.toString());
                           }),
                     ),
                   )),
@@ -91,7 +92,7 @@ class _PyramidSmartLabelState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onSmartLabelModeChange(value.toString(), model);
+                            _onSmartLabelModeChange(value.toString());
                           }),
                     ),
                   )),
@@ -104,11 +105,11 @@ class _PyramidSmartLabelState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getPyramidSmartLabelChart();
+    return _getPyramidSmartLabelChart();
   }
 
-  SfPyramidChart getPyramidSmartLabelChart() {
-    // final bool isExistModel = model != null && model.isWeb;
+  ///Get the pyramid chart with smart data labels
+  SfPyramidChart _getPyramidSmartLabelChart() {
     return SfPyramidChart(
       onTooltipRender: (TooltipArgs args) {
         final NumberFormat format = NumberFormat.decimalPattern();
@@ -118,22 +119,15 @@ class _PyramidSmartLabelState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Top 10 populated countries - 2019'),
       tooltipBehavior: TooltipBehavior(enable: true),
+
       /// To specify the smart label mode for pyramid chart.
-      smartLabelMode:
-           _mode ??
-              SmartLabelMode.shift,
-      series: _getPyramidSeries(
-        isCardView,
-        _selectedPosition != null ? _selectedPosition.contains('outside') 
-                  ? ChartDataLabelPosition.outside : ChartDataLabelPosition.inside
-            : ChartDataLabelPosition.outside,
-      ),
+      smartLabelMode: _mode ?? SmartLabelMode.shift,
+      series: _getPyramidSeries(),
     );
   }
 
-  PyramidSeries<ChartSampleData, String> _getPyramidSeries(bool isCardView,
-      [ChartDataLabelPosition _labelPosition,
-      LabelIntersectAction _labelIntersectAction]) {
+  ///Get the pyramid series
+  PyramidSeries<ChartSampleData, String> _getPyramidSeries() {
     final List<ChartSampleData> pieData = <ChartSampleData>[
       ChartSampleData(
           x: 'Mexico',
@@ -195,134 +189,27 @@ class _PyramidSmartLabelState extends SampleViewState {
         pointColorMapper: (ChartSampleData data, _) => data.pointColor,
         dataLabelSettings: DataLabelSettings(
             isVisible: true,
-            labelPosition:
-                isCardView ? ChartDataLabelPosition.outside : _labelPosition,
+            labelPosition: isCardView
+                ? ChartDataLabelPosition.outside
+                : _selectedLabelPosition,
             useSeriesColor: true));
   }
 
-//ignore: must_be_immutable
-// class PyramidSmartLabelsFrontPanel extends StatefulWidget {
-//   //ignore: prefer_const_constructors_in_immutables
-//   PyramidSmartLabelsFrontPanel([this.sample]);
-//   SubItem sample;
-
-//   @override
-//   _PyramidSmartLabelsFrontPanelState createState() =>
-//       _PyramidSmartLabelsFrontPanelState(sample);
-// }
-
-// class _PyramidSmartLabelsFrontPanelState
-//     extends State<PyramidSmartLabelsFrontPanel> {
-//   _PyramidSmartLabelsFrontPanelState(this.sample);
-//   final SubItem sample;
-//   final List<String> _labelPositon = <String>['outside', 'inside'].toList();
-//   ChartDataLabelPosition _selectedLabelPosition =
-//       ChartDataLabelPosition.outside;
-//    String _selectedPosition = 'outside';
-
-//   final List<String> _modeList = <String>['shift', 'none', 'hide'].toList();
-//   String _smartLabelMode = 'shift';
-//   SmartLabelMode _mode = SmartLabelMode.shift;
-
-//   // Widget sampleWidget(SampleModel model) => getLabelIntersectActionChart(false);
-//   Widget propertyWidget(SampleModel model, bool init, BuildContext context) =>
-//       _showSettingsPanel(model, init, context);
-//   Widget sampleWidget(SampleModel model) =>
-//       getPyramidSmartLabelChart(false,null, null, model);
-
-//   @override
-//   void initState() {
-//     initProperties();
-//     super.initState();
-//   }
-
-//   void initProperties([SampleModel sampleModel, bool init]) {
-//       _selectedPosition = 'outside';
-//     _selectedLabelPosition = ChartDataLabelPosition.outside;
-//     _smartLabelMode = 'shift';
-//    _mode = SmartLabelMode.shift;
-//     if (sampleModel != null && init) {
-//       sampleModel.properties.addAll(<dynamic, dynamic>{
-//         'SelectedPyramidSmartLabelMode': _smartLabelMode,
-//         'PyramidSmartLabelMode': _mode,
-//         'SelectedPyramidLabelPosition': _selectedPosition,
-//         'PyramidLabelPosition': _selectedLabelPosition,
-//       });
-//     }
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return ScopedModelDescendant<SampleModel>(
-//         rebuildOnChange: true,
-//         builder: (BuildContext context, _, SampleModel model) {
-//           return Scaffold(
-//               backgroundColor: model.cardThemeColor,
-//               body:!model.isWeb ? Padding(
-//                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-//                 child: Container(
-//                     child: getPyramidSmartLabelChart(
-//                         false, _selectedLabelPosition, _mode)),
-//               ) : Padding(
-//                       padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-//                       child: Container(
-//                           child:
-//                               getPyramidSmartLabelChart(false, null, null,model)),
-//                     ),
-//               floatingActionButton: model.isWeb
-//                   ? null
-//                   : Stack(children: <Widget>[
-//                       Align(
-//                         alignment: Alignment.bottomLeft,
-//                         child: Padding(
-//                           padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
-//                           child: Container(
-//                             height: 50,
-//                             width: 250,
-//                             child: InkWell(
-//                               onTap: () => launch(
-//                                   'https://www.worldometers.info/world-population/population-by-country/'),
-//                               child: Row(
-//                                 children: <Widget>[
-//                                   Text('Source: ',
-//                                       style: TextStyle(
-//                                           fontSize: 16,
-//                                           color: model.textColor)),
-//                                   const Text('worldometers.com',
-//                                       style: TextStyle(
-//                                           fontSize: 14, color: Colors.blue)),
-//                                 ],
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                       Align(
-//                         alignment: Alignment.bottomRight,
-//                         child: FloatingActionButton(
-//                           heroTag: null,
-//                           onPressed: () {
-//                             _showSettingsPanel(model, false, context);
-//                           },
-//                           child: Icon(Icons.graphic_eq, color: Colors.white),
-//                           backgroundColor: model.backgroundColor,
-//                         ),
-//                       ),
-//                     ]));
-//         });
-  // }
-  void onLabelPositionChange(String item, SampleModel model) {
+  ///change the data label position
+  void _onLabelPositionChange(String item) {
     _selectedPosition = item;
     if (_selectedPosition == 'inside') {
       _selectedLabelPosition = ChartDataLabelPosition.inside;
     } else if (_selectedPosition == 'outside') {
       _selectedLabelPosition = ChartDataLabelPosition.outside;
     }
-    model.properties['SelectedPyramidLabelPosition'] = _selectedPosition;
-    model.properties['PyramidLabelPosition'] = _selectedLabelPosition;
-      setState(() {});
+    setState(() {
+      /// update the datalabel position type change
+    });
   }
 
-  void onSmartLabelModeChange(String item, SampleModel model) {
+  ///Change the smart label mode
+  void _onSmartLabelModeChange(String item) {
     _smartLabelMode = item;
     if (_smartLabelMode == 'shift') {
       _mode = SmartLabelMode.shift;
@@ -333,8 +220,8 @@ class _PyramidSmartLabelState extends SampleViewState {
     if (_smartLabelMode == 'none') {
       _mode = SmartLabelMode.none;
     }
-    model.properties['SelectedPyramidSmartLabelMode'] = _smartLabelMode;
-    model.properties['PyramidSmartLabelMode'] = _mode;
-      setState(() {});
+    setState(() {
+      /// update the smart data label placement type change
+    });
   }
 }

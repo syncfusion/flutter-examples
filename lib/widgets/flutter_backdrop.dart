@@ -1,43 +1,27 @@
+///Dart import
 import 'dart:math' as math;
-import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
 
-// ignore: must_be_immutable
+///Package import
+import 'package:flutter/material.dart';
+
+///Local import
+import '../model/model.dart';
+
+///Backdrop widget holds the appbar, front panel, etc., widgets
 class Backdrop extends StatefulWidget {
+  /// Holds information of the appbar, front panel, etc.,
   Backdrop({
-    this.needCloseButton = true,
-    this.enableBackPanelAnimation = false,
-    this.frontPanelOpenPercentage = 0.3,
     this.sampleListModel,
     @required this.frontLayer,
     @required this.backLayer,
-    @required this.sideDrawer,
-    this.frontHeader,
-    this.borderRadius,
-    this.shape,
-    this.frontHeaderHeight = 20.0,
-    this.headerClosingHeight,
-    this.titleVisibleOnPanelClosed = true,
-    this.frontPanelPadding = EdgeInsets.zero,
     this.toggleFrontLayer = true,
     this.color,
 
     //--------Appbar properties------------
-    this.appBarLeadingMenuIcon,
-    this.appBarAnimatedLeadingMenuIcon,
-    this.appBarAutomaticallyImplyLeading = true,
     this.appBarTitle,
     this.appBarActions,
-    this.appBarBackgroundColor,
-    this.appBarIconTheme,
-    this.appBarTextTheme,
-    this.appBarCenterTitle,
-    this.appBarTitleSpacing = NavigationToolbar.kMiddleSpacing,
     this.panelVisible,
   })  : assert(frontLayer != null),
-        assert(frontHeaderHeight > 0.0 ||
-            (appBarLeadingMenuIcon != null ||
-                appBarAnimatedLeadingMenuIcon != null)),
         assert(backLayer != null);
 
   //----------------------Front and Back Panel properties-----------------------
@@ -48,54 +32,11 @@ class Backdrop extends StatefulWidget {
   /// This is the back panel where you can put menu Items.
   final Widget backLayer;
 
-  /// This widget should contain your title which will appear above [frontLayer].
-  /// Remember to modify it properly if you are using [shape] or [borderRadius] mentioned below.
-  final Widget frontHeader;
-
-  /// This decides the height of [frontHeader].
-  /// Provide 0.0 if you don't want it.
-  final double frontHeaderHeight;
-
-  /// Gives a Circular radius to the [frontLayer].
-  /// Provide radius only for topLeft or/and topRight for best output.
-  final BorderRadius borderRadius;
-
-  /// Gives a shape to border like [BeveledRectangleBorder] to give an effect.
-  /// Provide radius only for topLeft or/and topRight for best output.
-  final ShapeBorder shape;
-
-  /// [frontHeader] will be visible or not when [backLayer] is visible.
-  /// If true [frontHeader] will be visible if [frontHeaderHeight] > 0.0.
-  /// If false [frontHeader] will be invisible.
-  final bool titleVisibleOnPanelClosed;
-
-  /// Default [Padding] for [frontPanel].
-  /// By default [Padding] is [EdgeInsets.zero].
-  final EdgeInsets frontPanelPadding;
-
   /// If true it will toggle the position of your [frontLayer].
   ///
-  /// Initially keep it false. Then make it true on Selecting any Menu item in [backLayer].
+  /// Initially keep it false.
+  /// Then make it true on Selecting any Menu item in [backLayer].
   final bool toggleFrontLayer;
-
-  //------------------------Appbar properties-----------------------------
-
-  /// Non-animated Leading menu icon. Should be [IconData].
-  /// If provided [appBarAnimatedLeadingMenuIcon] should be null.
-  final IconData appBarLeadingMenuIcon;
-
-  /// Animated Leading menu icon. Should be [AnimatedIconData].
-  /// If provided [appBarLeadingMenuIcon] should be null.
-  final AnimatedIconData appBarAnimatedLeadingMenuIcon;
-
-  /// Controls whether we should try to imply the leading widget if null.
-  ///
-  /// If true and [appBarAnimatedLeadingMenuIcon] or [appBarLeadingMenuIcon] is null,
-  /// automatically try to deduce what the leading widget should be.
-  /// If false and [appBarAnimatedLeadingMenuIcon] or [appBarLeadingMenuIcon] is null,
-  /// leading space is given to [appBarTitle].
-  /// If leading widget is not null, this parameter has no effect.
-  final bool appBarAutomaticallyImplyLeading;
 
   /// The primary widget displayed in the appbar.
   ///
@@ -103,6 +44,7 @@ class Backdrop extends StatefulWidget {
   /// of the app.
   final Widget appBarTitle;
 
+  /// Color of the [Backdrop]
   final Color color;
 
   /// Widgets to display after the [appBarTitle] widget.
@@ -113,7 +55,8 @@ class Backdrop extends StatefulWidget {
   ///
   /// {@tool snippet --template=stateless_widget}
   ///
-  /// This sample shows adding an action to the appBar of your [Backdrop] that opens a shopping cart.
+  /// This sample shows adding an action to the appBar of your [Backdrop]
+  /// that opens a shopping cart.
   ///
   /// ```dart
   /// Backdrop(
@@ -131,120 +74,92 @@ class Backdrop extends StatefulWidget {
   /// {@end-tool}
   final List<Widget> appBarActions;
 
-  /// The color to use for the app bar's material. Typically this should be set
-  /// along with [appBarIconTheme], [appBarTextTheme].
-  ///
-  /// Defaults to [ThemeData.primaryColor].
-  final Color appBarBackgroundColor;
-
-  /// The color, opacity, and size to use for app bar icons. Typically this
-  /// is set along with [appBarBackgroundColor], [appBarTextTheme].
-  ///
-  /// Defaults to [ThemeData.primaryIconTheme].
-  final IconThemeData appBarIconTheme;
-
-  /// The typographic styles to use for text in the app bar. Typically this is
-  /// set along with [appBarBackgroundColor], [appBarIconTheme].
-  ///
-  /// Defaults to [ThemeData.primaryTextTheme].
-  final TextTheme appBarTextTheme;
-
-  /// Whether the title should be centered.
-  ///
-  /// Defaults to being adapted to the current [TargetPlatform].
-  final bool appBarCenterTitle;
-
-  /// The spacing around [appBarTitle] content on the horizontal axis. This spacing is
-  /// applied even if there is no leading content or trailing actions. If you want
-  /// [appBarTitle] to take all the space available, set this value to 0.0.
-  ///
-  /// Defaults to [NavigationToolbar.kMiddleSpacing].
-  final double appBarTitleSpacing;
-
-  final double headerClosingHeight;
-
-  final Widget sideDrawer;
-
-  AnimationController controller;
-
+  /// Holds the SampleModel
   final SampleModel sampleListModel;
 
-  final double frontPanelOpenPercentage;
-
-  final bool enableBackPanelAnimation;
-
+  /// Contains the front panel visibility
   final ValueNotifier<bool> panelVisible;
 
-  final bool needCloseButton;
-
   @override
-  BackdropState createState() => BackdropState(controller, sampleListModel);
+  BackdropState createState() => BackdropState(sampleListModel);
 }
 
+/// Holds the appbar and front panel information
 class BackdropState extends State<Backdrop>
     with SingleTickerProviderStateMixin {
-  BackdropState(AnimationController _controller, SampleModel _sampleListModel,
-      {this.test = false}) {
-    // ignore: prefer_initializing_formals
-    controller = _controller;
+  /// holds bropdrop state
+  BackdropState(SampleModel _sampleListModel, {this.test = false}) {
     // ignore: prefer_initializing_formals
     sampleListModel = _sampleListModel;
   }
 
   final num _flingVelocity = 2.0;
+
+  /// Holds height of the front panel
   static double frontPanelHeight = 0;
+
+  /// Sets front panel visibility
   bool panelVisible;
-  final dynamic _backDropKey = GlobalKey(debugLabel: 'Backdrop');
+  final GlobalKey _backDropKey = GlobalKey(debugLabel: 'Backdrop');
+
+  ///Holds the dummy test
   bool test;
-  AnimationController controller;
+  AnimationController _controller;
   final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey(debugLabel: 'Scaffold');
+
+  ///Holds sample browser details
   SampleModel sampleListModel;
 
   @override
   void initState() {
     super.initState();
     panelVisible = widget.panelVisible?.value;
-    controller = AnimationController(
+    _controller = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 100),
         value: (widget.panelVisible?.value ?? true) ? 1.0 : 0.0)
       ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed)
+        if (status == AnimationStatus.completed) {
           panelVisible = true;
-        else if (status == AnimationStatus.dismissed) {
+        } else if (status == AnimationStatus.dismissed) {
           panelVisible = false;
         }
       })
       ..addListener(() {
-        setState(() {});
+        setState(() {
+          ///Back drop state changed
+        });
       });
 
     widget.panelVisible?.addListener(_subscribeToValueNotifier);
 
-    // Ensure that the value notifier is updated when the panel is opened or closed
+    /// Ensure that the value notifier is updated
+    /// when the panel is opened or closed
     if (widget.panelVisible != null) {
-      controller.addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed)
+      _controller.addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
           widget.panelVisible.value = true;
-        else if (status == AnimationStatus.dismissed)
+        } else if (status == AnimationStatus.dismissed) {
           widget.panelVisible.value = false;
+        }
       });
     }
   }
 
   void _subscribeToValueNotifier() {
-    if (widget.panelVisible.value != _backdropPanelVisible)
-      toggleBackdropPanelVisibility();
+    if (widget.panelVisible.value != _backdropPanelVisible) {
+      _toggleBackdropPanelVisibility();
+    }
   }
 
   bool get _backdropPanelVisible =>
-      controller.status == AnimationStatus.completed ||
-      controller.status == AnimationStatus.forward;
+      _controller.status == AnimationStatus.completed ||
+      _controller.status == AnimationStatus.forward;
 
-  void toggleBackdropPanelVisibility() {
+  void _toggleBackdropPanelVisibility() {
     if (widget.toggleFrontLayer) {
-      controller.fling(
+      _controller.fling(
           velocity: _backdropPanelVisible ? -_flingVelocity : _flingVelocity);
     }
   }
@@ -255,29 +170,30 @@ class BackdropState extends State<Backdrop>
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    if (!controller.isAnimating && widget.toggleFrontLayer) {
-      controller.value -= details.primaryDelta / _backdropHeight;
+    if (!_controller.isAnimating && widget.toggleFrontLayer) {
+      _controller.value -= details.primaryDelta / _backdropHeight;
     }
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    if (controller.isAnimating ||
-        controller.status == AnimationStatus.completed){
-          return;
-        }
+    if (_controller.isAnimating ||
+        _controller.status == AnimationStatus.completed) {
+      return;
+    }
 
     final double fVelocity =
         details.velocity.pixelsPerSecond.dy / _backdropHeight;
-    if (fVelocity < 0.0)
-      controller.fling(velocity: _flingVelocity);
-    else if (fVelocity > 0.0)
-      controller.fling(velocity: -_flingVelocity);
-    else
-      controller.fling(
-          velocity: controller.value < 0.5 ? -_flingVelocity : _flingVelocity);
+    if (fVelocity < 0.0) {
+      _controller.fling(velocity: _flingVelocity);
+    } else if (fVelocity > 0.0) {
+      _controller.fling(velocity: -_flingVelocity);
+    } else {
+      _controller.fling(
+          velocity: _controller.value < 0.5 ? -_flingVelocity : _flingVelocity);
+    }
   }
 
-  List<Widget> appBarMenuButton(Animation<double> progress) {
+  List<Widget> _appBarMenuButton(Animation<double> progress) {
     List<Widget> toolBarWidgets = <Widget>[];
     if (widget.appBarActions != null) {
       toolBarWidgets = <Widget>[];
@@ -285,7 +201,7 @@ class BackdropState extends State<Backdrop>
         toolBarWidgets.add(widget.appBarActions[i]);
       }
 
-      if (controller.value < 0.5) {
+      if (_controller.value < 0.5) {
         toolBarWidgets = <Widget>[
           Container(
               height: 60,
@@ -297,7 +213,7 @@ class BackdropState extends State<Backdrop>
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    toggleBackdropPanelVisibility();
+                    _toggleBackdropPanelVisibility();
                   },
                 ),
                 onPressed: () {},
@@ -305,8 +221,8 @@ class BackdropState extends State<Backdrop>
         ];
       }
 
-      final Widget res = CrossFadeTransition(
-        progress: controller,
+      final Widget res = _CrossFadeTransition(
+        progress: _controller,
         alignment: AlignmentDirectional.centerStart,
         child0:
             Semantics(namesRoute: true, child: Row(children: toolBarWidgets)),
@@ -326,86 +242,65 @@ class BackdropState extends State<Backdrop>
     return toolBarWidgets;
   }
 
-  Size panelSize = const Size(0, 0);
+  Size _panelSize = const Size(0, 0);
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        panelSize = constraints.biggest;
+        _panelSize = constraints.biggest;
         double closedPercentage = 0;
         double closedPercentageSearch = 0;
-        if (widget.enableBackPanelAnimation) {
-          closedPercentage = widget.titleVisibleOnPanelClosed
-              ? (panelSize.height - (panelSize.height - frontPanelHeight)) /
-                  panelSize.height
-              : 1.0;
+        closedPercentage =
+            (_panelSize.height - (_panelSize.height - frontPanelHeight)) /
+                _panelSize.height;
+        closedPercentageSearch = 0.0;
 
-          closedPercentageSearch = widget.titleVisibleOnPanelClosed
-              ? (panelSize.height - (panelSize.height - (50 + 20))) /
-                  panelSize.height
-              : 1.0;
-        } else {
-          closedPercentage =
-              (panelSize.height - (panelSize.height - frontPanelHeight)) /
-                  panelSize.height;
-          closedPercentageSearch = 0.0;
-        }
         final Animation<Offset> panelDetailsPosition = Tween<Offset>(
                 begin: Offset(0.0, closedPercentage),
                 end: Offset(0.0, closedPercentageSearch))
-            .animate(controller.view);
+            .animate(_controller.view);
         return Theme(
           data: sampleListModel.themeData,
           child: Scaffold(
             resizeToAvoidBottomPadding: false,
             key: _scaffoldKey,
-            backgroundColor: sampleListModel.backgroundColor,
+            backgroundColor: sampleListModel.paletteColor,
             appBar: PreferredSize(
                 preferredSize:
                     const Size.fromHeight(60.0), // here the desired height
                 child: AppBar(
-                  automaticallyImplyLeading:
-                      widget.appBarAutomaticallyImplyLeading,
-                  title: CrossFadeTransition(
-                    progress: controller,
+                  title: _CrossFadeTransition(
+                    progress: _controller,
                     alignment: AlignmentDirectional.centerStart,
                     child0:
                         Semantics(namesRoute: true, child: widget.appBarTitle),
                     child1: Semantics(namesRoute: true, child: const Text('')),
                   ),
-                  actions: appBarMenuButton(controller),
+                  actions: _appBarMenuButton(_controller),
                   elevation: 0.0,
                   backgroundColor: sampleListModel.backgroundColor,
-                  iconTheme: widget.appBarIconTheme,
-                  textTheme: widget.appBarTextTheme,
-                  centerTitle: widget.appBarCenterTitle,
-                  titleSpacing: widget.appBarTitleSpacing,
+                  titleSpacing: NavigationToolbar.kMiddleSpacing,
                 )),
-            drawer: widget.sideDrawer != null
-                ? SizedBox(
-                    width: panelSize.width * 3 / 4, child: widget.sideDrawer)
-                : null,
             body: Stack(
               overflow: Overflow.clip,
               key: _backDropKey,
               children: <Widget>[
                 Positioned(
-                    top: _getParallax(),
+                    top: 0,
                     left: 0,
                     right: 0,
                     bottom: 0,
                     child: widget.backLayer),
                 SlideTransition(
                   position: panelDetailsPosition,
-                  child: BackdropPanel(
-                    onTap: toggleBackdropPanelVisibility,
-                    borderRadius: widget.borderRadius,
-                    shape: widget.shape,
+                  child: _BackdropPanel(
+                    onTap: _toggleBackdropPanelVisibility,
+                    borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(12), bottom: Radius.circular(0)),
+                    frontHeaderHeight: 20.0,
+                    padding: EdgeInsets.zero,
                     onVerticalDragUpdate: _handleDragUpdate,
                     onVerticalDragEnd: _handleDragEnd,
-                    frontHeader: widget.frontHeader,
-                    frontHeaderHeight: widget.frontHeaderHeight,
-                    padding: widget.frontPanelPadding,
                     color: widget.color,
                     child: widget.frontLayer,
                   ),
@@ -418,23 +313,16 @@ class BackdropState extends State<Backdrop>
     );
   }
 
-  double _getParallax() {
-    if (widget.enableBackPanelAnimation) {
-      return -controller.value * frontPanelHeight * 0.5;
-    } else {
-      return 0;
-    }
-  }
-
   @override
   void dispose() {
     super.dispose();
-    controller.dispose();
+    _controller.dispose();
+    widget.panelVisible?.removeListener(_subscribeToValueNotifier);
   }
 }
 
-class CrossFadeTransition extends AnimatedWidget {
-  const CrossFadeTransition({
+class _CrossFadeTransition extends AnimatedWidget {
+  const _CrossFadeTransition({
     Key key,
     this.alignment = Alignment.center,
     Animation<double> progress,
@@ -484,8 +372,8 @@ class CrossFadeTransition extends AnimatedWidget {
   }
 }
 
-class BackdropPanel extends StatelessWidget {
-  const BackdropPanel({
+class _BackdropPanel extends StatelessWidget {
+  const _BackdropPanel({
     Key key,
     this.onTap,
     this.onVerticalDragUpdate,

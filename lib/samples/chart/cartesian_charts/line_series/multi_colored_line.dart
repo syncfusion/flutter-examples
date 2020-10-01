@@ -8,7 +8,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local imports
 import '../../../../model/sample_view.dart';
 
+///Renders line series with point color mapping
 class LineMultiColor extends SampleView {
+  ///Renders line series with point color mapping
   const LineMultiColor(Key key) : super(key: key);
 
   @override
@@ -16,14 +18,15 @@ class LineMultiColor extends SampleView {
 }
 
 class _LineMultiColorState extends SampleViewState {
-  _LineMultiColorState();  
+  _LineMultiColorState();
 
   @override
   Widget build(BuildContext context) {
-    return getMultiColorLineChart();
+    return _getMultiColorLineChart();
   }
 
-  SfCartesianChart getMultiColorLineChart() {
+  ///Get the chart with multi colored line series
+  SfCartesianChart _getMultiColorLineChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Annual rainfall of Paris'),
       plotAreaBorderWidth: 0,
@@ -31,7 +34,7 @@ class _LineMultiColorState extends SampleViewState {
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y(),
           majorGridLines: MajorGridLines(width: 0),
-          title: AxisTitle(text: 'Year')),
+          title: AxisTitle(text: isCardView ? '' : 'Year')),
       primaryYAxis: NumericAxis(
           minimum: 200,
           maximum: 600,
@@ -39,7 +42,7 @@ class _LineMultiColorState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           labelFormat: '{value}mm',
           majorTickLines: MajorTickLines(size: 0)),
-      series: getMultiColoredLineSeries(),
+      series: _getMultiColoredLineSeries(),
       trackballBehavior: TrackballBehavior(
           enable: true,
           activationMode: ActivationMode.singleTap,
@@ -48,7 +51,8 @@ class _LineMultiColorState extends SampleViewState {
     );
   }
 
-  List<LineSeries<_ChartData, DateTime>> getMultiColoredLineSeries() {
+  ///Get multi colored line series
+  List<LineSeries<_ChartData, DateTime>> _getMultiColoredLineSeries() {
     final List<_ChartData> chartData = <_ChartData>[
       _ChartData(DateTime(1925), 415, const Color.fromRGBO(248, 184, 131, 1)),
       _ChartData(DateTime(1926), 408, const Color.fromRGBO(248, 184, 131, 1)),
@@ -74,11 +78,11 @@ class _LineMultiColorState extends SampleViewState {
     ];
     return <LineSeries<_ChartData, DateTime>>[
       LineSeries<_ChartData, DateTime>(
-          enableTooltip: true,
           animationDuration: 2500,
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
+
           /// The property used to apply the color each data.
           pointColorMapper: (_ChartData sales, _) => sales.lineColor,
           width: 2)

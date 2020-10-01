@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
-import '../../../../widgets/customDropDown.dart';
-
+import '../../../../widgets/custom_dropdown.dart';
 
 /// Render the defauld plotband.
 class PlotBandDefault extends SampleView {
+  /// Creates the defauld plotband.
   const PlotBandDefault(Key key) : super(key: key);
 
   @override
@@ -29,6 +28,7 @@ class _PlotBandDefaultState extends SampleViewState {
   bool isLine = false;
 
   String _selectedType;
+  @override
   Widget buildSettings(BuildContext context) {
     return ListView(children: <Widget>[
       Container(
@@ -56,7 +56,7 @@ class _PlotBandDefaultState extends SampleViewState {
                                   style: TextStyle(color: model.textColor)));
                         }).toList(),
                         valueChanged: (dynamic value) {
-                          onPlotBandModeChange(value.toString(), model);
+                          _onPlotBandModeChange(value.toString());
                         }),
                   ),
                 ))
@@ -68,35 +68,24 @@ class _PlotBandDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getPlotBandChart();
+    return _getPlotBandChart();
   }
 
-/// Return the types of plotbands.
-  // final SampleModel _model = SampleModel.instance;
-  SfCartesianChart getPlotBandChart() {
+  /// Return the types of plotbands.
+  SfCartesianChart _getPlotBandChart() {
     final Color plotbandYAxisTextColor = ((isSegment || isLine) &&
             model != null &&
             model.themeData.brightness == Brightness.light)
         ? Colors.black54
         : const Color.fromRGBO(255, 255, 255, 1);
-    // final bool isExistModel = model.themeData != null && model.isWeb;
-    // if (isExistModel) {
-    //   final String type = model.properties['PlotBandType'];
-    //   isHorizontal = type == 'horizontal';
-    //   isVertical = type == 'vertical';
-    //   isSegment = type == 'segment';
-    //   isLine = type == 'line';
-    // }
-    // if (isExistModel && !isHorizontal && !isSegment && !isVertical && !isLine) {
-    //   isVertical = true;
-    // }
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Weather report'),
-      legend: Legend(isVisible: false),
       plotAreaBorderWidth: 0,
       primaryXAxis: CategoryAxis(
           interval: 1,
-          /// API for Y axis plot band. It returns the multiple plot band to chart.
+
+          /// API for Y axis plot band.
+          /// It returns the multiple plot band to chart.
           plotBands: <PlotBand>[
             PlotBand(
                 isVisible: isCardView ? true : isHorizontal,
@@ -184,7 +173,9 @@ class _PlotBandDefaultState extends SampleViewState {
         majorTickLines: MajorTickLines(width: 0),
         labelFormat: '{value} °C',
         rangePadding: ChartRangePadding.none,
-          /// API for Y axis plot band. It returns the multiple plot band to chart.
+
+        /// API for Y axis plot band.
+        /// It returns the multiple plot band to chart.
         plotBands: <PlotBand>[
           PlotBand(
               isVisible: isCardView ? false : isVertical,
@@ -219,7 +210,9 @@ class _PlotBandDefaultState extends SampleViewState {
               borderWidth: isCardView ? 0 : isLine ? 2 : 0,
               borderColor: isCardView
                   ? Colors.black
-                  : isLine ? const Color.fromRGBO(224, 155, 0, 1) : Colors.black,
+                  : isLine
+                      ? const Color.fromRGBO(224, 155, 0, 1)
+                      : Colors.black,
               text: 'Average Temperature',
               // padding for plotband text
               verticalTextPadding: '-7',
@@ -241,7 +234,9 @@ class _PlotBandDefaultState extends SampleViewState {
               borderWidth: isCardView ? 0 : isLine ? 2 : 0,
               borderColor: isCardView
                   ? Colors.black
-                  : isLine ? const Color.fromRGBO(237, 195, 12, 1) : Colors.black,
+                  : isLine
+                      ? const Color.fromRGBO(237, 195, 12, 1)
+                      : Colors.black,
               text: 'Low Temperature',
               // padding for plotband text
               verticalTextPadding: '-7',
@@ -254,7 +249,7 @@ class _PlotBandDefaultState extends SampleViewState {
                   : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)))
         ],
       ),
-      series: _getPlotBandSeries(isCardView, isSegment, isLine, model),
+      series: _getPlotBandSeries(),
       tooltipBehavior:
           TooltipBehavior(enable: true, canShowMarker: false, header: ''),
       onMarkerRender: (MarkerRenderArgs markerargs) {
@@ -263,13 +258,9 @@ class _PlotBandDefaultState extends SampleViewState {
     );
   }
 
-  List<XyDataSeries<ChartSampleData, dynamic>> _getPlotBandSeries(
-      bool isCardView,
-      [bool isSegment,
-      bool isLine,
-      SampleModel sampleModel]) {
+  List<XyDataSeries<ChartSampleData, String>> _getPlotBandSeries() {
     isSegment ??= false;
-    final dynamic lineData = <ChartSampleData>[
+    final List<ChartSampleData> lineData = <ChartSampleData>[
       ChartSampleData(xValue: 'Jan', yValue: 23),
       ChartSampleData(xValue: 'Feb', yValue: 24),
       ChartSampleData(xValue: 'Mar', yValue: 23),
@@ -287,8 +278,8 @@ class _PlotBandDefaultState extends SampleViewState {
             model.themeData.brightness == Brightness.light
         ? Colors.black54
         : Colors.white;
-    return <XyDataSeries<ChartSampleData, dynamic>>[
-      LineSeries<ChartSampleData, dynamic>(
+    return <XyDataSeries<ChartSampleData, String>>[
+      LineSeries<ChartSampleData, String>(
           dataSource: lineData,
           xValueMapper: (ChartSampleData sales, _) => sales.xValue,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
@@ -305,26 +296,16 @@ class _PlotBandDefaultState extends SampleViewState {
 
   @override
   void initState() {
-    initProperties();
-    super.initState();
-  }
-
-  void initProperties([SampleModel sampleModel, bool init]) {
     _selectedType = _plotBandType.first;
     isHorizontal = true;
     isVertical = false;
     isSegment = false;
     isLine = false;
-    if (sampleModel != null && init) {
-      sampleModel.properties.addAll(<dynamic, dynamic>{
-        'SelectedPlotBandType': _selectedType,
-        'PlotBandType': 'horizontal'
-      });
-    }
+    super.initState();
   }
 
-/// Method for updating plotband type in the chart on change.
-  void onPlotBandModeChange(String item, SampleModel model) {
+  /// Method for updating plotband type in the chart on change.
+  void _onPlotBandModeChange(String item) {
     _selectedType = item;
     if (_selectedType == 'horizontal') {
       isVertical = true;
@@ -350,13 +331,8 @@ class _PlotBandDefaultState extends SampleViewState {
       isSegment = false;
       isLine = true;
     }
-    model.properties['SelectedPlotBandType'] = _selectedType;
-    model.properties['PlotBandType'] = isHorizontal
-        ? 'horizontal'
-        : isVertical ? 'vertical' : isLine ? 'line' : 'segment';
-    // if (model.isWeb)
-    //   model.sampleOutputContainer.outputKey.currentState.refresh();
-    // else
-    setState(() {});
+    setState(() {
+      /// update the platband mode changes
+    });
   }
 }

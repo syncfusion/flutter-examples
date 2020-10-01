@@ -1,10 +1,18 @@
+/// Dart import
 import 'dart:math';
-import 'package:flutter/foundation.dart';
+
+///Package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
+
+///Date picker imports
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+///Local import
+import '../../../model/sample_view.dart';
+
+/// Render datepicker widget with customized options
 class CustomizedDatePicker extends SampleView {
+  /// Creates datepicker widget with customized options
   const CustomizedDatePicker(Key key) : super(key: key);
 
   @override
@@ -14,18 +22,17 @@ class CustomizedDatePicker extends SampleView {
 class _CustomizedDatePickerState extends SampleViewState {
   _CustomizedDatePickerState();
 
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   List<DateTime> _specialDates;
+  Orientation _deviceOrientation;
 
   @override
   void initState() {
-    panelOpen = frontPanelVisible.value;
     _specialDates = _getSpecialDates();
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
     super.initState();
   }
 
+  /// Returns the list of dates which will set to the special dates of the
+  /// date range picker.
   List<DateTime> _getSpecialDates() {
     final List<DateTime> dates = <DateTime>[];
     final DateTime startDate =
@@ -43,13 +50,10 @@ class _CustomizedDatePickerState extends SampleViewState {
     return dates;
   }
 
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
-
   @override
-  void didUpdateWidget(CustomizedDatePicker oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    frontPanelVisible.removeListener(_subscribeToValueNotifier);
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
+  void didChangeDependencies() {
+    _deviceOrientation = MediaQuery.of(context).orientation;
+    super.didChangeDependencies();
   }
 
   @override
@@ -61,113 +65,127 @@ class _CustomizedDatePickerState extends SampleViewState {
           : const EdgeInsets.all(30),
       child: Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          color: model.isWeb
-              ? model.webSampleBackgroundColor
-              : model.cardThemeColor,
-          child: getCustomizedDatePicker(_specialDates, model.themeData)),
+          color: model.isWeb ? model.cardThemeColor : model.cardThemeColor,
+          child: _getCustomizedDatePicker(_specialDates, model.themeData)),
     );
     return Scaffold(
       backgroundColor: model.themeData == null ||
               model.themeData.brightness == Brightness.light
           ? null
-          :  const Color(0x171A21),
+          : const Color(0x171A21),
       body: Column(children: <Widget>[
         Expanded(
             flex: model.isWeb ? 9 : 8,
-            child: kIsWeb
+            child: model.isWeb
                 ? Center(
                     child:
                         Container(width: 400, height: 600, child: _datePicker))
-                : _datePicker),
-        Expanded(flex: model.isWeb ? 1 : 2, child: Container())
+                : ListView(children: <Widget>[
+                    Container(height: 450, child: _datePicker)
+                  ])),
+        Expanded(
+            flex: model.isWeb
+                ? 1
+                : model.isMobileResolution &&
+                        _deviceOrientation == Orientation.landscape
+                    ? 0
+                    : 1,
+            child: Container())
       ]),
+    );
+  }
+
+  /// Returns the date range picker based on the properties passed
+  SfDateRangePicker _getCustomizedDatePicker(
+      [List<DateTime> specialDates, ThemeData theme]) {
+    final bool isDark = theme != null &&
+        theme.brightness != null &&
+        theme.brightness == Brightness.dark;
+
+    final Color monthCellBackground =
+        isDark ? const Color(0xFF232731) : const Color(0xfff7f4ff);
+    final Color indicatorColor =
+        isDark ? const Color(0xFF5CFFB7) : const Color(0xFF1AC4C7);
+    final Color highlightColor =
+        isDark ? const Color(0xFF5CFFB7) : Colors.deepPurpleAccent;
+    final Color cellTextColor =
+        isDark ? const Color(0xFFDFD4FF) : const Color(0xFF130438);
+
+    return SfDateRangePicker(
+      selectionShape: DateRangePickerSelectionShape.rectangle,
+      selectionColor: highlightColor,
+      selectionTextStyle:
+          TextStyle(color: isDark ? Colors.black : Colors.white, fontSize: 14),
+      minDate: DateTime.now().add(const Duration(days: -200)),
+      maxDate: DateTime.now().add(const Duration(days: 500)),
+      headerStyle: DateRangePickerHeaderStyle(
+          textAlign: TextAlign.center,
+          textStyle: TextStyle(
+            fontSize: 18,
+            color: cellTextColor,
+          )),
+      monthCellStyle: DateRangePickerMonthCellStyle(
+        cellDecoration: _MonthCellDecoration(
+            borderColor: null,
+            backgroundColor: monthCellBackground,
+            showIndicator: false,
+            indicatorColor: indicatorColor),
+        todayCellDecoration: _MonthCellDecoration(
+            borderColor: highlightColor,
+            backgroundColor: monthCellBackground,
+            showIndicator: false,
+            indicatorColor: indicatorColor),
+        specialDatesDecoration: _MonthCellDecoration(
+            borderColor: null,
+            backgroundColor: monthCellBackground,
+            showIndicator: true,
+            indicatorColor: indicatorColor),
+        disabledDatesTextStyle: TextStyle(
+          color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe),
+        ),
+        weekendTextStyle: TextStyle(
+          color: highlightColor,
+        ),
+        textStyle: TextStyle(color: cellTextColor, fontSize: 14),
+        specialDatesTextStyle: TextStyle(color: cellTextColor, fontSize: 14),
+        todayTextStyle: TextStyle(color: highlightColor, fontSize: 14),
+      ),
+      yearCellStyle: DateRangePickerYearCellStyle(
+        todayTextStyle: TextStyle(color: highlightColor, fontSize: 14),
+        textStyle: TextStyle(color: cellTextColor, fontSize: 14),
+        disabledDatesTextStyle: TextStyle(
+            color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe)),
+        leadingDatesTextStyle:
+            TextStyle(color: cellTextColor.withOpacity(0.5), fontSize: 14),
+      ),
+      showNavigationArrow: true,
+      todayHighlightColor: highlightColor,
+      monthViewSettings: DateRangePickerMonthViewSettings(
+        firstDayOfWeek: 1,
+        viewHeaderStyle: DateRangePickerViewHeaderStyle(
+            textStyle: TextStyle(
+                fontSize: 10,
+                color: cellTextColor,
+                fontWeight: FontWeight.w600)),
+        dayFormat: 'EEE',
+        showTrailingAndLeadingDates: false,
+        specialDates: specialDates,
+      ),
     );
   }
 }
 
-SfDateRangePicker getCustomizedDatePicker(
-    [List<DateTime> specialDates, ThemeData theme]) {
-  final bool isDark = theme != null &&
-      theme.brightness != null &&
-      theme.brightness == Brightness.dark;
-
-  final Color monthCellBackground =
-      isDark ? const Color(0xFF232731) : const Color(0xfff7f4ff);
-  final Color indicatorColor =
-      isDark ? const Color(0xFF5CFFB7) : const Color(0xFF1AC4C7);
-  final Color highlightColor =
-      isDark ? const Color(0xFF5CFFB7) : Colors.deepPurpleAccent;
-  final Color cellTextColor =
-      isDark ? const Color(0xFFDFD4FF) : const Color(0xFF130438);
-
-  return SfDateRangePicker(
-    selectionShape: DateRangePickerSelectionShape.rectangle,
-    selectionColor: highlightColor,
-    selectionTextStyle:
-        TextStyle(color: isDark ? Colors.black : Colors.white, fontSize: 14),
-    minDate: DateTime.now().add(const Duration(days: -200)),
-    maxDate: DateTime.now().add(const Duration(days: 500)),
-    headerStyle: DateRangePickerHeaderStyle(
-        textAlign: TextAlign.center,
-        textStyle: TextStyle(
-          fontSize: 18,
-          color: cellTextColor,
-        )),
-    monthCellStyle: DateRangePickerMonthCellStyle(
-      cellDecoration: MonthCellDecoration(
-          borderColor: null,
-          backgroundColor: monthCellBackground,
-          showIndicator: false,
-          indicatorColor: indicatorColor),
-      todayCellDecoration: MonthCellDecoration(
-          borderColor: highlightColor,
-          backgroundColor: monthCellBackground,
-          showIndicator: false,
-          indicatorColor: indicatorColor),
-      specialDatesDecoration: MonthCellDecoration(
-          borderColor: null,
-          backgroundColor: monthCellBackground,
-          showIndicator: true,
-          indicatorColor: indicatorColor),
-      disabledDatesTextStyle: TextStyle(
-        color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe),
-      ),
-      weekendTextStyle: TextStyle(
-        color: highlightColor,
-      ),
-      textStyle: TextStyle(color: cellTextColor, fontSize: 14),
-      specialDatesTextStyle: TextStyle(color: cellTextColor, fontSize: 14),
-      todayTextStyle: TextStyle(color: highlightColor, fontSize: 14),
-    ),
-    yearCellStyle: DateRangePickerYearCellStyle(
-      todayTextStyle: TextStyle(color: highlightColor, fontSize: 14),
-      textStyle: TextStyle(color: cellTextColor, fontSize: 14),
-      disabledDatesTextStyle: TextStyle(
-          color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe)),
-      leadingDatesTextStyle:
-          TextStyle(color: cellTextColor.withOpacity(0.5), fontSize: 14),
-    ),
-    showNavigationArrow: true,
-    todayHighlightColor: highlightColor,
-    monthViewSettings: DateRangePickerMonthViewSettings(
-      firstDayOfWeek: 1,
-      viewHeaderStyle: DateRangePickerViewHeaderStyle(
-          textStyle: TextStyle(
-              fontSize: 10, color: cellTextColor, fontWeight: FontWeight.w600)),
-      dayFormat: 'EEE',
-      showTrailingAndLeadingDates: false,
-      specialDates: specialDates,
-    ),
-  );
-}
-
-/// [MonthCellDecoration] used to customize the month cell background of [SfDateRangePicker].
+/// [_MonthCellDecoration] used to customize the month cell
+/// background of [SfDateRangePicker].
 /// [backgroundColor] property used to draw the fill color the month cell
-/// [borderColor] property used to draw the border to highlight the today month cell
-/// [showIndicator] property used to decide whether the cell have indicator or not. it is
-/// enabled then draw the circle on right top corner with [indicatorColor].
-class MonthCellDecoration extends Decoration {
-  const MonthCellDecoration(
+/// [borderColor] property used to draw the border to highlight the
+/// today month cell.
+/// [showIndicator] property used to decide whether the cell
+/// have indicator or not.
+/// it is enabled then draw the circle on right top corner
+/// with [indicatorColor].
+class _MonthCellDecoration extends Decoration {
+  const _MonthCellDecoration(
       {this.borderColor,
       this.backgroundColor,
       this.showIndicator,

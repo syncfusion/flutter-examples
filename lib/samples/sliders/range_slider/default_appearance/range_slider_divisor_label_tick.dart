@@ -1,11 +1,16 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
+///flutter package import
 import 'package:flutter/material.dart';
 
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
+///Slider import
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+///Local imports
+import '../../../../model/sample_view.dart';
+import '../../slider_utils.dart';
+
+/// Renders the range slider with divisor, labels, ticks
 class ScaleRangeSliderPage extends SampleView {
+  /// Creates the range slider with divisor, labels, ticks
   const ScaleRangeSliderPage(Key key) : super(key: key);
 
   @override
@@ -19,12 +24,13 @@ class _ScaleRangeSliderPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    rangeSlider = ScaleRangeSlider();
+    rangeSlider = _ScaleRangeSlider();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(height: 325, child: rangeSlider),
@@ -32,8 +38,7 @@ class _ScaleRangeSliderPageState extends SampleViewState {
   }
 }
 
-// ignore: must_be_immutable
-class ScaleRangeSlider extends SampleView {
+class _ScaleRangeSlider extends SampleView {
   @override
   _ScaleRangeSliderState createState() => _ScaleRangeSliderState();
 }
@@ -100,10 +105,7 @@ class _ScaleRangeSliderState extends SampleViewState {
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(
@@ -124,6 +126,6 @@ class _ScaleRangeSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWeb ? _getWebLayout() : _getMobileLayout();
   }
 }

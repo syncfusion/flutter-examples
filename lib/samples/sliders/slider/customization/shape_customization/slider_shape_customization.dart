@@ -1,16 +1,25 @@
+///Dart import
 import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/samples/sliders/slider/customization/shape_customization/slider_divisor_customization.dart';
-import 'package:flutter_examples/samples/sliders/slider/customization/shape_customization/slider_thumb_customization.dart';
-import 'package:flutter_examples/samples/sliders/slider/customization/shape_customization/slider_tick_customization.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:flutter/foundation.dart';
-import '../../../slider_utils.dart';
 
+///flutter package import
+import 'package:flutter/material.dart';
+
+///Core theme import
+import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+///Local imports
+import '../../../../../model/sample_view.dart';
+import '../../../slider_utils.dart';
+import 'slider_divisor_customization.dart';
+import 'slider_thumb_customization.dart';
+import 'slider_tick_customization.dart';
+
+///Renders slider with customized shapes
 class ShapeCustomizedSliderPage extends SampleView {
+  ///Renders slider with customized shapes
   const ShapeCustomizedSliderPage(Key key) : super(key: key);
 
   @override
@@ -25,27 +34,27 @@ class _ShapeCustomizedSliderPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    slider = ShapeCustomizedSlider();
+    slider = _ShapeCustomizedSlider();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+    return MediaQuery.of(context).orientation == Orientation.portrait ||
+            model.isWeb
         ? slider
         : SingleChildScrollView(
-        child: Container(
-            height: 500,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-              child: Container(child: slider),
-            )));
+            child: Container(
+                height: 500,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                  child: Container(child: slider),
+                )));
   }
 }
 
-class ShapeCustomizedSlider extends SampleView {
+class _ShapeCustomizedSlider extends SampleView {
   @override
-  _ShapeCustomizedSliderState createState() =>
-      _ShapeCustomizedSliderState();
+  _ShapeCustomizedSliderState createState() => _ShapeCustomizedSliderState();
 }
 
 class _ShapeCustomizedSliderState extends SampleViewState {
@@ -66,10 +75,7 @@ class _ShapeCustomizedSliderState extends SampleViewState {
   }
 
   Widget _getMobileLayout() {
-    final double padding = MediaQuery
-        .of(context)
-        .size
-        .width / 20.0;
+    final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
         child: Column(
@@ -78,9 +84,8 @@ class _ShapeCustomizedSliderState extends SampleViewState {
               title('Track'),
               SfSliderTheme(
                   data: SfSliderThemeData(
-                      overlayColor: Colors.transparent,
-                      inactiveTrackHeight: 5.0,
-                      activeTrackHeight: 5.0),
+                    overlayColor: Colors.transparent,
+                  ),
                   child: SfSlider(
                     min: _min,
                     max: _max,
@@ -109,7 +114,7 @@ class _ShapeCustomizedSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWeb ? _getWebLayout() : _getMobileLayout();
   }
 }
 

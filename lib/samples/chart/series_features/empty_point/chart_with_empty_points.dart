@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
-import '../../../../widgets/customDropDown.dart';
+import '../../../../widgets/custom_dropdown.dart';
 
 /// Renders the chart with empty points sample.
 class EmptyPoints extends SampleView {
+  /// Creates the chart with empty points sample.
   const EmptyPoints(Key key) : super(key: key);
 
   @override
@@ -34,7 +34,9 @@ class _EmptyPointsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getEmptyPointChart();
+    return Padding(
+        padding: EdgeInsets.only(bottom: model.isWeb ? 0 : 60),
+        child: _getEmptyPointChart());
   }
 
   @override
@@ -65,7 +67,7 @@ class _EmptyPointsState extends SampleViewState {
                                   style: TextStyle(color: model.textColor)));
                         }).toList(),
                         valueChanged: (dynamic value) {
-                          onEmptyPointModeChange(value.toString());
+                          _onEmptyPointModeChange(value.toString());
                         }),
                   ),
                 ))
@@ -76,11 +78,10 @@ class _EmptyPointsState extends SampleViewState {
   }
 
   /// Returns the cartesian chart with empty points.
-  SfCartesianChart getEmptyPointChart() {
+  SfCartesianChart _getEmptyPointChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-          text: isCardView ? '' : 'Population growth of various countries'),
+      title: ChartTitle(text: 'Population growth of various countries'),
       primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
@@ -88,14 +89,15 @@ class _EmptyPointsState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           labelFormat: '{value}%',
           majorTickLines: MajorTickLines(size: 0)),
-      series: getEmptyPointSeries(),
+      series: _getEmptyPointSeries(),
       tooltipBehavior:
           TooltipBehavior(enable: true, header: '', canShowMarker: false),
     );
   }
 
-  /// Returns the list of charts which need to render on the chart with empty points.
-  List<ColumnSeries<ChartSampleData, String>> getEmptyPointSeries() {
+  /// Returns the list of charts which need to
+  /// render on the chart with empty points.
+  List<ColumnSeries<ChartSampleData, String>> _getEmptyPointSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 'China', y: 0.541),
       ChartSampleData(x: 'Brazil', y: null),
@@ -106,12 +108,11 @@ class _EmptyPointsState extends SampleViewState {
     ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-        enableTooltip: true,
         dataSource: chartData,
+
         /// To enable the empty point mode, set the specific mode.
         emptyPointSettings: EmptyPointSettings(
-            mode: isCardView ? EmptyPointMode.gap : _selectedEmptyPointMode,
-            color: Colors.grey),
+            mode: _selectedEmptyPointMode, color: Colors.grey),
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         dataLabelSettings: DataLabelSettings(
@@ -121,7 +122,7 @@ class _EmptyPointsState extends SampleViewState {
   }
 
   /// Method to update the empty point mode in the cahrt on change.
-  void onEmptyPointModeChange(String item) {
+  void _onEmptyPointModeChange(String item) {
     _selectedMode = item;
     if (_selectedMode == 'gap') {
       _selectedEmptyPointMode = EmptyPointMode.gap;
@@ -135,6 +136,8 @@ class _EmptyPointsState extends SampleViewState {
     if (_selectedMode == 'drop') {
       _selectedEmptyPointMode = EmptyPointMode.drop;
     }
-    setState(() {});
+    setState(() {
+      /// update the empty point mode change
+    });
   }
 }

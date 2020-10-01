@@ -1,119 +1,110 @@
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:flutter/foundation.dart';
+/// Flutter package imports
 import 'package:flutter/material.dart';
 
+/// Gauge imports
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-// ignore: must_be_immutable
+/// Local imports
+import '../../../model/sample_view.dart';
+
+/// Renders the non-linear label gauge sample
 class RadialNonLinearLabel extends SampleView {
+  /// Creates the non-linear label gauge sample
   const RadialNonLinearLabel(Key key) : super(key: key);
-  
+
   @override
-  _RadialNonLinearLabelState createState() =>
-      _RadialNonLinearLabelState();
+  _RadialNonLinearLabelState createState() => _RadialNonLinearLabelState();
 }
 
 class _RadialNonLinearLabelState extends SampleViewState {
   _RadialNonLinearLabelState();
-  
+
   @override
   Widget build(BuildContext context) {
-    return getRadialNonLinearLabel(isCardView);
+    return _getRadialNonLinearLabel();
   }
+
+  /// Returns the non-linear axis label gauge
+  SfRadialGauge _getRadialNonLinearLabel() {
+    return SfRadialGauge(
+      enableLoadingAnimation: true,
+      key: model.isWeb ? UniqueKey() : null,
+      animationDuration: 2500,
+      axes: <RadialAxis>[
+        RadialAxis(
+            labelOffset: 15,
+            axisLineStyle: AxisLineStyle(
+                thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
+            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            minimum: 0,
+            showTicks: false,
+            maximum: 150,
+            axisLabelStyle: GaugeTextStyle(fontSize: 12),
+            // Added custom axis renderer that extended from RadialAxisRenderer
+            // onCreateAxisRenderer: handleCreateAxisRenderer,
+            pointers: <GaugePointer>[
+              NeedlePointer(
+                  enableAnimation: true,
+                  gradient: const LinearGradient(colors: <Color>[
+                    Color.fromRGBO(203, 126, 223, 0.1),
+                    Color(0xFFCB7EDF)
+                  ], stops: <double>[
+                    0.25,
+                    0.75
+                  ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+                  animationType: AnimationType.easeOutBack,
+                  value: 60,
+                  lengthUnit: GaugeSizeUnit.factor,
+                  animationDuration: 1300,
+                  needleStartWidth: isCardView ? 3 : 4,
+                  needleEndWidth: isCardView ? 6 : 8,
+                  needleLength: 0.8,
+                  knobStyle: KnobStyle(
+                    knobRadius: 0,
+                  )),
+              RangePointer(
+                  value: 60,
+                  width: 0.15,
+                  sizeUnit: GaugeSizeUnit.factor,
+                  color: _pointerColor,
+                  animationDuration: 1300,
+                  animationType: AnimationType.easeOutBack,
+                  // Sweep gradient not supported in web.
+                  gradient: model.isWeb
+                      ? null
+                      : const SweepGradient(
+                          colors: <Color>[Color(0xFF9E40DC), Color(0xFFE63B86)],
+                          stops: <double>[0.25, 0.75]),
+                  enableAnimation: true)
+            ])
+      ],
+    );
+  }
+
+  GaugeAxisRenderer handleCreateAxisRenderer(GaugeAxis axis) {
+    final _CustomAxisRenderer _customAxisRenderer = _CustomAxisRenderer();
+    final RadialAxis customAxis = axis;
+    _customAxisRenderer._axis = customAxis;
+    return _customAxisRenderer;
+  }
+
+  final Color _pointerColor = const Color(0xFF494CA2);
 }
 
-SfRadialGauge getRadialNonLinearLabel(bool isCardView) {
-  return SfRadialGauge(
-    enableLoadingAnimation: true,
-    animationDuration: 2500,
-    axes: <RadialAxis>[
-      CustomAxis(
-          labelOffset: 15,
-          axisLineStyle: AxisLineStyle(
-              thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
-          radiusFactor: kIsWeb ? 0.8 : 0.9,
-          minimum: 0,
-          showTicks: false,
-          maximum: 150,
-          axisLabelStyle: GaugeTextStyle(fontSize: 12),
-          pointers: <GaugePointer>[
-            NeedlePointer(
-                enableAnimation: true,
-                gradient: const LinearGradient(colors: <Color>[
-                  Color.fromRGBO(203, 126, 223, 0.1),
-                  Color(0xFFCB7EDF)
-                ], stops: <double>[
-                  0.25,
-                  0.75
-                ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
-                animationType: AnimationType.easeOutBack,
-                value: 60,
-                lengthUnit: GaugeSizeUnit.factor,
-                animationDuration: 1300,
-                needleStartWidth: isCardView ? 3 : 4,
-                needleEndWidth: isCardView ? 6 : 8,
-                needleLength: 0.8,
-                knobStyle: KnobStyle(
-                  knobRadius: 0,
-                )),
-            RangePointer(
-                value: 60,
-                width: 0.15,
-                sizeUnit: GaugeSizeUnit.factor,
-                color: _pointerColor,
-                animationDuration: 1300,
-                animationType: AnimationType.easeOutBack,
-                gradient: kIsWeb
-                    ? null
-                    : const SweepGradient(
-                        colors: <Color>[Color(0xFF9E40DC), Color(0xFFE63B86)],
-                        stops: <double>[0.25, 0.75]),
-                enableAnimation: true)
-          ])
-    ],
-  );
-}
+class _CustomAxisRenderer extends RadialAxisRenderer {
+  _CustomAxisRenderer() : super();
 
-Color _pointerColor = const Color(0xFF494CA2);
+  RadialAxis _axis;
 
-class CustomAxis extends RadialAxis {
-  CustomAxis({
-    double radiusFactor = 1,
-    List<GaugePointer> pointers,
-    GaugeTextStyle axisLabelStyle,
-    AxisLineStyle axisLineStyle,
-    double minimum,
-    double maximum,
-    bool showTicks,
-    double labelOffset,
-  }) : super(
-          pointers: pointers ?? <GaugePointer>[],
-          minimum: minimum,
-          maximum: maximum,
-          showTicks: showTicks ?? true,
-          labelOffset: labelOffset ?? 20,
-          axisLabelStyle: axisLabelStyle ??
-              GaugeTextStyle(
-                  color: Colors.black,
-                  fontSize: 15.0,
-                  fontFamily: 'Segoe UI',
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.normal),
-          axisLineStyle: axisLineStyle ??
-              AxisLineStyle(
-                color: Colors.grey,
-                thickness: 10,
-              ),
-          radiusFactor: radiusFactor,
-        );
-
+  /// Generated the 9 non-linear interval labels from 0 to 150
+  /// instead of actual generated labels.
   @override
   List<CircularAxisLabel> generateVisibleLabels() {
     final List<CircularAxisLabel> _visibleLabels = <CircularAxisLabel>[];
     for (num i = 0; i < 9; i++) {
       final double _value = _calculateLabelValue(i);
       final CircularAxisLabel label = CircularAxisLabel(
-          axisLabelStyle, _value.toInt().toString(), i, false);
+          _axis.axisLabelStyle, _value.toInt().toString(), i, false);
       label.value = _value;
       _visibleLabels.add(label);
     }
@@ -121,6 +112,7 @@ class CustomAxis extends RadialAxis {
     return _visibleLabels;
   }
 
+  /// Returns the factor(0 to 1) from value to place the labels in an axis.
   @override
   double valueToFactor(double value) {
     if (value >= 0 && value <= 2) {

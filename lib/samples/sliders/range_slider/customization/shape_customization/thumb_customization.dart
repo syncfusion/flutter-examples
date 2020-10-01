@@ -1,21 +1,26 @@
+///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
+///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Slider import
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-import 'package:flutter_examples/samples/sliders/slider_utils.dart';
+///Local imports
+import '../../../../../model/sample_view.dart';
+import '../../../slider_utils.dart';
 
+///Renders range slider with customized thumb
 class ThumbCustomizedRangeSlider extends SampleView {
   @override
   _ThumbCustomizedRangeSliderState createState() =>
       _ThumbCustomizedRangeSliderState();
 }
 
-class _ThumbCustomizedRangeSliderState
-    extends SampleViewState {
+class _ThumbCustomizedRangeSliderState extends SampleViewState {
   SfRangeValues _singleStrokeSliderValues = const SfRangeValues(30.0, 70.0);
   SfRangeValues _doubleStrokeSliderValues = const SfRangeValues(30.0, 70.0);
   final Color _inactiveColor = const Color.fromARGB(255, 255, 146, 176);
@@ -95,14 +100,14 @@ class _ThumbShape extends SfThumbShape {
   @override
   void paint(PaintingContext context, Offset center,
       {RenderBox parentBox,
-        RenderBox child,
-        SfSliderThemeData themeData,
-        SfRangeValues currentValues,
-        dynamic currentValue,
-        Paint paint,
-        Animation<double> enableAnimation,
-        TextDirection textDirection,
-        SfThumb thumb}) {
+      RenderBox child,
+      SfSliderThemeData themeData,
+      SfRangeValues currentValues,
+      dynamic currentValue,
+      Paint paint,
+      Animation<double> enableAnimation,
+      TextDirection textDirection,
+      SfThumb thumb}) {
     super.paint(context, center,
         parentBox: parentBox,
         child: child,
@@ -139,14 +144,14 @@ class _RectThumbShape extends SfThumbShape {
   @override
   void paint(PaintingContext context, Offset center,
       {RenderBox parentBox,
-        RenderBox child,
-        SfSliderThemeData themeData,
-        SfRangeValues currentValues,
-        dynamic currentValue,
-        Paint paint,
-        Animation<double> enableAnimation,
-        TextDirection textDirection,
-        SfThumb thumb}) {
+      RenderBox child,
+      SfSliderThemeData themeData,
+      SfRangeValues currentValues,
+      dynamic currentValue,
+      Paint paint,
+      Animation<double> enableAnimation,
+      TextDirection textDirection,
+      SfThumb thumb}) {
     super.paint(context, center,
         parentBox: parentBox,
         child: child,
@@ -157,19 +162,19 @@ class _RectThumbShape extends SfThumbShape {
         textDirection: textDirection,
         thumb: thumb);
 
-    final double width =getPreferredSize(themeData).width;
-    final double height =getPreferredSize(themeData).height;
+    final double width = getPreferredSize(themeData).width;
+    final double height = getPreferredSize(themeData).height;
 
-
-    context.canvas.drawRRect(RRect.fromLTRBR
-      (center.dx - width / 2,
-      center.dy - height / 2,
-      center.dx + width / 2,
-      center.dy + height / 2,
-      const Radius.circular(5.0)
-    ),Paint()
+    context.canvas.drawRRect(
+        RRect.fromLTRBR(
+            center.dx - width / 2,
+            center.dy - height / 2,
+            center.dx + width / 2,
+            center.dy + height / 2,
+            const Radius.circular(5.0)),
+        Paint()
           ..isAntiAlias = true
-      ..style = PaintingStyle.fill
+          ..style = PaintingStyle.fill
           ..color = themeData.activeTrackColor);
   }
 }

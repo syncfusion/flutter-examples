@@ -1,11 +1,10 @@
-library button_picker;
-
+///Package import
 import 'package:flutter/material.dart';
 
-class CustomButton extends StatefulWidget {
-  // ignore: prefer_const_constructors_in_immutables
-  CustomButton({
-    // ignore: avoid_unused_constructor_parameters
+/// Collection of left, right or up, down icon buttons with text widget
+class CustomDirectionalButtons extends StatefulWidget {
+  /// direction arrows surronding in text widget
+  const CustomDirectionalButtons({
     Key key,
     @required this.minValue,
     @required this.maxValue,
@@ -13,15 +12,10 @@ class CustomButton extends StatefulWidget {
     @required this.onChanged,
     this.step = 1,
     this.loop = false,
-    this.horizontal = false,
+    this.horizontal = true,
     this.style,
     this.padding = 0.0,
-    this.iconUp = Icons.arrow_drop_up,
-    this.iconDown = Icons.arrow_drop_down,
-    this.iconLeft = Icons.arrow_left,
-    this.iconRight = Icons.arrow_right,
-    this.iconUpRightColor = Colors.black,
-    this.iconDownLeftColor = Colors.black,
+    this.iconColor = Colors.black,
   })  : assert(minValue != null),
         assert(maxValue != null),
         assert(initialValue != null),
@@ -29,47 +23,58 @@ class CustomButton extends StatefulWidget {
         assert(step != null),
         assert(loop != null),
         assert(padding != null),
-        assert(iconUp != null),
-        assert(iconDown != null),
-        assert(iconLeft != null),
-        assert(iconRight != null),
-        assert(iconUpRightColor != null),
-        assert(iconDownLeftColor != null),
+        assert(iconColor != null),
         assert(initialValue >= minValue && initialValue <= maxValue),
         assert(minValue < maxValue);
 
+  /// minimal value
   final double minValue;
+
+  /// max value
   final double maxValue;
+
+  /// Initially displayed value in the [CustomDirectionalButtons]
   final double initialValue;
+
+  /// The callback that is called when the button is tapped
+  /// or otherwise activated.
+  ///
+  /// If this is set to null, the button will be disabled.
   final ValueChanged<double> onChanged;
+
+  /// interval value
   final double step;
+
+  /// set left,right icons only
   final bool horizontal;
+
+  /// set after the max value reach, start again from min value
   final bool loop;
+
+  /// Holds the text widget style
   final TextStyle style;
+
+  /// The padding around the button's icon.
+  /// The entire padded icon will react to input gestures.
   final double padding;
 
-  /// Space between buttons and counter
-
-  /// Customizable icons for the buttons
-  final IconData iconUp;
-  final IconData iconDown;
-  final IconData iconLeft;
-  final IconData iconRight;
-
-  final Color iconUpRightColor;
-
-  /// Color of upper button or right button when `horizontal == true`
-  final Color iconDownLeftColor;
-
-  /// Color of bottom button or left button when `horizontal == true`
+  /// Color of the icon button
+  final Color iconColor;
 
   @override
   State<StatefulWidget> createState() => _CustomButton();
 }
 
-enum CountDirection { Up, Down }
+/// Contains the direction (increse/decrease)
+enum _CountDirection {
+  /// To ncrease the counter
+  Up,
 
-class _CustomButton extends State<CustomButton> {
+  /// To decrese the counter
+  Down
+}
+
+class _CustomButton extends State<CustomDirectionalButtons> {
   double _counter;
 
   @override
@@ -78,9 +83,9 @@ class _CustomButton extends State<CustomButton> {
     _counter = widget.initialValue;
   }
 
-  /// Calculate next value for the CustomButton
-  void count(CountDirection countDirection) {
-    if (countDirection == CountDirection.Up) {
+  /// Calculate next value for the CustomDirectionalButtons
+  void _count(_CountDirection countDirection) {
+    if (countDirection == _CountDirection.Up) {
       /// Make sure you can't go over `maxValue` unless `loop == true`
       if (_counter + widget.step > widget.maxValue) {
         if (widget.loop) {
@@ -109,79 +114,75 @@ class _CustomButton extends State<CustomButton> {
     widget.onChanged(_counter);
   }
 
-  Widget getCount() {
+  Widget _getCount() {
     return Text(
         widget.initialValue % 1 == 0 && widget.step % 1 == 0
             ? _counter.toStringAsFixed(0)
             : _counter.toStringAsFixed(1),
-        style: widget.style == null
-            ? Theme.of(context).textTheme.headline5
-            : widget.style);
+        style: widget.style ?? Theme.of(context).textTheme.headline5);
   }
 
   /// Return different widgets for a horizontal and vertical BuildPicker
-  Widget buildCustomButton() {
-    if (!widget.horizontal) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(widget.iconUp),
-            padding: EdgeInsets.only(bottom: widget.padding),
-            alignment: Alignment.bottomCenter,
-            color: widget.iconUpRightColor,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () {
-              count(CountDirection.Up);
-            },
-          ),
-          getCount(),
-          IconButton(
-              icon: Icon(widget.iconDown),
-              padding: EdgeInsets.only(top: widget.padding),
-              alignment: Alignment.topCenter,
-              color: widget.iconDownLeftColor,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () {
-                count(CountDirection.Down);
-              }),
-        ],
-      );
-    } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          IconButton(
-              icon: Icon(widget.iconLeft),
-              padding: EdgeInsets.only(right: widget.padding),
-              alignment: Alignment.center,
-              color: widget.iconUpRightColor,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () {
-                count(CountDirection.Down);
-              }),
-          getCount(),
-          IconButton(
-            icon: Icon(widget.iconRight),
-            padding: EdgeInsets.only(left: widget.padding),
-            alignment: Alignment.center,
-            color: widget.iconDownLeftColor,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () {
-              count(CountDirection.Up);
-            },
-          ),
-        ],
-      );
-    }
+  Widget _buildCustomButton() {
+    return (!widget.horizontal)
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.arrow_drop_up),
+                padding: EdgeInsets.only(bottom: widget.padding),
+                alignment: Alignment.bottomCenter,
+                color: widget.iconColor,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: () {
+                  _count(_CountDirection.Up);
+                },
+              ),
+              _getCount(),
+              IconButton(
+                  icon: Icon(Icons.arrow_drop_down),
+                  padding: EdgeInsets.only(top: widget.padding),
+                  alignment: Alignment.topCenter,
+                  color: widget.iconColor,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: () {
+                    _count(_CountDirection.Down);
+                  }),
+            ],
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.arrow_left),
+                  padding: EdgeInsets.only(right: widget.padding),
+                  alignment: Alignment.center,
+                  color: widget.iconColor,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: () {
+                    _count(_CountDirection.Down);
+                  }),
+              _getCount(),
+              IconButton(
+                icon: Icon(Icons.arrow_right),
+                padding: EdgeInsets.only(left: widget.padding),
+                alignment: Alignment.center,
+                color: widget.iconColor,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: () {
+                  _count(_CountDirection.Up);
+                },
+              ),
+            ],
+          );
   }
 
   @override
   Widget build(BuildContext context) {
-    return buildCustomButton();
+    return _buildCustomButton();
   }
 }

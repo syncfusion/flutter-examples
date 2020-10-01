@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
-/// Render the numeric with axis label format.
+/// Renders the numeric with axis label format.
 class NumericLabel extends SampleView {
+  /// Creates the numeric with axis label format.
   const NumericLabel(Key key) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class _NumericLabelState extends SampleViewState {
   _NumericLabelState();
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return getChart();
   }
 
@@ -47,7 +47,7 @@ class _NumericLabelState extends SampleViewState {
     );
   }
 
-/// Return the line series with numeric axis label.
+  /// Return the line series with numeric axis label.
   List<LineSeries<ChartSampleData, num>> getNumericLabelSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(xValue: 0, yValue: 32),

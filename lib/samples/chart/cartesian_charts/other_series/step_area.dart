@@ -9,6 +9,7 @@ import '../../../../model/sample_view.dart';
 
 /// Renders the steparea chart sample.
 class StepArea extends SampleView {
+  /// Creates the steparea chart sample.
   const StepArea(Key key) : super(key: key);
 
   @override
@@ -21,32 +22,34 @@ class _StepAreaState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getStepAreaChart();
+    return Padding(
+        padding: EdgeInsets.only(bottom: model.isWeb ? 0 : 60),
+        child: _getStepAreaChart());
   }
 
   /// Returns the cartesian step area chart.
-  SfCartesianChart getStepAreaChart() {
+  SfCartesianChart _getStepAreaChart() {
     return SfCartesianChart(
-      legend: Legend(isVisible: isCardView ? false : true),
-      title:
-          ChartTitle(text: isCardView ? '' : 'Temperature variation of Paris'),
+      legend: Legend(isVisible: true),
+      title: ChartTitle(text: 'Temperature variation of Paris'),
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
           majorGridLines: MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}°C',
-          interval: isCardView ? 4 : 2,
+          interval: 2,
           maximum: 16,
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: getStepAreaSeries(),
+      series: _getStepAreaSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
-  /// Returns the list of chart series which need to render on teh step area chart.
-  List<ChartSeries<_StepAreaData, DateTime>> getStepAreaSeries() {
+  /// Returns the list of chart series
+  /// which need to render on teh step area chart.
+  List<ChartSeries<_StepAreaData, DateTime>> _getStepAreaSeries() {
     final List<_StepAreaData> chartData = <_StepAreaData>[
       _StepAreaData(DateTime(2019, 3, 1), 12, 9),
       _StepAreaData(DateTime(2019, 3, 2), 13, 7),
@@ -66,19 +69,6 @@ class _StepAreaState extends SampleViewState {
       _StepAreaData(DateTime(2019, 3, 16), 14, 9),
       _StepAreaData(DateTime(2019, 3, 17), 11, 4),
       _StepAreaData(DateTime(2019, 3, 18), 11, 2),
-      // _StepAreaData(DateTime(2019,3,19), 13, 0),
-      // _StepAreaData(DateTime(2019,3,20), 14, 2),
-      // _StepAreaData(DateTime(2019,3,21), 16, 3),
-      // _StepAreaData(DateTime(2019,3,22), 18, 4),
-      // _StepAreaData(DateTime(2019,3,23), 14, 4),
-      // _StepAreaData(DateTime(2019,3,24), 12, 5),
-      // _StepAreaData(DateTime(2019,3,25), 12, 3),
-      // _StepAreaData(DateTime(2019,3,26), 13, 5),
-      // _StepAreaData(DateTime(2019,3,27), 13, 4),
-      // _StepAreaData(DateTime(2019,3,28), 15, 4),
-      // _StepAreaData(DateTime(2019,3,29), 18, 5),
-      // _StepAreaData(DateTime(2019,3,30), 20, 4),
-      // _StepAreaData(DateTime(2019,3,31), 21, 4),
     ];
     return <ChartSeries<_StepAreaData, DateTime>>[
       StepAreaSeries<_StepAreaData, DateTime>(
@@ -93,7 +83,7 @@ class _StepAreaState extends SampleViewState {
       StepAreaSeries<_StepAreaData, DateTime>(
         dataSource: chartData,
         borderColor: const Color.fromRGBO(192, 108, 132, 1),
-        color: const Color.fromRGBO(192, 108, 132,0.6),
+        color: const Color.fromRGBO(192, 108, 132, 0.6),
         borderWidth: 2,
         name: 'Low',
         xValueMapper: (_StepAreaData sales, _) => sales.x,

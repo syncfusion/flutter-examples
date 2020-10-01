@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/widgets/checkbox.dart';
-import 'package:flutter_examples/widgets/customDropDown.dart';
-import 'package:flutter_examples/widgets/shared/mobile.dart'
-    if (dart.library.html) 'package:flutter_examples/widgets/shared/web.dart';
 import '../../../model/sample_view.dart';
+import '../../../widgets/checkbox.dart';
+import '../../../widgets/custom_dropdown.dart';
+import '../../../widgets/shared/mobile.dart'
+    if (dart.library.html) '../../../widgets/shared/web.dart';
 
-/// Renders the cartesian legend with various opdations sample.
+/// Renders the Stacked line chart and legend with various opdations sample.
 class CartesianLegendOptions extends SampleView {
+  /// Creates the Stacked line chart and legend with various opdations sample.
   const CartesianLegendOptions(Key key) : super(key: key);
 
   @override
@@ -45,7 +45,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getCartesianLegendOptionsChart();
+    return _getCartesianLegendOptionsChart();
   }
 
   @override
@@ -79,7 +79,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onPositionTypeChange(value.toString());
+                            _onPositionTypeChange(value.toString());
                           })),
                 ),
               ),
@@ -113,7 +113,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
                                     style: TextStyle(color: model.textColor)));
                           }).toList(),
                           valueChanged: (dynamic value) {
-                            onModeTypeChange(value);
+                            _onModeTypeChange(value);
                           })),
                 ),
               ),
@@ -132,7 +132,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: HandCursor(
-                  child: BottomSheetCheckbox(
+                  child: CustomCheckBox(
                     activeColor: model.backgroundColor,
                     switchValue: toggleVisibility,
                     valueChanged: (dynamic value) {
@@ -151,10 +151,11 @@ class _CartesianLegendOptionsState extends SampleViewState {
   }
 
   /// Returns the stacked line chart with various legedn modification options.
-  SfCartesianChart getCartesianLegendOptionsChart() {
+  SfCartesianChart _getCartesianLegendOptionsChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Monthly expense of a family'),
+
       /// Legend and its options for cartesian chart.
       legend: Legend(
           isVisible: !isCardView,
@@ -166,7 +167,6 @@ class _CartesianLegendOptionsState extends SampleViewState {
         labelRotation: isCardView ? 0 : -45,
       ),
       primaryYAxis: NumericAxis(
-          // maximum: 200,
           axisLine: AxisLine(width: 0),
           labelFormat: '\${value}',
           majorTickLines: MajorTickLines(size: 0)),
@@ -175,58 +175,79 @@ class _CartesianLegendOptionsState extends SampleViewState {
     );
   }
 
-  /// Returns the list of chart series which need to render on the stacked line chart.
+  /// Returns the list of chart series which need to render
+  /// on the stacked line chart.
   List<StackedLineSeries<ChartSampleData, String>> _getStackedLineSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'Food', y: 55, yValue: 40, yValue2: 45, yValue3: 48, size: 28),
+          x: 'Food',
+          y: 55,
+          yValue: 40,
+          secondSeriesYValue: 45,
+          thirdSeriesYValue: 48,
+          size: 28),
       ChartSampleData(
           x: 'Transport',
           y: 33,
           yValue: 45,
-          yValue2: 54,
-          yValue3: 28,
+          secondSeriesYValue: 54,
+          thirdSeriesYValue: 28,
           size: 35),
       ChartSampleData(
-          x: 'Medical', y: 43, yValue: 23, yValue2: 20, yValue3: 34, size: 48),
+          x: 'Medical',
+          y: 43,
+          yValue: 23,
+          secondSeriesYValue: 20,
+          thirdSeriesYValue: 34,
+          size: 48),
       ChartSampleData(
-          x: 'Clothes', y: 32, yValue: 54, yValue2: 23, yValue3: 54, size: 27),
+          x: 'Clothes',
+          y: 32,
+          yValue: 54,
+          secondSeriesYValue: 23,
+          thirdSeriesYValue: 54,
+          size: 27),
       ChartSampleData(
-          x: 'Books', y: 56, yValue: 18, yValue2: 43, yValue3: 55, size: 31),
+          x: 'Books',
+          y: 56,
+          yValue: 18,
+          secondSeriesYValue: 43,
+          thirdSeriesYValue: 55,
+          size: 31),
       ChartSampleData(
-          x: 'Others', y: 23, yValue: 54, yValue2: 33, yValue3: 56, size: 35),
+          x: 'Others',
+          y: 23,
+          yValue: 54,
+          secondSeriesYValue: 33,
+          thirdSeriesYValue: 56,
+          size: 35),
     ];
     return <StackedLineSeries<ChartSampleData, String>>[
       StackedLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Person 1',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Person 2',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
+          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Person 3',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue3,
+          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Person 4',
           markerSettings: MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           yValueMapper: (ChartSampleData sales, _) => sales.size,
@@ -236,7 +257,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
   }
 
   /// Method to update the selected position type change.
-  void onPositionTypeChange(String item) {
+  void _onPositionTypeChange(String item) {
     _selectedPosition = item;
     if (_selectedPosition == 'auto') {
       _position = LegendPosition.auto;
@@ -253,11 +274,13 @@ class _CartesianLegendOptionsState extends SampleViewState {
     if (_selectedPosition == 'top') {
       _position = LegendPosition.top;
     }
-    setState(() {});
+    setState(() {
+      /// update the legend position type changes
+    });
   }
 
   /// Method to update the selected overflow mode type change.
-  void onModeTypeChange(String item) {
+  void _onModeTypeChange(String item) {
     _selectedMode = item;
     if (_selectedMode == 'wrap') {
       _overflowMode = LegendItemOverflowMode.wrap;
@@ -268,6 +291,8 @@ class _CartesianLegendOptionsState extends SampleViewState {
     if (_selectedMode == 'none') {
       _overflowMode = LegendItemOverflowMode.none;
     }
-    setState(() {});
+    setState(() {
+      /// update the legend item overflow mode changes
+    });
   }
 }

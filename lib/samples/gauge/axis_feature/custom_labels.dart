@@ -1,13 +1,17 @@
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:flutter/foundation.dart';
+/// Flutter package imports
 import 'package:flutter/material.dart';
 
+/// Gauge imports
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-// ignore: must_be_immutable
+/// Local imports
+import '../../../model/sample_view.dart';
+
+/// Renders the gauge axis custom label sample
 class GaugeCustomLabels extends SampleView {
+  /// Creates the gauge axis custom label sample
   const GaugeCustomLabels(Key key) : super(key: key);
-  
+
   @override
   _GaugeCustomLabelsState createState() => _GaugeCustomLabelsState();
 }
@@ -17,12 +21,11 @@ class _GaugeCustomLabelsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getGaugeCustomLabels();
+    return _getGaugeCustomLabels(context);
   }
 
-Widget getGaugeCustomLabels() {
-  return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
+  /// Returns the custom label axis gauge
+  SfRadialGauge _getGaugeCustomLabels(BuildContext context) {
     final Orientation _orientation = MediaQuery.of(context).orientation;
     final Brightness _brightness = Theme.of(context).brightness;
 
@@ -31,7 +34,7 @@ Widget getGaugeCustomLabels() {
         RadialAxis(
           startAngle: 270,
           endAngle: 270,
-          radiusFactor: kIsWeb ? 0.8 : 0.9,
+          radiusFactor: model.isWeb ? 0.8 : 0.9,
           minimum: 0,
           maximum: 80,
           axisLineStyle: AxisLineStyle(
@@ -43,13 +46,13 @@ Widget getGaugeCustomLabels() {
           majorTickStyle: MajorTickStyle(
               thickness: 1.5, lengthUnit: GaugeSizeUnit.factor, length: 0.07),
           showLabels: true,
-          onLabelCreated: labelCreated,
+          onLabelCreated: _handleLabelCreated,
           pointers: <GaugePointer>[
             NeedlePointer(
                 value: 70,
                 lengthUnit: GaugeSizeUnit.factor,
                 needleLength: 0.55,
-                needleEndWidth: kIsWeb
+                needleEndWidth: model.isWeb
                     ? 18
                     : isCardView
                         ? 10
@@ -67,7 +70,7 @@ Widget getGaugeCustomLabels() {
                 ]),
                 needleColor: const Color(0xFFF67280),
                 knobStyle: KnobStyle(
-                    knobRadius: kIsWeb ? 0.098 : 0.09,
+                    knobRadius: model.isWeb ? 0.098 : 0.09,
                     sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.white)),
             NeedlePointer(
@@ -88,39 +91,39 @@ Widget getGaugeCustomLabels() {
                 needleColor: _brightness == Brightness.dark
                     ? const Color(0xFF888888)
                     : const Color(0xFFFCACACA),
-                needleEndWidth: kIsWeb
+                needleEndWidth: model.isWeb
                     ? 18
                     : isCardView
                         ? 10
                         : _orientation == Orientation.portrait ? 18 : 10,
                 knobStyle: KnobStyle(
-                    knobRadius: kIsWeb ? 0.098 : 0.09,
+                    knobRadius: model.isWeb ? 0.098 : 0.09,
                     sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.white))
           ],
         )
       ],
     );
-  });
-}
-
-void labelCreated(AxisLabelCreatedArgs args) {
-  if (args.text == '80' || args.text == '0') {
-    args.text = 'N';
-  } else if (args.text == '10') {
-    args.text = 'NE';
-  } else if (args.text == '20') {
-    args.text = 'E';
-  } else if (args.text == '30') {
-    args.text = 'SE';
-  } else if (args.text == '40') {
-    args.text = 'S';
-  } else if (args.text == '50') {
-    args.text = 'SW';
-  } else if (args.text == '60') {
-    args.text = 'W';
-  } else if (args.text == '70') {
-    args.text = 'NW';
   }
-}
+
+  /// Handled callback for change numeric value to compass directional letter.
+  void _handleLabelCreated(AxisLabelCreatedArgs args) {
+    if (args.text == '80' || args.text == '0') {
+      args.text = 'N';
+    } else if (args.text == '10') {
+      args.text = 'NE';
+    } else if (args.text == '20') {
+      args.text = 'E';
+    } else if (args.text == '30') {
+      args.text = 'SE';
+    } else if (args.text == '40') {
+      args.text = 'S';
+    } else if (args.text == '50') {
+      args.text = 'SW';
+    } else if (args.text == '60') {
+      args.text = 'W';
+    } else if (args.text == '70') {
+      args.text = 'NW';
+    }
+  }
 }

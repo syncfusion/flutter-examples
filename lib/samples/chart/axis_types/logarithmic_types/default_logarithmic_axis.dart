@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the line chart with default logarithmic axis sample.
 class LogarithmicAxisDefault extends SampleView {
+  /// Creates the line chart with default logarithmic axis sample.
   const LogarithmicAxisDefault(Key key) : super(key: key);
 
   @override
@@ -22,16 +22,17 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultLogarithmicAxisChart();
+    return _getDefaultLogarithmicAxisChart();
   }
 
   /// Returns the line chart with default logarithmic axis.
-  SfCartesianChart getDefaultLogarithmicAxisChart() {
+  SfCartesianChart _getDefaultLogarithmicAxisChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 1,
       title:
           ChartTitle(text: isCardView ? '' : 'Growth of a product [1995-2005]'),
       primaryXAxis: DateTimeAxis(),
+
       /// Y axis as logarithmic axis placed here.
       primaryYAxis: LogarithmicAxis(
           minorTicksPerInterval: 5,
@@ -61,7 +62,6 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
     ];
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,

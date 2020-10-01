@@ -6,11 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the scatter chart with datetime axis label format.
 class DateTimeLabel extends SampleView {
+  /// Creates the scatter chart with datetime axis label format.
   const DateTimeLabel(Key key) : super(key: key);
 
   @override
@@ -23,14 +23,15 @@ class _DateTimeLabelState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getLabelDateTimeAxisChart();
+    return _getLabelDateTimeAxisChart();
   }
 
   /// Returns the scatter chart with datatime axis label format.
-  SfCartesianChart getLabelDateTimeAxisChart() {
+  SfCartesianChart _getLabelDateTimeAxisChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Earthquakes in Indonesia'),
+
       /// X axis as date time axis placed here.
       primaryXAxis: DateTimeAxis(
           intervalType: DateTimeIntervalType.months,
@@ -45,7 +46,7 @@ class _DateTimeLabelState extends SampleViewState {
         maximum: 8,
         title: AxisTitle(text: isCardView ? '' : 'Magnitude (Mw)'),
       ),
-      series: getLabelDateTimeAxisSeries(),
+      series: _getLabelDateTimeAxisSeries(),
       tooltipBehavior: TooltipBehavior(
           enable: true,
           format: 'point.x : point.y Mw',
@@ -54,8 +55,9 @@ class _DateTimeLabelState extends SampleViewState {
     );
   }
 
-  /// Returns the list of chart series which need to render on the scatter chart.
-  List<ScatterSeries<ChartSampleData, DateTime>> getLabelDateTimeAxisSeries() {
+  /// Returns the list of chart series
+  /// which need to render on the scatter chart.
+  List<ScatterSeries<ChartSampleData, DateTime>> _getLabelDateTimeAxisSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: DateTime(2019, 4, 12), yValue: 6.8),
       ChartSampleData(x: DateTime(2019, 03, 17), yValue: 5.5),
@@ -75,7 +77,6 @@ class _DateTimeLabelState extends SampleViewState {
     ];
     return <ScatterSeries<ChartSampleData, DateTime>>[
       ScatterSeries<ChartSampleData, DateTime>(
-          enableTooltip: true,
           opacity: 0.8,
           markerSettings: MarkerSettings(height: 15, width: 15),
           dataSource: chartData,

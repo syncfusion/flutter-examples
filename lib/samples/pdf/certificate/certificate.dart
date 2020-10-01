@@ -1,14 +1,22 @@
+///Dart import
 import 'dart:typed_data';
 
+///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:flutter_examples/samples/pdf/helper/save_file_mobile.dart'
-    if (dart.library.html) 'package:flutter_examples/samples/pdf/helper/save_file_web.dart';
 
+///Pdf import
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+
+///Local imports
+import '../../../model/sample_view.dart';
+import '../helper/save_file_mobile.dart'
+    if (dart.library.html) '../helper/save_file_web.dart';
+
+/// Render pdf of course completion certificate
 class CourseCompletionCertificatePdf extends SampleView {
+  /// Creates pdf of course completion certificate
   const CourseCompletionCertificatePdf(Key key) : super(key: key);
   @override
   _CertificatePdfState createState() => _CertificatePdfState();
@@ -16,6 +24,14 @@ class CourseCompletionCertificatePdf extends SampleView {
 
 class _CertificatePdfState extends SampleViewState {
   _CertificatePdfState();
+
+  @override
+  void dispose() {
+    _dateController.dispose();
+    _nameController.dispose();
+    _courceNameController.dispose();
+    super.dispose();
+  }
 
   final TextEditingController _dateController = TextEditingController(
       text: DateFormat('MMMM d, yyyy').format(DateTime.now()));
@@ -30,69 +46,70 @@ class _CertificatePdfState extends SampleViewState {
         initialDate: selectedDate,
         firstDate: DateTime(2000),
         lastDate: DateTime(2100));
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
         _dateController.text = DateFormat('MMMM d, yyyy').format(selectedDate);
       });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-          return Scaffold(
-            backgroundColor: model.cardThemeColor,
-            body: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                        'This sample showcase how to dynamically generates the course completion certificate for online learning portal with participant name, course name and date of completion.',
-                        style: TextStyle(fontSize: 16, color: model.textColor)),
-                    TextFormField(
-                        decoration: InputDecoration(
-                            labelText: 'Recipient Name',
-                            labelStyle: TextStyle(
-                                color: model.themeData.brightness == Brightness.light 
-                                    ? Colors.grey
-                                    : Colors.lightBlue)),
-                        controller: _nameController,
-                        style: TextStyle(color: model.textColor)),
-                    TextFormField(
-                        decoration: InputDecoration(
-                            labelText: 'Course Name',
-                            labelStyle: TextStyle(
-                                color: model.themeData.brightness == Brightness.light 
-                                    ? Colors.grey
-                                    : Colors.lightBlue)),
-                        controller: _courceNameController,
-                        style: TextStyle(color: model.textColor)),
-                    TextFormField(
-                        decoration: InputDecoration(
-                            labelText: 'Date',
-                            labelStyle: TextStyle(
-                                color: model.themeData.brightness == Brightness.light 
-                                    ? Colors.grey
-                                    : Colors.lightBlue)),
-                        controller: _dateController,
-                        style: TextStyle(color: model.textColor),
-                        onTap: () {
-                          _selectDate(context);
-                        }),
-                    FlatButton(
-                      child: const Text(
-                        'Generate PDF',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: _createCertificate,
-                      color: model.backgroundColor,
-                    )
-                  ],
+    return Scaffold(
+      backgroundColor: model.cardThemeColor,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                  'This sample showcase how to dynamically generates the course completion certificate for online learning portal with participant name, course name and date of completion.',
+                  style: TextStyle(fontSize: 16, color: model.textColor)),
+              TextFormField(
+                  decoration: InputDecoration(
+                      labelText: 'Recipient Name',
+                      labelStyle: TextStyle(
+                          color: model.themeData.brightness == Brightness.light
+                              ? Colors.grey
+                              : Colors.lightBlue)),
+                  controller: _nameController,
+                  style: TextStyle(color: model.textColor)),
+              TextFormField(
+                  decoration: InputDecoration(
+                      labelText: 'Course Name',
+                      labelStyle: TextStyle(
+                          color: model.themeData.brightness == Brightness.light
+                              ? Colors.grey
+                              : Colors.lightBlue)),
+                  controller: _courceNameController,
+                  style: TextStyle(color: model.textColor)),
+              TextFormField(
+                  decoration: InputDecoration(
+                      labelText: 'Date',
+                      labelStyle: TextStyle(
+                          color: model.themeData.brightness == Brightness.light
+                              ? Colors.grey
+                              : Colors.lightBlue)),
+                  controller: _dateController,
+                  style: TextStyle(color: model.textColor),
+                  onTap: () {
+                    _selectDate(context);
+                  }),
+              FlatButton(
+                child: const Text(
+                  'Generate PDF',
+                  style: TextStyle(color: Colors.white),
                 ),
-              ),
-            ),
-          );
+                onPressed: _createCertificate,
+                color: model.backgroundColor,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> _createCertificate() async {
@@ -105,24 +122,24 @@ class _CertificatePdfState extends SampleViewState {
     //Get the page size
     final Size pageSize = page.getClientSize();
     //Draw image
-    page.graphics.drawImage(PdfBitmap(await _readImageDate('certificate.jpg')),
+    page.graphics.drawImage(PdfBitmap(await _readImageData('certificate.jpg')),
         Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
     //Create font
     final PdfFont nameFont = PdfStandardFont(PdfFontFamily.helvetica, 22);
     final PdfFont controlFont = PdfStandardFont(PdfFontFamily.helvetica, 19);
     final PdfFont dateFont = PdfStandardFont(PdfFontFamily.helvetica, 16);
     double x =
-        calculateXPosition(_nameController.text, nameFont, pageSize.width);
+        _calculateXPosition(_nameController.text, nameFont, pageSize.width);
     page.graphics.drawString(_nameController.text, nameFont,
         bounds: Rect.fromLTWH(x, 253, 0, 0),
         brush: PdfSolidBrush(PdfColor(20, 58, 86)));
-    x = calculateXPosition(
+    x = _calculateXPosition(
         _courceNameController.text, controlFont, pageSize.width);
     page.graphics.drawString(_courceNameController.text, controlFont,
         bounds: Rect.fromLTWH(x, 340, 0, 0),
         brush: PdfSolidBrush(PdfColor(20, 58, 86)));
     final String dateText = 'on ' + _dateController.text;
-    x = calculateXPosition(dateText, dateFont, pageSize.width);
+    x = _calculateXPosition(dateText, dateFont, pageSize.width);
     page.graphics.drawString(dateText, dateFont,
         bounds: Rect.fromLTWH(x, 385, 0, 0),
         brush: PdfSolidBrush(PdfColor(20, 58, 86)));
@@ -131,16 +148,16 @@ class _CertificatePdfState extends SampleViewState {
     //Dispose the document.
     document.dispose();
     //Save and launch file.
-    FileSaveHelper.saveAndLaunchFile(bytes, 'Certificate.pdf');
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'Certificate.pdf');
   }
 
-  double calculateXPosition(String text, PdfFont font, double pageWidth) {
+  double _calculateXPosition(String text, PdfFont font, double pageWidth) {
     final Size textSize =
         font.measureString(text, layoutArea: Size(pageWidth, 0));
     return (pageWidth - textSize.width) / 2;
   }
 
-  Future<List<int>> _readImageDate(String name) async {
+  Future<List<int>> _readImageData(String name) async {
     final ByteData data = await rootBundle.load('images/pdf/$name');
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }

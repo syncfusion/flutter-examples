@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the chart with add and remove points sample.
 class AddDataPoints extends SampleView {
+  /// Renders the chart with add and remove points sample.
   const AddDataPoints(Key key) : super(key: key);
 
   @override
@@ -44,21 +44,24 @@ class _LiveVerticalState extends SampleViewState {
   ];
   int count = 11;
 
-  num getRandomInt(num min, num max) {
+  /// Get the random value
+  num _getRandomInt(num min, num max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }
 
-  List<ChartSampleData> getChartData(SampleModel model) {
-    chartData.add(ChartSampleData(x: count, y: getRandomInt(10, 100)));
+  /// Add the data point into the line series
+  List<ChartSampleData> _addDataPoint() {
+    chartData.add(ChartSampleData(x: count, y: _getRandomInt(10, 100)));
     count = count + 1;
     return chartData;
   }
 
-  List<ChartSampleData> getChartData1(SampleModel model) {
-    // ignore: invalid_use_of_protected_member
-    if (chartData != null && chartData.isNotEmpty)
+  /// Remove the data point from the line series
+  List<ChartSampleData> _removeDataPoint() {
+    if (chartData != null && chartData.isNotEmpty) {
       chartData.removeAt(chartData.length - 1);
+    }
     count = count - 1;
     return chartData;
   }
@@ -70,7 +73,7 @@ class _LiveVerticalState extends SampleViewState {
         backgroundColor: model.cardThemeColor,
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
-          child: Container(child: getAddRemovePointsChart()),
+          child: Container(child: _getAddRemovePointsChart()),
         ),
         floatingActionButton: isCardView
             ? null
@@ -94,18 +97,15 @@ class _LiveVerticalState extends SampleViewState {
                                     icon: Icon(Icons.add_circle,
                                         size: 50, color: model.backgroundColor),
                                     onPressed: () {
-                                      chartData = getChartData(model);
-                                      _chartSeriesController.updateDataSource(
-                                        addedDataIndexes: <int>[
-                                          chartData.length - 1
-                                        ],
-                                      );
-                                    }
-
-                                    //  => setState(() {
-                                    //   chartData = getChartData(model);
-                                    // }),
-                                    )),
+                                      setState(() {
+                                        chartData = _addDataPoint();
+                                        _chartSeriesController.updateDataSource(
+                                          addedDataIndexes: <int>[
+                                            chartData.length - 1
+                                          ],
+                                        );
+                                      });
+                                    })),
                             Padding(
                                 padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                 child: SizedBox(
@@ -117,24 +117,21 @@ class _LiveVerticalState extends SampleViewState {
                                           size: 50,
                                           color: model.backgroundColor),
                                       onPressed: () {
-                                        if (chartData.length > 1) {
-                                          chartData = getChartData1(model);
-                                          _chartSeriesController
-                                              .updateDataSource(
-                                            updatedDataIndexes: <int>[
-                                              chartData.length - 1
-                                            ],
-                                            removedDataIndexes: <int>[
-                                              chartData.length - 1
-                                            ],
-                                          );
-                                        }
-                                      }
-
-                                      // => setState(() {
-                                      //   chartData = getChartData1(model);
-                                      // }),
-                                      ),
+                                        setState(() {
+                                          if (chartData.length > 1) {
+                                            chartData = _removeDataPoint();
+                                            _chartSeriesController
+                                                .updateDataSource(
+                                              updatedDataIndexes: <int>[
+                                                chartData.length - 1
+                                              ],
+                                              removedDataIndexes: <int>[
+                                                chartData.length - 1
+                                              ],
+                                            );
+                                          }
+                                        });
+                                      }),
                                 ))
                           ],
                         ),
@@ -146,7 +143,7 @@ class _LiveVerticalState extends SampleViewState {
   }
 
   /// Returns the chart with add and remove points options.
-  SfCartesianChart getAddRemovePointsChart() {
+  SfCartesianChart _getAddRemovePointsChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
@@ -155,27 +152,13 @@ class _LiveVerticalState extends SampleViewState {
       primaryYAxis: NumericAxis(
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: getAddRemovePointSeries(),
+      series: _getAddRemovePointSeries(),
     );
   }
 
-  /// List for storing the chart series data points.
-  List<ChartSampleData> chartData1 = <ChartSampleData>[
-    ChartSampleData(x: 0, y: 10),
-    ChartSampleData(x: 1, y: 13),
-    ChartSampleData(x: 2, y: 80),
-    ChartSampleData(x: 3, y: 30),
-    ChartSampleData(x: 4, y: 72),
-    ChartSampleData(x: 5, y: 19),
-    ChartSampleData(x: 6, y: 30),
-    ChartSampleData(x: 7, y: 92),
-    ChartSampleData(x: 8, y: 48),
-    ChartSampleData(x: 9, y: 20),
-    ChartSampleData(x: 10, y: 51),
-  ];
-
-  /// Returns the list of chart series which need to render on the chart with add and remove points.
-  List<LineSeries<ChartSampleData, num>> getAddRemovePointSeries() {
+  /// Returns the list of chart series which need to render
+  /// on the chart with add and remove points.
+  List<LineSeries<ChartSampleData, num>> _getAddRemovePointSeries() {
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
           onRendererCreated: (ChartSeriesController controller) {

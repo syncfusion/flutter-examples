@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the chart with watermark sample.
 class AnnotationDefault extends SampleView {
+  /// Creates the chart with watermark sample.
   const AnnotationDefault(Key key) : super(key: key);
 
   @override
@@ -22,11 +22,11 @@ class _AnnotationDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultAnnotationChart();
+    return _getDefaultAnnotationChart();
   }
 
   /// Returns the cartesian chart with watermark.
-  SfCartesianChart getDefaultAnnotationChart() {
+  SfCartesianChart _getDefaultAnnotationChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -41,12 +41,14 @@ class _AnnotationDefaultState extends SampleViewState {
         maximum: 1.3,
         majorTickLines: MajorTickLines(size: 0),
       ),
-      series: getAnnotationLineSeries(),
+      series: _getAnnotationLineSeries(),
       trackballBehavior: TrackballBehavior(
           enable: true,
           activationMode: ActivationMode.singleTap,
           tooltipSettings: InteractiveTooltip(format: 'point.x : point.y')),
-      /// Using various styles in annotation we can achieve the water marker on chart.
+
+      /// Using various styles in annotation we can achieve
+      /// the water marker on chart.
       annotations: <CartesianChartAnnotation>[
         CartesianChartAnnotation(
           widget: Container(
@@ -54,7 +56,6 @@ class _AnnotationDefaultState extends SampleViewState {
               '€ - \$ ',
               style: TextStyle(
                   color: Color.fromRGBO(216, 225, 227, 0.6),
-                  // color: currentTheme == Brightness.light? const Color.fromRGBO(0, 0, 0, 0.15) : Color.fromRGBO(255, 255, 255, 0.3),
                   fontWeight: FontWeight.bold,
                   fontSize: 80),
             ),
@@ -68,8 +69,9 @@ class _AnnotationDefaultState extends SampleViewState {
     );
   }
 
-  /// Returns the list of chart series which need to render on the chart with watermark.
-  List<LineSeries<ChartSampleData, DateTime>> getAnnotationLineSeries() {
+  /// Returns the list of chart series which need to
+  /// render on the chart with watermark.
+  List<LineSeries<ChartSampleData, DateTime>> _getAnnotationLineSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: DateTime(2015, 1, 1), y: 1.13),
       ChartSampleData(x: DateTime(2015, 2, 1), y: 1.12),

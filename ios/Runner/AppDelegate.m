@@ -10,7 +10,7 @@ UIDocumentInteractionController* _uiController;
             FlutterMethodChannel* viewPdfFileChannel = [FlutterMethodChannel methodChannelWithName:@"launchFile" binaryMessenger: controller];
 
             [viewPdfFileChannel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
-                if ([@"viewPdf" isEqualToString:call.method]) {
+                if ([@"viewPdf" isEqualToString:call.method] || [@"viewExcel" isEqualToString:call.method]) {
                     NSString* filePath = call.arguments[@"file_path"];
                     NSFileManager* fileManager = [NSFileManager defaultManager];
                     BOOL fileExist = [fileManager fileExistsAtPath:filePath];
@@ -20,6 +20,9 @@ UIDocumentInteractionController* _uiController;
                         _uiController.delegate = self;
                         if([fileExtension isEqualToString:@"pdf"]){
                             _uiController.UTI = @"com.adobe.pdf";
+                        }
+                        if([fileExtension isEqualToString:@"xlsx"]){
+                            _uiController.UTI = @"com.microsoft.excel.xls";
                         }
                         else if([fileExtension isEqualToString:@"txt"]){
                             _uiController.UTI = @"public.plain-text";

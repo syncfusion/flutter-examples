@@ -1,11 +1,15 @@
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:flutter/foundation.dart';
+/// Flutter package imports
 import 'package:flutter/material.dart';
 
+/// Gauge imports
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-// ignore: must_be_immutable
+/// Local imports
+import '../../../model/sample_view.dart';
+
+/// Renders the gauge axis tick customization sample
 class RadialTickCustomization extends SampleView {
+  /// Creates the gauge axis tick customization sample
   const RadialTickCustomization(Key key) : super(key: key);
 
   @override
@@ -21,56 +25,66 @@ class _RadialTickCustomizationState extends SampleViewState {
     return getRadialTickCustomization();
   }
 
-SfRadialGauge getRadialTickCustomization() {
-  return SfRadialGauge(
-    axes: <RadialAxis>[
-      RadialAxis(
-          radiusFactor: kIsWeb ? 0.8 : 0.9,
-          showAxisLine: false,
-          showLastLabel: false,
-          startAngle: 270,
-          endAngle: 270,
-          canRotateLabels: true,
-          labelsPosition: ElementsPosition.outside,
-          axisLabelStyle: GaugeTextStyle(fontSize: 12),
-          majorTickStyle: MajorTickStyle(
-              length: 0.15,
-              lengthUnit: GaugeSizeUnit.factor,
-              thickness: 1,
-              dashArray: kIsWeb ? null : <double>[2, 1]),
-          minorTicksPerInterval: 4,
-          interval: 10,
-          minorTickStyle: MinorTickStyle(
-              length: 0.06,
-              thickness: 1,
-              lengthUnit: GaugeSizeUnit.factor,
-              dashArray: kIsWeb ? null : <double>[2, 1]),
-          pointers: <GaugePointer>[
-            NeedlePointer(
-                enableAnimation: kIsWeb ? false : true,
-                animationType: AnimationType.ease,
-                animationDuration: 1300,
-                value: 75,
-                needleColor: _tickCustomizationNeedleColor,
+  /// Returns the axis tick customized gauge
+  SfRadialGauge getRadialTickCustomization() {
+    return SfRadialGauge(
+      axes: <RadialAxis>[
+        RadialAxis(
+            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            showAxisLine: false,
+            onLabelCreated: _handleLabelCreated,
+            startAngle: 270,
+            endAngle: 270,
+            canRotateLabels: true,
+            labelsPosition: ElementsPosition.outside,
+            axisLabelStyle: GaugeTextStyle(fontSize: 12),
+            majorTickStyle: MajorTickStyle(
+                length: 0.15,
                 lengthUnit: GaugeSizeUnit.factor,
-                needleStartWidth: 0,
-                needleEndWidth: 3,
-                needleLength: 0.8,
-                tailStyle: TailStyle(
-                  width: 3,
-                  lengthUnit: GaugeSizeUnit.logicalPixel,
-                  length: 20,
-                  color: _tickCustomizationNeedleColor,
-                ),
-                knobStyle: KnobStyle(
-                  knobRadius: 8,
-                  sizeUnit: GaugeSizeUnit.logicalPixel,
-                  color: _tickCustomizationNeedleColor,
-                ))
-          ])
-    ],
-  );
-}
+                thickness: 1,
+                dashArray: model.isWeb ? null : <double>[2, 1]),
+            minorTicksPerInterval: 4,
+            interval: 10,
+            minorTickStyle: MinorTickStyle(
+                length: 0.06,
+                thickness: 1,
+                lengthUnit: GaugeSizeUnit.factor,
 
-final Color _tickCustomizationNeedleColor = const Color(0xFF494CA2);
+                /// Dash array not supported in web.
+                dashArray: model.isWeb ? null : <double>[2, 1]),
+            pointers: <GaugePointer>[
+              NeedlePointer(
+                  enableAnimation: model.isWeb ? false : true,
+                  animationType: AnimationType.ease,
+                  animationDuration: 1300,
+                  value: 75,
+                  needleColor: _tickCustomizationNeedleColor,
+                  lengthUnit: GaugeSizeUnit.factor,
+                  needleStartWidth: 0,
+                  needleEndWidth: 3,
+                  needleLength: 0.8,
+                  tailStyle: TailStyle(
+                    width: 3,
+                    lengthUnit: GaugeSizeUnit.logicalPixel,
+                    length: 20,
+                    color: _tickCustomizationNeedleColor,
+                  ),
+                  knobStyle: KnobStyle(
+                    knobRadius: 8,
+                    sizeUnit: GaugeSizeUnit.logicalPixel,
+                    color: _tickCustomizationNeedleColor,
+                  ))
+            ])
+      ],
+    );
+  }
+
+  /// Handled callback to hide last label value.
+  void _handleLabelCreated(AxisLabelCreatedArgs args) {
+    if (args.text == '100') {
+      args.text = '';
+    }
+  }
+
+  final Color _tickCustomizationNeedleColor = const Color(0xFF494CA2);
 }

@@ -50,6 +50,15 @@
 			link.type = 'application/pdf';
 			link.click();
 		}
+
+		async function downloadExcel() {
+			var excelAsDataUri = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64, " + exceldata;
+			var link = document.createElement('a');
+			link.download = filename;
+			link.href = excelAsDataUri;
+			link.type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+			link.click();
+		}
 	
 		<!-- Start Alexa Certify Javascript -->
 		_atrk_opts = { 

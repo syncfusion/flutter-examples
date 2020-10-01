@@ -6,11 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
-/// render the default bar chart samnple.
+/// Render the default bar chart samnple.
 class BarDefault extends SampleView {
+  /// Creates the default bar chart samnple.
   const BarDefault(Key key) : super(key: key);
 
   @override
@@ -23,60 +23,75 @@ class _BarDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getDefaultBarChart();
+    return _getDefaultBarChart();
   }
 
   /// Returns the default cartesian bar chart.
-  SfCartesianChart getDefaultBarChart() {
+  SfCartesianChart _getDefaultBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Tourism - Number of arrivals'),
-      legend: Legend(isVisible: isCardView ? false : true),
+      legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           majorGridLines: MajorGridLines(width: 0),
           numberFormat: NumberFormat.compact()),
-      series: getDefaultBarSeries(),
+      series: _getDefaultBarSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
   /// Returns the list of chart series which need to render on the barchart.
-  List<BarSeries<ChartSampleData, String>> getDefaultBarSeries() {
+  List<BarSeries<ChartSampleData, String>> _getDefaultBarSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'France', y: 84452000, yValue2: 82682000, yValue3: 86861000),
+          x: 'France',
+          y: 84452000,
+          secondSeriesYValue: 82682000,
+          thirdSeriesYValue: 86861000),
       ChartSampleData(
-          x: 'Spain', y: 68175000, yValue2: 75315000, yValue3: 81786000),
+          x: 'Spain',
+          y: 68175000,
+          secondSeriesYValue: 75315000,
+          thirdSeriesYValue: 81786000),
       ChartSampleData(
-          x: 'US', y: 77774000, yValue2: 76407000, yValue3: 76941000),
+          x: 'US',
+          y: 77774000,
+          secondSeriesYValue: 76407000,
+          thirdSeriesYValue: 76941000),
       ChartSampleData(
-          x: 'Italy', y: 50732000, yValue2: 52372000, yValue3: 58253000),
+          x: 'Italy',
+          y: 50732000,
+          secondSeriesYValue: 52372000,
+          thirdSeriesYValue: 58253000),
       ChartSampleData(
-          x: 'Mexico', y: 32093000, yValue2: 35079000, yValue3: 39291000),
+          x: 'Mexico',
+          y: 32093000,
+          secondSeriesYValue: 35079000,
+          thirdSeriesYValue: 39291000),
       ChartSampleData(
-          x: 'UK', y: 34436000, yValue2: 35814000, yValue3: 37651000),
+          x: 'UK',
+          y: 34436000,
+          secondSeriesYValue: 35814000,
+          thirdSeriesYValue: 37651000),
     ];
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: '2015'),
       BarSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue2,
+          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: '2016'),
       BarSeries<ChartSampleData, String>(
-          enableTooltip: true,
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue3,
+          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: '2017')
     ];
   }

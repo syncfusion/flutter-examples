@@ -1,31 +1,35 @@
-//
+/// Dart import
 import 'dart:math' as math;
-import 'package:flutter/foundation.dart';
+
+/// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import '../../../widgets/customDropDown.dart';
 
+/// Barcode import
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+/// Local import
+import '../../../model/sample_view.dart';
+import '../../../widgets/custom_dropdown.dart';
+
+/// Renders datagrid with selection option(single/multiple and select/unselect)
 class SelectionDataGrid extends SampleView {
+  /// Creates datagrid with selection option(single/multiple and select/unselect)
   const SelectionDataGrid({Key key}) : super(key: key);
 
   @override
   _SelectionDataGridPageState createState() => _SelectionDataGridPageState();
 }
 
-List<Employee> _employeeData;
+List<_Employee> _employeeData;
 
 class _SelectionDataGridPageState extends SampleViewState {
   _SelectionDataGridPageState();
-
-  Widget sampleWidget(SampleModel model) => const SelectionDataGrid();
-
+  bool _isLandscapeInMobileView;
   final math.Random _random = math.Random();
 
-  final SelectionDataGridSource _selectionDataGridSource =
-      SelectionDataGridSource();
+  final _SelectionDataGridSource _selectionDataGridSource =
+      _SelectionDataGridSource();
 
   final List<String> _names = <String>[
     'Welli',
@@ -65,10 +69,10 @@ class _SelectionDataGridPageState extends SampleViewState {
     return _dataGridController;
   }
 
-  List<Employee> generateList(int count) {
-    final List<Employee> employeeData = <Employee>[];
+  List<_Employee> generateList(int count) {
+    final List<_Employee> employeeData = <_Employee>[];
     for (int i = 0; i < count; i++) {
-      employeeData.add(Employee(
+      employeeData.add(_Employee(
         1000 + i,
         1700 + i,
         _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
@@ -83,60 +87,63 @@ class _SelectionDataGridPageState extends SampleViewState {
 
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
-    if (kIsWeb) {
-      columns = <GridColumn>[
-        GridNumericColumn(mappingName: 'id')
-          ..headerText = 'Order ID'
-          ..padding = const EdgeInsets.all(8)
-          ..headerTextAlignment = Alignment.centerRight
-          ..columnWidthMode =
-              kIsWeb ? ColumnWidthMode.none : ColumnWidthMode.auto,
-        GridNumericColumn(mappingName: 'customerId')
-          ..columnWidthMode =
-              kIsWeb ? ColumnWidthMode.none : ColumnWidthMode.header
-          ..headerText = 'Customer ID'
-          ..headerTextAlignment = Alignment.centerRight,
-        GridTextColumn(mappingName: 'name')
-          ..headerText = 'Name'
-          ..headerTextAlignment = Alignment.centerLeft,
-        GridNumericColumn(mappingName: 'freight')
-          ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$')
-          ..headerText = 'Freight'
-          ..headerTextAlignment = Alignment.centerRight,
-        GridTextColumn(mappingName: 'city')
-          ..headerTextAlignment = Alignment.centerLeft
-          ..headerText = 'City'
-          ..columnWidthMode =
-              kIsWeb ? ColumnWidthMode.none : ColumnWidthMode.auto,
-        GridNumericColumn(mappingName: 'price')
-          ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$')
-          ..headerText = 'Price'
-      ];
-    } else {
-      columns = <GridColumn>[
-        GridNumericColumn(mappingName: 'id')
-          ..headerText = 'Order ID'
-          ..padding = const EdgeInsets.all(8)
-          ..headerTextAlignment = Alignment.centerRight,
-        GridNumericColumn(mappingName: 'customerId')
-          ..headerTextAlignment = Alignment.centerRight
-          ..headerText = 'Customer ID',
-        GridTextColumn(mappingName: 'name')
-          ..headerTextAlignment = Alignment.centerLeft
-          ..headerText = 'Name',
-        GridTextColumn(mappingName: 'city')
-          ..headerText = 'City'
-          ..headerTextAlignment = Alignment.centerLeft
-          ..columnWidthMode = ColumnWidthMode.lastColumnFill,
-      ];
-    }
+
+    columns = model.isWeb
+        ? <GridColumn>[
+            GridNumericColumn(mappingName: 'id')
+              ..headerText = 'Order ID'
+              ..padding = const EdgeInsets.all(8)
+              ..headerTextAlignment = Alignment.centerRight
+              ..columnWidthMode =
+                  model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto,
+            GridNumericColumn(mappingName: 'customerId')
+              ..columnWidthMode =
+                  model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.header
+              ..headerText = 'Customer ID'
+              ..headerTextAlignment = Alignment.centerRight,
+            GridTextColumn(mappingName: 'name')
+              ..headerText = 'Name'
+              ..headerTextAlignment = Alignment.centerLeft,
+            GridNumericColumn(mappingName: 'freight')
+              ..numberFormat =
+                  NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              ..headerText = 'Freight'
+              ..headerTextAlignment = Alignment.centerRight,
+            GridTextColumn(mappingName: 'city')
+              ..headerTextAlignment = Alignment.centerLeft
+              ..headerText = 'City'
+              ..columnWidthMode =
+                  model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto,
+            GridNumericColumn(mappingName: 'price')
+              ..numberFormat =
+                  NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              ..headerText = 'Price'
+          ]
+        : <GridColumn>[
+            GridNumericColumn(mappingName: 'id')
+              ..headerText = 'Order ID'
+              ..padding = const EdgeInsets.all(8)
+              ..headerTextAlignment = Alignment.centerRight,
+            GridNumericColumn(mappingName: 'customerId')
+              ..headerTextAlignment = Alignment.centerRight
+              ..headerText = 'Customer ID',
+            GridTextColumn(mappingName: 'name')
+              ..headerTextAlignment = Alignment.centerLeft
+              ..headerText = 'Name',
+            GridTextColumn(mappingName: 'city')
+              ..headerText = 'City'
+              ..headerTextAlignment = Alignment.centerLeft
+              ..columnWidthMode = ColumnWidthMode.lastColumnFill,
+          ];
     return columns;
   }
 
   SfDataGrid _dataGridSample(
       [SelectionMode selectionMode, GridNavigationMode navigationMode]) {
     return SfDataGrid(
-      columnWidthMode: kIsWeb ? ColumnWidthMode.fill : ColumnWidthMode.header,
+      columnWidthMode: model.isWeb || _isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.header,
       source: _selectionDataGridSource,
       selectionMode: selectionMode,
       navigationMode: navigationMode,
@@ -150,15 +157,12 @@ class _SelectionDataGridPageState extends SampleViewState {
     super.initState();
     _selectionMode = 'Multiple';
     selectionMode = SelectionMode.multiple;
-    _navigationMode = kIsWeb ? 'Cell' : 'Row';
-    navigationMode = kIsWeb ? GridNavigationMode.cell : GridNavigationMode.row;
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
+    _navigationMode = model.isWeb ? 'Cell' : 'Row';
+    navigationMode =
+        model.isWeb ? GridNavigationMode.cell : GridNavigationMode.row;
     _employeeData = generateList(100);
   }
 
-  bool panelOpen;
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
   String _selectionMode;
   SelectionMode selectionMode = SelectionMode.multiple;
 
@@ -171,7 +175,7 @@ class _SelectionDataGridPageState extends SampleViewState {
     'Single Deselect',
     'Multiple',
   ];
-  void _onSelectionModeChanged(String item, SampleModel model) {
+  void _onSelectionModeChanged(String item) {
     _selectionMode = item;
     switch (_selectionMode) {
       case 'None':
@@ -187,14 +191,16 @@ class _SelectionDataGridPageState extends SampleViewState {
         selectionMode = SelectionMode.multiple;
         break;
     }
-    setState(() {});
+    setState(() {
+      /// update the selection mode changes
+    });
   }
 
   final List<String> _navigation = <String>[
     'Cell',
     'Row',
   ];
-  void _onNavigationModeChanged(String item, SampleModel model) {
+  void _onNavigationModeChanged(String item) {
     _navigationMode = item;
     switch (_navigationMode) {
       case 'Cell':
@@ -204,10 +210,11 @@ class _SelectionDataGridPageState extends SampleViewState {
         navigationMode = GridNavigationMode.row;
         break;
     }
-    setState(() {});
+    setState(() {
+      /// update the grid navigation changes
+    });
   }
 
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
   @override
   Widget buildSettings(BuildContext context) {
     return ListView(children: <Widget>[
@@ -245,7 +252,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                                           TextStyle(color: model.textColor)));
                             }).toList(),
                             valueChanged: (dynamic value) {
-                              _onSelectionModeChanged(value, model);
+                              _onSelectionModeChanged(value);
                             }),
                       ),
                     )),
@@ -288,7 +295,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                                           TextStyle(color: model.textColor)));
                             }).toList(),
                             valueChanged: (dynamic value) {
-                              _onNavigationModeChanged(value, model);
+                              _onNavigationModeChanged(value);
                             }),
                       ),
                     )),
@@ -301,13 +308,20 @@ class _SelectionDataGridPageState extends SampleViewState {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _isLandscapeInMobileView = !model.isWeb &&
+        MediaQuery.of(context).orientation == Orientation.landscape;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _dataGridSample(selectionMode, navigationMode);
   }
 }
 
-class Employee {
-  Employee(
+class _Employee {
+  _Employee(
       this.id, this.customerId, this.name, this.freight, this.city, this.price);
   final int id;
   final int customerId;
@@ -317,30 +331,30 @@ class Employee {
   final double price;
 }
 
-class SelectionDataGridSource extends DataGridSource {
-  SelectionDataGridSource();
+class _SelectionDataGridSource extends DataGridSource<_Employee> {
+  _SelectionDataGridSource();
   @override
-  List<Object> get dataSource => _employeeData;
+  List<_Employee> get dataSource => _employeeData;
   @override
-  Object getCellValue(int rowIndex, String columnName) {
+  Object getValue(_Employee _employee, String columnName) {
     switch (columnName) {
       case 'id':
-        return _employeeData[rowIndex].id;
+        return _employee.id;
         break;
       case 'name':
-        return _employeeData[rowIndex].name;
+        return _employee.name;
         break;
       case 'customerId':
-        return _employeeData[rowIndex].customerId;
+        return _employee.customerId;
         break;
       case 'freight':
-        return _employeeData[rowIndex].freight;
+        return _employee.freight;
         break;
       case 'price':
-        return _employeeData[rowIndex].price;
+        return _employee.price;
         break;
       case 'city':
-        return _employeeData[rowIndex].city;
+        return _employee.city;
         break;
       default:
         return 'empty';

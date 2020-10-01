@@ -11,18 +11,19 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local imports
 import '../../../../model/sample_view.dart';
 
+/// Renders the bubble chart sample with dynamically updated data points.
 class AnimationBubbleDefault extends SampleView {
+  /// Creates the bubble chart sample with dynamically updated data points.
   const AnimationBubbleDefault(Key key) : super(key: key);
- 
+
   @override
-  _AnimationBubbleDefaultState createState() =>
-      _AnimationBubbleDefaultState();
+  _AnimationBubbleDefaultState createState() => _AnimationBubbleDefaultState();
 }
 
 class _AnimationBubbleDefaultState extends SampleViewState {
   _AnimationBubbleDefaultState();
   Timer timer;
-  
+
   @override
   Widget build(BuildContext context) {
     _getChartData();
@@ -31,30 +32,31 @@ class _AnimationBubbleDefaultState extends SampleViewState {
         _getChartData();
       });
     });
-    return getAnimationBubbleChart();
+    return _getAnimationBubbleChart();
   }
 
-SfCartesianChart getAnimationBubbleChart() {
-  return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          majorTickLines: MajorTickLines(color: Colors.transparent),
-          axisLine: AxisLine(width: 0),
-          minimum: 0,
-          maximum: 100),
-      series: getDefaultBubbleSeries());
-}
+  SfCartesianChart _getAnimationBubbleChart() {
+    return SfCartesianChart(
+        plotAreaBorderWidth: 0,
+        primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryYAxis: NumericAxis(
+            majorTickLines: MajorTickLines(color: Colors.transparent),
+            axisLine: AxisLine(width: 0),
+            minimum: 0,
+            maximum: 100),
+        series: _getDefaultBubbleSeries());
+  }
 
-List<BubbleSeries<_ChartData, num>> getDefaultBubbleSeries() {
-  return <BubbleSeries<_ChartData, num>>[
-    BubbleSeries<_ChartData, num>(
-        dataSource: _chartData,
-        xValueMapper: (_ChartData sales, _) => sales.x,
-        yValueMapper: (_ChartData sales, _) => sales.y,
-        sizeValueMapper: (_ChartData sales, _) => sales.size)
-  ];
-}
+  List<BubbleSeries<_ChartData, num>> _getDefaultBubbleSeries() {
+    return <BubbleSeries<_ChartData, num>>[
+      BubbleSeries<_ChartData, num>(
+          dataSource: _chartData,
+          xValueMapper: (_ChartData sales, _) => sales.x,
+          yValueMapper: (_ChartData sales, _) => sales.y,
+          sizeValueMapper: (_ChartData sales, _) => sales.size)
+    ];
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -85,17 +87,18 @@ List<BubbleSeries<_ChartData, num>> getDefaultBubbleSeries() {
         _ChartData(7, _getRandomInt(15, 60), randomValue.nextDouble() * 0.9);
     timer?.cancel();
   }
+
+  final List<_ChartData> _chartData = <_ChartData>[
+    _ChartData(1, 11, 2.5),
+    _ChartData(2, 24, 2.2),
+    _ChartData(3, 36, 1.5),
+    _ChartData(4, 54, 1.2),
+    _ChartData(5, 57, 3),
+    _ChartData(6, 70, 3.8),
+    _ChartData(7, 78, 1)
+  ];
 }
 
-List<_ChartData> _chartData = <_ChartData>[
-  _ChartData(1, 11, 2.5),
-  _ChartData(2, 24, 2.2),
-  _ChartData(3, 36, 1.5),
-  _ChartData(4, 54, 1.2),
-  _ChartData(5, 57, 3),
-  _ChartData(6, 70, 3.8),
-  _ChartData(7, 78, 1)
-];
 class _ChartData {
   _ChartData(this.x, this.y, this.size);
   final int x;
