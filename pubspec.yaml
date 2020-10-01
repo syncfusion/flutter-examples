@@ -1,0 +1,66 @@
+name: flutter_examples
+description: This project contains the Syncfusion Flutter UI widgets examples.
+version: 18.1.52
+author: Syncfusion <support@syncfusion.com>
+homepage: https://github.com/syncfusion/flutter-examples
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter:
+    sdk: flutter
+  scoped_model: 1.0.1
+  flutter_gallery_assets: 0.1.8
+  url_launcher: ^5.0.3
+  intl: ^0.16.0
+  path_provider: ^1.6.18
+  http: ^0.12.2
+
+  syncfusion_flutter_datagrid: ^18.3.35-beta
+  syncfusion_flutter_calendar: ^18.3.35
+  syncfusion_flutter_datepicker: ^18.3.35-beta
+  syncfusion_flutter_charts: ^18.3.35
+  syncfusion_flutter_gauges: ^18.3.35
+  syncfusion_flutter_sliders: ^18.3.35
+  syncfusion_flutter_pdf: ^18.3.35-beta
+  syncfusion_flutter_barcodes: ^18.3.35
+  syncfusion_officechart: ^18.3.35-beta
+  syncfusion_flutter_maps: ^18.3.35-beta
+  syncfusion_flutter_signaturepad: ^18.3.35-beta
+  syncfusion_flutter_pdfviewer: ^18.3.35-beta
+  
+flutter:
+  uses-material-design: true
+  assets:
+    - images/
+    - images/pdf/
+    - images/xlsio/
+    - assets/pdf/
+    - lib/sample_details.json
+    - world_map.json
+    - africa.json
+    - europe.json
+    - india.json
+    - usa.json
+    - south_america.json
+    - product_data.json
+    - chart_data.json
+  fonts:
+    - family: HeeboBold
+      fonts:
+        - asset: assets/fonts/Heebo-Bold.ttf
+    - family: HeeboMedium
+      fonts:
+        - asset: assets/fonts/Heebo-Medium.ttf
+    - family: Roboto-Bold
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf
+    - family: Roboto-Medium
+      fonts:
+        - asset: assets/fonts/Roboto-Medium.ttf
+    - family: Roboto-Regular
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
