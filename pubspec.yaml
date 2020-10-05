@@ -1,7 +1,6 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 18.1.52
-author: Syncfusion <support@syncfusion.com>
+version: 18.3.35
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
