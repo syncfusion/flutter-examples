@@ -186,8 +186,7 @@ class _SplineCustomPainter extends SplineSegment {
 }
 
 void _drawDashedLine(Canvas canvas, CartesianSeries<dynamic, dynamic> series,
-    Paint paint, Path path, bool isSeries,
-    [List<Path> pathList, List<Color> colorList]) {
+    Paint paint, Path path, bool isSeries) {
   bool _even = false;
   for (int i = 1; i < series.dashArray.length; i = i + 2) {
     if (series.dashArray[i] == 0) {
