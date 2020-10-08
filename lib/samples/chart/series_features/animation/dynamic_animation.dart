@@ -106,7 +106,7 @@ class _CartesianDynamicAnimationState extends SampleViewState {
   }
 
   /// Returns the the Cartesian chart with dynamic animation.
-  SfCartesianChart _getDynamicAnimationChart([String _selectedType]) {
+  SfCartesianChart _getDynamicAnimationChart() {
     return SfCartesianChart(
       primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
