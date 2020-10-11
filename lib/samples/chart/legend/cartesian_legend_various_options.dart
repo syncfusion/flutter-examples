@@ -9,7 +9,7 @@ import '../../../model/sample_view.dart';
 import '../../../widgets/checkbox.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/shared/mobile.dart'
-    if (dart.library.html) '../../../widgets/shared/web.dart';
+    if (dart.library.html) '../../../../widgets/shared/web.dart';
 
 /// Renders the Stacked line chart and legend with various opdations sample.
 class CartesianLegendOptions extends SampleView {

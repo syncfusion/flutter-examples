@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../model/sample_view.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/shared/mobile.dart'
-    if (dart.library.html) '../../../widgets/shared/web.dart';
+    if (dart.library.html) '../../../../widgets/shared/web.dart';
 
 /// Renders the spline chart with trend forcasting sample.
 class TrendLineForecast extends SampleView {

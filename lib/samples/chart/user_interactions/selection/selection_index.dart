@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../model/sample_view.dart';
-import '../../../widgets/custom_dropdown.dart';
+import '../../../../model/sample_view.dart';
+import '../../../../widgets/custom_dropdown.dart';
 
 /// Renders the chart with default selection option sample.
 class SelectionIndex extends SampleView {

@@ -10,7 +10,7 @@ import '../../../model/sample_view.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/shared/mobile.dart'
-    if (dart.library.html) '../../../widgets/shared/web.dart';
+    if (dart.library.html) '../../../../widgets/shared/web.dart';
 import 'indicator_data_source.dart';
 
 /// Renders the OHLC chart with

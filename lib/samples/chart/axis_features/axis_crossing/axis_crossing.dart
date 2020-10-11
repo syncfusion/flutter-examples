@@ -5,12 +5,12 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 
 /// Local imports
-import '../../../model/sample_view.dart';
-import '../../../widgets/checkbox.dart';
-import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_dropdown.dart';
-import '../../../widgets/shared/mobile.dart'
-    if (dart.library.html) '../../../widgets/shared/web.dart';
+import '../../../../model/sample_view.dart';
+import '../../../../widgets/checkbox.dart';
+import '../../../../widgets/custom_button.dart';
+import '../../../../widgets/custom_dropdown.dart';
+import '../../../../widgets/shared/mobile.dart'
+    if (dart.library.html) '../../../../widgets/shared/web.dart';
 
 /// Renders the spline chart with axis crossing sample.
 class AxisCrossing extends SampleView {

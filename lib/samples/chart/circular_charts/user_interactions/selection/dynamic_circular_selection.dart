@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/sample_view.dart';
-import '../../../../widgets/custom_dropdown.dart';
+import '../../../../../model/sample_view.dart';
+import '../../../../../widgets/custom_dropdown.dart';
 
 /// Render the pie series with selection.
 class DynamicCircularSelection extends SampleView {
