@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../model/sample_view.dart';
-import '../../../widgets/custom_dropdown.dart';
+import '../../../../model/sample_view.dart';
+import '../../../../widgets/custom_dropdown.dart';
 
 /// Renders the label intersect action chart.
 class LabelAction extends SampleView {

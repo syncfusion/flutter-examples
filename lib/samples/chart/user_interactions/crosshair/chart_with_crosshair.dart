@@ -9,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../model/sample_view.dart';
-import '../../../widgets/checkbox.dart';
-import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_dropdown.dart';
-import '../../../widgets/shared/mobile.dart'
-    if (dart.library.html) '../../../widgets/shared/web.dart';
+import '../../../../model/sample_view.dart';
+import '../../../../widgets/checkbox.dart';
+import '../../../../widgets/custom_button.dart';
+import '../../../../widgets/custom_dropdown.dart';
+import '../../../../widgets/shared/mobile.dart'
+    if (dart.library.html) '../../../../widgets/shared/web.dart';
 
 /// Renders the chart with crosshair sample.
 class DefaultCrossHair extends SampleView {

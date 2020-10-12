@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/sample_view.dart';
-import '../../../../widgets/custom_dropdown.dart';
-import '../../../../widgets/checkbox.dart';
+import '../../../../../model/sample_view.dart';
+import '../../../../../widgets/custom_dropdown.dart';
+import '../../../../../widgets/checkbox.dart';
 
 /// Renders the chart with pinch zooming sample.
 class DefaultPanning extends SampleView {
