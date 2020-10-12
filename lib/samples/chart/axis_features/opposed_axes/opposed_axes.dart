@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../model/sample_view.dart';
+import '../../../../model/sample_view.dart';
 
 /// Renders the column chart with opposed numeric axis.
 class NumericOpposed extends SampleView {

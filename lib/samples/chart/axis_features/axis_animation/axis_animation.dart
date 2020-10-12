@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../model/sample_view.dart';
-import '../../../widgets/checkbox.dart';
+import '../../../../model/sample_view.dart';
+import '../../../../widgets/checkbox.dart';
 
 /// Renders the default axis animation chart widget
 class AxisAnimationDefault extends SampleView {
