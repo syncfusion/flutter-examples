@@ -61,7 +61,7 @@ class _InvoiceXlsIOState extends SampleViewState {
     //Accessing via index
     final Worksheet sheet = workbook.worksheets[0];
     sheet.name = 'Invoice';
-    sheet.showGridLines = false;
+    sheet.showGridlines = false;
 
     sheet.enableSheetCalculations();
     sheet.getRangeByName('A1').columnWidth = 4.82;
@@ -226,7 +226,7 @@ class _InvoiceXlsIOState extends SampleViewState {
     picture.lastRow = 7;
     picture.lastColumn = 8;
 
-    final List<int> bytes = workbook.saveStream();
+    final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.
