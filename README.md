@@ -31,7 +31,7 @@ This repository contains sample browser project. Each widgets sample will be fou
 
 | Samples | Package | Description |
 |---------|----------|-------------|
-| <b>DATA VIZUALIZATION</b> |
+| <b>DATA VISUALIZATION</b> |
 | [Cartesian Charts](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart/cartesian_charts) | [syncfusion_flutter_charts](https://pub.dev/packages/syncfusion_flutter_charts) | Plot over 30 chart types ranging from line charts to financial charts. |
 | [Circular Charts](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart/circular_charts) | [syncfusion_flutter_charts](https://pub.dev/packages/syncfusion_flutter_charts) | Visualize the data using pie, doughnut, and radial bar charts. |
 | [Pyramid Chart](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart/pyramid_charts) | [syncfusion_flutter_charts](https://pub.dev/packages/syncfusion_flutter_charts) | Visualize the organized data using pyramid chart. |
