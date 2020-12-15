@@ -153,7 +153,7 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                               ),
                               controller: _rangeController,
                               dateFormat: DateFormat.yMd(),
-                              showTooltip: true,
+                              enableTooltip: true,
                               thumbShape: ThumbShape(),
                               trackShape: TrackShape(),
                               overlayShape: OverlayShape(),

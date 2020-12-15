@@ -1,0 +1,274 @@
+///Dart imports
+import 'dart:math';
+
+///Package imports
+import 'package:flutter/material.dart';
+
+///calendar import
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+
+/// core import
+import 'package:syncfusion_flutter_core/core.dart';
+
+///Local import
+import '../../model/sample_view.dart';
+
+/// Smallest fare value
+const String _kBestPrice = "\$100.17";
+
+/// Widget of air fare calendar
+class AirFareCalendar extends SampleView {
+  /// Creates default air fare calendar
+  const AirFareCalendar(Key key) : super(key: key);
+
+  @override
+  _AirFareCalendarCalendarState createState() =>
+      _AirFareCalendarCalendarState();
+}
+
+class _AirFareCalendarCalendarState extends SampleViewState {
+  _AirFareCalendarCalendarState();
+
+  ScrollController _controller;
+  List<AirFare> _airFareDataCollection;
+  List<int> _airlineId;
+  List<String> _fares;
+  DateTime _minDate;
+
+  /// Global key used to maintain the state, when we change the parent of the
+  /// widget
+  GlobalKey _globalKey;
+  double _screenHeight;
+  Orientation _deviceOrientation;
+
+  @override
+  void initState() {
+    _globalKey = GlobalKey();
+    _controller = ScrollController();
+    _airFareDataCollection = <AirFare>[];
+    _airlineId = <int>[];
+    _fares = <String>[];
+    _minDate = DateTime.now();
+    _addFareDataDetails();
+    _addAirFareData();
+    super.initState();
+  }
+
+  /// Creates required data for the air fare data.
+  void _addFareDataDetails() {
+    _airlineId = <int>[1, 2, 3, 4];
+    _fares.add("\$134.50");
+    _fares.add("\$305.00");
+    _fares.add("\$152.66");
+    _fares.add("\$267.09");
+    _fares.add("\$189.20");
+    _fares.add("\$212.10");
+    _fares.add("\$350.50");
+    _fares.add("\$222.39");
+    _fares.add("\$238.83");
+    _fares.add("\$147.27");
+    _fares.add("\$115.43");
+    _fares.add("\$198.06");
+    _fares.add("\$189.83");
+    _fares.add("\$110.71");
+    _fares.add("\$152.10");
+    _fares.add("\$199.62");
+    _fares.add("\$146.15");
+    _fares.add("\$237.04");
+    _fares.add("\$100.17");
+    _fares.add("\$101.72");
+    _fares.add("\$266.69");
+    _fares.add("\$332.48");
+    _fares.add("\$256.77");
+    _fares.add("\$449.68");
+    _fares.add("\$100.17");
+    _fares.add("\$153.31");
+    _fares.add("\$249.92");
+    _fares.add("\$254.59");
+    _fares.add("\$332.48");
+    _fares.add("\$256.77");
+    _fares.add("\$449.68");
+    _fares.add("\$107.18");
+    _fares.add("\$219.04");
+  }
+
+  /// Returns color for the airplane data.
+  Color _getAirPlaneColor(int id) {
+    if (id == 1) {
+      return Colors.grey;
+    } else if (id == 2) {
+      return Colors.green;
+    } else {
+      return Colors.red;
+    }
+  }
+
+  /// Creates the air fare data with required information
+  void _addAirFareData() {
+    _airFareDataCollection = <AirFare>[];
+    for (int i = 0; i < 100; i++) {
+      int id = i % _airlineId.length;
+      if (id == 0) {
+        id = 1;
+      } else if (id > _airlineId.length) {
+        id -= 1;
+      }
+      final String fare = _fares[i % _fares.length];
+      final Color color = _getAirPlaneColor(id);
+      _airFareDataCollection
+          .add(AirFare(fare, color, 'Airways ' + id.toString()));
+    }
+  }
+
+  @override
+  @override
+  void didChangeDependencies() {
+    _deviceOrientation = MediaQuery.of(context).orientation;
+    _screenHeight = MediaQuery.of(context).size.height;
+    super.didChangeDependencies();
+  }
+
+  Widget build([BuildContext context]) {
+    final Widget calendar = Theme(
+
+        /// The key set here to maintain the state,
+        ///  when we change the parent of the widget
+        key: _globalKey,
+        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        child: _getAirFareCalendar());
+
+    return Scaffold(
+      body:
+          Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+        Expanded(
+          child: (model.isWeb && _screenHeight < 800) ||
+                  _deviceOrientation == Orientation.landscape
+              ? Scrollbar(
+                  isAlwaysShown: true,
+                  controller: _controller,
+                  child: ListView(
+                    controller: _controller,
+                    children: <Widget>[
+                      Container(
+                        color: model.cardThemeColor,
+                        height: 600,
+                        child: calendar,
+                      )
+                    ],
+                  ))
+              : Container(color: model.cardThemeColor, child: calendar),
+        )
+      ]),
+    );
+  }
+
+  /// Returns the calendar widget based on the properties passed.
+  SfCalendar _getAirFareCalendar() {
+    return SfCalendar(
+      showNavigationArrow: model.isWeb,
+      view: CalendarView.month,
+      monthCellBuilder: _monthCellBuilder,
+      showDatePickerButton: true,
+      minDate: _minDate,
+    );
+  }
+
+  /// Returns the builder for month cell.
+  Widget _monthCellBuilder(
+      BuildContext buildContext, MonthCellDetails details) {
+    Random random = Random();
+    final bool isToday = isSameDate(details.date, DateTime.now());
+    final AirFare airFare = _airFareDataCollection[random.nextInt(100)];
+    final Color defaultColor =
+        model.themeData != null && model.themeData.brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black54;
+    final bool isBestPrice = airFare.fare == _kBestPrice;
+    final bool isDisabledDate =
+        details.date.isBefore(_minDate) && !isSameDate(details.date, _minDate);
+    return Container(
+      decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(width: 0.1, color: defaultColor),
+            left: BorderSide(width: 0.1, color: defaultColor),
+          ),
+          color: isDisabledDate
+              ? Colors.grey.withOpacity(0.1)
+              : isBestPrice
+                  ? Colors.yellow.withOpacity(0.2)
+                  : null),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: model.isMobileResolution
+                  ? MainAxisAlignment.center
+                  : isBestPrice
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  details.date.day.toString(),
+                  style: TextStyle(
+                      color: isToday
+                          ? model.backgroundColor
+                          : isDisabledDate
+                              ? Colors.grey
+                              : null,
+                      fontWeight: isToday ? FontWeight.bold : null),
+                ),
+                !model.isMobileResolution && airFare.fare == _kBestPrice
+                    ? Text(
+                        'Best Price',
+                        style: TextStyle(
+                            color: isDisabledDate ? Colors.grey : Colors.green),
+                      )
+                    : Text('')
+              ],
+            ),
+          ),
+          Text(
+            airFare.fare,
+            style: TextStyle(
+                fontSize: model.isMobileResolution ? 12 : 15,
+                color: Color.fromRGBO(42, 138, 148, 1),
+                fontWeight: FontWeight.bold),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Transform.rotate(
+                angle: -pi / 4,
+                child: Text(
+                  '\u2708',
+                  style: TextStyle(
+                      color: airFare.color,
+                      fontFamily: 'Roboto',
+                      fontSize: !model.isMobileResolution ? 20 : 14),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              !model.isMobileResolution ? Text(airFare.airline) : Text('')
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+/// Object to hold the air fare data.
+class AirFare {
+  const AirFare(this.fare, this.color, this.airline);
+
+  final String fare;
+  final Color color;
+  final String airline;
+}

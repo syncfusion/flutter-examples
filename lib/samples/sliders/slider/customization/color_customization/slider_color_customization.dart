@@ -73,7 +73,7 @@ class _SliderColorCustomizationState extends SampleViewState {
                 _trackSliderValue = values;
               });
             },
-            showTooltip: true,
+            enableTooltip: true,
             numberFormat: NumberFormat('#')));
   }
 
@@ -109,7 +109,7 @@ class _SliderColorCustomizationState extends SampleViewState {
                 _thumbStrokeSliderValue = values;
               });
             },
-            showTooltip: true,
+            enableTooltip: true,
             numberFormat: NumberFormat('#')));
   }
 

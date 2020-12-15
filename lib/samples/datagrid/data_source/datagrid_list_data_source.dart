@@ -77,53 +77,63 @@ class _ListDataSourceDataGridState extends SampleViewState {
     List<GridColumn> columns;
     columns = kIsWeb
         ? ([
-            GridNumericColumn(mappingName: 'id')
-              ..headerText = 'Order ID'
-              ..padding = const EdgeInsets.all(8)
-              ..headerTextAlignment = Alignment.centerRight
-              ..columnWidthMode =
-                  model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto,
-            GridNumericColumn(mappingName: 'customerId')
-              ..columnWidthMode =
-                  model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.header
-              ..headerText = 'Customer ID'
-              ..headerTextAlignment = Alignment.centerRight,
-            GridTextColumn(mappingName: 'name')
-              ..headerText = 'Name'
-              ..headerTextAlignment = Alignment.centerLeft,
-            GridNumericColumn(mappingName: 'freight')
-              ..numberFormat =
-                  NumberFormat.currency(locale: 'en_US', symbol: '\$')
-              ..headerText = 'Freight'
-              ..headerTextAlignment = Alignment.centerRight,
-            GridTextColumn(mappingName: 'city')
-              ..headerTextAlignment = Alignment.centerLeft
-              ..headerText = 'City'
-              ..columnWidthMode =
-                  model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto,
-            GridNumericColumn(mappingName: 'price')
-              ..numberFormat =
-                  NumberFormat.currency(locale: 'en_US', symbol: '\$')
-              ..headerText = 'Price'
+            GridNumericColumn(
+                mappingName: 'id',
+                headerText: 'Order ID',
+                padding: const EdgeInsets.all(8),
+                headerTextAlignment: Alignment.centerRight,
+                columnWidthMode:
+                    model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto),
+            GridNumericColumn(
+                mappingName: 'customerId',
+                columnWidthMode:
+                    model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.header,
+                headerText: 'Customer ID',
+                headerTextAlignment: Alignment.centerRight),
+            GridTextColumn(
+                mappingName: 'name',
+                headerText: 'Name',
+                headerTextAlignment: Alignment.centerLeft),
+            GridNumericColumn(
+                mappingName: 'freight',
+                numberFormat:
+                    NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+                headerText: 'Freight',
+                headerTextAlignment: Alignment.centerRight),
+            GridTextColumn(
+                mappingName: 'city',
+                headerTextAlignment: Alignment.centerLeft,
+                headerText: 'City',
+                columnWidthMode:
+                    model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto),
+            GridNumericColumn(
+                mappingName: 'price',
+                numberFormat:
+                    NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+                headerText: 'Price')
           ])
         : ([
-            GridNumericColumn(mappingName: 'id')
-              ..headerText = 'ID'
-              ..padding = const EdgeInsets.all(8)
-              ..headerTextAlignment = Alignment.centerRight,
-            GridNumericColumn(mappingName: 'customerId')
-              ..headerTextAlignment = Alignment.centerRight
-              ..columnWidthMode = _isLandscapeInMobileView
-                  ? ColumnWidthMode.fill
-                  : ColumnWidthMode.header
-              ..headerText = 'Customer ID',
-            GridTextColumn(mappingName: 'name')
-              ..headerTextAlignment = Alignment.centerLeft
-              ..headerText = 'Name',
-            GridTextColumn(mappingName: 'city')
-              ..headerText = 'City'
-              ..headerTextAlignment = Alignment.centerLeft
-              ..columnWidthMode = ColumnWidthMode.lastColumnFill,
+            GridNumericColumn(
+                mappingName: 'id',
+                headerText: 'ID',
+                padding: const EdgeInsets.all(8),
+                headerTextAlignment: Alignment.centerRight),
+            GridNumericColumn(
+                mappingName: 'customerId',
+                headerTextAlignment: Alignment.centerRight,
+                columnWidthMode: _isLandscapeInMobileView
+                    ? ColumnWidthMode.fill
+                    : ColumnWidthMode.header,
+                headerText: 'Customer ID'),
+            GridTextColumn(
+                mappingName: 'name',
+                headerTextAlignment: Alignment.centerLeft,
+                headerText: 'Name'),
+            GridTextColumn(
+                mappingName: 'city',
+                headerText: 'City',
+                headerTextAlignment: Alignment.centerLeft,
+                columnWidthMode: ColumnWidthMode.lastColumnFill),
           ]);
     return columns;
   }

@@ -48,7 +48,7 @@ class _DivisorCustomizedRangeSliderState extends SampleViewState {
         },
         interval: 10,
         showDivisors: true,
-        showTooltip: true,
+        enableTooltip: true,
         numberFormat: NumberFormat('#'),
         divisorShape: _DivisorShape(model),
       ),

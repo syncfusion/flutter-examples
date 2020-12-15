@@ -72,7 +72,7 @@ class _SliderStepDurationState extends SampleViewState {
               _yearValues = values;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat.yMMM().format(actualLabel);
@@ -97,7 +97,7 @@ class _SliderStepDurationState extends SampleViewState {
                 _values = values;
               });
             },
-            showTooltip: true));
+            enableTooltip: true));
   }
 
   Widget _getWebLayout() {

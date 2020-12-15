@@ -6,7 +6,6 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
-import '../../../widgets/checkbox.dart';
 import '../../../widgets/custom_button.dart';
 
 /// Renders the default funnel chart
@@ -27,20 +26,21 @@ class _FunnelDefaultState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Gap ratio  ',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
-                child: Padding(
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text('Gap ratio  ',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                Container(
                   padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
                   child: CustomDirectionalButtons(
-                    minValue: 0,
                     maxValue: 0.5,
                     initialValue: gapRatio,
                     onChanged: (double val) => setState(() {
@@ -51,22 +51,19 @@ class _FunnelDefaultState extends SampleViewState {
                     style: TextStyle(fontSize: 20.0, color: model.textColor),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Neck height  ',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
-                child: Padding(
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text('Neck height  ',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                Container(
                   padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
                   child: CustomDirectionalButtons(
-                    minValue: 0,
                     maxValue: 50,
                     initialValue: neckHeight.toDouble(),
                     onChanged: (double val) => setState(() {
@@ -77,22 +74,19 @@ class _FunnelDefaultState extends SampleViewState {
                     style: TextStyle(fontSize: 20.0, color: model.textColor),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Neck width',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
-                child: Padding(
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text('Neck width',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                Container(
                   padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                   child: CustomDirectionalButtons(
-                    minValue: 0,
                     maxValue: 50,
                     initialValue: neckWidth.toDouble(),
                     onChanged: (double val) => setState(() {
@@ -103,34 +97,35 @@ class _FunnelDefaultState extends SampleViewState {
                     style: TextStyle(fontSize: 20.0, color: model.textColor),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          child: Row(
-            children: <Widget>[
-              Text('Explode',
-                  style: TextStyle(
+          Container(
+            child: Row(
+              children: <Widget>[
+                Text('Explode',
+                    style: TextStyle(
                       color: model.textColor,
                       fontSize: 16,
-                      letterSpacing: 0.34,
-                      fontWeight: FontWeight.normal)),
-              const Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
-              CustomCheckBox(
-                activeColor: model.backgroundColor,
-                switchValue: explode,
-                valueChanged: (dynamic value) {
-                  setState(() {
-                    explode = value;
-                  });
-                },
-              ),
-            ],
+                    )),
+                const Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
+                Container(
+                    width: 90,
+                    child: CheckboxListTile(
+                        activeColor: model.backgroundColor,
+                        value: explode,
+                        onChanged: (bool value) {
+                          setState(() {
+                            explode = value;
+                            stateSetter(() {});
+                          });
+                        }))
+              ],
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   @override

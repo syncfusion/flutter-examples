@@ -10,9 +10,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Render pdf of invoice
+/// Create yearly sales Excel report
 class YearlySalesXlsIO extends SampleView {
-  /// Render pdf of invoice
+  /// Create yearly sales Excel report
   const YearlySalesXlsIO(Key key) : super(key: key);
   @override
   _YearlySalesXlsIOState createState() => _YearlySalesXlsIOState();
@@ -33,7 +33,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  'This sample showcases on how to create a simple Excel report for yearly sales with data, chart, formulas, and cell formatting using XlsIO.',
+                  'This sample showcases how to create a simple Excel report for yearly sales with data, charts, formulas, and cell formatting using XlsIO.',
                   style: TextStyle(fontSize: 16, color: model.textColor)),
               const SizedBox(height: 20, width: 30),
               Align(

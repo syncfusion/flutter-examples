@@ -6,7 +6,7 @@ class CustomDirectionalButtons extends StatefulWidget {
   /// direction arrows surronding in text widget
   const CustomDirectionalButtons({
     Key key,
-    @required this.minValue,
+    this.minValue = 0,
     @required this.maxValue,
     @required this.initialValue,
     @required this.onChanged,

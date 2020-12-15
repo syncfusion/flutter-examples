@@ -100,7 +100,9 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                   0,
                   mediaQueryData.orientation == Orientation.portrait
                       ? 50
-                      : model.isWeb ? 15 : 2,
+                      : model.isWeb
+                          ? 15
+                          : 2,
                   0,
                   5),
               child: const SizedBox(
@@ -144,7 +146,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                     dateIntervalType: DateIntervalType.years,
                     showTicks: true,
                     showLabels: true,
-                    showTooltip: true,
+                    enableTooltip: true,
                     tooltipTextFormatterCallback:
                         (dynamic actualLabel, String formattedText) {
                       return DateFormat.yMMMd().format(actualLabel).toString();

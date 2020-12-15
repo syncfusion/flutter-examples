@@ -10,7 +10,6 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../model/sample_view.dart';
-import '../../../widgets/custom_dropdown.dart';
 
 /// Renders datagrid with selection option(single/multiple and select/unselect)
 class SelectionDataGrid extends SampleView {
@@ -90,50 +89,60 @@ class _SelectionDataGridPageState extends SampleViewState {
 
     columns = model.isWeb
         ? <GridColumn>[
-            GridNumericColumn(mappingName: 'id')
-              ..headerText = 'Order ID'
-              ..padding = const EdgeInsets.all(8)
-              ..headerTextAlignment = Alignment.centerRight
-              ..columnWidthMode =
-                  model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto,
-            GridNumericColumn(mappingName: 'customerId')
-              ..columnWidthMode =
-                  model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.header
-              ..headerText = 'Customer ID'
-              ..headerTextAlignment = Alignment.centerRight,
-            GridTextColumn(mappingName: 'name')
-              ..headerText = 'Name'
-              ..headerTextAlignment = Alignment.centerLeft,
-            GridNumericColumn(mappingName: 'freight')
-              ..numberFormat =
-                  NumberFormat.currency(locale: 'en_US', symbol: '\$')
-              ..headerText = 'Freight'
-              ..headerTextAlignment = Alignment.centerRight,
-            GridTextColumn(mappingName: 'city')
-              ..headerTextAlignment = Alignment.centerLeft
-              ..headerText = 'City'
-              ..columnWidthMode =
-                  model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto,
-            GridNumericColumn(mappingName: 'price')
-              ..numberFormat =
-                  NumberFormat.currency(locale: 'en_US', symbol: '\$')
-              ..headerText = 'Price'
+            GridNumericColumn(
+                mappingName: 'id',
+                headerText: 'Order ID',
+                padding: const EdgeInsets.all(8),
+                headerTextAlignment: Alignment.centerRight,
+                columnWidthMode:
+                    model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto),
+            GridNumericColumn(
+                mappingName: 'customerId',
+                columnWidthMode:
+                    model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.header,
+                headerText: 'Customer ID',
+                headerTextAlignment: Alignment.centerRight),
+            GridTextColumn(
+                mappingName: 'name',
+                headerText: 'Name',
+                headerTextAlignment: Alignment.centerLeft),
+            GridNumericColumn(
+                mappingName: 'freight',
+                numberFormat:
+                    NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+                headerText: 'Freight',
+                headerTextAlignment: Alignment.centerRight),
+            GridTextColumn(
+                mappingName: 'city',
+                headerTextAlignment: Alignment.centerLeft,
+                headerText: 'City',
+                columnWidthMode:
+                    model.isWeb ? ColumnWidthMode.none : ColumnWidthMode.auto),
+            GridNumericColumn(
+                mappingName: 'price',
+                numberFormat:
+                    NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+                headerText: 'Price')
           ]
         : <GridColumn>[
-            GridNumericColumn(mappingName: 'id')
-              ..headerText = 'Order ID'
-              ..padding = const EdgeInsets.all(8)
-              ..headerTextAlignment = Alignment.centerRight,
-            GridNumericColumn(mappingName: 'customerId')
-              ..headerTextAlignment = Alignment.centerRight
-              ..headerText = 'Customer ID',
-            GridTextColumn(mappingName: 'name')
-              ..headerTextAlignment = Alignment.centerLeft
-              ..headerText = 'Name',
-            GridTextColumn(mappingName: 'city')
-              ..headerText = 'City'
-              ..headerTextAlignment = Alignment.centerLeft
-              ..columnWidthMode = ColumnWidthMode.lastColumnFill,
+            GridNumericColumn(
+                mappingName: 'id',
+                headerText: 'Order ID',
+                padding: const EdgeInsets.all(8),
+                headerTextAlignment: Alignment.centerRight),
+            GridNumericColumn(
+                mappingName: 'customerId',
+                headerTextAlignment: Alignment.centerRight,
+                headerText: 'Customer ID'),
+            GridTextColumn(
+                mappingName: 'name',
+                headerTextAlignment: Alignment.centerLeft,
+                headerText: 'Name'),
+            GridTextColumn(
+                mappingName: 'city',
+                headerText: 'City',
+                headerTextAlignment: Alignment.centerLeft,
+                columnWidthMode: ColumnWidthMode.lastColumnFill),
           ];
     return columns;
   }
@@ -217,94 +226,91 @@ class _SelectionDataGridPageState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    return ListView(children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-        child: Container(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  'Selection mode:',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: model.textColor),
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return ListView(shrinkWrap: true, children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+          child: Container(
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'Selection mode:',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: model.textColor),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Container(
+                Expanded(
+                  child: Container(
                     padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                     height: 40,
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Theme(
-                        data: Theme.of(context).copyWith(
-                            canvasColor: model.bottomSheetBackgroundColor),
-                        child: DropDown(
-                            value: _selectionMode,
-                            item: _encoding.map((String value) {
-                              return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'Multiple',
-                                  child: Text('$value',
-                                      textAlign: TextAlign.center,
-                                      style:
-                                          TextStyle(color: model.textColor)));
-                            }).toList(),
-                            valueChanged: (dynamic value) {
-                              _onSelectionModeChanged(value);
-                            }),
-                      ),
-                    )),
-              )
-            ],
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
+                        underline:
+                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        value: _selectionMode,
+                        items: _encoding.map((String value) {
+                          return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'Multiple',
+                              child: Text('$value',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: model.textColor)));
+                        }).toList(),
+                        onChanged: (dynamic value) {
+                          _onSelectionModeChanged(value);
+                          stateSetter(() {});
+                        }),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-        child: Container(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  'Navigation mode:',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: model.textColor),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+          child: Container(
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'Navigation mode:',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: model.textColor),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Container(
+                Expanded(
+                  child: Container(
                     padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                     height: 40,
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Theme(
-                        data: Theme.of(context).copyWith(
-                            canvasColor: model.bottomSheetBackgroundColor),
-                        child: DropDown(
-                            value: _navigationMode,
-                            item: _navigation.map((String value) {
-                              return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'Cell',
-                                  child: Text('$value',
-                                      textAlign: TextAlign.center,
-                                      style:
-                                          TextStyle(color: model.textColor)));
-                            }).toList(),
-                            valueChanged: (dynamic value) {
-                              _onNavigationModeChanged(value);
-                            }),
-                      ),
-                    )),
-              )
-            ],
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
+                        underline:
+                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        value: _navigationMode,
+                        items: _navigation.map((String value) {
+                          return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'Cell',
+                              child: Text('$value',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: model.textColor)));
+                        }).toList(),
+                        onChanged: (dynamic value) {
+                          _onNavigationModeChanged(value);
+                          stateSetter(() {});
+                        }),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    ]);
+      ]);
+    });
   }
 
   @override

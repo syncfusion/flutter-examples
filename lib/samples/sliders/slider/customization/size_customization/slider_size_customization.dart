@@ -81,7 +81,7 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
               _yearValue = values;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat.yMMM().format(actualLabel);
@@ -108,7 +108,7 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
                 _value = values;
               });
             },
-            showTooltip: true));
+            enableTooltip: true));
   }
 
   Widget _getWebLayout() {

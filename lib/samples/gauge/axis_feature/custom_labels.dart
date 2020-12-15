@@ -56,7 +56,9 @@ class _GaugeCustomLabelsState extends SampleViewState {
                     ? 18
                     : isCardView
                         ? 10
-                        : _orientation == Orientation.portrait ? 18 : 10,
+                        : _orientation == Orientation.portrait
+                            ? 18
+                            : 10,
                 gradient: const LinearGradient(colors: <Color>[
                   Color(0xFFFF6B78),
                   Color(0xFFFF6B78),
@@ -95,7 +97,9 @@ class _GaugeCustomLabelsState extends SampleViewState {
                     ? 18
                     : isCardView
                         ? 10
-                        : _orientation == Orientation.portrait ? 18 : 10,
+                        : _orientation == Orientation.portrait
+                            ? 18
+                            : 10,
                 knobStyle: KnobStyle(
                     knobRadius: model.isWeb ? 0.098 : 0.09,
                     sizeUnit: GaugeSizeUnit.factor,

@@ -7,7 +7,6 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
-import '../../../widgets/custom_dropdown.dart';
 
 /// Renders the pyramid chart with smart data labels
 class PyramidSmartLabels extends SampleView {
@@ -31,76 +30,71 @@ class _PyramidSmartLabelState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Label position       ',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
-                  padding: const EdgeInsets.fromLTRB(47, 0, 0, 0),
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text('Label position  ',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
                   height: 50,
-                  width: 150,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                          canvasColor: model.bottomSheetBackgroundColor),
-                      child: DropDown(
-                          value: _selectedPosition,
-                          item: _labelPosition.map((String value) {
-                            return DropdownMenuItem<String>(
-                                value: (value != null) ? value : 'outside',
-                                child: Text('$value',
-                                    style: TextStyle(color: model.textColor)));
-                          }).toList(),
-                          valueChanged: (dynamic value) {
-                            _onLabelPositionChange(value.toString());
-                          }),
-                    ),
-                  )),
-            ],
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      value: _selectedPosition,
+                      items: _labelPosition.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'outside',
+                            child: Text('$value',
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        _onLabelPositionChange(value.toString());
+                        stateSetter(() {});
+                      }),
+                ),
+              ],
+            ),
           ),
-        ),
-        Container(
-          child: Row(
-            children: <Widget>[
-              Text('Smart label mode ',
-                  style: TextStyle(
+          Container(
+            child: Row(
+              children: <Widget>[
+                Text('Smart label mode',
+                    style: TextStyle(
                       color: model.textColor,
                       fontSize: 16,
-                      letterSpacing: 0.34,
-                      fontWeight: FontWeight.normal)),
-              Container(
+                    )),
+                Container(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                   height: 50,
-                  width: 150,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                          canvasColor: model.bottomSheetBackgroundColor),
-                      child: DropDown(
-                          value: _smartLabelMode,
-                          item: _modeList.map((String value) {
-                            return DropdownMenuItem<String>(
-                                value: (value != null) ? value : 'shift',
-                                child: Text('$value',
-                                    style: TextStyle(color: model.textColor)));
-                          }).toList(),
-                          valueChanged: (dynamic value) {
-                            _onSmartLabelModeChange(value.toString());
-                          }),
-                    ),
-                  )),
-            ],
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      value: _smartLabelMode,
+                      items: _modeList.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'shift',
+                            child: Text('$value',
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        _onSmartLabelModeChange(value.toString());
+                        stateSetter(() {});
+                      }),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   @override

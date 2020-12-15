@@ -182,26 +182,31 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
           ? ColumnWidthMode.fill
           : ColumnWidthMode.header,
       columns: <GridColumn>[
-        GridTextColumn(mappingName: 'symbol')
-          ..headerText = 'Symbol'
-          ..headerTextAlignment = Alignment.center
-          ..textAlignment = Alignment.center,
-        GridWidgetColumn(mappingName: 'stock')
-          ..headerText = 'Stock'
-          ..headerTextAlignment = Alignment.center
-          ..textAlignment = Alignment.center,
-        GridNumericColumn(mappingName: 'open')
-          ..headerText = ' Open'
-          ..headerTextAlignment = Alignment.center
-          ..textAlignment = Alignment.center,
-        GridNumericColumn(mappingName: 'previousClose')
-          ..headerText = 'Previous Close'
-          ..headerTextAlignment = Alignment.center
-          ..textAlignment = Alignment.center,
-        GridNumericColumn(mappingName: 'lastTrade')
-          ..headerText = 'Last Trade'
-          ..headerTextAlignment = Alignment.center
-          ..textAlignment = Alignment.center,
+        GridTextColumn(
+            mappingName: 'symbol',
+            headerText: 'Symbol',
+            headerTextAlignment: Alignment.center,
+            textAlignment: Alignment.center),
+        GridWidgetColumn(
+            mappingName: 'stock',
+            headerText: 'Stock',
+            headerTextAlignment: Alignment.center,
+            textAlignment: Alignment.center),
+        GridNumericColumn(
+            mappingName: 'open',
+            headerText: ' Open',
+            headerTextAlignment: Alignment.center,
+            textAlignment: Alignment.center),
+        GridNumericColumn(
+            mappingName: 'previousClose',
+            headerText: 'Previous Close',
+            headerTextAlignment: Alignment.center,
+            textAlignment: Alignment.center),
+        GridNumericColumn(
+            mappingName: 'lastTrade',
+            headerText: 'Last Trade',
+            headerTextAlignment: Alignment.center,
+            textAlignment: Alignment.center),
       ],
     );
   }
