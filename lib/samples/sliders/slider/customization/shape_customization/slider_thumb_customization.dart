@@ -46,7 +46,7 @@ class _ThumbCustomizedSliderState extends SampleViewState {
         },
         interval: 10,
         showDivisors: true,
-        showTooltip: true,
+        enableTooltip: true,
         numberFormat: NumberFormat('#'),
         thumbShape: _RectThumbShape(),
       ),

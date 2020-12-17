@@ -8,15 +8,38 @@ import 'package:flutter/foundation.dart';
 
 /// Local import
 import '../sample_list.dart';
-import 'sample_view.dart';
 
 /// WidgetCategory of the each control as Data Visualization, Editors,etc.,
 class WidgetCategory {
+  /// Contructor holds the name, id, control collection of the [WidgetCategory]
+  WidgetCategory(
+      [this.categoryName,
+      this.controlList,
+      this.mobileCategoryId,
+      this.webCategoryId,
+      this.showInWeb]);
+
+  /// Getting the control details from the json file
+  factory WidgetCategory.fromJson(Map<String, dynamic> json) {
+    return WidgetCategory(json['categoryName'], json['controlList'],
+        json['mobileCategoryId'], json['webCategoryId'], json['showInWeb']);
+  }
+
   /// Name of the category
   String categoryName;
 
   /// Control collection under the particular category
-  List<Control> controlList;
+  List<dynamic> controlList;
+
+  /// Sorting the categories based on this id in mobile.
+  final int mobileCategoryId;
+
+  /// Sorting the categories based on this id in web.
+  final int webCategoryId;
+
+  /// Specify false if the category need not to show in web
+  /// (as Viewer - not supported in web).
+  final bool showInWeb;
 
   /// Selected control in the controllist under the particular category
   int selectedIndex = 0;
@@ -25,16 +48,8 @@ class WidgetCategory {
 /// Defines the control class.
 class Control {
   /// Contructor holds the tile, description, status etc., of the [Control]
-  Control(
-      this.title,
-      this.description,
-      this.image,
-      this.status,
-      this.displayType,
-      this.subItems,
-      this.category,
-      this.controlId,
-      this.showInWeb);
+  Control(this.title, this.description, this.image, this.status,
+      this.displayType, this.subItems, this.controlId, this.showInWeb);
 
   /// Getting the control details from the json file
   factory Control.fromJson(Map<String, dynamic> json) {
@@ -45,7 +60,6 @@ class Control {
         json['status'],
         json['displayType'],
         json['subItems'],
-        json['category'],
         json['controlId'],
         json['showInWeb']);
   }
@@ -64,10 +78,6 @@ class Control {
 
   /// Display the controls based on this order.
   final int controlId;
-
-  /// Specify the category of the control as
-  /// Data Visualization, Editors, Calendar, File format
-  final String category;
 
   /// Need to mention this when samples directly given without any sub category
   /// Mention as card/fullView, by default it will taken as "fullView".
@@ -319,7 +329,7 @@ class SampleModel extends Listenable {
   List<SampleRoute> routes;
 
   /// Holds the current visible sample, only for web
-  SampleView currentRenderSample;
+  dynamic currentRenderSample;
 
   /// Holds the current rendered sample's key, only for web
   String currentSampleKey;
@@ -355,6 +365,15 @@ class SampleModel extends Listenable {
 
   /// Editing controller which used in the search text field
   TextEditingController editingController = TextEditingController();
+
+  /// Key of the property panel widget
+  GlobalKey<State> propertyPanelKey;
+
+  /// Holds the information of to be maximize or not
+  bool needToMaximize = false;
+
+  ///Storing state of current output container
+  dynamic outputContainerState;
 
   /// Switching between light, dark, system themes
   void changeTheme(ThemeData _themeData) {
@@ -423,188 +442,200 @@ Future<void> updateControlItems() async {
   const bool _isWeb = kIsWeb;
   final String _jsonText =
       await rootBundle.loadString('lib/sample_details.json');
-  final List<dynamic> _controlList = json.decode(_jsonText);
   List<SubItem> _firstLevelSubItems = <SubItem>[];
   List<SubItem> _secondLevelSubItems = <SubItem>[];
   List<SubItem> _thirdLevelSubItems = <SubItem>[];
   final List<SampleRoute> sampleRoutes = <SampleRoute>[];
-  for (int i = 0; i < _controlList.length; i++) {
-    SampleModel._controlList.add(Control.fromJson(_controlList[i]));
-    if (!_isWeb || SampleModel._controlList[i].showInWeb != false) {
-      for (int j = 0; j < SampleModel._controlList[i].subItems.length; j++) {
-        _firstLevelSubItems
-            .add(SubItem.fromJson(SampleModel._controlList[i].subItems[j]));
-        if (_firstLevelSubItems[j].type == 'parent') {
-          for (int k = 0; k < _firstLevelSubItems[j].subItems.length; k++) {
-            if (!_isWeb ||
-                SubItem.fromJson(_firstLevelSubItems[j].subItems[k])
-                        .showInWeb !=
-                    false) {
-              _secondLevelSubItems
-                  .add(SubItem.fromJson(_firstLevelSubItems[j].subItems[k]));
-              for (int l = 0;
-                  l <
-                      _secondLevelSubItems[_secondLevelSubItems.length - 1]
-                          .subItems
-                          .length;
-                  l++) {
+
+  final List<dynamic> categoryList = json.decode(_jsonText);
+  for (int index = 0; index < categoryList.length; index++) {
+    SampleModel._categoryList.add(WidgetCategory.fromJson(categoryList[index]));
+    List<Control> controlList = <Control>[];
+    if (!_isWeb || SampleModel._categoryList[index].showInWeb != false) {
+      for (int i = 0;
+          i < SampleModel._categoryList[index].controlList.length;
+          i++) {
+        controlList.add(
+            Control.fromJson(SampleModel._categoryList[index].controlList[i]));
+        if (!_isWeb || controlList[i].showInWeb != false) {
+          for (int j = 0; j < controlList[i].subItems.length; j++) {
+            _firstLevelSubItems
+                .add(SubItem.fromJson(controlList[i].subItems[j]));
+            if (_firstLevelSubItems[j].type == 'parent') {
+              for (int k = 0; k < _firstLevelSubItems[j].subItems.length; k++) {
                 if (!_isWeb ||
-                    SubItem.fromJson(_secondLevelSubItems[
-                                    _secondLevelSubItems.length - 1]
-                                .subItems[l])
+                    SubItem.fromJson(_firstLevelSubItems[j].subItems[k])
                             .showInWeb !=
                         false) {
-                  _thirdLevelSubItems.add(SubItem.fromJson(
-                      _secondLevelSubItems[_secondLevelSubItems.length - 1]
-                          .subItems[l]));
+                  _secondLevelSubItems.add(
+                      SubItem.fromJson(_firstLevelSubItems[j].subItems[k]));
+                  for (int l = 0;
+                      l <
+                          _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                              .subItems
+                              .length;
+                      l++) {
+                    if (!_isWeb ||
+                        SubItem.fromJson(_secondLevelSubItems[
+                                        _secondLevelSubItems.length - 1]
+                                    .subItems[l])
+                                .showInWeb !=
+                            false) {
+                      _thirdLevelSubItems.add(SubItem.fromJson(
+                          _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                              .subItems[l]));
+                    }
+                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                        .parentIndex = j;
+                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                        .childIndex = k;
+                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                        .sampleIndex ??= _thirdLevelSubItems.length - 1;
+                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                        .control = controlList[i];
+                    final String breadCrumbText = ('/' +
+                            controlList[i].title +
+                            '/' +
+                            _firstLevelSubItems[j].title +
+                            '/' +
+                            _secondLevelSubItems[
+                                    _secondLevelSubItems.length - 1]
+                                .title +
+                            '/' +
+                            _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                                .title)
+                        .replaceAll(' ', '-')
+                        .toLowerCase();
+                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                        .breadCrumbText = breadCrumbText;
+                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                            .categoryName =
+                        SampleModel._categoryList[index].categoryName;
+                    sampleRoutes.add(SampleRoute(
+                        routeName: breadCrumbText,
+                        subItem: _thirdLevelSubItems[
+                            _thirdLevelSubItems.length - 1]));
+                  }
+                  _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                      .subItems = _thirdLevelSubItems;
+                  _thirdLevelSubItems = <SubItem>[];
                 }
-                _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
-                    .parentIndex = j;
-                _thirdLevelSubItems[_thirdLevelSubItems.length - 1].childIndex =
-                    k;
-                _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
-                    .sampleIndex ??= _thirdLevelSubItems.length - 1;
-                _thirdLevelSubItems[_thirdLevelSubItems.length - 1].control =
-                    SampleModel._controlList[i];
-                final String _breadCrumbText = ('/' +
-                        SampleModel._controlList[i].title +
+              }
+              _firstLevelSubItems[j].subItems = _secondLevelSubItems;
+              _secondLevelSubItems = <SubItem>[];
+            } else if (_firstLevelSubItems[j].type == 'child') {
+              if (!_isWeb || _firstLevelSubItems[j].showInWeb != false) {
+                _isChild = true;
+                for (int k = 0;
+                    k < _firstLevelSubItems[j].subItems.length;
+                    k++) {
+                  if (!_isWeb ||
+                      SubItem.fromJson(_firstLevelSubItems[j].subItems[k])
+                              .showInWeb !=
+                          false) {
+                    _secondLevelSubItems.add(
+                        SubItem.fromJson(_firstLevelSubItems[j].subItems[k]));
+                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                        .childIndex = j;
+                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                        .sampleIndex ??= k;
+                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                        .control = controlList[i];
+                    final String breadCrumbText = ('/' +
+                            controlList[i].title +
+                            '/' +
+                            _firstLevelSubItems[j].title +
+                            '/' +
+                            _secondLevelSubItems[
+                                    _secondLevelSubItems.length - 1]
+                                .title)
+                        .replaceAll(' ', '-')
+                        .toLowerCase();
+                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                        .breadCrumbText = breadCrumbText;
+                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                            .categoryName =
+                        SampleModel._categoryList[index].categoryName;
+                    sampleRoutes.add(SampleRoute(
+                        routeName: breadCrumbText,
+                        subItem: _secondLevelSubItems[
+                            _secondLevelSubItems.length - 1]));
+                  }
+                }
+                _firstLevelSubItems[j].subItems = _secondLevelSubItems;
+                _secondLevelSubItems = <SubItem>[];
+              } else {
+                _firstLevelSubItems.removeAt(j);
+                controlList[i].subItems.removeAt(j);
+                j--;
+              }
+            } else {
+              _isSample = true;
+              _firstLevelSubItems[j].sampleIndex ??= j;
+              if (!_isWeb || _firstLevelSubItems[j].showInWeb != false) {
+                final String breadCrumbText = ('/' +
+                        controlList[i].title +
                         '/' +
-                        _firstLevelSubItems[j].title +
-                        '/' +
-                        _secondLevelSubItems[_secondLevelSubItems.length - 1]
-                            .title +
-                        '/' +
-                        _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
-                            .title)
+                        _firstLevelSubItems[j].title)
                     .replaceAll(' ', '-')
                     .toLowerCase();
-                _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
-                    .breadCrumbText = _breadCrumbText;
-                _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
-                    .categoryName = SampleModel._controlList[i].category;
+                _firstLevelSubItems[j].breadCrumbText = breadCrumbText;
+                _firstLevelSubItems[j].control = controlList[i];
+                _firstLevelSubItems[j].categoryName =
+                    SampleModel._categoryList[index].categoryName;
                 sampleRoutes.add(SampleRoute(
-                    routeName: _breadCrumbText,
-                    subItem:
-                        _thirdLevelSubItems[_thirdLevelSubItems.length - 1]));
+                    routeName: breadCrumbText,
+                    subItem: _firstLevelSubItems[j]));
+                _secondLevelSubItems.add(_firstLevelSubItems[j]);
               }
-              _secondLevelSubItems[_secondLevelSubItems.length - 1].subItems =
-                  _thirdLevelSubItems;
-              _thirdLevelSubItems = <SubItem>[];
             }
           }
-          _firstLevelSubItems[j].subItems = _secondLevelSubItems;
-          _secondLevelSubItems = <SubItem>[];
-        } else if (_firstLevelSubItems[j].type == 'child') {
-          if (!_isWeb || _firstLevelSubItems[j].showInWeb != false) {
-            _isChild = true;
-            for (int k = 0; k < _firstLevelSubItems[j].subItems.length; k++) {
-              if (!_isWeb ||
-                  SubItem.fromJson(_firstLevelSubItems[j].subItems[k])
-                          .showInWeb !=
-                      false) {
-                _secondLevelSubItems
-                    .add(SubItem.fromJson(_firstLevelSubItems[j].subItems[k]));
-                _secondLevelSubItems[_secondLevelSubItems.length - 1]
-                    .childIndex = j;
-                _secondLevelSubItems[_secondLevelSubItems.length - 1]
-                    .sampleIndex ??= k;
-                _secondLevelSubItems[_secondLevelSubItems.length - 1].control =
-                    SampleModel._controlList[i];
-                final String _breadCrumbText = ('/' +
-                        SampleModel._controlList[i].title +
-                        '/' +
-                        _firstLevelSubItems[j].title +
-                        '/' +
-                        _secondLevelSubItems[_secondLevelSubItems.length - 1]
-                            .title)
-                    .replaceAll(' ', '-')
-                    .toLowerCase();
-                _secondLevelSubItems[_secondLevelSubItems.length - 1]
-                    .breadCrumbText = _breadCrumbText;
-                _secondLevelSubItems[_secondLevelSubItems.length - 1]
-                    .categoryName = SampleModel._controlList[i].category;
-                sampleRoutes.add(SampleRoute(
-                    routeName: _breadCrumbText,
-                    subItem:
-                        _secondLevelSubItems[_secondLevelSubItems.length - 1]));
-              }
-            }
-            _firstLevelSubItems[j].subItems = _secondLevelSubItems;
+          if (_isSample) {
+            controlList[i].sampleList = _secondLevelSubItems;
+            controlList[i].subItems = _secondLevelSubItems;
             _secondLevelSubItems = <SubItem>[];
-          } else {
-            _firstLevelSubItems.removeAt(j);
-            SampleModel._controlList[i].subItems.removeAt(j);
-            j--;
+          } else if (_isChild) {
+            controlList[i].childList = _firstLevelSubItems;
+            _secondLevelSubItems = <SubItem>[];
+            _isChild = false;
           }
+          (!_isSample)
+              ? controlList[i].subItems = _firstLevelSubItems
+              : _isSample = false;
+
+          _firstLevelSubItems = <SubItem>[];
         } else {
-          _isSample = true;
-          _firstLevelSubItems[j].sampleIndex ??= j;
-          if (!_isWeb || _firstLevelSubItems[j].showInWeb != false) {
-            final String _breadCrumbText = ('/' +
-                    SampleModel._controlList[i].title +
-                    '/' +
-                    _firstLevelSubItems[j].title)
-                .replaceAll(' ', '-')
-                .toLowerCase();
-            _firstLevelSubItems[j].breadCrumbText = _breadCrumbText;
-            _firstLevelSubItems[j].control = SampleModel._controlList[i];
-            _firstLevelSubItems[j].categoryName =
-                SampleModel._controlList[i].category;
-            sampleRoutes.add(SampleRoute(
-                routeName: _breadCrumbText, subItem: _firstLevelSubItems[j]));
-            _secondLevelSubItems.add(_firstLevelSubItems[j]);
-          }
+          controlList.removeAt(i);
+          SampleModel._categoryList[index].controlList.removeAt(i);
+          i--;
         }
       }
-      if (_isSample) {
-        SampleModel._controlList[i].sampleList = _secondLevelSubItems;
-        SampleModel._controlList[i].subItems = _secondLevelSubItems;
-        _secondLevelSubItems = <SubItem>[];
-      } else if (_isChild) {
-        SampleModel._controlList[i].childList = _firstLevelSubItems;
-        _secondLevelSubItems = <SubItem>[];
-        _isChild = false;
-      }
-      (!_isSample)
-          ? SampleModel._controlList[i].subItems = _firstLevelSubItems
-          : _isSample = false;
 
-      _firstLevelSubItems = <SubItem>[];
+      SampleModel._categoryList[index].controlList = controlList;
+      SampleModel._controlList.addAll(controlList);
     } else {
-      SampleModel._controlList.removeAt(i);
-      _controlList.removeAt(i);
-      i--;
+      categoryList.removeAt(index);
+      SampleModel._categoryList.removeAt(index);
+      index--;
     }
   }
 
   SampleModel._routes = sampleRoutes;
 
-  /// Sorting the controls based on control id.
-  SampleModel._controlList
-      .sort((Control a, Control b) => a.controlId.compareTo(b.controlId));
-
-  /// Setting control's category.
-  final List<String> _categoryNames = <String>[];
-  String _controlCategory;
-  for (int i = 0; i < SampleModel._controlList.length; i++) {
-    _controlCategory = SampleModel._controlList[i].category.toUpperCase();
-    if (!_categoryNames.contains(_controlCategory)) {
-      _categoryNames.add(_controlCategory);
-      SampleModel._categoryList.add(WidgetCategory());
-      SampleModel._categoryList[SampleModel._categoryList.length - 1]
-          .categoryName = _controlCategory;
-    }
+  /// Sorting the controls based on control id category wise.
+  for (int i = 0; i < SampleModel._categoryList.length; i++) {
+    SampleModel._categoryList[i].controlList
+        .sort((dynamic a, dynamic b) => a.controlId.compareTo(b.controlId));
   }
-  WidgetCategory _category;
-  for (int j = 0; j < SampleModel._categoryList.length; j++) {
-    _category = SampleModel._categoryList[j];
-    _category.controlList = <Control>[];
-    for (int i = 0; i < SampleModel._controlList.length; i++) {
-      final Control control = SampleModel._controlList[i];
-      if (control.category.toUpperCase() == _category.categoryName) {
-        _category.controlList.add(control);
-      }
-    }
+
+  if (_isWeb) {
+    /// Sorting categories based on [webCategoryId]
+    SampleModel._categoryList.sort((WidgetCategory a, WidgetCategory b) =>
+        a.webCategoryId.compareTo(b.webCategoryId));
+  } else {
+    /// Sorting categories based on [mobileCategoryId]
+    SampleModel._categoryList.sort((WidgetCategory a, WidgetCategory b) =>
+        a.mobileCategoryId.compareTo(b.mobileCategoryId));
   }
 }
 

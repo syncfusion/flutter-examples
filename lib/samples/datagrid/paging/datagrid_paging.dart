@@ -55,26 +55,33 @@ class _PagingDataGridState extends SampleViewState {
             ? ColumnWidthMode.auto
             : ColumnWidthMode.fill,
         columns: <GridColumn>[
-          GridNumericColumn(mappingName: 'orderID', headerText: 'Order ID')
-            ..columnWidthMode = _isLandscapeInMobileView
-                ? ColumnWidthMode.fill
-                : ColumnWidthMode.none
-            ..headerTextAlignment = Alignment.centerRight,
+          GridNumericColumn(
+              mappingName: 'orderID',
+              headerText: 'Order ID',
+              columnWidthMode: _isLandscapeInMobileView
+                  ? ColumnWidthMode.fill
+                  : ColumnWidthMode.none,
+              headerTextAlignment: Alignment.centerRight),
           GridTextColumn(
               mappingName: 'customerID', headerText: 'Customer Name'),
-          GridDateTimeColumn(mappingName: 'orderDate', headerText: 'Order Date')
-            ..dateFormat = DateFormat.yMd(),
-          GridNumericColumn(mappingName: 'freight', headerText: 'Freight')
-            ..columnWidthMode = _isLandscapeInMobileView
-                ? ColumnWidthMode.fill
-                : ColumnWidthMode.none
-            ..headerTextAlignment = Alignment.center
-            ..textAlignment = Alignment.center
-            ..numberFormat =
-                NumberFormat.currency(locale: 'en_US', symbol: '\$'),
           GridDateTimeColumn(
-              mappingName: 'shippingDate', headerText: 'Shipped Date')
-            ..dateFormat = DateFormat.yMd(),
+              mappingName: 'orderDate',
+              headerText: 'Order Date',
+              dateFormat: DateFormat.yMd()),
+          GridNumericColumn(
+              mappingName: 'freight',
+              headerText: 'Freight',
+              columnWidthMode: _isLandscapeInMobileView
+                  ? ColumnWidthMode.fill
+                  : ColumnWidthMode.none,
+              headerTextAlignment: Alignment.center,
+              textAlignment: Alignment.center,
+              numberFormat:
+                  NumberFormat.currency(locale: 'en_US', symbol: '\$')),
+          GridDateTimeColumn(
+              mappingName: 'shippingDate',
+              headerText: 'Shipped Date',
+              dateFormat: DateFormat.yMd()),
           GridTextColumn(
               mappingName: 'shipCountry', headerText: 'Ship Country'),
         ]);
@@ -83,13 +90,9 @@ class _PagingDataGridState extends SampleViewState {
   Widget _getDataPager() {
     return SfDataPagerTheme(
       data: SfDataPagerThemeData(
-          brightness: model.themeData.brightness,
-          selectedItemColor: model.backgroundColor,
-          selectedItemTextStyle: TextStyle(
-              color: model.textColor,
-              fontSize: 14,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w400)),
+        brightness: model.themeData.brightness,
+        selectedItemColor: model.backgroundColor,
+      ),
       child: SfDataPager(
         delegate: _orderInfoDataSource,
         rowsPerPage: 20,

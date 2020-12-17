@@ -65,9 +65,9 @@ class _ThumbCustomizationRangeSliderState extends SampleViewState {
           interval: 2.0,
           min: _thumbMin,
           max: _thumbMax,
-          startThumbIcon:
-              const Icon(Icons.arrow_back_ios, color: Colors.white, size: 12.0),
-          endThumbIcon: const Icon(Icons.arrow_forward_ios,
+          startThumbIcon: const Icon(Icons.arrow_back_ios_outlined,
+              color: Colors.white, size: 12.0),
+          endThumbIcon: const Icon(Icons.arrow_forward_ios_outlined,
               color: Colors.white, size: 12.0),
           minorTicksPerInterval: 1,
           showTicks: true,

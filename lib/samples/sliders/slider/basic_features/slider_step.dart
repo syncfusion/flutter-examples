@@ -70,7 +70,7 @@ class _StepSliderState extends SampleViewState {
               _yearValue = values;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat.y().format(actualLabel);
@@ -94,7 +94,7 @@ class _StepSliderState extends SampleViewState {
                 _stepSliderValue = values;
               });
             },
-            showTooltip: true));
+            enableTooltip: true));
   }
 
   Widget _getWebLayout() {

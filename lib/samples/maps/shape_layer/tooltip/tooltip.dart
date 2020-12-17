@@ -1,11 +1,11 @@
 ///Flutter package imports
 import 'package:flutter/material.dart';
 
-///Map import
-import 'package:syncfusion_flutter_maps/maps.dart';
-
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Map import
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
 import '../../../../model/sample_view.dart';
@@ -21,10 +21,10 @@ class _MapTooltipPageState extends SampleViewState {
   List<IndiaDataModel> _riverData;
   List<IndiaDataModel> _rainfallData;
 
-  MapShapeLayerDelegate _forestMapDelegate;
-  MapShapeLayerDelegate _riverMapDelegate;
-  MapShapeLayerDelegate _rainfallMapDelegate;
-  MapShapeLayerDelegate _mapDelegate;
+  MapShapeSource _forestMapSource;
+  MapShapeSource _riverMapSource;
+  MapShapeSource _rainfallMapSource;
+  MapShapeSource _mapSource;
 
   Color _bubbleColor;
 
@@ -141,24 +141,24 @@ class _MapTooltipPageState extends SampleViewState {
           imageSource: 'images/maps_rainfall_2.jpg'),
     ];
 
-    _forestMapDelegate = MapShapeLayerDelegate(
-      shapeFile: 'assets/india.json',
+    _forestMapSource = MapShapeSource.asset(
+      'assets/india.json',
       shapeDataField: 'name',
       dataCount: _forestData.length,
       primaryValueMapper: (index) => _forestData[index].state,
       bubbleSizeMapper: (index) => _forestData[index].areaInSqKm.toDouble(),
     );
 
-    _riverMapDelegate = MapShapeLayerDelegate(
-      shapeFile: 'assets/india.json',
+    _riverMapSource = MapShapeSource.asset(
+      'assets/india.json',
       shapeDataField: 'name',
       dataCount: _riverData.length,
       primaryValueMapper: (index) => _riverData[index].state,
       bubbleSizeMapper: (index) => _riverData[index].riversCount,
     );
 
-    _rainfallMapDelegate = MapShapeLayerDelegate(
-      shapeFile: 'assets/india.json',
+    _rainfallMapSource = MapShapeSource.asset(
+      'assets/india.json',
       shapeDataField: 'name',
       dataCount: _rainfallData.length,
       primaryValueMapper: (index) => _rainfallData[index].state,
@@ -183,17 +183,17 @@ class _MapTooltipPageState extends SampleViewState {
       case 0:
         _mapTitle = 'Indian States with the Most Forest Area';
         _bubbleColor = Color.fromRGBO(34, 205, 72, 0.7);
-        _mapDelegate = _forestMapDelegate;
+        _mapSource = _forestMapSource;
         break;
       case 1:
         _mapTitle = 'Indian States with the Most Rivers';
         _bubbleColor = Color.fromRGBO(237, 171, 0, 0.7);
-        _mapDelegate = _riverMapDelegate;
+        _mapSource = _riverMapSource;
         break;
       case 2:
         _mapTitle = 'Indian States with the Most Rainfall';
         _bubbleColor = Color.fromRGBO(24, 152, 207, 0.7);
-        _mapDelegate = _rainfallMapDelegate;
+        _mapSource = _rainfallMapSource;
         break;
     }
   }
@@ -305,104 +305,89 @@ class _MapTooltipPageState extends SampleViewState {
 
   Widget _getMapsWidget(ThemeData themeData) {
     final bool isLightTheme = themeData.brightness == Brightness.light;
-    return FutureBuilder<dynamic>(
-      future: Future<dynamic>.delayed(
-          Duration(milliseconds: model.isWeb ? 0 : 500), () => 'Loaded'),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasData) {
-          return Stack(
-            children: [
-              Container(
-                padding: MediaQuery.of(context).orientation ==
-                            Orientation.portrait ||
-                        model.isWeb
-                    ? EdgeInsets.only(
-                        left: 15,
-                        top: MediaQuery.of(context).size.height * 0.05,
-                        bottom: MediaQuery.of(context).size.height * 0.15)
-                    : const EdgeInsets.only(bottom: 75.0),
-                child: SfMapsTheme(
-                  data: SfMapsThemeData(
-                    shapeHoverColor: Colors.transparent,
-                    shapeHoverStrokeWidth: 0,
-                    shapeHoverStrokeColor: Colors.transparent,
-                    bubbleHoverColor: _bubbleColor.withOpacity(0.4),
-                    bubbleHoverStrokeColor: Colors.black,
-                    bubbleHoverStrokeWidth: 1.0,
-                  ),
-                  child: SfMaps(
-                    title: MapTitle(
-                      text: _mapTitle,
-                      padding: const EdgeInsets.only(top: 15, bottom: 30),
-                    ),
-                    layers: [
-                      MapShapeLayer(
-                        delegate: _mapDelegate,
-
-                        /// This callback returns the custom widget to be shown
-                        /// as the tooltip. The custom widget will be wrapped
-                        /// inside the tooltip. Hence, the nose will still be
-                        /// there. You can customize the stroke around the
-                        /// tooltip if needed.
-                        bubbleTooltipBuilder:
-                            (BuildContext context, int index) {
-                          return _getCustomTooltipWidget(
-                              _getSelectedIndexModel(index),
-                              themeData,
-                              isLightTheme);
-                        },
-                        showBubbles: true,
-                        enableBubbleTooltip: true,
-                        color: isLightTheme
-                            ? Color.fromRGBO(204, 204, 204, 1)
-                            : Color.fromRGBO(103, 103, 103, 1),
-                        strokeColor: isLightTheme
-                            ? Color.fromRGBO(255, 255, 255, 1)
-                            : Color.fromRGBO(49, 49, 49, 1),
-                        bubbleSettings: MapBubbleSettings(
-                          minRadius: 15,
-                          maxRadius: 30,
-                          color: _bubbleColor,
-                          strokeColor: Colors.black,
-                          strokeWidth: 0.5,
-                        ),
-                        tooltipSettings: MapTooltipSettings(
-                          color: isLightTheme
-                              ? Color.fromRGBO(255, 255, 255, 1)
-                              : Color.fromRGBO(66, 66, 66, 1),
-                          strokeColor: Color.fromRGBO(153, 153, 153, 1),
-                          strokeWidth: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _getChipWidget(0, 'Forest'),
-                    _getChipWidget(1, 'River'),
-                    _getChipWidget(2, 'Rainfall'),
-                  ],
-                ),
-              )
-            ],
-          );
-        } else {
-          return Center(
-            child: Container(
-              height: 25,
-              width: 25,
-              child: const CircularProgressIndicator(
-                strokeWidth: 3,
-              ),
+    return Stack(
+      children: [
+        Container(
+          padding: MediaQuery.of(context).orientation == Orientation.portrait ||
+                  model.isWeb
+              ? EdgeInsets.only(
+                  left: 15,
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.15)
+              : const EdgeInsets.only(bottom: 75.0),
+          child: SfMapsTheme(
+            data: SfMapsThemeData(
+              shapeHoverColor: Colors.transparent,
+              shapeHoverStrokeWidth: 0,
+              shapeHoverStrokeColor: Colors.transparent,
+              bubbleHoverColor: _bubbleColor.withOpacity(0.4),
+              bubbleHoverStrokeColor: Colors.black,
+              bubbleHoverStrokeWidth: 1.0,
             ),
-          );
-        }
-      },
+            child: SfMaps(
+              title: MapTitle(
+                _mapTitle,
+                padding: const EdgeInsets.only(top: 15, bottom: 30),
+              ),
+              layers: [
+                MapShapeLayer(
+                  loadingBuilder: (BuildContext context) {
+                    return Container(
+                      height: 25,
+                      width: 25,
+                      child: const CircularProgressIndicator(
+                        strokeWidth: 3,
+                      ),
+                    );
+                  },
+                  source: _mapSource,
+
+                  /// This callback returns the custom widget to be shown
+                  /// as the tooltip. The custom widget will be wrapped
+                  /// inside the tooltip. Hence, the nose will still be
+                  /// there. You can customize the stroke around the
+                  /// tooltip if needed.
+                  bubbleTooltipBuilder: (BuildContext context, int index) {
+                    return _getCustomTooltipWidget(
+                        _getSelectedIndexModel(index), themeData, isLightTheme);
+                  },
+                  color: isLightTheme
+                      ? Color.fromRGBO(204, 204, 204, 1)
+                      : Color.fromRGBO(103, 103, 103, 1),
+                  strokeColor: isLightTheme
+                      ? Color.fromRGBO(255, 255, 255, 1)
+                      : Color.fromRGBO(49, 49, 49, 1),
+                  bubbleSettings: MapBubbleSettings(
+                    minRadius: 15,
+                    maxRadius: 30,
+                    color: _bubbleColor,
+                    strokeColor: Colors.black,
+                    strokeWidth: 0.5,
+                  ),
+                  tooltipSettings: MapTooltipSettings(
+                    color: isLightTheme
+                        ? Color.fromRGBO(255, 255, 255, 1)
+                        : Color.fromRGBO(66, 66, 66, 1),
+                    strokeColor: Color.fromRGBO(153, 153, 153, 1),
+                    strokeWidth: 0.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _getChipWidget(0, 'Forest'),
+              _getChipWidget(1, 'River'),
+              _getChipWidget(2, 'Rainfall'),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

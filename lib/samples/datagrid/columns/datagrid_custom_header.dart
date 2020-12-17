@@ -147,6 +147,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
       source: _source,
       columns: _columns,
       gridLinesVisibility: GridLinesVisibility.both,
+      headerGridLinesVisibility: GridLinesVisibility.both,
       onCellTap: (details) {
         if (details.rowColumnIndex.rowIndex == 0) {
           buildShowMenu(context, details);
@@ -161,32 +162,25 @@ class _CustomHeaderDataGridState extends SampleViewState {
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
-      GridNumericColumn(mappingName: 'id')
-        ..width = 140
-        ..headerText = 'Order ID',
-      GridNumericColumn(mappingName: 'productId')
-        ..width = 150
-        ..headerText = 'Product ID',
-      GridTextColumn(mappingName: 'name')
-        ..width = 185
-        ..headerText = 'Customer Name',
-      GridTextColumn(mappingName: 'product')
-        ..width = 135
-        ..headerText = 'Product',
-      GridDateTimeColumn(mappingName: 'orderDate')
-        ..width = 150
-        ..dateFormat = DateFormat('MM/dd/yyyy')
-        ..headerText = 'Order Date',
-      GridNumericColumn(mappingName: 'quantity')
-        ..width = 135
-        ..headerText = 'Quantity',
-      GridTextColumn(mappingName: 'city')
-        ..width = 130
-        ..headerText = 'City',
-      GridNumericColumn(mappingName: 'unitPrice')
-        ..width = 140
-        ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$')
-        ..headerText = 'Unit Price',
+      GridNumericColumn(mappingName: 'id', width: 140, headerText: 'Order ID'),
+      GridNumericColumn(
+          mappingName: 'productId', width: 150, headerText: 'Product ID'),
+      GridTextColumn(
+          mappingName: 'name', width: 185, headerText: 'Customer Name'),
+      GridTextColumn(mappingName: 'product', width: 135, headerText: 'Product'),
+      GridDateTimeColumn(
+          mappingName: 'orderDate',
+          width: 150,
+          dateFormat: DateFormat('MM/dd/yyyy'),
+          headerText: 'Order Date'),
+      GridNumericColumn(
+          mappingName: 'quantity', width: 135, headerText: 'Quantity'),
+      GridTextColumn(mappingName: 'city', width: 130, headerText: 'City'),
+      GridNumericColumn(
+          mappingName: 'unitPrice',
+          width: 140,
+          numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+          headerText: 'Unit Price'),
     ];
     return columns;
   }

@@ -7,7 +7,7 @@ UIDocumentInteractionController* _uiController;
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
       FlutterViewController* controller =(FlutterViewController*) self.window.rootViewController;
 
-            FlutterMethodChannel* viewPdfFileChannel = [FlutterMethodChannel methodChannelWithName:@"launchFile" binaryMessenger: controller];
+            FlutterMethodChannel* viewPdfFileChannel = [FlutterMethodChannel methodChannelWithName:@"launchFile" binaryMessenger: controller.binaryMessenger];
 
             [viewPdfFileChannel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
                 if ([@"viewPdf" isEqualToString:call.method] || [@"viewExcel" isEqualToString:call.method]) {
@@ -17,7 +17,7 @@ UIDocumentInteractionController* _uiController;
                     if(fileExist){
                         NSString* fileExtension = [filePath pathExtension];
                        _uiController  = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:filePath]];
-                        _uiController.delegate = self;
+                        _uiController.delegate = (id)self;
                         if([fileExtension isEqualToString:@"pdf"]){
                             _uiController.UTI = @"com.adobe.pdf";
                         }

@@ -52,7 +52,7 @@ class _ThumbCustomizedRangeSliderState extends SampleViewState {
         interval: 10,
         minorTicksPerInterval: 3,
         showTicks: true,
-        showTooltip: true,
+        enableTooltip: true,
         numberFormat: NumberFormat('#'),
         thumbShape: _RectThumbShape(),
       ),
@@ -75,7 +75,7 @@ class _ThumbCustomizedRangeSliderState extends SampleViewState {
             _doubleStrokeSliderValues = values;
           });
         },
-        showTooltip: true,
+        enableTooltip: true,
         numberFormat: NumberFormat('#'),
         thumbShape: const _ThumbShape(true),
         activeColor: const Color.fromARGB(255, 0, 178, 206),

@@ -51,7 +51,7 @@ class _TickCustomizedSliderState extends SampleViewState {
         interval: 10,
         minorTicksPerInterval: 3,
         showTicks: true,
-        showTooltip: true,
+        enableTooltip: true,
         numberFormat: NumberFormat('#'),
         tickShape: _TickShape(),
         minorTickShape: _MinorTickShape(),

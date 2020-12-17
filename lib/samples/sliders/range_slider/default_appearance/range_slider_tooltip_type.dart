@@ -72,7 +72,7 @@ class _TooltipRangeSliderState extends SampleViewState {
               _yearValues = values;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat.yMMM().format(actualLabel);
@@ -100,7 +100,7 @@ class _TooltipRangeSliderState extends SampleViewState {
               _hourValues = values;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           tooltipShape: SfPaddleTooltipShape(),
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {

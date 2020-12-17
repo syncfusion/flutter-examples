@@ -41,7 +41,7 @@ class _RadialNonLinearLabelState extends SampleViewState {
             maximum: 150,
             axisLabelStyle: GaugeTextStyle(fontSize: 12),
             // Added custom axis renderer that extended from RadialAxisRenderer
-            // onCreateAxisRenderer: handleCreateAxisRenderer,
+            onCreateAxisRenderer: handleCreateAxisRenderer,
             pointers: <GaugePointer>[
               NeedlePointer(
                   enableAnimation: true,
@@ -81,10 +81,8 @@ class _RadialNonLinearLabelState extends SampleViewState {
     );
   }
 
-  GaugeAxisRenderer handleCreateAxisRenderer(GaugeAxis axis) {
+  GaugeAxisRenderer handleCreateAxisRenderer() {
     final _CustomAxisRenderer _customAxisRenderer = _CustomAxisRenderer();
-    final RadialAxis customAxis = axis;
-    _customAxisRenderer._axis = customAxis;
     return _customAxisRenderer;
   }
 
@@ -94,8 +92,6 @@ class _RadialNonLinearLabelState extends SampleViewState {
 class _CustomAxisRenderer extends RadialAxisRenderer {
   _CustomAxisRenderer() : super();
 
-  RadialAxis _axis;
-
   /// Generated the 9 non-linear interval labels from 0 to 150
   /// instead of actual generated labels.
   @override
@@ -104,7 +100,7 @@ class _CustomAxisRenderer extends RadialAxisRenderer {
     for (num i = 0; i < 9; i++) {
       final double _value = _calculateLabelValue(i);
       final CircularAxisLabel label = CircularAxisLabel(
-          _axis.axisLabelStyle, _value.toInt().toString(), i, false);
+          this.axis.axisLabelStyle, _value.toInt().toString(), i, false);
       label.value = _value;
       _visibleLabels.add(label);
     }

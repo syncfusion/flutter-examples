@@ -70,7 +70,7 @@ class _DefaultRangeSliderState extends SampleViewState {
             });
           },
           values: _activeRangeSliderValue,
-          showTooltip: true,
+          enableTooltip: true,
           numberFormat: NumberFormat('#'),
         ));
   }

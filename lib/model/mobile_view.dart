@@ -26,6 +26,7 @@ class LayoutPage extends StatefulWidget {
 class _LayoutPageState extends State<LayoutPage> {
   SampleModel _model;
   WidgetCategory _category;
+  StateSetter refreshSetState;
 
   @override
   void initState() {
@@ -37,137 +38,206 @@ class _LayoutPageState extends State<LayoutPage> {
 
   int _primaryTabIndex = 0;
   int _secondaryTabIndex = 0;
+  bool _showCodeIcon = false;
+
   @override
   Widget build(BuildContext context) {
+    _showCodeIcon =
+        _category.controlList[_category.selectedIndex].subItems[0].type ==
+                'sample' ||
+            (_category.controlList[_category.selectedIndex].subItems[0].type !=
+                    'parent' &&
+                _category.controlList[_category.selectedIndex].subItems[0]
+                        .displayType !=
+                    'card');
     return Theme(
         data: ThemeData(
             brightness: _model.themeData.brightness,
             primaryColor: _model.backgroundColor),
-        child: SafeArea(
-          child: DefaultTabController(
-            length:
-                _category.controlList[_category.selectedIndex].subItems.length,
-            child: Scaffold(
-                appBar: AppBar(
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.maybePop(context, false),
-                  ),
-                  backgroundColor: _model.paletteColor,
-                  bottom: ((_category.controlList[_category.selectedIndex]
-                                      .sampleList !=
-                                  null &&
-                              _category.controlList[_category.selectedIndex]
-                                      .displayType ==
-                                  'card')) ||
-                          _category.controlList[_category.selectedIndex]
-                                  .subItems.length ==
-                              1
-                      ? null
-                      : TabBar(
-                          onTap: (int index) {
-                            _primaryTabIndex = index;
-                          },
-                          indicator: const UnderlineTabIndicator(
-                            borderSide: BorderSide(
-                                width: 5.0,
-                                color: Color.fromRGBO(252, 220, 0, 1)),
-                          ),
-                          isScrollable: true,
-                          tabs: _getTabs(
-                              _category.controlList[_category.selectedIndex]
-                                  .subItems,
-                              'parent'),
-                        ),
-                  title: Text(
-                      _category.controlList[_category.selectedIndex].title
-                          .toString(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          letterSpacing: 0.3)),
-                  actions: ((_category.controlList[_category.selectedIndex]
-                                      .sampleList !=
-                                  null &&
-                              _category.controlList[_category.selectedIndex]
-                                      .displayType !=
-                                  'card' &&
-                              _category.controlList[_category.selectedIndex]
-                                      .sampleList[_primaryTabIndex].codeLink !=
-                                  null &&
-                              _category.controlList[_category.selectedIndex]
-                                      .sampleList[_primaryTabIndex].codeLink !=
-                                  '') ||
-                          (_category.controlList[_category.selectedIndex]
-                                      .childList !=
-                                  null &&
-                              _category
-                                      .controlList[_category.selectedIndex]
-                                      .childList[_primaryTabIndex]
-                                      .displayType !=
-                                  'card'))
-                      ? <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              child: IconButton(
-                                icon: Image.asset('images/code.png',
-                                    color: Colors.white),
-                                onPressed: () {
-                                  launch(_category
-                                              .controlList[
-                                                  _category.selectedIndex]
-                                              .sampleList ==
-                                          null
-                                      ? _category
-                                          .controlList[_category.selectedIndex]
-                                          .childList[_primaryTabIndex]
-                                          .subItems[_secondaryTabIndex]
-                                          .codeLink
-                                      : _category
-                                          .controlList[_category.selectedIndex]
-                                          .sampleList[_primaryTabIndex]
-                                          .codeLink);
-                                },
-                              ),
-                            ),
-                          ),
-                        ]
-                      : null,
-                ),
-                body: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: (_category.controlList[_category.selectedIndex]
-                                    .sampleList !=
-                                null) ||
+        child: StatefulBuilder(
+            builder: (BuildContext buildContext, StateSetter setState) {
+          refreshSetState = setState;
+          return SafeArea(
+            child: DefaultTabController(
+              length: _category
+                  .controlList[_category.selectedIndex].subItems.length,
+              child: Scaffold(
+                  appBar: AppBar(
+                    leading: IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.maybePop(context, false),
+                    ),
+                    backgroundColor: _model.paletteColor,
+                    bottom: ((_category.controlList[_category.selectedIndex]
+                                        .sampleList !=
+                                    null &&
+                                _category.controlList[_category.selectedIndex]
+                                        .displayType ==
+                                    'card')) ||
                             _category.controlList[_category.selectedIndex]
                                     .subItems.length ==
                                 1
-                        ? _getSamples(
-                            _model,
-                            _category.controlList[_category.selectedIndex]
-                                .sampleList,
-                            _category.controlList[_category.selectedIndex]
-                                .displayType)
-                        : (_category.controlList[_category.selectedIndex]
+                        ? null
+                        : TabBar(
+                            onTap: (int index) {
+                              if (index != _primaryTabIndex) {
+                                _primaryTabIndex = index;
+                                refreshSetState(() {
+                                  _showCodeIcon = _category
+                                              .controlList[
+                                                  _category.selectedIndex]
+                                              .subItems[index]
+                                              .type ==
+                                          'sample' ||
+                                      (_category
+                                                  .controlList[
+                                                      _category.selectedIndex]
+                                                  .subItems[index]
+                                                  .type !=
+                                              'parent' &&
+                                          _category
+                                                  .controlList[
+                                                      _category.selectedIndex]
+                                                  .subItems[index]
+                                                  .displayType !=
+                                              'card');
+                                });
+                              }
+                            },
+                            indicator: const UnderlineTabIndicator(
+                              borderSide: BorderSide(
+                                  width: 5.0,
+                                  color: Color.fromRGBO(252, 220, 0, 1)),
+                            ),
+                            isScrollable: true,
+                            tabs: _getTabs(
+                                _category.controlList[_category.selectedIndex]
+                                    .subItems,
+                                'parent'),
+                          ),
+                    title: Text(
+                        _category.controlList[_category.selectedIndex].title
+                            .toString(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Colors.white,
+                            letterSpacing: 0.3)),
+                    actions: ((_category.controlList[_category.selectedIndex]
+                                        .sampleList !=
+                                    null &&
+                                _category.controlList[_category.selectedIndex]
+                                        .displayType !=
+                                    'card' &&
+                                _category
+                                        .controlList[_category.selectedIndex]
+                                        .sampleList[_primaryTabIndex]
+                                        .codeLink !=
+                                    null &&
+                                _category
+                                        .controlList[_category.selectedIndex]
+                                        .sampleList[_primaryTabIndex]
+                                        .codeLink !=
+                                    '') ||
+                            (_category.controlList[_category.selectedIndex]
                                         .childList !=
                                     null &&
-                                _checkSubItemsType(_category
-                                    .controlList[_category.selectedIndex]
-                                    .subItems))
-                            ? _getChildTabViewChildren(
-                                _model,
-                                _category.controlList[_category.selectedIndex]
-                                    .childList)
-                            : _getParentTabViewChildren(
-                                _model,
-                                _category.controlList[_category.selectedIndex]
-                                    .subItems))),
-          ),
-        ));
+                                _category
+                                        .controlList[_category.selectedIndex]
+                                        .childList[_primaryTabIndex]
+                                        .displayType !=
+                                    'card'))
+                        ? <Widget>[
+                            Visibility(
+                                visible: _showCodeIcon,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    child: IconButton(
+                                      icon: Image.asset('images/code.png',
+                                          color: Colors.white),
+                                      onPressed: () {
+                                        launch(_category.controlList[_category.selectedIndex].sampleList == null
+                                            ? (_category.controlList[_category.selectedIndex].childList[_primaryTabIndex].subItems[_secondaryTabIndex].codeLink == null &&
+                                                    _category
+                                                            .controlList[_category
+                                                                .selectedIndex]
+                                                            .childList[
+                                                                _primaryTabIndex]
+                                                            .subItems[
+                                                                _secondaryTabIndex]
+                                                            .subItems
+                                                            .length ==
+                                                        1 &&
+                                                    _category
+                                                            .controlList[_category
+                                                                .selectedIndex]
+                                                            .childList[
+                                                                _primaryTabIndex]
+                                                            .subItems[
+                                                                _secondaryTabIndex]
+                                                            .displayType !=
+                                                        'card'
+                                                ? _category
+                                                    .controlList[
+                                                        _category.selectedIndex]
+                                                    .childList[_primaryTabIndex]
+                                                    .subItems[
+                                                        _secondaryTabIndex]
+                                                    .subItems[0]
+                                                    .codeLink
+                                                : _category
+                                                    .controlList[
+                                                        _category.selectedIndex]
+                                                    .childList[_primaryTabIndex]
+                                                    .subItems[
+                                                        _secondaryTabIndex]
+                                                    .codeLink)
+                                            : _category
+                                                .controlList[_category.selectedIndex]
+                                                .sampleList[_primaryTabIndex]
+                                                .codeLink);
+                                      },
+                                    ),
+                                  ),
+                                )),
+                          ]
+                        : null,
+                  ),
+                  body: TabBarView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: (_category.controlList[_category.selectedIndex]
+                                      .sampleList !=
+                                  null) ||
+                              _category.controlList[_category.selectedIndex]
+                                      .subItems.length ==
+                                  1
+                          ? _getSamples(
+                              _model,
+                              _category.controlList[_category.selectedIndex]
+                                  .sampleList,
+                              _category.controlList[_category.selectedIndex]
+                                  .displayType)
+                          : (_category.controlList[_category.selectedIndex]
+                                          .childList !=
+                                      null &&
+                                  _checkSubItemsType(_category
+                                      .controlList[_category.selectedIndex]
+                                      .subItems))
+                              ? _getChildTabViewChildren(
+                                  _model,
+                                  _category.controlList[_category.selectedIndex]
+                                      .childList)
+                              : _getParentTabViewChildren(
+                                  _model,
+                                  _category.controlList[_category.selectedIndex]
+                                      .subItems))),
+            ),
+          );
+        }));
   }
 
   /// Returns true, if the list doesn't contain any child type.
@@ -365,22 +435,26 @@ class _LayoutPageState extends State<LayoutPage> {
                                       Container(
                                           decoration: BoxDecoration(
                                               color: (_status != null && _status != '')
-                                                  ? (_status == 'New' || _status == 'new'
+                                                  ? (_status == 'New' ||
+                                                          _status == 'new'
                                                       ? const Color.fromRGBO(
                                                           55, 153, 30, 1)
                                                       : const Color.fromRGBO(
                                                           246, 117, 0, 1))
                                                   : Colors.transparent,
                                               shape: BoxShape.rectangle,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(10.0))),
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(10.0))),
                                           padding: const EdgeInsets.fromLTRB(
                                               5, 2.7, 5, 2.7),
                                           child: Text(
-                                              (_status == 'New' || _status == 'new')
+                                              (_status == 'New' ||
+                                                      _status == 'new')
                                                   ? 'New'
-                                                  : (_status == 'Updated' || _status == 'updated') ? 'Updated' : '',
+                                                  : (_status == 'Updated' ||
+                                                          _status == 'updated')
+                                                      ? 'Updated'
+                                                      : '',
                                               style: const TextStyle(fontSize: 12, color: Colors.white))),
                                       const Padding(
                                         padding: EdgeInsets.only(left: 15),
@@ -489,6 +563,21 @@ class _LayoutPageState extends State<LayoutPage> {
                             backgroundColor:
                                 const Color.fromRGBO(241, 241, 241, 1),
                             bottom: TabBar(
+                              onTap: (int index) {
+                                if (_secondaryTabIndex != index) {
+                                  _secondaryTabIndex = index;
+                                  refreshSetState(() {
+                                    _showCodeIcon =
+                                        (list[i].subItems[index].displayType !=
+                                                'card' ||
+                                            list[i]
+                                                    .subItems[index]
+                                                    .subItems
+                                                    .length ==
+                                                1);
+                                  });
+                                }
+                              },
                               unselectedLabelColor: Colors.black,
                               labelColor: Colors.blue,
                               indicatorColor: Colors.transparent,

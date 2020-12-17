@@ -247,57 +247,66 @@ class _AutoRowHeightDataGridState extends SampleViewState {
             return height;
           },
           columns: <GridColumn>[
-            GridTextColumn(mappingName: 'id')
-              ..softWrap = true
-              ..overflow = TextOverflow.clip
-              ..width = model.isWeb ? 135 : 90
-              ..headerText = 'ID'
-              ..padding = EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            GridTextColumn(mappingName: 'contactName')
-              ..softWrap = true
-              ..columnWidthMode =
-                  model.isWeb ? ColumnWidthMode.auto : ColumnWidthMode.header
-              ..overflow = TextOverflow.clip
-              ..headerText = 'Contact Name'
-              ..padding = EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            GridTextColumn(mappingName: 'companyName')
-              ..softWrap = true
-              ..overflow = TextOverflow.clip
-              ..width = model.isWeb ? 165 : 140
-              ..headerText = 'Company Name'
-              ..padding = EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            GridTextColumn(mappingName: 'address')
-              ..softWrap = true
-              ..width = model.isWeb ? 180 : 140
-              ..overflow = TextOverflow.clip
-              ..headerText = 'Address'
-              ..padding = EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            GridTextColumn(mappingName: 'city')
-              ..softWrap = true
-              ..overflow = TextOverflow.clip
-              ..width = model.isWeb ? 150 : 120
-              ..headerText = 'City'
-              ..padding = EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            GridTextColumn(mappingName: 'country')
-              ..softWrap = true
-              ..overflow = TextOverflow.clip
-              ..width = model.isWeb ? 150 : 120
-              ..headerText = 'Country'
-              ..padding = EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            GridTextColumn(mappingName: 'designation')
-              ..softWrap = true
-              ..overflow = TextOverflow.clip
-              ..columnWidthMode = ColumnWidthMode.auto
-              ..headerText = 'Designation'
-              ..padding = EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            GridTextColumn(mappingName: 'postalCode')
-              ..columnWidthMode = ColumnWidthMode.header
-              ..headerText = 'Postal Code'
-              ..padding = EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            GridTextColumn(mappingName: 'phoneNumber')
-              ..columnWidthMode = ColumnWidthMode.auto
-              ..headerText = 'Phone Number'
-              ..padding = EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            GridTextColumn(
+                mappingName: 'id',
+                softWrap: true,
+                overflow: TextOverflow.clip,
+                width: model.isWeb ? 135 : 90,
+                headerText: 'ID',
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16)),
+            GridTextColumn(
+                mappingName: 'contactName',
+                softWrap: true,
+                columnWidthMode:
+                    model.isWeb ? ColumnWidthMode.auto : ColumnWidthMode.header,
+                overflow: TextOverflow.clip,
+                headerText: 'Contact Name',
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16)),
+            GridTextColumn(
+                mappingName: 'companyName',
+                softWrap: true,
+                overflow: TextOverflow.clip,
+                width: model.isWeb ? 165 : 140,
+                headerText: 'Company Name',
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16)),
+            GridTextColumn(
+                mappingName: 'address',
+                softWrap: true,
+                width: model.isWeb ? 180 : 140,
+                overflow: TextOverflow.clip,
+                headerText: 'Address',
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16)),
+            GridTextColumn(
+                mappingName: 'city',
+                softWrap: true,
+                overflow: TextOverflow.clip,
+                width: model.isWeb ? 150 : 120,
+                headerText: 'City',
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16)),
+            GridTextColumn(
+                mappingName: 'country',
+                softWrap: true,
+                overflow: TextOverflow.clip,
+                width: model.isWeb ? 150 : 120,
+                headerText: 'Country',
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16)),
+            GridTextColumn(
+                mappingName: 'designation',
+                softWrap: true,
+                overflow: TextOverflow.clip,
+                columnWidthMode: ColumnWidthMode.auto,
+                headerText: 'Designation',
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16)),
+            GridTextColumn(
+                mappingName: 'postalCode',
+                columnWidthMode: ColumnWidthMode.header,
+                headerText: 'Postal Code',
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16)),
+            GridTextColumn(
+                mappingName: 'phoneNumber',
+                columnWidthMode: ColumnWidthMode.auto,
+                headerText: 'Phone Number',
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16)),
           ]),
     );
   }

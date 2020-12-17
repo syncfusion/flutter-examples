@@ -1,12 +1,12 @@
 ///Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
-
-///Map import
-import 'package:syncfusion_flutter_maps/maps.dart';
+import 'package:flutter/material.dart';
 
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Map import
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
 import '../../../../model/sample_view.dart';
@@ -24,12 +24,12 @@ class _MapBubblePageState extends SampleViewState
     with TickerProviderStateMixin {
   _MapBubblePageState();
 
-  MapShapeLayerDelegate _mapDelegate;
-  MapShapeLayerDelegate _facebookMapDelegate;
-  MapShapeLayerDelegate _twitterMapDelegate;
-  MapShapeLayerDelegate _tikTokMapDelegate;
-  MapShapeLayerDelegate _instagramMapDelegate;
-  MapShapeLayerDelegate _snapChatMapDelegate;
+  MapShapeSource _mapSource;
+  MapShapeSource _facebookMapSource;
+  MapShapeSource _twitterMapSource;
+  MapShapeSource _tikTokMapSorce;
+  MapShapeSource _instagramMapSource;
+  MapShapeSource _snapChatMapSource;
 
   bool _isLightTheme;
 
@@ -40,6 +40,8 @@ class _MapBubblePageState extends SampleViewState
   Color _tooltipColor;
   Color _tooltipStrokeColor;
   Color _tooltipTextColor;
+
+  String _currentDelegate;
 
   BoxDecoration _facebookBoxDecoration;
   BoxDecoration _twitterBoxDecoration;
@@ -214,86 +216,63 @@ class _MapBubblePageState extends SampleViewState
       _UsersModel('Egypt', 7),
     ];
 
-    _facebookMapDelegate = MapShapeLayerDelegate(
-        // Path of the GeoJSON file.
-        shapeFile: 'assets/world_map.json',
-        // Field or group name in the .json file to identify the shapes.
-        //
-        // Which is used to map the respective shape to data source.
-        shapeDataField: 'name',
-        // The number of data in your data source collection.
-        //
-        // The callback for the [primaryValueMapper] will be called
-        // the number of times equal to the [dataCount].
-        // The value returned in the [primaryValueMapper] should be
-        // exactly matched with the value of the [shapeDataField]
-        // in the .json file. This is how the mapping between the
-        // data source and the shapes in the .json file is done.
-        dataCount: _facebookUsers.length,
-        primaryValueMapper: (int index) => _facebookUsers[index].country,
-        // The value returned from this callback will be used as a factor to
-        // calculate the radius of the bubble between the
-        // [MapBubbleSettings.minRadius] and [MapBubbleSettings.maxRadius].
-        bubbleSizeMapper: (int index) => _facebookUsers[index].usersCount,
-        // Returns the custom tooltip text for each bubble.
-        //
-        // By default, the value returned in the [primaryValueMapper]
-        // will be used for tooltip text.
-        bubbleTooltipTextMapper: (int index) =>
-            _facebookUsers[index].country +
-            ' : ' +
-            _facebookUsers[index].usersCount.toStringAsFixed(0) +
-            'M users');
+    _facebookMapSource = MapShapeSource.asset(
+      // Path of the GeoJSON file.
+      'assets/world_map.json',
+      // Field or group name in the .json file to identify the shapes.
+      //
+      // Which is used to map the respective shape to data source.
+      shapeDataField: 'name',
+      // The number of data in your data source collection.
+      //
+      // The callback for the [primaryValueMapper] will be called
+      // the number of times equal to the [dataCount].
+      // The value returned in the [primaryValueMapper] should be
+      // exactly matched with the value of the [shapeDataField]
+      // in the .json file. This is how the mapping between the
+      // data source and the shapes in the .json file is done.
+      dataCount: _facebookUsers.length,
+      primaryValueMapper: (int index) => _facebookUsers[index].country,
+      // The value returned from this callback will be used as a factor to
+      // calculate the radius of the bubble between the
+      // [MapBubbleSettings.minRadius] and [MapBubbleSettings.maxRadius].
+      bubbleSizeMapper: (int index) => _facebookUsers[index].usersCount,
+    );
 
-    _twitterMapDelegate = MapShapeLayerDelegate(
-        shapeFile: 'assets/world_map.json',
-        shapeDataField: 'name',
-        dataCount: _twitterUsers.length,
-        primaryValueMapper: (int index) => _twitterUsers[index].country,
-        bubbleSizeMapper: (int index) => _twitterUsers[index].usersCount,
-        bubbleTooltipTextMapper: (int index) =>
-            _twitterUsers[index].country +
-            ' : ' +
-            _twitterUsers[index].usersCount.toStringAsFixed(0) +
-            'M users');
+    _twitterMapSource = MapShapeSource.asset(
+      'assets/world_map.json',
+      shapeDataField: 'name',
+      dataCount: _twitterUsers.length,
+      primaryValueMapper: (int index) => _twitterUsers[index].country,
+      bubbleSizeMapper: (int index) => _twitterUsers[index].usersCount,
+    );
 
-    _tikTokMapDelegate = MapShapeLayerDelegate(
-        shapeFile: 'assets/world_map.json',
-        shapeDataField: 'name',
-        dataCount: _tikTokUsers.length,
-        primaryValueMapper: (int index) => _tikTokUsers[index].country,
-        bubbleSizeMapper: (int index) => _tikTokUsers[index].usersCount,
-        bubbleTooltipTextMapper: (int index) =>
-            _tikTokUsers[index].country +
-            ' : ' +
-            _tikTokUsers[index].usersCount.toStringAsFixed(0) +
-            'M users');
+    _tikTokMapSorce = MapShapeSource.asset(
+      'assets/world_map.json',
+      shapeDataField: 'name',
+      dataCount: _tikTokUsers.length,
+      primaryValueMapper: (int index) => _tikTokUsers[index].country,
+      bubbleSizeMapper: (int index) => _tikTokUsers[index].usersCount,
+    );
 
-    _instagramMapDelegate = MapShapeLayerDelegate(
-        shapeFile: 'assets/world_map.json',
-        shapeDataField: 'name',
-        dataCount: _instagramUsers.length,
-        primaryValueMapper: (int index) => _instagramUsers[index].country,
-        bubbleSizeMapper: (int index) => _instagramUsers[index].usersCount,
-        bubbleTooltipTextMapper: (int index) =>
-            _instagramUsers[index].country +
-            ' : ' +
-            _instagramUsers[index].usersCount.toStringAsFixed(0) +
-            'M users');
+    _instagramMapSource = MapShapeSource.asset(
+      'assets/world_map.json',
+      shapeDataField: 'name',
+      dataCount: _instagramUsers.length,
+      primaryValueMapper: (int index) => _instagramUsers[index].country,
+      bubbleSizeMapper: (int index) => _instagramUsers[index].usersCount,
+    );
 
-    _snapChatMapDelegate = MapShapeLayerDelegate(
-        shapeFile: 'assets/world_map.json',
-        shapeDataField: 'name',
-        dataCount: _snapChatUsers.length,
-        primaryValueMapper: (int index) => _snapChatUsers[index].country,
-        bubbleSizeMapper: (int index) => _snapChatUsers[index].usersCount,
-        bubbleTooltipTextMapper: (int index) =>
-            _snapChatUsers[index].country +
-            ' : ' +
-            _snapChatUsers[index].usersCount.toStringAsFixed(0) +
-            'M users');
+    _snapChatMapSource = MapShapeSource.asset(
+      'assets/world_map.json',
+      shapeDataField: 'name',
+      dataCount: _snapChatUsers.length,
+      primaryValueMapper: (int index) => _snapChatUsers[index].country,
+      bubbleSizeMapper: (int index) => _snapChatUsers[index].usersCount,
+    );
 
-    _mapDelegate = _facebookMapDelegate;
+    _mapSource = _facebookMapSource;
+    _currentDelegate = 'FaceBook';
     _shapeColor = _isLightTheme
         ? const Color.fromRGBO(57, 110, 218, 0.35)
         : const Color.fromRGBO(72, 132, 255, 0.35);
@@ -339,342 +318,354 @@ class _MapBubblePageState extends SampleViewState
   }
 
   Widget _getMapsWidget() {
-    return FutureBuilder<dynamic>(
-      future: Future<dynamic>.delayed(
-          Duration(milliseconds: model.isWeb ? 0 : 500), () => 'Loaded'),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        return (snapshot.hasData)
-            ? Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: MediaQuery.of(context).orientation ==
-                                Orientation.portrait ||
-                            model.isWeb
-                        ? EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.05,
-                            bottom: MediaQuery.of(context).size.height * 0.15,
-                            right: 10)
-                        : const EdgeInsets.only(bottom: 75.0, right: 10),
-                    child: SfMapsTheme(
-                      data: SfMapsThemeData(
-                        shapeHoverColor: Colors.transparent,
-                        shapeHoverStrokeColor: Colors.transparent,
-                        bubbleHoverColor: _shapeColor,
-                        bubbleHoverStrokeColor: _bubbleColor,
-                        bubbleHoverStrokeWidth: 1.5,
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: MediaQuery.of(context).orientation == Orientation.portrait ||
+                  model.isWeb
+              ? EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.15,
+                  right: 10)
+              : const EdgeInsets.only(bottom: 75.0, right: 10),
+          child: SfMapsTheme(
+            data: SfMapsThemeData(
+              shapeHoverColor: Colors.transparent,
+              shapeHoverStrokeColor: Colors.transparent,
+              bubbleHoverColor: _shapeColor,
+              bubbleHoverStrokeColor: _bubbleColor,
+              bubbleHoverStrokeWidth: 1.5,
+            ),
+            child: SfMaps(
+              title: const MapTitle(
+                'Social Media Users Statistics',
+                padding: EdgeInsets.only(top: 15, bottom: 30),
+              ),
+              layers: <MapLayer>[
+                MapShapeLayer(
+                  loadingBuilder: (BuildContext context) {
+                    return Container(
+                      height: 25,
+                      width: 25,
+                      child: const CircularProgressIndicator(
+                        strokeWidth: 3,
                       ),
-                      child: SfMaps(
-                        title: const MapTitle(
-                          text: 'Social Media Users Statistics',
-                          padding: EdgeInsets.only(top: 15, bottom: 30),
-                        ),
-                        layers: <MapLayer>[
-                          MapShapeLayer(
-                            delegate: _mapDelegate,
-                            enableBubbleTooltip: true,
-                            showBubbles: true,
-                            color: _shapeColor,
-                            strokeWidth: 1,
-                            strokeColor: _shapeStrokeColor,
-                            bubbleSettings: MapBubbleSettings(
-                                strokeColor: _bubbleStrokeColor,
-                                strokeWidth: 0.5,
-                                color: _bubbleColor,
-                                minRadius: 10,
-                                maxRadius: 40),
-                            tooltipSettings: MapTooltipSettings(
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    .copyWith(color: _tooltipTextColor),
-                                color: _tooltipColor,
-                                strokeColor: _tooltipStrokeColor),
-                          ),
-                        ],
-                      ),
+                    );
+                  },
+                  source: _mapSource,
+                  color: _shapeColor,
+                  strokeWidth: 1,
+                  strokeColor: _shapeStrokeColor,
+                  // Returns the custom tooltip for each bubble.
+                  bubbleTooltipBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(_getCustomizedString(index),
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              .copyWith(color: _tooltipTextColor)),
+                    );
+                  },
+                  bubbleSettings: MapBubbleSettings(
+                      strokeColor: _bubbleStrokeColor,
+                      strokeWidth: 0.5,
+                      color: _bubbleColor,
+                      minRadius: 10,
+                      maxRadius: 40),
+                  tooltipSettings: MapTooltipSettings(
+                      color: _tooltipColor, strokeColor: _tooltipStrokeColor),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: _facebookBoxDecoration,
+                  child: ScaleTransition(
+                    scale: _facebookAnimation,
+                    child: IconButton(
+                      icon: Image.asset('images/maps_facebook.png'),
+                      iconSize: 50,
+                      onPressed: () {
+                        setState(() {
+                          _mapSource = _facebookMapSource;
+                          _currentDelegate = 'FaceBook';
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(57, 110, 218, 0.35)
+                              : const Color.fromRGBO(72, 132, 255, 0.35);
+                          _shapeStrokeColor =
+                              const Color.fromARGB(255, 52, 85, 176)
+                                  .withOpacity(0);
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(15, 59, 177, 0.5)
+                              : const Color.fromRGBO(135, 167, 255, 0.6);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(35, 65, 148, 1)
+                              : const Color.fromRGBO(52, 85, 176, 1);
+                          _bubbleStrokeColor = Colors.white;
+                          _tooltipStrokeColor = Colors.white;
+                          _tooltipTextColor = Colors.white;
+
+                          _facebookController.forward();
+
+                          _tiktokController.reverse();
+                          _twitterController.reverse();
+                          _snapchatController.reverse();
+                          _instagramController.reverse();
+
+                          _twitterBoxDecoration = null;
+                          _instagramBoxDecoration = null;
+                          _snapchatBoxDecoration = null;
+                          _tiktokBoxDecoration = null;
+
+                          _facebookBoxDecoration = _getBoxDecoration(
+                              const Color.fromARGB(255, 52, 85, 176)
+                                  .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                        });
+                      },
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            decoration: _facebookBoxDecoration,
-                            child: ScaleTransition(
-                              scale: _facebookAnimation,
-                              child: IconButton(
-                                icon: Image.asset('images/maps_facebook.png'),
-                                iconSize: 50,
-                                onPressed: () {
-                                  setState(() {
-                                    _mapDelegate = _facebookMapDelegate;
-                                    _shapeColor = _isLightTheme
-                                        ? const Color.fromRGBO(
-                                            57, 110, 218, 0.35)
-                                        : const Color.fromRGBO(
-                                            72, 132, 255, 0.35);
-                                    _shapeStrokeColor =
-                                        const Color.fromARGB(255, 52, 85, 176)
-                                            .withOpacity(0);
-                                    _bubbleColor = _isLightTheme
-                                        ? const Color.fromRGBO(15, 59, 177, 0.5)
-                                        : const Color.fromRGBO(
-                                            135, 167, 255, 0.6);
-                                    _tooltipColor = _isLightTheme
-                                        ? const Color.fromRGBO(35, 65, 148, 1)
-                                        : const Color.fromRGBO(52, 85, 176, 1);
-                                    _bubbleStrokeColor = Colors.white;
-                                    _tooltipStrokeColor = Colors.white;
-                                    _tooltipTextColor = Colors.white;
-
-                                    _facebookController.forward();
-
-                                    _tiktokController.reverse();
-                                    _twitterController.reverse();
-                                    _snapchatController.reverse();
-                                    _instagramController.reverse();
-
-                                    _twitterBoxDecoration = null;
-                                    _instagramBoxDecoration = null;
-                                    _snapchatBoxDecoration = null;
-                                    _tiktokBoxDecoration = null;
-
-                                    _facebookBoxDecoration = _getBoxDecoration(
-                                        const Color.fromARGB(255, 52, 85, 176)
-                                            .withOpacity(
-                                                _isLightTheme ? 0.1 : 0.3));
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: _twitterBoxDecoration,
-                            child: ScaleTransition(
-                              scale: _twitterAnimation,
-                              child: IconButton(
-                                icon: Image.asset('images/maps_twitter.png'),
-                                iconSize: 50,
-                                onPressed: () {
-                                  setState(() {
-                                    _mapDelegate = _twitterMapDelegate;
-                                    _shapeColor = _isLightTheme
-                                        ? const Color.fromRGBO(
-                                            86, 170, 235, 0.35)
-                                        : const Color.fromRGBO(
-                                            32, 154, 255, 0.35);
-                                    _shapeStrokeColor =
-                                        const Color.fromARGB(255, 0, 122, 202)
-                                            .withOpacity(0);
-                                    _bubbleColor = _isLightTheme
-                                        ? const Color.fromRGBO(
-                                            17, 124, 179, 0.5)
-                                        : const Color.fromRGBO(
-                                            56, 184, 251, 0.5);
-                                    _tooltipColor = _isLightTheme
-                                        ? const Color.fromRGBO(27, 129, 188, 1)
-                                        : const Color.fromRGBO(65, 154, 207, 1);
-                                    _bubbleStrokeColor = Colors.white;
-                                    _tooltipStrokeColor = Colors.white;
-                                    _tooltipTextColor = Colors.white;
-
-                                    _twitterController.forward();
-
-                                    _facebookController.reverse();
-                                    _tiktokController.reverse();
-                                    _snapchatController.reverse();
-                                    _instagramController.reverse();
-
-                                    _facebookBoxDecoration = null;
-                                    _instagramBoxDecoration = null;
-                                    _snapchatBoxDecoration = null;
-                                    _tiktokBoxDecoration = null;
-
-                                    _twitterBoxDecoration = _getBoxDecoration(
-                                        const Color.fromARGB(255, 0, 122, 202)
-                                            .withOpacity(
-                                                _isLightTheme ? 0.1 : 0.3));
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: _instagramBoxDecoration,
-                            child: ScaleTransition(
-                              scale: _instagramAnimation,
-                              child: IconButton(
-                                icon: Image.asset('images/maps_instagram.png'),
-                                iconSize: 50,
-                                onPressed: () {
-                                  setState(() {
-                                    _mapDelegate = _instagramMapDelegate;
-                                    _shapeColor = _isLightTheme
-                                        ? const Color.fromRGBO(
-                                            159, 119, 213, 0.35)
-                                        : const Color.fromRGBO(
-                                            166, 104, 246, 0.35);
-                                    _shapeStrokeColor =
-                                        const Color.fromARGB(255, 238, 46, 73)
-                                            .withOpacity(0);
-                                    _bubbleColor = _isLightTheme
-                                        ? const Color.fromRGBO(249, 99, 20, 0.5)
-                                        : const Color.fromRGBO(
-                                            253, 173, 38, 0.5);
-                                    _tooltipColor = _isLightTheme
-                                        ? const Color.fromRGBO(175, 90, 66, 1)
-                                        : const Color.fromRGBO(202, 130, 8, 1);
-                                    _bubbleStrokeColor = Colors.white;
-                                    _tooltipStrokeColor = Colors.white;
-                                    _tooltipTextColor = Colors.white;
-
-                                    _instagramController.forward();
-
-                                    _facebookController.reverse();
-                                    _tiktokController.reverse();
-                                    _twitterController.reverse();
-                                    _snapchatController.reverse();
-
-                                    _facebookBoxDecoration = null;
-                                    _twitterBoxDecoration = null;
-                                    _snapchatBoxDecoration = null;
-                                    _tiktokBoxDecoration = null;
-
-                                    _instagramBoxDecoration = _getBoxDecoration(
-                                        const Color.fromARGB(255, 238, 46, 73)
-                                            .withOpacity(
-                                                _isLightTheme ? 0.1 : 0.3));
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: _snapchatBoxDecoration,
-                            child: ScaleTransition(
-                              scale: _snapchatAnimation,
-                              child: IconButton(
-                                icon: Image.asset('images/maps_snapchat.png'),
-                                iconSize: 50,
-                                onPressed: () {
-                                  setState(() {
-                                    _mapDelegate = _snapChatMapDelegate;
-                                    _shapeColor = _isLightTheme
-                                        ? const Color.fromRGBO(
-                                            212, 185, 48, 0.35)
-                                        : const Color.fromRGBO(
-                                            227, 226, 73, 0.35);
-                                    _shapeStrokeColor =
-                                        const Color.fromARGB(255, 255, 126, 0)
-                                            .withOpacity(0);
-                                    _bubbleColor = _isLightTheme
-                                        ? const Color.fromRGBO(182, 150, 2, 0.5)
-                                        : const Color.fromRGBO(
-                                            254, 253, 2, 0.458);
-                                    _tooltipColor = _isLightTheme
-                                        ? const Color.fromRGBO(173, 144, 12, 1)
-                                        : const Color.fromRGBO(225, 225, 30, 1);
-                                    _bubbleStrokeColor = _isLightTheme
-                                        ? Colors.black
-                                        : Colors.white;
-                                    _tooltipStrokeColor = _isLightTheme
-                                        ? Colors.black
-                                        : Colors.white;
-                                    _tooltipTextColor = _isLightTheme
-                                        ? Colors.white
-                                        : Colors.black;
-
-                                    _snapchatController.forward();
-
-                                    _facebookController.reverse();
-                                    _tiktokController.reverse();
-                                    _twitterController.reverse();
-                                    _instagramController.reverse();
-
-                                    _facebookBoxDecoration = null;
-                                    _twitterBoxDecoration = null;
-                                    _instagramBoxDecoration = null;
-                                    _tiktokBoxDecoration = null;
-
-                                    _snapchatBoxDecoration = _getBoxDecoration(
-                                        const Color.fromARGB(255, 255, 221, 0)
-                                            .withOpacity(
-                                                _isLightTheme ? 0.2 : 0.3));
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: _tiktokBoxDecoration,
-                            child: ScaleTransition(
-                              scale: _tiktokAnimation,
-                              child: IconButton(
-                                icon: Image.asset('images/maps_tiktok.png'),
-                                iconSize: 50,
-                                onPressed: () {
-                                  setState(() {
-                                    _mapDelegate = _tikTokMapDelegate;
-                                    _shapeColor = _isLightTheme
-                                        ? const Color.fromRGBO(
-                                            72, 193, 188, 0.35)
-                                        : const Color.fromRGBO(
-                                            50, 216, 210, 0.35);
-                                    _shapeStrokeColor =
-                                        Colors.black54.withOpacity(0);
-                                    _bubbleColor = _isLightTheme
-                                        ? const Color.fromRGBO(
-                                            250, 60, 114, 0.5)
-                                        : const Color.fromRGBO(
-                                            218, 11, 69, 0.5);
-                                    _tooltipColor = _isLightTheme
-                                        ? const Color.fromRGBO(186, 57, 108, 1)
-                                        : const Color.fromRGBO(189, 74, 119, 1);
-                                    _bubbleStrokeColor = Colors.white;
-                                    _tooltipStrokeColor = Colors.white;
-                                    _tooltipTextColor = Colors.white;
-
-                                    _tiktokController.forward();
-
-                                    _facebookController.reverse();
-                                    _twitterController.reverse();
-                                    _snapchatController.reverse();
-                                    _instagramController.reverse();
-
-                                    _facebookBoxDecoration = null;
-                                    _twitterBoxDecoration = null;
-                                    _instagramBoxDecoration = null;
-                                    _snapchatBoxDecoration = null;
-
-                                    _tiktokBoxDecoration = _getBoxDecoration(
-                                        Colors.black.withOpacity(
-                                            _isLightTheme ? 0.1 : 0.3));
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            : Center(
-                child: Container(
-                  height: 25,
-                  width: 25,
-                  child: const CircularProgressIndicator(
-                    strokeWidth: 3,
                   ),
                 ),
-              );
-      },
+                Container(
+                  decoration: _twitterBoxDecoration,
+                  child: ScaleTransition(
+                    scale: _twitterAnimation,
+                    child: IconButton(
+                      icon: Image.asset('images/maps_twitter.png'),
+                      iconSize: 50,
+                      onPressed: () {
+                        setState(() {
+                          _mapSource = _twitterMapSource;
+                          _currentDelegate = 'Twitter';
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(86, 170, 235, 0.35)
+                              : const Color.fromRGBO(32, 154, 255, 0.35);
+                          _shapeStrokeColor =
+                              const Color.fromARGB(255, 0, 122, 202)
+                                  .withOpacity(0);
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(17, 124, 179, 0.5)
+                              : const Color.fromRGBO(56, 184, 251, 0.5);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(27, 129, 188, 1)
+                              : const Color.fromRGBO(65, 154, 207, 1);
+                          _bubbleStrokeColor = Colors.white;
+                          _tooltipStrokeColor = Colors.white;
+                          _tooltipTextColor = Colors.white;
+
+                          _twitterController.forward();
+
+                          _facebookController.reverse();
+                          _tiktokController.reverse();
+                          _snapchatController.reverse();
+                          _instagramController.reverse();
+
+                          _facebookBoxDecoration = null;
+                          _instagramBoxDecoration = null;
+                          _snapchatBoxDecoration = null;
+                          _tiktokBoxDecoration = null;
+
+                          _twitterBoxDecoration = _getBoxDecoration(
+                              const Color.fromARGB(255, 0, 122, 202)
+                                  .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: _instagramBoxDecoration,
+                  child: ScaleTransition(
+                    scale: _instagramAnimation,
+                    child: IconButton(
+                      icon: Image.asset('images/maps_instagram.png'),
+                      iconSize: 50,
+                      onPressed: () {
+                        setState(() {
+                          _mapSource = _instagramMapSource;
+                          _currentDelegate = 'Instagram';
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(159, 119, 213, 0.35)
+                              : const Color.fromRGBO(166, 104, 246, 0.35);
+                          _shapeStrokeColor =
+                              const Color.fromARGB(255, 238, 46, 73)
+                                  .withOpacity(0);
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(249, 99, 20, 0.5)
+                              : const Color.fromRGBO(253, 173, 38, 0.5);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(175, 90, 66, 1)
+                              : const Color.fromRGBO(202, 130, 8, 1);
+                          _bubbleStrokeColor = Colors.white;
+                          _tooltipStrokeColor = Colors.white;
+                          _tooltipTextColor = Colors.white;
+
+                          _instagramController.forward();
+
+                          _facebookController.reverse();
+                          _tiktokController.reverse();
+                          _twitterController.reverse();
+                          _snapchatController.reverse();
+
+                          _facebookBoxDecoration = null;
+                          _twitterBoxDecoration = null;
+                          _snapchatBoxDecoration = null;
+                          _tiktokBoxDecoration = null;
+
+                          _instagramBoxDecoration = _getBoxDecoration(
+                              const Color.fromARGB(255, 238, 46, 73)
+                                  .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: _snapchatBoxDecoration,
+                  child: ScaleTransition(
+                    scale: _snapchatAnimation,
+                    child: IconButton(
+                      icon: Image.asset('images/maps_snapchat.png'),
+                      iconSize: 50,
+                      onPressed: () {
+                        setState(() {
+                          _mapSource = _snapChatMapSource;
+                          _currentDelegate = 'SnapChat';
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(212, 185, 48, 0.35)
+                              : const Color.fromRGBO(227, 226, 73, 0.35);
+                          _shapeStrokeColor =
+                              const Color.fromARGB(255, 255, 126, 0)
+                                  .withOpacity(0);
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(182, 150, 2, 0.5)
+                              : const Color.fromRGBO(254, 253, 2, 0.458);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(173, 144, 12, 1)
+                              : const Color.fromRGBO(225, 225, 30, 1);
+                          _bubbleStrokeColor =
+                              _isLightTheme ? Colors.black : Colors.white;
+                          _tooltipStrokeColor =
+                              _isLightTheme ? Colors.black : Colors.white;
+                          _tooltipTextColor =
+                              _isLightTheme ? Colors.white : Colors.black;
+
+                          _snapchatController.forward();
+
+                          _facebookController.reverse();
+                          _tiktokController.reverse();
+                          _twitterController.reverse();
+                          _instagramController.reverse();
+
+                          _facebookBoxDecoration = null;
+                          _twitterBoxDecoration = null;
+                          _instagramBoxDecoration = null;
+                          _tiktokBoxDecoration = null;
+
+                          _snapchatBoxDecoration = _getBoxDecoration(
+                              const Color.fromARGB(255, 255, 221, 0)
+                                  .withOpacity(_isLightTheme ? 0.2 : 0.3));
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: _tiktokBoxDecoration,
+                  child: ScaleTransition(
+                    scale: _tiktokAnimation,
+                    child: IconButton(
+                      icon: Image.asset('images/maps_tiktok.png'),
+                      iconSize: 50,
+                      onPressed: () {
+                        setState(() {
+                          _mapSource = _tikTokMapSorce;
+                          _currentDelegate = 'Tiktok';
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(72, 193, 188, 0.35)
+                              : const Color.fromRGBO(50, 216, 210, 0.35);
+                          _shapeStrokeColor = Colors.black54.withOpacity(0);
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(250, 60, 114, 0.5)
+                              : const Color.fromRGBO(218, 11, 69, 0.5);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(186, 57, 108, 1)
+                              : const Color.fromRGBO(189, 74, 119, 1);
+                          _bubbleStrokeColor = Colors.white;
+                          _tooltipStrokeColor = Colors.white;
+                          _tooltipTextColor = Colors.white;
+
+                          _tiktokController.forward();
+
+                          _facebookController.reverse();
+                          _twitterController.reverse();
+                          _snapchatController.reverse();
+                          _instagramController.reverse();
+
+                          _facebookBoxDecoration = null;
+                          _twitterBoxDecoration = null;
+                          _instagramBoxDecoration = null;
+                          _snapchatBoxDecoration = null;
+
+                          _tiktokBoxDecoration = _getBoxDecoration(Colors.black
+                              .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
+  }
+
+  // ignore: missing_return
+  String _getCustomizedString(int index) {
+    switch (_currentDelegate) {
+      case 'FaceBook':
+        return _facebookUsers[index].country +
+            ' : ' +
+            _facebookUsers[index].usersCount.toStringAsFixed(0) +
+            'M users';
+        break;
+      case 'Twitter':
+        return _twitterUsers[index].country +
+            ' : ' +
+            _twitterUsers[index].usersCount.toStringAsFixed(0) +
+            'M users';
+        break;
+      case 'Instagram':
+        return _instagramUsers[index].country +
+            ' : ' +
+            _instagramUsers[index].usersCount.toStringAsFixed(0) +
+            'M users';
+
+        break;
+      case 'SnapChat':
+        return _snapChatUsers[index].country +
+            ' : ' +
+            _snapChatUsers[index].usersCount.toStringAsFixed(0) +
+            'M users';
+        break;
+      case 'Tiktok':
+        return _tikTokUsers[index].country +
+            ' : ' +
+            _tikTokUsers[index].usersCount.toStringAsFixed(0) +
+            'M users';
+        break;
+    }
   }
 
   BoxDecoration _getBoxDecoration(Color color) {

@@ -1,17 +1,18 @@
 ///Dart import
 import 'dart:async';
 
-///Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 // ignore: unused_import
 import 'package:flutter/gestures.dart';
 
-///Map import
-import 'package:syncfusion_flutter_maps/maps.dart';
+///Flutter package imports
+import 'package:flutter/material.dart';
 
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Map import
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
 import '../../../../model/sample_view.dart';
@@ -25,7 +26,7 @@ class MapZoomingPage extends SampleView {
 class _MapZoomingPageState extends SampleViewState {
   final double _markerSize = 24;
 
-  MapShapeLayerDelegate _mapDelegate;
+  MapShapeSource _mapSource;
 
   List<CountryModel> _dataSource;
 
@@ -87,8 +88,8 @@ class _MapZoomingPageState extends SampleViewState {
       CountryModel('Venezuela', Color.fromRGBO(141, 208, 203, 1)),
     ];
 
-    _mapDelegate = MapShapeLayerDelegate(
-      shapeFile: 'assets/south_america.json',
+    _mapSource = MapShapeSource.asset(
+      'assets/south_america.json',
       shapeDataField: 'name',
       dataCount: _dataSource.length,
       primaryValueMapper: (int index) => _dataSource[index].country,
@@ -114,135 +115,82 @@ class _MapZoomingPageState extends SampleViewState {
     final Color surfaceColor = isLightTheme
         ? Color.fromRGBO(45, 45, 45, 1)
         : Color.fromRGBO(242, 242, 242, 1);
-    return FutureBuilder<dynamic>(
-      future: Future<dynamic>.delayed(
-        Duration(milliseconds: kIsWeb ? 0 : 500),
-        () => 'Loaded',
-      ),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        return snapshot.hasData
-            ? Container(
-                padding: MediaQuery.of(context).orientation ==
-                            Orientation.portrait ||
-                        kIsWeb
-                    ? EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.05,
-                        bottom: MediaQuery.of(context).size.height * 0.05)
-                    : const EdgeInsets.only(top: 10, bottom: 15),
-                child: SfMapsTheme(
-                  data: SfMapsThemeData(
-                    shapeHoverColor: Colors.transparent,
-                    shapeHoverStrokeColor: Colors.grey[700],
-                    shapeHoverStrokeWidth: 1.5,
-                  ),
-                  child: SfMaps(
-                    title: MapTitle(
-                      text: 'Tourist Places in South America',
-                      padding: EdgeInsets.only(top: 15, bottom: 30),
-                    ),
-                    layers: [
-                      MapShapeLayer(
-                        color: Colors.white,
-                        strokeColor: Color.fromRGBO(242, 242, 242, 1),
-                        strokeWidth: 1,
-                        delegate: _mapDelegate,
-                        showDataLabels: true,
-                        dataLabelSettings: MapDataLabelSettings(
-                          overflowMode: MapLabelOverflowMode.trim,
-                          textStyle: TextStyle(
-                            color: Color.fromRGBO(45, 45, 45, 1),
-                          ),
-                        ),
-                        initialMarkersCount: _markerSource.length,
-                        markerBuilder: (BuildContext context, int index) {
-                          /// This key will be used to show the framework's
-                          /// tooltip during interaction.
-                          final GlobalKey tooltipKey = GlobalKey();
-                          return MapMarker(
-                            latitude: _markerSource[index].latLng.latitude,
-                            longitude: _markerSource[index].latLng.longitude,
-                            size: Size(_markerSize, _markerSize * 2),
-                            child: Column(
-                              children: [
-                                MouseRegion(
-                                  child: GestureDetector(
-                                    child: Tooltip(
-                                      key: tooltipKey,
-                                      message: _markerSource[index].place,
-                                      preferBelow: false,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(4.0)),
-                                        color: surfaceColor,
-                                      ),
-                                      textStyle:
-                                          themeData.textTheme.caption.copyWith(
-                                        color: isLightTheme
-                                            ? Color.fromRGBO(255, 255, 255, 1)
-                                            : Color.fromRGBO(10, 10, 10, 1),
-                                      ),
-                                      waitDuration: Duration(milliseconds: 0),
-                                      child: GestureDetector(
-                                        child: Icon(
-                                          Icons.location_on,
-                                          color: isLightTheme
-                                              ? Color.fromRGBO(45, 45, 45, 1)
-                                              : Color.fromRGBO(199, 42, 89, 1),
-                                        ),
-                                        onTap: () {
-                                          _showTooltip(tooltipKey);
-                                        },
-                                      ),
-                                    ),
-                                  ),
-
-                                  /// On hovering the marker, we will show the
-                                  /// framework's tooltip to show the details
-                                  /// about that place.
-                                  onHover: (PointerHoverEvent event) {
-                                    _showTooltip(tooltipKey);
-                                  },
-                                ),
-                                SizedBox(
-                                  height: _markerSize,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-
-                        /// Adding `zoomPanBehavior` will enable the zooming and
-                        /// panning in the shape layer.
-                        zoomPanBehavior: _zoomPanBehavior,
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            : Center(
-                child: Container(
+    return Container(
+      padding:
+          MediaQuery.of(context).orientation == Orientation.portrait || kIsWeb
+              ? EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.05)
+              : const EdgeInsets.only(top: 10, bottom: 15),
+      child: SfMapsTheme(
+        data: SfMapsThemeData(
+          shapeHoverColor: Colors.transparent,
+          shapeHoverStrokeColor: Colors.grey[700],
+          shapeHoverStrokeWidth: 1.5,
+        ),
+        child: SfMaps(
+          title: MapTitle(
+            'Tourist Places in South America',
+            padding: EdgeInsets.only(top: 15, bottom: 30),
+          ),
+          layers: [
+            MapShapeLayer(
+              loadingBuilder: (BuildContext context) {
+                return Container(
                   height: 25,
                   width: 25,
                   child: const CircularProgressIndicator(
                     strokeWidth: 3,
                   ),
+                );
+              },
+              color: Colors.white,
+              strokeColor: Color.fromRGBO(242, 242, 242, 1),
+              strokeWidth: 1,
+              source: _mapSource,
+              showDataLabels: true,
+              dataLabelSettings: MapDataLabelSettings(
+                overflowMode: MapLabelOverflow.ellipsis,
+                textStyle: TextStyle(
+                  color: Color.fromRGBO(45, 45, 45, 1),
                 ),
-              );
-      },
+              ),
+              tooltipSettings: MapTooltipSettings(
+                color: surfaceColor,
+              ),
+              initialMarkersCount: _markerSource.length,
+              markerTooltipBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(_markerSource[index].place,
+                      style: themeData.textTheme.caption.copyWith(
+                          color: isLightTheme
+                              ? Color.fromRGBO(255, 255, 255, 1)
+                              : Color.fromRGBO(10, 10, 10, 1))),
+                );
+              },
+              markerBuilder: (BuildContext context, int index) {
+                return MapMarker(
+                  latitude: _markerSource[index].latLng.latitude,
+                  longitude: _markerSource[index].latLng.longitude,
+                  size: Size(_markerSize, _markerSize * 2),
+                  child: Icon(
+                    Icons.location_on,
+                    color: isLightTheme
+                        ? Color.fromRGBO(45, 45, 45, 1)
+                        : Color.fromRGBO(199, 42, 89, 1),
+                  ),
+                );
+              },
+
+              /// Adding `zoomPanBehavior` will enable the zooming and
+              /// panning in the shape layer.
+              zoomPanBehavior: _zoomPanBehavior,
+            ),
+          ],
+        ),
+      ),
     );
-  }
-
-  void _showTooltip(GlobalKey tooltipKey) {
-    _tooltipTimer?.cancel();
-    _tooltipTimer =
-        Timer(const Duration(seconds: 3), () => _hideTooltip(tooltipKey));
-    final dynamic tooltipState = tooltipKey.currentState;
-    tooltipState.ensureTooltipVisible();
-  }
-
-  void _hideTooltip(GlobalKey tooltipKey) {
-    final dynamic tooltipState = tooltipKey.currentState;
-    tooltipState.deactivate();
   }
 }
 

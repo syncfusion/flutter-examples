@@ -109,13 +109,13 @@ class _ExportState extends SampleViewState {
             ? '\nHigh and low temperatures of London \nSep ‘20'
             : '\nHigh and low temperatures of London - Sep ‘20',
         textStyle: TextStyle(
-            fontSize: 20.0,
-            // color: model.currentThemeData.brightness == Brightness.light
-            //     ? Colors.black
-            //     : Colors.white,
-            fontFamily: 'Segoe UI',
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.normal),
+          fontSize: 20.0,
+          // color: model.currentThemeData.brightness == Brightness.light
+          //     ? Colors.black
+          //     : Colors.white,
+          fontFamily: 'Segoe UI',
+          fontStyle: FontStyle.normal,
+        ),
       ),
       axes: <RadialAxis>[
         RadialAxis(

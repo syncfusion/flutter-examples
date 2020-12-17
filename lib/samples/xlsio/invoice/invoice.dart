@@ -13,9 +13,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Render pdf of invoice
+/// Create invoice Excel report
 class InvoiceXlsIO extends SampleView {
-  /// Render pdf of invoice
+  /// Create invoice Excel report
   const InvoiceXlsIO(Key key) : super(key: key);
   @override
   _InvoiceXlsIOState createState() => _InvoiceXlsIOState();
@@ -36,7 +36,7 @@ class _InvoiceXlsIOState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  'This sample showcases on how to create a simple Excel invoice with data, image, formulas, and cell formatting using XlsIO.',
+                  'This sample showcases how to create a simple Excel invoice with data, images, formulas, and cell formatting using XlsIO.',
                   style: TextStyle(fontSize: 16, color: model.textColor)),
               const SizedBox(height: 20, width: 30),
               Align(
@@ -233,7 +233,6 @@ class _InvoiceXlsIOState extends SampleViewState {
     await FileSaveHelper.saveAndLaunchFile(bytes, 'Invoice.xlsx');
   }
 
-  //ignore: unused_element
   Future<List<int>> _readImageData(String name) async {
     final ByteData data = await rootBundle.load('images/xlsio/$name');
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);

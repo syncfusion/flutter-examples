@@ -10,9 +10,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Render pdf of invoice
+/// Create expenses report Excel report
 class ExpensesReportXlsIO extends SampleView {
-  /// Render pdf of invoice
+  /// Create expenses report Excel report
   const ExpensesReportXlsIO(Key key) : super(key: key);
   @override
   _ExpensesReportXlsIOState createState() => _ExpensesReportXlsIOState();
@@ -33,7 +33,7 @@ class _ExpensesReportXlsIOState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  'The XlsIO package is a non-UI and reusable flutter library to create Excel reports programmatically with formatted text, numbers, datetime, number formats, cell styles, images, charts and more.\r\n\r\nThis sample showcases on how to create a simple Excel report for expenses with data, chart, formulas, and cell formatting using XlsIO.',
+                  'The XlsIO package is a non-UI and reusable Flutter library to create Excel reports programmatically with formatted text, numbers, date time, number formats, cell styles, images, charts, and more.\r\n\r\nThis sample showcases how to create a simple Excel report for expenses with data, charts, formulas, and cell formatting using XlsIO.',
                   style: TextStyle(fontSize: 16, color: model.textColor)),
               const SizedBox(height: 20, width: 30),
               Align(

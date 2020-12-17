@@ -66,81 +66,71 @@ class _MapMarkerPageState extends SampleViewState {
   }
 
   Widget _getMapsWidget() {
-    return FutureBuilder<dynamic>(
-      future: Future<dynamic>.delayed(
-          Duration(milliseconds: model.isWeb ? 0 : 500), () => 'Loaded'),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasData) {
-          return Center(
-            child: Padding(
-              padding:
-                  MediaQuery.of(context).orientation == Orientation.portrait ||
-                          model.isWeb
-                      ? EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.05,
-                          bottom: MediaQuery.of(context).size.height * 0.1,
-                          right: 10,
-                          left: 10)
-                      : const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-              child: SfMapsTheme(
-                data: SfMapsThemeData(
-                  shapeHoverColor: Colors.transparent,
-                  shapeHoverStrokeColor: Colors.transparent,
-                  shapeHoverStrokeWidth: 0,
-                ),
-                child: SfMaps(
-                  title: const MapTitle(
-                    text: 'World Clock',
-                    padding: EdgeInsets.only(top: 15, bottom: 30),
-                  ),
-                  layers: <MapLayer>[
-                    MapShapeLayer(
-                      delegate: const MapShapeLayerDelegate(
-                        // Path of the GeoJSON file.
-                        shapeFile: 'assets/world_map.json',
-                        // Field or group name in the .json file to identify
-                        // the shapes.
-                        //
-                        // Which is used to map the respective shape to
-                        // data source.
-                        shapeDataField: 'name',
-                      ),
-                      // The number of initial markers.
-                      //
-                      // The callback for the [markerBuilder] will be called
-                      // the number of times equal to the [initialMarkersCount].
-                      initialMarkersCount: 7,
-                      markerBuilder: (_, int index) {
-                        return MapMarker(
-                            longitude: _clockModelData[index].longitude,
-                            latitude: _clockModelData[index].latitude,
-                            child: _ClockWidget(
-                                countryName: _clockModelData[index].countryName,
-                                date: _clockModelData[index].date),
-                            size: const Size(150, 150));
-                      },
-                      strokeWidth: 0,
-                      color: model.themeData.brightness == Brightness.light
-                          ? const Color.fromRGBO(71, 70, 75, 0.2)
-                          : const Color.fromRGBO(71, 70, 75, 1),
+    return Center(
+      child: Padding(
+        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
+                model.isWeb
+            ? EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
+                bottom: MediaQuery.of(context).size.height * 0.1,
+                right: 10,
+                left: 10)
+            : const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        child: SfMapsTheme(
+          data: SfMapsThemeData(
+            shapeHoverColor: Colors.transparent,
+            shapeHoverStrokeColor: Colors.transparent,
+            shapeHoverStrokeWidth: 0,
+          ),
+          child: SfMaps(
+            title: const MapTitle(
+              'World Clock',
+              padding: EdgeInsets.only(top: 15, bottom: 30),
+            ),
+            layers: <MapLayer>[
+              MapShapeLayer(
+                loadingBuilder: (BuildContext context) {
+                  return Container(
+                    height: 25,
+                    width: 25,
+                    child: const CircularProgressIndicator(
+                      strokeWidth: 3,
                     ),
-                  ],
+                  );
+                },
+                source: MapShapeSource.asset(
+                  // Path of the GeoJSON file.
+                  'assets/world_map.json',
+                  // Field or group name in the .json file to identify
+                  // the shapes.
+                  //
+                  // Which is used to map the respective shape to
+                  // data source.
+                  shapeDataField: 'name',
                 ),
+                // The number of initial markers.
+                //
+                // The callback for the [markerBuilder] will be called
+                // the number of times equal to the [initialMarkersCount].
+                initialMarkersCount: 7,
+                markerBuilder: (_, int index) {
+                  return MapMarker(
+                      longitude: _clockModelData[index].longitude,
+                      latitude: _clockModelData[index].latitude,
+                      child: _ClockWidget(
+                          countryName: _clockModelData[index].countryName,
+                          date: _clockModelData[index].date),
+                      size: const Size(150, 150));
+                },
+                strokeWidth: 0,
+                color: model.themeData.brightness == Brightness.light
+                    ? const Color.fromRGBO(71, 70, 75, 0.2)
+                    : const Color.fromRGBO(71, 70, 75, 1),
               ),
-            ),
-          );
-        } else {
-          return Center(
-            child: Container(
-              height: 25,
-              width: 25,
-              child: const CircularProgressIndicator(
-                strokeWidth: 3,
-              ),
-            ),
-          );
-        }
-      },
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

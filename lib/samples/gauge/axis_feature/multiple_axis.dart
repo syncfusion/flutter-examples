@@ -32,7 +32,9 @@ class _MultipleAxisExampleState extends SampleViewState {
         maximum: 212,
         interval: 36,
         radiusFactor: MediaQuery.of(context).orientation == Orientation.portrait
-            ? isCardView ? 0.5 : 0.6
+            ? isCardView
+                ? 0.5
+                : 0.6
             : 0.5,
         labelOffset: 15,
         canRotateLabels: true,

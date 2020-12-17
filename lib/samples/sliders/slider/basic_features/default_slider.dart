@@ -68,7 +68,7 @@ class _DefaultSliderState extends SampleViewState {
             });
           },
           value: _activeSliderValue,
-          showTooltip: true,
+          enableTooltip: true,
           numberFormat: NumberFormat('#'),
         ));
   }
