@@ -20,18 +20,18 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  syncfusion_flutter_datagrid: ^18.3.53-beta
-  syncfusion_flutter_calendar: ^18.3.53
-  syncfusion_flutter_datepicker: ^18.3.53-beta
-  syncfusion_flutter_charts: ^18.3.53
-  syncfusion_flutter_gauges: ^18.3.53
-  syncfusion_flutter_sliders: ^18.3.53-beta
-  syncfusion_flutter_pdf: ^18.3.53-beta
-  syncfusion_flutter_barcodes: ^18.3.53
-  syncfusion_officechart: ^18.3.53-beta
-  syncfusion_flutter_maps: ^18.3.53-beta
-  syncfusion_flutter_signaturepad: ^18.3.53-beta
-  syncfusion_flutter_pdfviewer: ^18.3.53-beta
+  syncfusion_flutter_datagrid: ^18.4.30-beta
+  syncfusion_flutter_calendar: ^18.4.30
+  syncfusion_flutter_datepicker: ^18.4.30-beta
+  syncfusion_flutter_charts: ^18.4.30
+  syncfusion_flutter_gauges: ^18.4.30
+  syncfusion_flutter_sliders: ^18.4.30-beta
+  syncfusion_flutter_pdf: ^18.4.30-beta
+  syncfusion_flutter_barcodes: ^18.4.30
+  syncfusion_officechart: ^18.4.30-beta
+  syncfusion_flutter_maps: ^18.4.30-beta
+  syncfusion_flutter_signaturepad: ^18.4.30-beta
+  syncfusion_flutter_pdfviewer: ^18.4.30-beta
 
 
 flutter:
