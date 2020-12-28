@@ -657,7 +657,10 @@ class _SampleOutputContainerState extends State<_SampleOutputContainer> {
                   Container(
                       padding: const EdgeInsets.only(left: 10),
                       alignment: Alignment.centerLeft,
-                      child: Text(_sample.title,
+                      
+                      ///Space added for avoiding text hide issue of the
+                      ///string having `infinite` word
+                      child: Text(_sample.title + ' ',
                           style: TextStyle(
                               color: _model.textColor,
                               letterSpacing: 0.39,
@@ -946,60 +949,72 @@ class _SampleOutputContainerState extends State<_SampleOutputContainer> {
                                             ]),
                                       ),
                                       Expanded(
-                                          child: Column(
-                                        children: <Widget>[
-                                          Expanded(
-                                              child: Container(
-                                            color: _model.cardThemeColor,
-                                            child: _OutputContainer(
-                                                key: GlobalKey(),
-                                                sampleOutputContainerState:
-                                                    this,
-                                                subItem: _sample,
-                                                sampleView: _model
-                                                    .sampleWidget[_sample.key],
-                                                sampleModel: _model),
-                                          )),
-                                          _sample.sourceLink != null &&
-                                                  _sample.sourceLink != ''
-                                              ? Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Container(
-                                                    padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                        15, 10, 0, 15),
-                                                    height: 40,
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          'Source: ',
-                                                          style: TextStyle(
-                                                              color: _model
-                                                                  .textColor
-                                                                  .withOpacity(
-                                                                      0.65),
-                                                              fontSize: 12),
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () => launch(
-                                                              _sample
-                                                                  .sourceLink),
-                                                          child: Text(
-                                                              _sample
-                                                                  .sourceText,
-                                                              style: const TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: Colors
-                                                                      .blue)),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              : Container()
-                                        ],
-                                      )),
+                                          child: Container(
+                                              color: _model.cardThemeColor,
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                      child: Container(
+                                                    color:
+                                                        _model.cardThemeColor,
+                                                    child: _OutputContainer(
+                                                        key: GlobalKey(),
+                                                        sampleOutputContainerState:
+                                                            this,
+                                                        subItem: _sample,
+                                                        sampleView:
+                                                            _model.sampleWidget[
+                                                                _sample.key],
+                                                        sampleModel: _model),
+                                                  )),
+                                                  _sample.sourceLink != null &&
+                                                          _sample.sourceLink !=
+                                                              ''
+                                                      ? Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .fromLTRB(
+                                                                    15,
+                                                                    10,
+                                                                    0,
+                                                                    15),
+                                                            height: 40,
+                                                            child: Row(
+                                                              children: <
+                                                                  Widget>[
+                                                                Text(
+                                                                  'Source: ',
+                                                                  style: TextStyle(
+                                                                      color: _model
+                                                                          .textColor
+                                                                          .withOpacity(
+                                                                              0.65),
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
+                                                                InkWell(
+                                                                  onTap: () =>
+                                                                      launch(_sample
+                                                                          .sourceLink),
+                                                                  child: Text(
+                                                                      _sample
+                                                                          .sourceText,
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              Colors.blue)),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container()
+                                                ],
+                                              ))),
                                     ],
                                   )))),
                   _sample.description != null && _sample.description != ''
@@ -1078,15 +1093,12 @@ class _SampleOutputContainerState extends State<_SampleOutputContainer> {
         Expanded(
           child: Container(
               color: model.cardThemeColor,
-              padding: const EdgeInsets.all(5.0),
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  child: _OutputContainer(
-                      key: GlobalKey(),
-                      sampleOutputContainerState: this,
-                      sampleModel: model,
-                      subItem: list[i],
-                      sampleView: model.sampleWidget[list[i].key]))),
+              child: _OutputContainer(
+                  key: GlobalKey(),
+                  sampleOutputContainerState: this,
+                  sampleModel: model,
+                  subItem: list[i],
+                  sampleView: model.sampleWidget[list[i].key])),
         ),
         list[i].sourceLink != null && list[i].sourceLink != ''
             ? Align(

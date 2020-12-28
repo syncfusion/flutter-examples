@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/sample_view.dart';
+import '../../../../../model/sample_view.dart';
 
 ///Renders default column chart sample
 class Events extends SampleView {

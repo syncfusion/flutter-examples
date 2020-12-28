@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 ///Local import
-import '../../../../model/sample_view.dart';
+import '../../../model/sample_view.dart';
 
 /// Widget of the RadialSlider custom text.
 class RadialRangeSliderCustomText extends SampleView {
