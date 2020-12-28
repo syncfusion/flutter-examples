@@ -2210,33 +2210,33 @@
             "title": "Getting Started",
             "status": "Updated",
             "key": "getting_started_calendar",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/getting_started/getting_started.dart",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/getting_started.dart",
             "needsPropertyPanel": true
           },
           {
             "type": "sample",
             "title": "Scheduling",
             "key": "appointment_editor_calendar",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/appointment_editor/appointment_editor.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/appointment_editor.dart"
           },
           {
             "type": "sample",
             "title": "Recurrence",
             "key": "recurrence_calendar",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/recurrence/recurrence.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/recurrence.dart"
           },
           {
             "type": "sample",
             "title": "Special Regions",
             "status": "Updated",
             "key": "special_regions_calendar",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/special_regions/special_regions.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/special_regions.dart"
           },
           {
             "type": "sample",
             "title": "Timeline views",
             "key": "timeline_views_calendar",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/timeline_views/timeline_views.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/timeline_views.dart"
           },
           {
             "type": "sample",
@@ -2249,31 +2249,31 @@
             "type": "sample",
             "title": "Schedule View",
             "key": "schedule_view_calendar",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/schedule_view/schedule_view.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/schedule_view.dart"
           },
           {
             "type": "sample",
             "title": "Resource View",
             "key": "shift_scheduler",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/shift_scheduler/shift_scheduler.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/shift_scheduler.dart"
           },
           {
             "type": "sample",
             "title": "Month Agenda View",
             "key": "agenda_view_calendar",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/agenda_view/agenda_view.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/agenda_view.dart"
           },
           {
             "type": "sample",
             "title": "Fare Calendar",
             "key": "air_fare_calendar",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/airfare/airfare.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/airfare.dart"
           },
           {
             "type": "sample",
             "title": "Heat Map",
             "key": "heat_map_calendar",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/heatmap/heatmap.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/heatmap.dart"
           }
         ]
       },
@@ -2289,7 +2289,7 @@
             "type": "sample",
             "title": "Getting Started",
             "key": "getting_started_date_picker",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/getting_started/date_picker_getting_started.dart",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/date_picker_getting_started.dart",
             "needsPropertyPanel": true
           },
           {
@@ -2297,33 +2297,33 @@
             "title": "Hijri Calendar",
             "key": "hijri_calendar_date_picker",
             "status": "New",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/hijri_calendar/hijri_calendar.dart",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/hijri_calendar.dart",
             "needsPropertyPanel": true
           },
           {
             "type": "sample",
             "title": "Flight Booking",
             "key": "popup_picker",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/popup_picker/popup_picker.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/popup_picker.dart"
           },
           {
             "type": "sample",
             "title": "Blackout Dates",
             "key": "blackout_picker",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/blackout_dates/blackout_date_picker.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/blackout_date_picker.dart"
           },
           {
             "type": "sample",
             "title": "Cell Customization",
             "key": "customized_picker",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/customization_picker/customized_date_picker.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/customized_date_picker.dart"
           },
           {
             "type": "sample",
             "title": "Vertical Calendar",
             "key": "vertical_calendar",
             "status": "New",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/vertical_calendar/vertical_calendar.dart"
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/vertical_calendar.dart"
           }
         ]
       }
