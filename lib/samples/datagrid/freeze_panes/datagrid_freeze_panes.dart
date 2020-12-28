@@ -173,32 +173,38 @@ class _FreezePanesDataGridPageState extends SampleViewState {
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
-      GridNumericColumn(mappingName: 'id')
-        ..width = model.isWeb ? 140 : 90
-        ..headerText = 'ID',
-      GridNumericColumn(mappingName: 'productId')
-        ..width = model.isWeb ? 150 : 100
-        ..headerText = 'Product ID',
-      GridTextColumn(mappingName: 'name')
-        ..width = model.isWeb ? 180 : 140
-        ..headerText = 'Customer Name',
-      GridTextColumn(mappingName: 'product')
-        ..width = model.isWeb ? 160 : 100
-        ..headerText = 'Product',
-      GridDateTimeColumn(mappingName: 'orderDate')
-        ..width = model.isWeb ? 140 : 110
-        ..dateFormat = DateFormat('MM/dd/yyyy')
-        ..headerText = 'Order Date',
-      GridNumericColumn(mappingName: 'quantity')
-        ..width = model.isWeb ? 150 : 90
-        ..headerText = 'Quantity',
-      GridTextColumn(mappingName: 'city')
-        ..width = model.isWeb ? 140 : 100
-        ..headerText = 'City',
-      GridNumericColumn(mappingName: 'unitPrice')
-        ..width = model.isWeb ? 140 : 100
-        ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$')
-        ..headerText = 'Unit Price',
+      GridNumericColumn(
+          mappingName: 'id', width: model.isWeb ? 140 : 90, headerText: 'ID'),
+      GridNumericColumn(
+          mappingName: 'productId',
+          width: model.isWeb ? 150 : 100,
+          headerText: 'Product ID'),
+      GridTextColumn(
+          mappingName: 'name',
+          width: model.isWeb ? 180 : 140,
+          headerText: 'Customer Name'),
+      GridTextColumn(
+          mappingName: 'product',
+          width: model.isWeb ? 160 : 100,
+          headerText: 'Product'),
+      GridDateTimeColumn(
+          mappingName: 'orderDate',
+          width: model.isWeb ? 140 : 110,
+          dateFormat: DateFormat('MM/dd/yyyy'),
+          headerText: 'Order Date'),
+      GridNumericColumn(
+          mappingName: 'quantity',
+          width: model.isWeb ? 150 : 90,
+          headerText: 'Quantity'),
+      GridTextColumn(
+          mappingName: 'city',
+          width: model.isWeb ? 140 : 100,
+          headerText: 'City'),
+      GridNumericColumn(
+          mappingName: 'unitPrice',
+          width: model.isWeb ? 140 : 100,
+          numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+          headerText: 'Unit Price'),
     ];
     return columns;
   }

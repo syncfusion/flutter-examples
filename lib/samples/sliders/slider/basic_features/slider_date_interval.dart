@@ -69,7 +69,7 @@ class _DateIntervalSliderState extends SampleViewState {
               _yearValue = value;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat.yMMM().format(actualLabel);
@@ -96,7 +96,7 @@ class _DateIntervalSliderState extends SampleViewState {
               _hourValue = value;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat('h:mm a').format(actualLabel);

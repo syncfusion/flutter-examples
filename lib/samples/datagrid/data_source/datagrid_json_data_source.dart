@@ -26,43 +26,51 @@ class _JsonDataSourceDataGridState extends SampleViewState {
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = ([
-      GridTextColumn(mappingName: 'id')
-        ..softWrap = true
-        ..overflow = TextOverflow.clip
-        ..width = model.isWeb ? 135 : 90
-        ..headerText = 'ID',
-      GridTextColumn(mappingName: 'contactName')
-        ..softWrap = true
-        ..columnWidthMode =
-            model.isWeb ? ColumnWidthMode.auto : ColumnWidthMode.header
-        ..overflow = TextOverflow.clip
-        ..headerText = 'Contact Name',
-      GridTextColumn(mappingName: 'companyName')
-        ..softWrap = true
-        ..overflow = TextOverflow.clip
-        ..width = model.isWeb ? 165 : 140
-        ..headerText = 'Company',
-      GridTextColumn(mappingName: 'city')
-        ..softWrap = true
-        ..overflow = TextOverflow.clip
-        ..width = model.isWeb ? 150 : 120
-        ..headerText = 'City',
-      GridTextColumn(mappingName: 'country')
-        ..softWrap = true
-        ..overflow = TextOverflow.clip
-        ..width = model.isWeb ? 150 : 120
-        ..headerText = 'Country',
-      GridTextColumn(mappingName: 'designation')
-        ..softWrap = true
-        ..overflow = TextOverflow.clip
-        ..columnWidthMode = ColumnWidthMode.auto
-        ..headerText = 'Job Title',
-      GridTextColumn(mappingName: 'postalCode')
-        ..columnWidthMode = ColumnWidthMode.header
-        ..headerText = 'Postal Code',
-      GridTextColumn(mappingName: 'phoneNumber')
-        ..columnWidthMode = ColumnWidthMode.auto
-        ..headerText = 'Phone Number'
+      GridTextColumn(
+          mappingName: 'id',
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          width: model.isWeb ? 135 : 90,
+          headerText: 'ID'),
+      GridTextColumn(
+          mappingName: 'contactName',
+          softWrap: true,
+          columnWidthMode:
+              model.isWeb ? ColumnWidthMode.auto : ColumnWidthMode.header,
+          overflow: TextOverflow.clip,
+          headerText: 'Contact Name'),
+      GridTextColumn(
+          mappingName: 'companyName',
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          width: model.isWeb ? 165 : 140,
+          headerText: 'Company'),
+      GridTextColumn(
+          mappingName: 'city',
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          width: model.isWeb ? 150 : 120,
+          headerText: 'City'),
+      GridTextColumn(
+          mappingName: 'country',
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          width: model.isWeb ? 150 : 120,
+          headerText: 'Country'),
+      GridTextColumn(
+          mappingName: 'designation',
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          columnWidthMode: ColumnWidthMode.auto,
+          headerText: 'Job Title'),
+      GridTextColumn(
+          mappingName: 'postalCode',
+          columnWidthMode: ColumnWidthMode.header,
+          headerText: 'Postal Code'),
+      GridTextColumn(
+          mappingName: 'phoneNumber',
+          columnWidthMode: ColumnWidthMode.auto,
+          headerText: 'Phone Number')
     ]);
     return columns;
   }

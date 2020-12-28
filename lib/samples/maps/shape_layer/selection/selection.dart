@@ -17,9 +17,11 @@ class MapSelectionPage extends SampleView {
 }
 
 class _MapSelectionPageState extends SampleViewState {
+  int _selectedIndex;
+
   List<_ElectionResultModel> _electionResults;
 
-  MapShapeLayerDelegate _selectionMapDelegate;
+  MapShapeSource _selectionMapSource;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -88,9 +90,9 @@ class _MapSelectionPageState extends SampleViewState {
       _ElectionResultModel('Hawaii', 62.2, 30.0, 'Hawaii', 'Democratic'),
     ];
 
-    _selectionMapDelegate = MapShapeLayerDelegate(
+    _selectionMapSource = MapShapeSource.asset(
       // Path of the GeoJSON file.
-      shapeFile: 'assets/usa.json',
+      'assets/usa.json',
       // Field or group name in the .json file to identify the shapes.
       //
       // Which is used to map the respective shape to data source.
@@ -125,6 +127,8 @@ class _MapSelectionPageState extends SampleViewState {
         MapColorMapper(value: 'Republican', color: Colors.red),
       ],
     );
+
+    _selectedIndex = -1;
   }
 
   @override
@@ -158,7 +162,7 @@ class _MapSelectionPageState extends SampleViewState {
             : const EdgeInsets.only(right: 10, bottom: 15),
         child: SfMaps(
           title: const MapTitle(
-            text: '2016 US Election Results',
+            '2016 US Election Results',
             padding: EdgeInsets.only(top: 15, bottom: 30),
           ),
           layers: <MapLayer>[
@@ -172,22 +176,26 @@ class _MapSelectionPageState extends SampleViewState {
                   ),
                 );
               },
-              delegate: _selectionMapDelegate,
-              legendSource: MapElement.shape,
+              source: _selectionMapSource,
               // Selection will not work if [MapShapeLayerDelegate.dataCount]
               // is null or empty.
-              enableSelection: true,
+              selectedIndex: _selectedIndex,
               strokeColor: Colors.white30,
-              legendSettings: const MapLegendSettings(
-                  position: MapLegendPosition.bottom,
-                  padding: EdgeInsets.only(top: 15)),
+              legend: const MapLegend(
+                MapElement.shape,
+                position: MapLegendPosition.bottom,
+                padding: EdgeInsets.only(top: 15),
+              ),
               selectionSettings: const MapSelectionSettings(
                   color: Color.fromRGBO(252, 177, 0, 1),
                   strokeColor: Colors.white,
                   strokeWidth: 2),
+              // Passes the tapped or clicked shape index to the callback.
               onSelectionChanged: (int index) {
-                if (index != -1) {
+                if (index != _selectedIndex) {
+                  // ignore: deprecated_member_use
                   _scaffoldKey.currentState.hideCurrentSnackBar();
+                  // ignore: deprecated_member_use
                   _scaffoldKey.currentState.showSnackBar(SnackBar(
                     backgroundColor:
                         _electionResults[index].wonBy == 'Republican'
@@ -216,6 +224,7 @@ class _MapSelectionPageState extends SampleViewState {
                                             color: Colors.white),
                                         onTap: () {
                                           _scaffoldKey.currentState
+                                              // ignore: deprecated_member_use
                                               .hideCurrentSnackBar();
                                         },
                                       )),
@@ -275,6 +284,14 @@ class _MapSelectionPageState extends SampleViewState {
                     duration: const Duration(seconds: 3),
                   ));
                 }
+                // Tapped or clicked shape UI won't change until the parent widget
+                // rebuilds the maps widget with the new selected [index].
+                //
+                // Passing -1 to the [MapShapeLayer.selectedIndex] for unselecting
+                // the previous selected shape.
+                setState(() {
+                  _selectedIndex = (index == _selectedIndex) ? -1 : index;
+                });
               },
             ),
           ],

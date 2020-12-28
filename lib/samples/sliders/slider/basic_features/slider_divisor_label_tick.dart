@@ -68,7 +68,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
               _labelSliderValue = values;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           numberFormat: NumberFormat('#'),
         ));
   }
@@ -88,7 +88,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
               _tickSliderValue = values;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           numberFormat: NumberFormat('#'),
         ));
   }
@@ -107,7 +107,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
               _divisorSliderValue = values;
             });
           },
-          showTooltip: true,
+          enableTooltip: true,
           numberFormat: NumberFormat('#'),
         ));
   }

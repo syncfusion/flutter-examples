@@ -20,7 +20,6 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 ///Local import
 import '../../../model/sample_view.dart';
-import '../../../widgets/checkbox.dart';
 
 /// Renders the range selector with line chart zooming option
 class RangeSelectorZoomingPage extends SampleView {
@@ -742,38 +741,28 @@ class _RangeSelectorZoomingPageState extends SampleViewState
 
   @override
   Widget buildSettings(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  'Enable deferred update ',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 16,
-                    letterSpacing: 0.34,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CustomCheckBox(
-                  activeColor: model.backgroundColor,
-                  switchValue: enableDeferredUpdate,
-                  valueChanged: (dynamic value) {
-                    setState(() {
-                      enableDeferredUpdate = value;
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return Row(children: <Widget>[
+        Text('Enable deferred update  ',
+            style: TextStyle(
+              color: model.textColor,
+              fontSize: 16,
+            )),
+        Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+                width: 90,
+                child: CheckboxListTile(
+                    activeColor: model.backgroundColor,
+                    value: enableDeferredUpdate,
+                    onChanged: (bool value) {
+                      setState(() {
+                        enableDeferredUpdate = value;
+                        stateSetter(() {});
+                      });
+                    }))),
+      ]);
+    });
   }
 }

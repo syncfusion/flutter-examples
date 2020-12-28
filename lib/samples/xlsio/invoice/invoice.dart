@@ -13,9 +13,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Render pdf of invoice
+/// Render XlsIO of invoice
 class InvoiceXlsIO extends SampleView {
-  /// Render pdf of invoice
+  /// Render XlsIO of invoice
   const InvoiceXlsIO(Key key) : super(key: key);
   @override
   _InvoiceXlsIOState createState() => _InvoiceXlsIOState();
@@ -61,7 +61,7 @@ class _InvoiceXlsIOState extends SampleViewState {
     //Accessing via index
     final Worksheet sheet = workbook.worksheets[0];
     sheet.name = 'Invoice';
-    sheet.showGridLines = false;
+    sheet.showGridlines = false;
 
     sheet.enableSheetCalculations();
     sheet.getRangeByName('A1').columnWidth = 4.82;
@@ -226,14 +226,13 @@ class _InvoiceXlsIOState extends SampleViewState {
     picture.lastRow = 7;
     picture.lastColumn = 8;
 
-    final List<int> bytes = workbook.saveStream();
+    final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.
     await FileSaveHelper.saveAndLaunchFile(bytes, 'Invoice.xlsx');
   }
 
-  //ignore: unused_element
   Future<List<int>> _readImageData(String name) async {
     final ByteData data = await rootBundle.load('images/xlsio/$name');
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);

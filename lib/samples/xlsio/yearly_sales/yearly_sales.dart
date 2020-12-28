@@ -10,9 +10,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Render pdf of invoice
+/// Render XlsIO of yearly sales
 class YearlySalesXlsIO extends SampleView {
-  /// Render pdf of invoice
+  /// Render XlsIO of yearly sales
   const YearlySalesXlsIO(Key key) : super(key: key);
   @override
   _YearlySalesXlsIOState createState() => _YearlySalesXlsIOState();
@@ -58,7 +58,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     //Accessing via index
     final Worksheet sheet = workbook.worksheets[0];
     sheet.name = 'Sales Report';
-    sheet.showGridLines = false;
+    sheet.showGridlines = false;
     final Worksheet sheet2 = workbook.worksheets.addWithName('Data');
     sheet.enableSheetCalculations();
 
@@ -265,7 +265,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
 
     sheet.charts = charts;
 
-    final List<int> bytes = workbook.saveStream();
+    final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.

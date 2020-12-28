@@ -378,9 +378,7 @@ class _BackdropPanel extends StatelessWidget {
     this.onTap,
     this.onVerticalDragUpdate,
     this.onVerticalDragEnd,
-    this.frontHeader,
     this.child,
-    this.shape,
     this.borderRadius,
     this.frontHeaderHeight,
     this.padding,
@@ -390,10 +388,8 @@ class _BackdropPanel extends StatelessWidget {
   final VoidCallback onTap;
   final GestureDragUpdateCallback onVerticalDragUpdate;
   final GestureDragEndCallback onVerticalDragEnd;
-  final Widget frontHeader;
   final Widget child;
   final BorderRadius borderRadius;
-  final ShapeBorder shape;
   final double frontHeaderHeight;
   final EdgeInsets padding;
   final Color color;
@@ -406,7 +402,6 @@ class _BackdropPanel extends StatelessWidget {
         color: color,
         elevation: 12.0,
         borderRadius: borderRadius,
-        shape: shape,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -416,10 +411,7 @@ class _BackdropPanel extends StatelessWidget {
               onVerticalDragUpdate: onVerticalDragUpdate,
               onVerticalDragEnd: onVerticalDragEnd,
               onTap: onTap,
-              child: Container(
-                height: frontHeaderHeight,
-                child: frontHeader,
-              ),
+              child: Container(height: frontHeaderHeight),
             ),
 
             //--------------------REST OF THE BODY----------------------

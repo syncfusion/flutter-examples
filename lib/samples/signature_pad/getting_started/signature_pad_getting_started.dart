@@ -179,7 +179,6 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                         Text(
                           'Pen Color',
                           style: TextStyle(
-                              fontSize: 14.0,
                               color: textColor,
                               fontWeight: FontWeight.w400,
                               fontFamily: 'Roboto-Regular'),
@@ -208,7 +207,6 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                       'CLEAR',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 14,
                           fontFamily: 'Roboto-Medium'),
                     ),
                     textColor: model.currentPaletteColor),
@@ -221,7 +219,6 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                     child: const Text('SAVE',
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 14,
                             fontFamily: 'Roboto-Medium')),
                     textColor: model.currentPaletteColor)
               ],
@@ -285,9 +282,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                 data: SfDataGridThemeData(
                   headerStyle: DataGridHeaderCellStyle(
                       textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          color: _getTextColor()),
+                          fontWeight: FontWeight.bold, color: _getTextColor()),
                       backgroundColor: Colors.transparent),
                   gridLineStrokeWidth: 1,
                   gridLineColor: _isDark ? Colors.grey[850] : Colors.grey[200],
@@ -300,22 +295,29 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                   source: _productDataSource,
                   columnWidthMode: ColumnWidthMode.fill,
                   columns: [
-                    GridTextColumn(mappingName: 'name', headerText: 'Product')
-                      ..columnWidthMode = ColumnWidthMode.cells
-                      ..headerTextSoftWrap = true
-                      ..headerTextOverflow = TextOverflow.clip
-                      ..padding = EdgeInsets.fromLTRB(10.0, 5.0, 0, 5.0),
-                    GridNumericColumn(mappingName: 'price', headerText: 'Price')
-                      ..headerTextSoftWrap = true
-                      ..headerTextOverflow = TextOverflow.clip,
+                    GridTextColumn(
+                        mappingName: 'name',
+                        headerText: 'Product',
+                        columnWidthMode: ColumnWidthMode.cells,
+                        headerTextSoftWrap: true,
+                        headerTextOverflow: TextOverflow.clip,
+                        padding: EdgeInsets.fromLTRB(10.0, 5.0, 0, 5.0)),
                     GridNumericColumn(
-                        mappingName: 'quantity', headerText: 'Quantity')
-                      ..headerTextSoftWrap = true
-                      ..headerTextOverflow = TextOverflow.clip
-                      ..padding = EdgeInsets.all(8),
-                    GridNumericColumn(mappingName: 'total', headerText: 'Total')
-                      ..headerTextSoftWrap = true
-                      ..headerTextOverflow = TextOverflow.clip
+                        mappingName: 'price',
+                        headerText: 'Price',
+                        headerTextSoftWrap: true,
+                        headerTextOverflow: TextOverflow.clip),
+                    GridNumericColumn(
+                        mappingName: 'quantity',
+                        headerText: 'Quantity',
+                        headerTextSoftWrap: true,
+                        headerTextOverflow: TextOverflow.clip,
+                        padding: EdgeInsets.all(8)),
+                    GridNumericColumn(
+                        mappingName: 'total',
+                        headerText: 'Total',
+                        headerTextSoftWrap: true,
+                        headerTextOverflow: TextOverflow.clip)
                   ],
                 ),
               ),
@@ -529,7 +531,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(children: <Widget>[
+      return ListView(shrinkWrap: true, children: <Widget>[
         Padding(
             child: Text(
               'Minimum Width',

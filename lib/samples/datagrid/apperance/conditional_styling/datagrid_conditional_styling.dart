@@ -134,31 +134,31 @@ class _ConditionalStylingDataGridState extends SampleViewState {
         }
       },
       columns: <GridColumn>[
-        GridTextColumn(mappingName: 'name')..headerText = 'Name',
-        GridNumericColumn(mappingName: 'qs1')
-          ..headerTextAlignment = Alignment.center
-          ..headerText = 'Q1'
-          ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$')
-          ..padding =
-              model.isWeb ? const EdgeInsets.all(16) : const EdgeInsets.all(4),
-        GridNumericColumn(mappingName: 'qs2')
-          ..headerTextAlignment = Alignment.center
-          ..headerText = 'Q2'
-          ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$')
-          ..padding =
-              model.isWeb ? const EdgeInsets.all(16) : const EdgeInsets.all(4),
-        GridNumericColumn(mappingName: 'qs3')
-          ..headerTextAlignment = Alignment.center
-          ..headerText = 'Q3'
-          ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$')
-          ..padding =
-              model.isWeb ? const EdgeInsets.all(16) : const EdgeInsets.all(4),
-        GridNumericColumn(mappingName: 'qs4')
-          ..headerTextAlignment = Alignment.center
-          ..headerText = 'Q4'
-          ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$')
-          ..padding =
-              model.isWeb ? const EdgeInsets.all(16) : const EdgeInsets.all(4),
+        GridTextColumn(mappingName: 'name', headerText: 'Name'),
+        GridNumericColumn(
+            mappingName: 'qs1',
+            headerTextAlignment: Alignment.center,
+            headerText: 'Q1',
+            numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+            padding: model.isWeb ? null : const EdgeInsets.all(4)),
+        GridNumericColumn(
+            mappingName: 'qs2',
+            headerTextAlignment: Alignment.center,
+            headerText: 'Q2',
+            numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+            padding: model.isWeb ? null : const EdgeInsets.all(4)),
+        GridNumericColumn(
+            mappingName: 'qs3',
+            headerTextAlignment: Alignment.center,
+            headerText: 'Q3',
+            numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+            padding: model.isWeb ? null : const EdgeInsets.all(4)),
+        GridNumericColumn(
+            mappingName: 'qs4',
+            headerTextAlignment: Alignment.center,
+            headerText: 'Q4',
+            numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+            padding: model.isWeb ? null : const EdgeInsets.all(4)),
       ],
     );
   }

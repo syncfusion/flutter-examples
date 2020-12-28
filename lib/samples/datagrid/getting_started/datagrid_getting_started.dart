@@ -310,35 +310,41 @@ class _GettingStartedDataGridState extends SampleViewState {
       ),
       rowHeight: 50,
       columns: <GridColumn>[
-        GridWidgetColumn(mappingName: 'image')
-          ..width = 51
-          ..headerText = ''
-          ..padding = const EdgeInsets.all(8.0),
-        GridTextColumn(mappingName: 'team')
-          ..columnWidthMode = ColumnWidthMode.cells
-          ..headerText = 'Team'
-          ..headerTextAlignment = Alignment.centerLeft,
-        GridNumericColumn(mappingName: 'wins')
-          ..headerText = 'W'
-          ..padding = const EdgeInsets.all(8)
-          ..headerTextAlignment = Alignment.center
-          ..textAlignment = Alignment.center,
-        GridNumericColumn(mappingName: 'losses')
-          ..padding = const EdgeInsets.all(8)
-          ..textAlignment = Alignment.center
-          ..headerTextAlignment = Alignment.center
-          ..headerText = 'L',
-        GridNumericColumn(mappingName: 'pct')
-          ..headerText = 'WPCT'
-          ..padding = const EdgeInsets.all(8)
-          ..textAlignment = Alignment.center
-          ..headerTextAlignment = Alignment.center
-          ..columnWidthMode = ColumnWidthMode.auto,
-        GridNumericColumn(mappingName: 'gb')
-          ..headerText = 'GB'
-          ..textAlignment = Alignment.center
-          ..headerTextAlignment = Alignment.center
-          ..padding = const EdgeInsets.all(8),
+        GridWidgetColumn(
+          mappingName: 'image',
+          width: 51,
+          headerText: '',
+        ),
+        GridTextColumn(
+            mappingName: 'team',
+            columnWidthMode: ColumnWidthMode.cells,
+            headerText: 'Team',
+            headerTextAlignment: Alignment.centerLeft),
+        GridNumericColumn(
+            mappingName: 'wins',
+            headerText: 'W',
+            padding: const EdgeInsets.all(8),
+            headerTextAlignment: Alignment.center,
+            textAlignment: Alignment.center),
+        GridNumericColumn(
+            mappingName: 'losses',
+            padding: const EdgeInsets.all(8),
+            textAlignment: Alignment.center,
+            headerTextAlignment: Alignment.center,
+            headerText: 'L'),
+        GridNumericColumn(
+            mappingName: 'pct',
+            headerText: 'WPCT',
+            padding: const EdgeInsets.all(8),
+            textAlignment: Alignment.center,
+            headerTextAlignment: Alignment.center,
+            columnWidthMode: ColumnWidthMode.auto),
+        GridNumericColumn(
+            mappingName: 'gb',
+            headerText: 'GB',
+            textAlignment: Alignment.center,
+            headerTextAlignment: Alignment.center,
+            padding: const EdgeInsets.all(8)),
       ],
     );
   }
@@ -473,35 +479,44 @@ class _GettingStartedDataGridState extends SampleViewState {
         }
       },
       columns: <GridColumn>[
-        GridWidgetColumn(mappingName: 'employeeName')
-          ..columnWidthMode = ColumnWidthMode.header
-          ..headerText = 'Employee Name',
-        GridTextColumn(mappingName: 'designation')
-          ..headerText = 'Designation'
-          ..headerTextAlignment = Alignment.centerLeft,
-        GridTextColumn(mappingName: 'mail')
-          ..headerText = 'Mail'
-          ..headerTextAlignment = Alignment.centerLeft,
-        GridWidgetColumn(mappingName: 'location')
-          ..width = 105
-          ..headerText = 'Location'
-          ..headerTextAlignment = Alignment.centerLeft,
-        GridTextColumn(mappingName: 'status')
-          ..headerText = 'Status'
-          ..headerTextAlignment = Alignment.centerLeft,
-        GridWidgetColumn(mappingName: 'trustworthiness')
-          ..columnWidthMode = ColumnWidthMode.header
-          ..headerText = 'Trustworthiness',
-        GridWidgetColumn(mappingName: 'softwareProficiency')
-          ..columnWidthMode = ColumnWidthMode.header
-          ..headerText = 'Software Proficiency',
-        GridNumericColumn(mappingName: 'salary')
-          ..headerText = 'Salary'
-          ..headerTextAlignment = Alignment.centerRight
-          ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$'),
-        GridTextColumn(mappingName: 'address')
-          ..headerText = 'Address'
-          ..headerTextAlignment = Alignment.centerLeft,
+        GridWidgetColumn(
+            mappingName: 'employeeName',
+            columnWidthMode: ColumnWidthMode.header,
+            headerText: 'Employee Name'),
+        GridTextColumn(
+            mappingName: 'designation',
+            headerText: 'Designation',
+            headerTextAlignment: Alignment.centerLeft),
+        GridTextColumn(
+            mappingName: 'mail',
+            headerText: 'Mail',
+            headerTextAlignment: Alignment.centerLeft),
+        GridWidgetColumn(
+            mappingName: 'location',
+            width: 105,
+            headerText: 'Location',
+            headerTextAlignment: Alignment.centerLeft),
+        GridTextColumn(
+            mappingName: 'status',
+            headerText: 'Status',
+            headerTextAlignment: Alignment.centerLeft),
+        GridWidgetColumn(
+            mappingName: 'trustworthiness',
+            columnWidthMode: ColumnWidthMode.header,
+            headerText: 'Trustworthiness'),
+        GridWidgetColumn(
+            mappingName: 'softwareProficiency',
+            columnWidthMode: ColumnWidthMode.header,
+            headerText: 'Software Proficiency'),
+        GridNumericColumn(
+            mappingName: 'salary',
+            headerText: 'Salary',
+            headerTextAlignment: Alignment.centerRight,
+            numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$')),
+        GridTextColumn(
+            mappingName: 'address',
+            headerText: 'Address',
+            headerTextAlignment: Alignment.centerLeft),
       ],
     );
   }

@@ -10,9 +10,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Render pdf of invoice
+/// Render xlsio of expenses report
 class ExpensesReportXlsIO extends SampleView {
-  /// Render pdf of invoice
+  /// Render xlsio of expenses report
   const ExpensesReportXlsIO(Key key) : super(key: key);
   @override
   _ExpensesReportXlsIOState createState() => _ExpensesReportXlsIOState();
@@ -57,7 +57,7 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     final Workbook workbook = Workbook(0);
     //Adding a Sheet with name to workbook.
     final Worksheet sheet1 = workbook.worksheets.addWithName('Budget');
-    sheet1.showGridLines = false;
+    sheet1.showGridlines = false;
 
     sheet1.enableSheetCalculations();
     sheet1.getRangeByIndex(1, 1).columnWidth = 19.86;
@@ -157,7 +157,7 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     chart.rightColumn = 5;
     sheet1.charts = charts;
 
-    final List<int> bytes = workbook.saveStream();
+    final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.

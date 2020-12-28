@@ -1,14 +1,14 @@
 ///Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-///URL launcher import
-import 'package:url_launcher/url_launcher.dart' show launch;
-
 ///Map import
 import 'package:syncfusion_flutter_maps/maps.dart';
+
+///URL launcher import
+import 'package:url_launcher/url_launcher.dart' show launch;
 
 ///Local import
 import '../../../../model/sample_view.dart';
@@ -232,6 +232,8 @@ class _BingMapState extends SampleViewState {
         if (_selectedMapViewIndex != index) {
           setState(() {
             _selectedMapViewIndex = index;
+            _zoomPanBehavior.zoomLevel =
+                _zoomPanBehavior.zoomLevel.floorToDouble();
             _setBingMapView(_selectedMapViewIndex);
           });
         }

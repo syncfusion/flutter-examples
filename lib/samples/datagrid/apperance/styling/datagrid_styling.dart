@@ -13,7 +13,6 @@ import 'package:syncfusion_flutter_core/theme.dart';
 
 /// Local import
 import '../../../../model/sample_view.dart';
-import '../../../../widgets/custom_dropdown.dart';
 
 /// render data grid widget
 class StylingDataGrid extends SampleView {
@@ -114,73 +113,82 @@ class _StylingDataGridState extends SampleViewState {
   List<GridColumn> getColumns() {
     return model.isWeb
         ? <GridColumn>[
-            GridNumericColumn(mappingName: 'orderId')
-              ..headerText = 'Order ID'
-              ..headerTextAlignment = Alignment.centerRight,
-            GridNumericColumn(mappingName: 'customerId')
-              ..headerText = 'Customer ID'
-              ..headerTextAlignment = Alignment.centerRight,
-            GridTextColumn(mappingName: 'name')
-              ..headerText = 'Name'
-              ..headerTextAlignment = Alignment.centerLeft,
-            GridNumericColumn(mappingName: 'freight')
-              ..numberFormat =
-                  NumberFormat.currency(locale: 'en_US', symbol: '\$')
-              ..headerText = 'Freight'
-              ..headerTextAlignment = Alignment.centerRight,
-            GridTextColumn(mappingName: 'city')
-              ..headerText = 'City'
-              ..headerTextAlignment = Alignment.centerLeft,
-            GridNumericColumn(mappingName: 'price')
-              ..numberFormat =
-                  NumberFormat.currency(locale: 'en_US', symbol: '\$')
-              ..headerText = 'Price'
+            GridNumericColumn(
+                mappingName: 'orderId',
+                headerText: 'Order ID',
+                headerTextAlignment: Alignment.centerRight),
+            GridNumericColumn(
+                mappingName: 'customerId',
+                headerText: 'Customer ID',
+                headerTextAlignment: Alignment.centerRight),
+            GridTextColumn(
+                mappingName: 'name',
+                headerText: 'Name',
+                headerTextAlignment: Alignment.centerLeft),
+            GridNumericColumn(
+                mappingName: 'freight',
+                numberFormat:
+                    NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+                headerText: 'Freight',
+                headerTextAlignment: Alignment.centerRight),
+            GridTextColumn(
+                mappingName: 'city',
+                headerText: 'City',
+                headerTextAlignment: Alignment.centerLeft),
+            GridNumericColumn(
+                mappingName: 'price',
+                numberFormat:
+                    NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+                headerText: 'Price')
           ]
         : <GridColumn>[
-            GridNumericColumn(mappingName: 'orderId')
-              ..headerTextAlignment = Alignment.centerRight
-              ..headerText = 'Order ID',
-            GridNumericColumn(mappingName: 'customerId')
-              ..padding = const EdgeInsets.all(8)
-              ..columnWidthMode = _isLandscapeInMobileView
-                  ? ColumnWidthMode.fill
-                  : ColumnWidthMode.header
-              ..headerTextAlignment = Alignment.centerRight
-              ..headerText = 'Customer ID',
-            GridTextColumn(mappingName: 'name')
-              ..headerTextAlignment = Alignment.centerLeft
-              ..headerText = 'Name',
-            GridTextColumn(mappingName: 'city')
-              ..headerTextAlignment = Alignment.centerLeft
-              ..headerText = 'City'
+            GridNumericColumn(
+                mappingName: 'orderId',
+                headerTextAlignment: Alignment.centerRight,
+                headerText: 'Order ID'),
+            GridNumericColumn(
+                mappingName: 'customerId',
+                padding: const EdgeInsets.all(8),
+                columnWidthMode: _isLandscapeInMobileView
+                    ? ColumnWidthMode.fill
+                    : ColumnWidthMode.header,
+                headerTextAlignment: Alignment.centerRight,
+                headerText: 'Customer ID'),
+            GridTextColumn(
+                mappingName: 'name',
+                headerTextAlignment: Alignment.centerLeft,
+                headerText: 'Name'),
+            GridTextColumn(
+                mappingName: 'city',
+                headerTextAlignment: Alignment.centerLeft,
+                headerText: 'City')
           ];
   }
 
   SfDataGridTheme _dataGridSample([GridLinesVisibility gridLineVisibility]) {
     return SfDataGridTheme(
-        data: SfDataGridThemeData(
-            brightness: model.themeData.brightness,
-            headerStyle: const DataGridHeaderCellStyle(
-                backgroundColor: Color(0xFF6C59CF),
-                textStyle: TextStyle(
-                  color: Color.fromRGBO(255, 255, 255, 1),
-                ))),
-        child: SfDataGrid(
-          source: _stylingDataGridSource,
-          columnWidthMode: ColumnWidthMode.fill,
-          gridLinesVisibility: gridLineVisibility,
-          onQueryRowStyle: (QueryRowStyleArgs args) {
-            return ((args.rowIndex) % 2 == 0)
-                ? DataGridCellStyle(
-                    backgroundColor:
-                        model.themeData.brightness == Brightness.dark
-                            ? const Color(0xFF2E2946)
-                            : const Color.fromRGBO(245, 244, 255, 1),
-                  )
-                : null;
-          },
-          columns: getColumns(),
-        ));
+      data: SfDataGridThemeData(
+          brightness: model.themeData.brightness,
+          headerStyle: DataGridHeaderCellStyle(
+              backgroundColor: Color(0xFF6C59CF),
+              textStyle: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+              hoverColor: Color(0xFF9588D7).withOpacity(0.6))),
+      child: SfDataGrid(
+        source: _stylingDataGridSource,
+        columnWidthMode: ColumnWidthMode.fill,
+        gridLinesVisibility: gridLineVisibility,
+        onQueryRowStyle: (QueryRowStyleArgs args) {
+          return ((args.rowIndex % 2) != 0)
+              ? DataGridCellStyle(
+                  backgroundColor: model.themeData.brightness == Brightness.dark
+                      ? const Color(0xFF2E2946)
+                      : const Color.fromRGBO(245, 244, 255, 1),
+                )
+              : null;
+        },
+        columns: getColumns(),
+      ),
+    );
   }
 
   @override
@@ -203,32 +211,36 @@ class _StylingDataGridState extends SampleViewState {
   void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
   @override
   Widget buildSettings(BuildContext context) {
-    return ListView(children: <Widget>[
-      ListTile(
-        title: Text(
-          'Grid lines visibility:',
-          style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-              color: model.textColor),
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return ListView(shrinkWrap: true, children: <Widget>[
+        ListTile(
+          title: Text(
+            'Grid lines visibility:',
+            style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                color: model.textColor),
+          ),
+          trailing: Theme(
+            data: ThemeData(canvasColor: model.bottomSheetBackgroundColor),
+            child: DropdownButton<String>(
+                value: _gridLinesVisibility,
+                items: _encoding.map((String value) {
+                  return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'None',
+                      child: Text('$value',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: model.textColor)));
+                }).toList(),
+                onChanged: (dynamic value) {
+                  _onGridLinesVisibilitychanges(value);
+                  stateSetter(() {});
+                }),
+          ),
         ),
-        trailing: Theme(
-          data: ThemeData(canvasColor: model.bottomSheetBackgroundColor),
-          child: DropDown(
-              value: _gridLinesVisibility,
-              item: _encoding.map((String value) {
-                return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'None',
-                    child: Text('$value',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: model.textColor)));
-              }).toList(),
-              valueChanged: (dynamic value) {
-                _onGridLinesVisibilitychanges(value);
-              }),
-        ),
-      ),
-    ]);
+      ]);
+    });
   }
 
   @override

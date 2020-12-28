@@ -8,8 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 /// Local imports
 import '../widgets/bottom_sheet.dart';
 import '../widgets/flutter_backdrop.dart';
-import '../widgets/shared/mobile.dart'
-    if (dart.library.html) '../widgets/shared/web.dart';
 import 'mobile_view.dart';
 import 'model.dart';
 import 'sample_view.dart';
@@ -170,14 +168,12 @@ class _FullViewSampleLayout extends StatelessWidget {
                                       child: Container(
                                         height: 40,
                                         width: 40,
-                                        child: HandCursor(
-                                          child: IconButton(
-                                            icon: Image.asset('images/code.png',
-                                                color: Colors.white),
-                                            onPressed: () {
-                                              launch(sample.codeLink);
-                                            },
-                                          ),
+                                        child: IconButton(
+                                          icon: Image.asset('images/code.png',
+                                              color: Colors.white),
+                                          onPressed: () {
+                                            launch(sample.codeLink);
+                                          },
                                         ),
                                       ),
                                     )
@@ -187,15 +183,13 @@ class _FullViewSampleLayout extends StatelessWidget {
                                 child: Container(
                                   height: 40,
                                   width: 40,
-                                  child: HandCursor(
-                                    child: IconButton(
-                                      icon: Image.asset('images/info.png',
-                                          color: Colors.white),
-                                      onPressed: () {
-                                        frontPanelVisible.value =
-                                            !frontPanelVisible.value;
-                                      },
-                                    ),
+                                  child: IconButton(
+                                    icon: Icon(Icons.info_outline,
+                                        color: Colors.white),
+                                    onPressed: () {
+                                      frontPanelVisible.value =
+                                          !frontPanelVisible.value;
+                                    },
                                   ),
                                 ),
                               ),
@@ -208,14 +202,12 @@ class _FullViewSampleLayout extends StatelessWidget {
                                     child: Container(
                                       height: 40,
                                       width: 40,
-                                      child: HandCursor(
-                                        child: IconButton(
-                                          icon: Image.asset('images/code.png',
-                                              color: Colors.white),
-                                          onPressed: () {
-                                            launch(sample.codeLink);
-                                          },
-                                        ),
+                                      child: IconButton(
+                                        icon: Image.asset('images/code.png',
+                                            color: Colors.white),
+                                        onPressed: () {
+                                          launch(sample.codeLink);
+                                        },
                                       ),
                                     ),
                                   ),
@@ -696,46 +688,37 @@ Widget getFooter(BuildContext context, SampleModel model) {
           children: <Widget>[
             Row(
               children: <Widget>[
-                HandCursor(
-                  child: InkWell(
-                    child: const Text('Documentation',
-                        style: TextStyle(color: Colors.blue, fontSize: 12)),
-                    onTap: () => launch(
-                        'https://help.syncfusion.com/flutter/introduction/overview'),
-                  ),
+                InkWell(
+                  child: const Text('Documentation',
+                      style: TextStyle(color: Colors.blue, fontSize: 12)),
+                  onTap: () => launch(
+                      'https://help.syncfusion.com/flutter/introduction/overview'),
                 ),
                 Text(' | ',
                     style: TextStyle(
                         fontSize: 12, color: model.textColor.withOpacity(0.7))),
-                HandCursor(
-                  child: InkWell(
-                    child: const Text('Forum',
-                        style: TextStyle(color: Colors.blue, fontSize: 12)),
-                    onTap: () =>
-                        launch('https://www.syncfusion.com/forums/flutter'),
-                  ),
+                InkWell(
+                  child: const Text('Forum',
+                      style: TextStyle(color: Colors.blue, fontSize: 12)),
+                  onTap: () =>
+                      launch('https://www.syncfusion.com/forums/flutter'),
                 ),
                 Text(' | ',
                     style: TextStyle(
                         fontSize: 12, color: model.textColor.withOpacity(0.7))),
-                HandCursor(
-                  child: InkWell(
-                    child: const Text('Blog',
-                        style: TextStyle(color: Colors.blue, fontSize: 12)),
-                    onTap: () =>
-                        launch('https://www.syncfusion.com/blogs/?s=flutter'),
-                  ),
+                InkWell(
+                  child: const Text('Blog',
+                      style: TextStyle(color: Colors.blue, fontSize: 12)),
+                  onTap: () =>
+                      launch('https://www.syncfusion.com/blogs/?s=flutter'),
                 ),
                 Text(' | ',
                     style: TextStyle(
                         fontSize: 12, color: model.textColor.withOpacity(0.7))),
-                HandCursor(
-                  child: InkWell(
-                    child: const Text('Knowledge base',
-                        style: TextStyle(color: Colors.blue, fontSize: 12)),
-                    onTap: () =>
-                        launch('https://www.syncfusion.com/kb/flutter'),
-                  ),
+                InkWell(
+                  child: const Text('Knowledge base',
+                      style: TextStyle(color: Colors.blue, fontSize: 12)),
+                  onTap: () => launch('https://www.syncfusion.com/kb/flutter'),
                 )
               ],
             ),
@@ -748,18 +731,16 @@ Widget getFooter(BuildContext context, SampleModel model) {
                         letterSpacing: 0.23)))
           ],
         )),
-        HandCursor(
-          child: InkWell(
-            onTap: () => launch('https://www.syncfusion.com'),
-            child: Image.asset(
-                model.themeData.brightness == Brightness.dark
-                    ? 'images/syncfusion_dark.png'
-                    : 'images/syncfusion.png',
-                fit: BoxFit.contain,
-                height: 25,
-                width: model.isMobileResolution ? 80 : 120),
-          ),
-        )
+        InkWell(
+          onTap: () => launch('https://www.syncfusion.com'),
+          child: Image.asset(
+              model.themeData.brightness == Brightness.dark
+                  ? 'images/syncfusion_dark.png'
+                  : 'images/syncfusion.png',
+              fit: BoxFit.contain,
+              height: 25,
+              width: model.isMobileResolution ? 80 : 120),
+        ),
       ],
     ),
   );
@@ -790,13 +771,11 @@ Widget showWebThemeSettings(SampleModel model) {
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto-Medium')),
-                    HandCursor(
-                      child: IconButton(
-                          icon: Icon(Icons.close, color: model.webIconColor),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                    )
+                    IconButton(
+                        icon: Icon(Icons.close, color: model.webIconColor),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
                   ],
                 ),
                 Expanded(
@@ -879,17 +858,15 @@ Widget showWebThemeSettings(SampleModel model) {
                       Container(
                         height: 44,
                         padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                        child: HandCursor(
-                          child: RaisedButton(
-                              color: model.paletteColor,
-                              onPressed: () => _applyThemeAndPaletteColor(
-                                  model, context, _selectedValue),
-                              child: const Text('APPLY',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'Roboto-Bold',
-                                      color: Colors.white))),
-                        ),
+                        child: RaisedButton(
+                            color: model.paletteColor,
+                            onPressed: () => _applyThemeAndPaletteColor(
+                                model, context, _selectedValue),
+                            child: const Text('APPLY',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Roboto-Bold',
+                                    color: Colors.white))),
                       )
                     ],
                   ),
@@ -925,14 +902,12 @@ List<Widget> _addColorPalettes(SampleModel model, [StateSetter setState]) {
             border: Border.all(color: model.paletteBorderColors[i], width: 2.0),
             shape: BoxShape.circle,
           ),
-          child: HandCursor(
-            child: InkWell(
-              onTap: () => _changeColorPalette(model, i, setState),
-              child: Icon(
-                Icons.brightness_1,
-                size: 40.0,
-                color: model.paletteColors[i],
-              ),
+          child: InkWell(
+            onTap: () => _changeColorPalette(model, i, setState),
+            child: Icon(
+              Icons.brightness_1,
+              size: 40.0,
+              color: model.paletteColors[i],
             ),
           ),
         )));
@@ -994,7 +969,9 @@ String getStatusTag(SubItem item) {
     }
     status = (newCount != 0 && newCount == item.subItems.length)
         ? (_isWeb ? 'New' : 'N')
-        : (newCount != 0 || updateCount != 0) ? (_isWeb ? 'Updated' : 'U') : '';
+        : (newCount != 0 || updateCount != 0)
+            ? (_isWeb ? 'Updated' : 'U')
+            : '';
   }
   return status;
 }
@@ -1009,9 +986,7 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
       ? const Color.fromRGBO(84, 84, 84, 1)
       : const Color.fromRGBO(218, 218, 218, 1);
   showRoundedModalBottomSheet<dynamic>(
-      dismissOnTap: false,
       context: context,
-      radius: 12.0,
       color: model.bottomSheetBackgroundColor,
       builder: (BuildContext context) => Container(
           height: 250,
@@ -1183,12 +1158,9 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
 void showBottomSheetSettingsPanel(BuildContext context, Widget propertyWidget) {
   final SampleModel _model = SampleModel.instance;
   showRoundedModalBottomSheet<dynamic>(
-      dismissOnTap: false,
       context: context,
-      radius: 12.0,
       color: _model.bottomSheetBackgroundColor,
       builder: (BuildContext context) => Container(
-            height: MediaQuery.of(context).size.height * 0.22,
             padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
             child: Stack(children: <Widget>[
               Row(

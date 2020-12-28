@@ -1,5 +1,4 @@
 ///Flutter package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 ///Local import
@@ -10,19 +9,16 @@ Future<T> showRoundedModalBottomSheet<T>({
   @required BuildContext context,
   @required WidgetBuilder builder,
   Color color = Colors.white,
-  double radius = 10.0,
-  bool dismissOnTap = true,
+  bool dismissOnTap = false,
 }) {
   assert(context != null);
   assert(builder != null);
-  assert(radius != null && radius > 0.0);
   assert(color != null && color != Colors.transparent);
   return Navigator.push<T>(
     context,
     _RoundedCornerModalRoute<T>(
       builder: builder,
       color: color,
-      radius: radius,
       autoResize: true,
       dismissOnTap: dismissOnTap,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
@@ -167,14 +163,12 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
     this.builder,
     this.barrierLabel,
     this.color,
-    this.radius,
     this.autoResize = false,
     this.dismissOnTap = true,
     RouteSettings settings,
   }) : super(settings: settings);
 
   final WidgetBuilder builder;
-  final double radius;
   final Color color;
   final bool autoResize;
   final bool dismissOnTap;
@@ -211,17 +205,14 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
     return Container(
-        margin: kIsWeb
-            ? const EdgeInsets.fromLTRB(250, 0, 250, 0)
-            : const EdgeInsets.all(0),
         child: MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child: Theme(
-            data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-            child: _RoundedModalBottomSheet<T>(route: this),
-          ),
-        ));
+      context: context,
+      removeTop: true,
+      child: Theme(
+        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+        child: _RoundedModalBottomSheet<T>(route: this),
+      ),
+    ));
   }
 }
 
@@ -279,8 +270,8 @@ class _RoundedModalBottomSheetState<T>
               decoration: BoxDecoration(
                 color: widget.route.color,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(widget.route.radius),
-                  topRight: Radius.circular(widget.route.radius),
+                  topLeft: Radius.circular(12.0),
+                  topRight: Radius.circular(12.0),
                 ),
               ),
               child: SafeArea(

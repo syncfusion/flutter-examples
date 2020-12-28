@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/widgets/switch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
@@ -47,6 +47,7 @@ class _SortingDataGridState extends SampleViewState {
       source: _sortingDataGridSource,
       columns: getColumns(),
       gridLinesVisibility: GridLinesVisibility.both,
+      headerGridLinesVisibility: GridLinesVisibility.both,
       columnWidthMode: kIsWeb || _isLandscapeInMobileView
           ? ColumnWidthMode.fill
           : ColumnWidthMode.header,
@@ -59,92 +60,119 @@ class _SortingDataGridState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        ListTile(
-          title:
-              Text('Allow sorting', style: TextStyle(color: model.textColor)),
-          trailing: CustomSwitch(
-              switchValue: _allowSorting,
-              valueChanged: (value) {
-                setState(() {
-                  _allowSorting = value;
-                });
-              }),
-        ),
-        ListTile(
-          title: Text('Allow multiple column sorting',
-              style: TextStyle(color: model.textColor)),
-          trailing: CustomSwitch(
-              switchValue: _allowMultiSorting,
-              valueChanged: (value) {
-                setState(() {
-                  _allowMultiSorting = value;
-                });
-              }),
-        ),
-        ListTile(
-          title: Text('Allow tri-state sorting',
-              style: TextStyle(color: model.textColor)),
-          trailing: CustomSwitch(
-              switchValue: _allowTriStateSorting,
-              valueChanged: (value) {
-                setState(() {
-                  _allowTriStateSorting = value;
-                });
-              }),
-        ),
-        ListTile(
-          trailing: CustomSwitch(
-              switchValue: _allowColumnSorting,
-              valueChanged: (value) {
-                setState(() {
-                  _allowColumnSorting = value;
-                });
-              }),
-          title: Text('Allow sorting for the Name column',
-              style: TextStyle(color: model.textColor)),
-        ),
-        ListTile(
-          title: Text('Display sort sequence numbers',
-              style: TextStyle(color: model.textColor)),
-          trailing: CustomSwitch(
-              switchValue: _showSortNumbers,
-              valueChanged: (value) {
-                setState(() {
-                  _showSortNumbers = value;
-                });
-              }),
-        ),
-      ],
-    );
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          ListTile(
+            title:
+                Text('Allow sorting', style: TextStyle(color: model.textColor)),
+            trailing: Transform.scale(
+                scale: 0.8,
+                child: CupertinoSwitch(
+                  value: _allowSorting,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _allowSorting = value;
+                      stateSetter(() {});
+                    });
+                  },
+                )),
+          ),
+          ListTile(
+              title: Text('Allow multiple column sorting',
+                  style: TextStyle(color: model.textColor)),
+              trailing: Transform.scale(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    value: _allowMultiSorting,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _allowMultiSorting = value;
+                        stateSetter(() {});
+                      });
+                    },
+                  ))),
+          ListTile(
+              title: Text('Allow tri-state sorting',
+                  style: TextStyle(color: model.textColor)),
+              trailing: Transform.scale(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    value: _allowTriStateSorting,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _allowTriStateSorting = value;
+                        stateSetter(() {});
+                      });
+                    },
+                  ))),
+          ListTile(
+            trailing: Transform.scale(
+                scale: 0.8,
+                child: CupertinoSwitch(
+                  value: _allowColumnSorting,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _allowColumnSorting = value;
+                      stateSetter(() {});
+                    });
+                  },
+                )),
+            title: Text('Allow sorting for the Name column',
+                style: TextStyle(color: model.textColor)),
+          ),
+          ListTile(
+              title: Text('Display sort sequence numbers',
+                  style: TextStyle(color: model.textColor)),
+              trailing: Transform.scale(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    value: _showSortNumbers,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _showSortNumbers = value;
+                        stateSetter(() {});
+                      });
+                    },
+                  ))),
+        ],
+      );
+    });
   }
 
   List<GridColumn> getColumns() {
     return <GridColumn>[
-      GridNumericColumn(mappingName: 'id')
-        ..columnWidthMode =
-            !kIsWeb ? ColumnWidthMode.header : ColumnWidthMode.fill
-        ..headerText = 'Order ID',
-      GridNumericColumn(mappingName: 'customerId')
-        ..columnWidthMode =
-            !kIsWeb ? ColumnWidthMode.header : ColumnWidthMode.fill
-        ..headerText = 'Customer ID',
-      GridTextColumn(mappingName: 'name')
-        ..headerText = 'Name'
-        ..allowSorting = _allowColumnSorting,
-      GridNumericColumn(mappingName: 'freight')
-        ..numberFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$')
-        ..headerText = 'Freight',
-      GridTextColumn(mappingName: 'city')
-        ..columnWidthMode =
-            !kIsWeb ? ColumnWidthMode.auto : ColumnWidthMode.fill
-        ..headerText = 'City',
-      GridNumericColumn(mappingName: 'price')
-        ..numberFormat = NumberFormat.currency(
-            locale: 'en_US', symbol: '\$', decimalDigits: 0)
-        ..columnWidthMode = ColumnWidthMode.lastColumnFill
-        ..headerText = 'Price'
+      GridNumericColumn(
+          mappingName: 'id',
+          columnWidthMode:
+              !kIsWeb ? ColumnWidthMode.header : ColumnWidthMode.fill,
+          headerText: 'Order ID'),
+      GridNumericColumn(
+          mappingName: 'customerId',
+          columnWidthMode:
+              !kIsWeb ? ColumnWidthMode.header : ColumnWidthMode.fill,
+          headerText: 'Customer ID'),
+      GridTextColumn(
+          mappingName: 'name',
+          headerText: 'Name',
+          allowSorting: _allowColumnSorting),
+      GridNumericColumn(
+          mappingName: 'freight',
+          numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+          headerText: 'Freight'),
+      GridTextColumn(
+          mappingName: 'city',
+          columnWidthMode:
+              !kIsWeb ? ColumnWidthMode.auto : ColumnWidthMode.fill,
+          headerText: 'City'),
+      GridNumericColumn(
+          mappingName: 'price',
+          numberFormat: NumberFormat.currency(
+              locale: 'en_US', symbol: '\$', decimalDigits: 0),
+          columnWidthMode: ColumnWidthMode.lastColumnFill,
+          headerText: 'Price')
     ];
   }
 }

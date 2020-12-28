@@ -1,0 +1,194 @@
+///Package imports
+import 'package:flutter/material.dart';
+
+///calendar import
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+///Local import
+import '../../../model/sample_view.dart';
+
+/// Widget of the RadialSlider custom text.
+class RadialRangeSliderCustomText extends SampleView {
+  const RadialRangeSliderCustomText(Key key) : super(key: key);
+
+  @override
+  _RadialRangeSliderCustomTextState createState() =>
+      _RadialRangeSliderCustomTextState();
+}
+
+class _RadialRangeSliderCustomTextState extends SampleViewState {
+  _RadialRangeSliderCustomTextState();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      _firstMarkerSize = 30;
+      _annotationFontSize = 20;
+    } else {
+      _firstMarkerSize = model.isWeb ? 25 : 20;
+      _annotationFontSize = model.isWeb ? 25 : 15;
+    }
+    return Center(
+      child: SfRadialGauge(axes: <RadialAxis>[
+        RadialAxis(
+            axisLineStyle: AxisLineStyle(
+                thickness: model.isWeb ? 0.15 : 0.2,
+                thicknessUnit: GaugeSizeUnit.factor),
+            showTicks: false,
+            showLabels: true,
+            labelOffset: 25,
+            ranges: <GaugeRange>[
+              GaugeRange(
+                endValue: _secondMarkerValue,
+                startValue: _firstMarkerValue,
+                sizeUnit: GaugeSizeUnit.factor,
+                color: _rangeColor,
+                endWidth: model.isWeb ? 0.15 : 0.2,
+                startWidth: model.isWeb ? 0.15 : 0.2,
+              )
+            ],
+            pointers: <GaugePointer>[
+              MarkerPointer(
+                value: _firstMarkerValue,
+                color: Colors.white,
+                markerHeight: _firstMarkerSize,
+                markerWidth: _firstMarkerSize,
+                borderColor: _rangeColor,
+                borderWidth: 9.5,
+                markerType: MarkerType.circle,
+                enableDragging: true,
+                onValueChanged: handleFirstPointerValueChanged,
+                onValueChanging: handleFirstPointerValueChanging,
+              ),
+              MarkerPointer(
+                value: _secondMarkerValue - 1,
+                onValueChanged: handleSecondPointerValueChanged,
+                onValueChanging: handleSecondPointerValueChanging,
+                enableDragging: true,
+                color: Colors.white,
+                borderColor: _rangeColor,
+                borderWidth: 9.5,
+                markerHeight: _firstMarkerSize,
+                markerWidth: _firstMarkerSize,
+                markerType: MarkerType.circle,
+              ),
+            ],
+            annotations: <GaugeAnnotation>[
+              GaugeAnnotation(
+                  widget: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        '$_annotationValue',
+                        style: TextStyle(
+                          fontSize: _annotationFontSize,
+                          fontFamily: 'Times',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  positionFactor: 0.13,
+                  angle: 0)
+            ])
+      ]),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  /// Dragged pointer new value is updated to pointer and
+  /// annotation current value.
+  void handleSecondPointerValueChanged(double value) {
+    setState(() {
+      _secondMarkerValue = value;
+      final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
+      if (_value < 99 && _annotationValue != 'In-progress') {
+        _annotationValue = 'In-progress';
+
+        if (_rangeColor != const Color.fromRGBO(255, 150, 0, 1)) {
+          _rangeColor = const Color.fromRGBO(255, 150, 0, 1);
+        }
+        if (_annotationColor != const Color.fromRGBO(255, 150, 0, 1)) {
+          _annotationColor = const Color.fromRGBO(255, 150, 0, 1);
+        }
+      } else if (_value == 99) {
+        _annotationValue = 'Done';
+        _rangeColor = const Color(0xFF00A8B5);
+        _annotationColor = const Color(0xFF00A8B5);
+      }
+    });
+  }
+
+  /// Pointer dragging is canceled when dragging pointer value is less than 6.
+  void handleSecondPointerValueChanging(ValueChangingArgs args) {
+    if (args.value <= _firstMarkerValue ||
+        (args.value - _secondMarkerValue).abs() > 10) {
+      if (args.value <= _firstMarkerValue) {
+        if ((args.value - _secondMarkerValue).abs() > 10) {
+          args.cancel = true;
+        } else {
+          _secondMarkerValue = _firstMarkerValue;
+          _firstMarkerValue = args.value;
+        }
+      } else {
+        args.cancel = true;
+      }
+    }
+  }
+
+  /// Value changed call back for first pointer
+  void handleFirstPointerValueChanged(double value) {
+    setState(() {
+      _firstMarkerValue = value;
+      final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
+      if (_value < 99 && _annotationValue != 'In-progress') {
+        _annotationValue = 'In-progress';
+
+        if (_rangeColor != const Color.fromRGBO(255, 150, 0, 1)) {
+          _rangeColor = const Color.fromRGBO(255, 150, 0, 1);
+        }
+        if (_annotationColor != const Color.fromRGBO(255, 150, 0, 1)) {
+          _annotationColor = const Color.fromRGBO(255, 150, 0, 1);
+        }
+      } else if (_value == 99) {
+        _annotationValue = 'Done';
+        _rangeColor = const Color(0xFF00A8B5);
+        _annotationColor = const Color(0xFF00A8B5);
+      }
+    });
+  }
+
+  /// Value changeing call back for first pointer
+  void handleFirstPointerValueChanging(ValueChangingArgs args) {
+    if (args.value >= _secondMarkerValue ||
+        (args.value - _firstMarkerValue).abs() > 10) {
+      if (args.value >= _secondMarkerValue) {
+        if ((args.value - _firstMarkerValue).abs() > 10) {
+          args.cancel = true;
+        } else {
+          _firstMarkerValue = _secondMarkerValue;
+          _secondMarkerValue = args.value;
+        }
+      } else {
+        args.cancel = true;
+      }
+    }
+  }
+
+  double _secondMarkerValue = 60;
+  double _firstMarkerValue = 0;
+  double _firstMarkerSize = 10;
+  double _annotationFontSize = 25;
+  String _annotationValue = 'In-progress';
+  Color _rangeColor = const Color.fromRGBO(255, 150, 0, 1);
+  Color _annotationColor = const Color.fromRGBO(255, 150, 0, 1);
+}

@@ -27,7 +27,9 @@ class _DistanceTrackerExampleState extends SampleViewState {
       _markerValue =
           (MediaQuery.of(context).orientation == Orientation.portrait)
               ? 138
-              : model.isWeb ? 138 : 136;
+              : model.isWeb
+                  ? 138
+                  : 136;
     });
     return _getDistanceTrackerExample();
   }

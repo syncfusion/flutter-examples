@@ -131,40 +131,45 @@ class _ColumnTypesDataGridState extends SampleViewState {
           );
         },
         columns: <GridColumn>[
-          GridWidgetColumn(mappingName: 'dealer')
-            ..width = 90
-            ..headerText = 'Dealer',
-          GridNumericColumn(mappingName: 'id')
-            ..headerText = ' ID'
-            ..columnWidthMode = _isLandscapeInMobileView
-                ? ColumnWidthMode.fill
-                : ColumnWidthMode.none
-            ..headerTextAlignment = Alignment.centerRight,
-          GridTextColumn(mappingName: 'name')
-            ..headerText = 'Name'
-            ..headerTextAlignment = Alignment.centerLeft,
-          GridNumericColumn(mappingName: 'freight')
-            ..textAlignment = Alignment.center
-            ..headerTextAlignment = Alignment.center
-            ..numberFormat =
-                NumberFormat.currency(locale: 'en_US', symbol: '\$')
-            ..columnWidthMode = _isLandscapeInMobileView
-                ? ColumnWidthMode.fill
-                : ColumnWidthMode.none
-            ..headerText = 'Freight',
-          GridDateTimeColumn(mappingName: 'shippedDate')
-            ..columnWidthMode = ColumnWidthMode.header
-            ..headerText = 'Shipped Date'
-            ..dateFormat = DateFormat.yMd(),
-          GridTextColumn(mappingName: 'city')
-            ..headerText = 'City'
-            ..headerTextAlignment = Alignment.centerLeft,
-          GridNumericColumn(mappingName: 'price')
-            ..headerTextAlignment = Alignment.centerRight
-            ..numberFormat =
-                NumberFormat.currency(locale: 'en_US', symbol: '\$')
-            ..columnWidthMode = ColumnWidthMode.lastColumnFill
-            ..headerText = 'Price'
+          GridWidgetColumn(
+              mappingName: 'dealer', width: 90, headerText: 'Dealer'),
+          GridNumericColumn(
+              mappingName: 'id',
+              headerText: ' ID',
+              columnWidthMode: _isLandscapeInMobileView
+                  ? ColumnWidthMode.fill
+                  : ColumnWidthMode.none,
+              headerTextAlignment: Alignment.centerRight),
+          GridTextColumn(
+              mappingName: 'name',
+              headerText: 'Name',
+              headerTextAlignment: Alignment.centerLeft),
+          GridNumericColumn(
+              mappingName: 'freight',
+              textAlignment: Alignment.center,
+              headerTextAlignment: Alignment.center,
+              numberFormat:
+                  NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+              columnWidthMode: _isLandscapeInMobileView
+                  ? ColumnWidthMode.fill
+                  : ColumnWidthMode.none,
+              headerText: 'Freight'),
+          GridDateTimeColumn(
+              mappingName: 'shippedDate',
+              columnWidthMode: ColumnWidthMode.header,
+              headerText: 'Shipped Date',
+              dateFormat: DateFormat.yMd()),
+          GridTextColumn(
+              mappingName: 'city',
+              headerText: 'City',
+              headerTextAlignment: Alignment.centerLeft),
+          GridNumericColumn(
+              mappingName: 'price',
+              headerTextAlignment: Alignment.centerRight,
+              numberFormat:
+                  NumberFormat.currency(locale: 'en_US', symbol: '\$'),
+              columnWidthMode: ColumnWidthMode.lastColumnFill,
+              headerText: 'Price')
         ]);
   }
 

@@ -10,7 +10,6 @@ import 'package:flutter/services.dart';
 ///Local import
 import '../model/helper.dart';
 import '../model/model.dart';
-import 'shared/mobile.dart' if (dart.library.html) 'shared/web.dart';
 
 /// Searchbar widget for searching particular sample
 /// by typing the sample's title in the text editor present in the [SearchBar]
@@ -230,7 +229,9 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
         ///Arrow up key action
         _selectionIndex = _selectionIndex == null
             ? 0
-            : _selectionIndex == 0 ? 0 : _selectionIndex - 1;
+            : _selectionIndex == 0
+                ? 0
+                : _selectionIndex - 1;
         final List<int> indexes = _getVisibleIndexes();
         if (!indexes.contains(_selectionIndex)) {
           _scrollToUp(_selectionIndex);
@@ -244,7 +245,6 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
         sampleListModel.editingController.text = '';
         _isFocus.unfocus();
         _overlayEntry.maintainState = false;
-        changeCursorStyleOnNavigation();
         _overlayEntry.opaque = false;
         _removeOverlayEntries();
       }
@@ -254,7 +254,6 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   /// Navigate to the selected sample
   void _navigateToSample(int index) {
     _overlayEntry.maintainState = false;
-    changeCursorStyleOnNavigation();
     sampleListModel.editingController.text = '';
     _isFocus.unfocus();
     _overlayEntry.opaque = false;
@@ -351,8 +350,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                         .createGlobalKey();
                                     return _RectGetterFromListView(
                                         key: _keys[index],
-                                        child: HandCursor(
-                                            child: SizedBox(
+                                        child: SizedBox(
                                           height: _itemHeight.toDouble(),
                                           child: Material(
                                               color: index == _selectionIndex
@@ -382,7 +380,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                                     _selectionIndex = null;
                                                     _navigateToSample(index);
                                                   })),
-                                        )));
+                                        ));
                                   }))),
                 ),
               ),

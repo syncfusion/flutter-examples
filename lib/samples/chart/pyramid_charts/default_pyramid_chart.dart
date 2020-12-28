@@ -6,9 +6,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
-import '../../../widgets/checkbox.dart';
 import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_dropdown.dart';
 
 /// Renders the default pyramid chart
 class PyramidDefault extends SampleView {
@@ -23,58 +21,55 @@ class _PyramidDefaultState extends SampleViewState {
   _PyramidDefaultState();
   final List<String> _pyramidMode = <String>['Linear', 'Surface'].toList();
   PyramidMode _selectedPyramidMode = PyramidMode.linear;
-  String _selectedMode;
+  String _selectedMode = 'Linear';
   double gapRatio = 0;
   bool explode = false;
 
   @override
   Widget buildSettings(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Pyramid mode',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text('Pyramid mode',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                Container(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                   height: 50,
-                  width: 150,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                          canvasColor: model.bottomSheetBackgroundColor),
-                      child: DropDown(
-                          value: _selectedMode,
-                          item: _pyramidMode.map((String value) {
-                            return DropdownMenuItem<String>(
-                                value: (value != null) ? value : 'Linear',
-                                child: Text('$value',
-                                    style: TextStyle(color: model.textColor)));
-                          }).toList(),
-                          valueChanged: (dynamic value) {
-                            _onPyramidModeChange(value.toString());
-                          }),
-                    ),
-                  ))
-            ],
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      value: _selectedMode,
+                      items: _pyramidMode.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'Linear',
+                            child: Text('$value',
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        _onPyramidModeChange(value.toString());
+                        stateSetter(() {});
+                      }),
+                ),
+              ],
+            ),
           ),
-        ),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Gap ratio    ',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
-                child: Padding(
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text('Gap ratio    ',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                Container(
                   padding: const EdgeInsets.fromLTRB(45, 0, 0, 0),
                   child: CustomDirectionalButtons(
-                    minValue: 0,
                     maxValue: 0.5,
                     initialValue: gapRatio,
                     onChanged: (double val) => setState(() {
@@ -85,34 +80,36 @@ class _PyramidDefaultState extends SampleViewState {
                     style: TextStyle(fontSize: 20.0, color: model.textColor),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          child: Row(
-            children: <Widget>[
-              Text('Explode',
-                  style: TextStyle(
+          Container(
+            child: Row(
+              children: <Widget>[
+                Text('Explode',
+                    style: TextStyle(
                       color: model.textColor,
                       fontSize: 16,
-                      letterSpacing: 0.34,
-                      fontWeight: FontWeight.normal)),
-              const Padding(padding: EdgeInsets.fromLTRB(40, 0, 0, 0)),
-              CustomCheckBox(
-                activeColor: model.backgroundColor,
-                switchValue: explode,
-                valueChanged: (dynamic value) {
-                  setState(() {
-                    explode = value;
-                  });
-                },
-              ),
-            ],
+                    )),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                    child: Container(
+                        width: 90,
+                        child: CheckboxListTile(
+                            activeColor: model.backgroundColor,
+                            value: explode,
+                            onChanged: (bool value) {
+                              setState(() {
+                                explode = value;
+                                stateSetter(() {});
+                              });
+                            }))),
+              ],
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   @override

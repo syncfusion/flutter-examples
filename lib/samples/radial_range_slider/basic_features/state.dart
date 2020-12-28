@@ -1,0 +1,194 @@
+///Package imports
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+///calendar import
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+///Local import
+import '../../../model/sample_view.dart';
+
+/// Widget of the RadialSlider state.
+class RadialRangeSliderStateTypes extends SampleView {
+  const RadialRangeSliderStateTypes(Key key) : super(key: key);
+
+  @override
+  _RadialRangeSliderStateTypesState createState() =>
+      _RadialRangeSliderStateTypesState();
+}
+
+class _RadialRangeSliderStateTypesState extends SampleViewState {
+  _RadialRangeSliderStateTypesState();
+
+  bool _enableDragging = true;
+  double _secondMarkerValue = 30;
+  double _firstMarkerValue = 0;
+  double _markerSize = 30;
+  double _annotationFontSize = 25;
+  String _annotationValue1 = '0';
+  String _annotationValue2 = '30';
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      _markerSize = 35;
+    } else {
+      _markerSize = model.isWeb ? 25 : 25;
+    }
+
+    return Center(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
+              radiusFactor: 0.8,
+              axisLineStyle: AxisLineStyle(
+                  thickness: model.isWeb ? 0.15 : 0.25,
+                  thicknessUnit: GaugeSizeUnit.factor),
+              showLabels: false,
+              showTicks: false,
+              startAngle: 270,
+              endAngle: 270,
+              ranges: <GaugeRange>[
+                GaugeRange(
+                  endValue: _secondMarkerValue,
+                  startValue: _firstMarkerValue,
+                  sizeUnit: GaugeSizeUnit.factor,
+                  color: _enableDragging
+                      ? const Color.fromRGBO(34, 144, 199, 1)
+                      : const Color(0xFF888888),
+                  endWidth: model.isWeb ? 0.15 : 0.25,
+                  startWidth: model.isWeb ? 0.15 : 0.25,
+                )
+              ],
+              pointers: <GaugePointer>[
+                MarkerPointer(
+                  value: _firstMarkerValue,
+                  onValueChanged: handleFirstPointerValueChanged,
+                  onValueChanging: handleFirstPointerValueChanging,
+                  enableDragging: _enableDragging,
+                  color: Colors.white,
+                  markerHeight: _markerSize,
+                  markerWidth: _markerSize,
+                  markerType: MarkerType.circle,
+                ),
+                MarkerPointer(
+                  value: _secondMarkerValue,
+                  onValueChanged: handleSecondPointerValueChanged,
+                  onValueChanging: handleSecondPointerValueChanging,
+                  enableDragging: _enableDragging,
+                  color: Colors.white,
+                  markerHeight: _markerSize,
+                  markerWidth: _markerSize,
+                  markerType: MarkerType.circle,
+                ),
+              ],
+              annotations: <GaugeAnnotation>[
+                GaugeAnnotation(
+                    widget: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          '$_annotationValue1 - $_annotationValue2',
+                          style: TextStyle(
+                            fontSize: _annotationFontSize,
+                            fontFamily: 'Times',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    positionFactor: 0.13,
+                    angle: 90)
+              ])
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return Row(children: <Widget>[
+        Text('Enable Drag', style: TextStyle(color: model.textColor)),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(35, 0, 0, 0), //as you need
+          child: Transform.scale(
+              scale: 0.8,
+              child: CupertinoSwitch(
+                activeColor: model.backgroundColor,
+                value: _enableDragging,
+                onChanged: (bool value) {
+                  setState(() {
+                    _enableDragging = value;
+                    stateSetter(() {});
+                  });
+                },
+              )),
+        ),
+      ]);
+    });
+  }
+
+  /// Dragged pointer new value is updated to pointer and
+  /// annotation current value.
+  void handleSecondPointerValueChanged(double value) {
+    setState(() {
+      _secondMarkerValue = value;
+      final int _value = _secondMarkerValue.abs().toInt();
+      _annotationValue2 = '$_value';
+    });
+  }
+
+  /// Pointer dragging is canceled when dragging pointer value is less than 6.
+  void handleSecondPointerValueChanging(ValueChangingArgs args) {
+    if (args.value <= _firstMarkerValue ||
+        (args.value - _secondMarkerValue).abs() > 10) {
+      if (args.value <= _firstMarkerValue) {
+        if ((args.value - _secondMarkerValue).abs() > 10) {
+          args.cancel = true;
+        } else {
+          _secondMarkerValue = _firstMarkerValue;
+          _firstMarkerValue = args.value;
+        }
+      } else {
+        args.cancel = true;
+      }
+    }
+  }
+
+  /// Value changed call back for first pointer
+  void handleFirstPointerValueChanged(double value) {
+    setState(() {
+      _firstMarkerValue = value;
+      final int _value = _firstMarkerValue.abs().toInt();
+      _annotationValue1 = '$_value';
+    });
+  }
+
+  /// Value changeing call back for first pointer
+  void handleFirstPointerValueChanging(ValueChangingArgs args) {
+    if (args.value >= _secondMarkerValue ||
+        (args.value - _firstMarkerValue).abs() > 10) {
+      if (args.value >= _secondMarkerValue) {
+        if ((args.value - _firstMarkerValue).abs() > 10) {
+          args.cancel = true;
+        } else {
+          _firstMarkerValue = _secondMarkerValue;
+          _secondMarkerValue = args.value;
+        }
+      } else {
+        args.cancel = true;
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+}

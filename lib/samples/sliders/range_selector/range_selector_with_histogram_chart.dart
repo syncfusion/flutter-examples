@@ -353,7 +353,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                   interval: 225,
                   showTicks: true,
                   showLabels: true,
-                  showTooltip: true,
+                  enableTooltip: true,
                   initialValues: _values,
                   tooltipTextFormatterCallback:
                       (dynamic actualValue, String formattedText) {
