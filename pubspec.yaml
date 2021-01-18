@@ -17,9 +17,6 @@ dependencies:
   intl: ^0.16.0
   path_provider: ^1.6.18
 
-  flutter_localizations:
-    sdk: flutter
-
   syncfusion_flutter_datagrid: ^18.4.30-beta
   syncfusion_flutter_calendar: ^18.4.30
   syncfusion_flutter_datepicker: ^18.4.30-beta
