@@ -110,8 +110,12 @@ class _CustomHeaderDataGridState extends SampleViewState {
         child: Row(
       children: [
         Flexible(
-            child: Text(column.headerText,
-                style: themeData.headerStyle.textStyle)),
+          child: Padding(
+            padding: EdgeInsets.only(left: 16),
+            child:
+                Text(column.headerText, style: themeData.headerStyle.textStyle),
+          ),
+        ),
         Icon(
           Icons.keyboard_arrow_down,
           size: 25,
