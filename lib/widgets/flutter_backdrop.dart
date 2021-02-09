@@ -262,7 +262,7 @@ class BackdropState extends State<Backdrop>
         return Theme(
           data: sampleListModel.themeData,
           child: Scaffold(
-            resizeToAvoidBottomPadding: false,
+            resizeToAvoidBottomInset: false,
             key: _scaffoldKey,
             backgroundColor: sampleListModel.paletteColor,
             appBar: PreferredSize(

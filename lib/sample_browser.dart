@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
       child: SafeArea(
           child: model.isMobileResolution
               ? Scaffold(
-                  resizeToAvoidBottomPadding: true,
+                  resizeToAvoidBottomInset: false,
                   drawer: (!model.isWeb && Platform.isIOS)
                       ? null //Avoiding drawer in iOS platform
                       : getLeftSideDrawer(model),
@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                   key: scaffoldKey,
                   backgroundColor: model.webBackgroundColor,
                   endDrawer: showWebThemeSettings(model),
-                  resizeToAvoidBottomPadding: true,
+                  resizeToAvoidBottomInset: false,
                   appBar: PreferredSize(
                       preferredSize: const Size.fromHeight(90.0),
                       child: AppBar(
