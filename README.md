@@ -1,8 +1,10 @@
 # Syncfusion Flutter examples
 
-This repository contains awesome demos of [Syncfusion Flutter UI widgets](https://www.syncfusion.com/flutter-widgets). This is the best place to check our widgets to get more insight about the usage of APIs. You can also check our widgets by installing the complete Flutter sample browser from [Google Play Store](https://play.google.com/store/apps/details?id=com.syncfusion.flutter.examples) or [Apple store](https://apps.apple.com/us/app/syncfusion-flutter-ui-widgets/id1475231341), in which you can browse the demo for all the widgets and view the source code of each sample within the app itself.
+This repository contains awesome demos of [Syncfusion Flutter UI widgets](https://www.syncfusion.com/flutter-widgets). This is the best place to check our widgets to get more insight into the usage of APIs. You can also check our widgets by installing the complete Flutter sample browser from [Google Play Store](https://play.google.com/store/apps/details?id=com.syncfusion.flutter.examples) or [App Store](https://apps.apple.com/us/app/syncfusion-flutter-ui-widgets/id1475231341), in which you can browse the demo for all the widgets and view the source code of each sample within the app itself.
 
-This section guides you to use the Syncfusion Flutter examples in your applications.
+<img src="images/flutter_examples.png"/>
+
+## Table of contents
 
 * [Requirements to run the demo](#requirements-to-run-the-demo)
 * [Repository Structure](#repository-structure)
@@ -12,13 +14,13 @@ This section guides you to use the Syncfusion Flutter examples in your applicati
 * [Support and Feedback](#support-and-feedback)
 
 ## <a name="requirements-to-run-the-demo"></a>Requirements to run the demo ##
-* [Visual Studio code](https://code.visualstudio.com/download)
-* #### Flutter SDK Version
+* IDE tools are [Visual Studio code](https://flutter.dev/docs/get-started/editor?tab=vscode) and [Android studio](https://flutter.dev/docs/get-started/editor?tab=androidstudio).
+* Flutter SDK
   | Channel| Version|
   |--------|--------|
   | Stable | [2.0.2](https://code.visualstudio.com/download)|
   | Beta   | [2.0.2](https://storage.googleapis.com/flutter_infra/releases/beta/windows/flutter_windows_2.0.2-beta.zip)|
-* Dart and Flutter add-ons for Visual Studio Code (available via the Visual studio code extension).
+* Dart and Flutter add-ons for Visual Studio Code (available via the Visual studio code extension) in Android Studio it available in plugin preference.
 
 ## <a name="repository-structure"></a> Repository Structure ##
 The <b>lib/samples</b> directory contains the Flutter widget examples for each widget such as Charts, DataGrid, etc. All the examples can be deployed in Android, iOS, and web platforms.
@@ -27,22 +29,22 @@ The <b>lib/samples</b> directory contains the Flutter widget examples for each w
 
 | Widgets | Repository |
 | ------------- | --------------- |
-| Bar Code | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/barcodes) | 
-| Calendar | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/calendar) |
-| Chart | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/chart) |
-| Data Grid | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/datagrid) |
-| Date Picker | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/date_picker) | 
-| Gauge | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/gauge) |
-| Maps | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/maps) |
-| PDF | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/pdf) |
-| Pdf Viewer | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/pdf_viewer) | 
-| Progress Bar | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/progress_bar) |
-| Radial Range Slider | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/radial_range_slider) |
-| Radial Slider | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/radial_slider) |
-| Signature Pad | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/signature_pad) | 
-| Slider | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/sliders) |
-| Sparkline | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/sparkline) |
-| Xlsio | [Link](https://github.com/Yuvaraj-Gajaraj/flutter-examples/tree/master/lib/samples/xlsio) |
+| Barcode Generator | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/barcodes) | 
+| Calendar | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar) |
+| Charts | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart) |
+| DataGrid | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/datagrid) |
+| Date Range Picker | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker) | 
+| Maps | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps) |
+| PDF | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/pdf) |
+| PDF Viewer | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/pdf_viewer) | 
+| Progress Bar | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/progress_bar) |
+| Radial Gauge | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/gauge) |
+| Range Selector | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/range_selector) |
+| Range Slider | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/range_slider) |
+| Slider | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/slider) |
+| Sparkline | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sparkline) |
+| Signature Pad | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/signature_pad) | 
+| Xlsio | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/xlsio) |
 
 ## <a name="license"></a>License ##
 
@@ -50,15 +52,15 @@ Syncfusion has no liability for any damage or consequence that may arise by the 
 
 ## <a name="using-the-examples"></a>Using the examples ##
 
-If you download the examples using the "Download ZIP" option then follow the instructions below.
-
 **Step 1**
 
-Unzip the downloaded flutter example archive.
+ Unzip the downloaded flutter example archive.
+
+ **Note:** If you clone this repository ignore this step.
 
 **Step 2**
 
-Open the flutter example folder in an IDE. The below path is for reference.
+Open the flutter example folder in an IDE. 
 
 **Step 3**
 
