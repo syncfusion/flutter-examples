@@ -7,267 +7,190 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 /// Local imports
 import '../../../model/sample_view.dart';
 
-/// Renders the gauge radial range range slider
-class RadialRangeSliderExample extends SampleView {
-  /// Creates the gauge radial range range slider
-  const RadialRangeSliderExample(Key key) : super(key: key);
+/// Renders the gauge with pointer dragging
+class RadialSliderExample extends SampleView {
+  /// Creates the gauge with pointer dragging
+  const RadialSliderExample(Key key) : super(key: key);
 
   @override
-  _RadialRangeSliderExampleState createState() =>
-      _RadialRangeSliderExampleState();
+  _RadialSliderExampleState createState() => _RadialSliderExampleState();
 }
 
-class _RadialRangeSliderExampleState extends SampleViewState {
-  _RadialRangeSliderExampleState();
+class _RadialSliderExampleState extends SampleViewState {
+  _RadialSliderExampleState();
 
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      _markerSize = 20;
+      _firstMarkerSize = 10;
       _annotationFontSize = 25;
-      _thickness = 0.06;
-      _borderWidth = 5;
+      if (model.isWeb) {
+        _width = _width * 0.35;
+      }
     } else {
-      _markerSize = 18;
-      _annotationFontSize = 15;
-      _thickness = 0.1;
-      _borderWidth = 4;
+      _firstMarkerSize = model.isWeb ? 10 : 5;
+      _annotationFontSize = model.isWeb ? 25 : 15;
+      _width = _width * 0.35;
     }
-    return isCardView
-        ? _getRadialRangeSlider(isCardView)
-        : Scaffold(
-            backgroundColor:
-                model.isWeb ? Colors.transparent : model.cardThemeColor,
-            body: Padding(
+
+    return Scaffold(
+        backgroundColor:
+            model.isWeb ? Colors.transparent : model.cardThemeColor,
+
+        /// Added separate view for sample browser tile view and expanded view.
+        /// In tile view, slider widget is removed.
+        body: isCardView
+            ? getRadialSliderExample(true)
+            : Padding(
                 padding: model.isWeb
                     ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
-                    : const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                child: SfRadialGauge(axes: <RadialAxis>[
-                  RadialAxis(
-                      axisLineStyle: AxisLineStyle(
-                          thickness: _thickness,
-                          thicknessUnit: GaugeSizeUnit.factor),
-                      radiusFactor: model.isWeb ? 0.8 : 0.95,
-                      minorTicksPerInterval: 4,
-                      showFirstLabel: false,
-                      minimum: 0,
-                      maximum: 12,
-                      interval: 1,
-                      startAngle: 270,
-                      endAngle: 270,
-                      pointers: <GaugePointer>[
-                        MarkerPointer(
-                          value: _firstMarkerValue,
-                          onValueChanged: _handleFirstPointerValueChanged,
-                          onValueChanging: _handleFirstPointerValueChanging,
-                          enableDragging: true,
-                          borderColor: const Color(0xFFFFCD60),
-                          borderWidth: _borderWidth,
-                          color: Colors.white,
-                          markerHeight: _markerSize,
-                          markerWidth: _markerSize,
-                          markerType: MarkerType.circle,
-                        ),
-                        MarkerPointer(
-                          value: _secondMarkerValue,
-                          onValueChanged: _handleSecondPointerValueChanged,
-                          onValueChanging: _handleSecondPointerValueChanging,
-                          color: Colors.white,
-                          enableDragging: true,
-                          borderColor: const Color(0xFFFFCD60),
-                          markerHeight: _markerSize,
-                          borderWidth: _borderWidth,
-                          markerWidth: _markerSize,
-                          markerType: MarkerType.circle,
-                        ),
-                      ],
-                      ranges: <GaugeRange>[
-                        GaugeRange(
-                            endValue: _secondMarkerValue,
-                            sizeUnit: GaugeSizeUnit.factor,
-                            startValue: _firstMarkerValue,
-                            startWidth: _thickness,
-                            endWidth: _thickness)
-                      ],
-                      annotations: <GaugeAnnotation>[
-                        GaugeAnnotation(
-                            widget: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(
-                                  '$_annotationValue',
-                                  style: TextStyle(
-                                      fontSize: _annotationFontSize,
-                                      fontFamily: 'Times',
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF00A8B5)),
-                                ),
-                                Text(
-                                  ' hr',
-                                  style: TextStyle(
-                                      fontSize: _annotationFontSize,
-                                      fontFamily: 'Times',
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF00A8B5)),
-                                ),
-                                Text(
-                                  ' $_minutesValue',
-                                  style: TextStyle(
-                                      fontSize: _annotationFontSize,
-                                      fontFamily: 'Times',
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF00A8B5)),
-                                ),
-                                Text(
-                                  'm',
-                                  style: TextStyle(
-                                      fontSize: _annotationFontSize,
-                                      fontFamily: 'Times',
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF00A8B5)),
-                                )
-                              ],
-                            ),
-                            positionFactor: 0.1,
-                            angle: 0)
-                      ])
-                ])));
+                    : const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 7, // takes 70% of available height
+                      child: SfRadialGauge(axes: <RadialAxis>[
+                        RadialAxis(
+                            axisLineStyle: AxisLineStyle(
+                                thickness: 0.2,
+                                thicknessUnit: GaugeSizeUnit.factor),
+                            showTicks: false,
+                            showLabels: true,
+                            onAxisTapped: handlePointerValueChanged,
+                            pointers: <GaugePointer>[
+                              RangePointer(
+                                  value: _currentValue,
+                                  onValueChanged: handlePointerValueChanged,
+                                  onValueChangeEnd: handlePointerValueChanged,
+                                  onValueChanging: handlePointerValueChanging,
+                                  enableDragging: true,
+                                  width: 0.2,
+                                  sizeUnit: GaugeSizeUnit.factor),
+                              MarkerPointer(
+                                value: _markerValue,
+                                color: Colors.white,
+                                markerHeight: _firstMarkerSize,
+                                markerWidth: _firstMarkerSize,
+                                markerType: MarkerType.circle,
+                              ),
+                            ],
+                            annotations: <GaugeAnnotation>[
+                              GaugeAnnotation(
+                                  widget: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Text(
+                                        '$_annotationValue',
+                                        style: TextStyle(
+                                            fontSize: _annotationFontSize,
+                                            fontFamily: 'Times',
+                                            fontWeight: FontWeight.bold,
+                                            color: const Color(0xFF00A8B5)),
+                                      ),
+                                      Text(
+                                        ' %',
+                                        style: TextStyle(
+                                            fontSize: _annotationFontSize,
+                                            fontFamily: 'Times',
+                                            fontWeight: FontWeight.bold,
+                                            color: const Color(0xFF00A8B5)),
+                                      )
+                                    ],
+                                  ),
+                                  positionFactor: 0.13,
+                                  angle: 0)
+                            ])
+                      ]),
+                    ),
+                    Expanded(
+                        flex: model.isWeb ? 2 : 3,
+                        child: Container(
+                          width: _width,
+                          child: Slider(
+                            activeColor: const Color(0xFF02AAB0),
+                            inactiveColor: const Color(0xFF00CDAC),
+                            min: 5,
+                            max: 100,
+                            onChanged: handlePointerValueChanged,
+                            value: _currentValue,
+                          ),
+                        )),
+                  ],
+                )));
   }
 
-  /// Dragged pointer new value is updated to range.
-  void _handleFirstPointerValueChanged(double value) {
-    setState(() {
-      _firstMarkerValue = value;
-      final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
-      final String _hourValue = '$_value';
-      _annotationValue = _hourValue.length == 1 ? '0' + _hourValue : _hourValue;
-      _calculateMinutes(_value);
-    });
-  }
-
-  /// Cancelled the dragging when pointer value reaching the axis end/start value, greater/less than another
-  /// pointer value
-  void _handleFirstPointerValueChanging(ValueChangingArgs args) {
-    if (args.value >= _secondMarkerValue ||
-        (args.value - _firstMarkerValue).abs() > 1) {
-      if (args.value >= _secondMarkerValue) {
-        if ((args.value - _firstMarkerValue).abs() > 1) {
-          args.cancel = true;
-        } else {
-          _firstMarkerValue = _secondMarkerValue;
-          _secondMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+  /// Dragged pointer new value is updated to pointer and
+  /// annotation current value.
+  void handlePointerValueChanged(double value) {
+    if (value.toInt() > 6) {
+      setState(() {
+        _currentValue = value.roundToDouble();
+        final int _value = _currentValue.toInt();
+        _annotationValue = '$_value';
+        _markerValue = _currentValue - 2;
+      });
     }
   }
 
-  /// Cancelled the dragging when pointer value reaching the axis end/start value, greater/less than another
-  /// pointer value
-  void _handleSecondPointerValueChanging(ValueChangingArgs args) {
-    if (args.value <= _firstMarkerValue ||
-        (args.value - _secondMarkerValue).abs() > 1) {
-      if (args.value <= _firstMarkerValue) {
-        if ((args.value - _secondMarkerValue).abs() > 1) {
-          args.cancel = true;
-        } else {
-          _secondMarkerValue = _firstMarkerValue;
-          _firstMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+  /// Pointer dragging is canceled when dragging pointer value is less than 6.
+  void handlePointerValueChanging(ValueChangingArgs args) {
+    if (args.value.toInt() <= 6) {
+      args.cancel = true;
     }
   }
 
-  /// Dragged pointer new value is updated to range.
-  void _handleSecondPointerValueChanged(double value) {
-    setState(() {
-      _secondMarkerValue = value;
-      final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
-      final String _hourValue = '$_value';
-      _annotationValue = _hourValue.length == 1 ? '0' + _hourValue : _hourValue;
-      _calculateMinutes(_value);
-    });
-  }
-
-  /// Calculate the minutes value from pointer value to update in annotation.
-  void _calculateMinutes(int _value) {
-    final double _minutes =
-        (_firstMarkerValue - _secondMarkerValue).abs() - _value;
-    final List<String> _minList = _minutes.toStringAsFixed(2).split('.');
-    double _currentMinutes = double.parse(_minList[1]);
-    _currentMinutes =
-        _currentMinutes > 60 ? _currentMinutes - 60 : _currentMinutes;
-    final String _actualValue = _currentMinutes.toInt().toString();
-    _minutesValue =
-        _actualValue.length == 1 ? '0' + _actualValue : _actualValue;
-  }
-
-  /// Returns the radial range slider gauge
-  Widget _getRadialRangeSlider(bool isTileView) {
+  /// Returns the radial slider gauge
+  Widget getRadialSliderExample(bool isTileView) {
     return SfRadialGauge(axes: <RadialAxis>[
       RadialAxis(
           axisLineStyle: AxisLineStyle(
-              thickness: 0.06, thicknessUnit: GaugeSizeUnit.factor),
-          minorTicksPerInterval: 4,
-          showFirstLabel: false,
-          minimum: 0,
-          maximum: 12,
-          interval: 1,
-          startAngle: 270,
-          endAngle: 270,
+              thickness: 0.2, thicknessUnit: GaugeSizeUnit.factor),
+          showTicks: false,
+          showLabels: false,
+          radiusFactor: 1,
           pointers: <GaugePointer>[
+            RangePointer(value: 60, width: 0.2, sizeUnit: GaugeSizeUnit.factor),
             MarkerPointer(
-              value: 2,
-              borderColor: const Color(0xFFFFCD60),
-              borderWidth: 3,
+              value: 58,
               color: Colors.white,
-              markerHeight: 15,
-              markerWidth: 15,
+              markerHeight: 5,
+              markerWidth: 5,
               markerType: MarkerType.circle,
             ),
-            MarkerPointer(
-              value: 8,
-              color: Colors.white,
-              borderColor: const Color(0xFFFFCD60),
-              markerHeight: 15,
-              borderWidth: 3,
-              markerWidth: 15,
-              markerType: MarkerType.circle,
-            ),
-          ],
-          ranges: <GaugeRange>[
-            GaugeRange(
-                endValue: 8,
-                sizeUnit: GaugeSizeUnit.factor,
-                startValue: 2,
-                startWidth: 0.06,
-                endWidth: 0.06)
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
-                widget: const Text(
-                  '6 hr 40 m',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'Times',
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF00A8B5)),
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const <Widget>[
+                    Text(
+                      '60',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Times',
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF00A8B5)),
+                    ),
+                    Text(
+                      ' %',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Times',
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF00A8B5)),
+                    )
+                  ],
                 ),
-                positionFactor: 0.05,
+                positionFactor: 0.13,
                 angle: 0)
           ])
     ]);
   }
 
-  double _borderWidth = 5;
-  double _firstMarkerValue = 2;
-  double _secondMarkerValue = 8;
-  double _markerSize = 25;
+  double _currentValue = 60;
+  double _markerValue = 58;
+  double _firstMarkerSize = 10;
   double _annotationFontSize = 25;
-  double _thickness = 0.06;
-  String _annotationValue = '6';
-  String _minutesValue = '40';
+  String _annotationValue = '60';
 }

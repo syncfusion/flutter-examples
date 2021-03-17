@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/sample_view.dart';
-import '../../../../widgets/custom_button.dart';
+import '../../../../../model/sample_view.dart';
+import '../../../../../widgets/custom_button.dart';
 
 /// Renders the chart with default trackball sample.
 class DefaultTrackball extends SampleView {

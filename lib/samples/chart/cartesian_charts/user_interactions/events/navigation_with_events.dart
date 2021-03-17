@@ -8,8 +8,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:url_launcher/url_launcher.dart' show launch;
 
 /// Local imports
-import '../../../../model/sample_view.dart';
-import '../../../../widgets/custom_button.dart';
+import '../../../../../model/sample_view.dart';
+import '../../../../../widgets/custom_button.dart';
 
 /// Renders the chart with sorting options sample.
 class NavigationWithEvents extends SampleView {

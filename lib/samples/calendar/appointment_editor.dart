@@ -110,7 +110,6 @@ class _CalendarAppointmentEditorState extends SampleViewState {
     final double _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
       body: calendarController.view == CalendarView.month &&
               model.isWeb &&
               _screenHeight < 800

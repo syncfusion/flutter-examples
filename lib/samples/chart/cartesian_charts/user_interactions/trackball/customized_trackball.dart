@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
-import '../../../../model/sample_view.dart';
+import '../../../../../model/sample_view.dart';
 
 /// Renders the chart with default trackball sample.
 class TrackballTemplate extends SampleView {
