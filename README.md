@@ -42,9 +42,9 @@ The <b>lib/samples</b> directory contains the Flutter widget examples for each w
 | Range Selector | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/range_selector) |
 | Range Slider | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/range_slider) |
 | Slider | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/slider) |
-| Sparkline | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sparkline) |
+| Spark Charts | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sparkline) |
 | Signature Pad | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/signature_pad) | 
-| Xlsio | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/xlsio) |
+| XlsIO | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/xlsio) |
 
 ## <a name="license"></a>License ##
 
