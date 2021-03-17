@@ -50,7 +50,7 @@ Syncfusion has no liability for any damage or consequence that may arise by the 
 
 ## <a name="using-the-examples"></a>Using the examples ##
 
-If you download the examples using the "Download ZIP" option then please follow the instructions below.
+If you download the examples using the "Download ZIP" option then follow the instructions below.
 
 **Step 1**
 
