@@ -182,7 +182,7 @@ import 'samples/datagrid/apperance/conditional_styling/datagrid_conditional_styl
 import 'samples/datagrid/data_source/datagrid_json_data_source.dart';
 import 'samples/datagrid/data_source/datagrid_list_data_source.dart';
 import 'samples/datagrid/getting_started/datagrid_getting_started.dart';
-import 'Samples/datagrid/freeze_panes/datagrid_freeze_panes.dart';
+import 'samples/datagrid/freeze_panes/datagrid_freeze_panes.dart';
 import 'samples/datagrid/real_time_update/datagrid_real_time_update.dart';
 import 'samples/datagrid/selection/datagrid_selection.dart';
 import 'samples/datagrid/apperance/styling/datagrid_styling.dart';
