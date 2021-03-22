@@ -238,6 +238,7 @@ import 'samples/maps/shape_layer/zooming/zooming.dart';
 import 'samples/maps/shape_layer/sublayer/sublayer.dart';
 import 'samples/maps/shape_layer/legend/legend.dart';
 import 'samples/maps/tile_layer/osm/osm.dart';
+import 'samples/maps/tile_layer/osm/multi_openseamap.dart';
 import 'samples/maps/tile_layer/bing_map/bing_map.dart';
 import 'samples/maps/tile_layer/vector_layer/arcs.dart';
 import 'samples/maps/tile_layer/vector_layer/polylines.dart';
@@ -692,6 +693,7 @@ Map<String, Function> getSampleWidget() {
 
     //Maps: Tile Layer Samples
     'osm': (Key key) => MapOSMPage(key),
+    'osm_multi': (Key key) => MultiLayerMap(key),
 
     'bing_map': (Key key) => MapBingPage(key),
 
