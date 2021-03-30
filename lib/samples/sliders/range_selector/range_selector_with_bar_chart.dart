@@ -32,52 +32,52 @@ class _RangeSelectorBarChartPageState extends SampleViewState
     with SingleTickerProviderStateMixin {
   _RangeSelectorBarChartPageState();
 
-  DateTime _dayMin = DateTime(2020, 05, 31, 12);
-  DateTime _dayMax = DateTime(2020, 06, 30, 12);
-  SfRangeValues _monthValues =
+  final DateTime _dayMin = DateTime(2020, 05, 31, 12);
+  final DateTime _dayMax = DateTime(2020, 06, 30, 12);
+  final SfRangeValues _monthValues =
       SfRangeValues(DateTime(2020, 06, 12), DateTime(2020, 06, 23));
 
-  RangeController _rangeController;
+  late RangeController _rangeController;
 
-  List<ChartSampleData> _chartData;
+  late List<_ChartSampleData> _chartData;
 
-  String _profitText;
+  late String _profitText;
 
   @override
   void initState() {
     super.initState();
 
-    _chartData = <ChartSampleData>[
-      ChartSampleData(x: DateTime(2020, 06, 01), y: 100.0),
-      ChartSampleData(x: DateTime(2020, 06, 02), y: 150.541),
-      ChartSampleData(x: DateTime(2020, 06, 03), y: -25.818),
-      ChartSampleData(x: DateTime(2020, 06, 04), y: 30.51),
-      ChartSampleData(x: DateTime(2020, 06, 05), y: -50.302),
-      ChartSampleData(x: DateTime(2020, 06, 06), y: -150.017),
-      ChartSampleData(x: DateTime(2020, 06, 07), y: -25.683),
-      ChartSampleData(x: DateTime(2020, 06, 08), y: 75.818),
-      ChartSampleData(x: DateTime(2020, 06, 09), y: 130.541),
-      ChartSampleData(x: DateTime(2020, 06, 10), y: -55.341),
-      ChartSampleData(x: DateTime(2020, 06, 11), y: -90.205),
-      ChartSampleData(x: DateTime(2020, 06, 12), y: -35.541),
-      ChartSampleData(x: DateTime(2020, 06, 13), y: 10.818),
-      ChartSampleData(x: DateTime(2020, 06, 14), y: 45.51),
-      ChartSampleData(x: DateTime(2020, 06, 15), y: 78.302),
-      ChartSampleData(x: DateTime(2020, 06, 16), y: -37.017),
-      ChartSampleData(x: DateTime(2020, 06, 17), y: -14.683),
-      ChartSampleData(x: DateTime(2020, 06, 18), y: -49.818),
-      ChartSampleData(x: DateTime(2020, 06, 19), y: 98.541),
-      ChartSampleData(x: DateTime(2020, 06, 20), y: 75.341),
-      ChartSampleData(x: DateTime(2020, 06, 21), y: -69.205),
-      ChartSampleData(x: DateTime(2020, 06, 22), y: 18.541),
-      ChartSampleData(x: DateTime(2020, 06, 23), y: 73.818),
-      ChartSampleData(x: DateTime(2020, 06, 24), y: -96.51),
-      ChartSampleData(x: DateTime(2020, 06, 25), y: -23.302),
-      ChartSampleData(x: DateTime(2020, 06, 26), y: -79.017),
-      ChartSampleData(x: DateTime(2020, 06, 27), y: 41.683),
-      ChartSampleData(x: DateTime(2020, 06, 28), y: -65.818),
-      ChartSampleData(x: DateTime(2020, 06, 29), y: -52.541),
-      ChartSampleData(x: DateTime(2020, 06, 30), y: 23.341),
+    _chartData = <_ChartSampleData>[
+      _ChartSampleData(x: DateTime(2020, 06, 01), y: 100.0),
+      _ChartSampleData(x: DateTime(2020, 06, 02), y: 150.541),
+      _ChartSampleData(x: DateTime(2020, 06, 03), y: -25.818),
+      _ChartSampleData(x: DateTime(2020, 06, 04), y: 30.51),
+      _ChartSampleData(x: DateTime(2020, 06, 05), y: -50.302),
+      _ChartSampleData(x: DateTime(2020, 06, 06), y: -150.017),
+      _ChartSampleData(x: DateTime(2020, 06, 07), y: -25.683),
+      _ChartSampleData(x: DateTime(2020, 06, 08), y: 75.818),
+      _ChartSampleData(x: DateTime(2020, 06, 09), y: 130.541),
+      _ChartSampleData(x: DateTime(2020, 06, 10), y: -55.341),
+      _ChartSampleData(x: DateTime(2020, 06, 11), y: -90.205),
+      _ChartSampleData(x: DateTime(2020, 06, 12), y: -35.541),
+      _ChartSampleData(x: DateTime(2020, 06, 13), y: 10.818),
+      _ChartSampleData(x: DateTime(2020, 06, 14), y: 45.51),
+      _ChartSampleData(x: DateTime(2020, 06, 15), y: 78.302),
+      _ChartSampleData(x: DateTime(2020, 06, 16), y: -37.017),
+      _ChartSampleData(x: DateTime(2020, 06, 17), y: -14.683),
+      _ChartSampleData(x: DateTime(2020, 06, 18), y: -49.818),
+      _ChartSampleData(x: DateTime(2020, 06, 19), y: 98.541),
+      _ChartSampleData(x: DateTime(2020, 06, 20), y: 75.341),
+      _ChartSampleData(x: DateTime(2020, 06, 21), y: -69.205),
+      _ChartSampleData(x: DateTime(2020, 06, 22), y: 18.541),
+      _ChartSampleData(x: DateTime(2020, 06, 23), y: 73.818),
+      _ChartSampleData(x: DateTime(2020, 06, 24), y: -96.51),
+      _ChartSampleData(x: DateTime(2020, 06, 25), y: -23.302),
+      _ChartSampleData(x: DateTime(2020, 06, 26), y: -79.017),
+      _ChartSampleData(x: DateTime(2020, 06, 27), y: 41.683),
+      _ChartSampleData(x: DateTime(2020, 06, 28), y: -65.818),
+      _ChartSampleData(x: DateTime(2020, 06, 29), y: -52.541),
+      _ChartSampleData(x: DateTime(2020, 06, 30), y: 23.341),
     ];
 
     _rangeController = RangeController(
@@ -90,8 +90,8 @@ class _RangeSelectorBarChartPageState extends SampleViewState
 
   @override
   void dispose() {
-    _rangeController?.dispose();
-    _chartData?.clear();
+    _rangeController.dispose();
+    _chartData.clear();
     super.dispose();
   }
 
@@ -166,7 +166,7 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                               child: Container(
                                 width: mediaQueryData.orientation ==
                                         Orientation.landscape
-                                    ? model.isWeb
+                                    ? model.isWebFullView
                                         ? mediaQueryData.size.width * 0.5
                                         : mediaQueryData.size.width
                                     : mediaQueryData.size.width,
@@ -177,13 +177,13 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                       ),
                     ])),
           ),
-          Center(
-            child: Container(
-              height: mediaQueryData.size.height,
-              padding: EdgeInsets.only(
-                  top:
-                      (mediaQueryData.size.height - (model.isWeb ? 180 : 120)) *
-                          0.8),
+          Padding(
+            padding: mediaQueryData.orientation == Orientation.landscape ||
+                    model.isWebFullView
+                ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1)
+                : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.2),
+            child: Align(
+              alignment: Alignment.bottomCenter,
               child: Text(
                 _profitText,
                 style: TextStyle(fontSize: 18.0),
@@ -215,13 +215,13 @@ class _RangeSelectorBarChartPageState extends SampleViewState
   }
 
   /// Get default column series
-  List<ColumnSeries<ChartSampleData, DateTime>> _getColumnSeries() {
-    return <ColumnSeries<ChartSampleData, DateTime>>[
-      ColumnSeries<ChartSampleData, DateTime>(
+  List<ColumnSeries<_ChartSampleData, DateTime>> _getColumnSeries() {
+    return <ColumnSeries<_ChartSampleData, DateTime>>[
+      ColumnSeries<_ChartSampleData, DateTime>(
         dataSource: _chartData,
-        xValueMapper: (ChartSampleData data, _) => data.x,
-        yValueMapper: (ChartSampleData data, _) => data.y,
-        pointColorMapper: (ChartSampleData data, _) =>
+        xValueMapper: (_ChartSampleData data, _) => data.x,
+        yValueMapper: (_ChartSampleData data, _) => data.y,
+        pointColorMapper: (_ChartSampleData data, _) =>
             data.y < 0 ? Colors.red : Colors.green,
         borderRadius: BorderRadius.all(Radius.circular(15)),
       )
@@ -257,16 +257,14 @@ class _RangeSelectorBarChartPageState extends SampleViewState
 }
 
 //Chart sample data
-class ChartSampleData {
+class _ChartSampleData {
   /// Holds the datapoint values like x, y, etc.,
-  ChartSampleData({this.x, this.y, this.color});
+  _ChartSampleData({this.x, this.y});
 
   /// Holds x value of the datapoint
   final dynamic x;
 
   final dynamic y;
-
-  final Color color;
 }
 
 /// To move the thumb to center of the chart, we will override the `paint`
@@ -277,15 +275,15 @@ class ThumbShape extends SfThumbShape {
   void paint(
     PaintingContext context,
     Offset center, {
-    RenderBox parentBox,
-    RenderBox child,
-    SfSliderThemeData themeData,
-    SfRangeValues currentValues,
+    required RenderBox parentBox,
+    required RenderBox? child,
+    required SfSliderThemeData themeData,
+    SfRangeValues? currentValues,
     dynamic currentValue,
-    Paint paint,
-    Animation<double> enableAnimation,
-    TextDirection textDirection,
-    SfThumb thumb,
+    required Paint? paint,
+    required Animation<double> enableAnimation,
+    required TextDirection textDirection,
+    required SfThumb? thumb,
   }) {
     super.paint(
         context,
@@ -311,17 +309,17 @@ class TrackShape extends SfTrackShape {
   void paint(
     PaintingContext context,
     Offset offset,
-    Offset thumbCenter,
-    Offset startThumbCenter,
-    Offset endThumbCenter, {
-    RenderBox parentBox,
-    SfSliderThemeData themeData,
-    SfRangeValues currentValues,
+    Offset? thumbCenter,
+    Offset? startThumbCenter,
+    Offset? endThumbCenter, {
+    required RenderBox parentBox,
+    required SfSliderThemeData themeData,
+    SfRangeValues? currentValues,
     dynamic currentValue,
-    Animation<double> enableAnimation,
-    Paint inactivePaint,
-    Paint activePaint,
-    TextDirection textDirection,
+    required Animation<double> enableAnimation,
+    required Paint? inactivePaint,
+    required Paint? activePaint,
+    required TextDirection textDirection,
   }) {
     super.paint(
         context,
@@ -347,17 +345,14 @@ class TrackShape extends SfTrackShape {
 /// `super.onPaint` to the half the height of the `parentBox`.
 class OverlayShape extends SfOverlayShape {
   @override
-  void paint(
-    PaintingContext context,
-    Offset center, {
-    RenderBox parentBox,
-    SfSliderThemeData themeData,
-    SfRangeValues currentValues,
-    dynamic currentValue,
-    Paint paint,
-    Animation<double> animation,
-    SfThumb thumb,
-  }) {
+  void paint(PaintingContext context, Offset center,
+      {required RenderBox parentBox,
+      required SfSliderThemeData themeData,
+      SfRangeValues? currentValues,
+      dynamic currentValue,
+      required Paint? paint,
+      required Animation<double> animation,
+      required SfThumb? thumb}) {
     super.paint(
         context,
         center -
@@ -378,17 +373,13 @@ class OverlayShape extends SfOverlayShape {
 /// `super.onPaint` to the half the height of the `parentBox`.
 class TooltipShape extends SfRectangularTooltipShape {
   @override
-  void paint(
-    PaintingContext context,
-    Offset thumbCenter,
-    Offset offset,
-    TextPainter textPainter, {
-    RenderBox parentBox,
-    SfSliderThemeData sliderThemeData,
-    Paint paint,
-    Animation<double> animation,
-    Rect trackRect,
-  }) {
+  void paint(PaintingContext context, Offset thumbCenter, Offset offset,
+      TextPainter textPainter,
+      {required RenderBox parentBox,
+      required SfSliderThemeData sliderThemeData,
+      required Paint paint,
+      required Animation<double> animation,
+      required Rect trackRect}) {
     super.paint(
         context,
         thumbCenter -

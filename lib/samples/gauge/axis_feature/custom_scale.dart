@@ -21,21 +21,21 @@ class _RadialNonLinearLabelState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialNonLinearLabel();
+    return _buildRadialNonLinearLabel();
   }
 
   /// Returns the non-linear axis label gauge
-  SfRadialGauge _getRadialNonLinearLabel() {
+  SfRadialGauge _buildRadialNonLinearLabel() {
     return SfRadialGauge(
       enableLoadingAnimation: true,
-      key: model.isWeb ? UniqueKey() : null,
+      key: model.isWebFullView ? UniqueKey() : null,
       animationDuration: 2500,
       axes: <RadialAxis>[
         RadialAxis(
             labelOffset: 15,
             axisLineStyle: AxisLineStyle(
                 thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
-            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             minimum: 0,
             showTicks: false,
             maximum: 150,
@@ -46,7 +46,7 @@ class _RadialNonLinearLabelState extends SampleViewState {
               NeedlePointer(
                   enableAnimation: true,
                   gradient: const LinearGradient(colors: <Color>[
-                    Color.fromRGBO(203, 126, 223, 0.1),
+                    Color.fromRGBO(203, 126, 223, 0),
                     Color(0xFFCB7EDF)
                   ], stops: <double>[
                     0.25,
@@ -69,12 +69,9 @@ class _RadialNonLinearLabelState extends SampleViewState {
                   color: _pointerColor,
                   animationDuration: 1300,
                   animationType: AnimationType.easeOutBack,
-                  // Sweep gradient not supported in web.
-                  gradient: model.isWeb
-                      ? null
-                      : const SweepGradient(
-                          colors: <Color>[Color(0xFF9E40DC), Color(0xFFE63B86)],
-                          stops: <double>[0.25, 0.75]),
+                  gradient: const SweepGradient(
+                      colors: <Color>[Color(0xFF9E40DC), Color(0xFFE63B86)],
+                      stops: <double>[0.25, 0.75]),
                   enableAnimation: true)
             ])
       ],
@@ -100,7 +97,7 @@ class _CustomAxisRenderer extends RadialAxisRenderer {
     for (num i = 0; i < 9; i++) {
       final double _value = _calculateLabelValue(i);
       final CircularAxisLabel label = CircularAxisLabel(
-          this.axis.axisLabelStyle, _value.toInt().toString(), i, false);
+          axis.axisLabelStyle, _value.toInt().toString(), i, false);
       label.value = _value;
       _visibleLabels.add(label);
     }

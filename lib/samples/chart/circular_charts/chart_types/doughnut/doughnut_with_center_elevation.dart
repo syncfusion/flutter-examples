@@ -22,11 +22,11 @@ class _DoughnutDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getElevationDoughnutChart();
+    return _buildElevationDoughnutChart();
   }
 
   /// Returns the circular charts with center elevation dughnut series.
-  SfCircularChart _getElevationDoughnutChart() {
+  SfCircularChart _buildElevationDoughnutChart() {
     return SfCircularChart(
       /// It used to set the annotation on circular chart.
       annotations: <CircularChartAnnotation>[
@@ -35,11 +35,12 @@ class _DoughnutDefaultState extends SampleViewState {
             width: '100%',
             widget: Container(
                 child: PhysicalModel(
-                    child: Container(),
-                    shape: BoxShape.circle,
-                    elevation: 10,
-                    shadowColor: Colors.black,
-                    color: const Color.fromRGBO(230, 230, 230, 1)))),
+              shape: BoxShape.circle,
+              elevation: 10,
+              shadowColor: Colors.black,
+              color: const Color.fromRGBO(230, 230, 230, 1),
+              child: Container(),
+            ))),
         CircularChartAnnotation(
             widget: Container(
                 child: const Text('62%',

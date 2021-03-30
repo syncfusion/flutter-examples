@@ -4,32 +4,40 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/rendering.dart';
 
 ///Map import
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_maps/maps.dart';
+
+///Core theme import
+import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Local import
 import '../../../../model/sample_view.dart';
 
+/// Renders the map arc sample
 class MapArcsPage extends SampleView {
+  /// Creates the map arc sample
   const MapArcsPage(Key key) : super(key: key);
+
+  @override
   _ArcsSampleState createState() => _ArcsSampleState();
 }
 
 class _ArcsSampleState extends SampleViewState
     with SingleTickerProviderStateMixin {
-  List<AirRouteModel> _airportData;
-  List<MarkerData> _markerData;
-  MapZoomPanBehavior _zoomPanBehavior;
-  MapTileLayerController _mapController;
-  AnimationController _animationController;
-  Animation _animation;
-  int _selectedLineIndex;
+  late List<_AirRouteDetails> _airports;
+  late List<_MarkerData> _markerData;
+  late MapZoomPanBehavior _zoomPanBehavior;
+  late MapTileLayerController _mapController;
+  late AnimationController _animationController;
+  late Animation _animation;
   int _currentSelectedCityIndex = 0;
   bool _isDesktop = false;
   bool _enableDashArray = false;
-  bool _canUpdateZoomLevel;
-  List<DropdownMenuItem<String>> _dropDownMenuItems;
-  String _currentSublayer;
-  Color _layerColor;
+  late bool _canUpdateZoomLevel;
+  late List<DropdownMenuItem<String>> _dropDownMenuItems;
+  late String _currentSublayer;
+  late Color _layerColor;
+  late List<double> _dashArray;
 
   @override
   void initState() {
@@ -38,14 +46,19 @@ class _ArcsSampleState extends SampleViewState
     _zoomPanBehavior = MapZoomPanBehavior(
       focalLatLng: MapLatLng(40.7128, -74.0060),
       toolbarSettings: MapToolbarSettings(
-          direction: Axis.vertical, position: MapToolbarPosition.bottomRight),
+        direction: Axis.vertical,
+        position: MapToolbarPosition.bottomRight,
+      ),
+      enableDoubleTapZooming: true,
+      maxZoomLevel: 12,
     );
 
     _setNavigationLineData(_currentSelectedCityIndex);
 
     _dropDownMenuItems = _getDropDownMenuItems();
-    _currentSublayer = _dropDownMenuItems[0].value;
+    _currentSublayer = _dropDownMenuItems[0].value!;
     _canUpdateZoomLevel = true;
+    _dashArray = [0, 0];
 
     _animationController = AnimationController(
       duration: Duration(seconds: 2),
@@ -63,10 +76,10 @@ class _ArcsSampleState extends SampleViewState
 
   @override
   void dispose() {
-    _animationController?.dispose();
-    _mapController?.dispose();
-    _markerData?.clear();
-    _airportData?.clear();
+    _animationController.dispose();
+    _mapController.dispose();
+    _markerData.clear();
+    _airports.clear();
     super.dispose();
   }
 
@@ -74,37 +87,37 @@ class _ArcsSampleState extends SampleViewState
     switch (index) {
       case 0:
         _layerColor = Color.fromRGBO(167, 61, 233, 1.0);
-        _markerData = <MarkerData>[
-          MarkerData('New York', MapLatLng(40.7128, -74.0060)),
-          MarkerData('Denver', MapLatLng(39.7392, -104.9903)),
-          MarkerData('Bogata', MapLatLng(4.7110, -74.0721)),
-          MarkerData('Calgary', MapLatLng(51.0447, -114.0719)),
-          MarkerData('Tashkent', MapLatLng(41.2995, 69.2401)),
-          MarkerData('Dakar', MapLatLng(14.7167, -17.4677)),
-          MarkerData('Casablanca', MapLatLng(33.3700, -7.5857)),
-          MarkerData('Houston', MapLatLng(29.7604, -95.3698)),
-          MarkerData('Edmonton', MapLatLng(53.5461, -113.4938)),
-          MarkerData('Panama City', MapLatLng(8.9824, -79.5199)),
+        _markerData = <_MarkerData>[
+          _MarkerData('New York', MapLatLng(40.7128, -74.0060)),
+          _MarkerData('Denver', MapLatLng(39.7392, -104.9903)),
+          _MarkerData('Bogata', MapLatLng(4.7110, -74.0721)),
+          _MarkerData('Calgary', MapLatLng(51.0447, -114.0719)),
+          _MarkerData('Tashkent', MapLatLng(41.2995, 69.2401)),
+          _MarkerData('Dakar', MapLatLng(14.7167, -17.4677)),
+          _MarkerData('Casablanca', MapLatLng(33.3700, -7.5857)),
+          _MarkerData('Houston', MapLatLng(29.7604, -95.3698)),
+          _MarkerData('Edmonton', MapLatLng(53.5461, -113.4938)),
+          _MarkerData('Panama City', MapLatLng(8.9824, -79.5199)),
         ];
 
-        _airportData = <AirRouteModel>[
-          AirRouteModel(MapLatLng(40.7128, -74.0060),
+        _airports = <_AirRouteDetails>[
+          _AirRouteDetails(MapLatLng(40.7128, -74.0060),
               MapLatLng(4.7110, -74.0721), 'New York - Bogata'),
-          AirRouteModel(MapLatLng(40.7128, -74.0060),
+          _AirRouteDetails(MapLatLng(40.7128, -74.0060),
               MapLatLng(51.0447, -114.0719), 'New York - Calgary'),
-          AirRouteModel(MapLatLng(40.7128, -74.0060),
+          _AirRouteDetails(MapLatLng(40.7128, -74.0060),
               MapLatLng(41.2995, 69.2401), 'New York - Tashkent'),
-          AirRouteModel(MapLatLng(40.7128, -74.0060),
+          _AirRouteDetails(MapLatLng(40.7128, -74.0060),
               MapLatLng(14.7167, -17.4677), 'New York - Dakar'),
-          AirRouteModel(MapLatLng(40.7128, -74.0060),
+          _AirRouteDetails(MapLatLng(40.7128, -74.0060),
               MapLatLng(33.3700, -7.5857), 'New York - Casablanca'),
-          AirRouteModel(MapLatLng(40.7128, -74.0060),
+          _AirRouteDetails(MapLatLng(40.7128, -74.0060),
               MapLatLng(29.7604, -95.3698), 'New York - Houston'),
-          AirRouteModel(MapLatLng(40.7128, -74.0060),
+          _AirRouteDetails(MapLatLng(40.7128, -74.0060),
               MapLatLng(53.5461, -113.4938), 'New York - Edmonton'),
-          AirRouteModel(MapLatLng(40.7128, -74.0060),
+          _AirRouteDetails(MapLatLng(40.7128, -74.0060),
               MapLatLng(8.9824, -79.5199), 'New York - Panama City'),
-          AirRouteModel(MapLatLng(40.7128, -74.0060),
+          _AirRouteDetails(MapLatLng(40.7128, -74.0060),
               MapLatLng(39.7392, -104.9903), 'New york - Denver'),
         ];
         _updateMarkers();
@@ -112,25 +125,25 @@ class _ArcsSampleState extends SampleViewState
 
       case 1:
         _layerColor = Color.fromRGBO(65, 72, 22, 1.0);
-        _markerData = <MarkerData>[
-          MarkerData('Denver', MapLatLng(39.7392, -104.9903)),
-          MarkerData('New York', MapLatLng(40.7128, -74.0060)),
-          MarkerData('Calgary', MapLatLng(51.0447, -114.0719)),
-          MarkerData('Edmonton', MapLatLng(53.5461, -113.4938)),
-          MarkerData('Paris', MapLatLng(48.8566, 2.3522)),
-          MarkerData('Panama City', MapLatLng(8.9824, -79.5199)),
+        _markerData = <_MarkerData>[
+          _MarkerData('Denver', MapLatLng(39.7392, -104.9903)),
+          _MarkerData('New York', MapLatLng(40.7128, -74.0060)),
+          _MarkerData('Calgary', MapLatLng(51.0447, -114.0719)),
+          _MarkerData('Edmonton', MapLatLng(53.5461, -113.4938)),
+          _MarkerData('Paris', MapLatLng(48.8566, 2.3522)),
+          _MarkerData('Panama City', MapLatLng(8.9824, -79.5199)),
         ];
 
-        _airportData = <AirRouteModel>[
-          AirRouteModel(MapLatLng(39.7392, -104.9903),
+        _airports = <_AirRouteDetails>[
+          _AirRouteDetails(MapLatLng(39.7392, -104.9903),
               MapLatLng(53.5461, -113.4938), 'Denver - Edmonton'),
-          AirRouteModel(MapLatLng(39.7392, -104.9903),
+          _AirRouteDetails(MapLatLng(39.7392, -104.9903),
               MapLatLng(51.0447, -114.0719), 'Denver - Calgary'),
-          AirRouteModel(MapLatLng(39.7392, -104.9903),
+          _AirRouteDetails(MapLatLng(39.7392, -104.9903),
               MapLatLng(40.7128, -74.0060), 'Denver - New York'),
-          AirRouteModel(MapLatLng(39.7392, -104.9903),
+          _AirRouteDetails(MapLatLng(39.7392, -104.9903),
               MapLatLng(48.8566, 2.3522), 'Denver - Paris'),
-          AirRouteModel(MapLatLng(39.7392, -104.9903),
+          _AirRouteDetails(MapLatLng(39.7392, -104.9903),
               MapLatLng(8.9824, -79.5199), 'Denver - Panama City'),
         ];
         _updateMarkers();
@@ -138,25 +151,25 @@ class _ArcsSampleState extends SampleViewState
 
       case 2:
         _layerColor = Color.fromRGBO(12, 152, 34, 1.0);
-        _markerData = <MarkerData>[
-          MarkerData('London', MapLatLng(51.4700, 0.4543)),
-          MarkerData('Bogata', MapLatLng(4.7110, -74.0721)),
-          MarkerData('Calgary', MapLatLng(51.0447, -114.0719)),
-          MarkerData('Moscow', MapLatLng(55.7558, 37.6173)),
-          MarkerData('Riyath', MapLatLng(24.7136, 46.6753)),
-          MarkerData('Seoul', MapLatLng(37.5665, 126.9780)),
+        _markerData = <_MarkerData>[
+          _MarkerData('London', MapLatLng(51.4700, 0.4543)),
+          _MarkerData('Bogata', MapLatLng(4.7110, -74.0721)),
+          _MarkerData('Calgary', MapLatLng(51.0447, -114.0719)),
+          _MarkerData('Moscow', MapLatLng(55.7558, 37.6173)),
+          _MarkerData('Riyath', MapLatLng(24.7136, 46.6753)),
+          _MarkerData('Seoul', MapLatLng(37.5665, 126.9780)),
         ];
 
-        _airportData = <AirRouteModel>[
-          AirRouteModel(MapLatLng(51.4700, 0.4543),
+        _airports = <_AirRouteDetails>[
+          _AirRouteDetails(MapLatLng(51.4700, 0.4543),
               MapLatLng(51.0447, -114.0719), 'London - Calgary'),
-          AirRouteModel(MapLatLng(51.4700, 0.4543), MapLatLng(4.7110, -74.0721),
-              'London - Bogata'),
-          AirRouteModel(MapLatLng(51.4700, 0.4543), MapLatLng(55.7558, 37.6173),
-              'London - Moscow'),
-          AirRouteModel(MapLatLng(51.4700, 0.4543), MapLatLng(24.7136, 46.6753),
-              'London - Riyath'),
-          AirRouteModel(MapLatLng(51.4700, 0.4543),
+          _AirRouteDetails(MapLatLng(51.4700, 0.4543),
+              MapLatLng(4.7110, -74.0721), 'London - Bogata'),
+          _AirRouteDetails(MapLatLng(51.4700, 0.4543),
+              MapLatLng(55.7558, 37.6173), 'London - Moscow'),
+          _AirRouteDetails(MapLatLng(51.4700, 0.4543),
+              MapLatLng(24.7136, 46.6753), 'London - Riyath'),
+          _AirRouteDetails(MapLatLng(51.4700, 0.4543),
               MapLatLng(37.5665, 126.9780), 'London - Seoul'),
         ];
         _updateMarkers();
@@ -164,25 +177,25 @@ class _ArcsSampleState extends SampleViewState
 
       case 3:
         _layerColor = Color.fromRGBO(226, 75, 65, 1.0);
-        _markerData = <MarkerData>[
-          MarkerData('Dublin', MapLatLng(53.3498, -6.2603)),
-          MarkerData('New York', MapLatLng(40.7128, -74.0060)),
-          MarkerData('Hong Kong', MapLatLng(22.3193, 114.1694)),
-          MarkerData('Calgary', MapLatLng(51.0447, -114.0719)),
-          MarkerData('Addis Abada', MapLatLng(8.9806, 38.7578)),
-          MarkerData('Helsinki', MapLatLng(60.1699, 24.9384)),
+        _markerData = <_MarkerData>[
+          _MarkerData('Dublin', MapLatLng(53.3498, -6.2603)),
+          _MarkerData('New York', MapLatLng(40.7128, -74.0060)),
+          _MarkerData('Hong Kong', MapLatLng(22.3193, 114.1694)),
+          _MarkerData('Calgary', MapLatLng(51.0447, -114.0719)),
+          _MarkerData('Addis Abada', MapLatLng(8.9806, 38.7578)),
+          _MarkerData('Helsinki', MapLatLng(60.1699, 24.9384)),
         ];
 
-        _airportData = <AirRouteModel>[
-          AirRouteModel(MapLatLng(53.3498, -6.2603),
+        _airports = <_AirRouteDetails>[
+          _AirRouteDetails(MapLatLng(53.3498, -6.2603),
               MapLatLng(22.3193, 114.1694), 'Dublin - Hong Kong'),
-          AirRouteModel(MapLatLng(53.3498, -6.2603), MapLatLng(8.9806, 38.7578),
-              'Dublin - Addis Abada'),
-          AirRouteModel(MapLatLng(53.3498, -6.2603),
+          _AirRouteDetails(MapLatLng(53.3498, -6.2603),
+              MapLatLng(8.9806, 38.7578), 'Dublin - Addis Abada'),
+          _AirRouteDetails(MapLatLng(53.3498, -6.2603),
               MapLatLng(60.1699, 24.9384), 'Dublin - Helsinki'),
-          AirRouteModel(MapLatLng(53.3498, -6.2603),
+          _AirRouteDetails(MapLatLng(53.3498, -6.2603),
               MapLatLng(40.7128, -74.0060), 'Dublin - New York'),
-          AirRouteModel(MapLatLng(53.3498, -6.2603),
+          _AirRouteDetails(MapLatLng(53.3498, -6.2603),
               MapLatLng(51.0447, -114.0719), 'Dublin - Calgary'),
         ];
         _updateMarkers();
@@ -190,84 +203,84 @@ class _ArcsSampleState extends SampleViewState
 
       case 4:
         _layerColor = Color.fromRGBO(108, 27, 212, 1.0);
-        _markerData = <MarkerData>[
-          MarkerData('Beijing', MapLatLng(39.9042, 116.4074)),
-          MarkerData('Seoul', MapLatLng(37.5665, 126.9780)),
-          MarkerData('Islamabad', MapLatLng(33.6844, 73.0479)),
-          MarkerData('Addis Abada', MapLatLng(8.9806, 38.7578)),
-          MarkerData('Tokyo', MapLatLng(35.6762, 139.6503)),
-          MarkerData('Helsinki', MapLatLng(60.1699, 24.9384)),
-          MarkerData('Korla', MapLatLng(41.7259, 86.1746)),
+        _markerData = <_MarkerData>[
+          _MarkerData('Beijing', MapLatLng(39.9042, 116.4074)),
+          _MarkerData('Seoul', MapLatLng(37.5665, 126.9780)),
+          _MarkerData('Islamabad', MapLatLng(33.6844, 73.0479)),
+          _MarkerData('Addis Abada', MapLatLng(8.9806, 38.7578)),
+          _MarkerData('Tokyo', MapLatLng(35.6762, 139.6503)),
+          _MarkerData('Helsinki', MapLatLng(60.1699, 24.9384)),
+          _MarkerData('Korla', MapLatLng(41.7259, 86.1746)),
         ];
 
-        _airportData = <AirRouteModel>[
-          AirRouteModel(MapLatLng(39.9042, 116.4074),
+        _airports = <_AirRouteDetails>[
+          _AirRouteDetails(MapLatLng(39.9042, 116.4074),
               MapLatLng(33.6844, 73.0479), 'Beijing - Islamabad'),
-          AirRouteModel(MapLatLng(39.9042, 116.4074),
+          _AirRouteDetails(MapLatLng(39.9042, 116.4074),
               MapLatLng(8.9806, 38.7578), 'Beijing - Addis Abada'),
-          AirRouteModel(MapLatLng(39.9042, 116.4074),
+          _AirRouteDetails(MapLatLng(39.9042, 116.4074),
               MapLatLng(35.6762, 139.6503), 'Beijing - Tokyo'),
-          AirRouteModel(MapLatLng(39.9042, 116.4074),
+          _AirRouteDetails(MapLatLng(39.9042, 116.4074),
               MapLatLng(60.1699, 24.9384), 'Beijing - Helsinki'),
-          AirRouteModel(MapLatLng(39.9042, 116.4074),
+          _AirRouteDetails(MapLatLng(39.9042, 116.4074),
               MapLatLng(41.7259, 86.1746), 'Beijing - Korla'),
-          AirRouteModel(MapLatLng(39.9042, 116.4074),
+          _AirRouteDetails(MapLatLng(39.9042, 116.4074),
               MapLatLng(37.5665, 126.9780), 'Beijing - Seoul'),
         ];
         _updateMarkers();
         break;
       case 5:
         _layerColor = Color.fromRGBO(236, 40, 134, 1.0);
-        _markerData = <MarkerData>[
-          MarkerData('Delhi', MapLatLng(28.7041, 77.1025)),
-          MarkerData('London', MapLatLng(51.4700, 0.4543)),
-          MarkerData('Beijing', MapLatLng(39.9042, 116.4074)),
-          MarkerData('Chennai', MapLatLng(13.0827, 80.2707)),
-          MarkerData('New York', MapLatLng(40.7128, -74.0060)),
-          MarkerData('Sydney', MapLatLng(-33.8688, 151.2093)),
-          MarkerData('Mumbai', MapLatLng(19.0931, 72.8568)),
+        _markerData = <_MarkerData>[
+          _MarkerData('Delhi', MapLatLng(28.7041, 77.1025)),
+          _MarkerData('London', MapLatLng(51.4700, 0.4543)),
+          _MarkerData('Beijing', MapLatLng(39.9042, 116.4074)),
+          _MarkerData('Chennai', MapLatLng(13.0827, 80.2707)),
+          _MarkerData('New York', MapLatLng(40.7128, -74.0060)),
+          _MarkerData('Sydney', MapLatLng(-33.8688, 151.2093)),
+          _MarkerData('Mumbai', MapLatLng(19.0931, 72.8568)),
         ];
 
-        _airportData = <AirRouteModel>[
-          AirRouteModel(MapLatLng(28.7041, 77.1025), MapLatLng(51.4700, 0.4543),
-              'Delhi - London'),
-          AirRouteModel(MapLatLng(28.7041, 77.1025),
+        _airports = <_AirRouteDetails>[
+          _AirRouteDetails(MapLatLng(28.7041, 77.1025),
+              MapLatLng(51.4700, 0.4543), 'Delhi - London'),
+          _AirRouteDetails(MapLatLng(28.7041, 77.1025),
               MapLatLng(40.7128, -74.0060), 'Delhi - New York'),
-          AirRouteModel(MapLatLng(28.7041, 77.1025),
+          _AirRouteDetails(MapLatLng(28.7041, 77.1025),
               MapLatLng(-33.8688, 151.2093), 'Delhi - Sydney'),
-          AirRouteModel(MapLatLng(28.7041, 77.1025),
+          _AirRouteDetails(MapLatLng(28.7041, 77.1025),
               MapLatLng(39.9042, 116.4074), 'Delhi - Beijing'),
-          AirRouteModel(MapLatLng(28.7041, 77.1025),
+          _AirRouteDetails(MapLatLng(28.7041, 77.1025),
               MapLatLng(13.0827, 80.2707), 'Delhi - Chennai'),
-          AirRouteModel(MapLatLng(28.7041, 77.1025),
+          _AirRouteDetails(MapLatLng(28.7041, 77.1025),
               MapLatLng(19.0931, 72.8568), 'Delhi - Mumbai'),
         ];
         _updateMarkers();
         break;
       case 6:
         _layerColor = Color.fromRGBO(2, 130, 122, 1.0);
-        _markerData = <MarkerData>[
-          MarkerData('Chennai', MapLatLng(13.0827, 80.2707)),
-          MarkerData('London', MapLatLng(51.4700, 0.4543)),
-          MarkerData('Delhi', MapLatLng(28.7041, 77.1025)),
-          MarkerData('Riyath', MapLatLng(24.7136, 46.6753)),
-          MarkerData('Tokyo', MapLatLng(35.6762, 139.6503)),
-          MarkerData('Singapore', MapLatLng(1.3521, 103.8198)),
-          MarkerData('Addis Abada', MapLatLng(8.9806, 38.7578)),
+        _markerData = <_MarkerData>[
+          _MarkerData('Chennai', MapLatLng(13.0827, 80.2707)),
+          _MarkerData('London', MapLatLng(51.4700, 0.4543)),
+          _MarkerData('Delhi', MapLatLng(28.7041, 77.1025)),
+          _MarkerData('Riyath', MapLatLng(24.7136, 46.6753)),
+          _MarkerData('Tokyo', MapLatLng(35.6762, 139.6503)),
+          _MarkerData('Singapore', MapLatLng(1.3521, 103.8198)),
+          _MarkerData('Addis Abada', MapLatLng(8.9806, 38.7578)),
         ];
 
-        _airportData = <AirRouteModel>[
-          AirRouteModel(MapLatLng(13.0827, 80.2707),
+        _airports = <_AirRouteDetails>[
+          _AirRouteDetails(MapLatLng(13.0827, 80.2707),
               MapLatLng(51.507351, -0.127758), 'Chennai - London'),
-          AirRouteModel(MapLatLng(13.0827, 80.2707),
+          _AirRouteDetails(MapLatLng(13.0827, 80.2707),
               MapLatLng(35.6762, 139.6503), 'Chennai - Tokyo'),
-          AirRouteModel(MapLatLng(13.0827, 80.2707), MapLatLng(8.9806, 38.7578),
-              'Chennai - Addis Abada'),
-          AirRouteModel(MapLatLng(13.0827, 80.2707),
+          _AirRouteDetails(MapLatLng(13.0827, 80.2707),
+              MapLatLng(8.9806, 38.7578), 'Chennai - Addis Abada'),
+          _AirRouteDetails(MapLatLng(13.0827, 80.2707),
               MapLatLng(24.7136, 46.6753), 'Chennai - Riyath'),
-          AirRouteModel(MapLatLng(13.0827, 80.2707),
+          _AirRouteDetails(MapLatLng(13.0827, 80.2707),
               MapLatLng(1.3521, 103.8198), 'Chennai - Singapore'),
-          AirRouteModel(MapLatLng(13.0827, 80.2707),
+          _AirRouteDetails(MapLatLng(13.0827, 80.2707),
               MapLatLng(28.7041, 77.1025), 'Chennai - Delhi'),
         ];
         _updateMarkers();
@@ -283,9 +296,10 @@ class _ArcsSampleState extends SampleViewState
   }
 
   List<DropdownMenuItem<String>> _getDropDownMenuItems() {
-    List<DropdownMenuItem<String>> sublayerItems = List()
-      ..add(DropdownMenuItem(value: 'Arcs', child: Text('Arcs')))
-      ..add(DropdownMenuItem(value: 'Lines', child: Text('Lines')));
+    final List<DropdownMenuItem<String>> sublayerItems = [
+      DropdownMenuItem(value: 'Arcs', child: Text('Arcs')),
+      DropdownMenuItem(value: 'Lines', child: Text('Lines'))
+    ];
     return sublayerItems;
   }
 
@@ -293,25 +307,18 @@ class _ArcsSampleState extends SampleViewState
     if (_currentLegend == 'Arcs') {
       return MapArcLayer(
         arcs: List<MapArc>.generate(
-          _airportData.length,
+          _airports.length,
           (int index) {
-            bool isSelected = _selectedLineIndex == index;
             return MapArc(
-              from: _airportData[index].from,
-              to: _airportData[index].to,
-              dashArray: _enableDashArray ? [8, 3] : [0, 0],
+              from: _airports[index].from,
+              to: _airports[index].to,
+              dashArray: _dashArray,
               heightFactor: index == 5 &&
-                      _airportData[index].to == MapLatLng(13.0827, 80.2707)
+                      _airports[index].to == MapLatLng(13.0827, 80.2707)
                   ? 0.5
                   : 0.2,
-              color: isSelected ? Colors.blue : _layerColor,
+              color: _layerColor,
               width: 2.0,
-              onTap: () {
-                setState(() {
-                  _selectedLineIndex = index;
-                  _canUpdateZoomLevel = false;
-                });
-              },
             );
           },
         ).toSet(),
@@ -321,21 +328,14 @@ class _ArcsSampleState extends SampleViewState
     } else {
       return MapLineLayer(
         lines: List<MapLine>.generate(
-          _airportData.length,
+          _airports.length,
           (int index) {
-            bool isSelected = _selectedLineIndex == index;
             return MapLine(
-              from: _airportData[index].from,
-              to: _airportData[index].to,
-              dashArray: _enableDashArray ? [8, 3] : [0, 0],
-              color: isSelected ? Colors.blue : _layerColor,
+              from: _airports[index].from,
+              to: _airports[index].to,
+              dashArray: _dashArray,
+              color: _layerColor,
               width: 2.0,
-              onTap: () {
-                setState(() {
-                  _selectedLineIndex = index;
-                  _canUpdateZoomLevel = false;
-                });
-              },
             );
           },
         ).toSet(),
@@ -353,15 +353,15 @@ class _ArcsSampleState extends SampleViewState
         child: Column(
           children: [
             Text('Route',
-                style: Theme.of(context).textTheme.caption.copyWith(
+                style: Theme.of(context).textTheme.caption!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Color.fromRGBO(255, 255, 255, 1))),
             Padding(
               padding: EdgeInsets.only(top: 5.0),
-              child: Text(_airportData[index].destination,
+              child: Text(_airports[index].destination,
                   style: Theme.of(context)
                       .textTheme
-                      .caption
+                      .caption!
                       .copyWith(color: Color.fromRGBO(255, 255, 255, 1))),
             ),
           ],
@@ -375,7 +375,8 @@ class _ArcsSampleState extends SampleViewState
     final ThemeData themeData = Theme.of(context);
     _isDesktop = kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
-        themeData.platform == TargetPlatform.windows;
+        themeData.platform == TargetPlatform.windows ||
+        themeData.platform == TargetPlatform.linux;
     if (_canUpdateZoomLevel) {
       _zoomPanBehavior.zoomLevel = _isDesktop ? 4 : 3;
       _zoomPanBehavior.minZoomLevel = _isDesktop ? 4 : 3;
@@ -388,36 +389,41 @@ class _ArcsSampleState extends SampleViewState
           repeat: ImageRepeat.repeat,
         ),
       ),
-      SfMaps(
-        layers: [
-          MapTileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            initialMarkersCount: _markerData.length,
-            zoomPanBehavior: _zoomPanBehavior,
-            controller: _mapController,
-            markerBuilder: (BuildContext context, int index) {
-              return MapMarker(
-                latitude: _markerData[index].latLan.latitude,
-                longitude: _markerData[index].latLan.longitude,
-                child: index == 0
-                    ? BlowingCircle(color: _layerColor)
-                    : Icon(Icons.circle, color: _layerColor, size: 15),
-              );
-            },
-            markerTooltipBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(_markerData[index].country,
-                    style: model.themeData.textTheme.caption
-                        .copyWith(color: Color.fromRGBO(255, 255, 255, 1))),
-              );
-            },
-            tooltipSettings: MapTooltipSettings(
-              color: Color.fromRGBO(45, 45, 45, 1),
+      SfMapsTheme(
+        data: SfMapsThemeData(
+          shapeHoverColor: Colors.transparent,
+        ),
+        child: SfMaps(
+          layers: [
+            MapTileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              initialMarkersCount: _markerData.length,
+              zoomPanBehavior: _zoomPanBehavior,
+              controller: _mapController,
+              markerBuilder: (BuildContext context, int index) {
+                return MapMarker(
+                  latitude: _markerData[index].latLng.latitude,
+                  longitude: _markerData[index].latLng.longitude,
+                  child: index == 0
+                      ? BlowingCircle(color: _layerColor)
+                      : Icon(Icons.circle, color: _layerColor, size: 15),
+                );
+              },
+              markerTooltipBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(_markerData[index].country,
+                      style: model.themeData.textTheme.caption!
+                          .copyWith(color: Color.fromRGBO(255, 255, 255, 1))),
+                );
+              },
+              tooltipSettings: MapTooltipSettings(
+                color: Color.fromRGBO(45, 45, 45, 1),
+              ),
+              sublayers: [_getCurrentSublayer(_currentSublayer)],
             ),
-            sublayers: [_getCurrentSublayer(_currentSublayer)],
-          ),
-        ],
+          ],
+        ),
       ),
       Align(
         alignment: Alignment.topCenter,
@@ -426,13 +432,13 @@ class _ArcsSampleState extends SampleViewState
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _getChipWidget(0, 'New York'),
-              _getChipWidget(1, 'Denver'),
-              _getChipWidget(2, 'London'),
-              _getChipWidget(3, 'Dublin'),
-              _getChipWidget(4, 'Beijing'),
-              _getChipWidget(5, 'Delhi'),
-              _getChipWidget(6, 'Chennai'),
+              _buildChipWidget(0, 'New York'),
+              _buildChipWidget(1, 'Denver'),
+              _buildChipWidget(2, 'London'),
+              _buildChipWidget(3, 'Dublin'),
+              _buildChipWidget(4, 'Beijing'),
+              _buildChipWidget(5, 'Delhi'),
+              _buildChipWidget(6, 'Chennai'),
             ],
           ),
         ),
@@ -440,13 +446,13 @@ class _ArcsSampleState extends SampleViewState
     ]);
   }
 
-  Widget _getChipWidget(int index, String city) {
+  Widget _buildChipWidget(int index, String city) {
     return Padding(
       padding: _isDesktop
           ? const EdgeInsets.only(left: 8.0, top: 8.0)
           : const EdgeInsets.only(left: 8.0),
       child: ChoiceChip(
-        backgroundColor: model?.themeData?.brightness == Brightness.light
+        backgroundColor: model.themeData.brightness == Brightness.light
             ? Colors.white
             : Colors.black,
         elevation: 3.0,
@@ -462,8 +468,7 @@ class _ArcsSampleState extends SampleViewState
             setState(() {
               _currentSelectedCityIndex = index;
               _setNavigationLineData(_currentSelectedCityIndex);
-              _zoomPanBehavior.focalLatLng = _markerData[0].latLan;
-              _selectedLineIndex = null;
+              _zoomPanBehavior.focalLatLng = _markerData[0].latLng;
               _canUpdateZoomLevel = false;
               _animationController.forward(from: 0);
             });
@@ -478,84 +483,88 @@ class _ArcsSampleState extends SampleViewState
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return SingleChildScrollView(
-          child: Container(
-              height: 110,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Layer type",
-                        style: TextStyle(
-                          color: model.textColor,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(right: 15.0),
-                          child: DropdownButton(
-                            value: _currentSublayer,
-                            items: _dropDownMenuItems,
-                            onChanged: (String value) {
-                              setState(() {
-                                _currentSublayer = value;
-                                _canUpdateZoomLevel = false;
-                              });
-                              stateSetter(() {});
-                            },
-                          ))
-                    ],
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Layer type',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
                   ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          'Show dashes',
-                          style: TextStyle(
-                            color: model.textColor,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Container(
-                          width: 90,
-                          child: CheckboxListTile(
-                              activeColor: model.backgroundColor,
-                              value: _enableDashArray,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  _enableDashArray = value;
-                                  _canUpdateZoomLevel = false;
-                                });
-                                stateSetter(() {});
-                              })),
-                    ],
+                ),
+                Padding(
+                    padding: EdgeInsets.only(right: 15.0),
+                    child: DropdownButton(
+                      value: _currentSublayer,
+                      items: _dropDownMenuItems,
+                      onChanged: (String? value) {
+                        setState(() {
+                          _currentSublayer = value!;
+                          _canUpdateZoomLevel = false;
+                        });
+                        stateSetter(() {});
+                      },
+                    ))
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'Show dashes',
+                    style: TextStyle(
+                      color: model.textColor,
+                      fontSize: 16,
+                    ),
                   ),
-                ],
-              )));
+                ),
+                Container(
+                    width: 90,
+                    child: CheckboxListTile(
+                        activeColor: model.backgroundColor,
+                        value: _enableDashArray,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _enableDashArray = value!;
+                            _dashArray =
+                                _enableDashArray ? [8, 2, 2, 2] : [0, 0];
+                            _canUpdateZoomLevel = false;
+                          });
+                          stateSetter(() {});
+                        })),
+              ],
+            ),
+          ],
+        ),
+      );
     });
   }
 }
 
-class MarkerData {
-  MarkerData(this.country, this.latLan);
+class _MarkerData {
+  _MarkerData(this.country, this.latLng);
 
   String country;
-  MapLatLng latLan;
+  MapLatLng latLng;
 }
 
-class AirRouteModel {
-  AirRouteModel(this.from, this.to, this.destination);
+class _AirRouteDetails {
+  _AirRouteDetails(this.from, this.to, this.destination);
 
   MapLatLng from;
   MapLatLng to;
   String destination;
 }
 
-class BlowingCircleCustomPaint extends CustomPainter {
-  BlowingCircleCustomPaint(
-      {this.iconColor, this.iconSize, this.animationValue});
+class _BlowingCircleCustomPaint extends CustomPainter {
+  _BlowingCircleCustomPaint(
+      {required this.iconColor,
+      required this.iconSize,
+      required this.animationValue});
 
   final Color iconColor;
 
@@ -576,24 +585,28 @@ class BlowingCircleCustomPaint extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(BlowingCircleCustomPaint oldDelegate) => true;
+  bool shouldRepaint(_BlowingCircleCustomPaint oldDelegate) => true;
 }
 
+/// Renders the blowing  circle sample
 class BlowingCircle extends StatefulWidget {
+  /// Creates the blowing  circle sample
   const BlowingCircle({
-    Key key,
-    this.color,
+    Key? key,
+    required this.color,
   }) : super(key: key);
 
+  /// Color value
   final Color color;
+
   @override
   _BlowingCircleState createState() => _BlowingCircleState();
 }
 
 class _BlowingCircleState extends State<BlowingCircle>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation _animation;
+  late AnimationController _controller;
+  late Animation _animation;
 
   @override
   void initState() {
@@ -625,7 +638,7 @@ class _BlowingCircleState extends State<BlowingCircle>
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: BlowingCircleCustomPaint(
+      painter: _BlowingCircleCustomPaint(
           iconColor: widget.color,
           iconSize: Size(15.0, 15.0),
           animationValue: _animation.value),

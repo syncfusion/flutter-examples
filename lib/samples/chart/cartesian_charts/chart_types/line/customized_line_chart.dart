@@ -22,21 +22,28 @@ class CustomizedLine extends SampleView {
   _LineDefaultState createState() => _LineDefaultState();
 }
 
-List<num> _xValues;
-List<num> _yValues;
-List<num> _xPointValues = <num>[];
-List<num> _yPointValues = <num>[];
+late List<num> _xValues;
+late List<num> _yValues;
+List<double> _xPointValues = <double>[];
+List<double> _yPointValues = <double>[];
 
 class _LineDefaultState extends SampleViewState {
   _LineDefaultState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getCustomizedLineChart();
+    return _buildCustomizedLineChart();
   }
 
   ///Get the cartesian chart
-  SfCartesianChart _getCustomizedLineChart() {
+  SfCartesianChart _buildCustomizedLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -71,7 +78,7 @@ class _LineDefaultState extends SampleViewState {
         ),
         LineSeries<_ChartData, DateTime>(
             onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-              return _CustomLineSeriesRenderer(series);
+              return _CustomLineSeriesRenderer(series as LineSeries);
             },
             animationDuration: 2500,
             dataSource: <_ChartData>[
@@ -91,8 +98,7 @@ class _LineDefaultState extends SampleViewState {
             width: 2,
             markerSettings: MarkerSettings(isVisible: true)),
       ],
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 }
@@ -110,7 +116,7 @@ class _CustomLineSeriesRenderer extends LineSeriesRenderer {
   static Random randomNumber = Random();
 
   @override
-  ChartSegment createSegment() {
+  LineSegment createSegment() {
     return _LineCustomPainter(randomNumber.nextInt(4), series);
   }
 }
@@ -124,8 +130,8 @@ class _LineCustomPainter extends LineSegment {
   }
 
   final LineSeries<dynamic, dynamic> series;
-  double maximum, minimum;
-  int index;
+  late double maximum, minimum;
+  late int index;
   List<Color> colors = <Color>[
     Colors.blue,
     Colors.yellow,
@@ -190,14 +196,14 @@ class _LineCustomPainter extends LineSegment {
           _dashPath(
             bottomLinePath,
             dashArray: _CircularIntervalList<double>(<double>[15, 3, 3, 3]),
-          ),
+          )!,
           bottomLinePaint);
 
       canvas.drawPath(
           _dashPath(
             topLinePath,
             dashArray: _CircularIntervalList<double>(<double>[15, 3, 3, 3]),
-          ),
+          )!,
           topLinePaint);
 
       final TextSpan span = TextSpan(
@@ -230,9 +236,9 @@ class _LineCustomPainter extends LineSegment {
   }
 }
 
-Path _dashPath(
+Path? _dashPath(
   Path source, {
-  @required _CircularIntervalList<double> dashArray,
+  required _CircularIntervalList<double> dashArray,
 }) {
   if (source == null) {
     return null;

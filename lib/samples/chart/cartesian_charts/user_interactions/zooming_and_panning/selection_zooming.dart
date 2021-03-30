@@ -19,33 +19,37 @@ class DefaultZooming extends SampleView {
 /// State class of the chart with delection zooming.
 class _DefaultZoomingState extends SampleViewState {
   _DefaultZoomingState();
-  ZoomPanBehavior _zoomingPanBehavior;
-
+  late ZoomPanBehavior _zoomingPanBehavior;
   @override
-  Widget build(BuildContext context) {
-    final double bottomPadding = isCardView || model.isWeb ? 0 : 60;
+  void initState() {
     _zoomingPanBehavior = ZoomPanBehavior(
         enablePanning: true,
 
         /// To enable the selection zooming here.
         enableSelectionZooming: true);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double bottomPadding = isCardView || model.isWebFullView ? 0 : 60;
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
-          child: Container(child: _getDefaultZoomingChart()),
+          child: Container(child: _buildDefaultZoomingChart()),
         ),
         floatingActionButton: isCardView
             ? null
             : FloatingActionButton(
                 onPressed: () => _zoomingPanBehavior.reset(),
-                child: const Icon(Icons.refresh, color: Colors.white),
                 backgroundColor: model.backgroundColor,
+                child: const Icon(Icons.refresh, color: Colors.white),
               ));
   }
 
   /// Returns the cartesian chart with delection zooming.
-  SfCartesianChart _getDefaultZoomingChart() {
+  SfCartesianChart _buildDefaultZoomingChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       legend: Legend(isVisible: !isCardView, opacity: 0.8),

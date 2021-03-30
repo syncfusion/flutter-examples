@@ -21,11 +21,11 @@ class _MultipleAxisExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialGauge(context);
+    return _buildRadialGauge(context);
   }
 
   /// Returns the default axis gauge
-  SfRadialGauge _getRadialGauge(BuildContext context) {
+  SfRadialGauge _buildRadialGauge(BuildContext context) {
     return SfRadialGauge(axes: <RadialAxis>[
       RadialAxis(
         minimum: 32,

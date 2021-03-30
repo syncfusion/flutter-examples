@@ -30,90 +30,81 @@ class _LegendOptionsState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Position ',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(75, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
-                      value: _selectedPosition,
-                      items: _positionList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'auto',
-                            child: Text('$value',
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onPositionTypeChange(value.toString());
+          ListTile(
+            title: Text('Position ',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.07 * screenWidth),
+              width: 0.4 * screenWidth,
+              height: 50,
+              alignment: Alignment.bottomLeft,
+              child: DropdownButton<String>(
+                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  value: _selectedPosition,
+                  items: _positionList.map((String value) {
+                    return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'auto',
+                        child: Text('$value',
+                            style: TextStyle(color: model.textColor)));
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    _onPositionTypeChange(value.toString());
+                    stateSetter(() {});
+                  }),
+            ),
+          ),
+          ListTile(
+            title: Text('Overflow mode',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.07 * screenWidth),
+                width: 0.4 * screenWidth,
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    value: _selectedMode,
+                    items: _modeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'wrap',
+                          child: Text('$value',
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onModeTypeChange(value);
+                      stateSetter(() {});
+                    })),
+          ),
+          ListTile(
+            title: Text('Toggle visibility',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                width: 0.4 * screenWidth,
+                child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: model.backgroundColor,
+                    value: toggleVisibility,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        toggleVisibility = value!;
                         stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Overflow mode',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                    padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                    height: 50,
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
-                        value: _selectedMode,
-                        items: _modeList.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'wrap',
-                              child: Text('$value',
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          _onModeTypeChange(value);
-                          stateSetter(() {});
-                        })),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Toggle visibility',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                    width: 75,
-                    child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
-                        value: toggleVisibility,
-                        onChanged: (bool value) {
-                          setState(() {
-                            toggleVisibility = value;
-                            stateSetter(() {});
-                          });
-                        })),
-              ],
-            ),
+                      });
+                    })),
           ),
         ],
       );
@@ -122,11 +113,11 @@ class _LegendOptionsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getLegendOptionsChart();
+    return _buildLegendOptionsChart();
   }
 
   ///Get the circular chart which has legend
-  SfCircularChart _getLegendOptionsChart() {
+  SfCircularChart _buildLegendOptionsChart() {
     return SfCircularChart(
       title: ChartTitle(text: isCardView ? '' : 'Expenses by category'),
       legend: Legend(

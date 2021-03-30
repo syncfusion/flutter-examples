@@ -1,25 +1,21 @@
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 ///Package import
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
-import 'dart:ui' as ui;
-import 'dart:typed_data';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+///Signature pad imports.
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
 import '../shared/mobile_image_converter.dart'
     if (dart.library.html) '../shared/web_image_converter.dart';
-
-///Signature pad imports.
-import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
-
-List<_Product> _products = <_Product>[];
-
-final _ProductDataSource _productDataSource = _ProductDataSource();
 
 ///Renders the signature pad widget.
 class GettingStartedSignaturePad extends SampleView {
@@ -33,35 +29,41 @@ class GettingStartedSignaturePad extends SampleView {
 
 class _GettingStartedSignaturePadState extends SampleViewState {
   final GlobalKey<SfSignaturePadState> _signaturePadKey = GlobalKey();
-  List<Widget> _strokeColorWidgets;
+
   List<Color> _strokeColors = <Color>[];
   double _minWidth = 1.0;
   double _maxWidth = 4.0;
   bool _isSigned = false;
   int _selectedPenIndex = 0;
-  Color _strokeColor;
-  Color _backgroundColor;
-  Uint8List _signatureData;
-  double _fontSizeRegular = 12;
   bool _isDark = false;
+
+  late Color _strokeColor;
+  Color? _backgroundColor;
+  late Uint8List _signatureData;
+  final double _fontSizeRegular = 12;
+  late _ProductDataSource _productDataSource;
+  late List<Widget> _strokeColorWidgets;
+  late bool _isWebOrDesktop;
 
   @override
   void initState() {
     _addColors();
-    _loadDataSource();
+    _productDataSource = _ProductDataSource(_loadDataSource());
     _minWidth = kIsWeb ? 2.0 : 1.0;
     _maxWidth = kIsWeb ? 2.0 : 4.0;
+    _isWebOrDesktop = (defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.macOS ||
+        kIsWeb);
     super.initState();
   }
 
-  void _loadDataSource() {
-    _products = <_Product>[];
-    _products.add(
-        _Product(name: 'Jersey', price: 49.99, quantity: 3, total: 149.97));
-    _products.add(
-        _Product(name: 'AWC Logo Cap', price: 8.99, quantity: 2, total: 17.98));
-    _products.add(
-        _Product(name: 'ML Fork ', price: 175.49, quantity: 6, total: 1052.94));
+  List<_Product> _loadDataSource() {
+    return [
+      _Product(name: 'Jersey', price: 49.99, quantity: 3, total: 149.97),
+      _Product(name: 'AWC Logo Cap', price: 8.99, quantity: 2, total: 17.98),
+      _Product(name: 'ML Fork ', price: 175.49, quantity: 6, total: 1052.94)
+    ];
   }
 
   void _addColors() {
@@ -77,37 +79,38 @@ class _GettingStartedSignaturePadState extends SampleViewState {
     for (int i = 0; i < _strokeColors.length; i++) {
       _strokeColorWidgets.add(
         Material(
-            child: Ink(
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                shape: BoxShape.circle,
+          color: Colors.transparent,
+          child: Ink(
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              shape: BoxShape.circle,
+            ),
+            child: InkWell(
+              onTap: () => stateChanged(
+                () {
+                  _strokeColor = _strokeColors[i];
+                  _selectedPenIndex = i;
+                },
               ),
-              child: InkWell(
-                onTap: () => stateChanged(
-                  () {
-                    _strokeColor = _strokeColors[i];
-                    _selectedPenIndex = i;
-                  },
-                ),
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Icon(Icons.brightness_1,
-                          size: 25.0, color: _strokeColors[i]),
-                      _selectedPenIndex != null && _selectedPenIndex == i
-                          ? Padding(
-                              child: Icon(Icons.check,
-                                  size: 15.0,
-                                  color: _isDark ? Colors.black : Colors.white),
-                              padding: EdgeInsets.all(5),
-                            )
-                          : SizedBox(width: 8),
-                    ],
-                  ),
+              child: Center(
+                child: Stack(
+                  children: [
+                    Icon(Icons.brightness_1,
+                        size: 25.0, color: _strokeColors[i]),
+                    _selectedPenIndex != null && _selectedPenIndex == i
+                        ? Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Icon(Icons.check,
+                                size: 15.0,
+                                color: _isDark ? Colors.black : Colors.white),
+                          )
+                        : SizedBox(width: 8),
+                  ],
                 ),
               ),
             ),
-            color: Colors.transparent),
+          ),
+        ),
       );
     }
 
@@ -121,7 +124,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
   void _showPopup() {
     _isSigned = false;
 
-    if (kIsWeb) {
+    if (_isWebOrDesktop) {
       _backgroundColor = _isDark ? model.webBackgroundColor : Colors.white;
     }
 
@@ -130,34 +133,50 @@ class _GettingStartedSignaturePadState extends SampleViewState {
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
-            final Color backgroundColor = _backgroundColor;
+            final Color? backgroundColor = _backgroundColor;
             final Color textColor = _isDark ? Colors.white : Colors.black87;
 
             return AlertDialog(
               insetPadding: EdgeInsets.all(12.0),
               backgroundColor: backgroundColor,
-              title: Row(children: [
-                Text('Draw your signature',
-                    style: TextStyle(
-                        color: textColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Roboto-Medium')),
-                InkWell(
-                  child: Icon(Icons.clear,
-                      color: _isDark
-                          ? Colors.grey[400]
-                          : Color.fromRGBO(0, 0, 0, 0.54),
-                      size: 24.0),
-                  //ignore: sdk_version_set_literal
-                  onTap: () => {Navigator.of(context).pop()},
-                )
-              ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Draw your signature',
+                      style: TextStyle(
+                          color: textColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Roboto-Medium')),
+                  InkWell(
+                    //ignore: sdk_version_set_literal
+                    onTap: () => {Navigator.of(context).pop()},
+                    child: Icon(Icons.clear,
+                        color: _isDark
+                            ? Colors.grey[400]
+                            : Color.fromRGBO(0, 0, 0, 0.54),
+                        size: 24.0),
+                  )
+                ],
+              ),
               titlePadding: EdgeInsets.all(16.0),
               content: SingleChildScrollView(
                 child: Container(
-                    child: Column(children: [
+                  width: MediaQuery.of(context).size.width < 306
+                      ? MediaQuery.of(context).size.width
+                      : 306,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       Container(
+                        width: MediaQuery.of(context).size.width < 306
+                            ? MediaQuery.of(context).size.width
+                            : 306,
+                        height: 172,
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(color: _getBorderColor()!, width: 1),
+                        ),
                         child: SfSignaturePad(
                             minimumStrokeWidth: _minWidth,
                             maximumStrokeWidth: _maxWidth,
@@ -165,62 +184,65 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                             backgroundColor: _backgroundColor,
                             onSignStart: _handleOnSignStart,
                             key: _signaturePadKey),
-                        width: MediaQuery.of(context).size.width < 306
-                            ? MediaQuery.of(context).size.width
-                            : 306,
-                        height: 172,
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: _getBorderColor(), width: 1),
-                        ),
                       ),
                       SizedBox(height: 24),
-                      Row(children: <Widget>[
-                        Text(
-                          'Pen Color',
-                          style: TextStyle(
-                              color: textColor,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: 'Roboto-Regular'),
-                        ),
-                        Container(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Pen Color',
+                            style: TextStyle(
+                                color: textColor,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Roboto-Regular'),
+                          ),
+                          Container(
+                            width: 124,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: _addStrokeColorPalettes(setState),
                             ),
-                            width: 124)
-                      ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
-                    ], mainAxisAlignment: MainAxisAlignment.center),
-                    width: MediaQuery.of(context).size.width < 306
-                        ? MediaQuery.of(context).size.width
-                        : 306),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
               contentPadding:
                   EdgeInsets.symmetric(vertical: 0, horizontal: 12.0),
               actionsPadding: EdgeInsets.all(8.0),
               buttonPadding: EdgeInsets.zero,
               actions: [
-                FlatButton(
-                    onPressed: _handleClearButtonPressed,
-                    child: const Text(
-                      'CLEAR',
+                TextButton(
+                  onPressed: _handleClearButtonPressed,
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        model.currentPaletteColor),
+                  ),
+                  child: const Text(
+                    'CLEAR',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Roboto-Medium'),
+                  ),
+                ),
+                SizedBox(width: 8.0),
+                TextButton(
+                  onPressed: () {
+                    _handleSaveButtonPressed();
+                    Navigator.of(context).pop();
+                  },
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        model.currentPaletteColor),
+                  ),
+                  child: const Text('SAVE',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontFamily: 'Roboto-Medium'),
-                    ),
-                    textColor: model.currentPaletteColor),
-                SizedBox(width: 8.0),
-                FlatButton(
-                    onPressed: () {
-                      _handleSaveButtonPressed();
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('SAVE',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Roboto-Medium')),
-                    textColor: model.currentPaletteColor)
+                          fontFamily: 'Roboto-Medium')),
+                )
               ],
             );
           },
@@ -230,24 +252,25 @@ class _GettingStartedSignaturePadState extends SampleViewState {
   }
 
   void _handleClearButtonPressed() {
-    _signaturePadKey.currentState.clear();
+    _signaturePadKey.currentState!.clear();
     _isSigned = false;
   }
 
   void _handleSaveButtonPressed() async {
-    Uint8List data;
+    late Uint8List data;
 
     if (kIsWeb) {
-      RenderSignaturePad renderSignaturePad =
-          _signaturePadKey.currentState.context.findRenderObject();
+      final RenderSignaturePad renderSignaturePad =
+          // ignore: avoid_as
+          _signaturePadKey.currentState!.context.findRenderObject()
+              as RenderSignaturePad;
       data =
           await ImageConverter.toImage(renderSignaturePad: renderSignaturePad);
     } else {
       final imageData =
-          await _signaturePadKey.currentState.toImage(pixelRatio: 3.0);
-      if (imageData != null) {
-        final bytes =
-            await imageData.toByteData(format: ui.ImageByteFormat.png);
+          await _signaturePadKey.currentState!.toImage(pixelRatio: 3.0);
+      final bytes = await imageData.toByteData(format: ui.ImageByteFormat.png);
+      if (bytes != null) {
         data = bytes.buffer.asUint8List();
       }
     }
@@ -261,6 +284,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
 
   Widget _getInvoiceHeader() {
     return Container(
+      height: 60,
       child: Center(
         child: Text(
           'INVOICE',
@@ -270,77 +294,110 @@ class _GettingStartedSignaturePadState extends SampleViewState {
               fontWeight: FontWeight.bold),
         ),
       ),
-      height: 60,
     );
   }
 
   Widget _getProductDetails() {
     return Column(children: <Widget>[
       Container(
-          child: IgnorePointer(
-              child: SfDataGridTheme(
-                data: SfDataGridThemeData(
-                  headerStyle: DataGridHeaderCellStyle(
-                      textStyle: TextStyle(
+        padding: EdgeInsets.all(20),
+        height: 250,
+        child: IgnorePointer(
+          ignoring: true,
+          child: SfDataGridTheme(
+            data: SfDataGridThemeData(
+              brightness: _isDark ? Brightness.dark : Brightness.light,
+              headerColor: Colors.transparent,
+              gridLineStrokeWidth: 1,
+              gridLineColor: _isDark ? Colors.grey[850] : Colors.grey[200],
+            ),
+            child: SfDataGrid(
+              source: _productDataSource,
+              columnWidthMode: ColumnWidthMode.fill,
+              columns: [
+                GridTextColumn(
+                  columnName: 'name',
+                  label: Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.fromLTRB(10.0, 5.0, 0, 5.0),
+                    color: Colors.transparent,
+                    child: Text(
+                      'Product',
+                      softWrap: true,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
                           fontWeight: FontWeight.bold, color: _getTextColor()),
-                      backgroundColor: Colors.transparent),
-                  gridLineStrokeWidth: 1,
-                  gridLineColor: _isDark ? Colors.grey[850] : Colors.grey[200],
-                  cellStyle: DataGridCellStyle(
-                      textStyle: TextStyle(
-                          fontSize: _fontSizeRegular, color: _getTextColor()),
-                      backgroundColor: Colors.transparent),
+                    ),
+                  ),
                 ),
-                child: SfDataGrid(
-                  source: _productDataSource,
-                  columnWidthMode: ColumnWidthMode.fill,
-                  columns: [
-                    GridTextColumn(
-                        mappingName: 'name',
-                        headerText: 'Product',
-                        columnWidthMode: ColumnWidthMode.cells,
-                        headerTextSoftWrap: true,
-                        headerTextOverflow: TextOverflow.clip,
-                        padding: EdgeInsets.fromLTRB(10.0, 5.0, 0, 5.0)),
-                    GridNumericColumn(
-                        mappingName: 'price',
-                        headerText: 'Price',
-                        headerTextSoftWrap: true,
-                        headerTextOverflow: TextOverflow.clip),
-                    GridNumericColumn(
-                        mappingName: 'quantity',
-                        headerText: 'Quantity',
-                        headerTextSoftWrap: true,
-                        headerTextOverflow: TextOverflow.clip,
-                        padding: EdgeInsets.all(8)),
-                    GridNumericColumn(
-                        mappingName: 'total',
-                        headerText: 'Total',
-                        headerTextSoftWrap: true,
-                        headerTextOverflow: TextOverflow.clip)
-                  ],
+                GridTextColumn(
+                  columnName: 'price',
+                  label: Container(
+                    padding: EdgeInsets.all(8),
+                    alignment: Alignment.centerRight,
+                    color: Colors.transparent,
+                    child: Text(
+                      'Price',
+                      overflow: TextOverflow.clip,
+                      softWrap: true,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: _getTextColor()),
+                    ),
+                  ),
                 ),
-              ),
-              ignoring: true),
-          padding: EdgeInsets.all(20),
-          height: 250),
-      Align(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(0.0, 0, 20.0, 0),
-            child: Text('Grand Total : \$1220.89',
-                textScaleFactor: 1.0,
-                style: TextStyle(
-                    fontSize: _fontSizeRegular,
-                    color: _getTextColor(),
-                    fontWeight: FontWeight.w900),
-                textAlign: TextAlign.end),
+                GridTextColumn(
+                  columnName: 'quantity',
+                  label: Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.all(8),
+                    color: Colors.transparent,
+                    child: Text(
+                      'Quantity',
+                      softWrap: true,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: _getTextColor()),
+                    ),
+                  ),
+                ),
+                GridTextColumn(
+                  columnName: 'total',
+                  label: Container(
+                    padding: EdgeInsets.all(8),
+                    alignment: Alignment.centerRight,
+                    color: Colors.transparent,
+                    child: Text(
+                      'Total',
+                      overflow: TextOverflow.clip,
+                      softWrap: true,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: _getTextColor()),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
-          alignment: Alignment.centerRight),
+        ),
+      ),
+      Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(0.0, 0, 20.0, 0),
+          child: Text('Grand Total : \$1220.89',
+              textScaleFactor: 1.0,
+              style: TextStyle(
+                  fontSize: _fontSizeRegular,
+                  color: _getTextColor(),
+                  fontWeight: FontWeight.w900),
+              textAlign: TextAlign.end),
+        ),
+      ),
     ]);
   }
 
-  Color _getTextColor() => _isDark ? Colors.grey[400] : Colors.grey[700];
-  Color _getBorderColor() => _isDark ? Colors.grey[500] : Colors.grey[350];
+  Color? _getTextColor() => _isDark ? Colors.grey[400] : Colors.grey[700];
+  Color? _getBorderColor() => _isDark ? Colors.grey[500] : Colors.grey[350];
 
   Widget _getBillingDetails() {
     final DateTime now = DateTime.now();
@@ -348,133 +405,135 @@ class _GettingStartedSignaturePadState extends SampleViewState {
     final String formattedTime = formatter.format(now);
 
     return Container(
-        child: Padding(
-          child: Row(
+      height: 150,
+      child: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  children: [
-                    Text(
-                      'Bill To:',
-                      textScaleFactor: 1.0,
-                      style: TextStyle(
-                          fontSize: _fontSizeRegular,
-                          color: _getTextColor(),
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      'Abraham Swearegin,',
-                      textScaleFactor: 1.0,
-                      style: TextStyle(
-                          fontSize: _fontSizeRegular, color: _getTextColor()),
-                    ),
-                    Text(
-                      '9920 Bridge Parkway,',
-                      textScaleFactor: 1.0,
-                      style: TextStyle(
-                          fontSize: _fontSizeRegular, color: _getTextColor()),
-                    ),
-                    Text(
-                      'San Mateo, California,',
-                      textScaleFactor: 1.0,
-                      style: TextStyle(
-                          fontSize: _fontSizeRegular, color: _getTextColor()),
-                    ),
-                    Text(
-                      'United States.',
-                      textScaleFactor: 1.0,
-                      style: TextStyle(
-                          fontSize: _fontSizeRegular, color: _getTextColor()),
-                    ),
-                    Text(
-                      '9365550136',
-                      textScaleFactor: 1.0,
-                      style: TextStyle(
-                          fontSize: _fontSizeRegular, color: _getTextColor()),
-                    ),
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Text(
+                  'Bill To:',
+                  textScaleFactor: 1.0,
+                  style: TextStyle(
+                      fontSize: _fontSizeRegular,
+                      color: _getTextColor(),
+                      fontWeight: FontWeight.bold),
                 ),
-                Column(
-                    children: [
-                      Text('Invoice No: 2058557939',
-                          textScaleFactor: 1.0,
-                          style: TextStyle(
-                              fontSize: _fontSizeRegular,
-                              color: _getTextColor()),
-                          textAlign: TextAlign.end),
-                      SizedBox(height: 5),
-                      Text("Date: " + formattedTime,
-                          textScaleFactor: 1.0,
-                          style: TextStyle(
-                              fontSize: _fontSizeRegular,
-                              color: _getTextColor()),
-                          textAlign: TextAlign.end),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end)
+                SizedBox(height: 2),
+                Text(
+                  'Abraham Swearegin,',
+                  textScaleFactor: 1.0,
+                  style: TextStyle(
+                      fontSize: _fontSizeRegular, color: _getTextColor()),
+                ),
+                Text(
+                  '9920 Bridge Parkway,',
+                  textScaleFactor: 1.0,
+                  style: TextStyle(
+                      fontSize: _fontSizeRegular, color: _getTextColor()),
+                ),
+                Text(
+                  'San Mateo, California,',
+                  textScaleFactor: 1.0,
+                  style: TextStyle(
+                      fontSize: _fontSizeRegular, color: _getTextColor()),
+                ),
+                Text(
+                  'United States.',
+                  textScaleFactor: 1.0,
+                  style: TextStyle(
+                      fontSize: _fontSizeRegular, color: _getTextColor()),
+                ),
+                Text(
+                  '9365550136',
+                  textScaleFactor: 1.0,
+                  style: TextStyle(
+                      fontSize: _fontSizeRegular, color: _getTextColor()),
+                ),
               ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start),
-          padding: EdgeInsets.all(20.0),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text('Invoice No: 2058557939',
+                    textScaleFactor: 1.0,
+                    style: TextStyle(
+                        fontSize: _fontSizeRegular, color: _getTextColor()),
+                    textAlign: TextAlign.end),
+                SizedBox(height: 5),
+                Text('Date: ' + formattedTime,
+                    textScaleFactor: 1.0,
+                    style: TextStyle(
+                        fontSize: _fontSizeRegular, color: _getTextColor()),
+                    textAlign: TextAlign.end),
+              ],
+            )
+          ],
         ),
-        height: 150);
+      ),
+    );
   }
 
   Widget _getBottomView() {
     return Expanded(
       child: Container(
-          child: Row(
-              children: [
-                InkWell(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: _getBorderColor()),
-                    ),
-                    child: _isSigned
-                        ? Image.memory(_signatureData)
-                        : Center(
-                            child: Text(
-                              'Tap here to sign',
-                              textScaleFactor: 1.0,
-                              style: TextStyle(
-                                  fontSize: _fontSizeRegular,
-                                  fontWeight: FontWeight.bold,
-                                  color: _getTextColor()),
-                            ),
-                          ),
-                    height: 78,
-                    width: 138,
-                  ),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  //ignore: sdk_version_set_literal
-                  onTap: () => {_showPopup()},
+        padding: EdgeInsets.fromLTRB(20.0, 20, 20.0, 10),
+        color: Colors.transparent,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              //ignore: sdk_version_set_literal
+              onTap: () => {_showPopup()},
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: _getBorderColor()!),
                 ),
-                Column(
-                    children: [
-                      Text('800 Interchange Blvd.',
+                height: 78,
+                width: 138,
+                child: _isSigned
+                    ? Image.memory(_signatureData)
+                    : Center(
+                        child: Text(
+                          'Tap here to sign',
                           textScaleFactor: 1.0,
                           style: TextStyle(
                               fontSize: _fontSizeRegular,
+                              fontWeight: FontWeight.bold,
                               color: _getTextColor()),
-                          textAlign: TextAlign.end),
-                      SizedBox(height: 5),
-                      Text('Austin, TX 78721',
-                          textScaleFactor: 1.0,
-                          style: TextStyle(
-                              fontSize: _fontSizeRegular,
-                              color: _getTextColor()),
-                          textAlign: TextAlign.end),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end)
-              ],
+                        ),
+                      ),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween),
-          padding: EdgeInsets.fromLTRB(20.0, 20, 20.0, 10),
-          color: Colors.transparent),
+              children: [
+                Text('800 Interchange Blvd.',
+                    textScaleFactor: 1.0,
+                    style: TextStyle(
+                        fontSize: _fontSizeRegular, color: _getTextColor()),
+                    textAlign: TextAlign.end),
+                SizedBox(height: 5),
+                Text('Austin, TX 78721',
+                    textScaleFactor: 1.0,
+                    style: TextStyle(
+                        fontSize: _fontSizeRegular, color: _getTextColor()),
+                    textAlign: TextAlign.end),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -483,48 +542,48 @@ class _GettingStartedSignaturePadState extends SampleViewState {
     final double _screenWidth = MediaQuery.of(context).size.width;
     //ignore: unused_local_variable
     final double _screenHeight = MediaQuery.of(context).size.height;
-    _isDark = model.themeData.brightness == Brightness.dark;
+    _isDark = _productDataSource.isDark =
+        Theme.of(context).brightness == Brightness.dark;
     _strokeColors[0] = _isDark
         ? const Color.fromRGBO(255, 255, 255, 1)
         : const Color.fromRGBO(0, 0, 0, 1);
     _strokeColor = _strokeColors[_selectedPenIndex];
 
     return Container(
-        child: Center(
-          child: SingleChildScrollView(
-              child: Container(
-                  child: Column(children: [
-                    _getInvoiceHeader(),
-                    _getBillingDetails(),
-                    _getProductDetails(),
-                    _getBottomView()
-                  ]),
-                  width:
-                      kIsWeb ? 500 : (_screenWidth > 400 ? 400 : _screenWidth),
-                  height: 625,
-                  margin: kIsWeb ? EdgeInsets.all(10.0) : null,
-                  decoration: kIsWeb
-                      ? BoxDecoration(
-                          color:
-                              _isDark ? model.webBackgroundColor : Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: _isDark
-                                  ? Colors.black.withOpacity(0.3)
-                                  : Colors.grey.withOpacity(0.3),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        )
-                      : null)),
-        ),
-        color: _isDark
-            ? Colors.transparent
-            : const Color.fromRGBO(250, 250, 250, 1));
+      color:
+          _isDark ? Colors.transparent : const Color.fromRGBO(250, 250, 250, 1),
+      child: Center(
+        child: SingleChildScrollView(
+            child: Container(
+          width:
+              _isWebOrDesktop ? 500 : (_screenWidth > 400 ? 400 : _screenWidth),
+          height: 625,
+          margin: _isWebOrDesktop ? EdgeInsets.all(10.0) : null,
+          decoration: _isWebOrDesktop
+              ? BoxDecoration(
+                  color: _isDark ? model.webBackgroundColor : Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: _isDark
+                          ? Colors.black.withOpacity(0.3)
+                          : Colors.grey.withOpacity(0.3),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                )
+              : null,
+          child: Column(children: [
+            _getInvoiceHeader(),
+            _getBillingDetails(),
+            _getProductDetails(),
+            _getBottomView()
+          ]),
+        )),
+      ),
+    );
   }
 
   @override
@@ -533,11 +592,12 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(shrinkWrap: true, children: <Widget>[
         Padding(
-            child: Text(
-              'Minimum Width',
-              style: TextStyle(fontSize: 16.0, color: model.textColor),
-            ),
-            padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
+          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+          child: Text(
+            'Minimum Width',
+            style: TextStyle(fontSize: 16.0, color: model.textColor),
+          ),
+        ),
         SizedBox(height: 4),
         SfSliderTheme(
             data: SfSliderThemeData(
@@ -570,11 +630,12 @@ class _GettingStartedSignaturePadState extends SampleViewState {
             )),
         SizedBox(height: 16),
         Padding(
-            child: Text(
-              'Maximum Width',
-              style: TextStyle(fontSize: 16.0, color: model.textColor),
-            ),
-            padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
+          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+          child: Text(
+            'Maximum Width',
+            style: TextStyle(fontSize: 16.0, color: model.textColor),
+          ),
+        ),
         SizedBox(height: 4),
         SfSliderTheme(
             data: SfSliderThemeData(
@@ -613,9 +674,11 @@ class _GettingStartedSignaturePadState extends SampleViewState {
 
 class _Product {
   const _Product(
-      {this.productId, this.name, this.price, this.quantity, this.total});
+      {required this.name,
+      required this.price,
+      required this.quantity,
+      required this.total});
 
-  final String productId;
   final String name;
   final double price;
   final int quantity;
@@ -623,30 +686,87 @@ class _Product {
 }
 
 class _ProductDataSource extends DataGridSource {
-  @override
-  List<Object> get dataSource => _products;
+  _ProductDataSource(List<_Product> products) {
+    _products = products.map<DataGridRow>((e) {
+      return DataGridRow(cells: [
+        DataGridCell<String>(
+          columnName: 'name',
+          value: e.name,
+        ),
+        DataGridCell<double>(
+          columnName: 'price',
+          value: e.price,
+        ),
+        DataGridCell<int>(
+          columnName: 'quantity',
+          value: e.quantity,
+        ),
+        DataGridCell<double>(
+          columnName: 'total',
+          value: e.total,
+        ),
+      ]);
+    }).toList();
+  }
+
+  late bool isDark;
+
+  late List<DataGridRow> _products;
 
   @override
-  getCellValue(int rowIndex, String columnName) {
-    switch (columnName) {
-      case 'productId':
-        return _products[rowIndex].productId;
-        break;
-      case 'name':
-        return _products[rowIndex].name;
-        break;
-      case 'price':
-        return _products[rowIndex].price;
-        break;
-      case 'quantity':
-        return _products[rowIndex].quantity;
-        break;
-      case 'total':
-        return _products[rowIndex].total;
-        break;
-      default:
-        return ' ';
-        break;
-    }
+  List<DataGridRow> get rows => _products;
+
+  Color? _getTextColor() => isDark ? Colors.grey[400] : Colors.grey[700];
+
+  final double _fontSizeRegular = 12;
+
+  @override
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(cells: [
+      Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.fromLTRB(10.0, 5.0, 0, 5.0),
+        color: Colors.transparent,
+        child: Text(
+          row.getCells()[0].value.toString(),
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          style: TextStyle(fontSize: _fontSizeRegular, color: _getTextColor()),
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8),
+        color: Colors.transparent,
+        child: Text(
+          row.getCells()[1].value.toString(),
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          style: TextStyle(fontSize: _fontSizeRegular, color: _getTextColor()),
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8),
+        color: Colors.transparent,
+        child: Text(
+          row.getCells()[2].value.toString(),
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          style: TextStyle(fontSize: _fontSizeRegular, color: _getTextColor()),
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8),
+        color: Colors.transparent,
+        child: Text(
+          row.getCells()[3].value.toString(),
+          softWrap: true,
+          overflow: TextOverflow.clip,
+          style: TextStyle(fontSize: _fontSizeRegular, color: _getTextColor()),
+        ),
+      ),
+    ]);
   }
 }

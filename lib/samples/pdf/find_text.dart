@@ -39,39 +39,56 @@ class _FindTextPdfState extends SampleViewState {
               const SizedBox(height: 20, width: 30),
               Center(
                   child: SizedBox(
-                      child: TextFormField(
-                          decoration: InputDecoration(
-                              labelText: 'Enter the text to find',
-                              labelStyle: TextStyle(
-                                  color: model.themeData.brightness ==
-                                          Brightness.light
-                                      ? Colors.grey
-                                      : Colors.lightBlue)),
-                          controller: _nameController,
-                          style: TextStyle(color: model.textColor)),
-                      height: 60,
-                      width: 300)),
+                height: 60,
+                width: 300,
+                child: TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Enter the text to find',
+                        labelStyle: TextStyle(
+                            color:
+                                model.themeData.brightness == Brightness.light
+                                    ? Colors.grey
+                                    : Colors.lightBlue)),
+                    controller: _nameController,
+                    style: TextStyle(color: model.textColor)),
+              )),
               const SizedBox(height: 20, width: 30),
               Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    FlatButton(
-                        child: Text('View Template',
-                            style: TextStyle(color: Colors.white)),
-                        color: model.backgroundColor,
-                        onPressed: _viewTemplate),
+                    TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            model.backgroundColor),
+                        padding: model.isMobile
+                            ? null
+                            : MaterialStateProperty.all(EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15)),
+                      ),
+                      onPressed: _viewTemplate,
+                      child: Text('View Template',
+                          style: TextStyle(color: Colors.white)),
+                    ),
                     SizedBox(
                       height: 10,
                       width: 20,
                     ),
-                    FlatButton(
-                        child: const Text('Find and Highlight',
-                            style: TextStyle(color: Colors.white)),
-                        color: model.backgroundColor,
-                        onPressed: _generatePDF)
+                    TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            model.backgroundColor),
+                        padding: model.isMobile
+                            ? null
+                            : MaterialStateProperty.all(EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15)),
+                      ),
+                      onPressed: _generatePDF,
+                      child: const Text('Find and Highlight',
+                          style: TextStyle(color: Colors.white)),
+                    )
                   ],
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                 ),
               )
             ],
@@ -82,9 +99,9 @@ class _FindTextPdfState extends SampleViewState {
   }
 
   Future<void> _viewTemplate() async {
-    List<int> documentBytes =
+    final List<int> documentBytes =
         await _readDocumentData('pdf_succinctly_template.pdf');
-    await FileSaveHelper.saveAndLaunchFile(documentBytes, 'PDF Succinctly.pdf');
+    await FileSaveHelper.saveAndLaunchFile(documentBytes, 'pdf_succinctly.pdf');
   }
 
   Future<void> _generatePDF() async {
@@ -93,21 +110,21 @@ class _FindTextPdfState extends SampleViewState {
         inputBytes: await _readDocumentData('pdf_succinctly_template.pdf'));
 
     //Create PDF text extractor to find text.
-    PdfTextExtractor extractor = PdfTextExtractor(document);
+    final PdfTextExtractor extractor = PdfTextExtractor(document);
 
     //Find the text
-    List<MatchedItem> result = extractor.findText([_nameController.text]);
+    final List<MatchedItem> result = extractor.findText([_nameController.text]);
 
-    if (result.length == 0) {
+    if (result.isEmpty) {
       document.dispose();
       _showDialog(_nameController.text);
     } else {
       //Highlight the searched text from the document.
       for (int i = 0; i < result.length; i++) {
-        MatchedItem item = result[i];
+        final MatchedItem item = result[i];
 
         //Get page.
-        PdfPage page = document.pages[item.pageIndex];
+        final PdfPage page = document.pages[item.pageIndex];
 
         //Set transparency to the page graphics.
         page.graphics.save();
@@ -120,11 +137,11 @@ class _FindTextPdfState extends SampleViewState {
       }
 
       //Save and dispose the document.
-      List<int> bytes = document.save();
+      final List<int> bytes = document.save();
       document.dispose();
 
       //Launch file.
-      await FileSaveHelper.saveAndLaunchFile(bytes, 'Find Text.pdf');
+      await FileSaveHelper.saveAndLaunchFile(bytes, 'find_text.pdf');
     }
   }
 
@@ -145,11 +162,11 @@ class _FindTextPdfState extends SampleViewState {
               Text(' is not found.')
             ]),
             actions: [
-              FlatButton(
-                child: Text('Close'),
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+                child: Text('Close'),
               )
             ],
           );

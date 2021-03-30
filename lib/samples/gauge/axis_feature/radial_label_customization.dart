@@ -22,11 +22,11 @@ class _RadialLabelCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialLabelCustomization();
+    return _buildRadialLabelCustomization();
   }
 
   /// Returns the customized axis label gauge
-  SfRadialGauge _getRadialLabelCustomization() {
+  SfRadialGauge _buildRadialLabelCustomization() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(

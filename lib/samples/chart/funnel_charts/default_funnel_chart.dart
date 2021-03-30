@@ -26,103 +26,85 @@ class _FunnelDefaultState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Gap ratio  ',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    maxValue: 0.5,
-                    initialValue: gapRatio,
-                    onChanged: (double val) => setState(() {
-                      gapRatio = val;
-                    }),
-                    step: 0.1,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                ),
-              ],
+          ListTile(
+            title:
+                Text('Gap ratio  ', style: TextStyle(color: model.textColor)),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.03 * screenWidth),
+              width: 0.5 * screenWidth,
+              child: CustomDirectionalButtons(
+                maxValue: 0.5,
+                initialValue: gapRatio,
+                onChanged: (double val) => setState(() {
+                  gapRatio = val;
+                }),
+                step: 0.1,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
             ),
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Neck height  ',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    maxValue: 50,
-                    initialValue: neckHeight.toDouble(),
-                    onChanged: (double val) => setState(() {
-                      neckHeight = val.toInt();
-                    }),
-                    step: 10,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                ),
-              ],
+          ListTile(
+            title:
+                Text('Neck height  ', style: TextStyle(color: model.textColor)),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.03 * screenWidth),
+              width: 0.5 * screenWidth,
+              child: CustomDirectionalButtons(
+                maxValue: 50,
+                initialValue: neckHeight.toDouble(),
+                onChanged: (double val) => setState(() {
+                  neckHeight = val.toInt();
+                }),
+                step: 10,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
             ),
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Neck width',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    maxValue: 50,
-                    initialValue: neckWidth.toDouble(),
-                    onChanged: (double val) => setState(() {
-                      neckWidth = val.toInt();
-                    }),
-                    step: 10,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                ),
-              ],
+          ListTile(
+            title: Text('Neck width', style: TextStyle(color: model.textColor)),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.03 * screenWidth),
+              width: 0.5 * screenWidth,
+              child: CustomDirectionalButtons(
+                maxValue: 50,
+                initialValue: neckWidth.toDouble(),
+                onChanged: (double val) => setState(() {
+                  neckWidth = val.toInt();
+                }),
+                step: 10,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
             ),
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Explode',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                const Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
-                Container(
-                    width: 90,
-                    child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
-                        value: explode,
-                        onChanged: (bool value) {
-                          setState(() {
-                            explode = value;
-                            stateSetter(() {});
-                          });
-                        }))
-              ],
-            ),
-          ),
+          ListTile(
+              title: Text('Explode',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                  width: 0.5 * screenWidth,
+                  child: CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      activeColor: model.backgroundColor,
+                      value: explode,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          explode = value!;
+                          stateSetter(() {});
+                        });
+                      }))),
         ],
       );
     });
@@ -130,11 +112,11 @@ class _FunnelDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultFunnelChart();
+    return _buildDefaultFunnelChart();
   }
 
   ///Get the default funnel chart
-  SfFunnelChart _getDefaultFunnelChart() {
+  SfFunnelChart _buildDefaultFunnelChart() {
     return SfFunnelChart(
       smartLabelMode: SmartLabelMode.shift,
       title: ChartTitle(text: isCardView ? '' : 'Website conversion rate'),
@@ -146,10 +128,10 @@ class _FunnelDefaultState extends SampleViewState {
   /// This method returns the funnel series and
   /// its correspoding values to chart.
   FunnelSeries<ChartSampleData, String> _getFunnelSeries() {
-    gapRatio = gapRatio ?? 0;
-    neckWidth = neckWidth ?? 20;
-    neckHeight = neckHeight ?? 20;
-    explode = explode ?? true;
+    gapRatio = gapRatio;
+    neckWidth = neckWidth;
+    neckHeight = neckHeight;
+    explode = explode;
     final List<ChartSampleData> pieData = <ChartSampleData>[
       ChartSampleData(x: 'Purchased ', y: 150),
       ChartSampleData(x: 'Requested price list', y: 300),

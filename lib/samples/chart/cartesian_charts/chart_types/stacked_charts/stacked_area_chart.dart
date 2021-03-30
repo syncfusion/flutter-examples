@@ -20,14 +20,21 @@ class StackedAreaChart extends SampleView {
 /// State class of the stacked  area chart.
 class _StackedAreaChartState extends SampleViewState {
   _StackedAreaChartState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getStackedAreaChart();
+    return _buildStackedAreaChart();
   }
 
   /// Returns the cartesian stacked area chart.
-  SfCartesianChart _getStackedAreaChart() {
+  SfCartesianChart _buildStackedAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -43,8 +50,7 @@ class _StackedAreaChartState extends SampleViewState {
           labelFormat: '{value}B',
           majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedAreaSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

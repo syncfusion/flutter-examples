@@ -23,7 +23,7 @@ class AnimationStepLineDefault extends SampleView {
 
 class _AnimationStepLineDefaultState extends SampleViewState {
   _AnimationStepLineDefaultState();
-  Timer timer;
+  Timer? timer;
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +33,11 @@ class _AnimationStepLineDefaultState extends SampleViewState {
         _getChartData();
       });
     });
-    return _getAnimationStepLineChart();
+    return _buildAnimationStepLineChart();
   }
 
   /// get the stepline chart sample with dynamically updated data points.
-  SfCartesianChart _getAnimationStepLineChart() {
+  SfCartesianChart _buildAnimationStepLineChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
@@ -62,10 +62,10 @@ class _AnimationStepLineDefaultState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    timer.cancel();
+    timer?.cancel();
   }
 
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }
@@ -80,7 +80,7 @@ class _AnimationStepLineDefaultState extends SampleViewState {
   }
 }
 
-List<_ChartData> _chartData;
+late List<_ChartData> _chartData;
 
 class _ChartData {
   _ChartData(this.x, this.y);

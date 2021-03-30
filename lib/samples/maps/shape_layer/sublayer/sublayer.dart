@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ///Map import
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Core theme import
@@ -23,11 +24,11 @@ class MapSublayerPage extends SampleView {
 
 class _MapSublayerPageState extends SampleViewState
     with SingleTickerProviderStateMixin {
-  MapShapeSource _mapSource;
-  MapZoomPanBehavior _zoomPanBehavior;
-  bool _isDesktop;
-  List<String> _state;
-  ThemeData _themeData;
+  late MapShapeSource _mapSource;
+  late MapZoomPanBehavior _zoomPanBehavior;
+  late bool _isDesktop;
+  late List<String> _state;
+  late ThemeData _themeData;
 
   @override
   void initState() {
@@ -65,15 +66,15 @@ class _MapSublayerPageState extends SampleViewState
   }
 
   Future<List<List<MapLatLng>>> getJsonData() async {
-    List<List<MapLatLng>> polylines = <List<MapLatLng>>[];
-    String data = await rootBundle.loadString('assets/river.json');
-    dynamic jsonData = json.decode(data);
+    final List<List<MapLatLng>> polylines = <List<MapLatLng>>[];
+    final String data = await rootBundle.loadString('assets/river.json');
+    final dynamic jsonData = json.decode(data);
 
-    int length = (jsonData['geometries']).length;
+    final int length = (jsonData['geometries']).length;
     for (int i = 0; i < length; i++) {
       List<dynamic> polylineData;
       if (jsonData['geometries'][i]['type'] == 'LineString') {
-        List<MapLatLng> riverPoints = <MapLatLng>[];
+        final List<MapLatLng> riverPoints = <MapLatLng>[];
         polylineData = jsonData['geometries'][i]['coordinates'];
         for (int j = 0; j < polylineData.length; j++) {
           riverPoints.add(MapLatLng(polylineData[j][1], polylineData[j][0]));
@@ -81,13 +82,13 @@ class _MapSublayerPageState extends SampleViewState
         polylines.add(riverPoints);
       } else {
         polylineData = <dynamic>[];
-        int length = (jsonData['geometries'][i]['coordinates']).length;
+        final int length = (jsonData['geometries'][i]['coordinates']).length;
         for (int j = 0; j < length; j++) {
           polylineData.add(jsonData['geometries'][i]['coordinates'][j]);
         }
 
         for (int k = 0; k < polylineData.length; k++) {
-          List<MapLatLng> riverPoints = <MapLatLng>[];
+          final List<MapLatLng> riverPoints = <MapLatLng>[];
           for (int index = 0; index < polylineData[k].length; index++) {
             riverPoints.add(MapLatLng(
                 polylineData[k][index][1], polylineData[k][index][0]));
@@ -103,19 +104,20 @@ class _MapSublayerPageState extends SampleViewState
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context);
-    _isDesktop = model.isWeb ||
+    _isDesktop = model.isWebFullView ||
         _themeData.platform == TargetPlatform.macOS ||
-        _themeData.platform == TargetPlatform.windows;
+        _themeData.platform == TargetPlatform.windows ||
+        _themeData.platform == TargetPlatform.linux;
     return Scaffold(
         backgroundColor:
             _isDesktop ? model.cardThemeColor : model.cardThemeColor,
         body: MediaQuery.of(context).orientation == Orientation.portrait ||
                 _isDesktop
-            ? _getMapsWidget()
-            : SingleChildScrollView(child: _getMapsWidget()));
+            ? _buildMapsWidget()
+            : SingleChildScrollView(child: _buildMapsWidget()));
   }
 
-  Widget _getMapsWidget() {
+  Widget _buildMapsWidget() {
     final bool isLightTheme = _themeData.brightness == Brightness.light;
     return FutureBuilder(
         future: getJsonData(),
@@ -123,26 +125,30 @@ class _MapSublayerPageState extends SampleViewState
           if (snapchat.hasData) {
             final List<List<MapLatLng>> polylines = snapchat.data;
             return Center(
-              child: Padding(
-                padding: MediaQuery.of(context).orientation ==
-                            Orientation.portrait ||
-                        _isDesktop
-                    ? EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.05,
-                        bottom: MediaQuery.of(context).size.height * 0.05,
-                        right: 10,
-                      )
-                    : const EdgeInsets.only(right: 10, bottom: 15),
-                child: SfMapsTheme(
-                  data: SfMapsThemeData(
-                    shapeHoverColor: Colors.transparent,
-                    shapeHoverStrokeColor: Colors.transparent,
-                  ),
-                  child: SfMaps(
-                    title: const MapTitle(
-                      'Rivers in Australia',
+                child: Padding(
+              padding:
+                  MediaQuery.of(context).orientation == Orientation.portrait ||
+                          _isDesktop
+                      ? EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.05,
+                          bottom: MediaQuery.of(context).size.height * 0.05,
+                          right: 10,
+                        )
+                      : const EdgeInsets.only(right: 10, bottom: 15),
+              child: SfMapsTheme(
+                data: SfMapsThemeData(
+                  shapeHoverColor: Colors.transparent,
+                  shapeHoverStrokeColor: Colors.transparent,
+                ),
+                child: Column(children: [
+                  Padding(
                       padding: EdgeInsets.only(top: 15, bottom: 30),
-                    ),
+                      child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Text('Rivers in Australia',
+                              style: Theme.of(context).textTheme.subtitle1))),
+                  Expanded(
+                      child: SfMaps(
                     layers: <MapLayer>[
                       MapShapeLayer(
                         source: _mapSource,
@@ -174,7 +180,7 @@ class _MapSublayerPageState extends SampleViewState
                         showDataLabels: true,
                         dataLabelSettings: MapDataLabelSettings(
                           overflowMode: MapLabelOverflow.visible,
-                          textStyle: _themeData.textTheme.caption.copyWith(
+                          textStyle: _themeData.textTheme.caption!.copyWith(
                             color: Color.fromRGBO(0, 0, 0, 1),
                           ),
                         ),
@@ -193,12 +199,13 @@ class _MapSublayerPageState extends SampleViewState
                               },
                             ).toSet(),
                             tooltipBuilder: (BuildContext context, int index) {
-                              final String tooltipText = _getTooltipText(index);
+                              final String? tooltipText =
+                                  _getTooltipText(index);
                               if (tooltipText != null) {
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(tooltipText,
-                                      style: model.themeData.textTheme.caption
+                                      style: model.themeData.textTheme.caption!
                                           .copyWith(
                                               color: isLightTheme
                                                   ? Color.fromRGBO(
@@ -207,23 +214,23 @@ class _MapSublayerPageState extends SampleViewState
                                                       10, 10, 10, 1))),
                                 );
                               }
-                              return null;
+                              return SizedBox();
                             },
                           ),
                         ],
                       ),
                     ],
-                  ),
-                ),
+                  )),
+                ]),
               ),
-            );
+            ));
           } else {
             return Container();
           }
         });
   }
 
-  String _getTooltipText(int index) {
+  String? _getTooltipText(int index) {
     if (index == 0) {
       return 'Gwydir';
     } else if (index == 1) {

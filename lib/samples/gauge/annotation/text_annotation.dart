@@ -21,11 +21,11 @@ class _RadialTextAnnotationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialTextAnnotation();
+    return _buildRadialTextAnnotation();
   }
 
   /// Returns the text annotation gauge
-  SfRadialGauge _getRadialTextAnnotation() {
+  SfRadialGauge _buildRadialTextAnnotation() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -33,18 +33,18 @@ class _RadialTextAnnotationState extends SampleViewState {
           showLabels: false,
           startAngle: 180,
           endAngle: 180,
-          radiusFactor: model.isWeb ? 0.8 : 0.9,
+          radiusFactor: model.isWebFullView ? 0.8 : 0.9,
           axisLineStyle: AxisLineStyle(
               // Dash array not supported in web
               thickness: 30,
-              dashArray: model.isWeb ? null : <double>[8, 10]),
+              dashArray: <double>[8, 10]),
         ),
         RadialAxis(
             showTicks: false,
             showLabels: false,
             startAngle: 180,
             endAngle: 50,
-            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                   angle: 270,
@@ -61,14 +61,11 @@ class _RadialTextAnnotationState extends SampleViewState {
             ],
             axisLineStyle: AxisLineStyle(
                 color: const Color(0xFF00A8B5),
-                // Sweep gradient not supported in web
-                gradient: model.isWeb
-                    ? null
-                    : const SweepGradient(
-                        colors: <Color>[Color(0xFF06974A), Color(0xFFF2E41F)],
-                        stops: <double>[0.25, 0.75]),
+                gradient: const SweepGradient(
+                    colors: <Color>[Color(0xFF06974A), Color(0xFFF2E41F)],
+                    stops: <double>[0.25, 0.75]),
                 thickness: 30,
-                dashArray: model.isWeb ? null : <double>[8, 10]))
+                dashArray: <double>[8, 10]))
       ],
     );
   }

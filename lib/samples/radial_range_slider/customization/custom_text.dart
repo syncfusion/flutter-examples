@@ -9,6 +9,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the RadialSlider custom text.
 class RadialRangeSliderCustomText extends SampleView {
+  /// Creates the RadialSlider custom text sample.
   const RadialRangeSliderCustomText(Key key) : super(key: key);
 
   @override
@@ -30,15 +31,14 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
       _firstMarkerSize = 30;
       _annotationFontSize = 20;
     } else {
-      _firstMarkerSize = model.isWeb ? 25 : 20;
-      _annotationFontSize = model.isWeb ? 25 : 15;
+      _firstMarkerSize = model.isWebFullView ? 28 : 20;
+      _annotationFontSize = model.isWebFullView ? 28 : 15;
     }
     return Center(
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
             axisLineStyle: AxisLineStyle(
-                thickness: model.isWeb ? 0.15 : 0.2,
-                thicknessUnit: GaugeSizeUnit.factor),
+                thickness: 0.07, thicknessUnit: GaugeSizeUnit.factor),
             showTicks: false,
             showLabels: true,
             labelOffset: 25,
@@ -48,31 +48,37 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
                 startValue: _firstMarkerValue,
                 sizeUnit: GaugeSizeUnit.factor,
                 color: _rangeColor,
-                endWidth: model.isWeb ? 0.15 : 0.2,
-                startWidth: model.isWeb ? 0.15 : 0.2,
+                endWidth: 0.07,
+                startWidth: 0.07,
               )
             ],
             pointers: <GaugePointer>[
               MarkerPointer(
                 value: _firstMarkerValue,
+                elevation: 5,
                 color: Colors.white,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
                 borderColor: _rangeColor,
-                borderWidth: 9.5,
+                overlayRadius: 0,
+                overlayColor: _rangeColor.withOpacity(0.125),
+                borderWidth: 8.5,
                 markerType: MarkerType.circle,
                 enableDragging: true,
                 onValueChanged: handleFirstPointerValueChanged,
                 onValueChanging: handleFirstPointerValueChanging,
               ),
               MarkerPointer(
-                value: _secondMarkerValue - 1,
+                value: _secondMarkerValue,
+                elevation: 5,
                 onValueChanged: handleSecondPointerValueChanged,
                 onValueChanging: handleSecondPointerValueChanging,
                 enableDragging: true,
                 color: Colors.white,
                 borderColor: _rangeColor,
-                borderWidth: 9.5,
+                overlayRadius: 0,
+                overlayColor: _rangeColor.withOpacity(0.125),
+                borderWidth: 8.5,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
                 markerType: MarkerType.circle,
@@ -80,21 +86,21 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        '$_annotationValue',
-                        style: TextStyle(
-                          fontSize: _annotationFontSize,
-                          fontFamily: 'Times',
-                          fontWeight: FontWeight.bold,
-                        ),
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      '$_annotationValue',
+                      style: TextStyle(
+                        fontSize: _annotationFontSize,
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                  positionFactor: 0.13,
-                  angle: 0)
+                    ),
+                  ],
+                ),
+                positionFactor: 0.09,
+              )
             ])
       ]),
     );
@@ -132,16 +138,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
   void handleSecondPointerValueChanging(ValueChangingArgs args) {
     if (args.value <= _firstMarkerValue ||
         (args.value - _secondMarkerValue).abs() > 10) {
-      if (args.value <= _firstMarkerValue) {
-        if ((args.value - _secondMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _secondMarkerValue = _firstMarkerValue;
-          _firstMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -171,16 +168,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
   void handleFirstPointerValueChanging(ValueChangingArgs args) {
     if (args.value >= _secondMarkerValue ||
         (args.value - _firstMarkerValue).abs() > 10) {
-      if (args.value >= _secondMarkerValue) {
-        if ((args.value - _firstMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _firstMarkerValue = _secondMarkerValue;
-          _secondMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 

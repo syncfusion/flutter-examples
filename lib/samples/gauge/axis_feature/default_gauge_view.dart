@@ -21,11 +21,11 @@ class _RadialGaugeDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultRadialGauge();
+    return _buildDefaultRadialGauge();
   }
 
   /// Returns the default axis gauge
-  SfRadialGauge _getDefaultRadialGauge() {
+  SfRadialGauge _buildDefaultRadialGauge() {
     return SfRadialGauge(
       enableLoadingAnimation: true,
       axes: <RadialAxis>[
@@ -40,7 +40,7 @@ class _RadialGaugeDefaultState extends SampleViewState {
               fontSize: isCardView ? 12 : 14,
             ),
             labelOffset: 25,
-            radiusFactor: model.isWeb ? 0.8 : 0.95,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.95,
             pointers: <GaugePointer>[
               NeedlePointer(
                   needleLength: 0.7,

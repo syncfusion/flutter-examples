@@ -22,8 +22,8 @@ class CustomizedDatePicker extends SampleView {
 class _CustomizedDatePickerState extends SampleViewState {
   _CustomizedDatePickerState();
 
-  List<DateTime> _specialDates;
-  Orientation _deviceOrientation;
+  late List<DateTime> _specialDates;
+  late Orientation _deviceOrientation;
 
   @override
   void initState() {
@@ -57,10 +57,10 @@ class _CustomizedDatePickerState extends SampleViewState {
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     final Widget _datePicker = Card(
       elevation: 10,
-      margin: model.isWeb
+      margin: model.isWebFullView
           ? const EdgeInsets.fromLTRB(30, 60, 30, 0)
           : const EdgeInsets.all(30),
       child: Container(
@@ -72,11 +72,11 @@ class _CustomizedDatePickerState extends SampleViewState {
       backgroundColor: model.themeData == null ||
               model.themeData.brightness == Brightness.light
           ? null
-          : const Color(0x171A21),
+          : const Color(0x00171a21),
       body: Column(children: <Widget>[
         Expanded(
-            flex: model.isWeb ? 9 : 8,
-            child: model.isWeb
+            flex: model.isWebFullView ? 9 : 8,
+            child: model.isWebFullView
                 ? Center(
                     child:
                         Container(width: 400, height: 600, child: _datePicker))
@@ -84,7 +84,7 @@ class _CustomizedDatePickerState extends SampleViewState {
                     Container(height: 450, child: _datePicker)
                   ])),
         Expanded(
-            flex: model.isWeb
+            flex: model.isWebFullView
                 ? 1
                 : model.isMobileResolution &&
                         _deviceOrientation == Orientation.landscape
@@ -97,7 +97,7 @@ class _CustomizedDatePickerState extends SampleViewState {
 
   /// Returns the date range picker based on the properties passed
   SfDateRangePicker _getCustomizedDatePicker(
-      [List<DateTime> specialDates, ThemeData theme]) {
+      List<DateTime> specialDates, ThemeData theme) {
     final bool isDark = theme != null &&
         theme.brightness != null &&
         theme.brightness == Brightness.dark;
@@ -187,16 +187,16 @@ class _MonthCellDecoration extends Decoration {
   const _MonthCellDecoration(
       {this.borderColor,
       this.backgroundColor,
-      this.showIndicator,
+      required this.showIndicator,
       this.indicatorColor});
 
-  final Color borderColor;
-  final Color backgroundColor;
+  final Color? borderColor;
+  final Color? backgroundColor;
   final bool showIndicator;
-  final Color indicatorColor;
+  final Color? indicatorColor;
 
   @override
-  BoxPainter createBoxPainter([VoidCallback onChanged]) {
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
     return _MonthCellDecorationPainter(
         borderColor: borderColor,
         backgroundColor: backgroundColor,
@@ -210,34 +210,34 @@ class _MonthCellDecorationPainter extends BoxPainter {
   _MonthCellDecorationPainter(
       {this.borderColor,
       this.backgroundColor,
-      this.showIndicator,
+      required this.showIndicator,
       this.indicatorColor});
 
-  final Color borderColor;
-  final Color backgroundColor;
+  final Color? borderColor;
+  final Color? backgroundColor;
   final bool showIndicator;
-  final Color indicatorColor;
+  final Color? indicatorColor;
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    final Rect bounds = offset & configuration.size;
+    final Rect bounds = offset & configuration.size!;
     _drawDecoration(canvas, bounds);
   }
 
   void _drawDecoration(Canvas canvas, Rect bounds) {
-    final Paint paint = Paint()..color = backgroundColor;
+    final Paint paint = Paint()..color = backgroundColor!;
     canvas.drawRRect(
         RRect.fromRectAndRadius(bounds, const Radius.circular(5)), paint);
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 1;
     if (borderColor != null) {
-      paint.color = borderColor;
+      paint.color = borderColor!;
       canvas.drawRRect(
           RRect.fromRectAndRadius(bounds, const Radius.circular(5)), paint);
     }
 
     if (showIndicator) {
-      paint.color = indicatorColor;
+      paint.color = indicatorColor!;
       paint.style = PaintingStyle.fill;
       canvas.drawCircle(Offset(bounds.right - 6, bounds.top + 6), 2.5, paint);
     }

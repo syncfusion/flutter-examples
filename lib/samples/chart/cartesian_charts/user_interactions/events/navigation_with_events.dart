@@ -27,9 +27,13 @@ class _NavigationWithEventsState extends SampleViewState {
   double _xLabelsExtent = 20;
   bool _isEnableLabelExtend = false;
   bool _isEnableMaximumLabelWidth = true;
-  List<bool> _isSelected;
+  late List<bool> _isSelected;
+  late TooltipBehavior _tooltipBehavior;
   String _selectedType = 'Maximum label width';
-  List<String> _typeList = <String>['Maximum label width', 'Labels extent'];
+  final List<String> _typeList = <String>[
+    'Maximum label width',
+    'Labels extent'
+  ];
   final List<ChartSampleData> _chartData = <ChartSampleData>[
     ChartSampleData(x: 'Goldin\nFinance 117', y: 597),
     ChartSampleData(x: 'Ping An\nFinance Center', y: 599),
@@ -37,20 +41,27 @@ class _NavigationWithEventsState extends SampleViewState {
     ChartSampleData(x: 'Shanghai\nTower', y: 632),
     ChartSampleData(x: 'Burj\nKhalifa', y: 828)
   ];
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
+      GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState() {
     _isSelected = [true, false];
+    _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        canShowMarker: false,
+        header: '',
+        activationMode: ActivationMode.longPress);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldMessenger(
         key: _scaffoldKey,
-        backgroundColor: model.cardThemeColor,
-        body: _getmaximumLabelWidthChart());
+        child: Scaffold(
+            backgroundColor: model.cardThemeColor,
+            body: _buildmaximumLabelWidthChart()));
   }
 
   @override
@@ -64,19 +75,6 @@ class _NavigationWithEventsState extends SampleViewState {
               alignment: Alignment.center,
               child: ToggleButtons(
                 constraints: BoxConstraints(maxWidth: 150, minHeight: 40),
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: Text(
-                      'Maximum label \nwidth',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: Text('Labels extent', textAlign: TextAlign.center),
-                  )
-                ],
                 onPressed: (int index) {
                   setState(() {
                     for (int buttonIndex = 0;
@@ -90,6 +88,19 @@ class _NavigationWithEventsState extends SampleViewState {
                   });
                 },
                 isSelected: _isSelected,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text(
+                      'Maximum label \nwidth',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text('Labels extent', textAlign: TextAlign.center),
+                  )
+                ],
               )),
           Padding(
             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -164,7 +175,7 @@ class _NavigationWithEventsState extends SampleViewState {
   }
 
   /// Returns the Cartesian chart with sorting options.
-  SfCartesianChart _getmaximumLabelWidthChart() {
+  SfCartesianChart _buildmaximumLabelWidthChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : "World's tallest buildings"),
       plotAreaBorderWidth: 0,
@@ -172,14 +183,14 @@ class _NavigationWithEventsState extends SampleViewState {
         args.text = args.dataPoints[args.pointIndex].y.toString() + ' m';
       },
       onTooltipRender: (TooltipArgs args) {
-        args.text = args.dataPoints[args.pointIndex].x.toString() +
+        args.text = args.dataPoints![args.pointIndex!.toInt()].x.toString() +
             ' : ' +
-            args.dataPoints[args.pointIndex].y.toString() +
+            args.dataPoints![args.pointIndex!.toInt()].y.toString() +
             ' m';
       },
       onDataLabelTapped: (DataLabelTapDetails args) {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          width: model.isWeb
+        _scaffoldKey.currentState?.showSnackBar(SnackBar(
+          width: model.isWebFullView
               ? _measureText(
                       'Data label tapped/clicked. Navigating to the link.')
                   .width
@@ -188,13 +199,13 @@ class _NavigationWithEventsState extends SampleViewState {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5))),
           duration: Duration(milliseconds: 2000),
-          content: Text("Data label tapped/clicked. Navigating to the link."),
+          content: Text('Data label tapped/clicked. Navigating to the link.'),
         ));
         launchHyperLink(args.text);
       },
       onAxisLabelTapped: (AxisLabelTapArgs args) {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          width: model.isWeb
+        _scaffoldKey.currentState?.showSnackBar(SnackBar(
+          width: model.isWebFullView
               ? _measureText(
                       'Axis label tapped/clicked. Navigating to the link.')
                   .width
@@ -203,13 +214,13 @@ class _NavigationWithEventsState extends SampleViewState {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5))),
           duration: Duration(milliseconds: 2000),
-          content: Text("Axis label tapped/clicked. Navigating to the link."),
+          content: Text('Axis label tapped/clicked. Navigating to the link.'),
         ));
         launchHyperLink(args.value.toString());
       },
       onPointTapped: (PointTapArgs args) {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          width: model.isWeb
+        _scaffoldKey.currentState?.showSnackBar(SnackBar(
+          width: model.isWebFullView
               ? _measureText(
                       'Data point tapped/clicked. Navigating to the link.')
                   .width
@@ -218,7 +229,7 @@ class _NavigationWithEventsState extends SampleViewState {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5))),
           duration: Duration(milliseconds: 2000),
-          content: Text("Data point tapped/clicked. Navigating to the link."),
+          content: Text('Data point tapped/clicked. Navigating to the link.'),
         ));
         launchHyperLink(args.pointIndex.toString());
       },
@@ -235,11 +246,7 @@ class _NavigationWithEventsState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultSortingSeries(),
-      tooltipBehavior: TooltipBehavior(
-          enable: true,
-          canShowMarker: false,
-          header: '',
-          activationMode: ActivationMode.longPress),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

@@ -22,22 +22,17 @@ class ShiftScheduler extends SampleView {
 class _ShiftSchedulerState extends SampleViewState {
   _ShiftSchedulerState();
 
-  List<String> _subjectCollection;
-  List<Color> _colorCollection;
-  List<Appointment> _shiftCollection;
-  List<CalendarResource> _employeeCollection;
-  List<TimeRegion> _specialTimeRegions;
-  List<String> _nameCollection;
-  List<String> _userImages;
-  _ShiftDataSource _events;
-  Appointment _selectedAppointment;
-  bool _isAllDay = false;
-  String _subject = '';
-  DateTime _startDate, _endDate;
-  int _selectedColorIndex = 0;
-  List<String> _colorNames;
-  List<String> _timeZoneCollection;
-  CalendarController _calendarController;
+  final List<String> _subjectCollection = <String>[];
+  final List<Color> _colorCollection = <Color>[];
+  final List<Appointment> _shiftCollection = <Appointment>[];
+  final List<CalendarResource> _employeeCollection = <CalendarResource>[];
+  final List<TimeRegion> _specialTimeRegions = <TimeRegion>[];
+  final List<String> _nameCollection = <String>[];
+  final List<String> _userImages = <String>[];
+  final List<String> _colorNames = <String>[];
+  final List<String> _timeZoneCollection = <String>[];
+
+  final CalendarController _calendarController = CalendarController();
 
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.timelineDay,
@@ -46,15 +41,18 @@ class _ShiftSchedulerState extends SampleViewState {
     CalendarView.timelineMonth
   ];
 
+  bool _isAllDay = false;
+  String _subject = '';
+  int _selectedColorIndex = 0;
+
+  Appointment? _selectedAppointment;
+
+  late _ShiftDataSource _events;
+
   @override
   void initState() {
-    _calendarController = CalendarController();
     _calendarController.view = CalendarView.timelineWeek;
     _selectedAppointment = null;
-    _shiftCollection = <Appointment>[];
-    _employeeCollection = <CalendarResource>[];
-    _specialTimeRegions = <TimeRegion>[];
-    _userImages = <String>[];
     _addResourceDetails();
     _addResources();
     _addSpecialRegions();
@@ -79,27 +77,28 @@ class _ShiftSchedulerState extends SampleViewState {
 
     /// Navigates the calendar to day view,
     /// when we tap on month cells in mobile.
-    if (!model.isWeb && _calendarController.view == CalendarView.month) {
+    if (!model.isWebFullView &&
+        _calendarController.view == CalendarView.month) {
       _calendarController.view = CalendarView.day;
     } else {
       if (calendarTapDetails.appointments != null &&
           calendarTapDetails.targetElement == CalendarElement.appointment) {
-        _selectedAppointment = calendarTapDetails.appointments[0];
+        _selectedAppointment = calendarTapDetails.appointments![0];
       }
 
-      final DateTime selectedDate = calendarTapDetails.date;
+      final DateTime selectedDate = calendarTapDetails.date!;
       final CalendarElement targetElement = calendarTapDetails.targetElement;
 
       /// To open the appointment editor for web,
       /// when the screen width is greater than 767.
-      if (model.isWeb && !model.isMobileResolution) {
+      if (model.isWebFullView && !model.isMobileResolution) {
         final bool _isAppointmentTapped =
             calendarTapDetails.targetElement == CalendarElement.appointment;
         showDialog<Widget>(
             context: context,
             builder: (BuildContext context) {
               final List<Appointment> appointment = <Appointment>[];
-              Appointment newAppointment;
+              Appointment? newAppointment;
 
               /// Creates a new appointment, which is displayed on the tapped
               /// calendar element, when the editor is opened.
@@ -108,24 +107,22 @@ class _ShiftSchedulerState extends SampleViewState {
                     CalendarElement.allDayPanel;
                 _selectedColorIndex = 0;
                 _subject = '';
-                final DateTime date = calendarTapDetails.date;
-                _startDate = date;
-                _endDate = date.add(const Duration(hours: 1));
+                final DateTime date = calendarTapDetails.date!;
 
                 newAppointment = Appointment(
-                  startTime: _startDate,
-                  endTime: _endDate,
-                  resourceIds: <Object>[calendarTapDetails.resource.id],
+                  startTime: date,
+                  endTime: date.add(const Duration(hours: 1)),
+                  resourceIds: <Object>[calendarTapDetails.resource!.id],
                   color: _colorCollection[_selectedColorIndex],
                   isAllDay: _isAllDay,
                   subject: _subject == '' ? '(No title)' : _subject,
                 );
                 appointment.add(newAppointment);
 
-                _events.appointments.add(appointment[0]);
+                _events.appointments!.add(appointment[0]);
 
                 SchedulerBinding.instance
-                    .addPostFrameCallback((Duration duration) {
+                    ?.addPostFrameCallback((Duration duration) {
                   _events.notifyListeners(
                       CalendarDataSourceAction.add, appointment);
                 });
@@ -138,10 +135,10 @@ class _ShiftSchedulerState extends SampleViewState {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.
-                    _events.appointments
-                        .removeAt(_events.appointments.indexOf(newAppointment));
+                    _events.appointments!.removeAt(
+                        _events.appointments!.indexOf(newAppointment));
                     _events.notifyListeners(CalendarDataSourceAction.remove,
-                        <Appointment>[]..add(newAppointment));
+                        <Appointment>[newAppointment]);
                   }
                   return true;
                 },
@@ -149,8 +146,8 @@ class _ShiftSchedulerState extends SampleViewState {
                     child: Container(
                         width: _isAppointmentTapped ? 400 : 500,
                         height: _isAppointmentTapped
-                            ? (_selectedAppointment.location == null ||
-                                    _selectedAppointment.location.isEmpty
+                            ? (_selectedAppointment!.location == null ||
+                                    _selectedAppointment!.location!.isEmpty
                                 ? 200
                                 : 250)
                             : 450,
@@ -168,7 +165,7 @@ class _ShiftSchedulerState extends SampleViewState {
                                       targetElement,
                                       selectedDate,
                                       model,
-                                      _selectedAppointment,
+                                      _selectedAppointment!,
                                       _colorCollection,
                                       _colorNames,
                                       _events,
@@ -180,7 +177,7 @@ class _ShiftSchedulerState extends SampleViewState {
                                       _events,
                                       _colorCollection,
                                       _colorNames,
-                                      _selectedAppointment,
+                                      _selectedAppointment!,
                                       _timeZoneCollection),
                             )))),
               );
@@ -217,7 +214,6 @@ class _ShiftSchedulerState extends SampleViewState {
 
   /// Creates the required resource details as list
   void _addResourceDetails() {
-    _nameCollection = <String>[];
     _nameCollection.add('John');
     _nameCollection.add('Bryan');
     _nameCollection.add('Robert');
@@ -239,7 +235,6 @@ class _ShiftSchedulerState extends SampleViewState {
     _nameCollection.add('Addison');
     _nameCollection.add('Ruby');
 
-    _userImages = <String>[];
     _userImages.add('images/People_Circle5.png');
     _userImages.add('images/People_Circle8.png');
     _userImages.add('images/People_Circle18.png');
@@ -256,7 +251,6 @@ class _ShiftSchedulerState extends SampleViewState {
 
   /// Creates the required appointment details as a list.
   void _addAppointmentDetails() {
-    _subjectCollection = <String>[];
     _subjectCollection.add('General Meeting');
     _subjectCollection.add('Plan Execution');
     _subjectCollection.add('Project Plan');
@@ -268,7 +262,6 @@ class _ShiftSchedulerState extends SampleViewState {
     _subjectCollection.add('Release updates');
     _subjectCollection.add('Performance Check');
 
-    _colorCollection = <Color>[];
     _colorCollection.add(const Color(0xFF0F8644));
     _colorCollection.add(const Color(0xFF8B1FA9));
     _colorCollection.add(const Color(0xFFD20100));
@@ -279,7 +272,6 @@ class _ShiftSchedulerState extends SampleViewState {
     _colorCollection.add(const Color(0xFFE47C73));
     _colorCollection.add(const Color(0xFF636363));
 
-    _colorNames = <String>[];
     _colorNames.add('Green');
     _colorNames.add('Purple');
     _colorNames.add('Red');
@@ -290,7 +282,6 @@ class _ShiftSchedulerState extends SampleViewState {
     _colorNames.add('Peach');
     _colorNames.add('Gray');
 
-    _timeZoneCollection = <String>[];
     _timeZoneCollection.add('Default Time');
     _timeZoneCollection.add('AUS Central Standard Time');
     _timeZoneCollection.add('AUS Eastern Standard Time');
@@ -400,7 +391,7 @@ class _ShiftSchedulerState extends SampleViewState {
   /// Method that creates the resource collection for the calendar, with the
   /// required information.
   void _addResources() {
-    Random random = Random();
+    final Random random = Random();
     for (int i = 0; i < _nameCollection.length; i++) {
       _employeeCollection.add(CalendarResource(
           displayName: _nameCollection[i],
@@ -416,7 +407,7 @@ class _ShiftSchedulerState extends SampleViewState {
   /// required information.
   void _addSpecialRegions() {
     final DateTime date = DateTime.now();
-    Random random = Random();
+    final Random random = Random();
     for (int i = 0; i < _employeeCollection.length; i++) {
       _specialTimeRegions.add(TimeRegion(
           startTime: DateTime(date.year, date.month, date.day, 13, 0, 0),
@@ -447,14 +438,16 @@ class _ShiftSchedulerState extends SampleViewState {
   /// Method that creates the collection the data source for calendar, with
   /// required information.
   void _addAppointments() {
-    _shiftCollection = <Appointment>[];
     final Random random = Random();
     for (int i = 0; i < _employeeCollection.length; i++) {
-      final List<String> _employeeIds = <String>[_employeeCollection[i].id];
+      final _employeeIds = [_employeeCollection[i].id];
       if (i == _employeeCollection.length - 1) {
         int index = random.nextInt(5);
         index = index == i ? index + 1 : index;
-        _employeeIds.add(_employeeCollection[index].id);
+        final employeeId = _employeeCollection[index].id;
+        if (employeeId is String) {
+          _employeeIds.add(employeeId);
+        }
       }
 
       for (int k = 0; k < 365; k++) {
@@ -508,7 +501,7 @@ class _ShiftSchedulerState extends SampleViewState {
 
   /// Returns the calendar widget based on the properties passed
   SfCalendar _getShiftScheduler(
-      [CalendarDataSource _calendarDataSource,
+      [CalendarDataSource? _calendarDataSource,
       dynamic calendarTapCallback,
       dynamic viewChangedCallback]) {
     return SfCalendar(
@@ -517,7 +510,7 @@ class _ShiftSchedulerState extends SampleViewState {
       allowedViews: _allowedViews,
       timeRegionBuilder: _getSpecialRegionWidget,
       specialRegions: _specialTimeRegions,
-      showNavigationArrow: model.isWeb,
+      showNavigationArrow: model.isWebFullView,
       dataSource: _calendarDataSource,
       onViewChanged: viewChangedCallback,
       onTap: calendarTapCallback,

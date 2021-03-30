@@ -19,14 +19,21 @@ class RangeColumnDefault extends SampleView {
 /// State class of range column chart.
 class _RangeColumnDefaultState extends SampleViewState {
   _RangeColumnDefaultState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultRangeColumnChart();
+    return _buildDefaultRangeColumnChart();
   }
 
   /// Returns the default range column chart.
-  SfCartesianChart _getDefaultRangeColumnChart() {
+  SfCartesianChart _buildDefaultRangeColumnChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -42,8 +49,7 @@ class _RangeColumnDefaultState extends SampleViewState {
           labelFormat: '{value}°C',
           majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultRangeColumnSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

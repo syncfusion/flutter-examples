@@ -21,14 +21,14 @@ class AxisCrossing extends SampleView {
 class _AxisCrossingState extends SampleViewState {
   _AxisCrossingState();
   final List<String> _axis = <String>['x', 'y'].toList();
-  // final List<String> _series = <String>['column', 'bar', 'spline'].toList();
   String _selectedSeriesType = 'column';
   //ignore: unused_field
-  String _selectedSeries;
+  late String _selectedSeries;
   String _selectedAxisType = 'x';
-  String _selectedAxis;
-  double _crossAt = 0;
-  bool _isPlaceLabelsNearAxisLine = true;
+  late String _selectedAxis;
+  double? _crossAt = 0;
+  bool? _isPlaceLabelsNearAxisLine = true;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
@@ -38,12 +38,14 @@ class _AxisCrossingState extends SampleViewState {
     _selectedSeries = 'column';
     _crossAt = 0;
     _isPlaceLabelsNearAxisLine = true;
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getAxisCrossingSample();
+    return _buildAxisCrossingSample();
   }
 
   @override
@@ -104,9 +106,9 @@ class _AxisCrossingState extends SampleViewState {
                   child: CheckboxListTile(
                       activeColor: model.backgroundColor,
                       value: _isPlaceLabelsNearAxisLine,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _isPlaceLabelsNearAxisLine = value;
+                          _isPlaceLabelsNearAxisLine = value!;
                           stateSetter(() {});
                         });
                       })),
@@ -118,7 +120,7 @@ class _AxisCrossingState extends SampleViewState {
   }
 
   /// Returns the spline chart with axis crossing at provided axis value.
-  SfCartesianChart _getAxisCrossingSample() {
+  SfCartesianChart _buildAxisCrossingSample() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Spline Interpolation'),
@@ -146,8 +148,7 @@ class _AxisCrossingState extends SampleViewState {
           crossesAt: _selectedAxisType == 'y' ? _crossAt ?? 0 : 0,
           minorTicksPerInterval: 3),
       series: _getSeries(_selectedSeriesType),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -155,7 +156,7 @@ class _AxisCrossingState extends SampleViewState {
   /// the spline chart with axis crossing.
 
   List<ChartSeries<ChartSampleData, num>> _getSeries(String seriesType) {
-    List<ChartSeries<ChartSampleData, num>> chart = null;
+    List<ChartSeries<ChartSampleData, num>> chart;
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: -7, y: -3),
       ChartSampleData(x: -4.5, y: -2),

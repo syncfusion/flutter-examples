@@ -24,12 +24,14 @@ class _DefaultSelectionState extends SampleViewState {
   final List<String> _seriesIndexList = <String>['0', '1', '2'].toList();
   final List<String> _pointIndexList =
       <String>['0', '1', '2', '3', '4'].toList();
-  int _seriesIndex;
-  int _pointIndex;
-  SelectionBehavior _selectionBehavior;
+  late int _seriesIndex;
+  late int _pointIndex;
+  late SelectionBehavior _selectionBehavior;
 
   @override
   void initState() {
+    _selectionBehavior =
+        SelectionBehavior(enable: true, unselectedOpacity: 0.5);
     _seriesIndex = 0;
     _pointIndex = 0;
     super.initState();
@@ -37,10 +39,7 @@ class _DefaultSelectionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    _selectionBehavior =
-        SelectionBehavior(enable: true, unselectedOpacity: 0.5);
-
-    return _getDefaultSelectionChart();
+    return _buildDefaultSelectionChart();
   }
 
   @override
@@ -109,8 +108,11 @@ class _DefaultSelectionState extends SampleViewState {
               Container(
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
-                      child: RaisedButton(
-                        color: model.backgroundColor,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              model.backgroundColor),
+                        ),
                         onPressed: () {
                           selection(_seriesIndex, _pointIndex);
                         },
@@ -125,7 +127,7 @@ class _DefaultSelectionState extends SampleViewState {
   }
 
   /// Returns the cartesian chart with default selection.
-  SfCartesianChart _getDefaultSelectionChart() {
+  SfCartesianChart _buildDefaultSelectionChart() {
     return SfCartesianChart(
       onSelectionChanged: (SelectionArgs args) {
         setState(() {

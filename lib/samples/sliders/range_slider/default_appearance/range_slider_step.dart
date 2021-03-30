@@ -23,7 +23,7 @@ class SliderStepDurationPage extends SampleView {
 
 class _SliderStepDurationPageState extends SampleViewState {
   _SliderStepDurationPageState();
-  Widget rangeSlider;
+  late Widget rangeSlider;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _SliderStepDurationPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
+            model.isWebFullView
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(height: 300, child: rangeSlider),
@@ -100,18 +100,18 @@ class _SliderStepDurationState extends SampleViewState {
             enableTooltip: true));
   }
 
-  Widget _getWebLayout() {
+  Widget _buildWebLayout() {
     return Container(
       alignment: Alignment.center,
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-        child: _getMobileLayout(),
+        child: _buildMobileLayout(),
       ),
     );
   }
 
-  Widget _getMobileLayout() {
+  Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
@@ -132,6 +132,6 @@ class _SliderStepDurationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
   }
 }

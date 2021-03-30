@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import '../model/model.dart';
 
 /// To show the setting panel content on the bottom sheet
-Future<T> showRoundedModalBottomSheet<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
+Future<T?> showRoundedModalBottomSheet<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
   Color color = Colors.white,
   bool dismissOnTap = false,
 }) {
@@ -35,10 +35,7 @@ const double _kCloseProgressThreshold = 0.5;
 class CustomBottomSheet extends StatefulWidget {
   /// holds the informtion of customized bottom sheet
   const CustomBottomSheet(
-      {Key key,
-      this.animationController,
-      @required this.onClosing,
-      @required this.builder})
+      {Key? key, this.animationController, this.onClosing, this.builder})
       : assert(onClosing != null),
         assert(builder != null),
         super(key: key);
@@ -47,20 +44,20 @@ class CustomBottomSheet extends StatefulWidget {
   ///
   /// The BottomSheet widget will manipulate the position of this animation, it
   /// is not just a passive observer.
-  final AnimationController animationController;
+  final AnimationController? animationController;
 
   /// Called when the bottom sheet begins to close.
   ///
   /// A bottom sheet might be be prevented from closing (e.g., by user
   /// interaction) even after this callback is called. For this reason, this
   /// callback might be call multiple times for a given bottom sheet.
-  final VoidCallback onClosing;
+  final VoidCallback? onClosing;
 
   /// A builder for the contents of the sheet.
   ///
   /// The bottom sheet will wrap the widget produced by this builder in a
   /// [Material] widget.
-  final WidgetBuilder builder;
+  final WidgetBuilder? builder;
 
   @override
   _CustomBottomSheetState createState() => _CustomBottomSheetState();
@@ -79,20 +76,21 @@ class CustomBottomSheet extends StatefulWidget {
 class _CustomBottomSheetState extends State<CustomBottomSheet> {
   final GlobalKey _childKey = GlobalKey(debugLabel: 'RoundedBottomSheet child');
 
-  double get _childHeight {
-    final RenderBox renderBox = _childKey.currentContext.findRenderObject();
+  double? get _childHeight {
+    final RenderBox renderBox =
+        _childKey.currentContext!.findRenderObject() as RenderBox;
     return renderBox.size.height;
   }
 
   bool get _dismissUnderway =>
-      widget.animationController.status == AnimationStatus.reverse;
+      widget.animationController!.status == AnimationStatus.reverse;
 
   void _handleDragUpdate(DragUpdateDetails details) {
     if (_dismissUnderway) {
       return;
     }
-    widget.animationController.value -=
-        details.primaryDelta / (_childHeight ?? details.primaryDelta);
+    widget.animationController!.value -=
+        details.primaryDelta! / (_childHeight ?? details.primaryDelta!);
   }
 
   void _handleDragEnd(DragEndDetails details) {
@@ -101,20 +99,20 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     }
     if (details.velocity.pixelsPerSecond.dy > _kMinFlingVelocity) {
       final double flingVelocity =
-          -details.velocity.pixelsPerSecond.dy / _childHeight;
-      if (widget.animationController.value > 0.0) {
-        widget.animationController.fling(velocity: flingVelocity);
+          -details.velocity.pixelsPerSecond.dy / _childHeight!;
+      if (widget.animationController!.value > 0.0) {
+        widget.animationController!.fling(velocity: flingVelocity);
       }
       if (flingVelocity < 0.0) {
-        widget.onClosing();
+        widget.onClosing!();
       }
-    } else if (widget.animationController.value < _kCloseProgressThreshold) {
-      if (widget.animationController.value > 0.0) {
-        widget.animationController.fling(velocity: -1.0);
+    } else if (widget.animationController!.value < _kCloseProgressThreshold) {
+      if (widget.animationController!.value > 0.0) {
+        widget.animationController!.fling(velocity: -1.0);
       }
-      widget.onClosing();
+      widget.onClosing!();
     } else {
-      widget.animationController.forward();
+      widget.animationController!.forward();
     }
   }
 
@@ -125,7 +123,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       onVerticalDragEnd: _handleDragEnd,
       child: Material(
         key: _childKey,
-        child: widget.builder(context),
+        child: widget.builder!(context),
       ),
     );
   }
@@ -165,13 +163,13 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
     this.color,
     this.autoResize = false,
     this.dismissOnTap = true,
-    RouteSettings settings,
+    RouteSettings? settings,
   }) : super(settings: settings);
 
-  final WidgetBuilder builder;
-  final Color color;
-  final bool autoResize;
-  final bool dismissOnTap;
+  final WidgetBuilder? builder;
+  final Color? color;
+  final bool? autoResize;
+  final bool? dismissOnTap;
 
   @override
   Duration get transitionDuration => _kRoundedBottomSheetDuration;
@@ -189,16 +187,16 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
   bool get maintainState => false;
 
   @override
-  String barrierLabel;
+  String? barrierLabel;
 
-  AnimationController animationController;
+  AnimationController? animationController;
 
   @override
   AnimationController createAnimationController() {
     assert(animationController == null);
     animationController =
-        BottomSheet.createAnimationController(navigator.overlay);
-    return animationController;
+        BottomSheet.createAnimationController(navigator!.overlay!);
+    return animationController!;
   }
 
   @override
@@ -217,9 +215,9 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
 }
 
 class _RoundedModalBottomSheet<T> extends StatefulWidget {
-  const _RoundedModalBottomSheet({Key key, this.route}) : super(key: key);
+  const _RoundedModalBottomSheet({Key? key, this.route}) : super(key: key);
 
-  final _RoundedCornerModalRoute<T> route;
+  final _RoundedCornerModalRoute<T>? route;
 
   @override
   _RoundedModalBottomSheetState<T> createState() =>
@@ -255,27 +253,27 @@ class _RoundedModalBottomSheetState<T>
   Widget build(BuildContext context) {
     return GestureDetector(
       child: AnimatedBuilder(
-        animation: widget.route.animation,
-        builder: (BuildContext context, Widget child) =>
+        animation: widget.route!.animation!,
+        builder: (BuildContext context, Widget? child) =>
             CustomSingleChildLayout(
           delegate: _RoundedModalBottomSheetLayout(
-              widget.route.autoResize
+              widget.route!.autoResize!
                   ? MediaQuery.of(context).viewInsets.bottom
                   : 0.0,
-              widget.route.animation.value),
+              widget.route!.animation!.value),
           child: CustomBottomSheet(
-            animationController: widget.route.animationController,
+            animationController: widget.route!.animationController,
             onClosing: () => Navigator.pop(context),
             builder: (BuildContext context) => Container(
               decoration: BoxDecoration(
-                color: widget.route.color,
+                color: widget.route!.color,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12.0),
                   topRight: Radius.circular(12.0),
                 ),
               ),
               child: SafeArea(
-                child: Builder(builder: widget.route.builder),
+                child: Builder(builder: widget.route!.builder!),
               ),
             ),
           ),

@@ -22,19 +22,22 @@ class _EdgeLabelState extends SampleViewState {
   _EdgeLabelState();
 
   final List<String> _edgeList = <String>['hide', 'none', 'shift'].toList();
-  String _selectedType;
-  EdgeLabelPlacement _edgeLabelPlacement;
+  late String _selectedType;
+  late EdgeLabelPlacement _edgeLabelPlacement;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _selectedType = 'shift';
     _edgeLabelPlacement = EdgeLabelPlacement.shift;
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, format: 'point.x : point.y');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getEdgeLabelPlacementChart();
+    return _buildEdgeLabelPlacementChart();
   }
 
   @override
@@ -78,7 +81,7 @@ class _EdgeLabelState extends SampleViewState {
   }
 
   /// Returns the spline with edge label placement chart.
-  SfCartesianChart _getEdgeLabelPlacementChart() {
+  SfCartesianChart _buildEdgeLabelPlacementChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 1,
       title: ChartTitle(text: isCardView ? '' : 'Fuel price in India'),
@@ -108,8 +111,7 @@ class _EdgeLabelState extends SampleViewState {
         title: AxisTitle(text: isCardView ? '' : 'Rupees per litre'),
       ),
       series: _getEdgeLabelPlacementSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, format: 'point.x : point.y'),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

@@ -20,13 +20,14 @@ class DataLabelDefault extends SampleView {
 /// State class of the chart with default data labels.
 class _DataLabelDefaultState extends SampleViewState {
   _DataLabelDefaultState();
-  bool _seriescolor;
+  late bool _seriescolor;
   String _labelPos = 'top';
   String _labelAln = 'center';
-  ChartDataLabelAlignment _labelPosition;
-  ChartAlignment _chartAlignment;
-  double _horizontalPaddding = 0;
-  double _verticalPaddding = 0;
+  late ChartDataLabelAlignment _labelPosition;
+  late ChartAlignment _chartAlignment;
+  late double _horizontalPaddding;
+  late double _verticalPaddding;
+  late TooltipBehavior _tooltipBehavior;
 
   final List<String> _positionType =
       <String>['outer', 'top', 'bottom', 'middle'].toList();
@@ -55,9 +56,9 @@ class _DataLabelDefaultState extends SampleViewState {
                       child: CheckboxListTile(
                           activeColor: model.backgroundColor,
                           value: _seriescolor,
-                          onChanged: (bool value) {
+                          onChanged: (bool? value) {
                             setState(() {
-                              _seriescolor = value;
+                              _seriescolor = value!;
                               stateSetter(() {});
                             });
                           })),
@@ -178,11 +179,11 @@ class _DataLabelDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDataLabelDefaultChart();
+    return _buildDataLabelDefaultChart();
   }
 
   /// Returns the chart with default data labels.
-  SfCartesianChart _getDataLabelDefaultChart() {
+  SfCartesianChart _buildDataLabelDefaultChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Gross investments'),
       plotAreaBorderWidth: 0,
@@ -201,7 +202,7 @@ class _DataLabelDefaultState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getDataLabelDefaultSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -261,6 +262,7 @@ class _DataLabelDefaultState extends SampleViewState {
     _seriescolor = true;
     _horizontalPaddding = 0;
     _verticalPaddding = 0;
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 

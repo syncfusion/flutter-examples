@@ -22,10 +22,10 @@ class _ColumnBackState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getBackColumnChart();
+    return _buildBackColumnChart();
   }
 
-  SfCartesianChart _getBackColumnChart() {
+  SfCartesianChart _buildBackColumnChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         enableSideBySideSeriesPlacement: false,

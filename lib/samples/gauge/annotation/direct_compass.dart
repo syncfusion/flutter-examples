@@ -21,11 +21,11 @@ class _RadialCompassState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialCompass();
+    return _buildRadialCompass();
   }
 
   /// Returns the direction compass gauge using annotation support
-  SfRadialGauge _getRadialCompass() {
+  SfRadialGauge _buildRadialCompass() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(

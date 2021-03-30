@@ -19,13 +19,49 @@ class TooltipTemplate extends SampleView {
 /// State class of the chart with various marker shapes.
 class _TooltipTemplateState extends SampleViewState {
   _TooltipTemplateState();
+  late TooltipBehavior _tooltipBehavior;
+
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        color: Colors.grey[400],
+        builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
+            int seriesIndex) {
+          return Container(
+              alignment: Alignment.center,
+              height: 40,
+              width: 70,
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+              ),
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                  child: Row(children: <Widget>[
+                    SizedBox(
+                      height: 30,
+                      width: 35,
+                      child: Image.asset(_getImageTemplate(pointIndex)),
+                    ),
+                    Text(
+                      (data.y.toString() + '%'),
+                      style: TextStyle(fontSize: 12, color: Colors.black),
+                      textScaleFactor: 1.0,
+                    ),
+                  ])));
+        });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _getTooltipTemplateChart();
+    return _buildTooltipTemplateChart();
   }
 
   /// Returns the chart with various marker shapes.
-  SfCartesianChart _getTooltipTemplateChart() {
+  SfCartesianChart _buildTooltipTemplateChart() {
     return SfCartesianChart(
       title: ChartTitle(
           text: isCardView
@@ -40,41 +76,14 @@ class _TooltipTemplateState extends SampleViewState {
           interval: 20,
           maximum: isCardView ? 120 : 100,
           majorTickLines: MajorTickLines(size: 0)),
-      tooltipBehavior: TooltipBehavior(
-          enable: true,
-          color: Colors.grey[400],
-          builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
-              int seriesIndex) {
-            return Container(
-                alignment: Alignment.center,
-                height: 40,
-                width: 70,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                ),
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                    child: Row(children: <Widget>[
-                      SizedBox(
-                        child: Image.asset(_getImageTemplate(pointIndex)),
-                        height: 30,
-                        width: 35,
-                      ),
-                      Text(
-                        (data.y.toString() + '%'),
-                        style: TextStyle(fontSize: 12, color: Colors.black),
-                        textScaleFactor: 1.0,
-                      ),
-                    ])));
-          }),
+      tooltipBehavior: _tooltipBehavior,
       series: _getMarkeSeries(),
     );
   }
 
 //ignore: unused_element
-  Color _getTooltipBorderColor(int pointIndex) {
-    Color color;
+  Color? _getTooltipBorderColor(int pointIndex) {
+    Color? color;
     if (pointIndex == 0) {
       color = Color.fromRGBO(192, 33, 39, 1);
     } else if (pointIndex == 1) {
@@ -122,7 +131,6 @@ class _TooltipTemplateState extends SampleViewState {
       ChartSampleData(
         x: 'Instagram',
         y: 63,
-        // pointColor: gradientColors,
       ),
       ChartSampleData(
         x: 'Snapchat',
@@ -151,7 +159,7 @@ class _TooltipTemplateState extends SampleViewState {
   }
 
   String _getImageTemplate(int pointIndex) {
-    String path = (pointIndex == 0
+    final String path = (pointIndex == 0
         ? 'images/youtube.png'
         : (pointIndex == 1
             ? 'images/maps_twitter.png'
@@ -175,23 +183,24 @@ class _CustomColumnSeriesRenderer extends ColumnSeriesRenderer {
 
 class _ColumnCustomPainter extends ColumnSegment {
   @override
-  int get currentSegmentIndex => super.currentSegmentIndex;
+  int get currentSegmentIndex => super.currentSegmentIndex!;
 
   @override
   void onPaint(Canvas canvas) {
-    Paint myPaint = fillPaint;
-    if (currentSegmentIndex == 0)
+    Paint? myPaint = fillPaint;
+    if (currentSegmentIndex == 0) {
       myPaint = Paint()..color = Color.fromRGBO(192, 33, 39, 1);
-    else if (currentSegmentIndex == 1)
+    } else if (currentSegmentIndex == 1) {
       myPaint = Paint()..color = const Color.fromRGBO(26, 157, 235, 1);
-    else if (currentSegmentIndex == 2)
+    } else if (currentSegmentIndex == 2) {
       myPaint = fillPaint;
-    else if (currentSegmentIndex == 3)
+    } else if (currentSegmentIndex == 3) {
       myPaint = Paint()..color = const Color.fromRGBO(254, 250, 55, 1);
-    else if (currentSegmentIndex == 4)
+    } else if (currentSegmentIndex == 4) {
       myPaint = Paint()..color = const Color.fromRGBO(60, 92, 156, 1);
+    }
     final Rect rect = Rect.fromLTRB(segmentRect.left, segmentRect.top,
         segmentRect.right * animationFactor, segmentRect.bottom);
-    canvas.drawRect(rect, myPaint);
+    canvas.drawRect(rect, myPaint!);
   }
 }

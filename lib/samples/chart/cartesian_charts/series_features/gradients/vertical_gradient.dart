@@ -18,17 +18,24 @@ class VerticalGradient extends SampleView {
 
 class _ChartData {
   _ChartData({this.x, this.y});
-  final String x;
-  final double y;
+  final String? x;
+  final double? y;
 }
 
 /// State class of vertical gradient.
 class _VerticalGradientState extends SampleViewState {
   _VerticalGradientState();
+  late TrackballBehavior _trackballBehavior;
+  @override
+  void initState() {
+    _trackballBehavior = TrackballBehavior(
+        enable: true, activationMode: ActivationMode.singleTap);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getVerticalGradientAreaChart();
+    return _buildVerticalGradientAreaChart();
   }
 
   /// Returns the list of spline area series with vertical gradient.
@@ -97,12 +104,12 @@ class _VerticalGradientState extends SampleViewState {
   }
 
   /// Return the circular chart with vertical gradient.
-  SfCartesianChart _getVerticalGradientAreaChart() {
+  SfCartesianChart _buildVerticalGradientAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: CategoryAxis(
           labelPlacement: LabelPlacement.onTicks,
-          interval: model.isWeb ? 1 : null,
+          interval: model.isWebFullView ? 1 : null,
           labelRotation: -45,
           majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
@@ -112,7 +119,7 @@ class _VerticalGradientState extends SampleViewState {
         labelFormat: '{value}%',
         axisLine: AxisLine(width: 0),
       ),
-      trackballBehavior: TrackballBehavior(enable: true),
+      trackballBehavior: _trackballBehavior,
       series: _getGradientAreaSeries(),
     );
   }

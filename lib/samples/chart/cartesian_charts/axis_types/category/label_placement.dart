@@ -21,19 +21,22 @@ class _CategoryTicksState extends SampleViewState {
   _CategoryTicksState();
   final List<String> _labelPosition =
       <String>['betweenTicks', 'onTicks'].toList();
-  String _selectedType;
-  LabelPlacement _labelPlacement;
+  late String _selectedType;
+  late LabelPlacement _labelPlacement;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _selectedType = 'betweenTicks';
     _labelPlacement = LabelPlacement.betweenTicks;
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getTicksCategoryAxisChart();
+    return _buildTicksCategoryAxisChart();
   }
 
   @override
@@ -76,7 +79,7 @@ class _CategoryTicksState extends SampleViewState {
   }
 
   /// Returns the line chart with category label placement.
-  SfCartesianChart _getTicksCategoryAxisChart() {
+  SfCartesianChart _buildTicksCategoryAxisChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Employees task count'),
       plotAreaBorderWidth: 0,
@@ -90,8 +93,7 @@ class _CategoryTicksState extends SampleViewState {
           maximum: 12,
           interval: 1),
       series: _getTicksCategoryAxisSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

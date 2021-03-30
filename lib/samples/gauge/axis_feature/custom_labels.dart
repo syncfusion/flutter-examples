@@ -21,11 +21,11 @@ class _GaugeCustomLabelsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getGaugeCustomLabels(context);
+    return _buildGaugeCustomLabels(context);
   }
 
   /// Returns the custom label axis gauge
-  SfRadialGauge _getGaugeCustomLabels(BuildContext context) {
+  SfRadialGauge _buildGaugeCustomLabels(BuildContext context) {
     final Orientation _orientation = MediaQuery.of(context).orientation;
     final Brightness _brightness = Theme.of(context).brightness;
 
@@ -34,7 +34,7 @@ class _GaugeCustomLabelsState extends SampleViewState {
         RadialAxis(
           startAngle: 270,
           endAngle: 270,
-          radiusFactor: model.isWeb ? 0.8 : 0.9,
+          radiusFactor: model.isWebFullView ? 0.8 : 0.9,
           minimum: 0,
           maximum: 80,
           axisLineStyle: AxisLineStyle(
@@ -52,7 +52,7 @@ class _GaugeCustomLabelsState extends SampleViewState {
                 value: 70,
                 lengthUnit: GaugeSizeUnit.factor,
                 needleLength: 0.55,
-                needleEndWidth: model.isWeb
+                needleEndWidth: model.isWebFullView
                     ? 18
                     : isCardView
                         ? 10
@@ -72,7 +72,7 @@ class _GaugeCustomLabelsState extends SampleViewState {
                 ]),
                 needleColor: const Color(0xFFF67280),
                 knobStyle: KnobStyle(
-                    knobRadius: model.isWeb ? 0.098 : 0.09,
+                    knobRadius: model.isWebFullView ? 0.098 : 0.09,
                     sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.white)),
             NeedlePointer(
@@ -92,8 +92,8 @@ class _GaugeCustomLabelsState extends SampleViewState {
                 lengthUnit: GaugeSizeUnit.factor,
                 needleColor: _brightness == Brightness.dark
                     ? const Color(0xFF888888)
-                    : const Color(0xFFFCACACA),
-                needleEndWidth: model.isWeb
+                    : const Color(0x0ffcacca),
+                needleEndWidth: model.isWebFullView
                     ? 18
                     : isCardView
                         ? 10
@@ -101,7 +101,7 @@ class _GaugeCustomLabelsState extends SampleViewState {
                             ? 18
                             : 10,
                 knobStyle: KnobStyle(
-                    knobRadius: model.isWeb ? 0.098 : 0.09,
+                    knobRadius: model.isWebFullView ? 0.098 : 0.09,
                     sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.white))
           ],

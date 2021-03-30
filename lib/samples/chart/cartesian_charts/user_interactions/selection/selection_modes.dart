@@ -19,90 +19,90 @@ class DefaultSelection extends SampleView {
 /// State class of the chart with default selection.
 class _DefaultSelectionState extends SampleViewState {
   _DefaultSelectionState();
-  bool _enableMultiSelect = false;
+  late bool _enableMultiSelect;
 
   final List<String> _modeList =
       <String>['point', 'series', 'cluster'].toList();
 
-  String _selectedMode = 'point';
-  SelectionBehavior _selectionBehavior;
-  SelectionType _mode = SelectionType.point;
+  late String _selectedMode;
+  late SelectionBehavior _selectionBehavior;
+  late SelectionType _mode;
 
   @override
   void initState() {
     _selectedMode = 'point';
     _mode = SelectionType.point;
     _enableMultiSelect = false;
+    _selectionBehavior =
+        SelectionBehavior(enable: true, unselectedOpacity: 0.5);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _selectionBehavior =
-        SelectionBehavior(enable: true, unselectedOpacity: 0.5);
-
-    return _getDefaultSelectionChart();
+    return _buildDefaultSelectionChart();
   }
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Mode ',
-                    style: TextStyle(color: model.textColor, fontSize: 16)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(145, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
-                      value: _selectedMode,
-                      items: _modeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'point',
-                            child: Text('$value',
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onModeTypeChange(value);
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Enable multi-selection',
-                    style: TextStyle(color: model.textColor, fontSize: 16)),
-                Container(
-                    width: 75,
-                    child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
-                        value: _enableMultiSelect,
-                        onChanged: (bool value) {
-                          setState(() {
-                            _enableMultiSelect = value;
-                            stateSetter(() {});
-                          });
-                        }))
-              ],
-            ),
-          ),
+          ListTile(
+              title: Text('Mode',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                padding: EdgeInsets.only(left: 0.07 * screenWidth),
+                width: 0.4 * screenWidth,
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    isExpanded: true,
+                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    value: _selectedMode,
+                    items: _modeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'point',
+                          child: Text('$value',
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onModeTypeChange(value);
+                      stateSetter(() {});
+                    }),
+              )),
+          ListTile(
+              title: Text('Enable multi-selection',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                  width: 0.4 * screenWidth,
+                  child: CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      activeColor: model.backgroundColor,
+                      value: _enableMultiSelect,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _enableMultiSelect = value!;
+                          stateSetter(() {});
+                        });
+                      }))),
         ],
       );
     });
   }
 
   /// Returns the cartesian chart with default selection.
-  SfCartesianChart _getDefaultSelectionChart() {
+  SfCartesianChart _buildDefaultSelectionChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: !isCardView ? 'Age distribution by country' : ''),

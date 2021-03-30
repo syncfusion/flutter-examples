@@ -22,11 +22,13 @@ class _AnnotationWatermarkState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getWatermarkAnnotationChart();
+    return _buildWatermarkAnnotationChart();
   }
 
   /// Returns the Cartesian chart with annotation.
-  SfCartesianChart _getWatermarkAnnotationChart() {
+  SfCartesianChart _buildWatermarkAnnotationChart() {
+    final bool needSmallAnnotation =
+        (model.isWebFullView && MediaQuery.of(context).size.height < 530);
     return SfCartesianChart(
         title: ChartTitle(
             text: isCardView ? '' : 'UK social media reach, by platform'),
@@ -47,8 +49,16 @@ class _AnnotationWatermarkState extends SampleViewState {
         annotations: <CartesianChartAnnotation>[
           CartesianChartAnnotation(
               widget: Container(
-                  height: isCardView ? 100 : 150,
-                  width: isCardView ? 100 : 150,
+                  height: isCardView
+                      ? 100
+                      : needSmallAnnotation
+                          ? 80
+                          : 150,
+                  width: isCardView
+                      ? 100
+                      : needSmallAnnotation
+                          ? 80
+                          : 150,
                   child: SfCircularChart(
                     series: <PieSeries<ChartSampleData, String>>[
                       PieSeries<ChartSampleData, String>(
@@ -86,11 +96,13 @@ class _AnnotationWatermarkState extends SampleViewState {
                           dataLabelSettings: DataLabelSettings(
                               isVisible: true,
                               labelIntersectAction: LabelIntersectAction.none,
-                              textStyle: isCardView
-                                  ? const TextStyle(
-                                      color: Colors.white, fontSize: 10)
-                                  : const TextStyle(
-                                      color: Colors.white, fontSize: 12)),
+                              textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: isCardView
+                                      ? 10
+                                      : needSmallAnnotation
+                                          ? 7
+                                          : 12)),
                           pointColorMapper: (ChartSampleData data, _) =>
                               data.pointColor)
                     ],

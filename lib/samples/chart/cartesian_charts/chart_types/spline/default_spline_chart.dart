@@ -22,11 +22,11 @@ class _SplineDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultSplineChart();
+    return _buildDefaultSplineChart();
   }
 
   /// Returns the defaul spline chart.
-  SfCartesianChart _getDefaultSplineChart() {
+  SfCartesianChart _buildDefaultSplineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(

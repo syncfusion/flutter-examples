@@ -22,11 +22,11 @@ class _ScatterDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultScatterChart();
+    return _buildDefaultScatterChart();
   }
 
   /// Returns the default scatter chart.
-  SfCartesianChart _getDefaultScatterChart() {
+  SfCartesianChart _buildDefaultScatterChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Export growth rate'),

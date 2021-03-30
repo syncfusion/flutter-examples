@@ -27,15 +27,15 @@ class _DistanceTrackerExampleState extends SampleViewState {
       _markerValue =
           (MediaQuery.of(context).orientation == Orientation.portrait)
               ? 138
-              : model.isWeb
+              : model.isWebFullView
                   ? 138
                   : 136;
     });
-    return _getDistanceTrackerExample();
+    return _buildDistanceTrackerExample();
   }
 
   /// Returns the gauge distance tracker
-  SfRadialGauge _getDistanceTrackerExample() {
+  SfRadialGauge _buildDistanceTrackerExample() {
     return SfRadialGauge(
       enableLoadingAnimation: true,
       axes: <RadialAxis>[
@@ -93,11 +93,9 @@ class _DistanceTrackerExampleState extends SampleViewState {
                 pointerOffset: -6,
                 cornerStyle: CornerStyle.bothCurve,
                 color: const Color(0xFFF67280),
-                gradient: model.isWeb
-                    ? null
-                    : const SweepGradient(
-                        colors: <Color>[Color(0xFFFF7676), Color(0xFFF54EA2)],
-                        stops: <double>[0.25, 0.75]),
+                gradient: const SweepGradient(
+                    colors: <Color>[Color(0xFFFF7676), Color(0xFFF54EA2)],
+                    stops: <double>[0.25, 0.75]),
               ),
               MarkerPointer(
                 value: isCardView ? 136 : _markerValue,

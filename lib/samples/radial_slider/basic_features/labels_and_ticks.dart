@@ -9,6 +9,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the RadialSlider ticks and labels.
 class RadialSliderLabelsTicks extends SampleView {
+  /// Creates the RadialSlider ticks and labels.
   const RadialSliderLabelsTicks(Key key) : super(key: key);
 
   @override
@@ -18,6 +19,12 @@ class RadialSliderLabelsTicks extends SampleView {
 
 class _RadialSliderLabelsTicksState extends SampleViewState {
   _RadialSliderLabelsTicksState();
+  // double _currentValue = 9;
+  double _markerValue = 9;
+  double _value = 9;
+  // double _firstMarkerSize = 10;
+  double _annotationFontSize = 25;
+  String _annotationValue = '9';
 
   @override
   void initState() {
@@ -27,37 +34,55 @@ class _RadialSliderLabelsTicksState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      _firstMarkerSize = 27;
-      _annotationFontSize = 25;
+      // _firstMarkerSize = 27;
+      _annotationFontSize = 15;
     } else {
-      _firstMarkerSize = model.isWeb ? 20 : 15;
-      _annotationFontSize = model.isWeb ? 25 : 15;
+      // _firstMarkerSize = model.isWebFullView ? 20 : 15;
+      _annotationFontSize = model.isWebFullView ? 25 : 15;
     }
 
     return Center(
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
+            showFirstLabel: false,
+            startAngle: 270,
+            endAngle: 270,
             radiusFactor: 0.85,
+            minimum: 0,
+            maximum: 12,
+            interval: 3,
             axisLineStyle: AxisLineStyle(
-                thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
-            tickOffset: 0.2,
-            labelOffset: 0.15,
+                color: Color.fromRGBO(128, 94, 246, 0.3),
+                thickness: 0.075,
+                thicknessUnit: GaugeSizeUnit.factor),
+            tickOffset: 0.15,
+            labelOffset: 0.1,
             offsetUnit: GaugeSizeUnit.factor,
             onAxisTapped: handlePointerValueChanged,
-            minorTicksPerInterval: 5,
+            minorTicksPerInterval: 30,
+            minorTickStyle:
+                MinorTickStyle(length: 0.05, lengthUnit: GaugeSizeUnit.factor),
             majorTickStyle:
                 MajorTickStyle(length: 0.1, lengthUnit: GaugeSizeUnit.factor),
             pointers: <GaugePointer>[
               RangePointer(
-                  color: const Color.fromRGBO(0, 198, 139, 1),
-                  value: _currentValue,
-                  onValueChanged: handlePointerValueChanged,
+                  color: const Color.fromRGBO(128, 94, 246, 1),
+                  value: _markerValue,
                   cornerStyle: CornerStyle.bothCurve,
-                  onValueChangeEnd: handlePointerValueChanged,
-                  onValueChanging: handlePointerValueChanging,
-                  enableDragging: true,
-                  width: 0.1,
+                  width: 0.075,
                   sizeUnit: GaugeSizeUnit.factor),
+              MarkerPointer(
+                value: _value,
+                elevation: 5,
+                markerType: MarkerType.circle,
+                markerHeight: 35,
+                markerWidth: 35,
+                enableDragging: true,
+                onValueChanged: handlePointerValueChanged,
+                onValueChangeEnd: handlePointerValueChanged,
+                onValueChanging: handlePointerValueChanging,
+                color: const Color.fromRGBO(128, 94, 246, 1),
+              )
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
@@ -69,53 +94,21 @@ class _RadialSliderLabelsTicksState extends SampleViewState {
                         style: TextStyle(
                           fontSize: _annotationFontSize,
                           fontFamily: 'Times',
-                          fontWeight: FontWeight.bold,
+                          // fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        '%',
+                        ' hrs',
                         style: TextStyle(
                           fontSize: _annotationFontSize,
                           fontFamily: 'Times',
-                          fontWeight: FontWeight.bold,
+                          // fontWeight: FontWeight.bold,
                         ),
                       )
                     ],
                   ),
-                  positionFactor: 0.7,
+                  // positionFactor: 0.7,
                   angle: 90)
-            ]),
-        // Create secondary radial axis for segmented line
-        RadialAxis(
-            interval: 20,
-            showLabels: false,
-            showTicks: true,
-            showAxisLine: false,
-            tickOffset: -0.05,
-            offsetUnit: GaugeSizeUnit.factor,
-            minorTicksPerInterval: 0,
-            radiusFactor: 0.85,
-            majorTickStyle: MajorTickStyle(
-                length: 0.3,
-                thickness: 3,
-                lengthUnit: GaugeSizeUnit.factor,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Color.fromRGBO(33, 33, 33, 1)),
-            pointers: [
-              MarkerPointer(
-                value: _markerValue,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
-                borderWidth: 7,
-                markerOffset: 0.0355,
-                offsetUnit: GaugeSizeUnit.factor,
-                borderColor: const Color.fromRGBO(0, 198, 139, 1),
-                markerHeight: _firstMarkerSize,
-                markerWidth: _firstMarkerSize,
-                markerType: MarkerType.circle,
-              ),
             ]),
       ]),
     );
@@ -134,24 +127,23 @@ class _RadialSliderLabelsTicksState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 0.
   void handlePointerValueChanging(ValueChangingArgs args) {
-    if (args.value.toInt() < 0) {
+    if ((args.value.toInt() - _value).abs() > 2.4) {
       args.cancel = true;
+      if (_value > 6) {
+        final double value = 12;
+        _setPointerValue(value);
+      }
     }
   }
 
   /// method to set the pointer value
   void _setPointerValue(double value) {
     setState(() {
-      _currentValue = value.roundToDouble();
-      final int _value = _currentValue.round().toInt();
-      _annotationValue = '$_value';
-      _markerValue = _currentValue;
+      _value = value;
+      _markerValue = _value;
+      // _currentValue = _value.roundToDouble();
+      // final int _value = _currentValue.round().toInt();
+      _annotationValue = '${_value.round().toInt()}';
     });
   }
-
-  double _currentValue = 54;
-  double _markerValue = 54;
-  double _firstMarkerSize = 10;
-  double _annotationFontSize = 25;
-  String _annotationValue = '54';
 }

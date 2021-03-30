@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
@@ -24,54 +25,54 @@ class _MapBubblePageState extends SampleViewState
     with TickerProviderStateMixin {
   _MapBubblePageState();
 
-  MapShapeSource _mapSource;
-  MapShapeSource _facebookMapSource;
-  MapShapeSource _twitterMapSource;
-  MapShapeSource _tikTokMapSorce;
-  MapShapeSource _instagramMapSource;
-  MapShapeSource _snapChatMapSource;
+  late MapShapeSource _mapSource;
+  late MapShapeSource _facebookMapSource;
+  late MapShapeSource _twitterMapSource;
+  late MapShapeSource _tikTokMapSorce;
+  late MapShapeSource _instagramMapSource;
+  late MapShapeSource _snapChatMapSource;
 
-  bool _isLightTheme;
+  late bool _isLightTheme;
 
-  Color _shapeColor;
-  Color _shapeStrokeColor;
-  Color _bubbleColor;
-  Color _bubbleStrokeColor;
-  Color _tooltipColor;
-  Color _tooltipStrokeColor;
-  Color _tooltipTextColor;
+  late Color _shapeColor;
+  late Color _shapeStrokeColor;
+  late Color _bubbleColor;
+  late Color _bubbleStrokeColor;
+  late Color _tooltipColor;
+  late Color _tooltipStrokeColor;
+  late Color _tooltipTextColor;
 
-  String _currentDelegate;
+  late String _currentDelegate;
 
-  BoxDecoration _facebookBoxDecoration;
-  BoxDecoration _twitterBoxDecoration;
-  BoxDecoration _instagramBoxDecoration;
-  BoxDecoration _snapchatBoxDecoration;
-  BoxDecoration _tiktokBoxDecoration;
+  BoxDecoration? _facebookBoxDecoration;
+  BoxDecoration? _twitterBoxDecoration;
+  BoxDecoration? _instagramBoxDecoration;
+  BoxDecoration? _snapchatBoxDecoration;
+  BoxDecoration? _tiktokBoxDecoration;
 
-  List<_UsersModel> _facebookUsers;
-  List<_UsersModel> _twitterUsers;
-  List<_UsersModel> _tikTokUsers;
-  List<_UsersModel> _snapChatUsers;
-  List<_UsersModel> _instagramUsers;
+  late List<_UserDetails> _facebookUsers;
+  late List<_UserDetails> _twitterUsers;
+  late List<_UserDetails> _tikTokUsers;
+  late List<_UserDetails> _snapChatUsers;
+  late List<_UserDetails> _instagramUsers;
 
-  AnimationController _facebookController;
-  AnimationController _twitterController;
-  AnimationController _tiktokController;
-  AnimationController _instagramController;
-  AnimationController _snapchatController;
+  late AnimationController _facebookController;
+  late AnimationController _twitterController;
+  late AnimationController _tiktokController;
+  late AnimationController _instagramController;
+  late AnimationController _snapchatController;
 
-  Animation<double> _facebookAnimation;
-  Animation<double> _twitterAnimation;
-  Animation<double> _tiktokAnimation;
-  Animation<double> _instagramAnimation;
-  Animation<double> _snapchatAnimation;
+  late Animation<double> _facebookAnimation;
+  late Animation<double> _twitterAnimation;
+  late Animation<double> _tiktokAnimation;
+  late Animation<double> _instagramAnimation;
+  late Animation<double> _snapchatAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    _isLightTheme = model?.themeData?.brightness == Brightness.light;
+    _isLightTheme = model.themeData.brightness == Brightness.light;
 
     _facebookController = AnimationController(
         duration: const Duration(milliseconds: 500),
@@ -124,96 +125,96 @@ class _MapBubblePageState extends SampleViewState
     //
     // [usersCount]: On the basis of this value, color mapping color has been
     // applied to the shape.
-    _facebookUsers = <_UsersModel>[
-      _UsersModel('India', 280),
-      _UsersModel('United States of America', 190),
-      _UsersModel('Indonesia', 130),
-      _UsersModel('Brazil', 120),
-      _UsersModel('Mexico', 86),
-      _UsersModel('Philippines', 72),
-      _UsersModel('Vietnam', 63),
-      _UsersModel('Thailand', 48),
-      _UsersModel('Egypt', 41),
-      _UsersModel('Bangladesh', 37),
-      _UsersModel('Pakistan', 37),
-      _UsersModel('Turkey', 37),
-      _UsersModel('United Kingdom', 37),
-      _UsersModel('Colombia', 33),
-      _UsersModel('France', 32),
+    _facebookUsers = <_UserDetails>[
+      _UserDetails('India', 280),
+      _UserDetails('United States of America', 190),
+      _UserDetails('Indonesia', 130),
+      _UserDetails('Brazil', 120),
+      _UserDetails('Mexico', 86),
+      _UserDetails('Philippines', 72),
+      _UserDetails('Vietnam', 63),
+      _UserDetails('Thailand', 48),
+      _UserDetails('Egypt', 41),
+      _UserDetails('Bangladesh', 37),
+      _UserDetails('Pakistan', 37),
+      _UserDetails('Turkey', 37),
+      _UserDetails('United Kingdom', 37),
+      _UserDetails('Colombia', 33),
+      _UserDetails('France', 32),
     ];
 
-    _twitterUsers = <_UsersModel>[
-      _UsersModel('United States of America', 64),
-      _UsersModel('Japan', 48),
-      _UsersModel('Russia', 23),
-      _UsersModel('United Kingdom', 17),
-      _UsersModel('Saudi Arabia', 15),
-      _UsersModel('Brazil', 14),
-      _UsersModel('Turkey', 13),
-      _UsersModel('India', 13),
-      _UsersModel('Indonesia', 11),
-      _UsersModel('Mexico', 10),
-      _UsersModel('France', 8),
-      _UsersModel('Spain', 8),
-      _UsersModel('Canada', 8),
-      _UsersModel('Thailand', 7),
-      _UsersModel('Philippines', 7),
-      _UsersModel('South Africa', 6),
+    _twitterUsers = <_UserDetails>[
+      _UserDetails('United States of America', 64),
+      _UserDetails('Japan', 48),
+      _UserDetails('Russia', 23),
+      _UserDetails('United Kingdom', 17),
+      _UserDetails('Saudi Arabia', 15),
+      _UserDetails('Brazil', 14),
+      _UserDetails('Turkey', 13),
+      _UserDetails('India', 13),
+      _UserDetails('Indonesia', 11),
+      _UserDetails('Mexico', 10),
+      _UserDetails('France', 8),
+      _UserDetails('Spain', 8),
+      _UserDetails('Canada', 8),
+      _UserDetails('Thailand', 7),
+      _UserDetails('Philippines', 7),
+      _UserDetails('South Africa', 6),
     ];
 
-    _tikTokUsers = <_UsersModel>[
-      _UsersModel('United States of America', 39),
-      _UsersModel('Turkey', 28),
-      _UsersModel('Russia', 24),
-      _UsersModel('Mexico', 19),
-      _UsersModel('Brazil', 18),
-      _UsersModel('Pakistan', 11),
-      _UsersModel('Saudi Arabia', 9),
-      _UsersModel('France', 9),
-      _UsersModel('Germany', 8),
-      _UsersModel('Egypt', 8),
-      _UsersModel('Italy', 7),
-      _UsersModel('United Kingdom', 6),
-      _UsersModel('Spain', 6),
-      _UsersModel('Poland', 5),
+    _tikTokUsers = <_UserDetails>[
+      _UserDetails('United States of America', 39),
+      _UserDetails('Turkey', 28),
+      _UserDetails('Russia', 24),
+      _UserDetails('Mexico', 19),
+      _UserDetails('Brazil', 18),
+      _UserDetails('Pakistan', 11),
+      _UserDetails('Saudi Arabia', 9),
+      _UserDetails('France', 9),
+      _UserDetails('Germany', 8),
+      _UserDetails('Egypt', 8),
+      _UserDetails('Italy', 7),
+      _UserDetails('United Kingdom', 6),
+      _UserDetails('Spain', 6),
+      _UserDetails('Poland', 5),
     ];
 
-    _instagramUsers = <_UsersModel>[
-      _UsersModel('United States of America', 120),
-      _UsersModel('India', 88),
-      _UsersModel('Brazil', 82),
-      _UsersModel('Indonesia', 64),
-      _UsersModel('Russia', 46),
-      _UsersModel('Turkey', 39),
-      _UsersModel('Japan', 31),
-      _UsersModel('Mexico', 26),
-      _UsersModel('United Kingdom', 25),
-      _UsersModel('Germany', 22),
-      _UsersModel('Italy', 21),
-      _UsersModel('France', 19),
-      _UsersModel('Argentina', 18),
-      _UsersModel('Spain', 17),
-      _UsersModel('Canada', 13),
-      _UsersModel('South Korea', 13),
+    _instagramUsers = <_UserDetails>[
+      _UserDetails('United States of America', 120),
+      _UserDetails('India', 88),
+      _UserDetails('Brazil', 82),
+      _UserDetails('Indonesia', 64),
+      _UserDetails('Russia', 46),
+      _UserDetails('Turkey', 39),
+      _UserDetails('Japan', 31),
+      _UserDetails('Mexico', 26),
+      _UserDetails('United Kingdom', 25),
+      _UserDetails('Germany', 22),
+      _UserDetails('Italy', 21),
+      _UserDetails('France', 19),
+      _UserDetails('Argentina', 18),
+      _UserDetails('Spain', 17),
+      _UserDetails('Canada', 13),
+      _UserDetails('South Korea', 13),
     ];
 
-    _snapChatUsers = <_UsersModel>[
-      _UsersModel('United States of America', 102),
-      _UsersModel('India', 28),
-      _UsersModel('France', 21),
-      _UsersModel('United Kingdom', 18),
-      _UsersModel('Saudi Arabia', 16),
-      _UsersModel('Mexico', 16),
-      _UsersModel('Japan', 31),
-      _UsersModel('Mexico', 26),
-      _UsersModel('Brazil', 13),
-      _UsersModel('Germany', 11),
-      _UsersModel('Canada', 9),
-      _UsersModel('Turkey', 8),
-      _UsersModel('Russia', 8),
-      _UsersModel('Philippines', 8),
-      _UsersModel('Iraq', 7),
-      _UsersModel('Egypt', 7),
+    _snapChatUsers = <_UserDetails>[
+      _UserDetails('United States of America', 102),
+      _UserDetails('India', 28),
+      _UserDetails('France', 21),
+      _UserDetails('United Kingdom', 18),
+      _UserDetails('Saudi Arabia', 16),
+      _UserDetails('Mexico', 16),
+      _UserDetails('Japan', 31),
+      _UserDetails('Mexico', 26),
+      _UserDetails('Brazil', 13),
+      _UserDetails('Germany', 11),
+      _UserDetails('Canada', 9),
+      _UserDetails('Turkey', 8),
+      _UserDetails('Russia', 8),
+      _UserDetails('Philippines', 8),
+      _UserDetails('Iraq', 7),
+      _UserDetails('Egypt', 7),
     ];
 
     _facebookMapSource = MapShapeSource.asset(
@@ -311,74 +312,81 @@ class _MapBubblePageState extends SampleViewState
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
-        ? _getMapsWidget()
+            model.isWebFullView
+        ? _buildMapsWidget()
         : SingleChildScrollView(
-            child: Container(height: 400, child: _getMapsWidget()));
+            child: Container(height: 400, child: _buildMapsWidget()));
   }
 
-  Widget _getMapsWidget() {
+  Widget _buildMapsWidget() {
     return Stack(
       children: <Widget>[
         Padding(
           padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                  model.isWeb
+                  model.isWebFullView
               ? EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.05,
                   bottom: MediaQuery.of(context).size.height * 0.15,
                   right: 10)
               : const EdgeInsets.only(bottom: 75.0, right: 10),
           child: SfMapsTheme(
-            data: SfMapsThemeData(
-              shapeHoverColor: Colors.transparent,
-              shapeHoverStrokeColor: Colors.transparent,
-              bubbleHoverColor: _shapeColor,
-              bubbleHoverStrokeColor: _bubbleColor,
-              bubbleHoverStrokeWidth: 1.5,
-            ),
-            child: SfMaps(
-              title: const MapTitle(
-                'Social Media Users Statistics',
-                padding: EdgeInsets.only(top: 15, bottom: 30),
+              data: SfMapsThemeData(
+                shapeHoverColor: Colors.transparent,
+                shapeHoverStrokeColor: Colors.transparent,
+                bubbleHoverColor: _shapeColor,
+                bubbleHoverStrokeColor: _bubbleColor,
+                bubbleHoverStrokeWidth: 1.5,
               ),
-              layers: <MapLayer>[
-                MapShapeLayer(
-                  loadingBuilder: (BuildContext context) {
-                    return Container(
-                      height: 25,
-                      width: 25,
-                      child: const CircularProgressIndicator(
-                        strokeWidth: 3,
+              child: Column(children: [
+                Padding(
+                    padding: EdgeInsets.only(top: 15, bottom: 30),
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: Text('Social Media Users Statistics',
+                            style: Theme.of(context).textTheme.subtitle1))),
+                Expanded(
+                  child: SfMaps(
+                    layers: <MapLayer>[
+                      MapShapeLayer(
+                        loadingBuilder: (BuildContext context) {
+                          return Container(
+                            height: 25,
+                            width: 25,
+                            child: const CircularProgressIndicator(
+                              strokeWidth: 3,
+                            ),
+                          );
+                        },
+                        source: _mapSource,
+                        color: _shapeColor,
+                        strokeWidth: 1,
+                        strokeColor: _shapeStrokeColor,
+                        // Returns the custom tooltip for each bubble.
+                        bubbleTooltipBuilder:
+                            (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(_getCustomizedString(index),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption!
+                                    .copyWith(color: _tooltipTextColor)),
+                          );
+                        },
+                        bubbleSettings: MapBubbleSettings(
+                            strokeColor: _bubbleStrokeColor,
+                            strokeWidth: 0.5,
+                            color: _bubbleColor,
+                            minRadius: 10,
+                            maxRadius: 40),
+                        tooltipSettings: MapTooltipSettings(
+                            color: _tooltipColor,
+                            strokeColor: _tooltipStrokeColor),
                       ),
-                    );
-                  },
-                  source: _mapSource,
-                  color: _shapeColor,
-                  strokeWidth: 1,
-                  strokeColor: _shapeStrokeColor,
-                  // Returns the custom tooltip for each bubble.
-                  bubbleTooltipBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(_getCustomizedString(index),
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              .copyWith(color: _tooltipTextColor)),
-                    );
-                  },
-                  bubbleSettings: MapBubbleSettings(
-                      strokeColor: _bubbleStrokeColor,
-                      strokeWidth: 0.5,
-                      color: _bubbleColor,
-                      minRadius: 10,
-                      maxRadius: 40),
-                  tooltipSettings: MapTooltipSettings(
-                      color: _tooltipColor, strokeColor: _tooltipStrokeColor),
-                ),
-              ],
-            ),
-          ),
+                    ],
+                  ),
+                )
+              ])),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -631,7 +639,6 @@ class _MapBubblePageState extends SampleViewState
     );
   }
 
-  // ignore: missing_return
   String _getCustomizedString(int index) {
     switch (_currentDelegate) {
       case 'FaceBook':
@@ -639,32 +646,29 @@ class _MapBubblePageState extends SampleViewState
             ' : ' +
             _facebookUsers[index].usersCount.toStringAsFixed(0) +
             'M users';
-        break;
       case 'Twitter':
         return _twitterUsers[index].country +
             ' : ' +
             _twitterUsers[index].usersCount.toStringAsFixed(0) +
             'M users';
-        break;
       case 'Instagram':
         return _instagramUsers[index].country +
             ' : ' +
             _instagramUsers[index].usersCount.toStringAsFixed(0) +
             'M users';
 
-        break;
       case 'SnapChat':
         return _snapChatUsers[index].country +
             ' : ' +
             _snapChatUsers[index].usersCount.toStringAsFixed(0) +
             'M users';
-        break;
       case 'Tiktok':
         return _tikTokUsers[index].country +
             ' : ' +
             _tikTokUsers[index].usersCount.toStringAsFixed(0) +
             'M users';
-        break;
+      default:
+        return '';
     }
   }
 
@@ -680,8 +684,9 @@ class _MapBubblePageState extends SampleViewState
   }
 }
 
-class _UsersModel {
-  _UsersModel(this.country, this.usersCount);
+class _UserDetails {
+  _UserDetails(this.country, this.usersCount);
+
   final String country;
   final double usersCount;
 }

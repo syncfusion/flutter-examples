@@ -20,14 +20,22 @@ class RadialBarCustomized extends SampleView {
 /// State class of radial bar customization.
 class _RadialBarCustomizedState extends SampleViewState {
   _RadialBarCustomizedState();
+  late TooltipBehavior _tooltipBehavior;
+
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, format: 'point.x : point.y%');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getCustomizedRadialBarChart();
+    return _buildCustomizedRadialBarChart();
   }
 
   /// Return the circular chart with radial customization.
-  SfCircularChart _getCustomizedRadialBarChart() {
+  SfCircularChart _buildCustomizedRadialBarChart() {
     final List<ChartSampleData> dataSources = <ChartSampleData>[
       ChartSampleData(
           x: 'Vehicle',
@@ -153,8 +161,7 @@ class _RadialBarCustomizedState extends SampleViewState {
         },
       ),
       series: _getRadialBarCustomizedSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, format: 'point.x : point.y%'),
+      tooltipBehavior: _tooltipBehavior,
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
           angle: 0,

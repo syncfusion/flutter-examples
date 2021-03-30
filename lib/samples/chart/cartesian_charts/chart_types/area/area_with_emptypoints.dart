@@ -20,14 +20,21 @@ class AreaEmpty extends SampleView {
 /// State class for the area with empty point chart.
 class _AreaEmptyState extends SampleViewState {
   _AreaEmptyState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getEmptyPointAreaChart();
+    return _buildEmptyPointAreaChart();
   }
 
   /// Returns the the Cartesian area chart with emptypoints.
-  SfCartesianChart _getEmptyPointAreaChart() {
+  SfCartesianChart _buildEmptyPointAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Inflation rate of US'),
@@ -43,8 +50,7 @@ class _AreaEmptyState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getEmptyPointAreaSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

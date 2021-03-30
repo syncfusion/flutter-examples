@@ -6,6 +6,7 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
+import '../../../widgets/custom_button.dart';
 
 /// Renders the gauge marker pointer sample
 class MarkerPointerExample extends SampleView {
@@ -19,13 +20,113 @@ class MarkerPointerExample extends SampleView {
 class _MarkerPointerExampleState extends SampleViewState {
   _MarkerPointerExampleState();
 
+  final List<String> _markerTypes = <String>[
+    'Circle',
+    'Diamond',
+    'Inverted triangle',
+    'Rectangle',
+    'Triangle',
+  ];
+
+  String _selectedMarkerType = 'Inverted triangle';
+  MarkerType _markerType = MarkerType.invertedTriangle;
+  double _elevation = 4;
+
+  @override
+  void initState() {
+    _selectedMarkerType = 'Inverted triangle';
+    _markerType = MarkerType.invertedTriangle;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _getMarkerPointerExample();
+    return _buildMarkerPointerExample();
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return ListView(shrinkWrap: true, children: <Widget>[
+        Container(
+            child: Row(
+          children: <Widget>[
+            Text('Marker type ',
+                style: TextStyle(
+                  color: model.textColor,
+                  fontSize: 16,
+                )),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: DropdownButton<String>(
+                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  value: _selectedMarkerType,
+                  items: _markerTypes.map((String value) {
+                    return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'Inverted triangle',
+                        child: Text('$value',
+                            style: TextStyle(color: model.textColor)));
+                  }).toList(),
+                  onChanged: (String? value) {
+                    _onMarkerTypeChange(value.toString());
+                    stateSetter(() {});
+                  }),
+            ),
+          ],
+        )),
+        Container(
+            child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text('Elevation',
+                style: TextStyle(fontSize: 16.0, color: model.textColor)),
+            Container(
+              padding: !model.isWebFullView
+                  ? EdgeInsets.fromLTRB(40, 0, 0, 0)
+                  : EdgeInsets.fromLTRB(50, 0, 0, 0),
+              child: CustomDirectionalButtons(
+                maxValue: 15,
+                minValue: 0,
+                initialValue: _elevation,
+                onChanged: (double val) {
+                  setState(() {
+                    _elevation = val;
+                  });
+                },
+                step: 1,
+                loop: true,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
+              ),
+            ),
+          ],
+        )),
+      ]);
+    });
+  }
+
+  /// Method for updating the marker type
+  void _onMarkerTypeChange(String item) {
+    setState(() {
+      _selectedMarkerType = item;
+      if (_selectedMarkerType == 'Circle') {
+        _markerType = MarkerType.circle;
+      } else if (_selectedMarkerType == 'Diamond') {
+        _markerType = MarkerType.diamond;
+      } else if (_selectedMarkerType == 'Inverted triangle') {
+        _markerType = MarkerType.invertedTriangle;
+      } else if (_selectedMarkerType == 'Rectangle') {
+        _markerType = MarkerType.rectangle;
+      } else if (_selectedMarkerType == 'Triangle') {
+        _markerType = MarkerType.triangle;
+      }
+    });
   }
 
   /// Returns the marker pointer gauge
-  SfRadialGauge _getMarkerPointerExample() {
+  SfRadialGauge _buildMarkerPointerExample() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -39,10 +140,11 @@ class _MarkerPointerExampleState extends SampleViewState {
             pointers: <GaugePointer>[
               MarkerPointer(
                   value: 70,
-                  markerWidth: 20,
-                  markerHeight: 20,
+                  elevation: _elevation,
+                  markerWidth: 25,
+                  markerHeight: 25,
                   color: const Color(0xFFF67280),
-                  markerType: MarkerType.invertedTriangle,
+                  markerType: _markerType,
                   markerOffset: -7)
             ],
             annotations: <GaugeAnnotation>[
@@ -76,11 +178,9 @@ class _MarkerPointerExampleState extends SampleViewState {
                 startValue: 0,
                 endValue: 100,
                 sizeUnit: GaugeSizeUnit.factor,
-                gradient: model.isWeb
-                    ? null
-                    : const SweepGradient(
-                        colors: <Color>[Color(0xFFAB64F5), Color(0xFF62DBF6)],
-                        stops: <double>[0.25, 0.75]),
+                gradient: const SweepGradient(
+                    colors: <Color>[Color(0xFFAB64F5), Color(0xFF62DBF6)],
+                    stops: <double>[0.25, 0.75]),
                 startWidth: 0.4,
                 endWidth: 0.4,
                 color: const Color(0xFF00A8B5),

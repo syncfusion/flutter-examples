@@ -21,11 +21,11 @@ class _RangeThicknessExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getRangeThicknessExampleGauge();
+    return _buildRangeThicknessExampleGauge();
   }
 
   /// Returns the range thickness gauge
-  SfRadialGauge getRangeThicknessExampleGauge() {
+  SfRadialGauge _buildRangeThicknessExampleGauge() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -70,14 +70,10 @@ class _RangeThicknessExampleState extends SampleViewState {
               GaugeRange(
                   startValue: 30,
                   endValue: 100,
-                  startWidth: model.isWeb ? 0.2 : 0.05,
-
-                  /// Sweep gradient not supported in web
-                  gradient: model.isWeb
-                      ? null
-                      : const SweepGradient(
-                          colors: <Color>[Color(0xFF289AB1), Color(0xFF43E695)],
-                          stops: <double>[0.25, 0.75]),
+                  startWidth: model.isWebFullView ? 0.2 : 0.05,
+                  gradient: const SweepGradient(
+                      colors: <Color>[Color(0xFF289AB1), Color(0xFF43E695)],
+                      stops: <double>[0.25, 0.75]),
                   color: const Color(0xFF289AB1),
                   rangeOffset: 0.08,
                   endWidth: 0.2,

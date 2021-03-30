@@ -22,11 +22,11 @@ class _RangeBarChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRangeBarChart();
+    return _buildRangeBarChart();
   }
 
   /// Returns the vertical range column chart.
-  SfCartesianChart _getRangeBarChart() {
+  SfCartesianChart _buildRangeBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 1,
       title: ChartTitle(

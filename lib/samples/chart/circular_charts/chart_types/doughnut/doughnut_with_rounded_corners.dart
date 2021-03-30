@@ -22,11 +22,11 @@ class _DoughnutRoundedState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRoundedDoughnutChart();
+    return _buildRoundedDoughnutChart();
   }
 
   /// Returns the circular charts with rounded corner doughnut series.
-  SfCircularChart _getRoundedDoughnutChart() {
+  SfCircularChart _buildRoundedDoughnutChart() {
     return SfCircularChart(
       legend: Legend(
           isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),

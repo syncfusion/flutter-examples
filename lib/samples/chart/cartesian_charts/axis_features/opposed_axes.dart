@@ -20,14 +20,22 @@ class NumericOpposed extends SampleView {
 /// State class of the column chart with opposed numeric axes.
 class _NumericOpposedState extends SampleViewState {
   _NumericOpposedState();
+  late TooltipBehavior _tooltipBehavior;
+
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getOpposedNumericAxisChart();
+    return _buildOpposedNumericAxisChart();
   }
 
   /// Returns the column chart with opposed numeric axes.
-  SfCartesianChart _getOpposedNumericAxisChart() {
+  SfCartesianChart _buildOpposedNumericAxisChart() {
     return SfCartesianChart(
       title: ChartTitle(
           text: isCardView ? '' : 'Light vehicle retail sales in US'),
@@ -47,8 +55,7 @@ class _NumericOpposedState extends SampleViewState {
           maximum: 20000,
           majorTickLines: MajorTickLines(size: 0)),
       series: _getOpposedNumericAxisSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

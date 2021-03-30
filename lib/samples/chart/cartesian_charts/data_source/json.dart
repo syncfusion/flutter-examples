@@ -23,8 +23,9 @@ class JsonData extends SampleView {
 
 class _JsonDataState extends SampleViewState {
   _JsonDataState();
+  late TrackballBehavior _trackballBehavior;
 
-  List<SampleData> chartData = [];
+  List<_SampleData> chartData = [];
 
   // Method to load Json file from assets.
   Future<String> _loadSalesDataAsset() async {
@@ -33,28 +34,41 @@ class _JsonDataState extends SampleViewState {
 
 // Method to hanlde deserialization steps.
   Future loadSalesData() async {
-    String jsonString = await _loadSalesDataAsset(); // Deserialization  step 1
+    final String jsonString =
+        await _loadSalesDataAsset(); // Deserialization  step 1
     final jsonResponse = json.decode(jsonString); // Deserialization  step 2
     setState(() {
-      for (Map i in jsonResponse) {
-        chartData.add(SampleData.fromJson(i)); // Deserialization step 3
+      for (final Map i in jsonResponse) {
+        chartData.add(_SampleData.fromJson(i)); // Deserialization step 3
       }
     });
   }
 
   @override
   void initState() {
-    loadSalesData();
     super.initState();
+    loadSalesData();
+    _trackballBehavior = TrackballBehavior(
+        enable: true,
+        lineColor: model.themeData.brightness == Brightness.dark
+            ? const Color.fromRGBO(255, 255, 255, 0.03)
+            : const Color.fromRGBO(0, 0, 0, 0.03),
+        lineWidth: 15,
+        activationMode: ActivationMode.singleTap,
+        markerSettings: TrackballMarkerSettings(
+            borderWidth: 4,
+            height: 10,
+            width: 10,
+            markerVisibility: TrackballVisibilityMode.visible));
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultLineChart();
+    return _buildDefaultLineChart();
   }
 
   /// Get the cartesian chart with default line series
-  SfCartesianChart _getDefaultLineChart() {
+  SfCartesianChart _buildDefaultLineChart() {
     return SfCartesianChart(
       key: GlobalKey(),
       plotAreaBorderWidth: 0,
@@ -77,50 +91,39 @@ class _JsonDataState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(color: Colors.transparent)),
       series: _getDefaultLineSeries(),
-      trackballBehavior: TrackballBehavior(
-          enable: true,
-          lineColor: model.themeData.brightness == Brightness.dark
-              ? const Color.fromRGBO(255, 255, 255, 0.03)
-              : const Color.fromRGBO(0, 0, 0, 0.03),
-          lineWidth: 15,
-          activationMode: ActivationMode.singleTap,
-          markerSettings: TrackballMarkerSettings(
-              borderWidth: 4,
-              height: 10,
-              width: 10,
-              markerVisibility: TrackballVisibilityMode.visible)),
+      trackballBehavior: _trackballBehavior,
     );
   }
 
   /// The method returns line series to chart.
-  List<LineSeries<SampleData, DateTime>> _getDefaultLineSeries() {
-    return <LineSeries<SampleData, DateTime>>[
-      LineSeries<SampleData, DateTime>(
+  List<LineSeries<_SampleData, DateTime>> _getDefaultLineSeries() {
+    return <LineSeries<_SampleData, DateTime>>[
+      LineSeries<_SampleData, DateTime>(
         dataSource: chartData,
-        xValueMapper: (SampleData sales, _) => sales.x,
-        yValueMapper: (SampleData sales, _) => sales.y1,
+        xValueMapper: (_SampleData sales, _) => sales.x,
+        yValueMapper: (_SampleData sales, _) => sales.y1,
         name: 'Product A',
       ),
-      LineSeries<SampleData, DateTime>(
+      LineSeries<_SampleData, DateTime>(
         dataSource: chartData,
         name: 'Product B',
-        xValueMapper: (SampleData sales, _) => sales.x,
-        yValueMapper: (SampleData sales, _) => sales.y2,
+        xValueMapper: (_SampleData sales, _) => sales.x,
+        yValueMapper: (_SampleData sales, _) => sales.y2,
       )
     ];
   }
 }
 
-class SampleData {
-  SampleData(this.x, this.y1, this.y2);
-  DateTime x;
-  num y1;
-  num y2;
-  factory SampleData.fromJson(Map<dynamic, dynamic> parsedJson) {
-    return SampleData(
+class _SampleData {
+  factory _SampleData.fromJson(Map<dynamic, dynamic> parsedJson) {
+    return _SampleData(
       DateTime.parse(parsedJson['x']),
       parsedJson['y1'],
       parsedJson['y2'],
     );
   }
+  _SampleData(this.x, this.y1, this.y2);
+  DateTime x;
+  num y1;
+  num y2;
 }

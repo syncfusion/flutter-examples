@@ -22,11 +22,11 @@ class _StackedLineChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getStackedLine100Chart();
+    return _buildStackedLine100Chart();
   }
 
   /// Returns the cartesian stacked line 100 chart.
-  SfCartesianChart _getStackedLine100Chart() {
+  SfCartesianChart _buildStackedLine100Chart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Monthly expense of a family'),

@@ -19,14 +19,21 @@ class StackedColumn100Chart extends SampleView {
 /// State class of the stacked column 100 chart.
 class _StackedColumn100ChartState extends SampleViewState {
   _StackedColumn100ChartState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getStackedColumn100Chart();
+    return _buildStackedColumn100Chart();
   }
 
   /// Returns the cartesian stacked column 100 chart.
-  SfCartesianChart _getStackedColumn100Chart() {
+  SfCartesianChart _buildStackedColumn100Chart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -41,8 +48,7 @@ class _StackedColumn100ChartState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedColumnSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

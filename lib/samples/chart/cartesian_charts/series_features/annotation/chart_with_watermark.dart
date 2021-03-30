@@ -19,14 +19,23 @@ class AnnotationDefault extends SampleView {
 /// State class of the chart with watermark.
 class _AnnotationDefaultState extends SampleViewState {
   _AnnotationDefaultState();
+  late TrackballBehavior _trackballBehavior;
+  @override
+  void initState() {
+    _trackballBehavior = TrackballBehavior(
+        enable: true,
+        activationMode: ActivationMode.singleTap,
+        tooltipSettings: InteractiveTooltip(format: 'point.x : point.y'));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultAnnotationChart();
+    return _buildDefaultAnnotationChart();
   }
 
   /// Returns the cartesian chart with watermark.
-  SfCartesianChart _getDefaultAnnotationChart() {
+  SfCartesianChart _buildDefaultAnnotationChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -42,10 +51,7 @@ class _AnnotationDefaultState extends SampleViewState {
         majorTickLines: MajorTickLines(size: 0),
       ),
       series: _getAnnotationLineSeries(),
-      trackballBehavior: TrackballBehavior(
-          enable: true,
-          activationMode: ActivationMode.singleTap,
-          tooltipSettings: InteractiveTooltip(format: 'point.x : point.y')),
+      trackballBehavior: _trackballBehavior,
 
       /// Using various styles in annotation we can achieve
       /// the water marker on chart.

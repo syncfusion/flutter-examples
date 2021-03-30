@@ -19,14 +19,21 @@ class StackedLineChart extends SampleView {
 /// State class of the stacked line chart.
 class _StackedLineChartState extends SampleViewState {
   _StackedLineChartState();
+  late TrackballBehavior _trackballBehavior;
+  @override
+  void initState() {
+    _trackballBehavior = TrackballBehavior(
+        enable: true, activationMode: ActivationMode.singleTap);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getStackedLineChart();
+    return _buildStackedLineChart();
   }
 
   /// Returns the cartesian stacked line chart.
-  SfCartesianChart _getStackedLineChart() {
+  SfCartesianChart _buildStackedLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Monthly expense of a family'),
@@ -41,8 +48,7 @@ class _StackedLineChartState extends SampleViewState {
           labelFormat: '\${value}',
           majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedLineSeries(),
-      trackballBehavior: TrackballBehavior(
-          enable: true, activationMode: ActivationMode.singleTap),
+      trackballBehavior: _trackballBehavior,
     );
   }
 

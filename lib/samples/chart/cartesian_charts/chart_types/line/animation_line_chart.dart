@@ -22,8 +22,8 @@ class AnimationLineDefault extends SampleView {
 class _AnimationLineDefaultState extends SampleViewState {
   _AnimationLineDefaultState();
 
-  Timer _timer;
-  List<_ChartData> _chartData;
+  Timer? _timer;
+  late List<_ChartData> _chartData;
   @override
   Widget build(BuildContext context) {
     _getChartData();
@@ -33,11 +33,11 @@ class _AnimationLineDefaultState extends SampleViewState {
       });
     });
 
-    return _getAnimationLineChart();
+    return _buildAnimationLineChart();
   }
 
   ///Get the cartesian chart with line series
-  SfCartesianChart _getAnimationLineChart() {
+  SfCartesianChart _buildAnimationLineChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
@@ -63,10 +63,10 @@ class _AnimationLineDefaultState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timer?.cancel();
   }
 
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }

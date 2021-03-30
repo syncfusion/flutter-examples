@@ -9,6 +9,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the Radial Slider angles.
 class RadialRangeSliderAngles extends SampleView {
+  /// Creates the radial slider angles sample.
   const RadialRangeSliderAngles(Key key) : super(key: key);
 
   @override
@@ -20,6 +21,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
   _RadialRangeSliderAnglesState();
 
   double _size = 150;
+  late double width, height;
   @override
   void initState() {
     super.initState();
@@ -31,52 +33,64 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
       _markerSize = 18;
       _annotationFontSize = 15;
     } else {
-      _markerSize = model.isWeb ? 18 : 12;
-      _annotationFontSize = model.isWeb ? 15 : 12;
+      _markerSize = model.isWebFullView ? 25 : 12;
+      _annotationFontSize = model.isWebFullView ? 15 : 12;
     }
-    if (MediaQuery.of(context).size.height >
-        MediaQuery.of(context).size.width) {
-      _size = model.isWeb
-          ? MediaQuery.of(context).size.height / 6
-          : MediaQuery.of(context).size.height / 6;
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+    if (height > width) {
+      _size = model.isWebFullView ? height / 6 : height / 6;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _getFirstSlider(),
+            _buildFirstSlider(),
             Align(
-              alignment: !model.isWeb ? Alignment(0, 0) : Alignment(0, 0),
-              child: _getSecondSlider(),
+              alignment:
+                  !model.isWebFullView ? Alignment(0, 0) : Alignment(0, 0),
+              child: _buildSecondSlider(),
             ),
             Align(
-                alignment: !model.isWeb ? Alignment(0, 0) : Alignment(0, 0),
-                child: _getThirdSlider()),
+                alignment:
+                    !model.isWebFullView ? Alignment(0, 0) : Alignment(0, 0),
+                child: _buildThirdSlider()),
             Align(
-                alignment: model.isWeb ? Alignment(0, 0) : Alignment(0, 0),
-                child: _getFourthSlider()),
+                alignment:
+                    model.isWebFullView ? Alignment(0, 0) : Alignment(0, 0),
+                child: _buildFourthSlider()),
           ],
         ),
       );
     } else {
-      _size = MediaQuery.of(context).size.width / 5.5;
+      _size = width / 5.5;
       return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _getFirstSlider(),
             Align(
-              alignment: Alignment(0.8, 0),
-              child: _getSecondSlider(),
+              alignment:
+                  model.isWebFullView ? Alignment.centerRight : Alignment(0, 0),
+              child: _buildFirstSlider(),
             ),
             Align(
-              alignment: Alignment(-0.5, 0),
-              child: _getThirdSlider(),
+              alignment: model.isWebFullView
+                  ? Alignment.centerLeft
+                  : Alignment(0.8, 0),
+              child: _buildSecondSlider(),
             ),
             Align(
-                alignment: model.isWeb ? Alignment(0, 0) : Alignment(0, 0.5),
-                child: _getFourthSlider()),
+              alignment: model.isWebFullView
+                  ? Alignment.centerLeft
+                  : Alignment(-0.5, 0),
+              child: _buildThirdSlider(),
+            ),
+            Align(
+                alignment: model.isWebFullView
+                    ? Alignment(-0.1, 0.25)
+                    : Alignment(0, 0.5),
+                child: _buildFourthSlider()),
           ],
         ),
       );
@@ -88,59 +102,71 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
     super.dispose();
   }
 
-  Widget _getSecondSlider() {
+  Widget _buildSecondSlider() {
     return Container(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
             radiusFactor: 0.8,
+            interval: 10,
             axisLineStyle: AxisLineStyle(
-                thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
+                color: Color.fromRGBO(88, 194, 143, 0.3),
+                thickness: 0.1,
+                thicknessUnit: GaugeSizeUnit.factor),
             showLabels: false,
             showTicks: false,
             startAngle: 90,
             endAngle: 270,
+            canScaleToFit: model.isWebFullView
+                ? width > height
+                    ? true
+                    : false
+                : false,
             ranges: <GaugeRange>[
               GaugeRange(
                   startValue: _thirdMarkerValue,
                   endValue: _fourthMarkerValue,
                   endWidth: 0.1,
                   startWidth: 0.1,
-                  color: const Color.fromRGBO(0, 198, 139, 1),
+                  color: const Color.fromRGBO(88, 194, 143, 1),
                   sizeUnit: GaugeSizeUnit.factor)
             ],
             pointers: <GaugePointer>[
               MarkerPointer(
                 value: _thirdMarkerValue,
+                elevation: 5,
                 enableDragging: true,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
+                color: Color.fromRGBO(88, 194, 143, 1),
+                // model.currentThemeData.brightness == Brightness.light
+                //     ? Colors.white
+                //     : Colors.black,
                 onValueChanged: handleThirdPointerValueChanged,
                 onValueChanging: handleThirdPointerValueChanging,
-                borderWidth: 4,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                // borderWidth: 4,
+                // borderColor:
+                //     model.currentThemeData.brightness == Brightness.light
+                //         ? Colors.black
+                //         : Colors.white,
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
               ),
               MarkerPointer(
                 value: _fourthMarkerValue,
+                elevation: 5,
                 enableDragging: true,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
-                borderWidth: 4,
+                color: Color.fromRGBO(88, 194, 143, 1),
+                // model.currentThemeData.brightness == Brightness.light
+                //     ? Colors.white
+                //     : Colors.black,
+                // borderWidth: 4,
                 onValueChanged: handleFourthPointerValueChanged,
                 onValueChanging: handleFourthPointerValueChanging,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                // borderColor:
+                //     model.currentThemeData.brightness == Brightness.light
+                //         ? Colors.black
+                //         : Colors.white,
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
@@ -154,7 +180,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                         fontSize: _annotationFontSize,
                         fontFamily: 'Times',
                         fontWeight: FontWeight.bold,
-                        color: model.currentThemeData.brightness ==
+                        color: model.currentThemeData!.brightness ==
                                 Brightness.light
                             ? Colors.black
                             : Colors.white),
@@ -166,59 +192,71 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
     );
   }
 
-  Widget _getThirdSlider() {
+  Widget _buildThirdSlider() {
     return Container(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
             radiusFactor: 0.8,
+            interval: 10,
             axisLineStyle: AxisLineStyle(
-                thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
+                color: Color.fromRGBO(88, 194, 143, 0.3),
+                thickness: 0.1,
+                thicknessUnit: GaugeSizeUnit.factor),
             showLabels: false,
             showTicks: false,
             startAngle: 270,
             endAngle: 90,
+            canScaleToFit: model.isWebFullView
+                ? width > height
+                    ? true
+                    : false
+                : false,
             ranges: <GaugeRange>[
               GaugeRange(
                   startValue: _fifthMarkerValue,
                   endValue: _sixthMarkerValue,
                   endWidth: 0.1,
                   startWidth: 0.1,
-                  color: const Color.fromRGBO(0, 198, 139, 1),
+                  color: const Color.fromRGBO(88, 194, 143, 1),
                   sizeUnit: GaugeSizeUnit.factor)
             ],
             pointers: <GaugePointer>[
               MarkerPointer(
                 value: _fifthMarkerValue,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
-                borderWidth: 4,
+                elevation: 5,
+                color: Color.fromRGBO(88, 194, 143, 1),
+                // model.currentThemeData.brightness == Brightness.light
+                //     ? Colors.white
+                //     : Colors.black,
+                // borderWidth: 4,
                 onValueChanged: handleFifthPointerValueChanged,
                 onValueChanging: handleFifthPointerValueChanging,
                 enableDragging: true,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                // borderColor:
+                //     model.currentThemeData.brightness == Brightness.light
+                //         ? Colors.black
+                //         : Colors.white,
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
               ),
               MarkerPointer(
                 value: _sixthMarkerValue,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
-                borderWidth: 4,
+                elevation: 5,
+                color: Color.fromRGBO(88, 194, 143, 1),
+                // model.currentThemeData.brightness == Brightness.light
+                //     ? Colors.white
+                //     : Colors.black,
+                // borderWidth: 4,
                 onValueChanged: handleSixthPointerValueChanged,
                 onValueChanging: handleSixthPointerValueChanging,
                 enableDragging: true,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                // borderColor:
+                //     model.currentThemeData.brightness == Brightness.light
+                //         ? Colors.black
+                //         : Colors.white,
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
@@ -232,7 +270,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                         fontSize: _annotationFontSize,
                         fontFamily: 'Times',
                         fontWeight: FontWeight.bold,
-                        color: model.currentThemeData.brightness ==
+                        color: model.currentThemeData!.brightness ==
                                 Brightness.light
                             ? Colors.black
                             : Colors.white),
@@ -244,7 +282,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
     );
   }
 
-  Widget _getFirstSlider() {
+  Widget _buildFirstSlider() {
     return Container(
       height: _size,
       width: _size,
@@ -252,7 +290,9 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
         RadialAxis(
             radiusFactor: 0.8,
             axisLineStyle: AxisLineStyle(
-                thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
+                color: Color.fromRGBO(88, 194, 143, 0.3),
+                thickness: 0.1,
+                thicknessUnit: GaugeSizeUnit.factor),
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -263,40 +303,44 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                   endValue: _secondMarkerValue,
                   endWidth: 0.1,
                   startWidth: 0.1,
-                  color: const Color.fromRGBO(0, 198, 139, 1),
+                  color: const Color.fromRGBO(88, 194, 143, 1),
                   sizeUnit: GaugeSizeUnit.factor)
             ],
             pointers: <GaugePointer>[
               MarkerPointer(
                 value: _firstMarkerValue,
+                elevation: 5,
                 onValueChanged: handleFirstPointerValueChanged,
                 onValueChanging: handleFirstPointerValueChanging,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
-                borderWidth: 4,
+                color: Color.fromRGBO(88, 194, 143, 1),
+                // model.currentThemeData.brightness == Brightness.light
+                //     ? Colors.white
+                //     : Colors.black,
+                // borderWidth: 4,
                 enableDragging: true,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                // borderColor:
+                //     model.currentThemeData.brightness == Brightness.light
+                //         ? Colors.black
+                //         : Colors.white,
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
               ),
               MarkerPointer(
                 value: _secondMarkerValue,
+                elevation: 5,
                 onValueChanged: handleSecondPointerValueChanged,
                 onValueChanging: handleSecondPointerValueChanging,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
+                color: Color.fromRGBO(88, 194, 143, 1),
+                // model.currentThemeData.brightness == Brightness.light
+                //     ? Colors.white
+                //     : Colors.black,
                 enableDragging: true,
-                borderWidth: 4,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                // borderWidth: 4,
+                // borderColor:
+                //     model.currentThemeData.brightness == Brightness.light
+                //         ? Colors.black
+                //         : Colors.white,
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
@@ -310,7 +354,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                         fontSize: _annotationFontSize,
                         fontFamily: 'Times',
                         fontWeight: FontWeight.bold,
-                        color: model.currentThemeData.brightness ==
+                        color: model.currentThemeData!.brightness ==
                                 Brightness.light
                             ? Colors.black
                             : Colors.white),
@@ -322,7 +366,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
     );
   }
 
-  Widget _getFourthSlider() {
+  Widget _buildFourthSlider() {
     return Container(
       height: _size,
       width: _size,
@@ -330,7 +374,9 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
         RadialAxis(
           radiusFactor: 0.8,
           axisLineStyle: AxisLineStyle(
-              thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
+              color: Color.fromRGBO(88, 194, 143, 0.3),
+              thickness: 0.1,
+              thicknessUnit: GaugeSizeUnit.factor),
           showLabels: false,
           showTicks: false,
           startAngle: 180,
@@ -341,38 +387,42 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                 endValue: _eighthMarkerValue,
                 endWidth: 0.1,
                 startWidth: 0.1,
-                color: const Color.fromRGBO(0, 198, 139, 1),
+                color: const Color.fromRGBO(88, 194, 143, 1),
                 sizeUnit: GaugeSizeUnit.factor)
           ],
           pointers: <GaugePointer>[
             MarkerPointer(
               value: _seventhMarkerValue,
-              color: model.currentThemeData.brightness == Brightness.light
-                  ? Colors.white
-                  : Colors.black,
-              borderWidth: 4,
+              elevation: 5,
+              color: Color.fromRGBO(88, 194, 143, 1),
+              // model.currentThemeData.brightness == Brightness.light
+              //     ? Colors.white
+              //     : Colors.black,
+              // borderWidth: 4,
               onValueChanged: handleSeventhPointerValueChanged,
               onValueChanging: handleSeventhPointerValueChanging,
               enableDragging: true,
-              borderColor: model.currentThemeData.brightness == Brightness.light
-                  ? Colors.black
-                  : Colors.white,
+              // borderColor: model.currentThemeData.brightness == Brightness.light
+              //     ? Colors.black
+              //     : Colors.white,
               markerHeight: _markerSize,
               markerWidth: _markerSize,
               markerType: MarkerType.circle,
             ),
             MarkerPointer(
               value: _eighthMarkerValue,
-              color: model.currentThemeData.brightness == Brightness.light
-                  ? Colors.white
-                  : Colors.black,
-              borderWidth: 4,
+              elevation: 5,
+              color: Color.fromRGBO(88, 194, 143, 1),
+              // model.currentThemeData.brightness == Brightness.light
+              //     ? Colors.white
+              //     : Colors.black,
+              // borderWidth: 4,
               onValueChanged: handleEighthPointerValueChanged,
               onValueChanging: handleEighthPointerValueChanging,
               enableDragging: true,
-              borderColor: model.currentThemeData.brightness == Brightness.light
-                  ? Colors.black
-                  : Colors.white,
+              // borderColor: model.currentThemeData.brightness == Brightness.light
+              //     ? Colors.black
+              //     : Colors.white,
               markerHeight: _markerSize,
               markerWidth: _markerSize,
               markerType: MarkerType.circle,
@@ -387,7 +437,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
                       color:
-                          model.currentThemeData.brightness == Brightness.light
+                          model.currentThemeData!.brightness == Brightness.light
                               ? Colors.black
                               : Colors.white),
                 ),
@@ -404,7 +454,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
   void handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
-      final int _value = _secondMarkerValue.abs().round().toInt();
+      final int _value = _secondMarkerValue.abs().roundToDouble().toInt();
       _annotationValue_1 = '$_value';
     });
   }
@@ -413,16 +463,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
   void handleSecondPointerValueChanging(ValueChangingArgs args) {
     if (args.value <= _firstMarkerValue ||
         (args.value - _secondMarkerValue).abs() > 10) {
-      if (args.value <= _firstMarkerValue) {
-        if ((args.value - _secondMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _secondMarkerValue = _firstMarkerValue;
-          _firstMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -430,7 +471,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
   void handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
-      final int _value = _firstMarkerValue.abs().round().toInt();
+      final int _value = _firstMarkerValue.abs().roundToDouble().toInt();
       _annotationValue1 = '$_value';
     });
   }
@@ -439,16 +480,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
   void handleFirstPointerValueChanging(ValueChangingArgs args) {
     if (args.value >= _secondMarkerValue ||
         (args.value - _firstMarkerValue).abs() > 10) {
-      if (args.value >= _secondMarkerValue) {
-        if ((args.value - _firstMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _firstMarkerValue = _secondMarkerValue;
-          _secondMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -464,16 +496,8 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 6.
   void handleFourthPointerValueChanging(ValueChangingArgs args) {
-    if (args.value <= _thirdMarkerValue ||
-        (args.value - _fourthMarkerValue).abs() > 10) {
-      if (args.value <= _thirdMarkerValue) {
-        if ((args.value - _fourthMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _fourthMarkerValue = _thirdMarkerValue;
-          _thirdMarkerValue = args.value;
-        }
-      }
+    if (args.value <= _thirdMarkerValue) {
+      args.cancel = true;
     }
   }
 
@@ -488,16 +512,8 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Value changeing call back for first pointer
   void handleThirdPointerValueChanging(ValueChangingArgs args) {
-    if (args.value >= _fourthMarkerValue ||
-        (args.value - _thirdMarkerValue).abs() > 10) {
-      if (args.value >= _fourthMarkerValue) {
-        if ((args.value - _thirdMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _thirdMarkerValue = _fourthMarkerValue;
-          _fourthMarkerValue = args.value;
-        }
-      }
+    if (args.value >= _fourthMarkerValue) {
+      args.cancel = true;
     }
   }
 
@@ -513,16 +529,8 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 6.
   void handleSixthPointerValueChanging(ValueChangingArgs args) {
-    if (args.value <= _fifthMarkerValue ||
-        (args.value - _sixthMarkerValue).abs() > 10) {
-      if (args.value <= _fifthMarkerValue) {
-        if ((args.value - _sixthMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _sixthMarkerValue = _fifthMarkerValue;
-          _fifthMarkerValue = args.value;
-        }
-      }
+    if (args.value <= _fifthMarkerValue) {
+      args.cancel = true;
     }
   }
 
@@ -537,16 +545,8 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Value changeing call back for first pointer
   void handleFifthPointerValueChanging(ValueChangingArgs args) {
-    if (args.value >= _sixthMarkerValue ||
-        (args.value - _fifthMarkerValue).abs() > 10) {
-      if (args.value >= _sixthMarkerValue) {
-        if ((args.value - _fifthMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _fifthMarkerValue = _sixthMarkerValue;
-          _sixthMarkerValue = args.value;
-        }
-      }
+    if (args.value >= _sixthMarkerValue) {
+      args.cancel = true;
     }
   }
 
@@ -562,16 +562,8 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 6.
   void handleEighthPointerValueChanging(ValueChangingArgs args) {
-    if (args.value <= _seventhMarkerValue ||
-        (args.value - _eighthMarkerValue).abs() > 10) {
-      if (args.value <= _seventhMarkerValue) {
-        if ((args.value - _eighthMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _eighthMarkerValue = _seventhMarkerValue;
-          _seventhMarkerValue = args.value;
-        }
-      }
+    if (args.value <= _seventhMarkerValue) {
+      args.cancel = true;
     }
   }
 
@@ -586,16 +578,8 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Value changeing call back for first pointer
   void handleSeventhPointerValueChanging(ValueChangingArgs args) {
-    if (args.value >= _eighthMarkerValue ||
-        (args.value - _seventhMarkerValue).abs() > 10) {
-      if (args.value >= _eighthMarkerValue) {
-        if ((args.value - _seventhMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _seventhMarkerValue = _eighthMarkerValue;
-          _eighthMarkerValue = args.value;
-        }
-      }
+    if (args.value >= _eighthMarkerValue) {
+      args.cancel = true;
     }
   }
 

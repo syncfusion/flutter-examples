@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-///PDF Viewer import
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-
 /// Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///PDF Viewer import
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 ///Local import
 import '../../model/sample_view.dart';
@@ -22,22 +22,31 @@ class GettingStartedPdfViewer extends SampleView {
 }
 
 class _GettingStartedPdfViewerState extends SampleViewState {
-  bool _showPdf;
-  bool _showToast;
-  OverlayEntry _overlayEntry;
-  Color _contextMenuColor;
-  Color _copyColor;
-  double _contextMenuWidth;
-  double _contextMenuHeight;
+  late bool _canShowPdf;
+  late bool _canShowToast;
+  OverlayEntry? _overlayEntry;
+  late Color _contextMenuColor;
+  late Color _copyColor;
+  late double _contextMenuWidth;
+  late double _contextMenuHeight;
+  final double _kWebContextMenuHeight = 32;
+  final double _kMobileContextMenuHeight = 48;
+  final double _kContextMenuBottom = 55;
   final PdfViewerController _pdfViewerController = PdfViewerController();
 
   @override
   void initState() {
-    _showPdf = false;
-    _showToast = false;
+    Future.delayed(Duration(milliseconds: 600), () {
+      final currentFocus = FocusScope.of(context);
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.requestFocus(FocusNode());
+      }
+    });
+    super.initState();
+    _canShowPdf = false;
+    _canShowToast = false;
     _contextMenuHeight = 48;
     _contextMenuWidth = 100;
-    super.initState();
   }
 
   @override
@@ -55,28 +64,37 @@ class _GettingStartedPdfViewerState extends SampleViewState {
   /// Show Context menu for Text Selection.
   void _showContextMenu(
       BuildContext context, PdfTextSelectionChangedDetails details) {
+    _contextMenuHeight = (model.isWebFullView && !model.isMobileResolution)
+        ? _kWebContextMenuHeight
+        : _kMobileContextMenuHeight;
     final RenderBox renderBoxContainer =
-        context.findRenderObject() as RenderBox;
+        // ignore: avoid_as
+        context.findRenderObject()! as RenderBox;
     final Offset containerOffset = renderBoxContainer.localToGlobal(
       renderBoxContainer.paintBounds.topLeft,
     );
-    if (containerOffset.dy < details.globalSelectedRegion.topLeft.dy - 55 ||
+    if (containerOffset.dy <
+            details.globalSelectedRegion!.topLeft.dy - _kContextMenuBottom ||
         (containerOffset.dy <
-                details.globalSelectedRegion.center.dy -
+                details.globalSelectedRegion!.center.dy -
                     (_contextMenuHeight / 2) &&
-            details.globalSelectedRegion.height > _contextMenuWidth)) {
-      double top = details.globalSelectedRegion.height > _contextMenuWidth
-          ? details.globalSelectedRegion.center.dy - (_contextMenuHeight / 2)
-          : details.globalSelectedRegion.topLeft.dy - 55;
-      double left = details.globalSelectedRegion.height > _contextMenuWidth
-          ? details.globalSelectedRegion.center.dx - (_contextMenuWidth / 2)
-          : details.globalSelectedRegion.bottomLeft.dx;
-      if ((details.globalSelectedRegion.top) >
+            details.globalSelectedRegion!.height > _contextMenuWidth)) {
+      double top = 0.0;
+      double left = 0.0;
+      if ((details.globalSelectedRegion!.top) >
           MediaQuery.of(context).size.height / 2) {
-        top = details.globalSelectedRegion.topLeft.dy - 55;
-        left = details.globalSelectedRegion.bottomLeft.dx;
+        top = details.globalSelectedRegion!.topLeft.dy - _kContextMenuBottom;
+        left = details.globalSelectedRegion!.bottomLeft.dx;
+      } else {
+        top = details.globalSelectedRegion!.height > _contextMenuWidth
+            ? details.globalSelectedRegion!.center.dy - (_contextMenuHeight / 2)
+            : details.globalSelectedRegion!.topLeft.dy - _kContextMenuBottom;
+        left = details.globalSelectedRegion!.height > _contextMenuWidth
+            ? details.globalSelectedRegion!.center.dx - (_contextMenuWidth / 2)
+            : details.globalSelectedRegion!.bottomLeft.dx;
       }
-      final OverlayState _overlayState = Overlay.of(context);
+      final OverlayState? _overlayState =
+          Overlay.of(context, rootOverlay: true);
       _overlayEntry = OverlayEntry(
         builder: (context) => Positioned(
           top: top,
@@ -104,30 +122,76 @@ class _GettingStartedPdfViewerState extends SampleViewState {
             ),
             constraints: BoxConstraints.tightFor(
                 width: _contextMenuWidth, height: _contextMenuHeight),
-            child: FlatButton(
-              child: Text(
-                'Copy',
-                style: TextStyle(fontSize: 17, color: _copyColor),
-              ),
+            child: TextButton(
               onPressed: () async {
                 _checkAndCloseContextMenu();
                 _pdfViewerController.clearSelection();
                 await Clipboard.setData(
                     ClipboardData(text: details.selectedText));
                 setState(() {
-                  _showToast = true;
+                  _canShowToast = true;
                 });
                 await Future.delayed(Duration(seconds: 1));
                 setState(() {
-                  _showToast = false;
+                  _canShowToast = false;
                 });
               },
+              child: Text(
+                'Copy',
+                style: (model.isWebFullView && !model.isMobileResolution)
+                    ? TextStyle(
+                        color: _copyColor,
+                        fontSize: 16,
+                        fontFamily: 'Roboto',
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w400)
+                    : TextStyle(fontSize: 17, color: _copyColor),
+              ),
             ),
           ),
         ),
       );
-      _overlayState.insert(_overlayEntry);
+      _overlayState?.insert(_overlayEntry!);
     }
+  }
+
+  /// Check and close the context menu.
+  void _checkAndCloseContextMenu() {
+    if (_overlayEntry != null) {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+    }
+  }
+
+  /// Shows toast once after the selected text is copied to the Clipboard.
+  Widget _showToast() {
+    return Positioned.fill(
+      bottom: 25.0,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Flex(
+          direction: Axis.horizontal,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 16, top: 6, right: 16, bottom: 6),
+              decoration: BoxDecoration(
+                color: Colors.grey[600],
+                borderRadius: BorderRadius.all(
+                  Radius.circular(16.0),
+                ),
+              ),
+              child: Text(
+                'Copied',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: 'Roboto', fontSize: 16, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -135,10 +199,10 @@ class _GettingStartedPdfViewerState extends SampleViewState {
     return Scaffold(
       body: FutureBuilder(
           future: Future.delayed(Duration(milliseconds: 200)).then((value) {
-            _showPdf = true;
+            _canShowPdf = true;
           }),
           builder: (context, snapshot) {
-            if (_showPdf) {
+            if (_canShowPdf) {
               return SfPdfViewerTheme(
                 data: SfPdfViewerThemeData(
                     brightness: model.themeData.brightness),
@@ -158,54 +222,17 @@ class _GettingStartedPdfViewerState extends SampleViewState {
                     },
                   ),
                   Visibility(
-                    visible: _showToast,
-                    child: Positioned.fill(
-                      bottom: 25.0,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: 16, top: 6, right: 16, bottom: 6),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[500],
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(16.0),
-                                ),
-                              ),
-                              child: Text(
-                                'Copied',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 16,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    visible: _canShowToast,
+                    child: _showToast(),
                   ),
                 ]),
               );
             } else {
               return Container(
-                color: SfPdfViewerTheme.of(context).backgroundColor,
+                color: SfPdfViewerTheme.of(context)!.backgroundColor,
               );
             }
           }),
     );
-  }
-
-  /// Check and close the context menu.
-  void _checkAndCloseContextMenu() {
-    if (_overlayEntry != null) {
-      _overlayEntry.remove();
-      _overlayEntry = null;
-    }
   }
 }

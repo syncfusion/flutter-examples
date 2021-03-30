@@ -23,8 +23,8 @@ class AnimationRangeColumnDefault extends SampleView {
 
 class _AnimationRangeColumnDefaultState extends SampleViewState {
   _AnimationRangeColumnDefaultState();
-  Timer _timer;
-  List<_ChartData> _chartData;
+  Timer? _timer;
+  late List<_ChartData> _chartData;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,11 @@ class _AnimationRangeColumnDefaultState extends SampleViewState {
         _getChartData();
       });
     });
-    return _getAnimationRangeColumnChart();
+    return _buildAnimationRangeColumnChart();
   }
 
   /// Get range column chart animation.
-  SfCartesianChart _getAnimationRangeColumnChart() {
+  SfCartesianChart _buildAnimationRangeColumnChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
@@ -64,10 +64,10 @@ class _AnimationRangeColumnDefaultState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timer?.cancel();
   }
 
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }

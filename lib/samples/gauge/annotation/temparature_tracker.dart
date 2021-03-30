@@ -21,16 +21,16 @@ class _RadialImageAnnotationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialImageAnnotation();
+    return _buildRadialImageAnnotation();
   }
 
   /// Returns the image annotation gauge
-  SfRadialGauge _getRadialImageAnnotation() {
+  SfRadialGauge _buildRadialImageAnnotation() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
             interval: 10,
-            radiusFactor: model.isWeb ? 0.8 : 0.95,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.95,
             startAngle: 0,
             endAngle: 360,
             showTicks: false,
@@ -42,11 +42,9 @@ class _RadialImageAnnotationState extends SampleViewState {
                   width: 20,
                   color: const Color(0xFFFFCD60),
                   enableAnimation: true,
-                  gradient: model.isWeb
-                      ? null
-                      : const SweepGradient(
-                          colors: <Color>[Color(0xFFFCE38A), Color(0xFFF38181)],
-                          stops: <double>[0.25, 0.75]),
+                  gradient: const SweepGradient(
+                      colors: <Color>[Color(0xFFFCE38A), Color(0xFFF38181)],
+                      stops: <double>[0.25, 0.75]),
                   cornerStyle: CornerStyle.bothCurve)
             ],
             annotations: <GaugeAnnotation>[

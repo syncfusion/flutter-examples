@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 ///Map import
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Core theme import
@@ -24,7 +25,8 @@ class MapMarkerPage extends SampleView {
 }
 
 class _MapMarkerPageState extends SampleViewState {
-  List<_ClockModel> _clockModelData;
+  late List<_TimeDetails> _worldClockData;
+  late MapShapeSource _mapSource;
 
   @override
   void initState() {
@@ -33,60 +35,75 @@ class _MapMarkerPageState extends SampleViewState {
     final DateTime _currentTime = DateTime.now().toUtc();
 
     // Data source to the map markers.
-    _clockModelData = <_ClockModel>[
-      _ClockModel('Seattle', 47.60621, -122.332071,
+    _worldClockData = <_TimeDetails>[
+      _TimeDetails('Seattle', 47.60621, -122.332071,
           _currentTime.subtract(const Duration(hours: 7))),
-      _ClockModel('Belem', -1.455833, -48.503887,
+      _TimeDetails('Belem', -1.455833, -48.503887,
           _currentTime.subtract(const Duration(hours: 3))),
-      _ClockModel('Greenland', 71.706936, -42.604303,
+      _TimeDetails('Greenland', 71.706936, -42.604303,
           _currentTime.subtract(const Duration(hours: 2))),
-      _ClockModel('Yakutsk', 62.035452, 129.675475,
+      _TimeDetails('Yakutsk', 62.035452, 129.675475,
           _currentTime.add(const Duration(hours: 9))),
-      _ClockModel('Delhi', 28.704059, 77.10249,
+      _TimeDetails('Delhi', 28.704059, 77.10249,
           _currentTime.add(const Duration(hours: 5, minutes: 30))),
-      _ClockModel('Brisbane', -27.469771, 153.025124,
+      _TimeDetails('Brisbane', -27.469771, 153.025124,
           _currentTime.add(const Duration(hours: 10))),
-      _ClockModel('Harare', -17.825166, 31.03351,
+      _TimeDetails('Harare', -17.825166, 31.03351,
           _currentTime.add(const Duration(hours: 2))),
     ];
+
+    _mapSource = MapShapeSource.asset(
+      // Path of the GeoJSON file.
+      'assets/world_map.json',
+      // Field or group name in the .json file to identify
+      // the shapes.
+      //
+      // Which is used to map the respective shape to
+      // data source.
+      shapeDataField: 'name',
+    );
   }
 
   @override
   void dispose() {
-    _clockModelData?.clear();
+    _worldClockData.clear();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
-        ? _getMapsWidget()
-        : SingleChildScrollView(child: _getMapsWidget());
+            model.isWebFullView
+        ? _buildMapsWidget()
+        : SingleChildScrollView(child: _buildMapsWidget());
   }
 
-  Widget _getMapsWidget() {
+  Widget _buildMapsWidget() {
     return Center(
-      child: Padding(
-        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                model.isWeb
-            ? EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.05,
-                bottom: MediaQuery.of(context).size.height * 0.1,
-                right: 10,
-                left: 10)
-            : const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-        child: SfMapsTheme(
-          data: SfMapsThemeData(
-            shapeHoverColor: Colors.transparent,
-            shapeHoverStrokeColor: Colors.transparent,
-            shapeHoverStrokeWidth: 0,
-          ),
-          child: SfMaps(
-            title: const MapTitle(
-              'World Clock',
+        child: Padding(
+      padding: MediaQuery.of(context).orientation == Orientation.portrait ||
+              model.isWebFullView
+          ? EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.05,
+              bottom: MediaQuery.of(context).size.height * 0.1,
+              right: 10,
+              left: 10)
+          : const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      child: SfMapsTheme(
+        data: SfMapsThemeData(
+          shapeHoverColor: Colors.transparent,
+          shapeHoverStrokeColor: Colors.transparent,
+          shapeHoverStrokeWidth: 0,
+        ),
+        child: Column(children: [
+          Padding(
               padding: EdgeInsets.only(top: 15, bottom: 30),
-            ),
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Text('World Clock',
+                      style: Theme.of(context).textTheme.subtitle1))),
+          Expanded(
+              child: SfMaps(
             layers: <MapLayer>[
               MapShapeLayer(
                 loadingBuilder: (BuildContext context) {
@@ -98,16 +115,7 @@ class _MapMarkerPageState extends SampleViewState {
                     ),
                   );
                 },
-                source: MapShapeSource.asset(
-                  // Path of the GeoJSON file.
-                  'assets/world_map.json',
-                  // Field or group name in the .json file to identify
-                  // the shapes.
-                  //
-                  // Which is used to map the respective shape to
-                  // data source.
-                  shapeDataField: 'name',
-                ),
+                source: _mapSource,
                 // The number of initial markers.
                 //
                 // The callback for the [markerBuilder] will be called
@@ -115,12 +123,13 @@ class _MapMarkerPageState extends SampleViewState {
                 initialMarkersCount: 7,
                 markerBuilder: (_, int index) {
                   return MapMarker(
-                      longitude: _clockModelData[index].longitude,
-                      latitude: _clockModelData[index].latitude,
-                      child: _ClockWidget(
-                          countryName: _clockModelData[index].countryName,
-                          date: _clockModelData[index].date),
-                      size: const Size(150, 150));
+                    longitude: _worldClockData[index].longitude,
+                    latitude: _worldClockData[index].latitude,
+                    size: const Size(150, 150),
+                    child: _ClockWidget(
+                        countryName: _worldClockData[index].countryName,
+                        date: _worldClockData[index].date),
+                  );
                 },
                 strokeWidth: 0,
                 color: model.themeData.brightness == Brightness.light
@@ -128,15 +137,16 @@ class _MapMarkerPageState extends SampleViewState {
                     : const Color.fromRGBO(71, 70, 75, 1),
               ),
             ],
-          ),
-        ),
+          )),
+        ]),
       ),
-    );
+    ));
   }
 }
 
 class _ClockWidget extends StatefulWidget {
-  const _ClockWidget({Key key, this.countryName, this.date}) : super(key: key);
+  const _ClockWidget({Key? key, required this.countryName, required this.date})
+      : super(key: key);
 
   final String countryName;
   final DateTime date;
@@ -146,9 +156,9 @@ class _ClockWidget extends StatefulWidget {
 }
 
 class _ClockWidgetState extends State<_ClockWidget> {
-  String _currentTime;
-  DateTime _date;
-  Timer _timer;
+  late String _currentTime;
+  late DateTime _date;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -161,7 +171,7 @@ class _ClockWidgetState extends State<_ClockWidget> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     _timer = null;
     super.dispose();
   }
@@ -187,12 +197,12 @@ class _ClockWidgetState extends State<_ClockWidget> {
                 widget.countryName,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2
+                    .bodyText2!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               Center(
                 child: Text(_currentTime,
-                    style: Theme.of(context).textTheme.overline.copyWith(
+                    style: Theme.of(context).textTheme.overline!.copyWith(
                         letterSpacing: 0.5, fontWeight: FontWeight.w500)),
               ),
             ],
@@ -214,8 +224,8 @@ class _ClockWidgetState extends State<_ClockWidget> {
   }
 }
 
-class _ClockModel {
-  _ClockModel(this.countryName, this.latitude, this.longitude, this.date);
+class _TimeDetails {
+  _TimeDetails(this.countryName, this.latitude, this.longitude, this.date);
 
   final String countryName;
   final double latitude;

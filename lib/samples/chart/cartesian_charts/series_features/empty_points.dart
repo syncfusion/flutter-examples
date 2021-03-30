@@ -21,21 +21,25 @@ class _EmptyPointsState extends SampleViewState {
   _EmptyPointsState();
   final List<String> _emptyPointMode =
       <String>['gap', 'zero', 'average', 'drop'].toList();
-  EmptyPointMode _selectedEmptyPointMode = EmptyPointMode.gap;
-  String _selectedMode;
+  late EmptyPointMode _selectedEmptyPointMode = EmptyPointMode.gap;
+  late String _selectedMode;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _selectedMode = 'zero';
     _selectedEmptyPointMode = EmptyPointMode.gap;
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(bottom: model.isWeb || !isCardView ? 0 : 60),
-        child: _getEmptyPointChart());
+        padding: EdgeInsets.only(
+            bottom: model.isWebFullView || !isCardView ? 0 : 60),
+        child: _buildEmptyPointChart());
   }
 
   @override
@@ -72,7 +76,7 @@ class _EmptyPointsState extends SampleViewState {
   }
 
   /// Returns the cartesian chart with empty points.
-  SfCartesianChart _getEmptyPointChart() {
+  SfCartesianChart _buildEmptyPointChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: 'Population growth of various countries'),
@@ -84,8 +88,7 @@ class _EmptyPointsState extends SampleViewState {
           labelFormat: '{value}%',
           majorTickLines: MajorTickLines(size: 0)),
       series: _getEmptyPointSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

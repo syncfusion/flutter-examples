@@ -16,14 +16,16 @@ class DynamicCircularSelection extends SampleView {
 }
 
 class _CircularSelectionState extends SampleViewState {
-  SelectionBehavior selectionBehavior = SelectionBehavior(enable: true);
   _CircularSelectionState();
+  late SelectionBehavior selectionBehavior;
+
   final List<String> _pointIndexList =
       <String>['0', '1', '2', '3', '4', '5', '6'].toList();
-  int _pointIndex;
+  late int _pointIndex;
   @override
   void initState() {
     _pointIndex = 0;
+    selectionBehavior = SelectionBehavior(enable: true);
     super.initState();
   }
 
@@ -69,8 +71,11 @@ class _CircularSelectionState extends SampleViewState {
             Container(
                 child: Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
-                    child: RaisedButton(
-                      color: model.backgroundColor,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            model.backgroundColor),
+                      ),
                       onPressed: () {
                         selectionBehavior.selectDataPoints(_pointIndex);
                       },
@@ -85,10 +90,10 @@ class _CircularSelectionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getCircularSelectionChart();
+    return _buildCircularSelectionChart();
   }
 
-  SfCircularChart getCircularSelectionChart() {
+  SfCircularChart _buildCircularSelectionChart() {
     return SfCircularChart(
       onSelectionChanged: (SelectionArgs args) {
         _pointIndex = args.pointIndex;

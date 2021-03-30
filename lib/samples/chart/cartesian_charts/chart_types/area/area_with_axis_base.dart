@@ -21,21 +21,24 @@ class _AxisCrossingBaseValueState extends SampleViewState {
   _AxisCrossingBaseValueState();
   final List<String> _axis = <String>['-2 (modified)', '0 (default)'].toList();
   //ignore: unused_field
-  String _selectedAxisType = '-2 (modified)';
-  String _selectedAxis;
+  late String _selectedAxisType = '-2 (modified)';
+  late String _selectedAxis;
   double _crossAt = 0;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _selectedAxisType = '-2 (modified)';
     _selectedAxis = '-2 (modified)';
     _crossAt = -2;
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getAxisCrossingBaseValueSample();
+    return _buildAxisCrossingBaseValueSample();
   }
 
   @override
@@ -70,7 +73,7 @@ class _AxisCrossingBaseValueState extends SampleViewState {
   }
 
   /// Returns the spline chart with axis crossing at provided axis value.
-  SfCartesianChart _getAxisCrossingBaseValueSample() {
+  SfCartesianChart _buildAxisCrossingBaseValueSample() {
     return SfCartesianChart(
       margin: EdgeInsets.fromLTRB(10, 10, 15, 10),
       plotAreaBorderWidth: 0,
@@ -79,8 +82,9 @@ class _AxisCrossingBaseValueState extends SampleViewState {
       primaryXAxis: CategoryAxis(
           labelPlacement: LabelPlacement.onTicks,
           majorGridLines: MajorGridLines(width: 0),
-          edgeLabelPlacement:
-              model.isWeb ? EdgeLabelPlacement.shift : EdgeLabelPlacement.none,
+          edgeLabelPlacement: model.isWebFullView
+              ? EdgeLabelPlacement.shift
+              : EdgeLabelPlacement.none,
           labelIntersectAction: !isCardView
               ? AxisLabelIntersectAction.rotate45
               : AxisLabelIntersectAction.wrap,
@@ -92,8 +96,7 @@ class _AxisCrossingBaseValueState extends SampleViewState {
           maximum: 3,
           majorTickLines: MajorTickLines(size: 0)),
       series: _getSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -101,7 +104,7 @@ class _AxisCrossingBaseValueState extends SampleViewState {
   /// the bar or column chart with axis crossing.
 
   List<ChartSeries<ChartSampleData, String>> _getSeries() {
-    List<ChartSeries<ChartSampleData, String>> chart = null;
+    List<ChartSeries<ChartSampleData, String>> chart;
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 'Iceland', y: 1.13),
       ChartSampleData(x: 'Algeria', y: 1.7),

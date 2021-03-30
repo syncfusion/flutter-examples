@@ -62,16 +62,16 @@ class _TickCustomizedSliderState extends SampleViewState {
 
 class _TickShape extends SfTickShape {
   @override
-  void paint(PaintingContext context, Offset offset, Offset thumbCenter,
-      Offset startThumbCenter, Offset endThumbCenter,
-      {RenderBox parentBox,
-      SfSliderThemeData themeData,
-      SfRangeValues currentValues,
+  void paint(PaintingContext context, Offset offset, Offset? thumbCenter,
+      Offset? startThumbCenter, Offset? endThumbCenter,
+      {required RenderBox parentBox,
+      required SfSliderThemeData themeData,
+      SfRangeValues? currentValues,
       dynamic currentValue,
-      Animation<double> enableAnimation,
-      TextDirection textDirection}) {
+      required Animation<double> enableAnimation,
+      required TextDirection textDirection}) {
     final Size tickSize = getPreferredSize(themeData);
-    final bool isTickRightOfThumb = offset.dx > thumbCenter.dx;
+    final bool isTickRightOfThumb = offset.dx > thumbCenter!.dx;
     final Color begin = isTickRightOfThumb
         ? themeData.disabledInactiveTickColor
         : themeData.disabledActiveTickColor;
@@ -81,19 +81,19 @@ class _TickShape extends SfTickShape {
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = tickSize.width
-      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation);
+      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation)!;
 
     context.canvas.drawLine(
         Offset(
             offset.dx,
             offset.dy -
-                2 * themeData.tickOffset.dy -
+                2 * themeData.tickOffset!.dy -
                 math.max(themeData.activeTrackHeight,
                     themeData.inactiveTrackHeight)),
         Offset(
             offset.dx,
             offset.dy -
-                2 * themeData.tickOffset.dy -
+                2 * themeData.tickOffset!.dy -
                 math.max(themeData.activeTrackHeight,
                     themeData.inactiveTrackHeight) -
                 tickSize.height),
@@ -103,16 +103,16 @@ class _TickShape extends SfTickShape {
 
 class _MinorTickShape extends SfTickShape {
   @override
-  void paint(PaintingContext context, Offset offset, Offset thumbCenter,
-      Offset startThumbCenter, Offset endThumbCenter,
-      {RenderBox parentBox,
-      SfSliderThemeData themeData,
-      SfRangeValues currentValues,
+  void paint(PaintingContext context, Offset offset, Offset? thumbCenter,
+      Offset? startThumbCenter, Offset? endThumbCenter,
+      {required RenderBox parentBox,
+      required SfSliderThemeData themeData,
+      SfRangeValues? currentValues,
       dynamic currentValue,
-      Animation<double> enableAnimation,
-      TextDirection textDirection}) {
+      required Animation<double> enableAnimation,
+      required TextDirection textDirection}) {
     final Size minorTickSize = getPreferredSize(themeData);
-    final bool isMinorTickRightOfThumb = offset.dx > thumbCenter.dx;
+    final bool isMinorTickRightOfThumb = offset.dx > thumbCenter!.dx;
 
     final Color begin = isMinorTickRightOfThumb
         ? themeData.disabledInactiveMinorTickColor
@@ -123,19 +123,19 @@ class _MinorTickShape extends SfTickShape {
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = minorTickSize.width
-      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation);
+      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation)!;
 
     context.canvas.drawLine(
         Offset(
             offset.dx,
             offset.dy -
-                2 * themeData.tickOffset.dy -
+                2 * themeData.tickOffset!.dy -
                 math.max(themeData.activeTrackHeight,
                     themeData.inactiveTrackHeight)),
         Offset(
             offset.dx,
             offset.dy -
-                2 * themeData.tickOffset.dy -
+                2 * themeData.tickOffset!.dy -
                 math.max(themeData.activeTrackHeight,
                     themeData.inactiveTrackHeight) -
                 minorTickSize.height),

@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 /// Package imports
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 /// Barcode import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -14,25 +15,197 @@ import '../../../model/sample_view.dart';
 /// Renders real time value change data grid
 class RealTimeUpdateDataGrid extends SampleView {
   /// Creates real time value change data grid
-  const RealTimeUpdateDataGrid({Key key}) : super(key: key);
+  const RealTimeUpdateDataGrid({Key? key}) : super(key: key);
 
   @override
   _RealTimeUpdateDataGridPageState createState() =>
       _RealTimeUpdateDataGridPageState();
 }
 
-List<_Stock> _stockData;
-
 class _RealTimeUpdateDataGridPageState extends SampleViewState {
-  _RealTimeUpdateDataGridPageState();
+  /// Used to refresh the widget for every 200ms respectively.
+  late Timer timer;
 
-  final math.Random _random = math.Random();
+  /// Decide whether to use the sample in  mobile or web mode.
+  bool isLandscapeInMobileView = false;
 
-  final _RealTimeUpdateDataGridSource _realTimeUpdateDataGridSource =
-      _RealTimeUpdateDataGridSource();
+  /// DataGridSource required for SfDataGrid to obtain the row data.
+  late _RealTimeUpdateDataGridSource realTimeUpdateDataGridSource;
 
-  Timer _timer;
-  bool _isLandscapeInMobileView;
+  late bool isWebOrDesktop;
+
+  @override
+  void initState() {
+    super.initState();
+    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    realTimeUpdateDataGridSource =
+        _RealTimeUpdateDataGridSource(isWebOrDesktop: isWebOrDesktop);
+    timer = Timer.periodic(const Duration(milliseconds: 200), (Timer args) {
+      realTimeUpdateDataGridSource.timerTick(args);
+    });
+  }
+
+  SfDataGrid _buildDataGrid() {
+    return SfDataGrid(
+      source: realTimeUpdateDataGridSource,
+      columnWidthMode: isWebOrDesktop || isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.none,
+      columns: <GridColumn>[
+        GridTextColumn(
+            columnName: 'symbol',
+            width: (isWebOrDesktop && model.isMobileResolution)
+                ? 150.0
+                : double.nan,
+            label: Container(
+              alignment: Alignment.center,
+              child: Text('Symbol'),
+            )),
+        GridTextColumn(
+          columnName: 'stock',
+          width:
+              (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
+          label: Container(
+            alignment: Alignment.center,
+            child: Text('Stock'),
+          ),
+        ),
+        GridTextColumn(
+          columnName: 'open',
+          width:
+              (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
+          label: Container(
+            alignment: Alignment.center,
+            child: Text(' Open'),
+          ),
+        ),
+        GridTextColumn(
+          width: (isWebOrDesktop && model.isMobileResolution) ? 150.0 : 130.0,
+          columnName: 'previousClose',
+          label: Container(
+            alignment: Alignment.center,
+            child: Text('Previous Close'),
+          ),
+        ),
+        GridTextColumn(
+          columnName: 'lastTrade',
+          width:
+              (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
+          label: Container(
+            alignment: Alignment.center,
+            child: Text('Last Trade'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    isLandscapeInMobileView = !isWebOrDesktop &&
+        MediaQuery.of(context).orientation == Orientation.landscape;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: _buildDataGrid());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+  }
+}
+
+class _Stock {
+  _Stock(
+      this.symbol, this.stock, this.open, this.previousClose, this.lastTrade);
+  String symbol;
+  double stock;
+  double open;
+  double previousClose;
+  int lastTrade;
+}
+
+class _RealTimeUpdateDataGridSource extends DataGridSource {
+  _RealTimeUpdateDataGridSource({required this.isWebOrDesktop}) {
+    stocks = getStocks(100);
+    buildDataGridRows();
+  }
+
+  final math.Random random = math.Random();
+
+  final bool isWebOrDesktop;
+
+  List<_Stock> stocks = [];
+
+  List<DataGridRow> dataGridRows = [];
+
+  // Runtime Updating the cell values
+
+  void timerTick(Timer args) {
+    _changeRows(100);
+  }
+
+  void _changeRows(int count) {
+    if (stocks.length < count) {
+      count = stocks.length;
+    }
+
+    for (int i = 0; i < count; ++i) {
+      final int recNo = random.nextInt(stocks.length - 1);
+
+      // Reinitialize the DataGridRow for particular row and call the notify to
+      // view the realtime changes in DataGrid.
+      void updateDataRow() {
+        dataGridRows[recNo] = DataGridRow(cells: [
+          DataGridCell(columnName: 'symbol', value: stocks[recNo].symbol),
+          DataGridCell(columnName: 'stock', value: stocks[recNo].stock),
+          DataGridCell(columnName: 'open', value: stocks[recNo].open),
+          DataGridCell(
+              columnName: 'previousClose', value: stocks[recNo].previousClose),
+          DataGridCell(columnName: 'lastTrade', value: stocks[recNo].lastTrade),
+        ]);
+      }
+
+      stocks[recNo].stock = stocksData[(random.nextInt(stocksData.length - 1))];
+      updateDataRow();
+      updateDataSource(rowColumnIndex: RowColumnIndex(recNo, 1));
+      stocks[recNo].open = 50.0 + random.nextInt(40);
+      updateDataRow();
+      updateDataSource(rowColumnIndex: RowColumnIndex(recNo, 2));
+      updateDataRow();
+      stocks[recNo].previousClose = 50.0 + random.nextInt(30);
+      updateDataRow();
+      updateDataSource(rowColumnIndex: RowColumnIndex(recNo, 3));
+      stocks[recNo].lastTrade = 50 + random.nextInt(20);
+      updateDataRow();
+      updateDataSource(rowColumnIndex: RowColumnIndex(recNo, 4));
+    }
+  }
+
+  void buildDataGridRows() {
+    dataGridRows = stocks.map<DataGridRow>((dataGridRow) {
+      return DataGridRow(cells: [
+        DataGridCell(columnName: 'symbol', value: dataGridRow.symbol),
+        DataGridCell(columnName: 'stock', value: dataGridRow.stock),
+        DataGridCell(columnName: 'open', value: dataGridRow.open),
+        DataGridCell(
+            columnName: 'previousClose', value: dataGridRow.previousClose),
+        DataGridCell(columnName: 'lastTrade', value: dataGridRow.lastTrade),
+      ]);
+    }).toList(growable: false);
+  }
+
+  // Building Widget for each cell
+
+  Widget buildStocks(dynamic value) {
+    return value >= 0.5
+        ? _getWidget(_images[1]!, value)
+        : _getWidget(_images[0]!, value);
+  }
 
   final Map<double, Image> _images = <double, Image>{
     1: Image.asset(
@@ -47,7 +220,74 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
     ),
   };
 
-  final List<double> _stocks = <double>[
+  Widget _getWidget(Image image, double stack) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      color: Colors.transparent,
+      alignment: Alignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: isWebOrDesktop
+            ? <Widget>[
+                Container(width: 20, child: image),
+                Container(
+                  width: 50,
+                  child: Text(
+                    '   ' + stack.toString(),
+                  ),
+                )
+              ]
+            : <Widget>[
+                Container(child: image),
+                const SizedBox(
+                  width: 6.0,
+                ),
+                Flexible(
+                  child: Text(
+                    stack.toString(),
+                    textScaleFactor: 1.0,
+                  ),
+                )
+              ],
+      ),
+    );
+  }
+
+  // Overrides
+
+  @override
+  List<DataGridRow> get rows => dataGridRows;
+
+  @override
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(cells: [
+      Container(
+        alignment: Alignment.center,
+        child: Text(row.getCells()[0].value.toString()),
+      ),
+      buildStocks(row.getCells()[1].value),
+      Container(
+        alignment: Alignment.center,
+        child: Text(row.getCells()[2].value.toString()),
+      ),
+      Container(
+        alignment: Alignment.center,
+        child: Text(row.getCells()[3].value.toString()),
+      ),
+      Container(
+        alignment: Alignment.center,
+        child: Text(row.getCells()[4].value.toString()),
+      ),
+    ]);
+  }
+
+  void updateDataSource({required RowColumnIndex rowColumnIndex}) {
+    notifyDataSourceListeners(rowColumnIndex: rowColumnIndex);
+  }
+
+  // Data set for stock data collection
+
+  final List<double> stocksData = <double>[
     -0.76,
     0.3,
     0.42,
@@ -67,7 +307,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
     -0.94
   ];
 
-  final List<String> _symbols = <String>[
+  final List<String> symbols = <String>[
     'OJEC',
     'PUYU',
     'EXTB',
@@ -113,191 +353,16 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
     'HFTB',
   ];
 
-  List<_Stock> _generateList(int count) {
+  List<_Stock> getStocks(int count) {
     final List<_Stock> stockData = <_Stock>[];
-    for (int i = 1; i < _symbols.length; i++) {
+    for (int i = 1; i < symbols.length; i++) {
       stockData.add(_Stock(
-          _symbols[i],
-          _stocks[_random.nextInt(_stocks.length - 1)],
-          50.0 + _random.nextInt(40),
-          50.0 + _random.nextInt(30),
-          50 + _random.nextInt(20)));
+          symbols[i],
+          stocksData[random.nextInt(stocksData.length - 1)],
+          50.0 + random.nextInt(40),
+          50.0 + random.nextInt(30),
+          50 + random.nextInt(20)));
     }
     return stockData;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _stockData = _generateList(100);
-    _timer = Timer.periodic(const Duration(milliseconds: 200), (Timer args) {
-      timerTick(args);
-    });
-  }
-
-  void timerTick(Timer args) {
-    _changeRows(100);
-  }
-
-  void _changeRows(int count) {
-    if (_stockData.length < count) {
-      count = _stockData.length;
-    }
-
-    for (int i = 0; i < count; ++i) {
-      final int recNo = _random.nextInt(_stockData.length - 1);
-
-      _stockData[recNo].stock = _stocks[(_random.nextInt(_stocks.length - 1))];
-      _realTimeUpdateDataGridSource.updateDataSource(
-          rowColumnIndex: RowColumnIndex(recNo, 1));
-
-      _stockData[recNo].open = 50.0 + _random.nextInt(40);
-      _realTimeUpdateDataGridSource.updateDataSource(
-          rowColumnIndex: RowColumnIndex(recNo, 2));
-
-      _stockData[recNo].previousClose = 50.0 + _random.nextInt(30);
-      _realTimeUpdateDataGridSource.updateDataSource(
-          rowColumnIndex: RowColumnIndex(recNo, 3));
-
-      _stockData[recNo].lastTrade = 50 + _random.nextInt(20);
-      _realTimeUpdateDataGridSource.updateDataSource(
-          rowColumnIndex: RowColumnIndex(recNo, 4));
-    }
-  }
-
-  SfDataGrid _dataGridSample() {
-    return SfDataGrid(
-      source: _realTimeUpdateDataGridSource,
-      cellBuilder: (BuildContext context, GridColumn column, int rowIndex) {
-        if (column.mappingName == 'stock') {
-          final double stock = _stockData[rowIndex].stock;
-          return stock >= 0.5
-              ? _getWidget(_images[1], stock)
-              : _getWidget(_images[0], stock);
-        } else {
-          return null;
-        }
-      },
-      columnWidthMode: model.isWeb || _isLandscapeInMobileView
-          ? ColumnWidthMode.fill
-          : ColumnWidthMode.header,
-      columns: <GridColumn>[
-        GridTextColumn(
-            mappingName: 'symbol',
-            headerText: 'Symbol',
-            headerTextAlignment: Alignment.center,
-            textAlignment: Alignment.center),
-        GridWidgetColumn(
-            mappingName: 'stock',
-            headerText: 'Stock',
-            headerTextAlignment: Alignment.center,
-            textAlignment: Alignment.center),
-        GridNumericColumn(
-            mappingName: 'open',
-            headerText: ' Open',
-            headerTextAlignment: Alignment.center,
-            textAlignment: Alignment.center),
-        GridNumericColumn(
-            mappingName: 'previousClose',
-            headerText: 'Previous Close',
-            headerTextAlignment: Alignment.center,
-            textAlignment: Alignment.center),
-        GridNumericColumn(
-            mappingName: 'lastTrade',
-            headerText: 'Last Trade',
-            headerTextAlignment: Alignment.center,
-            textAlignment: Alignment.center),
-      ],
-    );
-  }
-
-  Widget _getWidget(Image image, double stack) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      color: Colors.transparent,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: model.isWeb
-            ? <Widget>[
-                Container(width: 20, child: image),
-                Container(
-                  width: 50,
-                  child: Text(
-                    '   ' + stack.toString(),
-                  ),
-                )
-              ]
-            : <Widget>[
-                Container(child: image),
-                const SizedBox(
-                  width: 6.0,
-                ),
-                Flexible(
-                  child: Text(
-                    stack.toString(),
-                    textScaleFactor: 1.0,
-                  ),
-                )
-              ],
-      ),
-    );
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _isLandscapeInMobileView = !model.isWeb &&
-        MediaQuery.of(context).orientation == Orientation.landscape;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: _dataGridSample());
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _timer.cancel();
-  }
-}
-
-class _Stock {
-  _Stock(
-      this.symbol, this.stock, this.open, this.previousClose, this.lastTrade);
-  String symbol;
-  double stock;
-  double open;
-  double previousClose;
-  int lastTrade;
-}
-
-class _RealTimeUpdateDataGridSource extends DataGridSource<_Stock> {
-  _RealTimeUpdateDataGridSource();
-  @override
-  List<_Stock> get dataSource => _stockData;
-  @override
-  Object getValue(_Stock _stock, String columnName) {
-    switch (columnName) {
-      case 'symbol':
-        return _stock.symbol;
-        break;
-      case 'open':
-        return _stock.open;
-        break;
-      case 'previousClose':
-        return _stock.previousClose;
-        break;
-      case 'lastTrade':
-        return _stock.lastTrade;
-        break;
-      default:
-        return 'empty';
-        break;
-    }
-  }
-
-  void updateDataSource({RowColumnIndex rowColumnIndex}) {
-    notifyDataSourceListeners(rowColumnIndex: rowColumnIndex);
   }
 }

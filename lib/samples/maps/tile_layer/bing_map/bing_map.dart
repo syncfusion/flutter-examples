@@ -1,31 +1,34 @@
 ///Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+
+///Map import
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///URL launcher import
 import 'package:url_launcher/url_launcher.dart' show launch;
 
-///Map import
-import 'package:syncfusion_flutter_maps/maps.dart';
-
 ///Local import
 import '../../../../model/sample_view.dart';
 
+/// Renders the map widget with bing map.
 class MapBingPage extends SampleView {
   /// Creates the map widget with bing map.
   const MapBingPage(Key key) : super(key: key);
+  @override
   _BingMapState createState() => _BingMapState();
 }
 
 class _BingMapState extends SampleViewState {
-  TextEditingController _textFieldController;
+  late TextEditingController _textFieldController;
 
-  MapZoomPanBehavior _zoomPanBehavior;
+  late MapZoomPanBehavior _zoomPanBehavior;
 
-  String _bingURL;
-  String _bingKey;
+  late String _bingURL;
+  late String _bingKey;
 
   int _selectedMapViewIndex = 0;
 
@@ -40,14 +43,15 @@ class _BingMapState extends SampleViewState {
     _zoomPanBehavior = MapZoomPanBehavior(
       minZoomLevel: 3,
       maxZoomLevel: 10,
-      zoomLevel: model.isWeb ? 5 : 4,
+      zoomLevel: model.isWebFullView ? 5 : 4,
       focalLatLng: MapLatLng(27.1751, 78.0421),
+      enableDoubleTapZooming: true,
     );
   }
 
   @override
   void dispose() {
-    _textFieldController?.dispose();
+    _textFieldController.dispose();
     super.dispose();
   }
 
@@ -64,30 +68,31 @@ class _BingMapState extends SampleViewState {
     return _hasBingMapKey
         ? FutureBuilder(
             future: getBingUrlTemplate(_bingURL),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
-                  final String urlTemplate = snapshot.data;
-                  return _getBingMap(urlTemplate);
+                  final String urlTemplate = snapshot.data!;
+                  return _buildBingMap(urlTemplate);
                 } else {
                   _hasBingMapKey = false;
                   _showEmptyKeyError = false;
                   _showKeyError = true;
-                  return _getKeyValidationScreen();
+                  return _buildKeyValidationScreen();
                 }
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
             },
           )
-        : _getKeyValidationScreen();
+        : _buildKeyValidationScreen();
   }
 
   /// Home screen with the `TextField` to get the subscription key.
-  Widget _getKeyValidationScreen() {
+  Widget _buildKeyValidationScreen() {
     return Center(
       child: Container(
-        width: MediaQuery.of(context).size.width * (model.isWeb ? 0.4 : 0.8),
+        width: MediaQuery.of(context).size.width *
+            (model.isWebFullView ? 0.4 : 0.8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,7 +192,7 @@ class _BingMapState extends SampleViewState {
     );
   }
 
-  Widget _getBingMap(String urlTemplate) {
+  Widget _buildBingMap(String urlTemplate) {
     return Stack(
       children: [
         Positioned.fill(
@@ -210,9 +215,9 @@ class _BingMapState extends SampleViewState {
             alignment: WrapAlignment.center,
             spacing: 10.0,
             children: [
-              _getChip(0, 'Road View'),
-              _getChip(1, 'Aerial View'),
-              _getChip(2, 'Aerial View With Labels'),
+              _buildChip(0, 'Road View'),
+              _buildChip(1, 'Aerial View'),
+              _buildChip(2, 'Aerial View With Labels'),
             ],
           ),
         ),
@@ -220,7 +225,7 @@ class _BingMapState extends SampleViewState {
     );
   }
 
-  Widget _getChip(int index, String mapType) {
+  Widget _buildChip(int index, String mapType) {
     return ChoiceChip(
       label: Text(mapType),
       selected: _selectedMapViewIndex == index,
@@ -232,6 +237,8 @@ class _BingMapState extends SampleViewState {
         if (_selectedMapViewIndex != index) {
           setState(() {
             _selectedMapViewIndex = index;
+            _zoomPanBehavior.zoomLevel =
+                _zoomPanBehavior.zoomLevel.floorToDouble();
             _setBingMapView(_selectedMapViewIndex);
           });
         }
@@ -283,7 +290,7 @@ class _BingMapState extends SampleViewState {
     }
   }
 
-  String _getErrorMessage() {
+  String? _getErrorMessage() {
     if (_showEmptyKeyError) {
       return 'Key should not be empty.';
     } else if (_showKeyError) {

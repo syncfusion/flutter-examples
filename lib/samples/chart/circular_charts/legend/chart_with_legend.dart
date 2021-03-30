@@ -21,11 +21,11 @@ class _LegendDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getLegendDefaultChart();
+    return _buildLegendDefaultChart();
   }
 
   ///Get the default circular series with legend
-  SfCircularChart _getLegendDefaultChart() {
+  SfCircularChart _buildLegendDefaultChart() {
     return SfCircularChart(
       title: ChartTitle(text: isCardView ? '' : 'Electricity sectors'),
       legend:

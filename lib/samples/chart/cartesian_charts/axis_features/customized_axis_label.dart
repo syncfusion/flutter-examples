@@ -63,7 +63,7 @@ class _CustomLabelsEventState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((Duration duration) {
+    WidgetsBinding.instance!.addPostFrameCallback((Duration duration) {
       _isYear = true;
       _isMonth = false;
       _isDay = false;
@@ -75,7 +75,7 @@ class _CustomLabelsEventState extends SampleViewState {
         backgroundColor: model.cardThemeColor,
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
-          child: Container(child: _getEventLineChart(false, _chartData)),
+          child: Container(child: _buildEventLineChart(false, _chartData)),
         ),
         floatingActionButton: isCardView ? null : _segmentedControl());
   }
@@ -136,39 +136,38 @@ class _CustomLabelsEventState extends SampleViewState {
   }
 
   /// Get the cartesian chart widget
-  SfCartesianChart _getEventLineChart(bool isTileView,
-      [List<_LabelData> data]) {
+  SfCartesianChart _buildEventLineChart(bool isTileView,
+      [List<_LabelData>? data]) {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      onAxisLabelRender: (AxisLabelRenderArgs args) {
-        if (args.axis is DateTimeAxis) {
-          if (_isYear && _formatter4.format(_current).toString() == args.text) {
-            args.text = 'Current\nYear';
-            args.textStyle =
-                const TextStyle(fontStyle: FontStyle.italic, color: Colors.red);
-          }
-          if (_isMonth &&
-              _formatter3.format(_current).toString() == args.text) {
-            args.text = 'Current\nMonth';
-            args.textStyle =
-                const TextStyle(fontStyle: FontStyle.italic, color: Colors.red);
-          }
-          if (_isDay && _formatter.format(_current).toString() == args.text) {
-            args.text = 'Today';
-            args.textStyle =
-                const TextStyle(fontStyle: FontStyle.italic, color: Colors.red);
-          }
-          if (_isHours &&
-              _formatter1.format(_current).toString() == args.text) {
-            args.text = 'Current\nHour';
-            args.textStyle =
-                const TextStyle(fontStyle: FontStyle.italic, color: Colors.red);
-          }
-          if (_isMin && _formatter2.format(_current).toString() == args.text) {
-            args.text = 'Now';
-            args.textStyle =
-                const TextStyle(fontStyle: FontStyle.italic, color: Colors.red);
-          }
+      axisLabelFormatter: (AxisLabelRenderDetails details) {
+        if (details.axis is DateTimeAxis &&
+            _isYear &&
+            _formatter4.format(_current).toString() == details.text) {
+          return ChartAxisLabel('Current\nYear',
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
+        } else if (details.axis is DateTimeAxis &&
+            _isMonth &&
+            _formatter3.format(_current).toString() == details.text) {
+          return ChartAxisLabel('Current\nMonth',
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
+        } else if (details.axis is DateTimeAxis &&
+            _isDay &&
+            _formatter.format(_current).toString() == details.text) {
+          return ChartAxisLabel('Today',
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
+        } else if (details.axis is DateTimeAxis &&
+            _isHours &&
+            _formatter1.format(_current).toString() == details.text) {
+          return ChartAxisLabel('Current\nHour',
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
+        } else if (details.axis is DateTimeAxis &&
+            _isMin &&
+            _formatter2.format(_current).toString() == details.text) {
+          return ChartAxisLabel('Now',
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
+        } else {
+          return ChartAxisLabel(details.text, null);
         }
       },
       primaryXAxis: DateTimeAxis(
@@ -194,7 +193,7 @@ class _CustomLabelsEventState extends SampleViewState {
   }
 
   final Random random = Random();
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     return min + random.nextInt(max - min);
   }
 

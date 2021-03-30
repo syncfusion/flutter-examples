@@ -22,7 +22,7 @@ class AnimationBubbleDefault extends SampleView {
 
 class _AnimationBubbleDefaultState extends SampleViewState {
   _AnimationBubbleDefaultState();
-  Timer timer;
+  Timer? timer;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +32,10 @@ class _AnimationBubbleDefaultState extends SampleViewState {
         _getChartData();
       });
     });
-    return _getAnimationBubbleChart();
+    return _buildAnimationBubbleChart();
   }
 
-  SfCartesianChart _getAnimationBubbleChart() {
+  SfCartesianChart _buildAnimationBubbleChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
@@ -60,11 +60,11 @@ class _AnimationBubbleDefaultState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    timer.cancel();
+    timer!.cancel();
   }
 
   /// To get the random data and return to the chart data source.
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }

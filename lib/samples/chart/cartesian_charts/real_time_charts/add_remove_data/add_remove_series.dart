@@ -73,13 +73,13 @@ class _LiveVerticalState extends SampleViewState {
               padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
               child: Container(
                 height: 45,
-                width: model.isWeb ? 135 : 110,
+                width: model.isWebFullView ? 140 : 110,
                 child: InkWell(
                   splashColor: Colors.transparent,
                   child: Row(
                     children: <Widget>[
                       SizedBox(
-                          width: model.isWeb ? 65 : 45,
+                          width: model.isWebFullView ? 65 : 45,
                           height: 50,
                           child: IconButton(
                               splashColor: Colors.transparent,
@@ -93,7 +93,7 @@ class _LiveVerticalState extends SampleViewState {
                       Padding(
                           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                           child: SizedBox(
-                            width: model.isWeb ? 65 : 45,
+                            width: model.isWebFullView ? 65 : 45,
                             height: 50,
                             child: IconButton(
                               splashColor: Colors.transparent,
@@ -158,7 +158,7 @@ class _LiveVerticalState extends SampleViewState {
   }
 
   ///Get the random data point
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random _random = Random();
     return min + _random.nextInt(max - min);
   }

@@ -22,11 +22,11 @@ class _SplineVerticalState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getVerticalSplineChart();
+    return _buildVerticalSplineChart();
   }
 
   /// Returns the vertical spline chart.
-  SfCartesianChart _getVerticalSplineChart() {
+  SfCartesianChart _buildVerticalSplineChart() {
     return SfCartesianChart(
       isTransposed: true,
       title: ChartTitle(text: isCardView ? '' : 'Climate graph - 2012'),

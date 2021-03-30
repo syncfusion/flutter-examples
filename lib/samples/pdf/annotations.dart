@@ -44,9 +44,9 @@ class _AnnotationsPdfState extends SampleViewState {
                   Checkbox(
                       value: flatten,
                       activeColor: model.backgroundColor,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          flatten = value;
+                          flatten = value!;
                         });
                       }),
                   Text('Flatten Annotation',
@@ -56,11 +56,19 @@ class _AnnotationsPdfState extends SampleViewState {
               const SizedBox(height: 10, width: 30),
               Align(
                   alignment: Alignment.center,
-                  child: FlatButton(
-                      child: const Text('Generate PDF',
-                          style: TextStyle(color: Colors.white)),
-                      color: model.backgroundColor,
-                      onPressed: _generatePDF))
+                  child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _generatePDF,
+                    child: const Text('Generate PDF',
+                        style: TextStyle(color: Colors.white)),
+                  ))
             ],
           ),
         ),
@@ -119,7 +127,7 @@ class _AnnotationsPdfState extends SampleViewState {
 
     if (flatten) {
       //Flatten all the annotations.
-      page.annotations.flatten = true;
+      page.annotations.flattenAllAnnotations();
     }
 
     //Save and dispose the document.

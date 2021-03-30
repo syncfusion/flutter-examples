@@ -9,6 +9,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the radial slider thumb customization.
 class RadialRangeSliderThumb extends SampleView {
+  /// Creates the radial slider thumb customization.
   const RadialRangeSliderThumb(Key key) : super(key: key);
 
   @override
@@ -41,81 +42,55 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size = model.isWeb
+      _size = model.isWebFullView
           ? MediaQuery.of(context).size.height / 3.5
           : MediaQuery.of(context).size.height / 5;
       return Center(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: !model.isWeb
-            ? [
-                getSliderWithCircle(),
-                Center(child: Text('Circle thumb')),
-                getSliderWithRectangle(),
-                Center(child: Text('Rectangle thumb')),
-                getSliderWithImage(),
-                Center(child: Text('Image thumb')),
-              ]
-            : [
-                getSliderWithCircle(),
-                Center(child: Text('Circle thumb')),
-                getSliderWithRectangle(),
-                Center(child: Text('Rectangle thumb'))
-              ],
-      ));
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+            _buildSliderWithCircle(),
+            Center(child: Text('Circle thumb')),
+            _buildSliderWithRectangle(),
+            Center(child: Text('Rectangle thumb')),
+            _buildSliderWithImage(),
+            Center(child: Text('Image thumb')),
+          ]));
     } else {
       _size = MediaQuery.of(context).size.width / 4.5;
       return Center(
           child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: !model.isWeb
-            ? [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithCircle(),
-                      Center(child: Text('Circle thumb')),
-                    ]),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithRectangle(),
-                      Center(child: Text('Rectangle thumb')),
-                    ]),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithImage(),
-                      Center(child: Text('Image thumb')),
-                    ]),
-              ]
-            : [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithCircle(),
-                      Center(child: Text('Circle thumb')),
-                    ]),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithRectangle(),
-                      Center(child: Text('Rectangle thumb')),
-                    ]),
-              ],
-      ));
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildSliderWithCircle(),
+                  Center(child: Text('Circle thumb')),
+                ]),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildSliderWithRectangle(),
+                  Center(child: Text('Rectangle thumb')),
+                ]),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildSliderWithImage(),
+                  Center(child: Text('Image thumb')),
+                ]),
+          ]));
     }
   }
 
   /// Returns gradient progress style circular progress bar.
-  Widget getSliderWithCircle() {
+  Widget _buildSliderWithCircle() {
     return Container(
         height: _size,
         width: _size,
@@ -135,22 +110,24 @@ class _RadialRangeSliderThumbState extends SampleViewState {
                     endValue: _secondMarkerValue,
                     startValue: _firstMarkerValue,
                     sizeUnit: GaugeSizeUnit.factor,
-                    color: model.isWeb ? Color.fromRGBO(197, 91, 226, 1) : null,
-                    gradient: model.isWeb
-                        ? null
-                        : SweepGradient(colors: <Color>[
-                            const Color.fromRGBO(197, 91, 226, 1),
-                            const Color.fromRGBO(115, 67, 189, 1)
-                          ], stops: <double>[
-                            0.5,
-                            1
-                          ]),
+                    color: model.isWebFullView
+                        ? Color.fromRGBO(197, 91, 226, 1)
+                        : null,
+                    gradient: SweepGradient(colors: <Color>[
+                      const Color.fromRGBO(197, 91, 226, 1),
+                      const Color.fromRGBO(115, 67, 189, 1)
+                    ], stops: <double>[
+                      0.5,
+                      1
+                    ]),
                     endWidth: 0.1,
                     startWidth: 0.1)
               ],
               pointers: <GaugePointer>[
                 MarkerPointer(
                   value: _firstMarkerValue,
+                  overlayRadius: 0,
+                  elevation: 5,
                   markerType: MarkerType.circle,
                   markerHeight: 22,
                   markerWidth: 22,
@@ -161,6 +138,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
                 ),
                 MarkerPointer(
                   value: _secondMarkerValue,
+                  elevation: 5,
+                  overlayRadius: 0,
                   markerType: MarkerType.circle,
                   markerHeight: 22,
                   markerWidth: 22,
@@ -179,7 +158,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   }
 
   /// Returns gradient progress style circular progress bar.
-  Widget getSliderWithRectangle() {
+  Widget _buildSliderWithRectangle() {
     return Container(
         height: _size,
         width: _size,
@@ -199,16 +178,16 @@ class _RadialRangeSliderThumbState extends SampleViewState {
                   endValue: _thirdMarkerValue,
                   startValue: _fourthMarkerValue,
                   sizeUnit: GaugeSizeUnit.factor,
-                  color: model.isWeb ? Color.fromRGBO(197, 91, 226, 1) : null,
-                  gradient: model.isWeb
-                      ? null
-                      : SweepGradient(colors: <Color>[
-                          const Color.fromRGBO(197, 91, 226, 1),
-                          const Color.fromRGBO(115, 67, 189, 1)
-                        ], stops: <double>[
-                          0.5,
-                          1
-                        ]),
+                  color: model.isWebFullView
+                      ? Color.fromRGBO(197, 91, 226, 1)
+                      : null,
+                  gradient: SweepGradient(colors: <Color>[
+                    const Color.fromRGBO(197, 91, 226, 1),
+                    const Color.fromRGBO(115, 67, 189, 1)
+                  ], stops: <double>[
+                    0.5,
+                    1
+                  ]),
                   endWidth: 0.1,
                   startWidth: 0.1,
                 )
@@ -216,6 +195,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
               pointers: <GaugePointer>[
                 MarkerPointer(
                   value: _thirdMarkerValue,
+                  overlayRadius: 0,
+                  elevation: 5,
                   markerType: MarkerType.rectangle,
                   markerHeight: 22,
                   markerWidth: 22,
@@ -226,6 +207,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
                 ),
                 MarkerPointer(
                   value: _fourthMarkerValue,
+                  elevation: 5,
+                  overlayRadius: 0,
                   markerType: MarkerType.rectangle,
                   markerHeight: 22,
                   markerWidth: 22,
@@ -244,7 +227,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   }
 
   /// Returns gradient progress style circular progress bar.
-  Widget getSliderWithImage() {
+  Widget _buildSliderWithImage() {
     return Container(
         height: _size,
         width: _size,
@@ -265,25 +248,24 @@ class _RadialRangeSliderThumbState extends SampleViewState {
                     startValue: _sixthMarkerValue,
                     sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.green,
-                    gradient: model.isWeb
-                        ? null
-                        : SweepGradient(colors: <Color>[
-                            const Color.fromRGBO(197, 91, 226, 1),
-                            const Color.fromRGBO(115, 67, 189, 1)
-                          ], stops: <double>[
-                            0.5,
-                            1
-                          ]),
+                    gradient: SweepGradient(colors: <Color>[
+                      const Color.fromRGBO(197, 91, 226, 1),
+                      const Color.fromRGBO(115, 67, 189, 1)
+                    ], stops: <double>[
+                      0.5,
+                      1
+                    ]),
                     endWidth: 0.1,
                     startWidth: 0.1)
               ],
               pointers: <GaugePointer>[
                 MarkerPointer(
+                  overlayRadius: 0,
                   value: _fifthMarkerValue,
                   markerType: MarkerType.image,
                   imageUrl: 'images/ball.png',
-                  markerHeight: model.isWeb ? 15 : 30,
-                  markerWidth: model.isWeb ? 15 : 30,
+                  markerHeight: 30,
+                  markerWidth: 30,
                   enableDragging: true,
                   onValueChanged: handleFifthPointerValueChanged,
                   onValueChanging: handleFifthPointerValueChanging,
@@ -293,8 +275,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
                   value: _sixthMarkerValue,
                   markerType: MarkerType.image,
                   imageUrl: 'images/ball.png',
-                  markerHeight: model.isWeb ? 15 : 30,
-                  markerWidth: model.isWeb ? 15 : 30,
+                  markerHeight: 30,
+                  markerWidth: 30,
                   enableDragging: true,
                   onValueChanged: handleSixthPointerValueChanged,
                   onValueChanging: handleSixthPointerValueChanging,
@@ -323,16 +305,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleSecondPointerValueChanging(ValueChangingArgs args) {
     if (args.value <= _firstMarkerValue ||
         (args.value - _secondMarkerValue).abs() > 10) {
-      if (args.value <= _firstMarkerValue) {
-        if ((args.value - _secondMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _secondMarkerValue = _firstMarkerValue;
-          _firstMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -349,16 +322,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleFirstPointerValueChanging(ValueChangingArgs args) {
     if (args.value >= _secondMarkerValue ||
         (args.value - _firstMarkerValue).abs() > 10) {
-      if (args.value >= _secondMarkerValue) {
-        if ((args.value - _firstMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _firstMarkerValue = _secondMarkerValue;
-          _secondMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -376,16 +340,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleFourthPointerValueChanging(ValueChangingArgs args) {
     if (args.value <= _thirdMarkerValue ||
         (args.value - _fourthMarkerValue).abs() > 10) {
-      if (args.value <= _thirdMarkerValue) {
-        if ((args.value - _fourthMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _fourthMarkerValue = _thirdMarkerValue;
-          _thirdMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -402,16 +357,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleThirdPointerValueChanging(ValueChangingArgs args) {
     if (args.value >= _fourthMarkerValue ||
         (args.value - _thirdMarkerValue).abs() > 10) {
-      if (args.value >= _fourthMarkerValue) {
-        if ((args.value - _thirdMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _thirdMarkerValue = _fourthMarkerValue;
-          _fourthMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -429,16 +375,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleSixthPointerValueChanging(ValueChangingArgs args) {
     if (args.value <= _fifthMarkerValue ||
         (args.value - _sixthMarkerValue).abs() > 10) {
-      if (args.value <= _fifthMarkerValue) {
-        if ((args.value - _sixthMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _sixthMarkerValue = _fifthMarkerValue;
-          _fifthMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -455,16 +392,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleFifthPointerValueChanging(ValueChangingArgs args) {
     if (args.value >= _sixthMarkerValue ||
         (args.value - _fifthMarkerValue).abs() > 10) {
-      if (args.value >= _sixthMarkerValue) {
-        if ((args.value - _fifthMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _fifthMarkerValue = _sixthMarkerValue;
-          _sixthMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 }

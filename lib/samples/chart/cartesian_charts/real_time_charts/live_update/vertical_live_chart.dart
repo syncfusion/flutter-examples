@@ -23,9 +23,9 @@ class VerticalLineLiveUpdate extends SampleView {
 /// State class of the vertical live update chart.
 class _LiveUpdateState extends SampleViewState {
   _LiveUpdateState();
-  Timer timer;
+  Timer? timer;
   int count = 0;
-  ChartSeriesController _chartSeriesController;
+  ChartSeriesController? _chartSeriesController;
   List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(x: 0, y: -4),
     ChartSampleData(x: 1, y: 3),
@@ -52,17 +52,17 @@ class _LiveUpdateState extends SampleViewState {
   void dispose() {
     count = 0;
     chartData = <ChartSampleData>[];
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getVerticalLineUpdateChart();
+    return _buildVerticalLineUpdateChart();
   }
 
   /// Returns the vertical live update cartesian chart.
-  SfCartesianChart _getVerticalLineUpdateChart() {
+  SfCartesianChart _buildVerticalLineUpdateChart() {
     return SfCartesianChart(
       isTransposed: true,
       plotAreaBorderWidth: 0,
@@ -99,14 +99,14 @@ class _LiveUpdateState extends SampleViewState {
   void _updateData(Timer timer) {
     if (isCardView != null) {
       chartData = _getChartData();
-      _chartSeriesController.updateDataSource(
+      _chartSeriesController?.updateDataSource(
         addedDataIndexes: <int>[chartData.length - 1],
       );
     }
   }
 
   ///Get random value
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random _random = Random();
     return min + _random.nextInt(max - min);
   }
@@ -115,7 +115,7 @@ class _LiveUpdateState extends SampleViewState {
   List<ChartSampleData> _getChartData() {
     count = count + 1;
     if (count > 350 || chartData.length > 350) {
-      timer.cancel();
+      timer?.cancel();
     } else if (count > 300) {
       chartData
           .add(ChartSampleData(x: chartData.length, y: _getRandomInt(0, 1)));

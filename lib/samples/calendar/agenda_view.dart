@@ -13,7 +13,7 @@ import '../../model/sample_view.dart';
 
 /// Widget of the AgendaView Calendar.
 class AgendaViewCalendar extends SampleView {
-  /// Cr
+  /// Create  default agenda view calendar
   const AgendaViewCalendar(Key key) : super(key: key);
 
   @override
@@ -23,13 +23,12 @@ class AgendaViewCalendar extends SampleView {
 class _AgendaViewCalendarState extends SampleViewState {
   _AgendaViewCalendarState();
 
-  _MeetingDataSource _events;
-  CalendarController _calendarController;
-  Orientation _deviceOrientation;
+  late _MeetingDataSource _events;
+  final CalendarController _calendarController = CalendarController();
+  late Orientation _deviceOrientation;
 
   @override
   void initState() {
-    _calendarController = CalendarController();
     _calendarController.selectedDate = DateTime.now();
     _events = _MeetingDataSource(_getAppointments());
     super.initState();
@@ -69,7 +68,7 @@ class _AgendaViewCalendarState extends SampleViewState {
   /// required information.
   List<_Meeting> _getAppointments() {
     /// Creates the required appointment subject details as a list.
-    List<String> subjectCollection = <String>[];
+    final List<String> subjectCollection = <String>[];
     subjectCollection.add('General Meeting');
     subjectCollection.add('Plan Execution');
     subjectCollection.add('Project Plan');
@@ -82,7 +81,7 @@ class _AgendaViewCalendarState extends SampleViewState {
     subjectCollection.add('Performance Check');
 
     /// Creates the required appointment color details as a list.
-    List<Color> colorCollection = <Color>[];
+    final List<Color> colorCollection = <Color>[];
     colorCollection.add(const Color(0xFF0F8644));
     colorCollection.add(const Color(0xFF8B1FA9));
     colorCollection.add(const Color(0xFFD20100));
@@ -142,10 +141,10 @@ class _AgendaViewCalendarState extends SampleViewState {
   /// current date when the calendar displays the current month, and selects the
   /// first date of the month for rest of the months.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
       final DateTime currentViewDate = visibleDatesChangedDetails
           .visibleDates[visibleDatesChangedDetails.visibleDates.length ~/ 2];
-      if (model.isWeb) {
+      if (model.isWebFullView) {
         if (DateTime.now()
                 .isAfter(visibleDatesChangedDetails.visibleDates[0]) &&
             DateTime.now().isBefore(visibleDatesChangedDetails.visibleDates[
@@ -169,18 +168,18 @@ class _AgendaViewCalendarState extends SampleViewState {
 
   /// Returns the calendar widget based on the properties passed.
   SfCalendar _getAgendaViewCalendar(
-      [CalendarDataSource calendarDataSource,
-      ViewChangedCallback onViewChanged,
-      CalendarController controller]) {
+      [CalendarDataSource? calendarDataSource,
+      ViewChangedCallback? onViewChanged,
+      CalendarController? controller]) {
     return SfCalendar(
       view: CalendarView.month,
       controller: controller,
       showDatePickerButton: true,
-      showNavigationArrow: model.isWeb,
+      showNavigationArrow: model.isWebFullView,
       onViewChanged: onViewChanged,
       dataSource: calendarDataSource,
       monthViewSettings: MonthViewSettings(
-          showAgenda: true, numberOfWeeksInView: model.isWeb ? 2 : 6),
+          showAgenda: true, numberOfWeeksInView: model.isWebFullView ? 2 : 6),
       timeSlotViewSettings: TimeSlotViewSettings(
           minimumAppointmentDuration: const Duration(minutes: 60)),
     );
@@ -219,12 +218,12 @@ class _MeetingDataSource extends CalendarDataSource {
   }
 
   @override
-  String getStartTimeZone(int index) {
+  String? getStartTimeZone(int index) {
     return source[index].startTimeZone;
   }
 
   @override
-  String getEndTimeZone(int index) {
+  String? getEndTimeZone(int index) {
     return source[index].endTimeZone;
   }
 
@@ -234,7 +233,7 @@ class _MeetingDataSource extends CalendarDataSource {
   }
 
   @override
-  String getRecurrenceRule(int index) {
+  String? getRecurrenceRule(int index) {
     return source[index].recurrenceRule;
   }
 }
@@ -256,14 +255,14 @@ class _Meeting {
       this.recurrenceRule);
 
   String eventName;
-  String organizer;
-  String contactID;
-  int capacity;
+  String? organizer;
+  String? contactID;
+  int? capacity;
   DateTime from;
   DateTime to;
   Color background;
   bool isAllDay;
-  String startTimeZone;
-  String endTimeZone;
-  String recurrenceRule;
+  String? startTimeZone;
+  String? endTimeZone;
+  String? recurrenceRule;
 }

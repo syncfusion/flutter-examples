@@ -23,7 +23,7 @@ class DefaultRangeSliderPage extends SampleView {
 
 class _DefaultRangeSliderPageState extends SampleViewState {
   _DefaultRangeSliderPageState();
-  Widget rangeSlider;
+  late Widget rangeSlider;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _DefaultRangeSliderPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
+            model.isWebFullView
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(height: 300, child: rangeSlider),
@@ -54,7 +54,11 @@ class _DefaultRangeSliderState extends SampleViewState {
   SfRangeSlider _inactiveRangeSlider() {
     //ignore: missing_required_param
     return SfRangeSlider(
-        min: 0.0, max: 100.0, values: _inactiveRangeSliderValue);
+      min: 0.0,
+      max: 100.0,
+      values: _inactiveRangeSliderValue,
+      onChanged: null,
+    );
   }
 
   SfRangeSliderTheme _activeRangeSliderSlider() {
@@ -75,7 +79,7 @@ class _DefaultRangeSliderState extends SampleViewState {
         ));
   }
 
-  Widget _getWebLayout() {
+  Widget _buildWebLayout() {
     return Container(
       alignment: Alignment.center,
       child: Container(
@@ -104,6 +108,6 @@ class _DefaultRangeSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWebFullView ? _buildWebLayout() : _getMobileLayout();
   }
 }

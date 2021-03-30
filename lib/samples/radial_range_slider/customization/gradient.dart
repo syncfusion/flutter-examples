@@ -9,6 +9,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the RadialSlider gradient.
 class RadialRangeSliderGradient extends SampleView {
+  /// Creates RadialSlider gradient.
   const RadialRangeSliderGradient(Key key) : super(key: key);
 
   @override
@@ -25,8 +26,8 @@ class _RadialRangeSliderGradientState extends SampleViewState {
       _firstMarkerSize = 30;
       _annotationFontSize = 25;
     } else {
-      _firstMarkerSize = model.isWeb ? 20 : 15;
-      _annotationFontSize = model.isWeb ? 25 : 15;
+      _firstMarkerSize = model.isWebFullView ? 28 : 15;
+      _annotationFontSize = model.isWebFullView ? 25 : 15;
     }
     return Center(
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -39,8 +40,8 @@ class _RadialRangeSliderGradientState extends SampleViewState {
             offsetUnit: GaugeSizeUnit.factor,
             minorTicksPerInterval: 5,
             onLabelCreated: (args) {
-              double axisValue = double.parse(args.text);
-              double celsiusValue = (axisValue - 32) / 1.8;
+              final double axisValue = double.parse(args.text);
+              final double celsiusValue = (axisValue - 32) / 1.8;
               args.text = celsiusValue.toStringAsFixed(1);
             },
             majorTickStyle:
@@ -51,8 +52,8 @@ class _RadialRangeSliderGradientState extends SampleViewState {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
-                        '$_firstCelsiusAnnotationValue°C' +
-                            ' to $_secondCelsiusAnnotationValue',
+                        '$_firstCelsiusAnnotationValue°C'
+                        ' to $_secondCelsiusAnnotationValue',
                         style: TextStyle(
                           fontSize: _celsiusAnnotationFontSize,
                           fontFamily: 'Times',
@@ -74,7 +75,7 @@ class _RadialRangeSliderGradientState extends SampleViewState {
             ]),
         RadialAxis(
             axisLineStyle: AxisLineStyle(
-                thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
+                thickness: 0.05, thicknessUnit: GaugeSizeUnit.factor),
             showTicks: false,
             showLabels: true,
             labelOffset: 20,
@@ -83,27 +84,27 @@ class _RadialRangeSliderGradientState extends SampleViewState {
                   endValue: _secondMarkerValue,
                   startValue: _firstMarkerValue,
                   sizeUnit: GaugeSizeUnit.factor,
-                  gradient: model.isWeb
-                      ? null
-                      : const SweepGradient(colors: <Color>[
-                          Color.fromRGBO(115, 67, 189, 1),
-                          Color.fromRGBO(202, 94, 230, 1)
-                        ], stops: <double>[
-                          0.5,
-                          1
-                        ]),
-                  endWidth: 0.1,
-                  startWidth: 0.1)
+                  gradient: const SweepGradient(colors: <Color>[
+                    Color.fromRGBO(115, 67, 189, 1),
+                    Color.fromRGBO(202, 94, 230, 1)
+                  ], stops: <double>[
+                    0.5,
+                    1
+                  ]),
+                  endWidth: 0.05,
+                  startWidth: 0.05)
             ],
             pointers: <GaugePointer>[
               MarkerPointer(
                 value: _firstMarkerValue,
-                color: model.currentThemeData.brightness == Brightness.light
+                elevation: 5,
+                overlayColor: Color.fromRGBO(202, 94, 230, 0.125),
+                color: model.currentThemeData!.brightness == Brightness.light
                     ? Colors.white
                     : Colors.black,
                 borderWidth: 7,
                 borderColor:
-                    model.currentThemeData.brightness == Brightness.light
+                    model.currentThemeData!.brightness == Brightness.light
                         ? Colors.black
                         : Colors.white,
                 markerHeight: _firstMarkerSize,
@@ -115,15 +116,17 @@ class _RadialRangeSliderGradientState extends SampleViewState {
               ),
               MarkerPointer(
                 value: _secondMarkerValue,
-                color: model.currentThemeData.brightness == Brightness.light
+                elevation: 5,
+                color: model.currentThemeData!.brightness == Brightness.light
                     ? Colors.white
                     : Colors.black,
                 borderWidth: 7,
                 borderColor:
-                    model.currentThemeData.brightness == Brightness.light
+                    model.currentThemeData!.brightness == Brightness.light
                         ? Colors.black
                         : Colors.white,
                 markerHeight: _firstMarkerSize,
+                overlayColor: Color.fromRGBO(202, 94, 230, 0.125),
                 markerWidth: _firstMarkerSize,
                 markerType: MarkerType.circle,
                 enableDragging: true,
@@ -183,16 +186,7 @@ class _RadialRangeSliderGradientState extends SampleViewState {
   void handleSecondPointerValueChanging(ValueChangingArgs args) {
     if (args.value <= _firstMarkerValue ||
         (args.value - _secondMarkerValue).abs() > 10) {
-      if (args.value <= _firstMarkerValue) {
-        if ((args.value - _secondMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _secondMarkerValue = _firstMarkerValue;
-          _firstMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -213,16 +207,7 @@ class _RadialRangeSliderGradientState extends SampleViewState {
   void handleFirstPointerValueChanging(ValueChangingArgs args) {
     if (args.value >= _secondMarkerValue ||
         (args.value - _firstMarkerValue).abs() > 10) {
-      if (args.value >= _secondMarkerValue) {
-        if ((args.value - _firstMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _firstMarkerValue = _secondMarkerValue;
-          _secondMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -230,7 +215,7 @@ class _RadialRangeSliderGradientState extends SampleViewState {
   double _firstMarkerValue = 0;
   double _firstMarkerSize = 30;
   double _annotationFontSize = 25;
-  double _celsiusAnnotationFontSize = 18;
+  final double _celsiusAnnotationFontSize = 18;
   String _firstAnnotationValue = '0';
   String _secondAnnotationValue = '60';
   String _firstCelsiusAnnotationValue = '-${17.7778.toStringAsFixed(1)}';

@@ -13,9 +13,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Create balance sheet Excel report
+/// Render XlsIO of balance sheet
 class BalanceSheetXlsIO extends SampleView {
-  /// Create balance sheet Excel report
+  /// Render XlsIO of balance sheet
   const BalanceSheetXlsIO(Key key) : super(key: key);
   @override
   _BalanceSheetXlsIOState createState() => _BalanceSheetXlsIOState();
@@ -36,16 +36,24 @@ class _BalanceSheetXlsIOState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  'This sample showcases how to create a simple balance sheet in Excel with formulas, autofit rows and columns, image hyperlinks, and workbook/worksheet protection using XlsIO.',
+                  'This sample showcases on how to create a simple Excel report for balance sheet with data, autofit, image hyperlink, and protection using XlsIO.',
                   style: TextStyle(fontSize: 16, color: model.textColor)),
               const SizedBox(height: 20, width: 30),
               Align(
                   alignment: Alignment.center,
-                  child: FlatButton(
-                      child: const Text('Generate Excel',
-                          style: TextStyle(color: Colors.white)),
-                      color: model.backgroundColor,
-                      onPressed: _generateExcel))
+                  child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _generateExcel,
+                    child: const Text('Generate Excel',
+                        style: TextStyle(color: Colors.white)),
+                  ))
             ],
           ),
         ),
@@ -126,7 +134,9 @@ class _BalanceSheetXlsIOState extends SampleViewState {
     sheet.getRangeByName('D14:E14').cellStyle = styles[9];
     sheet.getRangeByName('B14').text = 'Balance';
 
-    sheet.getRangeByName('D4:E14').autoFitColumns();
+    sheet.getRangeByName('D1').columnWidth = 11.10;
+    sheet.getRangeByName('E1').columnWidth = 14.00;
+    // sheet.getRangeByName('D4:E14').autoFitColumns();
 
     // Sheet2
     sheet2.getRangeByName('A1').columnWidth = 1.69;
@@ -192,9 +202,11 @@ class _BalanceSheetXlsIOState extends SampleViewState {
     sheet2.getRangeByName('E12').number = -46500;
     sheet2.getRangeByName('E13').number = 4000;
 
-    sheet2.getRangeByName('C3:C13').autoFitRows();
-    sheet2.autoFitColumn(4);
-    sheet2.autoFitColumn(5);
+    sheet2.getRangeByName('D1').columnWidth = 11.10;
+    sheet2.getRangeByName('E1').columnWidth = 14.00;
+    // sheet2.getRangeByName('C3:C13').autoFitRows();
+    // sheet2.autoFitColumn(4);
+    // sheet2.autoFitColumn(5);
 
     // sheet3
     sheet3.getRangeByName('A1').columnWidth = 1.69;
@@ -203,7 +215,8 @@ class _BalanceSheetXlsIOState extends SampleViewState {
     sheet3.getRangeByName('B1').text = 'Liabilities';
     sheet3.getRangeByName('B1:E1').cellStyle = styles[0];
 
-    sheet3.autoFitColumn(2);
+    sheet3.getRangeByName('B1').columnWidth = 22.10;
+    // sheet3.autoFitColumn(2);
 
     range1 = sheet3.getRangeByName('D2');
     range1.cellStyle = styles[5];
@@ -256,9 +269,11 @@ class _BalanceSheetXlsIOState extends SampleViewState {
     sheet3.getRangeByName('E11').number = 12500;
     sheet3.getRangeByName('E12').number = 20700;
 
-    sheet3.getRangeByName('C3:C12').autoFitRows();
-    sheet3.autoFitColumn(4);
-    sheet3.autoFitColumn(5);
+    sheet3.getRangeByName('D1').columnWidth = 11.10;
+    sheet3.getRangeByName('E1').columnWidth = 14.00;
+    // sheet3.getRangeByName('C3:C12').autoFitRows();
+    // sheet3.autoFitColumn(4);
+    // sheet3.autoFitColumn(5);
 
     // sheet4
     sheet4.getRangeByName('A1').columnWidth = 1.69;
@@ -333,11 +348,11 @@ class _BalanceSheetXlsIOState extends SampleViewState {
 
     workbook.protect(true, true, 'Syncfusion');
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int>? bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.
-    await FileSaveHelper.saveAndLaunchFile(bytes, 'BalanceSheet.xlsx');
+    await FileSaveHelper.saveAndLaunchFile(bytes!, 'BalanceSheet.xlsx');
   }
 
   // Create styles for worksheet

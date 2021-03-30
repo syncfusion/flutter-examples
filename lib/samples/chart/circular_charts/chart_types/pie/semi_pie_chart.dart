@@ -21,6 +21,13 @@ class _SemiPieChartState extends SampleViewState {
   _SemiPieChartState();
   int _startAngle = 270;
   int _endAngle = 90;
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, format: 'point.x : point.y%');
+    super.initState();
+  }
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -84,11 +91,11 @@ class _SemiPieChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getSemiPieChartChart();
+    return _buildSemiPieChartChart();
   }
 
   /// Return the circular chart with semi pie series.
-  SfCircularChart _getSemiPieChartChart() {
+  SfCircularChart _buildSemiPieChartChart() {
     return SfCircularChart(
       centerY: '60%',
       title: ChartTitle(
@@ -96,8 +103,7 @@ class _SemiPieChartState extends SampleViewState {
       legend: Legend(
           isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),
       series: _getSemiPieChartSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, format: 'point.x : point.y%'),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -119,8 +125,8 @@ class _SemiPieChartState extends SampleViewState {
 
           /// If we set start and end angle given below
           /// it will render as semi pie chart.
-          startAngle: _startAngle ?? 270,
-          endAngle: _endAngle ?? 90,
+          startAngle: _startAngle,
+          endAngle: _endAngle,
           dataLabelSettings: DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.inside))
     ];

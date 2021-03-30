@@ -21,11 +21,11 @@ class _RangeColorForLabelsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRangeColorForLabels();
+    return _buildRangeColorForLabels();
   }
 
   /// Returns the range color for axis labels gauge
-  SfRadialGauge _getRangeColorForLabels() {
+  SfRadialGauge _buildRangeColorForLabels() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -54,24 +54,24 @@ class _RangeColorForLabelsState extends SampleViewState {
                   color: const Color(0xFFF8B195),
                   sizeUnit: GaugeSizeUnit.factor,
                   rangeOffset: 0.06,
-                  startWidth: model.isWeb ? 0.2 : 0.05,
-                  endWidth: model.isWeb ? 0.2 : 0.25),
+                  startWidth: model.isWebFullView ? 0.2 : 0.05,
+                  endWidth: model.isWebFullView ? 0.2 : 0.25),
               GaugeRange(
                   startValue: 35,
                   endValue: 70,
                   rangeOffset: 0.06,
                   sizeUnit: GaugeSizeUnit.factor,
                   color: const Color(0xFFC06C84),
-                  startWidth: model.isWeb ? 0.2 : 0.05,
-                  endWidth: model.isWeb ? 0.2 : 0.25),
+                  startWidth: model.isWebFullView ? 0.2 : 0.05,
+                  endWidth: model.isWebFullView ? 0.2 : 0.25),
               GaugeRange(
                   startValue: 70,
                   endValue: 100,
                   rangeOffset: 0.06,
                   sizeUnit: GaugeSizeUnit.factor,
                   color: const Color(0xFF355C7D),
-                  startWidth: model.isWeb ? 0.2 : 0.05,
-                  endWidth: model.isWeb ? 0.2 : 0.25),
+                  startWidth: model.isWebFullView ? 0.2 : 0.05,
+                  endWidth: model.isWebFullView ? 0.2 : 0.25),
             ])
       ],
     );

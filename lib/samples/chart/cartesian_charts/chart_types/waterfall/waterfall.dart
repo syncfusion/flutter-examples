@@ -9,6 +9,7 @@ import '../../../../../model/sample_view.dart';
 
 ///Renders histogram chart sample
 class WaterFall extends SampleView {
+  /// Creates waterfall chart
   const WaterFall(Key key) : super(key: key);
 
   @override
@@ -17,18 +18,22 @@ class WaterFall extends SampleView {
 
 class _WaterFallState extends SampleViewState {
   _WaterFallState();
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultWaterfallChart();
+    return _buildDefaultWaterfallChart();
   }
 
   /// Get the cartesian chart with histogram series
-  SfCartesianChart _getDefaultWaterfallChart() {
+  SfCartesianChart _buildDefaultWaterfallChart() {
     return SfCartesianChart(
-      onAxisLabelRender: (AxisLabelRenderArgs args) {
-        if (args.axis.name == 'Expenditure')
-          args.text = (args.value ~/ 1000).toString() + 'B';
+      axisLabelFormatter: (AxisLabelRenderDetails details) {
+        return ChartAxisLabel(
+            details.axisName == 'Expenditure'
+                ? (details.value ~/ 1000).toString() + 'B'
+                : details.text,
+            null);
       },
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Company revenue and profit'),
@@ -45,18 +50,14 @@ class _WaterFallState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getWaterFallSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true, header: ''),
+      tooltipBehavior: _tooltipBehavior,
       onTooltipRender: (TooltipArgs args) {
-        args.text = args.dataPoints[args.pointIndex].x.toString() +
+        args.text = args.dataPoints![args.pointIndex!.toInt()].x.toString() +
             ' : ' +
-            (args.dataPoints[args.pointIndex].y / 1000).toString() +
+            (args.dataPoints![args.pointIndex!.toInt()].y / 1000).toString() +
             'B';
       },
       onDataLabelRender: (dataLabelArgs) {
-        //  double value = double.parse(dataLabelArgs.text)/1000;
-        //  value = (value * 100).roundToDouble()/100;
-        //  dataLabelArgs.text = value.toString();
-        //  print(dataLabelArgs.text);
         if (dataLabelArgs.pointIndex == 0) {
           dataLabelArgs.text = '4.7B';
         } else if (dataLabelArgs.pointIndex == 1) {
@@ -140,6 +141,7 @@ class _WaterFallState extends SampleViewState {
 
   @override
   void initState() {
+    _tooltipBehavior = TooltipBehavior(enable: true, header: '');
     super.initState();
   }
 }
@@ -148,8 +150,8 @@ class _ChartSampleData {
   _ChartSampleData(
       {this.x, this.y, this.intermediateSumPredicate, this.totalSumPredicate});
 
-  final String x;
-  final num y;
-  final bool intermediateSumPredicate;
-  final bool totalSumPredicate;
+  final String? x;
+  final num? y;
+  final bool? intermediateSumPredicate;
+  final bool? totalSumPredicate;
 }

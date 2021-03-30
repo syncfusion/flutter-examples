@@ -35,11 +35,11 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
   final double _max = 1000.0;
   SfRangeValues _values = SfRangeValues(400.0, 700.0);
 
-  RangeController _rangeController;
-  TextEditingController _textController = TextEditingController();
+  late RangeController _rangeController;
+  final TextEditingController _textController = TextEditingController();
 
-  List<RoomData> _chartData;
-  List<RoomData> _updatedChartData = <RoomData>[];
+  late List<_RoomData> _chartData;
+  final List<_RoomData> _updatedChartData = <_RoomData>[];
 
   bool _needBanquetHall = false;
   bool _needHealthSpa = false;
@@ -49,85 +49,85 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
   @override
   void initState() {
     _rangeController = RangeController(start: _values.start, end: _values.end);
-    _chartData = <RoomData>[
-      RoomData(rate: 300, hasBanquetHall: true),
-      RoomData(
+    _chartData = <_RoomData>[
+      _RoomData(rate: 300, hasBanquetHall: true),
+      _RoomData(
           rate: 762,
           hasBanquetHall: true,
           hasHealthSpa: true,
           petsAllowed: true),
-      RoomData(rate: 550, hasBanquetHall: true, petsAllowed: true),
-      RoomData(rate: 336, hasHealthSpa: true),
-      RoomData(rate: 150),
-      RoomData(rate: 440, hasBanquetHall: true, hasHealthSpa: true),
-      RoomData(rate: 350, hasIndoorEntertainment: true),
-      RoomData(rate: 300, petsAllowed: true),
-      RoomData(rate: 550, hasHealthSpa: true, petsAllowed: true),
-      RoomData(rate: 199, hasHealthSpa: true),
-      RoomData(rate: 729, hasIndoorEntertainment: true, hasBanquetHall: true),
-      RoomData(rate: 179, petsAllowed: true),
-      RoomData(
+      _RoomData(rate: 550, hasBanquetHall: true, petsAllowed: true),
+      _RoomData(rate: 336, hasHealthSpa: true),
+      _RoomData(rate: 150),
+      _RoomData(rate: 440, hasBanquetHall: true, hasHealthSpa: true),
+      _RoomData(rate: 350, hasIndoorEntertainment: true),
+      _RoomData(rate: 300, petsAllowed: true),
+      _RoomData(rate: 550, hasHealthSpa: true, petsAllowed: true),
+      _RoomData(rate: 199, hasHealthSpa: true),
+      _RoomData(rate: 729, hasIndoorEntertainment: true, hasBanquetHall: true),
+      _RoomData(rate: 179, petsAllowed: true),
+      _RoomData(
           rate: 969,
           hasBanquetHall: true,
           hasHealthSpa: true,
           petsAllowed: true,
           hasIndoorEntertainment: true),
-      RoomData(rate: 699, hasBanquetHall: true, petsAllowed: true),
-      RoomData(rate: 288, petsAllowed: true),
-      RoomData(rate: 399, petsAllowed: true),
-      RoomData(rate: 429, petsAllowed: true, hasHealthSpa: true),
-      RoomData(rate: 316, hasBanquetHall: true),
-      RoomData(rate: 778, hasHealthSpa: true, hasIndoorEntertainment: true),
-      RoomData(
+      _RoomData(rate: 699, hasBanquetHall: true, petsAllowed: true),
+      _RoomData(rate: 288, petsAllowed: true),
+      _RoomData(rate: 399, petsAllowed: true),
+      _RoomData(rate: 429, petsAllowed: true, hasHealthSpa: true),
+      _RoomData(rate: 316, hasBanquetHall: true),
+      _RoomData(rate: 778, hasHealthSpa: true, hasIndoorEntertainment: true),
+      _RoomData(
           rate: 899,
           hasBanquetHall: true,
           hasHealthSpa: true,
           petsAllowed: true,
           hasIndoorEntertainment: true),
-      RoomData(rate: 199, hasBanquetHall: true),
-      RoomData(rate: 299, hasHealthSpa: true),
-      RoomData(
+      _RoomData(rate: 199, hasBanquetHall: true),
+      _RoomData(rate: 299, hasHealthSpa: true),
+      _RoomData(
           rate: 947,
           hasBanquetHall: true,
           hasHealthSpa: true,
           petsAllowed: true,
           hasIndoorEntertainment: true),
-      RoomData(
+      _RoomData(
           rate: 899,
           hasBanquetHall: true,
           hasIndoorEntertainment: true,
           petsAllowed: true),
-      RoomData(
+      _RoomData(
         rate: 794,
         hasBanquetHall: true,
         petsAllowed: true,
         hasHealthSpa: true,
       ),
-      RoomData(
+      _RoomData(
           rate: 969,
           hasBanquetHall: true,
           hasHealthSpa: true,
           petsAllowed: true,
           hasIndoorEntertainment: true),
-      RoomData(
+      _RoomData(
           rate: 849,
           hasHealthSpa: true,
           petsAllowed: true,
           hasIndoorEntertainment: true),
-      RoomData(rate: 724, hasBanquetHall: true, hasIndoorEntertainment: true),
-      RoomData(rate: 449, hasBanquetHall: true, hasHealthSpa: true),
-      RoomData(rate: 409, petsAllowed: true),
-      RoomData(rate: 699, hasBanquetHall: true, petsAllowed: true),
-      RoomData(rate: 474, hasHealthSpa: true),
-      RoomData(rate: 599, hasIndoorEntertainment: true, petsAllowed: true),
-      RoomData(rate: 639, hasHealthSpa: true, petsAllowed: true),
-      RoomData(rate: 618, hasHealthSpa: true, petsAllowed: true),
-      RoomData(rate: 549, petsAllowed: true),
-      RoomData(rate: 399, hasHealthSpa: true),
-      RoomData(rate: 215),
-      RoomData(rate: 287, hasIndoorEntertainment: true),
-      RoomData(rate: 100),
-      RoomData(
+      _RoomData(rate: 724, hasBanquetHall: true, hasIndoorEntertainment: true),
+      _RoomData(rate: 449, hasBanquetHall: true, hasHealthSpa: true),
+      _RoomData(rate: 409, petsAllowed: true),
+      _RoomData(rate: 699, hasBanquetHall: true, petsAllowed: true),
+      _RoomData(rate: 474, hasHealthSpa: true),
+      _RoomData(rate: 599, hasIndoorEntertainment: true, petsAllowed: true),
+      _RoomData(rate: 639, hasHealthSpa: true, petsAllowed: true),
+      _RoomData(rate: 618, hasHealthSpa: true, petsAllowed: true),
+      _RoomData(rate: 549, petsAllowed: true),
+      _RoomData(rate: 399, hasHealthSpa: true),
+      _RoomData(rate: 215),
+      _RoomData(rate: 287, hasIndoorEntertainment: true),
+      _RoomData(rate: 100),
+      _RoomData(
           rate: 999,
           hasBanquetHall: true,
           hasHealthSpa: true,
@@ -142,10 +142,10 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
 
   @override
   void dispose() {
-    _rangeController?.dispose();
-    _textController?.dispose();
-    _chartData?.clear();
-    _updatedChartData?.clear();
+    _rangeController.dispose();
+    _textController.dispose();
+    _chartData.clear();
+    _updatedChartData.clear();
     super.dispose();
   }
 
@@ -156,7 +156,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
     bool arePetsAllowed = false,
     bool hasIndoorEntertainment = false,
   }) {
-    _updatedChartData?.clear();
+    _updatedChartData.clear();
     for (int i = 0; i < _chartData.length; i++) {
       if (hasBanquetHall &&
           hasHealthSpa &&
@@ -261,17 +261,18 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
     return SingleChildScrollView(
       child: Container(
         color: isLightTheme ? const Color.fromRGBO(250, 250, 250, 1) : null,
-        padding: model.isWeb
+        padding: model.isWebFullView
             ? const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 20.0)
             : const EdgeInsets.fromLTRB(10.0, 12.5, 10.0, 10.0),
-        child: _getRangeSelector(mediaQueryData, isLightTheme),
+        child: _buildRangeSelector(mediaQueryData, isLightTheme),
       ),
     );
   }
 
-  Widget _getRangeSelector(MediaQueryData mediaQueryData, bool isLightTheme) {
+  Widget _buildRangeSelector(MediaQueryData mediaQueryData, bool isLightTheme) {
     final Axis direction =
-        (mediaQueryData.orientation == Orientation.landscape || model.isWeb) &&
+        (mediaQueryData.orientation == Orientation.landscape ||
+                    model.isWebFullView) &&
                 mediaQueryData.size.width > mediaQueryData.size.height
             ? Axis.horizontal
             : Axis.vertical;
@@ -290,18 +291,18 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             direction == Axis.horizontal
-                ? Expanded(child: _getRangeSelectorWidget(isLightTheme))
-                : _getRangeSelectorWidget(isLightTheme),
+                ? Expanded(child: _buildRangeSelectorWidget(isLightTheme))
+                : _buildRangeSelectorWidget(isLightTheme),
             direction == Axis.horizontal
-                ? Expanded(child: _getAmenities())
-                : _getAmenities(),
+                ? Expanded(child: _buildAmenities())
+                : _buildAmenities(),
           ],
         ),
       ],
     );
   }
 
-  Widget _getRangeSelectorWidget(bool isLightTheme) {
+  Widget _buildRangeSelectorWidget(bool isLightTheme) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Card(
@@ -310,14 +311,15 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
           borderRadius: BorderRadius.circular(3.0),
         ),
         child: Padding(
-          padding: model.isWeb
+          padding: model.isWebFullView
               ? const EdgeInsets.all(20.0)
               : const EdgeInsets.fromLTRB(10, 20, 10, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: model.isWeb ? 5.0 : 15.0),
+                padding:
+                    EdgeInsets.only(left: model.isWebFullView ? 5.0 : 15.0),
                 child: Text(
                   '\$100 to \$1000',
                   style: TextStyle(fontSize: 20),
@@ -325,7 +327,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(
-                    model.isWeb ? 5.0 : 15.0, 5.0, 0.0, 5.0),
+                    model.isWebFullView ? 5.0 : 15.0, 5.0, 0.0, 5.0),
                 child: Text(_textController.text),
               ),
               SfRangeSelectorTheme(
@@ -370,7 +372,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                     });
                   },
                   child: SfCartesianChart(
-                    margin: const EdgeInsets.all(0.0),
+                    margin: EdgeInsets.zero,
                     plotAreaBorderWidth: 0,
                     enableAxisAnimation: true,
                     primaryXAxis: NumericAxis(
@@ -390,21 +392,21 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
   }
 
   ///Get the histogram series
-  List<HistogramSeries<RoomData, double>> _getHistogramSeries() {
-    return <HistogramSeries<RoomData, double>>[
-      HistogramSeries<RoomData, double>(
+  List<HistogramSeries<_RoomData, double>> _getHistogramSeries() {
+    return <HistogramSeries<_RoomData, double>>[
+      HistogramSeries<_RoomData, double>(
         dataSource: _updatedChartData,
         binInterval: 100,
         width: 1.0,
         spacing: 0,
         color: Color.fromRGBO(0, 179, 134, 0.5),
-        yValueMapper: (RoomData sales, _) => sales.rate,
+        yValueMapper: (_RoomData sales, _) => sales.rate,
       ),
     ];
   }
 
   /// UI part of amenities section.
-  Widget _getAmenities() {
+  Widget _buildAmenities() {
     return Column(children: [
       Padding(
         padding: const EdgeInsets.all(5.0),
@@ -437,7 +439,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                     ),
                     value: true,
                     activeColor: Colors.grey,
-                    onChanged: (bool value) {},
+                    onChanged: (bool? value) {},
                   ),
                   CheckboxListTile(
                       contentPadding: EdgeInsets.only(left: 8),
@@ -446,9 +448,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                         style: TextStyle(fontSize: 16),
                       ),
                       value: _needBanquetHall,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _needBanquetHall = value;
+                          _needBanquetHall = value!;
                         });
                       }),
                   CheckboxListTile(
@@ -458,9 +460,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                         style: TextStyle(fontSize: 16),
                       ),
                       value: _needHealthSpa,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _needHealthSpa = value;
+                          _needHealthSpa = value!;
                         });
                       }),
                   CheckboxListTile(
@@ -470,9 +472,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                         style: TextStyle(fontSize: 16),
                       ),
                       value: _needPets,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _needPets = value;
+                          _needPets = value!;
                         });
                       }),
                   CheckboxListTile(
@@ -482,9 +484,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                         style: TextStyle(fontSize: 16),
                       ),
                       value: _needIndoorEntertainment,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _needIndoorEntertainment = value;
+                          _needIndoorEntertainment = value!;
                         });
                       }),
                 ],
@@ -495,17 +497,20 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
-        child: _getFilterButton(),
+        child: _buildFilterButton(),
       )
     ]);
   }
 
-  Widget _getFilterButton() {
+  Widget _buildFilterButton() {
     return Container(
       width: 350,
       height: 50,
-      child: RaisedButton(
-        color: Color.fromRGBO(255, 102, 102, 1.0),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              Color.fromRGBO(255, 102, 102, 1.0)),
+        ),
 
         /// On clicking the button, chart inside the range selector will be
         /// updated with the filtered data.
@@ -532,9 +537,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
 }
 
 ///Chart sample data
-class RoomData {
-  RoomData({
-    this.rate,
+class _RoomData {
+  _RoomData({
+    required this.rate,
     this.hasBanquetHall = false,
     this.hasHealthSpa = false,
     this.petsAllowed = false,

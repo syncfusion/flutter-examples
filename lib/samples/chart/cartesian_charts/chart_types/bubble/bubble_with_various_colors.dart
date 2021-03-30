@@ -20,14 +20,25 @@ class BubblePointColor extends SampleView {
 /// State class of the bubble chart with point color
 class _BubblePointColorState extends SampleViewState {
   _BubblePointColorState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        textAlignment: ChartAlignment.center,
+        enable: true,
+        canShowMarker: false,
+        header: '',
+        format: 'Country : point.x\nArea : point.y km²');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getPointColorBubbleChart();
+    return _buildPointColorBubbleChart();
   }
 
   /// Returns the bubble chart with point color
-  SfCartesianChart _getPointColorBubbleChart() {
+  SfCartesianChart _buildPointColorBubbleChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Countries by area'),
       plotAreaBorderWidth: 0,
@@ -43,12 +54,7 @@ class _BubblePointColorState extends SampleViewState {
           rangePadding: ChartRangePadding.additional,
           majorTickLines: MajorTickLines(size: 0)),
       series: _getPointColorBubbleSeries(),
-      tooltipBehavior: TooltipBehavior(
-          textAlignment: ChartAlignment.center,
-          enable: true,
-          canShowMarker: false,
-          header: '',
-          format: 'Country : point.x\nArea : point.y km²'),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

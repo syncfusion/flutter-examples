@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 ///calendar import
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:syncfusion_flutter_core/core.dart';
 
 ///Local import
 import '../../model/model.dart';
@@ -28,19 +29,17 @@ class CalendarAppointmentEditor extends SampleView {
 class _CalendarAppointmentEditorState extends SampleViewState {
   _CalendarAppointmentEditorState();
 
-  List<String> _subjectCollection;
-  List<Appointment> _appointments;
-  bool _isMobile;
+  late List<String> _subjectCollection;
+  late List<Appointment> _appointments;
+  late bool _isMobile;
 
-  List<Color> _colorCollection;
-  List<String> _colorNames;
+  late List<Color> _colorCollection;
+  late List<String> _colorNames;
   int _selectedColorIndex = 0;
-  List<String> _timeZoneCollection;
-  _DataSource _events;
-  Appointment _selectedAppointment;
-  DateTime _startDate;
-  DateTime _endDate;
-  bool _isAllDay;
+  late List<String> _timeZoneCollection;
+  late _DataSource _events;
+  Appointment? _selectedAppointment;
+  bool _isAllDay = false;
   String _subject = '';
 
   final List<CalendarView> _allowedViews = <CalendarView>[
@@ -51,22 +50,18 @@ class _CalendarAppointmentEditorState extends SampleViewState {
     CalendarView.schedule
   ];
 
-  ScrollController controller;
-  CalendarController calendarController;
+  final ScrollController controller = ScrollController();
+  final CalendarController calendarController = CalendarController();
 
   /// Global key used to maintain the state,
   /// when we change the parent of the widget
-  GlobalKey _globalKey;
-  CalendarView _view;
+  final GlobalKey _globalKey = GlobalKey();
+  CalendarView _view = CalendarView.month;
 
   @override
   void initState() {
-    _globalKey = GlobalKey();
     _isMobile = false;
-    controller = ScrollController();
-    calendarController = CalendarController();
-    calendarController.view = CalendarView.month;
-    _view = CalendarView.month;
+    calendarController.view = _view;
     _appointments = _getAppointmentDetails();
     _events = _DataSource(_appointments);
     _selectedAppointment = null;
@@ -98,7 +93,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     final Widget _calendar = Theme(
 
         /// The key set here to maintain the state,
@@ -111,7 +106,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: calendarController.view == CalendarView.month &&
-              model.isWeb &&
+              model.isWebFullView &&
               _screenHeight < 800
           ? Scrollbar(
               isAlwaysShown: true,
@@ -134,15 +129,15 @@ class _CalendarAppointmentEditorState extends SampleViewState {
   /// view or switched to different calendar view.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     if (_view == calendarController.view ||
-        !model.isWeb ||
+        !model.isWebFullView ||
         (_view != CalendarView.month &&
             calendarController.view != CalendarView.month)) {
       return;
     }
 
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       setState(() {
-        _view = calendarController.view;
+        _view = calendarController.view!;
 
         /// Update the current view when the calendar view changed to
         /// month view or from month view.
@@ -164,27 +159,27 @@ class _CalendarAppointmentEditorState extends SampleViewState {
 
     /// Navigates the calendar to day view,
     /// when we tap on month cells in mobile.
-    if (!model.isWeb && calendarController.view == CalendarView.month) {
+    if (!model.isWebFullView && calendarController.view == CalendarView.month) {
       calendarController.view = CalendarView.day;
     } else {
       if (calendarTapDetails.appointments != null &&
           calendarTapDetails.targetElement == CalendarElement.appointment) {
-        _selectedAppointment = calendarTapDetails.appointments[0];
+        _selectedAppointment = calendarTapDetails.appointments![0];
       }
 
-      final DateTime selectedDate = calendarTapDetails.date;
+      final DateTime selectedDate = calendarTapDetails.date!;
       final CalendarElement targetElement = calendarTapDetails.targetElement;
 
       /// To open the appointment editor for web,
       /// when the screen width is greater than 767.
-      if (model.isWeb && !_isMobile) {
+      if (model.isWebFullView && !_isMobile) {
         final bool _isAppointmentTapped =
             calendarTapDetails.targetElement == CalendarElement.appointment;
         showDialog<Widget>(
             context: context,
             builder: (BuildContext context) {
               final List<Appointment> appointment = <Appointment>[];
-              Appointment newAppointment;
+              Appointment? newAppointment;
 
               /// Creates a new appointment, which is displayed on the tapped
               /// calendar element, when the editor is opened.
@@ -193,13 +188,11 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                     CalendarElement.allDayPanel;
                 _selectedColorIndex = 0;
                 _subject = '';
-                final DateTime date = calendarTapDetails.date;
-                _startDate = date;
-                _endDate = date.add(const Duration(hours: 1));
+                final DateTime date = calendarTapDetails.date!;
 
                 newAppointment = Appointment(
-                  startTime: _startDate,
-                  endTime: _endDate,
+                  startTime: date,
+                  endTime: date.add(const Duration(hours: 1)),
                   color: _colorCollection[_selectedColorIndex],
                   isAllDay: _isAllDay,
                   subject: _subject == '' ? '(No title)' : _subject,
@@ -209,7 +202,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                 _events.appointments.add(appointment[0]);
 
                 SchedulerBinding.instance
-                    .addPostFrameCallback((Duration duration) {
+                    ?.addPostFrameCallback((Duration duration) {
                   _events.notifyListeners(
                       CalendarDataSourceAction.add, appointment);
                 });
@@ -225,7 +218,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                     _events.appointments
                         .removeAt(_events.appointments.indexOf(newAppointment));
                     _events.notifyListeners(CalendarDataSourceAction.remove,
-                        <Appointment>[]..add(newAppointment));
+                        <Appointment>[newAppointment]);
                   }
                   return true;
                 },
@@ -234,8 +227,8 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                         alignment: Alignment.center,
                         width: _isAppointmentTapped ? 400 : 500,
                         height: _isAppointmentTapped
-                            ? _selectedAppointment.location == null ||
-                                    _selectedAppointment.location.isEmpty
+                            ? _selectedAppointment!.location == null ||
+                                    _selectedAppointment!.location!.isEmpty
                                 ? 150
                                 : 200
                             : 390,
@@ -257,7 +250,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                                       targetElement,
                                       selectedDate,
                                       model,
-                                      _selectedAppointment,
+                                      _selectedAppointment!,
                                       _colorCollection,
                                       _colorNames,
                                       _events,
@@ -269,7 +262,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                                       _events,
                                       _colorCollection,
                                       _colorNames,
-                                      _selectedAppointment,
+                                      _selectedAppointment!,
                                       _timeZoneCollection),
                             )))),
               );
@@ -465,14 +458,14 @@ class _CalendarAppointmentEditorState extends SampleViewState {
 
   /// Returns the calendar based on the properties passed.
   SfCalendar _getAppointmentEditorCalendar(
-      [CalendarController _calendarController,
-      CalendarDataSource _calendarDataSource,
+      [CalendarController? _calendarController,
+      CalendarDataSource? _calendarDataSource,
       dynamic calendarTapCallback,
-      ViewChangedCallback viewChangedCallback,
+      ViewChangedCallback? viewChangedCallback,
       dynamic scheduleViewBuilder]) {
     return SfCalendar(
         controller: _calendarController,
-        showNavigationArrow: model.isWeb,
+        showNavigationArrow: model.isWebFullView,
         allowedViews: _allowedViews,
         showDatePickerButton: true,
         scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
@@ -495,11 +488,11 @@ typedef _PickerChanged = void Function(
 
 /// Details for the [_PickerChanged].
 class _PickerChangedDetails {
-  _PickerChangedDetails({this.index, this.resourceId});
+  _PickerChangedDetails({this.index = -1, this.resourceId});
 
   final int index;
 
-  final Object resourceId;
+  final Object? resourceId;
 }
 
 /// An object to set the appointment collection data source to collection, and
@@ -516,9 +509,17 @@ class _DataSource extends CalendarDataSource {
 /// Formats the tapped appointment time text, to display on the pop-up view.
 String _getAppointmentTimeText(Appointment selectedAppointment) {
   if (selectedAppointment.isAllDay) {
-    return DateFormat('EEEE, MMM dd')
-        .format(selectedAppointment.startTime)
-        .toString();
+    if ((isSameDate(
+        selectedAppointment.startTime, selectedAppointment.endTime))) {
+      return DateFormat('EEEE, MMM dd')
+          .format(selectedAppointment.startTime)
+          .toString();
+    }
+    return DateFormat('EEEE, MMM dd').format(selectedAppointment.startTime) +
+        ' - ' +
+        DateFormat('EEEE, MMM dd')
+            .format(selectedAppointment.endTime)
+            .toString();
   } else if (selectedAppointment.startTime.day !=
           selectedAppointment.endTime.day ||
       selectedAppointment.startTime.month !=
@@ -599,10 +600,10 @@ Widget displayAppointmentDetails(
         IconButton(
           icon: Icon(Icons.delete, color: defaultColor),
           onPressed: () {
-            events.appointments
-                .removeAt(events.appointments.indexOf(selectedAppointment));
+            events.appointments!
+                .removeAt(events.appointments!.indexOf(selectedAppointment));
             events.notifyListeners(CalendarDataSourceAction.remove,
-                <Appointment>[]..add(selectedAppointment));
+                <Appointment>[selectedAppointment]);
             Navigator.pop(context);
           },
         ),
@@ -620,7 +621,10 @@ Widget displayAppointmentDetails(
           color: selectedAppointment.color,
           size: 20,
         ),
-        title: Text(selectedAppointment.subject ?? '(No Text)',
+        title: Text(
+            selectedAppointment.subject.isNotEmpty
+                ? selectedAppointment.subject
+                : '(No Text)',
             style: TextStyle(
                 fontSize: 20,
                 color: defaultTextColor,
@@ -636,7 +640,7 @@ Widget displayAppointmentDetails(
           ),
         )),
     selectedAppointment.resourceIds == null ||
-            selectedAppointment.resourceIds.isEmpty
+            selectedAppointment.resourceIds!.isEmpty
         ? Container()
         : ListTile(
             leading: Icon(
@@ -646,13 +650,14 @@ Widget displayAppointmentDetails(
             ),
             title: Text(
                 _getSelectedResourceText(
-                    selectedAppointment.resourceIds, events.resources),
+                    selectedAppointment.resourceIds!, events.resources!),
                 style: TextStyle(
                     fontSize: 15,
                     color: defaultTextColor,
                     fontWeight: FontWeight.w400)),
           ),
-    selectedAppointment.location == null || selectedAppointment.location.isEmpty
+    selectedAppointment.location == null ||
+            selectedAppointment.location!.isEmpty
         ? Container()
         : ListTile(
             leading: Icon(
@@ -672,7 +677,7 @@ Widget displayAppointmentDetails(
 /// Returns the selected resource display name based on the ids passed.
 String _getSelectedResourceText(
     List<Object> resourceIds, List<CalendarResource> resourceCollection) {
-  String resourceNames;
+  String? resourceNames;
   for (int i = 0; i < resourceIds.length; i++) {
     final String name = resourceCollection
         .firstWhere((resource) => resource.id == resourceIds[i])
@@ -680,7 +685,7 @@ String _getSelectedResourceText(
     resourceNames = resourceNames == null ? name : resourceNames + ', ' + name;
   }
 
-  return resourceNames;
+  return resourceNames!;
 }
 
 /// The color picker element for the appointment editor with the available
@@ -688,7 +693,7 @@ String _getSelectedResourceText(
 class _CalendarColorPicker extends StatefulWidget {
   _CalendarColorPicker(this.colorCollection, this.selectedColorIndex,
       this.colorNames, this.model,
-      {this.onChanged});
+      {required this.onChanged});
 
   final List<Color> colorCollection;
 
@@ -705,7 +710,7 @@ class _CalendarColorPicker extends StatefulWidget {
 }
 
 class _CalendarColorPickerState extends State<_CalendarColorPicker> {
-  int _selectedColorIndex;
+  int _selectedColorIndex = -1;
 
   @override
   void initState() {
@@ -765,7 +770,8 @@ class _CalendarColorPickerState extends State<_CalendarColorPicker> {
 /// Picker to display the available resource collection, and returns the
 /// selected resource id.
 class _ResourcePicker extends StatefulWidget {
-  _ResourcePicker(this.resourceCollection, this.model, {this.onChanged});
+  _ResourcePicker(this.resourceCollection, this.model,
+      {required this.onChanged});
 
   final List<CalendarResource> resourceCollection;
 
@@ -829,7 +835,7 @@ class _ResourcePickerState extends State<_ResourcePicker> {
 class _CalendarTimeZonePicker extends StatefulWidget {
   const _CalendarTimeZonePicker(this.backgroundColor, this.timeZoneCollection,
       this.selectedTimeZoneIndex, this.model,
-      {this.onChanged});
+      {required this.onChanged});
 
   final Color backgroundColor;
 
@@ -848,7 +854,7 @@ class _CalendarTimeZonePicker extends StatefulWidget {
 }
 
 class _CalendarTimeZonePickerState extends State<_CalendarTimeZonePicker> {
-  int _selectedTimeZoneIndex;
+  int _selectedTimeZoneIndex = -1;
 
   @override
   void initState() {
@@ -908,6 +914,7 @@ class _CalendarTimeZonePickerState extends State<_CalendarTimeZonePicker> {
 /// Builds the appointment editor with minimal elements in a pop-up based on the
 /// tapped calendar element.
 class PopUpAppointmentEditor extends StatefulWidget {
+  /// Holds the data of appointment editor
   const PopUpAppointmentEditor(
       this.model,
       this.newAppointment,
@@ -918,20 +925,28 @@ class PopUpAppointmentEditor extends StatefulWidget {
       this.selectedAppointment,
       this.timeZoneCollection);
 
+  /// Model of appointment editor
   final SampleModel model;
 
-  final Appointment newAppointment;
+  /// new appointment value
+  final Appointment? newAppointment;
 
+  /// List of appointments
   final List<Appointment> appointment;
 
+  /// Holds the events value
   final CalendarDataSource events;
 
+  /// Holds list of colors
   final List<Color> colorCollection;
 
+  /// holds the names of colors
   final List<String> colorNames;
 
+  /// Selected appointment value
   final Appointment selectedAppointment;
 
+  /// Colllection list of time zones
   final List<String> timeZoneCollection;
 
   @override
@@ -941,17 +956,17 @@ class PopUpAppointmentEditor extends StatefulWidget {
 class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
   int _selectedColorIndex = 0;
   int _selectedTimeZoneIndex = 0;
-  DateTime _startDate;
-  DateTime _endDate;
-  TimeOfDay _startTime;
-  TimeOfDay _endTime;
-  bool _isAllDay;
+  late DateTime _startDate;
+  late DateTime _endDate;
+  late TimeOfDay _startTime;
+  late TimeOfDay _endTime;
+  bool _isAllDay = false;
   String _subject = '';
-  String _notes = '';
-  String _location = '';
-  List<Object> _resourceIds;
-  List<CalendarResource> _selectedResources;
-  List<CalendarResource> _unSelectedResources;
+  String? _notes;
+  String? _location;
+  List<Object>? _resourceIds;
+  List<CalendarResource> _selectedResources = <CalendarResource>[];
+  List<CalendarResource> _unSelectedResources = <CalendarResource>[];
 
   @override
   void initState() {
@@ -972,10 +987,11 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
     _isAllDay = widget.selectedAppointment.isAllDay;
     _selectedColorIndex =
         widget.colorCollection.indexOf(widget.selectedAppointment.color);
-    _selectedTimeZoneIndex = widget.selectedAppointment.startTimeZone == ''
+    _selectedTimeZoneIndex = widget.selectedAppointment.startTimeZone == null ||
+            widget.selectedAppointment.startTimeZone == ''
         ? 0
         : widget.timeZoneCollection
-            .indexOf(widget.selectedAppointment.startTimeZone);
+            .indexOf(widget.selectedAppointment.startTimeZone!);
     _subject = widget.selectedAppointment.subject == '(No title)'
         ? ''
         : widget.selectedAppointment.subject;
@@ -985,7 +1001,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
     _selectedColorIndex = _selectedColorIndex == -1 ? 0 : _selectedColorIndex;
     _selectedTimeZoneIndex =
         _selectedTimeZoneIndex == -1 ? 0 : _selectedTimeZoneIndex;
-    _resourceIds = widget.selectedAppointment.resourceIds;
+    _resourceIds = widget.selectedAppointment.resourceIds?.sublist(0);
 
     _startTime = TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
     _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
@@ -1009,17 +1025,13 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
 
     final Widget _startDatePicker = RawMaterialButton(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Text(DateFormat('MMM dd, yyyy').format(_startDate),
-          style:
-              TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
-          textAlign: TextAlign.left),
       onPressed: () async {
-        final DateTime date = await showDatePicker(
+        final DateTime? date = await showDatePicker(
             context: context,
             initialDate: _startDate,
             firstDate: DateTime(1900),
             lastDate: DateTime(2100),
-            builder: (BuildContext context, Widget child) {
+            builder: (BuildContext context, Widget? child) {
               /// Theme widget used to apply the theme and primary color to the
               /// date picker.
               return Theme(
@@ -1031,7 +1043,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                   accentColor: widget.model.backgroundColor,
                   primaryColor: widget.model.backgroundColor,
                 ),
-                child: child,
+                child: child!,
               );
             });
 
@@ -1045,21 +1057,20 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           });
         }
       },
+      child: Text(DateFormat('MMM dd, yyyy').format(_startDate),
+          style:
+              TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
+          textAlign: TextAlign.left),
     );
 
     final Widget _startTimePicker = RawMaterialButton(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Text(
-        DateFormat('hh:mm a').format(_startDate),
-        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
-        textAlign: TextAlign.left,
-      ),
       onPressed: () async {
-        final TimeOfDay time = await showTimePicker(
+        final TimeOfDay? time = await showTimePicker(
             context: context,
             initialTime:
                 TimeOfDay(hour: _startTime.hour, minute: _startTime.minute),
-            builder: (BuildContext context, Widget child) {
+            builder: (BuildContext context, Widget? child) {
               /// Theme widget used to apply the theme and primary color to the
               /// time picker.
               return Theme(
@@ -1071,7 +1082,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                   accentColor: widget.model.backgroundColor,
                   primaryColor: widget.model.backgroundColor,
                 ),
-                child: child,
+                child: child!,
               );
             });
 
@@ -1086,21 +1097,21 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           });
         }
       },
+      child: Text(
+        DateFormat('hh:mm a').format(_startDate),
+        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
+        textAlign: TextAlign.left,
+      ),
     );
 
     final Widget _endTimePicker = RawMaterialButton(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Text(
-        DateFormat('hh:mm a').format(_endDate),
-        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
-        textAlign: TextAlign.left,
-      ),
       onPressed: () async {
-        final TimeOfDay time = await showTimePicker(
+        final TimeOfDay? time = await showTimePicker(
             context: context,
             initialTime:
                 TimeOfDay(hour: _endTime.hour, minute: _endTime.minute),
-            builder: (BuildContext context, Widget child) {
+            builder: (BuildContext context, Widget? child) {
               /// Theme widget used to apply the theme and primary color to the
               /// date picker.
               return Theme(
@@ -1112,7 +1123,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                   accentColor: widget.model.backgroundColor,
                   primaryColor: widget.model.backgroundColor,
                 ),
-                child: child,
+                child: child!,
               );
             });
 
@@ -1130,21 +1141,22 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           });
         }
       },
+      child: Text(
+        DateFormat('hh:mm a').format(_endDate),
+        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
+        textAlign: TextAlign.left,
+      ),
     );
 
     final Widget _endDatePicker = RawMaterialButton(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Text(DateFormat('MMM dd, yyyy').format(_endDate),
-          style:
-              TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
-          textAlign: TextAlign.left),
       onPressed: () async {
-        final DateTime date = await showDatePicker(
+        final DateTime? date = await showDatePicker(
             context: context,
             initialDate: _endDate,
             firstDate: DateTime(1900),
             lastDate: DateTime(2100),
-            builder: (BuildContext context, Widget child) {
+            builder: (BuildContext context, Widget? child) {
               /// Theme widget used to apply the theme and primary color to the
               /// date picker.
               return Theme(
@@ -1156,7 +1168,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                   accentColor: widget.model.backgroundColor,
                   primaryColor: widget.model.backgroundColor,
                 ),
-                child: child,
+                child: child!,
               );
             });
 
@@ -1173,6 +1185,10 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           });
         }
       },
+      child: Text(DateFormat('MMM dd, yyyy').format(_endDate),
+          style:
+              TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
+          textAlign: TextAlign.left),
     );
 
     return ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
@@ -1183,14 +1199,15 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               icon: Icon(Icons.close, color: defaultColor),
               onPressed: () {
                 if (widget.newAppointment != null &&
-                    widget.events.appointments
+                    widget.events.appointments!
                         .contains(widget.newAppointment)) {
                   /// To remove the created appointment, when the appointment editor
                   /// closed without saving the appointment.
-                  widget.events.appointments.removeAt(widget.events.appointments
+                  widget.events.appointments!.removeAt(widget
+                      .events.appointments!
                       .indexOf(widget.newAppointment));
                   widget.events.notifyListeners(CalendarDataSourceAction.remove,
-                      <Appointment>[]..add(widget.newAppointment));
+                      <Appointment>[widget.newAppointment!]);
                 }
 
                 Navigator.pop(context);
@@ -1314,7 +1331,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 _notes = value;
               },
               keyboardType: TextInputType.multiline,
-              maxLines: widget.model.isWeb ? 1 : null,
+              maxLines: widget.model.isWebFullView ? 1 : null,
               style: TextStyle(
                 fontSize: 15,
                 color: defaultTextColor,
@@ -1328,7 +1345,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               ),
             ),
           )),
-      widget.events.resources == null || widget.events.resources.isEmpty
+      widget.events.resources == null || widget.events.resources!.isEmpty
           ? Container()
           : Container(
               margin: EdgeInsets.only(bottom: 5),
@@ -1344,13 +1361,6 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                     )),
                 title: RawMaterialButton(
                   padding: const EdgeInsets.only(left: 5),
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: _getResourceEditor(TextStyle(
-                        fontSize: 15,
-                        color: defaultColor,
-                        fontWeight: FontWeight.w300)),
-                  ),
                   onPressed: () {
                     showDialog<Widget>(
                       context: context,
@@ -1360,9 +1370,10 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                           _unSelectedResources,
                           widget.model,
                           onChanged: (_PickerChangedDetails details) {
-                            _resourceIds == null
-                                ? _resourceIds = <Object>[details.resourceId]
-                                : _resourceIds.add(details.resourceId);
+                            _resourceIds = _resourceIds == null
+                                ? <Object>[details.resourceId!]
+                                : (_resourceIds!.sublist(0)
+                                  ..add(details.resourceId!));
                             _selectedResources = _getSelectedResources(
                                 _resourceIds, widget.events.resources);
                             _unSelectedResources = _getUnSelectedResources(
@@ -1374,6 +1385,13 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                           /// update the color picker changes
                         }));
                   },
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: _getResourceEditor(TextStyle(
+                        fontSize: 15,
+                        color: defaultColor,
+                        fontWeight: FontWeight.w300)),
+                  ),
                 ),
               )),
       Container(
@@ -1388,15 +1406,6 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                     color: widget.colorCollection[_selectedColorIndex])),
             title: RawMaterialButton(
               padding: const EdgeInsets.only(left: 5),
-              child: Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  widget.colorNames[_selectedColorIndex],
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500, color: defaultTextColor),
-                  textAlign: TextAlign.start,
-                ),
-              ),
               onPressed: () {
                 showDialog<Widget>(
                   context: context,
@@ -1416,6 +1425,15 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                       /// update the color picker changes
                     }));
               },
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.colorNames[_selectedColorIndex],
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500, color: defaultTextColor),
+                  textAlign: TextAlign.start,
+                ),
+              ),
             ),
           )),
       Container(
@@ -1429,12 +1447,6 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                     padding: EdgeInsets.only(right: 10),
                     child: RawMaterialButton(
                       padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(
-                        'MORE OPTIONS',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: defaultTextColor),
-                      ),
                       onPressed: () {
                         Navigator.pop(context);
                         showDialog<Widget>(
@@ -1463,13 +1475,12 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                               return WillPopScope(
                                 onWillPop: () async {
                                   if (widget.newAppointment != null) {
-                                    widget.events.appointments.removeAt(widget
-                                        .events.appointments
+                                    widget.events.appointments!.removeAt(widget
+                                        .events.appointments!
                                         .indexOf(widget.newAppointment));
                                     widget.events.notifyListeners(
                                         CalendarDataSourceAction.remove,
-                                        <Appointment>[]
-                                          ..add(widget.newAppointment));
+                                        <Appointment>[widget.newAppointment!]);
                                   }
                                   return true;
                                 },
@@ -1485,6 +1496,12 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                               );
                             });
                       },
+                      child: Text(
+                        'MORE OPTIONS',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: defaultTextColor),
+                      ),
                     )),
                 Padding(
                   padding: EdgeInsets.only(left: 10),
@@ -1493,29 +1510,24 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
                     fillColor: widget.model.backgroundColor,
-                    child: const Text(
-                      'SAVE',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
-                    ),
                     onPressed: () {
                       if (widget.selectedAppointment != null ||
                           widget.newAppointment != null) {
-                        if (widget.events.appointments.isNotEmpty &&
-                            widget.events.appointments
+                        if (widget.events.appointments!.isNotEmpty &&
+                            widget.events.appointments!
                                 .contains(widget.selectedAppointment)) {
-                          widget.events.appointments.removeAt(widget
-                              .events.appointments
+                          widget.events.appointments!.removeAt(widget
+                              .events.appointments!
                               .indexOf(widget.selectedAppointment));
                           widget.events.notifyListeners(
                               CalendarDataSourceAction.remove,
-                              <Appointment>[]..add(widget.selectedAppointment));
+                              <Appointment>[widget.selectedAppointment]);
                         }
                         if (widget.appointment.isNotEmpty &&
                             widget.appointment
                                 .contains(widget.newAppointment)) {
                           widget.appointment.removeAt(widget.appointment
-                              .indexOf(widget.newAppointment));
+                              .indexOf(widget.newAppointment!));
                         }
                       }
 
@@ -1536,13 +1548,18 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                         resourceIds: _resourceIds,
                       ));
 
-                      widget.events.appointments.add(widget.appointment[0]);
+                      widget.events.appointments!.add(widget.appointment[0]);
 
                       widget.events.notifyListeners(
                           CalendarDataSourceAction.add, widget.appointment);
 
                       Navigator.pop(context);
                     },
+                    child: const Text(
+                      'SAVE',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
               ],
@@ -1553,12 +1570,12 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
 
   /// Return the resource editor to edit the resource collection for an
   /// appointment
-  Widget _getResourceEditor([TextStyle hintTextStyle]) {
+  Widget _getResourceEditor(TextStyle hintTextStyle) {
     if (_selectedResources == null || _selectedResources.isEmpty) {
       return Text('Add people', style: hintTextStyle);
     }
 
-    List<Widget> chipWidgets = <Widget>[];
+    final List<Widget> chipWidgets = <Widget>[];
     for (int i = 0; i < _selectedResources.length; i++) {
       final CalendarResource selectedResource = _selectedResources[i];
       chipWidgets.add(Chip(
@@ -1573,7 +1590,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
         label: Text(selectedResource.displayName),
         onDeleted: () {
           _selectedResources.removeAt(i);
-          _resourceIds.removeAt(i);
+          _resourceIds!.removeAt(i);
           _unSelectedResources = _getUnSelectedResources(
               _selectedResources, widget.events.resources);
           setState(() {});
@@ -1592,6 +1609,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
 /// Builds the appointment editor with all the required elements in a pop-up
 /// based on the tapped calendar element.
 class AppointmentEditorWeb extends StatefulWidget {
+  /// Holds the information of appointments
   const AppointmentEditorWeb(
       this.model,
       this.selectedAppointment,
@@ -1599,23 +1617,31 @@ class AppointmentEditorWeb extends StatefulWidget {
       this.colorNames,
       this.events,
       this.timeZoneCollection,
-      [this.appointment,
-      this.newAppointment]);
+      this.appointment,
+      [this.newAppointment]);
 
+  /// Current sample model
   final SampleModel model;
 
-  final Appointment newAppointment;
+  /// new appointment calue
+  final Appointment? newAppointment;
 
+  /// List of appointments
   final List<Appointment> appointment;
 
+  /// Selcted appointment value
   final Appointment selectedAppointment;
 
+  /// List of colors
   final List<Color> colorCollection;
 
+  /// Collection of color names
   final List<String> colorNames;
 
+  /// Holds the Events values
   final CalendarDataSource events;
 
+  /// Collection of time zones
   final List<String> timeZoneCollection;
 
   @override
@@ -1625,18 +1651,18 @@ class AppointmentEditorWeb extends StatefulWidget {
 class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
   int _selectedColorIndex = 0;
   int _selectedTimeZoneIndex = 0;
-  DateTime _startDate;
-  TimeOfDay _startTime;
-  DateTime _endDate;
-  TimeOfDay _endTime;
-  bool _isAllDay;
+  late DateTime _startDate;
+  late TimeOfDay _startTime;
+  late DateTime _endDate;
+  late TimeOfDay _endTime;
+  bool _isAllDay = false;
   String _subject = '';
-  String _notes = '';
-  String _location = '';
+  String? _notes;
+  String? _location;
   bool _isTimeZoneEnabled = false;
-  List<Object> _resourceIds;
-  List<CalendarResource> _selectedResources;
-  List<CalendarResource> _unSelectedResources;
+  List<Object>? _resourceIds;
+  List<CalendarResource> _selectedResources = <CalendarResource>[];
+  List<CalendarResource> _unSelectedResources = <CalendarResource>[];
 
   @override
   void initState() {
@@ -1657,10 +1683,11 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
     _isAllDay = widget.selectedAppointment.isAllDay;
     _selectedColorIndex =
         widget.colorCollection.indexOf(widget.selectedAppointment.color);
-    _selectedTimeZoneIndex = widget.selectedAppointment.startTimeZone == ''
+    _selectedTimeZoneIndex = widget.selectedAppointment.startTimeZone == null ||
+            widget.selectedAppointment.startTimeZone == ''
         ? 0
         : widget.timeZoneCollection
-            .indexOf(widget.selectedAppointment.startTimeZone);
+            .indexOf(widget.selectedAppointment.startTimeZone!);
     _subject = widget.selectedAppointment.subject == '(No title)'
         ? ''
         : widget.selectedAppointment.subject;
@@ -1670,12 +1697,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
     _selectedColorIndex = _selectedColorIndex == -1 ? 0 : _selectedColorIndex;
     _selectedTimeZoneIndex =
         _selectedTimeZoneIndex == -1 ? 0 : _selectedTimeZoneIndex;
-    _resourceIds = widget.selectedAppointment.resourceIds;
+    _resourceIds = widget.selectedAppointment.resourceIds?.sublist(0);
 
     _startTime = TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
     _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
     _isTimeZoneEnabled = widget.selectedAppointment.startTimeZone != null &&
-        widget.selectedAppointment.startTimeZone.isNotEmpty;
+        widget.selectedAppointment.startTimeZone!.isNotEmpty;
     _selectedResources =
         _getSelectedResources(_resourceIds, widget.events.resources);
     _unSelectedResources =
@@ -1684,8 +1711,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
 
   /// Return the resource editor to edit the resource collection for an
   /// appointment
-  Widget _getResourceEditor([TextStyle hintTextStyle]) {
-    if (_selectedResources == null || _selectedResources.isEmpty) {
+  Widget _getResourceEditor(TextStyle hintTextStyle) {
+    if (_selectedResources.isEmpty) {
       return Padding(
         padding: EdgeInsets.only(top: 25, bottom: 5),
         child: Text(
@@ -1695,7 +1722,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
       );
     }
 
-    List<Widget> chipWidgets = <Widget>[];
+    final List<Widget> chipWidgets = <Widget>[];
     for (int i = 0; i < _selectedResources.length; i++) {
       final CalendarResource selectedResource = _selectedResources[i];
       chipWidgets.add(Chip(
@@ -1710,7 +1737,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
         label: Text(selectedResource.displayName),
         onDeleted: () {
           _selectedResources.removeAt(i);
-          _resourceIds.removeAt(i);
+          _resourceIds!.removeAt(i);
           _unSelectedResources = _getUnSelectedResources(
               _selectedResources, widget.events.resources);
           setState(() {});
@@ -1750,7 +1777,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
               : Colors.white,
         ),
         height: widget.events.resources != null &&
-                widget.events.resources.isNotEmpty
+                widget.events.resources!.isNotEmpty
             ? _isTimeZoneEnabled
                 ? 560
                 : 500
@@ -1778,16 +1805,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                     icon: Icon(Icons.close, color: defaultColor),
                     onPressed: () {
                       if (widget.newAppointment != null &&
-                          widget.events.appointments
+                          widget.events.appointments!
                               .contains(widget.newAppointment)) {
                         /// To remove the created appointment when the pop-up closed
                         /// without saving the appointment.
-                        widget.events.appointments.removeAt(widget
-                            .events.appointments
+                        widget.events.appointments!.removeAt(widget
+                            .events.appointments!
                             .indexOf(widget.newAppointment));
                         widget.events.notifyListeners(
                             CalendarDataSourceAction.remove,
-                            <Appointment>[]..add(widget.newAppointment));
+                            <Appointment>[widget.newAppointment!]);
                       }
 
                       Navigator.pop(context);
@@ -1950,9 +1977,14 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     children: <Widget>[
                                       ButtonTheme(
                                           minWidth: 50.0,
-                                          child: FlatButton(
+                                          child: MaterialButton(
+                                            elevation: 0,
+                                            focusElevation: 0,
+                                            highlightElevation: 0,
+                                            disabledElevation: 0,
+                                            hoverElevation: 0,
                                             onPressed: () async {
-                                              final DateTime date =
+                                              final DateTime? date =
                                                   await showDatePicker(
                                                       context: context,
                                                       initialDate: _startDate,
@@ -1960,7 +1992,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                       lastDate: DateTime(2100),
                                                       builder:
                                                           (BuildContext context,
-                                                              Widget child) {
+                                                              Widget? child) {
                                                         return Theme(
                                                           data: ThemeData(
                                                               brightness: widget
@@ -1978,7 +2010,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                               primaryColor: widget
                                                                   .model
                                                                   .backgroundColor),
-                                                          child: child,
+                                                          child: child!,
                                                         );
                                                       });
 
@@ -2003,7 +2035,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 });
                                               }
                                             },
-                                            shape: const CircleBorder(),
+                                            shape: CircleBorder(),
                                             padding: const EdgeInsets.all(0.0),
                                             child: Icon(
                                               Icons.date_range,
@@ -2015,17 +2047,17 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           ? Text('')
                                           : ButtonTheme(
                                               minWidth: 50.0,
-                                              child: FlatButton(
-                                                child: Icon(
-                                                  Icons.access_time,
-                                                  color: defaultColor,
-                                                  size: 20,
-                                                ),
-                                                shape: const CircleBorder(),
+                                              child: MaterialButton(
+                                                elevation: 0,
+                                                focusElevation: 0,
+                                                highlightElevation: 0,
+                                                disabledElevation: 0,
+                                                hoverElevation: 0,
+                                                shape: CircleBorder(),
                                                 padding:
-                                                    const EdgeInsets.all(0),
+                                                    const EdgeInsets.all(0.0),
                                                 onPressed: () async {
-                                                  final TimeOfDay time =
+                                                  final TimeOfDay? time =
                                                       await showTimePicker(
                                                           context: context,
                                                           initialTime: TimeOfDay(
@@ -2035,7 +2067,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                   .minute),
                                                           builder: (BuildContext
                                                                   context,
-                                                              Widget child) {
+                                                              Widget? child) {
                                                             return Theme(
                                                               data: ThemeData(
                                                                 brightness: widget
@@ -2054,7 +2086,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                     .model
                                                                     .backgroundColor,
                                                               ),
-                                                              child: child,
+                                                              child: child!,
                                                             );
                                                           });
 
@@ -2082,6 +2114,11 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     });
                                                   }
                                                 },
+                                                child: Icon(
+                                                  Icons.access_time,
+                                                  color: defaultColor,
+                                                  size: 20,
+                                                ),
                                               ))
                                     ],
                                   ),
@@ -2142,16 +2179,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     children: <Widget>[
                                       ButtonTheme(
                                           minWidth: 50.0,
-                                          child: FlatButton(
-                                            child: Icon(
-                                              Icons.date_range,
-                                              color: defaultColor,
-                                              size: 20,
-                                            ),
-                                            shape: const CircleBorder(),
-                                            padding: const EdgeInsets.all(0),
+                                          child: MaterialButton(
+                                            elevation: 0,
+                                            focusElevation: 0,
+                                            highlightElevation: 0,
+                                            disabledElevation: 0,
+                                            hoverElevation: 0,
+                                            shape: CircleBorder(),
+                                            padding: const EdgeInsets.all(0.0),
                                             onPressed: () async {
-                                              final DateTime date =
+                                              final DateTime? date =
                                                   await showDatePicker(
                                                       context: context,
                                                       initialDate: _endDate,
@@ -2159,7 +2196,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                       lastDate: DateTime(2100),
                                                       builder:
                                                           (BuildContext context,
-                                                              Widget child) {
+                                                              Widget? child) {
                                                         return Theme(
                                                           data: ThemeData(
                                                             brightness: widget
@@ -2178,7 +2215,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                 .model
                                                                 .backgroundColor,
                                                           ),
-                                                          child: child,
+                                                          child: child!,
                                                         );
                                                       });
 
@@ -2207,22 +2244,27 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 });
                                               }
                                             },
+                                            child: Icon(
+                                              Icons.date_range,
+                                              color: defaultColor,
+                                              size: 20,
+                                            ),
                                           )),
                                       _isAllDay
                                           ? Text('')
                                           : ButtonTheme(
                                               minWidth: 50.0,
-                                              child: FlatButton(
-                                                child: Icon(
-                                                  Icons.access_time,
-                                                  color: defaultColor,
-                                                  size: 20,
-                                                ),
-                                                shape: const CircleBorder(),
+                                              child: MaterialButton(
+                                                elevation: 0,
+                                                focusElevation: 0,
+                                                highlightElevation: 0,
+                                                disabledElevation: 0,
+                                                hoverElevation: 0,
+                                                shape: CircleBorder(),
                                                 padding:
                                                     const EdgeInsets.all(0),
                                                 onPressed: () async {
-                                                  final TimeOfDay time =
+                                                  final TimeOfDay? time =
                                                       await showTimePicker(
                                                           context: context,
                                                           initialTime: TimeOfDay(
@@ -2232,7 +2274,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                   .minute),
                                                           builder: (BuildContext
                                                                   context,
-                                                              Widget child) {
+                                                              Widget? child) {
                                                             return Theme(
                                                               data: ThemeData(
                                                                 brightness: widget
@@ -2251,7 +2293,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                     .model
                                                                     .backgroundColor,
                                                               ),
-                                                              child: child,
+                                                              child: child!,
                                                             );
                                                           });
 
@@ -2284,6 +2326,11 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     });
                                                   }
                                                 },
+                                                child: Icon(
+                                                  Icons.access_time,
+                                                  color: defaultColor,
+                                                  size: 20,
+                                                ),
                                               ))
                                     ],
                                   ),
@@ -2315,7 +2362,10 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                         focusColor: widget.model.backgroundColor,
                         activeColor: widget.model.backgroundColor,
                         value: _isAllDay,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
+                          if (value == null) {
+                            return;
+                          }
                           setState(() {
                             _isAllDay = value;
                             if (_isAllDay) {
@@ -2338,7 +2388,10 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                               focusColor: widget.model.backgroundColor,
                               activeColor: widget.model.backgroundColor,
                               value: _isTimeZoneEnabled,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
+                                if (value == null) {
+                                  return;
+                                }
                                 setState(() {
                                   _isTimeZoneEnabled = value;
                                   if (!_isTimeZoneEnabled &&
@@ -2381,25 +2434,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                           Expanded(
                               child: RawMaterialButton(
                             padding: const EdgeInsets.only(left: 5.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  widget.timeZoneCollection[
-                                      _selectedTimeZoneIndex],
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      color: defaultColor,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                const Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 24,
-                                )
-                              ],
-                            ),
                             onPressed: () {
                               showDialog<Widget>(
                                 context: context,
@@ -2419,13 +2453,32 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     /// update the time zone changes
                                   }));
                             },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  widget.timeZoneCollection[
+                                      _selectedTimeZoneIndex],
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      color: defaultColor,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                const Icon(
+                                  Icons.arrow_drop_down,
+                                  size: 24,
+                                )
+                              ],
+                            ),
                           )),
                         ],
                       ),
                     ),
                   ))
                 : Container(),
-            widget.events.resources == null || widget.events.resources.isEmpty
+            widget.events.resources == null || widget.events.resources!.isEmpty
                 ? Container()
                 : Container(
                     child: ListTile(
@@ -2470,9 +2523,10 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                             _unSelectedResources,
                             widget.model,
                             onChanged: (_PickerChangedDetails details) {
-                              _resourceIds == null
-                                  ? _resourceIds = <Object>[details.resourceId]
-                                  : _resourceIds.add(details.resourceId);
+                              _resourceIds = _resourceIds == null
+                                  ? <Object>[details.resourceId!]
+                                  : (_resourceIds!.sublist(0)
+                                    ..add(details.resourceId!));
                               _selectedResources = _getSelectedResources(
                                   _resourceIds, widget.events.resources);
                               _unSelectedResources = _getUnSelectedResources(
@@ -2511,7 +2565,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                           _notes = value;
                         },
                         keyboardType: TextInputType.multiline,
-                        maxLines: widget.model.isWeb ? 1 : null,
+                        maxLines: widget.model.isWebFullView ? 1 : null,
                         style: TextStyle(
                             fontSize: 13,
                             color: defaultTextColor,
@@ -2555,25 +2609,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                           Expanded(
                             child: RawMaterialButton(
                               padding: const EdgeInsets.only(left: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    widget.colorNames[_selectedColorIndex],
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        color: defaultTextColor,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  const Icon(
-                                    Icons.arrow_drop_down,
-                                    size: 24,
-                                  )
-                                ],
-                              ),
                               onPressed: () {
                                 showDialog<Widget>(
                                   context: context,
@@ -2594,6 +2629,25 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                       /// update the color picker changes
                                     }));
                               },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    widget.colorNames[_selectedColorIndex],
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: defaultTextColor,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 24,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -2610,23 +2664,23 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       Padding(
                         padding: EdgeInsets.only(right: 10),
                         child: RawMaterialButton(
+                          onPressed: () {
+                            if (widget.newAppointment != null) {
+                              widget.events.appointments!.removeAt(widget
+                                  .events.appointments!
+                                  .indexOf(widget.newAppointment));
+                              widget.events.notifyListeners(
+                                  CalendarDataSourceAction.remove,
+                                  <Appointment>[widget.newAppointment!]);
+                            }
+                            Navigator.pop(context);
+                          },
                           child: Text(
                             'CANCEL',
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: defaultTextColor),
                           ),
-                          onPressed: () {
-                            if (widget.newAppointment != null) {
-                              widget.events.appointments.removeAt(widget
-                                  .events.appointments
-                                  .indexOf(widget.newAppointment));
-                              widget.events.notifyListeners(
-                                  CalendarDataSourceAction.remove,
-                                  <Appointment>[]..add(widget.newAppointment));
-                            }
-                            Navigator.pop(context);
-                          },
                         ),
                       ),
                       Padding(
@@ -2636,44 +2690,36 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                           ),
                           fillColor: widget.model.backgroundColor,
-                          child: const Text(
-                            'SAVE',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          ),
                           onPressed: () {
                             if (widget.selectedAppointment != null ||
                                 widget.newAppointment != null) {
-                              if (widget.events.appointments.isNotEmpty &&
-                                  widget.events.appointments
+                              if (widget.events.appointments!.isNotEmpty &&
+                                  widget.events.appointments!
                                       .contains(widget.selectedAppointment)) {
-                                widget.events.appointments.removeAt(widget
-                                    .events.appointments
+                                widget.events.appointments!.removeAt(widget
+                                    .events.appointments!
                                     .indexOf(widget.selectedAppointment));
                                 widget.events.notifyListeners(
                                     CalendarDataSourceAction.remove,
-                                    <Appointment>[]
-                                      ..add(widget.selectedAppointment));
+                                    <Appointment>[widget.selectedAppointment]);
                               }
                               if (widget.appointment.isNotEmpty &&
                                   widget.appointment
                                       .contains(widget.newAppointment)) {
                                 widget.appointment.removeAt(widget.appointment
-                                    .indexOf(widget.newAppointment));
+                                    .indexOf(widget.newAppointment!));
                               }
 
                               if (widget.newAppointment != null &&
-                                  widget.events.appointments.isNotEmpty &&
-                                  widget.events.appointments
+                                  widget.events.appointments!.isNotEmpty &&
+                                  widget.events.appointments!
                                       .contains(widget.newAppointment)) {
-                                widget.events.appointments.removeAt(widget
-                                    .events.appointments
+                                widget.events.appointments!.removeAt(widget
+                                    .events.appointments!
                                     .indexOf(widget.newAppointment));
                                 widget.events.notifyListeners(
                                     CalendarDataSourceAction.remove,
-                                    <Appointment>[]
-                                      ..add(widget.newAppointment));
+                                    <Appointment>[widget.newAppointment!]);
                               }
                             }
 
@@ -2697,7 +2743,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     _subject == '' ? '(No title)' : _subject,
                                 resourceIds: _resourceIds));
 
-                            widget.events.appointments
+                            widget.events.appointments!
                                 .add(widget.appointment[0]);
 
                             widget.events.notifyListeners(
@@ -2706,6 +2752,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
 
                             Navigator.pop(context);
                           },
+                          child: const Text(
+                            'SAVE',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
                         ),
                       ),
                     ],
@@ -2725,8 +2777,8 @@ ColorScheme _getColorScheme(SampleModel model, bool isDatePicker) {
   /// background color.
   if (model.themeData.brightness == Brightness.dark) {
     return ColorScheme.dark(
-      surface: isDatePicker ? model.backgroundColor : Colors.grey[850],
       primary: model.backgroundColor,
+      surface: isDatePicker ? model.backgroundColor : Colors.grey[850]!,
     );
   }
 
@@ -2739,6 +2791,7 @@ ColorScheme _getColorScheme(SampleModel model, bool isDatePicker) {
 /// Builds the appointment editor with all the required elements based on the
 /// tapped calendar element for mobile.
 class AppointmentEditor extends StatefulWidget {
+  /// Holds the value of appointment editor
   const AppointmentEditor(
       this.model,
       this.selectedAppointment,
@@ -2750,23 +2803,32 @@ class AppointmentEditor extends StatefulWidget {
       this.timeZoneCollection,
       [this.selectedResource]);
 
+  /// Current sample model
   final SampleModel model;
 
-  final Appointment selectedAppointment;
+  /// Selected appointment
+  final Appointment? selectedAppointment;
 
+  /// Calendar element
   final CalendarElement targetElement;
 
+  /// Seelcted date value
   final DateTime selectedDate;
 
+  /// Collection of colors
   final List<Color> colorCollection;
 
+  /// List of colors name
   final List<String> colorNames;
 
+  /// Holds the events value
   final CalendarDataSource events;
 
+  /// Collection of time zone values
   final List<String> timeZoneCollection;
 
-  final CalendarResource selectedResource;
+  /// Selected calendar resource
+  final CalendarResource? selectedResource;
 
   @override
   _AppointmentEditorState createState() => _AppointmentEditorState();
@@ -2775,17 +2837,17 @@ class AppointmentEditor extends StatefulWidget {
 class _AppointmentEditorState extends State<AppointmentEditor> {
   int _selectedColorIndex = 0;
   int _selectedTimeZoneIndex = 0;
-  DateTime _startDate;
-  TimeOfDay _startTime;
-  DateTime _endDate;
-  TimeOfDay _endTime;
-  bool _isAllDay;
+  late DateTime _startDate;
+  late TimeOfDay _startTime;
+  late DateTime _endDate;
+  late TimeOfDay _endTime;
+  bool _isAllDay = false;
   String _subject = '';
-  String _notes = '';
-  String _location = '';
-  List<Object> _resourceIds;
-  List<CalendarResource> _selectedResources;
-  List<CalendarResource> _unSelectedResources;
+  String? _notes;
+  String? _location;
+  List<Object>? _resourceIds;
+  List<CalendarResource> _selectedResources = <CalendarResource>[];
+  List<CalendarResource> _unSelectedResources = <CalendarResource>[];
 
   @override
   void initState() {
@@ -2802,21 +2864,23 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
   /// Updates the required editor's default field
   void _updateAppointmentProperties() {
     if (widget.selectedAppointment != null) {
-      _startDate = widget.selectedAppointment.startTime;
-      _endDate = widget.selectedAppointment.endTime;
-      _isAllDay = widget.selectedAppointment.isAllDay;
+      _startDate = widget.selectedAppointment!.startTime;
+      _endDate = widget.selectedAppointment!.endTime;
+      _isAllDay = widget.selectedAppointment!.isAllDay;
       _selectedColorIndex =
-          widget.colorCollection.indexOf(widget.selectedAppointment.color);
-      _selectedTimeZoneIndex = widget.selectedAppointment.startTimeZone == ''
-          ? 0
-          : widget.timeZoneCollection
-              .indexOf(widget.selectedAppointment.startTimeZone);
-      _subject = widget.selectedAppointment.subject == '(No title)'
+          widget.colorCollection.indexOf(widget.selectedAppointment!.color);
+      _selectedTimeZoneIndex =
+          widget.selectedAppointment!.startTimeZone == null ||
+                  widget.selectedAppointment!.startTimeZone == ''
+              ? 0
+              : widget.timeZoneCollection
+                  .indexOf(widget.selectedAppointment!.startTimeZone!);
+      _subject = widget.selectedAppointment!.subject == '(No title)'
           ? ''
-          : widget.selectedAppointment.subject;
-      _notes = widget.selectedAppointment.notes;
-      _location = widget.selectedAppointment.location;
-      _resourceIds = widget.selectedAppointment.resourceIds;
+          : widget.selectedAppointment!.subject;
+      _notes = widget.selectedAppointment!.notes;
+      _location = widget.selectedAppointment!.location;
+      _resourceIds = widget.selectedAppointment!.resourceIds?.sublist(0);
     } else {
       _isAllDay = widget.targetElement == CalendarElement.allDayPanel;
       _selectedColorIndex = 0;
@@ -2830,7 +2894,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
       _endDate = date.add(const Duration(hours: 1));
 
       if (widget.selectedResource != null) {
-        _resourceIds = <Object>[widget.selectedResource.id];
+        _resourceIds = <Object>[widget.selectedResource!.id];
       }
     }
 
@@ -2904,83 +2968,78 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                       Expanded(
                         flex: 7,
                         child: GestureDetector(
-                            child: Text(
-                                DateFormat('EEE, MMM dd yyyy')
-                                    .format(_startDate),
-                                textAlign: TextAlign.left),
-                            onTap: () async {
-                              final DateTime date = await showDatePicker(
-                                  context: context,
-                                  initialDate: _startDate,
-                                  firstDate: DateTime(1900),
-                                  lastDate: DateTime(2100),
-                                  builder:
-                                      (BuildContext context, Widget child) {
-                                    return Theme(
-                                      data: ThemeData(
-                                        brightness:
-                                            widget.model.themeData.brightness,
-                                        colorScheme:
-                                            _getColorScheme(widget.model, true),
-                                        accentColor:
-                                            widget.model.backgroundColor,
-                                        primaryColor:
-                                            widget.model.backgroundColor,
-                                      ),
-                                      child: child,
-                                    );
-                                  });
-
-                              if (date != null && date != _startDate) {
-                                setState(() {
-                                  final Duration difference =
-                                      _endDate.difference(_startDate);
-                                  _startDate = DateTime(
-                                      date.year,
-                                      date.month,
-                                      date.day,
-                                      _startTime.hour,
-                                      _startTime.minute,
-                                      0);
-                                  _endDate = _startDate.add(difference);
-                                  _endTime = TimeOfDay(
-                                      hour: _endDate.hour,
-                                      minute: _endDate.minute);
+                          onTap: () async {
+                            final DateTime? date = await showDatePicker(
+                                context: context,
+                                initialDate: _startDate,
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime(2100),
+                                builder: (BuildContext context, Widget? child) {
+                                  return Theme(
+                                    data: ThemeData(
+                                      brightness:
+                                          widget.model.themeData.brightness,
+                                      colorScheme:
+                                          _getColorScheme(widget.model, true),
+                                      accentColor: widget.model.backgroundColor,
+                                      primaryColor:
+                                          widget.model.backgroundColor,
+                                    ),
+                                    child: child!,
+                                  );
                                 });
-                              }
-                            }),
+
+                            if (date != null && date != _startDate) {
+                              setState(() {
+                                final Duration difference =
+                                    _endDate.difference(_startDate);
+                                _startDate = DateTime(
+                                    date.year,
+                                    date.month,
+                                    date.day,
+                                    _startTime.hour,
+                                    _startTime.minute,
+                                    0);
+                                _endDate = _startDate.add(difference);
+                                _endTime = TimeOfDay(
+                                    hour: _endDate.hour,
+                                    minute: _endDate.minute);
+                              });
+                            }
+                          },
+                          child: Text(
+                              DateFormat('EEE, MMM dd yyyy').format(_startDate),
+                              textAlign: TextAlign.left),
+                        ),
                       ),
                       Expanded(
                           flex: 3,
                           child: _isAllDay
                               ? const Text('')
                               : GestureDetector(
-                                  child: Text(
-                                    DateFormat('hh:mm a').format(_startDate),
-                                    textAlign: TextAlign.right,
-                                  ),
                                   onTap: () async {
-                                    final TimeOfDay time = await showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay(
-                                            hour: _startTime.hour,
-                                            minute: _startTime.minute),
-                                        builder: (BuildContext context,
-                                            Widget child) {
-                                          return Theme(
-                                            data: ThemeData(
-                                              brightness: widget
-                                                  .model.themeData.brightness,
-                                              colorScheme: _getColorScheme(
-                                                  widget.model, false),
-                                              accentColor:
-                                                  widget.model.backgroundColor,
-                                              primaryColor:
-                                                  widget.model.backgroundColor,
-                                            ),
-                                            child: child,
-                                          );
-                                        });
+                                    final TimeOfDay? time =
+                                        await showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay(
+                                                hour: _startTime.hour,
+                                                minute: _startTime.minute),
+                                            builder: (BuildContext context,
+                                                Widget? child) {
+                                              return Theme(
+                                                data: ThemeData(
+                                                  brightness: widget.model
+                                                      .themeData.brightness,
+                                                  colorScheme: _getColorScheme(
+                                                      widget.model, false),
+                                                  accentColor: widget
+                                                      .model.backgroundColor,
+                                                  primaryColor: widget
+                                                      .model.backgroundColor,
+                                                ),
+                                                child: child!,
+                                              );
+                                            });
 
                                     if (time != null && time != _startTime) {
                                       setState(() {
@@ -3000,7 +3059,12 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                             minute: _endDate.minute);
                                       });
                                     }
-                                  })),
+                                  },
+                                  child: Text(
+                                    DateFormat('hh:mm a').format(_startDate),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                )),
                     ])),
             ListTile(
                 contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
@@ -3011,85 +3075,81 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                       Expanded(
                         flex: 7,
                         child: GestureDetector(
-                            child: Text(
-                              DateFormat('EEE, MMM dd yyyy').format(_endDate),
-                              textAlign: TextAlign.left,
-                            ),
-                            onTap: () async {
-                              final DateTime date = await showDatePicker(
-                                  context: context,
-                                  initialDate: _endDate,
-                                  firstDate: DateTime(1900),
-                                  lastDate: DateTime(2100),
-                                  builder:
-                                      (BuildContext context, Widget child) {
-                                    return Theme(
-                                      data: ThemeData(
-                                        brightness:
-                                            widget.model.themeData.brightness,
-                                        colorScheme:
-                                            _getColorScheme(widget.model, true),
-                                        accentColor:
-                                            widget.model.backgroundColor,
-                                        primaryColor:
-                                            widget.model.backgroundColor,
-                                      ),
-                                      child: child,
-                                    );
-                                  });
-
-                              if (date != null && date != _endDate) {
-                                setState(() {
-                                  final Duration difference =
-                                      _endDate.difference(_startDate);
-                                  _endDate = DateTime(
-                                      date.year,
-                                      date.month,
-                                      date.day,
-                                      _endTime.hour,
-                                      _endTime.minute,
-                                      0);
-                                  if (_endDate.isBefore(_startDate)) {
-                                    _startDate = _endDate.subtract(difference);
-                                    _startTime = TimeOfDay(
-                                        hour: _startDate.hour,
-                                        minute: _startDate.minute);
-                                  }
+                          onTap: () async {
+                            final DateTime? date = await showDatePicker(
+                                context: context,
+                                initialDate: _endDate,
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime(2100),
+                                builder: (BuildContext context, Widget? child) {
+                                  return Theme(
+                                    data: ThemeData(
+                                      brightness:
+                                          widget.model.themeData.brightness,
+                                      colorScheme:
+                                          _getColorScheme(widget.model, true),
+                                      accentColor: widget.model.backgroundColor,
+                                      primaryColor:
+                                          widget.model.backgroundColor,
+                                    ),
+                                    child: child!,
+                                  );
                                 });
-                              }
-                            }),
+
+                            if (date != null && date != _endDate) {
+                              setState(() {
+                                final Duration difference =
+                                    _endDate.difference(_startDate);
+                                _endDate = DateTime(
+                                    date.year,
+                                    date.month,
+                                    date.day,
+                                    _endTime.hour,
+                                    _endTime.minute,
+                                    0);
+                                if (_endDate.isBefore(_startDate)) {
+                                  _startDate = _endDate.subtract(difference);
+                                  _startTime = TimeOfDay(
+                                      hour: _startDate.hour,
+                                      minute: _startDate.minute);
+                                }
+                              });
+                            }
+                          },
+                          child: Text(
+                            DateFormat('EEE, MMM dd yyyy').format(_endDate),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
                       ),
                       Expanded(
                           flex: 3,
                           child: _isAllDay
                               ? const Text('')
                               : GestureDetector(
-                                  child: Text(
-                                    DateFormat('hh:mm a').format(_endDate),
-                                    textAlign: TextAlign.right,
-                                  ),
                                   onTap: () async {
-                                    final TimeOfDay time = await showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay(
-                                            hour: _endTime.hour,
-                                            minute: _endTime.minute),
-                                        builder: (BuildContext context,
-                                            Widget child) {
-                                          return Theme(
-                                            data: ThemeData(
-                                              brightness: widget
-                                                  .model.themeData.brightness,
-                                              colorScheme: _getColorScheme(
-                                                  widget.model, false),
-                                              accentColor:
-                                                  widget.model.backgroundColor,
-                                              primaryColor:
-                                                  widget.model.backgroundColor,
-                                            ),
-                                            child: child,
-                                          );
-                                        });
+                                    final TimeOfDay? time =
+                                        await showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay(
+                                                hour: _endTime.hour,
+                                                minute: _endTime.minute),
+                                            builder: (BuildContext context,
+                                                Widget? child) {
+                                              return Theme(
+                                                data: ThemeData(
+                                                  brightness: widget.model
+                                                      .themeData.brightness,
+                                                  colorScheme: _getColorScheme(
+                                                      widget.model, false),
+                                                  accentColor: widget
+                                                      .model.backgroundColor,
+                                                  primaryColor: widget
+                                                      .model.backgroundColor,
+                                                ),
+                                                child: child!,
+                                              );
+                                            });
 
                                     if (time != null && time != _endTime) {
                                       setState(() {
@@ -3112,7 +3172,12 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                         }
                                       });
                                     }
-                                  })),
+                                  },
+                                  child: Text(
+                                    DateFormat('hh:mm a').format(_endDate),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                )),
                     ])),
             ListTile(
               contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
@@ -3141,7 +3206,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                     }));
               },
             ),
-            widget.events.resources == null || widget.events.resources.isEmpty
+            widget.events.resources == null || widget.events.resources!.isEmpty
                 ? Container()
                 : ListTile(
                     contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
@@ -3159,9 +3224,10 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                             _unSelectedResources,
                             widget.model,
                             onChanged: (_PickerChangedDetails details) {
-                              _resourceIds == null
-                                  ? _resourceIds = <Object>[details.resourceId]
-                                  : _resourceIds.add(details.resourceId);
+                              _resourceIds = _resourceIds == null
+                                  ? <Object>[details.resourceId!]
+                                  : (_resourceIds!.sublist(0)
+                                    ..add(details.resourceId!));
                               _selectedResources = _getSelectedResources(
                                   _resourceIds, widget.events.resources);
                               _unSelectedResources = _getUnSelectedResources(
@@ -3209,7 +3275,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
               height: 1.0,
               thickness: 1,
             ),
-            widget.model.isWeb
+            widget.model.isWebFullView
                 ? ListTile(
                     contentPadding: const EdgeInsets.all(5),
                     leading: Icon(
@@ -3234,7 +3300,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                     ),
                   )
                 : Container(),
-            widget.model.isWeb
+            widget.model.isWebFullView
                 ? const Divider(
                     height: 1.0,
                     thickness: 1,
@@ -3253,7 +3319,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                   _notes = value;
                 },
                 keyboardType: TextInputType.multiline,
-                maxLines: widget.model.isWeb ? 1 : null,
+                maxLines: widget.model.isWebFullView ? 1 : null,
                 style: TextStyle(
                     fontSize: 18,
                     color: defaultColor,
@@ -3269,7 +3335,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     return Theme(
         data: widget.model.themeData,
         child: Scaffold(
@@ -3298,12 +3364,12 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                     onPressed: () {
                       final List<Appointment> appointment = <Appointment>[];
                       if (widget.selectedAppointment != null) {
-                        widget.events.appointments.removeAt(widget
-                            .events.appointments
+                        widget.events.appointments!.removeAt(widget
+                            .events.appointments!
                             .indexOf(widget.selectedAppointment));
                         widget.events.notifyListeners(
                             CalendarDataSourceAction.remove,
-                            <Appointment>[]..add(widget.selectedAppointment));
+                            <Appointment>[widget.selectedAppointment!]);
                       }
                       appointment.add(Appointment(
                           startTime: _startDate,
@@ -3322,7 +3388,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                           subject: _subject == '' ? '(No title)' : _subject,
                           resourceIds: _resourceIds));
 
-                      widget.events.appointments.add(appointment[0]);
+                      widget.events.appointments!.add(appointment[0]);
 
                       widget.events.notifyListeners(
                           CalendarDataSourceAction.add, appointment);
@@ -3336,11 +3402,9 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                 children: <Widget>[
                   _getAppointmentEditor(
                       context,
-                      widget.model.themeData != null &&
-                              widget.model.themeData.brightness ==
-                                  Brightness.dark
+                      (widget.model.themeData.brightness == Brightness.dark
                           ? Colors.grey[850]
-                          : Colors.white,
+                          : Colors.white)!,
                       widget.model.themeData.brightness != null &&
                               widget.model.themeData.brightness ==
                                   Brightness.dark
@@ -3349,37 +3413,36 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                 ],
               ),
             ),
-            floatingActionButton: widget.model.isWeb
+            floatingActionButton: widget.model.isWebFullView
                 ? null
                 : widget.selectedAppointment == null
                     ? const Text('')
                     : FloatingActionButton(
                         onPressed: () {
                           if (widget.selectedAppointment != null) {
-                            widget.events.appointments.removeAt(widget
-                                .events.appointments
+                            widget.events.appointments!.removeAt(widget
+                                .events.appointments!
                                 .indexOf(widget.selectedAppointment));
                             widget.events.notifyListeners(
                                 CalendarDataSourceAction.remove,
-                                <Appointment>[]
-                                  ..add(widget.selectedAppointment));
+                                <Appointment>[widget.selectedAppointment!]);
                             Navigator.pop(context);
                           }
                         },
+                        backgroundColor: widget.model.backgroundColor,
                         child: const Icon(Icons.delete_outline,
                             color: Colors.white),
-                        backgroundColor: widget.model.backgroundColor,
                       )));
   }
 
   /// Return the resource editor to edit the resource collection for an
   /// appointment
-  Widget _getResourceEditor([TextStyle hintTextStyle]) {
+  Widget _getResourceEditor(TextStyle hintTextStyle) {
     if (_selectedResources == null || _selectedResources.isEmpty) {
       return Text('Add people', style: hintTextStyle);
     }
 
-    List<Widget> chipWidgets = <Widget>[];
+    final List<Widget> chipWidgets = <Widget>[];
     for (int i = 0; i < _selectedResources.length; i++) {
       final CalendarResource selectedResource = _selectedResources[i];
       chipWidgets.add(Chip(
@@ -3394,7 +3457,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
         label: Text(selectedResource.displayName),
         onDeleted: () {
           _selectedResources.removeAt(i);
-          _resourceIds.removeAt(i);
+          _resourceIds?.removeAt(i);
           _unSelectedResources = _getUnSelectedResources(
               _selectedResources, widget.events.resources);
           setState(() {});
@@ -3418,15 +3481,18 @@ CalendarResource _getResourceFromId(
 
 /// Returns the selected resources based on the id collection passed
 List<CalendarResource> _getSelectedResources(
-    List<Object> _resourceIds, List<CalendarResource> resourceCollection) {
-  if (_resourceIds == null || _resourceIds.isEmpty) {
-    return null;
+    List<Object>? resourceIds, List<CalendarResource>? resourceCollection) {
+  final List<CalendarResource> _selectedResources = <CalendarResource>[];
+  if (resourceIds == null ||
+      resourceIds.isEmpty ||
+      resourceCollection == null ||
+      resourceCollection.isEmpty) {
+    return _selectedResources;
   }
 
-  final List<CalendarResource> _selectedResources = <CalendarResource>[];
-  for (int i = 0; i < _resourceIds.length; i++) {
+  for (int i = 0; i < resourceIds.length; i++) {
     final CalendarResource resourceName =
-        _getResourceFromId(_resourceIds[i], resourceCollection);
+        _getResourceFromId(resourceIds[i], resourceCollection);
     _selectedResources.add(resourceName);
   }
 
@@ -3436,13 +3502,16 @@ List<CalendarResource> _getSelectedResources(
 /// Returns the available resource, by filtering the resource collection from
 /// the selected resource collection.
 List<CalendarResource> _getUnSelectedResources(
-    List<CalendarResource> selectedResources,
-    List<CalendarResource> resourceCollection) {
-  if (selectedResources == null || selectedResources.isEmpty) {
-    return resourceCollection;
+    List<CalendarResource>? selectedResources,
+    List<CalendarResource>? resourceCollection) {
+  if (selectedResources == null ||
+      selectedResources.isEmpty ||
+      resourceCollection == null ||
+      resourceCollection.isEmpty) {
+    return resourceCollection ?? <CalendarResource>[];
   }
 
-  List<CalendarResource> collection = resourceCollection.sublist(0);
+  final List<CalendarResource> collection = resourceCollection.sublist(0);
   for (int i = 0; i < resourceCollection.length; i++) {
     final CalendarResource resource = resourceCollection[i];
     for (int j = 0; j < selectedResources.length; j++) {

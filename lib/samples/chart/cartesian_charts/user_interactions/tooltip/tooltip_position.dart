@@ -33,7 +33,7 @@ class _TooltipPositionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getCartesianTooltipPositionChart();
+    return _buildCartesianTooltipPositionChart();
   }
 
   @override
@@ -78,7 +78,7 @@ class _TooltipPositionState extends SampleViewState {
   }
 
   /// Returns the cartesian chart with tooltip position option.
-  SfCartesianChart _getCartesianTooltipPositionChart() {
+  SfCartesianChart _buildCartesianTooltipPositionChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Age distribution'),
@@ -154,5 +154,5 @@ class _ChartData {
   _ChartData(this.x, this.y1, [this.color]);
   final String x;
   final double y1;
-  final Color color;
+  final Color? color;
 }

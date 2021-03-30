@@ -21,11 +21,11 @@ class _RangeDataLabelExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRangeDataLabelExample();
+    return _buildRangeDataLabelExample();
   }
 
   /// Returns the range data label gauge
-  SfRadialGauge _getRangeDataLabelExample() {
+  SfRadialGauge _buildRangeDataLabelExample() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -34,7 +34,7 @@ class _RangeDataLabelExampleState extends SampleViewState {
             showTicks: false,
             minimum: 0,
             maximum: 99,
-            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             ranges: <GaugeRange>[
               GaugeRange(
                   startValue: 0,

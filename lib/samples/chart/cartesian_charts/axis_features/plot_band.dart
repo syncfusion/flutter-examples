@@ -25,8 +25,9 @@ class _PlotBandDefaultState extends SampleViewState {
   bool isVertical = false;
   bool isSegment = false;
   bool isLine = false;
+  late TooltipBehavior _tooltipBehavior;
 
-  String _selectedType;
+  late String _selectedType;
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -62,11 +63,11 @@ class _PlotBandDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getPlotBandChart();
+    return _buildPlotBandChart();
   }
 
   /// Return the types of plotbands.
-  SfCartesianChart _getPlotBandChart() {
+  SfCartesianChart _buildPlotBandChart() {
     final Color plotbandYAxisTextColor = ((isSegment || isLine) &&
             model != null &&
             model.themeData.brightness == Brightness.light)
@@ -258,8 +259,7 @@ class _PlotBandDefaultState extends SampleViewState {
         ],
       ),
       series: _getPlotBandSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+      tooltipBehavior: _tooltipBehavior,
       onMarkerRender: (MarkerRenderArgs markerargs) {
         markerargs.color = plotbandYAxisTextColor;
       },
@@ -267,7 +267,6 @@ class _PlotBandDefaultState extends SampleViewState {
   }
 
   List<XyDataSeries<ChartSampleData, String>> _getPlotBandSeries() {
-    isSegment ??= false;
     final List<ChartSampleData> lineData = <ChartSampleData>[
       ChartSampleData(xValue: 'Jan', yValue: 23),
       ChartSampleData(xValue: 'Feb', yValue: 24),
@@ -309,6 +308,8 @@ class _PlotBandDefaultState extends SampleViewState {
     isVertical = false;
     isSegment = false;
     isLine = false;
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, canShowMarker: false, header: '');
     super.initState();
   }
 

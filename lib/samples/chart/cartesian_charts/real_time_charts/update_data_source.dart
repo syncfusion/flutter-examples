@@ -40,20 +40,20 @@ class _LiveVerticalState extends SampleViewState {
         backgroundColor: model.cardThemeColor,
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 15, 5, bottomPadding),
-          child: Container(child: _getUpdateDataSourceChart()),
+          child: Container(child: _buildUpdateDataSourceChart()),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => setState(() {
             chartData = <ChartSampleData>[];
             chartData = _getChartData();
           }),
-          child: const Icon(Icons.refresh, color: Colors.white),
           backgroundColor: model.backgroundColor,
+          child: const Icon(Icons.refresh, color: Colors.white),
         ));
   }
 
   /// Returns the update data source cartesian chart.
-  SfCartesianChart _getUpdateDataSourceChart() {
+  SfCartesianChart _buildUpdateDataSourceChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
@@ -80,7 +80,7 @@ class _LiveVerticalState extends SampleViewState {
   }
 
   ///Get the random value
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     return min + random.nextInt(max - min);
   }
 

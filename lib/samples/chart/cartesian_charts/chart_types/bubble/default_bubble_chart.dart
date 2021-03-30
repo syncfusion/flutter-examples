@@ -19,14 +19,26 @@ class BubbleDefault extends SampleView {
 /// State class of the default bubble chart
 class _BubbleDefaultState extends SampleViewState {
   _BubbleDefaultState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        textAlignment: ChartAlignment.center,
+        header: '',
+        canShowMarker: false,
+        format:
+            'point.x\nLiteracy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultBubbleChart();
+    return _buildDefaultBubbleChart();
   }
 
   /// Rreturns the default bubble chart
-  SfCartesianChart _getDefaultBubbleChart() {
+  SfCartesianChart _buildDefaultBubbleChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(text: isCardView ? '' : 'World countries details'),
@@ -39,13 +51,7 @@ class _BubbleDefaultState extends SampleViewState {
             axisLine: AxisLine(width: 0),
             majorTickLines: MajorTickLines(size: 0),
             title: AxisTitle(text: isCardView ? '' : 'GDP growth rate')),
-        tooltipBehavior: TooltipBehavior(
-            enable: true,
-            textAlignment: ChartAlignment.center,
-            header: '',
-            canShowMarker: false,
-            format:
-                'point.x\nLiteracy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB'),
+        tooltipBehavior: _tooltipBehavior,
         series: _getDefaultBubbleSeries());
   }
 

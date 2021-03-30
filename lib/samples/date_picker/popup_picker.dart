@@ -26,17 +26,9 @@ class _PopUpDatePickerState extends SampleViewState
     with SingleTickerProviderStateMixin {
   _PopUpDatePickerState();
 
-  DateTime _startDate;
-  DateTime _endDate;
-  int _value;
-
-  @override
-  void initState() {
-    _startDate = DateTime.now();
-    _endDate = DateTime.now().add(const Duration(days: 1));
-    _value = 1;
-    super.initState();
-  }
+  DateTime _startDate = DateTime.now();
+  DateTime _endDate = DateTime.now().add(const Duration(days: 1));
+  int _value = 1;
 
   /// Update the selected date for the date range picker based on the date selected,
   /// when the trip mode set one way.
@@ -55,9 +47,8 @@ class _PopUpDatePickerState extends SampleViewState
   /// Update the selected range based on the range selected in the pop up editor,
   /// when the trip mode set as round trip.
   void _onSelectedRangeChanged(_picker.PickerDateRange dateRange) {
-    final DateTime startDateValue = dateRange.startDate;
-    DateTime endDateValue = dateRange.endDate;
-    endDateValue ??= startDateValue;
+    final DateTime startDateValue = dateRange.startDate!;
+    final DateTime endDateValue = dateRange.endDate ?? startDateValue;
     setState(() {
       if (startDateValue.isAfter(endDateValue)) {
         _startDate = endDateValue;
@@ -72,13 +63,13 @@ class _PopUpDatePickerState extends SampleViewState
   Widget _getBooking() {
     return Card(
         elevation: 10,
-        margin: model.isWeb
+        margin: model.isWebFullView
             ? const EdgeInsets.fromLTRB(30, 20, 30, 5)
             : const EdgeInsets.all(30),
         child: Container(
             color: model.cardThemeColor,
             child: ListView(
-                padding: model.isWeb
+                padding: model.isWebFullView
                     ? const EdgeInsets.fromLTRB(30, 10, 10, 5)
                     : const EdgeInsets.fromLTRB(30, 20, 10, 10),
                 children: <Widget>[
@@ -231,7 +222,7 @@ class _PopUpDatePickerState extends SampleViewState
                                 padding: EdgeInsets.all(5),
                                 onPressed: () async {
                                   if (_value == 0) {
-                                    final DateTime date =
+                                    final DateTime? date =
                                         await showDialog<dynamic>(
                                             context: context,
                                             builder: (BuildContext context) {
@@ -245,7 +236,7 @@ class _PopUpDatePickerState extends SampleViewState
                                       _onSelectedDateChanged(date);
                                     }
                                   } else {
-                                    final _picker.PickerDateRange range =
+                                    final _picker.PickerDateRange? range =
                                         await showDialog<dynamic>(
                                             context: context,
                                             builder: (BuildContext context) {
@@ -413,7 +404,8 @@ class _PopUpDatePickerState extends SampleViewState
                             splashColor: Colors.grey.withOpacity(0.12),
                             hoverColor: Colors.grey.withOpacity(0.04),
                             onPressed: () {
-                              Scaffold.of(context).showSnackBar(const SnackBar(
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
                                 content: Text(
                                   'Searching...',
                                 ),
@@ -435,13 +427,13 @@ class _PopUpDatePickerState extends SampleViewState
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: model.themeData == null ||
               model.themeData.brightness == Brightness.light
           ? null
-          : const Color(0x171A21),
-      body: model.isWeb
+          : const Color(0x00171a21),
+      body: model.isWebFullView
           ? Center(
               child: Container(width: 400, height: 380, child: _getBooking()))
           : Container(
@@ -462,7 +454,7 @@ _picker.SfDateRangePicker getPopUpDatePicker() {
 class DateRangePicker extends StatefulWidget {
   /// Creates Date range picker
   const DateRangePicker(this.date, this.range,
-      {this.minDate, this.maxDate, this.displayDate, this.model});
+      {this.minDate, this.maxDate, this.displayDate, required this.model});
 
   /// Holds date value
   final dynamic date;
@@ -492,8 +484,8 @@ class _DateRangePickerState extends State<DateRangePicker> {
   dynamic _date;
   dynamic _controller;
   dynamic _range;
-  bool _isWeb, _isHijri;
-  SfLocalizations _localizations;
+  late bool _isWeb, _isHijri;
+  late SfLocalizations _localizations;
 
   @override
   void initState() {
@@ -534,36 +526,6 @@ class _DateRangePickerState extends State<DateRangePicker> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget footerWidget = ButtonBarTheme(
-      data: ButtonBarTheme.of(context),
-      child: ButtonBar(
-        children: <Widget>[
-          FlatButton(
-            splashColor: widget.model.backgroundColor
-                .withOpacity(widget.model.backgroundColor.opacity * 0.2),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: widget.model.backgroundColor),
-            ),
-            onPressed: () => Navigator.pop(context, null),
-          ),
-          FlatButton(
-            splashColor: widget.model.backgroundColor
-                .withOpacity(widget.model.backgroundColor.opacity * 0.2),
-            child: Text(
-              'OK',
-              style: TextStyle(color: widget.model.backgroundColor),
-            ),
-            onPressed: () {
-              (_range != null)
-                  ? Navigator.pop(context, _range)
-                  : Navigator.pop(context, _date);
-            },
-          ),
-        ],
-      ),
-    );
-
     final Widget selectedDateWidget = Container(
         color: Colors.transparent,
         padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -658,6 +620,8 @@ class _DateRangePickerState extends State<DateRangePicker> {
         selectionMode: _range == null
             ? _picker.DateRangePickerSelectionMode.single
             : _picker.DateRangePickerSelectionMode.range,
+        showActionButtons: true,
+        onCancel: () => Navigator.pop(context, null),
         minDate: widget.minDate,
         maxDate: widget.maxDate,
         todayHighlightColor: Colors.transparent,
@@ -665,6 +629,13 @@ class _DateRangePickerState extends State<DateRangePicker> {
             textAlign: TextAlign.center,
             textStyle:
                 TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
+        onSubmit: (Object value) {
+          if (_range == null) {
+            Navigator.pop(context, _date);
+          } else {
+            Navigator.pop(context, _range);
+          }
+        },
         onSelectionChanged:
             (_picker.DateRangePickerSelectionChangedArgs details) {
           setState(() {
@@ -681,6 +652,8 @@ class _DateRangePickerState extends State<DateRangePicker> {
         controller: _controller,
         initialDisplayDate: widget.displayDate,
         showNavigationArrow: true,
+        showActionButtons: true,
+        onCancel: () => Navigator.pop(context, null),
         enableMultiView: _range != null && _isWeb,
         selectionMode: _range == null
             ? _picker.DateRangePickerSelectionMode.single
@@ -692,6 +665,13 @@ class _DateRangePickerState extends State<DateRangePicker> {
             textAlign: TextAlign.center,
             textStyle:
                 TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
+        onSubmit: (Object value) {
+          if (_range == null) {
+            Navigator.pop(context, _date);
+          } else {
+            Navigator.pop(context, _range);
+          }
+        },
         onSelectionChanged:
             (_picker.DateRangePickerSelectionChangedArgs details) {
           setState(() {
@@ -726,7 +706,6 @@ class _DateRangePickerState extends State<DateRangePicker> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 0, horizontal: 5),
                           child: pickerWidget)),
-                  footerWidget,
                 ],
               ),
             )));

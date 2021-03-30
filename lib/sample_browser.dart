@@ -5,6 +5,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// local imports
@@ -25,43 +26,49 @@ class SampleBrowser extends StatefulWidget {
 }
 
 class _SampleBrowserState extends State<SampleBrowser> {
-  SampleModel _sampleListModel;
+  late SampleModel _sampleListModel;
   @override
   void initState() {
     _sampleListModel = SampleModel.instance;
-    _sampleListModel.isWeb = kIsWeb;
+    _initializeProperties();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final Map<String, WidgetBuilder> navigationRoutes = <String, WidgetBuilder>{
-      _sampleListModel.isWeb ? '/' : '/demos': (BuildContext context) =>
+      _sampleListModel.isWebFullView ? '/' : '/demos': (BuildContext context) =>
           HomePage()
     };
-    for (int i = 0; i < _sampleListModel.routes.length; i++) {
-      final SampleRoute sampleRoute = _sampleListModel.routes[i];
-      WidgetCategory category;
+    for (int i = 0; i < _sampleListModel.routes!.length; i++) {
+      final SampleRoute sampleRoute = _sampleListModel.routes![i];
+      WidgetCategory? category;
       for (int j = 0; j < _sampleListModel.categoryList.length; j++) {
-        if (sampleRoute.subItem.categoryName ==
+        if (sampleRoute.subItem!.categoryName ==
             _sampleListModel.categoryList[j].categoryName) {
           category = _sampleListModel.categoryList[j];
           break;
         }
       }
-      navigationRoutes[sampleRoute.routeName] = (BuildContext context) =>
+      navigationRoutes[sampleRoute.routeName!] = (BuildContext context) =>
           WebLayoutPage(
               sampleModel: _sampleListModel,
               category: category,
               subItem: sampleRoute.subItem);
     }
-    if (_sampleListModel.isWeb) {
+    if (_sampleListModel.isWebFullView) {
       _sampleListModel.currentThemeData = ThemeData.light();
       _sampleListModel.paletteBorderColors = <Color>[];
-      _sampleListModel.changeTheme(_sampleListModel.currentThemeData);
+      _sampleListModel.changeTheme(_sampleListModel.currentThemeData!);
     }
-    return _sampleListModel.isWeb
+
+    ///Avoiding page poping on escape key press
+    final Map<LogicalKeySet, Intent> shortcuts =
+        Map.of(WidgetsApp.defaultShortcuts)
+          ..remove(LogicalKeySet(LogicalKeyboardKey.escape));
+    return _sampleListModel.isWebFullView
         ? MaterialApp(
+            shortcuts: shortcuts,
             initialRoute: '/',
             routes: navigationRoutes,
             debugShowCheckedModeBanner: false,
@@ -84,9 +91,27 @@ class _SampleBrowserState extends State<SampleBrowser> {
                   (_sampleListModel.systemTheme.brightness != Brightness.dark
                       ? ThemeData.light()
                       : ThemeData.dark());
-              _sampleListModel.changeTheme(_sampleListModel.currentThemeData);
+              _sampleListModel.changeTheme(_sampleListModel.currentThemeData!);
               return HomePage();
             }));
+  }
+
+  void _initializeProperties() {
+    final SampleModel model = SampleModel.instance;
+    model.isWebFullView =
+        kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isLinux;
+    if (kIsWeb) {
+      model.isWeb = true;
+    } else {
+      model.isAndroid = Platform.isAndroid;
+      model.isIOS = Platform.isIOS;
+      model.isLinux = Platform.isLinux;
+      model.isWindows = Platform.isWindows;
+      model.isMacOS = Platform.isMacOS;
+      model.isDesktop =
+          Platform.isLinux || Platform.isMacOS || Platform.isWindows;
+      model.isMobile = Platform.isAndroid || Platform.isIOS;
+    }
   }
 }
 
@@ -100,7 +125,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  SampleModel sampleListModel;
+  late SampleModel sampleListModel;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController controller = ScrollController();
   @override
@@ -124,6 +149,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     ///Checking the download button is currently hovered
     bool isHoveringDownloadButton = false;
+
+    ///Checking the get packages is currently hovered
+    bool isHoveringPubDevButton = false;
+    final bool isMaxxSize = MediaQuery.of(context).size.width >= 1000;
     final SampleModel model = sampleListModel;
     model.isMobileResolution = (MediaQuery.of(context).size.width) < 768;
     return Container(
@@ -131,15 +160,19 @@ class _HomePageState extends State<HomePage> {
           child: model.isMobileResolution
               ? Scaffold(
                   resizeToAvoidBottomInset: false,
-                  drawer: (!model.isWeb && Platform.isIOS)
+                  drawer: (!model.isWebFullView && Platform.isIOS)
                       ? null //Avoiding drawer in iOS platform
                       : getLeftSideDrawer(model),
                   key: scaffoldKey,
                   backgroundColor: model.webBackgroundColor,
-                  endDrawer: model.isWeb ? showWebThemeSettings(model) : null,
+                  endDrawer:
+                      model.isWebFullView ? showWebThemeSettings(model) : null,
                   appBar: PreferredSize(
                       preferredSize: const Size.fromHeight(46.0),
                       child: AppBar(
+                        leading: (!model.isWebFullView && Platform.isIOS)
+                            ? Container()
+                            : null,
                         elevation: 0.0,
                         backgroundColor: model.paletteColor,
                         title: AnimateOpacityWidget(
@@ -156,8 +189,8 @@ class _HomePageState extends State<HomePage> {
                               icon: const Icon(Icons.settings,
                                   color: Colors.white),
                               onPressed: () {
-                                model.isWeb
-                                    ? scaffoldKey.currentState.openEndDrawer()
+                                model.isWebFullView
+                                    ? scaffoldKey.currentState!.openEndDrawer()
                                     : showBottomSettingsPanel(model, context);
                               },
                             ),
@@ -185,34 +218,15 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(24, 10, 0, 0),
-                                    child: Row(children: <Widget>[
-                                      const Text('Flutter UI Widgets ',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 28,
-                                              letterSpacing: 0.53,
-                                              fontFamily: 'Roboto-Bold')),
-                                      model.isWeb
-                                          ? Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      3, 0, 3, 0),
-                                              decoration: const BoxDecoration(
-                                                  shape: BoxShape.rectangle,
-                                                  color: Color.fromRGBO(
-                                                      245, 188, 14, 1)),
-                                              child: const Text(
-                                                'BETA',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    letterSpacing: 0.26,
-                                                    fontFamily: 'Roboto-Medium',
-                                                    color: Colors.black),
-                                              ))
-                                          : Container()
-                                    ])),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(24, 10, 0, 0),
+                                  child: const Text('Flutter UI Widgets ',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 28,
+                                          letterSpacing: 0.53,
+                                          fontFamily: 'Roboto-Bold')),
+                                ),
                                 const Padding(
                                     padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
                                     child: Text('Fast . Fluid . Flexible',
@@ -228,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                 Container(
                                     alignment: Alignment.bottomCenter,
                                     width: double.infinity,
-                                    height: 16,
+                                    height: kIsWeb ? 16 : 14,
                                     decoration: BoxDecoration(
                                         color: model.webBackgroundColor,
                                         borderRadius: const BorderRadius.only(
@@ -251,9 +265,13 @@ class _HomePageState extends State<HomePage> {
                                   padding:
                                       const EdgeInsets.only(top: 10, right: 10),
                                   width: MediaQuery.of(context).size.width >=
-                                          900
-                                      ? 400
-                                      : MediaQuery.of(context).size.width / 3,
+                                          920
+                                      ? 300
+                                      : MediaQuery.of(context).size.width /
+                                          (MediaQuery.of(context).size.width <
+                                                  820
+                                              ? 5
+                                              : 4),
                                   height: MediaQuery.of(context).size.height *
                                       0.0445,
                                   child: SearchBar(
@@ -266,7 +284,8 @@ class _HomePageState extends State<HomePage> {
                               ? Container()
                               : Container(
                                   alignment: Alignment.center,
-                                  padding: EdgeInsets.only(top: 10),
+                                  padding: EdgeInsets.only(
+                                      top: 10, left: isMaxxSize ? 20 : 0),
                                   child: Container(
                                       width: 115,
                                       height: 32,
@@ -277,51 +296,112 @@ class _HomePageState extends State<HomePage> {
                                           (BuildContext context,
                                               StateSetter setState) {
                                         return MouseRegion(
-                                            child: InkWell(
-                                              hoverColor: Colors.white,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        8, 9, 8, 9),
-                                                child: Text('DOWNLOAD NOW',
+                                          onHover: (PointerHoverEvent event) {
+                                            isHoveringDownloadButton = true;
+                                            setState(() {});
+                                          },
+                                          onExit: (PointerExitEvent event) {
+                                            isHoveringDownloadButton = false;
+                                            setState(() {});
+                                          },
+                                          child: InkWell(
+                                            hoverColor: Colors.white,
+                                            onTap: () {
+                                              launch(
+                                                  'https://www.syncfusion.com/downloads/flutter/confirm');
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      8, 9, 8, 9),
+                                              child: Text('DOWNLOAD NOW',
+                                                  style: TextStyle(
+                                                      color:
+                                                          isHoveringDownloadButton
+                                                              ? model
+                                                                  .paletteColor
+                                                              : Colors.white,
+                                                      fontSize: 12,
+                                                      fontFamily:
+                                                          'Roboto-Medium')),
+                                            ),
+                                          ),
+                                        );
+                                      }))),
+
+                          ///Get package from pub.dev option
+                          model.isMobileResolution
+                              ? Container()
+                              : Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.only(
+                                      top: 10, left: isMaxxSize ? 25 : 12),
+                                  child: Container(
+                                      width: 118,
+                                      height: 32,
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.white)),
+                                      child: StatefulBuilder(builder:
+                                          (BuildContext context,
+                                              StateSetter setState) {
+                                        return MouseRegion(
+                                          onHover: (PointerHoverEvent event) {
+                                            isHoveringPubDevButton = true;
+                                            setState(() {});
+                                          },
+                                          onExit: (PointerExitEvent event) {
+                                            isHoveringPubDevButton = false;
+                                            setState(() {});
+                                          },
+                                          child: InkWell(
+                                            hoverColor: Colors.white,
+                                            onTap: () {
+                                              launch(
+                                                  'https://pub.dev/publishers/syncfusion.com/packages');
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      0, 7, 8, 7),
+                                              child: Row(children: [
+                                                Image.asset(
+                                                    'images/pub_logo.png',
+                                                    fit: BoxFit.contain,
+                                                    height: 33,
+                                                    width: 33),
+                                                Text('Get Packages',
                                                     style: TextStyle(
                                                         color:
-                                                            isHoveringDownloadButton
+                                                            isHoveringPubDevButton
                                                                 ? model
                                                                     .paletteColor
                                                                 : Colors.white,
                                                         fontSize: 12,
                                                         fontFamily:
-                                                            'Roboto-Medium')),
-                                              ),
-                                              onTap: () {
-                                                launch(
-                                                    'https://www.syncfusion.com/downloads/flutter/confirm');
-                                              },
+                                                            'Roboto-Medium'))
+                                              ]),
                                             ),
-                                            onHover: (PointerHoverEvent event) {
-                                              isHoveringDownloadButton = true;
-                                              setState(() {});
-                                            },
-                                            onExit: (PointerExitEvent event) {
-                                              isHoveringDownloadButton = false;
-                                              setState(() {});
-                                            });
+                                          ),
+                                        );
                                       }))),
-                          Container(
-                            padding: MediaQuery.of(context).size.width < 500
-                                ? const EdgeInsets.only(top: 20, left: 5)
-                                : const EdgeInsets.only(top: 10, right: 20),
-                            height: 60,
-                            width: 60,
-                            child: IconButton(
-                              icon: const Icon(Icons.settings,
-                                  color: Colors.white),
-                              onPressed: () {
-                                scaffoldKey.currentState.openEndDrawer();
-                              },
-                            ),
-                          ),
+                          Padding(
+                              padding:
+                                  EdgeInsets.only(left: isMaxxSize ? 15 : 0),
+                              child: Container(
+                                padding: MediaQuery.of(context).size.width < 500
+                                    ? const EdgeInsets.only(top: 20, left: 5)
+                                    : EdgeInsets.only(top: 10, right: 15),
+                                height: 60,
+                                width: 60,
+                                child: IconButton(
+                                  icon: const Icon(Icons.settings,
+                                      color: Colors.white),
+                                  onPressed: () {
+                                    scaffoldKey.currentState!.openEndDrawer();
+                                  },
+                                ),
+                              )),
                         ],
                       )),
                   body: _CategorizedCards())),
@@ -473,14 +553,14 @@ class _PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   _PersistentHeaderDelegate(SampleModel sampleModel) {
     _sampleListModel = sampleModel;
   }
-  SampleModel _sampleListModel;
+  SampleModel? _sampleListModel;
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return SizedBox(
       height: 90,
       child: Container(
-          color: _sampleListModel.paletteColor,
+          color: _sampleListModel!.paletteColor,
           child: Column(
             children: <Widget>[
               Container(
@@ -491,13 +571,13 @@ class _PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
               Container(
                   height: 20,
                   decoration: BoxDecoration(
-                      color: _sampleListModel.webBackgroundColor,
+                      color: _sampleListModel!.webBackgroundColor,
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(12.0),
                           topRight: Radius.circular(12.0)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                          color: _sampleListModel.webBackgroundColor,
+                          color: _sampleListModel!.webBackgroundColor,
                           offset: const Offset(0, 2.0),
                           blurRadius: 0.25,
                         )
@@ -528,7 +608,7 @@ class _CategorizedCards extends StatefulWidget {
 
 class _CategorizedCardsState extends State<_CategorizedCards> {
   SampleModel model = SampleModel.instance;
-  double _cardWidth;
+  late double _cardWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -544,7 +624,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
             ? deviceWidth * 0.041
             : deviceWidth * 0.05;
 
-    Widget organizedCardWidget;
+    Widget? organizedCardWidget;
 
     if (deviceWidth > 1060) {
       padding = deviceWidth * 0.011;
@@ -556,9 +636,9 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
         _sidePadding = (deviceWidth - 2740) * 0.5;
         padding = 30;
       }
-      List<Widget> firstColumnWidgets = <Widget>[];
-      List<Widget> secondColumnWidgets = <Widget>[];
-      List<Widget> thirdColumnWidgets = <Widget>[];
+      final List<Widget> firstColumnWidgets = <Widget>[];
+      final List<Widget> secondColumnWidgets = <Widget>[];
+      final List<Widget> thirdColumnWidgets = <Widget>[];
       int firstColumnControlCount = 0;
       int secondColumnControlCount = 0;
       for (int i = 0; i < model.categoryList.length; i++) {
@@ -566,15 +646,15 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
           firstColumnWidgets.add(_getCategoryWidget(model.categoryList[i]));
           firstColumnWidgets
               .add(Padding(padding: EdgeInsets.only(top: padding)));
-          firstColumnControlCount += model.categoryList[i].controlList.length;
+          firstColumnControlCount += model.categoryList[i].controlList!.length;
         } else if (secondColumnControlCount < model.controlList.length / 3 &&
             (secondColumnControlCount +
-                    model.categoryList[i].controlList.length <
+                    model.categoryList[i].controlList!.length <
                 model.controlList.length / 3)) {
           secondColumnWidgets.add(_getCategoryWidget(model.categoryList[i]));
           secondColumnWidgets
               .add(Padding(padding: EdgeInsets.only(top: padding)));
-          secondColumnControlCount += model.categoryList[i].controlList.length;
+          secondColumnControlCount += model.categoryList[i].controlList!.length;
         } else {
           thirdColumnWidgets.add(_getCategoryWidget(model.categoryList[i]));
           thirdColumnWidgets
@@ -598,15 +678,15 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
     } else if (deviceWidth >= 768) {
       padding = deviceWidth * 0.018;
       _cardWidth = (deviceWidth * 0.9) / 2;
-      List<Widget> firstColumnWidgets = <Widget>[];
-      List<Widget> secondColumnWidgets = <Widget>[];
+      final List<Widget> firstColumnWidgets = <Widget>[];
+      final List<Widget> secondColumnWidgets = <Widget>[];
       int firstColumnControlCount = 0;
       for (int i = 0; i < model.categoryList.length; i++) {
         if (firstColumnControlCount < model.controlList.length / 2) {
           firstColumnWidgets.add(_getCategoryWidget(model.categoryList[i]));
           firstColumnWidgets
               .add(Padding(padding: EdgeInsets.only(top: padding)));
-          firstColumnControlCount += model.categoryList[i].controlList.length;
+          firstColumnControlCount += model.categoryList[i].controlList!.length;
         } else {
           secondColumnWidgets.add(_getCategoryWidget(model.categoryList[i]));
           secondColumnWidgets
@@ -629,7 +709,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
       _cardWidth = deviceWidth * 0.9;
       padding = deviceWidth * 0.035;
       _sidePadding = (deviceWidth * 0.1) / 2;
-      List<Widget> verticalOrderedWidgets = <Widget>[];
+      final List<Widget> verticalOrderedWidgets = <Widget>[];
       for (int i = 0; i < model.categoryList.length; i++) {
         verticalOrderedWidgets.add(_getCategoryWidget(model.categoryList[i]));
         verticalOrderedWidgets
@@ -665,7 +745,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
           Container(
             padding: const EdgeInsets.only(top: 15, bottom: 2),
             child: Text(
-              category.categoryName.toUpperCase(),
+              category.categoryName!.toUpperCase(),
               style: TextStyle(
                   color: model.backgroundColor,
                   fontSize: 16,
@@ -685,16 +765,8 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
   /// get the list view of the controls in the specified category
   List<Widget> _getControlListView(WidgetCategory category) {
     final List<Widget> items = <Widget>[];
-    String status;
-    for (int i = 0; i < category.controlList.length; i++) {
-      final Control control = category.controlList[i];
-      status = (control.status == 'preview' || control.status == 'Preview') &&
-              !model.isWeb &&
-              Platform.isIOS
-          ? 'New'
-          : (control.title == 'Radial Gauge' && model.isWeb)
-              ? null
-              : control.status;
+    for (int i = 0; i < category.controlList!.length; i++) {
+      final Control control = category.controlList![i];
       items.add(Container(
         color: model.cardColor,
         child: Material(
@@ -704,7 +776,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                 splashFactory: InkRipple.splashFactory,
                 hoverColor: Colors.grey.withOpacity(0.2),
                 onTap: () {
-                  !model.isWeb
+                  !model.isWebFullView
                       ? onTapControlInMobile(context, model, category, i)
                       : onTapControlInWeb(context, model, category, i);
                   model.searchResults.clear();
@@ -712,43 +784,65 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                 child: Container(
                   child: ListTile(
                     contentPadding: EdgeInsets.fromLTRB(
-                        12, 2, 0, category.controlList.length > 3 ? 6 : 0),
-                    leading: Image.asset(control.image, fit: BoxFit.cover),
+                        12, 2, 0, category.controlList!.length > 3 ? 6 : 0),
+                    leading: Image.asset(control.image!, fit: BoxFit.cover),
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            control.title,
-                            textAlign: TextAlign.left,
-                            softWrap: true,
-                            textScaleFactor: 1,
-                            overflow: TextOverflow.fade,
-                            style: TextStyle(
-                                fontSize: 12,
-                                letterSpacing: 0.1,
-                                color: model.textColor,
-                                fontFamily: 'Roboto-Bold'),
-                          ),
-                          status != null
+                          Row(children: [
+                            Text(
+                              control.title!,
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              textScaleFactor: 1,
+                              overflow: TextOverflow.fade,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  letterSpacing: 0.1,
+                                  color: model.textColor,
+                                  fontFamily: 'Roboto-Bold'),
+                            ),
+                            (!model.isWebFullView && Platform.isIOS)
+                                ? Container()
+                                : control.isBeta == true
+                                    ? Padding(
+                                        padding: EdgeInsets.only(left: 8),
+                                        child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                3, 3, 3, 2),
+                                            decoration: const BoxDecoration(
+                                                shape: BoxShape.rectangle,
+                                                color: Color.fromRGBO(
+                                                    245, 188, 14, 1)),
+                                            child: const Text(
+                                              'BETA',
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w500,
+                                                  letterSpacing: 0.12,
+                                                  fontFamily: 'Roboto-Medium',
+                                                  color: Colors.black),
+                                            )))
+                                    : Container()
+                          ]),
+                          control.status != null
                               ? Container(
                                   decoration: BoxDecoration(
                                       shape: BoxShape.rectangle,
-                                      color: status.toLowerCase() == 'new'
+                                      color: control.status!.toLowerCase() ==
+                                              'new'
                                           ? const Color.fromRGBO(55, 153, 30, 1)
-                                          : status.toLowerCase() == 'updated'
+                                          : control.status!.toLowerCase() ==
+                                                  'updated'
                                               ? const Color.fromRGBO(
                                                   246, 117, 0, 1)
-                                              : status.toLowerCase() ==
-                                                      'preview'
-                                                  ? const Color.fromRGBO(
-                                                      74, 90, 231, 1)
-                                                  : Colors.transparent,
+                                              : Colors.transparent,
                                       borderRadius: const BorderRadius.only(
                                           topLeft: Radius.circular(10),
                                           bottomLeft: Radius.circular(10))),
                                   padding:
                                       const EdgeInsets.fromLTRB(6, 2.7, 4, 2.7),
-                                  child: Text(status,
+                                  child: Text(control.status!,
                                       style: const TextStyle(
                                           fontFamily: 'Roboto-Medium',
                                           color: Colors.white,
@@ -759,7 +853,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                         child: Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 7.0, 12.0, 0.0),
                       child: Text(
-                        control.description,
+                        control.description!,
                         textAlign: TextAlign.left,
                         softWrap: true,
                         textScaleFactor: 1,

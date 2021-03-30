@@ -1,6 +1,8 @@
 ///Dart import
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
+
 /// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,170 +10,113 @@ import 'package:intl/intl.dart';
 /// Barcode import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-///Core theme import
-import 'package:syncfusion_flutter_core/theme.dart';
-
 /// Local import
 import '../../../../model/sample_view.dart';
 
 /// Render data grid with conditional styling
 class ConditionalStylingDataGrid extends SampleView {
   /// Creates data grid with conditional styling
-  const ConditionalStylingDataGrid({Key key}) : super(key: key);
+  const ConditionalStylingDataGrid({Key? key}) : super(key: key);
 
   @override
   _ConditionalStylingDataGridState createState() =>
       _ConditionalStylingDataGridState();
 }
 
-List<_Stock> _stockData;
-
 class _ConditionalStylingDataGridState extends SampleViewState {
-  _ConditionalStylingDataGridState();
-
-  final math.Random _random = math.Random();
-
-  final _ConditionalStyleDataGridSource _conditionalStyleDataGridSource =
+  /// DataGridSource required for SfDataGrid to obtain the row data.
+  final _ConditionalStyleDataGridSource conditionalStyleDataGridSource =
       _ConditionalStyleDataGridSource();
 
-  final List<String> _names = <String>[
-    'Maciej',
-    'Shelley',
-    'Linda',
-    'Shanon',
-    'Jauna',
-    'Michael',
-    'Terry',
-    'Julie',
-    'Twanna',
-    'Gary',
-    'Carol',
-    'James',
-    'Martha'
-  ];
+  late bool isWebOrDesktop;
 
-  List<_Stock> _generateList(int count) {
-    final List<_Stock> stockData = <_Stock>[];
-    for (int i = 1; i < count; i++) {
-      stockData.add(_Stock(
-        _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
-        1800.0 + _random.nextInt(2000),
-        1500.0 + _random.nextInt(1000),
-        2000.0 + _random.nextInt(3000),
-        1400.0 + _random.nextInt(4000),
-      ));
-    }
-
-    return stockData;
+  @override
+  void initState() {
+    super.initState();
+    isWebOrDesktop = (model.isWeb || model.isDesktop);
   }
 
-  SfDataGrid _dataGridsample() {
+  SfDataGrid _buildDataGrid() {
     return SfDataGrid(
-      source: _conditionalStyleDataGridSource,
+      source: conditionalStyleDataGridSource,
       columnWidthMode: ColumnWidthMode.fill,
-      onQueryCellStyle: (QueryCellStyleArgs args) {
-        if (args.column.mappingName == 'name') {
-          return null;
-        }
-        if (args.column.mappingName == 'qs1') {
-          if (double.parse(args.cellValue.toString()) > 2000 &&
-              double.parse(args.cellValue.toString()) < 2500) {
-            return const DataGridCellStyle(
-                backgroundColor: Color(0xFFF4C5B9),
-                textStyle: TextStyle(color: Colors.black));
-          } else if (double.parse(args.cellValue.toString()) > 2500) {
-            return const DataGridCellStyle(
-                backgroundColor: Color(0xFFEB552C),
-                textStyle: TextStyle(color: Colors.white));
-          } else {
-            return const DataGridCellStyle(
-                backgroundColor: Color(0xFFEF8465),
-                textStyle: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)));
-          }
-        } else if (args.column.mappingName == 'qs2') {
-          if (double.parse(args.cellValue.toString()) > 2000 &&
-              double.parse(args.cellValue.toString()) < 2500) {
-            return const DataGridCellStyle(
-                backgroundColor: Color(0xFFF5BD16),
-                textStyle: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)));
-          } else if (double.parse(args.cellValue.toString()) > 2500) {
-            return const DataGridCellStyle(
-                backgroundColor: Color(0xFFF8DBAE),
-                textStyle: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)));
-          } else {
-            return const DataGridCellStyle(
-                backgroundColor: Color(0xFFF8DBAE),
-                textStyle: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)));
-          }
-        } else if (args.column.mappingName == 'qs3') {
-          if (double.parse(args.cellValue.toString()) > 2000 &&
-              double.parse(args.cellValue.toString()) < 4000) {
-            return const DataGridCellStyle(
-                backgroundColor: Color(0xFF8A3D94),
-                textStyle: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)));
-          } else if (double.parse(args.cellValue.toString()) > 4000) {
-            return const DataGridCellStyle(
-                backgroundColor: Color(0xFFC390C1),
-                textStyle: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)));
-          } else {
-            return const DataGridCellStyle(
-                backgroundColor: Color(0xFFDEB6D5),
-                textStyle: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)));
-          }
-        } else if (double.parse(args.cellValue.toString()) > 2000 &&
-            double.parse(args.cellValue.toString()) < 3000) {
-          return const DataGridCellStyle(
-              backgroundColor: Color(0xFF7BC282),
-              textStyle: TextStyle(color: Colors.black));
-        } else if (double.parse(args.cellValue.toString()) > 3000) {
-          return const DataGridCellStyle(
-              backgroundColor: Color(0xFFC1DCA7),
-              textStyle: TextStyle(color: Colors.black));
-        } else {
-          return const DataGridCellStyle(
-              backgroundColor: Color(0xFF4CAC4C),
-              textStyle: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)));
-        }
-      },
       columns: <GridColumn>[
-        GridTextColumn(mappingName: 'name', headerText: 'Name'),
-        GridNumericColumn(
-            mappingName: 'qs1',
-            headerTextAlignment: Alignment.center,
-            headerText: 'Q1',
-            numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
-            padding: model.isWeb ? null : const EdgeInsets.all(4)),
-        GridNumericColumn(
-            mappingName: 'qs2',
-            headerTextAlignment: Alignment.center,
-            headerText: 'Q2',
-            numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
-            padding: model.isWeb ? null : const EdgeInsets.all(4)),
-        GridNumericColumn(
-            mappingName: 'qs3',
-            headerTextAlignment: Alignment.center,
-            headerText: 'Q3',
-            numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
-            padding: model.isWeb ? null : const EdgeInsets.all(4)),
-        GridNumericColumn(
-            mappingName: 'qs4',
-            headerTextAlignment: Alignment.center,
-            headerText: 'Q4',
-            numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
-            padding: model.isWeb ? null : const EdgeInsets.all(4)),
+        GridTextColumn(
+          columnName: 'name',
+          width:
+              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+          label: Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Name',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+        GridTextColumn(
+          columnName: 'qs1',
+          width:
+              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+          label: Container(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                'Q1',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+        GridTextColumn(
+          columnName: 'qs2',
+          width:
+              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+          label: Container(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                'Q2',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+        GridTextColumn(
+          columnName: 'qs3',
+          width:
+              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+          label: Container(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                'Q3',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+        GridTextColumn(
+          columnName: 'qs4',
+          width:
+              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+          label: Container(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                'Q4',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
 
   @override
-  void initState() {
-    super.initState();
-    _stockData = _generateList(100);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _dataGridsample());
+    return Scaffold(body: _buildDataGrid());
   }
 }
 
@@ -190,31 +135,293 @@ class _Stock {
   final String name;
 }
 
-class _ConditionalStyleDataGridSource extends DataGridSource<_Stock> {
-  _ConditionalStyleDataGridSource();
-  @override
-  List<_Stock> get dataSource => _stockData;
-  @override
-  Object getValue(_Stock _stock, String columnName) {
-    switch (columnName) {
-      case 'name':
-        return _stock.name;
-        break;
-      case 'qs1':
-        return _stock.qs1;
-        break;
-      case 'qs2':
-        return _stock.qs2;
-        break;
-      case 'qs3':
-        return _stock.qs3;
-        break;
-      case 'qs4':
-        return _stock.qs4;
-        break;
-      default:
-        return 'empty';
-        break;
+class _ConditionalStyleDataGridSource extends DataGridSource {
+  _ConditionalStyleDataGridSource() {
+    stocks = getStocks(100);
+    buildDataGridRows();
+  }
+
+  final math.Random random = math.Random();
+
+  List<_Stock> stocks = [];
+
+  List<DataGridRow> dataGridRows = [];
+
+  /// Rows are generated once and for CRUD operation we have to refresh
+  /// the data row.
+  void buildDataGridRows() {
+    dataGridRows = stocks
+        .map<DataGridRow>((dataGridRow) => DataGridRow(cells: [
+              DataGridCell<String>(
+                columnName: 'name',
+                value: dataGridRow.name,
+              ),
+              DataGridCell<double>(
+                columnName: 'qs1',
+                value: dataGridRow.qs1,
+              ),
+              DataGridCell<double>(
+                columnName: 'qs2',
+                value: dataGridRow.qs2,
+              ),
+              DataGridCell<double>(
+                columnName: 'qs3',
+                value: dataGridRow.qs3,
+              ),
+              DataGridCell<double>(
+                columnName: 'qs4',
+                value: dataGridRow.qs4,
+              ),
+            ]))
+        .toList();
+  }
+
+  // Building the Widget for each data cells
+  Widget _buildQ1(double value) {
+    if (value > 2000 && value < 2500) {
+      return Container(
+          padding: EdgeInsets.all(4.0),
+          color: Color(0xFFF4C5B9),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                  .format(value)
+                  .toString(),
+              style: TextStyle(color: Colors.black),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ));
+    } else if (value > 2500) {
+      return Container(
+          padding: EdgeInsets.all(4.0),
+          color: Color(0xFFEB552C),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                  .format(value)
+                  .toString(),
+              style: TextStyle(color: Colors.white),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ));
+    } else {
+      return Container(
+          padding: EdgeInsets.all(4.0),
+          color: Color(0xFFEF8465),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                  .format(value)
+                  .toString(),
+              style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ));
     }
+  }
+
+  Widget _buildQ2(double value) {
+    if (value > 2000 && value < 2500) {
+      return Container(
+          padding: EdgeInsets.all(4.0),
+          color: Color(0xFFF5BD16),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                  .format(value)
+                  .toString(),
+              style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ));
+    } else if (value > 2500) {
+      return Container(
+        padding: EdgeInsets.all(4.0),
+        color: Color(0xFFF8DBAE),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                .format(value)
+                .toString(),
+            style: TextStyle(
+              color: Color.fromRGBO(0, 0, 0, 1),
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        padding: EdgeInsets.all(4.0),
+        color: Color(0xFFF8DBAE),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                .format(value)
+                .toString(),
+            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget _buildQ3(double value) {
+    if (value > 2000 && value < 4000) {
+      return Container(
+        padding: EdgeInsets.all(4.0),
+        color: Color(0xFF8A3D94),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                .format(value)
+                .toString(),
+            style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    } else if (value > 4000) {
+      return Container(
+        padding: EdgeInsets.all(4.0),
+        color: Color(0xFFC390C1),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                .format(value)
+                .toString(),
+            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        padding: EdgeInsets.all(4.0),
+        color: Color(0xFFDEB6D5),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                .format(value)
+                .toString(),
+            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget _buildQ4(double value) {
+    if (value > 2000 && value < 3000) {
+      return Container(
+        padding: EdgeInsets.all(4.0),
+        color: Color(0xFF7BC282),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                .format(value)
+                .toString(),
+            style: TextStyle(color: Colors.black),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    } else if (value > 3000) {
+      return Container(
+        padding: EdgeInsets.all(4.0),
+        color: Color(0xFFC1DCA7),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                .format(value)
+                .toString(),
+            style: TextStyle(color: Colors.black),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    } else {
+      return Container(
+          padding: EdgeInsets.all(4.0),
+          color: Color(0xFF4CAC4C),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                  .format(value)
+                  .toString(),
+              style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 1),
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ));
+    }
+  }
+
+  // Override method
+
+  @override
+  List<DataGridRow> get rows => dataGridRows;
+
+  @override
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(cells: [
+      Container(
+        padding: EdgeInsets.all(8.0),
+        child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(row.getCells()[0].value)),
+      ),
+      _buildQ1(row.getCells()[1].value),
+      _buildQ2(row.getCells()[2].value),
+      _buildQ3(row.getCells()[3].value),
+      _buildQ4(row.getCells()[4].value)
+    ]);
+  }
+
+  // Generating the stock data collection
+
+  final List<String> names = <String>[
+    'Maciej',
+    'Shelley',
+    'Linda',
+    'Shanon',
+    'Jauna',
+    'Michael',
+    'Terry',
+    'Julie',
+    'Twanna',
+    'Gary',
+    'Carol',
+    'James',
+    'Martha'
+  ];
+
+  List<_Stock> getStocks(int count) {
+    final List<_Stock> stockData = <_Stock>[];
+    for (int i = 1; i < count; i++) {
+      stockData.add(_Stock(
+        names[i < names.length ? i : random.nextInt(names.length - 1)],
+        1800.0 + random.nextInt(2000),
+        1500.0 + random.nextInt(1000),
+        2000.0 + random.nextInt(3000),
+        1400.0 + random.nextInt(4000),
+      ));
+    }
+    return stockData;
   }
 }

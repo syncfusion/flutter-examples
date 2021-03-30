@@ -21,11 +21,11 @@ class _RadialTextPointerState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialTextPointer();
+    return _buildRadialTextPointer();
   }
 
   /// Returns the text pointer gauge
-  SfRadialGauge _getRadialTextPointer() {
+  SfRadialGauge _buildRadialTextPointer() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(

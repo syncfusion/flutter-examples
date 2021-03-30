@@ -22,17 +22,24 @@ class MomentummIndicator extends SampleView {
 /// State class of the OHLC chart with Momentum indicator.
 class _MomentummIndicatorState extends SampleViewState {
   _MomentummIndicatorState();
-  double _period = 14.0;
+  late double _period;
+  late TooltipBehavior _tooltipBehavior;
+  late TrackballBehavior _trackballBehavior;
 
   @override
   void initState() {
-    _period = 14;
     super.initState();
+    _period = 14;
+    _trackballBehavior = TrackballBehavior(
+        enable: !isCardView,
+        activationMode: ActivationMode.singleTap,
+        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints);
+    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaulMomentumIndicator();
+    return _buildDefaulMomentumIndicator();
   }
 
   @override
@@ -63,7 +70,7 @@ class _MomentummIndicatorState extends SampleViewState {
   }
 
   /// Returns the OHLC chart with Momentum indicator.
-  SfCartesianChart _getDefaulMomentumIndicator() {
+  SfCartesianChart _buildDefaulMomentumIndicator() {
     final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
@@ -91,18 +98,12 @@ class _MomentummIndicatorState extends SampleViewState {
             interval: 20,
             axisLine: AxisLine(width: 0))
       ],
-      trackballBehavior: TrackballBehavior(
-        enable: !isCardView,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isCardView ? true : false),
+      trackballBehavior: _trackballBehavior,
+      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
         /// Momentum indicator mentioned here.
         MomentumIndicator<ChartSampleData, DateTime>(
-            seriesName: 'AAPL',
-            yAxisName: 'yaxes',
-            period: _period.toInt() ?? 14),
+            seriesName: 'AAPL', yAxisName: 'yaxes', period: _period.toInt()),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <ChartSeries<ChartSampleData, DateTime>>[

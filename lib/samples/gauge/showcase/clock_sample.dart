@@ -22,7 +22,7 @@ class ClockExample extends SampleView {
 
 class _ClockExampleState extends SampleViewState {
   _ClockExampleState();
-  Timer timer;
+  late Timer timer;
 
   @override
   void initState() {
@@ -53,13 +53,13 @@ class _ClockExampleState extends SampleViewState {
       child: Container(
         height: _containerSize,
         width: _containerSize,
-        child: _getClockExample(),
+        child: _buildClockExample(),
       ),
     );
   }
 
   /// Returns the gauge clock
-  SfRadialGauge _getClockExample() {
+  SfRadialGauge _buildClockExample() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         /// Renders inner axis and positioned it using CenterX and
@@ -115,7 +115,7 @@ class _ClockExampleState extends SampleViewState {
             interval: 2,
             centerX: isCardView
                 ? 0.38
-                : model.isWeb
+                : model.isWebFullView
                     ? 0.38
                     : 0.335,
             minorTicksPerInterval: 5,
@@ -148,7 +148,7 @@ class _ClockExampleState extends SampleViewState {
             maximum: 12,
             showFirstLabel: false,
             interval: 1,
-            radiusFactor: model.isWeb ? 0.8 : 0.95,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.95,
             labelOffset: 0.1,
             offsetUnit: GaugeSizeUnit.factor,
             minorTicksPerInterval: 4,

@@ -21,11 +21,11 @@ class _MultipleRangesExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getMultipleRangesExampleGauge(context);
+    return _buildMultipleRangesExampleGauge(context);
   }
 
   /// Returns the multiple range gauge
-  SfRadialGauge _getMultipleRangesExampleGauge(BuildContext context) {
+  SfRadialGauge _buildMultipleRangesExampleGauge(BuildContext context) {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(

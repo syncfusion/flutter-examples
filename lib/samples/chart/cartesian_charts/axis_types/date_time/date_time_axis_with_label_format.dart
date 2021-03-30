@@ -20,14 +20,24 @@ class DateTimeLabel extends SampleView {
 /// State class of the scatter chart with datetime axis label format
 class _DateTimeLabelState extends SampleViewState {
   _DateTimeLabelState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        format: 'point.x : point.y Mw',
+        header: '',
+        canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getLabelDateTimeAxisChart();
+    return _buildLabelDateTimeAxisChart();
   }
 
   /// Returns the scatter chart with datatime axis label format.
-  SfCartesianChart _getLabelDateTimeAxisChart() {
+  SfCartesianChart _buildLabelDateTimeAxisChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Earthquakes in Indonesia'),
@@ -47,11 +57,7 @@ class _DateTimeLabelState extends SampleViewState {
         title: AxisTitle(text: isCardView ? '' : 'Magnitude (Mw)'),
       ),
       series: _getLabelDateTimeAxisSeries(),
-      tooltipBehavior: TooltipBehavior(
-          enable: true,
-          format: 'point.x : point.y Mw',
-          header: '',
-          canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

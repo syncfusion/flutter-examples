@@ -31,12 +31,12 @@ class _QRCodeGeneratorState extends SampleViewState {
     'Low'
   ];
 
-  ErrorCorrectionLevel _errorCorrectionLevel;
-  String _selectedErrorCorrectionLevel;
-  QRInputMode _inputMode;
-  String _selectedInputMode;
-  String _inputValue;
-  TextEditingController _textEditingController;
+  late ErrorCorrectionLevel _errorCorrectionLevel;
+  late String _selectedErrorCorrectionLevel;
+  late QRInputMode _inputMode;
+  late String _selectedInputMode;
+  late String _inputValue;
+  late TextEditingController _textEditingController;
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _QRCodeGeneratorState extends SampleViewState {
     _inputMode = QRInputMode.binary;
     _textEditingController = TextEditingController.fromValue(
       TextEditingValue(
-        text: model.isWeb ? 'http://www.syncfusion.com' : _inputValue,
+        text: model.isWebFullView ? 'http://www.syncfusion.com' : _inputValue,
       ),
     );
   }
@@ -60,10 +60,10 @@ class _QRCodeGeneratorState extends SampleViewState {
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     EdgeInsets _padding = const EdgeInsets.all(0);
     double _margin;
-    if (!model.isWeb) {
+    if (!model.isWebFullView) {
       _margin = (MediaQuery.of(context).size.width -
               MediaQuery.of(context).size.width * 0.6) /
           2;
@@ -71,11 +71,12 @@ class _QRCodeGeneratorState extends SampleViewState {
     }
 
     return Scaffold(
-      backgroundColor: model.isWeb ? Colors.transparent : model.cardThemeColor,
+      backgroundColor:
+          model.isWebFullView ? Colors.transparent : model.cardThemeColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         child: Container(
-            child: _getQRCodeGenerator(
+            child: _buildQRCodeGenerator(
                 _inputValue, _errorCorrectionLevel, _inputMode, _padding)),
       ),
     );
@@ -164,7 +165,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                                       style:
                                           TextStyle(color: model.textColor)));
                             }).toList(),
-                            onChanged: (String value) {
+                            onChanged: (String? value) {
                               _onInputModeChanged(value.toString());
                               stateSetter(() {});
                             }),
@@ -207,7 +208,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                                       style:
                                           TextStyle(color: model.textColor)));
                             }).toList(),
-                            onChanged: (String value) {
+                            onChanged: (String? value) {
                               _onErrorCorrectionLevelChanged(value.toString());
                               stateSetter(() {});
                             }),
@@ -263,26 +264,25 @@ class _QRCodeGeneratorState extends SampleViewState {
   }
 
   /// Returns the QR barcode
-  Widget _getQRCodeGenerator(
-      [String _inputValue,
+  Widget _buildQRCodeGenerator(
+      String _inputValue,
       ErrorCorrectionLevel _correctionLevel,
       QRInputMode _inputMode,
-      EdgeInsets _padding]) {
+      EdgeInsets _padding) {
     return Center(
       child: Container(
-          height: model.isWeb ? 300 : double.infinity,
+          height: model.isWebFullView ? 300 : double.infinity,
           child: Padding(
-            padding: _padding ?? const EdgeInsets.all(30),
+            padding: _padding,
             child: SfBarcodeGenerator(
-              value: _inputValue ?? 'http://www.syncfusion.com',
+              value: _inputValue,
               textAlign: TextAlign.justify,
               textSpacing: 10,
               showValue: false,
               symbology: QRCode(
-                  inputMode: _inputMode ?? QRInputMode.binary,
+                  inputMode: _inputMode,
                   codeVersion: QRCodeVersion.auto,
-                  errorCorrectionLevel:
-                      _correctionLevel ?? ErrorCorrectionLevel.quartile),
+                  errorCorrectionLevel: _correctionLevel),
             ),
           )),
     );

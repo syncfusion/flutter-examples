@@ -23,8 +23,8 @@ class AnimationAreaDefault extends SampleView {
 /// State class of animation area chart.
 class _AnimationAreaDefaultState extends SampleViewState {
   _AnimationAreaDefaultState();
-  List<_ChartData> _chartData;
-  Timer _timer;
+  late List<_ChartData> _chartData;
+  Timer? _timer;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,11 @@ class _AnimationAreaDefaultState extends SampleViewState {
         _getChartData();
       });
     });
-    return _getAnimationAreaChart();
+    return _buildAnimationAreaChart();
   }
 
   /// Return the cartesian chart with animation.
-  SfCartesianChart _getAnimationAreaChart() {
+  SfCartesianChart _buildAnimationAreaChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis:
@@ -67,11 +67,11 @@ class _AnimationAreaDefaultState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timer!.cancel();
   }
 
   /// Return the random value in area series.
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }

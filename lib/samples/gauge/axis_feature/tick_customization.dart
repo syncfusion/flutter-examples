@@ -30,7 +30,7 @@ class _RadialTickCustomizationState extends SampleViewState {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             showAxisLine: false,
             onLabelCreated: _handleLabelCreated,
             startAngle: 270,
@@ -42,7 +42,7 @@ class _RadialTickCustomizationState extends SampleViewState {
                 length: 0.15,
                 lengthUnit: GaugeSizeUnit.factor,
                 thickness: 1,
-                dashArray: model.isWeb ? null : <double>[2, 1]),
+                dashArray: model.isWebFullView ? null : <double>[2, 1]),
             minorTicksPerInterval: 4,
             interval: 10,
             minorTickStyle: MinorTickStyle(
@@ -51,10 +51,10 @@ class _RadialTickCustomizationState extends SampleViewState {
                 lengthUnit: GaugeSizeUnit.factor,
 
                 /// Dash array not supported in web.
-                dashArray: model.isWeb ? null : <double>[2, 1]),
+                dashArray: model.isWebFullView ? null : <double>[2, 1]),
             pointers: <GaugePointer>[
               NeedlePointer(
-                  enableAnimation: model.isWeb ? false : true,
+                  enableAnimation: model.isWebFullView ? false : true,
                   animationType: AnimationType.ease,
                   animationDuration: 1300,
                   value: 75,

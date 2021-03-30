@@ -23,11 +23,9 @@ class TimelineViewsCalendar extends SampleView {
 class _TimelineViewsCalendarState extends SampleViewState {
   _TimelineViewsCalendarState();
 
-  List<String> _subjectCollection;
-  List<Color> _colorCollection;
-  List<DateTime> _blackoutDates;
-  _MeetingDataSource _events;
-  CalendarController _calendarController;
+  final List<String> _subjectCollection = <String>[];
+  final List<Color> _colorCollection = <Color>[];
+  final CalendarController _calendarController = CalendarController();
 
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.timelineDay,
@@ -36,18 +34,19 @@ class _TimelineViewsCalendarState extends SampleViewState {
     CalendarView.timelineMonth,
   ];
 
+  List<DateTime> _blackoutDates = <DateTime>[];
+  late _MeetingDataSource _events;
+
   @override
   void initState() {
-    _calendarController = CalendarController();
     _calendarController.view = CalendarView.timelineMonth;
-    _blackoutDates = <DateTime>[];
     addAppointmentDetails();
     _events = _MeetingDataSource(<_Meeting>[]);
     super.initState();
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Row(children: <Widget>[
         Expanded(
@@ -78,12 +77,12 @@ class _TimelineViewsCalendarState extends SampleViewState {
       }
     }
 
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       setState(() {
         if (_calendarController.view == CalendarView.timelineMonth) {
           _blackoutDates = blockedDates;
         } else {
-          _blackoutDates?.clear();
+          _blackoutDates.clear();
         }
       });
     });
@@ -98,7 +97,7 @@ class _TimelineViewsCalendarState extends SampleViewState {
         continue;
       }
       final int count =
-          model.isWeb ? 1 + random.nextInt(2) : 1 + random.nextInt(3);
+          model.isWebFullView ? 1 + random.nextInt(2) : 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
         final DateTime startDate = DateTime(
             date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
@@ -128,7 +127,6 @@ class _TimelineViewsCalendarState extends SampleViewState {
 
   /// Creates the required appointment details as a list.
   void addAppointmentDetails() {
-    _subjectCollection = <String>[];
     _subjectCollection.add('General Meeting');
     _subjectCollection.add('Plan Execution');
     _subjectCollection.add('Project Plan');
@@ -140,7 +138,6 @@ class _TimelineViewsCalendarState extends SampleViewState {
     _subjectCollection.add('Release updates');
     _subjectCollection.add('Performance Check');
 
-    _colorCollection = <Color>[];
     _colorCollection.add(const Color(0xFF0F8644));
     _colorCollection.add(const Color(0xFF8B1FA9));
     _colorCollection.add(const Color(0xFFD20100));
@@ -155,19 +152,19 @@ class _TimelineViewsCalendarState extends SampleViewState {
 
   /// Returns the calendar widget based on the properties passed.
   SfCalendar _getTimelineViewsCalendar(
-      [CalendarController _calendarController,
-      CalendarDataSource _calendarDataSource,
-      ViewChangedCallback viewChangedCallback]) {
+      [CalendarController? _calendarController,
+      CalendarDataSource? _calendarDataSource,
+      ViewChangedCallback? viewChangedCallback]) {
     return SfCalendar(
         controller: _calendarController,
         dataSource: _calendarDataSource,
         allowedViews: _allowedViews,
-        showNavigationArrow: model.isWeb,
+        showNavigationArrow: model.isWebFullView,
         showDatePickerButton: true,
         onViewChanged: viewChangedCallback,
         blackoutDates: _blackoutDates,
         blackoutDatesTextStyle: TextStyle(
-            decoration: model.isWeb ? null : TextDecoration.lineThrough,
+            decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
             color: Colors.red),
         timeSlotViewSettings: TimeSlotViewSettings(
             minimumAppointmentDuration: const Duration(minutes: 60)));
@@ -183,7 +180,7 @@ class _MeetingDataSource extends CalendarDataSource {
   List<_Meeting> source;
 
   @override
-  List<dynamic> get appointments => source;
+  List<_Meeting> get appointments => source;
 
   @override
   DateTime getStartTime(int index) {
@@ -206,12 +203,12 @@ class _MeetingDataSource extends CalendarDataSource {
   }
 
   @override
-  String getStartTimeZone(int index) {
+  String? getStartTimeZone(int index) {
     return source[index].startTimeZone;
   }
 
   @override
-  String getEndTimeZone(int index) {
+  String? getEndTimeZone(int index) {
     return source[index].endTimeZone;
   }
 
@@ -221,7 +218,7 @@ class _MeetingDataSource extends CalendarDataSource {
   }
 
   @override
-  String getRecurrenceRule(int index) {
+  String? getRecurrenceRule(int index) {
     return source[index].recurrenceRule;
   }
 }
@@ -243,14 +240,14 @@ class _Meeting {
       this.recurrenceRule);
 
   String eventName;
-  String organizer;
-  String contactID;
-  int capacity;
+  String? organizer;
+  String? contactID;
+  int? capacity;
   DateTime from;
   DateTime to;
   Color background;
   bool isAllDay;
-  String startTimeZone;
-  String endTimeZone;
-  String recurrenceRule;
+  String? startTimeZone;
+  String? endTimeZone;
+  String? recurrenceRule;
 }

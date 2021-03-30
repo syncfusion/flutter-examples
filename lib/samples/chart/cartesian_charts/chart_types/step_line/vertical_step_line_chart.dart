@@ -23,11 +23,11 @@ class _StepLineVerticalState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getVerticalStepLineChart();
+    return _buildVerticalStepLineChart();
   }
 
   /// Returns the vertical stepline chart.
-  SfCartesianChart _getVerticalStepLineChart() {
+  SfCartesianChart _buildVerticalStepLineChart() {
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
       title:

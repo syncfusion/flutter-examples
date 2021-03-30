@@ -24,7 +24,7 @@ class _LiveUpdateState extends SampleViewState {
   _LiveUpdateState() {
     timer = Timer.periodic(const Duration(milliseconds: 5), _updateData);
   }
-  Timer timer;
+  Timer? timer;
   List<ChartSampleData> chartData1 = <ChartSampleData>[
     ChartSampleData(x: 0, y: 0),
     ChartSampleData(x: 1, y: -2),
@@ -38,8 +38,8 @@ class _LiveUpdateState extends SampleViewState {
     ChartSampleData(x: 3, y: 0)
   ];
   bool canStopTimer = false;
-  int wave1;
-  int wave2, count = 1;
+  late int wave1, wave2;
+  int count = 1;
 
   @override
   void initState() {
@@ -67,11 +67,11 @@ class _LiveUpdateState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getLiveUpdateChart();
+    return _buildLiveUpdateChart();
   }
 
   ///Get the cartesian chart widget
-  SfCartesianChart _getLiveUpdateChart() {
+  SfCartesianChart _buildLiveUpdateChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),

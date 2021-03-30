@@ -18,18 +18,25 @@ class PieGrouping extends SampleView {
 
 class _PieGroupingState extends SampleViewState {
   _PieGroupingState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, format: 'point.x : point.y%');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _getGroupingPieChart();
+    return _buildGroupingPieChart();
   }
 
   /// Return the circular charts with pie series.
-  SfCircularChart _getGroupingPieChart() {
+  SfCircularChart _buildGroupingPieChart() {
     return SfCircularChart(
       title: ChartTitle(text: isCardView ? '' : 'Electricity sectors'),
       series: _getGroupingPieSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, format: 'point.x : point.y%'),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -60,24 +67,27 @@ class _PieGroupingState extends SampleViewState {
           x: 'Solar\nPower',
           y: 8,
           text: 'Solar Power: 28,679.21 MW (8.0%)',
-          pointColor: const Color.fromRGBO(198, 201, 207, 1)),
+          pointColor: null),
       ChartSampleData(
           x: 'Biomass',
           y: 2.6,
           text: 'Biomass: 9,269.8 MW (2.6%)',
-          pointColor: null),
+          pointColor: const Color.fromRGBO(198, 201, 207, 1)),
       ChartSampleData(
           x: 'Nuclear',
           y: 1.9,
           text: 'Nuclear: 6,780 MW (1.9%)',
-          pointColor: null),
+          pointColor: const Color.fromRGBO(198, 201, 207, 1)),
       ChartSampleData(
-          x: 'Gas', y: 7, text: 'Gas: 24,937.22 MW (7.0%)', pointColor: null),
+          x: 'Gas',
+          y: 7,
+          text: 'Gas: 24,937.22 MW (7.0%)',
+          pointColor: const Color.fromRGBO(198, 201, 207, 1)),
       ChartSampleData(
           x: 'Diesel',
           y: 0.2,
           text: 'Diesel: 637.63 MW (0.2%)',
-          pointColor: null)
+          pointColor: const Color.fromRGBO(198, 201, 207, 1))
     ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(

@@ -42,24 +42,6 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-233131-38');
 	
-		async function download() {
-			var pdfAsDataUri = "data:application/pdf;base64, " + pdfdata;
-			var link = document.createElement('a');
-			link.download = filename;
-			link.href = pdfAsDataUri;
-			link.type = 'application/pdf';
-			link.click();
-		}
-
-		async function downloadExcel() {
-			var excelAsDataUri = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64, " + exceldata;
-			var link = document.createElement('a');
-			link.download = filename;
-			link.href = excelAsDataUri;
-			link.type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-			link.click();
-		}
-	
 		<!-- Start Alexa Certify Javascript -->
 		_atrk_opts = { 
 			atrk_acct:"LPpPs1Fx9f207i", 
@@ -89,6 +71,12 @@
         navigator.serviceWorker.register('flutter_service_worker.js');
       });
     }
+  </script>
+  <!-- This script installs pdf.min.js to render the PDF page as an image in the
+    application and load in syncfusion_flutter_pdfviewer widget -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.min.js"></script>
+  <script type="text/javascript">
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.worker.min.js";
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>

@@ -10,6 +10,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the RadialSlider state.
 class RadialRangeSliderStateTypes extends SampleView {
+  /// Creates the RadialSlider state sample.
   const RadialRangeSliderStateTypes(Key key) : super(key: key);
 
   @override
@@ -24,9 +25,9 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
   double _secondMarkerValue = 30;
   double _firstMarkerValue = 0;
   double _markerSize = 30;
-  double _annotationFontSize = 25;
+  final double _annotationFontSize = 25;
   String _annotationValue1 = '0';
-  String _annotationValue2 = '30';
+  String _annotationValue2 = '30%';
   @override
   void initState() {
     super.initState();
@@ -37,7 +38,7 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       _markerSize = 35;
     } else {
-      _markerSize = model.isWeb ? 25 : 25;
+      _markerSize = model.isWebFullView ? 35 : 25;
     }
 
     return Center(
@@ -46,7 +47,10 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
           RadialAxis(
               radiusFactor: 0.8,
               axisLineStyle: AxisLineStyle(
-                  thickness: model.isWeb ? 0.15 : 0.25,
+                  color: model.themeData.brightness == Brightness.light
+                      ? Color.fromRGBO(191, 214, 245, 1)
+                      : Color.fromRGBO(36, 58, 89, 1),
+                  thickness: 0.05,
                   thicknessUnit: GaugeSizeUnit.factor),
               showLabels: false,
               showTicks: false,
@@ -58,29 +62,35 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
                   startValue: _firstMarkerValue,
                   sizeUnit: GaugeSizeUnit.factor,
                   color: _enableDragging
-                      ? const Color.fromRGBO(34, 144, 199, 1)
+                      ? const Color.fromRGBO(44, 117, 220, 1)
                       : const Color(0xFF888888),
-                  endWidth: model.isWeb ? 0.15 : 0.25,
-                  startWidth: model.isWeb ? 0.15 : 0.25,
+                  endWidth: 0.05,
+                  startWidth: 0.05,
                 )
               ],
               pointers: <GaugePointer>[
                 MarkerPointer(
                   value: _firstMarkerValue,
+                  elevation: 5,
                   onValueChanged: handleFirstPointerValueChanged,
                   onValueChanging: handleFirstPointerValueChanging,
                   enableDragging: _enableDragging,
-                  color: Colors.white,
+                  color: _enableDragging
+                      ? const Color.fromRGBO(44, 117, 220, 1)
+                      : const Color(0xFF888888),
                   markerHeight: _markerSize,
                   markerWidth: _markerSize,
                   markerType: MarkerType.circle,
                 ),
                 MarkerPointer(
                   value: _secondMarkerValue,
+                  elevation: 5,
                   onValueChanged: handleSecondPointerValueChanged,
                   onValueChanging: handleSecondPointerValueChanging,
                   enableDragging: _enableDragging,
-                  color: Colors.white,
+                  color: _enableDragging
+                      ? const Color.fromRGBO(44, 117, 220, 1)
+                      : const Color(0xFF888888),
                   markerHeight: _markerSize,
                   markerWidth: _markerSize,
                   markerType: MarkerType.circle,
@@ -88,21 +98,21 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    widget: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          '$_annotationValue1 - $_annotationValue2',
-                          style: TextStyle(
-                            fontSize: _annotationFontSize,
-                            fontFamily: 'Times',
-                            fontWeight: FontWeight.bold,
-                          ),
+                  widget: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        '$_annotationValue1 - $_annotationValue2',
+                        style: TextStyle(
+                          fontSize: _annotationFontSize,
+                          fontFamily: 'Times',
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
-                    positionFactor: 0.13,
-                    angle: 90)
+                      ),
+                    ],
+                  ),
+                  positionFactor: 0.05,
+                )
               ])
         ],
       ),
@@ -140,7 +150,7 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
     setState(() {
       _secondMarkerValue = value;
       final int _value = _secondMarkerValue.abs().toInt();
-      _annotationValue2 = '$_value';
+      _annotationValue2 = '$_value%';
     });
   }
 
@@ -148,16 +158,7 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
   void handleSecondPointerValueChanging(ValueChangingArgs args) {
     if (args.value <= _firstMarkerValue ||
         (args.value - _secondMarkerValue).abs() > 10) {
-      if (args.value <= _firstMarkerValue) {
-        if ((args.value - _secondMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _secondMarkerValue = _firstMarkerValue;
-          _firstMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 
@@ -174,16 +175,7 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
   void handleFirstPointerValueChanging(ValueChangingArgs args) {
     if (args.value >= _secondMarkerValue ||
         (args.value - _firstMarkerValue).abs() > 10) {
-      if (args.value >= _secondMarkerValue) {
-        if ((args.value - _firstMarkerValue).abs() > 10) {
-          args.cancel = true;
-        } else {
-          _firstMarkerValue = _secondMarkerValue;
-          _secondMarkerValue = args.value;
-        }
-      } else {
-        args.cancel = true;
-      }
+      args.cancel = true;
     }
   }
 

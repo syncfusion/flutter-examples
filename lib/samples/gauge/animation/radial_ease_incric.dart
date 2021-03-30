@@ -22,15 +22,15 @@ class _RadialEaseInCircExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialEaseInCircExample();
+    return _buildRadialEaseInCircExample();
   }
 
   /// Returns the pointer ease in circle animation gauge
-  SfRadialGauge _getRadialEaseInCircExample() {
+  SfRadialGauge _buildRadialEaseInCircExample() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-            radiusFactor: model.isWeb ? 0.85 : 0.95,
+            radiusFactor: model.isWebFullView ? 0.85 : 0.95,
             showAxisLine: false,
             ticksPosition: ElementsPosition.outside,
             labelsPosition: ElementsPosition.outside,
@@ -53,12 +53,9 @@ class _RadialEaseInCircExampleState extends SampleViewState {
                   pointerOffset: 10,
                   value: 45,
                   animationDuration: 1000,
-                  // Sweep gradient not supported in web
-                  gradient: model.isWeb
-                      ? null
-                      : const SweepGradient(
-                          colors: <Color>[Color(0xFF3B3FF3), Color(0xFF46D0ED)],
-                          stops: <double>[0.25, 0.75]),
+                  gradient: const SweepGradient(
+                      colors: <Color>[Color(0xFF3B3FF3), Color(0xFF46D0ED)],
+                      stops: <double>[0.25, 0.75]),
                   animationType: AnimationType.easeInCirc,
                   enableAnimation: true,
                   color: const Color(0xFFF8B195))

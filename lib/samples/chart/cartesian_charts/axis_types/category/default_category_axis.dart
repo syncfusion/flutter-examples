@@ -19,14 +19,21 @@ class CategoryDefault extends SampleView {
 /// State class of the column chart with default category x-axis.
 class _CategoryDefaultState extends SampleViewState {
   _CategoryDefaultState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultCategoryAxisChart();
+    return _buildDefaultCategoryAxisChart();
   }
 
   /// Returns the column chart with default category x-axis.
-  SfCartesianChart _getDefaultCategoryAxisChart() {
+  SfCartesianChart _buildDefaultCategoryAxisChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Internet Users - 2016'),
       plotAreaBorderWidth: 0,
@@ -38,8 +45,7 @@ class _CategoryDefaultState extends SampleViewState {
       primaryYAxis: NumericAxis(
           minimum: 0, maximum: 80, isVisible: false, labelFormat: '{value}M'),
       series: _getDefaultCategory(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

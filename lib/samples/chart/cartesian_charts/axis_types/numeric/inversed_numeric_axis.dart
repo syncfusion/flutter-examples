@@ -21,8 +21,15 @@ class NumericInverse extends SampleView {
 /// State class of the inversed numeric axis.
 class _NumericInverseState extends SampleViewState {
   _NumericInverseState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
-  bool isYInversed = true, isXInversed = true;
+  bool? isYInversed = true, isXInversed = true;
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -38,7 +45,7 @@ class _NumericInverseState extends SampleViewState {
                   scale: 0.8,
                   child: CupertinoSwitch(
                     activeColor: model.backgroundColor,
-                    value: isXInversed,
+                    value: isXInversed!,
                     onChanged: (bool value) {
                       setState(() {
                         isXInversed = value;
@@ -58,7 +65,7 @@ class _NumericInverseState extends SampleViewState {
                   scale: 0.8,
                   child: CupertinoSwitch(
                     activeColor: model.backgroundColor,
-                    value: isYInversed,
+                    value: isYInversed!,
                     onChanged: (bool value) {
                       setState(() {
                         isYInversed = value;
@@ -75,13 +82,13 @@ class _NumericInverseState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getChart();
+    return _buildChart();
   }
 
   /// Returns the Cartesian chart with inversed x and y axis.
   /// Can change the isInversed bool value by toggle the custom button
   /// presented in property panel.
-  SfCartesianChart getChart() {
+  SfCartesianChart _buildChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Airports count in US'),
@@ -100,8 +107,7 @@ class _NumericInverseState extends SampleViewState {
           isInversed: isYInversed ?? true,
           majorTickLines: MajorTickLines(size: 0)),
       series: getInversedNumericSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

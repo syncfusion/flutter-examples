@@ -22,11 +22,11 @@ class _PieDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultPieChart();
+    return _buildDefaultPieChart();
   }
 
   /// Returns the circular  chart with pie series.
-  SfCircularChart _getDefaultPieChart() {
+  SfCircularChart _buildDefaultPieChart() {
     return SfCircularChart(
       title: ChartTitle(text: isCardView ? '' : 'Sales by sales person'),
       legend: Legend(isVisible: !isCardView),
@@ -37,10 +37,10 @@ class _PieDefaultState extends SampleViewState {
   /// Returns the pie series.
   List<PieSeries<ChartSampleData, String>> _getDefaultPieSeries() {
     final List<ChartSampleData> pieData = <ChartSampleData>[
-      ChartSampleData(x: 'David', y: 30, text: 'David \n 30%'),
-      ChartSampleData(x: 'Steve', y: 35, text: 'Steve \n 35%'),
-      ChartSampleData(x: 'Jack', y: 39, text: 'Jack \n 39%'),
-      ChartSampleData(x: 'Others', y: 75, text: 'Others \n 75%'),
+      ChartSampleData(x: 'David', y: 13, text: 'David \n 13%'),
+      ChartSampleData(x: 'Steve', y: 24, text: 'Steve \n 24%'),
+      ChartSampleData(x: 'Jack', y: 25, text: 'Jack \n 25%'),
+      ChartSampleData(x: 'Others', y: 38, text: 'Others \n 38%'),
     ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(

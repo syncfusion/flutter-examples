@@ -31,10 +31,11 @@ class _TrendLineDefaultState extends SampleViewState {
     'Polynomial',
     'MovingAverage'
   ].toList();
-  String _selectedTrendLineType = 'Linear';
-  TrendlineType _type = TrendlineType.linear;
-  int _polynomialOrder = 2;
-  int _period = 2;
+  late String _selectedTrendLineType;
+  late TrendlineType _type;
+  late int _polynomialOrder;
+  late int _period;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
@@ -42,114 +43,98 @@ class _TrendLineDefaultState extends SampleViewState {
     _type = TrendlineType.linear;
     _polynomialOrder = 2;
     _period = 2;
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getTrendLineDefaultChart();
+    return _buildTrendLineDefaultChart();
   }
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Trendline type',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 16.0,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
-                    value: _selectedTrendLineType,
-                    items: _trendlineTypeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value ?? 'Linear',
-                        child: Text('$value',
-                            style: TextStyle(color: model.textColor)),
-                      );
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      _onTrendLineTypeChanged(value.toString());
-                      stateSetter(() {});
-                    },
-                  ),
-                )
-              ],
+          ListTile(
+            title: Text('Trendline type',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.07 * screenWidth),
+              width: 0.6 * screenWidth,
+              height: 50,
+              alignment: Alignment.bottomLeft,
+              child: DropdownButton<String>(
+                underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                value: _selectedTrendLineType,
+                items: _trendlineTypeList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text('$value',
+                        style: TextStyle(color: model.textColor)),
+                  );
+                }).toList(),
+                onChanged: (dynamic value) {
+                  _onTrendLineTypeChanged(value.toString());
+                  stateSetter(() {});
+                },
+              ),
             ),
           ),
           Visibility(
             visible: _selectedTrendLineType != 'Polynomial' ? false : true,
             maintainState: true,
-            child: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Polynomial Order',
-                    style: TextStyle(
-                        color: _selectedTrendLineType != 'Polynomial'
-                            ? const Color.fromRGBO(0, 0, 0, 0.3)
-                            : model.textColor),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(37, 0, 0, 0),
-                    child: CustomDirectionalButtons(
-                      minValue: 2,
-                      maxValue: 6,
-                      initialValue: _polynomialOrder.toDouble(),
-                      onChanged: (double val) => setState(() {
-                        _polynomialOrder = val.floor();
-                      }),
-                      loop: true,
-                      iconColor: model.textColor,
-                      style: TextStyle(fontSize: 16.0, color: model.textColor),
-                    ),
-                  )
-                ],
+            child: ListTile(
+              title: Text('Polynomial Order',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                width: 0.6 * screenWidth,
+                padding: EdgeInsets.only(left: 0.03 * screenWidth),
+                child: CustomDirectionalButtons(
+                  minValue: 2,
+                  maxValue: 6,
+                  initialValue: _polynomialOrder.toDouble(),
+                  onChanged: (double val) => setState(() {
+                    _polynomialOrder = val.floor();
+                  }),
+                  loop: true,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
               ),
             ),
           ),
           Visibility(
             visible: _selectedTrendLineType != 'MovingAverage' ? false : true,
             maintainState: true,
-            child: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Period',
-                    style: TextStyle(color: model.textColor),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(103, 0, 0, 0),
-                    child: CustomDirectionalButtons(
-                      minValue: 2,
-                      maxValue: periodMaxValue.toDouble(),
-                      initialValue: _period.toDouble(),
-                      onChanged: (double val) => setState(() {
-                        _period = val.floor();
-                      }),
-                      loop: true,
-                      iconColor: model.textColor,
-                      style: TextStyle(fontSize: 16.0, color: model.textColor),
-                    ),
-                  )
-                ],
+            child: ListTile(
+              title: Text('Period',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                width: 0.6 * screenWidth,
+                padding: EdgeInsets.only(left: 0.03 * screenWidth),
+                child: CustomDirectionalButtons(
+                  minValue: 2,
+                  maxValue: periodMaxValue.toDouble(),
+                  initialValue: _period.toDouble(),
+                  onChanged: (double val) => setState(() {
+                    _period = val.floor();
+                  }),
+                  loop: true,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
               ),
             ),
           )
@@ -159,7 +144,7 @@ class _TrendLineDefaultState extends SampleViewState {
   }
 
   /// Returns the column chart with defaul trendline types.
-  SfCartesianChart _getTrendLineDefaultChart() {
+  SfCartesianChart _buildTrendLineDefaultChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -177,7 +162,7 @@ class _TrendLineDefaultState extends SampleViewState {
         labelFormat: '{value}',
       ),
       series: _getTrendLineDefaultSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

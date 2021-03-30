@@ -6,6 +6,7 @@ import 'package:intl/intl.dart' show NumberFormat;
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
@@ -22,10 +23,12 @@ class MapRangeColorMappingPage extends SampleView {
 }
 
 class _MapRangeColorMappingPageState extends SampleViewState {
-  List<_CountryDensityModel> _worldPopulationDensityDetails;
+  late List<_CountryDensity> _worldPopulationDensity;
 
   // The format which is used for formatting the tooltip text.
   final NumberFormat _numberFormat = NumberFormat('#.#');
+
+  late MapShapeSource _mapSource;
 
   @override
   void initState() {
@@ -40,406 +43,414 @@ class _MapRangeColorMappingPageState extends SampleViewState {
     //
     // [density]: On the basis of this value, color mapping color has been
     // applied to the shape.
-    _worldPopulationDensityDetails = <_CountryDensityModel>[
-      _CountryDensityModel('Monaco', 26337),
-      _CountryDensityModel('Macao', 21717),
-      _CountryDensityModel('Singapore', 8358),
-      _CountryDensityModel('Hong kong', 7140),
-      _CountryDensityModel('Gibraltar', 3369),
-      _CountryDensityModel('Bahrain', 2239),
-      _CountryDensityModel('Holy See', 1820),
-      _CountryDensityModel('Maldives', 1802),
-      _CountryDensityModel('Malta', 1380),
-      _CountryDensityModel('Bangladesh', 1265),
-      _CountryDensityModel('Sint Maarten', 1261),
-      _CountryDensityModel('Bermuda', 1246),
-      _CountryDensityModel('Channel Islands', 915),
-      _CountryDensityModel('State of Palestine', 847),
-      _CountryDensityModel('Saint-Martin', 729),
-      _CountryDensityModel('Mayotte', 727),
-      _CountryDensityModel('Taiwan', 672),
-      _CountryDensityModel('Barbados', 668),
-      _CountryDensityModel('Lebanon', 667),
-      _CountryDensityModel('Mauritius', 626),
-      _CountryDensityModel('Aruba', 593),
-      _CountryDensityModel('San Marino', 565),
-      _CountryDensityModel('Nauru', 541),
-      _CountryDensityModel('Korea', 527),
-      _CountryDensityModel('Rwanda', 525),
-      _CountryDensityModel('Netherlands', 508),
-      _CountryDensityModel('Comoros', 467),
-      _CountryDensityModel('India', 464),
-      _CountryDensityModel('Burundi', 463),
-      _CountryDensityModel('Saint-Barthélemy', 449),
-      _CountryDensityModel('Haiti', 413),
-      _CountryDensityModel('Israel', 400),
-      _CountryDensityModel('Tuvalu', 393),
-      _CountryDensityModel('Belgium', 382),
-      _CountryDensityModel('Curacao', 369),
-      _CountryDensityModel('Philippines', 367),
-      _CountryDensityModel('Reunion', 358),
-      _CountryDensityModel('Martinique', 354),
-      _CountryDensityModel('Japan', 346),
-      _CountryDensityModel('Sri Lanka', 341),
-      _CountryDensityModel('Grenada', 331),
-      _CountryDensityModel('Marshall Islands', 328),
-      _CountryDensityModel('Puerto Rico', 322),
-      _CountryDensityModel('Vietnam', 313),
-      _CountryDensityModel('El Salvador', 313),
-      _CountryDensityModel('Guam', 312),
-      _CountryDensityModel('Saint Lucia', 301),
-      _CountryDensityModel('United States Virgin Islands', 298),
-      _CountryDensityModel('Pakistan', 286),
-      _CountryDensityModel('Saint Vincent and the Grenadines', 284),
-      _CountryDensityModel('United Kingdom', 280),
-      _CountryDensityModel('American Samoa', 276),
-      _CountryDensityModel('Cayman Islands', 273),
-      _CountryDensityModel('Jamaica', 273),
-      _CountryDensityModel('Trinidad and Tobago', 272),
-      _CountryDensityModel('Qatar', 248),
-      _CountryDensityModel('Guadeloupe', 245),
-      _CountryDensityModel('Luxembourg', 241),
-      _CountryDensityModel('Germany', 240),
-      _CountryDensityModel('Kuwait', 239),
-      _CountryDensityModel('Gambia', 238),
-      _CountryDensityModel('Liechtenstein', 238),
-      _CountryDensityModel('Uganda', 228),
-      _CountryDensityModel('Sao Tome and Principe', 228),
-      _CountryDensityModel('Nigeria', 226),
-      _CountryDensityModel('Dominican Rep.', 224),
-      _CountryDensityModel('Antigua and Barbuda', 222),
-      _CountryDensityModel('Switzerland', 219),
-      _CountryDensityModel('Dem. Rep. Korea', 214),
-      _CountryDensityModel('Seychelles', 213),
-      _CountryDensityModel('Italy', 205),
-      _CountryDensityModel('Saint Kitts and Nevis', 204),
-      _CountryDensityModel('Nepal', 203),
-      _CountryDensityModel('Malawi', 202),
-      _CountryDensityModel('British Virgin Islands', 201),
-      _CountryDensityModel('Guatemala', 167),
-      _CountryDensityModel('Anguilla', 166),
-      _CountryDensityModel('Andorra', 164),
-      _CountryDensityModel('Micronesia', 164),
-      _CountryDensityModel('China', 153),
-      _CountryDensityModel('Togo', 152),
-      _CountryDensityModel('Indonesia', 151),
-      _CountryDensityModel('Isle of Man', 149),
-      _CountryDensityModel('Kiribati', 147),
-      _CountryDensityModel('Tonga', 146),
-      _CountryDensityModel('Czech Rep.', 138),
-      _CountryDensityModel('Cabo Verde', 138),
-      _CountryDensityModel('Thailand', 136),
-      _CountryDensityModel('Ghana', 136),
-      _CountryDensityModel('Denmark', 136),
-      _CountryDensityModel('Tokelau', 135),
-      _CountryDensityModel('Cyprus', 130),
-      _CountryDensityModel('Northern Mariana Islands', 125),
-      _CountryDensityModel('Poland', 123),
-      _CountryDensityModel('Moldova', 122),
-      _CountryDensityModel('Azerbaijan', 122),
-      _CountryDensityModel('France', 119),
-      _CountryDensityModel('United Arab Emirates', 118),
-      _CountryDensityModel('Ethiopia', 115),
-      _CountryDensityModel('Jordan', 114),
-      _CountryDensityModel('Slovakia', 113),
-      _CountryDensityModel('Portugal', 111),
-      _CountryDensityModel('Sierra Leone', 110),
-      _CountryDensityModel('Turkey', 109),
-      _CountryDensityModel('Austria', 109),
-      _CountryDensityModel('Benin', 107),
-      _CountryDensityModel('Hungary', 106),
-      _CountryDensityModel('Cuba', 106),
-      _CountryDensityModel('Albania', 105),
-      _CountryDensityModel('Armenia', 104),
-      _CountryDensityModel('Slovenia', 103),
-      _CountryDensityModel('Egypt', 102),
-      _CountryDensityModel('Serbia', 99),
-      _CountryDensityModel('Costa Rica', 99),
-      _CountryDensityModel('Malaysia', 98),
-      _CountryDensityModel('Dominica', 95),
-      _CountryDensityModel('Syria', 95),
-      _CountryDensityModel('Cambodia', 94),
-      _CountryDensityModel('Kenya', 94),
-      _CountryDensityModel('Spain', 93),
-      _CountryDensityModel('Iraq', 92),
-      _CountryDensityModel('Timor-Leste', 88),
-      _CountryDensityModel('Honduras', 88),
-      _CountryDensityModel('Senegal', 86),
-      _CountryDensityModel('Romania', 83),
-      _CountryDensityModel('Myanmar', 83),
-      _CountryDensityModel('Brunei Darussalam', 83),
-      _CountryDensityModel("Côte d'Ivoire", 82),
-      _CountryDensityModel('Morocco', 82),
-      _CountryDensityModel('Macedonia', 82),
-      _CountryDensityModel('Greece', 80),
-      _CountryDensityModel('Wallis and Futuna Islands', 80),
-      _CountryDensityModel('Bonaire, Sint Eustatius and Saba', 79),
-      _CountryDensityModel('Uzbekistan', 78),
-      _CountryDensityModel('French Polynesia', 76),
-      _CountryDensityModel('Burkina Faso', 76),
-      _CountryDensityModel('Tunisia', 76),
-      _CountryDensityModel('Ukraine', 75),
-      _CountryDensityModel('Croatia', 73),
-      _CountryDensityModel('Cook Islands', 73),
-      _CountryDensityModel('Ireland', 71),
-      _CountryDensityModel('Ecuador', 71),
-      _CountryDensityModel('Lesotho', 70),
-      _CountryDensityModel('Samoa', 70),
-      _CountryDensityModel('Guinea-Bissau', 69),
-      _CountryDensityModel('Tajikistan', 68),
-      _CountryDensityModel('Eswatini', 67),
-      _CountryDensityModel('Tanzania', 67),
-      _CountryDensityModel('Mexico', 66),
-      _CountryDensityModel('Bosnia and Herz.', 64),
-      _CountryDensityModel('Bulgaria', 64),
-      _CountryDensityModel('Afghanistan', 59),
-      _CountryDensityModel('Panama', 58),
-      _CountryDensityModel('Georgia', 57),
-      _CountryDensityModel('Yemen', 56),
-      _CountryDensityModel('Cameroon', 56),
-      _CountryDensityModel('Nicaragua', 55),
-      _CountryDensityModel('Guinea', 53),
-      _CountryDensityModel('Liberia', 52),
-      _CountryDensityModel('Iran', 51),
-      _CountryDensityModel('Eq. Guinea', 50),
-      _CountryDensityModel('Montserrat', 49),
-      _CountryDensityModel('Fiji', 49),
-      _CountryDensityModel('South Africa', 48),
-      _CountryDensityModel('Madagascar', 47),
-      _CountryDensityModel('Montenegro', 46),
-      _CountryDensityModel('Belarus', 46),
-      _CountryDensityModel('Colombia', 45),
-      _CountryDensityModel('Lithuania', 43),
-      _CountryDensityModel('Djibouti', 42),
-      _CountryDensityModel('Turks and Caicos Islands', 40),
-      _CountryDensityModel('Mozambique', 39),
-      _CountryDensityModel('Dem. Rep. Congo', 39),
-      _CountryDensityModel('Palau', 39),
-      _CountryDensityModel('Bahamas', 39),
-      _CountryDensityModel('Zimbabwe', 38),
-      _CountryDensityModel('United States of America', 36),
-      _CountryDensityModel('Eritrea', 35),
-      _CountryDensityModel('Faroe Islands', 35),
-      _CountryDensityModel('Kyrgyzstan', 34),
-      _CountryDensityModel('Venezuela', 32),
-      _CountryDensityModel('Lao PDR', 31),
-      _CountryDensityModel('Estonia', 31),
-      _CountryDensityModel('Latvia', 30),
-      _CountryDensityModel('Angola', 26),
-      _CountryDensityModel('Peru', 25),
-      _CountryDensityModel('Chile', 25),
-      _CountryDensityModel('Brazil', 25),
-      _CountryDensityModel('Somalia', 25),
-      _CountryDensityModel('Vanuatu', 25),
-      _CountryDensityModel('Saint Pierre and Miquelon', 25),
-      _CountryDensityModel('Sudan', 24),
-      _CountryDensityModel('Zambia', 24),
-      _CountryDensityModel('Sweden', 24),
-      _CountryDensityModel('Solomon Islands', 24),
-      _CountryDensityModel('Bhutan', 20),
-      _CountryDensityModel('Uruguay', 19),
-      _CountryDensityModel('Papua New Guinea', 19),
-      _CountryDensityModel('Niger', 19),
-      _CountryDensityModel('Algeria', 18),
-      _CountryDensityModel('S. Sudan', 18),
-      _CountryDensityModel('New Zealand', 18),
-      _CountryDensityModel('Finland', 18),
-      _CountryDensityModel('Paraguay', 17),
-      _CountryDensityModel('Belize', 17),
-      _CountryDensityModel('Mali', 16),
-      _CountryDensityModel('Argentina', 16),
-      _CountryDensityModel('Oman', 16),
-      _CountryDensityModel('Saudi Arabia', 16),
-      _CountryDensityModel('Congo', 16),
-      _CountryDensityModel('New Caledonia', 15),
-      _CountryDensityModel('Saint Helena', 15),
-      _CountryDensityModel('Norway', 14),
-      _CountryDensityModel('Chad', 13),
-      _CountryDensityModel('Turkmenistan', 12),
-      _CountryDensityModel('Bolivia', 10),
-      _CountryDensityModel('Russia', 8),
-      _CountryDensityModel('Gabon', 8),
-      _CountryDensityModel('Central African Rep.', 7),
-      _CountryDensityModel('Kazakhstan', 6),
-      _CountryDensityModel('Niue', 6),
-      _CountryDensityModel('Mauritania', 4),
-      _CountryDensityModel('Canada', 4),
-      _CountryDensityModel('Botswana', 4),
-      _CountryDensityModel('Guyana', 3),
-      _CountryDensityModel('Libya', 3),
-      _CountryDensityModel('Suriname', 3),
-      _CountryDensityModel('French Guiana', 3),
-      _CountryDensityModel('Iceland', 3),
-      _CountryDensityModel('Australia', 3),
-      _CountryDensityModel('Namibia', 3),
-      _CountryDensityModel('W. Sahara', 2),
-      _CountryDensityModel('Mongolia', 2),
-      _CountryDensityModel('Falkland Is.', 0.2),
-      _CountryDensityModel('Greenland', 0.1),
+    _worldPopulationDensity = <_CountryDensity>[
+      _CountryDensity('Monaco', 26337),
+      _CountryDensity('Macao', 21717),
+      _CountryDensity('Singapore', 8358),
+      _CountryDensity('Hong kong', 7140),
+      _CountryDensity('Gibraltar', 3369),
+      _CountryDensity('Bahrain', 2239),
+      _CountryDensity('Holy See', 1820),
+      _CountryDensity('Maldives', 1802),
+      _CountryDensity('Malta', 1380),
+      _CountryDensity('Bangladesh', 1265),
+      _CountryDensity('Sint Maarten', 1261),
+      _CountryDensity('Bermuda', 1246),
+      _CountryDensity('Channel Islands', 915),
+      _CountryDensity('State of Palestine', 847),
+      _CountryDensity('Saint-Martin', 729),
+      _CountryDensity('Mayotte', 727),
+      _CountryDensity('Taiwan', 672),
+      _CountryDensity('Barbados', 668),
+      _CountryDensity('Lebanon', 667),
+      _CountryDensity('Mauritius', 626),
+      _CountryDensity('Aruba', 593),
+      _CountryDensity('San Marino', 565),
+      _CountryDensity('Nauru', 541),
+      _CountryDensity('Korea', 527),
+      _CountryDensity('Rwanda', 525),
+      _CountryDensity('Netherlands', 508),
+      _CountryDensity('Comoros', 467),
+      _CountryDensity('India', 464),
+      _CountryDensity('Burundi', 463),
+      _CountryDensity('Saint-Barthélemy', 449),
+      _CountryDensity('Haiti', 413),
+      _CountryDensity('Israel', 400),
+      _CountryDensity('Tuvalu', 393),
+      _CountryDensity('Belgium', 382),
+      _CountryDensity('Curacao', 369),
+      _CountryDensity('Philippines', 367),
+      _CountryDensity('Reunion', 358),
+      _CountryDensity('Martinique', 354),
+      _CountryDensity('Japan', 346),
+      _CountryDensity('Sri Lanka', 341),
+      _CountryDensity('Grenada', 331),
+      _CountryDensity('Marshall Islands', 328),
+      _CountryDensity('Puerto Rico', 322),
+      _CountryDensity('Vietnam', 313),
+      _CountryDensity('El Salvador', 313),
+      _CountryDensity('Guam', 312),
+      _CountryDensity('Saint Lucia', 301),
+      _CountryDensity('United States Virgin Islands', 298),
+      _CountryDensity('Pakistan', 286),
+      _CountryDensity('Saint Vincent and the Grenadines', 284),
+      _CountryDensity('United Kingdom', 280),
+      _CountryDensity('American Samoa', 276),
+      _CountryDensity('Cayman Islands', 273),
+      _CountryDensity('Jamaica', 273),
+      _CountryDensity('Trinidad and Tobago', 272),
+      _CountryDensity('Qatar', 248),
+      _CountryDensity('Guadeloupe', 245),
+      _CountryDensity('Luxembourg', 241),
+      _CountryDensity('Germany', 240),
+      _CountryDensity('Kuwait', 239),
+      _CountryDensity('Gambia', 238),
+      _CountryDensity('Liechtenstein', 238),
+      _CountryDensity('Uganda', 228),
+      _CountryDensity('Sao Tome and Principe', 228),
+      _CountryDensity('Nigeria', 226),
+      _CountryDensity('Dominican Rep.', 224),
+      _CountryDensity('Antigua and Barbuda', 222),
+      _CountryDensity('Switzerland', 219),
+      _CountryDensity('Dem. Rep. Korea', 214),
+      _CountryDensity('Seychelles', 213),
+      _CountryDensity('Italy', 205),
+      _CountryDensity('Saint Kitts and Nevis', 204),
+      _CountryDensity('Nepal', 203),
+      _CountryDensity('Malawi', 202),
+      _CountryDensity('British Virgin Islands', 201),
+      _CountryDensity('Guatemala', 167),
+      _CountryDensity('Anguilla', 166),
+      _CountryDensity('Andorra', 164),
+      _CountryDensity('Micronesia', 164),
+      _CountryDensity('China', 153),
+      _CountryDensity('Togo', 152),
+      _CountryDensity('Indonesia', 151),
+      _CountryDensity('Isle of Man', 149),
+      _CountryDensity('Kiribati', 147),
+      _CountryDensity('Tonga', 146),
+      _CountryDensity('Czech Rep.', 138),
+      _CountryDensity('Cabo Verde', 138),
+      _CountryDensity('Thailand', 136),
+      _CountryDensity('Ghana', 136),
+      _CountryDensity('Denmark', 136),
+      _CountryDensity('Tokelau', 135),
+      _CountryDensity('Cyprus', 130),
+      _CountryDensity('Northern Mariana Islands', 125),
+      _CountryDensity('Poland', 123),
+      _CountryDensity('Moldova', 122),
+      _CountryDensity('Azerbaijan', 122),
+      _CountryDensity('France', 119),
+      _CountryDensity('United Arab Emirates', 118),
+      _CountryDensity('Ethiopia', 115),
+      _CountryDensity('Jordan', 114),
+      _CountryDensity('Slovakia', 113),
+      _CountryDensity('Portugal', 111),
+      _CountryDensity('Sierra Leone', 110),
+      _CountryDensity('Turkey', 109),
+      _CountryDensity('Austria', 109),
+      _CountryDensity('Benin', 107),
+      _CountryDensity('Hungary', 106),
+      _CountryDensity('Cuba', 106),
+      _CountryDensity('Albania', 105),
+      _CountryDensity('Armenia', 104),
+      _CountryDensity('Slovenia', 103),
+      _CountryDensity('Egypt', 102),
+      _CountryDensity('Serbia', 99),
+      _CountryDensity('Costa Rica', 99),
+      _CountryDensity('Malaysia', 98),
+      _CountryDensity('Dominica', 95),
+      _CountryDensity('Syria', 95),
+      _CountryDensity('Cambodia', 94),
+      _CountryDensity('Kenya', 94),
+      _CountryDensity('Spain', 93),
+      _CountryDensity('Iraq', 92),
+      _CountryDensity('Timor-Leste', 88),
+      _CountryDensity('Honduras', 88),
+      _CountryDensity('Senegal', 86),
+      _CountryDensity('Romania', 83),
+      _CountryDensity('Myanmar', 83),
+      _CountryDensity('Brunei Darussalam', 83),
+      _CountryDensity("Côte d'Ivoire", 82),
+      _CountryDensity('Morocco', 82),
+      _CountryDensity('Macedonia', 82),
+      _CountryDensity('Greece', 80),
+      _CountryDensity('Wallis and Futuna Islands', 80),
+      _CountryDensity('Bonaire, Sint Eustatius and Saba', 79),
+      _CountryDensity('Uzbekistan', 78),
+      _CountryDensity('French Polynesia', 76),
+      _CountryDensity('Burkina Faso', 76),
+      _CountryDensity('Tunisia', 76),
+      _CountryDensity('Ukraine', 75),
+      _CountryDensity('Croatia', 73),
+      _CountryDensity('Cook Islands', 73),
+      _CountryDensity('Ireland', 71),
+      _CountryDensity('Ecuador', 71),
+      _CountryDensity('Lesotho', 70),
+      _CountryDensity('Samoa', 70),
+      _CountryDensity('Guinea-Bissau', 69),
+      _CountryDensity('Tajikistan', 68),
+      _CountryDensity('Eswatini', 67),
+      _CountryDensity('Tanzania', 67),
+      _CountryDensity('Mexico', 66),
+      _CountryDensity('Bosnia and Herz.', 64),
+      _CountryDensity('Bulgaria', 64),
+      _CountryDensity('Afghanistan', 59),
+      _CountryDensity('Panama', 58),
+      _CountryDensity('Georgia', 57),
+      _CountryDensity('Yemen', 56),
+      _CountryDensity('Cameroon', 56),
+      _CountryDensity('Nicaragua', 55),
+      _CountryDensity('Guinea', 53),
+      _CountryDensity('Liberia', 52),
+      _CountryDensity('Iran', 51),
+      _CountryDensity('Eq. Guinea', 50),
+      _CountryDensity('Montserrat', 49),
+      _CountryDensity('Fiji', 49),
+      _CountryDensity('South Africa', 48),
+      _CountryDensity('Madagascar', 47),
+      _CountryDensity('Montenegro', 46),
+      _CountryDensity('Belarus', 46),
+      _CountryDensity('Colombia', 45),
+      _CountryDensity('Lithuania', 43),
+      _CountryDensity('Djibouti', 42),
+      _CountryDensity('Turks and Caicos Islands', 40),
+      _CountryDensity('Mozambique', 39),
+      _CountryDensity('Dem. Rep. Congo', 39),
+      _CountryDensity('Palau', 39),
+      _CountryDensity('Bahamas', 39),
+      _CountryDensity('Zimbabwe', 38),
+      _CountryDensity('United States of America', 36),
+      _CountryDensity('Eritrea', 35),
+      _CountryDensity('Faroe Islands', 35),
+      _CountryDensity('Kyrgyzstan', 34),
+      _CountryDensity('Venezuela', 32),
+      _CountryDensity('Lao PDR', 31),
+      _CountryDensity('Estonia', 31),
+      _CountryDensity('Latvia', 30),
+      _CountryDensity('Angola', 26),
+      _CountryDensity('Peru', 25),
+      _CountryDensity('Chile', 25),
+      _CountryDensity('Brazil', 25),
+      _CountryDensity('Somalia', 25),
+      _CountryDensity('Vanuatu', 25),
+      _CountryDensity('Saint Pierre and Miquelon', 25),
+      _CountryDensity('Sudan', 24),
+      _CountryDensity('Zambia', 24),
+      _CountryDensity('Sweden', 24),
+      _CountryDensity('Solomon Islands', 24),
+      _CountryDensity('Bhutan', 20),
+      _CountryDensity('Uruguay', 19),
+      _CountryDensity('Papua New Guinea', 19),
+      _CountryDensity('Niger', 19),
+      _CountryDensity('Algeria', 18),
+      _CountryDensity('S. Sudan', 18),
+      _CountryDensity('New Zealand', 18),
+      _CountryDensity('Finland', 18),
+      _CountryDensity('Paraguay', 17),
+      _CountryDensity('Belize', 17),
+      _CountryDensity('Mali', 16),
+      _CountryDensity('Argentina', 16),
+      _CountryDensity('Oman', 16),
+      _CountryDensity('Saudi Arabia', 16),
+      _CountryDensity('Congo', 16),
+      _CountryDensity('New Caledonia', 15),
+      _CountryDensity('Saint Helena', 15),
+      _CountryDensity('Norway', 14),
+      _CountryDensity('Chad', 13),
+      _CountryDensity('Turkmenistan', 12),
+      _CountryDensity('Bolivia', 10),
+      _CountryDensity('Russia', 8),
+      _CountryDensity('Gabon', 8),
+      _CountryDensity('Central African Rep.', 7),
+      _CountryDensity('Kazakhstan', 6),
+      _CountryDensity('Niue', 6),
+      _CountryDensity('Mauritania', 4),
+      _CountryDensity('Canada', 4),
+      _CountryDensity('Botswana', 4),
+      _CountryDensity('Guyana', 3),
+      _CountryDensity('Libya', 3),
+      _CountryDensity('Suriname', 3),
+      _CountryDensity('French Guiana', 3),
+      _CountryDensity('Iceland', 3),
+      _CountryDensity('Australia', 3),
+      _CountryDensity('Namibia', 3),
+      _CountryDensity('W. Sahara', 2),
+      _CountryDensity('Mongolia', 2),
+      _CountryDensity('Falkland Is.', 0.2),
+      _CountryDensity('Greenland', 0.1),
     ];
+
+    _mapSource = MapShapeSource.asset(
+      // Path of the GeoJSON file.
+      'assets/world_map.json',
+      // Field or group name in the .json file
+      // to identify the shapes.
+      //
+      // Which is used to map the respective
+      // shape to data source.
+      //
+      // On the basis of this value,
+      // shape tooltip text is rendered.
+      shapeDataField: 'name',
+      // The number of data in your data source collection.
+      //
+      // The callback for the [primaryValueMapper]
+      // will be called the number of times equal
+      // to the [dataCount].
+      // The value returned in the [primaryValueMapper]
+      // should be exactly matched with the value of the
+      // [shapeDataField] in the .json file. This is how
+      // the mapping between the data source and the shapes
+      // in the .json file is done.
+      dataCount: _worldPopulationDensity.length,
+      primaryValueMapper: (int index) =>
+          _worldPopulationDensity[index].countryName,
+      // Used for color mapping.
+      //
+      // The value of the [MapColorMapper.from]
+      // and [MapColorMapper.to]
+      // will be compared with the value returned in the
+      // [shapeColorValueMapper] and the respective
+      // [MapColorMapper.color] will be applied to the shape.
+      shapeColorValueMapper: (int index) =>
+          _worldPopulationDensity[index].density,
+      // Group and differentiate the shapes using the color
+      // based on [MapColorMapper.from] and
+      //[MapColorMapper.to] value.
+      //
+      // The value of the [MapColorMapper.from] and
+      // [MapColorMapper.to] will be compared with the value
+      // returned in the [shapeColorValueMapper] and
+      // the respective [MapColorMapper.color] will be applied
+      // to the shape.
+      //
+      // [MapColorMapper.text] which is used for the text of
+      // legend item and [MapColorMapper.color] will be used for
+      // the color of the legend icon respectively.
+      shapeColorMappers: const <MapColorMapper>[
+        MapColorMapper(
+            from: 0,
+            to: 100,
+            color: Color.fromRGBO(128, 159, 255, 1),
+            text: '{0},{100}'),
+        MapColorMapper(
+            from: 100,
+            to: 500,
+            color: Color.fromRGBO(51, 102, 255, 1),
+            text: '500'),
+        MapColorMapper(
+            from: 500,
+            to: 1000,
+            color: Color.fromRGBO(0, 57, 230, 1),
+            text: '1k'),
+        MapColorMapper(
+            from: 1000,
+            to: 5000,
+            color: Color.fromRGBO(0, 45, 179, 1),
+            text: '5k'),
+        MapColorMapper(
+            from: 5000,
+            to: 50000,
+            color: Color.fromRGBO(0, 26, 102, 1),
+            text: '50k'),
+      ],
+    );
   }
 
   @override
   void dispose() {
-    _worldPopulationDensityDetails?.clear();
+    _worldPopulationDensity.clear();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
-        ? _getMapsWidget()
-        : SingleChildScrollView(child: _getMapsWidget());
+            model.isWebFullView
+        ? _buildMapsWidget()
+        : SingleChildScrollView(child: _buildMapsWidget());
   }
 
-  Widget _getMapsWidget() {
+  Widget _buildMapsWidget() {
     return Center(
-      child: Padding(
-        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                model.isWeb
-            ? EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.05,
-                bottom: MediaQuery.of(context).size.height * 0.05,
-                right: 10)
-            : const EdgeInsets.only(right: 10, bottom: 15),
-        child: SfMapsTheme(
-          data: SfMapsThemeData(
-            shapeHoverColor: Color.fromRGBO(176, 237, 131, 1),
-          ),
-          child: SfMaps(
-            title: const MapTitle(
-              'World Population Density (per sq. km.)',
-              padding: EdgeInsets.only(top: 15, bottom: 30),
-            ),
-            layers: <MapLayer>[
-              MapShapeLayer(
-                loadingBuilder: (BuildContext context) {
-                  return Container(
-                    height: 25,
-                    width: 25,
-                    child: const CircularProgressIndicator(
-                      strokeWidth: 3,
-                    ),
-                  );
-                },
-                source: MapShapeSource.asset(
-                  // Path of the GeoJSON file.
-                  'assets/world_map.json',
-                  // Field or group name in the .json file
-                  // to identify the shapes.
-                  //
-                  // Which is used to map the respective
-                  // shape to data source.
-                  //
-                  // On the basis of this value,
-                  // shape tooltip text is rendered.
-                  shapeDataField: 'name',
-                  // The number of data in your data source collection.
-                  //
-                  // The callback for the [primaryValueMapper]
-                  // will be called the number of times equal
-                  // to the [dataCount].
-                  // The value returned in the [primaryValueMapper]
-                  // should be exactly matched with the value of the
-                  // [shapeDataField] in the .json file. This is how
-                  // the mapping between the data source and the shapes
-                  // in the .json file is done.
-                  dataCount: _worldPopulationDensityDetails.length,
-                  primaryValueMapper: (int index) =>
-                      _worldPopulationDensityDetails[index].countryName,
-                  // Used for color mapping.
-                  //
-                  // The value of the [MapColorMapper.from]
-                  // and [MapColorMapper.to]
-                  // will be compared with the value returned in the
-                  // [shapeColorValueMapper] and the respective
-                  // [MapColorMapper.color] will be applied to the shape.
-                  shapeColorValueMapper: (int index) =>
-                      _worldPopulationDensityDetails[index].density,
-                  // Group and differentiate the shapes using the color
-                  // based on [MapColorMapper.from] and
-                  //[MapColorMapper.to] value.
-                  //
-                  // The value of the [MapColorMapper.from] and
-                  // [MapColorMapper.to] will be compared with the value
-                  // returned in the [shapeColorValueMapper] and
-                  // the respective [MapColorMapper.color] will be applied
-                  // to the shape.
-                  //
-                  // [MapColorMapper.text] which is used for the text of
-                  // legend item and [MapColorMapper.color] will be used for
-                  // the color of the legend icon respectively.
-                  shapeColorMappers: const <MapColorMapper>[
-                    MapColorMapper(
-                        from: 0,
-                        to: 100,
-                        color: Color.fromRGBO(128, 159, 255, 1),
-                        text: '{0},{100}'),
-                    MapColorMapper(
-                        from: 100,
-                        to: 500,
-                        color: Color.fromRGBO(51, 102, 255, 1),
-                        text: '500'),
-                    MapColorMapper(
-                        from: 500,
-                        to: 1000,
-                        color: Color.fromRGBO(0, 57, 230, 1),
-                        text: '1k'),
-                    MapColorMapper(
-                        from: 1000,
-                        to: 5000,
-                        color: Color.fromRGBO(0, 45, 179, 1),
-                        text: '5k'),
-                    MapColorMapper(
-                        from: 5000,
-                        to: 50000,
-                        color: Color.fromRGBO(0, 26, 102, 1),
-                        text: '50k'),
-                  ],
-                ),
-                // Returns the custom tooltip for each shape.
-                shapeTooltipBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                        _worldPopulationDensityDetails[index].countryName +
-                            ' : ' +
-                            _numberFormat
-                                .format(_worldPopulationDensityDetails[index]
-                                    .density)
-                                .toString() +
-                            ' per sq. km.',
-                        style: Theme.of(context).textTheme.caption.copyWith(
-                            color: Theme.of(context).colorScheme.surface)),
-                  );
-                },
-                strokeColor: Colors.white30,
-                legend: MapLegend.bar(MapElement.shape,
-                    position: MapLegendPosition.bottom,
-                    overflowMode: MapLegendOverflowMode.wrap,
-                    labelsPlacement: MapLegendLabelsPlacement.betweenItems,
-                    padding: EdgeInsets.only(top: 15),
-                    spacing: 1.0,
-                    segmentSize: Size(55.0, 9.0)),
-                tooltipSettings: MapTooltipSettings(
-                    color: model.themeData.brightness == Brightness.light
-                        ? const Color.fromRGBO(0, 32, 128, 1)
-                        : const Color.fromRGBO(226, 233, 255, 1),
-                    strokeColor: model.themeData.brightness == Brightness.light
-                        ? Colors.white
-                        : Colors.black),
-              ),
-            ],
-          ),
+        child: Padding(
+      padding: MediaQuery.of(context).orientation == Orientation.portrait ||
+              model.isWebFullView
+          ? EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.05,
+              bottom: MediaQuery.of(context).size.height * 0.05,
+              right: 10)
+          : const EdgeInsets.only(right: 10, bottom: 15),
+      child: SfMapsTheme(
+        data: SfMapsThemeData(
+          shapeHoverColor: Color.fromRGBO(176, 237, 131, 1),
         ),
+        child: Column(children: [
+          Padding(
+              padding: EdgeInsets.only(top: 15, bottom: 30),
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Text('World Population Density (per sq. km.)',
+                      style: Theme.of(context).textTheme.subtitle1))),
+          Expanded(
+            child: SfMaps(
+              layers: <MapLayer>[
+                MapShapeLayer(
+                  loadingBuilder: (BuildContext context) {
+                    return Container(
+                      height: 25,
+                      width: 25,
+                      child: const CircularProgressIndicator(
+                        strokeWidth: 3,
+                      ),
+                    );
+                  },
+                  source: _mapSource,
+                  // Returns the custom tooltip for each shape.
+                  shapeTooltipBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                          _worldPopulationDensity[index].countryName +
+                              ' : ' +
+                              _numberFormat
+                                  .format(
+                                      _worldPopulationDensity[index].density)
+                                  .toString() +
+                              ' per sq. km.',
+                          style: Theme.of(context).textTheme.caption!.copyWith(
+                              color: Theme.of(context).colorScheme.surface)),
+                    );
+                  },
+                  strokeColor: Colors.white30,
+                  legend: MapLegend.bar(MapElement.shape,
+                      position: MapLegendPosition.bottom,
+                      overflowMode: MapLegendOverflowMode.wrap,
+                      labelsPlacement: MapLegendLabelsPlacement.betweenItems,
+                      padding: EdgeInsets.only(top: 15),
+                      spacing: 1.0,
+                      segmentSize: Size(55.0, 9.0)),
+                  tooltipSettings: MapTooltipSettings(
+                      color: model.themeData.brightness == Brightness.light
+                          ? const Color.fromRGBO(0, 32, 128, 1)
+                          : const Color.fromRGBO(226, 233, 255, 1),
+                      strokeColor:
+                          model.themeData.brightness == Brightness.light
+                              ? Colors.white
+                              : Colors.black),
+                ),
+              ],
+            ),
+          )
+        ]),
       ),
-    );
+    ));
   }
 }
 
-class _CountryDensityModel {
-  _CountryDensityModel(this.countryName, this.density);
+class _CountryDensity {
+  _CountryDensity(this.countryName, this.density);
 
   final String countryName;
   final double density;

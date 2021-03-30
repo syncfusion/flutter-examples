@@ -28,11 +28,11 @@ class _GaugeTemperatureMonitorExampleState extends SampleViewState {
       _interval =
           MediaQuery.of(context).orientation == Orientation.portrait ? 10 : 20;
     });
-    return _getTemperatureMonitorExample();
+    return _buildTemperatureMonitorExample();
   }
 
   /// Returns the gauge temperature monitor
-  SfRadialGauge _getTemperatureMonitorExample() {
+  SfRadialGauge _buildTemperatureMonitorExample() {
     return SfRadialGauge(
       animationDuration: 3500,
       enableLoadingAnimation: true,
@@ -45,7 +45,7 @@ class _GaugeTemperatureMonitorExampleState extends SampleViewState {
             interval: isCardView ? 20 : _interval,
             minorTicksPerInterval: 9,
             showAxisLine: false,
-            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             labelOffset: 8,
             ranges: <GaugeRange>[
               GaugeRange(

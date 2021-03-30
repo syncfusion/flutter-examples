@@ -9,6 +9,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the radial slider thumb customization.
 class RadialSliderThumb extends SampleView {
+  /// Creates radial slider thumb customization.
   const RadialSliderThumb(Key key) : super(key: key);
 
   @override
@@ -31,76 +32,50 @@ class _RadialSliderThumbState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size = model.isWeb
+      _size = model.isWebFullView
           ? MediaQuery.of(context).size.height / 3.5
           : MediaQuery.of(context).size.height / 5;
       return Center(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: !model.isWeb
-            ? [
-                getSliderWithCircle(),
-                Center(child: Text('Circle thumb')),
-                getSliderWithRectangle(),
-                Center(child: Text('Rectangle thumb')),
-                getSliderWithImage(),
-                Center(child: Text('Image thumb')),
-              ]
-            : [
-                getSliderWithCircle(),
-                Center(child: Text('Circle thumb')),
-                getSliderWithRectangle(),
-                Center(child: Text('Rectangle thumb'))
-              ],
-      ));
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+            _buildSliderWithCircle(),
+            Center(child: Text('Circle thumb')),
+            _buildSliderWithRectangle(),
+            Center(child: Text('Rectangle thumb')),
+            _buildSliderWithImage(),
+            Center(child: Text('Image thumb')),
+          ]));
     } else {
       _size = MediaQuery.of(context).size.width / 4.5;
       return Center(
           child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: !model.isWeb
-            ? [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithCircle(),
-                      Center(child: Text('Circle thumb')),
-                    ]),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithRectangle(),
-                      Center(child: Text('Rectangle thumb')),
-                    ]),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithImage(),
-                      Center(child: Text('Image thumb')),
-                    ]),
-              ]
-            : [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithCircle(),
-                      Center(child: Text('Circle thumb')),
-                    ]),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      getSliderWithRectangle(),
-                      Center(child: Text('Rectangle thumb')),
-                    ]),
-              ],
-      ));
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildSliderWithCircle(),
+                  Center(child: Text('Circle thumb')),
+                ]),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildSliderWithRectangle(),
+                  Center(child: Text('Rectangle thumb')),
+                ]),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildSliderWithImage(),
+                  Center(child: Text('Image thumb')),
+                ]),
+          ]));
     }
   }
 
@@ -110,7 +85,7 @@ class _RadialSliderThumbState extends SampleViewState {
   }
 
   /// Returns gradient progress style circular progress bar.
-  Widget getSliderWithCircle() {
+  Widget _buildSliderWithCircle() {
     return Container(
         height: _size,
         width: _size,
@@ -130,18 +105,20 @@ class _RadialSliderThumbState extends SampleViewState {
                     value: _progressValue1,
                     width: 0.1,
                     sizeUnit: GaugeSizeUnit.factor,
-                    color: model.isWeb ? Color.fromRGBO(197, 91, 226, 1) : null,
-                    gradient: model.isWeb
-                        ? null
-                        : SweepGradient(colors: <Color>[
-                            const Color.fromRGBO(197, 91, 226, 1),
-                            const Color.fromRGBO(115, 67, 189, 1)
-                          ], stops: <double>[
-                            0.5,
-                            1
-                          ])),
+                    color: model.isWebFullView
+                        ? Color.fromRGBO(197, 91, 226, 1)
+                        : null,
+                    gradient: SweepGradient(colors: <Color>[
+                      const Color.fromRGBO(197, 91, 226, 1),
+                      const Color.fromRGBO(115, 67, 189, 1)
+                    ], stops: <double>[
+                      0.5,
+                      1
+                    ])),
                 MarkerPointer(
                   value: _progressValue1,
+                  elevation: 5,
+                  overlayRadius: 0,
                   markerType: MarkerType.circle,
                   markerHeight: 25,
                   markerWidth: 25,
@@ -160,7 +137,7 @@ class _RadialSliderThumbState extends SampleViewState {
   }
 
   /// Returns gradient progress style circular progress bar.
-  Widget getSliderWithRectangle() {
+  Widget _buildSliderWithRectangle() {
     return Container(
         height: _size,
         width: _size,
@@ -180,18 +157,20 @@ class _RadialSliderThumbState extends SampleViewState {
                     value: _progressValue2,
                     width: 0.1,
                     sizeUnit: GaugeSizeUnit.factor,
-                    color: model.isWeb ? Color.fromRGBO(197, 91, 226, 1) : null,
-                    gradient: model.isWeb
-                        ? null
-                        : SweepGradient(colors: <Color>[
-                            const Color.fromRGBO(197, 91, 226, 1),
-                            const Color.fromRGBO(115, 67, 189, 1)
-                          ], stops: <double>[
-                            0.5,
-                            1
-                          ])),
+                    color: model.isWebFullView
+                        ? Color.fromRGBO(197, 91, 226, 1)
+                        : null,
+                    gradient: SweepGradient(colors: <Color>[
+                      const Color.fromRGBO(197, 91, 226, 1),
+                      const Color.fromRGBO(115, 67, 189, 1)
+                    ], stops: <double>[
+                      0.5,
+                      1
+                    ])),
                 MarkerPointer(
                   value: _progressValue2,
+                  elevation: 5,
+                  overlayRadius: 0,
                   markerType: MarkerType.rectangle,
                   markerHeight: 25,
                   markerWidth: 25,
@@ -210,7 +189,7 @@ class _RadialSliderThumbState extends SampleViewState {
   }
 
   /// Returns gradient progress style circular progress bar.
-  Widget getSliderWithImage() {
+  Widget _buildSliderWithImage() {
     return Container(
         height: _size,
         width: _size,
@@ -230,21 +209,20 @@ class _RadialSliderThumbState extends SampleViewState {
                     value: _progressValue3,
                     width: 0.1,
                     sizeUnit: GaugeSizeUnit.factor,
-                    gradient: model.isWeb
-                        ? null
-                        : SweepGradient(colors: <Color>[
-                            const Color.fromRGBO(197, 91, 226, 1),
-                            const Color.fromRGBO(115, 67, 189, 1)
-                          ], stops: <double>[
-                            0.5,
-                            1
-                          ])),
+                    gradient: SweepGradient(colors: <Color>[
+                      const Color.fromRGBO(197, 91, 226, 1),
+                      const Color.fromRGBO(115, 67, 189, 1)
+                    ], stops: <double>[
+                      0.5,
+                      1
+                    ])),
                 MarkerPointer(
                   value: _progressValue3,
+                  elevation: 5,
                   markerType: MarkerType.image,
                   imageUrl: 'images/ball.png',
-                  markerHeight: model.isWeb ? 15 : 30,
-                  markerWidth: model.isWeb ? 15 : 30,
+                  markerHeight: model.isWebFullView ? 30 : 30,
+                  markerWidth: model.isWebFullView ? 30 : 30,
                   enableDragging: true,
                   onValueChanged: handleThirdPointerValueChanged,
                   onValueChanging: handleThirdPointerValueChanging,

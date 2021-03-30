@@ -23,17 +23,23 @@ class _SortingDefaultState extends SampleViewState {
   final List<String> _labelList = <String>['y', 'x'].toList();
   final List<String> _sortList =
       <String>['none', 'descending', 'ascending'].toList();
-  String _selectedType = 'y';
-  String _selectedSortType = 'none';
-  SortingOrder _sortingOrder = SortingOrder.none;
+  late String _selectedType;
+  late String _selectedSortType;
+  late SortingOrder _sortingOrder;
+  late TooltipBehavior _tooltipBehavior;
 
-  String _sortby = 'y';
+  late String _sortby;
 
   @override
   void initState() {
     _selectedType = 'y';
     _selectedSortType = 'none';
     _sortingOrder = SortingOrder.none;
+    _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        canShowMarker: false,
+        header: '',
+        format: 'point.x : point.y m');
     _sortby = 'y';
     super.initState();
   }
@@ -41,8 +47,9 @@ class _SortingDefaultState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(bottom: model.isWeb || !isCardView ? 0 : 60),
-        child: _getDefaultSortingChart());
+        padding: EdgeInsets.only(
+            bottom: model.isWebFullView || !isCardView ? 0 : 60),
+        child: _buildDefaultSortingChart());
   }
 
   @override
@@ -114,7 +121,7 @@ class _SortingDefaultState extends SampleViewState {
   }
 
   /// Returns the Cartesian chart with sorting options.
-  SfCartesianChart _getDefaultSortingChart() {
+  SfCartesianChart _buildDefaultSortingChart() {
     return SfCartesianChart(
       title: ChartTitle(text: "World's tallest buildings"),
       plotAreaBorderWidth: 0,
@@ -129,11 +136,7 @@ class _SortingDefaultState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultSortingSeries(),
-      tooltipBehavior: TooltipBehavior(
-          enable: true,
-          canShowMarker: false,
-          header: '',
-          format: 'point.x : point.y m'),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -152,7 +155,7 @@ class _SortingDefaultState extends SampleViewState {
         dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        sortingOrder: _sortingOrder ?? SortingOrder.none,
+        sortingOrder: _sortingOrder,
         dataLabelSettings: DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.auto),
         sortFieldValueMapper: (ChartSampleData sales, _) =>

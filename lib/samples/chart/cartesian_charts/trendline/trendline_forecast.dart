@@ -20,19 +20,21 @@ class TrendLineForecast extends SampleView {
 /// State class of the spline cahrt with trende forcasting.
 class _TrendLineForecastState extends SampleViewState {
   _TrendLineForecastState();
-  double _backwardForecastValue = 0.0;
-  double _forwardForecastValue = 0.0;
+  late double _backwardForecastValue;
+  late double _forwardForecastValue;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _backwardForecastValue = 0.0;
     _forwardForecastValue = 0.0;
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getTrendLineForecastChart();
+    return _buildTrendLineForecastChart();
   }
 
   @override
@@ -95,7 +97,7 @@ class _TrendLineForecastState extends SampleViewState {
   }
 
   /// Returns the spline chart with trendline forcating.
-  SfCartesianChart _getTrendLineForecastChart() {
+  SfCartesianChart _buildTrendLineForecastChart() {
     int j = 0;
     final List<ChartSampleData> trendLineData = <ChartSampleData>[];
     final List<double> yValue = <double>[
@@ -134,7 +136,7 @@ class _TrendLineForecastState extends SampleViewState {
                 ? ''
                 : 'Euro to USD yearly exchange rate - 1999 to 2019'),
         legend: Legend(isVisible: !isCardView),
-        tooltipBehavior: TooltipBehavior(enable: true),
+        tooltipBehavior: _tooltipBehavior,
         primaryXAxis:
             NumericAxis(majorGridLines: MajorGridLines(width: 0), interval: 2),
         primaryYAxis: NumericAxis(

@@ -20,18 +20,21 @@ class PlotBandRecurrence extends SampleView {
 /// State class of the column chart with plotband recurrrence.
 class _PlotBandRecurrenceState extends SampleViewState {
   _PlotBandRecurrenceState();
-  bool xAxis = false, yAxis = true;
+  bool? xAxis = false, yAxis = true;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     xAxis = false;
     yAxis = true;
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, canShowMarker: false, header: '');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getPlotBandRecurrenceChart();
+    return _buildPlotBandRecurrenceChart();
   }
 
   @override
@@ -54,9 +57,9 @@ class _PlotBandRecurrenceState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: xAxis,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
-                            xAxis = value;
+                            xAxis = value!;
                             stateSetter(() {});
                           });
                         }))
@@ -76,9 +79,9 @@ class _PlotBandRecurrenceState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: yAxis,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
-                            yAxis = value;
+                            yAxis = value!;
                             stateSetter(() {});
                           });
                         }))
@@ -91,7 +94,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
   }
 
   /// Returns the ccolumn chart with plot band recurrence.
-  SfCartesianChart _getPlotBandRecurrenceChart() {
+  SfCartesianChart _buildPlotBandRecurrenceChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'World pollution report'),
       legend: Legend(isVisible: !isCardView),
@@ -112,7 +115,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 isVisible: xAxis ?? false,
                 repeatEvery: 10,
                 sizeType: DateTimeIntervalType.years,
-                size: model.isWeb ? 3 : 5,
+                size: model.isWebFullView ? 3 : 5,
                 repeatUntil: DateTime(2010, 1, 1),
                 start: DateTime(1965, 1, 1),
                 end: DateTime(2010, 1, 1),
@@ -144,10 +147,9 @@ class _PlotBandRecurrenceState extends SampleViewState {
           majorGridLines: MajorGridLines(color: Colors.grey),
           majorTickLines: MajorTickLines(size: 0),
           axisLine: AxisLine(width: 0),
-          labelStyle: const TextStyle(fontSize: 0)),
+          labelStyle: const TextStyle(fontSize: 0, color: Colors.transparent)),
       series: _getPlotBandRecurrenceSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

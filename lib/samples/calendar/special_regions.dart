@@ -22,8 +22,7 @@ class SpecialRegionsCalendar extends SampleView {
 class _SpecialRegionsCalendarState extends SampleViewState {
   _SpecialRegionsCalendarState();
 
-  List<TimeRegion> regions;
-  CalendarController calendarController;
+  final CalendarController calendarController = CalendarController();
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.day,
     CalendarView.week,
@@ -33,26 +32,19 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     CalendarView.timelineWorkWeek
   ];
 
-  List<String> subjectCollection;
-  List<Color> colorCollection;
-  List<Appointment> _appointments;
-  _DataSource events;
+  List<TimeRegion> regions = <TimeRegion>[];
+  late _DataSource events;
 
   @override
   void initState() {
-    _appointments = <Appointment>[];
-    calendarController = CalendarController();
     calendarController.view = CalendarView.week;
-    _addAppointmentDetails();
-    _addAppointments();
-    events = _DataSource(_appointments);
-    _addRegions();
+    events = _DataSource(_getAppointments());
+    _updateRegions();
     super.initState();
   }
 
   /// Adds the special time region for the calendar with the required information
-  void _addRegions() {
-    regions = <TimeRegion>[];
+  void _updateRegions() {
     final DateTime date =
         DateTime.now().add(Duration(days: -DateTime.now().weekday));
     regions.add(TimeRegion(
@@ -113,9 +105,10 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     ));
   }
 
-  /// Creates the required appointment details as a list.
-  void _addAppointmentDetails() {
-    subjectCollection = <String>[];
+  /// Method that creates the collection the data source for calendar, with
+  /// required information.
+  List<Appointment> _getAppointments() {
+    final List<String> subjectCollection = <String>[];
     subjectCollection.add('General Meeting');
     subjectCollection.add('Plan Execution');
     subjectCollection.add('Project Plan');
@@ -127,7 +120,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     subjectCollection.add('Release updates');
     subjectCollection.add('Performance Check');
 
-    colorCollection = <Color>[];
+    final List<Color> colorCollection = <Color>[];
     colorCollection.add(const Color(0xFF0F8644));
     colorCollection.add(const Color(0xFF8B1FA9));
     colorCollection.add(const Color(0xFFD20100));
@@ -138,15 +131,12 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFFE47C73));
     colorCollection.add(const Color(0xFF636363));
     colorCollection.add(const Color(0xFF0A8043));
-  }
 
-  /// Method that creates the collection the data source for calendar, with
-  /// required information.
-  void _addAppointments() {
     final Random random = Random();
     final DateTime rangeStartDate =
         DateTime.now().add(const Duration(days: -(365 ~/ 2)));
     final DateTime rangeEndDate = DateTime.now().add(const Duration(days: 365));
+    final List<Appointment> appointments = <Appointment>[];
     for (DateTime i = rangeStartDate;
         i.isBefore(rangeEndDate);
         i = i.add(const Duration(days: 1))) {
@@ -157,12 +147,14 @@ class _SpecialRegionsCalendarState extends SampleViewState {
 
       final DateTime startDate = DateTime(date.year, date.month, date.day,
           (date.weekday % 2 == 0 ? 14 : 9) + random.nextInt(3), 0, 0);
-      _appointments.add(Appointment(
+      appointments.add(Appointment(
           subject: subjectCollection[random.nextInt(7)],
           startTime: startDate,
           endTime: startDate.add(const Duration(hours: 1)),
           color: colorCollection[random.nextInt(9)]));
     }
+
+    return appointments;
   }
 
   @override
@@ -207,9 +199,9 @@ class _SpecialRegionsCalendarState extends SampleViewState {
 
   /// Return the calendar widget based on the properties passed
   SfCalendar _getSpecialRegionCalendar(
-      {List<TimeRegion> regions, _DataSource dataSource}) {
+      {List<TimeRegion>? regions, _DataSource? dataSource}) {
     return SfCalendar(
-      showNavigationArrow: model.isWeb,
+      showNavigationArrow: model.isWebFullView,
       controller: calendarController,
       showDatePickerButton: true,
       allowedViews: _allowedViews,

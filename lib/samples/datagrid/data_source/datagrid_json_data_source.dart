@@ -1,91 +1,135 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'dart:convert';
 
-List<Product> _productList = [];
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_examples/model/sample_view.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Renders column type data grid
 class JsonDataSourceDataGrid extends SampleView {
   /// Creates column type data grid
-  const JsonDataSourceDataGrid({Key key}) : super(key: key);
+  const JsonDataSourceDataGrid({Key? key}) : super(key: key);
 
   @override
   _JsonDataSourceDataGridState createState() => _JsonDataSourceDataGridState();
 }
 
 class _JsonDataSourceDataGridState extends SampleViewState {
-  _JsonDataSourceDataGridState();
+  /// DataGridSource Required for SfDataGrid to obtain the row data.
+  final _JsonDataGridSource jsonDataGridSource = _JsonDataGridSource();
+
+  late bool isWebOrDesktop;
 
   Widget sampleWidget() => const JsonDataSourceDataGrid();
-
-  final _JsonDataGridSource _jsonDataGridSource = _JsonDataGridSource();
 
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = ([
       GridTextColumn(
-          mappingName: 'id',
-          softWrap: true,
-          overflow: TextOverflow.clip,
-          width: model.isWeb ? 135 : 90,
-          headerText: 'ID'),
+        columnName: 'id',
+        width: isWebOrDesktop ? 135 : 90,
+        label: Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'ID',
+            overflow: TextOverflow.clip,
+            softWrap: true,
+          ),
+        ),
+      ),
       GridTextColumn(
-          mappingName: 'contactName',
-          softWrap: true,
-          columnWidthMode:
-              model.isWeb ? ColumnWidthMode.auto : ColumnWidthMode.header,
-          overflow: TextOverflow.clip,
-          headerText: 'Contact Name'),
+        columnName: 'contactName',
+        width: 150,
+        label: Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Contact Name',
+            overflow: TextOverflow.clip,
+            softWrap: true,
+          ),
+        ),
+      ),
       GridTextColumn(
-          mappingName: 'companyName',
-          softWrap: true,
-          overflow: TextOverflow.clip,
-          width: model.isWeb ? 165 : 140,
-          headerText: 'Company'),
+        columnName: 'companyName',
+        width: isWebOrDesktop ? 165 : 140,
+        label: Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Company',
+            overflow: TextOverflow.clip,
+            softWrap: true,
+          ),
+        ),
+      ),
       GridTextColumn(
-          mappingName: 'city',
-          softWrap: true,
-          overflow: TextOverflow.clip,
-          width: model.isWeb ? 150 : 120,
-          headerText: 'City'),
+        columnName: 'city',
+        width: isWebOrDesktop ? 150 : 120,
+        label: Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'City',
+            overflow: TextOverflow.clip,
+            softWrap: true,
+          ),
+        ),
+      ),
       GridTextColumn(
-          mappingName: 'country',
-          softWrap: true,
-          overflow: TextOverflow.clip,
-          width: model.isWeb ? 150 : 120,
-          headerText: 'Country'),
+        columnName: 'country',
+        width: isWebOrDesktop ? 150 : 120,
+        label: Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Country',
+            overflow: TextOverflow.clip,
+            softWrap: true,
+          ),
+        ),
+      ),
       GridTextColumn(
-          mappingName: 'designation',
-          softWrap: true,
-          overflow: TextOverflow.clip,
-          columnWidthMode: ColumnWidthMode.auto,
-          headerText: 'Job Title'),
+        columnName: 'designation',
+        width: 170,
+        label: Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Job Title',
+            overflow: TextOverflow.clip,
+            softWrap: true,
+          ),
+        ),
+      ),
       GridTextColumn(
-          mappingName: 'postalCode',
-          columnWidthMode: ColumnWidthMode.header,
-          headerText: 'Postal Code'),
+        columnName: 'postalCode',
+        width: 110,
+        label: Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: Text('Postal Code'),
+        ),
+      ),
       GridTextColumn(
-          mappingName: 'phoneNumber',
-          columnWidthMode: ColumnWidthMode.auto,
-          headerText: 'Phone Number')
+        columnName: 'phoneNumber',
+        width: 150,
+        label: Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: Text('Phone Number'),
+        ),
+      )
     ]);
     return columns;
-  }
-
-  generateProductList() async {
-    String responseBody =
-        await rootBundle.loadString("assets/product_data.json");
-    var list = json.decode(responseBody).cast<Map<String, dynamic>>();
-    _productList = list.map<Product>((json) => Product.fromJson(json)).toList();
   }
 
   @override
   void initState() {
     super.initState();
-    generateProductList();
+    isWebOrDesktop = (model.isWeb || model.isDesktop);
   }
 
   @override
@@ -95,28 +139,39 @@ class _JsonDataSourceDataGridState extends SampleViewState {
             future: Future<dynamic>.delayed(
                 Duration(milliseconds: 500), () => 'Loaded'),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return !_productList.isEmpty
-                  ? SfDataGrid(
-                      source: _jsonDataGridSource, columns: getColumns())
-                  : Center(
+              return jsonDataGridSource.products.isEmpty
+                  ? Center(
                       child: CircularProgressIndicator(
                         strokeWidth: 3,
                       ),
-                    );
+                    )
+                  : SfDataGrid(
+                      source: jsonDataGridSource, columns: getColumns());
             }));
   }
 }
 
-class Product {
-  Product(
-      {this.id,
-      this.contactName,
-      this.companyName,
-      this.city,
-      this.country,
-      this.designation,
-      this.postalCode,
-      this.phoneNumber});
+class _Product {
+  factory _Product.fromJson(Map<String, dynamic> json) {
+    return _Product(
+        id: json['id'],
+        contactName: json['contactName'],
+        companyName: json['companyName'],
+        city: json['city'],
+        country: json['country'],
+        designation: json['designation'],
+        postalCode: json['postalCode'],
+        phoneNumber: json['phoneNumber']);
+  }
+  _Product(
+      {required this.id,
+      required this.contactName,
+      required this.companyName,
+      required this.city,
+      required this.country,
+      required this.designation,
+      required this.postalCode,
+      required this.phoneNumber});
   final String id;
   final String contactName;
   final String companyName;
@@ -125,54 +180,76 @@ class Product {
   final String designation;
   final String postalCode;
   final String phoneNumber;
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-        id: json['id'] as String,
-        contactName: json['contactName'] as String,
-        companyName: json['companyName'] as String,
-        city: json['city'] as String,
-        country: json['country'] as String,
-        designation: json['designation'] as String,
-        postalCode: json['postalCode'] as String,
-        phoneNumber: json['phoneNumber'] as String);
-  }
 }
 
-class _JsonDataGridSource extends DataGridSource<Product> {
-  _JsonDataGridSource();
+class _JsonDataGridSource extends DataGridSource {
+  _JsonDataGridSource() {
+    populateData();
+  }
+
+  List<DataGridRow> dataGridRows = [];
+
+  List<_Product> products = [];
+
+  // Populate Data from the json file
+
+  Future<void> generateProductList() async {
+    final String responseBody =
+        await rootBundle.loadString('assets/product_data.json');
+    final list = await json.decode(responseBody).cast<Map<String, dynamic>>();
+    products =
+        await list.map<_Product>((json) => _Product.fromJson(json)).toList();
+  }
+
+  Future<void> populateData() async {
+    await generateProductList();
+    buildDataGridRow();
+  }
+
+  // Building DataGridRows
+
+  void buildDataGridRow() {
+    dataGridRows = products.map<DataGridRow>((dataGridRow) {
+      return DataGridRow(cells: [
+        DataGridCell<String>(columnName: 'id', value: dataGridRow.id),
+        DataGridCell<String>(
+            columnName: 'contactName', value: dataGridRow.contactName),
+        DataGridCell<String>(
+            columnName: 'companyName', value: dataGridRow.companyName),
+        DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
+        DataGridCell<String>(columnName: 'country', value: dataGridRow.country),
+        DataGridCell<String>(
+            columnName: 'designation', value: dataGridRow.designation),
+        DataGridCell<String>(
+            columnName: 'postalCode', value: dataGridRow.postalCode),
+        DataGridCell<String>(
+            columnName: 'phoneNumber', value: dataGridRow.phoneNumber),
+      ]);
+    }).toList(growable: false);
+  }
+
+  // Overrides
+
   @override
-  List<Product> get dataSource => _productList;
+  List<DataGridRow> get rows => dataGridRows;
+
   @override
-  Object getValue(Product _product, String columnName) {
-    switch (columnName) {
-      case 'id':
-        return _product.id;
-        break;
-      case 'companyName':
-        return _product.companyName;
-        break;
-      case 'contactName':
-        return _product.contactName;
-        break;
-      case 'city':
-        return _product.city;
-        break;
-      case 'country':
-        return _product.country;
-        break;
-      case 'designation':
-        return _product.designation;
-        break;
-      case 'postalCode':
-        return _product.postalCode;
-        break;
-      case 'phoneNumber':
-        return _product.phoneNumber;
-        break;
-      default:
-        return 'empty';
-        break;
-    }
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(
+        cells: row.getCells().map<Widget>((dataCell) {
+      if (dataCell.columnName == 'phoneNumber') {
+        return Container(
+            padding: EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: Text(dataCell.value.toString(), maxLines: 1));
+      } else {
+        return Container(
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: Text(dataCell.value.toString(),
+              maxLines: (dataCell.columnName == 'companyName') ? 1 : null),
+        );
+      }
+    }).toList());
   }
 }

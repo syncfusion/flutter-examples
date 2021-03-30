@@ -21,15 +21,15 @@ class _RadialBounceOutExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialBounceOutExample();
+    return _buildRadialBounceOutExample();
   }
 
   /// Returns the pointer bounce out animation gauge
-  SfRadialGauge _getRadialBounceOutExample() {
+  SfRadialGauge _buildRadialBounceOutExample() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-            radiusFactor: model.isWeb ? 0.85 : 0.98,
+            radiusFactor: model.isWebFullView ? 0.85 : 0.98,
             startAngle: 90,
             endAngle: 330,
             minimum: -8,

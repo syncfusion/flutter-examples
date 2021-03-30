@@ -19,14 +19,21 @@ class StackedBarChart extends SampleView {
 /// State class of the stacked bar chart.
 class _StackedBarChartState extends SampleViewState {
   _StackedBarChartState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getStackedBarChart();
+    return _buildStackedBarChart();
   }
 
   /// Reutrns the cartesian stacked bar chart.
-  SfCartesianChart _getStackedBarChart() {
+  SfCartesianChart _buildStackedBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 1,
       title: ChartTitle(text: isCardView ? '' : 'Sales comparison of fruits'),
@@ -39,8 +46,7 @@ class _StackedBarChartState extends SampleViewState {
           labelFormat: '{value}%',
           majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedBarSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

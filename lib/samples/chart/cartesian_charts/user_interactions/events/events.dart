@@ -24,6 +24,16 @@ class _EventsState extends SampleViewState {
   _EventsState();
   List<String> actionsList = [];
   final GlobalKey consoleKey = GlobalKey();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+      animationDuration: 0,
+      canShowMarker: false,
+      enable: true,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +42,7 @@ class _EventsState extends SampleViewState {
         ? Column(children: <Widget>[
             Expanded(
               flex: 6,
-              child: _getDefaultEventChart(),
+              child: _buildDefaultEventChart(),
             ),
             isCardView
                 ? Container()
@@ -55,14 +65,14 @@ class _EventsState extends SampleViewState {
                                               padding: EdgeInsets.fromLTRB(
                                                   10, 0, 0, 0),
                                               child: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
                                                   child: Text(
                                                     'Event Trace',
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold),
-                                                  ),
-                                                  alignment:
-                                                      Alignment.centerLeft))),
+                                                  )))),
                                       Expanded(
                                           child: Align(
                                               alignment: Alignment.centerRight,
@@ -71,11 +81,8 @@ class _EventsState extends SampleViewState {
                                                 icon: Icon(Icons.close),
                                                 onPressed: () {
                                                   actionsList.clear();
-                                                  (consoleKey.currentWidget
-                                                          as Console)
-                                                      .actionsList;
                                                   consoleKey.currentState
-                                                      .setState(() {});
+                                                      ?.setState(() {});
                                                 },
                                               ))),
                                     ],
@@ -92,7 +99,7 @@ class _EventsState extends SampleViewState {
         : Row(children: <Widget>[
             Expanded(
               flex: 6,
-              child: _getDefaultEventChart(),
+              child: _buildDefaultEventChart(),
             ),
             isCardView
                 ? Container()
@@ -115,14 +122,14 @@ class _EventsState extends SampleViewState {
                                               padding: EdgeInsets.fromLTRB(
                                                   10, 0, 0, 0),
                                               child: Align(
-                                                  child: Text(
-                                                    'Event Trace',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  alignment:
-                                                      Alignment.centerLeft))),
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  'Event Trace',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ))),
                                       Expanded(
                                           child: Align(
                                               alignment: Alignment.centerRight,
@@ -131,13 +138,8 @@ class _EventsState extends SampleViewState {
                                                 icon: Icon(Icons.close),
                                                 onPressed: () {
                                                   actionsList.clear();
-                                                  (consoleKey.currentWidget
-                                                          as Console)
-                                                      .actionsList;
-                                                  // _scrollController.jumpTo(0.0);
-                                                  // setState(() {});
                                                   consoleKey.currentState
-                                                      .setState(() {});
+                                                      ?.setState(() {});
                                                 },
                                               ))),
                                     ],
@@ -154,48 +156,49 @@ class _EventsState extends SampleViewState {
   }
 
   /// Get default column chart
-  SfCartesianChart _getDefaultEventChart() {
+  SfCartesianChart _buildDefaultEventChart() {
     return SfCartesianChart(
-      onAxisLabelRender: (AxisLabelRenderArgs args) {
+      axisLabelFormatter: (AxisLabelRenderDetails details) {
         if (!isCardView) {
-          actionsList.insert(0, 'Axis label (${args.text}) was rendered');
+          actionsList.insert(0, 'Axis label (${details.text}) was rendered');
         }
+        return ChartAxisLabel(details.text, null);
       },
       onAxisLabelTapped: (AxisLabelTapArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Axis label (${args.text}) was tapped');
-          (consoleKey.currentState as _ConsoleState).setState(() {});
+          (consoleKey.currentState)?.setState(() {});
         }
       },
       onDataLabelTapped: (DataLabelTapDetails args) {
         if (!isCardView) {
           actionsList.insert(0, 'Data label (${args.text}) was tapped');
-          (consoleKey.currentState as _ConsoleState).setState(() {});
+          (consoleKey.currentState)?.setState(() {});
         }
       },
       onPointTapped: (PointTapArgs args) {
         if (!isCardView) {
           actionsList.insert(
               0, 'Point (${args.pointIndex.toString()}) was tapped');
-          (consoleKey.currentState as _ConsoleState).setState(() {});
+          (consoleKey.currentState)?.setState(() {});
         }
       },
       onChartTouchInteractionDown: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Chart was tapped down');
-          (consoleKey.currentState as _ConsoleState).setState(() {});
+          (consoleKey.currentState)?.setState(() {});
         }
       },
       onChartTouchInteractionMove: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Moved on chart area');
-          (consoleKey.currentState as _ConsoleState).setState(() {});
+          (consoleKey.currentState)?.setState(() {});
         }
       },
       onLegendTapped: (LegendTapArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Legend was tapped');
-          (consoleKey.currentState as _ConsoleState).setState(() {});
+          (consoleKey.currentState)?.setState(() {});
         }
       },
       onMarkerRender: (MarkerRenderArgs args) {
@@ -203,8 +206,8 @@ class _EventsState extends SampleViewState {
           actionsList.insert(
               0, 'Marker (${args.pointIndex.toString()}) was rendered');
           if (args.pointIndex == 5) {
-            SchedulerBinding.instance.addPostFrameCallback((_) {
-              (consoleKey.currentState as _ConsoleState).setState(() {});
+            SchedulerBinding.instance?.addPostFrameCallback((_) {
+              (consoleKey.currentState)?.setState(() {});
             });
           }
         }
@@ -212,15 +215,15 @@ class _EventsState extends SampleViewState {
       onTooltipRender: (TooltipArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Tooltip (${args.text}) is showing');
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            (consoleKey.currentState as _ConsoleState).setState(() {});
+          SchedulerBinding.instance?.addPostFrameCallback((_) {
+            (consoleKey.currentState)?.setState(() {});
           });
         }
       },
       onChartTouchInteractionUp: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Chart was tapped up');
-          (consoleKey.currentState as _ConsoleState).setState(() {});
+          (consoleKey.currentState)?.setState(() {});
         }
       },
       onLegendItemRender: (LegendRenderArgs args) {
@@ -248,11 +251,7 @@ class _EventsState extends SampleViewState {
       legend: Legend(
           isVisible: isCardView ? false : true,
           position: LegendPosition.bottom),
-      tooltipBehavior: TooltipBehavior(
-        animationDuration: 0,
-        canShowMarker: false,
-        enable: true,
-      ),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -280,10 +279,12 @@ class _EventsState extends SampleViewState {
   }
 }
 
-class CustomColumnSeriesRenderer extends ColumnSeriesRenderer {}
-
+/// Renders the console for evets
 class Console extends StatefulWidget {
+  /// Creates the console for events
   Console(this.actionsList, Key consoleKey) : super(key: consoleKey);
+
+  /// collections of actions performed
   final List<String> actionsList;
   @override
   _ConsoleState createState() => _ConsoleState();
@@ -302,8 +303,11 @@ class _ConsoleState extends State<Console> {
     setState(() {});
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.withOpacity(0.4))),
       child: Padding(
           padding: EdgeInsets.all(5),
           child: ListView.separated(
@@ -320,8 +324,6 @@ class _ConsoleState extends State<Console> {
               );
             },
           )),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withOpacity(0.4))),
     );
   }
 }

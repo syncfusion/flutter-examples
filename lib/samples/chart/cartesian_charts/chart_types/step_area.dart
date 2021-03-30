@@ -23,12 +23,13 @@ class _StepAreaState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(bottom: model.isWeb || !isCardView ? 0 : 60),
-        child: _getStepAreaChart());
+        padding: EdgeInsets.only(
+            bottom: model.isWebFullView || !isCardView ? 0 : 60),
+        child: _buildStepAreaChart());
   }
 
   /// Returns the cartesian step area chart.
-  SfCartesianChart _getStepAreaChart() {
+  SfCartesianChart _buildStepAreaChart() {
     return SfCartesianChart(
       legend: Legend(isVisible: true),
       title: ChartTitle(text: 'Temperature variation of Paris'),

@@ -22,8 +22,8 @@ class BlackoutDatePicker extends SampleView {
 class _BlackoutDatePickerState extends SampleViewState {
   _BlackoutDatePickerState();
 
-  List<DateTime> _blackoutDates;
-  Orientation _deviceOrientation;
+  late List<DateTime> _blackoutDates;
+  late Orientation _deviceOrientation;
 
   @override
   void initState() {
@@ -55,10 +55,10 @@ class _BlackoutDatePickerState extends SampleViewState {
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     final Widget cardView = Card(
       elevation: 10,
-      margin: model.isWeb
+      margin: model.isWebFullView
           ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
           : const EdgeInsets.all(30),
       child: Container(
@@ -73,11 +73,11 @@ class _BlackoutDatePickerState extends SampleViewState {
         backgroundColor: model.themeData == null ||
                 model.themeData.brightness == Brightness.light
             ? null
-            : const Color(0x171A21),
+            : const Color(0x00171a21),
         body: Column(children: <Widget>[
           Expanded(
-              flex: model.isWeb ? 9 : 8,
-              child: model.isWeb
+              flex: model.isWebFullView ? 9 : 8,
+              child: model.isWebFullView
                   ? Center(
                       child:
                           Container(width: 400, height: 600, child: cardView))
@@ -88,7 +88,7 @@ class _BlackoutDatePickerState extends SampleViewState {
                       )
                     ])),
           Expanded(
-              flex: model.isWeb
+              flex: model.isWebFullView
                   ? 1
                   : model.isMobileResolution &&
                           _deviceOrientation == Orientation.landscape
@@ -106,7 +106,7 @@ class _BlackoutDatePickerState extends SampleViewState {
               color: Colors.red, decoration: TextDecoration.lineThrough)),
       monthViewSettings: DateRangePickerMonthViewSettings(
           showTrailingAndLeadingDates: true, blackoutDates: _blackoutDates),
-      showNavigationArrow: model.isWeb,
+      showNavigationArrow: model.isWebFullView,
     );
   }
 }

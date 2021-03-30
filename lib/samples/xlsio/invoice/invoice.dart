@@ -13,9 +13,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Create invoice Excel report
+/// Render XlsIO of invoice
 class InvoiceXlsIO extends SampleView {
-  /// Create invoice Excel report
+  /// Render XlsIO of invoice
   const InvoiceXlsIO(Key key) : super(key: key);
   @override
   _InvoiceXlsIOState createState() => _InvoiceXlsIOState();
@@ -36,16 +36,24 @@ class _InvoiceXlsIOState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  'This sample showcases how to create a simple Excel invoice with data, images, formulas, and cell formatting using XlsIO.',
+                  'This sample showcases on how to create a simple Excel invoice with data, image, formulas, and cell formatting using XlsIO.',
                   style: TextStyle(fontSize: 16, color: model.textColor)),
               const SizedBox(height: 20, width: 30),
               Align(
                   alignment: Alignment.center,
-                  child: FlatButton(
-                      child: const Text('Generate Excel',
-                          style: TextStyle(color: Colors.white)),
-                      color: model.backgroundColor,
-                      onPressed: _generateExcel))
+                  child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _generateExcel,
+                    child: const Text('Generate Excel',
+                        style: TextStyle(color: Colors.white)),
+                  ))
             ],
           ),
         ),
@@ -80,7 +88,7 @@ class _InvoiceXlsIOState extends SampleViewState {
     sheet.getRangeByName('B4').cellStyle.bold = true;
     sheet.getRangeByName('B4').cellStyle.fontSize = 32;
 
-    final CellStyle style1 = workbook.styles.add('style1');
+    final Style style1 = workbook.styles.add('style1');
     style1.borders.bottom.lineStyle = LineStyle.medium;
     style1.borders.bottom.color = '#AEAAAA';
 
@@ -221,16 +229,16 @@ class _InvoiceXlsIOState extends SampleViewState {
     range9.cellStyle.hAlign = HAlignType.center;
     range9.cellStyle.vAlign = VAlignType.center;
 
-    Picture picture =
+    final Picture picture =
         sheet.pictures.addStream(3, 4, await _readImageData('invoice.jpeg'));
     picture.lastRow = 7;
     picture.lastColumn = 8;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int>? bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.
-    await FileSaveHelper.saveAndLaunchFile(bytes, 'Invoice.xlsx');
+    await FileSaveHelper.saveAndLaunchFile(bytes!, 'Invoice.xlsx');
   }
 
   Future<List<int>> _readImageData(String name) async {

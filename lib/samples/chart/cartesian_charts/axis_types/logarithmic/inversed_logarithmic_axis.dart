@@ -21,26 +21,37 @@ class LogarithmicAxisInversed extends SampleView {
 /// State class of the stepline cahrt with inversed logarithmic axis sample.
 class _LogarithmicAxisInversedState extends SampleViewState {
   _LogarithmicAxisInversedState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        enable: true, format: 'point.y', header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getInversedLogarithmicAxisChart();
+    return _buildInversedLogarithmicAxisChart();
   }
 
   /// Returns the stepline chart with inversed logarithmic axis.
-  SfCartesianChart _getInversedLogarithmicAxisChart() {
+  SfCartesianChart _buildInversedLogarithmicAxisChart() {
     String text;
     return SfCartesianChart(
       onTooltipRender: (TooltipArgs args) {
         final NumberFormat format = NumberFormat.decimalPattern();
-        text = format.format(args.dataPoints[args.pointIndex].y).toString();
+        text = format
+            .format(args.dataPoints![args.pointIndex!.toInt()].y)
+            .toString();
         args.text = text;
       },
-      onAxisLabelRender: (AxisLabelRenderArgs args) {
+      axisLabelFormatter: (AxisLabelRenderDetails details) {
         final NumberFormat format = NumberFormat.decimalPattern();
-        if (args.axisName == 'primaryYAxis') {
-          args.text = format.format(double.parse(args.text)).toString();
-        }
+        return ChartAxisLabel(
+            details.axisName == 'primaryYAxis'
+                ? format.format(double.parse(details.text)).toString()
+                : details.text,
+            null);
       },
       plotAreaBorderWidth: 0,
       title:
@@ -59,8 +70,7 @@ class _LogarithmicAxisInversedState extends SampleViewState {
         interval: 1,
       ),
       series: _getInversedLogarithmicSeries(),
-      tooltipBehavior: TooltipBehavior(
-          enable: true, format: 'point.y', header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

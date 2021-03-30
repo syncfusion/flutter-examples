@@ -22,11 +22,11 @@ class _AreaVerticalState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getVerticalAreaChart();
+    return _buildVerticalAreaChart();
   }
 
   /// Returns the cartesian area chart in transposed form.
-  SfCartesianChart _getVerticalAreaChart() {
+  SfCartesianChart _buildVerticalAreaChart() {
     return SfCartesianChart(
       legend: Legend(
           isVisible: isCardView ? false : true,

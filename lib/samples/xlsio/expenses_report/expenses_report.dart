@@ -10,9 +10,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Create expenses report Excel report
+/// Render xlsio of expenses report
 class ExpensesReportXlsIO extends SampleView {
-  /// Create expenses report Excel report
+  /// Render xlsio of expenses report
   const ExpensesReportXlsIO(Key key) : super(key: key);
   @override
   _ExpensesReportXlsIOState createState() => _ExpensesReportXlsIOState();
@@ -33,16 +33,24 @@ class _ExpensesReportXlsIOState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  'The XlsIO package is a non-UI and reusable Flutter library to create Excel reports programmatically with formatted text, numbers, date time, number formats, cell styles, images, charts, and more.\r\n\r\nThis sample showcases how to create a simple Excel report for expenses with data, charts, formulas, and cell formatting using XlsIO.',
+                  'The XlsIO package is a non-UI and reusable flutter library to create Excel reports programmatically with formatted text, numbers, datetime, number formats, cell styles, images, charts and more.\r\n\r\nThis sample showcases on how to create a simple Excel report for expenses with data, chart, formulas, and cell formatting using XlsIO.',
                   style: TextStyle(fontSize: 16, color: model.textColor)),
               const SizedBox(height: 20, width: 30),
               Align(
                   alignment: Alignment.center,
-                  child: FlatButton(
-                      child: const Text('Generate Excel',
-                          style: TextStyle(color: Colors.white)),
-                      color: model.backgroundColor,
-                      onPressed: _generateExcel))
+                  child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _generateExcel,
+                    child: const Text('Generate Excel',
+                        style: TextStyle(color: Colors.white)),
+                  ))
             ],
           ),
         ),
@@ -68,13 +76,13 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     sheet1.getRangeByName('A1:A18').rowHeight = 20.2;
 
     //Adding cell style.
-    final CellStyle style1 = workbook.styles.add('Style1');
+    final Style style1 = workbook.styles.add('Style1');
     style1.backColor = '#D9E1F2';
     style1.hAlign = HAlignType.left;
     style1.vAlign = VAlignType.center;
     style1.bold = true;
 
-    final CellStyle style2 = workbook.styles.add('Style2');
+    final Style style2 = workbook.styles.add('Style2');
     style2.backColor = '#8EA9DB';
     style2.vAlign = VAlignType.center;
     style2.numberFormat = '[Red](\$#,###)';
@@ -157,10 +165,10 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     chart.rightColumn = 5;
     sheet1.charts = charts;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int>? bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.
-    await FileSaveHelper.saveAndLaunchFile(bytes, 'ExpensesReport.xlsx');
+    await FileSaveHelper.saveAndLaunchFile(bytes!, 'ExpensesReport.xlsx');
   }
 }

@@ -21,14 +21,26 @@ class AdIndicator extends SampleView {
 /// State class of the OHLC chart with Accumulation distribution indicator.
 class _AdIndicatorState extends SampleViewState {
   _AdIndicatorState();
+  late TrackballBehavior _trackballBehavior;
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    super.initState();
+    _trackballBehavior = TrackballBehavior(
+      enable: !isCardView,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+    );
+    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultAdIndicator();
+    return _buildDefaultAdIndicator();
   }
 
   /// Returns the OHLC chart with Accumulation distribution indicator.
-  SfCartesianChart _getDefaultAdIndicator() {
+  SfCartesianChart _buildDefaultAdIndicator() {
     final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
@@ -58,12 +70,8 @@ class _AdIndicatorState extends SampleViewState {
           numberFormat: NumberFormat.compact(),
         )
       ],
-      trackballBehavior: TrackballBehavior(
-        enable: !isCardView,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isCardView ? true : false),
+      trackballBehavior: _trackballBehavior,
+      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
         /// AD indicator mentioned here.
         AccumulationDistributionIndicator<ChartSampleData, DateTime>(

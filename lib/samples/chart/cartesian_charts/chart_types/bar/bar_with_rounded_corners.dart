@@ -19,14 +19,21 @@ class BarRounded extends SampleView {
 /// State class of the rounded bar chart.
 class _BarRoundedState extends SampleViewState {
   _BarRoundedState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getRoundedBarChart();
+    return _buildRoundedBarChart();
   }
 
   /// Returns the rounded cartesian bar chart.
-  SfCartesianChart _getRoundedBarChart() {
+  SfCartesianChart _buildRoundedBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -35,8 +42,7 @@ class _BarRoundedState extends SampleViewState {
       primaryYAxis: NumericAxis(
           minimum: -2, maximum: 2, majorTickLines: MajorTickLines(size: 0)),
       series: _getRoundedBarSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

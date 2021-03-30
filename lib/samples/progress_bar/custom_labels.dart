@@ -12,6 +12,7 @@ import '../../model/sample_view.dart';
 
 /// Widget of the AgendaView Calendar.
 class ProgressBarCustomLabels extends SampleView {
+  /// Creates progress bar with custom labels.
   const ProgressBarCustomLabels(Key key) : super(key: key);
 
   @override
@@ -23,7 +24,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
   _ProgressBarCustomLabelsState();
 
   double _size = 150;
-  Timer _timer;
+  late Timer _timer;
   double _value = 0;
   Widget _image1 = Container(
       height: 40,
@@ -88,7 +89,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size = model.isWeb
+      _size = model.isWebFullView
           ? MediaQuery.of(context).size.height / 6.5
           : MediaQuery.of(context).size.height / 5.5;
       return Center(

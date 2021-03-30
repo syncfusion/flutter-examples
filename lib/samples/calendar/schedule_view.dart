@@ -23,23 +23,18 @@ class ScheduleViewCalendar extends SampleView {
 class _ScheduleViewCalendarState extends SampleViewState {
   _ScheduleViewCalendarState();
 
-  List<String> subjectCollection;
-  List<Color> colorCollection;
-  List<Appointment> appointments;
-  _DataSource events;
+  late _DataSource events;
 
   @override
   void initState() {
-    appointments = <Appointment>[];
-    addAppointmentDetails();
-    addAppointments();
-    events = _DataSource(appointments);
+    events = _DataSource(_getAppointments());
     super.initState();
   }
 
-  /// Creates the required appointment details as a list.
-  void addAppointmentDetails() {
-    subjectCollection = <String>[];
+  /// Method that creates the collection the data source for calendar, with
+  /// required information.
+  List<Appointment> _getAppointments() {
+    final List<String> subjectCollection = <String>[];
     subjectCollection.add('General Meeting');
     subjectCollection.add('Plan Execution');
     subjectCollection.add('Project Plan');
@@ -50,7 +45,7 @@ class _ScheduleViewCalendarState extends SampleViewState {
     subjectCollection.add('Release updates');
     subjectCollection.add('Performance Check');
 
-    colorCollection = <Color>[];
+    final List<Color> colorCollection = <Color>[];
     colorCollection.add(const Color(0xFF0F8644));
     colorCollection.add(const Color(0xFF8B1FA9));
     colorCollection.add(const Color(0xFFD20100));
@@ -61,15 +56,12 @@ class _ScheduleViewCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFFE47C73));
     colorCollection.add(const Color(0xFF636363));
     colorCollection.add(const Color(0xFF0A8043));
-  }
 
-  /// Method that creates the collection the data source for calendar, with
-  /// required information.
-  void addAppointments() {
     final Random random = Random();
     final DateTime rangeStartDate =
         DateTime.now().add(const Duration(days: -(365 ~/ 2)));
     final DateTime rangeEndDate = DateTime.now().add(const Duration(days: 365));
+    final List<Appointment> appointments = <Appointment>[];
     for (DateTime i = rangeStartDate;
         i.isBefore(rangeEndDate);
         i = i.add(Duration(days: random.nextInt(10)))) {
@@ -98,6 +90,7 @@ class _ScheduleViewCalendarState extends SampleViewState {
         color: colorCollection[random.nextInt(9)],
         isAllDay: false,
         recurrenceRule: 'FREQ=DAILY;INTERVAL=10'));
+    return appointments;
   }
 
   @override
@@ -112,7 +105,7 @@ class _ScheduleViewCalendarState extends SampleViewState {
 
   /// returns the calendar widget based on the properties passed
   SfCalendar getScheduleViewCalendar(
-      {_DataSource events, dynamic scheduleViewBuilder}) {
+      {_DataSource? events, dynamic scheduleViewBuilder}) {
     return SfCalendar(
       showDatePickerButton: true,
       scheduleViewMonthHeaderBuilder: scheduleViewBuilder,

@@ -18,9 +18,9 @@ class DataMatrixGenerator extends SampleView {
 class _DataMatrixGeneratorState extends SampleViewState {
   _DataMatrixGeneratorState();
 
-  String _inputValue;
+  late String _inputValue;
 
-  TextEditingController _textEditingController;
+  late TextEditingController _textEditingController;
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _DataMatrixGeneratorState extends SampleViewState {
     _inputValue = 'http://www.syncfusion.com';
     _textEditingController = TextEditingController.fromValue(
       TextEditingValue(
-        text: model.isWeb ? 'http://www.syncfusion.com' : _inputValue,
+        text: model.isWebFullView ? 'http://www.syncfusion.com' : _inputValue,
       ),
     );
   }
@@ -40,20 +40,22 @@ class _DataMatrixGeneratorState extends SampleViewState {
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     EdgeInsets _padding = const EdgeInsets.all(0);
     double _margin;
-    if (!model.isWeb) {
+    if (!model.isWebFullView) {
       _margin = (MediaQuery.of(context).size.width -
               MediaQuery.of(context).size.width * 0.6) /
           2;
       _padding = EdgeInsets.fromLTRB(_margin, 0, _margin, 0);
     }
     return Scaffold(
-      backgroundColor: model.isWeb ? Colors.transparent : model.cardThemeColor,
+      backgroundColor:
+          model.isWebFullView ? Colors.transparent : model.cardThemeColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-        child: Container(child: _getDataMatrixGenerator(_inputValue, _padding)),
+        child:
+            Container(child: _buildDataMatrixGenerator(_inputValue, _padding)),
       ),
     );
   }
@@ -106,14 +108,14 @@ class _DataMatrixGeneratorState extends SampleViewState {
   }
 
   /// Returns the data matrix barcode generator
-  Widget _getDataMatrixGenerator([String _inputValue, EdgeInsets _padding]) {
+  Widget _buildDataMatrixGenerator(String _inputValue, EdgeInsets _padding) {
     return Center(
       child: Container(
-          height: model.isWeb ? 300 : double.infinity,
+          height: model.isWebFullView ? 300 : double.infinity,
           child: Padding(
-            padding: _padding ?? const EdgeInsets.all(30),
+            padding: _padding,
             child: SfBarcodeGenerator(
-              value: _inputValue ?? 'http://www.syncfusion.com',
+              value: _inputValue,
               textAlign: TextAlign.justify,
               textSpacing: 10,
               showValue: false,

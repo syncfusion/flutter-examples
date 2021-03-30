@@ -19,13 +19,23 @@ class NumericLabel extends SampleView {
 /// State class of numeric axis label format.
 class _NumericLabelState extends SampleViewState {
   _NumericLabelState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        header: '',
+        canShowMarker: false,
+        format: 'point.x / point.y');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return getChart();
+    return _buildChart();
   }
 
-  Widget getChart() {
+  Widget _buildChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title:
@@ -39,11 +49,7 @@ class _NumericLabelState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: getNumericLabelSeries(),
-      tooltipBehavior: TooltipBehavior(
-          enable: true,
-          header: '',
-          canShowMarker: false,
-          format: 'point.x / point.y'),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

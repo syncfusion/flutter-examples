@@ -10,7 +10,7 @@ import '../../model/sample_view.dart';
 /// Widget of the one dimensional barcodes.
 class OneDimensionalBarcodes extends SampleView {
   /// Creates one dimensional barcodes.
-  const OneDimensionalBarcodes({Key key}) : super(key: key);
+  const OneDimensionalBarcodes({Key? key}) : super(key: key);
   @override
   _OneDimensionalBarcodesState createState() => _OneDimensionalBarcodesState();
 }
@@ -19,7 +19,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
   _OneDimensionalBarcodesState();
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     EdgeInsets _padding = const EdgeInsets.fromLTRB(0, 20, 0, 0);
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       _padding = const EdgeInsets.fromLTRB(0, 20, 0, 0);
@@ -31,7 +31,8 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       _padding = EdgeInsets.fromLTRB(_margin, 20, _margin, 0);
     }
     return Scaffold(
-      backgroundColor: model.isWeb ? Colors.transparent : model.cardThemeColor,
+      backgroundColor:
+          model.isWebFullView ? Colors.transparent : model.cardThemeColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
         child: Padding(
@@ -48,12 +49,12 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: _getSampleWidget(context)),
+          children: _buildSampleWidget(context)),
     );
   }
 
   /// Returns the one dimensional barcodes for web view.
-  List<Widget> _getWidgetForWeb(BuildContext context) {
+  List<Widget> _buildWidgetForWeb(BuildContext context) {
     final ThemeData _themeData = Theme.of(context);
     final Color _color = _themeData.brightness == Brightness.dark
         ? const Color(0xFF666666)
@@ -297,7 +298,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
                       textSpacing: 3,
                       value: '123456',
                       showValue: true,
-                      symbology: UPCE(module: model.isWeb ? 2 : 1),
+                      symbology: UPCE(module: model.isWebFullView ? 2 : 1),
                     )),
                   )),
             ),
@@ -582,7 +583,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
   }
 
   /// Returns the one dimensional barcodes for mobile view.
-  List<Widget> _getWidgetForMobile(BuildContext context) {
+  List<Widget> _buildWidgetForMobile(BuildContext context) {
     final ThemeData _themeData = Theme.of(context);
     final Color _color = _themeData.brightness == Brightness.dark
         ? const Color(0xFF666666)
@@ -812,7 +813,6 @@ class _OneDimensionalBarcodesState extends SampleViewState {
                 child: Container(
                     child: SfBarcodeGenerator(
                   textAlign: TextAlign.justify,
-                  // backgroundColor: Colors.red,
                   textSpacing: 3,
                   value: '123456',
                   showValue: true,
@@ -855,7 +855,6 @@ class _OneDimensionalBarcodesState extends SampleViewState {
                       child: Container(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
-                          // backgroundColor: Colors.red,
                           textSpacing: 3,
                           value: '11223344',
                           showValue: true,
@@ -1096,9 +1095,9 @@ class _OneDimensionalBarcodesState extends SampleViewState {
     ];
   }
 
-  List<Widget> _getSampleWidget(BuildContext context) {
-    return model.isWeb
-        ? _getWidgetForWeb(context)
-        : _getWidgetForMobile(context);
+  List<Widget> _buildSampleWidget(BuildContext context) {
+    return model.isWebFullView
+        ? _buildWidgetForWeb(context)
+        : _buildWidgetForMobile(context);
   }
 }

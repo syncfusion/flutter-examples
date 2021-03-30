@@ -22,17 +22,25 @@ class EMAIndicator extends SampleView {
 /// State class of the OHLC chart with Exponential moving average indicator.
 class _EMAIndicatorState extends SampleViewState {
   _EMAIndicatorState();
-  double _period = 14.0;
+  late double _period;
+  late TrackballBehavior _trackballBehavior;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
-    _period = 14;
     super.initState();
+    _period = 14;
+    _trackballBehavior = TrackballBehavior(
+      enable: !isCardView,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+    );
+    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaulEMAIndicator();
+    return _buildDefaulEMAIndicator();
   }
 
   @override
@@ -63,7 +71,7 @@ class _EMAIndicatorState extends SampleViewState {
   }
 
   /// Returns the the OHLC chart with Exponential moving average indicator.
-  SfCartesianChart _getDefaulEMAIndicator() {
+  SfCartesianChart _buildDefaulEMAIndicator() {
     final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
@@ -81,16 +89,12 @@ class _EMAIndicatorState extends SampleViewState {
           interval: 20,
           labelFormat: '\${value}',
           axisLine: AxisLine(width: 0)),
-      trackballBehavior: TrackballBehavior(
-        enable: !isCardView,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isCardView ? true : false),
+      trackballBehavior: _trackballBehavior,
+      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
         /// EMA indicator mentioned here.
         EmaIndicator<ChartSampleData, DateTime>(
-            seriesName: 'AAPL', period: _period.toInt() ?? 14),
+            seriesName: 'AAPL', period: _period.toInt()),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <ChartSeries<ChartSampleData, DateTime>>[

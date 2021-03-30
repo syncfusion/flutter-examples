@@ -42,7 +42,7 @@ class _TrackballTemplateState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getTrackballTemplateChart();
+    return _buildTrackballTemplateChart();
   }
 
   @override
@@ -71,8 +71,10 @@ class _TrackballTemplateState extends SampleViewState {
                             Container(
                               padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
                               height: 50,
+                              width: 190,
                               alignment: Alignment.bottomLeft,
                               child: DropdownButton<String>(
+                                  isExpanded: true,
                                   underline: Container(
                                       color: Color(0xFFBDBDBD), height: 1),
                                   value: _selectedMode,
@@ -85,9 +87,9 @@ class _TrackballTemplateState extends SampleViewState {
                                             style: TextStyle(
                                                 color: model.textColor)));
                                   }).toList(),
-                                  onChanged: (String value) {
+                                  onChanged: (String? value) {
                                     setState(() {
-                                      onModeTypeChange(value);
+                                      onModeTypeChange(value!);
                                       stateSetter(() {});
                                     });
                                   }),
@@ -110,9 +112,9 @@ class _TrackballTemplateState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: _isTemplate,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
-                            _isTemplate = value;
+                            _isTemplate = value!;
                             stateSetter(() {});
                           });
                         }))
@@ -125,14 +127,14 @@ class _TrackballTemplateState extends SampleViewState {
   }
 
   /// Returns the cartesian chart with default trackball.
-  SfCartesianChart _getTrackballTemplateChart() {
+  SfCartesianChart _buildTrackballTemplateChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Monthly expense of a family'),
       legend: Legend(isVisible: !isCardView, toggleSeriesVisibility: false),
       primaryXAxis: CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
-        labelRotation: isCardView || model.isWeb ? 0 : -45,
+        labelRotation: isCardView || model.isWebFullView ? 0 : -45,
       ),
       primaryYAxis: NumericAxis(
           maximum: 200,
@@ -159,7 +161,7 @@ class _TrackballTemplateState extends SampleViewState {
                       padding: EdgeInsets.all(0),
                       child: Container(
                           height: _mode == TrackballDisplayMode.groupAllPoints
-                              ? model.isWeb
+                              ? model.isWebFullView
                                   ? 125
                                   : 105
                               : 50,
@@ -201,7 +203,7 @@ class _TrackballTemplateState extends SampleViewState {
   }
 
   Column getGroupingTemplateWidgets(TrackballDetails _trackballDetails) {
-    Column _columnWidgets = Column(
+    final Column _columnWidgets = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [],
@@ -211,7 +213,7 @@ class _TrackballTemplateState extends SampleViewState {
           child: Padding(
               padding: EdgeInsets.only(left: 0),
               child: Text(
-                  '${_trackballDetails.groupingModeInfo.points[0].x.toString()}',
+                  '${_trackballDetails.groupingModeInfo!.points[0].x.toString()}',
                   style: TextStyle(
                       color: model.themeData.brightness == Brightness.dark
                           ? Color.fromRGBO(0, 0, 0, 1)
@@ -225,19 +227,19 @@ class _TrackballTemplateState extends SampleViewState {
                 ? const Color.fromRGBO(61, 61, 61, 1)
                 : const Color.fromRGBO(238, 238, 238, 1),
           )));
-      Column _columnChildWidgets = Column(
+      final Column _columnChildWidgets = Column(
         crossAxisAlignment: _mode == TrackballDisplayMode.groupAllPoints
             ? CrossAxisAlignment.start
             : CrossAxisAlignment.center,
         children: [],
       );
-      List<int> seriesIndices =
-          _trackballDetails.groupingModeInfo.visibleSeriesIndices;
+      final List<int> seriesIndices =
+          _trackballDetails.groupingModeInfo!.visibleSeriesIndices;
       for (int i = 0; i < seriesIndices.length; i++) {
         _columnChildWidgets.children.add(
           Container(
               child: Text(
-                  '${_trackballDetails.groupingModeInfo.visibleSeriesList[i].name.toString()} : \$${_trackballDetails.groupingModeInfo.points[i].y.toString()}',
+                  '${_trackballDetails.groupingModeInfo!.visibleSeriesList[i].name.toString()} : \$${_trackballDetails.groupingModeInfo!.points[i].y.toString()}',
                   textAlign: TextAlign.left,
                   style: _getTrackballTextStyle())),
         );
@@ -245,10 +247,10 @@ class _TrackballTemplateState extends SampleViewState {
       _columnWidgets.children.add(_columnChildWidgets);
     } else {
       _columnWidgets.children.add(Text(
-          '${_trackballDetails.point.x.toString()}',
+          '${_trackballDetails.point!.x.toString()}',
           style: _getTrackballTextStyle()));
       _columnWidgets.children.add(Text(
-          '\$${_trackballDetails.point.y.toString()}',
+          '\$${_trackballDetails.point!.y.toString()}',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: model.themeData.brightness == Brightness.dark
@@ -335,7 +337,7 @@ class _TrackballTemplateState extends SampleViewState {
 
   String _getImageTemplate(TrackballDetails _pointInfo) {
     String _path;
-    int _seriesIndex = _pointInfo.seriesIndex;
+    final int? _seriesIndex = _pointInfo.seriesIndex;
 
     _path = _seriesIndex == 0
         ? 'images/People_Circle12.png'

@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 class ImageConverter {
   /// toImage
   static Future<Uint8List> toImage(
-      {RenderSignaturePad renderSignaturePad}) async {
+      {required RenderSignaturePad renderSignaturePad}) async {
     final canvas = html.CanvasElement(
         width: renderSignaturePad.size.width.toInt(),
         height: renderSignaturePad.size.height.toInt());
@@ -18,7 +18,8 @@ class ImageConverter {
     final completer = Completer<Uint8List>();
     final reader = html.FileReader();
     reader.readAsArrayBuffer(blob);
-    reader.onLoad.listen((_) => completer.complete(reader.result));
+    // ignore: avoid_as
+    reader.onLoad.listen((_) => completer.complete(reader.result as Uint8List));
     return await completer.future;
   }
 }

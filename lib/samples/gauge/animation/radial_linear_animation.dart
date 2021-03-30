@@ -21,11 +21,11 @@ class _RadialLinearAnimationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialLinearAnimation(context);
+    return _buildRadialLinearAnimation(context);
   }
 
   /// Returns the pointer linear animation gauge
-  Widget _getRadialLinearAnimation(BuildContext context) {
+  Widget _buildRadialLinearAnimation(BuildContext context) {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -57,7 +57,9 @@ class _RadialLinearAnimationState extends SampleViewState {
                   animationType: AnimationType.linear,
                   lengthUnit: GaugeSizeUnit.factor,
                   needleLength: 0.8,
-                  needleColor: _linearNeedleColor)
+                  needleColor: model.themeData.brightness == Brightness.light
+                      ? _linearNeedleColor
+                      : _linearNeedleDarkColor),
             ],
             axisLineStyle: AxisLineStyle(thickness: 3),
             tickOffset: 2,
@@ -69,5 +71,6 @@ class _RadialLinearAnimationState extends SampleViewState {
   }
 
   final Color _linearNeedleColor = const Color(0xFF355C7D);
+  final Color _linearNeedleDarkColor = const Color(0xFFDCDCDC);
   final Color _linearMarkerColor = const Color(0xFFF67280);
 }

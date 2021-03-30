@@ -9,6 +9,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the RadialSlider custom text.
 class RadialSliderCustomText extends SampleView {
+  /// Creates the RadialSlider custom text.
   const RadialSliderCustomText(Key key) : super(key: key);
 
   @override
@@ -26,17 +27,17 @@ class _RadialSliderCustomTextState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      _firstMarkerSize = 20;
+      _firstMarkerSize = 27;
       _annotationFontSize = 20;
     } else {
-      _firstMarkerSize = model.isWeb ? 25 : 20;
-      _annotationFontSize = model.isWeb ? 25 : 15;
+      _firstMarkerSize = model.isWebFullView ? 28 : 12;
+      _annotationFontSize = model.isWebFullView ? 25 : 15;
     }
     return Center(
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
             axisLineStyle: AxisLineStyle(
-              thickness: 0.2,
+              thickness: 0.07,
               thicknessUnit: GaugeSizeUnit.factor,
               cornerStyle: CornerStyle.bothCurve,
             ),
@@ -47,17 +48,22 @@ class _RadialSliderCustomTextState extends SampleViewState {
             pointers: <GaugePointer>[
               RangePointer(
                   color: _rangeColor,
-                  value: _currentValue,
-                  onValueChanged: handlePointerValueChanged,
-                  cornerStyle: CornerStyle.bothCurve,
-                  onValueChangeEnd: handlePointerValueChanged,
-                  onValueChanging: handlePointerValueChanging,
-                  enableDragging: true,
-                  width: 0.2,
+                  value: _markerValue,
+                  cornerStyle: CornerStyle.startCurve,
+                  width: 0.07,
                   sizeUnit: GaugeSizeUnit.factor),
               MarkerPointer(
                 value: _markerValue,
+                overlayRadius: 0,
+                borderColor: _borderColor,
+                overlayColor: _borderColor.withOpacity(0.125),
+                borderWidth: model.isWebFullView ? 10 : 7,
                 color: Colors.white,
+                onValueChanged: handlePointerValueChanged,
+                onValueChangeEnd: handlePointerValueChanged,
+                onValueChanging: handlePointerValueChanging,
+                elevation: 5,
+                enableDragging: true,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
                 markerType: MarkerType.circle,
@@ -65,21 +71,21 @@ class _RadialSliderCustomTextState extends SampleViewState {
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        '$_annotationValue',
-                        style: TextStyle(
-                          fontSize: _annotationFontSize,
-                          fontFamily: 'Times',
-                          fontWeight: FontWeight.bold,
-                        ),
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      '$_annotationValue',
+                      style: TextStyle(
+                        fontSize: _annotationFontSize,
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                  positionFactor: 0.13,
-                  angle: 0.5)
+                    ),
+                  ],
+                ),
+                positionFactor: 0.08,
+              )
             ])
       ]),
     );
@@ -94,12 +100,13 @@ class _RadialSliderCustomTextState extends SampleViewState {
   /// annotation current value.
   void handlePointerValueChanged(double value) {
     setState(() {
-      _currentValue = value.roundToDouble();
-      final int _value = _currentValue.toInt();
+      _markerValue = value;
+      final _value = _markerValue.round().toInt();
       if (_value < 100 && _annotationValue != 'In-progress') {
         _annotationValue = 'In-progress';
         if (_rangeColor != const Color.fromRGBO(255, 150, 0, 1)) {
           _rangeColor = const Color.fromRGBO(255, 150, 0, 1);
+          _borderColor = const Color.fromRGBO(255, 150, 0, 1);
         }
         if (_annotationColor != const Color.fromRGBO(255, 150, 0, 1)) {
           _annotationColor = const Color.fromRGBO(255, 150, 0, 1);
@@ -108,9 +115,8 @@ class _RadialSliderCustomTextState extends SampleViewState {
         _annotationValue = 'Done';
         _rangeColor = null;
         _annotationColor = const Color(0xFF00A8B5);
+        _borderColor = const Color(0xFF00A8B5);
       }
-
-      _markerValue = _currentValue - 2;
     });
   }
 
@@ -121,11 +127,11 @@ class _RadialSliderCustomTextState extends SampleViewState {
     }
   }
 
-  double _currentValue = 60;
-  double _markerValue = 58;
+  double _markerValue = 60;
   double _firstMarkerSize = 10;
   double _annotationFontSize = 25;
   String _annotationValue = 'In-progress';
-  Color _rangeColor = const Color.fromRGBO(255, 150, 0, 1);
+  Color? _rangeColor = const Color.fromRGBO(255, 150, 0, 1);
+  Color _borderColor = const Color.fromRGBO(255, 150, 0, 1);
   Color _annotationColor = const Color.fromRGBO(255, 150, 0, 1);
 }

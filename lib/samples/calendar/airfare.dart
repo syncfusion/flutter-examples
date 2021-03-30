@@ -14,7 +14,7 @@ import 'package:syncfusion_flutter_core/core.dart';
 import '../../model/sample_view.dart';
 
 /// Smallest fare value
-const String _kBestPrice = "\$100.17";
+const String _kBestPrice = '\$100.17';
 
 /// Widget of air fare calendar
 class AirFareCalendar extends SampleView {
@@ -29,26 +29,20 @@ class AirFareCalendar extends SampleView {
 class _AirFareCalendarCalendarState extends SampleViewState {
   _AirFareCalendarCalendarState();
 
-  ScrollController _controller;
-  List<AirFare> _airFareDataCollection;
-  List<int> _airlineId;
-  List<String> _fares;
-  DateTime _minDate;
+  final ScrollController _controller = ScrollController();
+  List<AirFare> _airFareDataCollection = <AirFare>[];
+  final List<int> _airlineId = <int>[1, 2, 3, 4];
+  final List<String> _fares = <String>[];
+  final DateTime _minDate = DateTime.now();
 
   /// Global key used to maintain the state, when we change the parent of the
   /// widget
-  GlobalKey _globalKey;
-  double _screenHeight;
-  Orientation _deviceOrientation;
+  final GlobalKey _globalKey = GlobalKey();
+  late double _screenHeight;
+  late Orientation _deviceOrientation;
 
   @override
   void initState() {
-    _globalKey = GlobalKey();
-    _controller = ScrollController();
-    _airFareDataCollection = <AirFare>[];
-    _airlineId = <int>[];
-    _fares = <String>[];
-    _minDate = DateTime.now();
     _addFareDataDetails();
     _addAirFareData();
     super.initState();
@@ -56,40 +50,39 @@ class _AirFareCalendarCalendarState extends SampleViewState {
 
   /// Creates required data for the air fare data.
   void _addFareDataDetails() {
-    _airlineId = <int>[1, 2, 3, 4];
-    _fares.add("\$134.50");
-    _fares.add("\$305.00");
-    _fares.add("\$152.66");
-    _fares.add("\$267.09");
-    _fares.add("\$189.20");
-    _fares.add("\$212.10");
-    _fares.add("\$350.50");
-    _fares.add("\$222.39");
-    _fares.add("\$238.83");
-    _fares.add("\$147.27");
-    _fares.add("\$115.43");
-    _fares.add("\$198.06");
-    _fares.add("\$189.83");
-    _fares.add("\$110.71");
-    _fares.add("\$152.10");
-    _fares.add("\$199.62");
-    _fares.add("\$146.15");
-    _fares.add("\$237.04");
-    _fares.add("\$100.17");
-    _fares.add("\$101.72");
-    _fares.add("\$266.69");
-    _fares.add("\$332.48");
-    _fares.add("\$256.77");
-    _fares.add("\$449.68");
-    _fares.add("\$100.17");
-    _fares.add("\$153.31");
-    _fares.add("\$249.92");
-    _fares.add("\$254.59");
-    _fares.add("\$332.48");
-    _fares.add("\$256.77");
-    _fares.add("\$449.68");
-    _fares.add("\$107.18");
-    _fares.add("\$219.04");
+    _fares.add('\$134.50');
+    _fares.add('\$305.00');
+    _fares.add('\$152.66');
+    _fares.add('\$267.09');
+    _fares.add('\$189.20');
+    _fares.add('\$212.10');
+    _fares.add('\$350.50');
+    _fares.add('\$222.39');
+    _fares.add('\$238.83');
+    _fares.add('\$147.27');
+    _fares.add('\$115.43');
+    _fares.add('\$198.06');
+    _fares.add('\$189.83');
+    _fares.add('\$110.71');
+    _fares.add('\$152.10');
+    _fares.add('\$199.62');
+    _fares.add('\$146.15');
+    _fares.add('\$237.04');
+    _fares.add('\$100.17');
+    _fares.add('\$101.72');
+    _fares.add('\$266.69');
+    _fares.add('\$332.48');
+    _fares.add('\$256.77');
+    _fares.add('\$449.68');
+    _fares.add('\$100.17');
+    _fares.add('\$153.31');
+    _fares.add('\$249.92');
+    _fares.add('\$254.59');
+    _fares.add('\$332.48');
+    _fares.add('\$256.77');
+    _fares.add('\$449.68');
+    _fares.add('\$107.18');
+    _fares.add('\$219.04');
   }
 
   /// Returns color for the airplane data.
@@ -128,7 +121,8 @@ class _AirFareCalendarCalendarState extends SampleViewState {
     super.didChangeDependencies();
   }
 
-  Widget build([BuildContext context]) {
+  @override
+  Widget build(BuildContext context) {
     final Widget calendar = Theme(
 
         /// The key set here to maintain the state,
@@ -141,7 +135,7 @@ class _AirFareCalendarCalendarState extends SampleViewState {
       body:
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
         Expanded(
-          child: (model.isWeb && _screenHeight < 800) ||
+          child: (model.isWebFullView && _screenHeight < 800) ||
                   _deviceOrientation == Orientation.landscape
               ? Scrollbar(
                   isAlwaysShown: true,
@@ -165,7 +159,7 @@ class _AirFareCalendarCalendarState extends SampleViewState {
   /// Returns the calendar widget based on the properties passed.
   SfCalendar _getAirFareCalendar() {
     return SfCalendar(
-      showNavigationArrow: model.isWeb,
+      showNavigationArrow: model.isWebFullView,
       view: CalendarView.month,
       monthCellBuilder: _monthCellBuilder,
       showDatePickerButton: true,
@@ -176,7 +170,7 @@ class _AirFareCalendarCalendarState extends SampleViewState {
   /// Returns the builder for month cell.
   Widget _monthCellBuilder(
       BuildContext buildContext, MonthCellDetails details) {
-    Random random = Random();
+    final Random random = Random();
     final bool isToday = isSameDate(details.date, DateTime.now());
     final AirFare airFare = _airFareDataCollection[random.nextInt(100)];
     final Color defaultColor =
@@ -266,9 +260,15 @@ class _AirFareCalendarCalendarState extends SampleViewState {
 
 /// Object to hold the air fare data.
 class AirFare {
+  /// Holds the data of air fares
   const AirFare(this.fare, this.color, this.airline);
 
+  /// holds the string fare data
   final String fare;
+
+  /// Color of the fare
   final Color color;
+
+  /// Holds string of airline
   final String airline;
 }

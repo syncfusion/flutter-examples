@@ -19,14 +19,21 @@ class LogarithmicAxisDefault extends SampleView {
 /// State class of the line cahrt with default logarithmic axis sample.
 class _LogarithmicAxisDefaultState extends SampleViewState {
   _LogarithmicAxisDefaultState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultLogarithmicAxisChart();
+    return _buildDefaultLogarithmicAxisChart();
   }
 
   /// Returns the line chart with default logarithmic axis.
-  SfCartesianChart _getDefaultLogarithmicAxisChart() {
+  SfCartesianChart _buildDefaultLogarithmicAxisChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 1,
       title:
@@ -41,8 +48,7 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
           labelFormat: '\${value}',
           interval: 1),
       series: _getSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

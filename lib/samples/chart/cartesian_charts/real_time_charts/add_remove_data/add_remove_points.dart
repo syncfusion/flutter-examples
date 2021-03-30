@@ -26,7 +26,7 @@ class _LiveVerticalState extends SampleViewState {
       chartData.removeRange(10, chartData.length - 1);
     }
   }
-  ChartSeriesController _chartSeriesController;
+  ChartSeriesController? _chartSeriesController;
 
   /// List for storing the chart series data points.
   List<ChartSampleData> chartData = <ChartSampleData>[
@@ -45,7 +45,7 @@ class _LiveVerticalState extends SampleViewState {
   int count = 11;
 
   /// Get the random value
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }
@@ -73,7 +73,7 @@ class _LiveVerticalState extends SampleViewState {
         backgroundColor: model.cardThemeColor,
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
-          child: Container(child: _getAddRemovePointsChart()),
+          child: Container(child: _buildAddRemovePointsChart()),
         ),
         floatingActionButton: Stack(
           children: [
@@ -83,8 +83,8 @@ class _LiveVerticalState extends SampleViewState {
                     padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
                     child: Container(
                         height: isCardView ? 40 : 45,
-                        width: model.isWeb
-                            ? 135
+                        width: model.isWebFullView
+                            ? 140
                             : isCardView
                                 ? 100
                                 : 110,
@@ -92,12 +92,12 @@ class _LiveVerticalState extends SampleViewState {
                             splashColor: Colors.transparent,
                             child: Row(children: <Widget>[
                               SizedBox(
-                                width: model.isWeb ? 65 : 45,
+                                width: model.isWebFullView ? 65 : 45,
                                 height: 50,
                                 child: IconButton(
                                   onPressed: () {
                                     chartData = _addDataPoint();
-                                    _chartSeriesController.updateDataSource(
+                                    _chartSeriesController?.updateDataSource(
                                       addedDataIndexes: <int>[
                                         chartData.length - 1
                                       ],
@@ -112,14 +112,14 @@ class _LiveVerticalState extends SampleViewState {
                                   padding:
                                       const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                   child: SizedBox(
-                                      width: model.isWeb ? 65 : 45,
+                                      width: model.isWebFullView ? 65 : 45,
                                       height: 50,
                                       child: IconButton(
                                           onPressed: () {
                                             if (chartData.length > 1) {
                                               chartData = _removeDataPoint();
                                               _chartSeriesController
-                                                  .updateDataSource(
+                                                  ?.updateDataSource(
                                                 updatedDataIndexes: <int>[
                                                   chartData.length - 1
                                                 ],
@@ -136,41 +136,11 @@ class _LiveVerticalState extends SampleViewState {
                                           ))))
                             ])))))
           ],
-        )
-
-        // Row(children: [
-        //   Spacer(),
-        // IconButton(
-        //   onPressed: () {
-        //     chartData = _addDataPoint();
-        //     _chartSeriesController.updateDataSource(
-        //       addedDataIndexes: <int>[chartData.length - 1],
-        //     );
-        //   },
-        //   icon: Icon(Icons.add_circle,
-        //       size: isCardView ? 40 : 50, color: model.backgroundColor),
-        // ),
-        // IconButton(
-        //     onPressed: () {
-        //       if (chartData.length > 1) {
-        //         chartData = _removeDataPoint();
-        //         _chartSeriesController.updateDataSource(
-        //           updatedDataIndexes: <int>[chartData.length - 1],
-        //           removedDataIndexes: <int>[chartData.length - 1],
-        //         );
-        //       }
-        //     },
-        //     icon: Icon(
-        //       Icons.remove_circle,
-        //       size: isCardView ? 40 : 50,
-        //       color: model.backgroundColor,
-        //     ))
-        // ])
-        );
+        ));
   }
 
   /// Returns the chart with add and remove points options.
-  SfCartesianChart _getAddRemovePointsChart() {
+  SfCartesianChart _buildAddRemovePointsChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(

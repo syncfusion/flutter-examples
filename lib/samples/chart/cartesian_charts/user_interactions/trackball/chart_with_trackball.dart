@@ -21,24 +21,26 @@ class DefaultTrackball extends SampleView {
 /// State class the chart with default trackball.
 class _DefaultTrackballState extends SampleViewState {
   _DefaultTrackballState();
-  double duration = 2;
-  bool showAlways = false;
+  late double duration;
+  late bool showAlways;
+  late bool canShowMarker;
   final List<String> _modeList =
       <String>['floatAllPoints', 'groupAllPoints', 'nearestPoint'].toList();
-  String _selectedMode = 'floatAllPoints';
+  late String _selectedMode;
 
-  TrackballDisplayMode _mode = TrackballDisplayMode.floatAllPoints;
+  late TrackballDisplayMode _mode;
 
   final List<String> _alignmentList =
       <String>['center', 'far', 'near'].toList();
-  String _tooltipAlignment = 'center';
-  bool _showMarker;
+  late String _tooltipAlignment;
+  late bool _showMarker;
   ChartAlignment _alignment = ChartAlignment.center;
 
   @override
   void initState() {
     duration = 2;
     showAlways = false;
+    canShowMarker = true;
     _selectedMode = 'floatAllPoints';
     _mode = TrackballDisplayMode.floatAllPoints;
     _tooltipAlignment = 'center';
@@ -48,11 +50,13 @@ class _DefaultTrackballState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultTrackballChart();
+    return _buildDefaultTrackballChart();
   }
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
@@ -66,147 +70,145 @@ class _DefaultTrackballState extends SampleViewState {
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Text('Mode ',
-                                style: TextStyle(
-                                  color: model.textColor,
-                                  fontSize: 16,
-                                )),
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(100, 0, 0, 0),
-                              height: 50,
-                              alignment: Alignment.bottomLeft,
-                              child: DropdownButton<String>(
-                                  underline: Container(
-                                      color: Color(0xFFBDBDBD), height: 1),
-                                  value: _selectedMode,
-                                  items: _modeList.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                        value:
-                                            (value != null) ? value : 'point',
-                                        child: Text('$value',
-                                            style: TextStyle(
-                                                color: model.textColor)));
-                                  }).toList(),
-                                  onChanged: (dynamic value) {
-                                    setState(() {
-                                      onModeTypeChange(value);
-                                      stateSetter(() {});
-                                    });
-                                  }),
-                            ),
-                          ],
+                      ListTile(
+                        title: Text('Mode',
+                            style: TextStyle(
+                              color: model.textColor,
+                            )),
+                        trailing: Container(
+                          padding: EdgeInsets.only(left: 0.07 * screenWidth),
+                          width: 0.6 * screenWidth,
+                          height: 50,
+                          alignment: Alignment.bottomLeft,
+                          child: DropdownButton<String>(
+                              underline: Container(
+                                  color: Color(0xFFBDBDBD), height: 1),
+                              value: _selectedMode,
+                              items: _modeList.map((String value) {
+                                return DropdownMenuItem<String>(
+                                    value: (value != null) ? value : 'point',
+                                    child: Text('$value',
+                                        style:
+                                            TextStyle(color: model.textColor)));
+                              }).toList(),
+                              onChanged: (dynamic value) {
+                                setState(() {
+                                  onModeTypeChange(value);
+                                  stateSetter(() {});
+                                });
+                              }),
                         ),
                       ),
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Text('Alignment',
-                                style: TextStyle(
-                                  color: _selectedMode != 'groupAllPoints'
-                                      ? const Color.fromRGBO(0, 0, 0, 0.3)
-                                      : model.textColor,
-                                  fontSize: 16,
-                                )),
-                            Container(
-                                padding: const EdgeInsets.fromLTRB(70, 0, 0, 0),
-                                height: 50,
-                                alignment: Alignment.bottomLeft,
-                                child: DropdownButton<String>(
-                                    underline: Container(
-                                        color: Color(0xFFBDBDBD), height: 1),
-                                    value: _tooltipAlignment,
-                                    items: _selectedMode != 'groupAllPoints'
-                                        ? null
-                                        : _alignmentList.map((String value) {
-                                            return DropdownMenuItem<String>(
-                                                value: (value != null)
-                                                    ? value
-                                                    : 'center',
-                                                child: Text('$value',
-                                                    style: TextStyle(
-                                                        color:
-                                                            model.textColor)));
-                                          }).toList(),
-                                    onChanged: (dynamic value) {
-                                      onAlignmentChange(value);
-                                      stateSetter(() {});
-                                    })),
-                          ],
-                        ),
+                      ListTile(
+                        title: Text('Alignment',
+                            style: TextStyle(
+                              color: _selectedMode != 'groupAllPoints'
+                                  ? model.textColor.withOpacity(0.3)
+                                  : model.textColor,
+                            )),
+                        trailing: Container(
+                            padding: EdgeInsets.only(left: 0.07 * screenWidth),
+                            width: 0.6 * screenWidth,
+                            height: 50,
+                            alignment: Alignment.bottomLeft,
+                            child: DropdownButton<String>(
+                                underline: Container(
+                                    color: Color(0xFFBDBDBD), height: 1),
+                                value: _tooltipAlignment,
+                                items: _selectedMode != 'groupAllPoints'
+                                    ? null
+                                    : _alignmentList.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                            value: (value != null)
+                                                ? value
+                                                : 'center',
+                                            child: Text('$value',
+                                                style: TextStyle(
+                                                    color: model.textColor)));
+                                      }).toList(),
+                                onChanged: (dynamic value) {
+                                  onAlignmentChange(value);
+                                  stateSetter(() {});
+                                })),
                       )
                     ]));
           }),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Show always ',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                    width: 90,
-                    child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
-                        value: showAlways,
-                        onChanged: (bool value) {
-                          setState(() {
-                            showAlways = value;
-                            stateSetter(() {});
-                          });
-                        }))
-              ],
+          ListTile(
+              title: Text('Show always ',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                  width: 0.6 * screenWidth,
+                  child: CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      activeColor: model.backgroundColor,
+                      value: showAlways,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          showAlways = value!;
+                          stateSetter(() {});
+                        });
+                      }))),
+          ListTile(
+            title:
+                Text('Hide delay  ', style: TextStyle(color: model.textColor)),
+            trailing: Container(
+              width: 0.6 * screenWidth,
+              padding: EdgeInsets.only(left: 0.03 * screenWidth),
+              child: CustomDirectionalButtons(
+                maxValue: 10,
+                initialValue: duration,
+                onChanged: (double val) => setState(() {
+                  duration = val;
+                }),
+                step: 2,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
             ),
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Hide delay  ',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(44, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    maxValue: 10,
-                    initialValue: duration,
-                    onChanged: (double val) => setState(() {
-                      duration = val;
-                    }),
-                    step: 2,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                ),
-              ],
-            ),
+          ListTile(
+            title: Text('Show track\nmarker',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                width: 0.6 * screenWidth,
+                child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: model.backgroundColor,
+                    value: _showMarker,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _showMarker = value!;
+                        stateSetter(() {});
+                      });
+                    })),
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Show track\nmarker',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    child: Container(
-                        width: 90,
-                        child: CheckboxListTile(
-                            activeColor: model.backgroundColor,
-                            value: _showMarker,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _showMarker = value;
-                                stateSetter(() {});
-                              });
-                            }))),
-              ],
-            ),
+          ListTile(
+            title: Text('Show marker\nin tooltip',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                width: 0.6 * screenWidth,
+                child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: model.backgroundColor,
+                    value: canShowMarker,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        canShowMarker = value!;
+                        stateSetter(() {});
+                      });
+                    })),
           ),
         ],
       );
@@ -214,7 +216,7 @@ class _DefaultTrackballState extends SampleViewState {
   }
 
   /// Returns the cartesian chart with default trackball.
-  SfCartesianChart _getDefaultTrackballChart() {
+  SfCartesianChart _buildDefaultTrackballChart() {
     return SfCartesianChart(
       title: ChartTitle(text: !isCardView ? 'Average sales per person' : ''),
       plotAreaBorderWidth: 0,
@@ -241,12 +243,16 @@ class _DefaultTrackballState extends SampleViewState {
           width: 10,
           borderWidth: 1,
         ),
-        hideDelay: (duration ?? 2.0) * 1000,
+        hideDelay: (duration) * 1000,
         activationMode: ActivationMode.singleTap,
         tooltipAlignment: _alignment,
         tooltipDisplayMode: _mode,
-        tooltipSettings: InteractiveTooltip(format: 'point.x: point.y'),
-        shouldAlwaysShow: showAlways ?? true,
+        tooltipSettings: InteractiveTooltip(
+            format: _mode != TrackballDisplayMode.groupAllPoints
+                ? 'series.name : point.y'
+                : null,
+            canShowMarker: canShowMarker),
+        shouldAlwaysShow: showAlways,
       ),
     );
   }

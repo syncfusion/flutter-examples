@@ -30,66 +30,59 @@ class _PyramidSmartLabelState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Label position  ',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
-                      value: _selectedPosition,
-                      items: _labelPosition.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'outside',
-                            child: Text('$value',
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onLabelPositionChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
+          ListTile(
+            title: Text('Label position  ',
+                style: TextStyle(color: model.textColor)),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.07 * screenWidth),
+              width: 0.4 * screenWidth,
+              height: 50,
+              alignment: Alignment.bottomLeft,
+              child: DropdownButton<String>(
+                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  value: _selectedPosition,
+                  items: _labelPosition.map((String value) {
+                    return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'outside',
+                        child: Text('$value',
+                            style: TextStyle(color: model.textColor)));
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    _onLabelPositionChange(value.toString());
+                    stateSetter(() {});
+                  }),
             ),
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Smart label mode',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
-                      value: _smartLabelMode,
-                      items: _modeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'shift',
-                            child: Text('$value',
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onSmartLabelModeChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
+          ListTile(
+            title: Text('Smart label mode',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.07 * screenWidth),
+              width: 0.4 * screenWidth,
+              height: 50,
+              alignment: Alignment.bottomLeft,
+              child: DropdownButton<String>(
+                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  value: _smartLabelMode,
+                  items: _modeList.map((String value) {
+                    return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'shift',
+                        child: Text('$value',
+                            style: TextStyle(color: model.textColor)));
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    _onSmartLabelModeChange(value.toString());
+                    stateSetter(() {});
+                  }),
             ),
           ),
         ],
@@ -99,23 +92,24 @@ class _PyramidSmartLabelState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getPyramidSmartLabelChart();
+    return _buildPyramidSmartLabelChart();
   }
 
   ///Get the pyramid chart with smart data labels
-  SfPyramidChart _getPyramidSmartLabelChart() {
+  SfPyramidChart _buildPyramidSmartLabelChart() {
     return SfPyramidChart(
       onTooltipRender: (TooltipArgs args) {
         final NumberFormat format = NumberFormat.decimalPattern();
-        args.text =
-            format.format(args.dataPoints[args.pointIndex].y).toString();
+        args.text = format
+            .format(args.dataPoints![args.pointIndex!.toInt()].y)
+            .toString();
       },
       title: ChartTitle(
           text: isCardView ? '' : 'Top 10 populated countries - 2019'),
       tooltipBehavior: TooltipBehavior(enable: true),
 
       /// To specify the smart label mode for pyramid chart.
-      smartLabelMode: _mode ?? SmartLabelMode.shift,
+      smartLabelMode: _mode,
       series: _getPyramidSeries(),
     );
   }

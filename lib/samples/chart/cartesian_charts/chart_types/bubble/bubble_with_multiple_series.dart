@@ -19,14 +19,26 @@ class BubbleMultiSeries extends SampleView {
 /// State class of the multiple bubble series chart
 class _BubbleMultiSeriesState extends SampleViewState {
   _BubbleMultiSeriesState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        textAlignment: ChartAlignment.center,
+        enable: true,
+        header: '',
+        canShowMarker: false,
+        format:
+            'Literacy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getMultipleSeriesBubbleChart();
+    return _buildMultipleSeriesBubbleChart();
   }
 
   /// Returns the multiple bubble series chart
-  SfCartesianChart _getMultipleSeriesBubbleChart() {
+  SfCartesianChart _buildMultipleSeriesBubbleChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'World countries details'),
@@ -43,13 +55,7 @@ class _BubbleMultiSeriesState extends SampleViewState {
       legend: Legend(
           isVisible: isCardView ? false : true,
           overflowMode: LegendItemOverflowMode.wrap),
-      tooltipBehavior: TooltipBehavior(
-          textAlignment: ChartAlignment.center,
-          enable: true,
-          header: '',
-          canShowMarker: false,
-          format:
-              'Literacy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB'),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

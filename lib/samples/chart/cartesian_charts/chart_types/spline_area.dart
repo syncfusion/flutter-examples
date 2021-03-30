@@ -22,11 +22,11 @@ class _SplineAreaState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getSplineAreaChart();
+    return _buildSplineAreaChart();
   }
 
   /// Returns the cartesian spline are chart.
-  SfCartesianChart _getSplineAreaChart() {
+  SfCartesianChart _buildSplineAreaChart() {
     return SfCartesianChart(
       legend: Legend(isVisible: true, opacity: 0.7),
       title: ChartTitle(text: 'Inflation rate'),

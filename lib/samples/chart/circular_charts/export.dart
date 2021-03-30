@@ -28,15 +28,15 @@ class ExportCircular extends SampleView {
 }
 
 class _ExportState extends SampleViewState {
-  final GlobalKey<SfCircularChartState> _circularChartKey = GlobalKey();
   _ExportState();
+  final GlobalKey<SfCircularChartState> _circularChartKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: Column(children: [
-          Expanded(child: _getCircularChart()),
+          Expanded(child: _buildCircularChart()),
           Container(
               padding: EdgeInsets.only(bottom: 10),
               child: Row(
@@ -53,14 +53,14 @@ class _ExportState extends SampleViewState {
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
-                          Scaffold.of(context).showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             behavior: SnackBarBehavior.floating,
                             duration: Duration(milliseconds: 100),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5))),
                             content:
-                                Text("Chart has been exported as PNG image"),
+                                Text('Chart has been exported as PNG image'),
                           ));
                           _renderCircularImage();
                         },
@@ -78,14 +78,14 @@ class _ExportState extends SampleViewState {
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
-                          Scaffold.of(context).showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             behavior: SnackBarBehavior.floating,
                             duration: Duration(milliseconds: 2000),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5))),
                             content:
-                                Text("Chart is being exported as PDF document"),
+                                Text('Chart is being exported as PDF document'),
                           ));
                           _renderPdf();
                         },
@@ -97,7 +97,7 @@ class _ExportState extends SampleViewState {
   }
 
   /// Get default circular chart
-  SfCircularChart _getCircularChart() {
+  SfCircularChart _buildCircularChart() {
     return SfCircularChart(
       backgroundColor: model.cardThemeColor,
       key: _circularChartKey,
@@ -159,8 +159,8 @@ class _ExportState extends SampleViewState {
           await getApplicationDocumentsDirectory();
       final String path = documentDirectory.path;
       final String imageName = 'circularchart.png';
-      imageCache.clear();
-      File file = new File('$path/$imageName');
+      imageCache!.clear();
+      final File file = File('$path/$imageName');
       file.writeAsBytesSync(bytes);
 
       await Navigator.of(context).push(
@@ -195,13 +195,13 @@ class _ExportState extends SampleViewState {
     final Size pageSize = page.getClientSize();
     page.graphics.drawImage(
         bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
-    Scaffold.of(context).hideCurrentSnackBar();
-    Scaffold.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(5))),
       duration: Duration(milliseconds: 200),
-      content: Text("Chart has been exported as PDF document."),
+      content: Text('Chart has been exported as PDF document.'),
     ));
 
     final List<int> bytes = document.save();
@@ -210,9 +210,9 @@ class _ExportState extends SampleViewState {
   }
 
   Future<List<int>> _readImageData() async {
-    dart_ui.Image data =
-        await _circularChartKey.currentState.toImage(pixelRatio: 3.0);
+    final dart_ui.Image data =
+        await _circularChartKey.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: dart_ui.ImageByteFormat.png);
-    return bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+    return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 }

@@ -22,11 +22,11 @@ class _LegendCustomizedState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getLegendCustomizedChart();
+    return _buildLegendCustomizedChart();
   }
 
   /// Returns the line chart with customized legends.
-  SfCartesianChart _getLegendCustomizedChart() {
+  SfCartesianChart _buildLegendCustomizedChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(

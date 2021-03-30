@@ -22,11 +22,11 @@ class _PieRadiusState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadiusPieChart();
+    return _buildRadiusPieChart();
   }
 
   /// Returns the circular charts with pie series.
-  SfCircularChart _getRadiusPieChart() {
+  SfCircularChart _buildRadiusPieChart() {
     return SfCircularChart(
       title: ChartTitle(
           text: isCardView
