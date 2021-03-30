@@ -22,15 +22,15 @@ class _RadialSlowMiddleAnimationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialSlowMiddleAnimation();
+    return _buildRadialSlowMiddleAnimation();
   }
 
   /// Returns the pointer slow middle animation gauge
-  SfRadialGauge _getRadialSlowMiddleAnimation() {
+  SfRadialGauge _buildRadialSlowMiddleAnimation() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-            radiusFactor: model.isWeb ? 0.85 : 0.95,
+            radiusFactor: model.isWebFullView ? 0.85 : 0.95,
             startAngle: 270,
             endAngle: 270,
             showAxisLine: false,

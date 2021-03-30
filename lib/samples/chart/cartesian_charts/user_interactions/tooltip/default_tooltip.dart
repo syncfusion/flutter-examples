@@ -22,11 +22,11 @@ class _DefaultTooltipState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultTooltipChart();
+    return _buildDefaultTooltipChart();
   }
 
   /// Returns the cartesian chart with default tootlip.
-  SfCartesianChart _getDefaultTooltipChart() {
+  SfCartesianChart _buildDefaultTooltipChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Labour force'),

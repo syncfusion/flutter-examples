@@ -22,16 +22,11 @@ class DefaultPanning extends SampleView {
 class _DefaultPanningState extends SampleViewState {
   _DefaultPanningState();
   final List<String> _zoomModeTypeList = <String>['x', 'y', 'xy'].toList();
-  String _selectedModeType = 'x';
-  ZoomMode _zoomModeType = ZoomMode.x;
-  ZoomPanBehavior _zoomingBehavior;
-  bool _enableAnchor;
-  // bool _visible = false;
+  late String _selectedModeType = 'x';
+  late ZoomMode _zoomModeType = ZoomMode.x;
+  late bool _enableAnchor;
   GlobalKey<State> chartKey = GlobalKey<State>();
-  StateSetter refreshSetState;
   num left = 0, top = 0;
-  num screenSizeWidth;
-  bool isSameSize;
   @override
   void initState() {
     _selectedModeType = 'x';
@@ -42,51 +37,8 @@ class _DefaultPanningState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    _zoomingBehavior = ZoomPanBehavior(
-
-        /// To enable the pinch zooming as true.
-        enablePinching: true,
-        zoomMode: _zoomModeType,
-        enablePanning: true,
-        enableMouseWheelZooming: model.isWeb ? true : false);
-
-    // screenSizeWidth ??= MediaQuery.of(context).size.width;
-    // final num currentSizeWidth = MediaQuery.of(context).size.width;
-    // if (currentSizeWidth != screenSizeWidth) {
-    //   isSameSize = false;
-    //   // _visible = false;
-    // } else {
-    //   isSameSize = true;
-    // }
-    // screenSizeWidth = currentSizeWidth;
-
     return Stack(children: <Widget>[
-      _getDefaultPanningChart(),
-      // isCardView
-      //     ? Container()
-      //     : StatefulBuilder(
-      //         builder: (BuildContext context, StateSetter setState) {
-      //         print('refresh');
-      //         refreshSetState = setState;
-      //         Widget currentWidget;
-      //         if (_visible) {
-      //           isSameSize = true;
-      //           currentWidget = Container(
-      //               padding: EdgeInsets.only(
-      //                   left: left.abs().toDouble(), top: top.toDouble()),
-      //               child: FlatButton(
-      //                   onPressed: () {
-      //                     _zoomingBehavior.reset();
-      //                     setState(() {
-      //                       _visible = false;
-      //                     });
-      //                   },
-      //                   child: const Icon(Icons.refresh, color: Colors.blue)));
-      //         } else {
-      //           currentWidget = Container();
-      //         }
-      //         return currentWidget;
-      //       })
+      _buildDefaultPanningChart(),
     ]);
   }
 
@@ -117,7 +69,7 @@ class _DefaultPanningState extends SampleViewState {
                             child: Text('$value',
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         _onZoomTypeChange(value.toString());
                         stateSetter(() {});
                       }),
@@ -139,9 +91,9 @@ class _DefaultPanningState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: _enableAnchor,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           stateSetter(() {
-                            _enableRangeCalculation(value);
+                            _enableRangeCalculation(value!);
                             _enableAnchor = value;
                             stateSetter(() {});
                           });
@@ -155,38 +107,9 @@ class _DefaultPanningState extends SampleViewState {
   }
 
   /// Returns the cartesian chart with pinch zoomings.
-  SfCartesianChart _getDefaultPanningChart() {
+  SfCartesianChart _buildDefaultPanningChart() {
     return SfCartesianChart(
         key: chartKey,
-        onActualRangeChanged: (ActualRangeChangedArgs args) {
-          // final RenderBox renderBox =
-          //     chartKey.currentContext.findRenderObject();
-          // if (renderBox.hasSize) {
-          //   final BoxConstraints constraints = renderBox.constraints;
-          //   final num width = constraints.maxWidth;
-          //   final num height = constraints.maxHeight;
-          //   left = (width * 0.9) - 30 / 2;
-          //   top = height * 0.001;
-          //   if (!_visible) {
-          //     if (!isSameSize) {
-          //       Future.delayed(const Duration(milliseconds: 1), () {
-          //         refreshSetState(() {
-          //           _visible = true;
-          //         });
-          //       });
-          //     }
-          //   }
-          // }
-        },
-        onZoomEnd: (ZoomPanArgs args) {
-          if (args.currentZoomFactor < 1) {
-            // setState(() {
-            //   _visible = true;
-
-            //   refreshSetState(() {});
-            // });
-          }
-        },
         plotAreaBorderWidth: 0,
         primaryXAxis: DateTimeAxis(
             name: 'X-Axis', majorGridLines: MajorGridLines(width: 0)),
@@ -195,15 +118,21 @@ class _DefaultPanningState extends SampleViewState {
             anchorRangeToVisiblePoints: _enableAnchor,
             majorTickLines: MajorTickLines(size: 0)),
         series: getDefaultPanningSeries(),
-        zoomPanBehavior: _zoomingBehavior);
+        zoomPanBehavior: ZoomPanBehavior(
+
+            /// To enable the pinch zooming as true.
+            enablePinching: true,
+            zoomMode: _zoomModeType,
+            enablePanning: true,
+            enableMouseWheelZooming: model.isWebFullView ? true : false));
   }
 
   /// Returns the list of chart series
   /// which need to render on the chart with pinch zooming.
   List<AreaSeries<ChartSampleData, DateTime>> getDefaultPanningSeries() {
     final List<Color> color = <Color>[];
-    color.add(Colors.teal[50]);
-    color.add(Colors.teal[200]);
+    color.add(Colors.teal[50]!);
+    color.add(Colors.teal[200]!);
     color.add(Colors.teal);
 
     final List<double> stops = <double>[];

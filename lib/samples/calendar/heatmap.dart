@@ -27,21 +27,14 @@ class HeatMapCalendar extends SampleView {
 class _HeatMapCalendarCalendarState extends SampleViewState {
   _HeatMapCalendarCalendarState();
 
-  ScrollController controller;
+  final ScrollController controller = ScrollController();
 
   /// Global key used to maintain the state, when we change the parent of the
   /// widget
-  GlobalKey _globalKey;
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
-  void initState() {
-    _globalKey = GlobalKey();
-    controller = ScrollController();
-    super.initState();
-  }
-
-  @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final Widget _calendar = Theme(
 
@@ -113,7 +106,7 @@ class _HeatMapCalendarCalendarState extends SampleViewState {
   /// Returns the calendar widget based on the properties passed.
   SfCalendar _getHeatMapCalendar() {
     return SfCalendar(
-        showNavigationArrow: model.isWeb,
+        showNavigationArrow: model.isWebFullView,
         view: CalendarView.month,
         monthCellBuilder: _monthCellBuilder,
         showDatePickerButton: true,

@@ -24,12 +24,12 @@ class GettingStartedCalendar extends SampleView {
 class _GettingStartedCalendarState extends SampleViewState {
   _GettingStartedCalendarState();
 
-  List<String> _subjectCollection;
-  List<Color> _colorCollection;
-  List<DateTime> _blackoutDates;
-  _MeetingDataSource _events;
-  DateTime _minDate, _maxDate;
-  CalendarController _calendarController;
+  final List<String> _subjectCollection = <String>[];
+  final List<Color> _colorCollection = <Color>[];
+  final _MeetingDataSource _events = _MeetingDataSource(<_Meeting>[]);
+  final DateTime _minDate =
+          DateTime.now().subtract(const Duration(days: 365 ~/ 2)),
+      _maxDate = DateTime.now().add(const Duration(days: 365 ~/ 2));
 
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.day,
@@ -39,35 +39,33 @@ class _GettingStartedCalendarState extends SampleViewState {
     CalendarView.schedule
   ];
 
-  bool _showLeadingAndTrailingDates = true;
-  bool _showDatePickerButton = true;
-  bool _allowViewNavigation = true;
-
-  ScrollController _controller;
+  final List<String> _viewNavigationModeList =
+      <String>['Snap', 'None'].toList();
 
   /// Global key used to maintain the state, when we change the parent of the
   /// widget
-  GlobalKey _globalKey;
+  final GlobalKey _globalKey = GlobalKey();
+  final ScrollController _controller = ScrollController();
+  final CalendarController _calendarController = CalendarController();
+
+  List<DateTime> _blackoutDates = <DateTime>[];
+  bool _showLeadingAndTrailingDates = true;
+  bool _showDatePickerButton = true;
+  bool _allowViewNavigation = true;
+  bool _showCurrentTimeIndicator = true;
+
+  ViewNavigationMode _viewNavigationMode = ViewNavigationMode.snap;
+  String _viewNavigationModeString = 'Snap';
 
   @override
   void initState() {
-    _showLeadingAndTrailingDates = true;
-    _showDatePickerButton = true;
-    _allowViewNavigation = true;
-    _calendarController = CalendarController();
     _calendarController.view = CalendarView.month;
-    _globalKey = GlobalKey();
-    _controller = ScrollController();
-    _blackoutDates = <DateTime>[];
     addAppointmentDetails();
-    _events = _MeetingDataSource(<_Meeting>[]);
-    _minDate = DateTime.now().subtract(const Duration(days: 365 ~/ 2));
-    _maxDate = DateTime.now().add(const Duration(days: 365 ~/ 2));
     super.initState();
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     final Widget calendar = Theme(
 
         /// The key set here to maintain the state,
@@ -82,7 +80,7 @@ class _GettingStartedCalendarState extends SampleViewState {
       body: Row(children: <Widget>[
         Expanded(
           child: _calendarController.view == CalendarView.month &&
-                  model.isWeb &&
+                  model.isWebFullView &&
                   screenHeight < 800
               ? Scrollbar(
                   isAlwaysShown: true,
@@ -119,13 +117,13 @@ class _GettingStartedCalendarState extends SampleViewState {
       }
     }
 
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       setState(() {
         if (_calendarController.view == CalendarView.month ||
             _calendarController.view == CalendarView.timelineMonth) {
           _blackoutDates = blockedDates;
         } else {
-          _blackoutDates?.clear();
+          _blackoutDates.clear();
         }
       });
     });
@@ -140,7 +138,7 @@ class _GettingStartedCalendarState extends SampleViewState {
             blockedDates.contains(date)) {
           continue;
         }
-        final int count = 1 + random.nextInt(model.isWeb ? 2 : 3);
+        final int count = 1 + random.nextInt(model.isWebFullView ? 2 : 3);
         for (int j = 0; j < count; j++) {
           final DateTime startDate = DateTime(
               date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
@@ -188,7 +186,6 @@ class _GettingStartedCalendarState extends SampleViewState {
 
   /// Creates the required appointment details as a list.
   void addAppointmentDetails() {
-    _subjectCollection = <String>[];
     _subjectCollection.add('General Meeting');
     _subjectCollection.add('Plan Execution');
     _subjectCollection.add('Project Plan');
@@ -200,7 +197,6 @@ class _GettingStartedCalendarState extends SampleViewState {
     _subjectCollection.add('Release updates');
     _subjectCollection.add('Performance Check');
 
-    _colorCollection = <Color>[];
     _colorCollection.add(const Color(0xFF0F8644));
     _colorCollection.add(const Color(0xFF8B1FA9));
     _colorCollection.add(const Color(0xFFD20100));
@@ -211,6 +207,19 @@ class _GettingStartedCalendarState extends SampleViewState {
     _colorCollection.add(const Color(0xFFE47C73));
     _colorCollection.add(const Color(0xFF636363));
     _colorCollection.add(const Color(0xFF0A8043));
+  }
+
+  /// Allows/Restrict switching to previous/next views through swipe interaction
+  void onViewNavigationModeChange(String value) {
+    _viewNavigationModeString = value;
+    if (value == 'Snap') {
+      _viewNavigationMode = ViewNavigationMode.snap;
+    } else if (value == 'None') {
+      _viewNavigationMode = ViewNavigationMode.none;
+    }
+    setState(() {
+      /// update the view navigation mode changes
+    });
   }
 
   @override
@@ -322,6 +331,77 @@ class _GettingStartedCalendarState extends SampleViewState {
               ],
             ),
           ),
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                    child: Text('Show current time indicator',
+                        style:
+                            TextStyle(fontSize: 16.0, color: model.textColor))),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        canvasColor: model.bottomSheetBackgroundColor),
+                    child: Container(
+                        child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Transform.scale(
+                          scale: 0.8,
+                          child: CupertinoSwitch(
+                            activeColor: model.backgroundColor,
+                            value: _showCurrentTimeIndicator,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _showCurrentTimeIndicator = value;
+                                stateSetter(() {});
+                              });
+                            },
+                          )),
+                    )),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                    flex: 6,
+                    child: Text('View navigation mode',
+                        style:
+                            TextStyle(fontSize: 16.0, color: model.textColor))),
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    padding: EdgeInsets.only(left: 60),
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
+                        underline:
+                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        value: _viewNavigationModeString,
+                        items: _viewNavigationModeList.map((String value) {
+                          return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'Snap',
+                              child: Text('$value',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: model.textColor)));
+                        }).toList(),
+                        onChanged: (dynamic value) {
+                          onViewNavigationModeChange(value);
+                          stateSetter(() {});
+                        }),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       );
     });
@@ -329,33 +409,36 @@ class _GettingStartedCalendarState extends SampleViewState {
 
   /// Returns the calendar widget based on the properties passed.
   SfCalendar _getGettingStartedCalendar(
-      [CalendarController _calendarController,
-      CalendarDataSource _calendarDataSource,
-      ViewChangedCallback viewChangedCallback,
-      DateTime _minDate,
-      DateTime _maxDate,
+      [CalendarController? _calendarController,
+      CalendarDataSource? _calendarDataSource,
+      ViewChangedCallback? viewChangedCallback,
+      DateTime? _minDate,
+      DateTime? _maxDate,
       dynamic scheduleViewBuilder]) {
     return SfCalendar(
-        controller: _calendarController,
-        dataSource: _calendarDataSource,
-        allowedViews: _allowedViews,
-        scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
-        showNavigationArrow: model.isWeb,
-        showDatePickerButton: _showDatePickerButton,
-        allowViewNavigation: _allowViewNavigation,
-        onViewChanged: viewChangedCallback,
-        blackoutDates: _blackoutDates,
-        blackoutDatesTextStyle: TextStyle(
-            decoration: model.isWeb ? null : TextDecoration.lineThrough,
-            color: Colors.red),
-        minDate: _minDate,
-        maxDate: _maxDate,
-        monthViewSettings: MonthViewSettings(
-            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-            showTrailingAndLeadingDates: _showLeadingAndTrailingDates,
-            appointmentDisplayCount: 4),
-        timeSlotViewSettings: TimeSlotViewSettings(
-            minimumAppointmentDuration: const Duration(minutes: 60)));
+      controller: _calendarController,
+      dataSource: _calendarDataSource,
+      allowedViews: _allowedViews,
+      scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
+      showNavigationArrow: model.isWebFullView,
+      showDatePickerButton: _showDatePickerButton,
+      allowViewNavigation: _allowViewNavigation,
+      showCurrentTimeIndicator: _showCurrentTimeIndicator,
+      onViewChanged: viewChangedCallback,
+      blackoutDates: _blackoutDates,
+      blackoutDatesTextStyle: TextStyle(
+          decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
+          color: Colors.red),
+      minDate: _minDate,
+      maxDate: _maxDate,
+      monthViewSettings: MonthViewSettings(
+          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+          showTrailingAndLeadingDates: _showLeadingAndTrailingDates,
+          appointmentDisplayCount: 4),
+      timeSlotViewSettings: TimeSlotViewSettings(
+          minimumAppointmentDuration: const Duration(minutes: 60)),
+      viewNavigationMode: _viewNavigationMode,
+    );
   }
 }
 

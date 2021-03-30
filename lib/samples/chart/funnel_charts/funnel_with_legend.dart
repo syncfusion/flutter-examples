@@ -18,14 +18,22 @@ class FunnelLegend extends SampleView {
 
 class _FunnelLegendState extends SampleViewState {
   _FunnelLegendState();
+  late TooltipBehavior _tooltipBehavior;
+
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, format: 'point.x : point.y%');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getLegendFunnelChart();
+    return _buildLegendFunnelChart();
   }
 
   ///Get the funnel chart which contains the legend
-  SfFunnelChart _getLegendFunnelChart() {
+  SfFunnelChart _buildLegendFunnelChart() {
     return SfFunnelChart(
       smartLabelMode: SmartLabelMode.none,
       title: ChartTitle(
@@ -34,8 +42,7 @@ class _FunnelLegendState extends SampleViewState {
       /// To enable the legend for funnel chart.
       legend:
           Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, format: 'point.x : point.y%'),
+      tooltipBehavior: _tooltipBehavior,
       series: _getFunnelSeries(),
     );
   }

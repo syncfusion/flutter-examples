@@ -22,11 +22,11 @@ class _DoughnutDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDoughnutCustomizationChart();
+    return _buildDoughnutCustomizationChart();
   }
 
   /// Returns the circular chart with color mapping doughnut series.
-  SfCircularChart _getDoughnutCustomizationChart() {
+  SfCircularChart _buildDoughnutCustomizationChart() {
     return SfCircularChart(
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(

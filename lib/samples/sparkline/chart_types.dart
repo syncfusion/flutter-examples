@@ -1,12 +1,11 @@
 /// Package import
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 /// Chart import
 
 /// Local import
 import '../../model/sample_view.dart';
-
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 ///Renders default line series chart
 class SparklineSeriesTypes extends SampleView {
@@ -28,10 +27,10 @@ class _SparklineSeriesTypesState extends SampleViewState {
     _isVertical =
         MediaQuery.of(context).size.height > MediaQuery.of(context).size.width;
     if (_isVertical) {
-      _size = model.isWeb
+      _size = model.isWebFullView
           ? MediaQuery.of(context).size.height / 6
           : MediaQuery.of(context).size.height / 6;
-      return model.isWeb && model.isMobileResolution
+      return model.isWebFullView && model.isMobileResolution
           ? Container(
               child: SingleChildScrollView(
                   child: Column(
@@ -39,13 +38,13 @@ class _SparklineSeriesTypesState extends SampleViewState {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(padding: EdgeInsets.all(5)),
-                _getSparkLineChart(),
+                _buildSparkLineChart(),
                 Padding(padding: EdgeInsets.all(5)),
-                _getSparkAreaChart(),
+                _buildSparkAreaChart(),
                 Padding(padding: EdgeInsets.all(5)),
-                _getSparkBarChart(),
+                _buildSparkBarChart(),
                 Padding(padding: EdgeInsets.all(5)),
-                _getSparkWinlossChart(),
+                _buildSparkWinlossChart(),
               ],
             )))
           : Center(
@@ -54,13 +53,13 @@ class _SparklineSeriesTypesState extends SampleViewState {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(padding: EdgeInsets.all(5)),
-                Expanded(child: _getSparkLineChart()),
+                Expanded(child: _buildSparkLineChart()),
                 Padding(padding: EdgeInsets.all(5)),
-                Expanded(child: _getSparkAreaChart()),
+                Expanded(child: _buildSparkAreaChart()),
                 Padding(padding: EdgeInsets.all(5)),
-                Expanded(child: _getSparkBarChart()),
+                Expanded(child: _buildSparkBarChart()),
                 Padding(padding: EdgeInsets.all(5)),
-                Expanded(child: _getSparkWinlossChart()),
+                Expanded(child: _buildSparkWinlossChart()),
               ],
             ));
     } else {
@@ -70,19 +69,19 @@ class _SparklineSeriesTypesState extends SampleViewState {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(padding: EdgeInsets.all(5)),
-          _getSparkLineChart(),
+          _buildSparkLineChart(),
           Padding(padding: EdgeInsets.all(5)),
-          _getSparkAreaChart(),
+          _buildSparkAreaChart(),
           Padding(padding: EdgeInsets.all(5)),
-          _getSparkBarChart(),
+          _buildSparkBarChart(),
           Padding(padding: EdgeInsets.all(5)),
-          _getSparkWinlossChart(),
+          _buildSparkWinlossChart(),
         ],
       ));
     }
   }
 
-  Widget _getSparkLineChart() {
+  Widget _buildSparkLineChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,7 +139,7 @@ class _SparklineSeriesTypesState extends SampleViewState {
         ]);
   }
 
-  Widget _getSparkAreaChart() {
+  Widget _buildSparkAreaChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -171,10 +170,10 @@ class _SparklineSeriesTypesState extends SampleViewState {
                               30,
                               29
                             ],
-                            color: Color.fromRGBO(178, 207, 255, 1),
+                            color: Color.fromRGBO(68, 150, 236, 0.3),
                             axisLineWidth: 0,
                             borderWidth: 2,
-                            borderColor: Color.fromRGBO(60, 120, 239, 1))),
+                            borderColor: Color.fromRGBO(68, 150, 236, 1))),
                     Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
                     Text('Spark Area Chart',
                         style: TextStyle(fontStyle: FontStyle.italic)),
@@ -183,7 +182,7 @@ class _SparklineSeriesTypesState extends SampleViewState {
   }
 
   /// Get the cartesian chart with default line series
-  Widget _getSparkBarChart() {
+  Widget _buildSparkBarChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -224,7 +223,7 @@ class _SparklineSeriesTypesState extends SampleViewState {
   }
 
   /// Get the cartesian chart with default line series
-  Widget _getSparkWinlossChart() {
+  Widget _buildSparkWinlossChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

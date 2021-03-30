@@ -22,8 +22,8 @@ class AnimationBarDefault extends SampleView {
 
 class _AnimationBarDefaultState extends SampleViewState {
   _AnimationBarDefaultState();
-  List<_ChartData> _chartData;
-  Timer _timer;
+  late List<_ChartData> _chartData;
+  Timer? _timer;
   @override
   Widget build(BuildContext context) {
     _getChartData();
@@ -33,10 +33,10 @@ class _AnimationBarDefaultState extends SampleViewState {
       });
     });
 
-    return _getAnimationBarChart();
+    return _buildAnimationBarChart();
   }
 
-  SfCartesianChart _getAnimationBarChart() {
+  SfCartesianChart _buildAnimationBarChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
@@ -58,10 +58,10 @@ class _AnimationBarDefaultState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timer!.cancel();
   }
 
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }

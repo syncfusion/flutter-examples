@@ -25,25 +25,25 @@ class _RadialSliderExampleState extends SampleViewState {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       _firstMarkerSize = 10;
       _annotationFontSize = 25;
-      if (model.isWeb) {
+      if (model.isWebFullView) {
         _width = _width * 0.35;
       }
     } else {
-      _firstMarkerSize = model.isWeb ? 10 : 5;
-      _annotationFontSize = model.isWeb ? 25 : 15;
+      _firstMarkerSize = model.isWebFullView ? 10 : 5;
+      _annotationFontSize = model.isWebFullView ? 25 : 15;
       _width = _width * 0.35;
     }
 
     return Scaffold(
         backgroundColor:
-            model.isWeb ? Colors.transparent : model.cardThemeColor,
+            model.isWebFullView ? Colors.transparent : model.cardThemeColor,
 
         /// Added separate view for sample browser tile view and expanded view.
         /// In tile view, slider widget is removed.
         body: isCardView
-            ? getRadialSliderExample(true)
+            ? _buildRadialSliderExample(true)
             : Padding(
-                padding: model.isWeb
+                padding: model.isWebFullView
                     ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
                     : const EdgeInsets.fromLTRB(5, 0, 5, 0),
                 child: Column(
@@ -81,15 +81,7 @@ class _RadialSliderExampleState extends SampleViewState {
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       Text(
-                                        '$_annotationValue',
-                                        style: TextStyle(
-                                            fontSize: _annotationFontSize,
-                                            fontFamily: 'Times',
-                                            fontWeight: FontWeight.bold,
-                                            color: const Color(0xFF00A8B5)),
-                                      ),
-                                      Text(
-                                        ' %',
+                                        '$_annotationValue%',
                                         style: TextStyle(
                                             fontSize: _annotationFontSize,
                                             fontFamily: 'Times',
@@ -104,7 +96,7 @@ class _RadialSliderExampleState extends SampleViewState {
                       ]),
                     ),
                     Expanded(
-                        flex: model.isWeb ? 2 : 3,
+                        flex: model.isWebFullView ? 2 : 3,
                         child: Container(
                           width: _width,
                           child: Slider(
@@ -140,8 +132,28 @@ class _RadialSliderExampleState extends SampleViewState {
     }
   }
 
+  /// Dragged pointer new value is updated to pointer and
+  /// annotation current value.
+  void handleCardPointerValueChanged(double value) {
+    if (value.toInt() > 6) {
+      setState(() {
+        _cardCurrentValue = value.roundToDouble();
+        final int _value = _cardCurrentValue.toInt();
+        _cardAnnotationValue = '$_value';
+        _cardMarkerValue = _cardCurrentValue - 2;
+      });
+    }
+  }
+
+  /// Pointer dragging is canceled when dragging pointer value is less than 6.
+  void handleCardPointerValueChanging(ValueChangingArgs args) {
+    if (args.value.toInt() <= 6) {
+      args.cancel = true;
+    }
+  }
+
   /// Returns the radial slider gauge
-  Widget getRadialSliderExample(bool isTileView) {
+  Widget _buildRadialSliderExample(bool isTileView) {
     return SfRadialGauge(axes: <RadialAxis>[
       RadialAxis(
           axisLineStyle: AxisLineStyle(
@@ -150,9 +162,16 @@ class _RadialSliderExampleState extends SampleViewState {
           showLabels: false,
           radiusFactor: 1,
           pointers: <GaugePointer>[
-            RangePointer(value: 60, width: 0.2, sizeUnit: GaugeSizeUnit.factor),
+            RangePointer(
+                width: 0.2,
+                value: _cardCurrentValue,
+                onValueChanged: handleCardPointerValueChanged,
+                onValueChangeEnd: handleCardPointerValueChanged,
+                onValueChanging: handleCardPointerValueChanging,
+                enableDragging: true,
+                sizeUnit: GaugeSizeUnit.factor),
             MarkerPointer(
-              value: 58,
+              value: _cardMarkerValue,
               color: Colors.white,
               markerHeight: 5,
               markerWidth: 5,
@@ -163,9 +182,9 @@ class _RadialSliderExampleState extends SampleViewState {
             GaugeAnnotation(
                 widget: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Text(
-                      '60',
+                      _cardAnnotationValue,
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Times',
@@ -173,7 +192,7 @@ class _RadialSliderExampleState extends SampleViewState {
                           color: Color(0xFF00A8B5)),
                     ),
                     Text(
-                      ' %',
+                      '%',
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Times',
@@ -193,4 +212,7 @@ class _RadialSliderExampleState extends SampleViewState {
   double _firstMarkerSize = 10;
   double _annotationFontSize = 25;
   String _annotationValue = '60';
+  String _cardAnnotationValue = '60';
+  double _cardCurrentValue = 60;
+  double _cardMarkerValue = 58;
 }

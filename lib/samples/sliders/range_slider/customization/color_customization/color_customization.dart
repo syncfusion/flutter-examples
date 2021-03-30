@@ -19,7 +19,9 @@ class ColorCustomizedRangeSliderPage extends SampleView {
 
 class _ColorCustomizedRangeSliderPageState extends SampleViewState {
   _ColorCustomizedRangeSliderPageState();
-  Widget rangeSlider;
+
+  late Widget rangeSlider;
+  late bool _isDesktop;
 
   @override
   void initState() {
@@ -29,8 +31,13 @@ class _ColorCustomizedRangeSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    _isDesktop = kIsWeb ||
+        themeData.platform == TargetPlatform.macOS ||
+        themeData.platform == TargetPlatform.windows ||
+        themeData.platform == TargetPlatform.linux;
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
+            _isDesktop
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(
@@ -50,18 +57,20 @@ class _ColorCustomizedRangeSlider extends StatefulWidget {
 
 class _ColorCustomizedRangeSliderState
     extends State<_ColorCustomizedRangeSlider> {
-  Widget _getWebLayout() {
+  late bool _isDesktop;
+
+  Widget _buildWebLayout() {
     return Container(
       alignment: Alignment.center,
       child: Container(
         alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 3,
-        child: _getMobileLayout(),
+        width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
+        child: _buildMobileLayout(),
       ),
     );
   }
 
-  Widget _getMobileLayout() {
+  Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
@@ -79,6 +88,11 @@ class _ColorCustomizedRangeSliderState
 
   @override
   Widget build(BuildContext context) {
-    return kIsWeb ? _getWebLayout() : _getMobileLayout();
+    final ThemeData themeData = Theme.of(context);
+    _isDesktop = kIsWeb ||
+        themeData.platform == TargetPlatform.macOS ||
+        themeData.platform == TargetPlatform.windows ||
+        themeData.platform == TargetPlatform.linux;
+    return _isDesktop ? _buildWebLayout() : _buildMobileLayout();
   }
 }

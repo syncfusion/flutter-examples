@@ -23,11 +23,11 @@ class _MarkerDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getMarkerDefaultChart();
+    return _buildMarkerDefaultChart();
   }
 
   /// Returns the chart with various marker shapes.
-  SfCartesianChart _getMarkerDefaultChart() {
+  SfCartesianChart _buildMarkerDefaultChart() {
     return SfCartesianChart(
       title: ChartTitle(text: 'Vehicles crossed tollgate'),
       legend: Legend(isVisible: true),

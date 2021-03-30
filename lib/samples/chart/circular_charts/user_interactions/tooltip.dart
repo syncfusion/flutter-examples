@@ -94,10 +94,10 @@ class _PieTooltipPositionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getPieTooltipPositionChart();
+    return _buildPieTooltipPositionChart();
   }
 
-  SfCircularChart getPieTooltipPositionChart() {
+  SfCircularChart _buildPieTooltipPositionChart() {
     return SfCircularChart(
       title: ChartTitle(
           text: isCardView
@@ -112,7 +112,7 @@ class _PieTooltipPositionState extends SampleViewState {
       tooltipBehavior: TooltipBehavior(
         enable: true,
         tooltipPosition: _tooltipPosition,
-        duration: (duration ?? 2.0) * 1000,
+        duration: (duration) * 1000,
       ),
     );
   }

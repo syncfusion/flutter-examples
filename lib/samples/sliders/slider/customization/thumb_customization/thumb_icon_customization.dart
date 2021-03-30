@@ -23,7 +23,7 @@ class ThumbCustomizationSliderPage extends SampleView {
 
 class _ThumbCustomizationSliderPageState extends SampleViewState {
   _ThumbCustomizationSliderPageState();
-  Widget slider;
+  late Widget slider;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _ThumbCustomizationSliderPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
+            model.isWebFullView
         ? slider
         : SingleChildScrollView(
             child: Container(height: 300, child: slider),
@@ -114,18 +114,18 @@ class _ThumbCustomizationSliderState extends SampleViewState {
         ));
   }
 
-  Widget _getWebLayout() {
+  Widget _buildWebLayout() {
     return Container(
       alignment: Alignment.center,
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-        child: _getMobileLayout(),
+        child: _buildMobileLayout(),
       ),
     );
   }
 
-  Widget _getMobileLayout() {
+  Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
@@ -146,6 +146,6 @@ class _ThumbCustomizationSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
   }
 }

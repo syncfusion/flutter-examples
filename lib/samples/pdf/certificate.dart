@@ -41,7 +41,7 @@ class _CertificatePdfState extends SampleViewState {
       TextEditingController(text: 'Getting Started with PDF Development');
   DateTime selectedDate = DateTime.now();
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2000),
@@ -98,13 +98,20 @@ class _CertificatePdfState extends SampleViewState {
                     _selectDate(context);
                   }),
               const SizedBox(height: 20, width: 30),
-              FlatButton(
+              TextButton(
+                onPressed: _createCertificate,
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(model.backgroundColor),
+                  padding: model.isMobile
+                      ? null
+                      : MaterialStateProperty.all(
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
+                ),
                 child: const Text(
                   'Generate PDF',
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: _createCertificate,
-                color: model.backgroundColor,
               )
             ],
           ),

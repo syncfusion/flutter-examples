@@ -19,14 +19,21 @@ class BubbleGradient extends SampleView {
 /// State class of bubble with gradient chart
 class _BubbleGradientState extends SampleViewState {
   _BubbleGradientState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getGradientBubbleChart();
+    return _buildGradientBubbleChart();
   }
 
   /// Returns the cartesian bubble cahrt with gradient
-  SfCartesianChart _getGradientBubbleChart() {
+  SfCartesianChart _buildGradientBubbleChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -43,8 +50,7 @@ class _BubbleGradientState extends SampleViewState {
           maximum: 4,
           interval: 1),
       series: _getGradientBubbleSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -83,8 +89,8 @@ class _BubbleGradientState extends SampleViewState {
           pointColor: const Color.fromRGBO(200, 0, 102, 1))
     ];
     final List<Color> color = <Color>[];
-    color.add(Colors.blue[50]);
-    color.add(Colors.blue[200]);
+    color.add(Colors.blue[50]!);
+    color.add(Colors.blue[200]!);
     color.add(Colors.blue);
 
     final List<double> stops = <double>[];

@@ -37,9 +37,9 @@ class _RangeSelectorZoomingPageState extends SampleViewState
 
   final DateTime min = DateTime(2017, 01, 01), max = DateTime(2018, 01, 01);
   final List<ChartSampleData> chartData = <ChartSampleData>[];
-  RangeController rangeController;
-  SfCartesianChart columnChart, splineChart;
-  List<ChartSampleData> columnData, splineSeriesData;
+  late RangeController rangeController;
+  late SfCartesianChart columnChart, splineChart;
+  late List<ChartSampleData> columnData, splineSeriesData;
   bool enableDeferredUpdate = true;
 
   @override
@@ -650,14 +650,15 @@ class _RangeSelectorZoomingPageState extends SampleViewState
     final Widget page = Container(
         margin: const EdgeInsets.all(0),
         padding: const EdgeInsets.all(0),
-        color: model.isWeb ? model.cardThemeColor : model.cardThemeColor,
+        color:
+            model.isWebFullView ? model.cardThemeColor : model.cardThemeColor,
         child: Center(
           child: Column(
             children: <Widget>[
               Expanded(
                 child: Container(
                     width: mediaQueryData.orientation == Orientation.landscape
-                        ? model.isWeb
+                        ? model.isWebFullView
                             ? mediaQueryData.size.width * 0.7
                             : mediaQueryData.size.width
                         : mediaQueryData.size.width,
@@ -666,7 +667,6 @@ class _RangeSelectorZoomingPageState extends SampleViewState
               ),
               SfRangeSelectorTheme(
                   data: SfRangeSelectorThemeData(
-                      labelOffset: Offset(model.isWeb ? -5 : 0, 0),
                       activeLabelStyle: TextStyle(
                           fontSize: 10,
                           color: isLightTheme ? Colors.black : Colors.white),
@@ -687,6 +687,11 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                   child: Container(
                     margin: const EdgeInsets.all(0),
                     padding: const EdgeInsets.all(0),
+                    width: mediaQueryData.orientation == Orientation.landscape
+                        ? model.isWebFullView
+                            ? mediaQueryData.size.width * 0.7
+                            : mediaQueryData.size.width
+                        : mediaQueryData.size.width,
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(14, 0, 15, 15),
@@ -701,11 +706,12 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                           controller: rangeController,
                           showTicks: true,
                           showLabels: true,
+                          enableIntervalSelection: true,
                           dragMode: SliderDragMode.both,
                           labelFormatterCallback:
                               (dynamic actualLabel, String formattedText) {
                             String label = DateFormat.MMM().format(actualLabel);
-                            label = (model.isWeb &&
+                            label = (model.isWebFullView &&
                                     mediaQueryData.size.width <= 1000)
                                 ? label[0]
                                 : label;
@@ -713,25 +719,21 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                           },
                           onChanged: (SfRangeValues values) {},
                           child: Container(
-                            child: columnChart,
                             height: 75,
                             padding: const EdgeInsets.all(0),
                             margin: const EdgeInsets.all(0),
+                            child: columnChart,
                           ),
                         ),
                       ),
                     ),
-                    width: mediaQueryData.orientation == Orientation.landscape
-                        ? model.isWeb
-                            ? mediaQueryData.size.width * 0.7
-                            : mediaQueryData.size.width
-                        : mediaQueryData.size.width,
                   )),
             ],
           ),
         ));
     return Scaffold(
-      body: mediaQueryData.orientation == Orientation.landscape && !model.isWeb
+      body: mediaQueryData.orientation == Orientation.landscape &&
+              !model.isWebFullView
           ? SingleChildScrollView(
               child: Container(height: 400, child: page),
             )
@@ -756,9 +758,9 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                 child: CheckboxListTile(
                     activeColor: model.backgroundColor,
                     value: enableDeferredUpdate,
-                    onChanged: (bool value) {
+                    onChanged: (bool? value) {
                       setState(() {
-                        enableDeferredUpdate = value;
+                        enableDeferredUpdate = value!;
                         stateSetter(() {});
                       });
                     }))),

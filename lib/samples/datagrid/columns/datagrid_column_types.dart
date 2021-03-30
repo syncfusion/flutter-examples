@@ -4,6 +4,7 @@ import 'dart:math' as math;
 /// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/foundation.dart';
 
 /// Barcode imports
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -14,41 +15,270 @@ import '../../../model/sample_view.dart';
 /// Renders column type data grid
 class ColumnTypeDataGrid extends SampleView {
   /// Creates column type data grid
-  const ColumnTypeDataGrid({Key key}) : super(key: key);
+  const ColumnTypeDataGrid({Key? key}) : super(key: key);
 
   @override
   _ColumnTypesDataGridState createState() => _ColumnTypesDataGridState();
 }
 
-List<_Employee> _employeeData;
-
 class _ColumnTypesDataGridState extends SampleViewState {
-  _ColumnTypesDataGridState();
-
-  final math.Random _random = math.Random();
-  bool _isLandscapeInMobileView;
-
-  final _ColumnTypesDataGridSource _columnTypesDataGridSource =
+  /// Required for SfDataGrid to obtain the row data.
+  final _ColumnTypesDataGridSource columnTypesDataGridSource =
       _ColumnTypesDataGridSource();
 
-  List<_Employee> _generateList(int count) {
-    final List<_Employee> employeeData = <_Employee>[];
-    for (int i = 0; i < count; i++) {
-      employeeData.add(_Employee(
-        1100 + i,
-        _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
-        _dealers[
-            i < _dealers.length ? i : _random.nextInt(_dealers.length - 1)],
-        _random.nextInt(1000) + _random.nextDouble(),
-        _shippedDates[_random.nextInt(_shippedDates.length - 1)],
-        _citys[_random.nextInt(_citys.length - 1)],
-        1500.0 + _random.nextInt(100),
-      ));
-    }
-    return employeeData;
+  /// Determine to decide whether the device in landscape or in portrait
+  late bool isLandscapeInMobileView;
+
+  late bool isWebOrDesktop;
+
+  SfDataGrid _buildDataGrid(BuildContext context) {
+    return SfDataGrid(
+        source: columnTypesDataGridSource,
+        columnWidthMode: isWebOrDesktop
+            ? (isWebOrDesktop && model.isMobileResolution)
+                ? ColumnWidthMode.none
+                : ColumnWidthMode.fill
+            : ColumnWidthMode.none,
+        columns: <GridColumn>[
+          GridTextColumn(
+              columnName: 'dealer',
+              width: 90,
+              label: Container(
+                padding: EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Text(
+                  'Dealer',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )),
+          GridTextColumn(
+              columnName: 'id',
+              width: !isWebOrDesktop
+                  ? 50
+                  : (isWebOrDesktop && model.isMobileResolution)
+                      ? 110
+                      : double.nan,
+              label: Container(
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'ID',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              columnWidthMode: isLandscapeInMobileView
+                  ? ColumnWidthMode.fill
+                  : ColumnWidthMode.none),
+          GridTextColumn(
+            columnName: 'name',
+            width:
+                (isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
+            label: Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Name',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          GridTextColumn(
+            columnName: 'freight',
+            width:
+                (isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
+            columnWidthMode: isLandscapeInMobileView
+                ? ColumnWidthMode.fill
+                : ColumnWidthMode.none,
+            label: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Freight',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          GridTextColumn(
+            columnName: 'shippedDate',
+            width: 110,
+            label: Container(
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Shipped Date',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            //dateFormat: DateFormat.yMd()
+          ),
+          GridTextColumn(
+            columnName: 'city',
+            width: isWebOrDesktop ? 110.0 : double.nan,
+            label: Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'City',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          GridTextColumn(
+              columnName: 'price',
+              width: (isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+              columnWidthMode: ColumnWidthMode.lastColumnFill,
+              label: Container(
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Price',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ))
+        ]);
   }
 
-  final List<Image> _dealers = <Image>[
+  @override
+  void initState() {
+    super.initState();
+    isWebOrDesktop = (model.isWeb || model.isDesktop);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    isLandscapeInMobileView = !isWebOrDesktop &&
+        MediaQuery.of(context).orientation == Orientation.landscape;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: _buildDataGrid(context));
+  }
+}
+
+class _Employee {
+  _Employee(
+    this.id,
+    this.name,
+    this.dealer,
+    this.freight,
+    this.shippedDate,
+    this.city,
+    this.price,
+  );
+  final int id;
+  final String name;
+  final double price;
+  final DateTime shippedDate;
+  final Image dealer;
+  final double freight;
+  final String city;
+}
+
+class _ColumnTypesDataGridSource extends DataGridSource {
+  _ColumnTypesDataGridSource() {
+    employees = getEmployees(100);
+    buildDataGridRows();
+  }
+
+  final math.Random random = math.Random();
+  List<DataGridRow> dataGridRows = [];
+  List<_Employee> employees = [];
+
+  // Building DataGridRows
+
+  void buildDataGridRows() {
+    dataGridRows = employees.map<DataGridRow>((dataGridRow) {
+      return DataGridRow(cells: [
+        DataGridCell(columnName: 'dealer', value: dataGridRow.dealer),
+        DataGridCell(columnName: 'id', value: dataGridRow.id),
+        DataGridCell(columnName: 'name', value: dataGridRow.name),
+        DataGridCell(columnName: 'freight', value: dataGridRow.freight),
+        DataGridCell(columnName: 'shippedDate', value: dataGridRow.shippedDate),
+        DataGridCell(columnName: 'city', value: dataGridRow.city),
+        DataGridCell(columnName: 'price', value: dataGridRow.price),
+      ]);
+    }).toList(growable: false);
+  }
+
+  // Overrides
+
+  @override
+  List<DataGridRow> get rows => dataGridRows;
+
+  Widget buildDealer(dynamic value) {
+    return Container(
+      padding: const EdgeInsets.all(3),
+      alignment: Alignment.center,
+      child: value,
+    );
+  }
+
+  @override
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(cells: [
+      buildDealer(row.getCells()[0].value),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          row.getCells()[1].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          row.getCells()[2].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              .format(row.getCells()[3].value)
+              .toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          DateFormat.yMd().format(row.getCells()[4].value).toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          row.getCells()[5].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              .format(row.getCells()[6].value)
+              .toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    ]);
+  }
+
+  // _Employee Data set
+
+  final List<Image> dealers = <Image>[
     Image.asset('images/People_Circle2.png'),
     Image.asset('images/People_Circle18.png'),
     Image.asset('images/People_Circle3.png'),
@@ -76,7 +306,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
     Image.asset('images/People_Circle27.png'),
   ];
 
-  final List<String> _names = <String>[
+  final List<String> names = <String>[
     'Betts',
     'Adams',
     'Crowley',
@@ -92,7 +322,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
     'Grimes'
   ];
 
-  final List<DateTime> _shippedDates = <DateTime>[
+  final List<DateTime> shippedDates = <DateTime>[
     DateTime.now(),
     DateTime(2002, 8, 27),
     DateTime(2015, 7, 4),
@@ -108,7 +338,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
     DateTime(2013, 10, 22),
   ];
 
-  final List<String> _citys = <String>[
+  final List<String> cities = <String>[
     'Graz',
     'Bruxelles',
     'Rosario',
@@ -119,126 +349,19 @@ class _ColumnTypesDataGridState extends SampleViewState {
     'Resende',
   ];
 
-  SfDataGrid _getDataGrid() {
-    return SfDataGrid(
-        source: _columnTypesDataGridSource,
-        columnWidthMode:
-            model.isWeb ? ColumnWidthMode.fill : ColumnWidthMode.auto,
-        cellBuilder: (BuildContext context, GridColumn column, int rowIndex) {
-          return Container(
-            padding: const EdgeInsets.all(3),
-            child: _employeeData[rowIndex].dealer,
-          );
-        },
-        columns: <GridColumn>[
-          GridWidgetColumn(
-              mappingName: 'dealer', width: 90, headerText: 'Dealer'),
-          GridNumericColumn(
-              mappingName: 'id',
-              headerText: ' ID',
-              columnWidthMode: _isLandscapeInMobileView
-                  ? ColumnWidthMode.fill
-                  : ColumnWidthMode.none,
-              headerTextAlignment: Alignment.centerRight),
-          GridTextColumn(
-              mappingName: 'name',
-              headerText: 'Name',
-              headerTextAlignment: Alignment.centerLeft),
-          GridNumericColumn(
-              mappingName: 'freight',
-              textAlignment: Alignment.center,
-              headerTextAlignment: Alignment.center,
-              numberFormat:
-                  NumberFormat.currency(locale: 'en_US', symbol: '\$'),
-              columnWidthMode: _isLandscapeInMobileView
-                  ? ColumnWidthMode.fill
-                  : ColumnWidthMode.none,
-              headerText: 'Freight'),
-          GridDateTimeColumn(
-              mappingName: 'shippedDate',
-              columnWidthMode: ColumnWidthMode.header,
-              headerText: 'Shipped Date',
-              dateFormat: DateFormat.yMd()),
-          GridTextColumn(
-              mappingName: 'city',
-              headerText: 'City',
-              headerTextAlignment: Alignment.centerLeft),
-          GridNumericColumn(
-              mappingName: 'price',
-              headerTextAlignment: Alignment.centerRight,
-              numberFormat:
-                  NumberFormat.currency(locale: 'en_US', symbol: '\$'),
-              columnWidthMode: ColumnWidthMode.lastColumnFill,
-              headerText: 'Price')
-        ]);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _employeeData = _generateList(100);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _isLandscapeInMobileView = !model.isWeb &&
-        MediaQuery.of(context).orientation == Orientation.landscape;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: _getDataGrid());
-  }
-}
-
-class _Employee {
-  _Employee(
-    this.id,
-    this.name,
-    this.dealer,
-    this.freight,
-    this.shippedDate,
-    this.city,
-    this.price,
-  );
-  final int id;
-  final String name;
-  final double price;
-  final DateTime shippedDate;
-  final Image dealer;
-  final double freight;
-  final String city;
-}
-
-class _ColumnTypesDataGridSource extends DataGridSource<_Employee> {
-  _ColumnTypesDataGridSource();
-  @override
-  List<_Employee> get dataSource => _employeeData;
-  @override
-  Object getValue(_Employee _employee, String columnName) {
-    switch (columnName) {
-      case 'id':
-        return _employee.id;
-        break;
-      case 'name':
-        return _employee.name;
-        break;
-      case 'shippedDate':
-        return _employee.shippedDate;
-        break;
-      case 'freight':
-        return _employee.freight;
-        break;
-      case 'city':
-        return _employee.city;
-        break;
-      case 'price':
-        return _employee.price;
-        break;
-      default:
-        return 'empty';
-        break;
+  List<_Employee> getEmployees(int count) {
+    final List<_Employee> employeeData = <_Employee>[];
+    for (int i = 0; i < count; i++) {
+      employeeData.add(_Employee(
+        1100 + i,
+        names[i < names.length ? i : random.nextInt(names.length - 1)],
+        dealers[i < dealers.length ? i : random.nextInt(dealers.length - 1)],
+        random.nextInt(1000) + random.nextDouble(),
+        shippedDates[random.nextInt(shippedDates.length - 1)],
+        cities[random.nextInt(cities.length - 1)],
+        1500.0 + random.nextInt(100),
+      ));
     }
+    return employeeData;
   }
 }

@@ -38,24 +38,40 @@ class _TextExtractionPdfState extends SampleViewState {
               const SizedBox(height: 20, width: 30),
               Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    FlatButton(
-                        child: Text('View Template',
-                            style: TextStyle(color: Colors.white)),
-                        color: model.backgroundColor,
-                        onPressed: _viewTemplate),
+                    TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            model.backgroundColor),
+                        padding: model.isMobile
+                            ? null
+                            : MaterialStateProperty.all(EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15)),
+                      ),
+                      onPressed: _viewTemplate,
+                      child: Text('View Template',
+                          style: TextStyle(color: Colors.white)),
+                    ),
                     SizedBox(
                       height: 10,
                       width: 20,
                     ),
-                    FlatButton(
-                        child: const Text('Extract Text',
-                            style: TextStyle(color: Colors.white)),
-                        color: model.backgroundColor,
-                        onPressed: _generatePDF)
+                    TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            model.backgroundColor),
+                        padding: model.isMobile
+                            ? null
+                            : MaterialStateProperty.all(EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15)),
+                      ),
+                      onPressed: _generatePDF,
+                      child: const Text('Extract Text',
+                          style: TextStyle(color: Colors.white)),
+                    )
                   ],
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                 ),
               )
             ],
@@ -66,9 +82,9 @@ class _TextExtractionPdfState extends SampleViewState {
   }
 
   Future<void> _viewTemplate() async {
-    List<int> documentBytes =
+    final List<int> documentBytes =
         await _readDocumentData('pdf_succinctly_template.pdf');
-    await FileSaveHelper.saveAndLaunchFile(documentBytes, 'PDF Succinctly.pdf');
+    await FileSaveHelper.saveAndLaunchFile(documentBytes, 'pdf_succinctly.pdf');
   }
 
   Future<void> _generatePDF() async {
@@ -77,10 +93,11 @@ class _TextExtractionPdfState extends SampleViewState {
         inputBytes: await _readDocumentData('pdf_succinctly_template.pdf'));
 
     //Create PDF text extractor to extract text.
-    PdfTextExtractor extractor = PdfTextExtractor(document);
+    final PdfTextExtractor extractor = PdfTextExtractor(document);
 
     //Extract text.
-    String text = extractor.extractText(startPageIndex: 0, endPageIndex: 4);
+    final String text =
+        extractor.extractText(startPageIndex: 0, endPageIndex: 4);
 
     //Dispose the document.
     document.dispose();
@@ -101,17 +118,17 @@ class _TextExtractionPdfState extends SampleViewState {
             title: Text('Extracted text'),
             content: Scrollbar(
               child: SingleChildScrollView(
-                child: Text(text),
                 physics: BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
+                child: Text(text),
               ),
             ),
             actions: [
-              FlatButton(
-                child: Text('Close'),
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+                child: Text('Close'),
               )
             ],
           );

@@ -23,7 +23,7 @@ class _ProgressBarTypesState extends SampleViewState {
   _ProgressBarTypesState();
 
   double _size = 150;
-  Timer _timer;
+  late Timer _timer;
   double _value = 0;
   double _value1 = 0;
   double _value2 = 0;
@@ -110,7 +110,7 @@ class _ProgressBarTypesState extends SampleViewState {
         ],
       );
     } else {
-      _size = model.isWeb ? size.height / 5 : size.height / 4.5;
+      _size = model.isWebFullView ? size.height / 5 : size.height / 4.5;
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,7 +144,7 @@ class _ProgressBarTypesState extends SampleViewState {
           endAngle: 270,
           showLabels: false,
           showTicks: false,
-          radiusFactor: model.isWeb ? 0.7 : 0.75,
+          radiusFactor: model.isWebFullView ? 0.7 : 0.75,
           axisLineStyle: AxisLineStyle(
             thickness: 0.05,
             color: const Color.fromARGB(30, 0, 169, 181),
@@ -177,7 +177,7 @@ class _ProgressBarTypesState extends SampleViewState {
           startAngle: 270,
           endAngle: 270,
           canScaleToFit: true,
-          radiusFactor: model.isWeb ? 0.7 : 0.8,
+          radiusFactor: model.isWebFullView ? 0.7 : 0.8,
           axisLineStyle: AxisLineStyle(
             thickness: 0.05,
             color: const Color.fromARGB(20, 0, 169, 181),
@@ -217,7 +217,7 @@ class _ProgressBarTypesState extends SampleViewState {
             showTicks: false,
             startAngle: 270,
             endAngle: 270,
-            radiusFactor: model.isWeb ? 0.7 : 0.8,
+            radiusFactor: model.isWebFullView ? 0.7 : 0.8,
             axisLineStyle: AxisLineStyle(
               thickness: 0.2,
               color: const Color.fromARGB(30, 0, 169, 181),
@@ -245,12 +245,12 @@ class _ProgressBarTypesState extends SampleViewState {
             minorTicksPerInterval: 0,
             startAngle: 270,
             endAngle: 270,
-            radiusFactor: model.isWeb ? 0.7 : 0.8,
+            radiusFactor: model.isWebFullView ? 0.7 : 0.8,
             majorTickStyle: MajorTickStyle(
                 length: 0.3,
                 thickness: 3,
                 lengthUnit: GaugeSizeUnit.factor,
-                color: model.currentThemeData.brightness == Brightness.light
+                color: model.currentThemeData!.brightness == Brightness.light
                     ? Colors.white
                     : Color.fromRGBO(33, 33, 33, 1)),
           )

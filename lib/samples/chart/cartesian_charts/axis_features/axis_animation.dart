@@ -27,7 +27,7 @@ class _AxisAnimationDefaultState extends SampleViewState {
   _AxisAnimationDefaultState() {
     _timer = Timer.periodic(const Duration(milliseconds: 2000), _getChartData);
   }
-  Timer _timer;
+  late Timer _timer;
   double _count = 0;
 
   final List<_ChartData> _chartData = <_ChartData>[
@@ -75,9 +75,9 @@ class _AxisAnimationDefaultState extends SampleViewState {
                 child: CheckboxListTile(
                     activeColor: model.backgroundColor,
                     value: _animation,
-                    onChanged: (bool value) {
+                    onChanged: (bool? value) {
                       setState(() {
-                        _animation = value;
+                        _animation = value!;
                         stateSetter(() {});
                       });
                     })),
@@ -89,11 +89,11 @@ class _AxisAnimationDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getAxisAnimation();
+    return _buildAxisAnimation();
   }
 
   /// Returns the Cartesian chart axis animation.
-  SfCartesianChart _getAxisAnimation() {
+  SfCartesianChart _buildAxisAnimation() {
     return SfCartesianChart(
         enableAxisAnimation: _animation,
         plotAreaBorderWidth: 0,
@@ -177,7 +177,7 @@ class _AxisAnimationDefaultState extends SampleViewState {
     }
   }
 
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }

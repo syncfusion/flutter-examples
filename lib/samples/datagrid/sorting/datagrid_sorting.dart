@@ -1,60 +1,74 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'dart:math';
 
-List<Employee> _employeeData;
-Random _random = Random();
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/sample_view.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
+/// Renders sorting data grid
 class SortingDataGrid extends SampleView {
-  SortingDataGrid({Key key}) : super(key: key);
+  /// Creates sorting data grid
+  SortingDataGrid({Key? key}) : super(key: key);
 
   @override
   _SortingDataGridState createState() => _SortingDataGridState();
 }
 
 class _SortingDataGridState extends SampleViewState {
-  _SortingDataSource _sortingDataGridSource;
-  bool _allowSorting = true;
-  bool _allowMultiSorting = false;
-  bool _allowTriStateSorting = false;
-  bool _allowColumnSorting = true;
-  bool _showSortNumbers = false;
-  bool _isLandscapeInMobileView;
+  /// DataGridSource required for SfDataGrid to obtain the row data.
+  final _SortingDataSource sortingDataGridSource = _SortingDataSource();
+
+  /// Decide to perform sorting in SfDataGrid.
+  bool allowSorting = true;
+
+  /// Decide to perform multi column sorting in SfDataGrid.
+  bool allowMultiSorting = false;
+
+  /// Decide to perform tri column sorting in SfDataGrid.
+  bool allowTriStateSorting = false;
+
+  /// Decide to perform sorting.
+  bool allowColumnSorting = true;
+
+  /// Determine the show the sorting number in header.
+  bool showSortNumbers = false;
+
+  /// Determine to decide whether the device in landscape or in portrait.
+  bool isLandscapeInMobileView = false;
+
+  late bool isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    _employeeData = generateList();
-    _sortingDataGridSource = _SortingDataSource();
-    _sortingDataGridSource.sortedColumns.add(SortColumnDetails(
+    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    sortingDataGridSource.sortedColumns.add(SortColumnDetails(
         name: 'id', sortDirection: DataGridSortDirection.descending));
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !model.isWeb &&
+    isLandscapeInMobileView = !isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   @override
   Widget build(BuildContext context) {
     return SfDataGrid(
-      source: _sortingDataGridSource,
+      source: sortingDataGridSource,
       columns: getColumns(),
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
-      columnWidthMode: kIsWeb || _isLandscapeInMobileView
+      columnWidthMode: isWebOrDesktop || isLandscapeInMobileView
           ? ColumnWidthMode.fill
-          : ColumnWidthMode.header,
-      allowSorting: _allowSorting,
-      allowMultiColumnSorting: _allowMultiSorting,
-      allowTriStateSorting: _allowTriStateSorting,
-      showSortNumbers: _showSortNumbers,
+          : ColumnWidthMode.none,
+      allowSorting: allowSorting,
+      allowMultiColumnSorting: allowMultiSorting,
+      allowTriStateSorting: allowTriStateSorting,
+      showSortNumbers: showSortNumbers,
     );
   }
 
@@ -71,10 +85,10 @@ class _SortingDataGridState extends SampleViewState {
             trailing: Transform.scale(
                 scale: 0.8,
                 child: CupertinoSwitch(
-                  value: _allowSorting,
+                  value: allowSorting,
                   onChanged: (bool value) {
                     setState(() {
-                      _allowSorting = value;
+                      allowSorting = value;
                       stateSetter(() {});
                     });
                   },
@@ -86,10 +100,10 @@ class _SortingDataGridState extends SampleViewState {
               trailing: Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
-                    value: _allowMultiSorting,
+                    value: allowMultiSorting,
                     onChanged: (bool value) {
                       setState(() {
-                        _allowMultiSorting = value;
+                        allowMultiSorting = value;
                         stateSetter(() {});
                       });
                     },
@@ -100,10 +114,10 @@ class _SortingDataGridState extends SampleViewState {
               trailing: Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
-                    value: _allowTriStateSorting,
+                    value: allowTriStateSorting,
                     onChanged: (bool value) {
                       setState(() {
-                        _allowTriStateSorting = value;
+                        allowTriStateSorting = value;
                         stateSetter(() {});
                       });
                     },
@@ -112,10 +126,10 @@ class _SortingDataGridState extends SampleViewState {
             trailing: Transform.scale(
                 scale: 0.8,
                 child: CupertinoSwitch(
-                  value: _allowColumnSorting,
+                  value: allowColumnSorting,
                   onChanged: (bool value) {
                     setState(() {
-                      _allowColumnSorting = value;
+                      allowColumnSorting = value;
                       stateSetter(() {});
                     });
                   },
@@ -129,10 +143,10 @@ class _SortingDataGridState extends SampleViewState {
               trailing: Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
-                    value: _showSortNumbers,
+                    value: showSortNumbers,
                     onChanged: (bool value) {
                       setState(() {
-                        _showSortNumbers = value;
+                        showSortNumbers = value;
                         stateSetter(() {});
                       });
                     },
@@ -144,85 +158,110 @@ class _SortingDataGridState extends SampleViewState {
 
   List<GridColumn> getColumns() {
     return <GridColumn>[
-      GridNumericColumn(
-          mappingName: 'id',
-          columnWidthMode:
-              !kIsWeb ? ColumnWidthMode.header : ColumnWidthMode.fill,
-          headerText: 'Order ID'),
-      GridNumericColumn(
-          mappingName: 'customerId',
-          columnWidthMode:
-              !kIsWeb ? ColumnWidthMode.header : ColumnWidthMode.fill,
-          headerText: 'Customer ID'),
       GridTextColumn(
-          mappingName: 'name',
-          headerText: 'Name',
-          allowSorting: _allowColumnSorting),
-      GridNumericColumn(
-          mappingName: 'freight',
-          numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
-          headerText: 'Freight'),
-      GridTextColumn(
-          mappingName: 'city',
+          columnName: 'id',
           columnWidthMode:
-              !kIsWeb ? ColumnWidthMode.auto : ColumnWidthMode.fill,
-          headerText: 'City'),
-      GridNumericColumn(
-          mappingName: 'price',
-          numberFormat: NumberFormat.currency(
-              locale: 'en_US', symbol: '\$', decimalDigits: 0),
-          columnWidthMode: ColumnWidthMode.lastColumnFill,
-          headerText: 'Price')
+              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+          width: !isWebOrDesktop
+              ? 100
+              : (isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          label: Container(
+            alignment: Alignment.centerRight,
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Order ID',
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+      GridTextColumn(
+          columnName: 'customerId',
+          columnWidthMode:
+              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+          width: !isWebOrDesktop
+              ? 120
+              : (isWebOrDesktop && model.isMobileResolution)
+                  ? 150.0
+                  : double.nan,
+          label: Container(
+            alignment: Alignment.centerRight,
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Customer ID',
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+      GridTextColumn(
+          columnName: 'name',
+          width: !isWebOrDesktop
+              ? 80
+              : (isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          label: Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Name',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          allowSorting: allowColumnSorting),
+      GridTextColumn(
+        columnName: 'freight',
+        width: !isWebOrDesktop
+            ? 120
+            : (isWebOrDesktop && model.isMobileResolution)
+                ? 110.0
+                : double.nan,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'Freight',
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+      GridTextColumn(
+        columnName: 'city',
+        width: !isWebOrDesktop
+            ? 90
+            : (isWebOrDesktop && model.isMobileResolution)
+                ? 120.0
+                : double.nan,
+        columnWidthMode:
+            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'City',
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+      GridTextColumn(
+        columnName: 'price',
+        width:
+            (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        columnWidthMode: ColumnWidthMode.lastColumnFill,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'Price',
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      )
     ];
   }
 }
 
-List<Employee> generateList() {
-  final List<Employee> employeeData = <Employee>[];
-  for (int i = 0; i < 30; i++) {
-    employeeData.add(Employee(
-      1000 + i,
-      1700 + i,
-      _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
-      _random.nextInt(1000) + _random.nextDouble(),
-      _citys[_random.nextInt(_citys.length - 1)],
-      1500.0 + _random.nextInt(100),
-    ));
-  }
-  return employeeData;
-}
-
-final List<String> _names = <String>[
-  'Welli',
-  'Blonp',
-  'Folko',
-  'Furip',
-  'Folig',
-  'Picco',
-  'Frans',
-  'Warth',
-  'Linod',
-  'Simop',
-  'Merep',
-  'Riscu',
-  'Seves',
-  'Vaffe',
-  'Alfki',
-];
-
-final List<String> _citys = <String>[
-  'Bruxelles',
-  'Rosario',
-  'Recife',
-  'Graz',
-  'Montreal',
-  'Tsawassen',
-  'Campinas',
-  'Resende',
-];
-
-class Employee {
-  Employee(
+class _Employee {
+  _Employee(
       this.id, this.customerId, this.name, this.freight, this.city, this.price);
   final int id;
   final int customerId;
@@ -232,34 +271,130 @@ class Employee {
   final double price;
 }
 
-class _SortingDataSource extends DataGridSource<Employee> {
-  _SortingDataSource();
+class _SortingDataSource extends DataGridSource {
+  _SortingDataSource() {
+    employees = getEmployees();
+    buildDataGridRows();
+  }
+
+  List<_Employee> employees = [];
+
+  List<DataGridRow> dataGridRows = [];
+
+  void buildDataGridRows() {
+    dataGridRows = employees.map<DataGridRow>((dataGridRow) {
+      return DataGridRow(cells: [
+        DataGridCell(columnName: 'id', value: dataGridRow.id),
+        DataGridCell(columnName: 'customerId', value: dataGridRow.customerId),
+        DataGridCell(columnName: 'name', value: dataGridRow.name),
+        DataGridCell(columnName: 'freight', value: dataGridRow.freight),
+        DataGridCell(columnName: 'city', value: dataGridRow.city),
+        DataGridCell(columnName: 'price', value: dataGridRow.price),
+      ]);
+    }).toList(growable: false);
+  }
+
   @override
-  List<Employee> get dataSource => _employeeData;
+  List<DataGridRow> get rows => dataGridRows;
+
   @override
-  Object getValue(Employee _employee, String columnName) {
-    switch (columnName) {
-      case 'id':
-        return _employee.id;
-        break;
-      case 'name':
-        return _employee.name;
-        break;
-      case 'customerId':
-        return _employee.customerId;
-        break;
-      case 'freight':
-        return _employee.freight;
-        break;
-      case 'price':
-        return _employee.price;
-        break;
-      case 'city':
-        return _employee.city;
-        break;
-      default:
-        return 'empty';
-        break;
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(cells: [
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          row.getCells()[0].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          row.getCells()[1].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            row.getCells()[2].value.toString(),
+            overflow: TextOverflow.ellipsis,
+          )),
+      Container(
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+                .format(row.getCells()[3].value)
+                .toString(),
+            overflow: TextOverflow.ellipsis,
+          )),
+      Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            row.getCells()[4].value.toString(),
+            overflow: TextOverflow.ellipsis,
+          )),
+      Container(
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            NumberFormat.currency(
+                    locale: 'en_US', symbol: '\$', decimalDigits: 0)
+                .format(row.getCells()[5].value)
+                .toString(),
+            overflow: TextOverflow.ellipsis,
+          )),
+    ]);
+  }
+
+  Random random = Random();
+
+  final List<String> names = <String>[
+    'Welli',
+    'Blonp',
+    'Folko',
+    'Furip',
+    'Folig',
+    'Picco',
+    'Frans',
+    'Warth',
+    'Linod',
+    'Simop',
+    'Merep',
+    'Riscu',
+    'Seves',
+    'Vaffe',
+    'Alfki',
+  ];
+
+  final List<String> cities = <String>[
+    'Bruxelles',
+    'Rosario',
+    'Recife',
+    'Graz',
+    'Montreal',
+    'Tsawassen',
+    'Campinas',
+    'Resende',
+  ];
+
+  List<_Employee> getEmployees() {
+    final List<_Employee> employeeData = <_Employee>[];
+    for (int i = 0; i < 30; i++) {
+      employeeData.add(_Employee(
+        1000 + i,
+        1700 + i,
+        names[i < names.length ? i : random.nextInt(names.length - 1)],
+        random.nextInt(1000) + random.nextDouble(),
+        cities[random.nextInt(cities.length - 1)],
+        1500.0 + random.nextInt(100),
+      ));
     }
+    return employeeData;
   }
 }

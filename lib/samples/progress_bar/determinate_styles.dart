@@ -12,6 +12,7 @@ import '../../model/sample_view.dart';
 
 /// Widget of the AgendaView Calendar.
 class ProgressBarDeterminateStyle extends SampleView {
+  /// Creates progress bar smaple with determinate styles.
   const ProgressBarDeterminateStyle(Key key) : super(key: key);
 
   @override
@@ -20,10 +21,10 @@ class ProgressBarDeterminateStyle extends SampleView {
 }
 
 class _ProgressBarDeterminateStyleState extends SampleViewState {
+  _ProgressBarDeterminateStyleState();
   double progressValue = 0;
   double _size = 150;
-  Timer _timer;
-  _ProgressBarDeterminateStyleState() {}
+  late Timer _timer;
 
   @override
   void initState() {
@@ -45,7 +46,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size = model.isWeb
+      _size = model.isWebFullView
           ? MediaQuery.of(context).size.height / 5
           : MediaQuery.of(context).size.height / 4.5;
       return Center(
@@ -118,7 +119,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
               showTicks: false,
               startAngle: 270,
               endAngle: 270,
-              radiusFactor: model.isWeb ? 0.7 : 0.8,
+              radiusFactor: model.isWebFullView ? 0.7 : 0.8,
               axisLineStyle: AxisLineStyle(
                 thickness: 1,
                 color: const Color.fromARGB(255, 0, 169, 181),
@@ -160,7 +161,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
             showTicks: false,
             startAngle: 270,
             endAngle: 270,
-            radiusFactor: model.isWeb ? 0.7 : 0.8,
+            radiusFactor: model.isWebFullView ? 0.7 : 0.8,
             axisLineStyle: AxisLineStyle(
               thickness: 0.05,
               color: const Color.fromARGB(100, 0, 169, 181),
@@ -192,7 +193,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
               showTicks: false,
               startAngle: 270,
               endAngle: 270,
-              radiusFactor: model.isWeb ? 0.7 : 0.8,
+              radiusFactor: model.isWebFullView ? 0.7 : 0.8,
               axisLineStyle: AxisLineStyle(
                 thickness: 0.2,
                 color: const Color.fromARGB(30, 0, 169, 181),
@@ -206,15 +207,9 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
                     enableAnimation: true,
                     animationDuration: 75,
                     animationType: AnimationType.linear,
-                    gradient: model.isWeb
-                        ? null
-                        : SweepGradient(colors: <Color>[
-                            Color(0xFFa4edeb),
-                            Color(0xFF00a9b5)
-                          ], stops: <double>[
-                            0.25,
-                            0.75
-                          ])),
+                    gradient: SweepGradient(
+                        colors: <Color>[Color(0xFFa4edeb), Color(0xFF00a9b5)],
+                        stops: <double>[0.25, 0.75])),
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(

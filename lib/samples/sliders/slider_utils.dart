@@ -20,9 +20,6 @@ Widget get columnSpacing30 {
 Widget title(String text) {
   return Align(
     alignment: Alignment.centerLeft,
-    child: Padding(
-      child: Text(text),
-      padding: const EdgeInsets.only(left: 25),
-    ),
+    child: Padding(padding: const EdgeInsets.only(left: 25), child: Text(text)),
   );
 }

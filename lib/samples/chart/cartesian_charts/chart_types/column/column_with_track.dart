@@ -18,13 +18,24 @@ class ColumnTracker extends SampleView {
 
 class _ColumnTrackerState extends SampleViewState {
   _ColumnTrackerState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        canShowMarker: false,
+        header: '',
+        format: 'point.y marks in point.x');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _getTrackerColumnChart();
+    return _buildTrackerColumnChart();
   }
 
   /// Get column series with track
-  SfCartesianChart _getTrackerColumnChart() {
+  SfCartesianChart _buildTrackerColumnChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Marks of a student'),
@@ -37,11 +48,7 @@ class _ColumnTrackerState extends SampleViewState {
           majorGridLines: MajorGridLines(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getTracker(),
-      tooltipBehavior: TooltipBehavior(
-          enable: true,
-          canShowMarker: false,
-          header: '',
-          format: 'point.y marks in point.x'),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

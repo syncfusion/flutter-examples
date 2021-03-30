@@ -61,25 +61,25 @@ class _DivisorShape extends SfDivisorShape {
   SampleModel model;
 
   @override
-  void paint(PaintingContext context, Offset center, Offset thumbCenter,
-      Offset startThumbCenter, Offset endThumbCenter,
-      {RenderBox parentBox,
-      SfSliderThemeData themeData,
-      SfRangeValues currentValues,
+  void paint(PaintingContext context, Offset center, Offset? thumbCenter,
+      Offset? startThumbCenter, Offset? endThumbCenter,
+      {required RenderBox parentBox,
+      required SfSliderThemeData themeData,
+      SfRangeValues? currentValues,
       dynamic currentValue,
-      Paint paint,
-      Animation<double> enableAnimation,
-      TextDirection textDirection}) {
-    bool isActive;
+      required Paint? paint,
+      required Animation<double> enableAnimation,
+      required TextDirection textDirection}) {
+    late bool isActive;
 
     switch (textDirection) {
       case TextDirection.ltr:
-        isActive =
-            center.dx >= startThumbCenter.dx && center.dx <= endThumbCenter.dx;
+        isActive = center.dx >= startThumbCenter!.dx &&
+            center.dx <= endThumbCenter!.dx;
         break;
       case TextDirection.rtl:
-        isActive =
-            center.dx >= endThumbCenter.dx && center.dx <= startThumbCenter.dx;
+        isActive = center.dx >= endThumbCenter!.dx &&
+            center.dx <= startThumbCenter!.dx;
         break;
     }
 
@@ -89,7 +89,7 @@ class _DivisorShape extends SfDivisorShape {
           ..isAntiAlias = true
           ..style = PaintingStyle.fill
           ..color = isActive
-              ? themeData.activeDivisorColor
+              ? themeData.activeDivisorColor!
               : model.themeData.canvasColor);
   }
 }

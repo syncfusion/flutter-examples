@@ -21,9 +21,9 @@ class EncryptPdf extends SampleView {
 class _EncryptPdfState extends SampleViewState {
   _EncryptPdfState();
   int _groupValue = 3;
-  void _changed(int value) {
+  void _changed(int? value) {
     setState(() {
-      _groupValue = value;
+      _groupValue = value!;
     });
   }
 
@@ -79,11 +79,20 @@ class _EncryptPdfState extends SampleViewState {
                       const SizedBox(height: 15, width: 30),
                       Align(
                           alignment: Alignment.center,
-                          child: FlatButton(
-                              child: const Text('Encrypt PDF',
-                                  style: TextStyle(color: Colors.white)),
-                              color: model.backgroundColor,
-                              onPressed: _encryptPDF))
+                          child: TextButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  model.backgroundColor),
+                              padding: model.isMobile
+                                  ? null
+                                  : MaterialStateProperty.all(
+                                      EdgeInsets.symmetric(
+                                          vertical: 15, horizontal: 15)),
+                            ),
+                            onPressed: _encryptPDF,
+                            child: const Text('Encrypt PDF',
+                                style: TextStyle(color: Colors.white)),
+                          ))
                     ]),
               ),
             )));
@@ -125,7 +134,7 @@ class _EncryptPdfState extends SampleViewState {
         inputBytes: await _readDocumentData('credit_card_statement.pdf'));
 
     // Get the PDF security.
-    PdfSecurity security = document.security;
+    final PdfSecurity security = document.security;
 
     //Set passwords
     security.userPassword = 'password@123';

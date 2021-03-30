@@ -19,7 +19,8 @@ class HiloChart extends SampleView {
 
 class _HiloChartState extends SampleViewState {
   _HiloChartState();
-  bool _toggleVisibility;
+  late bool _toggleVisibility;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -39,9 +40,9 @@ class _HiloChartState extends SampleViewState {
                 child: CheckboxListTile(
                     activeColor: model.backgroundColor,
                     value: _toggleVisibility,
-                    onChanged: (bool value) {
+                    onChanged: (bool? value) {
                       setState(() {
-                        _toggleVisibility = value;
+                        _toggleVisibility = value!;
                         stateSetter(() {});
                       });
                     })),
@@ -53,11 +54,11 @@ class _HiloChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getHilo();
+    return _buildHilo();
   }
 
   ///Get the cartesian chart with hilo series
-  SfCartesianChart getHilo() {
+  SfCartesianChart _buildHilo() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
@@ -74,7 +75,7 @@ class _HiloChartState extends SampleViewState {
           labelFormat: '\${value}',
           axisLine: AxisLine(width: 0)),
       series: _getHiloSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -249,6 +250,7 @@ class _HiloChartState extends SampleViewState {
   @override
   void initState() {
     _toggleVisibility = true;
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 }

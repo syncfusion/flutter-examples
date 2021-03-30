@@ -22,11 +22,11 @@ class _MultipleAxisState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getMultipleAxisLineChart();
+    return _buildMultipleAxisLineChart();
   }
 
   /// Returns the chart with multiple axes.
-  SfCartesianChart _getMultipleAxisLineChart() {
+  SfCartesianChart _buildMultipleAxisLineChart() {
     return SfCartesianChart(
       title: ChartTitle(
           text: isCardView ? '' : 'Washington vs New York temperature'),

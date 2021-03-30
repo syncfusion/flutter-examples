@@ -19,7 +19,7 @@ class CategoryIndexed extends SampleView {
 /// State class of arrange by index chart.
 class _CategoryIndexedState extends SampleViewState {
   _CategoryIndexedState();
-  bool isIndexed = true;
+  bool? isIndexed = true;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _CategoryIndexedState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getIndexedCategoryAxisChart();
+    return _buildIndexedCategoryAxisChart();
   }
 
   @override
@@ -50,9 +50,9 @@ class _CategoryIndexedState extends SampleViewState {
                 child: CheckboxListTile(
                     activeColor: model.backgroundColor,
                     value: isIndexed,
-                    onChanged: (bool value) {
+                    onChanged: (bool? value) {
                       setState(() {
-                        isIndexed = value;
+                        isIndexed = value!;
                         stateSetter(() {});
                       });
                     })),
@@ -63,7 +63,7 @@ class _CategoryIndexedState extends SampleViewState {
   }
 
   /// Returns the column chart with arranged index.
-  SfCartesianChart _getIndexedCategoryAxisChart() {
+  SfCartesianChart _buildIndexedCategoryAxisChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Real GDP growth'),
       plotAreaBorderWidth: 0,

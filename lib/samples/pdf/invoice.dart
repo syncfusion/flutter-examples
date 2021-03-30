@@ -38,11 +38,19 @@ class _InvoicePdfState extends SampleViewState {
               const SizedBox(height: 20, width: 30),
               Align(
                   alignment: Alignment.center,
-                  child: FlatButton(
-                      child: const Text('Generate PDF',
-                          style: TextStyle(color: Colors.white)),
-                      color: model.backgroundColor,
-                      onPressed: _generatePDF))
+                  child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _generatePDF,
+                    child: const Text('Generate PDF',
+                        style: TextStyle(color: Colors.white)),
+                  ))
             ],
           ),
         ),
@@ -120,16 +128,16 @@ class _InvoicePdfState extends SampleViewState {
     return PdfTextElement(text: address, font: contentFont).draw(
         page: page,
         bounds: Rect.fromLTWH(30, 120,
-            pageSize.width - (contentSize.width + 30), pageSize.height - 120));
+            pageSize.width - (contentSize.width + 30), pageSize.height - 120))!;
   }
 
   //Draws the grid
   void _drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
-    Rect totalPriceCellBounds;
-    Rect quantityCellBounds;
+    Rect? totalPriceCellBounds;
+    Rect? quantityCellBounds;
     //Invoke the beginCellLayout event.
     grid.beginCellLayout = (Object sender, PdfGridBeginCellLayoutArgs args) {
-      final PdfGrid grid = sender;
+      final PdfGrid grid = sender as PdfGrid;
       if (args.cellIndex == grid.columns.count - 1) {
         totalPriceCellBounds = args.bounds;
       } else if (args.cellIndex == grid.columns.count - 2) {
@@ -138,22 +146,22 @@ class _InvoicePdfState extends SampleViewState {
     };
     //Draw the PDF grid and get the result.
     result = grid.draw(
-        page: page, bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0));
+        page: page, bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0))!;
     //Draw grand total.
     page.graphics.drawString('Grand Total',
         PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
         bounds: Rect.fromLTWH(
-            quantityCellBounds.left,
+            quantityCellBounds!.left,
             result.bounds.bottom + 10,
-            quantityCellBounds.width,
-            quantityCellBounds.height));
+            quantityCellBounds!.width,
+            quantityCellBounds!.height));
     page.graphics.drawString(_getTotalAmount(grid).toString(),
         PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
         bounds: Rect.fromLTWH(
-            totalPriceCellBounds.left,
+            totalPriceCellBounds!.left,
             result.bounds.bottom + 10,
-            totalPriceCellBounds.width,
-            totalPriceCellBounds.height));
+            totalPriceCellBounds!.width,
+            totalPriceCellBounds!.height));
   }
 
   //Draw the invoice footer data.

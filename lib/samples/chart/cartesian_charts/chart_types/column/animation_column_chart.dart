@@ -23,8 +23,8 @@ class AnimationColumnDefault extends SampleView {
 class _AnimationColumnDefaultState extends SampleViewState {
   _AnimationColumnDefaultState();
 
-  List<_ChartData> _chartData;
-  Timer _timer;
+  late List<_ChartData> _chartData;
+  Timer? _timer;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,11 @@ class _AnimationColumnDefaultState extends SampleViewState {
         _getChartData();
       });
     });
-    return _getAnimationColumnChart();
+    return _buildAnimationColumnChart();
   }
 
   /// Get the cartesian chart
-  SfCartesianChart _getAnimationColumnChart() {
+  SfCartesianChart _buildAnimationColumnChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
@@ -63,11 +63,11 @@ class _AnimationColumnDefaultState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timer!.cancel();
   }
 
   ///Generate random value
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }

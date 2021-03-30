@@ -21,16 +21,16 @@ class _MultipleNeedleExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getMultipleNeedleExample();
+    return _buildMultipleNeedleExample();
   }
 
   /// Returns the multiple needle pointers gauge
-  SfRadialGauge _getMultipleNeedleExample() {
+  SfRadialGauge _buildMultipleNeedleExample() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
             showAxisLine: false,
-            radiusFactor: model.isWeb ? 0.43 : 0.5,
+            radiusFactor: model.isWebFullView ? 0.43 : 0.5,
             startAngle: 270,
             endAngle: 270,
             minimum: 0,
@@ -54,7 +54,7 @@ class _MultipleNeedleExampleState extends SampleViewState {
             endAngle: 270,
             minimum: 0,
             maximum: 12,
-            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             showFirstLabel: false,
             interval: 1,
             labelOffset: 10,

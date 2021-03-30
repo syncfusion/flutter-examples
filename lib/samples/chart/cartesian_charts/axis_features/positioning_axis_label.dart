@@ -22,9 +22,9 @@ class _AxisCrossingState extends SampleViewState {
   String _xSelectedPositionType = 'outside';
   String _ySelectedAlignmentType = 'end';
   String _xSelectedAlignmentType = 'center';
-  ChartDataLabelPosition _labelPositionX, _labelPositionY;
-  TickPosition _tickPositionX, _tickPositionY;
-  LabelAlignment _labelAlignmentX, _labelAlignmentY;
+  late ChartDataLabelPosition _labelPositionX, _labelPositionY;
+  late TickPosition _tickPositionX, _tickPositionY;
+  late LabelAlignment _labelAlignmentX, _labelAlignmentY;
 
   /// List the axis position types.
   final List<String> _yPositionType = <String>['outside', 'inside'].toList();
@@ -187,11 +187,11 @@ class _AxisCrossingState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getLabelCustomizationSample();
+    return _buildLabelCustomizationSample();
   }
 
   /// Returen the Spline series with axis label position changing.
-  SfCartesianChart _getLabelCustomizationSample() {
+  SfCartesianChart _buildLabelCustomizationSample() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'New York temperature details'),
       primaryXAxis: CategoryAxis(

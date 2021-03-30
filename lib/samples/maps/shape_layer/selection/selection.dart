@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Map import
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
@@ -17,13 +18,11 @@ class MapSelectionPage extends SampleView {
 }
 
 class _MapSelectionPageState extends SampleViewState {
-  int _selectedIndex;
+  int _selectedIndex = -1;
 
-  List<_ElectionResultModel> _electionResults;
+  late List<_StateDetails> _electionResults;
 
-  MapShapeSource _selectionMapSource;
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late MapShapeSource _selectionMapSource;
 
   @override
   void initState() {
@@ -38,56 +37,56 @@ class _MapSelectionPageState extends SampleViewState {
     //
     // [wonBy]: On the basis of this value, color mapping color has been
     // applied to the shape.
-    _electionResults = <_ElectionResultModel>[
-      _ElectionResultModel('Washington', 52.5, 36.8, 'Wash.', 'Democratic'),
-      _ElectionResultModel('Oregon', 50.1, 39.1, 'Ore.', 'Democratic'),
-      _ElectionResultModel('California', 61.5, 31.5, 'Calif.', 'Democratic'),
-      _ElectionResultModel('Nevada', 47.9, 45.5, 'Nev.', 'Democratic'),
-      _ElectionResultModel('Idaho', 59.2, 27.5, 'Idaho', 'Republican'),
-      _ElectionResultModel('Montana', 55.6, 35.4, 'Mont.', 'Republican'),
-      _ElectionResultModel('Wyoming', 68.2, 21.9, 'Wyo.', 'Republican'),
-      _ElectionResultModel('Utah', 45.1, 27.2, 'Utah', 'Republican'),
-      _ElectionResultModel('Arizona', 48.1, 44.6, 'Ariz.', 'Republican'),
-      _ElectionResultModel('Colorado', 48.2, 43.3, 'Colo.', 'Democratic'),
-      _ElectionResultModel('New Mexico', 48.3, 40.0, 'N.M.', 'Democratic'),
-      _ElectionResultModel('Texas', 52.2, 43.2, 'Tex.', 'Republican'),
-      _ElectionResultModel('Oklahoma', 65.3, 28.9, 'Okla.', 'Republican'),
-      _ElectionResultModel('Kansas', 56.2, 36.7, 'Kan.', 'Republican'),
-      _ElectionResultModel('Nebraska', 58.7, 33.7, 'Neb.', 'Republican'),
-      _ElectionResultModel('South Dakota', 61.5, 31.7, 'S.D.', 'Republican'),
-      _ElectionResultModel('North Dakota', 63.0, 27.2, 'N.D.', 'Republican'),
-      _ElectionResultModel('Minnesota', 46.4, 44.9, 'Minn.', 'Democratic'),
-      _ElectionResultModel('Lowa', 51.1, 41.7, 'Lowa', 'Republican'),
-      _ElectionResultModel('Missouri', 56.4, 37.9, 'Mo.', 'Republican'),
-      _ElectionResultModel('Arkansas', 60.6, 33.7, 'Ark.', 'Republican'),
-      _ElectionResultModel('Louisiana', 58.1, 38.4, 'La.', 'Republican'),
-      _ElectionResultModel('Mississippi', 57.9, 40.1, 'Miss.', 'Republican'),
-      _ElectionResultModel('Tennessee', 60.7, 34.7, 'Tenn.', 'Republican'),
-      _ElectionResultModel('Alabama', 62.1, 34.4, 'Ala.', 'Republican'),
-      _ElectionResultModel('Georgia', 50.4, 45.3, 'Ga.', 'Republican'),
-      _ElectionResultModel('Florida', 48.6, 47.4, 'Fla.', 'Republican'),
-      _ElectionResultModel('South Carolina', 54.9, 40.7, 'S.C.', 'Republican'),
-      _ElectionResultModel('North Carolina', 49.8, 46.2, 'N.C.', 'Republican'),
-      _ElectionResultModel('Virginia', 49.8, 44.4, 'Va.', 'Democratic'),
-      _ElectionResultModel('West Virginia', 67.9, 26.2, 'W.Va.', 'Republican'),
-      _ElectionResultModel('Kentucky', 62.5, 32.7, 'Ky.', 'Republican'),
-      _ElectionResultModel('Illinois', 55.2, 38.4, 'Ill.', 'Democratic'),
-      _ElectionResultModel('Indiana', 56.5, 37.5, 'Ind.', 'Republican'),
-      _ElectionResultModel('Ohio', 51.3, 43.2, 'Ohio', 'Republican'),
-      _ElectionResultModel('Pennsylvania', 48.2, 47.5, 'Pa', 'Republican'),
-      _ElectionResultModel('Maryland', 60.3, 33.9, 'Md.', 'Democratic'),
-      _ElectionResultModel('New Jersey', 55.0, 41.0, 'N.J.', 'Democratic'),
-      _ElectionResultModel('New York', 59.0, 36.5, 'N.Y.', 'Democratic'),
-      _ElectionResultModel('Wisconsin', 47.2, 46.5, 'Wis.', 'Republican'),
-      _ElectionResultModel('Michigan', 47.3, 47.0, 'Mich.', 'Republican'),
-      _ElectionResultModel('Connecticut', 60.0, 32.8, 'Conn.', 'Democratic'),
-      _ElectionResultModel('Massachusetts', 55.0, 41.0, 'Mass.', 'Democratic'),
-      _ElectionResultModel('Vermont', 56.7, 30.3, 'Vt.', 'Democratic'),
-      _ElectionResultModel('New Hampshire', 46.8, 46.5, 'N.H.', 'Democratic'),
-      _ElectionResultModel('Massachusetts', 55.0, 41.0, 'Mass.', 'Democratic'),
-      _ElectionResultModel('Maine', 47.8, 44.9, 'Me.', 'Democratic'),
-      _ElectionResultModel('Alaska', 51.3, 36.6, 'Alaska', 'Republican'),
-      _ElectionResultModel('Hawaii', 62.2, 30.0, 'Hawaii', 'Democratic'),
+    _electionResults = <_StateDetails>[
+      _StateDetails('Washington', 52.5, 36.8, 'Wash.', 'Democratic'),
+      _StateDetails('Oregon', 50.1, 39.1, 'Ore.', 'Democratic'),
+      _StateDetails('California', 61.5, 31.5, 'Calif.', 'Democratic'),
+      _StateDetails('Nevada', 47.9, 45.5, 'Nev.', 'Democratic'),
+      _StateDetails('Idaho', 59.2, 27.5, 'Idaho', 'Republican'),
+      _StateDetails('Montana', 55.6, 35.4, 'Mont.', 'Republican'),
+      _StateDetails('Wyoming', 68.2, 21.9, 'Wyo.', 'Republican'),
+      _StateDetails('Utah', 45.1, 27.2, 'Utah', 'Republican'),
+      _StateDetails('Arizona', 48.1, 44.6, 'Ariz.', 'Republican'),
+      _StateDetails('Colorado', 48.2, 43.3, 'Colo.', 'Democratic'),
+      _StateDetails('New Mexico', 48.3, 40.0, 'N.M.', 'Democratic'),
+      _StateDetails('Texas', 52.2, 43.2, 'Tex.', 'Republican'),
+      _StateDetails('Oklahoma', 65.3, 28.9, 'Okla.', 'Republican'),
+      _StateDetails('Kansas', 56.2, 36.7, 'Kan.', 'Republican'),
+      _StateDetails('Nebraska', 58.7, 33.7, 'Neb.', 'Republican'),
+      _StateDetails('South Dakota', 61.5, 31.7, 'S.D.', 'Republican'),
+      _StateDetails('North Dakota', 63.0, 27.2, 'N.D.', 'Republican'),
+      _StateDetails('Minnesota', 46.4, 44.9, 'Minn.', 'Democratic'),
+      _StateDetails('Lowa', 51.1, 41.7, 'Lowa', 'Republican'),
+      _StateDetails('Missouri', 56.4, 37.9, 'Mo.', 'Republican'),
+      _StateDetails('Arkansas', 60.6, 33.7, 'Ark.', 'Republican'),
+      _StateDetails('Louisiana', 58.1, 38.4, 'La.', 'Republican'),
+      _StateDetails('Mississippi', 57.9, 40.1, 'Miss.', 'Republican'),
+      _StateDetails('Tennessee', 60.7, 34.7, 'Tenn.', 'Republican'),
+      _StateDetails('Alabama', 62.1, 34.4, 'Ala.', 'Republican'),
+      _StateDetails('Georgia', 50.4, 45.3, 'Ga.', 'Republican'),
+      _StateDetails('Florida', 48.6, 47.4, 'Fla.', 'Republican'),
+      _StateDetails('South Carolina', 54.9, 40.7, 'S.C.', 'Republican'),
+      _StateDetails('North Carolina', 49.8, 46.2, 'N.C.', 'Republican'),
+      _StateDetails('Virginia', 49.8, 44.4, 'Va.', 'Democratic'),
+      _StateDetails('West Virginia', 67.9, 26.2, 'W.Va.', 'Republican'),
+      _StateDetails('Kentucky', 62.5, 32.7, 'Ky.', 'Republican'),
+      _StateDetails('Illinois', 55.2, 38.4, 'Ill.', 'Democratic'),
+      _StateDetails('Indiana', 56.5, 37.5, 'Ind.', 'Republican'),
+      _StateDetails('Ohio', 51.3, 43.2, 'Ohio', 'Republican'),
+      _StateDetails('Pennsylvania', 48.2, 47.5, 'Pa', 'Republican'),
+      _StateDetails('Maryland', 60.3, 33.9, 'Md.', 'Democratic'),
+      _StateDetails('New Jersey', 55.0, 41.0, 'N.J.', 'Democratic'),
+      _StateDetails('New York', 59.0, 36.5, 'N.Y.', 'Democratic'),
+      _StateDetails('Wisconsin', 47.2, 46.5, 'Wis.', 'Republican'),
+      _StateDetails('Michigan', 47.3, 47.0, 'Mich.', 'Republican'),
+      _StateDetails('Connecticut', 60.0, 32.8, 'Conn.', 'Democratic'),
+      _StateDetails('Massachusetts', 55.0, 41.0, 'Mass.', 'Democratic'),
+      _StateDetails('Vermont', 56.7, 30.3, 'Vt.', 'Democratic'),
+      _StateDetails('New Hampshire', 46.8, 46.5, 'N.H.', 'Democratic'),
+      _StateDetails('Massachusetts', 55.0, 41.0, 'Mass.', 'Democratic'),
+      _StateDetails('Maine', 47.8, 44.9, 'Me.', 'Democratic'),
+      _StateDetails('Alaska', 51.3, 36.6, 'Alaska', 'Republican'),
+      _StateDetails('Hawaii', 62.2, 30.0, 'Hawaii', 'Democratic'),
     ];
 
     _selectionMapSource = MapShapeSource.asset(
@@ -127,44 +126,45 @@ class _MapSelectionPageState extends SampleViewState {
         MapColorMapper(value: 'Republican', color: Colors.red),
       ],
     );
-
-    _selectedIndex = -1;
   }
 
   @override
   void dispose() {
-    _electionResults?.clear();
+    _electionResults.clear();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
         backgroundColor:
-            model.isWeb ? model.cardThemeColor : model.cardThemeColor,
+            model.isWebFullView ? model.cardThemeColor : model.cardThemeColor,
         body: MediaQuery.of(context).orientation == Orientation.portrait ||
-                model.isWeb
-            ? _getMapsWidget()
-            : SingleChildScrollView(child: _getMapsWidget()));
+                model.isWebFullView
+            ? _buildMapsWidget()
+            : SingleChildScrollView(child: _buildMapsWidget()));
   }
 
-  Widget _getMapsWidget() {
+  Widget _buildMapsWidget() {
     return Center(
-      child: Padding(
-        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                model.isWeb
-            ? EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.05,
-                bottom: MediaQuery.of(context).size.height * 0.05,
-                right: 10,
-              )
-            : const EdgeInsets.only(right: 10, bottom: 15),
-        child: SfMaps(
-          title: const MapTitle(
-            '2016 US Election Results',
+        child: Padding(
+      padding: MediaQuery.of(context).orientation == Orientation.portrait ||
+              model.isWebFullView
+          ? EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.05,
+              bottom: MediaQuery.of(context).size.height * 0.05,
+              right: 10,
+            )
+          : const EdgeInsets.only(right: 10, bottom: 15),
+      child: Column(children: [
+        Padding(
             padding: EdgeInsets.only(top: 15, bottom: 30),
-          ),
+            child: Align(
+                alignment: Alignment.center,
+                child: Text('2016 US Election Results',
+                    style: Theme.of(context).textTheme.subtitle1))),
+        Expanded(
+            child: SfMaps(
           layers: <MapLayer>[
             MapShapeLayer(
               loadingBuilder: (BuildContext context) {
@@ -193,8 +193,8 @@ class _MapSelectionPageState extends SampleViewState {
               // Passes the tapped or clicked shape index to the callback.
               onSelectionChanged: (int index) {
                 if (index != _selectedIndex) {
-                  _scaffoldKey.currentState.hideCurrentSnackBar();
-                  _scaffoldKey.currentState.showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor:
                         _electionResults[index].wonBy == 'Republican'
                             ? Colors.red
@@ -210,7 +210,7 @@ class _MapSelectionPageState extends SampleViewState {
                                 Text(_electionResults[index].primaryKey,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline6
+                                        .headline6!
                                         .copyWith(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold)),
@@ -218,12 +218,12 @@ class _MapSelectionPageState extends SampleViewState {
                                   child: Align(
                                       alignment: Alignment.centerRight,
                                       child: GestureDetector(
+                                        onTap: () {
+                                          ScaffoldMessenger.of(context)
+                                              .removeCurrentSnackBar();
+                                        },
                                         child: const Icon(Icons.close,
                                             color: Colors.white),
-                                        onTap: () {
-                                          _scaffoldKey.currentState
-                                              .hideCurrentSnackBar();
-                                        },
                                       )),
                                 )
                               ],
@@ -234,7 +234,7 @@ class _MapSelectionPageState extends SampleViewState {
                                 Text('Won candidate :   ',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2
+                                        .bodyText2!
                                         .copyWith(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white)),
@@ -245,7 +245,7 @@ class _MapSelectionPageState extends SampleViewState {
                                         : 'Clinton',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2
+                                        .bodyText2!
                                         .copyWith(
                                             fontStyle: FontStyle.italic,
                                             color: Colors.white))
@@ -257,7 +257,7 @@ class _MapSelectionPageState extends SampleViewState {
                                 Text('Percentage :         ',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2
+                                        .bodyText2!
                                         .copyWith(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white)),
@@ -268,7 +268,7 @@ class _MapSelectionPageState extends SampleViewState {
                                         '%',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2
+                                        .bodyText2!
                                         .copyWith(
                                             fontStyle: FontStyle.italic,
                                             color: Colors.white))
@@ -292,15 +292,15 @@ class _MapSelectionPageState extends SampleViewState {
               },
             ),
           ],
-        ),
-      ),
-    );
+        )),
+      ]),
+    ));
   }
 }
 
-class _ElectionResultModel {
-  _ElectionResultModel(this.primaryKey, this.wonVotePercent,
-      this.lostVotePercent, this.state, this.wonBy);
+class _StateDetails {
+  _StateDetails(this.primaryKey, this.wonVotePercent, this.lostVotePercent,
+      this.state, this.wonBy);
 
   final String primaryKey;
   final double wonVotePercent;

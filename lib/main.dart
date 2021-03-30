@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:syncfusion_flutter_core/core.dart';
 import 'model/model.dart';
 import 'sample_browser.dart';
 

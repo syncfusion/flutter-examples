@@ -22,11 +22,11 @@ class _StepLineDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultStepLineChart();
+    return _buildDefaultStepLineChart();
   }
 
   /// Returns the default cartesian stepline chart.
-  SfCartesianChart _getDefaultStepLineChart() {
+  SfCartesianChart _buildDefaultStepLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Electricity-Production'),

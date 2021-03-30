@@ -25,15 +25,17 @@ class HijriDatePicker extends SampleView {
 class _HijriDatePickerState extends SampleViewState {
   _HijriDatePickerState();
 
-  HijriDatePickerController _controller;
-  DateRangePickerSelectionMode _selectionMode;
-  bool _enablePastDates;
-  bool _enableSwipingSelection;
-  bool _enableViewNavigation;
-  bool _isWeb;
-  Orientation _deviceOrientation;
+  final HijriDatePickerController _controller = HijriDatePickerController();
+  DateRangePickerSelectionMode _selectionMode =
+      DateRangePickerSelectionMode.range;
+  bool _enablePastDates = true;
+  bool _enableSwipingSelection = true;
+  bool _enableViewNavigation = true;
+  bool _showActionButtons = true;
+  bool _isWeb = false;
+  late Orientation _deviceOrientation;
 
-  String _selectionModeString;
+  String _selectionModeString = 'Range';
   final List<String> _selectionModeList = <String>[
     'Single',
     'Multiple',
@@ -41,7 +43,7 @@ class _HijriDatePickerState extends SampleViewState {
     'Multi Range',
   ].toList();
 
-  String _viewModeString;
+  String _viewModeString = 'Month';
   final List<String> _viewModeList = <String>[
     'Month',
     'Year',
@@ -50,13 +52,6 @@ class _HijriDatePickerState extends SampleViewState {
 
   @override
   void initState() {
-    _controller = HijriDatePickerController();
-    _selectionMode = DateRangePickerSelectionMode.range;
-    _enablePastDates = true;
-    _enableSwipingSelection = true;
-    _enableViewNavigation = true;
-    _selectionModeString = 'Range';
-    _viewModeString = 'Month';
     _controller.view = HijriDatePickerView.month;
     _controller.displayDate = HijriDateTime.now();
     _controller.selectedDate = HijriDateTime.now();
@@ -78,7 +73,6 @@ class _HijriDatePickerState extends SampleViewState {
       HijriDateRange(HijriDateTime.now().add(const Duration(days: 22)),
           HijriDateTime.now().add(const Duration(days: 27)))
     ];
-    _isWeb = false;
     super.initState();
   }
 
@@ -107,13 +101,13 @@ class _HijriDatePickerState extends SampleViewState {
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     final bool enableMultiView = _isWeb &&
         (_selectionMode == DateRangePickerSelectionMode.range ||
             _selectionMode == DateRangePickerSelectionMode.multiRange);
     final Widget cardView = Card(
         elevation: 10,
-        margin: model.isWeb
+        margin: model.isWebFullView
             ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
             : const EdgeInsets.all(30),
         child: Container(
@@ -128,19 +122,21 @@ class _HijriDatePickerState extends SampleViewState {
                   _enablePastDates,
                   _enableSwipingSelection,
                   _enableViewNavigation,
+                  _showActionButtons,
                   HijriDateTime.now().subtract(const Duration(days: 200)),
                   HijriDateTime.now().add(const Duration(days: 200)),
-                  enableMultiView)),
+                  enableMultiView,
+                  context)),
         ));
     return Scaffold(
       backgroundColor: model.themeData == null ||
               model.themeData.brightness == Brightness.light
           ? null
-          : const Color(0x171A21),
+          : const Color(0x00171a21),
       body: Column(children: <Widget>[
         Expanded(
-            flex: model.isWeb ? 9 : 8,
-            child: model.isWeb
+            flex: model.isWebFullView ? 9 : 8,
+            child: model.isWebFullView
                 ? Center(
                     child: Container(
                         width: !enableMultiView ? 400 : 700,
@@ -153,7 +149,7 @@ class _HijriDatePickerState extends SampleViewState {
                     )
                   ])),
         Expanded(
-            flex: model.isWeb
+            flex: model.isWebFullView
                 ? 1
                 : model.isMobileResolution &&
                         _deviceOrientation == Orientation.landscape
@@ -209,6 +205,8 @@ class _HijriDatePickerState extends SampleViewState {
       _enableSwipingSelection = value;
     } else if (property == 'EnableViewNavigation') {
       _enableViewNavigation = value;
+    } else if (property == 'ShowActionButtons') {
+      _showActionButtons = value;
     }
 
     setState(() {
@@ -217,10 +215,10 @@ class _HijriDatePickerState extends SampleViewState {
   }
 
   @override
-  Widget buildSettings([BuildContext context]) {
+  Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
-      List<Widget> propertyOptions = <Widget>[];
+      final List<Widget> propertyOptions = <Widget>[];
       propertyOptions.add(Container(
         height: 50,
         child: Row(
@@ -308,10 +306,46 @@ class _HijriDatePickerState extends SampleViewState {
                           canvasColor: model.bottomSheetBackgroundColor),
                       child: _DateRangePickerOption(
                         _onDisplayDateChanged,
-                        _controller.displayDate,
+                        _controller.displayDate!,
                         model,
-                        displayDate: _controller.displayDate,
+                        displayDate: _controller.displayDate!,
                       )),
+                ))
+          ],
+        ),
+      ));
+      propertyOptions.add(Container(
+        height: 50,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+                flex: 6,
+                child: Text('Show action buttons',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
+            Expanded(
+                flex: 4,
+                child: Container(
+                  padding: const EdgeInsets.all(0),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        canvasColor: model.bottomSheetBackgroundColor),
+                    child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Transform.scale(
+                            scale: 0.8,
+                            child: CupertinoSwitch(
+                              value: _showActionButtons,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  onBoolValueChange('ShowActionButtons', value);
+                                  stateSetter(() {});
+                                });
+                              },
+                              activeColor: model.backgroundColor,
+                            ))),
+                  ),
                 ))
           ],
         ),
@@ -427,7 +461,7 @@ class _HijriDatePickerState extends SampleViewState {
 
       return Padding(
           padding: const EdgeInsets.fromLTRB(15, 10, 0, 5),
-          child: model.isWeb
+          child: model.isWebFullView
               ? Column(
                   children: propertyOptions,
                 )
@@ -450,7 +484,7 @@ class _HijriDatePickerState extends SampleViewState {
 /// property for the date range picker, in the property window.
 class _DateRangePickerOption extends StatefulWidget {
   const _DateRangePickerOption(this.selectionChanged, this.date, this.model,
-      {this.displayDate});
+      {required this.displayDate});
 
   final DateRangePickerSelectionChangedCallback selectionChanged;
   final HijriDateTime date;
@@ -464,7 +498,7 @@ class _DateRangePickerOption extends StatefulWidget {
 }
 
 class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
-  HijriDateTime _date;
+  late HijriDateTime _date;
 
   @override
   void initState() {
@@ -490,18 +524,8 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
     return Container(
         color: Colors.transparent,
         child: GestureDetector(
-            child: Text(
-                _date.day.toString() +
-                    '-' +
-                    _date.month.toString() +
-                    '-' +
-                    _date.year.toString(),
-                style: TextStyle(
-                    fontSize: 15,
-                    color: _theme.textTheme.subtitle2.color,
-                    fontWeight: FontWeight.w600)),
             onTap: () async {
-              final HijriDateTime result = await showDialog<dynamic>(
+              final HijriDateTime? result = await showDialog<dynamic>(
                   context: context,
                   builder: (BuildContext context) {
                     return Theme(
@@ -521,28 +545,59 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
               if (result != null) {
                 _onSelectionChanged(result);
               }
-            }));
+            },
+            child: Text(
+                _date.day.toString() +
+                    '-' +
+                    _date.month.toString() +
+                    '-' +
+                    _date.year.toString(),
+                style: TextStyle(
+                    fontSize: 15,
+                    color: _theme.textTheme.subtitle2?.color,
+                    fontWeight: FontWeight.w600))));
   }
 }
 
 /// Returns the date range picker based on the properties passed
 SfHijriDateRangePicker _getGettingStartedDatePicker(
-    [HijriDatePickerController controller,
+    HijriDatePickerController controller,
     DateRangePickerSelectionMode mode,
     bool enablePastDates,
     bool _enableSwipingSelection,
     bool _enableViewNavigation,
+    bool showActionButtons,
     HijriDateTime minDate,
     HijriDateTime maxDate,
-    bool enableMultiView]) {
+    bool enableMultiView,
+    BuildContext context) {
   return SfHijriDateRangePicker(
     enablePastDates: enablePastDates,
     minDate: minDate,
     maxDate: maxDate,
     enableMultiView: enableMultiView,
     allowViewNavigation: _enableViewNavigation,
+    showActionButtons: showActionButtons,
     selectionMode: mode,
     controller: controller,
+    headerStyle: DateRangePickerHeaderStyle(
+        textAlign: enableMultiView ? TextAlign.center : TextAlign.left),
+    onCancel: () {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          'Selection Cancelled',
+        ),
+        duration: Duration(milliseconds: 200),
+      ));
+    },
+    onSubmit: (Object value) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          'Selection Confirmed',
+        ),
+        duration: Duration(milliseconds: 200),
+      ));
+    },
     monthViewSettings: HijriDatePickerMonthViewSettings(
         enableSwipeSelection: _enableSwipingSelection),
   );

@@ -28,19 +28,25 @@ class _LabelActionState extends SampleViewState {
     'wrap'
   ].toList();
   String _selectedType = 'hide';
-  AxisLabelIntersectAction _labelIntersectAction =
+  late AxisLabelIntersectAction _labelIntersectAction =
       AxisLabelIntersectAction.hide;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _selectedType = 'hide';
     _labelIntersectAction = AxisLabelIntersectAction.hide;
+    _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        format: 'point.x : point.y Goals',
+        header: '',
+        canShowMarker: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getLabelIntersectActionChart();
+    return _buildLabelIntersectActionChart();
   }
 
   @override
@@ -65,7 +71,7 @@ class _LabelActionState extends SampleViewState {
                       child: Text('$value',
                           style: TextStyle(color: model.textColor)));
                 }).toList(),
-                onChanged: (String value) {
+                onChanged: (String? value) {
                   _onPositionTypeChange(value.toString());
                   stateSetter(() {});
                 }),
@@ -76,7 +82,7 @@ class _LabelActionState extends SampleViewState {
   }
 
   /// Returns the column chart with label intersect action option.
-  SfCartesianChart _getLabelIntersectActionChart() {
+  SfCartesianChart _buildLabelIntersectActionChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -90,17 +96,13 @@ class _LabelActionState extends SampleViewState {
           interval: 40,
           majorTickLines: MajorTickLines(size: 0)),
       series: _getLabelIntersectActionSeries(),
-      tooltipBehavior: TooltipBehavior(
-          enable: true,
-          format: 'point.x : point.y Goals',
-          header: '',
-          canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
   /// Returns the list of chart series which need to render on the column chart.
   List<ColumnSeries<ChartSampleData, String>> _getLabelIntersectActionSeries() {
-    final List<ChartSampleData> chartData = model.isWeb
+    final List<ChartSampleData> chartData = model.isWebFullView
         ? <ChartSampleData>[
             ChartSampleData(x: 'Josef Bican', y: 805),
             ChartSampleData(x: 'Romário', y: 772),

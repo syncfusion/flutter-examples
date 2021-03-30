@@ -19,14 +19,21 @@ class ScatterShapes extends SampleView {
 /// State class of scatter chart with various shapes.
 class _ScatterShapesState extends SampleViewState {
   _ScatterShapesState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getShapesScatterChart();
+    return _buildShapesScatterChart();
   }
 
   /// Returns the scatter chart with various shapes.
-  SfCartesianChart _getShapesScatterChart() {
+  SfCartesianChart _buildShapesScatterChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Inflation Analysis'),
@@ -43,8 +50,7 @@ class _ScatterShapesState extends SampleViewState {
           labelFormat: '{value}%',
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
       series: _getScatterShapesSeries(),
     );
   }

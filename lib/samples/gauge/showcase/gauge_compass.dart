@@ -30,12 +30,12 @@ class _GaugeCompassExampleState extends SampleViewState {
       _markerWidth = 15;
       _labelFontSize = 11;
     } else {
-      _annotationTextSize = model.isWeb ? 22 : 16;
-      _markerOffset = model.isWeb ? 0.71 : 0.69;
-      _positionFactor = model.isWeb ? 0.025 : 0.05;
-      _markerHeight = model.isWeb ? 10 : 5;
-      _markerWidth = model.isWeb ? 15 : 10;
-      _labelFontSize = model.isWeb ? 11 : 10;
+      _annotationTextSize = model.isWebFullView ? 22 : 16;
+      _markerOffset = model.isWebFullView ? 0.71 : 0.69;
+      _positionFactor = model.isWebFullView ? 0.025 : 0.05;
+      _markerHeight = model.isWebFullView ? 10 : 5;
+      _markerWidth = model.isWebFullView ? 15 : 10;
+      _labelFontSize = model.isWebFullView ? 11 : 10;
     }
     final Widget _widget = SfRadialGauge(
       axes: <RadialAxis>[
@@ -93,7 +93,7 @@ class _GaugeCompassExampleState extends SampleViewState {
             ])
       ],
     );
-    if (model.isWeb) {
+    if (model.isWebFullView) {
       return Padding(
         padding: const EdgeInsets.all(35),
         child: _widget,

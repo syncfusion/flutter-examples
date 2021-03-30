@@ -19,7 +19,8 @@ class HiloOpenCloseChart extends SampleView {
 
 class _HiloOpenCloseChartState extends SampleViewState {
   _HiloOpenCloseChartState();
-  bool _toggleVisibility;
+  late bool _toggleVisibility;
+  late TrackballBehavior _trackballBehavior;
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -38,9 +39,9 @@ class _HiloOpenCloseChartState extends SampleViewState {
                 child: CheckboxListTile(
                     activeColor: model.backgroundColor,
                     value: _toggleVisibility,
-                    onChanged: (bool value) {
+                    onChanged: (bool? value) {
                       setState(() {
-                        _toggleVisibility = value;
+                        _toggleVisibility = value!;
                         stateSetter(() {});
                       });
                     }),
@@ -52,11 +53,11 @@ class _HiloOpenCloseChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getHiloOpenClose();
+    return _buildHiloOpenClose();
   }
 
   ///Get the cartesian chart with hilo open close series
-  SfCartesianChart _getHiloOpenClose() {
+  SfCartesianChart _buildHiloOpenClose() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
@@ -74,8 +75,7 @@ class _HiloOpenCloseChartState extends SampleViewState {
           labelFormat: '\${value}',
           axisLine: AxisLine(width: 0)),
       series: _getHiloOpenCloseSeries(),
-      trackballBehavior: TrackballBehavior(
-          enable: true, activationMode: ActivationMode.singleTap),
+      trackballBehavior: _trackballBehavior,
     );
   }
 
@@ -408,6 +408,8 @@ class _HiloOpenCloseChartState extends SampleViewState {
   @override
   void initState() {
     _toggleVisibility = true;
+    _trackballBehavior = TrackballBehavior(
+        enable: true, activationMode: ActivationMode.singleTap);
     super.initState();
   }
 }

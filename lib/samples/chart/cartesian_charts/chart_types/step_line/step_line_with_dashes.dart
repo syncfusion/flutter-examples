@@ -22,11 +22,11 @@ class _StepLineDashedState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDashedStepLineChart();
+    return _buildDashedStepLineChart();
   }
 
   /// Returns the dashed cartesian stepline chart.
-  SfCartesianChart _getDashedStepLineChart() {
+  SfCartesianChart _buildDashedStepLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'CO2 - Intensity analysis'),

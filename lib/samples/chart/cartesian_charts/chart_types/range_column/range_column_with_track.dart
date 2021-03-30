@@ -19,14 +19,21 @@ class RangeColumnWithTrack extends SampleView {
 /// State class of range column chart with tracker.
 class _RangeColumnWithTrackState extends SampleViewState {
   _RangeColumnWithTrackState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, canShowMarker: false, header: '');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getRangeColumnwithTrack();
+    return _buildRangeColumnwithTrack();
   }
 
   /// Returns the range column chart with tracker.
-  SfCartesianChart _getRangeColumnwithTrack() {
+  SfCartesianChart _buildRangeColumnwithTrack() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title:
@@ -41,8 +48,7 @@ class _RangeColumnWithTrackState extends SampleViewState {
           labelFormat: '{value} PM',
           majorTickLines: MajorTickLines(size: 0)),
       series: _getRangeColumnSerieswithTrack(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -65,7 +71,7 @@ class _RangeColumnWithTrackState extends SampleViewState {
           isTrackVisible: true,
           trackColor: const Color.fromRGBO(198, 201, 207, 1),
           borderRadius: BorderRadius.circular(15),
-          trackBorderColor: Colors.grey[100],
+          trackBorderColor: Colors.grey[100]!,
           xValueMapper: (ChartSampleData sales, _) => sales.x,
           lowValueMapper: (ChartSampleData sales, _) => sales.y,
           highValueMapper: (ChartSampleData sales, _) => sales.yValue,

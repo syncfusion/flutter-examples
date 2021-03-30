@@ -22,11 +22,11 @@ class _DoughnutDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultDoughnutChart();
+    return _buildDefaultDoughnutChart();
   }
 
   /// Return the circular chart with default doughnut series.
-  SfCircularChart _getDefaultDoughnutChart() {
+  SfCircularChart _buildDefaultDoughnutChart() {
     return SfCircularChart(
       title: ChartTitle(text: isCardView ? '' : 'Composition of ocean water'),
       legend: Legend(

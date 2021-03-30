@@ -84,11 +84,11 @@ class _SemiDoughnutChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getSemiDoughnutChart();
+    return _buildSemiDoughnutChart();
   }
 
   /// Returns the circular series with semi doughunut series.
-  SfCircularChart _getSemiDoughnutChart() {
+  SfCircularChart _buildSemiDoughnutChart() {
     return SfCircularChart(
       title: ChartTitle(text: isCardView ? '' : 'Sales by sales person'),
       legend: Legend(isVisible: !isCardView),
@@ -101,18 +101,18 @@ class _SemiDoughnutChartState extends SampleViewState {
   /// Returns  semi doughnut series.
   List<DoughnutSeries<ChartSampleData, String>> _getSemiDoughnutSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'David', y: 75, text: 'David 74%'),
-      ChartSampleData(x: 'Steve', y: 35, text: 'Steve 35%'),
-      ChartSampleData(x: 'Jack', y: 39, text: 'Jack 39%'),
-      ChartSampleData(x: 'Others', y: 75, text: 'Others 75%')
+      ChartSampleData(x: 'David', y: 45, text: 'David 45%'),
+      ChartSampleData(x: 'Steve', y: 15, text: 'Steve 15%'),
+      ChartSampleData(x: 'Jack', y: 21, text: 'Jack 21%'),
+      ChartSampleData(x: 'Others', y: 19, text: 'Others 19%')
     ];
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
           dataSource: chartData,
           innerRadius: '70%',
           radius: isCardView ? '100%' : '59%',
-          startAngle: startAngle ?? 270,
-          endAngle: endAngle ?? 90,
+          startAngle: startAngle,
+          endAngle: endAngle,
           xValueMapper: (ChartSampleData data, _) => data.x,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text,

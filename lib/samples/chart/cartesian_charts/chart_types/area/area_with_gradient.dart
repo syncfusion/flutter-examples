@@ -20,14 +20,21 @@ class AreaGradient extends SampleView {
 /// State class of gradient area chart.
 class _AreaGradientState extends SampleViewState {
   _AreaGradientState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getGradientAreaChart();
+    return _buildGradientAreaChart();
   }
 
   /// Returns the cartesian area chart with gradient.
-  SfCartesianChart _getGradientAreaChart() {
+  SfCartesianChart _buildGradientAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Annual rainfall of Paris'),
@@ -44,8 +51,7 @@ class _AreaGradientState extends SampleViewState {
           labelFormat: '{value}mm',
           majorTickLines: MajorTickLines(size: 0)),
       series: _getGradientAreaSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

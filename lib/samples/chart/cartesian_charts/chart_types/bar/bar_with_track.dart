@@ -19,14 +19,21 @@ class BarTracker extends SampleView {
 /// State class of tracker bar chart.
 class _BarTrackerState extends SampleViewState {
   _BarTrackerState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getTrackerBarChart();
+    return _buildTrackerBarChart();
   }
 
   /// Returns the bar chart with trackers.
-  SfCartesianChart _getTrackerBarChart() {
+  SfCartesianChart _buildTrackerBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Working hours of employees'),
@@ -40,8 +47,7 @@ class _BarTrackerState extends SampleViewState {
           maximum: 8,
           majorTickLines: MajorTickLines(size: 0)),
       series: _getTrackerBarSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

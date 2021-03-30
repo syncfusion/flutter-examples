@@ -24,60 +24,16 @@ class _AnimationDefaultState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     padding = MediaQuery.of(context).orientation == Orientation.landscape ||
-            model.isWeb
+            model.isWebFullView
         ? (MediaQuery.of(context).size.width / 100 * 14)
         : (MediaQuery.of(context).size.width / 100) * 5;
-    return _getDefaultAnimationChart();
+    return _buildDefaultAnimationChart();
   }
 
-  ChartSeriesController _chartSeriesController1, _chartSeriesController2;
-  // @override
-  // Widget buildSettings(BuildContext context) {
-  //   return ListView(
-  //     children: <Widget>[
-  //       Padding(
-  //           padding: EdgeInsets.only(right: model.isWeb ? 0 : 15),
-  //           child: Column(
-  //             children: [
-  //               Container(
-  //                   width: 180,
-  //                   child: RaisedButton(
-  //                     color: model.backgroundColor,
-  //                     onPressed: () {
-  //                       _chartSeriesController2?.animate();
-  //                     },
-  //                     child: Text('Animate line series',
-  //                         style: TextStyle(color: Colors.white)),
-  //                   )),
-  //               Container(
-  //                   width: 180,
-  //                   child: RaisedButton(
-  //                     color: model.backgroundColor,
-  //                     onPressed: () {
-  //                       _chartSeriesController1?.animate();
-  //                     },
-  //                     child: Text('Animate column series',
-  //                         style: TextStyle(color: Colors.white)),
-  //                   )),
-  //               Container(
-  //                   width: 180,
-  //                   child: RaisedButton(
-  //                     color: model.backgroundColor,
-  //                     onPressed: () {
-  //                       _chartSeriesController1?.animate();
-  //                       _chartSeriesController2?.animate();
-  //                     },
-  //                     child: Text('Animate both',
-  //                         style: TextStyle(color: Colors.white)),
-  //                   )),
-  //             ],
-  //           ))
-  //     ],
-  //   );
-  // }
+  ChartSeriesController? _chartSeriesController1, _chartSeriesController2;
 
   /// Returns the cartesian chart with default serie animation.
-  Column _getDefaultAnimationChart() {
+  Column _buildDefaultAnimationChart() {
     return Column(children: [
       Expanded(
           child: SfCartesianChart(
@@ -111,20 +67,20 @@ class _AnimationDefaultState extends SampleViewState {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    child: model.isWeb
+                    child: model.isWebFullView
                         ? ButtonTheme(
                             minWidth: 40.0,
                             height: 30.0,
-                            child: _getColumnButton())
-                        : _getColumnButton()),
+                            child: _buildColumnButton())
+                        : _buildColumnButton()),
                 Padding(padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
                 Container(
-                    child: model.isWeb
+                    child: model.isWebFullView
                         ? ButtonTheme(
                             minWidth: 40.0,
                             height: 30.0,
-                            child: _getLineButton())
-                        : _getLineButton()),
+                            child: _buildLineButton())
+                        : _buildLineButton()),
               ],
             )
     ]);
@@ -165,9 +121,12 @@ class _AnimationDefaultState extends SampleViewState {
     ];
   }
 
-  RaisedButton _getColumnButton() {
-    return RaisedButton(
-      color: model.backgroundColor,
+  ElevatedButton _buildColumnButton() {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all<Color>(model.backgroundColor),
+      ),
       onPressed: () {
         _chartSeriesController2?.animate();
       },
@@ -176,9 +135,12 @@ class _AnimationDefaultState extends SampleViewState {
     );
   }
 
-  RaisedButton _getLineButton() {
-    return RaisedButton(
-      color: model.backgroundColor,
+  ElevatedButton _buildLineButton() {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all<Color>(model.backgroundColor),
+      ),
       onPressed: () {
         _chartSeriesController1?.animate();
       },

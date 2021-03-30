@@ -19,8 +19,9 @@ class CandleChart extends SampleView {
 
 class _CandleChartState extends SampleViewState {
   _CandleChartState();
-  bool _enableSolidCandle;
-  bool _toggleVisibility;
+  late bool _enableSolidCandle;
+  late bool _toggleVisibility;
+  late TrackballBehavior _trackballBehavior;
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -41,9 +42,9 @@ class _CandleChartState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: _enableSolidCandle,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
-                            _enableSolidCandle = value;
+                            _enableSolidCandle = value!;
                             stateSetter(() {});
                           });
                         }))
@@ -63,9 +64,9 @@ class _CandleChartState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: _toggleVisibility,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
-                            _toggleVisibility = value;
+                            _toggleVisibility = value!;
                             stateSetter(() {});
                           });
                         }))
@@ -79,11 +80,11 @@ class _CandleChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getCandle();
+    return _buildCandle();
   }
 
   ///Get the cartesian chart with candle series
-  SfCartesianChart _getCandle() {
+  SfCartesianChart _buildCandle() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
@@ -101,8 +102,7 @@ class _CandleChartState extends SampleViewState {
           labelFormat: '\${value}',
           axisLine: AxisLine(width: 0)),
       series: _getCandleSeries(),
-      trackballBehavior: TrackballBehavior(
-          enable: true, activationMode: ActivationMode.singleTap),
+      trackballBehavior: _trackballBehavior,
     );
   }
 
@@ -358,6 +358,8 @@ class _CandleChartState extends SampleViewState {
   void initState() {
     _enableSolidCandle = false;
     _toggleVisibility = true;
+    _trackballBehavior = TrackballBehavior(
+        enable: true, activationMode: ActivationMode.singleTap);
     super.initState();
   }
 }

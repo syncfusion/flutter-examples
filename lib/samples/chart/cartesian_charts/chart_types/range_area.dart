@@ -23,14 +23,20 @@ class RangeArea extends SampleView {
 /// State class of the Range area chart.
 class _RangeAreaState extends SampleViewState {
   _RangeAreaState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(enable: true, decimalPlaces: 1);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getRangeAreaChart();
+    return _buildRangeAreaChart();
   }
 
   /// Returns the Cartesian Range area chart.
-  SfCartesianChart _getRangeAreaChart() {
+  SfCartesianChart _buildRangeAreaChart() {
     return SfCartesianChart(
       title: ChartTitle(text: 'Average temperature variation'),
       plotAreaBorderWidth: 0,
@@ -44,7 +50,7 @@ class _RangeAreaState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getRangeAreaSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true, decimalPlaces: 1),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

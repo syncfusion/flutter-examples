@@ -21,11 +21,11 @@ class _DataLabelTemplateState extends SampleViewState {
   _DataLabelTemplateState();
   @override
   Widget build(BuildContext context) {
-    return _getDataLabelTemplateChart();
+    return _buildDataLabelTemplateChart();
   }
 
   /// Returns the chart with various marker shapes.
-  SfCartesianChart _getDataLabelTemplateChart() {
+  SfCartesianChart _buildDataLabelTemplateChart() {
     return SfCartesianChart(
       title: ChartTitle(
           text: isCardView
@@ -78,7 +78,6 @@ class _DataLabelTemplateState extends SampleViewState {
       ChartSampleData(
         x: 'Instagram',
         y: 63,
-        // pointColor: gradientColors,
       ),
       ChartSampleData(
         x: 'Snapchat',
@@ -135,7 +134,7 @@ class _DataLabelTemplateState extends SampleViewState {
   }
 
   String _getImageTemplate(int pointIndex) {
-    String path = (pointIndex == 0
+    final String path = (pointIndex == 0
         ? 'images/youtube.png'
         : (pointIndex == 1
             ? 'images/maps_twitter.png'
@@ -159,23 +158,24 @@ class _CustomColumnSeriesRenderer extends ColumnSeriesRenderer {
 
 class _ColumnCustomPainter extends ColumnSegment {
   @override
-  int get currentSegmentIndex => super.currentSegmentIndex;
+  int get currentSegmentIndex => super.currentSegmentIndex!;
 
   @override
   void onPaint(Canvas canvas) {
-    Paint myPaint = fillPaint;
-    if (currentSegmentIndex == 0)
+    Paint? myPaint = fillPaint;
+    if (currentSegmentIndex == 0) {
       myPaint = Paint()..color = Color.fromRGBO(192, 33, 39, 1);
-    else if (currentSegmentIndex == 1)
+    } else if (currentSegmentIndex == 1) {
       myPaint = Paint()..color = const Color.fromRGBO(26, 157, 235, 1);
-    else if (currentSegmentIndex == 2)
+    } else if (currentSegmentIndex == 2) {
       myPaint = fillPaint;
-    else if (currentSegmentIndex == 3)
+    } else if (currentSegmentIndex == 3) {
       myPaint = Paint()..color = const Color.fromRGBO(254, 250, 55, 1);
-    else if (currentSegmentIndex == 4)
+    } else if (currentSegmentIndex == 4) {
       myPaint = Paint()..color = const Color.fromRGBO(60, 92, 156, 1);
+    }
     final Rect rect = Rect.fromLTRB(segmentRect.left, segmentRect.top,
         segmentRect.right * animationFactor, segmentRect.bottom);
-    canvas.drawRect(rect, myPaint);
+    canvas.drawRect(rect, myPaint!);
   }
 }

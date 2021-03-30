@@ -22,11 +22,11 @@ class _SplineDashedState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDashedSplineChart();
+    return _buildDashedSplineChart();
   }
 
   /// Returns the dashed spline chart.
-  SfCartesianChart _getDashedSplineChart() {
+  SfCartesianChart _buildDashedSplineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Total investment (% of GDP)'),

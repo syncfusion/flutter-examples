@@ -35,7 +35,7 @@ class _ExportState extends SampleViewState {
     return Scaffold(
         key: scaffoldKey,
         body: Column(children: [
-          Expanded(child: _getTemperatureMonitorExample()),
+          Expanded(child: _buildTemperatureMonitorExample()),
           Container(
               padding: EdgeInsets.only(bottom: 10),
               child: Row(
@@ -52,14 +52,14 @@ class _ExportState extends SampleViewState {
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
-                          scaffoldKey.currentState.showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             behavior: SnackBarBehavior.floating,
                             duration: Duration(milliseconds: 100),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5))),
                             content:
-                                Text("Gauge has been exported as PNG image"),
+                                Text('Gauge has been exported as PNG image'),
                           ));
                           _renderImage();
                         },
@@ -77,14 +77,14 @@ class _ExportState extends SampleViewState {
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
-                          scaffoldKey.currentState.showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             behavior: SnackBarBehavior.floating,
                             duration: Duration(milliseconds: 2000),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5))),
                             content: Text(
-                                "Gauge is being exported as PDF document."),
+                                'Gauge is being exported as PDF document.'),
                           ));
                           _renderPdf();
                         },
@@ -95,12 +95,12 @@ class _ExportState extends SampleViewState {
         ]));
   }
 
-  SfRadialGauge _getTemperatureMonitorExample() {
-    bool isPortrait =
+  SfRadialGauge _buildTemperatureMonitorExample() {
+    final bool isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     return SfRadialGauge(
       key: _key,
-      backgroundColor: model.currentThemeData.brightness == Brightness.light
+      backgroundColor: model.currentThemeData!.brightness == Brightness.light
           ? Colors.white
           : Color.fromRGBO(33, 33, 33, 1),
       enableLoadingAnimation: true,
@@ -110,9 +110,6 @@ class _ExportState extends SampleViewState {
             : '\nHigh and low temperatures of London - Sep ‘20',
         textStyle: TextStyle(
           fontSize: 20.0,
-          // color: model.currentThemeData.brightness == Brightness.light
-          //     ? Colors.black
-          //     : Colors.white,
           fontFamily: 'Segoe UI',
           fontStyle: FontStyle.normal,
         ),
@@ -124,7 +121,7 @@ class _ExportState extends SampleViewState {
             minimum: 0,
             maximum: 30,
             interval: 5,
-            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             labelOffset: 8,
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
@@ -171,12 +168,9 @@ class _ExportState extends SampleViewState {
             ],
             axisLineStyle: AxisLineStyle(
               cornerStyle: CornerStyle.bothCurve,
-              //Sweep gradient not supported in web
-              gradient: model.isWeb
-                  ? null
-                  : SweepGradient(
-                      colors: <Color>[Colors.grey[400], Colors.orange],
-                      stops: <double>[0.25, 0.75]),
+              gradient: SweepGradient(
+                  colors: <Color>[Colors.grey.shade200, Colors.orange],
+                  stops: <double>[0.25, 0.75]),
               thickness: isPortrait ? 30 : 10,
             ))
       ],
@@ -190,8 +184,8 @@ class _ExportState extends SampleViewState {
           await getApplicationDocumentsDirectory();
       final String path = documentDirectory.path;
       final String imageName = 'radialgauge.png';
-      imageCache.clear();
-      File file = new File('$path/$imageName');
+      imageCache!.clear();
+      final File file = File('$path/$imageName');
       file.writeAsBytesSync(bytes);
 
       await Navigator.of(context).push(
@@ -226,13 +220,13 @@ class _ExportState extends SampleViewState {
     final Size pageSize = page.getClientSize();
     page.graphics.drawImage(
         bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
-    scaffoldKey.currentState.hideCurrentSnackBar();
-    scaffoldKey.currentState.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(5))),
       duration: Duration(milliseconds: 200),
-      content: Text("Gauge has been exported as PDF document."),
+      content: Text('Gauge has been exported as PDF document.'),
     ));
     final List<int> bytes = document.save();
     document.dispose();
@@ -240,8 +234,9 @@ class _ExportState extends SampleViewState {
   }
 
   Future<List<int>> _readImageData() async {
-    dart_ui.Image data = await _key.currentState.toImage(pixelRatio: 3.0);
+    final dart_ui.Image data =
+        await _key.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: dart_ui.ImageByteFormat.png);
-    return bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+    return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 }

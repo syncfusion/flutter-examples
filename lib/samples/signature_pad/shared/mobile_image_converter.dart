@@ -6,7 +6,7 @@ import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 class ImageConverter {
   /// toImage
   static Future<Uint8List> toImage(
-      {RenderSignaturePad renderSignaturePad}) async {
-    return null;
+      {required RenderSignaturePad renderSignaturePad}) async {
+    return Uint8List.fromList([0]);
   }
 }

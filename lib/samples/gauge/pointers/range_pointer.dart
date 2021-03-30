@@ -21,11 +21,11 @@ class _RangePointerExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRangePointerExampleGauge();
+    return _buildRangePointerExampleGauge();
   }
 
   /// Returns the range pointer gauge
-  SfRadialGauge _getRangePointerExampleGauge() {
+  SfRadialGauge _buildRangePointerExampleGauge() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -75,12 +75,9 @@ class _RangePointerExampleState extends SampleViewState {
                   animationDuration: 1200,
                   animationType: AnimationType.ease,
                   sizeUnit: GaugeSizeUnit.factor,
-                  // Sweep gradient not supported in web
-                  gradient: model.isWeb
-                      ? null
-                      : const SweepGradient(
-                          colors: <Color>[Color(0xFF6A6EF6), Color(0xFFDB82F5)],
-                          stops: <double>[0.25, 0.75]),
+                  gradient: const SweepGradient(
+                      colors: <Color>[Color(0xFF6A6EF6), Color(0xFFDB82F5)],
+                      stops: <double>[0.25, 0.75]),
                   color: const Color(0xFF00A8B5),
                   width: 0.15),
             ]),

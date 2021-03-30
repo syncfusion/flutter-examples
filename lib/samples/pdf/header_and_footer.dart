@@ -38,11 +38,19 @@ class _HeaderAndFooterPdfState extends SampleViewState {
               const SizedBox(height: 20, width: 30),
               Align(
                   alignment: Alignment.center,
-                  child: FlatButton(
-                      child: const Text('Generate PDF',
-                          style: TextStyle(color: Colors.white)),
-                      color: model.backgroundColor,
-                      onPressed: _generatePDF))
+                  child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _generatePDF,
+                    child: const Text('Generate PDF',
+                        style: TextStyle(color: Colors.white)),
+                  ))
             ],
           ),
         ),
@@ -80,7 +88,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
             titlePage.getClientSize().height),
         format: format);
     //Add new Section
-    final PdfSection section = document.sections.add();
+    final PdfSection section = document.sections!.add();
     final PdfPage contentPage = section.pages.add();
     _addParagraph(contentPage, 'Table of Contents',
         Rect.fromLTWH(20, 60, 495, contentPage.getClientSize().height), true,
@@ -327,20 +335,20 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         .draw(
             page: page,
             bounds: Rect.fromLTWH(
-                bounds.left, bounds.top, bounds.width, bounds.height));
+                bounds.left, bounds.top, bounds.width, bounds.height))!;
   }
 
   PdfBookmark _addBookmark(PdfPage page, String text, Offset point,
-      {PdfDocument doc, PdfBookmark bookmark, PdfColor color}) {
+      {PdfDocument? doc, PdfBookmark? bookmark, PdfColor? color}) {
     PdfBookmark book;
     if (doc != null) {
       book = doc.bookmarks.add(text);
       book.destination = PdfDestination(page, point);
-    } else if (bookmark != null) {
-      book = bookmark.add(text);
+    } else {
+      book = bookmark!.add(text);
       book.destination = PdfDestination(page, point);
     }
-    book.color = color;
+    book.color = color ?? PdfColor(0, 0, 0);
     return book;
   }
 
@@ -368,7 +376,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
     return PdfTextElement(text: str, font: font).draw(
         page: page,
         bounds: Rect.fromLTWH(isTitle ? bounds.left : bounds.left + 20,
-            bounds.top + 5, bounds.width, bounds.height));
+            bounds.top + 5, bounds.width, bounds.height))!;
   }
 
   Future<List<int>> _readImageData(String name) async {

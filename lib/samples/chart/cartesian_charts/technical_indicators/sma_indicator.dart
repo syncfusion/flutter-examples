@@ -22,17 +22,25 @@ class SMAIndicator extends SampleView {
 /// State class of the OHLC chart with Simple moving average indicator.
 class _SMAIndicatorState extends SampleViewState {
   _SMAIndicatorState();
-  double _period = 14.0;
+  late double _period;
+  late TrackballBehavior _trackballBehavior;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
-    _period = 14;
     super.initState();
+    _period = 14;
+    _trackballBehavior = TrackballBehavior(
+      enable: !isCardView,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+    );
+    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaulSMAIndicator();
+    return _buildDefaulSMAIndicator();
   }
 
   @override
@@ -63,7 +71,7 @@ class _SMAIndicatorState extends SampleViewState {
   }
 
   /// Returns the OHLC chart with Simple moving average indicator.
-  SfCartesianChart _getDefaulSMAIndicator() {
+  SfCartesianChart _buildDefaulSMAIndicator() {
     final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
@@ -81,16 +89,12 @@ class _SMAIndicatorState extends SampleViewState {
           interval: 20,
           labelFormat: '\${value}',
           axisLine: AxisLine(width: 0)),
-      trackballBehavior: TrackballBehavior(
-        enable: !isCardView,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isCardView ? true : false),
+      trackballBehavior: _trackballBehavior,
+      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
         /// SMA indicator mentioned here.
         SmaIndicator<ChartSampleData, DateTime>(
-            seriesName: 'AAPL', period: _period.toInt() ?? 14),
+            seriesName: 'AAPL', period: _period.toInt()),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <ChartSeries<ChartSampleData, DateTime>>[

@@ -23,10 +23,10 @@ class _RadialElasticOutAnimationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialElasticOutAnimation();
+    return _buildRadialElasticOutAnimation();
   }
 
-  SfRadialGauge _getRadialElasticOutAnimation() {
+  SfRadialGauge _buildRadialElasticOutAnimation() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -42,12 +42,9 @@ class _RadialElasticOutAnimationState extends SampleViewState {
             minorTicksPerInterval: 4,
             pointers: <GaugePointer>[
               RangePointer(
-                  // Sweep gradient not supported in web
-                  gradient: model.isWeb
-                      ? null
-                      : const SweepGradient(
-                          colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
-                          stops: <double>[0.25, 0.75]),
+                  gradient: const SweepGradient(
+                      colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
+                      stops: <double>[0.25, 0.75]),
                   value: 70,
                   width: 5,
                   animationDuration: 2000,
@@ -57,7 +54,8 @@ class _RadialElasticOutAnimationState extends SampleViewState {
               NeedlePointer(
                   value: 70,
                   needleStartWidth: 0,
-                  needleColor: model.isWeb ? null : const Color(0xFFD481FF),
+                  needleColor:
+                      model.isWebFullView ? null : const Color(0xFFD481FF),
                   lengthUnit: GaugeSizeUnit.factor,
                   needleLength: 1,
                   enableAnimation: true,

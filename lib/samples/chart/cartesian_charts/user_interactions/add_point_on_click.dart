@@ -28,8 +28,8 @@ class _InteractiveChartState extends SampleViewState {
   ];
   List<ChartSampleData> scatterData = <ChartSampleData>[];
   bool isLineExist = false;
-  ChartSeriesController seriesController;
-  List<CartesianSeries<ChartSampleData, num>> chartSeries;
+  ChartSeriesController? seriesController;
+  // List<CartesianSeries<ChartSampleData, num>> chartSeries;
   bool isSorting = false;
   bool isDataAdded = false;
   bool isScatterData = false;
@@ -43,17 +43,17 @@ class _InteractiveChartState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final double bottomPadding = !model.isWeb ? 40 : 60;
+    final double bottomPadding = !model.isWebFullView ? 40 : 60;
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: Padding(
             padding:
                 EdgeInsets.fromLTRB(5, isCardView ? 0 : 15, 5, bottomPadding),
             child: Container(
-              child: _getInteractiveChart(),
+              child: _buildInteractiveChart(),
             )),
         floatingActionButton: SizedBox(
-          height: model.isWeb ? 45 : 40,
+          height: model.isWebFullView ? 45 : 40,
           width: 45,
           child: FloatingActionButton(
             onPressed: isResetVisible
@@ -68,15 +68,15 @@ class _InteractiveChartState extends SampleViewState {
                       isResetVisible = false;
                     })
                 : null,
-            child: const Icon(Icons.refresh, color: Colors.white),
             backgroundColor:
                 isResetVisible ? model.backgroundColor : Colors.grey[600],
+            child: const Icon(Icons.refresh, color: Colors.white),
           ),
         ));
   }
 
   /// Returns the cartesian chart with default tootlip.
-  SfCartesianChart _getInteractiveChart() {
+  SfCartesianChart _buildInteractiveChart() {
     return SfCartesianChart(
         margin: EdgeInsets.fromLTRB(10, 15, 10, 10),
         plotAreaBorderWidth: 0,
@@ -106,7 +106,7 @@ class _InteractiveChartState extends SampleViewState {
           isResetVisible = true;
           final Offset value = Offset(args.position.dx, args.position.dy);
           CartesianChartPoint<dynamic> chartpoint;
-          chartpoint = seriesController.pixelToPoint(value);
+          chartpoint = seriesController!.pixelToPoint(value);
           chartData.add(ChartSampleData(x: chartpoint.x, y: chartpoint.y));
           setState(() {});
         });

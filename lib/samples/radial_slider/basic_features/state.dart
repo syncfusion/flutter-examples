@@ -10,6 +10,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the RadialSlider state.
 class RadialSliderStateTypes extends SampleView {
+  /// Creates the RadialSlider state.
   const RadialSliderStateTypes(Key key) : super(key: key);
 
   @override
@@ -21,8 +22,7 @@ class _RadialSliderStateTypesState extends SampleViewState {
 
   bool _enableDragging = true;
   double _value = 30;
-  double _markerValue = 28.75;
-  double _annotationFontSize = 25;
+  double _annotationFontSize = 20;
   String _annotationValue = '30';
   double _firstMarkerSize = 30;
   @override
@@ -33,12 +33,11 @@ class _RadialSliderStateTypesState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      _firstMarkerSize = 30;
-      _annotationFontSize = 25;
+      _firstMarkerSize = 25;
+      _annotationFontSize = 20;
     } else {
-      _firstMarkerSize = model.isWeb ? 22 : 20;
-      _firstMarkerSize = model.isWeb ? 20 : 20;
-      _annotationFontSize = model.isWeb ? 25 : 15;
+      _firstMarkerSize = model.isWebFullView ? 35 : 15;
+      _annotationFontSize = model.isWebFullView ? 20 : 15;
     }
 
     return Center(
@@ -47,7 +46,10 @@ class _RadialSliderStateTypesState extends SampleViewState {
           RadialAxis(
               radiusFactor: 0.8,
               axisLineStyle: AxisLineStyle(
-                  thickness: model.isWeb ? 0.15 : 0.25,
+                  color: model.themeData.brightness == Brightness.light
+                      ? Color.fromRGBO(191, 214, 245, 1)
+                      : Color.fromRGBO(36, 58, 89, 1),
+                  thickness: model.isWebFullView ? 0.05 : 0.075,
                   thicknessUnit: GaugeSizeUnit.factor),
               showLabels: false,
               showTicks: false,
@@ -55,20 +57,23 @@ class _RadialSliderStateTypesState extends SampleViewState {
               endAngle: 270,
               pointers: <GaugePointer>[
                 RangePointer(
-                    width: model.isWeb ? 0.15 : 0.25,
+                    width: model.isWebFullView ? 0.05 : 0.075,
                     value: _value,
-                    enableDragging: _enableDragging,
                     cornerStyle: CornerStyle.bothCurve,
-                    onValueChanged: handlePointerValueChanged,
-                    onValueChangeEnd: handlePointerValueChanged,
-                    onValueChanging: handlePointerValueChanging,
                     color: _enableDragging
-                        ? const Color.fromRGBO(34, 144, 199, 1)
+                        ? const Color.fromRGBO(44, 117, 220, 1)
                         : const Color(0xFF888888),
                     sizeUnit: GaugeSizeUnit.factor),
                 MarkerPointer(
-                  value: _markerValue,
-                  color: Colors.white,
+                  value: _value,
+                  onValueChanged: handlePointerValueChanged,
+                  onValueChangeEnd: handlePointerValueChanged,
+                  onValueChanging: handlePointerValueChanging,
+                  elevation: 5,
+                  enableDragging: _enableDragging,
+                  color: _enableDragging
+                      ? const Color.fromRGBO(44, 117, 220, 1)
+                      : const Color(0xFF888888),
                   markerHeight: _firstMarkerSize,
                   markerWidth: _firstMarkerSize,
                   markerType: MarkerType.circle,
@@ -83,21 +88,21 @@ class _RadialSliderStateTypesState extends SampleViewState {
                           '$_annotationValue',
                           style: TextStyle(
                             fontSize: _annotationFontSize,
-                            fontFamily: 'Times',
-                            fontWeight: FontWeight.bold,
+                            // fontFamily: 'Times',
+                            // fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           '%',
                           style: TextStyle(
                             fontSize: _annotationFontSize,
-                            fontFamily: 'Times',
-                            fontWeight: FontWeight.bold,
+                            // fontFamily: 'Times',
+                            // fontWeight: FontWeight.bold,
                           ),
                         )
                       ],
                     ),
-                    positionFactor: 0.13,
+                    positionFactor: 0.0,
                     angle: 90)
               ])
         ],
@@ -151,7 +156,6 @@ class _RadialSliderStateTypesState extends SampleViewState {
   void _setPointerValue(double value) {
     setState(() {
       _value = value;
-      _markerValue = value - 1.75;
       int _currentValue = _value.toInt();
       _currentValue = _currentValue >= 100 ? 100 : _currentValue;
       _annotationValue = '$_currentValue';

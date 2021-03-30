@@ -21,11 +21,11 @@ class _LineDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultLineChart();
+    return _buildDefaultLineChart();
   }
 
   /// Get the cartesian chart with default line series
-  SfCartesianChart _getDefaultLineChart() {
+  SfCartesianChart _buildDefaultLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Inflation - Consumer price'),

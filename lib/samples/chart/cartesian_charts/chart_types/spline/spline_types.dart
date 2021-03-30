@@ -22,19 +22,22 @@ class _SplineTypesState extends SampleViewState {
 
   final List<String> _splineList =
       <String>['natural', 'monotonic', 'cardinal', 'clamped'].toList();
-  String _selectedSplineType = 'natural';
-  SplineType _spline = SplineType.natural;
+  late String _selectedSplineType;
+  late SplineType _spline;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _selectedSplineType = 'natural';
     _spline = SplineType.natural;
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getTypesSplineChart();
+    return _buildTypesSplineChart();
   }
 
   @override
@@ -72,7 +75,7 @@ class _SplineTypesState extends SampleViewState {
   }
 
   /// Returns the spline types chart.
-  SfCartesianChart _getTypesSplineChart() {
+  SfCartesianChart _buildTypesSplineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Export growth of Brazil'),
@@ -87,8 +90,7 @@ class _SplineTypesState extends SampleViewState {
           interval: 0.1,
           majorTickLines: MajorTickLines(size: 0)),
       series: _getSplineTypesSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

@@ -12,6 +12,7 @@ import '../../model/sample_view.dart';
 
 /// Widget of the AgendaView Calendar.
 class ProgressBarAngles extends SampleView {
+  /// Creates AgendaView Calendar sample.
   const ProgressBarAngles(Key key) : super(key: key);
 
   @override
@@ -22,7 +23,7 @@ class _ProgressBarAnglesState extends SampleViewState {
   _ProgressBarAnglesState();
 
   double _size = 150;
-  Timer _timer;
+  late Timer _timer;
   double _value = 0;
   @override
   void initState() {
@@ -48,7 +49,7 @@ class _ProgressBarAnglesState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size = model.isWeb
+      _size = model.isWebFullView
           ? MediaQuery.of(context).size.height / 6
           : MediaQuery.of(context).size.height / 5.5;
       return Center(
@@ -58,10 +59,12 @@ class _ProgressBarAnglesState extends SampleViewState {
           children: [
             _getFirstProgressBar(),
             Align(
-                alignment: !model.isWeb ? Alignment(-0.3, 0) : Alignment(0, 0),
+                alignment:
+                    !model.isWebFullView ? Alignment(-0.3, 0) : Alignment(0, 0),
                 child: _getSecondProgressBar()),
             Align(
-              alignment: !model.isWeb ? Alignment(0.3, 0) : Alignment(0, 0),
+              alignment:
+                  !model.isWebFullView ? Alignment(0.3, 0) : Alignment(0, 0),
               child: _getThirdProgressBar(),
             ),
             _getFourthProgressBar(),
@@ -79,7 +82,8 @@ class _ProgressBarAnglesState extends SampleViewState {
             _getSecondProgressBar(),
             _getThirdProgressBar(),
             Align(
-                alignment: model.isWeb ? Alignment(0, -0.5) : Alignment(0, 0),
+                alignment:
+                    model.isWebFullView ? Alignment(0, -0.5) : Alignment(0, 0),
                 child: _getFourthProgressBar()),
           ],
         ),

@@ -24,7 +24,7 @@ class SliderColorCustomizationPage extends SampleView {
 
 class _SliderColorCustomizationPageState extends SampleViewState {
   _SliderColorCustomizationPageState();
-  Widget slider;
+  late Widget slider;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _SliderColorCustomizationPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
+            model.isWebFullView
         ? slider
         : SingleChildScrollView(
             child: Container(height: 325, child: slider),
@@ -80,10 +80,12 @@ class _SliderColorCustomizationState extends SampleViewState {
   SfSliderTheme _sliderWithThumbStrokeColorCustomization() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-            inactiveDivisorColor:
-                model.isWeb ? model.webBackgroundColor : model.cardThemeColor,
-            activeDivisorColor:
-                model.isWeb ? model.webBackgroundColor : model.cardThemeColor,
+            inactiveDivisorColor: model.isWebFullView
+                ? model.webBackgroundColor
+                : model.cardThemeColor,
+            activeDivisorColor: model.isWebFullView
+                ? model.webBackgroundColor
+                : model.cardThemeColor,
             activeDivisorStrokeWidth: 2,
             activeDivisorStrokeColor: Colors.deepOrange.withOpacity(0.24),
             inactiveDivisorStrokeWidth: 2,
@@ -93,8 +95,9 @@ class _SliderColorCustomizationState extends SampleViewState {
             activeTrackColor: Colors.deepOrange,
             inactiveTrackColor: Colors.deepOrange.withOpacity(0.24),
             overlayColor: Colors.deepOrange.withOpacity(0.12),
-            thumbColor:
-                model.isWeb ? model.webBackgroundColor : model.cardThemeColor,
+            thumbColor: model.isWebFullView
+                ? model.webBackgroundColor
+                : model.cardThemeColor,
             thumbStrokeWidth: 2.0,
             tooltipBackgroundColor: Colors.deepOrange,
             thumbStrokeColor: Colors.deepOrange),
@@ -113,18 +116,18 @@ class _SliderColorCustomizationState extends SampleViewState {
             numberFormat: NumberFormat('#')));
   }
 
-  Widget _getWebLayout() {
+  Widget _buildWebLayout() {
     return Container(
       alignment: Alignment.center,
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-        child: _getMobileLayout(),
+        child: _buildMobileLayout(),
       ),
     );
   }
 
-  Widget _getMobileLayout() {
+  Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
@@ -145,6 +148,6 @@ class _SliderColorCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
   }
 }

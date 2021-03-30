@@ -23,8 +23,8 @@ class AnimationScatterDefault extends SampleView {
 
 class _AnimationScatterDefaultState extends SampleViewState {
   _AnimationScatterDefaultState();
-  Timer _timer;
-  List<_ChartData> _chartData;
+  Timer? _timer;
+  late List<_ChartData> _chartData;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,11 @@ class _AnimationScatterDefaultState extends SampleViewState {
         _getChartData();
       });
     });
-    return _getAnimationScatterChart();
+    return _buildAnimationScatterChart();
   }
 
   /// Get the Scatter chart sample with dynamically updated data points.
-  SfCartesianChart _getAnimationScatterChart() {
+  SfCartesianChart _buildAnimationScatterChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
@@ -64,10 +64,10 @@ class _AnimationScatterDefaultState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timer?.cancel();
   }
 
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }

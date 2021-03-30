@@ -21,11 +21,11 @@ class _RadialEaseExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getRadialEaseExample();
+    return _buildRadialEaseExample();
   }
 
   /// Return the gauge pointer ease animation gauge
-  SfRadialGauge _getRadialEaseExample() {
+  SfRadialGauge _buildRadialEaseExample() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -33,7 +33,7 @@ class _RadialEaseExampleState extends SampleViewState {
             endAngle: 360,
             showLabels: false,
             showTicks: false,
-            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             axisLineStyle: AxisLineStyle(
                 thicknessUnit: GaugeSizeUnit.factor,
                 thickness: isCardView ? 0.07 : 0.1)),
@@ -44,7 +44,7 @@ class _RadialEaseExampleState extends SampleViewState {
             labelFormat: '{value}M',
             onLabelCreated: _handleLabelCreated,
             showAxisLine: false,
-            radiusFactor: model.isWeb ? 0.8 : 0.9,
+            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             minimum: 0,
             maximum: 15,
             axisLabelStyle: GaugeTextStyle(
@@ -78,32 +78,28 @@ class _RadialEaseExampleState extends SampleViewState {
                 enableAnimation: true,
                 sizeUnit: GaugeSizeUnit.factor,
                 animationType: AnimationType.ease,
-                // Sweep gradient not supported in web
-                gradient: model.isWeb
-                    ? null
-                    : const SweepGradient(
-                        colors: <Color>[Color(0xFFFFB397), Color(0xFFF46AA0)],
-                        stops: <double>[0.25, 0.75]),
+                gradient: const SweepGradient(
+                    colors: <Color>[Color(0xFFFFB397), Color(0xFFF46AA0)],
+                    stops: <double>[0.25, 0.75]),
               ),
-              model.isWeb
-                  ? MarkerPointer(
-                      value: 11.5,
-                      markerType: MarkerType.circle,
-                      enableAnimation: true,
-                      animationType: AnimationType.ease,
-                      color: Colors.blue,
-                      markerHeight: isCardView ? 30 : 40,
-                      markerOffset: 4,
-                      markerWidth: isCardView ? 30 : 40)
-                  : MarkerPointer(
-                      value: 11.5,
-                      markerType: MarkerType.image,
-                      enableAnimation: true,
-                      animationType: AnimationType.ease,
-                      imageUrl: 'images/ball_progressbar.png',
-                      markerHeight: isCardView ? 30 : 40,
-                      markerOffset: 4,
-                      markerWidth: isCardView ? 30 : 40)
+              MarkerPointer(
+                value: 11.5,
+                markerType: MarkerType.image,
+                enableAnimation: true,
+                animationType: AnimationType.ease,
+                imageUrl: 'images/ball_progressbar.png',
+                markerHeight: isCardView
+                    ? 30
+                    : model.isWebFullView
+                        ? 45
+                        : 40,
+                markerOffset: 4,
+                markerWidth: isCardView
+                    ? 30
+                    : model.isWebFullView
+                        ? 45
+                        : 40,
+              )
             ])
       ],
     );

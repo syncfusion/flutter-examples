@@ -20,14 +20,14 @@ class CartesianLegendOptions extends SampleView {
 class _CartesianLegendOptionsState extends SampleViewState {
   _CartesianLegendOptionsState();
 
-  bool toggleVisibility;
+  late bool toggleVisibility;
   final List<String> _positionList =
       <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
-  String _selectedPosition;
-  LegendPosition _position;
+  late String _selectedPosition;
+  late LegendPosition _position;
   final List<String> _modeList = <String>['wrap', 'scroll', 'none'].toList();
-  String _selectedMode;
-  LegendItemOverflowMode _overflowMode;
+  late String _selectedMode;
+  late LegendItemOverflowMode _overflowMode;
 
   @override
   void initState() {
@@ -41,94 +41,85 @@ class _CartesianLegendOptionsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getCartesianLegendOptionsChart();
+    return _buildCartesianLegendOptionsChart();
   }
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Position ',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                    padding: const EdgeInsets.fromLTRB(75, 0, 0, 0),
-                    height: 50,
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
-                        value: _selectedPosition,
-                        items: _positionList.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'auto',
-                              child: Text('$value',
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          _onPositionTypeChange(value.toString());
-                          stateSetter(() {});
-                        })),
-              ],
-            ),
+          ListTile(
+            title: Text('Position ',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.07 * screenWidth),
+                width: 0.4 * screenWidth,
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    value: _selectedPosition,
+                    items: _positionList.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'auto',
+                          child: Text('$value',
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onPositionTypeChange(value.toString());
+                      stateSetter(() {});
+                    })),
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Overflow mode',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                    padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                    height: 50,
-                    child: DropdownButton(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
-                        value: _selectedMode,
-                        items: _modeList.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'wrap',
-                              child: Text('$value',
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          _onModeTypeChange(value);
-                          stateSetter(() {});
-                        })),
-              ],
-            ),
+          ListTile(
+            title: Text('Overflow mode',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.07 * screenWidth),
+                width: 0.4 * screenWidth,
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton(
+                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    value: _selectedMode,
+                    items: _modeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'wrap',
+                          child: Text('$value',
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onModeTypeChange(value);
+                      stateSetter(() {});
+                    })),
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Toggle visibility',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                    width: 75,
-                    child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
-                        value: toggleVisibility,
-                        onChanged: (bool value) {
-                          setState(() {
-                            toggleVisibility = value;
-                            stateSetter(() {});
-                          });
-                        })),
-              ],
-            ),
+          ListTile(
+            title: Text('Toggle visibility',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                width: 0.4 * screenWidth,
+                child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: model.backgroundColor,
+                    value: toggleVisibility,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        toggleVisibility = value!;
+                        stateSetter(() {});
+                      });
+                    })),
           ),
         ],
       );
@@ -136,7 +127,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
   }
 
   /// Returns the stacked line chart with various legedn modification options.
-  SfCartesianChart _getCartesianLegendOptionsChart() {
+  SfCartesianChart _buildCartesianLegendOptionsChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Monthly expense of a family'),

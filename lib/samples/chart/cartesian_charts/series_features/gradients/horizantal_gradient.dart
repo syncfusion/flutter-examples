@@ -19,23 +19,29 @@ class HorizantalGradient extends SampleView {
 /// State class of horizontal gradient.
 class _HorizantalGradientState extends SampleViewState {
   _HorizantalGradientState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(enable: true, canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getHorizantalGradientAreaChart();
+    return _buildHorizantalGradientAreaChart();
   }
 
   /// Return the circular chart with horizontal gradient.
-  SfCartesianChart _getHorizantalGradientAreaChart() {
+  SfCartesianChart _buildHorizantalGradientAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Total investment (% of GDP)'),
       primaryXAxis: CategoryAxis(
           labelPlacement: LabelPlacement.onTicks,
-          interval: model.isWeb ? 1 : null,
+          interval: model.isWebFullView ? 1 : null,
           labelRotation: -45,
           majorGridLines: MajorGridLines(width: 0)),
-      tooltipBehavior: TooltipBehavior(enable: true, canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
       primaryYAxis: NumericAxis(
           interval: 2,
           minimum: 14,
@@ -79,8 +85,8 @@ class _HorizantalGradientState extends SampleViewState {
       _ChartData(x: '2004', y: 17.90)
     ];
     final List<Color> color = <Color>[];
-    color.add(Colors.blue[200]);
-    color.add(Colors.orange[200]);
+    color.add(Colors.blue[200]!);
+    color.add(Colors.orange[200]!);
 
     final List<double> stops = <double>[];
     stops.add(0.2);
@@ -124,6 +130,6 @@ class _HorizantalGradientState extends SampleViewState {
 
 class _ChartData {
   _ChartData({this.x, this.y});
-  final String x;
-  final double y;
+  final String? x;
+  final double? y;
 }

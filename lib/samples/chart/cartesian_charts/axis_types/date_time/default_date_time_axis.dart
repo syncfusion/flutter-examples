@@ -19,14 +19,24 @@ class DateTimeDefault extends SampleView {
 /// State class of the line chart with default data time axis.
 class _DateTimeDefaultState extends SampleViewState {
   _DateTimeDefaultState();
+  late TrackballBehavior _trackballBehavior;
+  @override
+  void initState() {
+    _trackballBehavior = TrackballBehavior(
+        enable: true,
+        activationMode: ActivationMode.singleTap,
+        tooltipSettings:
+            InteractiveTooltip(format: 'point.x : point.y', borderWidth: 0));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultDateTimeAxisChart();
+    return _buildDefaultDateTimeAxisChart();
   }
 
   /// Returns the line chart with default datetime axis.
-  SfCartesianChart _getDefaultDateTimeAxisChart() {
+  SfCartesianChart _buildDefaultDateTimeAxisChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(
@@ -44,11 +54,7 @@ class _DateTimeDefaultState extends SampleViewState {
           majorTickLines: MajorTickLines(size: 0),
         ),
         series: _getDefaultDateTimeSeries(),
-        trackballBehavior: TrackballBehavior(
-            enable: true,
-            activationMode: ActivationMode.singleTap,
-            tooltipSettings: InteractiveTooltip(
-                format: 'point.x : point.y', borderWidth: 0)));
+        trackballBehavior: _trackballBehavior);
   }
 
   /// Returns the line chart with default data time axis.

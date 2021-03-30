@@ -7,8 +7,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local imports
 import '../../../../../model/sample_view.dart';
 
-///Renders histogram chart sample
+///Renders vertical water fall chart sample
 class VerticalWaterFall extends SampleView {
+  /// Creates the vertical water fall chart
   const VerticalWaterFall(Key key) : super(key: key);
 
   @override
@@ -18,9 +19,9 @@ class VerticalWaterFall extends SampleView {
 class _VerticalWaterFallState extends SampleViewState {
   _VerticalWaterFallState();
 
-  TooltipBehavior tooltipBehavior1 = TooltipBehavior(enable: true);
-  TooltipBehavior tooltipBehavior2 = TooltipBehavior(enable: true);
-  TooltipBehavior tooltipBehavior3 = TooltipBehavior(enable: true);
+  late TooltipBehavior tooltipBehavior1;
+  late TooltipBehavior tooltipBehavior2;
+  late TooltipBehavior tooltipBehavior3;
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +88,9 @@ class _VerticalWaterFallState extends SampleViewState {
               },
               plotAreaBorderWidth: 0,
               isTransposed: true,
-              onAxisLabelRender: (AxisLabelRenderArgs args) {
-                if (args.axisName == 'XAxis') {
-                  args.text = '';
-                }
+              axisLabelFormatter: (AxisLabelRenderDetails details) {
+                return ChartAxisLabel(
+                    details.axisName == 'XAxis' ? '' : details.text, null);
               },
               margin: EdgeInsets.fromLTRB(0, 10, 10, 10),
               title: ChartTitle(
@@ -139,10 +139,9 @@ class _VerticalWaterFallState extends SampleViewState {
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
                       fontFamily: 'Normal')),
-              onAxisLabelRender: (AxisLabelRenderArgs args) {
-                if (args.axisName == 'XAxis') {
-                  args.text = '';
-                }
+              axisLabelFormatter: (AxisLabelRenderDetails details) {
+                return ChartAxisLabel(
+                    details.axisName == 'XAxis' ? '' : details.text, null);
               },
               margin: EdgeInsets.fromLTRB(0, 10, 10, 10),
               primaryXAxis: CategoryAxis(
@@ -356,6 +355,9 @@ class _VerticalWaterFallState extends SampleViewState {
 
   @override
   void initState() {
+    tooltipBehavior1 = TooltipBehavior(enable: true);
+    tooltipBehavior2 = TooltipBehavior(enable: true);
+    tooltipBehavior3 = TooltipBehavior(enable: true);
     super.initState();
   }
 }
@@ -364,8 +366,8 @@ class _ChartSampleData {
   _ChartSampleData(
       {this.x, this.y, this.intermediateSumPredicate, this.totalSumPredicate});
 
-  final String x;
-  final num y;
-  final bool intermediateSumPredicate;
-  final bool totalSumPredicate;
+  final String? x;
+  final num? y;
+  final bool? intermediateSumPredicate;
+  final bool? totalSumPredicate;
 }

@@ -22,9 +22,9 @@ class AnimationSplineDefault extends SampleView {
 
 class _AnimationSplineDefaultState extends SampleViewState {
   _AnimationSplineDefaultState();
-  List<_ChartData> _chartData;
+  late List<_ChartData> _chartData;
 
-  Timer _timer;
+  Timer? _timer;
   @override
   Widget build(BuildContext context) {
     _getChartData();
@@ -33,11 +33,11 @@ class _AnimationSplineDefaultState extends SampleViewState {
         _getChartData();
       });
     });
-    return _getAnimationSplineChart();
+    return _buildAnimationSplineChart();
   }
 
   /// get the spline chart sample with dynamically updated data points.
-  SfCartesianChart _getAnimationSplineChart() {
+  SfCartesianChart _buildAnimationSplineChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
@@ -63,11 +63,11 @@ class _AnimationSplineDefaultState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timer?.cancel();
   }
 
   /// get the random value
-  num _getRandomInt(num min, num max) {
+  int _getRandomInt(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }

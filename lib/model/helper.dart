@@ -1,3 +1,6 @@
+/// dart imports
+import 'dart:io' show Platform;
+
 /// Package imports
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -7,7 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// Local imports
 import '../widgets/bottom_sheet.dart';
-import '../widgets/flutter_backdrop.dart';
 import 'mobile_view.dart';
 import 'model.dart';
 import 'sample_view.dart';
@@ -27,23 +29,25 @@ void onTapControlInMobile(BuildContext context, SampleModel model,
 void onTapControlInWeb(BuildContext context, SampleModel model,
     WidgetCategory category, int position) {
   category.selectedIndex = position;
-  final SubItem _subItem = category
-              .controlList[category.selectedIndex].subItems[0].type ==
-          'parent'
-      ? category.controlList[category.selectedIndex].subItems[0].subItems[0]
-          .subItems[0]
-      : category.controlList[category.selectedIndex].subItems[0].type == 'child'
-          ? category.controlList[category.selectedIndex].subItems[0].subItems[0]
-          : category.controlList[category.selectedIndex].subItems[0];
+  final SubItem _subItem =
+      category.controlList![category.selectedIndex!].subItems[0].type ==
+              'parent'
+          ? category.controlList![category.selectedIndex!].subItems[0]
+              .subItems[0].subItems[0]
+          : category.controlList![category.selectedIndex!].subItems[0].type ==
+                  'child'
+              ? category
+                  .controlList![category.selectedIndex!].subItems[0].subItems[0]
+              : category.controlList![category.selectedIndex!].subItems[0];
 
-  Navigator.pushNamed(context, _subItem.breadCrumbText);
+  Navigator.pushNamed(context, _subItem.breadCrumbText!);
 }
 
 /// On tap the expand button, get the fullview sample.
 void onTapExpandSample(
     BuildContext context, SubItem subItem, SampleModel model) {
   model.isCardView = false;
-  final Function _sampleWidget = model.sampleWidget[subItem.key];
+  final Function _sampleWidget = model.sampleWidget[subItem.key]!;
   final SampleView _sampleView = _sampleWidget(GlobalKey<State>());
   Navigator.push<dynamic>(
       context,
@@ -58,235 +62,166 @@ void onTapExpandSample(
   model.notifyListeners();
 }
 
-///_BackPanel widget contains title and description of the sample
-class _BackPanel extends StatefulWidget {
-  const _BackPanel(this.sample);
-  final SubItem sample;
-
-  @override
-  _BackPanelState createState() => _BackPanelState(sample);
-}
-
-class _BackPanelState extends State<_BackPanel> {
-  _BackPanelState(this.sample);
-  final SubItem sample;
-  final GlobalKey _globalKey = GlobalKey();
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    super.initState();
-  }
-
-  void _afterLayout(Duration duration) {
-    _getSizesAndPosition();
-  }
-
-  void _getSizesAndPosition() {
-    final RenderBox _renderBoxRed =
-        _globalKey.currentContext?.findRenderObject();
-    final Size _size = _renderBoxRed?.size;
-    final Offset _position = _renderBoxRed?.localToGlobal(Offset.zero);
-    const double _appbarHeight = 60;
-    BackdropState.frontPanelHeight = _position == null
-        ? 0
-        : (_position.dy + (_size.height - _appbarHeight) + 20);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final SampleModel _model = SampleModel.instance;
-    return Container(
-      color: _model.paletteColor,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              sample.title,
-              textAlign: TextAlign.left,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28.0,
-                  color: Colors.white,
-                  letterSpacing: 0.53),
-            ),
-            sample.description != null
-                ? Padding(
-                    key: _globalKey,
-                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    child: Text(
-                      sample.description,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15.0,
-                          color: Colors.white,
-                          letterSpacing: 0.3,
-                          height: 1.5),
-                    ),
-                  )
-                : Container(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 ///On expanding sample, full view sample layout renders
 class _FullViewSampleLayout extends StatelessWidget {
   const _FullViewSampleLayout({this.sample, this.sampleWidget});
-  final SubItem sample;
-  final Widget sampleWidget;
+  final SubItem? sample;
+  final Widget? sampleWidget;
   @override
   Widget build(BuildContext context) {
-    final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
     final SampleModel model = SampleModel.instance;
     final bool needsFloatingBotton =
-        (sample.sourceLink != null && sample.sourceLink != '') ||
-            sample.needsPropertyPanel == true;
+        (sample!.sourceLink != null && sample!.sourceLink != '') ||
+            sample!.needsPropertyPanel == true;
     final bool needPadding =
-        sample.codeLink != null && sample.codeLink.contains('/chart/');
+        sample!.codeLink != null && sample!.codeLink!.contains('/chart/');
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) => SafeArea(
-              child: sample == null
-                  ? Container()
-                  : Backdrop(
-                      toggleFrontLayer: sample.description != null &&
-                          sample.description != '',
-                      panelVisible: frontPanelVisible,
-                      sampleListModel: model,
-                      appBarActions: (sample.description != null &&
-                              sample.description != '')
-                          ? <Widget>[
-                              (sample.codeLink != null && sample.codeLink != '')
-                                  ? Padding(
+            child: sample == null
+                ? Container()
+                : Theme(
+                    data: model.themeData,
+                    child: Scaffold(
+                      resizeToAvoidBottomInset: false,
+                      backgroundColor: model.paletteColor,
+                      appBar: PreferredSize(
+                          preferredSize: const Size.fromHeight(60.0),
+                          child: AppBar(
+                            title: Text(sample!.title!),
+                            actions: (sample!.description != null &&
+                                    sample!.description != '')
+                                ? <Widget>[
+                                    (sample!.codeLink != null &&
+                                            sample!.codeLink != '')
+                                        ? Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 0, 8, 0),
+                                            child: Container(
+                                              height: 37,
+                                              width: 37,
+                                              child: IconButton(
+                                                icon: Image.asset(
+                                                    'images/git_hub_mobile.png',
+                                                    color: Colors.white),
+                                                onPressed: () {
+                                                  launch(sample!.codeLink!);
+                                                },
+                                              ),
+                                            ),
+                                          )
+                                        : Container(),
+                                    Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 0, 10, 0),
                                       child: Container(
                                         height: 40,
                                         width: 40,
                                         child: IconButton(
-                                          icon: Image.asset('images/code.png',
+                                          icon: Icon(Icons.info_outline,
                                               color: Colors.white),
                                           onPressed: () {
-                                            launch(sample.codeLink);
+                                            showBottomInfo(
+                                                context, sample!.description!);
                                           },
                                         ),
                                       ),
-                                    )
-                                  : Container(),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  child: IconButton(
-                                    icon: Icon(Icons.info_outline,
-                                        color: Colors.white),
-                                    onPressed: () {
-                                      frontPanelVisible.value =
-                                          !frontPanelVisible.value;
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ]
-                          : (sample.codeLink != null && sample.codeLink != '')
-                              ? (<Widget>[
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                                    child: Container(
-                                      height: 40,
-                                      width: 40,
-                                      child: IconButton(
-                                        icon: Image.asset('images/code.png',
-                                            color: Colors.white),
-                                        onPressed: () {
-                                          launch(sample.codeLink);
-                                        },
-                                      ),
                                     ),
-                                  ),
-                                ])
-                              : null,
-                      appBarTitle: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 1000),
-                          child: Text(sample.title.toString())),
-                      backLayer: _BackPanel(sample),
-                      frontLayer: Scaffold(
-                        backgroundColor: model.cardThemeColor,
-                        body: Padding(
+                                  ]
+                                : (sample!.codeLink != null &&
+                                        sample!.codeLink != '')
+                                    ? (<Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 0, 8, 0),
+                                          child: Container(
+                                            height: 37,
+                                            width: 37,
+                                            child: IconButton(
+                                              icon: Image.asset(
+                                                  'images/git_hub_mobile.png',
+                                                  color: Colors.white),
+                                              onPressed: () {
+                                                launch(sample!.codeLink!);
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ])
+                                    : null,
+                            elevation: 0.0,
+                            backgroundColor: model.backgroundColor,
+                            titleSpacing: NavigationToolbar.kMiddleSpacing,
+                          )),
+                      body: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(12),
+                                  bottom: Radius.circular(0)),
+                              color: model.cardThemeColor),
                           padding: needPadding
                               ? EdgeInsets.fromLTRB(
                                   5, 0, 5, needsFloatingBotton ? 57 : 0)
                               : const EdgeInsets.all(0),
-                          child: Container(child: sampleWidget),
-                        ),
-                        floatingActionButton: needsFloatingBotton
-                            ? Stack(children: <Widget>[
-                                (sample.sourceLink != null &&
-                                        sample.sourceLink != '')
-                                    ? Align(
-                                        alignment: Alignment.bottomLeft,
+                          child: Container(child: sampleWidget)),
+                      floatingActionButton: needsFloatingBotton
+                          ? Stack(children: <Widget>[
+                              (sample!.sourceLink != null &&
+                                      sample!.sourceLink != '')
+                                  ? Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Container(
+                                        padding: EdgeInsets.fromLTRB(
+                                            30, needPadding ? 50 : 0, 0, 0),
                                         child: Container(
-                                          padding: EdgeInsets.fromLTRB(
-                                              30, needPadding ? 50 : 0, 0, 0),
-                                          child: Container(
-                                            height: 50,
-                                            width: 230,
-                                            child: InkWell(
-                                              onTap: () =>
-                                                  launch(sample.sourceLink),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Text('Source: ',
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color:
-                                                              model.textColor)),
-                                                  Text(sample.sourceText,
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          color: Colors.blue)),
-                                                ],
-                                              ),
+                                          height: 50,
+                                          width: 230,
+                                          child: InkWell(
+                                            onTap: () =>
+                                                launch(sample!.sourceLink!),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('Source: ',
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color:
+                                                            model.textColor)),
+                                                Text(sample!.sourceText!,
+                                                    style: const TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.blue)),
+                                              ],
                                             ),
                                           ),
                                         ),
-                                      )
-                                    : Container(),
-                                sample.needsPropertyPanel != true
-                                    ? Container()
-                                    : Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: FloatingActionButton(
-                                          heroTag: null,
-                                          onPressed: () {
-                                            final GlobalKey _sampleKey =
-                                                sampleWidget.key;
-                                            final SampleViewState _sampleState =
-                                                _sampleKey.currentState;
-                                            final Widget _settingsContent =
-                                                _sampleState
-                                                    .buildSettings(context);
-                                            showBottomSheetSettingsPanel(
-                                                context, _settingsContent);
-                                          },
-                                          child: const Icon(Icons.graphic_eq,
-                                              color: Colors.white),
-                                          backgroundColor: model.paletteColor,
-                                        ),
                                       ),
-                              ])
-                            : null,
-                      ),
-                      color: model.cardThemeColor,
-                    ),
-            ));
+                                    )
+                                  : Container(),
+                              sample!.needsPropertyPanel != true
+                                  ? Container()
+                                  : Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: FloatingActionButton(
+                                        heroTag: null,
+                                        onPressed: () {
+                                          final GlobalKey _sampleKey =
+                                              sampleWidget!.key as GlobalKey;
+                                          final SampleViewState _sampleState =
+                                              _sampleKey.currentState
+                                                  as SampleViewState;
+                                          final Widget _settingsContent =
+                                              _sampleState
+                                                  .buildSettings(context)!;
+                                          showBottomSheetSettingsPanel(
+                                              context, _settingsContent);
+                                        },
+                                        backgroundColor: model.paletteColor,
+                                        child: const Icon(Icons.graphic_eq,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                            ])
+                          : null,
+                    ))));
   }
 }
 
@@ -510,8 +445,7 @@ Widget getLeftSideDrawer(SampleModel _model) {
                                           const Spacer(),
                                           Container(
                                             child: Icon(Icons.arrow_forward,
-                                                color: _model.backgroundColor ??
-                                                    Colors.blue),
+                                                color: _model.backgroundColor),
                                           ),
                                         ],
                                       ),
@@ -560,8 +494,7 @@ Widget getLeftSideDrawer(SampleModel _model) {
                                           const Spacer(),
                                           Container(
                                             child: Icon(Icons.arrow_forward,
-                                                color: _model.backgroundColor ??
-                                                    Colors.blue),
+                                                color: _model.backgroundColor),
                                           ),
                                         ],
                                       ),
@@ -610,8 +543,7 @@ Widget getLeftSideDrawer(SampleModel _model) {
                                           const Spacer(),
                                           Container(
                                             child: Icon(Icons.arrow_forward,
-                                                color: _model.backgroundColor ??
-                                                    Colors.blue),
+                                                color: _model.backgroundColor),
                                           ),
                                         ],
                                       ),
@@ -644,7 +576,7 @@ Widget getLeftSideDrawer(SampleModel _model) {
                         )),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('Version 18.4.30',
+                        child: Text('Version 19.1.0.54',
                             style: TextStyle(
                                 color: _model.drawerTextIconColor,
                                 fontSize: 12,
@@ -689,42 +621,42 @@ Widget getFooter(BuildContext context, SampleModel model) {
             Row(
               children: <Widget>[
                 InkWell(
-                  child: const Text('Documentation',
-                      style: TextStyle(color: Colors.blue, fontSize: 12)),
                   onTap: () => launch(
                       'https://help.syncfusion.com/flutter/introduction/overview'),
+                  child: const Text('Documentation',
+                      style: TextStyle(color: Colors.blue, fontSize: 12)),
                 ),
                 Text(' | ',
                     style: TextStyle(
                         fontSize: 12, color: model.textColor.withOpacity(0.7))),
                 InkWell(
-                  child: const Text('Forum',
-                      style: TextStyle(color: Colors.blue, fontSize: 12)),
                   onTap: () =>
                       launch('https://www.syncfusion.com/forums/flutter'),
+                  child: const Text('Forum',
+                      style: TextStyle(color: Colors.blue, fontSize: 12)),
                 ),
                 Text(' | ',
                     style: TextStyle(
                         fontSize: 12, color: model.textColor.withOpacity(0.7))),
                 InkWell(
-                  child: const Text('Blog',
-                      style: TextStyle(color: Colors.blue, fontSize: 12)),
                   onTap: () =>
                       launch('https://www.syncfusion.com/blogs/?s=flutter'),
+                  child: const Text('Blog',
+                      style: TextStyle(color: Colors.blue, fontSize: 12)),
                 ),
                 Text(' | ',
                     style: TextStyle(
                         fontSize: 12, color: model.textColor.withOpacity(0.7))),
                 InkWell(
+                  onTap: () => launch('https://www.syncfusion.com/kb/flutter'),
                   child: const Text('Knowledge base',
                       style: TextStyle(color: Colors.blue, fontSize: 12)),
-                  onTap: () => launch('https://www.syncfusion.com/kb/flutter'),
                 )
               ],
             ),
             Container(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text('Copyright © 2001 - 2020 Syncfusion Inc.',
+                child: Text('Copyright © 2001 - 2021 Syncfusion Inc.',
                     style: TextStyle(
                         color: model.textColor.withOpacity(0.7),
                         fontSize: 12,
@@ -858,8 +790,11 @@ Widget showWebThemeSettings(SampleModel model) {
                       Container(
                         height: 44,
                         padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                        child: RaisedButton(
-                            color: model.paletteColor,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  model.paletteColor),
+                            ),
                             onPressed: () => _applyThemeAndPaletteColor(
                                 model, context, _selectedValue),
                             child: const Text('APPLY',
@@ -880,26 +815,27 @@ Widget showWebThemeSettings(SampleModel model) {
 void _applyThemeAndPaletteColor(
     SampleModel model, BuildContext context, int selectedValue) {
   model.selectedThemeIndex = selectedValue;
-  model.backgroundColor = model.currentThemeData.brightness == Brightness.dark
+  model.backgroundColor = model.currentThemeData!.brightness == Brightness.dark
       ? model.currentPrimaryColor
       : model.currentPaletteColor;
   model.paletteColor = model.currentPaletteColor;
-  model.changeTheme(model.currentThemeData);
+  model.changeTheme(model.currentThemeData!);
   // ignore: invalid_use_of_protected_member
   model.notifyListeners();
   Navigator.pop(context);
 }
 
 /// Adding the palette color in the theme setting panel.
-List<Widget> _addColorPalettes(SampleModel model, [StateSetter setState]) {
+List<Widget> _addColorPalettes(SampleModel model, [StateSetter? setState]) {
   final List<Widget> _colorPaletteWidgets = <Widget>[];
-  for (int i = 0; i < model.paletteColors.length; i++) {
+  for (int i = 0; i < model.paletteColors!.length; i++) {
     _colorPaletteWidgets.add(Material(
         color: model.bottomSheetBackgroundColor,
         child: Ink(
           decoration: BoxDecoration(
             color: Colors.transparent,
-            border: Border.all(color: model.paletteBorderColors[i], width: 2.0),
+            border:
+                Border.all(color: model.paletteBorderColors![i], width: 2.0),
             shape: BoxShape.circle,
           ),
           child: InkWell(
@@ -907,7 +843,7 @@ List<Widget> _addColorPalettes(SampleModel model, [StateSetter setState]) {
             child: Icon(
               Icons.brightness_1,
               size: 40.0,
-              color: model.paletteColors[i],
+              color: model.paletteColors![i],
             ),
           ),
         )));
@@ -916,16 +852,17 @@ List<Widget> _addColorPalettes(SampleModel model, [StateSetter setState]) {
 }
 
 /// Changing the palete color of the application.
-void _changeColorPalette(SampleModel model, int index, [StateSetter setState]) {
-  for (int j = 0; j < model.paletteBorderColors.length; j++) {
-    model.paletteBorderColors[j] = Colors.transparent;
+void _changeColorPalette(SampleModel model, int index,
+    [StateSetter? setState]) {
+  for (int j = 0; j < model.paletteBorderColors!.length; j++) {
+    model.paletteBorderColors![j] = Colors.transparent;
   }
-  model.paletteBorderColors[index] = model.paletteColors[index];
-  model.currentPaletteColor = model.paletteColors[index];
-  model.currentPrimaryColor = model.darkPaletteColors[index];
+  model.paletteBorderColors![index] = model.paletteColors![index];
+  model.currentPaletteColor = model.paletteColors![index];
+  model.currentPrimaryColor = model.darkPaletteColors![index];
 
-  model.isWeb
-      ? setState(() {
+  model.isWebFullView
+      ? setState!(() {
           /// update the palette color changes
         })
       :
@@ -935,7 +872,8 @@ void _changeColorPalette(SampleModel model, int index, [StateSetter setState]) {
 
 /// Getting status of the control/subitems/sample.
 String getStatusTag(SubItem item) {
-  const bool _isWeb = kIsWeb;
+  final bool _isWeb =
+      kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isLinux;
   String status = '';
   if (item.subItems == null) {
     status = (item.status == 'new' || item.status == 'New')
@@ -946,28 +884,28 @@ String getStatusTag(SubItem item) {
   } else {
     int newCount = 0;
     int updateCount = 0;
-    for (int i = 0; i < item.subItems.length; i++) {
-      if (item.subItems[i].subItems == null) {
-        if (item.subItems[i].status == 'New' ||
-            item.subItems[i].status == 'new') {
+    for (int i = 0; i < item.subItems!.length; i++) {
+      if (item.subItems![i].subItems == null) {
+        if (item.subItems![i].status == 'New' ||
+            item.subItems![i].status == 'new') {
           newCount++;
-        } else if (item.subItems[i].status == 'Updated' ||
-            item.subItems[i].status == 'updated') {
+        } else if (item.subItems![i].status == 'Updated' ||
+            item.subItems![i].status == 'updated') {
           updateCount++;
         }
       } else {
-        for (int j = 0; j < item.subItems[i].subItems.length; j++) {
-          if (item.subItems[i].subItems[j].status == 'New' ||
-              item.subItems[i].subItems[j].status == 'new') {
+        for (int j = 0; j < item.subItems![i].subItems.length; j++) {
+          if (item.subItems![i].subItems[j].status == 'New' ||
+              item.subItems![i].subItems[j].status == 'new') {
             newCount++;
-          } else if (item.subItems[i].subItems[j].status == 'Updated' ||
-              item.subItems[i].subItems[j].status == 'updated') {
+          } else if (item.subItems![i].subItems[j].status == 'Updated' ||
+              item.subItems![i].subItems[j].status == 'updated') {
             updateCount++;
           }
         }
       }
     }
-    status = (newCount != 0 && newCount == item.subItems.length)
+    status = (newCount != 0 && newCount == item.subItems!.length)
         ? (_isWeb ? 'New' : 'N')
         : (newCount != 0 || updateCount != 0)
             ? (_isWeb ? 'Updated' : 'U')
@@ -1141,8 +1079,11 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
                     margin: const EdgeInsets.all(0),
                     height: 50,
                     width: double.infinity,
-                    child: RaisedButton(
-                        color: model.paletteColor,
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              model.paletteColor),
+                        ),
                         onPressed: () => _applyThemeAndPaletteColor(
                             model, context, _selectedIndex),
                         child: const Text('APPLY',
@@ -1192,4 +1133,57 @@ void showBottomSheetSettingsPanel(BuildContext context, Widget propertyWidget) {
                       child: propertyWidget))
             ]),
           ));
+}
+
+///To show the sample description in the bottom sheet
+void showBottomInfo(BuildContext context, String information) {
+  final SampleModel _model = SampleModel.instance;
+  if (information != null && information != '') {
+    showRoundedModalBottomSheet<dynamic>(
+        context: context,
+        color: _model.bottomSheetBackgroundColor,
+        builder: (BuildContext context) => Theme(
+            data: ThemeData(
+                brightness: _model.themeData.brightness,
+                primaryColor: _model.backgroundColor),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+              child: Stack(children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Description',
+                        style: TextStyle(
+                            color: _model.textColor,
+                            fontSize: 18,
+                            letterSpacing: 0.34,
+                            fontWeight: FontWeight.bold)),
+                    IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: _model.textColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 45, 12, 15),
+                    child: ListView(shrinkWrap: true, children: [
+                      Text(
+                        information,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            color: _model.textColor,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15.0,
+                            letterSpacing: 0.2,
+                            height: 1.2),
+                      )
+                    ]))
+              ]),
+            )));
+  }
 }

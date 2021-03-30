@@ -17,9 +17,16 @@ class CircularSelection extends SampleView {
 }
 
 class _CircularSelectionState extends SampleViewState {
-  SelectionBehavior selectionBehavior = SelectionBehavior(enable: true);
   _CircularSelectionState();
+  late SelectionBehavior selectionBehavior;
+
   bool enableMultiSelect = false;
+
+  @override
+  void initState() {
+    selectionBehavior = SelectionBehavior(enable: true);
+    super.initState();
+  }
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -37,9 +44,9 @@ class _CircularSelectionState extends SampleViewState {
               child: CheckboxListTile(
                   activeColor: model.backgroundColor,
                   value: enableMultiSelect,
-                  onChanged: (bool value) {
+                  onChanged: (bool? value) {
                     setState(() {
-                      enableMultiSelect = value;
+                      enableMultiSelect = value!;
                       stateSetter(() {});
                     });
                   }))
@@ -50,16 +57,16 @@ class _CircularSelectionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return getCircularSelectionChart();
+    return _buildCircularSelectionChart();
   }
 
-  SfCircularChart getCircularSelectionChart() {
+  SfCircularChart _buildCircularSelectionChart() {
     return SfCircularChart(
       title: ChartTitle(
           text:
               isCardView ? '' : 'Age distribution by country - 5 to 50 years'),
       selectionGesture: ActivationMode.singleTap,
-      enableMultiSelection: enableMultiSelect ?? false,
+      enableMultiSelection: enableMultiSelect,
       series: getCircularSelectionSeries(),
     );
   }

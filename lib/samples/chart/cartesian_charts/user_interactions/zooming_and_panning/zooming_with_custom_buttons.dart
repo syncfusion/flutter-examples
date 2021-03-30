@@ -19,21 +19,25 @@ class ButtonZooming extends SampleView {
 /// State class of the chart with custom zooming buttons.
 class _ButtonZoomingState extends SampleViewState {
   _ButtonZoomingState();
-  ZoomPanBehavior _zoomPan;
-
+  late ZoomPanBehavior _zoomPan;
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     _zoomPan = ZoomPanBehavior(
       enableDoubleTapZooming: true,
       enablePanning: true,
       enablePinching: true,
       enableSelectionZooming: true,
     );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 0, 5, isCardView ? 0 : 50),
-          child: Container(child: getButtonZoomingChart()),
+          child: Container(child: _buildButtonZoomingChart()),
         ),
         floatingActionButton: isCardView
             ? null
@@ -48,7 +52,7 @@ class _ButtonZoomingState extends SampleViewState {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              width: model.isWeb
+                              width: model.isWebFullView
                                   ? null
                                   : (MediaQuery.of(context).size.width / 7) *
                                       0.9,
@@ -65,7 +69,7 @@ class _ButtonZoomingState extends SampleViewState {
                               ),
                             ),
                             Container(
-                              width: model.isWeb
+                              width: model.isWebFullView
                                   ? null
                                   : (MediaQuery.of(context).size.width / 7) *
                                       0.9,
@@ -82,7 +86,7 @@ class _ButtonZoomingState extends SampleViewState {
                               ),
                             ),
                             Container(
-                              width: model.isWeb
+                              width: model.isWebFullView
                                   ? null
                                   : (MediaQuery.of(context).size.width / 7) *
                                       0.9,
@@ -99,7 +103,7 @@ class _ButtonZoomingState extends SampleViewState {
                               ),
                             ),
                             Container(
-                              width: model.isWeb
+                              width: model.isWebFullView
                                   ? null
                                   : (MediaQuery.of(context).size.width / 7) *
                                       0.9,
@@ -116,7 +120,7 @@ class _ButtonZoomingState extends SampleViewState {
                               ),
                             ),
                             Container(
-                              width: model.isWeb
+                              width: model.isWebFullView
                                   ? null
                                   : (MediaQuery.of(context).size.width / 7) *
                                       0.9,
@@ -133,7 +137,7 @@ class _ButtonZoomingState extends SampleViewState {
                               ),
                             ),
                             Container(
-                              width: model.isWeb
+                              width: model.isWebFullView
                                   ? null
                                   : (MediaQuery.of(context).size.width / 7) *
                                       0.9,
@@ -150,7 +154,7 @@ class _ButtonZoomingState extends SampleViewState {
                               ),
                             ),
                             Container(
-                              width: model.isWeb
+                              width: model.isWebFullView
                                   ? null
                                   : (MediaQuery.of(context).size.width / 7) *
                                       0.9,
@@ -176,7 +180,7 @@ class _ButtonZoomingState extends SampleViewState {
   }
 
   /// Returns the Cartesian chart with custom zooming buttons.
-  SfCartesianChart getButtonZoomingChart() {
+  SfCartesianChart _buildButtonZoomingChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),

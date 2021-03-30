@@ -23,9 +23,9 @@ class ConformancePdf extends SampleView {
 class _ConformancePdfState extends SampleViewState {
   _ConformancePdfState();
   int _groupValue = 0;
-  void _changed(int value) {
+  void _changed(int? value) {
     setState(() {
-      _groupValue = value;
+      _groupValue = value!;
     });
   }
 
@@ -58,11 +58,20 @@ class _ConformancePdfState extends SampleViewState {
                     const SizedBox(height: 10, width: 30),
                     Align(
                         alignment: Alignment.center,
-                        child: FlatButton(
-                            child: const Text('Generate PDF',
-                                style: TextStyle(color: Colors.white)),
-                            color: model.backgroundColor,
-                            onPressed: _conformance))
+                        child: TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                model.backgroundColor),
+                            padding: model.isMobile
+                                ? null
+                                : MaterialStateProperty.all(
+                                    EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 15)),
+                          ),
+                          onPressed: _conformance,
+                          child: const Text('Generate PDF',
+                              style: TextStyle(color: Colors.white)),
+                        ))
                   ]),
             ),
           )),
@@ -97,7 +106,7 @@ class _ConformancePdfState extends SampleViewState {
     } else {
       //Create document with PDF/A-3B standard.
       document = PdfDocument(conformanceLevel: PdfConformanceLevel.a3b);
-      String text =
+      final String text =
           'Adventure Works Cycles, the fictitious company on which the AdventureWorks sample databases are based, is a large, multinational manufacturing company. The company manufactures and sells metal and composite bicycles to North American, European and Asian commercial markets. While its base operation is located in Bothell, Washington with 290 employees, several regional sales teams are located throughout their market base.';
       document.attachments.add(PdfAttachment(
           'AdventureCycle.txt', utf8.encode(text),
@@ -112,11 +121,11 @@ class _ConformancePdfState extends SampleViewState {
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
         pen: PdfPen(PdfColor(142, 170, 219, 255)));
     //Read font file.
-    List<int> fontData = await _readData('Roboto-Regular.ttf');
+    final List<int> fontData = await _readData('Roboto-Regular.ttf');
     //Create a PDF true type font.
-    PdfFont contentFont = PdfTrueTypeFont(fontData, 9);
-    PdfFont headerFont = PdfTrueTypeFont(fontData, 30);
-    PdfFont footerFont = PdfTrueTypeFont(fontData, 18);
+    final PdfFont contentFont = PdfTrueTypeFont(fontData, 9);
+    final PdfFont headerFont = PdfTrueTypeFont(fontData, 30);
+    final PdfFont footerFont = PdfTrueTypeFont(fontData, 18);
     //Generate PDF grid.
     final PdfGrid grid = _getGrid(contentFont);
     //Draw the header section by creating text element
@@ -181,17 +190,17 @@ class _ConformancePdfState extends SampleViewState {
     return PdfTextElement(text: address, font: contentFont).draw(
         page: page,
         bounds: Rect.fromLTWH(30, 120,
-            pageSize.width - (contentSize.width + 30), pageSize.height - 120));
+            pageSize.width - (contentSize.width + 30), pageSize.height - 120))!;
   }
 
   //Draws the grid
   void _drawGrid(
       PdfPage page, PdfGrid grid, PdfLayoutResult result, PdfFont contentFont) {
-    Rect totalPriceCellBounds;
-    Rect quantityCellBounds;
+    Rect? totalPriceCellBounds;
+    Rect? quantityCellBounds;
     //Invoke the beginCellLayout event.
     grid.beginCellLayout = (Object sender, PdfGridBeginCellLayoutArgs args) {
-      final PdfGrid grid = sender;
+      final PdfGrid grid = sender as PdfGrid;
       if (args.cellIndex == grid.columns.count - 1) {
         totalPriceCellBounds = args.bounds;
       } else if (args.cellIndex == grid.columns.count - 2) {
@@ -200,20 +209,20 @@ class _ConformancePdfState extends SampleViewState {
     };
     //Draw the PDF grid and get the result.
     result = grid.draw(
-        page: page, bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0));
+        page: page, bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0))!;
     //Draw grand total.
     page.graphics.drawString('Grand Total', contentFont,
         bounds: Rect.fromLTWH(
-            quantityCellBounds.left,
+            quantityCellBounds!.left,
             result.bounds.bottom + 10,
-            quantityCellBounds.width,
-            quantityCellBounds.height));
+            quantityCellBounds!.width,
+            quantityCellBounds!.height));
     page.graphics.drawString(_getTotalAmount(grid).toString(), contentFont,
         bounds: Rect.fromLTWH(
-            totalPriceCellBounds.left,
+            totalPriceCellBounds!.left,
             result.bounds.bottom + 10,
-            totalPriceCellBounds.width,
-            totalPriceCellBounds.height));
+            totalPriceCellBounds!.width,
+            totalPriceCellBounds!.height));
   }
 
   //Draw the invoice footer data.
@@ -258,9 +267,8 @@ class _ConformancePdfState extends SampleViewState {
     _addProducts('FK-5136', 'ML Fork', 175.49, 6, 1052.94, grid);
     _addProducts('HL-U509', 'Sports-100 Helmet,Black', 34.99, 1, 34.99, grid);
     final PdfPen whitePen = PdfPen(PdfColor.empty, width: 0.5);
-    PdfBorders borders = PdfBorders();
+    final PdfBorders borders = PdfBorders();
     borders.all = PdfPen(PdfColor(142, 179, 219), width: 0.5);
-    ;
     grid.rows.applyStyle(PdfGridCellStyle(borders: borders));
     grid.columns[1].width = 200;
     for (int i = 0; i < headerRow.cells.count; i++) {

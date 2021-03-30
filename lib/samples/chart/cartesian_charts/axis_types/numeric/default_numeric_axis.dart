@@ -19,14 +19,21 @@ class NumericDefault extends SampleView {
 /// State class of the default numeric axis.
 class _NumericDefaultState extends SampleViewState {
   _NumericDefaultState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        enable: true, format: 'Score: point.y', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return getChart();
+    return _buildChart();
   }
 
   /// Returns the Cartesian chart with default numeric x and y axis.
-  SfCartesianChart getChart() {
+  SfCartesianChart _buildChart() {
     return SfCartesianChart(
       title:
           ChartTitle(text: isCardView ? '' : 'Australia vs India ODI - 2019'),
@@ -47,8 +54,7 @@ class _NumericDefaultState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: getDefaultNumericSeries(),
-      tooltipBehavior: TooltipBehavior(
-          enable: true, format: 'Score: point.y', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

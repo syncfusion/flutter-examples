@@ -23,11 +23,11 @@ class _BarDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultBarChart();
+    return _buildDefaultBarChart();
   }
 
   /// Returns the default cartesian bar chart.
-  SfCartesianChart _getDefaultBarChart() {
+  SfCartesianChart _buildDefaultBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Tourism - Number of arrivals'),

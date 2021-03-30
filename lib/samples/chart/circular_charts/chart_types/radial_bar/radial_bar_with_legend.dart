@@ -19,14 +19,21 @@ class RadialBarAngle extends SampleView {
 /// State class of radial series with legend.
 class _RadialBarAngleState extends SampleViewState {
   _RadialBarAngleState();
+  late TooltipBehavior _tooltipBehavior;
+
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(enable: true, format: 'point.x');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getAngleRadialBarChart();
+    return _buildAngleRadialBarChart();
   }
 
   /// Retunrs the circular charts with radial series.
-  SfCircularChart _getAngleRadialBarChart() {
+  SfCircularChart _buildAngleRadialBarChart() {
     return SfCircularChart(
       title: ChartTitle(text: isCardView ? '' : 'Activity tracker'),
 
@@ -36,7 +43,7 @@ class _RadialBarAngleState extends SampleViewState {
           iconHeight: 20,
           iconWidth: 20,
           overflowMode: LegendItemOverflowMode.wrap),
-      tooltipBehavior: TooltipBehavior(enable: true, format: 'point.x'),
+      tooltipBehavior: _tooltipBehavior,
       series: _getRadialBarSeries(),
     );
   }

@@ -18,14 +18,24 @@ class ColumnRounded extends SampleView {
 
 class _ColumnRoundedState extends SampleViewState {
   _ColumnRoundedState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        canShowMarker: false,
+        format: 'point.x : point.y sq.km',
+        header: '');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getRoundedColumnChart();
+    return _buildRoundedColumnChart();
   }
 
   /// Get rounded corner column chart
-  SfCartesianChart _getRoundedColumnChart() {
+  SfCartesianChart _buildRoundedColumnChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -39,11 +49,7 @@ class _ColumnRoundedState extends SampleViewState {
       ),
       primaryYAxis: NumericAxis(isVisible: false, minimum: 0, maximum: 9000),
       series: _getRoundedColumnSeries(),
-      tooltipBehavior: TooltipBehavior(
-          enable: true,
-          canShowMarker: false,
-          format: 'point.x : point.y sq.km',
-          header: ''),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

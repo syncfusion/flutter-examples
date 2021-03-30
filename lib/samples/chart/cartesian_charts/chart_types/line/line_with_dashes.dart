@@ -21,11 +21,11 @@ class _LineDashedState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDashedLineChart();
+    return _buildDashedLineChart();
   }
 
   /// Get the cartesian chart with dashed line series
-  SfCartesianChart _getDashedLineChart() {
+  SfCartesianChart _buildDashedLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(

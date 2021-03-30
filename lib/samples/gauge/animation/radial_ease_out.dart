@@ -19,13 +19,15 @@ class RadialEaseOutAnimation extends SampleView {
 class _RadialEaseOutAnimationState extends SampleViewState {
   _RadialEaseOutAnimationState();
 
+  final Color _darkNeedleColor = const Color(0xFFDCDCDC);
+
   @override
   Widget build(BuildContext context) {
-    return _getRadialEaseOutAnimation();
+    return _buildRadialEaseOutAnimation();
   }
 
   /// Returns the pointer ease out animation gauge
-  SfRadialGauge _getRadialEaseOutAnimation() {
+  SfRadialGauge _buildRadialEaseOutAnimation() {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
@@ -45,18 +47,22 @@ class _RadialEaseOutAnimationState extends SampleViewState {
                 width: 40,
                 color: const Color(0xFF00A8B5),
                 value: 40,
-                // Sweep gradient not supported in web
-                gradient: model.isWeb
-                    ? null
-                    : const SweepGradient(
-                        colors: <Color>[Color(0xFFD046CA), Color(0xFF6094EA)],
-                        stops: <double>[0.25, 0.75]),
+                gradient: const SweepGradient(
+                    colors: <Color>[Color(0xFFD046CA), Color(0xFF6094EA)],
+                    stops: <double>[0.25, 0.75]),
               ),
               NeedlePointer(
                   knobStyle: KnobStyle(
-                      knobRadius: 5, sizeUnit: GaugeSizeUnit.logicalPixel),
+                      color: model.themeData.brightness == Brightness.light
+                          ? null
+                          : _darkNeedleColor,
+                      knobRadius: 5,
+                      sizeUnit: GaugeSizeUnit.logicalPixel),
                   needleEndWidth: 2,
                   needleStartWidth: 2,
+                  needleColor: model.themeData.brightness == Brightness.light
+                      ? null
+                      : _darkNeedleColor,
                   lengthUnit: GaugeSizeUnit.factor,
                   needleLength: 0.98,
                   value: 40,

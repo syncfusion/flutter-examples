@@ -24,138 +24,129 @@ class MACDIndicator extends SampleView {
 /// Moving average convergence divergence indicator.
 class _MACDIndicatorState extends SampleViewState {
   _MACDIndicatorState();
-  double _period = 14.0;
-  double _longPeriod = 5.0;
-  double _shortPeriod = 2.0;
+  late double _period;
+  late double _longPeriod;
+  late double _shortPeriod;
   final List<String> _macdIndicatorTypeList =
       <String>['Both', 'Line', 'Histogram'].toList();
-  String _selectedMacdIndicatorType = 'Both';
-  MacdType _macdType = MacdType.both;
+  late String _selectedMacdIndicatorType = 'Both';
+  late MacdType _macdType = MacdType.both;
+  late TrackballBehavior _trackballBehavior;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
+    super.initState();
     _period = 14;
     _longPeriod = 5.0;
     _shortPeriod = 2.0;
     _selectedMacdIndicatorType = 'Both';
     _macdType = MacdType.both;
-    super.initState();
+    _trackballBehavior = TrackballBehavior(
+      enable: !isCardView,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+    );
+    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultMACDIndicator();
+    return _buildDefaultMACDIndicator();
   }
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Period',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    maxValue: 50,
-                    initialValue: _period,
-                    onChanged: (double val) => setState(() {
-                      _period = val;
-                    }),
-                    loop: true,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
+          ListTile(
+            title: Text(
+              'Period',
+              style: TextStyle(color: model.textColor),
+            ),
+            trailing: Container(
+              width: 0.5 * screenWidth,
+              padding: EdgeInsets.only(left: 0.03 * screenWidth),
+              child: CustomDirectionalButtons(
+                maxValue: 50,
+                initialValue: _period,
+                onChanged: (double val) => setState(() {
+                  _period = val;
+                }),
+                loop: true,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
             ),
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Long Period',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    maxValue: 50,
-                    initialValue: _longPeriod,
-                    onChanged: (double val) => setState(() {
-                      _longPeriod = val;
-                    }),
-                    loop: true,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
+          ListTile(
+            title: Text(
+              'Long Period',
+              style: TextStyle(color: model.textColor),
+            ),
+            trailing: Container(
+              width: 0.5 * screenWidth,
+              padding: EdgeInsets.only(left: 0.03 * screenWidth),
+              child: CustomDirectionalButtons(
+                maxValue: 50,
+                initialValue: _longPeriod,
+                onChanged: (double val) => setState(() {
+                  _longPeriod = val;
+                }),
+                loop: true,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
             ),
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Short period',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(36, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    maxValue: 50,
-                    initialValue: _shortPeriod,
-                    onChanged: (double val) => setState(() {
-                      _shortPeriod = val;
-                    }),
-                    loop: true,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
+          ListTile(
+            title: Text(
+              'Short period',
+              style: TextStyle(color: model.textColor),
+            ),
+            trailing: Container(
+              width: 0.5 * screenWidth,
+              padding: EdgeInsets.only(left: 0.03 * screenWidth),
+              child: CustomDirectionalButtons(
+                maxValue: 50,
+                initialValue: _shortPeriod,
+                onChanged: (double val) => setState(() {
+                  _shortPeriod = val;
+                }),
+                loop: true,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
             ),
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('MACD type      ',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(34, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomCenter,
-                  child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
-                      value: _selectedMacdIndicatorType,
-                      items: _macdIndicatorTypeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'Both',
-                            child: Text('$value',
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (String value) {
-                        _onMacdIndicatorTypeChanged(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
+          ListTile(
+            title: Text('MACD type      ',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.07 * screenWidth),
+              width: 0.5 * screenWidth,
+              height: 50,
+              alignment: Alignment.bottomLeft,
+              child: DropdownButton<String>(
+                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  value: _selectedMacdIndicatorType,
+                  items: _macdIndicatorTypeList.map((String value) {
+                    return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'Both',
+                        child: Text('$value',
+                            style: TextStyle(color: model.textColor)));
+                  }).toList(),
+                  onChanged: (String? value) {
+                    _onMacdIndicatorTypeChanged(value.toString());
+                    stateSetter(() {});
+                  }),
             ),
           ),
         ],
@@ -165,7 +156,7 @@ class _MACDIndicatorState extends SampleViewState {
 
   /// Returns the OHLC chart with
   /// Moving average convergence divergence indicator.
-  SfCartesianChart _getDefaultMACDIndicator() {
+  SfCartesianChart _buildDefaultMACDIndicator() {
     final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
@@ -193,20 +184,16 @@ class _MACDIndicatorState extends SampleViewState {
       indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
         /// MACD indicator mentioned here.
         MacdIndicator<ChartSampleData, DateTime>(
-            period: _period.toInt() ?? 14,
-            longPeriod: _longPeriod.toInt() ?? 5,
-            shortPeriod: _shortPeriod.toInt() ?? 2,
+            period: _period.toInt(),
+            longPeriod: _longPeriod.toInt(),
+            shortPeriod: _shortPeriod.toInt(),
             signalLineWidth: 2,
             macdType: _macdType,
             seriesName: 'AAPL',
             yAxisName: 'agybrd'),
       ],
-      trackballBehavior: TrackballBehavior(
-        enable: !isCardView,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isCardView ? true : false),
+      trackballBehavior: _trackballBehavior,
+      tooltipBehavior: _tooltipBehavior,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <ChartSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(

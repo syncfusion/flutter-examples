@@ -21,11 +21,11 @@ class _SplineRangeAreaState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getSplineRangeAreaChart();
+    return _buildSplineRangeAreaChart();
   }
 
   ///Get chart with spline range area chart
-  SfCartesianChart _getSplineRangeAreaChart() {
+  SfCartesianChart _buildSplineRangeAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: 'Product price comparison'),

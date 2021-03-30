@@ -27,85 +27,72 @@ class _PyramidDefaultState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Pyramid mode',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
-                      value: _selectedMode,
-                      items: _pyramidMode.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'Linear',
-                            child: Text('$value',
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onPyramidModeChange(value.toString());
+          ListTile(
+            title:
+                Text('Pyramid mode', style: TextStyle(color: model.textColor)),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.07 * screenWidth),
+              width: 0.5 * screenWidth,
+              height: 50,
+              alignment: Alignment.bottomLeft,
+              child: DropdownButton<String>(
+                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  value: _selectedMode,
+                  items: _pyramidMode.map((String value) {
+                    return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'Linear',
+                        child: Text('$value',
+                            style: TextStyle(color: model.textColor)));
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    _onPyramidModeChange(value.toString());
+                    stateSetter(() {});
+                  }),
+            ),
+          ),
+          ListTile(
+            title: Text('Gap ratio', style: TextStyle(color: model.textColor)),
+            trailing: Container(
+              padding: EdgeInsets.only(left: 0.03 * screenWidth),
+              width: 0.5 * screenWidth,
+              child: CustomDirectionalButtons(
+                maxValue: 0.5,
+                initialValue: gapRatio,
+                onChanged: (double val) => setState(() {
+                  gapRatio = val;
+                }),
+                step: 0.1,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
+            ),
+          ),
+          ListTile(
+            title: Text('Explode',
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                width: 0.5 * screenWidth,
+                child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: model.backgroundColor,
+                    value: explode,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        explode = value!;
                         stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Gap ratio    ',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(45, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    maxValue: 0.5,
-                    initialValue: gapRatio,
-                    onChanged: (double val) => setState(() {
-                      gapRatio = val;
-                    }),
-                    step: 0.1,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Explode',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Container(
-                        width: 90,
-                        child: CheckboxListTile(
-                            activeColor: model.backgroundColor,
-                            value: explode,
-                            onChanged: (bool value) {
-                              setState(() {
-                                explode = value;
-                                stateSetter(() {});
-                              });
-                            }))),
-              ],
-            ),
+                      });
+                    })),
           ),
         ],
       );
@@ -114,11 +101,11 @@ class _PyramidDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultPyramidChart();
+    return _buildDefaultPyramidChart();
   }
 
   ///Get the default pyramid chart
-  SfPyramidChart _getDefaultPyramidChart() {
+  SfPyramidChart _buildDefaultPyramidChart() {
     return SfPyramidChart(
       smartLabelMode: SmartLabelMode.shift,
       title: ChartTitle(text: isCardView ? '' : 'Comparison of calories'),

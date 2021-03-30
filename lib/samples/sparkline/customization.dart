@@ -1,5 +1,6 @@
 /// Package import
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 /// Chart import
 
@@ -7,9 +8,9 @@ import 'package:flutter/material.dart';
 import '../../model/sample_view.dart';
 import '../../widgets/custom_button.dart';
 
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
-
+/// Renders the sparkline custamization sample
 class SparklineCustomization extends SampleView {
+  /// Creates the sparkline custamization sample
   const SparklineCustomization(Key key) : super(key: key);
 
   @override
@@ -50,15 +51,15 @@ class _SparklineCustomizationState extends SampleViewState {
     return Center(
         child: Container(
       height: MediaQuery.of(context).size.height / 3,
-      width: model.isWeb ||
+      width: model.isWebFullView ||
               MediaQuery.of(context).orientation == Orientation.landscape
           ? MediaQuery.of(context).size.width / 2.5
           : MediaQuery.of(context).size.width / 1.2,
-      child: _getSparkBarCustomizationChart(),
+      child: _buildSparkBarCustomizationChart(),
     ));
   }
 
-  SfSparkLineChart _getSparkBarCustomizationChart() {
+  SfSparkLineChart _buildSparkBarCustomizationChart() {
     return SfSparkLineChart(
       data: [1, 5, -6, 0, 1, -2, 7, -7, -4, -10, 13, -6, 7, 5, 11, 5, 3],
       labelDisplayMode: _dataLabelDisplayMode,
@@ -85,7 +86,7 @@ class _SparklineCustomizationState extends SampleViewState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
-        shrinkWrap: !model.isWeb,
+        shrinkWrap: !model.isWebFullView,
         children: <Widget>[
           Container(
             child: Row(
@@ -108,7 +109,7 @@ class _SparklineCustomizationState extends SampleViewState {
                             child: Text('$value',
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         _onMarkerDisplayModeChange(value.toString());
                         stateSetter(() {});
                       }),
@@ -137,7 +138,7 @@ class _SparklineCustomizationState extends SampleViewState {
                             child: Text('$value',
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         _onDatalabelDisplayModeChange(value.toString());
                         stateSetter(() {});
                       }),
@@ -159,9 +160,9 @@ class _SparklineCustomizationState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: _enableTrackLine,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
-                            _enableTrackLine = value;
+                            _enableTrackLine = value!;
                             stateSetter(() {});
                           });
                         }))
@@ -218,9 +219,9 @@ class _SparklineCustomizationState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: _enablePlotband,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
-                            _enablePlotband = value;
+                            _enablePlotband = value!;
                             stateSetter(() {});
                           });
                         }))

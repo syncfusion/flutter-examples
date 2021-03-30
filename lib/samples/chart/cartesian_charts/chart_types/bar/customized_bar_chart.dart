@@ -23,7 +23,7 @@ class BarCustomization extends SampleView {
 }
 
 /// dashed array image renders inside of  bars
-ui.Image image;
+ui.Image? image;
 
 /// Set image loaded info
 bool isImageloaded = false;
@@ -31,6 +31,7 @@ bool isImageloaded = false;
 /// State class of the customized bar chart.
 class _BarCustomizationState extends SampleViewState {
   _BarCustomizationState();
+  late TooltipBehavior _tooltipBehavior;
 
   Future<void> _init() async {
     final ByteData data = await rootBundle.load('images/dashline.png');
@@ -39,10 +40,8 @@ class _BarCustomizationState extends SampleViewState {
 
   Future<ui.Image> _loadImage(List<int> img) async {
     final Completer<ui.Image> completer = Completer<ui.Image>();
-    ui.decodeImageFromList(img, (ui.Image img) {
-      setState(() {
-        isImageloaded = true;
-      });
+    ui.decodeImageFromList(img as Uint8List, (ui.Image img) {
+      isImageloaded = true;
       return completer.complete(img);
     });
     return completer.future;
@@ -50,17 +49,19 @@ class _BarCustomizationState extends SampleViewState {
 
   @override
   void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, canShowMarker: false, header: '');
     super.initState();
     _init();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getCustomizedBarChart();
+    return _buildCustomizedBarChart();
   }
 
   /// Returns the customized cartesian bar chart.
-  SfCartesianChart _getCustomizedBarChart() {
+  SfCartesianChart _buildCustomizedBarChart() {
     return SfCartesianChart(
       title: ChartTitle(
           text: isCardView
@@ -95,8 +96,7 @@ class _BarCustomizationState extends SampleViewState {
           yValueMapper: (ChartSampleData sales, _) => sales.y,
         )
       ],
-      tooltipBehavior:
-          TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 }
@@ -107,7 +107,7 @@ class _CustomBarSeriesRenderer extends BarSeriesRenderer {
   _CustomBarSeriesRenderer();
 
   @override
-  ChartSegment createSegment() {
+  BarSegment createSegment() {
     return BarCustomPainter();
   }
 }
@@ -129,7 +129,7 @@ class BarCustomPainter extends BarSegment {
       ..shader = image == null
           ? null
           : ImageShader(
-              image, TileMode.repeated, TileMode.repeated, deviceTransform);
+              image!, TileMode.repeated, TileMode.repeated, deviceTransform);
 
     final double devicePixelRatio = ui.window.devicePixelRatio;
 

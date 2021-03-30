@@ -65,15 +65,15 @@ class _ThumbCustomizedSliderState extends SampleViewState {
 class _RectThumbShape extends SfThumbShape {
   @override
   void paint(PaintingContext context, Offset center,
-      {RenderBox parentBox,
-      RenderBox child,
-      SfSliderThemeData themeData,
-      SfRangeValues currentValues,
+      {required RenderBox parentBox,
+      required RenderBox? child,
+      required SfSliderThemeData themeData,
+      SfRangeValues? currentValues,
       dynamic currentValue,
-      Paint paint,
-      Animation<double> enableAnimation,
-      TextDirection textDirection,
-      SfThumb thumb}) {
+      required Paint? paint,
+      required Animation<double> enableAnimation,
+      required TextDirection textDirection,
+      required SfThumb? thumb}) {
     super.paint(context, center,
         parentBox: parentBox,
         child: child,
@@ -93,7 +93,7 @@ class _RectThumbShape extends SfThumbShape {
     context.canvas.drawPath(
         path,
         Paint()
-          ..color = themeData.activeTrackColor
+          ..color = themeData.activeTrackColor!
           ..style = PaintingStyle.fill
           ..strokeWidth = 2);
   }

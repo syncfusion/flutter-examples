@@ -31,7 +31,7 @@ class _BarSpacingState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getSpacingBarChart();
+    return _buildSpacingBarChart();
   }
 
   @override
@@ -94,7 +94,7 @@ class _BarSpacingState extends SampleViewState {
     );
   }
 
-  SfCartesianChart _getSpacingBarChart() {
+  SfCartesianChart _buildSpacingBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Exports & Imports of US'),

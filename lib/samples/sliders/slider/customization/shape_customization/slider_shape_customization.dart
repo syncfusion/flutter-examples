@@ -29,7 +29,7 @@ class ShapeCustomizedSliderPage extends SampleView {
 
 class _ShapeCustomizedSliderPageState extends SampleViewState {
   _ShapeCustomizedSliderPageState();
-  Widget slider;
+  late Widget slider;
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _ShapeCustomizedSliderPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
+            model.isWebFullView
         ? slider
         : SingleChildScrollView(
             child: Container(
@@ -63,18 +63,18 @@ class _ShapeCustomizedSliderState extends SampleViewState {
   final double _min = 0.0;
   final double _max = 100.0;
 
-  Widget _getWebLayout() {
+  Widget _buildWebLayout() {
     return Container(
       alignment: Alignment.center,
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-        child: _getMobileLayout(),
+        child: _buildMobileLayout(),
       ),
     );
   }
 
-  Widget _getMobileLayout() {
+  Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
@@ -114,7 +114,7 @@ class _ShapeCustomizedSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
   }
 }
 
@@ -128,26 +128,21 @@ class _SfTrackShape extends SfTrackShape {
         : max;
   }
 
-  double min;
-  double max;
-  double trackIntermediatePos;
+  late double min;
+  late double max;
+  double? trackIntermediatePos;
 
   @override
-  void paint(
-    PaintingContext context,
-    Offset offset,
-    Offset thumbCenter,
-    Offset startThumbCenter,
-    Offset endThumbCenter, {
-    RenderBox parentBox,
-    SfSliderThemeData themeData,
-    SfRangeValues currentValues,
-    dynamic currentValue,
-    Animation<double> enableAnimation,
-    Paint inactivePaint,
-    Paint activePaint,
-    TextDirection textDirection,
-  }) {
+  void paint(PaintingContext context, Offset offset, Offset? thumbCenter,
+      Offset? startThumbCenter, Offset? endThumbCenter,
+      {required RenderBox parentBox,
+      required SfSliderThemeData themeData,
+      SfRangeValues? currentValues,
+      dynamic currentValue,
+      required Animation<double> enableAnimation,
+      required Paint? inactivePaint,
+      required Paint? activePaint,
+      required TextDirection textDirection}) {
     final Rect trackRect = getPreferredRect(parentBox, themeData, offset);
     final double actualValue = currentValue.runtimeType == DateTime
         ? currentValue.millisecondsSinceEpoch.toDouble()
@@ -160,19 +155,19 @@ class _SfTrackShape extends SfTrackShape {
     final Paint trackPaint = Paint();
     trackPaint.color = actualValueInPercent <= 80.0 ? Colors.green : Colors.red;
     final Rect lowVolumeRect = Rect.fromLTRB(
-        trackRect.left, trackRect.top, thumbCenter.dx, trackRect.bottom);
+        trackRect.left, trackRect.top, thumbCenter!.dx, trackRect.bottom);
     context.canvas.drawRect(lowVolumeRect, trackPaint);
 
     if (actualValueInPercent <= 80.0) {
       trackPaint.color = Colors.green.withOpacity(0.40);
       final Rect lowVolumeRectWithLessOpacity = Rect.fromLTRB(thumbCenter.dx,
-          trackRect.top, trackIntermediatePos, trackRect.bottom);
+          trackRect.top, trackIntermediatePos!, trackRect.bottom);
       context.canvas.drawRect(lowVolumeRectWithLessOpacity, trackPaint);
     }
 
     trackPaint.color = Colors.red.withOpacity(0.40);
     final double highTrackLeft =
-        actualValueInPercent >= 80.0 ? thumbCenter.dx : trackIntermediatePos;
+        actualValueInPercent >= 80.0 ? thumbCenter.dx : trackIntermediatePos!;
     final Rect highVolumeRectWithLessOpacity = Rect.fromLTRB(highTrackLeft,
         trackRect.top, trackRect.width + trackRect.left, trackRect.bottom);
     context.canvas.drawRect(highVolumeRectWithLessOpacity, trackPaint);
@@ -195,20 +190,20 @@ class _SfThumbShape extends SfThumbShape {
         : max;
   }
 
-  double min;
-  double max;
+  late double min;
+  late double max;
 
   @override
   void paint(PaintingContext context, Offset center,
-      {RenderBox parentBox,
-      RenderBox child,
-      SfSliderThemeData themeData,
-      SfRangeValues currentValues,
+      {required RenderBox parentBox,
+      required RenderBox? child,
+      required SfSliderThemeData themeData,
+      SfRangeValues? currentValues,
       dynamic currentValue,
-      Paint paint,
-      Animation<double> enableAnimation,
-      TextDirection textDirection,
-      SfThumb thumb}) {
+      required Paint? paint,
+      required Animation<double> enableAnimation,
+      required TextDirection textDirection,
+      required SfThumb? thumb}) {
     final double actualValue = currentValue.runtimeType == DateTime
         ? currentValue.millisecondsSinceEpoch.toDouble()
         : currentValue;
@@ -225,6 +220,8 @@ class _SfThumbShape extends SfThumbShape {
         currentValue: currentValue,
         paint: paint,
         enableAnimation: enableAnimation,
-        textDirection: textDirection);
+        textDirection: textDirection,
+        thumb: thumb,
+        child: child);
   }
 }

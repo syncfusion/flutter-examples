@@ -7,8 +7,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local imports
 import '../../../../model/sample_view.dart';
 
-///Renders histogram chart sample
+///Renders box whisker chart sample
 class BoxWhisker extends SampleView {
+  /// Creates the box whisker chart
   const BoxWhisker(Key key) : super(key: key);
 
   @override
@@ -17,11 +18,12 @@ class BoxWhisker extends SampleView {
 
 class _BoxWhiskerState extends SampleViewState {
   _BoxWhiskerState();
-  var _selectMode;
-  BoxPlotMode _boxMode;
-  bool _mean = true;
+  late var _selectMode;
+  late BoxPlotMode _boxMode;
+  late bool _mean;
   final List<String> _modeType =
       <String>['normal', 'exclusive', 'inclusive'].toList();
+  late TooltipBehavior _tooltipBehavior;
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -69,9 +71,9 @@ class _BoxWhiskerState extends SampleViewState {
                       child: CheckboxListTile(
                           activeColor: model.backgroundColor,
                           value: _mean,
-                          onChanged: (bool value) {
+                          onChanged: (bool? value) {
                             setState(() {
-                              _mean = value;
+                              _mean = value!;
                               stateSetter(() {});
                             });
                           })),
@@ -87,12 +89,13 @@ class _BoxWhiskerState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(bottom: model.isWeb || !isCardView ? 0 : 50),
-        child: _getDefaultWhiskerChart());
+        padding: EdgeInsets.only(
+            bottom: model.isWebFullView || !isCardView ? 0 : 50),
+        child: _buildDefaultWhiskerChart());
   }
 
   /// Get the cartesian chart with histogram series
-  SfCartesianChart _getDefaultWhiskerChart() {
+  SfCartesianChart _buildDefaultWhiskerChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: 'Employees age group in various departments'),
@@ -107,7 +110,7 @@ class _BoxWhiskerState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getBoxWhiskerSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -140,8 +143,6 @@ class _BoxWhiskerState extends SampleViewState {
           ],
           null,
           Color.fromRGBO(75, 135, 185, 0.9)),
-      // SalesData('Testing',  [22, 33, 23, 25, 26, 28, 29, 30, 34, 33, 32, 31, 50],null,
-      // Color.fromRGBO(75, 135, 185, 0.9) ),
       SalesData('HR', [22, 24, 25, 30, 32, 34, 36, 38, 39, 41, 35, 36, 40, 56],
           null, Color.fromRGBO(75, 135, 185, 0.9)),
       SalesData('Finance  ', [26, 27, 28, 30, 32, 34, 35, 37, 35, 37, 45], null,
@@ -154,8 +155,6 @@ class _BoxWhiskerState extends SampleViewState {
           null, Color.fromRGBO(75, 135, 185, 0.9)),
       SalesData('Graphics', [26, 28, 29, 30, 32, 33, 35, 36, 52], null,
           Color.fromRGBO(75, 135, 185, 0.9)),
-      // SalesData(  'Training',  [28, 29, 30, 31, 32, 34, 35, 36],null,
-      //  Color.fromRGBO(123, 180, 235, 1))
     ];
     return <BoxAndWhiskerSeries<SalesData, dynamic>>[
       BoxAndWhiskerSeries<SalesData, dynamic>(
@@ -175,9 +174,10 @@ class _BoxWhiskerState extends SampleViewState {
 
   @override
   void initState() {
-    _selectMode = "normal";
+    _selectMode = 'normal';
     _mean = true;
     _boxMode = BoxPlotMode.normal;
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 

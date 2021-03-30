@@ -19,14 +19,24 @@ class LineMultiColor extends SampleView {
 
 class _LineMultiColorState extends SampleViewState {
   _LineMultiColorState();
+  late TrackballBehavior _trackballBehavior;
+  @override
+  void initState() {
+    _trackballBehavior = TrackballBehavior(
+        enable: true,
+        activationMode: ActivationMode.singleTap,
+        lineType: TrackballLineType.vertical,
+        tooltipSettings: InteractiveTooltip(format: 'point.x : point.y'));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getMultiColorLineChart();
+    return _buildMultiColorLineChart();
   }
 
   ///Get the chart with multi colored line series
-  SfCartesianChart _getMultiColorLineChart() {
+  SfCartesianChart _buildMultiColorLineChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Annual rainfall of Paris'),
       plotAreaBorderWidth: 0,
@@ -43,11 +53,7 @@ class _LineMultiColorState extends SampleViewState {
           labelFormat: '{value}mm',
           majorTickLines: MajorTickLines(size: 0)),
       series: _getMultiColoredLineSeries(),
-      trackballBehavior: TrackballBehavior(
-          enable: true,
-          activationMode: ActivationMode.singleTap,
-          lineType: TrackballLineType.vertical,
-          tooltipSettings: InteractiveTooltip(format: 'point.x : point.y')),
+      trackballBehavior: _trackballBehavior,
     );
   }
 
@@ -94,5 +100,5 @@ class _ChartData {
   _ChartData(this.x, this.y, [this.lineColor]);
   final DateTime x;
   final double y;
-  final Color lineColor;
+  final Color? lineColor;
 }

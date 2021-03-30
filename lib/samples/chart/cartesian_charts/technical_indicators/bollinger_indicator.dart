@@ -22,74 +22,79 @@ class BollingerIndicator extends SampleView {
 /// State class of the OHLC chart with Bollinger band indicator.
 class _BollingerIndicatorState extends SampleViewState {
   _BollingerIndicatorState();
-  double _period = 14.0;
-  double _standardDeviation = 1.0;
+  late double _period;
+  late double _standardDeviation;
+  late TrackballBehavior _trackballBehavior;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
-    _period = 14;
-    _standardDeviation = 1;
     super.initState();
+    _period = 14;
+    _trackballBehavior = TrackballBehavior(
+      enable: !isCardView,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+      tooltipSettings: InteractiveTooltip(
+        color: model.themeData.brightness == Brightness.light
+            ? Color.fromRGBO(79, 79, 79, 1)
+            : Color.fromRGBO(255, 255, 255, 1),
+      ),
+    );
+    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
+    _standardDeviation = 1;
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaulBollingerIndicator();
+    return _buildDefaulBollingerIndicator();
   }
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return ListView(
       shrinkWrap: true,
       children: <Widget>[
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Period',
-                style: TextStyle(color: model.textColor),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(125, 0, 0, 0),
-                child: CustomDirectionalButtons(
-                  maxValue: 50,
-                  initialValue: _period,
-                  onChanged: (double val) => setState(() {
-                    _period = val;
-                  }),
-                  loop: true,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
-              )
-            ],
+        ListTile(
+          title: Text(
+            'Period',
+            style: TextStyle(color: model.textColor),
+          ),
+          trailing: Container(
+            width: 0.5 * screenWidth,
+            padding: EdgeInsets.only(left: 0.03 * screenWidth),
+            child: CustomDirectionalButtons(
+              maxValue: 50,
+              initialValue: _period,
+              onChanged: (double val) => setState(() {
+                _period = val;
+              }),
+              loop: true,
+              iconColor: model.textColor,
+              style: TextStyle(fontSize: 20.0, color: model.textColor),
+            ),
           ),
         ),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Standard deviation',
-                style: TextStyle(color: model.textColor),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                child: CustomDirectionalButtons(
-                  maxValue: 5,
-                  initialValue: _standardDeviation,
-                  onChanged: (double val) => setState(() {
-                    _standardDeviation = val;
-                  }),
-                  loop: true,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
-              ),
-            ],
+        ListTile(
+          title: Text(
+            'Standard deviation',
+            style: TextStyle(color: model.textColor),
+          ),
+          trailing: Container(
+            width: 0.5 * screenWidth,
+            padding: EdgeInsets.only(left: 0.03 * screenWidth),
+            child: CustomDirectionalButtons(
+              maxValue: 5,
+              initialValue: _standardDeviation,
+              onChanged: (double val) => setState(() {
+                _standardDeviation = val;
+              }),
+              loop: true,
+              iconColor: model.textColor,
+              style: TextStyle(fontSize: 20.0, color: model.textColor),
+            ),
           ),
         ),
       ],
@@ -97,7 +102,7 @@ class _BollingerIndicatorState extends SampleViewState {
   }
 
   // Returns the OHLC chart with Bollinger band indicator
-  SfCartesianChart _getDefaulBollingerIndicator() {
+  SfCartesianChart _buildDefaulBollingerIndicator() {
     final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
@@ -117,24 +122,15 @@ class _BollingerIndicatorState extends SampleViewState {
           interval: 20,
           labelFormat: '\${value}',
           axisLine: AxisLine(width: 0)),
-      trackballBehavior: TrackballBehavior(
-        enable: !isCardView,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-        tooltipSettings: InteractiveTooltip(
-          color: model.themeData.brightness == Brightness.light
-              ? Color.fromRGBO(79, 79, 79, 1)
-              : Color.fromRGBO(255, 255, 255, 1),
-        ),
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isCardView ? true : false),
+      trackballBehavior: _trackballBehavior,
+      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
         /// Bollinger band indicator mentioned here.
         BollingerBandIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
           animationDuration: 0,
-          period: _period.toInt() ?? 14,
-          standardDeviation: _standardDeviation.toInt() ?? 1,
+          period: _period.toInt(),
+          standardDeviation: _standardDeviation.toInt(),
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),

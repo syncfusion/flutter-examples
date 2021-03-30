@@ -21,16 +21,16 @@ class _PyramidLegendState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getLegendPyramidChart();
+    return _buildLegendPyramidChart();
   }
 
   ///Get the pyramid chart
-  SfPyramidChart _getLegendPyramidChart() {
+  SfPyramidChart _buildLegendPyramidChart() {
     return SfPyramidChart(
       onTooltipRender: (TooltipArgs args) {
         List<String> data;
         String text;
-        text = args.dataPoints[args.pointIndex].y.toString();
+        text = args.dataPoints![args.pointIndex!.toInt()].y.toString();
         if (text.contains('.')) {
           data = text.split('.');
           final String newTe =

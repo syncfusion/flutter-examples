@@ -23,11 +23,11 @@ class _AreaDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultAreaChart();
+    return _buildDefaultAreaChart();
   }
 
   /// Returns the default cartesian area chart.
-  SfCartesianChart _getDefaultAreaChart() {
+  SfCartesianChart _buildDefaultAreaChart() {
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView, opacity: 0.7),
       title: ChartTitle(text: isCardView ? '' : 'Average sales comparison'),

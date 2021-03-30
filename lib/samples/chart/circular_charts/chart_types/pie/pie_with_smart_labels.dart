@@ -25,8 +25,9 @@ class _PieSmartLabelsState extends SampleViewState {
   String _connectorLine = 'curve';
   bool isZeroVisible = false;
   bool isSmartLabelMode = true;
-  ChartDataLabelPosition _labelPosition;
-  ConnectorType _connectorType;
+  late ChartDataLabelPosition _labelPosition;
+  late ConnectorType _connectorType;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -79,9 +80,9 @@ class _PieSmartLabelsState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: isSmartLabelMode,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
-                            isSmartLabelMode = value;
+                            isSmartLabelMode = value!;
                             stateSetter(() {});
                           });
                         })),
@@ -131,9 +132,9 @@ class _PieSmartLabelsState extends SampleViewState {
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
                         value: isZeroVisible,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
-                            isZeroVisible = value;
+                            isZeroVisible = value!;
                             stateSetter(() {});
                           });
                         })),
@@ -147,16 +148,16 @@ class _PieSmartLabelsState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getSmartLabelPieChart();
+    return _buildSmartLabelPieChart();
   }
 
   /// Returns the circular charts with pie series.
-  SfCircularChart _getSmartLabelPieChart() {
+  SfCircularChart _buildSmartLabelPieChart() {
     return SfCircularChart(
       title: ChartTitle(
           text: isCardView ? '' : 'Monthly expenditure of an individual'),
       series: _gettSmartLabelPieSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -200,6 +201,7 @@ class _PieSmartLabelsState extends SampleViewState {
   void initState() {
     _labelPosition = ChartDataLabelPosition.outside;
     _connectorType = ConnectorType.curve;
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 

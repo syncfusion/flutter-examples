@@ -26,11 +26,11 @@ class _SplineVerticalState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _getCustomizedSplineChart();
+    return _buildCustomizedSplineChart();
   }
 
   /// Returns the customized spline chart.
-  SfCartesianChart _getCustomizedSplineChart() {
+  SfCartesianChart _buildCustomizedSplineChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Product sales prediction'),
       plotAreaBorderWidth: 0,
@@ -45,7 +45,7 @@ class _SplineVerticalState extends SampleViewState {
       series: <ChartSeries<ChartSampleData, num>>[
         SplineSeries<ChartSampleData, num>(
             onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-              return _CustomSplineSeriesRenderer(series);
+              return _CustomSplineSeriesRenderer(series as SplineSeries);
             },
             dataSource: <ChartSampleData>[
               ChartSampleData(x: 2016, y: 2),
@@ -81,25 +81,25 @@ class _CustomSplineSeriesRenderer extends SplineSeriesRenderer {
   }
 }
 
-List<num> _yVal;
-List<num> _xVal;
-double _textXOffset, _textYOffset;
-double _text1XOffset, _text1YOffset;
+late List<double> _yVal;
+late List<double> _xVal;
+double? _textXOffset, _textYOffset;
+double? _text1XOffset, _text1YOffset;
 
 /// custom spline painter class for customized spline series.
 class _SplineCustomPainter extends SplineSegment {
   _SplineCustomPainter(int value, this.series) {
     //ignore: prefer_initializing_formals
     index = value;
-    _yVal = <num>[];
-    _xVal = <num>[];
+    _yVal = <double>[];
+    _xVal = <double>[];
   }
 
   final SplineSeries<dynamic, dynamic> series;
 
-  double maximum, minimum;
+  late double maximum, minimum;
 
-  int index;
+  late int index;
 
   List<Color> colors = <Color>[
     Colors.blue,
@@ -110,7 +110,7 @@ class _SplineCustomPainter extends SplineSegment {
   ];
 
   @override
-  int get currentSegmentIndex => super.currentSegmentIndex;
+  int get currentSegmentIndex => super.currentSegmentIndex!;
 
   @override
   Paint getStrokePaint() {
@@ -144,10 +144,10 @@ class _SplineCustomPainter extends SplineSegment {
     final Path path = Path();
     path.moveTo(x1, y1);
     path.cubicTo(
-        startControlX, startControlY, endControlX, endControlY, x2, y2);
+        startControlX!, startControlY!, endControlX!, endControlY!, x2, y2);
     currentSegmentIndex < 4
         ? canvas.drawPath(path, getStrokePaint())
-        : _drawDashedLine(canvas, series, strokePaint, path, true);
+        : _drawDashedLine(canvas, series, strokePaint!, path, true);
 
     if (currentSegmentIndex == 5) {
       _textXOffset = _xVal[0];
@@ -169,7 +169,7 @@ class _SplineCustomPainter extends SplineSegment {
       final TextPainter tp =
           TextPainter(text: span, textDirection: TextDirection.ltr);
       tp.layout();
-      tp.paint(canvas, Offset(_text1XOffset, _text1YOffset + tp.size.height));
+      tp.paint(canvas, Offset(_text1XOffset!, _text1YOffset! + tp.size.height));
       const TextSpan span1 = TextSpan(
         style: TextStyle(
             color: Color.fromRGBO(246, 114, 128, 1),
@@ -180,7 +180,7 @@ class _SplineCustomPainter extends SplineSegment {
       final TextPainter tp1 =
           TextPainter(text: span1, textDirection: TextDirection.ltr);
       tp1.layout();
-      tp1.paint(canvas, Offset(_textXOffset, _textYOffset + tp.size.height));
+      tp1.paint(canvas, Offset(_textXOffset!, _textYOffset! + tp.size.height));
     }
   }
 }
@@ -200,16 +200,16 @@ void _drawDashedLine(Canvas canvas, CartesianSeries<dynamic, dynamic> series,
           path,
           dashArray: _CircularIntervalList<double>(
               isSeries ? series.dashArray : <double>[12, 3, 3, 3]),
-        ),
+        )!,
         paint);
   } else {
     canvas.drawPath(path, paint);
   }
 }
 
-Path _dashPath(
+Path? _dashPath(
   Path source, {
-  @required _CircularIntervalList<double> dashArray,
+  required _CircularIntervalList<double> dashArray,
 }) {
   if (source == null) {
     return null;

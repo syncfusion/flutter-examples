@@ -12,6 +12,7 @@ import '../../model/sample_view.dart';
 
 /// Widget of the AgendaView Calendar.
 class ProgressBarSegmentStyle extends SampleView {
+  /// Creates the progress bar segment style sample.
   const ProgressBarSegmentStyle(Key key) : super(key: key);
 
   @override
@@ -24,7 +25,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
 
   double progressValue = 0;
   double _size = 150;
-  Timer _timer;
+  late Timer _timer;
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size = model.isWeb
+      _size = model.isWebFullView
           ? MediaQuery.of(context).size.height / 4.5
           : MediaQuery.of(context).size.height / 4;
       return Center(
@@ -140,7 +141,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                 length: 0.3,
                 thickness: 3,
                 lengthUnit: GaugeSizeUnit.factor,
-                color: model.currentThemeData.brightness == Brightness.light
+                color: model.currentThemeData!.brightness == Brightness.light
                     ? Colors.white
                     : Color.fromRGBO(33, 33, 33, 1)),
           )

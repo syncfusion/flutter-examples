@@ -18,14 +18,21 @@ class ColumnVertical extends SampleView {
 
 class _ColumnVerticalState extends SampleViewState {
   _ColumnVerticalState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, canShowMarker: false, header: '');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getCustomizedColumnChart();
+    return _buildCustomizedColumnChart();
   }
 
   /// Get customized column chart
-  SfCartesianChart _getCustomizedColumnChart() {
+  SfCartesianChart _buildCustomizedColumnChart() {
     return SfCartesianChart(
       title:
           ChartTitle(text: isCardView ? '' : 'PC vendor shipments - 2015 Q1'),
@@ -73,8 +80,7 @@ class _ColumnVerticalState extends SampleViewState {
           pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
         )
       ],
-      tooltipBehavior:
-          TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 }
@@ -97,7 +103,7 @@ class _ColumnCustomPainter extends ColumnSegment {
     const Color.fromRGBO(116, 180, 155, 1)
   ];
   @override
-  int get currentSegmentIndex => super.currentSegmentIndex;
+  int get currentSegmentIndex => super.currentSegmentIndex!;
 
   @override
   Paint getFillPaint() {

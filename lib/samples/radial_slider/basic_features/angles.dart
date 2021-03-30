@@ -9,6 +9,7 @@ import '../../../model/sample_view.dart';
 
 /// Widget of the Radial Slider angles.
 class RadialSliderAngles extends SampleView {
+  /// Creates the Radial Slider angles.
   const RadialSliderAngles(Key key) : super(key: key);
 
   @override
@@ -19,6 +20,7 @@ class _RadialSliderAnglesState extends SampleViewState {
   _RadialSliderAnglesState();
 
   double _size = 150;
+  late double width, height;
   @override
   void initState() {
     super.initState();
@@ -30,44 +32,62 @@ class _RadialSliderAnglesState extends SampleViewState {
       _markerSize = 18;
       _annotationFontSize = 15;
     } else {
-      _markerSize = model.isWeb ? 18 : 12;
-      _annotationFontSize = model.isWeb ? 15 : 12;
+      _markerSize = model.isWebFullView ? 25 : 12;
+      _annotationFontSize = model.isWebFullView ? 15 : 12;
     }
-    if (MediaQuery.of(context).size.height >
-        MediaQuery.of(context).size.width) {
-      _size = model.isWeb
-          ? MediaQuery.of(context).size.height / 6
-          : MediaQuery.of(context).size.height / 6;
+
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+    if (height > width) {
+      _size = height / 6;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _getFirstSlider(),
+            _buildFirstSlider(),
             Align(
-              alignment: !model.isWeb ? Alignment(0, 0.1) : Alignment(0, 0),
-              child: _getSecondSlider(),
+              alignment:
+                  !model.isWebFullView ? Alignment(0, 0.1) : Alignment(0, 0),
+              child: _buildSecondSlider(),
             ),
             Align(
-                alignment: !model.isWeb ? Alignment(0, 0.1) : Alignment(0, 0),
-                child: _getThirdSlider()),
-            _getFourthSlider(),
+                alignment:
+                    !model.isWebFullView ? Alignment(0, 0.1) : Alignment(0, 0),
+                child: _buildThirdSlider()),
+            _buildFourthSlider(),
           ],
         ),
       );
     } else {
-      _size = MediaQuery.of(context).size.width / 5.5;
+      _size = width / 5.5;
       return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _getFirstSlider(),
-            _getSecondSlider(),
-            _getThirdSlider(),
             Align(
-                alignment: model.isWeb ? Alignment(0, -0.6) : Alignment(0, 0),
-                child: _getFourthSlider()),
+              alignment:
+                  model.isWebFullView ? Alignment.centerRight : Alignment(0, 0),
+              child: _buildFirstSlider(),
+            ),
+            Align(
+              alignment: model.isWebFullView
+                  ? Alignment.centerLeft
+                  : Alignment(0.8, 0),
+              child: _buildSecondSlider(),
+            ),
+            Align(
+              alignment: model.isWebFullView
+                  ? Alignment.centerLeft
+                  : Alignment(-0.5, 0),
+              child: _buildThirdSlider(),
+            ),
+            Align(
+                alignment: model.isWebFullView
+                    ? Alignment(-0.1, 0.25)
+                    : Alignment(0, 0.5),
+                child: _buildFourthSlider()),
           ],
         ),
       );
@@ -79,15 +99,18 @@ class _RadialSliderAnglesState extends SampleViewState {
     super.dispose();
   }
 
-  Widget _getFirstSlider() {
+  Widget _buildFirstSlider() {
     return Container(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
+            useRangeColorForAxis: true,
             radiusFactor: 0.8,
             axisLineStyle: AxisLineStyle(
-                thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
+                color: Color.fromRGBO(88, 194, 143, 0.3),
+                thickness: 0.1,
+                thicknessUnit: GaugeSizeUnit.factor),
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -96,23 +119,17 @@ class _RadialSliderAnglesState extends SampleViewState {
               RangePointer(
                   width: 0.1,
                   value: _currentValue,
-                  cornerStyle: CornerStyle.endCurve,
-                  color: const Color.fromRGBO(0, 198, 139, 1),
+                  cornerStyle: CornerStyle.bothCurve,
+                  color: const Color.fromRGBO(88, 194, 143, 1),
                   sizeUnit: GaugeSizeUnit.factor),
               MarkerPointer(
                 enableDragging: true,
+                elevation: 5,
                 value: _markerValue,
                 onValueChanged: handlePointerValueChanged,
                 onValueChangeEnd: handlePointerValueChanged,
                 onValueChanging: handlePointerValueChanging,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
-                borderWidth: 4,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                color: Color.fromRGBO(88, 194, 143, 1),
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
@@ -121,13 +138,13 @@ class _RadialSliderAnglesState extends SampleViewState {
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                   widget: Text(
-                    '$_annotationValue1' + '%',
+                    '$_annotationValue1' '%',
                     style: TextStyle(
                       fontSize: _annotationFontSize,
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
                       color:
-                          model.currentThemeData.brightness == Brightness.light
+                          model.currentThemeData!.brightness == Brightness.light
                               ? Colors.black
                               : Colors.white,
                     ),
@@ -139,15 +156,23 @@ class _RadialSliderAnglesState extends SampleViewState {
     );
   }
 
-  Widget _getSecondSlider() {
+  Widget _buildSecondSlider() {
     return Container(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
             radiusFactor: 0.8,
+            canScaleToFit: model.isWebFullView
+                ? width > height
+                    ? true
+                    : false
+                : false,
             axisLineStyle: AxisLineStyle(
-                thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
+                cornerStyle: CornerStyle.bothCurve,
+                color: Color.fromRGBO(88, 194, 143, 0.3),
+                thickness: 0.1,
+                thicknessUnit: GaugeSizeUnit.factor),
             showLabels: false,
             showTicks: false,
             startAngle: 90,
@@ -155,24 +180,26 @@ class _RadialSliderAnglesState extends SampleViewState {
             pointers: <GaugePointer>[
               RangePointer(
                   width: 0.1,
-                  value: _currentValueForFirstHalfSlider,
-                  cornerStyle: CornerStyle.endCurve,
-                  color: const Color.fromRGBO(0, 198, 139, 1),
+                  value: _markerValueForFirstHalfSlider,
+                  cornerStyle: CornerStyle.bothCurve,
+                  color: const Color.fromRGBO(88, 194, 143, 1),
                   sizeUnit: GaugeSizeUnit.factor),
               MarkerPointer(
                 value: _markerValueForFirstHalfSlider,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
-                borderWidth: 4,
+                elevation: 5,
+                color: Color.fromRGBO(88, 194, 143, 1),
+                // model.currentThemeData.brightness == Brightness.light
+                //     ? Colors.white
+                //     : Colors.black,
+                // borderWidth: 4,
                 onValueChanged: handleValueChangedForFirstHalfSlider,
                 onValueChangeEnd: handleValueChangedForFirstHalfSlider,
                 onValueChanging: handleValueChangingForFirstHalfSlider,
                 enableDragging: true,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                // borderColor:
+                //     model.currentThemeData.brightness == Brightness.light
+                //         ? Colors.black
+                //         : Colors.white,
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
@@ -181,13 +208,13 @@ class _RadialSliderAnglesState extends SampleViewState {
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                   widget: Text(
-                    '$_annotationValue2' + '%',
+                    '$_annotationValue2' '%',
                     style: TextStyle(
                       fontSize: _annotationFontSize,
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
                       color:
-                          model.currentThemeData.brightness == Brightness.light
+                          model.currentThemeData!.brightness == Brightness.light
                               ? Colors.black
                               : Colors.white,
                     ),
@@ -199,7 +226,7 @@ class _RadialSliderAnglesState extends SampleViewState {
     );
   }
 
-  Widget _getThirdSlider() {
+  Widget _buildThirdSlider() {
     return Container(
       height: _size,
       width: _size,
@@ -207,7 +234,15 @@ class _RadialSliderAnglesState extends SampleViewState {
         RadialAxis(
             radiusFactor: 0.8,
             axisLineStyle: AxisLineStyle(
-                thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
+                cornerStyle: CornerStyle.bothCurve,
+                color: Color.fromRGBO(88, 194, 143, 0.3),
+                thickness: 0.1,
+                thicknessUnit: GaugeSizeUnit.factor),
+            canScaleToFit: model.isWebFullView
+                ? width > height
+                    ? true
+                    : false
+                : false,
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -215,24 +250,26 @@ class _RadialSliderAnglesState extends SampleViewState {
             pointers: <GaugePointer>[
               RangePointer(
                   width: 0.1,
-                  value: _currentValueForPieSlider,
-                  cornerStyle: CornerStyle.endCurve,
-                  color: const Color.fromRGBO(0, 198, 139, 1),
+                  value: _markerValueForPieSlider,
+                  cornerStyle: CornerStyle.bothCurve,
+                  color: const Color.fromRGBO(88, 194, 143, 1),
                   sizeUnit: GaugeSizeUnit.factor),
               MarkerPointer(
                 value: _markerValueForPieSlider,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
-                borderWidth: 4,
+                elevation: 5,
+                color: Color.fromRGBO(88, 194, 143, 1),
+                // model.currentThemeData.brightness == Brightness.light
+                //     ? Colors.white
+                //     : Colors.black,
+                // borderWidth: 4,
                 onValueChanged: handleValueChangedForPieSlider,
                 onValueChangeEnd: handleValueChangedForPieSlider,
                 onValueChanging: handleValueChangingForPieSlider,
                 enableDragging: true,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                // borderColor:
+                //     model.currentThemeData.brightness == Brightness.light
+                //         ? Colors.black
+                //         : Colors.white,
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
@@ -241,13 +278,13 @@ class _RadialSliderAnglesState extends SampleViewState {
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                   widget: Text(
-                    '$_annotationValue3' + '%',
+                    '$_annotationValue3' '%',
                     style: TextStyle(
                       fontSize: _annotationFontSize,
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
                       color:
-                          model.currentThemeData.brightness == Brightness.light
+                          model.currentThemeData!.brightness == Brightness.light
                               ? Colors.black
                               : Colors.white,
                     ),
@@ -259,7 +296,7 @@ class _RadialSliderAnglesState extends SampleViewState {
     );
   }
 
-  Widget _getFourthSlider() {
+  Widget _buildFourthSlider() {
     return Container(
       height: _size,
       width: _size,
@@ -267,33 +304,37 @@ class _RadialSliderAnglesState extends SampleViewState {
         RadialAxis(
             radiusFactor: 0.9,
             axisLineStyle: AxisLineStyle(
-                thickness: 0.1, thicknessUnit: GaugeSizeUnit.factor),
+                cornerStyle: CornerStyle.bothCurve,
+                color: Color.fromRGBO(88, 194, 143, 0.3),
+                thickness: 0.1,
+                thicknessUnit: GaugeSizeUnit.factor),
             showLabels: false,
             showTicks: false,
             startAngle: 180,
             endAngle: 0,
-            canScaleToFit: true,
             pointers: <GaugePointer>[
               RangePointer(
                   width: 0.1,
-                  value: _currentValueForFirstQuarterSlider,
-                  cornerStyle: CornerStyle.endCurve,
-                  color: const Color.fromRGBO(0, 198, 139, 1),
+                  value: _markerValueForFirstQuarterSlider,
+                  cornerStyle: CornerStyle.bothCurve,
+                  color: const Color.fromRGBO(88, 194, 143, 1),
                   sizeUnit: GaugeSizeUnit.factor),
               MarkerPointer(
                 value: _markerValueForFirstQuarterSlider,
-                color: model.currentThemeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
-                borderWidth: 4,
+                elevation: 5,
+                color: Color.fromRGBO(88, 194, 143, 1),
+                // model.currentThemeData.brightness == Brightness.light
+                //     ? Colors.white
+                //     : Colors.black,
+                // borderWidth: 4,
                 onValueChanged: handleValueChangedForFirstQuarterSlider,
                 onValueChangeEnd: handleValueChangedForFirstQuarterSlider,
                 onValueChanging: handleValueChangingForFirstQuarterSlider,
                 enableDragging: true,
-                borderColor:
-                    model.currentThemeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                // borderColor:
+                //     model.currentThemeData.brightness == Brightness.light
+                //         ? Colors.black
+                //         : Colors.white,
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
@@ -302,13 +343,13 @@ class _RadialSliderAnglesState extends SampleViewState {
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                   widget: Text(
-                    '$_annotationValue4' + '%',
+                    '$_annotationValue4' '%',
                     style: TextStyle(
                       fontSize: _annotationFontSize,
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
                       color:
-                          model.currentThemeData.brightness == Brightness.light
+                          model.currentThemeData!.brightness == Brightness.light
                               ? Colors.black
                               : Colors.white,
                     ),
@@ -341,18 +382,17 @@ class _RadialSliderAnglesState extends SampleViewState {
   void _setPointerValue(double value) {
     setState(() {
       _markerValue = value.roundToDouble();
-      _currentValue = _markerValue + 2;
+      _currentValue = _markerValue;
       _annotationValue1 = value.round().toStringAsFixed(0);
     });
   }
 
   /// Value changing call back for pie slider.
   void handleValueChangingForPieSlider(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValueForPieSlider).abs() > 20) {
+    if ((args.value.round().toInt() - _markerValueForPieSlider).abs() > 80) {
       args.cancel = true;
-      if (_markerValueForPieSlider > 50) {
-        final double value = 100;
-        _setPointerValueForPieSlider(value);
+      if (_markerValueForPieSlider > 95) {
+        _setPointerValueForPieSlider(100);
       }
     }
   }
@@ -365,19 +405,18 @@ class _RadialSliderAnglesState extends SampleViewState {
   void _setPointerValueForPieSlider(double value) {
     setState(() {
       _markerValueForPieSlider = value.roundToDouble();
-      _currentValueForPieSlider = _markerValueForPieSlider + 2;
-      _annotationValue3 = value.round().toStringAsFixed(0);
+      //_currentValueForPieSlider = _markerValueForPieSlider + 2;
+      _annotationValue3 = _markerValueForPieSlider.toStringAsFixed(0);
     });
   }
 
   /// Value changing call back for first half slider.
   void handleValueChangingForFirstHalfSlider(ValueChangingArgs args) {
     if ((args.value.round().toInt() - _markerValueForFirstHalfSlider).abs() >
-        20) {
+        80) {
       args.cancel = true;
-      if (_markerValueForFirstHalfSlider > 50) {
-        final double value = 100;
-        _setPointerValueForHalfSlider(value);
+      if (_markerValueForFirstHalfSlider > 95) {
+        _setPointerValueForHalfSlider(100);
       }
     }
   }
@@ -391,8 +430,8 @@ class _RadialSliderAnglesState extends SampleViewState {
   void _setPointerValueForHalfSlider(double value) {
     setState(() {
       _markerValueForFirstHalfSlider = value.roundToDouble();
-      _currentValueForFirstHalfSlider = _markerValueForFirstHalfSlider + 2;
-      _annotationValue2 = value.round().toStringAsFixed(0);
+      //_currentValueForFirstHalfSlider = _markerValueForFirstHalfSlider + 2;
+      _annotationValue2 = _markerValueForFirstHalfSlider.toStringAsFixed(0);
     });
   }
 
@@ -407,20 +446,17 @@ class _RadialSliderAnglesState extends SampleViewState {
   void handleValueChangedForFirstQuarterSlider(double value) {
     setState(() {
       _markerValueForFirstQuarterSlider = value.roundToDouble();
-      _currentValueForFirstQuarterSlider =
-          _markerValueForFirstQuarterSlider + 2;
+      // _currentValueForFirstQuarterSlider =
+      //     _markerValueForFirstQuarterSlider + 2;
       _annotationValue4 = value.round().toStringAsFixed(0);
     });
   }
 
   double _currentValue = 60;
-  double _markerValue = 58;
-  double _currentValueForPieSlider = 60;
-  double _markerValueForPieSlider = 58;
-  double _currentValueForFirstHalfSlider = 60;
-  double _markerValueForFirstHalfSlider = 58;
-  double _currentValueForFirstQuarterSlider = 60;
-  double _markerValueForFirstQuarterSlider = 58;
+  double _markerValue = 60;
+  double _markerValueForPieSlider = 60;
+  double _markerValueForFirstHalfSlider = 60;
+  double _markerValueForFirstQuarterSlider = 60;
   double _markerSize = 25;
   String _annotationValue1 = '60';
   String _annotationValue2 = '60';

@@ -1,34 +1,41 @@
-import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'dart:math';
 
-List<Product> _productData;
-Random _random = Random();
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_examples/model/sample_view.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:collection/collection.dart';
 
+/// Renders custom header data grid sample
 class CustomHeaderDataGrid extends SampleView {
-  CustomHeaderDataGrid({Key key}) : super(key: key);
+  /// Creates custom header data grid sample
+  CustomHeaderDataGrid({Key? key}) : super(key: key);
 
   @override
   _CustomHeaderDataGridState createState() => _CustomHeaderDataGridState();
 }
 
 class _CustomHeaderDataGridState extends SampleViewState {
-  _SortingDataSource _source;
-  List<GridColumn> _columns;
   GlobalKey key = GlobalKey();
 
-  List<String> _showMenuItems = ['Ascending', 'Descending', 'Clear Sorting'];
+  /// DataGridSource required for SfDataGrid to obtain the row data.
+  late _SortingDataSource source;
+
+  /// Collection of GridColumn and it required for SfDataGrid
+  late List<GridColumn> columns;
+
+  /// Default sorting operating in drop down widget
+  List<String> showMenuItems = ['Ascending', 'Descending', 'Clear Sorting'];
+
+  late bool isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    _productData = generateList(20);
-    _source = _SortingDataSource();
-    _columns = getColumns();
+    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    columns = getColumns();
+    source = _SortingDataSource();
   }
 
   Widget buildMenuItem(GridColumn column, String value) {
@@ -44,36 +51,35 @@ class _CustomHeaderDataGridState extends SampleViewState {
 
   List<PopupMenuItem> buildMenuItems(GridColumn column) {
     List<PopupMenuItem> menuItems;
-    final sortColumn = _source.sortedColumns.firstWhere(
-        (sortColumn) => sortColumn.name == column.mappingName,
-        orElse: () => null);
+    final sortColumn = source.sortedColumns
+        .firstWhereOrNull((sortColumn) => sortColumn.name == column.columnName);
 
     menuItems = [
       PopupMenuItem(
-        child: buildMenuItem(column, _showMenuItems[0]),
-        value: _showMenuItems[0],
+        value: showMenuItems[0],
         enabled: sortColumn != null
             ? sortColumn.sortDirection == DataGridSortDirection.ascending
                 ? false
                 : true
             : true,
+        child: buildMenuItem(column, showMenuItems[0]),
       ),
       PopupMenuItem(
-        child: buildMenuItem(column, _showMenuItems[1]),
-        value: _showMenuItems[1],
+        value: showMenuItems[1],
         enabled: sortColumn != null
             ? sortColumn.sortDirection == DataGridSortDirection.descending
                 ? false
                 : true
             : true,
+        child: buildMenuItem(column, showMenuItems[1]),
       ),
     ];
 
     if (sortColumn != null) {
       menuItems.add(PopupMenuItem(
-        child: buildMenuItem(column, _showMenuItems[2]),
-        value: _showMenuItems[2],
-        enabled: _source.sortedColumns.isNotEmpty ? true : false,
+        value: showMenuItems[2],
+        enabled: source.sortedColumns.isNotEmpty ? true : false,
+        child: buildMenuItem(column, showMenuItems[2]),
       ));
     }
 
@@ -84,34 +90,30 @@ class _CustomHeaderDataGridState extends SampleViewState {
     switch (value) {
       case 'Ascending':
       case 'Descending':
-        if (_source.sortedColumns.isNotEmpty) {
-          _source.sortedColumns.clear();
+        if (source.sortedColumns.isNotEmpty) {
+          source.sortedColumns.clear();
         }
-        _source.sortedColumns.add(SortColumnDetails(
-            name: gridColumn.mappingName,
+        source.sortedColumns.add(SortColumnDetails(
+            name: gridColumn.columnName,
             sortDirection: value == 'Ascending'
                 ? DataGridSortDirection.ascending
                 : DataGridSortDirection.descending));
-        _source.sort();
+        source.sort();
         break;
       case 'Clear Sorting':
-        if (_source.sortedColumns.isNotEmpty) {
-          _source.sortedColumns.clear();
-          _source.sort();
+        if (source.sortedColumns.isNotEmpty) {
+          source.sortedColumns.clear();
+          source.sort();
         }
         break;
     }
   }
 
-  Widget buildHeaderCell(GridColumn column) {
-    final themeData =
-        SfDataGridThemeData(brightness: model.themeData.brightness);
+  Widget buildHeaderCell(Widget headerChild) {
     return Container(
         child: Row(
       children: [
-        Flexible(
-            child: Text(column.headerText,
-                style: themeData.headerStyle.textStyle)),
+        Flexible(child: headerChild),
         Icon(
           Icons.keyboard_arrow_down,
           size: 25,
@@ -121,17 +123,23 @@ class _CustomHeaderDataGridState extends SampleViewState {
     ));
   }
 
-  buildShowMenu(BuildContext context, DataGridCellTapDetails details) {
+  void buildShowMenu(BuildContext context, DataGridCellTapDetails details) {
     double dx = 0.0, dy = 0.0;
     final rowHeight = 56.0;
-    if (kIsWeb) {
-      RenderBox getBox = context.findRenderObject();
+    if (isWebOrDesktop) {
+      final RenderBox getBox = context.findRenderObject() as RenderBox;
       final local = getBox.globalToLocal(details.globalPosition);
       dx = local.dx - details.localPosition.dx;
       dy = local.dy - details.localPosition.dy + rowHeight;
+      // After Flutter v2.0, the 8.0 pixels added extra to the showMenu by default in the web and desktop.
+      // Removed the extra pixels to aligned the pop up in the bottom of header cell.
+      dy -= 8.0;
     } else {
       dx = details.globalPosition.dx - details.localPosition.dx;
       dy = details.globalPosition.dy - details.localPosition.dy + rowHeight;
+      // After Flutter v2.0, the 24.0 pixels added extra to the showMenu by default in the mobile.
+      // Removed the extra pixels to aligned the pop up in the bottom of header cell.
+      dy -= 24.0;
     }
 
     showMenu(
@@ -144,8 +152,8 @@ class _CustomHeaderDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfDataGrid(
       key: key,
-      source: _source,
-      columns: _columns,
+      source: source,
+      columns: columns,
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
       onCellTap: (details) {
@@ -153,179 +161,99 @@ class _CustomHeaderDataGridState extends SampleViewState {
           buildShowMenu(context, details);
         }
       },
-      headerCellBuilder: (BuildContext context, GridColumn column) {
-        return buildHeaderCell(column);
-      },
     );
   }
 
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
-      GridNumericColumn(mappingName: 'id', width: 140, headerText: 'Order ID'),
-      GridNumericColumn(
-          mappingName: 'productId', width: 150, headerText: 'Product ID'),
       GridTextColumn(
-          mappingName: 'name', width: 185, headerText: 'Customer Name'),
-      GridTextColumn(mappingName: 'product', width: 135, headerText: 'Product'),
-      GridDateTimeColumn(
-          mappingName: 'orderDate',
-          width: 150,
-          dateFormat: DateFormat('MM/dd/yyyy'),
-          headerText: 'Order Date'),
-      GridNumericColumn(
-          mappingName: 'quantity', width: 135, headerText: 'Quantity'),
-      GridTextColumn(mappingName: 'city', width: 130, headerText: 'City'),
-      GridNumericColumn(
-          mappingName: 'unitPrice',
+          columnName: 'id',
           width: 140,
-          numberFormat: NumberFormat.currency(locale: 'en_US', symbol: '\$'),
-          headerText: 'Unit Price'),
+          label: buildHeaderCell(Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              'Order ID',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ))),
+      GridTextColumn(
+          columnName: 'productId',
+          width: 150,
+          label: buildHeaderCell(Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              'Product ID',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ))),
+      GridTextColumn(
+          columnName: 'name',
+          width: 185,
+          label: buildHeaderCell(Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              'Customer Name',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ))),
+      GridTextColumn(
+          columnName: 'product',
+          width: 135,
+          label: buildHeaderCell(Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              'Product',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ))),
+      GridTextColumn(
+          columnName: 'orderDate',
+          width: 150,
+          label: buildHeaderCell(Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              'Order Date',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ))),
+      GridTextColumn(
+          columnName: 'quantity',
+          width: 135,
+          label: buildHeaderCell(Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              'Quantity',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ))),
+      GridTextColumn(
+          columnName: 'city',
+          width: 130,
+          label: buildHeaderCell(Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              'City',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ))),
+      GridTextColumn(
+          columnName: 'unitPrice',
+          width: 140,
+          label: buildHeaderCell(Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              'Unit Price',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ))),
     ];
     return columns;
   }
 }
 
-final List<String> _product = <String>[
-  'Lax',
-  'Chocolate',
-  'Syrup',
-  'Chai',
-  'Bags',
-  'Meat',
-  'Filo',
-  'Cashew',
-  'Walnuts',
-  'Geitost',
-  'Cote de',
-  'Crab',
-  'Chang',
-  'Cajun',
-  'Gum',
-  'Filo',
-  'Cashew',
-  'Walnuts',
-  'Geitost',
-  'Bag',
-  'Meat',
-  'Filo',
-  'Cashew',
-  'Geitost',
-  'Cote de',
-  'Crab',
-  'Chang',
-  'Cajun',
-  'Gum',
-];
-
-final List<String> _cities = <String>[
-  'Bruxelles',
-  'Rosario',
-  'Recife',
-  'Graz',
-  'Montreal',
-  'Tsawassen',
-  'Campinas',
-  'Resende',
-];
-
-final List<int> _productId = <int>[
-  3524,
-  2523,
-  1345,
-  5243,
-  1803,
-  4932,
-  6532,
-  9475,
-  2435,
-  2123,
-  3652,
-  4523,
-  4263,
-  3527,
-  3634,
-  4932,
-  6532,
-  9475,
-  2435,
-  2123,
-  6532,
-  9475,
-  2435,
-  2123,
-  4523,
-  4263,
-  3527,
-  3634,
-  4932,
-];
-
-final List<DateTime> _orderDate = <DateTime>[
-  DateTime.now(),
-  DateTime(2002, 8, 27),
-  DateTime(2015, 7, 4),
-  DateTime(2007, 4, 15),
-  DateTime(2010, 12, 23),
-  DateTime(2010, 4, 20),
-  DateTime(2004, 6, 13),
-  DateTime(2008, 11, 11),
-  DateTime(2005, 7, 29),
-  DateTime(2009, 4, 5),
-  DateTime(2003, 3, 20),
-  DateTime(2011, 3, 8),
-  DateTime(2013, 10, 22),
-];
-
-List<String> _names = [
-  'Kyle',
-  'Gina',
-  'Irene',
-  'Katie',
-  'Michael',
-  'Oscar',
-  'Ralph',
-  'Torrey',
-  'William',
-  'Bill',
-  'Daniel',
-  'Frank',
-  'Brenda',
-  'Danielle',
-  'Fiona',
-  'Howard',
-  'Jack',
-  'Larry',
-  'Holly',
-  'Jennifer',
-  'Liz',
-  'Pete',
-  'Steve',
-  'Vince',
-  'Zeke'
-];
-
-List<Product> generateList(int count) {
-  final List<Product> productData = <Product>[];
-  for (int i = 0; i < count; i++) {
-    productData.add(
-      Product(
-          i + 1000,
-          _productId[i],
-          _product[i],
-          _random.nextInt(20),
-          70.0 + _random.nextInt(100),
-          _cities[i < _cities.length ? i : _random.nextInt(_cities.length - 1)],
-          _orderDate[_random.nextInt(_orderDate.length - 1)],
-          _names[i]),
-    );
-  }
-
-  return productData;
-}
-
-class Product {
-  Product(this.id, this.productId, this.product, this.quantity, this.unitPrice,
+class _Product {
+  _Product(this.id, this.productId, this.product, this.quantity, this.unitPrice,
       this.city, this.orderDate, this.name);
   final int id;
   final int productId;
@@ -337,40 +265,244 @@ class Product {
   final String name;
 }
 
-class _SortingDataSource extends DataGridSource<Product> {
-  _SortingDataSource();
+class _SortingDataSource extends DataGridSource {
+  _SortingDataSource() {
+    products = getProducts(20);
+    buildDataGridRows();
+  }
+
+  final Random random = Random();
+  List<_Product> products = [];
+
+  List<DataGridRow> dataGridRows = [];
+
+  void buildDataGridRows() {
+    dataGridRows = products.map<DataGridRow>((dataGridRow) {
+      return DataGridRow(cells: [
+        DataGridCell<int>(columnName: 'id', value: dataGridRow.id),
+        DataGridCell<int>(
+            columnName: 'productId', value: dataGridRow.productId),
+        DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
+        DataGridCell<String>(columnName: 'product', value: dataGridRow.product),
+        DataGridCell<DateTime>(
+            columnName: 'orderDate', value: dataGridRow.orderDate),
+        DataGridCell<int>(columnName: 'quantity', value: dataGridRow.quantity),
+        DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
+        DataGridCell<double>(
+            columnName: 'unitPrice', value: dataGridRow.unitPrice),
+      ]);
+    }).toList();
+  }
+
   @override
-  List<Product> get dataSource => _productData;
+  List<DataGridRow> get rows => dataGridRows;
+
   @override
-  Object getValue(Product _product, String columnName) {
-    switch (columnName) {
-      case 'id':
-        return _product.id;
-        break;
-      case 'product':
-        return _product.product;
-        break;
-      case 'productId':
-        return _product.productId;
-        break;
-      case 'unitPrice':
-        return _product.unitPrice;
-        break;
-      case 'quantity':
-        return _product.quantity;
-        break;
-      case 'city':
-        return _product.city;
-        break;
-      case 'orderDate':
-        return _product.orderDate;
-        break;
-      case 'name':
-        return _product.name;
-        break;
-      default:
-        return 'empty';
-        break;
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(cells: [
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8),
+        child: Text(
+          row.getCells()[0].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8),
+        child: Text(
+          row.getCells()[1].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.all(8),
+        child: Text(
+          row.getCells()[2].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.all(8),
+        child: Text(
+          row.getCells()[3].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8),
+        child: Text(
+          DateFormat('MM/dd/yyyy').format(row.getCells()[4].value).toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8),
+        child: Text(
+          row.getCells()[5].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.all(8),
+        child: Text(
+          row.getCells()[6].value.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(8),
+        child: Text(
+          NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              .format(row.getCells()[7].value)
+              .toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    ]);
+  }
+
+  final List<String> product = <String>[
+    'Lax',
+    'Chocolate',
+    'Syrup',
+    'Chai',
+    'Bags',
+    'Meat',
+    'Filo',
+    'Cashew',
+    'Walnuts',
+    'Geitost',
+    'Cote de',
+    'Crab',
+    'Chang',
+    'Cajun',
+    'Gum',
+    'Filo',
+    'Cashew',
+    'Walnuts',
+    'Geitost',
+    'Bag',
+    'Meat',
+    'Filo',
+    'Cashew',
+    'Geitost',
+    'Cote de',
+    'Crab',
+    'Chang',
+    'Cajun',
+    'Gum',
+  ];
+
+  final List<String> cities = <String>[
+    'Bruxelles',
+    'Rosario',
+    'Recife',
+    'Graz',
+    'Montreal',
+    'Tsawassen',
+    'Campinas',
+    'Resende',
+  ];
+
+  final List<int> productId = <int>[
+    3524,
+    2523,
+    1345,
+    5243,
+    1803,
+    4932,
+    6532,
+    9475,
+    2435,
+    2123,
+    3652,
+    4523,
+    4263,
+    3527,
+    3634,
+    4932,
+    6532,
+    9475,
+    2435,
+    2123,
+    6532,
+    9475,
+    2435,
+    2123,
+    4523,
+    4263,
+    3527,
+    3634,
+    4932,
+  ];
+
+  final List<DateTime> orderDate = <DateTime>[
+    DateTime.now(),
+    DateTime(2002, 8, 27),
+    DateTime(2015, 7, 4),
+    DateTime(2007, 4, 15),
+    DateTime(2010, 12, 23),
+    DateTime(2010, 4, 20),
+    DateTime(2004, 6, 13),
+    DateTime(2008, 11, 11),
+    DateTime(2005, 7, 29),
+    DateTime(2009, 4, 5),
+    DateTime(2003, 3, 20),
+    DateTime(2011, 3, 8),
+    DateTime(2013, 10, 22),
+  ];
+
+  List<String> names = [
+    'Kyle',
+    'Gina',
+    'Irene',
+    'Katie',
+    'Michael',
+    'Oscar',
+    'Ralph',
+    'Torrey',
+    'William',
+    'Bill',
+    'Daniel',
+    'Frank',
+    'Brenda',
+    'Danielle',
+    'Fiona',
+    'Howard',
+    'Jack',
+    'Larry',
+    'Holly',
+    'Jennifer',
+    'Liz',
+    'Pete',
+    'Steve',
+    'Vince',
+    'Zeke'
+  ];
+
+  List<_Product> getProducts(int count) {
+    final List<_Product> productData = <_Product>[];
+    for (int i = 0; i < count; i++) {
+      productData.add(
+        _Product(
+            i + 1000,
+            productId[i],
+            product[i],
+            random.nextInt(20),
+            70.0 + random.nextInt(100),
+            cities[i < cities.length ? i : random.nextInt(cities.length - 1)],
+            orderDate[random.nextInt(orderDate.length - 1)],
+            names[i]),
+      );
     }
+    return productData;
   }
 }

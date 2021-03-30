@@ -18,14 +18,21 @@ class ColumnDefault extends SampleView {
 
 class _ColumnDefaultState extends SampleViewState {
   _ColumnDefaultState();
+  late TooltipBehavior _tooltipBehavior;
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultColumnChart();
+    return _buildDefaultColumnChart();
   }
 
   /// Get default column chart
-  SfCartesianChart _getDefaultColumnChart() {
+  SfCartesianChart _buildDefaultColumnChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -38,8 +45,7 @@ class _ColumnDefaultState extends SampleViewState {
           labelFormat: '{value}%',
           majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultColumnSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, header: '', canShowMarker: false),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

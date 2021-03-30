@@ -18,7 +18,8 @@ class HistogramDefault extends SampleView {
 
 class _HistogramDefaultState extends SampleViewState {
   _HistogramDefaultState();
-  bool _showDistributionCurve = true;
+  late bool _showDistributionCurve;
+  late TooltipBehavior _tooltipBehavior;
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -37,9 +38,9 @@ class _HistogramDefaultState extends SampleViewState {
                 child: CheckboxListTile(
                     activeColor: model.backgroundColor,
                     value: _showDistributionCurve,
-                    onChanged: (bool value) {
+                    onChanged: (bool? value) {
                       setState(() {
-                        _showDistributionCurve = value;
+                        _showDistributionCurve = value!;
                         stateSetter(() {});
                       });
                     })),
@@ -52,12 +53,13 @@ class _HistogramDefaultState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(bottom: model.isWeb || !isCardView ? 0 : 60),
-        child: _getDefaultHistogramChart());
+        padding: EdgeInsets.only(
+            bottom: model.isWebFullView || !isCardView ? 0 : 60),
+        child: _buildDefaultHistogramChart());
   }
 
   /// Get the cartesian chart with histogram series
-  SfCartesianChart _getDefaultHistogramChart() {
+  SfCartesianChart _buildDefaultHistogramChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: 'Examination Result'),
@@ -73,7 +75,7 @@ class _HistogramDefaultState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
       series: _getHistogramSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
@@ -210,6 +212,7 @@ class _HistogramDefaultState extends SampleViewState {
   @override
   void initState() {
     _showDistributionCurve = true;
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 }

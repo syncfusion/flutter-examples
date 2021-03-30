@@ -24,16 +24,18 @@ class GettingStartedDatePicker extends SampleView {
 class _GettingStartedDatePickerState extends SampleViewState {
   _GettingStartedDatePickerState();
 
-  DateRangePickerController _controller;
-  DateRangePickerSelectionMode _selectionMode;
-  bool _showTrailingAndLeadingDates;
-  bool _enablePastDates;
-  bool _enableSwipingSelection;
-  bool _enableViewNavigation;
-  bool _isWeb;
-  Orientation _deviceOrientation;
+  final DateRangePickerController _controller = DateRangePickerController();
+  DateRangePickerSelectionMode _selectionMode =
+      DateRangePickerSelectionMode.range;
+  bool _showTrailingAndLeadingDates = true;
+  bool _enablePastDates = true;
+  bool _enableSwipingSelection = true;
+  bool _enableViewNavigation = true;
+  bool _showActionButtons = true;
+  bool _isWeb = false;
+  late Orientation _deviceOrientation;
 
-  String _selectionModeString;
+  String _selectionModeString = 'Range';
   final List<String> _selectionModeList = <String>[
     'Single',
     'Multiple',
@@ -41,7 +43,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
     'Multi Range',
   ].toList();
 
-  String _viewModeString;
+  String _viewModeString = 'Month';
   final List<String> _viewModeList = <String>[
     'Month',
     'Year',
@@ -51,14 +53,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
 
   @override
   void initState() {
-    _controller = DateRangePickerController();
-    _selectionMode = DateRangePickerSelectionMode.range;
-    _showTrailingAndLeadingDates = true;
-    _enablePastDates = true;
-    _enableSwipingSelection = true;
-    _enableViewNavigation = true;
-    _selectionModeString = 'Range';
-    _viewModeString = 'Month';
     _controller.view = DateRangePickerView.month;
     _controller.displayDate = DateTime.now();
     _controller.selectedDate = DateTime.now();
@@ -80,7 +74,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       PickerDateRange(DateTime.now().add(const Duration(days: 22)),
           DateTime.now().add(const Duration(days: 27)))
     ];
-    _isWeb = false;
     super.initState();
   }
 
@@ -109,13 +102,13 @@ class _GettingStartedDatePickerState extends SampleViewState {
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     final bool _enableMultiView = _isWeb &&
         (_selectionMode == DateRangePickerSelectionMode.range ||
             _selectionMode == DateRangePickerSelectionMode.multiRange);
     final Widget cardView = Card(
         elevation: 10,
-        margin: model.isWeb
+        margin: model.isWebFullView
             ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
             : const EdgeInsets.all(30),
         child: Container(
@@ -131,19 +124,21 @@ class _GettingStartedDatePickerState extends SampleViewState {
                   _enablePastDates,
                   _enableSwipingSelection,
                   _enableViewNavigation,
+                  _showActionButtons,
                   DateTime.now().subtract(const Duration(days: 200)),
                   DateTime.now().add(const Duration(days: 200)),
-                  _enableMultiView)),
+                  _enableMultiView,
+                  context)),
         ));
     return Scaffold(
       backgroundColor: model.themeData == null ||
               model.themeData.brightness == Brightness.light
           ? null
-          : const Color(0x171A21),
+          : const Color(0x00171a21),
       body: Column(children: <Widget>[
         Expanded(
-            flex: model.isWeb ? 9 : 8,
-            child: model.isWeb
+            flex: model.isWebFullView ? 9 : 8,
+            child: model.isWebFullView
                 ? Center(
                     child: Container(
                         width: !_enableMultiView ? 400 : 700,
@@ -156,7 +151,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                     )
                   ])),
         Expanded(
-            flex: model.isWeb
+            flex: model.isWebFullView
                 ? 1
                 : model.isMobileResolution &&
                         _deviceOrientation == Orientation.landscape
@@ -216,6 +211,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
       _enableSwipingSelection = value;
     } else if (property == 'EnableViewNavigation') {
       _enableViewNavigation = value;
+    } else if (property == 'ShowActionButtons') {
+      _showActionButtons = value;
     }
     setState(() {
       /// update the bool value changes
@@ -223,10 +220,10 @@ class _GettingStartedDatePickerState extends SampleViewState {
   }
 
   @override
-  Widget buildSettings([BuildContext context]) {
+  Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
-      List<Widget> propertyOptions = <Widget>[];
+      final List<Widget> propertyOptions = <Widget>[];
       propertyOptions.add(Container(
         height: 50,
         child: Row(
@@ -312,9 +309,45 @@ class _GettingStartedDatePickerState extends SampleViewState {
                   child: Theme(
                       data: model.themeData.copyWith(
                           canvasColor: model.bottomSheetBackgroundColor),
-                      child: _DateRangePickerOption(
-                          _onDisplayDateChanged, _controller.displayDate, model,
-                          displayDate: _controller.displayDate)),
+                      child: _DateRangePickerOption(_onDisplayDateChanged,
+                          _controller.displayDate!, model,
+                          displayDate: _controller.displayDate!)),
+                ))
+          ],
+        ),
+      ));
+      propertyOptions.add(Container(
+        height: 50,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+                flex: 6,
+                child: Text('Show action buttons',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
+            Expanded(
+                flex: 4,
+                child: Container(
+                  padding: const EdgeInsets.all(0),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        canvasColor: model.bottomSheetBackgroundColor),
+                    child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Transform.scale(
+                            scale: 0.8,
+                            child: CupertinoSwitch(
+                              value: _showActionButtons,
+                              onChanged: (dynamic value) {
+                                setState(() {
+                                  onBoolValueChange('ShowActionButtons', value);
+                                  stateSetter(() {});
+                                });
+                              },
+                              activeColor: model.backgroundColor,
+                            ))),
+                  ),
                 ))
           ],
         ),
@@ -464,7 +497,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
       ));
       return Padding(
         padding: const EdgeInsets.fromLTRB(15, 10, 0, 5),
-        child: model.isWeb
+        child: model.isWebFullView
             ? Column(
                 children: propertyOptions,
               )
@@ -488,7 +521,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
 /// property for the date range picker, in the property window.
 class _DateRangePickerOption extends StatefulWidget {
   const _DateRangePickerOption(this.selectionChanged, this.date, this.model,
-      {this.displayDate});
+      {required this.displayDate});
 
   final DateRangePickerSelectionChangedCallback selectionChanged;
   final DateTime date;
@@ -502,7 +535,7 @@ class _DateRangePickerOption extends StatefulWidget {
 }
 
 class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
-  DateTime _date;
+  late DateTime _date;
 
   @override
   void initState() {
@@ -528,57 +561,78 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
     return Container(
         color: Colors.transparent,
         child: GestureDetector(
-            child: Text(DateFormat('dd-MM-yyyy').format(_date),
-                style: TextStyle(
-                    fontSize: 15,
-                    color: theme.textTheme.subtitle2.color,
-                    fontWeight: FontWeight.w600)),
-            onTap: () async {
-              final DateTime result = await showDialog<dynamic>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Theme(
-                        data: theme,
-                        child: DateRangePicker(
-                          _date,
-                          null,
-                          minDate: DateTime.now()
-                              .subtract(const Duration(days: 200)),
-                          maxDate:
-                              DateTime.now().add(const Duration(days: 200)),
-                          displayDate: _date,
-                          model: widget.model,
-                        ));
-                  });
+          onTap: () async {
+            final DateTime? result = await showDialog<dynamic>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Theme(
+                      data: theme,
+                      child: DateRangePicker(
+                        _date,
+                        null,
+                        minDate:
+                            DateTime.now().subtract(const Duration(days: 200)),
+                        maxDate: DateTime.now().add(const Duration(days: 200)),
+                        displayDate: _date,
+                        model: widget.model,
+                      ));
+                });
 
-              if (result != null) {
-                _onSelectionChanged(result);
-              }
-            }));
+            if (result != null) {
+              _onSelectionChanged(result);
+            }
+          },
+          child: Text(DateFormat('MM-dd-yyyy').format(_date),
+              style: TextStyle(
+                  fontSize: 15,
+                  color: theme.textTheme.subtitle2?.color,
+                  fontWeight: FontWeight.w600)),
+        ));
   }
 }
 
 /// Returns the date range picker based on the properties passed
 SfDateRangePicker _getGettingStartedDatePicker(
-    [DateRangePickerController controller,
+    DateRangePickerController controller,
     DateRangePickerSelectionMode mode,
     bool showLeading,
     bool enablePastDates,
     bool enableSwipingSelection,
     bool enableViewNavigation,
+    bool showActionButtons,
     DateTime minDate,
     DateTime maxDate,
-    bool enableMultiView]) {
+    bool enableMultiView,
+    BuildContext context) {
   return SfDateRangePicker(
     enablePastDates: enablePastDates,
     minDate: minDate,
     maxDate: maxDate,
     enableMultiView: enableMultiView,
     allowViewNavigation: enableViewNavigation,
+    showActionButtons: showActionButtons,
     selectionMode: mode,
     controller: controller,
+    headerStyle: DateRangePickerHeaderStyle(
+        textAlign: enableMultiView ? TextAlign.center : TextAlign.left),
+    onCancel: () {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          'Selection Cancelled',
+        ),
+        duration: Duration(milliseconds: 200),
+      ));
+    },
+    onSubmit: (Object value) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          'Selection Confirmed',
+        ),
+        duration: Duration(milliseconds: 200),
+      ));
+    },
     monthViewSettings: DateRangePickerMonthViewSettings(
         enableSwipeSelection: enableSwipingSelection,
-        showTrailingAndLeadingDates: showLeading ?? false),
+        showTrailingAndLeadingDates: showLeading),
   );
 }

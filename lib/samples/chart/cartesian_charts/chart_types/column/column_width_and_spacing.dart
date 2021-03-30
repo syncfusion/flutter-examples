@@ -21,17 +21,19 @@ class _ColumnSpacingState extends SampleViewState {
   _ColumnSpacingState();
   double _columnWidth = 0.8;
   double _columnSpacing = 0.2;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _columnWidth = 0.8;
     _columnSpacing = 0.2;
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getSpacingColumnChart();
+    return _buildSpacingColumnChart();
   }
 
   @override
@@ -99,7 +101,7 @@ class _ColumnSpacingState extends SampleViewState {
   }
 
   ///Get the cartesian chart widget
-  SfCartesianChart _getSpacingColumnChart() {
+  SfCartesianChart _buildSpacingColumnChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Winter olympic medals count'),
@@ -114,7 +116,7 @@ class _ColumnSpacingState extends SampleViewState {
           majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultColumn(),
       legend: Legend(isVisible: !isCardView),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

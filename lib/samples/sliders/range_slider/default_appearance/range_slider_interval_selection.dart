@@ -24,7 +24,7 @@ class RangeSliderIntervalSelectionPage extends SampleView {
 
 class _RangeSliderIntervalSelectionPageState extends SampleViewState {
   _RangeSliderIntervalSelectionPageState();
-  Widget rangeSlider;
+  late Widget rangeSlider;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWeb
+            model.isWebFullView
         ? rangeSlider
         : SingleChildScrollView(
             child: Container(height: 325, child: rangeSlider),
@@ -105,18 +105,18 @@ class _RangeSliderIntervalSelectionState extends SampleViewState {
             enableTooltip: true));
   }
 
-  Widget _getWebLayout() {
+  Widget _buildWebLayout() {
     return Container(
       alignment: Alignment.center,
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-        child: _getMobileLayout(),
+        child: _buildMobileLayout(),
       ),
     );
   }
 
-  Widget _getMobileLayout() {
+  Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
@@ -136,12 +136,13 @@ class _RangeSliderIntervalSelectionState extends SampleViewState {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const <Widget>[
                   Padding(
-                      child: Icon(Icons.lightbulb_outline,
-                          color: Colors.orange, size: 24.0),
-                      padding: EdgeInsets.only(left: 15)),
+                    padding: EdgeInsets.only(left: 15),
+                    child: Icon(Icons.lightbulb_outline,
+                        color: Colors.orange, size: 24.0),
+                  ),
                   Padding(
-                      child: Text('Tap on the interval to select it.'),
-                      padding: EdgeInsets.only(left: 5))
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text('Tap on the interval to select it.'))
                 ])
           ],
         ));
@@ -149,6 +150,6 @@ class _RangeSliderIntervalSelectionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWeb ? _getWebLayout() : _getMobileLayout();
+    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
   }
 }

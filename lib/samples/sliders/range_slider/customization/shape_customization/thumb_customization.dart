@@ -99,15 +99,15 @@ class _ThumbShape extends SfThumbShape {
   final bool isDoubleStroke;
   @override
   void paint(PaintingContext context, Offset center,
-      {RenderBox parentBox,
-      RenderBox child,
-      SfSliderThemeData themeData,
-      SfRangeValues currentValues,
+      {required RenderBox parentBox,
+      required RenderBox? child,
+      required SfSliderThemeData themeData,
+      SfRangeValues? currentValues,
       dynamic currentValue,
-      Paint paint,
-      Animation<double> enableAnimation,
-      TextDirection textDirection,
-      SfThumb thumb}) {
+      required Paint? paint,
+      required Animation<double> enableAnimation,
+      required TextDirection textDirection,
+      required SfThumb? thumb}) {
     super.paint(context, center,
         parentBox: parentBox,
         child: child,
@@ -125,7 +125,7 @@ class _ThumbShape extends SfThumbShape {
           ..isAntiAlias = true
           ..strokeWidth = 2
           ..style = PaintingStyle.stroke
-          ..color = themeData.activeTrackColor);
+          ..color = themeData.activeTrackColor!);
 
     if (isDoubleStroke) {
       context.canvas.drawCircle(
@@ -143,15 +143,15 @@ class _ThumbShape extends SfThumbShape {
 class _RectThumbShape extends SfThumbShape {
   @override
   void paint(PaintingContext context, Offset center,
-      {RenderBox parentBox,
-      RenderBox child,
-      SfSliderThemeData themeData,
-      SfRangeValues currentValues,
+      {required RenderBox parentBox,
+      required RenderBox? child,
+      required SfSliderThemeData themeData,
+      SfRangeValues? currentValues,
       dynamic currentValue,
-      Paint paint,
-      Animation<double> enableAnimation,
-      TextDirection textDirection,
-      SfThumb thumb}) {
+      required Paint? paint,
+      required Animation<double> enableAnimation,
+      required TextDirection textDirection,
+      required SfThumb? thumb}) {
     super.paint(context, center,
         parentBox: parentBox,
         child: child,
@@ -175,6 +175,6 @@ class _RectThumbShape extends SfThumbShape {
         Paint()
           ..isAntiAlias = true
           ..style = PaintingStyle.fill
-          ..color = themeData.activeTrackColor);
+          ..color = themeData.activeTrackColor!);
   }
 }

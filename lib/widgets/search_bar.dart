@@ -15,42 +15,41 @@ import '../model/model.dart';
 /// by typing the sample's title in the text editor present in the [SearchBar]
 class SearchBar extends StatefulWidget {
   /// Holds the search bar widet
-  const SearchBar({Key key, @required this.sampleListModel})
+  const SearchBar({Key? key, this.sampleListModel})
       : assert(sampleListModel != null),
         super(key: key);
 
   /// Contains the sampleModel
-  final SampleModel sampleListModel;
+  final SampleModel? sampleListModel;
 
   @override
-  _SearchBarState createState() => _SearchBarState(sampleListModel);
+  _SearchBarState createState() => _SearchBarState(sampleListModel!);
 }
 
 class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   _SearchBarState(this.sampleListModel);
-  final SampleModel sampleListModel;
+  final SampleModel? sampleListModel;
 
-  List<Control> duplicateControlItems;
+  late List<Control> duplicateControlItems;
 
-  List<SubItem> duplicateSampleItems;
+  late List<SubItem> duplicateSampleItems;
 
   List<Control> items = <Control>[];
-  OverlayState over;
-  Widget searchIcon = Icon(Icons.search,
-      color: kIsWeb ? Colors.white.withOpacity(0.5) : Colors.grey);
-  Widget closeIcon;
+  late OverlayState over;
+  Widget? searchIcon;
+  Widget? closeIcon;
   final FocusNode _isFocus = FocusNode();
   bool isOpen = false;
-  OverlayEntry _overlayEntry;
+  late OverlayEntry _overlayEntry;
   String hint = 'Search';
 
-  List<OverlayEntry> overlayEntries;
+  late List<OverlayEntry> overlayEntries;
 
   /// Holds the current sample index which selected by keyboard event
-  int _selectionIndex;
+  late int? _selectionIndex;
 
   /// Holds setState of overlay widget
-  StateSetter _overlaySetState;
+  late StateSetter _overlaySetState;
 
   /// Creates a focus node for RawKeyEvent
   final FocusNode _rawKeyFocusNode = FocusNode();
@@ -66,58 +65,64 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   final Map<dynamic, dynamic> _keys = <dynamic, dynamic>{};
 
   /// Holds height of overlay entry
-  num _overlayHeight;
+  late num _overlayHeight;
 
   ///height of the each search results
   final num _itemHeight = 38;
 
   @override
   void initState() {
+    searchIcon = Icon(Icons.search,
+        color: sampleListModel!.isWebFullView
+            ? Colors.white.withOpacity(0.5)
+            : Colors.grey);
     overlayEntries = <OverlayEntry>[];
-    over = Overlay.of(context);
-    duplicateControlItems = sampleListModel.searchControlItems;
-    duplicateSampleItems = sampleListModel.searchSampleItems;
-    sampleListModel.searchResults.clear();
-    sampleListModel.editingController.text = '';
+    over = Overlay.of(context)!;
+    duplicateControlItems = sampleListModel!.searchControlItems;
+    duplicateSampleItems = sampleListModel!.searchSampleItems;
+    sampleListModel!.searchResults.clear();
+    sampleListModel!.editingController.text = '';
     _isFocus.addListener(() {
-      closeIcon =
-          _isFocus.hasFocus && sampleListModel.editingController.text.isNotEmpty
-              ? IconButton(
-                  splashColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  icon: const Icon(Icons.close,
-                      size: kIsWeb ? 20 : 24,
-                      color: kIsWeb ? Colors.white : Colors.grey),
-                  onPressed: () {
-                    sampleListModel.editingController.text = '';
-                    _isFocus.unfocus();
-                    filterSearchResults('');
-                    if (sampleListModel.isMobileResolution) {
-                      sampleListModel.sampleList.clear();
-                      setState(() {
-                        closeIcon = null;
-                      });
-                    } else {
-                      ///Remove the overlay on pressing close button
-                      _overlayEntry.opaque = false;
-                      _removeOverlayEntries();
-                    }
-                  })
-              : null;
-      if (_isFocus.hasFocus && !sampleListModel.isMobileResolution) {
-        filterSearchResults(sampleListModel.editingController.text);
-      } else if (!sampleListModel.isMobileResolution) {
+      closeIcon = (_isFocus.hasFocus &&
+              sampleListModel!.editingController.text.isNotEmpty
+          ? IconButton(
+              splashColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              icon: Icon(Icons.close,
+                  size: sampleListModel!.isWebFullView ? 20 : 24,
+                  color: sampleListModel!.isWebFullView
+                      ? Colors.white
+                      : Colors.grey),
+              onPressed: () {
+                sampleListModel!.editingController.text = '';
+                _isFocus.unfocus();
+                filterSearchResults('');
+                if (sampleListModel!.isMobileResolution) {
+                  sampleListModel!.sampleList.clear();
+                  setState(() {
+                    closeIcon = null;
+                  });
+                } else {
+                  ///Remove the overlay on pressing close button
+                  _overlayEntry.opaque = false;
+                  _removeOverlayEntries();
+                }
+              })
+          : null);
+      if (_isFocus.hasFocus && !sampleListModel!.isMobileResolution) {
+        filterSearchResults(sampleListModel!.editingController.text);
+      } else if (!sampleListModel!.isMobileResolution) {
         Timer(const Duration(milliseconds: 200), () {
           _removeOverlayEntries();
         });
       }
-      if (sampleListModel.editingController.text.isEmpty) {
+      if (sampleListModel!.editingController.text.isEmpty) {
         setState(() {
           searchIcon = _isFocus.hasFocus ||
-                  sampleListModel.editingController.text.isNotEmpty
+                  sampleListModel!.editingController.text.isNotEmpty
               ? null
               : Icon(Icons.search,
-                  color: sampleListModel.isWeb
+                  color: sampleListModel!.isWebFullView
                       ? Colors.white.withOpacity(0.5)
                       : Colors.grey);
         });
@@ -125,15 +130,15 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
       hint = _isFocus.hasFocus ? '' : 'Search';
     });
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
   void dispose() {
-    sampleListModel.searchResults.clear();
-    sampleListModel.editingController.text = '';
+    sampleListModel!.searchResults.clear();
+    sampleListModel!.editingController.text = '';
     _isFocus.unfocus();
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -160,26 +165,26 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
       final List<Control> dummyControlData = <Control>[];
       for (int i = 0; i < dummySearchControl.length; i++) {
         final Control item = dummySearchControl[i];
-        if (item.title.toLowerCase().contains(query.toLowerCase())) {
+        if (item.title!.toLowerCase().contains(query.toLowerCase())) {
           dummyControlData.add(item);
         }
       }
       final List<SubItem> dummySampleData = <SubItem>[];
       for (int i = 0; i < dummySearchSamplesList.length; i++) {
         final SubItem item = dummySearchSamplesList[i];
-        if (item.title.toLowerCase().contains(query.toLowerCase())) {
+        if (item.title!.toLowerCase().contains(query.toLowerCase())) {
           dummySampleData.add(item);
         }
       }
 
-      sampleListModel.controlList.clear();
-      sampleListModel.sampleList.clear();
-      sampleListModel.sampleList.addAll(dummySampleData);
-      sampleListModel.searchResults.clear();
-      sampleListModel.searchResults.addAll(dummySampleData);
-      if (sampleListModel.isMobileResolution) {
+      sampleListModel!.controlList.clear();
+      sampleListModel!.sampleList.clear();
+      sampleListModel!.sampleList.addAll(dummySampleData);
+      sampleListModel!.searchResults.clear();
+      sampleListModel!.searchResults.addAll(dummySampleData);
+      if (sampleListModel!.isMobileResolution) {
         //ignore: invalid_use_of_protected_member
-        sampleListModel.notifyListeners();
+        sampleListModel!.notifyListeners();
       } else {
         _overlayEntry = _createOverlayEntry();
         overlayEntries.add(_overlayEntry);
@@ -187,9 +192,9 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
         return;
       }
     } else {
-      sampleListModel.searchResults.clear();
-      sampleListModel.controlList.addAll(duplicateControlItems);
-      sampleListModel.sampleList.clear();
+      sampleListModel!.searchResults.clear();
+      sampleListModel!.controlList.addAll(duplicateControlItems);
+      sampleListModel!.sampleList.clear();
     }
   }
 
@@ -207,42 +212,44 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   /// Performing key board actions
   /// [ArrowDown], [ArrowUp], [Enter] RawKeyEvents
   void _performKeyBoardEvent(RawKeyEvent event) {
-    final RawKeyEventDataWeb rawKeyEventDataWeb = event.data;
+    /// We need RawKeyEventDataWeb, RawKeyEventDataWindows,
+    /// RawKeyEventDataMacOs. So dynamic type used
+    final dynamic rawKeyEventData = event.data;
     if (event is RawKeyDownEvent) {
-      if (sampleListModel.searchResults.isNotEmpty &&
-          rawKeyEventDataWeb.code == 'ArrowDown') {
+      if (sampleListModel!.searchResults.isNotEmpty &&
+          rawKeyEventData.logicalKey == LogicalKeyboardKey.arrowDown) {
         ///Arrow down key action
         _selectionIndex = _selectionIndex == null
             ? 0
-            : (_selectionIndex >= sampleListModel.searchResults.length - 1)
-                ? sampleListModel.searchResults.length - 1
-                : _selectionIndex + 1;
+            : (_selectionIndex! >= sampleListModel!.searchResults.length - 1)
+                ? sampleListModel!.searchResults.length - 1
+                : _selectionIndex! + 1;
         final List<int> indexes = _getVisibleIndexes();
         if (!indexes.contains(_selectionIndex)) {
-          _scrollToDown(_selectionIndex);
+          _scrollToDown(_selectionIndex!);
         }
         _overlaySetState(() {
           ///Notify overlay list to scroll down
         });
-      } else if (sampleListModel.searchResults.isNotEmpty &&
-          rawKeyEventDataWeb.code == 'ArrowUp') {
+      } else if (sampleListModel!.searchResults.isNotEmpty &&
+          rawKeyEventData.logicalKey == LogicalKeyboardKey.arrowUp) {
         ///Arrow up key action
         _selectionIndex = _selectionIndex == null
             ? 0
             : _selectionIndex == 0
                 ? 0
-                : _selectionIndex - 1;
+                : _selectionIndex! - 1;
         final List<int> indexes = _getVisibleIndexes();
         if (!indexes.contains(_selectionIndex)) {
-          _scrollToUp(_selectionIndex);
+          _scrollToUp(_selectionIndex!);
         }
         _overlaySetState(() {
           ///Notify overlay list to scroll up
         });
-      } else if (rawKeyEventDataWeb.code == 'Escape') {
+      } else if (rawKeyEventData.logicalKey == LogicalKeyboardKey.escape) {
         ///Escape key action
         _selectionIndex = null;
-        sampleListModel.editingController.text = '';
+        sampleListModel!.editingController.text = '';
         _isFocus.unfocus();
         _overlayEntry.maintainState = false;
         _overlayEntry.opaque = false;
@@ -254,39 +261,39 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   /// Navigate to the selected sample
   void _navigateToSample(int index) {
     _overlayEntry.maintainState = false;
-    sampleListModel.editingController.text = '';
+    sampleListModel!.editingController.text = '';
     _isFocus.unfocus();
     _overlayEntry.opaque = false;
     _removeOverlayEntries();
-    final dynamic renderSample =
-        sampleListModel.sampleWidget[sampleListModel.searchResults[index].key];
+    final dynamic renderSample = sampleListModel!
+        .sampleWidget[sampleListModel!.searchResults[index].key];
     if (renderSample != null) {
-      sampleListModel.isWeb
+      sampleListModel!.isWebFullView
           ? Navigator.pushNamed(
-              context, sampleListModel.searchResults[index].breadCrumbText)
+              context, sampleListModel!.searchResults[index].breadCrumbText!)
           : onTapExpandSample(
-              context, sampleListModel.searchResults[index], sampleListModel);
+              context, sampleListModel!.searchResults[index], sampleListModel!);
     }
   }
 
   /// Scroll the list view position from its current value to the given value
   /// In up to down direction
-  void _scrollToDown(num i) {
+  void _scrollToDown(int i) {
     _controller.jumpTo(_controller.position.pixels + _itemHeight);
   }
 
   /// Scroll the list view position from its current value to the given value
   /// In down to up direction
-  void _scrollToUp(num i) {
-    _controller.jumpTo(_itemHeight * i);
+  void _scrollToUp(int i) {
+    _controller.jumpTo(_itemHeight * i.toDouble());
   }
 
   ///Get the list of visible index of the listViewBuilder
   List<int> _getVisibleIndexes() {
-    final Rect rect = _RectGetterFromListView.getRectFromKey(_globalKey);
+    final Rect rect = _RectGetterFromListView.getRectFromKey(_globalKey)!;
     final List<int> items = <int>[];
     _keys.forEach((dynamic index, dynamic key) {
-      final Rect itemRect = _RectGetterFromListView.getRectFromKey(key);
+      final Rect itemRect = _RectGetterFromListView.getRectFromKey(key)!;
       if (itemRect != null &&
           (itemRect.top >= rect.top && itemRect.bottom <= rect.bottom + 2)) {
         items.add(index);
@@ -296,12 +303,12 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   }
 
   OverlayEntry _createOverlayEntry() {
-    final RenderBox renderBox = context.findRenderObject();
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Size size = renderBox.size;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
     _selectionIndex = null;
-    final num height = (sampleListModel.searchResults.length < 4
-            ? 0.1 * sampleListModel.searchResults.length
+    final num height = (sampleListModel!.searchResults.length < 4
+            ? 0.1 * sampleListModel!.searchResults.length
             : 0.4) *
         MediaQuery.of(context).size.height;
 
@@ -317,22 +324,22 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
               left: offset.dx,
               top: offset.dy + size.height - 5,
               width: size.width,
-              height: sampleListModel.searchResults.isEmpty &&
-                      sampleListModel.editingController.text.isNotEmpty &&
+              height: sampleListModel!.searchResults.isEmpty &&
+                      sampleListModel!.editingController.text.isNotEmpty &&
                       _isFocus.hasFocus
                   ? 0.1 * MediaQuery.of(context).size.height
                   : _overlayHeight.toDouble(),
               child: CupertinoScrollbar(
                 child: Card(
-                  color: sampleListModel.cardColor,
-                  child: sampleListModel.editingController.text.isEmpty ||
+                  color: sampleListModel!.cardColor,
+                  child: sampleListModel!.editingController.text.isEmpty ||
                           _isFocus.hasFocus == false
                       ? null
-                      : (sampleListModel.searchResults.isEmpty
+                      : (sampleListModel!.searchResults.isEmpty
                           ? ListTile(
                               title: Text('No results found',
                                   style: TextStyle(
-                                      color: sampleListModel.textColor,
+                                      color: sampleListModel!.textColor,
                                       fontSize: 13,
                                       fontFamily: 'Roboto-Regular')),
                               onTap: () {},
@@ -343,7 +350,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                   controller: _controller,
                                   padding: const EdgeInsets.all(0),
                                   itemCount:
-                                      sampleListModel.searchResults.length,
+                                      sampleListModel!.searchResults.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     _keys[index] = _RectGetterFromListView
@@ -355,31 +362,31 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                           child: Material(
                                               color: index == _selectionIndex
                                                   ? Colors.grey.withOpacity(0.4)
-                                                  : sampleListModel.cardColor,
+                                                  : sampleListModel!.cardColor,
                                               child: InkWell(
-                                                  hoverColor: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              10),
-                                                      child: Text(
-                                                        sampleListModel
-                                                            .searchResults[
-                                                                index]
-                                                            .title,
-                                                        style: TextStyle(
-                                                            color:
-                                                                sampleListModel
-                                                                    .textColor,
-                                                            fontSize: 13,
-                                                            fontFamily:
-                                                                'Roboto-Regular'),
-                                                      )),
-                                                  onTap: () {
-                                                    _selectionIndex = null;
-                                                    _navigateToSample(index);
-                                                  })),
+                                                hoverColor: Colors.grey
+                                                    .withOpacity(0.2),
+                                                onTap: () {
+                                                  _selectionIndex = null;
+                                                  _navigateToSample(index);
+                                                },
+                                                child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    child: Text(
+                                                      sampleListModel!
+                                                          .searchResults[index]
+                                                          .title!,
+                                                      style: TextStyle(
+                                                          color:
+                                                              sampleListModel!
+                                                                  .textColor,
+                                                          fontSize: 13,
+                                                          fontFamily:
+                                                              'Roboto-Regular'),
+                                                    )),
+                                              )),
                                         ));
                                   }))),
                 ),
@@ -393,7 +400,7 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return RawKeyboardListener(
         focusNode: _rawKeyFocusNode,
-        onKey: (RawKeyEvent event) => !sampleListModel.isMobileResolution
+        onKey: (RawKeyEvent event) => !sampleListModel!.isMobileResolution
             ? _performKeyBoardEvent(event)
             : null,
         child: Column(
@@ -401,11 +408,11 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              height: sampleListModel.isWeb ? 35 : 45,
+              height: sampleListModel!.isWebFullView ? 35 : 45,
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: kIsWeb
-                      ? (Colors.grey[100]).withOpacity(0.2)
+                  color: sampleListModel!.isWebFullView
+                      ? (Colors.grey[100])!.withOpacity(0.2)
                       : Colors.white,
                   borderRadius: const BorderRadius.all(Radius.circular(5.0))),
               child: Padding(
@@ -414,23 +421,27 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                 child: Container(
                     child: TextField(
                   mouseCursor: MaterialStateMouseCursor.clickable,
-                  cursorColor: kIsWeb ? Colors.white : Colors.grey,
+                  cursorColor: sampleListModel!.isWebFullView
+                      ? Colors.white
+                      : Colors.grey,
                   focusNode: _isFocus,
                   onChanged: (String value) {
                     closeIcon = _isFocus.hasFocus &&
-                            (sampleListModel.editingController.text.isNotEmpty)
+                            (sampleListModel!.editingController.text.isNotEmpty)
                         ? IconButton(
                             splashColor: Colors.transparent,
                             hoverColor: Colors.transparent,
-                            icon: const Icon(Icons.close,
-                                size: kIsWeb ? 20 : 24,
-                                color: kIsWeb ? Colors.white : Colors.grey),
+                            icon: Icon(Icons.close,
+                                size: sampleListModel!.isWebFullView ? 20 : 24,
+                                color: sampleListModel!.isWebFullView
+                                    ? Colors.white
+                                    : Colors.grey),
                             onPressed: () {
-                              sampleListModel.editingController.text = '';
+                              sampleListModel!.editingController.text = '';
                               _isFocus.unfocus();
                               filterSearchResults('');
-                              if (sampleListModel.isMobileResolution) {
-                                sampleListModel.sampleList.clear();
+                              if (sampleListModel!.isMobileResolution) {
+                                sampleListModel!.sampleList.clear();
                                 setState(() {
                                   closeIcon = null;
                                 });
@@ -448,23 +459,27 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                   onEditingComplete: () {
                     _isFocus.unfocus();
                   },
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: 'Roboto-Regular',
-                      color: kIsWeb ? Colors.white : Colors.grey,
+                      color: sampleListModel!.isWebFullView
+                          ? Colors.white
+                          : Colors.grey,
                       fontSize: 13),
-                  controller: sampleListModel.editingController,
+                  controller: sampleListModel!.editingController,
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
-                      labelStyle: const TextStyle(
+                      labelStyle: TextStyle(
                           fontFamily: 'Roboto-Regular',
-                          color: kIsWeb ? Colors.white : Colors.grey,
+                          color: sampleListModel!.isWebFullView
+                              ? Colors.white
+                              : Colors.grey,
                           fontSize: 13),
                       hintText: hint,
                       border: InputBorder.none,
                       hintStyle: TextStyle(
                           fontSize: 13,
                           fontFamily: 'Roboto-Regular',
-                          color: kIsWeb
+                          color: sampleListModel!.isWebFullView
                               ? Colors.white.withOpacity(0.5)
                               : Colors.grey),
                       suffixIcon: closeIcon,
@@ -479,17 +494,18 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
 
 /// Get the rect from list view using the global key
 class _RectGetterFromListView extends StatefulWidget {
-  const _RectGetterFromListView({@required this.key, @required this.child})
-      : super(key: key);
-  final GlobalKey<_RectGetterFromListViewState> key;
-  final Widget child;
+  const _RectGetterFromListView({this.key, this.child}) : super(key: key);
+  @override
+  final GlobalKey<_RectGetterFromListViewState>? key;
+  final Widget? child;
 
   ///Get the rect of list view
-  static Rect getRectFromKey(
+  static Rect? getRectFromKey(
       GlobalKey<_RectGetterFromListViewState> _globalKey) {
-    final RenderObject object = _globalKey?.currentContext?.findRenderObject();
-    final dynamic translation = object?.getTransformTo(null)?.getTranslation();
-    final Size size = object?.semanticBounds?.size;
+    final RenderObject object =
+        _globalKey.currentContext?.findRenderObject() as RenderObject;
+    final dynamic translation = object.getTransformTo(null).getTranslation();
+    final Size size = object.semanticBounds.size;
 
     if (translation != null && size != null) {
       return Rect.fromLTWH(
@@ -509,5 +525,5 @@ class _RectGetterFromListView extends StatefulWidget {
 
 class _RectGetterFromListViewState extends State<_RectGetterFromListView> {
   @override
-  Widget build(BuildContext context) => widget.child;
+  Widget build(BuildContext context) => widget.child!;
 }

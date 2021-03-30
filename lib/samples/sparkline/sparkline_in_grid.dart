@@ -3,15 +3,13 @@ import 'dart:math' as math;
 
 /// Package imports
 import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 /// Barcode imports
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local imports
 import '../../model/sample_view.dart';
-
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 /// Renders column type data grid
 class SparkLineGrid extends SampleView {
@@ -22,16 +20,13 @@ class SparkLineGrid extends SampleView {
   _SparkLineGridState createState() => _SparkLineGridState();
 }
 
-List<_Employee> _employeeData;
-
 class _SparkLineGridState extends SampleViewState {
   _SparkLineGridState();
   //ignore: unused_field
   final math.Random _random = math.Random();
-  bool _isLandscapeInMobileView;
+  late bool _isLandscapeInMobileView;
 
-  final _ColumnTypesDataGridSource _columnTypesDataGridSource =
-      _ColumnTypesDataGridSource();
+  late _ColumnTypesDataGridSource _columnTypesDataGridSource;
 
   List<_Employee> _generateList(int _count) {
     final List<_Employee> _employeeData = <_Employee>[];
@@ -353,93 +348,70 @@ class _SparkLineGridState extends SampleViewState {
     'Germany',
   ];
 
-  SfDataGrid _getDataGrid() {
+  SfDataGrid _buildDataGrid() {
     return SfDataGrid(
         source: _columnTypesDataGridSource,
-        columnWidthMode: model.isWeb
+        columnWidthMode: model.isWebFullView
             ? ColumnWidthMode.fill
             : _isLandscapeInMobileView
                 ? ColumnWidthMode.fill
-                : ColumnWidthMode.auto,
-        cellBuilder: (BuildContext context, GridColumn column, int rowIndex) {
-          Widget widget;
-          if (column.mappingName == 'tax') {
-            widget = Container(
-              padding: const EdgeInsets.all(3),
-              child: _employeeData[rowIndex].tax,
-            );
-          }
-          if (column.mappingName == 'column') {
-            widget = Container(
-              padding: const EdgeInsets.all(3),
-              child: _employeeData[rowIndex].column,
-            );
-          }
-          if (column.mappingName == 'winloss') {
-            widget = Container(
-              padding: const EdgeInsets.all(3),
-              child: _employeeData[rowIndex].winloss,
-            );
-          }
-          return widget;
-        },
+                : ColumnWidthMode.none,
         columns: <GridColumn>[
-          GridNumericColumn(
-              mappingName: 'id',
-              headerText: ' ID',
-              columnWidthMode: ColumnWidthMode.header,
-              headerTextAlignment: Alignment.centerRight),
           GridTextColumn(
-              mappingName: 'name',
-              headerText: 'Name',
-              columnWidthMode: (model.isWeb || _isLandscapeInMobileView)
-                  ? ColumnWidthMode.none
-                  : ColumnWidthMode.cells,
-              headerTextAlignment: Alignment.centerLeft),
+              columnName: 'id',
+              label: Container(
+                  padding: EdgeInsets.all(8.0),
+                  alignment: Alignment.centerRight,
+                  child: Text('ID')),
+              width: 50),
           GridTextColumn(
-              mappingName: 'shipCountry',
-              headerText: 'Ship country',
-              columnWidthMode: (model.isWeb || _isLandscapeInMobileView)
-                  ? ColumnWidthMode.none
-                  : ColumnWidthMode.header,
-              headerTextAlignment: Alignment.centerLeft),
-          GridWidgetColumn(
-              columnWidthMode: (model.isWeb || _isLandscapeInMobileView)
-                  ? ColumnWidthMode.none
-                  : ColumnWidthMode.header,
-              mappingName: 'tax',
-              headerText: 'Tax per annum'),
-          GridWidgetColumn(
-              columnWidthMode: (model.isWeb || _isLandscapeInMobileView)
-                  ? ColumnWidthMode.none
-                  : ColumnWidthMode.header,
-              mappingName: 'column',
-              headerText: 'One day index'),
-          GridWidgetColumn(
-              columnWidthMode: (model.isWeb || _isLandscapeInMobileView)
-                  ? ColumnWidthMode.none
-                  : ColumnWidthMode.header,
-              mappingName: 'winloss',
-              headerText: 'Year GR'),
+            columnName: 'name',
+            label: Container(
+                padding: EdgeInsets.all(8.0),
+                alignment: Alignment.centerLeft,
+                child: Text('Name')),
+          ),
+          GridTextColumn(
+            columnName: 'shipCountry',
+            label: Container(
+                padding: EdgeInsets.all(8.0),
+                alignment: Alignment.centerLeft,
+                child: Text('Ship country')),
+          ),
+          GridTextColumn(
+              columnName: 'tax',
+              width: model.isWebFullView ? double.nan : 130,
+              label: Container(
+                  alignment: Alignment.center, child: Text('Tax per annum'))),
+          GridTextColumn(
+              columnName: 'column',
+              width: model.isWebFullView ? double.nan : 130,
+              label: Container(
+                  alignment: Alignment.center, child: Text('One day index'))),
+          GridTextColumn(
+              columnName: 'winloss',
+              label: Container(
+                  alignment: Alignment.center, child: Text('Year GR'))),
         ]);
   }
 
   @override
   void initState() {
     super.initState();
-    _employeeData = _generateList(20);
+    _columnTypesDataGridSource =
+        _ColumnTypesDataGridSource(_generateList(20), model.isWebFullView);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !model.isWeb &&
+    _isLandscapeInMobileView = !model.isWebFullView &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _getDataGrid());
+    return Scaffold(body: _buildDataGrid());
   }
 }
 
@@ -454,34 +426,58 @@ class _Employee {
   final Widget winloss;
 }
 
-class _ColumnTypesDataGridSource extends DataGridSource<_Employee> {
-  _ColumnTypesDataGridSource();
+class _ColumnTypesDataGridSource extends DataGridSource {
+  _ColumnTypesDataGridSource(List<_Employee> employees, this.isWeb) {
+    _employeeData = employees
+        .map<DataGridRow>((e) => DataGridRow(cells: [
+              DataGridCell<int>(columnName: 'id', value: e.id),
+              DataGridCell<String>(columnName: 'name', value: e.name),
+              DataGridCell<String>(
+                  columnName: 'shipCountry', value: e.shipCountry),
+              DataGridCell<Widget>(columnName: 'tax', value: e.tax),
+              DataGridCell<Widget>(columnName: 'column', value: e.column),
+              DataGridCell<Widget>(columnName: 'winloss', value: e.winloss),
+            ]))
+        .toList();
+  }
+
+  late List<DataGridRow> _employeeData;
+
+  final bool isWeb;
+
   @override
-  List<_Employee> get dataSource => _employeeData;
+  List<DataGridRow> get rows => _employeeData;
+
   @override
-  Object getValue(_Employee _employee, String columnName) {
-    switch (columnName) {
-      case 'id':
-        return _employee.id;
-        break;
-      case 'name':
-        return _employee.name;
-        break;
-      case 'shipCountry':
-        return _employee.shipCountry;
-        break;
-      case 'tax':
-        return _employee.tax;
-        break;
-      case 'column':
-        return _employee.column;
-        break;
-      case 'winloss':
-        return _employee.winloss;
-        break;
-      default:
-        return 'empty';
-        break;
-    }
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(cells: [
+      Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all((8.0)),
+        child: Text(row.getCells()[0].value.toString()),
+      ),
+      Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.all((8.0)),
+        child: Text(row.getCells()[1].value),
+      ),
+      Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.all((8.0)),
+        child: Text(row.getCells()[2].value),
+      ),
+      Container(
+        padding: const EdgeInsets.all(3),
+        child: row.getCells()[3].value,
+      ),
+      Container(
+        padding: const EdgeInsets.all(3),
+        child: row.getCells()[4].value,
+      ),
+      Container(
+        padding: const EdgeInsets.all(3),
+        child: row.getCells()[5].value,
+      )
+    ]);
   }
 }

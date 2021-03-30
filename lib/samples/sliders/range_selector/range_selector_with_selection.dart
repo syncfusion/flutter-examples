@@ -33,10 +33,10 @@ class _RangeSelectorSelectionPageState extends SampleViewState
   _RangeSelectorSelectionPageState();
 
   final DateTime min = DateTime(2019, 04, 01), max = DateTime(2019, 04, 30, 24);
-  RangeController rangeController;
-  TextEditingController textController;
-  List<_ChartData> data;
-  List<int> selectedItems;
+  late RangeController rangeController;
+  late TextEditingController textController;
+  late List<_ChartData> data;
+  late List<int> selectedItems;
 
   @override
   void initState() {
@@ -137,11 +137,11 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                     inactiveTrackColor: const Color.fromRGBO(194, 194, 194, 1),
                     activeLabelStyle: TextStyle(
                         fontSize: 12,
-                        color: themeData.textTheme.bodyText1.color
+                        color: themeData.textTheme.bodyText1!.color!
                             .withOpacity(0.87)),
                     inactiveLabelStyle: TextStyle(
                         fontSize: 12,
-                        color: themeData.textTheme.bodyText1.color
+                        color: themeData.textTheme.bodyText1!.color!
                             .withOpacity(0.87)),
                     inactiveRegionColor: Colors.transparent),
                 child: SfRangeSelector(
@@ -157,62 +157,63 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                     _setTotalDataUsage(values);
                   },
                   child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: SfCartesianChart(
-                          title: ChartTitle(text: 'Data Usage For April 2019'),
-                          margin: const EdgeInsets.all(0),
-                          primaryXAxis: DateTimeAxis(
-                              isVisible: false,
-                              minimum: DateTime(2019, 04, 01),
-                              maximum: DateTime(2019, 04, 30, 24)),
-                          primaryYAxis:
-                              NumericAxis(isVisible: false, maximum: 26),
-                          plotAreaBorderWidth: 0,
-                          plotAreaBackgroundColor: Colors.transparent,
-                          series: <CartesianSeries<_ChartData, DateTime>>[
-                            ColumnSeries<_ChartData, DateTime>(
-                              width: 0.8,
-                              initialSelectedDataIndexes: selectedItems,
-                              selectionBehavior: SelectionBehavior(
-                                  enable: true,
-                                  unselectedOpacity: 0,
-                                  selectedBorderColor:
-                                      const Color.fromRGBO(0, 178, 206, 1),
-                                  selectedColor:
-                                      const Color.fromRGBO(0, 178, 206, 1),
-                                  unselectedColor: Colors.transparent,
-                                  selectionController: rangeController),
-                              dashArray: model.isWeb ? null : <double>[3, 2],
-                              color: const Color.fromRGBO(255, 255, 255, 0),
-                              borderColor:
-                                  const Color.fromRGBO(194, 194, 194, 1),
-                              animationDuration: 0,
-                              borderWidth: 1,
-                              dataSource: data,
-                              xValueMapper: (_ChartData score, _) => score.date,
-                              yValueMapper: (_ChartData score, _) => score.runs,
-                            )
-                          ],
-                        ),
+                    width: mediaQueryData.orientation == Orientation.landscape
+                        ? model.isWebFullView
+                            ? mediaQueryData.size.width * 0.5
+                            : mediaQueryData.size.width
+                        : mediaQueryData.size.width,
+                    height: mediaQueryData.size.height * 0.55 - 25,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: SfCartesianChart(
+                        title: ChartTitle(text: 'Data Usage For April 2019'),
+                        margin: const EdgeInsets.all(0),
+                        primaryXAxis: DateTimeAxis(
+                            isVisible: false,
+                            minimum: DateTime(2019, 04, 01),
+                            maximum: DateTime(2019, 04, 30, 24)),
+                        primaryYAxis:
+                            NumericAxis(isVisible: false, maximum: 26),
+                        plotAreaBorderWidth: 0,
+                        plotAreaBackgroundColor: Colors.transparent,
+                        series: <CartesianSeries<_ChartData, DateTime>>[
+                          ColumnSeries<_ChartData, DateTime>(
+                            width: 0.8,
+                            initialSelectedDataIndexes: selectedItems,
+                            selectionBehavior: SelectionBehavior(
+                                enable: true,
+                                unselectedOpacity: 0,
+                                selectedBorderColor:
+                                    const Color.fromRGBO(0, 178, 206, 1),
+                                selectedColor:
+                                    const Color.fromRGBO(0, 178, 206, 1),
+                                unselectedColor: Colors.transparent,
+                                selectionController: rangeController),
+                            dashArray:
+                                model.isWebFullView ? null : <double>[3, 2],
+                            color: const Color.fromRGBO(255, 255, 255, 0),
+                            borderColor: const Color.fromRGBO(194, 194, 194, 1),
+                            animationDuration: 0,
+                            borderWidth: 1,
+                            dataSource: data,
+                            xValueMapper: (_ChartData score, _) => score.date,
+                            yValueMapper: (_ChartData score, _) => score.runs,
+                          )
+                        ],
                       ),
-                      width: mediaQueryData.orientation == Orientation.landscape
-                          ? model.isWeb
-                              ? mediaQueryData.size.width * 0.5
-                              : mediaQueryData.size.width
-                          : mediaQueryData.size.width,
-                      height: mediaQueryData.size.height * 0.55 - 25),
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-          Center(
-            child: Container(
-                height: mediaQueryData.size.height,
-                padding: EdgeInsets.only(
-                    top: (mediaQueryData.size.height -
-                            (model.isWeb ? 150 : 120)) *
-                        0.8),
+          Padding(
+            padding: mediaQueryData.orientation == Orientation.landscape ||
+                    model.isWebFullView
+                ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.025)
+                : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
+            child: Align(
+                alignment: Alignment.bottomCenter,
                 child: SizedBox(
                     width: 250,
                     height: 20,

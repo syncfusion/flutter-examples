@@ -1,0 +1,200 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
+
+/// Treemap import.
+import 'package:syncfusion_flutter_treemap/treemap.dart';
+
+/// Local import.
+import '../../../model/sample_view.dart';
+
+/// This sample demonstrates how to add a multiple level tiles in the treemap.
+class HierarchicalTreemapSample extends SampleView {
+  /// Creates [HierarchicalTreemapSample].
+  const HierarchicalTreemapSample(Key key) : super(key: key);
+
+  @override
+  _HierarchicalTreemapSampleState createState() =>
+      _HierarchicalTreemapSampleState();
+}
+
+class _HierarchicalTreemapSampleState extends SampleViewState {
+  late List<_FootballTeamDetails> _europeanCupAndUEFALeagueWinners;
+
+  @override
+  void initState() {
+    // Data source to the treemap.
+    //
+    // [titles] is used to get each tile's weight.
+    // [nation] is the first level grouping key.
+    // [team] is the second level grouping key.
+    _europeanCupAndUEFALeagueWinners = <_FootballTeamDetails>[
+      _FootballTeamDetails(nation: 'ESP', team: 'Real Madrid', titles: 13),
+      _FootballTeamDetails(nation: 'ITA', team: 'Milan', titles: 7),
+      _FootballTeamDetails(nation: 'GER', team: 'Bayern Munich', titles: 6),
+      _FootballTeamDetails(nation: 'ENG', team: 'Liverpool', titles: 6),
+      _FootballTeamDetails(nation: 'ESP', team: 'Barcelona', titles: 5),
+      _FootballTeamDetails(nation: 'NED', team: 'Ajax', titles: 4),
+      _FootballTeamDetails(nation: 'ENG', team: 'Manchester United', titles: 3),
+      _FootballTeamDetails(nation: 'ITA', team: 'Inter Milan', titles: 3),
+      _FootballTeamDetails(nation: 'ITA', team: 'Juventus', titles: 2),
+      _FootballTeamDetails(nation: 'POR', team: 'Benfica', titles: 2),
+      _FootballTeamDetails(nation: 'ENG', team: 'Nottingham Forest', titles: 2),
+      _FootballTeamDetails(nation: 'POR', team: 'Porto', titles: 2),
+      _FootballTeamDetails(nation: 'SCO', team: 'Celtic', titles: 1),
+      _FootballTeamDetails(nation: 'GER', team: 'Hamburger SV', titles: 1),
+      _FootballTeamDetails(nation: 'ROU', team: 'Steaua București', titles: 1),
+      _FootballTeamDetails(nation: 'FRA', team: 'Marseille', titles: 1),
+      _FootballTeamDetails(nation: 'GER', team: 'Borussia Dortmund', titles: 1),
+      _FootballTeamDetails(nation: 'ENG', team: 'Chelsea', titles: 1),
+      _FootballTeamDetails(nation: 'NED', team: 'Feyenoord', titles: 1),
+      _FootballTeamDetails(nation: 'ENG', team: 'Aston Villa', titles: 1),
+      _FootballTeamDetails(nation: 'NED', team: 'PSV Eindhoven', titles: 1),
+      _FootballTeamDetails(nation: 'YUG', team: 'Red Star Belgrade', titles: 1),
+    ];
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _europeanCupAndUEFALeagueWinners.clear();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    final bool isDesktop = kIsWeb ||
+        themeData.platform == TargetPlatform.macOS ||
+        themeData.platform == TargetPlatform.linux ||
+        themeData.platform == TargetPlatform.windows;
+    return Center(
+      child: Padding(
+        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
+                isDesktop
+            ? const EdgeInsets.all(12.5)
+            : const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Text(
+              'European Cup and UEFA Champions League Winners',
+              style: themeData.textTheme.subtitle1,
+              textAlign: TextAlign.center,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12.5),
+                child: SfTreemap(
+                  // The number of data in your data source collection.
+                  //
+                  // The callback for the [weightValueMapper] and
+                  // [TreemapLevel.groupMapper] will be called
+                  // the number of times equal to the [dataCount].
+                  dataCount: _europeanCupAndUEFALeagueWinners.length,
+                  // The value returned in the callback will specify the
+                  // weight of each tile.
+                  weightValueMapper: (int index) {
+                    return _europeanCupAndUEFALeagueWinners[index].titles;
+                  },
+                  tooltipSettings: const TreemapTooltipSettings(
+                    color: Color.fromRGBO(2, 99, 103, 1.0),
+                  ),
+                  levels: _getTreemapLevels(themeData),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<TreemapLevel> _getTreemapLevels(ThemeData themeData) {
+    return <TreemapLevel>[
+      TreemapLevel(
+        color: const Color.fromRGBO(1, 166, 172, 1.0),
+        // Used for grouping the tiles based on the value returned from
+        // this callback.
+        //
+        // Once grouped, we will get [labelBuilder] and [tooltipBuilder]
+        // callbacks respectively.
+        groupMapper: (int index) =>
+            _europeanCupAndUEFALeagueWinners[index].nation,
+        // Padding around the tile.
+        padding: const EdgeInsets.all(1.5),
+        // Returns a widget for each tile's data label.
+        labelBuilder: (BuildContext context, TreemapTile tile) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 6, top: 4.0),
+            child: Text(
+              tile.group,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: Theme.of(context).textTheme.caption!.fontSize),
+            ),
+          );
+        },
+      ),
+      TreemapLevel(
+        color: const Color.fromRGBO(103, 206, 208, 1.0),
+        // Used for grouping the tiles based on the value returned from
+        // this callback.
+        //
+        // Once grouped, we will get [labelBuilder] and [tooltipBuilder]
+        // callbacks respectively.
+        groupMapper: (int index) =>
+            _europeanCupAndUEFALeagueWinners[index].team,
+        // Padding around the tile.
+        padding: const EdgeInsets.all(1.0),
+        // Returns a widget for each tile's data label.
+        labelBuilder: (BuildContext context, TreemapTile tile) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 4.0, top: 2.0),
+            child: Text(
+              tile.group,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: Theme.of(context).textTheme.caption!.fontSize),
+            ),
+          );
+        },
+        // Returns a widget for each tile's tooltip.
+        tooltipBuilder: (BuildContext context, TreemapTile tile) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: RichText(
+              text: TextSpan(
+                text: tile.group,
+                style: themeData.textTheme.caption!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    height: 1.5),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '\nTitles : ${tile.weight.round()}',
+                    style: themeData.textTheme.caption!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    ];
+  }
+}
+
+class _FootballTeamDetails {
+  const _FootballTeamDetails({
+    required this.titles,
+    this.nation,
+    this.team,
+  });
+
+  final String? nation;
+  final String? team;
+  final double titles;
+}

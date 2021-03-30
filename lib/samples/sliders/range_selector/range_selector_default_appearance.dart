@@ -32,9 +32,9 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
   _DefaultRangeSelectorPageState();
 
   final DateTime min = DateTime(2002, 01, 01), max = DateTime(2011, 01, 01);
-  List<ChartSampleData> chartData;
-  RangeController rangeController;
-  LinearGradient gradientColors;
+  late List<ChartSampleData> chartData;
+  late RangeController rangeController;
+  late LinearGradient gradientColors;
 
   @override
   void initState() {
@@ -71,7 +71,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
     for (int i = 0; i < chartData.length; i++) {
       //ignore: avoid_as
       if (chartData[i].x.year == (values.start as DateTime).year) {
-        startRate = chartData[i].y;
+        startRate = chartData[i].y!.toDouble();
       }
       if (chartData[i].x.isAfter(
               //ignore: avoid_as
@@ -80,7 +80,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
               //ignore: avoid_as
               (values.end as DateTime).add(const Duration(hours: 12)))) {
         dataCount++;
-        totalData += chartData[i].y;
+        totalData += chartData[i].y!;
       }
     }
     return totalData = dataCount != 0 ? totalData / dataCount : startRate;
@@ -100,7 +100,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                   0,
                   mediaQueryData.orientation == Orientation.portrait
                       ? 50
-                      : model.isWeb
+                      : model.isWebFullView
                           ? 15
                           : 2,
                   0,
@@ -123,11 +123,11 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                     labelOffset: const Offset(0, 0),
                     activeLabelStyle: TextStyle(
                         fontSize: 10,
-                        color: themeData.textTheme.bodyText1.color
+                        color: themeData.textTheme.bodyText1!.color!
                             .withOpacity(0.87)),
                     inactiveLabelStyle: TextStyle(
                         fontSize: 10,
-                        color: themeData.textTheme.bodyText1.color
+                        color: themeData.textTheme.bodyText1!.color!
                             .withOpacity(0.87)),
                     inactiveRegionColor:
                         themeData.brightness == Brightness.light
@@ -138,7 +138,8 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                     min: min,
                     max: max,
                     labelPlacement: LabelPlacement.betweenTicks,
-                    interval: (model.isWeb && mediaQueryData.size.width <= 1000)
+                    interval: (model.isWebFullView &&
+                            mediaQueryData.size.width <= 1000)
                         ? 2
                         : 1,
                     controller: rangeController,
@@ -157,6 +158,16 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                       });
                     },
                     child: Container(
+                      width: mediaQueryData.orientation == Orientation.landscape
+                          ? model.isWebFullView
+                              ? mediaQueryData.size.width * 0.6
+                              : mediaQueryData.size.width
+                          : mediaQueryData.size.width,
+                      height: mediaQueryData.orientation == Orientation.portrait
+                          ? mediaQueryData.size.height * 0.45
+                          : model.isWebFullView
+                              ? mediaQueryData.size.height * 0.38
+                              : mediaQueryData.size.height * 0.4,
                       child: SfCartesianChart(
                         margin: const EdgeInsets.all(0),
                         primaryXAxis: DateTimeAxis(
@@ -177,37 +188,30 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                               animationDuration: 0)
                         ],
                       ),
-                      width: mediaQueryData.orientation == Orientation.landscape
-                          ? model.isWeb
-                              ? mediaQueryData.size.width * 0.6
-                              : mediaQueryData.size.width
-                          : mediaQueryData.size.width,
-                      height: mediaQueryData.orientation == Orientation.portrait
-                          ? mediaQueryData.size.height * 0.45
-                          : model.isWeb
-                              ? mediaQueryData.size.height * 0.38
-                              : mediaQueryData.size.height * 0.4,
                     ),
                   ),
                 ),
               ),
             ),
-            Center(
-                child: Container(
-                    height: mediaQueryData.size.height,
-                    padding: EdgeInsets.only(
-                        top: (mediaQueryData.size.height -
-                                (model.isWeb ? 150 : 100)) *
-                            0.8),
-                    child: SizedBox(
-                        height: 15,
-                        child: Text(
-                          'Average rate   :   ' +
-                              _getAverageInflationRate(rangeController)
-                                  .toStringAsFixed(2) +
-                              '%',
-                          style: const TextStyle(fontSize: 18),
-                        ))))
+            Padding(
+              padding: mediaQueryData.orientation == Orientation.landscape ||
+                      model.isWebFullView
+                  ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.025)
+                  : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: 25,
+                  child: Text(
+                    'Average rate   :   ' +
+                        _getAverageInflationRate(rangeController)
+                            .toStringAsFixed(2) +
+                        '%',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+            )
           ],
         ));
   }

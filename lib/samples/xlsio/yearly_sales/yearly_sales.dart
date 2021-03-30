@@ -10,9 +10,9 @@ import '../../../model/sample_view.dart';
 import '../helper/save_file_mobile.dart'
     if (dart.library.html) '../helper/save_file_web.dart';
 
-/// Create yearly sales Excel report
+/// Render XlsIO of yearly sales
 class YearlySalesXlsIO extends SampleView {
-  /// Create yearly sales Excel report
+  /// Render XlsIO of yearly sales
   const YearlySalesXlsIO(Key key) : super(key: key);
   @override
   _YearlySalesXlsIOState createState() => _YearlySalesXlsIOState();
@@ -33,16 +33,24 @@ class _YearlySalesXlsIOState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  'This sample showcases how to create a simple Excel report for yearly sales with data, charts, formulas, and cell formatting using XlsIO.',
+                  'This sample showcases on how to create a simple Excel report for yearly sales with data, chart, formulas, and cell formatting using XlsIO.',
                   style: TextStyle(fontSize: 16, color: model.textColor)),
               const SizedBox(height: 20, width: 30),
               Align(
                   alignment: Alignment.center,
-                  child: FlatButton(
-                      child: const Text('Generate Excel',
-                          style: TextStyle(color: Colors.white)),
-                      color: model.backgroundColor,
-                      onPressed: _generateExcel))
+                  child: TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _generateExcel,
+                    child: const Text('Generate Excel',
+                        style: TextStyle(color: Colors.white)),
+                  ))
             ],
           ),
         ),
@@ -233,7 +241,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     chart1.isSeriesInRows = false;
     chart1.chartTitleArea.bold = true;
     chart1.chartTitleArea.size = 12;
-    chart1.legend.position = ExcelLegendPosition.bottom;
+    chart1.legend!.position = ExcelLegendPosition.bottom;
     chart1.primaryValueAxis.numberFormat = '\$#,###';
     chart1.primaryValueAxis.hasMajorGridLines = false;
     chart1.topRow = 2;
@@ -249,9 +257,9 @@ class _YearlySalesXlsIOState extends SampleViewState {
     chart2.chartTitleArea.size = 11;
     chart2.chartTitleArea.color = '#595959';
     chart2.chartTitleArea.text = 'Internet Sales vs Reseller Sales';
-    chart2.legend.position = ExcelLegendPosition.bottom;
-    chart2.legend.textArea.size = 9;
-    chart2.legend.textArea.color = '#595959';
+    chart2.legend!.position = ExcelLegendPosition.bottom;
+    chart2.legend!.textArea.size = 9;
+    chart2.legend!.textArea.color = '#595959';
     chart2.topRow = 20;
     chart2.bottomRow = 32;
     chart2.leftColumn = 1;
@@ -265,16 +273,16 @@ class _YearlySalesXlsIOState extends SampleViewState {
 
     sheet.charts = charts;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int>? bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.
-    await FileSaveHelper.saveAndLaunchFile(bytes, 'YearlySale.xlsx');
+    await FileSaveHelper.saveAndLaunchFile(bytes!, 'YearlySale.xlsx');
   }
 
   // Create styles for worksheet
   List createStyles(Workbook workbook) {
-    final CellStyle style1 = workbook.styles.add('style1');
+    final Style style1 = workbook.styles.add('style1');
     style1.backColor = '#9BC2E6';
     style1.fontSize = 18;
     style1.bold = true;
@@ -288,7 +296,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style1.borders.left.lineStyle = LineStyle.thin;
     style1.borders.left.color = '#757171';
 
-    final CellStyle style2 = workbook.styles.add('style2');
+    final Style style2 = workbook.styles.add('style2');
     style2.backColor = '#F4B084';
     style2.fontSize = 18;
     style2.bold = true;
@@ -302,7 +310,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style2.borders.left.lineStyle = LineStyle.thin;
     style2.borders.left.color = '#757171';
 
-    final CellStyle style3 = workbook.styles.add('style3');
+    final Style style3 = workbook.styles.add('style3');
     style3.backColor = '#FFD966';
     style3.fontSize = 18;
     style3.bold = true;
@@ -316,7 +324,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style3.borders.left.lineStyle = LineStyle.thin;
     style3.borders.left.color = '#757171';
 
-    final CellStyle style4 = workbook.styles.add('style4');
+    final Style style4 = workbook.styles.add('style4');
     style4.backColor = '#A9D08E';
     style4.fontSize = 18;
     style4.bold = true;
@@ -330,7 +338,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style4.borders.left.lineStyle = LineStyle.thin;
     style4.borders.left.color = '#757171';
 
-    final CellStyle style5 = workbook.styles.add('style5');
+    final Style style5 = workbook.styles.add('style5');
     style5.backColor = '#9BC2E6';
     style5.fontColor = '#757171';
     style5.hAlign = HAlignType.center;
@@ -342,7 +350,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style5.borders.left.lineStyle = LineStyle.thin;
     style5.borders.left.color = '#757171';
 
-    final CellStyle style6 = workbook.styles.add('style6');
+    final Style style6 = workbook.styles.add('style6');
     style6.backColor = '#F4B084';
     style6.fontColor = '#757171';
     style6.hAlign = HAlignType.center;
@@ -354,7 +362,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style6.borders.left.lineStyle = LineStyle.thin;
     style6.borders.left.color = '#757171';
 
-    final CellStyle style7 = workbook.styles.add('style7');
+    final Style style7 = workbook.styles.add('style7');
     style7.backColor = '#FFD966';
     style7.fontColor = '#757171';
     style7.hAlign = HAlignType.center;
@@ -366,7 +374,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style7.borders.left.lineStyle = LineStyle.thin;
     style7.borders.left.color = '#757171';
 
-    final CellStyle style8 = workbook.styles.add('style8');
+    final Style style8 = workbook.styles.add('style8');
     style8.backColor = '#A9D08E';
     style8.fontColor = '#757171';
     style8.hAlign = HAlignType.center;

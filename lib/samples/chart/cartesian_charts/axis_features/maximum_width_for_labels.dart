@@ -26,20 +26,26 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
   // ignore: unused_field
   bool _isEnableMaximumLabelWidth = true;
   // ignore: unused_field
-  List<bool> _isSelected;
+  late List<bool> _isSelected;
   String _selectedType = 'Maximum label width';
   //ignore: unused_field
-  List<String> _typeList = <String>['Maximum label width', 'Labels extent'];
+  final List<String> _typeList = <String>[
+    'Maximum label width',
+    'Labels extent'
+  ];
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _isSelected = [true, false];
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, canShowMarker: false, header: '');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getmaximumLabelWidthChart();
+    return _buildmaximumLabelWidthChart();
   }
 
   @override
@@ -60,7 +66,7 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
                       style: TextStyle(color: model.textColor)),
                 ),
                 Container(
-                  padding: !model.isWeb
+                  padding: !model.isWebFullView
                       ? EdgeInsets.fromLTRB(32, 0, 0, 0)
                       : EdgeInsets.fromLTRB(42, 0, 0, 0),
                   child: CustomDirectionalButtons(
@@ -92,9 +98,9 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
                   child: CheckboxListTile(
                       activeColor: model.backgroundColor,
                       value: _isEnableLabelExtend,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
-                          _isEnableLabelExtend = value;
+                          _isEnableLabelExtend = value!;
                           stateSetter(() {});
                         });
                       }))
@@ -110,7 +116,7 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
                     Text('Labels extent',
                         style: TextStyle(color: model.textColor)),
                     Container(
-                      padding: !model.isWeb
+                      padding: !model.isWebFullView
                           ? EdgeInsets.fromLTRB(40, 0, 0, 0)
                           : EdgeInsets.fromLTRB(50, 0, 0, 0),
                       child: CustomDirectionalButtons(
@@ -138,7 +144,7 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
   }
 
   /// Returns the Cartesian chart with sorting options.
-  SfCartesianChart _getmaximumLabelWidthChart() {
+  SfCartesianChart _buildmaximumLabelWidthChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : "World's tallest buildings"),
       plotAreaBorderWidth: 0,
@@ -146,9 +152,9 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
         args.text = args.dataPoints[args.pointIndex].y.toString() + ' m';
       },
       onTooltipRender: (TooltipArgs args) {
-        args.text = args.dataPoints[args.pointIndex].x.toString() +
+        args.text = args.dataPoints![args.pointIndex!.toInt()].x.toString() +
             ' : ' +
-            args.dataPoints[args.pointIndex].y.toString() +
+            args.dataPoints![args.pointIndex!.toInt()].y.toString() +
             ' m';
       },
       primaryXAxis: CategoryAxis(
@@ -162,8 +168,7 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
           interval: 100,
           majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultSortingSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, canShowMarker: false, header: ''),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

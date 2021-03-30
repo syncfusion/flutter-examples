@@ -19,19 +19,27 @@ class RadialBarDefault extends SampleView {
 /// State class of radial bar.
 class _RadialBarDefaultState extends SampleViewState {
   _RadialBarDefaultState();
+  late TooltipBehavior _tooltipBehavior;
+
+  @override
+  void initState() {
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, format: 'point.x : point.ym');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaultRadialBarChart();
+    return _buildDefaultRadialBarChart();
   }
 
   /// Returns the circular chart with radial series.
-  SfCircularChart _getDefaultRadialBarChart() {
+  SfCircularChart _buildDefaultRadialBarChart() {
     return SfCircularChart(
+      key: GlobalKey(),
       title: ChartTitle(text: isCardView ? '' : 'Shot put distance'),
       series: _getRadialBarDefaultSeries(),
-      tooltipBehavior:
-          TooltipBehavior(enable: true, format: 'point.x : point.ym'),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 

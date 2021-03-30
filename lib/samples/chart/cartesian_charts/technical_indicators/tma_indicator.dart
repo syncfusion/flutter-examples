@@ -22,17 +22,24 @@ class TMAIndicator extends SampleView {
 /// State class of the OHLC chart with Triangular moving average indicator.
 class _TMAIndicatorState extends SampleViewState {
   _TMAIndicatorState();
-  double _period = 14.0;
-
+  late double _period;
+  late TrackballBehavior _trackballBehavior;
+  late TooltipBehavior _tooltipBehavior;
   @override
   void initState() {
-    _period = 14;
     super.initState();
+    _period = 14;
+    _trackballBehavior = TrackballBehavior(
+      enable: !isCardView,
+      activationMode: ActivationMode.singleTap,
+      tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
+    );
+    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return _getDefaulTMAIndicator();
+    return _buildDefaulTMAIndicator();
   }
 
   @override
@@ -63,7 +70,7 @@ class _TMAIndicatorState extends SampleViewState {
   }
 
   /// Returns the OHLC chart with Triangular moving average indicator.
-  SfCartesianChart _getDefaulTMAIndicator() {
+  SfCartesianChart _buildDefaulTMAIndicator() {
     final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
@@ -81,16 +88,12 @@ class _TMAIndicatorState extends SampleViewState {
           interval: 20,
           labelFormat: '\${value}',
           axisLine: AxisLine(width: 0)),
-      trackballBehavior: TrackballBehavior(
-        enable: !isCardView,
-        activationMode: ActivationMode.singleTap,
-        tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
-      ),
-      tooltipBehavior: TooltipBehavior(enable: isCardView ? true : false),
+      trackballBehavior: _trackballBehavior,
+      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
         /// TMA indicator mentioned here.
         TmaIndicator<ChartSampleData, DateTime>(
-            seriesName: 'AAPL', period: _period.toInt() ?? 14),
+            seriesName: 'AAPL', period: _period.toInt()),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <ChartSeries<ChartSampleData, DateTime>>[
