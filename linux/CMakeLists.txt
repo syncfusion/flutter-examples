@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "flutter_examples")
-set(APPLICATION_ID "com.syncfusion.flutter_examples")
+set(BINARY_NAME "syncfusion-flutter-gallery")
+set(APPLICATION_ID "com.syncfusion.flutter.examples")
 
 cmake_policy(SET CMP0063 NEW)
 

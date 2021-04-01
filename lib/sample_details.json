@@ -1246,7 +1246,7 @@
                     "key": "pagination",
                     "status": "New",
                     "description": "This sample shows how to view the next set of data on swiping the chart using the 'onPlotAreaSwipe' callback function. You can swipe from left to right or vice versa and also click on the days at the bottom to view the next set of data.",
-                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/on_demand_loading/pagination.dart"
+                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/user_interactions/pagination.dart"
                   }
                 ]
               },
@@ -1511,7 +1511,7 @@
                     "key": "pie_point_render_mode",
                     "status": "new",
                     "description":"This sample demonstrates how to fill the pie slices with various images for each slice using the 'ImageShader'.",
-                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/pie/pie_with_image.dart",
+                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/pie/point_render_mode.dart",
                     "needsPropertyPanel": true
                   }
                 ]
@@ -1973,14 +1973,14 @@
                 "type": "sample",
                 "title": "Height calculator",
                 "key": "height_calculator",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/linear_gauge/showcase/heightCalculator.dart",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/linear_gauge/showcase/height_calculator.dart",
                 "description": ""
               },
               {
                 "type": "sample",
                 "title": "Water level indicator",
                 "key": "water_indicator",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/linear_gauge/showcase/waterIndicator.dart",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/linear_gauge/showcase/water_indicator.dart",
                 "description": ""
               },
               {
@@ -2022,7 +2022,7 @@
                 "type": "sample",
                 "title": "Temperature meter",
                 "key": "heat_meter",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/linear_gauge/showcase/heat_mter.dart",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/linear_gauge/showcase/heat_meter.dart",
                 "description": ""
               },
               {
@@ -3179,7 +3179,7 @@
                 "type": "sample",
                 "title": "Divisors, labels, and ticks",
                 "key": "vertical_range_slider_divisor_label_tick",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_divisor_label_ticks.dart",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_divisor_label_tick.dart",
                 "description": ""
               },
               {
@@ -3222,7 +3222,7 @@
                 "type": "sample",
                 "title": "Thumb icon customization",
                 "key": "vertical_range_slider_thumb_icon_customization",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/vertica_range_slider/customization/thumb_customization/vertical_range_slider_thumb_icon_customization.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/vertical_range_slider/customization/thumb_customization/vertical_range_slider_thumb_icon_customization.dart"
               },
               {
                 "type": "sample",
@@ -3320,7 +3320,7 @@
                 "type": "sample",
                 "title": "Angles",
                 "key": "radial_slider_angles",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/radial_slider/basic_features.dart",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/radial_slider/basic_features/angles.dart",
                 "description": ""
               }
             ]

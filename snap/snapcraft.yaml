@@ -1,0 +1,29 @@
+name: syncfusion-flutter-gallery
+version: 19.1.54
+summary: Syncfusion Flutter Demos
+description: Essential UI Widgets for Flutter is a set of ever-growing UI widgets package for developing rich and high-quality applications in iOS, Android, Web, Windows, macOS and Linux from a single code base, using Flutter framework.
+
+confinement: strict
+base: core18
+grade: stable
+
+slots:
+  dbus-syncfusion-flutter-gallery:
+    interface: dbus
+    bus: session
+    name: com.syncfusion.flutter.examples 
+
+apps:
+  syncfusion-flutter-gallery:
+    command: syncfusion-flutter-gallery
+    extensions: [flutter-dev]
+    plugs:
+    - network
+    - desktop
+    slots:
+      - dbus-syncfusion-flutter-gallery
+parts:
+  syncfusion-flutter-gallery:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart

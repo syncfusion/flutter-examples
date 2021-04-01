@@ -48,7 +48,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   FlutterWindow window(&run_loop, project);
   Win32Window::Point origin(10, 10);
   Win32Window::Size size(1280, 720);
-  if (!window.CreateAndShow(L"flutter_examples", origin, size)) {
+  if (!window.CreateAndShow(L"Demos & Examples of Syncfusion Flutter Widgets", origin, size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);
