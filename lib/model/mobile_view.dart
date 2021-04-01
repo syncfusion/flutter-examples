@@ -1,5 +1,6 @@
 /// Package imports
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Local imports
@@ -35,6 +36,7 @@ class _LayoutPageState extends State<LayoutPage> {
   void initState() {
     _model = widget.sampleModel!;
     _category = widget.category!;
+    isInitState = true;
     super.initState();
   }
 
@@ -44,6 +46,11 @@ class _LayoutPageState extends State<LayoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (isInitState) {
+      SchedulerBinding.instance?.addPostFrameCallback((_) {
+        isInitState = false;
+      });
+    }
     _showIcon = _category
                 .controlList![_category.selectedIndex!].subItems[0].type ==
             'sample' ||
@@ -179,7 +186,8 @@ class _LayoutPageState extends State<LayoutPage> {
                                       .controlList![_category.selectedIndex!]
                                       .childList[_primaryTabIndex]
                                       .displayType !=
-                                  'card'))
+                                  'card') ||
+                          isInitState)
                       ? <Widget>[
                           StatefulBuilder(builder: (BuildContext buildContext,
                               StateSetter setState) {
