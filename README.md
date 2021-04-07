@@ -34,6 +34,7 @@ The <b>lib/samples</b> directory contains the Flutter widget examples for each w
 | Charts | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart) |
 | DataGrid | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/datagrid) |
 | Date Range Picker | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker) | 
+| Linear Gauge | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/linear_gauge) | 
 | Maps | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps) |
 | PDF | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/pdf) |
 | PDF Viewer | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/pdf_viewer) | 
@@ -44,6 +45,7 @@ The <b>lib/samples</b> directory contains the Flutter widget examples for each w
 | Slider | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/slider) |
 | Spark Charts | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sparkline) |
 | Signature Pad | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/signature_pad) | 
+| Tree Map | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/treemap) | 
 | XlsIO | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/xlsio) |
 
 ## <a name="license"></a>License ##
