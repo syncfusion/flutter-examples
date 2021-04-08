@@ -1033,8 +1033,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
-                                              Flexible(
-                                                  child: SizedBox(
+                                              Container(
                                                 height: 21,
                                                 width: 21,
                                                 child: InkWell(
@@ -1048,50 +1047,44 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                             ? 'images/git_hub_dark.png'
                                                             : 'images/git_hub.png',
                                                         fit: BoxFit.contain)),
-                                              )),
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: width < 500
-                                                          ? 5
-                                                          : 10)),
-                                              Flexible(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    performMaximize(
-                                                        _model, _sample);
-                                                  },
-                                                  child: Transform.scale(
-                                                    scale: 0.85,
-                                                    child: Icon(
-                                                        Icons.open_in_full,
-                                                        color: _model
-                                                            .webIconColor),
-                                                  ),
-                                                ),
                                               ),
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: width < 500
-                                                          ? 5
-                                                          : 10)),
-                                              Flexible(
-                                                child:
-                                                    _sample.needsPropertyPanel ==
-                                                            true
-                                                        ? InkWell(
-                                                            onTap: () {
-                                                              outputScaffoldKey
-                                                                  .currentState!
-                                                                  .openEndDrawer();
-                                                            },
-                                                            child: Icon(
-                                                                Icons.menu,
-                                                                color: _model
-                                                                    .webIconColor),
-                                                          )
-                                                        : SizedBox.fromSize(
-                                                            size: Size.zero),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 12),
                                               ),
+                                              InkWell(
+                                                onTap: () {
+                                                  performMaximize(
+                                                      _model, _sample);
+                                                },
+                                                child: Container(
+                                                    child: Transform.scale(
+                                                        scale: 0.85,
+                                                        child: Icon(
+                                                            Icons.open_in_full,
+                                                            color: _model
+                                                                .webIconColor))),
+                                              ),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 12),
+                                              ),
+                                              _sample.needsPropertyPanel == true
+                                                  ? Container(
+                                                      height: 24,
+                                                      width: 24,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          outputScaffoldKey
+                                                              .currentState!
+                                                              .openEndDrawer();
+                                                        },
+                                                        child: Icon(Icons.menu,
+                                                            color: _model
+                                                                .webIconColor),
+                                                      ),
+                                                    )
+                                                  : Container(),
                                             ]),
                                       ),
                                       Expanded(

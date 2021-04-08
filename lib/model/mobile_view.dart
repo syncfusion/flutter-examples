@@ -196,13 +196,12 @@ class _LayoutPageState extends State<LayoutPage> {
                                 visible: _showIcon && currentSample != null,
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                      const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                   child: Container(
-                                    height: 37,
-                                    width: 37,
+                                    height: 40,
+                                    width: 40,
                                     child: IconButton(
-                                      icon: Image.asset(
-                                          'images/git_hub_mobile.png',
+                                      icon: Image.asset('images/code.png',
                                           color: Colors.white),
                                       onPressed: () {
                                         launch(currentSample!.codeLink!);
