@@ -95,13 +95,13 @@ class _FullViewSampleLayout extends StatelessWidget {
                                             sample!.codeLink != '')
                                         ? Padding(
                                             padding: const EdgeInsets.fromLTRB(
-                                                0, 0, 8, 0),
+                                                0, 0, 10, 0),
                                             child: Container(
-                                              height: 37,
-                                              width: 37,
+                                              height: 40,
+                                              width: 40,
                                               child: IconButton(
                                                 icon: Image.asset(
-                                                    'images/git_hub_mobile.png',
+                                                    'images/code.png',
                                                     color: Colors.white),
                                                 onPressed: () {
                                                   launch(sample!.codeLink!);
@@ -132,13 +132,13 @@ class _FullViewSampleLayout extends StatelessWidget {
                                     ? (<Widget>[
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
-                                              0, 0, 8, 0),
+                                              0, 0, 10, 0),
                                           child: Container(
-                                            height: 37,
-                                            width: 37,
+                                            height: 40,
+                                            width: 40,
                                             child: IconButton(
                                               icon: Image.asset(
-                                                  'images/git_hub_mobile.png',
+                                                  'images/code.png',
                                                   color: Colors.white),
                                               onPressed: () {
                                                 launch(sample!.codeLink!);

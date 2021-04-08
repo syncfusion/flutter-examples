@@ -326,7 +326,7 @@ class SampleModel extends Listenable {
   Color webBackgroundColor = const Color.fromRGBO(246, 246, 246, 1);
 
   /// Holds theme based color of icon
-  Color webIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
+  Color webIconColor = const Color.fromRGBO(55, 55, 55, 1);
 
   /// Holds theme based input container color
   Color webInputColor = const Color.fromRGBO(242, 242, 242, 1);
@@ -436,7 +436,7 @@ class SampleModel extends Listenable {
         {
           dividerColor = const Color.fromRGBO(61, 61, 61, 1);
           cardColor = const Color.fromRGBO(48, 48, 48, 1);
-          webIconColor = const Color.fromRGBO(255, 255, 255, 0.65);
+          webIconColor = const Color.fromRGBO(230, 230, 230, 1);
           webOutputContainerColor = const Color.fromRGBO(23, 23, 23, 1);
           webInputColor = const Color.fromRGBO(44, 44, 44, 1);
           webBackgroundColor = const Color.fromRGBO(33, 33, 33, 1);
@@ -450,7 +450,7 @@ class SampleModel extends Listenable {
         {
           dividerColor = const Color.fromRGBO(204, 204, 204, 1);
           cardColor = Colors.white;
-          webIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
+          webIconColor = const Color.fromRGBO(55, 55, 55, 1);
           webOutputContainerColor = Colors.white;
           webInputColor = const Color.fromRGBO(242, 242, 242, 1);
           webBackgroundColor = const Color.fromRGBO(246, 246, 246, 1);

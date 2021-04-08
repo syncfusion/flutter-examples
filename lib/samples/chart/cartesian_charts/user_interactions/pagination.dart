@@ -21,36 +21,10 @@ class _PaginationState extends SampleViewState {
   double? diff;
   int segmentedControlGroupValue = 0;
   int degree = 25;
-  String day = 'Friday, 01:00 am';
+  String day = 'Friday, 04:00 am';
   String _imageName = 'images/sunny_image.png';
   double _visibleMin = 0;
   double _visibleMax = 5;
-  final List<String> _daysWithTime = const <String>[
-    'Friday, 01:00 am',
-    'Saturday, 01:00 am',
-    'Sunday, 01:00 am',
-    'Monday, 01:00 am',
-    'Tuesday, 01:00 am'
-  ];
-  final List<String> _temperatue = const <String>[
-    '25°19°',
-    '25°20°',
-    '24°18°',
-    '19°14°',
-    '18°14°'
-  ];
-  final List<String> _images = const <String>[
-    'sunny_image.png',
-    'sunny_image.png',
-    'cloudy.png',
-    'cloudy.png',
-    'rainy.png'
-  ];
-  final List<String> _days = const <String>['Fri', 'Sat', 'Sun', 'Mon', 'Tue'];
-  final List<double> _minValues = const <double>[0, 6, 12, 18, 24];
-  final List<double> _maxValues = const <double>[5, 11, 17, 23, 29];
-  final List<int> _degrees = const <int>[25, 25, 24, 19, 18];
-
   List<ChartSampleData> chartData = <ChartSampleData>[
     ChartSampleData(xValue: '0', x: '1 am', y: 20),
     ChartSampleData(xValue: '1', x: '4 am', y: 20),
@@ -95,7 +69,11 @@ class _PaginationState extends SampleViewState {
         : double.infinity;
     height = MediaQuery.of(context).size.height;
     _calculateHeight();
-    _containerHeight = 30;
+    _containerHeight = orientation == Orientation.landscape
+        ? model.isWebFullView
+            ? 30
+            : height * 0.075
+        : 30;
     return Center(
         child: Column(children: [
       Container(
@@ -145,16 +123,38 @@ class _PaginationState extends SampleViewState {
               width: _segmentedControlWidth,
               child: _buildCartesianChart())),
       Visibility(
-          visible: height < 350 ? false : true,
+          visible: //model.isWebFullView
+              //?
+              height < 350 ? false : true,
+          // : true,
           child: Container(
-              padding: model.isWebFullView
-                  ? EdgeInsets.fromLTRB(0, 16, 0, 16)
-                  : EdgeInsets.fromLTRB(0, 8, 0, 8),
+              padding:
+                  orientation == Orientation.landscape && !model.isWebFullView
+                      ? EdgeInsets.all(0)
+                      : model.isWebFullView
+                          ? EdgeInsets.fromLTRB(0, 16, 0, 16)
+                          : EdgeInsets.fromLTRB(0, 8, 0, 8),
+              // alignment: Alignment.center,
               width: _segmentedControlWidth,
               child: CupertinoSlidingSegmentedControl(
                   groupValue: segmentedControlGroupValue,
                   children: _getButtons(orientation),
-                  onValueChanged: (int? i) => _loadGroupValue(i!))))
+                  onValueChanged: (int? i) {
+                    setState(() {
+                      if (i == 0) {
+                        _loadZerothGroupValue();
+                      } else if (i == 1) {
+                        _loadFirstGroupValue();
+                      } else if (i == 2) {
+                        _loadSecondGroupValue();
+                      } else if (i == 3) {
+                        _loadThirdGroupValue();
+                      } else if (i == 4) {
+                        _loadFourthGroupValue();
+                      }
+                    });
+                  })))
+      //)
     ]));
   }
 
@@ -187,34 +187,85 @@ class _PaginationState extends SampleViewState {
     _containerWidth = _segmentedControlWidth == double.infinity
         ? width / 5
         : _segmentedControlWidth / 5;
+    final double fontSize = _orientation == Orientation.landscape
+        ? model.isWebFullView
+            ? 12
+            : 10
+        : 12;
     final Color color = model.currentThemeData?.brightness == Brightness.light
         ? const Color.fromRGBO(104, 104, 104, 1)
         : const Color.fromRGBO(242, 242, 242, 1);
     final ButtonStyle style = ButtonStyle(
       backgroundColor: MaterialStateProperty.resolveWith(getColor),
     );
-    final Map<int, Widget> buttons = <int, Widget>{};
-    for (int i = 0; i <= 4; i++) {
-      buttons.putIfAbsent(
-        i,
-        () => Container(
-            width: _containerWidth,
-            child: TextButton(
-                onPressed: () => _loadGroupValue(i),
-                style: style,
-                child: Column(
-                  children: <Widget>[
-                    Text(_days[i],
-                        style: TextStyle(fontSize: 12, color: color)),
-                    _getContainer('images/' + _images[i]),
-                    Text(_temperatue[i],
-                        style: TextStyle(fontSize: 12, color: color)),
-                  ],
-                ))),
-      );
-    }
-
+    final Map<int, Widget> buttons = <int, Widget>{
+      0: Container(
+          width: _containerWidth,
+          child: TextButton(
+              onPressed: () => setState(() => _loadZerothGroupValue()),
+              style: style,
+              child: Column(
+                children: <Widget>[
+                  _getText('Fri', fontSize, color),
+                  _getContainer('images/sunny_image.png'),
+                  _getText('25°19°', fontSize, color),
+                ],
+              ))),
+      1: Container(
+          width: _containerWidth,
+          child: TextButton(
+              onPressed: () => setState(() => _loadFirstGroupValue()),
+              style: style,
+              child: Column(
+                children: <Widget>[
+                  _getText('Sat', fontSize, color),
+                  _getContainer('images/sunny_image.png'),
+                  _getText('25°20°', fontSize, color),
+                ],
+              ))),
+      2: Container(
+          width: _containerWidth,
+          child: TextButton(
+              onPressed: () => setState(() => _loadSecondGroupValue()),
+              style: style,
+              child: Column(
+                children: <Widget>[
+                  _getText('Sun', fontSize, color),
+                  _getContainer('images/cloudy.png'),
+                  _getText('24°18°', fontSize, color),
+                ],
+              ))),
+      3: Container(
+          width: _containerWidth,
+          child: TextButton(
+              onPressed: () => setState(() => _loadThirdGroupValue()),
+              style: style,
+              child: Column(
+                children: <Widget>[
+                  _getText('Mon', fontSize, color),
+                  _getContainer('images/cloudy.png'),
+                  _getText('19°14°', fontSize, color),
+                ],
+              ))),
+      4: Container(
+          width: _containerWidth,
+          child: TextButton(
+              onPressed: () => setState(() => _loadFourthGroupValue()),
+              style: style,
+              child: Column(
+                children: <Widget>[
+                  _getText('Tue', fontSize, color),
+                  _getContainer('images/rainy.png'),
+                  _getText('18°14°', fontSize, color),
+                ],
+              ))),
+    };
     return buttons;
+  }
+
+  /// Returns the text widget
+  Text _getText(String text, double fontSize, Color color) {
+    return Text(text, style: TextStyle(fontSize: fontSize, color: color));
   }
 
   /// Return the image container
@@ -246,34 +297,79 @@ class _PaginationState extends SampleViewState {
 
   /// Calls while performing the swipe operation
   void performSwipe(ChartSwipeDirection direction) {
-    int? index;
-    if (_visibleMin == 0 && _visibleMax == 5) {
-      index = direction == ChartSwipeDirection.end ? 1 : null;
-    } else if (_visibleMin == 6 && _visibleMax == 11) {
-      index = direction == ChartSwipeDirection.end ? 2 : 0;
-    } else if (_visibleMin == 12 && _visibleMax == 17) {
-      index = direction == ChartSwipeDirection.end ? 3 : 1;
-    } else if (_visibleMin == 18 && _visibleMax == 23) {
-      index = direction == ChartSwipeDirection.end ? 4 : 2;
-    } else if (_visibleMin == 24 && _visibleMax == 29) {
-      index = direction == ChartSwipeDirection.end ? null : 3;
-    }
-
-    if (index != null) {
-      _loadGroupValue(index);
-    }
+    setState(() {
+      if (direction == ChartSwipeDirection.end) {
+        if (_visibleMin == 0 && _visibleMax == 5) {
+          _loadFirstGroupValue();
+        } else if (_visibleMin == 6 && _visibleMax == 11) {
+          _loadSecondGroupValue();
+        } else if (_visibleMin == 12 && _visibleMax == 17) {
+          _loadThirdGroupValue();
+        } else if (_visibleMin == 18 && _visibleMax == 23) {
+          _loadFourthGroupValue();
+        }
+      } else {
+        if (_visibleMin == 24 && _visibleMax == 29) {
+          _loadThirdGroupValue();
+        } else if (_visibleMin == 18 && _visibleMax == 23) {
+          _loadSecondGroupValue();
+        } else if (_visibleMin == 12 && _visibleMax == 17) {
+          _loadFirstGroupValue();
+        } else if (_visibleMin == 6 && _visibleMax == 11) {
+          _loadZerothGroupValue();
+        }
+      }
+    });
   }
 
-  /// load the values based on the provided index
-  void _loadGroupValue(int index) {
-    setState(() {
-      _visibleMin = _minValues[index];
-      _visibleMax = _maxValues[index];
-      segmentedControlGroupValue = index;
-      degree = _degrees[index];
-      day = _daysWithTime[index];
-      _imageName = 'images/' + _images[index];
-    });
+  /// load the value when the zeroth segmented group value is selected
+  void _loadZerothGroupValue() {
+    _visibleMin = 0;
+    _visibleMax = 5;
+    segmentedControlGroupValue = 0;
+    degree = 25;
+    day = 'Friday, 04:00 am';
+    _imageName = 'images/sunny_image.png';
+  }
+
+  /// load the value when the first segmented group value is selected
+  void _loadFirstGroupValue() {
+    _visibleMin = 6;
+    _visibleMax = 11;
+    segmentedControlGroupValue = 1;
+    degree = 25;
+    day = 'Saturday, 01:00 am';
+    _imageName = 'images/sunny_image.png';
+  }
+
+  /// load the value when the second segmented group value is selected
+  void _loadSecondGroupValue() {
+    _visibleMin = 12;
+    _visibleMax = 17;
+    segmentedControlGroupValue = 2;
+    degree = 24;
+    day = 'Sunday, 01:00 am';
+    _imageName = 'images/cloudy.png';
+  }
+
+  /// load the value when the third segmented group value is selected
+  void _loadThirdGroupValue() {
+    _visibleMin = 18;
+    _visibleMax = 23;
+    segmentedControlGroupValue = 3;
+    degree = 19;
+    day = 'Monday, 01:00 am';
+    _imageName = 'images/cloudy.png';
+  }
+
+  /// load the value when the fourth segmented group value is selected
+  void _loadFourthGroupValue() {
+    _visibleMin = 24;
+    _visibleMax = 29;
+    segmentedControlGroupValue = 4;
+    degree = 18;
+    day = 'Tuesday, 01:00 am';
+    _imageName = 'images/rainy.png';
   }
 
   /// Returns the cartesian chart
