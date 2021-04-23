@@ -47,7 +47,7 @@ class _FormFillingPdfState extends SampleViewState {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2000),
+        firstDate: DateTime(1000),
         lastDate: DateTime(2100));
     if (picked != null && picked != selectedDate) {
       setState(() {
