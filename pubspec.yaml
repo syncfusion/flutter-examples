@@ -17,84 +17,19 @@ dependencies:
   desktop_window: 0.4.0
 
 
-  syncfusion_flutter_datagrid:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-datagrid
-      path: flutter_datagrid/syncfusion_flutter_datagrid
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_calendar:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-calendar
-      path: flutter_calendar/syncfusion_flutter_calendar
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_datepicker:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-datepicker
-      path: flutter_datepicker/syncfusion_flutter_datepicker
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_charts:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-charts
-      path: flutter_charts/syncfusion_flutter_charts
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_gauges:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-gauges
-      path: flutter_gauges/syncfusion_flutter_gauges
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_sliders:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-sliders
-      path: flutter_sliders/syncfusion_flutter_sliders
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_pdf:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-pdf
-      path: flutter_pdf/syncfusion_flutter_pdf
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_barcodes:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-barcodes
-      path: flutter_barcodes/syncfusion_flutter_barcodes
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_officechart:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-officechart
-      path: flutter_officechart/syncfusion_flutter_officechart
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_maps:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-maps
-      path: flutter_maps/syncfusion_flutter_maps
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_signaturepad:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-signaturepad
-      path: flutter_signaturepad/syncfusion_flutter_signaturepad
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_pdfviewer:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-pdfviewer
-      path: flutter_pdfviewer/syncfusion_flutter_pdfviewer
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
-  syncfusion_flutter_treemap:
-    git:
-      url: https://buildautomation:Coolcomp299@gitlab.syncfusion.com/essential-studio/flutter-treemap
-      path: flutter_treemap/syncfusion_flutter_treemap
-      branch: release/19.1.0.1
-      ref: release/19.1.0.1
+  syncfusion_flutter_datagrid: ^19.1.67-beta 
+  syncfusion_flutter_calendar: ^19.1.67
+  syncfusion_flutter_datepicker: ^19.1.67-beta 
+  syncfusion_flutter_charts: ^19.1.67
+  syncfusion_flutter_gauges: ^19.1.67 
+  syncfusion_flutter_sliders: ^19.1.67-beta
+  syncfusion_flutter_pdf: ^19.1.67-beta
+  syncfusion_flutter_barcodes: ^19.1.67
+  syncfusion_officechart: ^19.1.67-beta
+  syncfusion_flutter_maps: ^19.1.67-beta
+  syncfusion_flutter_signaturepad: ^19.1.67-beta
+  syncfusion_flutter_pdfviewer: ^19.1.67-beta
+  syncfusion_flutter_treemap: ^19.1.67-beta
 
 flutter:
   uses-material-design: true
