@@ -29,7 +29,7 @@ class _ArcsSampleState extends SampleViewState
   late MapZoomPanBehavior _zoomPanBehavior;
   late MapTileLayerController _mapController;
   late AnimationController _animationController;
-  late Animation _animation;
+  late Animation<double> _animation;
   int _currentSelectedCityIndex = 0;
   bool _isDesktop = false;
   bool _enableDashArray = false;
