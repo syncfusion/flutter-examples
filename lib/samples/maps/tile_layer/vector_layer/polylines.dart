@@ -30,7 +30,7 @@ class _PolylinesSampleState extends SampleViewState
   late MapZoomPanBehavior _zoomPanBehavior;
   MapTileLayerController? _mapController;
   AnimationController? _animationController;
-  late Animation _animation;
+  late Animation<double> _animation;
   late bool _isDesktop;
   late List<_RouteDetails> _routes;
   int _currentSelectedCityIndex = 0;
