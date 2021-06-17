@@ -54,12 +54,12 @@ class _AxisCrossingBaseValueState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
-                underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedAxis,
                 items: _axis.map((String value) {
                   return DropdownMenuItem<String>(
                       value: (value != null) ? value : '-2 (modified)',
-                      child: Text('$value',
+                      child: Text(value,
                           style: TextStyle(color: model.textColor)));
                 }).toList(),
                 onChanged: (dynamic value) {
@@ -79,15 +79,15 @@ class _AxisCrossingBaseValueState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Population growth rate of countries'),
       primaryXAxis: CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           labelIntersectAction: AxisLabelIntersectAction.wrap,
           crossesAt: _crossAt,
           placeLabelsNearAxisLine: false),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           minimum: -2,
           maximum: 2,
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -100,26 +100,38 @@ class _AxisCrossingBaseValueState extends SampleViewState {
     List<ChartSeries<ChartSampleData, String>> chart;
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'Iceland', y: 1.13, pointColor: Color.fromRGBO(107, 189, 98, 1)),
+          x: 'Iceland',
+          y: 1.13,
+          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
       ChartSampleData(
-          x: 'Algeria', y: 1.7, pointColor: Color.fromRGBO(107, 189, 98, 1)),
+          x: 'Algeria',
+          y: 1.7,
+          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
       ChartSampleData(
-          x: 'Singapore', y: 1.82, pointColor: Color.fromRGBO(107, 189, 98, 1)),
+          x: 'Singapore',
+          y: 1.82,
+          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
       ChartSampleData(
-          x: 'Malaysia', y: 1.37, pointColor: Color.fromRGBO(107, 189, 98, 1)),
+          x: 'Malaysia',
+          y: 1.37,
+          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
       ChartSampleData(
-          x: 'Moldova', y: -1.05, pointColor: Color.fromRGBO(199, 86, 86, 1)),
+          x: 'Moldova',
+          y: -1.05,
+          pointColor: const Color.fromRGBO(199, 86, 86, 1)),
       ChartSampleData(
           x: 'American Samoa',
           y: -1.3,
-          pointColor: Color.fromRGBO(199, 86, 86, 1)),
+          pointColor: const Color.fromRGBO(199, 86, 86, 1)),
       ChartSampleData(
-          x: 'Latvia', y: -1.1, pointColor: Color.fromRGBO(199, 86, 86, 1))
+          x: 'Latvia',
+          y: -1.1,
+          pointColor: const Color.fromRGBO(199, 86, 86, 1))
     ];
     chart = <ChartSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
           dataLabelSettings: DataLabelSettings(

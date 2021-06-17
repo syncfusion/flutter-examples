@@ -142,7 +142,7 @@ class _FunnelDefaultState extends SampleViewState {
     ];
     return FunnelSeries<ChartSampleData, String>(
         dataSource: pieData,
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         explode: isCardView ? false : explode,
         gapRatio: isCardView ? 0 : gapRatio,

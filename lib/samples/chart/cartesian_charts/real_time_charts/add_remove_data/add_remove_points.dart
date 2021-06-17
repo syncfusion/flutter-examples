@@ -68,15 +68,15 @@ class _LiveVerticalState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final double bottomPadding = 40;
+    const double bottomPadding = 40;
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: Padding(
-          padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
+          padding: const EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
           child: Container(child: _buildAddRemovePointsChart()),
         ),
         floatingActionButton: Stack(
-          children: [
+          children: <Widget>[
             Align(
                 alignment: Alignment.bottomRight,
                 child: Padding(
@@ -144,11 +144,11 @@ class _LiveVerticalState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getAddRemovePointSeries(),
     );
   }
@@ -163,7 +163,7 @@ class _LiveVerticalState extends SampleViewState {
           },
           animationDuration: 0,
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           width: 2),
     ];

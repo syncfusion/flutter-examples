@@ -26,7 +26,6 @@ class _ShapeCustomizedRangeSliderPageState extends SampleViewState {
   _ShapeCustomizedRangeSliderPageState();
 
   late Widget rangeSlider;
-  late bool _isDesktop;
 
   @override
   void initState() {
@@ -36,21 +35,18 @@ class _ShapeCustomizedRangeSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    _isDesktop = kIsWeb ||
-        themeData.platform == TargetPlatform.macOS ||
-        themeData.platform == TargetPlatform.windows ||
-        themeData.platform == TargetPlatform.linux;
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            _isDesktop
-        ? rangeSlider
-        : SingleChildScrollView(
-            child: Container(
-                height: 500,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                  child: Container(child: rangeSlider),
-                )));
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 400
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(
+                  height: 500,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                    child: rangeSlider,
+                  )));
+    });
   }
 }
 

@@ -39,9 +39,12 @@ class _AnimationBarDefaultState extends SampleViewState {
   SfCartesianChart _buildAnimationBarChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
-        primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryXAxis:
+            CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
-            majorGridLines: MajorGridLines(width: 0), minimum: 0, maximum: 100),
+            majorGridLines: const MajorGridLines(width: 0),
+            minimum: 0,
+            maximum: 100),
         series: _getDefaultBarSeries());
   }
 

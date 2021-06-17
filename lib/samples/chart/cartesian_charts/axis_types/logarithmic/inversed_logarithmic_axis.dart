@@ -64,8 +64,8 @@ class _LogarithmicAxisInversedState extends SampleViewState {
       ),
       primaryYAxis: LogarithmicAxis(
         minorTicksPerInterval: 5,
-        majorGridLines: MajorGridLines(width: 1.5),
-        minorTickLines: MinorTickLines(size: 4),
+        majorGridLines: const MajorGridLines(width: 1.5),
+        minorTickLines: const MinorTickLines(size: 4),
         isInversed: true,
         interval: 1,
       ),
@@ -91,9 +91,9 @@ class _LogarithmicAxisInversedState extends SampleViewState {
     return <ChartSeries<ChartSampleData, String>>[
       StepLineSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          markerSettings: MarkerSettings(
+          markerSettings: const MarkerSettings(
               isVisible: true,
               width: 5,
               height: 5,

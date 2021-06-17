@@ -28,10 +28,6 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
   final double _annotationFontSize = 25;
   String _annotationValue1 = '0';
   String _annotationValue2 = '30%';
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +44,8 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
               radiusFactor: 0.8,
               axisLineStyle: AxisLineStyle(
                   color: model.themeData.brightness == Brightness.light
-                      ? Color.fromRGBO(191, 214, 245, 1)
-                      : Color.fromRGBO(36, 58, 89, 1),
+                      ? const Color.fromRGBO(191, 214, 245, 1)
+                      : const Color.fromRGBO(36, 58, 89, 1),
                   thickness: 0.05,
                   thicknessUnit: GaugeSizeUnit.factor),
               showLabels: false,
@@ -177,10 +173,5 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
         (args.value - _firstMarkerValue).abs() > 10) {
       args.cancel = true;
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

@@ -39,7 +39,7 @@ class _LiveVerticalState extends SampleViewState {
     LineSeries<ChartSampleData, int>(
       dataSource: chartData,
       width: 2,
-      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      xValueMapper: (ChartSampleData sales, _) => sales.x as int,
       yValueMapper: (ChartSampleData sales, _) => sales.y,
     ),
     LineSeries<ChartSampleData, int>(
@@ -52,18 +52,18 @@ class _LiveVerticalState extends SampleViewState {
         ChartSampleData(x: 5, y: 48)
       ],
       width: 2,
-      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      xValueMapper: (ChartSampleData sales, _) => sales.x as int,
       yValueMapper: (ChartSampleData sales, _) => sales.y,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final double bottomPadding = 45;
+    const double bottomPadding = 45;
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: Padding(
-          padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
+          padding: const EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
           child: Container(child: getAddRemoveSeriesChart()),
         ),
         floatingActionButton: Stack(children: <Widget>[
@@ -128,7 +128,7 @@ class _LiveVerticalState extends SampleViewState {
           ChartSampleData(x: 5, y: 19)
         ],
         width: 2,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as int,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
       LineSeries<ChartSampleData, int>(
@@ -141,18 +141,18 @@ class _LiveVerticalState extends SampleViewState {
           ChartSampleData(x: 5, y: 48)
         ],
         width: 2,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as int,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       )
     ];
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: series,
     );
   }
@@ -177,9 +177,9 @@ class _LiveVerticalState extends SampleViewState {
       chartData1.add(ChartSampleData(x: i, y: _getRandomInt(10, 50)));
     }
     series.add(LineSeries<ChartSampleData, int>(
-      key: ValueKey('${series.length}'),
+      key: ValueKey<String>('${series.length}'),
       dataSource: chartData1,
-      xValueMapper: (ChartSampleData sales, _) => sales.x,
+      xValueMapper: (ChartSampleData sales, _) => sales.x as int,
       yValueMapper: (ChartSampleData sales, _) => sales.y,
     ));
     count++;

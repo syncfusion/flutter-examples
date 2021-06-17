@@ -45,7 +45,7 @@ class _RadialTextPointerState extends SampleViewState {
                   needleEndWidth: 5,
                   needleLength: 0.7,
                   value: 82,
-                  knobStyle: KnobStyle(knobRadius: 0)),
+                  knobStyle: const KnobStyle(knobRadius: 0)),
             ],
             ranges: <GaugeRange>[
               GaugeRange(

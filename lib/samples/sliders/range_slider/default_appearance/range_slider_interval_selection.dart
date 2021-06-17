@@ -34,12 +34,14 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? rangeSlider
-        : SingleChildScrollView(
-            child: Container(height: 325, child: rangeSlider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 325
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 325, child: rangeSlider),
+            );
+    });
   }
 }
 

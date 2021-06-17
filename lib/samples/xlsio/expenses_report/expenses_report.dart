@@ -44,8 +44,9 @@ class _ExpensesReportXlsIOState extends SampleViewState {
                           model.backgroundColor),
                       padding: model.isMobile
                           ? null
-                          : MaterialStateProperty.all(EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15)),
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
                     ),
                     onPressed: _generateExcel,
                     child: const Text('Generate Excel',
@@ -68,12 +69,12 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     sheet1.showGridlines = false;
 
     sheet1.enableSheetCalculations();
-    sheet1.getRangeByIndex(1, 1).columnWidth = 19.86;
-    sheet1.getRangeByIndex(1, 2).columnWidth = 14.38;
-    sheet1.getRangeByIndex(1, 3).columnWidth = 12.98;
-    sheet1.getRangeByIndex(1, 4).columnWidth = 12.08;
-    sheet1.getRangeByIndex(1, 5).columnWidth = 8.82;
-    sheet1.getRangeByName('A1:A18').rowHeight = 20.2;
+    sheet1.getRangeByIndex(1, 1).columnWidth = 19.13;
+    sheet1.getRangeByIndex(1, 2).columnWidth = 13.65;
+    sheet1.getRangeByIndex(1, 3).columnWidth = 12.25;
+    sheet1.getRangeByIndex(1, 4).columnWidth = 11.35;
+    sheet1.getRangeByIndex(1, 5).columnWidth = 8.09;
+    sheet1.getRangeByName('A1:A18').rowHeight = 19.47;
 
     //Adding cell style.
     final Style style1 = workbook.styles.add('Style1');
@@ -85,7 +86,7 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     final Style style2 = workbook.styles.add('Style2');
     style2.backColor = '#8EA9DB';
     style2.vAlign = VAlignType.center;
-    style2.numberFormat = '[Red](\$#,###)';
+    style2.numberFormat = r'[Red](\$#,###)';
     style2.bold = true;
 
     sheet1.getRangeByName('A10').cellStyle = style1;
@@ -104,7 +105,7 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     sheet1.getRangeByName('A18:C18').cellStyle.backColor = '#8EA9DB';
     sheet1.getRangeByName('A18:C18').cellStyle.vAlign = VAlignType.center;
     sheet1.getRangeByName('A18:C18').cellStyle.bold = true;
-    sheet1.getRangeByName('A18:C18').numberFormat = '\$#,###';
+    sheet1.getRangeByName('A18:C18').numberFormat = r'\$#,###';
 
     sheet1.getRangeByIndex(10, 1).text = 'Category';
     sheet1.getRangeByIndex(10, 2).text = 'Expected cost';
@@ -119,10 +120,10 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     sheet1.getRangeByIndex(17, 1).text = 'Marketing';
     sheet1.getRangeByIndex(18, 1).text = 'Total';
 
-    sheet1.getRangeByName('B11:D17').numberFormat = '\$#,###';
-    sheet1.getRangeByName('D11').numberFormat = '[Red](\$#,###)';
-    sheet1.getRangeByName('D12').numberFormat = '[Red](\$#,###)';
-    sheet1.getRangeByName('D14').numberFormat = '[Red](\$#,###)';
+    sheet1.getRangeByName('B11:D17').numberFormat = r'\$#,###';
+    sheet1.getRangeByName('D11').numberFormat = r'[Red](\$#,###)';
+    sheet1.getRangeByName('D12').numberFormat = r'[Red](\$#,###)';
+    sheet1.getRangeByName('D14').numberFormat = r'[Red](\$#,###)';
 
     sheet1.getRangeByName('B11').number = 16250;
     sheet1.getRangeByName('B12').number = 1600;
@@ -165,10 +166,10 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     chart.rightColumn = 5;
     sheet1.charts = charts;
 
-    final List<int>? bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.
-    await FileSaveHelper.saveAndLaunchFile(bytes!, 'ExpensesReport.xlsx');
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'ExpensesReport.xlsx');
   }
 }

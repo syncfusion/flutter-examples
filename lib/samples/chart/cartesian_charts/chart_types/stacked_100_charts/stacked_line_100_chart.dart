@@ -32,13 +32,13 @@ class _StackedLineChartState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Monthly expense of a family'),
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         labelRotation: isCardView ? 0 : -45,
       ),
       primaryYAxis: NumericAxis(
           rangePadding: ChartRangePadding.none,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getStackedLine100Series(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -61,25 +61,25 @@ class _StackedLineChartState extends SampleViewState {
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.father,
           name: 'Father',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       StackedLine100Series<_ChartData, String>(
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.mother,
           name: 'Mother',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       StackedLine100Series<_ChartData, String>(
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.son,
           name: 'Son',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       StackedLine100Series<_ChartData, String>(
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.daughter,
           name: 'Daughter',
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 }

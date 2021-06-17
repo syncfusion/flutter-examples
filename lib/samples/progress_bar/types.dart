@@ -85,27 +85,27 @@ class _ProgressBarTypesState extends SampleViewState {
       _size = size.width / 4.5;
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 _getDeterminateProgressBar(),
-                Center(child: Text('Determinate')),
+                const Center(child: Text('Determinate')),
               ]),
           Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 _getBufferProgressBar(),
-                Center(child: Text('Buffer')),
+                const Center(child: Text('Buffer')),
               ]),
           Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 _getSegmentProgressBar(),
-                Center(child: Text('Segment'))
+                const Center(child: Text('Segment'))
               ]),
         ],
       );
@@ -114,13 +114,13 @@ class _ProgressBarTypesState extends SampleViewState {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           _getDeterminateProgressBar(),
-          Center(child: Text('Determinate')),
+          const Center(child: Text('Determinate')),
           _getBufferProgressBar(),
-          Center(child: Text('Buffer')),
+          const Center(child: Text('Buffer')),
           _getSegmentProgressBar(),
-          Center(child: Text('Segment'))
+          const Center(child: Text('Segment'))
         ],
       );
     }
@@ -145,9 +145,9 @@ class _ProgressBarTypesState extends SampleViewState {
           showLabels: false,
           showTicks: false,
           radiusFactor: model.isWebFullView ? 0.7 : 0.75,
-          axisLineStyle: AxisLineStyle(
+          axisLineStyle: const AxisLineStyle(
             thickness: 0.05,
-            color: const Color.fromARGB(30, 0, 169, 181),
+            color: Color.fromARGB(30, 0, 169, 181),
             thicknessUnit: GaugeSizeUnit.factor,
           ),
           pointers: <GaugePointer>[
@@ -178,9 +178,9 @@ class _ProgressBarTypesState extends SampleViewState {
           endAngle: 270,
           canScaleToFit: true,
           radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-          axisLineStyle: AxisLineStyle(
+          axisLineStyle: const AxisLineStyle(
             thickness: 0.05,
-            color: const Color.fromARGB(20, 0, 169, 181),
+            color: Color.fromARGB(20, 0, 169, 181),
             thicknessUnit: GaugeSizeUnit.factor,
           ),
           pointers: <GaugePointer>[
@@ -218,9 +218,9 @@ class _ProgressBarTypesState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.2,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -252,7 +252,7 @@ class _ProgressBarTypesState extends SampleViewState {
                 lengthUnit: GaugeSizeUnit.factor,
                 color: model.currentThemeData!.brightness == Brightness.light
                     ? Colors.white
-                    : Color.fromRGBO(33, 33, 33, 1)),
+                    : const Color.fromRGBO(33, 33, 33, 1)),
           )
         ]));
   }

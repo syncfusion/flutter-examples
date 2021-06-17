@@ -52,7 +52,7 @@ class _RadialSliderExampleState extends SampleViewState {
                       flex: 7, // takes 70% of available height
                       child: SfRadialGauge(axes: <RadialAxis>[
                         RadialAxis(
-                            axisLineStyle: AxisLineStyle(
+                            axisLineStyle: const AxisLineStyle(
                                 thickness: 0.2,
                                 thicknessUnit: GaugeSizeUnit.factor),
                             showTicks: false,
@@ -156,7 +156,7 @@ class _RadialSliderExampleState extends SampleViewState {
   Widget _buildRadialSliderExample(bool isTileView) {
     return SfRadialGauge(axes: <RadialAxis>[
       RadialAxis(
-          axisLineStyle: AxisLineStyle(
+          axisLineStyle: const AxisLineStyle(
               thickness: 0.2, thicknessUnit: GaugeSizeUnit.factor),
           showTicks: false,
           showLabels: false,
@@ -185,13 +185,13 @@ class _RadialSliderExampleState extends SampleViewState {
                   children: <Widget>[
                     Text(
                       _cardAnnotationValue,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 20,
                           fontFamily: 'Times',
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF00A8B5)),
                     ),
-                    Text(
+                    const Text(
                       '%',
                       style: TextStyle(
                           fontSize: 20,

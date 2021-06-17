@@ -37,8 +37,8 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           width: isWebOrDesktop ? 140 : 90,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'ID',
               overflow: TextOverflow.ellipsis,
             ),
@@ -48,8 +48,8 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           width: isWebOrDesktop ? 150 : 100,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Product ID',
               overflow: TextOverflow.ellipsis,
             ),
@@ -59,8 +59,8 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           width: isWebOrDesktop ? 180 : 140,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Customer Name',
               overflow: TextOverflow.ellipsis,
             ),
@@ -70,8 +70,8 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           width: isWebOrDesktop ? 160 : 100,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Product',
               overflow: TextOverflow.ellipsis,
             ),
@@ -81,8 +81,8 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           width: isWebOrDesktop ? 140 : 110,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Order Date',
               overflow: TextOverflow.ellipsis,
             ),
@@ -92,8 +92,8 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           width: isWebOrDesktop ? 150 : 90,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Quantity',
               overflow: TextOverflow.ellipsis,
             ),
@@ -103,8 +103,8 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           width: isWebOrDesktop ? 140 : 100,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'City',
               overflow: TextOverflow.ellipsis,
             ),
@@ -114,8 +114,8 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           width: isWebOrDesktop ? 140 : 100,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Unit Price',
               overflow: TextOverflow.ellipsis,
             ),
@@ -136,7 +136,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
   @override
@@ -168,23 +168,24 @@ class _FreezePanesDataGridSource extends DataGridSource {
 
   final math.Random random = math.Random();
 
-  List<DataGridRow> dataGridRows = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
-  List<_Product> products = [];
+  List<_Product> products = <_Product>[];
 
   // Building DataGridRows
 
   void buildDataGridRows() {
-    dataGridRows = products.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell(columnName: 'id', value: dataGridRow.id),
-        DataGridCell(columnName: 'productId', value: dataGridRow.productId),
-        DataGridCell(columnName: 'name', value: dataGridRow.name),
-        DataGridCell(columnName: 'product', value: dataGridRow.product),
-        DataGridCell(columnName: 'orderDate', value: dataGridRow.orderDate),
-        DataGridCell(columnName: 'quantity', value: dataGridRow.quantity),
-        DataGridCell(columnName: 'city', value: dataGridRow.city),
-        DataGridCell(columnName: 'unitPrice', value: dataGridRow.unitPrice),
+    dataGridRows = products.map<DataGridRow>((_Product product) {
+      return DataGridRow(cells: <DataGridCell>[
+        DataGridCell<int>(columnName: 'id', value: product.id),
+        DataGridCell<int>(columnName: 'productId', value: product.productId),
+        DataGridCell<String>(columnName: 'name', value: product.name),
+        DataGridCell<String>(columnName: 'product', value: product.product),
+        DataGridCell<DateTime>(
+            columnName: 'orderDate', value: product.orderDate),
+        DataGridCell<int>(columnName: 'quantity', value: product.quantity),
+        DataGridCell<String>(columnName: 'city', value: product.city),
+        DataGridCell<double>(columnName: 'unitPrice', value: product.unitPrice),
       ]);
     }).toList(growable: false);
   }
@@ -196,10 +197,10 @@ class _FreezePanesDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[0].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -207,7 +208,7 @@ class _FreezePanesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[1].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -215,7 +216,7 @@ class _FreezePanesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[2].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -223,7 +224,7 @@ class _FreezePanesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[3].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -231,7 +232,7 @@ class _FreezePanesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           DateFormat('MM/dd/yyyy').format(row.getCells()[4].value).toString(),
           overflow: TextOverflow.ellipsis,
@@ -239,7 +240,7 @@ class _FreezePanesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[5].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -247,7 +248,7 @@ class _FreezePanesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[6].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -255,9 +256,9 @@ class _FreezePanesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
-          NumberFormat.currency(locale: 'en_US', symbol: '\$')
+          NumberFormat.currency(locale: 'en_US', symbol: r'$')
               .format(row.getCells()[7].value)
               .toString(),
           overflow: TextOverflow.ellipsis,
@@ -359,7 +360,7 @@ class _FreezePanesDataGridSource extends DataGridSource {
     DateTime(2013, 10, 22),
   ];
 
-  List<String> names = [
+  List<String> names = <String>[
     'Kyle',
     'Gina',
     'Irene',

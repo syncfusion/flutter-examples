@@ -35,14 +35,14 @@ class _StepAreaState extends SampleViewState {
       title: ChartTitle(text: 'Temperature variation of Paris'),
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}°C',
           interval: 2,
           maximum: 16,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getStepAreaSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );

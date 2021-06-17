@@ -67,13 +67,13 @@ class _HiloOpenCloseChartState extends SampleViewState {
           intervalType: DateTimeIntervalType.months,
           minimum: DateTime(2016, 01, 01),
           maximum: DateTime(2017, 01, 01),
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           minimum: 140,
           maximum: 60,
           interval: 20,
-          labelFormat: '\${value}',
-          axisLine: AxisLine(width: 0)),
+          labelFormat: r'${value}',
+          axisLine: const AxisLine(width: 0)),
       series: _getHiloOpenCloseSeries(),
       trackballBehavior: _trackballBehavior,
     );
@@ -395,7 +395,7 @@ class _HiloOpenCloseChartState extends SampleViewState {
           dataSource: chartData,
           name: 'AAPL',
           showIndicationForSameValues: isCardView ? true : _toggleVisibility,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
 
           /// High, low, open and close values used to render the HLOC series.
           lowValueMapper: (ChartSampleData sales, _) => sales.low,

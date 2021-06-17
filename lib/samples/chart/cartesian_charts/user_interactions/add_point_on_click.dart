@@ -37,11 +37,6 @@ class _InteractiveChartState extends SampleViewState {
   bool isResetVisible = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final double bottomPadding = !model.isWebFullView ? 40 : 60;
     return Scaffold(
@@ -78,29 +73,29 @@ class _InteractiveChartState extends SampleViewState {
   /// Returns the cartesian chart with default tootlip.
   SfCartesianChart _buildInteractiveChart() {
     return SfCartesianChart(
-        margin: EdgeInsets.fromLTRB(10, 15, 10, 10),
+        margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
         plotAreaBorderWidth: 0,
         enableAxisAnimation: true,
         primaryXAxis: NumericAxis(
             edgeLabelPlacement: EdgeLabelPlacement.shift,
             rangePadding: ChartRangePadding.additional,
-            majorGridLines: MajorGridLines(width: 0)),
+            majorGridLines: const MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
             rangePadding: ChartRangePadding.additional,
-            axisLine: AxisLine(width: 0),
-            majorTickLines: MajorTickLines(width: 0)),
-        series: [
+            axisLine: const AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(width: 0)),
+        series: <ChartSeries<ChartSampleData, num>>[
           LineSeries<ChartSampleData, num>(
               onRendererCreated: (ChartSeriesController controller) {
                 seriesController = controller;
               },
               animationDuration: 1000,
-              color: Color.fromRGBO(75, 135, 185, 1),
+              color: const Color.fromRGBO(75, 135, 185, 1),
               dataSource: chartData,
-              xValueMapper: (ChartSampleData sales, _) => sales.x,
+              xValueMapper: (ChartSampleData sales, _) => sales.x as num,
               yValueMapper: (ChartSampleData sales, _) => sales.y,
               name: 'Germany',
-              markerSettings: MarkerSettings(isVisible: true)),
+              markerSettings: const MarkerSettings(isVisible: true)),
         ],
         onChartTouchInteractionUp: (ChartTouchInteractionArgs args) {
           isResetVisible = true;

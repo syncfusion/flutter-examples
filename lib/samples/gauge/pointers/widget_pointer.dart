@@ -80,9 +80,9 @@ class _WidgetPointerExampleState extends SampleViewState {
                   decoration: BoxDecoration(
                       color: model.themeData.brightness == Brightness.light
                           ? Colors.white
-                          : Color.fromRGBO(33, 33, 33, 1),
+                          : const Color.fromRGBO(33, 33, 33, 1),
                       borderRadius: BorderRadius.circular(40),
-                      boxShadow: [
+                      boxShadow: <BoxShadow>[
                         BoxShadow(
                           color: model.themeData.brightness == Brightness.light
                               ? Colors.grey
@@ -112,8 +112,8 @@ class _WidgetPointerExampleState extends SampleViewState {
                           : 50,
                   child: Center(
                     child: Row(
-                      children: [
-                        Padding(padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
+                      children: <Widget>[
+                        const Padding(padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
                         Container(
                             width: isCardView
                                 ? 14.00
@@ -141,7 +141,7 @@ class _WidgetPointerExampleState extends SampleViewState {
                           child: Text(
                             '$_value',
                             style: TextStyle(
-                              color: Color.fromRGBO(126, 126, 126, 1),
+                              color: const Color.fromRGBO(126, 126, 126, 1),
                               fontWeight: FontWeight.bold,
                               fontSize: isCardView ? 10 : 12,
                             ),

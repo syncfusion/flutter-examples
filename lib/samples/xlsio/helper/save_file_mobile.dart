@@ -38,11 +38,13 @@ class FileSaveHelper {
         throw Exception(e);
       }
     } else if (Platform.isWindows) {
-      await Process.run('start', ['$path\\$fileName'], runInShell: true);
+      await Process.run('start', <String>['$path\\$fileName'],
+          runInShell: true);
     } else if (Platform.isMacOS) {
-      await Process.run('open', ['$path/$fileName'], runInShell: true);
+      await Process.run('open', <String>['$path/$fileName'], runInShell: true);
     } else if (Platform.isLinux) {
-      await Process.run('xdg-open', ['$path/$fileName'], runInShell: true);
+      await Process.run('xdg-open', <String>['$path/$fileName'],
+          runInShell: true);
     }
   }
 }

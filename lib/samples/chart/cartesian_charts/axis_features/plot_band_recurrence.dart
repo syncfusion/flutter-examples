@@ -102,7 +102,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
       primaryXAxis: DateTimeAxis(
           interval: 5,
           dateFormat: DateFormat.y(),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           intervalType: DateTimeIntervalType.years,
           edgeLabelPlacement: EdgeLabelPlacement.hide,
           minimum: DateTime(1975, 1, 1),
@@ -144,9 +144,9 @@ class _PlotBandRecurrenceState extends SampleViewState {
                     ? const Color.fromRGBO(227, 228, 230, 0.1)
                     : const Color.fromRGBO(70, 70, 70, 1))
           ],
-          majorGridLines: MajorGridLines(color: Colors.grey),
-          majorTickLines: MajorTickLines(size: 0),
-          axisLine: AxisLine(width: 0),
+          majorGridLines: const MajorGridLines(color: Colors.grey),
+          majorTickLines: const MajorTickLines(size: 0),
+          axisLine: const AxisLine(width: 0),
           labelStyle: const TextStyle(fontSize: 0, color: Colors.transparent)),
       series: _getPlotBandRecurrenceSeries(),
       tooltipBehavior: _tooltipBehavior,
@@ -167,13 +167,13 @@ class _PlotBandRecurrenceState extends SampleViewState {
       ColumnSeries<ChartSampleData, DateTime>(
         dataSource: chartData,
         name: 'All sources',
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
       ColumnSeries<ChartSampleData, DateTime>(
         dataSource: chartData,
         name: 'Autos & Light Trucks',
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.yValue,
       )
     ];

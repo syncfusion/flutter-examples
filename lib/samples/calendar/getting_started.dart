@@ -117,7 +117,7 @@ class _GettingStartedCalendarState extends SampleViewState {
       }
     }
 
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         if (_calendarController.view == CalendarView.month ||
             _calendarController.view == CalendarView.timelineMonth) {
@@ -380,16 +380,16 @@ class _GettingStartedCalendarState extends SampleViewState {
                 Expanded(
                   flex: 4,
                   child: Container(
-                    padding: EdgeInsets.only(left: 60),
+                    padding: const EdgeInsets.only(left: 60),
                     alignment: Alignment.bottomLeft,
                     child: DropdownButton<String>(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        underline: Container(
+                            color: const Color(0xFFBDBDBD), height: 1),
                         value: _viewNavigationModeString,
                         items: _viewNavigationModeList.map((String value) {
                           return DropdownMenuItem<String>(
                               value: (value != null) ? value : 'Snap',
-                              child: Text('$value',
+                              child: Text(value,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(color: model.textColor)));
                         }).toList(),
@@ -435,8 +435,8 @@ class _GettingStartedCalendarState extends SampleViewState {
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
           showTrailingAndLeadingDates: _showLeadingAndTrailingDates,
           appointmentDisplayCount: 4),
-      timeSlotViewSettings: TimeSlotViewSettings(
-          minimumAppointmentDuration: const Duration(minutes: 60)),
+      timeSlotViewSettings: const TimeSlotViewSettings(
+          minimumAppointmentDuration: Duration(minutes: 60)),
       viewNavigationMode: _viewNavigationMode,
     );
   }
@@ -476,7 +476,7 @@ Widget scheduleViewBuilder(
     BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
   final String monthName = _getMonthDate(details.date.month);
   return Stack(
-    children: [
+    children: <Widget>[
       Image(
           image: ExactAssetImage('images/' + monthName + '.png'),
           fit: BoxFit.cover,
@@ -489,7 +489,7 @@ Widget scheduleViewBuilder(
         bottom: 0,
         child: Text(
           monthName + ' ' + details.date.year.toString(),
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
       )
     ],

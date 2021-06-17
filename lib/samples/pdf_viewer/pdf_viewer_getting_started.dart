@@ -1,6 +1,7 @@
 ///Package import
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_examples/samples/pdf_viewer/shared/helper.dart';
 
 /// Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
@@ -36,8 +37,8 @@ class _GettingStartedPdfViewerState extends SampleViewState {
 
   @override
   void initState() {
-    Future.delayed(Duration(milliseconds: 600), () {
-      final currentFocus = FocusScope.of(context);
+    Future<dynamic>.delayed(const Duration(milliseconds: 600), () {
+      final FocusScopeNode currentFocus = FocusScope.of(context);
       if (!currentFocus.hasPrimaryFocus) {
         currentFocus.requestFocus(FocusNode());
       }
@@ -53,17 +54,34 @@ class _GettingStartedPdfViewerState extends SampleViewState {
   void didChangeDependencies() {
     /// Used figma colors for context menu color and copy text color.
     _contextMenuColor = model.themeData.brightness == Brightness.light
-        ? Color(0xFFFFFFFF)
-        : Color(0xFF424242);
+        ? const Color(0xFFFFFFFF)
+        : const Color(0xFF424242);
     _copyColor = model.themeData.brightness == Brightness.light
-        ? Color(0xFF000000)
-        : Color(0xFFFFFFFF);
+        ? const Color(0xFF000000)
+        : const Color(0xFFFFFFFF);
     super.didChangeDependencies();
   }
 
   /// Show Context menu for Text Selection.
   void _showContextMenu(
       BuildContext context, PdfTextSelectionChangedDetails details) {
+    const List<BoxShadow> boxShadows = <BoxShadow>[
+      BoxShadow(
+        color: Color.fromRGBO(0, 0, 0, 0.14),
+        blurRadius: 2,
+        offset: Offset(0, 0),
+      ),
+      BoxShadow(
+        color: Color.fromRGBO(0, 0, 0, 0.12),
+        blurRadius: 2,
+        offset: Offset(0, 2),
+      ),
+      BoxShadow(
+        color: Color.fromRGBO(0, 0, 0, 0.2),
+        blurRadius: 3,
+        offset: Offset(0, 1),
+      ),
+    ];
     _contextMenuHeight = (model.isWebFullView && !model.isMobileResolution)
         ? _kWebContextMenuHeight
         : _kMobileContextMenuHeight;
@@ -96,29 +114,13 @@ class _GettingStartedPdfViewerState extends SampleViewState {
       final OverlayState? _overlayState =
           Overlay.of(context, rootOverlay: true);
       _overlayEntry = OverlayEntry(
-        builder: (context) => Positioned(
+        builder: (BuildContext context) => Positioned(
           top: top,
           left: left,
           child: Container(
             decoration: BoxDecoration(
               color: _contextMenuColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.14),
-                  blurRadius: 2,
-                  offset: Offset(0, 0),
-                ),
-                BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.12),
-                  blurRadius: 2,
-                  offset: Offset(0, 2),
-                ),
-                BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.2),
-                  blurRadius: 3,
-                  offset: Offset(0, 1),
-                ),
-              ],
+              boxShadow: boxShadows,
             ),
             constraints: BoxConstraints.tightFor(
                 width: _contextMenuWidth, height: _contextMenuHeight),
@@ -131,7 +133,7 @@ class _GettingStartedPdfViewerState extends SampleViewState {
                 setState(() {
                   _canShowToast = true;
                 });
-                await Future.delayed(Duration(seconds: 1));
+                await Future<dynamic>.delayed(const Duration(seconds: 1));
                 setState(() {
                   _canShowToast = false;
                 });
@@ -163,50 +165,21 @@ class _GettingStartedPdfViewerState extends SampleViewState {
     }
   }
 
-  /// Shows toast once after the selected text is copied to the Clipboard.
-  Widget _showToast() {
-    return Positioned.fill(
-      bottom: 25.0,
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Flex(
-          direction: Axis.horizontal,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 16, top: 6, right: 16, bottom: 6),
-              decoration: BoxDecoration(
-                color: Colors.grey[600],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(16.0),
-                ),
-              ),
-              child: Text(
-                'Copied',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'Roboto', fontSize: 16, color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ignore: always_specify_types
       body: FutureBuilder(
-          future: Future.delayed(Duration(milliseconds: 200)).then((value) {
+          future: Future<dynamic>.delayed(const Duration(milliseconds: 200))
+              .then((dynamic value) {
             _canShowPdf = true;
           }),
-          builder: (context, snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
             if (_canShowPdf) {
               return SfPdfViewerTheme(
                 data: SfPdfViewerThemeData(
                     brightness: model.themeData.brightness),
-                child: Stack(children: [
+                child: Stack(children: <Widget>[
                   SfPdfViewer.asset(
                     'assets/pdf/flutter_succinctly.pdf',
                     controller: _pdfViewerController,
@@ -221,10 +194,7 @@ class _GettingStartedPdfViewerState extends SampleViewState {
                       }
                     },
                   ),
-                  Visibility(
-                    visible: _canShowToast,
-                    child: _showToast(),
-                  ),
+                  showToast(_canShowToast, Alignment.bottomCenter, 'Copied'),
                 ]),
               );
             } else {

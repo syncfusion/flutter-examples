@@ -35,11 +35,11 @@ class _LineDefaultState extends SampleViewState {
       primaryXAxis: NumericAxis(
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           interval: 2,
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}%',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(color: Colors.transparent)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(color: Colors.transparent)),
       series: _getDefaultLineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -64,7 +64,7 @@ class _LineDefaultState extends SampleViewState {
           yValueMapper: (_ChartData sales, _) => sales.y,
           width: 2,
           name: 'Germany',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
           dataSource: chartData,
@@ -72,7 +72,7 @@ class _LineDefaultState extends SampleViewState {
           name: 'England',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2,
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 }

@@ -52,7 +52,7 @@ class _MapMarkerPageState extends SampleViewState {
           _currentTime.add(const Duration(hours: 2))),
     ];
 
-    _mapSource = MapShapeSource.asset(
+    _mapSource = const MapShapeSource.asset(
       // Path of the GeoJSON file.
       'assets/world_map.json',
       // Field or group name in the .json file to identify
@@ -72,17 +72,32 @@ class _MapMarkerPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? _buildMapsWidget()
-        : SingleChildScrollView(child: _buildMapsWidget());
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final bool scrollEnabled = constraints.maxHeight > 400;
+      double height = scrollEnabled ? constraints.maxHeight : 400;
+      if (model.isWebFullView ||
+          (model.isMobile &&
+              MediaQuery.of(context).orientation == Orientation.landscape)) {
+        final double refHeight = height * 0.6;
+        height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+      }
+      return Center(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: constraints.maxWidth,
+            height: height,
+            child: _buildMapsWidget(scrollEnabled),
+          ),
+        ),
+      );
+    });
   }
 
-  Widget _buildMapsWidget() {
+  Widget _buildMapsWidget(bool scrollEnabled) {
     return Center(
         child: Padding(
-      padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-              model.isWebFullView
+      padding: scrollEnabled
           ? EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.05,
               bottom: MediaQuery.of(context).size.height * 0.1,
@@ -95,9 +110,9 @@ class _MapMarkerPageState extends SampleViewState {
           shapeHoverStrokeColor: Colors.transparent,
           shapeHoverStrokeWidth: 0,
         ),
-        child: Column(children: [
+        child: Column(children: <Widget>[
           Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 30),
+              padding: const EdgeInsets.only(top: 15, bottom: 30),
               child: Align(
                   alignment: Alignment.center,
                   child: Text('World Clock',

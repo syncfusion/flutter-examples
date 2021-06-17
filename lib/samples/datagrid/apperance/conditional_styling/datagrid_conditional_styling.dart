@@ -33,7 +33,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
   SfDataGrid _buildDataGrid() {
@@ -47,8 +47,8 @@ class _ConditionalStylingDataGridState extends SampleViewState {
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Name',
               overflow: TextOverflow.ellipsis,
             ),
@@ -59,8 +59,8 @@ class _ConditionalStylingDataGridState extends SampleViewState {
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
           label: Container(
-            padding: EdgeInsets.all(8.0),
-            child: Center(
+            padding: const EdgeInsets.all(8.0),
+            child: const Center(
               child: Text(
                 'Q1',
                 overflow: TextOverflow.ellipsis,
@@ -73,8 +73,8 @@ class _ConditionalStylingDataGridState extends SampleViewState {
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
           label: Container(
-            padding: EdgeInsets.all(8.0),
-            child: Center(
+            padding: const EdgeInsets.all(8.0),
+            child: const Center(
               child: Text(
                 'Q2',
                 overflow: TextOverflow.ellipsis,
@@ -87,8 +87,8 @@ class _ConditionalStylingDataGridState extends SampleViewState {
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
           label: Container(
-            padding: EdgeInsets.all(8.0),
-            child: Center(
+            padding: const EdgeInsets.all(8.0),
+            child: const Center(
               child: Text(
                 'Q3',
                 overflow: TextOverflow.ellipsis,
@@ -101,8 +101,8 @@ class _ConditionalStylingDataGridState extends SampleViewState {
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
           label: Container(
-            padding: EdgeInsets.all(8.0),
-            child: Center(
+            padding: const EdgeInsets.all(8.0),
+            child: const Center(
               child: Text(
                 'Q4',
                 overflow: TextOverflow.ellipsis,
@@ -143,36 +143,37 @@ class _ConditionalStyleDataGridSource extends DataGridSource {
 
   final math.Random random = math.Random();
 
-  List<_Stock> stocks = [];
+  List<_Stock> stocks = <_Stock>[];
 
-  List<DataGridRow> dataGridRows = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
   /// Rows are generated once and for CRUD operation we have to refresh
   /// the data row.
   void buildDataGridRows() {
     dataGridRows = stocks
-        .map<DataGridRow>((dataGridRow) => DataGridRow(cells: [
-              DataGridCell<String>(
-                columnName: 'name',
-                value: dataGridRow.name,
-              ),
-              DataGridCell<double>(
-                columnName: 'qs1',
-                value: dataGridRow.qs1,
-              ),
-              DataGridCell<double>(
-                columnName: 'qs2',
-                value: dataGridRow.qs2,
-              ),
-              DataGridCell<double>(
-                columnName: 'qs3',
-                value: dataGridRow.qs3,
-              ),
-              DataGridCell<double>(
-                columnName: 'qs4',
-                value: dataGridRow.qs4,
-              ),
-            ]))
+        .map<DataGridRow>(
+            (_Stock dataGridRow) => DataGridRow(cells: <DataGridCell<dynamic>>[
+                  DataGridCell<String>(
+                    columnName: 'name',
+                    value: dataGridRow.name,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'qs1',
+                    value: dataGridRow.qs1,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'qs2',
+                    value: dataGridRow.qs2,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'qs3',
+                    value: dataGridRow.qs3,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'qs4',
+                    value: dataGridRow.qs4,
+                  ),
+                ]))
         .toList();
   }
 
@@ -180,43 +181,43 @@ class _ConditionalStyleDataGridSource extends DataGridSource {
   Widget _buildQ1(double value) {
     if (value > 2000 && value < 2500) {
       return Container(
-          padding: EdgeInsets.all(4.0),
-          color: Color(0xFFF4C5B9),
+          padding: const EdgeInsets.all(4.0),
+          color: const Color(0xFFF4C5B9),
           child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              NumberFormat.currency(locale: 'en_US', symbol: r'$')
                   .format(value)
                   .toString(),
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
               overflow: TextOverflow.ellipsis,
             ),
           ));
     } else if (value > 2500) {
       return Container(
-          padding: EdgeInsets.all(4.0),
-          color: Color(0xFFEB552C),
+          padding: const EdgeInsets.all(4.0),
+          color: const Color(0xFFEB552C),
           child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              NumberFormat.currency(locale: 'en_US', symbol: r'$')
                   .format(value)
                   .toString(),
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
           ));
     } else {
       return Container(
-          padding: EdgeInsets.all(4.0),
-          color: Color(0xFFEF8465),
+          padding: const EdgeInsets.all(4.0),
+          color: const Color(0xFFEF8465),
           child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              NumberFormat.currency(locale: 'en_US', symbol: r'$')
                   .format(value)
                   .toString(),
-              style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+              style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
               overflow: TextOverflow.ellipsis,
             ),
           ));
@@ -226,29 +227,29 @@ class _ConditionalStyleDataGridSource extends DataGridSource {
   Widget _buildQ2(double value) {
     if (value > 2000 && value < 2500) {
       return Container(
-          padding: EdgeInsets.all(4.0),
-          color: Color(0xFFF5BD16),
+          padding: const EdgeInsets.all(4.0),
+          color: const Color(0xFFF5BD16),
           child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              NumberFormat.currency(locale: 'en_US', symbol: r'$')
                   .format(value)
                   .toString(),
-              style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+              style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
               overflow: TextOverflow.ellipsis,
             ),
           ));
     } else if (value > 2500) {
       return Container(
-        padding: EdgeInsets.all(4.0),
-        color: Color(0xFFF8DBAE),
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFFF8DBAE),
         child: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(value)
                 .toString(),
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromRGBO(0, 0, 0, 1),
             ),
             overflow: TextOverflow.ellipsis,
@@ -257,15 +258,15 @@ class _ConditionalStyleDataGridSource extends DataGridSource {
       );
     } else {
       return Container(
-        padding: EdgeInsets.all(4.0),
-        color: Color(0xFFF8DBAE),
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFFF8DBAE),
         child: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(value)
                 .toString(),
-            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+            style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -276,45 +277,45 @@ class _ConditionalStyleDataGridSource extends DataGridSource {
   Widget _buildQ3(double value) {
     if (value > 2000 && value < 4000) {
       return Container(
-        padding: EdgeInsets.all(4.0),
-        color: Color(0xFF8A3D94),
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFF8A3D94),
         child: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(value)
                 .toString(),
-            style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+            style: const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
             overflow: TextOverflow.ellipsis,
           ),
         ),
       );
     } else if (value > 4000) {
       return Container(
-        padding: EdgeInsets.all(4.0),
-        color: Color(0xFFC390C1),
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFFC390C1),
         child: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(value)
                 .toString(),
-            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+            style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
             overflow: TextOverflow.ellipsis,
           ),
         ),
       );
     } else {
       return Container(
-        padding: EdgeInsets.all(4.0),
-        color: Color(0xFFDEB6D5),
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFFDEB6D5),
         child: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(value)
                 .toString(),
-            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+            style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -325,45 +326,45 @@ class _ConditionalStyleDataGridSource extends DataGridSource {
   Widget _buildQ4(double value) {
     if (value > 2000 && value < 3000) {
       return Container(
-        padding: EdgeInsets.all(4.0),
-        color: Color(0xFF7BC282),
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFF7BC282),
         child: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(value)
                 .toString(),
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
             overflow: TextOverflow.ellipsis,
           ),
         ),
       );
     } else if (value > 3000) {
       return Container(
-        padding: EdgeInsets.all(4.0),
-        color: Color(0xFFC1DCA7),
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFFC1DCA7),
         child: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(value)
                 .toString(),
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
             overflow: TextOverflow.ellipsis,
           ),
         ),
       );
     } else {
       return Container(
-          padding: EdgeInsets.all(4.0),
-          color: Color(0xFF4CAC4C),
+          padding: const EdgeInsets.all(4.0),
+          color: const Color(0xFF4CAC4C),
           child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: '\$')
+              NumberFormat.currency(locale: 'en_US', symbol: r'$')
                   .format(value)
                   .toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color.fromRGBO(255, 255, 255, 1),
               ),
               overflow: TextOverflow.ellipsis,
@@ -379,12 +380,12 @@ class _ConditionalStyleDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(row.getCells()[0].value)),
+            child: Text(row.getCells()[0].value.toString())),
       ),
       _buildQ1(row.getCells()[1].value),
       _buildQ2(row.getCells()[2].value),

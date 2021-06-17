@@ -35,7 +35,7 @@ class _RadialImageAnnotationState extends SampleViewState {
             endAngle: 360,
             showTicks: false,
             showLabels: false,
-            axisLineStyle: AxisLineStyle(thickness: 20),
+            axisLineStyle: const AxisLineStyle(thickness: 20),
             pointers: <GaugePointer>[
               RangePointer(
                   value: 73,

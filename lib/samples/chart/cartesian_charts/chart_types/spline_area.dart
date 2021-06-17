@@ -33,12 +33,12 @@ class _SplineAreaState extends SampleViewState {
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
           interval: 1,
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}%',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getSplieAreaSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );

@@ -33,12 +33,14 @@ class _DefaultSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 300, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 300
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 300, child: slider),
+            );
+    });
   }
 }
 
@@ -69,7 +71,7 @@ class _DefaultSliderState extends SampleViewState {
           max: 100.0,
           onChanged: (dynamic values) {
             setState(() {
-              _activeSliderValue = values;
+              _activeSliderValue = values as double;
             });
           },
           value: _activeSliderValue,

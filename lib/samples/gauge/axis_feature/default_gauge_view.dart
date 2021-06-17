@@ -31,7 +31,7 @@ class _RadialGaugeDefaultState extends SampleViewState {
       axes: <RadialAxis>[
         RadialAxis(
             interval: 10,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.03,
               thicknessUnit: GaugeSizeUnit.factor,
             ),

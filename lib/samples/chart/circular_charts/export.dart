@@ -1,6 +1,7 @@
 /// Dart import
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui' as dart_ui;
 
 ///Package imports
@@ -35,25 +36,26 @@ class _ExportState extends SampleViewState {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: model.cardThemeColor,
-        body: Column(children: [
+        body: Column(children: <Widget>[
           Expanded(child: _buildCircularChart()),
           Container(
-              padding: EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 10),
               child: Row(
-                children: [
-                  Spacer(),
+                children: <Widget>[
+                  const Spacer(),
                   Container(
-                      decoration: BoxDecoration(boxShadow: <BoxShadow>[
+                      decoration: BoxDecoration(boxShadow: const <BoxShadow>[
                         BoxShadow(
                           color: Colors.grey,
-                          offset: const Offset(0, 4.0),
+                          offset: Offset(0, 4.0),
                           blurRadius: 4.0,
                         ),
                       ], shape: BoxShape.circle, color: model.backgroundColor),
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
                             behavior: SnackBarBehavior.floating,
                             duration: Duration(milliseconds: 100),
                             shape: RoundedRectangleBorder(
@@ -64,21 +66,22 @@ class _ExportState extends SampleViewState {
                           ));
                           _renderCircularImage();
                         },
-                        icon: Icon(Icons.image, color: Colors.white),
+                        icon: const Icon(Icons.image, color: Colors.white),
                       )),
                   Container(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      decoration: BoxDecoration(boxShadow: <BoxShadow>[
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(boxShadow: const <BoxShadow>[
                         BoxShadow(
                           color: Colors.grey,
-                          offset: const Offset(0, 4.0),
+                          offset: Offset(0, 4.0),
                           blurRadius: 4.0,
                         ),
                       ], shape: BoxShape.circle, color: model.backgroundColor),
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
                             behavior: SnackBarBehavior.floating,
                             duration: Duration(milliseconds: 2000),
                             shape: RoundedRectangleBorder(
@@ -89,7 +92,8 @@ class _ExportState extends SampleViewState {
                           ));
                           _renderPdf();
                         },
-                        icon: Icon(Icons.picture_as_pdf, color: Colors.white),
+                        icon: const Icon(Icons.picture_as_pdf,
+                            color: Colors.white),
                       )),
                 ],
               ))
@@ -139,7 +143,7 @@ class _ExportState extends SampleViewState {
     return <CircularSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           strokeColor: model.themeData.brightness == Brightness.light
               ? Colors.white
@@ -153,18 +157,18 @@ class _ExportState extends SampleViewState {
   }
 
   Future<void> _renderCircularImage() async {
-    final bytes = await _readImageData();
+    final List<int> bytes = await _readImageData();
     if (bytes != null) {
       final Directory documentDirectory =
           await getApplicationDocumentsDirectory();
       final String path = documentDirectory.path;
-      final String imageName = 'circularchart.png';
+      const String imageName = 'circularchart.png';
       imageCache!.clear();
       final File file = File('$path/$imageName');
       file.writeAsBytesSync(bytes);
 
-      await Navigator.of(context).push(
-        MaterialPageRoute(
+      await Navigator.of(context).push<dynamic>(
+        MaterialPageRoute<dynamic>(
           builder: (BuildContext context) {
             return Scaffold(
               appBar: AppBar(),
@@ -196,7 +200,7 @@ class _ExportState extends SampleViewState {
     page.graphics.drawImage(
         bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -212,7 +216,8 @@ class _ExportState extends SampleViewState {
   Future<List<int>> _readImageData() async {
     final dart_ui.Image data =
         await _circularChartKey.currentState!.toImage(pixelRatio: 3.0);
-    final bytes = await data.toByteData(format: dart_ui.ImageByteFormat.png);
+    final ByteData? bytes =
+        await data.toByteData(format: dart_ui.ImageByteFormat.png);
     return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 }

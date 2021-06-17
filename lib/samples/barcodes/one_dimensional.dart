@@ -92,7 +92,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
                 Padding(
                     padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
                     child: Text(
-                        'Supports 0-9,-,\$,:,/,.,+           '
+                        r'Supports 0-9,-,$,:,/,.,+           '
                         '                                  ',
                         style: TextStyle(fontSize: 12)))
               ],
@@ -135,7 +135,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
                 Padding(
                     padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
                     child: Text(
-                        'Supports A-Z, 0-9,-, ., \$, /, +, %, and space   '
+                        r'Supports A-Z, 0-9,-, ., $, /, +, %, and space   '
                         '    ',
                         style: TextStyle(fontSize: 12)))
               ],
@@ -225,7 +225,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
                 Padding(
                     padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
                     child: Text(
-                        'Supports  A-Z, 0-9 , -, ., \$, /, +, % and space',
+                        r'Supports  A-Z, 0-9 , -, ., $, /, +, % and space',
                         style: TextStyle(fontSize: 12)))
               ],
             ),
@@ -619,7 +619,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
                   ),
                   Padding(
                       padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                      child: Text('Supports Supports 0-9,-,\$,:,/,.,+',
+                      child: Text(r'Supports Supports 0-9,-,$,:,/,.,+',
                           style: TextStyle(fontSize: 12)))
                 ],
               ),
@@ -661,7 +661,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
                   Padding(
                       padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
                       child: Text(
-                          'Supports A-Z, 0-9,-, ., \$, /, +, %, and space ',
+                          r'Supports A-Z, 0-9,-, ., $, /, +, %, and space ',
                           style: TextStyle(fontSize: 12)))
                 ],
               ),
@@ -746,7 +746,7 @@ class _OneDimensionalBarcodesState extends SampleViewState {
                   ),
                   Padding(
                       padding: EdgeInsets.fromLTRB(15, 2, 1, 10),
-                      child: Text('A-Z, 0-9 , -, ., \$, /, +, % and space',
+                      child: Text(r'A-Z, 0-9 , -, ., $, /, +, % and space',
                           style: TextStyle(fontSize: 12)))
                 ],
               ),

@@ -96,7 +96,7 @@ class _RecurrenceCalendarState extends SampleViewState {
       return;
     }
 
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         _view = calendarController.view!;
 
@@ -334,7 +334,7 @@ class _RecurrenceCalendarState extends SampleViewState {
       showDatePickerButton: true,
       onViewChanged: onViewChanged,
       dataSource: calendarDataSource,
-      monthViewSettings: MonthViewSettings(
+      monthViewSettings: const MonthViewSettings(
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
           appointmentDisplayCount: 4),
     );

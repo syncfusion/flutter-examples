@@ -33,12 +33,14 @@ class _VerticalThumbCustomizationSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+    });
   }
 }
 
@@ -70,7 +72,7 @@ class _ThumbCustomizationSliderState extends SampleViewState {
           value: _thumbValue,
           onChanged: (dynamic values) {
             setState(() {
-              _thumbValue = values;
+              _thumbValue = values as double;
             });
           },
         ));
@@ -78,10 +80,10 @@ class _ThumbCustomizationSliderState extends SampleViewState {
 
   Widget _thumbView() {
     if (_thumbValue == _thumbMin) {
-      return Icon(Icons.keyboard_arrow_up_outlined,
+      return const Icon(Icons.keyboard_arrow_up_outlined,
           color: Colors.white, size: 12.0);
     } else if (_thumbValue == _thumbMax) {
-      return Icon(Icons.keyboard_arrow_down_outlined,
+      return const Icon(Icons.keyboard_arrow_down_outlined,
           color: Colors.white, size: 12.0);
     } else {
       return Column(
@@ -112,7 +114,7 @@ class _ThumbCustomizationSliderState extends SampleViewState {
           value: _value,
           onChanged: (dynamic values) {
             setState(() {
-              _value = values;
+              _value = values as double;
             });
           },
         ));
@@ -135,13 +137,13 @@ class _ThumbCustomizationSliderState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _thumbCustomizationSlider()),
-              Text('Text view')
+              const Text('Text view')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _thumbIconSlider()),
-              Text('Icon view'),
+              const Text('Icon view'),
             ]),
           ],
         ));

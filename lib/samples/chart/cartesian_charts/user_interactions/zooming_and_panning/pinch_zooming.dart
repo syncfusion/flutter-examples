@@ -61,12 +61,13 @@ class _DefaultPanningState extends SampleViewState {
                   padding: const EdgeInsets.fromLTRB(70, 0, 40, 0),
                   height: 50,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedModeType,
                       items: _zoomModeTypeList.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'x',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (String? value) {
@@ -112,11 +113,11 @@ class _DefaultPanningState extends SampleViewState {
         key: chartKey,
         plotAreaBorderWidth: 0,
         primaryXAxis: DateTimeAxis(
-            name: 'X-Axis', majorGridLines: MajorGridLines(width: 0)),
+            name: 'X-Axis', majorGridLines: const MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
-            axisLine: AxisLine(width: 0),
+            axisLine: const AxisLine(width: 0),
             anchorRangeToVisiblePoints: _enableAnchor,
-            majorTickLines: MajorTickLines(size: 0)),
+            majorTickLines: const MajorTickLines(size: 0)),
         series: getDefaultPanningSeries(),
         zoomPanBehavior: ZoomPanBehavior(
 
@@ -148,7 +149,7 @@ class _DefaultPanningState extends SampleViewState {
     return <AreaSeries<ChartSampleData, DateTime>>[
       AreaSeries<ChartSampleData, DateTime>(
           dataSource: getDateTimeData(),
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           gradient: gradientColors)
     ];

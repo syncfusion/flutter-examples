@@ -39,7 +39,7 @@ class _AreaEmptyState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Inflation rate of US'),
       primaryXAxis: NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         interval: 1,
       ),
       primaryYAxis: NumericAxis(
@@ -47,8 +47,8 @@ class _AreaEmptyState extends SampleViewState {
           maximum: 500000000,
           title: AxisTitle(text: isCardView ? '' : 'Rates'),
           numberFormat: NumberFormat.compact(),
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getEmptyPointAreaSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -74,7 +74,7 @@ class _AreaEmptyState extends SampleViewState {
     return <AreaSeries<ChartSampleData, num>>[
       AreaSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y),
     ];
   }

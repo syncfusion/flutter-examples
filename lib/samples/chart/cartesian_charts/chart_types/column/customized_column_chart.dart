@@ -37,13 +37,13 @@ class _ColumnVerticalState extends SampleViewState {
       title:
           ChartTitle(text: isCardView ? '' : 'PC vendor shipments - 2015 Q1'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}M',
           title: AxisTitle(text: isCardView ? '' : 'Shipments in million'),
-          majorGridLines: MajorGridLines(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          majorGridLines: const MajorGridLines(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: <ChartSeries<ChartSampleData, String>>[
         ColumnSeries<ChartSampleData, String>(
           onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
@@ -75,7 +75,7 @@ class _ColumnVerticalState extends SampleViewState {
                 pointColor: const Color.fromARGB(116, 180, 155, 1)),
           ],
           width: 0.8,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
         )

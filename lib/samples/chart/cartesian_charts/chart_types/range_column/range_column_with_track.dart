@@ -39,14 +39,14 @@ class _RangeColumnWithTrackState extends SampleViewState {
       title:
           ChartTitle(text: isCardView ? '' : 'Meeting timings of an employee'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           minimum: 1,
           maximum: 10,
           labelFormat: '{value} PM',
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getRangeColumnSerieswithTrack(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -72,7 +72,7 @@ class _RangeColumnWithTrackState extends SampleViewState {
           trackColor: const Color.fromRGBO(198, 201, 207, 1),
           borderRadius: BorderRadius.circular(15),
           trackBorderColor: Colors.grey[100]!,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           lowValueMapper: (ChartSampleData sales, _) => sales.y,
           highValueMapper: (ChartSampleData sales, _) => sales.yValue,
           dataLabelSettings: DataLabelSettings(

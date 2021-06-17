@@ -34,12 +34,14 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+    });
   }
 }
 
@@ -56,8 +58,8 @@ class _SliderTooltipTypeState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(
             tooltipBackgroundColor: model.backgroundColor,
-            labelOffset: Offset(-30, 0),
-            tickOffset: Offset(-15, 0)),
+            labelOffset: const Offset(-30, 0),
+            tickOffset: const Offset(-15, 0)),
         child: SfSlider.vertical(
             showLabels: true,
             interval: 10,
@@ -68,7 +70,7 @@ class _SliderTooltipTypeState extends SampleViewState {
             value: _sliderValue,
             onChanged: (dynamic values) {
               setState(() {
-                _sliderValue = values;
+                _sliderValue = values as double;
               });
             },
             enableTooltip: true));
@@ -92,7 +94,7 @@ class _SliderTooltipTypeState extends SampleViewState {
           value: _hourValue,
           onChanged: (dynamic value) {
             setState(() {
-              _hourValue = value;
+              _hourValue = value as DateTime;
             });
           },
           enableTooltip: true,
@@ -121,13 +123,13 @@ class _SliderTooltipTypeState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _numerical()),
-              Text('Tooltip on the right')
+              const Text('Tooltip on the right')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _dateTimeSlider()),
-              Text('Tooltip on the left'),
+              const Text('Tooltip on the left'),
             ]),
           ],
         ));

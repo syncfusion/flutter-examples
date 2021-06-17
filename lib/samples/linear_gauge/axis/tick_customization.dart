@@ -25,14 +25,15 @@ class _TickCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(margin: EdgeInsets.all(32.0), child: _buildSegmentedView()),
+    return Column(children: <Widget>[
+      Container(
+          margin: const EdgeInsets.all(32.0), child: _buildSegmentedView()),
       Expanded(
           child: Center(
               child: SingleChildScrollView(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
             Container(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildLinearTickCustomization(context),
@@ -44,12 +45,12 @@ class _TickCustomizationState extends SampleViewState {
   /// Returns the linear gauge tick customization.
   Widget _buildLinearTickCustomization(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
       child: _isHorizontalOrientation
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 _buildHorizontalGauges('Outside ticks', _buildOutsideTicks()),
                 _buildHorizontalGauges('Cross ticks', _buildCrossTicks()),
                 _buildHorizontalGauges('Inside ticks', _buildInsideTicks()),
@@ -58,13 +59,13 @@ class _TickCustomizationState extends SampleViewState {
               ],
             )
           : Column(
-              children: [
+              children: <Widget>[
                 Wrap(
                   direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
-                  children: [
+                  children: <Widget>[
                     _buildVerticalGauges('Outside ticks', _buildOutsideTicks()),
                     _buildVerticalGauges('Cross ticks', _buildCrossTicks()),
                     _buildVerticalGauges('Inside ticks', _buildInsideTicks()),
@@ -82,10 +83,10 @@ class _TickCustomizationState extends SampleViewState {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Text(axisTrackName),
         linearGauge,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -95,7 +96,11 @@ class _TickCustomizationState extends SampleViewState {
     return Container(
       width: 150,
       child: Column(
-        children: [Text(axisTrackName), SizedBox(height: 16), linearGauge],
+        children: <Widget>[
+          Text(axisTrackName),
+          const SizedBox(height: 16),
+          linearGauge
+        ],
       ),
     );
   }
@@ -157,12 +162,12 @@ class _TickCustomizationState extends SampleViewState {
   /// Returns the segmented view for linear gauge orientation.
   Widget _buildSegmentedView() {
     return Center(
-        child: CupertinoSegmentedControl(
+        child: CupertinoSegmentedControl<bool>(
             selectedColor: model.backgroundColor,
             borderColor: model.backgroundColor,
-            children: {
+            children: <bool, Widget>{
               true: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Horizontal',
                     style: TextStyle(
@@ -171,7 +176,7 @@ class _TickCustomizationState extends SampleViewState {
                             : Colors.black),
                   )),
               false: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Vertical',
                     style: TextStyle(
@@ -180,8 +185,9 @@ class _TickCustomizationState extends SampleViewState {
                             : Colors.white),
                   )),
             },
-            onValueChanged: (bool value) =>
-                setState(() => {_isHorizontalOrientation = value}),
+            onValueChanged: (bool value) => setState(() {
+                  _isHorizontalOrientation = value;
+                }),
             groupValue: _isHorizontalOrientation));
   }
 }

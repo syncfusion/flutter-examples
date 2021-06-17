@@ -40,15 +40,15 @@ class _HorizantalGradientState extends SampleViewState {
           labelPlacement: LabelPlacement.onTicks,
           interval: model.isWebFullView ? 1 : null,
           labelRotation: -45,
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       tooltipBehavior: _tooltipBehavior,
       primaryYAxis: NumericAxis(
           interval: 2,
           minimum: 14,
           maximum: 20,
           labelFormat: '{value}%',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getGradientAreaSeries(),
       onMarkerRender: (MarkerRenderArgs args) {
         if (args.pointIndex == 0) {
@@ -112,7 +112,7 @@ class _HorizantalGradientState extends SampleViewState {
           0.9
         ]),
         borderWidth: 2,
-        markerSettings: MarkerSettings(
+        markerSettings: const MarkerSettings(
             isVisible: true,
             height: 8,
             width: 8,

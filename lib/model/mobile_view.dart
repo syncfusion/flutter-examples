@@ -63,6 +63,7 @@ class _LayoutPageState extends State<LayoutPage> {
                 .controlList![_category.selectedIndex!].subItems[0].type ==
             'sample'
         ? _category.controlList![_category.selectedIndex!].subItems[0]
+            as SubItem
         : (_category.controlList![_category.selectedIndex!].subItems[0].type !=
                     'parent' &&
                 _category.controlList![_category.selectedIndex!].subItems[0]
@@ -71,8 +72,8 @@ class _LayoutPageState extends State<LayoutPage> {
                 _category.controlList![_category.selectedIndex!].subItems[0]
                         .subItems !=
                     null)
-            ? _category
-                .controlList![_category.selectedIndex!].subItems[0].subItems[0]
+            ? _category.controlList![_category.selectedIndex!].subItems[0]
+                .subItems[0] as SubItem
             : null;
     return Theme(
         data: ThemeData(
@@ -89,12 +90,12 @@ class _LayoutPageState extends State<LayoutPage> {
                     onPressed: () => Navigator.maybePop(context, false),
                   ),
                   backgroundColor: _model.paletteColor,
-                  bottom: ((_category.controlList![_category.selectedIndex!]
+                  bottom: (_category.controlList![_category.selectedIndex!]
                                       .sampleList !=
                                   null &&
                               _category.controlList![_category.selectedIndex!]
                                       .displayType ==
-                                  'card')) ||
+                                  'card') ||
                           _category.controlList![_category.selectedIndex!]
                                   .subItems.length ==
                               1
@@ -106,17 +107,13 @@ class _LayoutPageState extends State<LayoutPage> {
                               _secondaryTabIndex = 0;
                               if (codeIconChangeSetState != null) {
                                 codeIconChangeSetState!(() {
-                                  currentSample = _category.controlList![_category.selectedIndex!].subItems[index].type == 'sample'
-                                      ? _category
-                                          .controlList![
-                                              _category.selectedIndex!]
-                                          .subItems[index]
-                                      : ((_category.controlList![_category.selectedIndex!].subItems[index].type != 'parent' &&
-                                              _category
-                                                      .controlList![_category
-                                                          .selectedIndex!]
-                                                      .subItems[index]
-                                                      .displayType !=
+                                  currentSample = _category.controlList![_category.selectedIndex!].subItems[index].type ==
+                                          'sample'
+                                      ? _category.controlList![_category.selectedIndex!].subItems[index]
+                                          as SubItem
+                                      : ((_category.controlList![_category.selectedIndex!].subItems[index].type !=
+                                                  'parent' &&
+                                              _category.controlList![_category.selectedIndex!].subItems[index].displayType !=
                                                   'card' &&
                                               _category
                                                       .controlList![_category
@@ -125,11 +122,12 @@ class _LayoutPageState extends State<LayoutPage> {
                                                       .subItems
                                                       .length ==
                                                   1)
-                                          ? _category
+                                          ? _category.controlList![_category.selectedIndex!].subItems[index].subItems[0]
+                                              as SubItem
+                                          : _category
                                               .controlList![_category.selectedIndex!]
                                               .subItems[index]
-                                              .subItems[0]
-                                          : _category.controlList![_category.selectedIndex!].subItems[index].subItems[0]);
+                                              .subItems[0] as SubItem);
 
                                   _showIcon = _category
                                               .controlList![
@@ -196,12 +194,13 @@ class _LayoutPageState extends State<LayoutPage> {
                                 visible: _showIcon && currentSample != null,
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                      const EdgeInsets.fromLTRB(0, 0, 8, 0),
                                   child: Container(
-                                    height: 40,
-                                    width: 40,
+                                    height: 37,
+                                    width: 37,
                                     child: IconButton(
-                                      icon: Image.asset('images/code.png',
+                                      icon: Image.asset(
+                                          'images/git_hub_mobile.png',
                                           color: Colors.white),
                                       onPressed: () {
                                         launch(currentSample!.codeLink!);
@@ -225,7 +224,7 @@ class _LayoutPageState extends State<LayoutPage> {
                                     height: 40,
                                     width: 40,
                                     child: IconButton(
-                                      icon: Icon(Icons.info_outline,
+                                      icon: const Icon(Icons.info_outline,
                                           color: Colors.white),
                                       onPressed: () {
                                         showBottomInfo(context,
@@ -302,27 +301,28 @@ class _LayoutPageState extends State<LayoutPage> {
                     ? const TextStyle(
                         fontSize: 14, fontWeight: FontWeight.normal)
                     : const TextStyle(fontSize: 15, color: Colors.white)),
-            _status == ''
-                ? Container()
-                : Container(
-                    height: tabView != 'parent' ? 17 : 20,
-                    width: tabView != 'parent' ? 17 : 20,
-                    decoration: BoxDecoration(
-                      color: _status == 'N'
-                          ? const Color.fromRGBO(55, 153, 30, 1)
-                          : _status == 'U'
-                              ? const Color.fromRGBO(246, 117, 0, 1)
-                              : Colors.transparent,
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      _status,
-                      style: TextStyle(
-                          fontSize: tabView != 'parent' ? 11 : 12,
-                          color: Colors.white),
-                    ),
-                  ),
+            if (_status == '')
+              Container()
+            else
+              Container(
+                height: tabView != 'parent' ? 17 : 20,
+                width: tabView != 'parent' ? 17 : 20,
+                decoration: BoxDecoration(
+                  color: _status == 'N'
+                      ? const Color.fromRGBO(55, 153, 30, 1)
+                      : _status == 'U'
+                          ? const Color.fromRGBO(246, 117, 0, 1)
+                          : Colors.transparent,
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  _status,
+                  style: TextStyle(
+                      fontSize: tabView != 'parent' ? 11 : 12,
+                      color: Colors.white),
+                ),
+              ),
           ],
         )));
       }
@@ -342,61 +342,63 @@ class _LayoutPageState extends State<LayoutPage> {
               _sampleDetail.sourceLink != '') ||
           _sampleDetail.needsPropertyPanel == true;
       final Function? _sampleWidget = model.sampleWidget[list[j].key];
-      final SampleView _sampleView = _sampleWidget!(GlobalKey<State>());
+      final SampleView _sampleView =
+          _sampleWidget!(GlobalKey<State>()) as SampleView;
       _tabs.add(
         Scaffold(
           backgroundColor: model.cardThemeColor,
           body: Container(child: _sampleView),
           floatingActionButton: _needsFloatingBotton
               ? Stack(children: <Widget>[
-                  (_sampleDetail.sourceLink != null &&
-                          _sampleDetail.sourceLink != '')
-                      ? Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                            child: Container(
-                              height: 50,
-                              width: 230,
-                              child: InkWell(
-                                onTap: () => launch(_sampleDetail.sourceLink!),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text('Source: ',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: model.textColor)),
-                                    Text(_sampleDetail.sourceText!,
-                                        style: const TextStyle(
-                                            fontSize: 14, color: Colors.blue)),
-                                  ],
-                                ),
-                              ),
+                  if (_sampleDetail.sourceLink != null &&
+                      _sampleDetail.sourceLink != '')
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: Container(
+                          height: 50,
+                          width: 230,
+                          child: InkWell(
+                            onTap: () => launch(_sampleDetail.sourceLink!),
+                            child: Row(
+                              children: <Widget>[
+                                Text('Source: ',
+                                    style: TextStyle(
+                                        fontSize: 16, color: model.textColor)),
+                                Text(_sampleDetail.sourceText!,
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.blue)),
+                              ],
                             ),
                           ),
-                        )
-                      : Container(),
-                  _sampleDetail.needsPropertyPanel != true
-                      ? Container()
-                      : Align(
-                          alignment: Alignment.bottomRight,
-                          child: FloatingActionButton(
-                            heroTag: null,
-                            onPressed: () {
-                              final GlobalKey _sampleKey =
-                                  _sampleView.key as GlobalKey;
-                              final SampleViewState _sampleState =
-                                  _sampleKey.currentState as SampleViewState;
-                              final Widget _settingsContent =
-                                  _sampleState.buildSettings(context)!;
-                              showBottomSheetSettingsPanel(
-                                  context, _settingsContent);
-                            },
-                            backgroundColor: model.paletteColor,
-                            child: const Icon(Icons.graphic_eq,
-                                color: Colors.white),
-                          ),
                         ),
+                      ),
+                    )
+                  else
+                    Container(),
+                  if (_sampleDetail.needsPropertyPanel != true)
+                    Container()
+                  else
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: FloatingActionButton(
+                        heroTag: null,
+                        onPressed: () {
+                          final GlobalKey _sampleKey =
+                              _sampleView.key! as GlobalKey;
+                          final SampleViewState _sampleState =
+                              _sampleKey.currentState! as SampleViewState;
+                          final Widget _settingsContent =
+                              _sampleState.buildSettings(context)!;
+                          showBottomSheetSettingsPanel(
+                              context, _settingsContent);
+                        },
+                        backgroundColor: model.paletteColor,
+                        child:
+                            const Icon(Icons.graphic_eq, color: Colors.white),
+                      ),
+                    ),
                 ])
               : null,
         ),
@@ -418,7 +420,7 @@ class _LayoutPageState extends State<LayoutPage> {
           itemBuilder: (BuildContext context, int position) {
             final String? _status = list[position].status;
             _sampleWidget = model.sampleWidget[list[position].key]!;
-            _sampleView = _sampleWidget(GlobalKey<State>());
+            _sampleView = _sampleWidget(GlobalKey<State>()) as SampleView;
             return Container(
               color: model.themeData.brightness == Brightness.dark
                   ? Colors.black
@@ -449,7 +451,7 @@ class _LayoutPageState extends State<LayoutPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    '${list[position].title}',
+                                    list[position].title!,
                                     textAlign: TextAlign.left,
                                     softWrap: true,
                                     textScaleFactor: 1,
@@ -555,7 +557,8 @@ class _LayoutPageState extends State<LayoutPage> {
                                     codeIconChangeSetState != null) {
                                   codeIconChangeSetState!(() {
                                     _secondaryTabIndex = index;
-                                    currentSample = list[i].subItems![index];
+                                    currentSample =
+                                        list[i].subItems![index] as SubItem;
                                     infoIconChangeSetState!(() {});
                                   });
                                 }
@@ -565,14 +568,15 @@ class _LayoutPageState extends State<LayoutPage> {
                               indicatorColor: Colors.transparent,
                               indicatorWeight: 0.1,
                               isScrollable: true,
-                              tabs: _getTabs(list[i].subItems as List<SubItem>),
+                              tabs:
+                                  _getTabs(list[i].subItems! as List<SubItem>),
                             ),
                           )),
                   body: TabBarView(
                       physics: const NeverScrollableScrollPhysics(),
                       children: _getSamples(
                           model,
-                          list[i].subItems as List<SubItem>,
+                          list[i].subItems! as List<SubItem>,
                           list[i].displayType)))),
         ));
       }
@@ -608,15 +612,16 @@ class _LayoutPageState extends State<LayoutPage> {
                                   _secondaryTabIndex = index;
                                   codeIconChangeSetState!(() {
                                     _showIcon =
-                                        (list[i].subItems![index].displayType !=
+                                        list[i].subItems![index].displayType !=
                                                 'card' ||
                                             list[i]
                                                     .subItems![index]
                                                     .subItems
                                                     .length ==
-                                                1);
+                                                1;
                                     currentSample = _showIcon
                                         ? list[i].subItems![index].subItems[0]
+                                            as SubItem
                                         : null;
                                     infoIconChangeSetState!(() {});
                                   });
@@ -627,7 +632,8 @@ class _LayoutPageState extends State<LayoutPage> {
                               indicatorColor: Colors.transparent,
                               indicatorWeight: 0.1,
                               isScrollable: true,
-                              tabs: _getTabs(list[i].subItems as List<SubItem>),
+                              tabs:
+                                  _getTabs(list[i].subItems! as List<SubItem>),
                             ),
                           ),
                         ),
@@ -636,10 +642,10 @@ class _LayoutPageState extends State<LayoutPage> {
                       children: list[i].type == 'child'
                           ? _getSamples(
                               model,
-                              list[i].subItems as List<SubItem>,
+                              list[i].subItems! as List<SubItem>,
                               list[i].displayType)
                           : _getChildTabViewChildren(
-                              model, list[i].subItems as List<SubItem>)))),
+                              model, list[i].subItems! as List<SubItem>)))),
         ));
       }
     }

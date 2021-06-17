@@ -26,7 +26,7 @@ class _AxisCrossingState extends SampleViewState {
   late String _selectedSeries;
   String _selectedAxisType = 'x';
   late String _selectedAxis;
-  double? _crossAt = 0;
+  late double _crossAt = 0;
   bool? _isPlaceLabelsNearAxisLine = true;
   late TooltipBehavior _tooltipBehavior;
 
@@ -62,12 +62,13 @@ class _AxisCrossingState extends SampleViewState {
               Container(
                 padding: const EdgeInsets.fromLTRB(138, 0, 0, 0),
                 child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedAxis,
                     items: _axis.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'X',
-                          child: Text('$value',
+                          child: Text(value,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
                     onChanged: (dynamic value) {
@@ -134,7 +135,7 @@ class _AxisCrossingState extends SampleViewState {
               : _selectedAxisType == 'x'
                   ? _isPlaceLabelsNearAxisLine ?? true
                   : true,
-          crossesAt: _selectedAxisType == 'x' ? _crossAt ?? 0 : 0,
+          crossesAt: _selectedAxisType == 'x' ? _crossAt : 0,
           minorTicksPerInterval: 3),
       primaryYAxis: NumericAxis(
           minimum: -8,
@@ -145,7 +146,7 @@ class _AxisCrossingState extends SampleViewState {
               : _selectedAxisType == 'y'
                   ? _isPlaceLabelsNearAxisLine ?? true
                   : true,
-          crossesAt: _selectedAxisType == 'y' ? _crossAt ?? 0 : 0,
+          crossesAt: _selectedAxisType == 'y' ? _crossAt : 0,
           minorTicksPerInterval: 3),
       series: _getSeries(_selectedSeriesType),
       tooltipBehavior: _tooltipBehavior,
@@ -171,7 +172,7 @@ class _AxisCrossingState extends SampleViewState {
     chart = <ChartSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           color: const Color.fromRGBO(20, 122, 20, 1),
           name: 'Cubic Interpolation',

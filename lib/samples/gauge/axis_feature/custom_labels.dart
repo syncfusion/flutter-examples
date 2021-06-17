@@ -37,13 +37,13 @@ class _GaugeCustomLabelsState extends SampleViewState {
           radiusFactor: model.isWebFullView ? 0.8 : 0.9,
           minimum: 0,
           maximum: 80,
-          axisLineStyle: AxisLineStyle(
+          axisLineStyle: const AxisLineStyle(
               thicknessUnit: GaugeSizeUnit.factor, thickness: 0.1),
           interval: 10,
           canRotateLabels: true,
-          axisLabelStyle: GaugeTextStyle(fontSize: 12),
+          axisLabelStyle: const GaugeTextStyle(fontSize: 12),
           minorTicksPerInterval: 0,
-          majorTickStyle: MajorTickStyle(
+          majorTickStyle: const MajorTickStyle(
               thickness: 1.5, lengthUnit: GaugeSizeUnit.factor, length: 0.07),
           showLabels: true,
           onLabelCreated: _handleLabelCreated,

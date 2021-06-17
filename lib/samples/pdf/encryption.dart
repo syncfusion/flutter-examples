@@ -51,11 +51,12 @@ class _EncryptPdfState extends SampleViewState {
                               color: model.textColor,
                               fontWeight: FontWeight.bold)),
                       const SizedBox(height: 10, width: 30),
-                      (MediaQuery.of(context).size.width > 800)
-                          ? Row(children: getChildWidgets(context))
-                          : Column(children: getChildWidgets(context)),
+                      if (MediaQuery.of(context).size.width > 800)
+                        Row(children: getChildWidgets(context))
+                      else
+                        Column(children: getChildWidgets(context)),
                       const SizedBox(height: 10, width: 30),
-                      Row(children: [
+                      Row(children: <Widget>[
                         Text('User Password: ',
                             style: TextStyle(
                                 fontSize: 16,
@@ -66,7 +67,7 @@ class _EncryptPdfState extends SampleViewState {
                                 fontSize: 16, color: model.textColor)),
                       ]),
                       const SizedBox(height: 15, width: 30),
-                      Row(children: [
+                      Row(children: <Widget>[
                         Text('Owner Password: ',
                             style: TextStyle(
                                 fontSize: 16,
@@ -86,7 +87,7 @@ class _EncryptPdfState extends SampleViewState {
                               padding: model.isMobile
                                   ? null
                                   : MaterialStateProperty.all(
-                                      EdgeInsets.symmetric(
+                                      const EdgeInsets.symmetric(
                                           vertical: 15, horizontal: 15)),
                             ),
                             onPressed: _encryptPDF,
@@ -99,29 +100,29 @@ class _EncryptPdfState extends SampleViewState {
   }
 
   List<Widget> getChildWidgets(BuildContext context) {
-    return [
-      Row(children: [
-        Radio(value: 0, groupValue: _groupValue, onChanged: _changed),
+    return <Widget>[
+      Row(children: <Widget>[
+        Radio<int>(value: 0, groupValue: _groupValue, onChanged: _changed),
         Text('40-bit RC4',
             style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(value: 1, groupValue: _groupValue, onChanged: _changed),
+      Row(children: <Widget>[
+        Radio<int>(value: 1, groupValue: _groupValue, onChanged: _changed),
         Text('128-bit RC4',
             style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(value: 2, groupValue: _groupValue, onChanged: _changed),
+      Row(children: <Widget>[
+        Radio<int>(value: 2, groupValue: _groupValue, onChanged: _changed),
         Text('128-bit AES',
             style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(value: 3, groupValue: _groupValue, onChanged: _changed),
+      Row(children: <Widget>[
+        Radio<int>(value: 3, groupValue: _groupValue, onChanged: _changed),
         Text('256-bit AES',
             style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(value: 4, groupValue: _groupValue, onChanged: _changed),
+      Row(children: <Widget>[
+        Radio<int>(value: 4, groupValue: _groupValue, onChanged: _changed),
         Text('256-bit AES Revision 6',
             style: TextStyle(fontSize: 16, color: model.textColor))
       ])
@@ -144,8 +145,10 @@ class _EncryptPdfState extends SampleViewState {
     security.algorithm = _getAlgorithm();
 
     //Set the permissions.
-    security.permissions.addAll(
-        [PdfPermissionsFlags.print, PdfPermissionsFlags.fullQualityPrint]);
+    security.permissions.addAll(<PdfPermissionsFlags>[
+      PdfPermissionsFlags.print,
+      PdfPermissionsFlags.fullQualityPrint
+    ]);
 
     //Save and launch the document
     final List<int> bytes = document.save();

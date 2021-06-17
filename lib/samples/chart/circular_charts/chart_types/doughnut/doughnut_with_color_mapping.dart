@@ -94,12 +94,12 @@ class _DoughnutDefaultState extends SampleViewState {
             ? Colors.white
             : Colors.black,
         strokeWidth: 2,
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
 
         /// The property used to apply the color for each douchnut series.
         pointColorMapper: (ChartSampleData data, _) => data.pointColor,
-        dataLabelMapper: (ChartSampleData data, _) => data.x,
+        dataLabelMapper: (ChartSampleData data, _) => data.x as String,
       ),
     ];
   }

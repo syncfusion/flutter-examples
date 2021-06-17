@@ -21,11 +21,6 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
   _RadialRangeSliderLabelsTicksState();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       _firstMarkerSize = 35;
@@ -45,7 +40,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
             minimum: 0,
             maximum: 12,
             interval: 3,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 color: Color.fromRGBO(128, 94, 246, 0.3),
                 thickness: 0.075,
                 thicknessUnit: GaugeSizeUnit.factor),
@@ -53,10 +48,10 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
             labelOffset: 0.1,
             offsetUnit: GaugeSizeUnit.factor,
             minorTicksPerInterval: 30,
-            minorTickStyle:
-                MinorTickStyle(length: 0.05, lengthUnit: GaugeSizeUnit.factor),
-            majorTickStyle:
-                MajorTickStyle(length: 0.1, lengthUnit: GaugeSizeUnit.factor),
+            minorTickStyle: const MinorTickStyle(
+                length: 0.05, lengthUnit: GaugeSizeUnit.factor),
+            majorTickStyle: const MajorTickStyle(
+                length: 0.1, lengthUnit: GaugeSizeUnit.factor),
             ranges: <GaugeRange>[
               GaugeRange(
                   endValue: _secondMarkerValue,
@@ -66,12 +61,12 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                   endWidth: 0.075,
                   startWidth: 0.075)
             ],
-            pointers: [
+            pointers: <GaugePointer>[
               MarkerPointer(
                 value: _firstMarkerValue,
                 elevation: 5,
                 enableDragging: true,
-                color: Color.fromRGBO(128, 94, 246, 1),
+                color: const Color.fromRGBO(128, 94, 246, 1),
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
                 markerType: MarkerType.circle,
@@ -82,7 +77,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                 value: _secondMarkerValue,
                 elevation: 5,
                 markerOffset: 0.1,
-                color: Color.fromRGBO(128, 94, 246, 1),
+                color: const Color.fromRGBO(128, 94, 246, 1),
                 enableDragging: true,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
@@ -98,7 +93,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                     children: <Widget>[
                       Text(
                         _annotationValue2.contains(_annotationValue1)
-                            ? '$_annotationValue1'
+                            ? _annotationValue1
                             : '$_annotationValue1 - $_annotationValue2',
                         style: TextStyle(
                           fontSize: _annotationFontSize,
@@ -111,11 +106,6 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
             ]),
       ]),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   /// Dragged pointer new value is updated to pointer and

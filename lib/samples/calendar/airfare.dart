@@ -14,7 +14,7 @@ import 'package:syncfusion_flutter_core/core.dart';
 import '../../model/sample_view.dart';
 
 /// Smallest fare value
-const String _kBestPrice = '\$100.17';
+const String _kBestPrice = r'$100.17';
 
 /// Widget of air fare calendar
 class AirFareCalendar extends SampleView {
@@ -50,39 +50,39 @@ class _AirFareCalendarCalendarState extends SampleViewState {
 
   /// Creates required data for the air fare data.
   void _addFareDataDetails() {
-    _fares.add('\$134.50');
-    _fares.add('\$305.00');
-    _fares.add('\$152.66');
-    _fares.add('\$267.09');
-    _fares.add('\$189.20');
-    _fares.add('\$212.10');
-    _fares.add('\$350.50');
-    _fares.add('\$222.39');
-    _fares.add('\$238.83');
-    _fares.add('\$147.27');
-    _fares.add('\$115.43');
-    _fares.add('\$198.06');
-    _fares.add('\$189.83');
-    _fares.add('\$110.71');
-    _fares.add('\$152.10');
-    _fares.add('\$199.62');
-    _fares.add('\$146.15');
-    _fares.add('\$237.04');
-    _fares.add('\$100.17');
-    _fares.add('\$101.72');
-    _fares.add('\$266.69');
-    _fares.add('\$332.48');
-    _fares.add('\$256.77');
-    _fares.add('\$449.68');
-    _fares.add('\$100.17');
-    _fares.add('\$153.31');
-    _fares.add('\$249.92');
-    _fares.add('\$254.59');
-    _fares.add('\$332.48');
-    _fares.add('\$256.77');
-    _fares.add('\$449.68');
-    _fares.add('\$107.18');
-    _fares.add('\$219.04');
+    _fares.add(r'$134.50');
+    _fares.add(r'$305.00');
+    _fares.add(r'$152.66');
+    _fares.add(r'$267.09');
+    _fares.add(r'$189.20');
+    _fares.add(r'$212.10');
+    _fares.add(r'$350.50');
+    _fares.add(r'$222.39');
+    _fares.add(r'$238.83');
+    _fares.add(r'$147.27');
+    _fares.add(r'$115.43');
+    _fares.add(r'$198.06');
+    _fares.add(r'$189.83');
+    _fares.add(r'$110.71');
+    _fares.add(r'$152.10');
+    _fares.add(r'$199.62');
+    _fares.add(r'$146.15');
+    _fares.add(r'$237.04');
+    _fares.add(r'$100.17');
+    _fares.add(r'$101.72');
+    _fares.add(r'$266.69');
+    _fares.add(r'$332.48');
+    _fares.add(r'$256.77');
+    _fares.add(r'$449.68');
+    _fares.add(r'$100.17');
+    _fares.add(r'$153.31');
+    _fares.add(r'$249.92');
+    _fares.add(r'$254.59');
+    _fares.add(r'$332.48');
+    _fares.add(r'$256.77');
+    _fares.add(r'$449.68');
+    _fares.add(r'$107.18');
+    _fares.add(r'$219.04');
   }
 
   /// Returns color for the airplane data.
@@ -195,9 +195,9 @@ class _AirFareCalendarCalendarState extends SampleViewState {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: model.isMobileResolution
@@ -206,7 +206,7 @@ class _AirFareCalendarCalendarState extends SampleViewState {
                       ? MainAxisAlignment.spaceBetween
                       : MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
                   details.date.day.toString(),
                   style: TextStyle(
@@ -217,13 +217,14 @@ class _AirFareCalendarCalendarState extends SampleViewState {
                               : null,
                       fontWeight: isToday ? FontWeight.bold : null),
                 ),
-                !model.isMobileResolution && airFare.fare == _kBestPrice
-                    ? Text(
-                        'Best Price',
-                        style: TextStyle(
-                            color: isDisabledDate ? Colors.grey : Colors.green),
-                      )
-                    : Text('')
+                if (!model.isMobileResolution && airFare.fare == _kBestPrice)
+                  Text(
+                    'Best Price',
+                    style: TextStyle(
+                        color: isDisabledDate ? Colors.grey : Colors.green),
+                  )
+                else
+                  const Text('')
               ],
             ),
           ),
@@ -231,13 +232,13 @@ class _AirFareCalendarCalendarState extends SampleViewState {
             airFare.fare,
             style: TextStyle(
                 fontSize: model.isMobileResolution ? 12 : 15,
-                color: Color.fromRGBO(42, 138, 148, 1),
+                color: const Color.fromRGBO(42, 138, 148, 1),
                 fontWeight: FontWeight.bold),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
-            children: [
+            children: <Widget>[
               Transform.rotate(
                 angle: -pi / 4,
                 child: Text(
@@ -249,7 +250,10 @@ class _AirFareCalendarCalendarState extends SampleViewState {
                   textAlign: TextAlign.center,
                 ),
               ),
-              !model.isMobileResolution ? Text(airFare.airline) : Text('')
+              if (!model.isMobileResolution)
+                Text(airFare.airline)
+              else
+                const Text('')
             ],
           )
         ],

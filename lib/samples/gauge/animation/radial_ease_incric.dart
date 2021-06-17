@@ -35,14 +35,14 @@ class _RadialEaseInCircExampleState extends SampleViewState {
             ticksPosition: ElementsPosition.outside,
             labelsPosition: ElementsPosition.outside,
             interval: 10,
-            axisLabelStyle: GaugeTextStyle(fontSize: 12),
-            majorTickStyle: MajorTickStyle(
+            axisLabelStyle: const GaugeTextStyle(fontSize: 12),
+            majorTickStyle: const MajorTickStyle(
               length: 0.15,
               lengthUnit: GaugeSizeUnit.factor,
               thickness: 1,
             ),
             minorTicksPerInterval: 4,
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
               length: 0.04,
               lengthUnit: GaugeSizeUnit.factor,
               thickness: 1,

@@ -74,14 +74,14 @@ class _RadialBarAngleState extends SampleViewState {
         <RadialBarSeries<ChartSampleData, String>>[
       RadialBarSeries<ChartSampleData, String>(
           animationDuration: 0,
-          pointRadiusMapper: (ChartSampleData data, _) => data.xValue,
+          // pointRadiusMapper: (ChartSampleData data, _) => data.xValue as String,
           maximumValue: 100,
           radius: '100%',
           gap: '2%',
           innerRadius: '30%',
           dataSource: chartData,
           cornerStyle: CornerStyle.bothCurve,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           pointColorMapper: (ChartSampleData data, _) => data.pointColor,
           dataLabelMapper: (ChartSampleData data, _) => data.text,

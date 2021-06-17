@@ -44,7 +44,7 @@ class _TileLayerSampleState extends SampleViewState {
     _mapController = MapTileLayerController();
     _worldWonders = <_WonderDetails>[];
 
-    _worldWonders.add(_WonderDetails(
+    _worldWonders.add(const _WonderDetails(
         place: 'Chichen Itza',
         state: 'Yucatan',
         country: 'Mexico',
@@ -55,7 +55,7 @@ class _TileLayerSampleState extends SampleViewState {
         imagePath: 'images/maps_chichen_itza.jpg',
         tooltipImagePath: 'images/maps-chichen-itza.jpg'));
 
-    _worldWonders.add(_WonderDetails(
+    _worldWonders.add(const _WonderDetails(
         place: 'Machu Picchu',
         state: 'Cuzco',
         country: 'Peru',
@@ -66,7 +66,7 @@ class _TileLayerSampleState extends SampleViewState {
         imagePath: 'images/maps_machu_pichu.jpg',
         tooltipImagePath: 'images/maps-machu-picchu.jpg'));
 
-    _worldWonders.add(_WonderDetails(
+    _worldWonders.add(const _WonderDetails(
         place: 'Christ the Redeemer',
         state: 'Rio de Janeiro',
         country: 'Brazil',
@@ -77,7 +77,7 @@ class _TileLayerSampleState extends SampleViewState {
         imagePath: 'images/maps_christ_redeemer.jpg',
         tooltipImagePath: 'images/maps-christ-the-redeemer.jpg'));
 
-    _worldWonders.add(_WonderDetails(
+    _worldWonders.add(const _WonderDetails(
         place: 'Colosseum',
         state: 'Regio III Isis et Serapis',
         country: 'Rome',
@@ -88,7 +88,7 @@ class _TileLayerSampleState extends SampleViewState {
         imagePath: 'images/maps_colosseum.jpg',
         tooltipImagePath: 'images/maps-colosseum.jpg'));
 
-    _worldWonders.add(_WonderDetails(
+    _worldWonders.add(const _WonderDetails(
         place: 'Petra',
         state: 'Ma\'an Governorate',
         country: 'Jordan',
@@ -99,7 +99,7 @@ class _TileLayerSampleState extends SampleViewState {
         imagePath: 'images/maps_petra.jpg',
         tooltipImagePath: 'images/maps-petra.jpg'));
 
-    _worldWonders.add(_WonderDetails(
+    _worldWonders.add(const _WonderDetails(
         place: 'Taj Mahal',
         state: 'Uttar Pradesh',
         country: 'India',
@@ -110,7 +110,7 @@ class _TileLayerSampleState extends SampleViewState {
         imagePath: 'images/maps_taj_mahal.jpg',
         tooltipImagePath: 'images/maps-tajmahal.jpg'));
 
-    _worldWonders.add(_WonderDetails(
+    _worldWonders.add(const _WonderDetails(
         place: 'Great Wall of China',
         state: 'Beijing',
         country: 'China',
@@ -159,7 +159,7 @@ class _TileLayerSampleState extends SampleViewState {
                 ? (_isDesktop ? 0.5 : 0.7)
                 : 0.8);
     return Stack(
-      children: [
+      children: <Widget>[
         Positioned.fill(
           child: Image.asset(
             'images/maps_grid.png',
@@ -167,7 +167,7 @@ class _TileLayerSampleState extends SampleViewState {
           ),
         ),
         SfMaps(
-          layers: [
+          layers: <MapLayer>[
             MapTileLayer(
               /// URL to request the tiles from the providers.
               ///
@@ -180,55 +180,57 @@ class _TileLayerSampleState extends SampleViewState {
               zoomPanBehavior: _zoomPanBehavior,
               controller: _mapController,
               initialMarkersCount: _worldWonders.length,
-              tooltipSettings: MapTooltipSettings(
+              tooltipSettings: const MapTooltipSettings(
                 color: Colors.transparent,
               ),
               markerTooltipBuilder: (BuildContext context, int index) {
                 if (_isDesktop) {
                   return ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      Container(
-                        width: 150,
-                        height: 80,
-                        color: Colors.grey,
-                        child: Image.asset(
-                          _worldWonders[index].tooltipImagePath,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(
-                            left: 10.0, top: 5.0, bottom: 5.0),
-                        width: 150,
-                        color: Colors.white,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _worldWonders[index].place,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Text(
-                                  _worldWonders[index].state +
-                                      ', ' +
-                                      _worldWonders[index].country,
-                                  style: TextStyle(
-                                      fontSize: 10, color: Colors.black),
-                                ),
-                              )
-                            ]),
-                      ),
-                    ]),
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Container(
+                            width: 150,
+                            height: 80,
+                            color: Colors.grey,
+                            child: Image.asset(
+                              _worldWonders[index].tooltipImagePath,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(
+                                left: 10.0, top: 5.0, bottom: 5.0),
+                            width: 150,
+                            color: Colors.white,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    _worldWonders[index].place,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 5.0),
+                                    child: Text(
+                                      _worldWonders[index].state +
+                                          ', ' +
+                                          _worldWonders[index].country,
+                                      style: const TextStyle(
+                                          fontSize: 10, color: Colors.black),
+                                    ),
+                                  )
+                                ]),
+                          ),
+                        ]),
                   );
                 }
 
-                return SizedBox();
+                return const SizedBox();
               },
               markerBuilder: (BuildContext context, int index) {
                 return MapMarker(
@@ -236,7 +238,7 @@ class _TileLayerSampleState extends SampleViewState {
                   longitude: _worldWonders[index].longitude,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       GestureDetector(
                         onTap: () {
                           if (_currentSelectedIndex != index) {
@@ -256,7 +258,7 @@ class _TileLayerSampleState extends SampleViewState {
                             size: _currentSelectedIndex == index ? 40 : 25),
                       ),
                       SizedBox(
-                        height: (_currentSelectedIndex == index ? 40 : 25),
+                        height: _currentSelectedIndex == index ? 40 : 25,
                       ),
                     ],
                   ),
@@ -269,7 +271,7 @@ class _TileLayerSampleState extends SampleViewState {
           alignment: Alignment.bottomCenter,
           child: Container(
             height: _cardHeight,
-            padding: EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.only(bottom: 10),
 
             /// PageView which shows the world wonder details at the bottom.
             child: PageView.builder(
@@ -281,21 +283,21 @@ class _TileLayerSampleState extends SampleViewState {
                 return Transform.scale(
                   scale: index == _currentSelectedIndex ? 1 : 0.85,
                   child: Stack(
-                    children: [
+                    children: <Widget>[
                       Container(
                         padding: const EdgeInsets.all(10.0),
                         decoration: BoxDecoration(
                           color:
                               Theme.of(context).brightness == Brightness.light
-                                  ? Color.fromRGBO(255, 255, 255, 1)
-                                  : Color.fromRGBO(66, 66, 66, 1),
+                                  ? const Color.fromRGBO(255, 255, 255, 1)
+                                  : const Color.fromRGBO(66, 66, 66, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(153, 153, 153, 1),
+                            color: const Color.fromRGBO(153, 153, 153, 1),
                             width: 0.5,
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Row(children: [
+                        child: Row(children: <Widget>[
                           // Adding title and description for card.
                           Expanded(
                               child: Padding(
@@ -303,13 +305,13 @@ class _TileLayerSampleState extends SampleViewState {
                                 const EdgeInsets.only(top: 5.0, right: 5.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: <Widget>[
                                 Text(item.place + ', ' + item.country,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16),
                                     textAlign: TextAlign.start),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Expanded(
                                     child: Text(
                                   item.description,
@@ -323,7 +325,8 @@ class _TileLayerSampleState extends SampleViewState {
                           )),
                           // Adding Image for card.
                           ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(4)),
                             child: Image.asset(
                               item.imagePath,
                               height: _cardHeight - 10,
@@ -338,7 +341,7 @@ class _TileLayerSampleState extends SampleViewState {
                         color: Colors.transparent,
                         child: InkWell(
                           borderRadius:
-                              BorderRadius.all(Radius.elliptical(10, 10)),
+                              const BorderRadius.all(Radius.elliptical(10, 10)),
                           onTap: () {
                             if (_currentSelectedIndex != index) {
                               _pageViewController.animateToPage(
@@ -394,7 +397,7 @@ class _TileLayerSampleState extends SampleViewState {
     /// Updating the design of the selected marker. Please check the
     /// `markerBuilder` section in the build method to know how this is done.
     _mapController
-        .updateMarkers([_currentSelectedIndex, _previousSelectedIndex]);
+        .updateMarkers(<int>[_currentSelectedIndex, _previousSelectedIndex]);
     _canUpdateFocalLatLng = true;
   }
 }

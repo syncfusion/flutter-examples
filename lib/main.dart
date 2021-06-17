@@ -5,5 +5,5 @@ import 'sample_browser.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await updateControlItems();
-  runApp(SampleBrowser());
+  runApp(const SampleBrowser());
 }

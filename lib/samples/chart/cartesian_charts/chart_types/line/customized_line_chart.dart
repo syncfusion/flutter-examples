@@ -59,7 +59,7 @@ class _LineDefaultState extends SampleViewState {
           minimum: 1,
           maximum: 3.5,
           interval: 0.5,
-          majorGridLines: MajorGridLines(color: Colors.transparent)),
+          majorGridLines: const MajorGridLines(color: Colors.transparent)),
       series: <ChartSeries<_ChartData, DateTime>>[
         LineSeries<_ChartData, DateTime>(
           animationDuration: 0,
@@ -78,7 +78,8 @@ class _LineDefaultState extends SampleViewState {
         ),
         LineSeries<_ChartData, DateTime>(
             onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-              return _CustomLineSeriesRenderer(series as LineSeries);
+              return _CustomLineSeriesRenderer(
+                  series as LineSeries<_ChartData, DateTime>);
             },
             animationDuration: 2500,
             dataSource: <_ChartData>[
@@ -96,7 +97,7 @@ class _LineDefaultState extends SampleViewState {
             xValueMapper: (_ChartData sales, _) => sales.x,
             yValueMapper: (_ChartData sales, _) => sales.y,
             width: 2,
-            markerSettings: MarkerSettings(isVisible: true)),
+            markerSettings: const MarkerSettings(isVisible: true)),
       ],
       tooltipBehavior: _tooltipBehavior,
     );

@@ -38,12 +38,12 @@ class _ColumnDefaultState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Population growth of various countries'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           labelFormat: '{value}%',
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultColumnSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -62,7 +62,7 @@ class _ColumnDefaultState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         dataSource: chartData,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         dataLabelSettings: DataLabelSettings(
             isVisible: true, textStyle: const TextStyle(fontSize: 10)),

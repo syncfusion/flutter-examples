@@ -101,8 +101,8 @@ class _BlackoutDatePickerState extends SampleViewState {
   /// Returns the date range picker widget based on the properties passed.
   SfDateRangePicker _getBlackoutDatePicker() {
     return SfDateRangePicker(
-      monthCellStyle: DateRangePickerMonthCellStyle(
-          blackoutDateTextStyle: const TextStyle(
+      monthCellStyle: const DateRangePickerMonthCellStyle(
+          blackoutDateTextStyle: TextStyle(
               color: Colors.red, decoration: TextDecoration.lineThrough)),
       monthViewSettings: DateRangePickerMonthViewSettings(
           showTrailingAndLeadingDates: true, blackoutDates: _blackoutDates),

@@ -42,13 +42,13 @@ class _HeightCalculatorState extends SampleViewState {
     final Brightness _brightness = Theme.of(context).brightness;
 
     return Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Center(
             child: Container(
                 height: isCardView
                     ? MediaQuery.of(context).size.height
                     : MediaQuery.of(context).size.height * 3 / 4,
-                padding: EdgeInsets.all(5.0),
+                padding: const EdgeInsets.all(5.0),
                 child: SfLinearGauge(
                   orientation: LinearGaugeOrientation.vertical,
                   minimum: 0,
@@ -60,46 +60,48 @@ class _HeightCalculatorState extends SampleViewState {
                   onGenerateLabels: () {
                     return isCardView
                         ? <LinearAxisLabel>[
-                            LinearAxisLabel(text: '0 cm', value: 0),
-                            LinearAxisLabel(text: '50 cm', value: 50),
-                            LinearAxisLabel(text: '100 cm', value: 100),
-                            LinearAxisLabel(text: '150 cm', value: 150),
-                            LinearAxisLabel(text: '200 cm', value: 200),
+                            const LinearAxisLabel(text: '0 cm', value: 0),
+                            const LinearAxisLabel(text: '50 cm', value: 50),
+                            const LinearAxisLabel(text: '100 cm', value: 100),
+                            const LinearAxisLabel(text: '150 cm', value: 150),
+                            const LinearAxisLabel(text: '200 cm', value: 200),
                           ]
                         : <LinearAxisLabel>[
-                            LinearAxisLabel(text: '0 cm', value: 0),
-                            LinearAxisLabel(text: '25 cm', value: 25),
-                            LinearAxisLabel(text: '50 cm', value: 50),
-                            LinearAxisLabel(text: '75 cm', value: 75),
-                            LinearAxisLabel(text: '100 cm', value: 100),
-                            LinearAxisLabel(text: '125 cm', value: 125),
-                            LinearAxisLabel(text: '150 cm', value: 150),
-                            LinearAxisLabel(text: '175 cm', value: 175),
-                            LinearAxisLabel(text: '200 cm', value: 200),
+                            const LinearAxisLabel(text: '0 cm', value: 0),
+                            const LinearAxisLabel(text: '25 cm', value: 25),
+                            const LinearAxisLabel(text: '50 cm', value: 50),
+                            const LinearAxisLabel(text: '75 cm', value: 75),
+                            const LinearAxisLabel(text: '100 cm', value: 100),
+                            const LinearAxisLabel(text: '125 cm', value: 125),
+                            const LinearAxisLabel(text: '150 cm', value: 150),
+                            const LinearAxisLabel(text: '175 cm', value: 175),
+                            const LinearAxisLabel(text: '200 cm', value: 200),
                           ];
                   },
-                  axisTrackStyle: LinearAxisTrackStyle(thickness: 5.0),
-                  markerPointers: [
+                  axisTrackStyle: const LinearAxisTrackStyle(thickness: 5.0),
+                  markerPointers: <LinearMarkerPointer>[
                     LinearShapePointer(
                         value: _pointerValue,
                         enableAnimation: false,
-                        onValueChanged: (value) => {
-                              setState(() => {_pointerValue = value})
-                            },
+                        onValueChanged: (dynamic value) {
+                          setState(() {
+                            _pointerValue = value as double;
+                          });
+                        },
                         position: LinearElementPosition.outside,
                         shapeType: LinearShapePointerType.rectangle,
-                        color: Color(0xff0074E3),
+                        color: const Color(0xff0074E3),
                         height: 1.5,
                         width: isCardView ? 150 : 250),
                     LinearWidgetPointer(
                         value: _pointerValue,
                         enableAnimation: false,
                         position: LinearElementPosition.cross,
-                        onValueChanged: (value) => {
-                              setState(() {
-                                _pointerValue = value;
-                              })
-                            },
+                        onValueChanged: (dynamic value) {
+                          setState(() {
+                            _pointerValue = value as double;
+                          });
+                        },
                         child: Container(
                             width: 24,
                             height: 16,
@@ -110,9 +112,11 @@ class _HeightCalculatorState extends SampleViewState {
                         value: _pointerValue,
                         markerAlignment: LinearMarkerAlignment.center,
                         enableAnimation: false,
-                        onValueChanged: (value) => {
-                              setState(() => {_pointerValue = value})
-                            },
+                        onValueChanged: (dynamic value) {
+                          setState(() {
+                            _pointerValue = value as double;
+                          });
+                        },
                         offset: isCardView ? 150 : 230,
                         position: LinearElementPosition.outside,
                         child: Container(
@@ -121,12 +125,12 @@ class _HeightCalculatorState extends SampleViewState {
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle,
                                 color: model.cardColor,
-                                boxShadow: [
+                                boxShadow: <BoxShadow>[
                                   BoxShadow(
                                     color: _brightness == Brightness.light
                                         ? Colors.grey
                                         : Colors.black54,
-                                    offset: Offset(0.0, 1.0), //(x,y)
+                                    offset: const Offset(0.0, 1.0), //(x,y)
                                     blurRadius: 6.0,
                                   ),
                                 ],
@@ -134,7 +138,7 @@ class _HeightCalculatorState extends SampleViewState {
                             child: Center(
                               child: Text(
                                   _pointerValue.toStringAsFixed(0) + ' cm',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 14,
                                       color: Color(0xff0074E3))),

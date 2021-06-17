@@ -33,12 +33,12 @@ class _ScatterDefaultState extends SampleViewState {
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: DateTimeAxis(
         labelIntersectAction: AxisLabelIntersectAction.multipleRows,
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}%',
-          axisLine: AxisLine(width: 0),
-          minorTickLines: MinorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          minorTickLines: const MinorTickLines(size: 0)),
       tooltipBehavior: TooltipBehavior(enable: true),
       series: _getDefaultScatterSeries(),
     );
@@ -105,24 +105,24 @@ class _ScatterDefaultState extends SampleViewState {
       ScatterSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
           opacity: 0.7,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          markerSettings: MarkerSettings(height: 15, width: 15),
+          markerSettings: const MarkerSettings(height: 15, width: 15),
           name: 'Brazil'),
       ScatterSeries<ChartSampleData, DateTime>(
           opacity: 0.7,
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          markerSettings: MarkerSettings(height: 15, width: 15),
+          markerSettings: const MarkerSettings(height: 15, width: 15),
           name: 'Canada'),
       ScatterSeries<ChartSampleData, DateTime>(
         dataSource: chartData,
         color: const Color.fromRGBO(0, 168, 181, 1),
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
         name: 'India',
-        markerSettings: MarkerSettings(height: 15, width: 15),
+        markerSettings: const MarkerSettings(height: 15, width: 15),
       )
     ];
   }

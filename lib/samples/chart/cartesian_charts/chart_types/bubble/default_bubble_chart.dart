@@ -43,13 +43,13 @@ class _BubbleDefaultState extends SampleViewState {
         plotAreaBorderWidth: 0,
         title: ChartTitle(text: isCardView ? '' : 'World countries details'),
         primaryXAxis: NumericAxis(
-            majorGridLines: MajorGridLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
             title: AxisTitle(text: isCardView ? '' : 'Literacy rate'),
             minimum: 60,
             maximum: 100),
         primaryYAxis: NumericAxis(
-            axisLine: AxisLine(width: 0),
-            majorTickLines: MajorTickLines(size: 0),
+            axisLine: const AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(size: 0),
             title: AxisTitle(text: isCardView ? '' : 'GDP growth rate')),
         tooltipBehavior: _tooltipBehavior,
         series: _getDefaultBubbleSeries());
@@ -81,7 +81,7 @@ class _BubbleDefaultState extends SampleViewState {
       BubbleSeries<ChartSampleData, num>(
         opacity: 0.7,
         dataSource: bubbleData,
-        xValueMapper: (ChartSampleData sales, _) => sales.xValue,
+        xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         sizeValueMapper: (ChartSampleData sales, _) => sales.size,
       )

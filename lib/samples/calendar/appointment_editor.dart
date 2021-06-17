@@ -135,7 +135,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
       return;
     }
 
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         _view = calendarController.view!;
 
@@ -164,7 +164,10 @@ class _CalendarAppointmentEditorState extends SampleViewState {
     } else {
       if (calendarTapDetails.appointments != null &&
           calendarTapDetails.targetElement == CalendarElement.appointment) {
-        _selectedAppointment = calendarTapDetails.appointments![0];
+        final dynamic appointment = calendarTapDetails.appointments![0];
+        if (appointment is Appointment) {
+          _selectedAppointment = appointment;
+        }
       }
 
       final DateTime selectedDate = calendarTapDetails.date!;
@@ -271,7 +274,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
         /// Navigates to the appointment editor page on mobile
         Navigator.push<Widget>(
           context,
-          MaterialPageRoute(
+          MaterialPageRoute<Widget>(
               builder: (BuildContext context) => AppointmentEditor(
                   model,
                   _selectedAppointment,
@@ -474,11 +477,11 @@ class _CalendarAppointmentEditorState extends SampleViewState {
         onViewChanged: viewChangedCallback,
         initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
             DateTime.now().day, 0, 0, 0),
-        monthViewSettings: MonthViewSettings(
+        monthViewSettings: const MonthViewSettings(
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
             appointmentDisplayCount: 4),
-        timeSlotViewSettings: TimeSlotViewSettings(
-            minimumAppointmentDuration: const Duration(minutes: 60)));
+        timeSlotViewSettings: const TimeSlotViewSettings(
+            minimumAppointmentDuration: Duration(minutes: 60)));
   }
 }
 
@@ -509,8 +512,8 @@ class _DataSource extends CalendarDataSource {
 /// Formats the tapped appointment time text, to display on the pop-up view.
 String _getAppointmentTimeText(Appointment selectedAppointment) {
   if (selectedAppointment.isAllDay) {
-    if ((isSameDate(
-        selectedAppointment.startTime, selectedAppointment.endTime))) {
+    if (isSameDate(
+        selectedAppointment.startTime, selectedAppointment.endTime)) {
       return DateFormat('EEEE, MMM dd')
           .format(selectedAppointment.startTime)
           .toString();
@@ -565,6 +568,8 @@ Widget displayAppointmentDetails(
           ? Colors.white
           : Colors.black87;
 
+  final List<Appointment> appointmentCollection = <Appointment>[];
+
   return ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
     ListTile(
         trailing: Row(
@@ -592,7 +597,8 @@ Widget displayAppointmentDetails(
                             colorCollection,
                             colorNames,
                             events,
-                            timeZoneCollection, <Appointment>[]),
+                            timeZoneCollection,
+                            appointmentCollection),
                       ));
                 });
           },
@@ -639,38 +645,40 @@ Widget displayAppointmentDetails(
                 fontWeight: FontWeight.w400),
           ),
         )),
-    selectedAppointment.resourceIds == null ||
-            selectedAppointment.resourceIds!.isEmpty
-        ? Container()
-        : ListTile(
-            leading: Icon(
-              Icons.people,
-              size: 20,
-              color: defaultColor,
-            ),
-            title: Text(
-                _getSelectedResourceText(
-                    selectedAppointment.resourceIds!, events.resources!),
-                style: TextStyle(
-                    fontSize: 15,
-                    color: defaultTextColor,
-                    fontWeight: FontWeight.w400)),
-          ),
-    selectedAppointment.location == null ||
-            selectedAppointment.location!.isEmpty
-        ? Container()
-        : ListTile(
-            leading: Icon(
-              Icons.location_on,
-              size: 20,
-              color: defaultColor,
-            ),
-            title: Text(selectedAppointment.location ?? '',
-                style: TextStyle(
-                    fontSize: 15,
-                    color: defaultColor,
-                    fontWeight: FontWeight.w400)),
-          )
+    if (selectedAppointment.resourceIds == null ||
+        selectedAppointment.resourceIds!.isEmpty)
+      Container()
+    else
+      ListTile(
+        leading: Icon(
+          Icons.people,
+          size: 20,
+          color: defaultColor,
+        ),
+        title: Text(
+            _getSelectedResourceText(
+                selectedAppointment.resourceIds!, events.resources!),
+            style: TextStyle(
+                fontSize: 15,
+                color: defaultTextColor,
+                fontWeight: FontWeight.w400)),
+      ),
+    if (selectedAppointment.location == null ||
+        selectedAppointment.location!.isEmpty)
+      Container()
+    else
+      ListTile(
+        leading: Icon(
+          Icons.location_on,
+          size: 20,
+          color: defaultColor,
+        ),
+        title: Text(selectedAppointment.location ?? '',
+            style: TextStyle(
+                fontSize: 15,
+                color: defaultColor,
+                fontWeight: FontWeight.w400)),
+      )
   ]);
 }
 
@@ -680,7 +688,8 @@ String _getSelectedResourceText(
   String? resourceNames;
   for (int i = 0; i < resourceIds.length; i++) {
     final String name = resourceCollection
-        .firstWhere((resource) => resource.id == resourceIds[i])
+        .firstWhere(
+            (CalendarResource resource) => resource.id == resourceIds[i])
         .displayName;
     resourceNames = resourceNames == null ? name : resourceNames + ', ' + name;
   }
@@ -691,7 +700,7 @@ String _getSelectedResourceText(
 /// The color picker element for the appointment editor with the available
 /// color collection, and returns the selection color index
 class _CalendarColorPicker extends StatefulWidget {
-  _CalendarColorPicker(this.colorCollection, this.selectedColorIndex,
+  const _CalendarColorPicker(this.colorCollection, this.selectedColorIndex,
       this.colorNames, this.model,
       {required this.onChanged});
 
@@ -770,7 +779,7 @@ class _CalendarColorPickerState extends State<_CalendarColorPicker> {
 /// Picker to display the available resource collection, and returns the
 /// selected resource id.
 class _ResourcePicker extends StatefulWidget {
-  _ResourcePicker(this.resourceCollection, this.model,
+  const _ResourcePicker(this.resourceCollection, this.model,
       {required this.onChanged});
 
   final List<CalendarResource> resourceCollection;
@@ -1215,7 +1224,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
             ),
           )),
       Container(
-          margin: EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(bottom: 5),
           height: 50,
           child: ListTile(
             leading: const Text(''),
@@ -1245,7 +1254,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
             ),
           )),
       Container(
-          margin: EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(bottom: 5),
           height: 50,
           child: ListTile(
             leading: Container(
@@ -1281,7 +1290,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                       ]),
           )),
       Container(
-          margin: EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(bottom: 5),
           height: 50,
           child: ListTile(
             leading: Container(
@@ -1314,7 +1323,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
             ),
           )),
       Container(
-          margin: EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(bottom: 5),
           height: 50,
           child: ListTile(
             leading: Container(
@@ -1345,57 +1354,58 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               ),
             ),
           )),
-      widget.events.resources == null || widget.events.resources!.isEmpty
-          ? Container()
-          : Container(
-              margin: EdgeInsets.only(bottom: 5),
-              height: 50,
-              child: ListTile(
-                leading: Container(
-                    width: 30,
-                    alignment: Alignment.centerRight,
-                    child: Icon(
-                      Icons.people,
+      if (widget.events.resources == null || widget.events.resources!.isEmpty)
+        Container()
+      else
+        Container(
+            margin: const EdgeInsets.only(bottom: 5),
+            height: 50,
+            child: ListTile(
+              leading: Container(
+                  width: 30,
+                  alignment: Alignment.centerRight,
+                  child: Icon(
+                    Icons.people,
+                    color: defaultColor,
+                    size: 20,
+                  )),
+              title: RawMaterialButton(
+                padding: const EdgeInsets.only(left: 5),
+                onPressed: () {
+                  showDialog<Widget>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return _ResourcePicker(
+                        _unSelectedResources,
+                        widget.model,
+                        onChanged: (_PickerChangedDetails details) {
+                          _resourceIds = _resourceIds == null
+                              ? <Object>[details.resourceId!]
+                              : (_resourceIds!.sublist(0)
+                                ..add(details.resourceId!));
+                          _selectedResources = _getSelectedResources(
+                              _resourceIds, widget.events.resources);
+                          _unSelectedResources = _getUnSelectedResources(
+                              _selectedResources, widget.events.resources);
+                        },
+                      );
+                    },
+                  ).then((dynamic value) => setState(() {
+                        /// update the color picker changes
+                      }));
+                },
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: _getResourceEditor(TextStyle(
+                      fontSize: 15,
                       color: defaultColor,
-                      size: 20,
-                    )),
-                title: RawMaterialButton(
-                  padding: const EdgeInsets.only(left: 5),
-                  onPressed: () {
-                    showDialog<Widget>(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return _ResourcePicker(
-                          _unSelectedResources,
-                          widget.model,
-                          onChanged: (_PickerChangedDetails details) {
-                            _resourceIds = _resourceIds == null
-                                ? <Object>[details.resourceId!]
-                                : (_resourceIds!.sublist(0)
-                                  ..add(details.resourceId!));
-                            _selectedResources = _getSelectedResources(
-                                _resourceIds, widget.events.resources);
-                            _unSelectedResources = _getUnSelectedResources(
-                                _selectedResources, widget.events.resources);
-                          },
-                        );
-                      },
-                    ).then((dynamic value) => setState(() {
-                          /// update the color picker changes
-                        }));
-                  },
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: _getResourceEditor(TextStyle(
-                        fontSize: 15,
-                        color: defaultColor,
-                        fontWeight: FontWeight.w300)),
-                  ),
+                      fontWeight: FontWeight.w300)),
                 ),
-              )),
+              ),
+            )),
       Container(
-          margin: EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(bottom: 5),
           height: 50,
           child: ListTile(
             leading: Container(
@@ -1444,9 +1454,9 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.only(right: 10),
                     child: RawMaterialButton(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       onPressed: () {
                         Navigator.pop(context);
                         showDialog<Widget>(
@@ -1504,7 +1514,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                       ),
                     )),
                 Padding(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: RawMaterialButton(
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -1579,7 +1589,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
     for (int i = 0; i < _selectedResources.length; i++) {
       final CalendarResource selectedResource = _selectedResources[i];
       chipWidgets.add(Chip(
-        padding: EdgeInsets.only(left: 0),
+        padding: const EdgeInsets.only(left: 0),
         avatar: CircleAvatar(
           backgroundColor: widget.model.backgroundColor,
           backgroundImage: selectedResource.image,
@@ -1714,7 +1724,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
   Widget _getResourceEditor(TextStyle hintTextStyle) {
     if (_selectedResources.isEmpty) {
       return Padding(
-        padding: EdgeInsets.only(top: 25, bottom: 5),
+        padding: const EdgeInsets.only(top: 25, bottom: 5),
         child: Text(
           'Add people',
           style: hintTextStyle,
@@ -1726,7 +1736,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
     for (int i = 0; i < _selectedResources.length; i++) {
       final CalendarResource selectedResource = _selectedResources[i];
       chipWidgets.add(Chip(
-        padding: EdgeInsets.only(left: 0),
+        padding: const EdgeInsets.only(left: 0),
         avatar: CircleAvatar(
           backgroundColor: widget.model.backgroundColor,
           backgroundImage: selectedResource.image,
@@ -1765,12 +1775,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
         : Colors.black87;
 
     return Dialog(
-      insetPadding: EdgeInsets.all(20),
+      insetPadding: const EdgeInsets.all(20),
       child: Container(
         width: 600,
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.all(Radius.circular(4)),
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
           color: widget.model.themeData != null &&
                   widget.model.themeData.brightness == Brightness.dark
               ? Colors.grey[850]
@@ -1789,7 +1799,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
           padding: const EdgeInsets.all(0.0),
           children: <Widget>[
             Container(
-                margin: EdgeInsets.symmetric(vertical: 3),
+                margin: const EdgeInsets.symmetric(vertical: 3),
                 child: ListTile(
                   title: Text(
                     widget.selectedAppointment != null &&
@@ -1822,7 +1832,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                   ),
                 )),
             Container(
-                margin: EdgeInsets.symmetric(vertical: 3),
+                margin: const EdgeInsets.symmetric(vertical: 3),
                 child: ListTile(
                     title: Row(
                   mainAxisSize: MainAxisSize.max,
@@ -1923,7 +1933,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                   ],
                 ))),
             Container(
-                margin: EdgeInsets.symmetric(vertical: 3),
+                margin: const EdgeInsets.symmetric(vertical: 3),
                 child: ListTile(
                     title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -2035,7 +2045,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 });
                                               }
                                             },
-                                            shape: CircleBorder(),
+                                            shape: const CircleBorder(),
                                             padding: const EdgeInsets.all(0.0),
                                             child: Icon(
                                               Icons.date_range,
@@ -2043,83 +2053,83 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                               size: 20,
                                             ),
                                           )),
-                                      _isAllDay
-                                          ? Text('')
-                                          : ButtonTheme(
-                                              minWidth: 50.0,
-                                              child: MaterialButton(
-                                                elevation: 0,
-                                                focusElevation: 0,
-                                                highlightElevation: 0,
-                                                disabledElevation: 0,
-                                                hoverElevation: 0,
-                                                shape: CircleBorder(),
-                                                padding:
-                                                    const EdgeInsets.all(0.0),
-                                                onPressed: () async {
-                                                  final TimeOfDay? time =
-                                                      await showTimePicker(
-                                                          context: context,
-                                                          initialTime: TimeOfDay(
-                                                              hour: _startTime
-                                                                  .hour,
-                                                              minute: _startTime
-                                                                  .minute),
-                                                          builder: (BuildContext
-                                                                  context,
-                                                              Widget? child) {
-                                                            return Theme(
-                                                              data: ThemeData(
-                                                                brightness: widget
-                                                                    .model
-                                                                    .themeData
-                                                                    .brightness,
-                                                                colorScheme:
-                                                                    _getColorScheme(
-                                                                        widget
-                                                                            .model,
-                                                                        false),
-                                                                accentColor: widget
-                                                                    .model
-                                                                    .backgroundColor,
-                                                                primaryColor: widget
-                                                                    .model
-                                                                    .backgroundColor,
-                                                              ),
-                                                              child: child!,
-                                                            );
-                                                          });
+                                      if (_isAllDay)
+                                        const Text('')
+                                      else
+                                        ButtonTheme(
+                                            minWidth: 50.0,
+                                            child: MaterialButton(
+                                              elevation: 0,
+                                              focusElevation: 0,
+                                              highlightElevation: 0,
+                                              disabledElevation: 0,
+                                              hoverElevation: 0,
+                                              shape: const CircleBorder(),
+                                              padding:
+                                                  const EdgeInsets.all(0.0),
+                                              onPressed: () async {
+                                                final TimeOfDay? time =
+                                                    await showTimePicker(
+                                                        context: context,
+                                                        initialTime: TimeOfDay(
+                                                            hour:
+                                                                _startTime.hour,
+                                                            minute: _startTime
+                                                                .minute),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            Widget? child) {
+                                                          return Theme(
+                                                            data: ThemeData(
+                                                              brightness: widget
+                                                                  .model
+                                                                  .themeData
+                                                                  .brightness,
+                                                              colorScheme:
+                                                                  _getColorScheme(
+                                                                      widget
+                                                                          .model,
+                                                                      false),
+                                                              accentColor: widget
+                                                                  .model
+                                                                  .backgroundColor,
+                                                              primaryColor: widget
+                                                                  .model
+                                                                  .backgroundColor,
+                                                            ),
+                                                            child: child!,
+                                                          );
+                                                        });
 
-                                                  if (time != null &&
-                                                      time != _startTime) {
-                                                    setState(() {
-                                                      _startTime = time;
-                                                      final Duration
-                                                          difference =
-                                                          _endDate.difference(
-                                                              _startDate);
-                                                      _startDate = DateTime(
-                                                          _startDate.year,
-                                                          _startDate.month,
-                                                          _startDate.day,
-                                                          _startTime.hour,
-                                                          _startTime.minute,
-                                                          0);
-                                                      _endDate = _startDate
-                                                          .add(difference);
-                                                      _endTime = TimeOfDay(
-                                                          hour: _endDate.hour,
-                                                          minute:
-                                                              _endDate.minute);
-                                                    });
-                                                  }
-                                                },
-                                                child: Icon(
-                                                  Icons.access_time,
-                                                  color: defaultColor,
-                                                  size: 20,
-                                                ),
-                                              ))
+                                                if (time != null &&
+                                                    time != _startTime) {
+                                                  setState(() {
+                                                    _startTime = time;
+                                                    final Duration difference =
+                                                        _endDate.difference(
+                                                            _startDate);
+                                                    _startDate = DateTime(
+                                                        _startDate.year,
+                                                        _startDate.month,
+                                                        _startDate.day,
+                                                        _startTime.hour,
+                                                        _startTime.minute,
+                                                        0);
+                                                    _endDate = _startDate
+                                                        .add(difference);
+                                                    _endTime = TimeOfDay(
+                                                        hour: _endDate.hour,
+                                                        minute:
+                                                            _endDate.minute);
+                                                  });
+                                                }
+                                              },
+                                              child: Icon(
+                                                Icons.access_time,
+                                                color: defaultColor,
+                                                size: 20,
+                                              ),
+                                            ))
                                     ],
                                   ),
                                 ),
@@ -2185,7 +2195,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                             highlightElevation: 0,
                                             disabledElevation: 0,
                                             hoverElevation: 0,
-                                            shape: CircleBorder(),
+                                            shape: const CircleBorder(),
                                             padding: const EdgeInsets.all(0.0),
                                             onPressed: () async {
                                               final DateTime? date =
@@ -2250,88 +2260,84 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                               size: 20,
                                             ),
                                           )),
-                                      _isAllDay
-                                          ? Text('')
-                                          : ButtonTheme(
-                                              minWidth: 50.0,
-                                              child: MaterialButton(
-                                                elevation: 0,
-                                                focusElevation: 0,
-                                                highlightElevation: 0,
-                                                disabledElevation: 0,
-                                                hoverElevation: 0,
-                                                shape: CircleBorder(),
-                                                padding:
-                                                    const EdgeInsets.all(0),
-                                                onPressed: () async {
-                                                  final TimeOfDay? time =
-                                                      await showTimePicker(
-                                                          context: context,
-                                                          initialTime: TimeOfDay(
-                                                              hour:
-                                                                  _endTime.hour,
-                                                              minute: _endTime
-                                                                  .minute),
-                                                          builder: (BuildContext
-                                                                  context,
-                                                              Widget? child) {
-                                                            return Theme(
-                                                              data: ThemeData(
-                                                                brightness: widget
-                                                                    .model
-                                                                    .themeData
-                                                                    .brightness,
-                                                                colorScheme:
-                                                                    _getColorScheme(
-                                                                        widget
-                                                                            .model,
-                                                                        false),
-                                                                accentColor: widget
-                                                                    .model
-                                                                    .backgroundColor,
-                                                                primaryColor: widget
-                                                                    .model
-                                                                    .backgroundColor,
-                                                              ),
-                                                              child: child!,
-                                                            );
-                                                          });
+                                      if (_isAllDay)
+                                        const Text('')
+                                      else
+                                        ButtonTheme(
+                                            minWidth: 50.0,
+                                            child: MaterialButton(
+                                              elevation: 0,
+                                              focusElevation: 0,
+                                              highlightElevation: 0,
+                                              disabledElevation: 0,
+                                              hoverElevation: 0,
+                                              shape: const CircleBorder(),
+                                              padding: const EdgeInsets.all(0),
+                                              onPressed: () async {
+                                                final TimeOfDay? time =
+                                                    await showTimePicker(
+                                                        context: context,
+                                                        initialTime: TimeOfDay(
+                                                            hour: _endTime.hour,
+                                                            minute: _endTime
+                                                                .minute),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            Widget? child) {
+                                                          return Theme(
+                                                            data: ThemeData(
+                                                              brightness: widget
+                                                                  .model
+                                                                  .themeData
+                                                                  .brightness,
+                                                              colorScheme:
+                                                                  _getColorScheme(
+                                                                      widget
+                                                                          .model,
+                                                                      false),
+                                                              accentColor: widget
+                                                                  .model
+                                                                  .backgroundColor,
+                                                              primaryColor: widget
+                                                                  .model
+                                                                  .backgroundColor,
+                                                            ),
+                                                            child: child!,
+                                                          );
+                                                        });
 
-                                                  if (time != null &&
-                                                      time != _endTime) {
-                                                    setState(() {
-                                                      _endTime = time;
-                                                      final Duration
-                                                          difference =
-                                                          _endDate.difference(
-                                                              _startDate);
-                                                      _endDate = DateTime(
-                                                          _endDate.year,
-                                                          _endDate.month,
-                                                          _endDate.day,
-                                                          _endTime.hour,
-                                                          _endTime.minute,
-                                                          0);
-                                                      if (_endDate.isBefore(
-                                                          _startDate)) {
-                                                        _startDate =
-                                                            _endDate.subtract(
-                                                                difference);
-                                                        _startTime = TimeOfDay(
-                                                            hour:
-                                                                _startDate.hour,
-                                                            minute: _startDate
-                                                                .minute);
-                                                      }
-                                                    });
-                                                  }
-                                                },
-                                                child: Icon(
-                                                  Icons.access_time,
-                                                  color: defaultColor,
-                                                  size: 20,
-                                                ),
-                                              ))
+                                                if (time != null &&
+                                                    time != _endTime) {
+                                                  setState(() {
+                                                    _endTime = time;
+                                                    final Duration difference =
+                                                        _endDate.difference(
+                                                            _startDate);
+                                                    _endDate = DateTime(
+                                                        _endDate.year,
+                                                        _endDate.month,
+                                                        _endDate.day,
+                                                        _endTime.hour,
+                                                        _endTime.minute,
+                                                        0);
+                                                    if (_endDate
+                                                        .isBefore(_startDate)) {
+                                                      _startDate = _endDate
+                                                          .subtract(difference);
+                                                      _startTime = TimeOfDay(
+                                                          hour: _startDate.hour,
+                                                          minute: _startDate
+                                                              .minute);
+                                                    }
+                                                  });
+                                                }
+                                              },
+                                              child: Icon(
+                                                Icons.access_time,
+                                                color: defaultColor,
+                                                size: 20,
+                                              ),
+                                            ))
                                     ],
                                   ),
                                 ),
@@ -2351,7 +2357,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                   ],
                 ))),
             Container(
-                margin: EdgeInsets.symmetric(vertical: 3),
+                margin: const EdgeInsets.symmetric(vertical: 3),
                 child: ListTile(
                   title: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -2382,163 +2388,167 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                             fontWeight: FontWeight.w300),
                       ),
                       Container(width: 10),
-                      _isAllDay
-                          ? Container()
-                          : Checkbox(
-                              focusColor: widget.model.backgroundColor,
-                              activeColor: widget.model.backgroundColor,
-                              value: _isTimeZoneEnabled,
-                              onChanged: (bool? value) {
-                                if (value == null) {
-                                  return;
-                                }
-                                setState(() {
-                                  _isTimeZoneEnabled = value;
-                                  if (!_isTimeZoneEnabled &&
-                                      _selectedTimeZoneIndex != 0) {
-                                    _selectedTimeZoneIndex = 0;
-                                  }
-                                });
-                              },
-                            ),
-                      _isAllDay
-                          ? Container()
-                          : Text(
-                              'Time zone',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: defaultColor,
-                                  fontWeight: FontWeight.w300),
-                            ),
+                      if (_isAllDay)
+                        Container()
+                      else
+                        Checkbox(
+                          focusColor: widget.model.backgroundColor,
+                          activeColor: widget.model.backgroundColor,
+                          value: _isTimeZoneEnabled,
+                          onChanged: (bool? value) {
+                            if (value == null) {
+                              return;
+                            }
+                            setState(() {
+                              _isTimeZoneEnabled = value;
+                              if (!_isTimeZoneEnabled &&
+                                  _selectedTimeZoneIndex != 0) {
+                                _selectedTimeZoneIndex = 0;
+                              }
+                            });
+                          },
+                        ),
+                      if (_isAllDay)
+                        Container()
+                      else
+                        Text(
+                          'Time zone',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: defaultColor,
+                              fontWeight: FontWeight.w300),
+                        ),
                     ],
                   ),
                 )),
-            _isTimeZoneEnabled
-                ? Container(
-                    child: ListTile(
-                    contentPadding: const EdgeInsets.only(
-                        left: 20, top: 2, bottom: 2, right: 305),
-                    title: Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: defaultColor.withOpacity(0.4),
-                            width: 1.0,
-                          ),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                              child: RawMaterialButton(
-                            padding: const EdgeInsets.only(left: 5.0),
-                            onPressed: () {
-                              showDialog<Widget>(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  return _CalendarTimeZonePicker(
-                                    widget.model.backgroundColor,
-                                    widget.timeZoneCollection,
-                                    _selectedTimeZoneIndex,
-                                    widget.model,
-                                    onChanged: (_PickerChangedDetails details) {
-                                      _selectedTimeZoneIndex = details.index;
-                                    },
-                                  );
-                                },
-                              ).then((dynamic value) => setState(() {
-                                    /// update the time zone changes
-                                  }));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  widget.timeZoneCollection[
-                                      _selectedTimeZoneIndex],
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      color: defaultColor,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                const Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 24,
-                                )
-                              ],
-                            ),
-                          )),
-                        ],
+            if (_isTimeZoneEnabled)
+              Container(
+                  child: ListTile(
+                contentPadding: const EdgeInsets.only(
+                    left: 20, top: 2, bottom: 2, right: 305),
+                title: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: defaultColor.withOpacity(0.4),
+                        width: 1.0,
                       ),
                     ),
-                  ))
-                : Container(),
-            widget.events.resources == null || widget.events.resources!.isEmpty
-                ? Container()
-                : Container(
-                    child: ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
-                    title: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Employees',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: defaultColor,
-                                fontWeight: FontWeight.w300),
-                            textAlign: TextAlign.start,
-                          ),
-                          Container(
-                            width: 600,
-                            height: 50,
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: defaultColor.withOpacity(0.4),
-                                  width: 1.0,
-                                ),
-                              ),
-                            ),
-                            child: _getResourceEditor(TextStyle(
-                                fontSize: 13,
-                                color: defaultColor,
-                                fontWeight: FontWeight.w400)),
-                          )
-                        ]),
-                    onTap: () {
-                      showDialog<Widget>(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return _ResourcePicker(
-                            _unSelectedResources,
-                            widget.model,
-                            onChanged: (_PickerChangedDetails details) {
-                              _resourceIds = _resourceIds == null
-                                  ? <Object>[details.resourceId!]
-                                  : (_resourceIds!.sublist(0)
-                                    ..add(details.resourceId!));
-                              _selectedResources = _getSelectedResources(
-                                  _resourceIds, widget.events.resources);
-                              _unSelectedResources = _getUnSelectedResources(
-                                  _selectedResources, widget.events.resources);
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                          child: RawMaterialButton(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        onPressed: () {
+                          showDialog<Widget>(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return _CalendarTimeZonePicker(
+                                widget.model.backgroundColor,
+                                widget.timeZoneCollection,
+                                _selectedTimeZoneIndex,
+                                widget.model,
+                                onChanged: (_PickerChangedDetails details) {
+                                  _selectedTimeZoneIndex = details.index;
+                                },
+                              );
                             },
-                          );
+                          ).then((dynamic value) => setState(() {
+                                /// update the time zone changes
+                              }));
                         },
-                      ).then((dynamic value) => setState(() {
-                            /// update the color picker changes
-                          }));
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              widget.timeZoneCollection[_selectedTimeZoneIndex],
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  color: defaultColor,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              size: 24,
+                            )
+                          ],
+                        ),
+                      )),
+                    ],
+                  ),
+                ),
+              ))
+            else
+              Container(),
+            if (widget.events.resources == null ||
+                widget.events.resources!.isEmpty)
+              Container()
+            else
+              Container(
+                  child: ListTile(
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
+                title: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Employees',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: defaultColor,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.start,
+                      ),
+                      Container(
+                        width: 600,
+                        height: 50,
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: defaultColor.withOpacity(0.4),
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: _getResourceEditor(TextStyle(
+                            fontSize: 13,
+                            color: defaultColor,
+                            fontWeight: FontWeight.w400)),
+                      )
+                    ]),
+                onTap: () {
+                  showDialog<Widget>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return _ResourcePicker(
+                        _unSelectedResources,
+                        widget.model,
+                        onChanged: (_PickerChangedDetails details) {
+                          _resourceIds = _resourceIds == null
+                              ? <Object>[details.resourceId!]
+                              : (_resourceIds!.sublist(0)
+                                ..add(details.resourceId!));
+                          _selectedResources = _getSelectedResources(
+                              _resourceIds, widget.events.resources);
+                          _unSelectedResources = _getUnSelectedResources(
+                              _selectedResources, widget.events.resources);
+                        },
+                      );
                     },
-                  )),
+                  ).then((dynamic value) => setState(() {
+                        /// update the color picker changes
+                      }));
+                },
+              )),
             Container(
                 child: ListTile(
               contentPadding:
@@ -2557,7 +2567,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                     textAlign: TextAlign.start,
                   ),
                   Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
                       child: TextField(
                         controller: TextEditingController(text: _notes),
                         cursorColor: widget.model.backgroundColor,
@@ -2654,7 +2664,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       ),
                     ))),
             Container(
-                margin: EdgeInsets.symmetric(vertical: 3),
+                margin: const EdgeInsets.symmetric(vertical: 3),
                 child: ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -2662,7 +2672,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.only(right: 10),
                         child: RawMaterialButton(
                           onPressed: () {
                             if (widget.newAppointment != null) {
@@ -2684,7 +2694,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10),
                         child: RawMaterialButton(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -3206,40 +3216,42 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                     }));
               },
             ),
-            widget.events.resources == null || widget.events.resources!.isEmpty
-                ? Container()
-                : ListTile(
-                    contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
-                    leading: Icon(Icons.people, color: defaultColor),
-                    title: _getResourceEditor(TextStyle(
-                        fontSize: 18,
-                        color: defaultColor,
-                        fontWeight: FontWeight.w300)),
-                    onTap: () {
-                      showDialog<Widget>(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return _ResourcePicker(
-                            _unSelectedResources,
-                            widget.model,
-                            onChanged: (_PickerChangedDetails details) {
-                              _resourceIds = _resourceIds == null
-                                  ? <Object>[details.resourceId!]
-                                  : (_resourceIds!.sublist(0)
-                                    ..add(details.resourceId!));
-                              _selectedResources = _getSelectedResources(
-                                  _resourceIds, widget.events.resources);
-                              _unSelectedResources = _getUnSelectedResources(
-                                  _selectedResources, widget.events.resources);
-                            },
-                          );
+            if (widget.events.resources == null ||
+                widget.events.resources!.isEmpty)
+              Container()
+            else
+              ListTile(
+                contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
+                leading: Icon(Icons.people, color: defaultColor),
+                title: _getResourceEditor(TextStyle(
+                    fontSize: 18,
+                    color: defaultColor,
+                    fontWeight: FontWeight.w300)),
+                onTap: () {
+                  showDialog<Widget>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return _ResourcePicker(
+                        _unSelectedResources,
+                        widget.model,
+                        onChanged: (_PickerChangedDetails details) {
+                          _resourceIds = _resourceIds == null
+                              ? <Object>[details.resourceId!]
+                              : (_resourceIds!.sublist(0)
+                                ..add(details.resourceId!));
+                          _selectedResources = _getSelectedResources(
+                              _resourceIds, widget.events.resources);
+                          _unSelectedResources = _getUnSelectedResources(
+                              _selectedResources, widget.events.resources);
                         },
-                      ).then((dynamic value) => setState(() {
-                            /// update the color picker changes
-                          }));
+                      );
                     },
-                  ),
+                  ).then((dynamic value) => setState(() {
+                        /// update the color picker changes
+                      }));
+                },
+              ),
             const Divider(
               height: 1.0,
               thickness: 1,
@@ -3275,37 +3287,39 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
               height: 1.0,
               thickness: 1,
             ),
-            widget.model.isWebFullView
-                ? ListTile(
-                    contentPadding: const EdgeInsets.all(5),
-                    leading: Icon(
-                      Icons.location_on,
+            if (widget.model.isWebFullView)
+              ListTile(
+                contentPadding: const EdgeInsets.all(5),
+                leading: Icon(
+                  Icons.location_on,
+                  color: defaultColor,
+                ),
+                title: TextField(
+                  controller: TextEditingController(text: _location),
+                  onChanged: (String value) {
+                    _location = value;
+                  },
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  style: TextStyle(
+                      fontSize: 18,
                       color: defaultColor,
-                    ),
-                    title: TextField(
-                      controller: TextEditingController(text: _location),
-                      onChanged: (String value) {
-                        _location = value;
-                      },
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: defaultColor,
-                          fontWeight: FontWeight.w300),
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Add location',
-                      ),
-                    ),
-                  )
-                : Container(),
-            widget.model.isWebFullView
-                ? const Divider(
-                    height: 1.0,
-                    thickness: 1,
-                  )
-                : Container(),
+                      fontWeight: FontWeight.w300),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Add location',
+                  ),
+                ),
+              )
+            else
+              Container(),
+            if (widget.model.isWebFullView)
+              const Divider(
+                height: 1.0,
+                thickness: 1,
+              )
+            else
+              Container(),
             ListTile(
               contentPadding: const EdgeInsets.all(5),
               leading: Icon(
@@ -3446,7 +3460,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
     for (int i = 0; i < _selectedResources.length; i++) {
       final CalendarResource selectedResource = _selectedResources[i];
       chipWidgets.add(Chip(
-        padding: EdgeInsets.only(left: 0),
+        padding: const EdgeInsets.only(left: 0),
         avatar: CircleAvatar(
           backgroundColor: widget.model.backgroundColor,
           backgroundImage: selectedResource.image,
@@ -3476,7 +3490,8 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
 /// Returns the resource from the id passed.
 CalendarResource _getResourceFromId(
     Object resourceId, List<CalendarResource> resourceCollection) {
-  return resourceCollection.firstWhere((resource) => resource.id == resourceId);
+  return resourceCollection
+      .firstWhere((CalendarResource resource) => resource.id == resourceId);
 }
 
 /// Returns the selected resources based on the id collection passed

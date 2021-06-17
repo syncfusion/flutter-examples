@@ -38,7 +38,7 @@ class _WaterFallState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Company revenue and profit'),
       primaryXAxis: CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           labelIntersectAction: isCardView
               ? AxisLabelIntersectAction.wrap
               : AxisLabelIntersectAction.rotate45),
@@ -47,8 +47,8 @@ class _WaterFallState extends SampleViewState {
           minimum: 0,
           maximum: 5000,
           interval: 1000,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getWaterFallSeries(),
       tooltipBehavior: _tooltipBehavior,
       onTooltipRender: (TooltipArgs args) {
@@ -57,7 +57,7 @@ class _WaterFallState extends SampleViewState {
             (args.dataPoints![args.pointIndex!.toInt()].y / 1000).toString() +
             'B';
       },
-      onDataLabelRender: (dataLabelArgs) {
+      onDataLabelRender: (DataLabelRenderArgs dataLabelArgs) {
         if (dataLabelArgs.pointIndex == 0) {
           dataLabelArgs.text = '4.7B';
         } else if (dataLabelArgs.pointIndex == 1) {
@@ -132,10 +132,10 @@ class _WaterFallState extends SampleViewState {
               sales.totalSumPredicate,
           dataLabelSettings: DataLabelSettings(
               isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
-          color: Color.fromRGBO(0, 189, 174, 1),
-          negativePointsColor: Color.fromRGBO(229, 101, 144, 1),
-          intermediateSumColor: Color.fromRGBO(79, 129, 188, 1),
-          totalSumColor: Color.fromRGBO(79, 129, 188, 1))
+          color: const Color.fromRGBO(0, 189, 174, 1),
+          negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
+          intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
+          totalSumColor: const Color.fromRGBO(79, 129, 188, 1))
     ];
   }
 

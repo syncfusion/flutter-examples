@@ -40,7 +40,7 @@ class _CategoryDefaultState extends SampleViewState {
 
       /// X axis as category axis placed here.
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           minimum: 0, maximum: 80, isVisible: false, labelFormat: '{value}M'),
@@ -72,7 +72,7 @@ class _CategoryDefaultState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         dataSource: chartData,
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.yValue,
         pointColorMapper: (ChartSampleData data, _) => data.pointColor,
         dataLabelSettings: DataLabelSettings(isVisible: true),

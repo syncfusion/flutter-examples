@@ -106,14 +106,14 @@ class _ColumnSpacingState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Winter olympic medals count'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           maximum: 150,
           minimum: 0,
           interval: 25,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultColumn(),
       legend: Legend(isVisible: !isCardView),
       tooltipBehavior: _tooltipBehavior,
@@ -145,7 +145,7 @@ class _ColumnSpacingState extends SampleViewState {
           spacing: isCardView ? 0.2 : _columnSpacing,
           dataSource: chartData,
           color: const Color.fromRGBO(252, 216, 20, 1),
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Gold'),
       ColumnSeries<ChartSampleData, String>(
@@ -153,7 +153,7 @@ class _ColumnSpacingState extends SampleViewState {
           width: isCardView ? 0.8 : _columnWidth,
           spacing: isCardView ? 0.2 : _columnSpacing,
           color: const Color.fromRGBO(169, 169, 169, 1),
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Silver'),
       ColumnSeries<ChartSampleData, String>(
@@ -161,7 +161,7 @@ class _ColumnSpacingState extends SampleViewState {
           width: isCardView ? 0.8 : _columnWidth,
           spacing: isCardView ? 0.2 : _columnSpacing,
           color: const Color.fromRGBO(205, 127, 50, 1),
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Bronze')
     ];

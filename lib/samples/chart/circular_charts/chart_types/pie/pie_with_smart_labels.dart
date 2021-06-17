@@ -51,13 +51,13 @@ class _PieSmartLabelsState extends SampleViewState {
                     height: 50,
                     alignment: Alignment.bottomCenter,
                     child: DropdownButton<String>(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        underline: Container(
+                            color: const Color(0xFFBDBDBD), height: 1),
                         value: _selectedPosition,
                         items: _positionList.map((String value) {
                           return DropdownMenuItem<String>(
                               value: (value != null) ? value : 'outside',
-                              child: Text('$value',
+                              child: Text(value,
                                   style: TextStyle(color: model.textColor)));
                         }).toList(),
                         onChanged: (dynamic value) {
@@ -104,13 +104,13 @@ class _PieSmartLabelsState extends SampleViewState {
                     height: 50,
                     alignment: Alignment.bottomCenter,
                     child: DropdownButton<String>(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        underline: Container(
+                            color: const Color(0xFFBDBDBD), height: 1),
                         value: _connectorLine,
                         items: _connectorLineList.map((String value) {
                           return DropdownMenuItem<String>(
                               value: (value != null) ? value : 'line',
-                              child: Text('$value',
+                              child: Text(value,
                                   style: TextStyle(color: model.textColor)));
                         }).toList(),
                         onChanged: (dynamic value) {
@@ -180,9 +180,9 @@ class _PieSmartLabelsState extends SampleViewState {
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
-          dataLabelMapper: (ChartSampleData data, _) => data.x,
+          dataLabelMapper: (ChartSampleData data, _) => data.x as String,
           radius: '55%',
 
           /// By using this property we can enable the smart label mode.

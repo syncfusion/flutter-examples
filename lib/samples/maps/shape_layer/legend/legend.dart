@@ -46,229 +46,233 @@ class _MapLegendPageState extends SampleViewState {
     super.initState();
 
     _internetPriceForShapes = <_InternetPrice>[
-      _InternetPrice('Algeria', price: 5.15),
-      _InternetPrice('Angola', price: 7.95),
-      _InternetPrice('Benin', price: 20.99),
-      _InternetPrice('Botswana', price: 14.12),
-      _InternetPrice('Burkina Faso', price: 4.69),
-      _InternetPrice('Burundi', price: 2),
-      _InternetPrice('Cameroon', price: 1.71),
-      _InternetPrice('Cape Verde', price: 4.25),
-      _InternetPrice('Central African Rep.',
+      const _InternetPrice('Algeria', price: 5.15),
+      const _InternetPrice('Angola', price: 7.95),
+      const _InternetPrice('Benin', price: 20.99),
+      const _InternetPrice('Botswana', price: 14.12),
+      const _InternetPrice('Burkina Faso', price: 4.69),
+      const _InternetPrice('Burundi', price: 2),
+      const _InternetPrice('Cameroon', price: 1.71),
+      const _InternetPrice('Cape Verde', price: 4.25),
+      const _InternetPrice('Central African Rep.',
           price: 6.03, countryName: 'Central African Republic'),
-      _InternetPrice('Chad', price: 23.33),
-      _InternetPrice('Comoros', price: 12.57),
-      _InternetPrice('Congo', price: 5.63),
-      _InternetPrice('C�te d\'Ivoire', price: 4.1, countryName: 'Ivory Coast'),
-      _InternetPrice('Dem. Rep. Congo',
+      const _InternetPrice('Chad', price: 23.33),
+      const _InternetPrice('Comoros', price: 12.57),
+      const _InternetPrice('Congo', price: 5.63),
+      const _InternetPrice('C�te d\'Ivoire',
+          price: 4.1, countryName: 'Ivory Coast'),
+      const _InternetPrice('Dem. Rep. Congo',
           price: 0.88, countryName: 'Democratic Republic of the Congo'),
-      _InternetPrice('Djibouti', price: 37.92),
-      _InternetPrice('Egypt', price: 1.49),
-      _InternetPrice('Eq. Guinea',
+      const _InternetPrice('Djibouti', price: 37.92),
+      const _InternetPrice('Egypt', price: 1.49),
+      const _InternetPrice('Eq. Guinea',
           price: 65.83, countryName: 'Equatorial Guinea'),
-      _InternetPrice('Eritrea'),
-      _InternetPrice('Ethiopia', price: 2.91),
-      _InternetPrice('Gabon', price: 5.84),
-      _InternetPrice('Gambia', price: 5.33),
-      _InternetPrice('Ghana', price: 1.56),
-      _InternetPrice('Guinea', price: 1.97),
-      _InternetPrice('Guinea-Bissau', price: 4.96),
-      _InternetPrice('Kenya', price: 2.73),
-      _InternetPrice('Lesotho', price: 2.43),
-      _InternetPrice('Liberia', price: 3.75),
-      _InternetPrice('Libya', price: 4.87),
-      _InternetPrice('Madagascar', price: 3.39),
-      _InternetPrice('Malawi', price: 3.59),
-      _InternetPrice('Mali', price: 9.22),
-      _InternetPrice('Mauritania', price: 3.12),
-      _InternetPrice('Mauritius', price: 3.71),
-      _InternetPrice('Mayotte', price: 10.18),
-      _InternetPrice('Morocco', price: 1.6),
-      _InternetPrice('Mozambique', price: 15.82),
-      _InternetPrice('Namibia', price: 11.02),
-      _InternetPrice('Niger', price: 2.98),
-      _InternetPrice('Nigeria', price: 2.22),
-      _InternetPrice('Rwanda', price: 0.56),
-      _InternetPrice('Sao Tome and Principe', price: 5.33),
-      _InternetPrice('Saint Helena', price: 55.47),
-      _InternetPrice('Senegal', price: 3.28),
-      _InternetPrice('Seychelles', price: 19.55),
-      _InternetPrice('Sierra Leone', price: 5.79),
-      _InternetPrice('Somalia', price: 6.19),
-      _InternetPrice('Somaliland'),
-      _InternetPrice('South Africa', price: 7.19),
-      _InternetPrice('S. Sudan', countryName: 'South Sudan'),
-      _InternetPrice('Sudan', price: 0.68),
-      _InternetPrice('Swaziland', price: 12.14),
-      _InternetPrice('Tanzania', price: 5.93),
-      _InternetPrice('Togo', price: 11.76),
-      _InternetPrice('Tunisia', price: 2.87),
-      _InternetPrice('Uganda', price: 4.69),
-      _InternetPrice('W. Sahara', price: 1.66, countryName: 'Western Sahara'),
-      _InternetPrice('Zambia', price: 2.25),
-      _InternetPrice('Zimbabwe', price: 75.2),
+      const _InternetPrice('Eritrea'),
+      const _InternetPrice('Ethiopia', price: 2.91),
+      const _InternetPrice('Gabon', price: 5.84),
+      const _InternetPrice('Gambia', price: 5.33),
+      const _InternetPrice('Ghana', price: 1.56),
+      const _InternetPrice('Guinea', price: 1.97),
+      const _InternetPrice('Guinea-Bissau', price: 4.96),
+      const _InternetPrice('Kenya', price: 2.73),
+      const _InternetPrice('Lesotho', price: 2.43),
+      const _InternetPrice('Liberia', price: 3.75),
+      const _InternetPrice('Libya', price: 4.87),
+      const _InternetPrice('Madagascar', price: 3.39),
+      const _InternetPrice('Malawi', price: 3.59),
+      const _InternetPrice('Mali', price: 9.22),
+      const _InternetPrice('Mauritania', price: 3.12),
+      const _InternetPrice('Mauritius', price: 3.71),
+      const _InternetPrice('Mayotte', price: 10.18),
+      const _InternetPrice('Morocco', price: 1.6),
+      const _InternetPrice('Mozambique', price: 15.82),
+      const _InternetPrice('Namibia', price: 11.02),
+      const _InternetPrice('Niger', price: 2.98),
+      const _InternetPrice('Nigeria', price: 2.22),
+      const _InternetPrice('Rwanda', price: 0.56),
+      const _InternetPrice('Sao Tome and Principe', price: 5.33),
+      const _InternetPrice('Saint Helena', price: 55.47),
+      const _InternetPrice('Senegal', price: 3.28),
+      const _InternetPrice('Seychelles', price: 19.55),
+      const _InternetPrice('Sierra Leone', price: 5.79),
+      const _InternetPrice('Somalia', price: 6.19),
+      const _InternetPrice('Somaliland'),
+      const _InternetPrice('South Africa', price: 7.19),
+      const _InternetPrice('S. Sudan', countryName: 'South Sudan'),
+      const _InternetPrice('Sudan', price: 0.68),
+      const _InternetPrice('Swaziland', price: 12.14),
+      const _InternetPrice('Tanzania', price: 5.93),
+      const _InternetPrice('Togo', price: 11.76),
+      const _InternetPrice('Tunisia', price: 2.87),
+      const _InternetPrice('Uganda', price: 4.69),
+      const _InternetPrice('W. Sahara',
+          price: 1.66, countryName: 'Western Sahara'),
+      const _InternetPrice('Zambia', price: 2.25),
+      const _InternetPrice('Zimbabwe', price: 75.2),
     ];
 
     _internetPriceForBubbles = <_InternetPrice>[
-      _InternetPrice('Algeria', price: 5.15),
-      _InternetPrice('Angola', price: 7.95),
-      _InternetPrice('Benin', price: 20.99),
-      _InternetPrice('Botswana', price: 14.12),
-      _InternetPrice('Cape Verde', price: 4.25),
-      _InternetPrice('Central African Rep.',
+      const _InternetPrice('Algeria', price: 5.15),
+      const _InternetPrice('Angola', price: 7.95),
+      const _InternetPrice('Benin', price: 20.99),
+      const _InternetPrice('Botswana', price: 14.12),
+      const _InternetPrice('Cape Verde', price: 4.25),
+      const _InternetPrice('Central African Rep.',
           price: 6.03, countryName: 'Central African Republic'),
-      _InternetPrice('Chad', price: 23.33),
-      _InternetPrice('Comoros', price: 12.57),
-      _InternetPrice('Congo', price: 5.63),
-      _InternetPrice('C�te d\'Ivoire', price: 4.1, countryName: 'Ivory Coast'),
-      _InternetPrice('Dem. Rep. Congo',
+      const _InternetPrice('Chad', price: 23.33),
+      const _InternetPrice('Comoros', price: 12.57),
+      const _InternetPrice('Congo', price: 5.63),
+      const _InternetPrice('C�te d\'Ivoire',
+          price: 4.1, countryName: 'Ivory Coast'),
+      const _InternetPrice('Dem. Rep. Congo',
           price: 0.88, countryName: 'Democratic Republic of the Congo'),
-      _InternetPrice('Djibouti', price: 37.92),
-      _InternetPrice('Egypt', price: 1.49),
-      _InternetPrice('Eq. Guinea',
+      const _InternetPrice('Djibouti', price: 37.92),
+      const _InternetPrice('Egypt', price: 1.49),
+      const _InternetPrice('Eq. Guinea',
           price: 65.83, countryName: 'Equatorial Guinea'),
-      _InternetPrice('Eritrea'),
-      _InternetPrice('Guinea', price: 1.97),
-      _InternetPrice('Kenya', price: 2.73),
-      _InternetPrice('Madagascar', price: 3.39),
-      _InternetPrice('Malawi', price: 3.59),
-      _InternetPrice('Mali', price: 9.22),
-      _InternetPrice('Mauritania', price: 3.12),
-      _InternetPrice('Mauritius', price: 3.71),
-      _InternetPrice('Mayotte', price: 10.18),
-      _InternetPrice('Morocco', price: 1.6),
-      _InternetPrice('Mozambique', price: 15.82),
-      _InternetPrice('Namibia', price: 11.02),
-      _InternetPrice('Niger', price: 2.98),
-      _InternetPrice('Nigeria', price: 2.22),
-      _InternetPrice('Rwanda', price: 0.56),
-      _InternetPrice('Sao Tome and Principe', price: 5.33),
-      _InternetPrice('Saint Helena', price: 55.47),
-      _InternetPrice('Senegal', price: 3.28),
-      _InternetPrice('Seychelles', price: 19.55),
-      _InternetPrice('Somalia', price: 6.19),
-      _InternetPrice('Somaliland'),
-      _InternetPrice('South Africa', price: 7.19),
-      _InternetPrice('S. Sudan', countryName: 'South Sudan'),
-      _InternetPrice('Sudan', price: 0.68),
-      _InternetPrice('Swaziland', price: 12.14),
-      _InternetPrice('Tanzania', price: 5.93),
-      _InternetPrice('Tunisia', price: 2.87),
-      _InternetPrice('W. Sahara', price: 1.66, countryName: 'Western Sahara'),
-      _InternetPrice('Zambia', price: 2.25),
-      _InternetPrice('Zimbabwe', price: 75.2),
+      const _InternetPrice('Eritrea'),
+      const _InternetPrice('Guinea', price: 1.97),
+      const _InternetPrice('Kenya', price: 2.73),
+      const _InternetPrice('Madagascar', price: 3.39),
+      const _InternetPrice('Malawi', price: 3.59),
+      const _InternetPrice('Mali', price: 9.22),
+      const _InternetPrice('Mauritania', price: 3.12),
+      const _InternetPrice('Mauritius', price: 3.71),
+      const _InternetPrice('Mayotte', price: 10.18),
+      const _InternetPrice('Morocco', price: 1.6),
+      const _InternetPrice('Mozambique', price: 15.82),
+      const _InternetPrice('Namibia', price: 11.02),
+      const _InternetPrice('Niger', price: 2.98),
+      const _InternetPrice('Nigeria', price: 2.22),
+      const _InternetPrice('Rwanda', price: 0.56),
+      const _InternetPrice('Sao Tome and Principe', price: 5.33),
+      const _InternetPrice('Saint Helena', price: 55.47),
+      const _InternetPrice('Senegal', price: 3.28),
+      const _InternetPrice('Seychelles', price: 19.55),
+      const _InternetPrice('Somalia', price: 6.19),
+      const _InternetPrice('Somaliland'),
+      const _InternetPrice('South Africa', price: 7.19),
+      const _InternetPrice('S. Sudan', countryName: 'South Sudan'),
+      const _InternetPrice('Sudan', price: 0.68),
+      const _InternetPrice('Swaziland', price: 12.14),
+      const _InternetPrice('Tanzania', price: 5.93),
+      const _InternetPrice('Tunisia', price: 2.87),
+      const _InternetPrice('W. Sahara',
+          price: 1.66, countryName: 'Western Sahara'),
+      const _InternetPrice('Zambia', price: 2.25),
+      const _InternetPrice('Zimbabwe', price: 75.2),
     ];
 
-    _shapeColorMappers = [
-      MapColorMapper(
+    _shapeColorMappers = <MapColorMapper>[
+      const MapColorMapper(
           from: 0,
           to: 0.99,
           color: Color.fromRGBO(3, 192, 150, 1),
-          text: '<\$1'),
-      MapColorMapper(
+          text: r'<\$1'),
+      const MapColorMapper(
           from: 1.0,
           to: 4.99,
           color: Color.fromRGBO(3, 192, 150, 0.6),
-          text: '\$1 - \$4.99'),
-      MapColorMapper(
+          text: r'\$1 - \$4.99'),
+      const MapColorMapper(
           from: 5,
           to: 9.99,
           color: Color.fromRGBO(3, 192, 150, 0.35),
-          text: '\$5 - \$9.99'),
-      MapColorMapper(
+          text: r'\$5 - \$9.99'),
+      const MapColorMapper(
           from: 10,
           to: 29.99,
           color: Color.fromRGBO(255, 175, 33, 0.70),
-          text: '\$10 - \$29.99'),
-      MapColorMapper(
+          text: r'\$10 - \$29.99'),
+      const MapColorMapper(
           from: 30,
           to: 100,
           color: Color.fromRGBO(255, 175, 33, 1.0),
-          text: '>\$30'),
+          text: r'>\$30'),
     ];
 
-    _bubbleColorMappers = [
-      MapColorMapper(
+    _bubbleColorMappers = <MapColorMapper>[
+      const MapColorMapper(
           from: 0,
           to: 0.99,
           color: Color.fromRGBO(34, 205, 72, 0.6),
-          text: '<\$1'),
-      MapColorMapper(
+          text: r'<\$1'),
+      const MapColorMapper(
           from: 1.0,
           to: 4.99,
           color: Color.fromRGBO(237, 171, 0, 0.6),
-          text: '\$1 - \$4.99'),
-      MapColorMapper(
+          text: r'\$1 - \$4.99'),
+      const MapColorMapper(
           from: 5,
           to: 9.99,
           color: Color.fromRGBO(24, 152, 207, 0.6),
-          text: '\$5 - \$9.99'),
-      MapColorMapper(
+          text: r'\$5 - \$9.99'),
+      const MapColorMapper(
           from: 10,
           to: 29.99,
           color: Color.fromRGBO(255, 0, 0, 0.6),
-          text: '\$10 - \$29.99'),
-      MapColorMapper(
+          text: r'\$10 - \$29.99'),
+      const MapColorMapper(
           from: 30,
           to: 100,
           color: Color.fromRGBO(134, 0, 179, 0.6),
-          text: '>\$30'),
+          text: r'>\$30'),
     ];
 
-    _shapeBarLegendColorMappers = [
-      MapColorMapper(
+    _shapeBarLegendColorMappers = <MapColorMapper>[
+      const MapColorMapper(
           from: 0,
           to: 0.99,
           color: Color.fromRGBO(3, 192, 150, 1),
-          text: '{\$0},{\$1}'),
-      MapColorMapper(
+          text: r'{\$0},{\$1}'),
+      const MapColorMapper(
           from: 1.0,
           to: 4.99,
           color: Color.fromRGBO(3, 192, 150, 0.6),
-          text: '\$5'),
-      MapColorMapper(
+          text: r'\$5'),
+      const MapColorMapper(
           from: 5,
           to: 9.99,
           color: Color.fromRGBO(3, 192, 150, 0.35),
-          text: '\$10'),
-      MapColorMapper(
+          text: r'\$10'),
+      const MapColorMapper(
           from: 10,
           to: 29.99,
           color: Color.fromRGBO(255, 175, 33, 0.70),
-          text: '\$30'),
-      MapColorMapper(
+          text: r'\$30'),
+      const MapColorMapper(
           from: 30,
           to: 100,
           color: Color.fromRGBO(255, 175, 33, 1.0),
-          text: '\$100'),
+          text: r'\$100'),
     ];
 
-    _bubbleBarLegendColorMappers = [
-      MapColorMapper(
+    _bubbleBarLegendColorMappers = <MapColorMapper>[
+      const MapColorMapper(
           from: 0,
           to: 0.99,
           color: Color.fromRGBO(34, 205, 72, 0.6),
-          text: '{\$0},{\$1}'),
-      MapColorMapper(
+          text: r'{\$0},{\$1}'),
+      const MapColorMapper(
           from: 1.0,
           to: 4.99,
           color: Color.fromRGBO(237, 171, 0, 0.6),
-          text: '\$5'),
-      MapColorMapper(
+          text: r'\$5'),
+      const MapColorMapper(
           from: 5,
           to: 9.99,
           color: Color.fromRGBO(24, 152, 207, 0.6),
-          text: '\$10'),
-      MapColorMapper(
+          text: r'\$10'),
+      const MapColorMapper(
           from: 10,
           to: 29.99,
           color: Color.fromRGBO(255, 0, 0, 0.6),
-          text: '\$30'),
-      MapColorMapper(
+          text: r'\$30'),
+      const MapColorMapper(
           from: 30,
           to: 100,
           color: Color.fromRGBO(134, 0, 179, 0.6),
-          text: '\$100'),
+          text: r'\$100'),
     ];
 
     _mapBubbleSource = MapShapeSource.asset(
@@ -310,27 +314,42 @@ class _MapLegendPageState extends SampleViewState {
   }
 
   List<DropdownMenuItem<String>> _getDropDownMenuItems() {
-    final List<DropdownMenuItem<String>> legendItems = [
-      DropdownMenuItem(value: 'Default', child: Text('Default')),
-      DropdownMenuItem(value: 'Bar', child: Text('Bar'))
+    const List<DropdownMenuItem<String>> legendItems =
+        <DropdownMenuItem<String>>[
+      DropdownMenuItem<String>(value: 'Default', child: Text('Default')),
+      DropdownMenuItem<String>(value: 'Bar', child: Text('Bar'))
     ];
     return legendItems;
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? _buildMapsWidget()
-        : SingleChildScrollView(
-            child: Container(height: 400, child: _buildMapsWidget()));
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final bool scrollEnabled = constraints.maxHeight > 400;
+      double height = scrollEnabled ? constraints.maxHeight : 400;
+      if (model.isWebFullView ||
+          (model.isMobile &&
+              MediaQuery.of(context).orientation == Orientation.landscape)) {
+        final double refHeight = height * 0.6;
+        height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+      }
+      return Center(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: constraints.maxWidth,
+            height: height,
+            child: _buildMapsWidget(scrollEnabled),
+          ),
+        ),
+      );
+    });
   }
 
-  Widget _buildMapsWidget() {
+  Widget _buildMapsWidget(bool scrollEnabled) {
     final bool isLightTheme = model.themeData.brightness == Brightness.light;
     return Padding(
-        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                model.isWebFullView
+        padding: scrollEnabled
             ? EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.05,
                 right: 10,
@@ -360,9 +379,9 @@ class _MapLegendPageState extends SampleViewState {
             toggledItemColor: Colors.transparent,
             toggledItemStrokeColor: _showBubbleData ? Colors.transparent : null,
           ),
-          child: Column(children: [
+          child: Column(children: <Widget>[
             Padding(
-                padding: EdgeInsets.only(top: 15, bottom: 30),
+                padding: const EdgeInsets.only(top: 15, bottom: 30),
                 child: Align(
                     alignment: Alignment.center,
                     child: Text('Average Internet Prices in Africa',
@@ -389,7 +408,7 @@ class _MapLegendPageState extends SampleViewState {
                       ? null
                       : (BuildContext context, int index) {
                           if (_internetPriceForShapes[index].price == null) {
-                            return SizedBox();
+                            return const SizedBox();
                           }
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -402,12 +421,14 @@ class _MapLegendPageState extends SampleViewState {
                                   _internetPriceForShapes[index]
                                       .price
                                       .toString(),
-                              style:
-                                  Theme.of(context).textTheme.caption!.copyWith(
-                                        color: isLightTheme
-                                            ? Color.fromRGBO(255, 255, 255, 1)
-                                            : Color.fromRGBO(10, 10, 10, 1),
-                                      ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption!
+                                  .copyWith(
+                                    color: isLightTheme
+                                        ? const Color.fromRGBO(255, 255, 255, 1)
+                                        : const Color.fromRGBO(10, 10, 10, 1),
+                                  ),
                             ),
                           );
                         },
@@ -426,27 +447,29 @@ class _MapLegendPageState extends SampleViewState {
                                   _internetPriceForBubbles[index]
                                       .price
                                       .toString(),
-                              style:
-                                  Theme.of(context).textTheme.caption!.copyWith(
-                                        color: isLightTheme
-                                            ? Color.fromRGBO(255, 255, 255, 1)
-                                            : Color.fromRGBO(10, 10, 10, 1),
-                                      ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption!
+                                  .copyWith(
+                                    color: isLightTheme
+                                        ? const Color.fromRGBO(255, 255, 255, 1)
+                                        : const Color.fromRGBO(10, 10, 10, 1),
+                                  ),
                             ),
                           );
                         }
                       : null,
                   color: _showBubbleData
                       ? (isLightTheme
-                          ? Color.fromRGBO(204, 204, 204, 1)
-                          : Color.fromRGBO(103, 103, 103, 1))
+                          ? const Color.fromRGBO(204, 204, 204, 1)
+                          : const Color.fromRGBO(103, 103, 103, 1))
                       : null,
                   strokeColor: _showBubbleData
                       ? (isLightTheme
-                          ? Color.fromRGBO(255, 255, 255, 1)
-                          : Color.fromRGBO(49, 49, 49, 1))
-                      : Color.fromRGBO(255, 255, 255, 1),
-                  bubbleSettings: MapBubbleSettings(
+                          ? const Color.fromRGBO(255, 255, 255, 1)
+                          : const Color.fromRGBO(49, 49, 49, 1))
+                      : const Color.fromRGBO(255, 255, 255, 1),
+                  bubbleSettings: const MapBubbleSettings(
                     minRadius: 13,
                     maxRadius: 20,
                     strokeColor: Colors.black,
@@ -469,9 +492,9 @@ class _MapLegendPageState extends SampleViewState {
                               ? MapLegendPaintingStyle.gradient
                               : MapLegendPaintingStyle.solid,
                           segmentSize: _enableGradient
-                              ? Size(300.0, 9.0)
-                              : Size(55.0, 9.0),
-                          padding: EdgeInsets.only(bottom: 20),
+                              ? const Size(300.0, 9.0)
+                              : const Size(55.0, 9.0),
+                          padding: const EdgeInsets.only(bottom: 20),
                         )
                       : MapLegend(
                           /// You can show legend for the shapes or bubbles. By
@@ -489,8 +512,8 @@ class _MapLegendPageState extends SampleViewState {
                         ),
                   tooltipSettings: MapTooltipSettings(
                     color: isLightTheme
-                        ? Color.fromRGBO(45, 45, 45, 1)
-                        : Color.fromRGBO(242, 242, 242, 1),
+                        ? const Color.fromRGBO(45, 45, 45, 1)
+                        : const Color.fromRGBO(242, 242, 242, 1),
                   ),
                 ),
               ],
@@ -506,7 +529,7 @@ class _MapLegendPageState extends SampleViewState {
       return SingleChildScrollView(
           child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -518,8 +541,8 @@ class _MapLegendPageState extends SampleViewState {
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.only(right: 15.0),
-                  child: DropdownButton(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: DropdownButton<String>(
                     value: _currentLegend,
                     items: _dropDownMenuItems,
                     onChanged: (String? value) {

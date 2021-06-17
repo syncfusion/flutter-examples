@@ -52,7 +52,7 @@ class _DoughnutRoundedState extends SampleViewState {
         cornerStyle: CornerStyle.bothCurve,
         radius: '80%',
         innerRadius: '60%',
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
       ),
     ];

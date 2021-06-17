@@ -43,16 +43,16 @@ class _BubblePointColorState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Countries by area'),
       plotAreaBorderWidth: 0,
       primaryXAxis: CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           labelIntersectAction: AxisLabelIntersectAction.rotate45),
       primaryYAxis: NumericAxis(
           numberFormat: NumberFormat.compact(),
           title: AxisTitle(text: isCardView ? '' : 'Area(km²)'),
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           minimum: 650000,
           maximum: 1500000,
           rangePadding: ChartRangePadding.additional,
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getPointColorBubbleSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -116,7 +116,7 @@ class _BubblePointColorState extends SampleViewState {
       BubbleSeries<ChartSampleData, String>(
         dataSource: chartData,
         opacity: 0.8,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
 
         /// It helps to render a bubble series as various colors,

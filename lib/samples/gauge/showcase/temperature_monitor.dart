@@ -128,9 +128,9 @@ class _GaugeTemperatureMonitorExampleState extends SampleViewState {
               )
             ],
             axisLabelStyle: GaugeTextStyle(fontSize: isCardView ? 10 : 12),
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
                 length: 0.25, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
                 length: 0.13, lengthUnit: GaugeSizeUnit.factor, thickness: 1))
       ],
     );

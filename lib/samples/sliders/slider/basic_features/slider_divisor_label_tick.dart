@@ -34,12 +34,14 @@ class _SliderLabelCustomizationPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 300, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 325
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 325, child: slider),
+            );
+    });
   }
 }
 
@@ -65,7 +67,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
           value: _labelSliderValue,
           onChanged: (dynamic values) {
             setState(() {
-              _labelSliderValue = values;
+              _labelSliderValue = values as double;
             });
           },
           enableTooltip: true,
@@ -85,7 +87,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
           value: _tickSliderValue,
           onChanged: (dynamic values) {
             setState(() {
-              _tickSliderValue = values;
+              _tickSliderValue = values as double;
             });
           },
           enableTooltip: true,
@@ -104,7 +106,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
           value: _divisorSliderValue,
           onChanged: (dynamic values) {
             setState(() {
-              _divisorSliderValue = values;
+              _divisorSliderValue = values as double;
             });
           },
           enableTooltip: true,

@@ -33,12 +33,14 @@ class _TooltipRangeSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? rangeSlider
-        : SingleChildScrollView(
-            child: Container(height: 300, child: rangeSlider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 300
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 300, child: rangeSlider),
+            );
+    });
   }
 }
 
@@ -101,7 +103,7 @@ class _TooltipRangeSliderState extends SampleViewState {
             });
           },
           enableTooltip: true,
-          tooltipShape: SfPaddleTooltipShape(),
+          tooltipShape: const SfPaddleTooltipShape(),
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat('h:mm a').format(actualLabel);

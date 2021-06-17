@@ -68,7 +68,7 @@ class _ClockExampleState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: 0.2,
-            axisLabelStyle: GaugeTextStyle(fontSize: 6),
+            axisLabelStyle: const GaugeTextStyle(fontSize: 6),
             minimum: 0,
             maximum: 12,
             showFirstLabel: false,
@@ -78,11 +78,11 @@ class _ClockExampleState extends SampleViewState {
             tickOffset: 0.03,
             minorTicksPerInterval: 5,
             labelOffset: 0.2,
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
                 length: 0.09, lengthUnit: GaugeSizeUnit.factor, thickness: 0.5),
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
                 length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 1),
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 thickness: 0.03, thicknessUnit: GaugeSizeUnit.factor),
             pointers: <GaugePointer>[
               NeedlePointer(
@@ -92,7 +92,7 @@ class _ClockExampleState extends SampleViewState {
                 needleColor: const Color(0xFF00A8B5),
                 needleStartWidth: 0.5,
                 needleEndWidth: 1,
-                knobStyle: KnobStyle(
+                knobStyle: const KnobStyle(
                   knobRadius: 0,
                 ),
               )
@@ -103,7 +103,7 @@ class _ClockExampleState extends SampleViewState {
         RadialAxis(
             startAngle: 270,
             endAngle: 270,
-            axisLabelStyle: GaugeTextStyle(
+            axisLabelStyle: const GaugeTextStyle(
               fontSize: 6,
             ),
             radiusFactor: 0.2,
@@ -120,14 +120,14 @@ class _ClockExampleState extends SampleViewState {
                     : 0.335,
             minorTicksPerInterval: 5,
             tickOffset: 0.03,
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
                 length: 0.09, lengthUnit: GaugeSizeUnit.factor, thickness: 0.5),
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
               length: 0.15,
               lengthUnit: GaugeSizeUnit.factor,
               thickness: 1,
             ),
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 thicknessUnit: GaugeSizeUnit.factor, thickness: 0.03),
             pointers: <GaugePointer>[
               NeedlePointer(
@@ -137,7 +137,7 @@ class _ClockExampleState extends SampleViewState {
                 needleColor: const Color(0xFF00A8B5),
                 needleStartWidth: 0.5,
                 needleEndWidth: 1,
-                knobStyle: KnobStyle(knobRadius: 0),
+                knobStyle: const KnobStyle(knobRadius: 0),
               )
             ]),
         // Renders outer axis
@@ -153,12 +153,12 @@ class _ClockExampleState extends SampleViewState {
             offsetUnit: GaugeSizeUnit.factor,
             minorTicksPerInterval: 4,
             tickOffset: 0.03,
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
                 length: 0.06, lengthUnit: GaugeSizeUnit.factor, thickness: 1),
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
                 length: 0.1, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
             axisLabelStyle: GaugeTextStyle(fontSize: isCardView ? 12 : 14),
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 thickness: 0.01, thicknessUnit: GaugeSizeUnit.factor),
             pointers: <GaugePointer>[
               NeedlePointer(
@@ -168,15 +168,15 @@ class _ClockExampleState extends SampleViewState {
                   needleEndWidth: 2,
                   value: 10,
                   needleColor: _needleColor,
-                  knobStyle: KnobStyle(knobRadius: 0)),
+                  knobStyle: const KnobStyle(knobRadius: 0)),
               NeedlePointer(
                   needleLength: 0.85,
                   lengthUnit: GaugeSizeUnit.factor,
                   needleStartWidth: 0.5,
                   needleEndWidth: 1.5,
                   value: 2,
-                  knobStyle: KnobStyle(
-                      color: const Color(0xFF00A8B5),
+                  knobStyle: const KnobStyle(
+                      color: Color(0xFF00A8B5),
                       sizeUnit: GaugeSizeUnit.factor,
                       knobRadius: 0.05),
                   needleColor: _needleColor),
@@ -189,12 +189,12 @@ class _ClockExampleState extends SampleViewState {
                   needleEndWidth: 0.8,
                   value: _value,
                   needleColor: const Color(0xFF00A8B5),
-                  tailStyle: TailStyle(
+                  tailStyle: const TailStyle(
                       width: 0.8,
                       length: 0.2,
                       lengthUnit: GaugeSizeUnit.factor,
-                      color: const Color(0xFF00A8B5)),
-                  knobStyle: KnobStyle(
+                      color: Color(0xFF00A8B5)),
+                  knobStyle: const KnobStyle(
                       knobRadius: 0.03,
                       sizeUnit: GaugeSizeUnit.factor,
                       color: Colors.white)),

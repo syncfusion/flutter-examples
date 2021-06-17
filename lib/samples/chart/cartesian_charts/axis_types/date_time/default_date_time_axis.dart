@@ -25,8 +25,8 @@ class _DateTimeDefaultState extends SampleViewState {
     _trackballBehavior = TrackballBehavior(
         enable: true,
         activationMode: ActivationMode.singleTap,
-        tooltipSettings:
-            InteractiveTooltip(format: 'point.x : point.y', borderWidth: 0));
+        tooltipSettings: const InteractiveTooltip(
+            format: 'point.x : point.y', borderWidth: 0));
     super.initState();
   }
 
@@ -43,15 +43,16 @@ class _DateTimeDefaultState extends SampleViewState {
             text: isCardView
                 ? ''
                 : 'Euro to USD monthly exchange rate - 2015 to 2018'),
-        primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryXAxis:
+            DateTimeAxis(majorGridLines: const MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
           minimum: 1,
           maximum: 1.35,
           interval: 0.05,
-          labelFormat: '\${value}',
+          labelFormat: r'${value}',
           title: AxisTitle(text: isCardView ? '' : 'Dollars'),
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
         ),
         series: _getDefaultDateTimeSeries(),
         trackballBehavior: _trackballBehavior);
@@ -112,7 +113,7 @@ class _DateTimeDefaultState extends SampleViewState {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
         dataSource: chartData,
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as DateTime,
         yValueMapper: (ChartSampleData data, _) => data.yValue,
         color: const Color.fromRGBO(242, 117, 7, 1),
       )

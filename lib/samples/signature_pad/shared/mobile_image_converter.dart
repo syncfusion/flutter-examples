@@ -7,6 +7,6 @@ class ImageConverter {
   /// toImage
   static Future<Uint8List> toImage(
       {required RenderSignaturePad renderSignaturePad}) async {
-    return Uint8List.fromList([0]);
+    return Uint8List.fromList(<int>[0]);
   }
 }

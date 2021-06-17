@@ -41,15 +41,15 @@ class _AreaGradientState extends SampleViewState {
       primaryXAxis: DateTimeAxis(
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y(),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           title: AxisTitle(text: 'Year')),
       primaryYAxis: NumericAxis(
           minimum: 200,
           maximum: 600,
           interval: 100,
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           labelFormat: '{value}mm',
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getGradientAreaSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -99,7 +99,7 @@ class _AreaGradientState extends SampleViewState {
         /// To apply the gradient colors here.
         gradient: gradientColors,
         dataSource: chartData,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         name: 'Annual Rainfall',
       )

@@ -35,13 +35,13 @@ class _DefaultTooltipState extends SampleViewState {
           minimum: 2004,
           maximum: 2013,
           title: AxisTitle(text: isCardView ? '' : 'Year'),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           interval: 1),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}M',
           minimum: 30,
           maximum: 60,
-          axisLine: AxisLine(width: 0)),
+          axisLine: const AxisLine(width: 0)),
       series: _getDefaultTooltipSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -67,18 +67,18 @@ class _DefaultTooltipState extends SampleViewState {
 
           /// To enable the tooltip for line series.
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           width: 2,
           name: 'Germany',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<ChartSampleData, num>(
         dataSource: chartData,
         width: 2,
         name: 'Mexico',
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-        markerSettings: MarkerSettings(isVisible: true),
+        markerSettings: const MarkerSettings(isVisible: true),
       )
     ];
   }

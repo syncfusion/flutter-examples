@@ -42,10 +42,10 @@ class _ColumnRoundedState extends SampleViewState {
           text: isCardView ? '' : 'Land area of various cities (sq.km)'),
       primaryXAxis: CategoryAxis(
         labelStyle: const TextStyle(color: Colors.white),
-        axisLine: AxisLine(width: 0),
+        axisLine: const AxisLine(width: 0),
         labelPosition: ChartDataLabelPosition.inside,
-        majorTickLines: MajorTickLines(width: 0),
-        majorGridLines: MajorGridLines(width: 0),
+        majorTickLines: const MajorTickLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(isVisible: false, minimum: 0, maximum: 9000),
       series: _getRoundedColumnSeries(),
@@ -72,7 +72,7 @@ class _ColumnRoundedState extends SampleViewState {
         /// If we set the border radius value for column series,
         /// then the series will appear as rounder corner.
         borderRadius: BorderRadius.circular(10),
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
     ];

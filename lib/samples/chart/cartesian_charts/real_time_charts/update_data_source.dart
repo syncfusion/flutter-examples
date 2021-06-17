@@ -35,11 +35,11 @@ class _LiveVerticalState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final double bottomPadding = 60;
+    const double bottomPadding = 60;
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: Padding(
-          padding: EdgeInsets.fromLTRB(5, 15, 5, bottomPadding),
+          padding: const EdgeInsets.fromLTRB(5, 15, 5, bottomPadding),
           child: Container(child: _buildUpdateDataSourceChart()),
         ),
         floatingActionButton: FloatingActionButton(
@@ -57,12 +57,14 @@ class _LiveVerticalState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
-          minimum: 0, interval: 1, majorGridLines: MajorGridLines(width: 0)),
+          minimum: 0,
+          interval: 1,
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           rangePadding: ChartRangePadding.additional,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0),
-          minorGridLines: MinorGridLines(width: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
+          minorGridLines: const MinorGridLines(width: 0)),
       series: _getUpdateDataSourceSeries(),
     );
   }
@@ -73,7 +75,7 @@ class _LiveVerticalState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, num>>[
       ColumnSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           dataLabelSettings: DataLabelSettings(isVisible: true)),
     ];

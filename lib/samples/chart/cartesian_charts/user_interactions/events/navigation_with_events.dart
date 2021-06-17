@@ -46,7 +46,7 @@ class _NavigationWithEventsState extends SampleViewState {
 
   @override
   void initState() {
-    _isSelected = [true, false];
+    _isSelected = <bool>[true, false];
     _tooltipBehavior = TooltipBehavior(
         enable: true,
         canShowMarker: false,
@@ -74,7 +74,7 @@ class _NavigationWithEventsState extends SampleViewState {
           Container(
               alignment: Alignment.center,
               child: ToggleButtons(
-                constraints: BoxConstraints(maxWidth: 150, minHeight: 40),
+                constraints: const BoxConstraints(maxWidth: 150, minHeight: 40),
                 onPressed: (int index) {
                   setState(() {
                     for (int buttonIndex = 0;
@@ -88,7 +88,7 @@ class _NavigationWithEventsState extends SampleViewState {
                   });
                 },
                 isSelected: _isSelected,
-                children: [
+                children: const <Widget>[
                   Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: Text(
@@ -102,7 +102,7 @@ class _NavigationWithEventsState extends SampleViewState {
                   )
                 ],
               )),
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
           ),
           Container(
@@ -196,10 +196,11 @@ class _NavigationWithEventsState extends SampleViewState {
                   .width
               : null,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5))),
-          duration: Duration(milliseconds: 2000),
-          content: Text('Data label tapped/clicked. Navigating to the link.'),
+          duration: const Duration(milliseconds: 2000),
+          content:
+              const Text('Data label tapped/clicked. Navigating to the link.'),
         ));
         launchHyperLink(args.text);
       },
@@ -211,10 +212,11 @@ class _NavigationWithEventsState extends SampleViewState {
                   .width
               : null,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5))),
-          duration: Duration(milliseconds: 2000),
-          content: Text('Axis label tapped/clicked. Navigating to the link.'),
+          duration: const Duration(milliseconds: 2000),
+          content:
+              const Text('Axis label tapped/clicked. Navigating to the link.'),
         ));
         launchHyperLink(args.value.toString());
       },
@@ -226,10 +228,11 @@ class _NavigationWithEventsState extends SampleViewState {
                   .width
               : null,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5))),
-          duration: Duration(milliseconds: 2000),
-          content: Text('Data point tapped/clicked. Navigating to the link.'),
+          duration: const Duration(milliseconds: 2000),
+          content:
+              const Text('Data point tapped/clicked. Navigating to the link.'),
         ));
         launchHyperLink(args.pointIndex.toString());
       },
@@ -237,14 +240,14 @@ class _NavigationWithEventsState extends SampleViewState {
           labelIntersectAction: isCardView
               ? AxisLabelIntersectAction.multipleRows
               : AxisLabelIntersectAction.rotate45,
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Height (meters)'),
           minimum: 500,
           maximum: 900,
           interval: 100,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultSortingSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -291,10 +294,10 @@ class _NavigationWithEventsState extends SampleViewState {
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
         dataSource: _chartData,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         dataLabelSettings:
-            DataLabelSettings(isVisible: true, offset: Offset(-5, 0)),
+            DataLabelSettings(isVisible: true, offset: const Offset(-5, 0)),
       )
     ];
   }

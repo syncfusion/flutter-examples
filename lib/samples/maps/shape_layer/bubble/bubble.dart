@@ -311,19 +311,33 @@ class _MapBubblePageState extends SampleViewState
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? _buildMapsWidget()
-        : SingleChildScrollView(
-            child: Container(height: 400, child: _buildMapsWidget()));
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final bool scrollEnabled = constraints.maxHeight > 400;
+      double height = scrollEnabled ? constraints.maxHeight : 400;
+      if (model.isWebFullView ||
+          (model.isMobile &&
+              MediaQuery.of(context).orientation == Orientation.landscape)) {
+        final double refHeight = height * 0.6;
+        height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+      }
+      return Center(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: constraints.maxWidth,
+            height: height,
+            child: _buildMapsWidget(scrollEnabled),
+          ),
+        ),
+      );
+    });
   }
 
-  Widget _buildMapsWidget() {
+  Widget _buildMapsWidget(bool scrollEnabled) {
     return Stack(
       children: <Widget>[
         Padding(
-          padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                  model.isWebFullView
+          padding: scrollEnabled
               ? EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.05,
                   bottom: MediaQuery.of(context).size.height * 0.15,
@@ -337,9 +351,9 @@ class _MapBubblePageState extends SampleViewState
                 bubbleHoverStrokeColor: _bubbleColor,
                 bubbleHoverStrokeWidth: 1.5,
               ),
-              child: Column(children: [
+              child: Column(children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 30),
+                    padding: const EdgeInsets.only(top: 15, bottom: 30),
                     child: Align(
                         alignment: Alignment.center,
                         child: Text('Social Media Users Statistics',

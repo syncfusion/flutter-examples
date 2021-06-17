@@ -42,14 +42,14 @@ class _ScatterShapesState extends SampleViewState {
         maximum: 2005,
         title: AxisTitle(text: isCardView ? '' : 'Year'),
         labelIntersectAction: AxisLabelIntersectAction.multipleRows,
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       legend: Legend(isVisible: !isCardView),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Inflation Rate(%)'),
           labelFormat: '{value}%',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       tooltipBehavior: _tooltipBehavior,
       series: _getScatterShapesSeries(),
     );
@@ -85,23 +85,23 @@ class _ScatterShapesState extends SampleViewState {
     return <ScatterSeries<ChartSampleData, num>>[
       ScatterSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          markerSettings: MarkerSettings(
+          markerSettings: const MarkerSettings(
               width: 15, height: 15, shape: DataMarkerType.diamond),
           name: 'India'),
       ScatterSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          markerSettings: MarkerSettings(
+          markerSettings: const MarkerSettings(
               width: 15, height: 15, shape: DataMarkerType.triangle),
           name: 'China'),
       ScatterSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
-          markerSettings: MarkerSettings(
+          markerSettings: const MarkerSettings(
               width: 15, height: 15, shape: DataMarkerType.pentagon),
           name: 'Japan')
     ];

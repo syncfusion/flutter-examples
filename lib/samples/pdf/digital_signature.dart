@@ -58,10 +58,10 @@ class _SignPdfState extends SampleViewState {
                               color: model.textColor,
                               fontWeight: FontWeight.bold)),
                       const SizedBox(height: 10, width: 30),
-                      (MediaQuery.of(context).size.width > 800)
-                          ? Row(children: getCryptographicChildWidgets(context))
-                          : Column(
-                              children: getCryptographicChildWidgets(context)),
+                      if (MediaQuery.of(context).size.width > 800)
+                        Row(children: getCryptographicChildWidgets(context))
+                      else
+                        Column(children: getCryptographicChildWidgets(context)),
                       const SizedBox(height: 20, width: 30),
                       Text('Digest Algorithm',
                           style: TextStyle(
@@ -69,9 +69,10 @@ class _SignPdfState extends SampleViewState {
                               color: model.textColor,
                               fontWeight: FontWeight.bold)),
                       const SizedBox(height: 10, width: 30),
-                      (MediaQuery.of(context).size.width > 800)
-                          ? Row(children: getDigestChildWidgets(context))
-                          : Column(children: getDigestChildWidgets(context)),
+                      if (MediaQuery.of(context).size.width > 800)
+                        Row(children: getDigestChildWidgets(context))
+                      else
+                        Column(children: getDigestChildWidgets(context)),
                       const SizedBox(height: 10, width: 30),
                       Align(
                           alignment: Alignment.center,
@@ -82,7 +83,7 @@ class _SignPdfState extends SampleViewState {
                               padding: model.isMobile
                                   ? null
                                   : MaterialStateProperty.all(
-                                      EdgeInsets.symmetric(
+                                      const EdgeInsets.symmetric(
                                           vertical: 15, horizontal: 15)),
                             ),
                             onPressed: _signPDF,
@@ -95,35 +96,39 @@ class _SignPdfState extends SampleViewState {
   }
 
   List<Widget> getDigestChildWidgets(BuildContext context) {
-    return [
-      Row(children: [
-        Radio(value: 0, groupValue: _groupValue, onChanged: _digestChanged),
+    return <Widget>[
+      Row(children: <Widget>[
+        Radio<int>(
+            value: 0, groupValue: _groupValue, onChanged: _digestChanged),
         Text('SHA1', style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(value: 1, groupValue: _groupValue, onChanged: _digestChanged),
+      Row(children: <Widget>[
+        Radio<int>(
+            value: 1, groupValue: _groupValue, onChanged: _digestChanged),
         Text('SHA256', style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(value: 2, groupValue: _groupValue, onChanged: _digestChanged),
+      Row(children: <Widget>[
+        Radio<int>(
+            value: 2, groupValue: _groupValue, onChanged: _digestChanged),
         Text('SHA384', style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(value: 3, groupValue: _groupValue, onChanged: _digestChanged),
+      Row(children: <Widget>[
+        Radio<int>(
+            value: 3, groupValue: _groupValue, onChanged: _digestChanged),
         Text('SHA512', style: TextStyle(fontSize: 16, color: model.textColor)),
       ])
     ];
   }
 
   List<Widget> getCryptographicChildWidgets(BuildContext context) {
-    return [
-      Row(children: [
-        Radio(
+    return <Widget>[
+      Row(children: <Widget>[
+        Radio<int>(
             value: 0, groupValue: _cryptoGroupValue, onChanged: _cryptoChanged),
         Text('CMS', style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(
+      Row(children: <Widget>[
+        Radio<int>(
             value: 1, groupValue: _cryptoGroupValue, onChanged: _cryptoChanged),
         Text('CAdES', style: TextStyle(fontSize: 16, color: model.textColor)),
       ])
@@ -166,7 +171,7 @@ class _SignPdfState extends SampleViewState {
           bounds: Rect.fromLTWH(0, 0, bounds.width, bounds.height));
       graphics.drawImage(
           PdfBitmap(await _readDocumentData('signature.png', true)),
-          Rect.fromLTWH(2, 1, 30, 30));
+          const Rect.fromLTWH(2, 1, 30, 30));
       //Get certificate subject name.
       final String subject = certificate.subjectName;
       graphics.drawString(

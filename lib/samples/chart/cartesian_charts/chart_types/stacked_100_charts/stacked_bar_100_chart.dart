@@ -39,12 +39,12 @@ class _StackedBar100ChartState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Sales comparison of fruits'),
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           rangePadding: ChartRangePadding.none,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getStackedBarSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

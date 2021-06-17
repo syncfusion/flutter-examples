@@ -9,15 +9,14 @@ class CustomExpansionTile extends StatefulWidget {
   const CustomExpansionTile({
     Key? key,
     this.headerBackgroundColor,
-    this.title,
+    required Widget this.title,
     this.backgroundColor,
     this.onExpansionChanged,
-    this.children = const <Widget>[],
-    this.initiallyExpanded = false,
+    List<Widget> this.children = const <Widget>[],
+    bool this.initiallyExpanded = false,
   })  : assert(initiallyExpanded != null),
         assert(title != null),
         assert(children != null),
-        assert(initiallyExpanded != null),
         super(key: key);
 
   /// Holds the header name of expansion tile
@@ -52,8 +51,8 @@ class _ExpansionTileState extends State<CustomExpansionTile>
       Tween<double>(begin: 0.0, end: 0.5);
 
   final ColorTween _borderColorTween = ColorTween();
-  final ColorTween? _headerColorTween = ColorTween();
-  final ColorTween? _iconColorTween = ColorTween();
+  final ColorTween _headerColorTween = ColorTween();
+  final ColorTween _iconColorTween = ColorTween();
   final ColorTween _backgroundColorTween = ColorTween();
 
   late AnimationController _controller;
@@ -73,13 +72,14 @@ class _ExpansionTileState extends State<CustomExpansionTile>
     _heightFactor = _controller.drive(_easeInTween);
     _iconTurns = _controller.drive(_halfTween.chain(_easeInTween));
     _borderColor = _controller.drive(_borderColorTween.chain(_easeOutTween));
-    _headerColor = _controller.drive(_headerColorTween!.chain(_easeInTween));
-    _iconColor = _controller.drive(_iconColorTween!.chain(_easeInTween));
+    _headerColor = _controller.drive(_headerColorTween.chain(_easeInTween));
+    _iconColor = _controller.drive(_iconColorTween.chain(_easeInTween));
     _backgroundColor =
         _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
-    _isExpanded =
-        PageStorage.of(context)?.readState(context) ?? widget.initiallyExpanded;
+    _isExpanded = PageStorage.of(context)?.readState(context) == null
+        ? widget.initiallyExpanded!
+        : false;
     if (_isExpanded) {
       _controller.value = 1.0;
     }
@@ -149,7 +149,7 @@ class _ExpansionTileState extends State<CustomExpansionTile>
                   padding: const EdgeInsets.only(top: 0, bottom: 5),
                   child: RotationTransition(
                     turns: _iconTurns,
-                    child: Icon(
+                    child: const Icon(
                       Icons.expand_more,
                       color: Colors.grey,
                     ),
@@ -173,10 +173,10 @@ class _ExpansionTileState extends State<CustomExpansionTile>
   void didChangeDependencies() {
     final ThemeData theme = Theme.of(context);
     _borderColorTween.end = Colors.transparent;
-    _headerColorTween!
+    _headerColorTween
       ..begin = theme.textTheme.subtitle1!.color
       ..end = theme.accentColor;
-    _iconColorTween!
+    _iconColorTween
       ..begin = theme.unselectedWidgetColor
       ..end = theme.accentColor;
     _backgroundColorTween.end = widget.backgroundColor;

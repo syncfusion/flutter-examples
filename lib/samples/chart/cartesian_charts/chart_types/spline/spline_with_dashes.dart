@@ -31,13 +31,13 @@ class _SplineDashedState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Total investment (% of GDP)'),
       legend: Legend(isVisible: !isCardView),
-      primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis: NumericAxis(majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
         minimum: 16,
         maximum: 28,
         interval: 4,
         labelFormat: '{value}%',
-        axisLine: AxisLine(width: 0),
+        axisLine: const AxisLine(width: 0),
       ),
       series: _getDashedSplineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
@@ -89,30 +89,30 @@ class _SplineDashedState extends SampleViewState {
     return <SplineSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           width: 2,
           name: 'Brazil',
 
           /// To apply the dashes line for spline.
-          dashArray: <double>[12, 3, 3, 3],
-          markerSettings: MarkerSettings(isVisible: true)),
+          dashArray: const <double>[12, 3, 3, 3],
+          markerSettings: const MarkerSettings(isVisible: true)),
       SplineSeries<ChartSampleData, num>(
           dataSource: chartData,
           width: 2,
           name: 'Sweden',
-          dashArray: <double>[12, 3, 3, 3],
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          dashArray: const <double>[12, 3, 3, 3],
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       SplineSeries<ChartSampleData, num>(
           dataSource: chartData,
           width: 2,
-          dashArray: <double>[12, 3, 3, 3],
+          dashArray: const <double>[12, 3, 3, 3],
           name: 'Greece',
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 }

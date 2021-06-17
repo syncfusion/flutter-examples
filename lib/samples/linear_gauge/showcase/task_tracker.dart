@@ -40,62 +40,66 @@ class _TaskTrackingState extends SampleViewState {
     final Brightness _brightness = Theme.of(context).brightness;
 
     return Padding(
-        padding: EdgeInsets.all(10),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          SfLinearGauge(
-              interval: 20,
-              animateAxis: true,
-              animateRange: true,
-              labelPosition: LinearLabelPosition.outside,
-              tickPosition: LinearElementPosition.outside,
-              onGenerateLabels: () {
-                return <LinearAxisLabel>[
-                  LinearAxisLabel(text: 'Mar 19', value: 0),
-                  LinearAxisLabel(text: 'Jul 19', value: 20),
-                  LinearAxisLabel(text: 'Oct 19', value: 40),
-                  LinearAxisLabel(text: 'Jan 20', value: 60),
-                  LinearAxisLabel(text: 'Apr 20', value: 80),
-                  LinearAxisLabel(text: 'Jul 20', value: 100),
-                ];
-              },
-              axisTrackStyle: LinearAxisTrackStyle(
-                  thickness: 16, color: Colors.transparent),
-              markerPointers: [
-                LinearShapePointer(
-                    value: _pointerValue,
-                    onValueChanged: (value) => {
-                          setState(() => {_pointerValue = value})
+        padding: const EdgeInsets.all(10),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SfLinearGauge(
+                  interval: 20,
+                  animateAxis: true,
+                  animateRange: true,
+                  labelPosition: LinearLabelPosition.outside,
+                  tickPosition: LinearElementPosition.outside,
+                  onGenerateLabels: () {
+                    return <LinearAxisLabel>[
+                      const LinearAxisLabel(text: 'Mar 19', value: 0),
+                      const LinearAxisLabel(text: 'Jul 19', value: 20),
+                      const LinearAxisLabel(text: 'Oct 19', value: 40),
+                      const LinearAxisLabel(text: 'Jan 20', value: 60),
+                      const LinearAxisLabel(text: 'Apr 20', value: 80),
+                      const LinearAxisLabel(text: 'Jul 20', value: 100),
+                    ];
+                  },
+                  axisTrackStyle: const LinearAxisTrackStyle(
+                      thickness: 16, color: Colors.transparent),
+                  markerPointers: <LinearMarkerPointer>[
+                    LinearShapePointer(
+                        value: _pointerValue,
+                        onValueChanged: (dynamic value) {
+                          setState(() {
+                            _pointerValue = value as double;
+                          });
                         },
-                    color: _brightness == Brightness.light
-                        ? Color(0xff06589C)
-                        : Color(0xffFFFFFF),
-                    width: 24,
-                    position: LinearElementPosition.cross,
-                    shapeType: LinearShapePointerType.triangle,
-                    height: 16),
-              ],
-              ranges: <LinearGaugeRange>[
-                LinearGaugeRange(
-                  startValue: 0.0,
-                  midValue: 0,
-                  endValue: 80,
-                  startWidth: 16,
-                  midWidth: 16,
-                  endWidth: 16,
-                  position: LinearElementPosition.cross,
-                  color: Color(0xff0DC9AB),
-                ),
-                LinearGaugeRange(
-                  startValue: 80.0,
-                  midValue: 0,
-                  endValue: 100,
-                  startWidth: 16,
-                  midWidth: 16,
-                  endWidth: 16,
-                  position: LinearElementPosition.cross,
-                  color: Color(0xffF45656),
-                )
-              ])
-        ]));
+                        color: _brightness == Brightness.light
+                            ? const Color(0xff06589C)
+                            : const Color(0xffFFFFFF),
+                        width: 24,
+                        position: LinearElementPosition.cross,
+                        shapeType: LinearShapePointerType.triangle,
+                        height: 16),
+                  ],
+                  ranges: const <LinearGaugeRange>[
+                    LinearGaugeRange(
+                      startValue: 0.0,
+                      midValue: 0,
+                      endValue: 80,
+                      startWidth: 16,
+                      midWidth: 16,
+                      endWidth: 16,
+                      position: LinearElementPosition.cross,
+                      color: Color(0xff0DC9AB),
+                    ),
+                    LinearGaugeRange(
+                      startValue: 80.0,
+                      midValue: 0,
+                      endValue: 100,
+                      startWidth: 16,
+                      midWidth: 16,
+                      endWidth: 16,
+                      position: LinearElementPosition.cross,
+                      color: Color(0xffF45656),
+                    )
+                  ])
+            ]));
   }
 }

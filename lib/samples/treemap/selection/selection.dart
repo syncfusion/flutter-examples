@@ -20,6 +20,7 @@ class _TreemapSelectionSampleState extends SampleViewState {
   late List<_ImportAndExportDetails> _topImportsAndExports;
   late TextEditingController _importTextEditingController;
   late TextEditingController _exportTextEditingController;
+  late bool isDesktop;
   TreemapTile? _selectedTile;
 
   @override
@@ -30,102 +31,102 @@ class _TreemapSelectionSampleState extends SampleViewState {
     // [type] is the first level grouping key.
     // [product] is the second level grouping key.
     _topImportsAndExports = <_ImportAndExportDetails>[
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'Cars',
           valueInBillions: 145.66,
           color: Color.fromRGBO(64, 116, 218, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'PC, optical readers',
           valueInBillions: 104.95,
           color: Color.fromRGBO(85, 126, 213, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'Phone devices',
           valueInBillions: 102.55,
           color: Color.fromRGBO(98, 136, 217, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'Medication',
           valueInBillions: 95.18,
           color: Color.fromRGBO(109, 145, 219, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'Crude oil',
           valueInBillions: 81.86,
           color: Color.fromRGBO(121, 154, 222, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'Automobile parts',
           valueInBillions: 81.63,
           color: Color.fromRGBO(134, 163, 225, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'Blood fractions',
           valueInBillions: 60.04,
           color: Color.fromRGBO(158, 181, 230, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'Petroleum oils',
           valueInBillions: 51.38,
           color: Color.fromRGBO(171, 191, 234, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'Gold',
           valueInBillions: 36.32,
           color: Color.fromRGBO(182, 200, 236, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Import',
           product: 'IC',
           valueInBillions: 34.69,
           color: Color.fromRGBO(202, 215, 241, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'Petroleum oils',
           valueInBillions: 60.71,
           color: Color.fromRGBO(83, 192, 83, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'Crude oil',
           valueInBillions: 50.29,
           color: Color.fromRGBO(121, 193, 106, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'Cars',
           valueInBillions: 45.64,
           color: Color.fromRGBO(129, 197, 115, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'IC',
           valueInBillions: 44.21,
           color: Color.fromRGBO(138, 201, 126, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'Petroleum gases',
           valueInBillions: 33.34,
           color: Color.fromRGBO(147, 205, 136, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'Automobile parts',
           valueInBillions: 33.17,
           color: Color.fromRGBO(156, 210, 146, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'Phone devices',
           valueInBillions: 28.09,
           color: Color.fromRGBO(165, 214, 156, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'Electro-medical',
           valueInBillions: 28.02,
           color: Color.fromRGBO(174, 218, 166, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'Blood fractions',
           valueInBillions: 26.09,
           color: Color.fromRGBO(184, 222, 177, 1.0)),
-      _ImportAndExportDetails(
+      const _ImportAndExportDetails(
           type: 'Export',
           product: 'Soya beans',
           valueInBillions: 25.85,
@@ -144,7 +145,7 @@ class _TreemapSelectionSampleState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final bool isDesktop = kIsWeb ||
+    isDesktop = kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
@@ -155,7 +156,7 @@ class _TreemapSelectionSampleState extends SampleViewState {
             ? const EdgeInsets.all(12.5)
             : const EdgeInsets.all(10.0),
         child: Column(
-          children: [
+          children: <Widget>[
             Text(
               'Top 10 Imports and Exports of USA 2020',
               style: Theme.of(context).textTheme.subtitle1,

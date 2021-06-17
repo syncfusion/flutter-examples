@@ -68,7 +68,7 @@ class _LiveUpdateState extends SampleViewState {
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
         title: AxisTitle(text: isCardView ? '' : 'Time(s)'),
-        majorGridLines: MajorGridLines(color: Colors.transparent),
+        majorGridLines: const MajorGridLines(color: Colors.transparent),
       ),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Velocity(m/s)'),
@@ -88,7 +88,7 @@ class _LiveUpdateState extends SampleViewState {
         },
         dataSource: chartData,
         animationDuration: 0,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         width: 2,
       ),

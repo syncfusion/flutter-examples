@@ -40,11 +40,11 @@ class _RadialCompassState extends SampleViewState {
             showLastLabel: false,
             interval: 30,
             labelOffset: 20,
-            majorTickStyle:
-                MajorTickStyle(length: 0.16, lengthUnit: GaugeSizeUnit.factor),
-            minorTickStyle: MinorTickStyle(
+            majorTickStyle: const MajorTickStyle(
+                length: 0.16, lengthUnit: GaugeSizeUnit.factor),
+            minorTickStyle: const MinorTickStyle(
                 length: 0.16, lengthUnit: GaugeSizeUnit.factor, thickness: 1),
-            axisLabelStyle: GaugeTextStyle(fontSize: 12),
+            axisLabelStyle: const GaugeTextStyle(fontSize: 12),
             pointers: <GaugePointer>[
               MarkerPointer(value: 90, markerType: MarkerType.triangle),
               NeedlePointer(
@@ -54,9 +54,9 @@ class _RadialCompassState extends SampleViewState {
                   needleColor: const Color(0xFFC4C4C4),
                   needleStartWidth: 1,
                   needleEndWidth: 1,
-                  knobStyle: KnobStyle(knobRadius: 0),
-                  tailStyle: TailStyle(
-                      color: const Color(0xFFC4C4C4),
+                  knobStyle: const KnobStyle(knobRadius: 0),
+                  tailStyle: const TailStyle(
+                      color: Color(0xFFC4C4C4),
                       width: 1,
                       lengthUnit: GaugeSizeUnit.factor,
                       length: 0.5)),
@@ -67,8 +67,8 @@ class _RadialCompassState extends SampleViewState {
                 needleColor: const Color(0xFFC4C4C4),
                 needleStartWidth: 1,
                 needleEndWidth: 1,
-                knobStyle:
-                    KnobStyle(knobRadius: 0, sizeUnit: GaugeSizeUnit.factor),
+                knobStyle: const KnobStyle(
+                    knobRadius: 0, sizeUnit: GaugeSizeUnit.factor),
               ),
               NeedlePointer(
                 value: 40,
@@ -77,7 +77,7 @@ class _RadialCompassState extends SampleViewState {
                 needleColor: const Color(0xFFC4C4C4),
                 needleStartWidth: 1,
                 needleEndWidth: 1,
-                knobStyle: KnobStyle(knobRadius: 0),
+                knobStyle: const KnobStyle(knobRadius: 0),
               )
             ],
             annotations: <GaugeAnnotation>[

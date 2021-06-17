@@ -62,13 +62,13 @@ class _PiePointRenderModeState extends SampleViewState {
                           alignment: Alignment.bottomLeft,
                           child: DropdownButton<String>(
                               underline: Container(
-                                  color: Color(0xFFBDBDBD), height: 1),
+                                  color: const Color(0xFFBDBDBD), height: 1),
                               value: _selectedMode,
                               items: _modeList.map((String value) {
                                 return DropdownMenuItem<String>(
                                     value:
                                         (value != null) ? value : 'Render mode',
-                                    child: Text('$value',
+                                    child: Text(value,
                                         style:
                                             TextStyle(color: model.textColor)));
                               }).toList(),
@@ -124,7 +124,7 @@ class _PiePointRenderModeState extends SampleViewState {
           /// To enable and specify the group mode for pie chart.
           groupMode: CircularChartGroupMode.value,
           groupTo: 7,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y)
     ];
   }

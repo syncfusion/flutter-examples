@@ -37,7 +37,7 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
 
   @override
   void initState() {
-    _isSelected = [true, false];
+    _isSelected = <bool>[true, false];
     _tooltipBehavior =
         TooltipBehavior(enable: true, canShowMarker: false, header: '');
     super.initState();
@@ -67,8 +67,8 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
                 ),
                 Container(
                   padding: !model.isWebFullView
-                      ? EdgeInsets.fromLTRB(32, 0, 0, 0)
-                      : EdgeInsets.fromLTRB(42, 0, 0, 0),
+                      ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
+                      : const EdgeInsets.fromLTRB(42, 0, 0, 0),
                   child: CustomDirectionalButtons(
                     maxValue: 120,
                     minValue: 1,
@@ -90,7 +90,7 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
           ),
           Container(
               child: Row(
-            children: [
+            children: <Widget>[
               Text('Enable label extent',
                   style: TextStyle(color: model.textColor)),
               Container(
@@ -117,8 +117,8 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
                         style: TextStyle(color: model.textColor)),
                     Container(
                       padding: !model.isWebFullView
-                          ? EdgeInsets.fromLTRB(40, 0, 0, 0)
-                          : EdgeInsets.fromLTRB(50, 0, 0, 0),
+                          ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
+                          : const EdgeInsets.fromLTRB(50, 0, 0, 0),
                       child: CustomDirectionalButtons(
                         maxValue: 200,
                         minValue: 1,
@@ -160,13 +160,13 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
       primaryXAxis: CategoryAxis(
           labelsExtent: _isEnableLabelExtend ? _xLabelsExtent : null,
           maximumLabelWidth: _xMaximumLabelWidth,
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Height (meters)'),
           minimum: 500,
           maximum: 900,
           interval: 100,
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultSortingSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -185,10 +185,10 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
         dataSource: chartData,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         dataLabelSettings:
-            DataLabelSettings(isVisible: true, offset: Offset(-5, 0)),
+            DataLabelSettings(isVisible: true, offset: const Offset(-5, 0)),
       )
     ];
   }

@@ -53,9 +53,9 @@ class _PieRadiusState extends SampleViewState {
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
-          dataLabelMapper: (ChartSampleData data, _) => data.x,
+          dataLabelMapper: (ChartSampleData data, _) => data.x as String,
           startAngle: 100,
           endAngle: 100,
           pointRadiusMapper: (ChartSampleData data, _) => data.text,

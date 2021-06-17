@@ -77,7 +77,7 @@ class _TimelineViewsCalendarState extends SampleViewState {
       }
     }
 
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         if (_calendarController.view == CalendarView.timelineMonth) {
           _blackoutDates = blockedDates;
@@ -166,8 +166,8 @@ class _TimelineViewsCalendarState extends SampleViewState {
         blackoutDatesTextStyle: TextStyle(
             decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
             color: Colors.red),
-        timeSlotViewSettings: TimeSlotViewSettings(
-            minimumAppointmentDuration: const Duration(minutes: 60)));
+        timeSlotViewSettings: const TimeSlotViewSettings(
+            minimumAppointmentDuration: Duration(minutes: 60)));
   }
 }
 

@@ -326,7 +326,7 @@ class SampleModel extends Listenable {
   Color webBackgroundColor = const Color.fromRGBO(246, 246, 246, 1);
 
   /// Holds theme based color of icon
-  Color webIconColor = const Color.fromRGBO(55, 55, 55, 1);
+  Color webIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
 
   /// Holds theme based input container color
   Color webInputColor = const Color.fromRGBO(242, 242, 242, 1);
@@ -352,7 +352,7 @@ class SampleModel extends Listenable {
   late List<SampleRoute>? routes;
 
   /// Holds the current visible sample, only for web
-  late dynamic? currentRenderSample;
+  late dynamic currentRenderSample;
 
   /// Holds the current rendered sample's key, only for web
   late String? currentSampleKey;
@@ -436,7 +436,7 @@ class SampleModel extends Listenable {
         {
           dividerColor = const Color.fromRGBO(61, 61, 61, 1);
           cardColor = const Color.fromRGBO(48, 48, 48, 1);
-          webIconColor = const Color.fromRGBO(230, 230, 230, 1);
+          webIconColor = const Color.fromRGBO(255, 255, 255, 0.65);
           webOutputContainerColor = const Color.fromRGBO(23, 23, 23, 1);
           webInputColor = const Color.fromRGBO(44, 44, 44, 1);
           webBackgroundColor = const Color.fromRGBO(33, 33, 33, 1);
@@ -450,7 +450,7 @@ class SampleModel extends Listenable {
         {
           dividerColor = const Color.fromRGBO(204, 204, 204, 1);
           cardColor = Colors.white;
-          webIconColor = const Color.fromRGBO(55, 55, 55, 1);
+          webIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
           webOutputContainerColor = Colors.white;
           webInputColor = const Color.fromRGBO(242, 242, 242, 1);
           webBackgroundColor = const Color.fromRGBO(246, 246, 246, 1);
@@ -491,7 +491,7 @@ class SampleModel extends Listenable {
 /// and [SampleModel._controlList]
 Future<void> updateControlItems() async {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-    await DesktopWindow.setMinWindowSize(Size(775, 230));
+    await DesktopWindow.setMinWindowSize(const Size(775, 230));
   }
 
   bool _isSample = false;
@@ -505,14 +505,14 @@ Future<void> updateControlItems() async {
   List<SubItem> _thirdLevelSubItems = <SubItem>[];
   final List<SampleRoute> sampleRoutes = <SampleRoute>[];
 
-  final List<dynamic> categoryList = json.decode(_jsonText);
+  final List<dynamic> categoryList = json.decode(_jsonText) as List<dynamic>;
   for (int index = 0; index < categoryList.length; index++) {
     SampleModel._categoryList.add(WidgetCategory.fromJson(categoryList[index]));
     final List<Control> controlList = <Control>[];
     if ((!_isWeb || SampleModel._categoryList[index].showInWeb != false) &&
         (SampleModel._categoryList[index].categoryName != 'Viewer' ||
             kIsWeb ||
-            (!Platform.isWindows && !Platform.isMacOS && !Platform.isLinux))) {
+            (!Platform.isWindows && !Platform.isLinux))) {
       for (int i = 0;
           i < SampleModel._categoryList[index].controlList!.length;
           i++) {
@@ -694,8 +694,8 @@ Future<void> updateControlItems() async {
 
   /// Sorting the controls based on control id category wise.
   for (int i = 0; i < SampleModel._categoryList.length; i++) {
-    SampleModel._categoryList[i].controlList!
-        .sort((dynamic a, dynamic b) => a.controlId.compareTo(b.controlId));
+    SampleModel._categoryList[i].controlList!.sort(
+        (dynamic a, dynamic b) => a.controlId.compareTo(b.controlId) as int);
   }
 
   if (_isWeb) {

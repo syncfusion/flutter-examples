@@ -10,7 +10,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 /// Renders sorting data grid
 class SortingDataGrid extends SampleView {
   /// Creates sorting data grid
-  SortingDataGrid({Key? key}) : super(key: key);
+  const SortingDataGrid({Key? key}) : super(key: key);
 
   @override
   _SortingDataGridState createState() => _SortingDataGridState();
@@ -43,8 +43,8 @@ class _SortingDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
-    sortingDataGridSource.sortedColumns.add(SortColumnDetails(
+    isWebOrDesktop = model.isWeb || model.isDesktop;
+    sortingDataGridSource.sortedColumns.add(const SortColumnDetails(
         name: 'id', sortDirection: DataGridSortDirection.descending));
   }
 
@@ -169,8 +169,8 @@ class _SortingDataGridState extends SampleViewState {
                   : double.nan,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Order ID',
               overflow: TextOverflow.ellipsis,
             ),
@@ -186,8 +186,8 @@ class _SortingDataGridState extends SampleViewState {
                   : double.nan,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Customer ID',
               overflow: TextOverflow.ellipsis,
             ),
@@ -201,8 +201,8 @@ class _SortingDataGridState extends SampleViewState {
                   : double.nan,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Name',
               overflow: TextOverflow.ellipsis,
             ),
@@ -217,8 +217,8 @@ class _SortingDataGridState extends SampleViewState {
                 : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
-          padding: EdgeInsets.all(8.0),
-          child: Text(
+          padding: const EdgeInsets.all(8.0),
+          child: const Text(
             'Freight',
             overflow: TextOverflow.ellipsis,
           ),
@@ -235,8 +235,8 @@ class _SortingDataGridState extends SampleViewState {
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.all(8.0),
-          child: Text(
+          padding: const EdgeInsets.all(8.0),
+          child: const Text(
             'City',
             overflow: TextOverflow.ellipsis,
           ),
@@ -249,8 +249,8 @@ class _SortingDataGridState extends SampleViewState {
         columnWidthMode: ColumnWidthMode.lastColumnFill,
         label: Container(
           alignment: Alignment.centerRight,
-          padding: EdgeInsets.all(8.0),
-          child: Text(
+          padding: const EdgeInsets.all(8.0),
+          child: const Text(
             'Price',
             overflow: TextOverflow.ellipsis,
           ),
@@ -277,19 +277,19 @@ class _SortingDataSource extends DataGridSource {
     buildDataGridRows();
   }
 
-  List<_Employee> employees = [];
+  List<_Employee> employees = <_Employee>[];
 
-  List<DataGridRow> dataGridRows = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
   void buildDataGridRows() {
-    dataGridRows = employees.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell(columnName: 'id', value: dataGridRow.id),
-        DataGridCell(columnName: 'customerId', value: dataGridRow.customerId),
-        DataGridCell(columnName: 'name', value: dataGridRow.name),
-        DataGridCell(columnName: 'freight', value: dataGridRow.freight),
-        DataGridCell(columnName: 'city', value: dataGridRow.city),
-        DataGridCell(columnName: 'price', value: dataGridRow.price),
+    dataGridRows = employees.map<DataGridRow>((_Employee employee) {
+      return DataGridRow(cells: <DataGridCell>[
+        DataGridCell<int>(columnName: 'id', value: employee.id),
+        DataGridCell<int>(columnName: 'customerId', value: employee.customerId),
+        DataGridCell<String>(columnName: 'name', value: employee.name),
+        DataGridCell<double>(columnName: 'freight', value: employee.freight),
+        DataGridCell<String>(columnName: 'city', value: employee.city),
+        DataGridCell<double>(columnName: 'price', value: employee.price),
       ]);
     }).toList(growable: false);
   }
@@ -299,10 +299,10 @@ class _SortingDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[0].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -310,7 +310,7 @@ class _SortingDataSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[1].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -318,33 +318,33 @@ class _SortingDataSource extends DataGridSource {
       ),
       Container(
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
             row.getCells()[2].value.toString(),
             overflow: TextOverflow.ellipsis,
           )),
       Container(
           alignment: Alignment.centerRight,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(row.getCells()[3].value)
                 .toString(),
             overflow: TextOverflow.ellipsis,
           )),
       Container(
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
             row.getCells()[4].value.toString(),
             overflow: TextOverflow.ellipsis,
           )),
       Container(
           alignment: Alignment.centerRight,
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
             NumberFormat.currency(
-                    locale: 'en_US', symbol: '\$', decimalDigits: 0)
+                    locale: 'en_US', symbol: r'$', decimalDigits: 0)
                 .format(row.getCells()[5].value)
                 .toString(),
             overflow: TextOverflow.ellipsis,

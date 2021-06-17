@@ -148,7 +148,7 @@ class _RSIIndicatorState extends SampleViewState {
         plotAreaBorderWidth: 0,
         legend: Legend(isVisible: !isCardView),
         primaryXAxis: DateTimeAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           dateFormat: DateFormat.MMM(),
           interval: 3,
           minimum: DateTime(2016, 01, 01),
@@ -158,17 +158,17 @@ class _RSIIndicatorState extends SampleViewState {
             minimum: 70,
             maximum: 130,
             interval: 20,
-            labelFormat: '\${value}',
-            axisLine: AxisLine(width: 0)),
+            labelFormat: r'${value}',
+            axisLine: const AxisLine(width: 0)),
         axes: <ChartAxis>[
           NumericAxis(
-              majorGridLines: MajorGridLines(width: 0),
+              majorGridLines: const MajorGridLines(width: 0),
               opposedPosition: true,
               name: 'yaxes',
               minimum: 10,
               maximum: 110,
               interval: 20,
-              axisLine: AxisLine(width: 0))
+              axisLine: const AxisLine(width: 0))
         ],
         trackballBehavior: _trackballBehavior,
         tooltipBehavior: _tooltipBehavior,
@@ -194,7 +194,7 @@ class _RSIIndicatorState extends SampleViewState {
           emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
           dataSource: chartData,
           opacity: 0.7,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           lowValueMapper: (ChartSampleData sales, _) => sales.low,
           highValueMapper: (ChartSampleData sales, _) => sales.high,
           openValueMapper: (ChartSampleData sales, _) => sales.open,

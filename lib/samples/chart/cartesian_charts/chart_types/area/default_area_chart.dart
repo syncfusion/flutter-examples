@@ -36,14 +36,14 @@ class _AreaDefaultState extends SampleViewState {
           dateFormat: DateFormat.y(),
           interval: 1,
           intervalType: DateTimeIntervalType.years,
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}M',
           title: AxisTitle(text: isCardView ? '' : 'Revenue in millions'),
           interval: 1,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultAreaSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -65,14 +65,14 @@ class _AreaDefaultState extends SampleViewState {
         dataSource: chartData,
         opacity: 0.7,
         name: 'Product A',
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
       AreaSeries<ChartSampleData, DateTime>(
         dataSource: chartData,
         opacity: 0.7,
         name: 'Product B',
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
       )
     ];

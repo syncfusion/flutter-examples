@@ -25,7 +25,7 @@ class _VerticalWaterFallState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return Column(children: <Widget>[
       Text(
         isCardView ? '' : 'Company revenue and profit',
         style: TextStyle(
@@ -41,7 +41,7 @@ class _VerticalWaterFallState extends SampleViewState {
   /// Get the cartesian chart with histogram series
   Row _getVerticalWaterfallChart() {
     return Row(
-      children: [
+      children: <Widget>[
         Expanded(
             flex: 40,
             child: Container(
@@ -54,7 +54,7 @@ class _VerticalWaterFallState extends SampleViewState {
               isTransposed: true,
               title: ChartTitle(
                   text: isCardView ? '' : '2015',
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       fontSize: 12.0,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
@@ -62,10 +62,10 @@ class _VerticalWaterFallState extends SampleViewState {
               primaryXAxis: CategoryAxis(
                 axisLine: AxisLine(
                     color: model.bottomSheetBackgroundColor == Colors.white
-                        ? Color.fromRGBO(181, 181, 181, 0.5)
-                        : Color.fromRGBO(101, 101, 101, 1)),
-                majorTickLines: MajorTickLines(width: 0),
-                majorGridLines: MajorGridLines(width: 0),
+                        ? const Color.fromRGBO(181, 181, 181, 0.5)
+                        : const Color.fromRGBO(101, 101, 101, 1)),
+                majorTickLines: const MajorTickLines(width: 0),
+                majorGridLines: const MajorGridLines(width: 0),
               ),
               primaryYAxis: NumericAxis(
                   isVisible: false,
@@ -73,8 +73,8 @@ class _VerticalWaterFallState extends SampleViewState {
                   minimum: 0,
                   interval: 30,
                   maximum: 60,
-                  axisLine: AxisLine(width: 0),
-                  majorTickLines: MajorTickLines(size: 0)),
+                  axisLine: const AxisLine(width: 0),
+                  majorTickLines: const MajorTickLines(size: 0)),
               series: _getWaterFallSeries(),
               tooltipBehavior: tooltipBehavior1,
             ))),
@@ -92,10 +92,10 @@ class _VerticalWaterFallState extends SampleViewState {
                 return ChartAxisLabel(
                     details.axisName == 'XAxis' ? '' : details.text, null);
               },
-              margin: EdgeInsets.fromLTRB(0, 10, 10, 10),
+              margin: const EdgeInsets.fromLTRB(0, 10, 10, 10),
               title: ChartTitle(
                   text: isCardView ? '' : '2016',
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       fontSize: 12.0,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
@@ -104,10 +104,10 @@ class _VerticalWaterFallState extends SampleViewState {
                   name: 'XAxis',
                   axisLine: AxisLine(
                       color: model.bottomSheetBackgroundColor == Colors.white
-                          ? Color.fromRGBO(181, 181, 181, 0.5)
-                          : Color.fromRGBO(101, 101, 101, 1)),
-                  majorTickLines: MajorTickLines(width: 0),
-                  majorGridLines: MajorGridLines(width: 0),
+                          ? const Color.fromRGBO(181, 181, 181, 0.5)
+                          : const Color.fromRGBO(101, 101, 101, 1)),
+                  majorTickLines: const MajorTickLines(width: 0),
+                  majorGridLines: const MajorGridLines(width: 0),
                   labelIntersectAction: isCardView
                       ? AxisLabelIntersectAction.wrap
                       : AxisLabelIntersectAction.rotate45),
@@ -117,8 +117,8 @@ class _VerticalWaterFallState extends SampleViewState {
                   minimum: 0,
                   maximum: 60,
                   interval: 30,
-                  axisLine: AxisLine(width: 0),
-                  majorTickLines: MajorTickLines(size: 0)),
+                  axisLine: const AxisLine(width: 0),
+                  majorTickLines: const MajorTickLines(size: 0)),
               series: _getWaterFallSecondSeries(),
               tooltipBehavior: tooltipBehavior2,
             ))),
@@ -134,7 +134,7 @@ class _VerticalWaterFallState extends SampleViewState {
               isTransposed: true,
               title: ChartTitle(
                   text: isCardView ? '' : '2017',
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       fontSize: 12.0,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
@@ -143,15 +143,15 @@ class _VerticalWaterFallState extends SampleViewState {
                 return ChartAxisLabel(
                     details.axisName == 'XAxis' ? '' : details.text, null);
               },
-              margin: EdgeInsets.fromLTRB(0, 10, 10, 10),
+              margin: const EdgeInsets.fromLTRB(0, 10, 10, 10),
               primaryXAxis: CategoryAxis(
                   name: 'XAxis',
                   axisLine: AxisLine(
                       color: model.bottomSheetBackgroundColor == Colors.white
-                          ? Color.fromRGBO(181, 181, 181, 0.5)
-                          : Color.fromRGBO(101, 101, 101, 1)),
-                  majorTickLines: MajorTickLines(width: 0),
-                  majorGridLines: MajorGridLines(width: 0),
+                          ? const Color.fromRGBO(181, 181, 181, 0.5)
+                          : const Color.fromRGBO(101, 101, 101, 1)),
+                  majorTickLines: const MajorTickLines(width: 0),
+                  majorGridLines: const MajorGridLines(width: 0),
                   labelIntersectAction: isCardView
                       ? AxisLabelIntersectAction.wrap
                       : AxisLabelIntersectAction.rotate45),
@@ -161,8 +161,8 @@ class _VerticalWaterFallState extends SampleViewState {
                   minimum: 0,
                   maximum: 60,
                   interval: 30,
-                  axisLine: AxisLine(width: 0),
-                  majorTickLines: MajorTickLines(size: 0)),
+                  axisLine: const AxisLine(width: 0),
+                  majorTickLines: const MajorTickLines(size: 0)),
               series: _getWaterFallThirdSeries(),
               tooltipBehavior: tooltipBehavior3,
             )))
@@ -224,10 +224,10 @@ class _VerticalWaterFallState extends SampleViewState {
           dataLabelSettings: DataLabelSettings(
               isVisible: isCardView ? false : true,
               labelAlignment: ChartDataLabelAlignment.middle),
-          color: Color.fromRGBO(0, 189, 174, 1),
-          negativePointsColor: Color.fromRGBO(229, 101, 144, 1),
-          intermediateSumColor: Color.fromRGBO(79, 129, 188, 1),
-          totalSumColor: Color.fromRGBO(79, 129, 188, 1))
+          color: const Color.fromRGBO(0, 189, 174, 1),
+          negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
+          intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
+          totalSumColor: const Color.fromRGBO(79, 129, 188, 1))
     ];
   }
 
@@ -285,10 +285,10 @@ class _VerticalWaterFallState extends SampleViewState {
           dataLabelSettings: DataLabelSettings(
               isVisible: isCardView ? false : true,
               labelAlignment: ChartDataLabelAlignment.middle),
-          color: Color.fromRGBO(0, 189, 174, 1),
-          negativePointsColor: Color.fromRGBO(229, 101, 144, 1),
-          intermediateSumColor: Color.fromRGBO(79, 129, 188, 1),
-          totalSumColor: Color.fromRGBO(79, 129, 188, 1))
+          color: const Color.fromRGBO(0, 189, 174, 1),
+          negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
+          intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
+          totalSumColor: const Color.fromRGBO(79, 129, 188, 1))
     ];
   }
 
@@ -346,10 +346,10 @@ class _VerticalWaterFallState extends SampleViewState {
           dataLabelSettings: DataLabelSettings(
               isVisible: isCardView ? false : true,
               labelAlignment: ChartDataLabelAlignment.middle),
-          color: Color.fromRGBO(0, 189, 174, 1),
-          negativePointsColor: Color.fromRGBO(229, 101, 144, 1),
-          intermediateSumColor: Color.fromRGBO(79, 129, 188, 1),
-          totalSumColor: Color.fromRGBO(79, 129, 188, 1))
+          color: const Color.fromRGBO(0, 189, 174, 1),
+          negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
+          intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
+          totalSumColor: const Color.fromRGBO(79, 129, 188, 1))
     ];
   }
 

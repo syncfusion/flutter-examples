@@ -10,7 +10,7 @@ import 'package:collection/collection.dart';
 /// Renders custom header data grid sample
 class CustomHeaderDataGrid extends SampleView {
   /// Creates custom header data grid sample
-  CustomHeaderDataGrid({Key? key}) : super(key: key);
+  const CustomHeaderDataGrid({Key? key}) : super(key: key);
 
   @override
   _CustomHeaderDataGridState createState() => _CustomHeaderDataGridState();
@@ -26,14 +26,18 @@ class _CustomHeaderDataGridState extends SampleViewState {
   late List<GridColumn> columns;
 
   /// Default sorting operating in drop down widget
-  List<String> showMenuItems = ['Ascending', 'Descending', 'Clear Sorting'];
+  List<String> showMenuItems = <String>[
+    'Ascending',
+    'Descending',
+    'Clear Sorting'
+  ];
 
   late bool isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
     columns = getColumns();
     source = _SortingDataSource();
   }
@@ -49,36 +53,35 @@ class _CustomHeaderDataGridState extends SampleViewState {
         child: Container(width: 130, height: 30, child: Text(value)));
   }
 
-  List<PopupMenuItem> buildMenuItems(GridColumn column) {
-    List<PopupMenuItem> menuItems;
-    final sortColumn = source.sortedColumns
-        .firstWhereOrNull((sortColumn) => sortColumn.name == column.columnName);
+  List<PopupMenuItem<String>> buildMenuItems(GridColumn column) {
+    List<PopupMenuItem<String>> menuItems;
+    final SortColumnDetails? sortColumn = source.sortedColumns.firstWhereOrNull(
+        (SortColumnDetails sortColumn) => sortColumn.name == column.columnName);
 
-    menuItems = [
-      PopupMenuItem(
+    bool isEnabled(DataGridSortDirection direction) {
+      if (sortColumn == null) {
+        return true;
+      }
+      return sortColumn.sortDirection == direction;
+    }
+
+    menuItems = <PopupMenuItem<String>>[
+      PopupMenuItem<String>(
         value: showMenuItems[0],
-        enabled: sortColumn != null
-            ? sortColumn.sortDirection == DataGridSortDirection.ascending
-                ? false
-                : true
-            : true,
+        enabled: isEnabled(DataGridSortDirection.descending),
         child: buildMenuItem(column, showMenuItems[0]),
       ),
-      PopupMenuItem(
+      PopupMenuItem<String>(
         value: showMenuItems[1],
-        enabled: sortColumn != null
-            ? sortColumn.sortDirection == DataGridSortDirection.descending
-                ? false
-                : true
-            : true,
+        enabled: isEnabled(DataGridSortDirection.ascending),
         child: buildMenuItem(column, showMenuItems[1]),
       ),
     ];
 
     if (sortColumn != null) {
-      menuItems.add(PopupMenuItem(
+      menuItems.add(PopupMenuItem<String>(
         value: showMenuItems[2],
-        enabled: source.sortedColumns.isNotEmpty ? true : false,
+        enabled: source.sortedColumns.isNotEmpty,
         child: buildMenuItem(column, showMenuItems[2]),
       ));
     }
@@ -112,9 +115,9 @@ class _CustomHeaderDataGridState extends SampleViewState {
   Widget buildHeaderCell(Widget headerChild) {
     return Container(
         child: Row(
-      children: [
+      children: <Widget>[
         Flexible(child: headerChild),
-        Icon(
+        const Icon(
           Icons.keyboard_arrow_down,
           size: 25,
           color: Colors.grey,
@@ -125,10 +128,10 @@ class _CustomHeaderDataGridState extends SampleViewState {
 
   void buildShowMenu(BuildContext context, DataGridCellTapDetails details) {
     double dx = 0.0, dy = 0.0;
-    final rowHeight = 56.0;
+    const double rowHeight = 56.0;
     if (isWebOrDesktop) {
-      final RenderBox getBox = context.findRenderObject() as RenderBox;
-      final local = getBox.globalToLocal(details.globalPosition);
+      final RenderBox getBox = context.findRenderObject()! as RenderBox;
+      final Offset local = getBox.globalToLocal(details.globalPosition);
       dx = local.dx - details.localPosition.dx;
       dy = local.dy - details.localPosition.dy + rowHeight;
       // After Flutter v2.0, the 8.0 pixels added extra to the showMenu by default in the web and desktop.
@@ -156,7 +159,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
       columns: columns,
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
-      onCellTap: (details) {
+      onCellTap: (DataGridCellTapDetails details) {
         if (details.rowColumnIndex.rowIndex == 0) {
           buildShowMenu(context, details);
         }
@@ -171,8 +174,8 @@ class _CustomHeaderDataGridState extends SampleViewState {
           columnName: 'id',
           width: 140,
           label: buildHeaderCell(Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
+            padding: const EdgeInsets.all(8),
+            child: const Text(
               'Order ID',
               overflow: TextOverflow.ellipsis,
             ),
@@ -181,8 +184,8 @@ class _CustomHeaderDataGridState extends SampleViewState {
           columnName: 'productId',
           width: 150,
           label: buildHeaderCell(Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
+            padding: const EdgeInsets.all(8),
+            child: const Text(
               'Product ID',
               overflow: TextOverflow.ellipsis,
             ),
@@ -191,8 +194,8 @@ class _CustomHeaderDataGridState extends SampleViewState {
           columnName: 'name',
           width: 185,
           label: buildHeaderCell(Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
+            padding: const EdgeInsets.all(8),
+            child: const Text(
               'Customer Name',
               overflow: TextOverflow.ellipsis,
             ),
@@ -201,8 +204,8 @@ class _CustomHeaderDataGridState extends SampleViewState {
           columnName: 'product',
           width: 135,
           label: buildHeaderCell(Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
+            padding: const EdgeInsets.all(8),
+            child: const Text(
               'Product',
               overflow: TextOverflow.ellipsis,
             ),
@@ -211,8 +214,8 @@ class _CustomHeaderDataGridState extends SampleViewState {
           columnName: 'orderDate',
           width: 150,
           label: buildHeaderCell(Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
+            padding: const EdgeInsets.all(8),
+            child: const Text(
               'Order Date',
               overflow: TextOverflow.ellipsis,
             ),
@@ -221,8 +224,8 @@ class _CustomHeaderDataGridState extends SampleViewState {
           columnName: 'quantity',
           width: 135,
           label: buildHeaderCell(Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
+            padding: const EdgeInsets.all(8),
+            child: const Text(
               'Quantity',
               overflow: TextOverflow.ellipsis,
             ),
@@ -231,8 +234,8 @@ class _CustomHeaderDataGridState extends SampleViewState {
           columnName: 'city',
           width: 130,
           label: buildHeaderCell(Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
+            padding: const EdgeInsets.all(8),
+            child: const Text(
               'City',
               overflow: TextOverflow.ellipsis,
             ),
@@ -241,8 +244,8 @@ class _CustomHeaderDataGridState extends SampleViewState {
           columnName: 'unitPrice',
           width: 140,
           label: buildHeaderCell(Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
+            padding: const EdgeInsets.all(8),
+            child: const Text(
               'Unit Price',
               overflow: TextOverflow.ellipsis,
             ),
@@ -272,24 +275,22 @@ class _SortingDataSource extends DataGridSource {
   }
 
   final Random random = Random();
-  List<_Product> products = [];
+  List<_Product> products = <_Product>[];
 
-  List<DataGridRow> dataGridRows = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
   void buildDataGridRows() {
-    dataGridRows = products.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell<int>(columnName: 'id', value: dataGridRow.id),
-        DataGridCell<int>(
-            columnName: 'productId', value: dataGridRow.productId),
-        DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
-        DataGridCell<String>(columnName: 'product', value: dataGridRow.product),
+    dataGridRows = products.map<DataGridRow>((_Product product) {
+      return DataGridRow(cells: <DataGridCell<dynamic>>[
+        DataGridCell<int>(columnName: 'id', value: product.id),
+        DataGridCell<int>(columnName: 'productId', value: product.productId),
+        DataGridCell<String>(columnName: 'name', value: product.name),
+        DataGridCell<String>(columnName: 'product', value: product.product),
         DataGridCell<DateTime>(
-            columnName: 'orderDate', value: dataGridRow.orderDate),
-        DataGridCell<int>(columnName: 'quantity', value: dataGridRow.quantity),
-        DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
-        DataGridCell<double>(
-            columnName: 'unitPrice', value: dataGridRow.unitPrice),
+            columnName: 'orderDate', value: product.orderDate),
+        DataGridCell<int>(columnName: 'quantity', value: product.quantity),
+        DataGridCell<String>(columnName: 'city', value: product.city),
+        DataGridCell<double>(columnName: 'unitPrice', value: product.unitPrice),
       ]);
     }).toList();
   }
@@ -299,10 +300,10 @@ class _SortingDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Text(
           row.getCells()[0].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -310,7 +311,7 @@ class _SortingDataSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Text(
           row.getCells()[1].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -318,7 +319,7 @@ class _SortingDataSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Text(
           row.getCells()[2].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -326,7 +327,7 @@ class _SortingDataSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Text(
           row.getCells()[3].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -334,7 +335,7 @@ class _SortingDataSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Text(
           DateFormat('MM/dd/yyyy').format(row.getCells()[4].value).toString(),
           overflow: TextOverflow.ellipsis,
@@ -342,7 +343,7 @@ class _SortingDataSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Text(
           row.getCells()[5].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -350,7 +351,7 @@ class _SortingDataSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Text(
           row.getCells()[6].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -358,9 +359,9 @@ class _SortingDataSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Text(
-          NumberFormat.currency(locale: 'en_US', symbol: '\$')
+          NumberFormat.currency(locale: 'en_US', symbol: r'$')
               .format(row.getCells()[7].value)
               .toString(),
           overflow: TextOverflow.ellipsis,
@@ -460,7 +461,7 @@ class _SortingDataSource extends DataGridSource {
     DateTime(2013, 10, 22),
   ];
 
-  List<String> names = [
+  List<String> names = <String>[
     'Kyle',
     'Gina',
     'Irene',

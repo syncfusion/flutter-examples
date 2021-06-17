@@ -54,12 +54,13 @@ class _DoughnutGradientState extends SampleViewState {
               height: 50,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  underline:
+                      Container(color: const Color(0xFFBDBDBD), height: 1),
                   value: _shaderType,
                   items: _shader.map((String value) {
                     return DropdownMenuItem<String>(
                         value: (value != null) ? value : 'point',
-                        child: Text('$value',
+                        child: Text(value,
                             style: TextStyle(color: model.textColor)));
                   }).toList(),
                   onChanged: (dynamic value) {
@@ -159,7 +160,7 @@ class _DoughnutGradientState extends SampleViewState {
               type: ConnectorType.curve,
             ),
           ),
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text),
     ];
@@ -189,7 +190,7 @@ class _DoughnutGradientState extends SampleViewState {
   // Convert degree to radian
   double _degreeToRadian(int deg) => deg * (3.141592653589793 / 180);
 
-  dynamic _calculateDoughnut(
+  List<double> _calculateDoughnut(
       List<Color> colors, List<double> stops, Rect outerRect, Rect innerRect) {
     final List<double> stopOffsets = <double>[];
     final num _chartStart = innerRect.right;

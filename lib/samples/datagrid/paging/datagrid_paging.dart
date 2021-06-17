@@ -39,7 +39,7 @@ class _PagingDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
   @override
@@ -62,9 +62,9 @@ class _PagingDataGridState extends SampleViewState {
                   ? 120.0
                   : double.nan,
               label: Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.centerRight,
-                child: Text(
+                child: const Text(
                   'Order ID',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -76,9 +76,9 @@ class _PagingDataGridState extends SampleViewState {
               columnName: 'customerID',
               width: 130.0,
               label: Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Customer Name',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -91,9 +91,9 @@ class _PagingDataGridState extends SampleViewState {
                     ? 120.0
                     : double.nan,
             label: Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               alignment: Alignment.centerRight,
-              child: Text(
+              child: const Text(
                 'Order Date',
                 overflow: TextOverflow.ellipsis,
               ),
@@ -105,9 +105,9 @@ class _PagingDataGridState extends SampleViewState {
                 ? 120.0
                 : double.nan,
             label: Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               alignment: Alignment.center,
-              child: Text(
+              child: const Text(
                 'Freight',
                 overflow: TextOverflow.ellipsis,
               ),
@@ -124,9 +124,9 @@ class _PagingDataGridState extends SampleViewState {
                     ? 140.0
                     : double.nan,
             label: Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               alignment: Alignment.centerRight,
-              child: Text(
+              child: const Text(
                 'Shipped Date',
                 overflow: TextOverflow.ellipsis,
               ),
@@ -140,9 +140,9 @@ class _PagingDataGridState extends SampleViewState {
                       ? 120.0
                       : double.nan,
               label: Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Ship Country',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -166,9 +166,10 @@ class _PagingDataGridState extends SampleViewState {
   }
 
   Widget _buildLayoutBuilder() {
-    return LayoutBuilder(builder: (context, constraint) {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraint) {
       return Column(
-        children: [
+        children: <Widget>[
           SizedBox(
               height: constraint.maxHeight - dataPagerHeight,
               width: constraint.maxWidth,
@@ -207,22 +208,25 @@ class _OrderInfoDataSource extends DataGridSource {
   }
 
   final int rowsPerPage = 15;
-  List<_OrderInfo> orders = [];
-  List<_OrderInfo> paginatedOrders = [];
-  List<DataGridRow> dataGridRows = [];
+  List<_OrderInfo> orders = <_OrderInfo>[];
+  List<_OrderInfo> paginatedOrders = <_OrderInfo>[];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
   // Building PaginateDataGridRows
 
   void buildPaginateDataGridRows() {
-    dataGridRows = paginatedOrders.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell(columnName: 'orderID', value: dataGridRow.orderID),
-        DataGridCell(columnName: 'customerID', value: dataGridRow.customerID),
-        DataGridCell(columnName: 'orderDate', value: dataGridRow.orderData),
-        DataGridCell(columnName: 'freight', value: dataGridRow.freight),
-        DataGridCell(
-            columnName: 'shippingDate', value: dataGridRow.shippingDate),
-        DataGridCell(columnName: 'shipCountry', value: dataGridRow.shipCountry),
+    dataGridRows = paginatedOrders.map<DataGridRow>((_OrderInfo orderInfo) {
+      return DataGridRow(cells: <DataGridCell>[
+        DataGridCell<String>(columnName: 'orderID', value: orderInfo.orderID),
+        DataGridCell<String>(
+            columnName: 'customerID', value: orderInfo.customerID),
+        DataGridCell<DateTime>(
+            columnName: 'orderDate', value: orderInfo.orderData),
+        DataGridCell<double>(columnName: 'freight', value: orderInfo.freight),
+        DataGridCell<DateTime>(
+            columnName: 'shippingDate', value: orderInfo.shippingDate),
+        DataGridCell<String>(
+            columnName: 'shipCountry', value: orderInfo.shipCountry),
       ]);
     }).toList(growable: false);
   }
@@ -234,9 +238,9 @@ class _OrderInfoDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.centerRight,
         child: Text(
           row.getCells()[0].value.toString(),
@@ -244,37 +248,37 @@ class _OrderInfoDataSource extends DataGridSource {
         ),
       ),
       Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           alignment: Alignment.centerLeft,
           child: Text(
             row.getCells()[1].value.toString(),
             overflow: TextOverflow.ellipsis,
           )),
       Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           alignment: Alignment.centerRight,
           child: Text(
             DateFormat.yMd().format(row.getCells()[2].value).toString(),
             overflow: TextOverflow.ellipsis,
           )),
       Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           alignment: Alignment.center,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(row.getCells()[3].value)
                 .toString(),
             overflow: TextOverflow.ellipsis,
           )),
       Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           alignment: Alignment.centerRight,
           child: Text(
             DateFormat.yMd().format(row.getCells()[4].value).toString(),
             overflow: TextOverflow.ellipsis,
           )),
       Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           alignment: Alignment.centerLeft,
           child: Text(
             row.getCells()[5].value.toString(),
@@ -297,16 +301,16 @@ class _OrderInfoDataSource extends DataGridSource {
   // Order Data's
 
   final Random random = Random();
-  final List<DateTime> shippedDate = [];
-  final Map<String, List<String>> shipCity = {
-    'Argentina': ['Rosario'],
-    'Austria': ['Graz', 'Salzburg'],
-    'Belgium': ['Bruxelles', 'Charleroi'],
-    'Brazil': ['Campinas', 'Resende', 'Recife', 'Manaus'],
-    'Canada': ['Montréal', 'Tsawassen', 'Vancouver'],
-    'Denmark': ['Århus', 'København'],
-    'Finland': ['Helsinki', 'Oulu'],
-    'France': [
+  final List<DateTime> shippedDate = <DateTime>[];
+  final Map<String, List<String>> shipCity = <String, List<String>>{
+    'Argentina': <String>['Rosario'],
+    'Austria': <String>['Graz', 'Salzburg'],
+    'Belgium': <String>['Bruxelles', 'Charleroi'],
+    'Brazil': <String>['Campinas', 'Resende', 'Recife', 'Manaus'],
+    'Canada': <String>['Montréal', 'Tsawassen', 'Vancouver'],
+    'Denmark': <String>['Århus', 'København'],
+    'Finland': <String>['Helsinki', 'Oulu'],
+    'France': <String>[
       'Lille',
       'Lyon',
       'Marseille',
@@ -317,7 +321,7 @@ class _OrderInfoDataSource extends DataGridSource {
       'Toulouse',
       'Versailles'
     ],
-    'Germany': [
+    'Germany': <String>[
       'Aachen',
       'Berlin',
       'Brandenburg',
@@ -330,17 +334,17 @@ class _OrderInfoDataSource extends DataGridSource {
       'Münster',
       'Stuttgart'
     ],
-    'Ireland': ['Cork'],
-    'Italy': ['Bergamo', 'Reggio', 'Torino'],
-    'Mexico': ['México D.F.'],
-    'Norway': ['Stavern'],
-    'Poland': ['Warszawa'],
-    'Portugal': ['Lisboa'],
-    'Spain': ['Barcelona', 'Madrid', 'Sevilla'],
-    'Sweden': ['Bräcke', 'Luleå'],
-    'Switzerland': ['Bern', 'Genève'],
-    'UK': ['Colchester', 'Hedge End', 'London'],
-    'USA': [
+    'Ireland': <String>['Cork'],
+    'Italy': <String>['Bergamo', 'Reggio', 'Torino'],
+    'Mexico': <String>['México D.F.'],
+    'Norway': <String>['Stavern'],
+    'Poland': <String>['Warszawa'],
+    'Portugal': <String>['Lisboa'],
+    'Spain': <String>['Barcelona', 'Madrid', 'Sevilla'],
+    'Sweden': <String>['Bräcke', 'Luleå'],
+    'Switzerland': <String>['Bern', 'Genève'],
+    'UK': <String>['Colchester', 'Hedge End', 'London'],
+    'USA': <String>[
       'Albuquerque',
       'Anchorage',
       'Boise',
@@ -353,10 +357,15 @@ class _OrderInfoDataSource extends DataGridSource {
       'San Francisco',
       'Seattle',
     ],
-    'Venezuela': ['Barquisimeto', 'Caracas', 'I. de Margarita', 'San Cristóbal']
+    'Venezuela': <String>[
+      'Barquisimeto',
+      'Caracas',
+      'I. de Margarita',
+      'San Cristóbal'
+    ]
   };
 
-  List<String> genders = [
+  List<String> genders = <String>[
     'Male',
     'Female',
     'Female',
@@ -384,7 +393,7 @@ class _OrderInfoDataSource extends DataGridSource {
     'Male'
   ];
 
-  List<String> firstNames = [
+  List<String> firstNames = <String>[
     'Kyle',
     'Gina',
     'Irene',
@@ -412,7 +421,7 @@ class _OrderInfoDataSource extends DataGridSource {
     'Ralph',
   ];
 
-  List<String> lastNames = [
+  List<String> lastNames = <String>[
     'Adams',
     'Crowley',
     'Ellis',
@@ -447,7 +456,7 @@ class _OrderInfoDataSource extends DataGridSource {
     'Jobs'
   ];
 
-  List<String> customerID = [
+  List<String> customerID = <String>[
     'Alfki',
     'Frans',
     'Merep',
@@ -465,7 +474,7 @@ class _OrderInfoDataSource extends DataGridSource {
     'Folig'
   ];
 
-  List<String> shipCountry = [
+  List<String> shipCountry = <String>[
     'Argentina',
     'Austria',
     'Belgium',
@@ -491,7 +500,7 @@ class _OrderInfoDataSource extends DataGridSource {
     shippedDate
       ..clear()
       ..addAll(_getDateBetween(2000, 2014, count));
-    final List<_OrderInfo> orderDetails = [];
+    final List<_OrderInfo> orderDetails = <_OrderInfo>[];
 
     for (int i = 10001; i <= count + 10000; i++) {
       final String _shipCountry =
@@ -510,8 +519,8 @@ class _OrderInfoDataSource extends DataGridSource {
         shipCountry: _shipCountry,
         orderData: orderedData,
         shippingDate: shippedData,
-        freight: (random.nextInt(1000) + random.nextDouble()),
-        isClosed: (i + (random.nextInt(10)) > 2) ? true : false,
+        freight: random.nextInt(1000) + random.nextDouble(),
+        isClosed: (i + random.nextInt(10)) > 2,
         shipCity: _shipCityColl[random.nextInt(_shipCityColl.length)],
       ));
     }
@@ -522,7 +531,7 @@ class _OrderInfoDataSource extends DataGridSource {
   int next(int min, int max) => min + random.nextInt(max - min);
 
   List<DateTime> _getDateBetween(int startYear, int endYear, int count) {
-    final List<DateTime> date = [];
+    final List<DateTime> date = <DateTime>[];
 
     for (int i = 0; i < count; i++) {
       final int year = next(startYear, endYear);

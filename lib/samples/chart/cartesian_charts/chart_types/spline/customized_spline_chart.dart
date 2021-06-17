@@ -35,17 +35,18 @@ class _SplineVerticalState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Product sales prediction'),
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           minimum: 1.2,
           maximum: 2.4,
           interval: 0.2),
       series: <ChartSeries<ChartSampleData, num>>[
         SplineSeries<ChartSampleData, num>(
             onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-              return _CustomSplineSeriesRenderer(series as SplineSeries);
+              return _CustomSplineSeriesRenderer(
+                  series as SplineSeries<ChartSampleData, num>);
             },
             dataSource: <ChartSampleData>[
               ChartSampleData(x: 2016, y: 2),
@@ -58,10 +59,10 @@ class _SplineVerticalState extends SampleViewState {
               ChartSampleData(x: 2023, y: 2.2),
               ChartSampleData(x: 2024, y: 1.9),
             ],
-            xValueMapper: (ChartSampleData sales, _) => sales.x,
+            xValueMapper: (ChartSampleData sales, _) => sales.x as num,
             yValueMapper: (ChartSampleData sales, _) => sales.y,
             width: 2,
-            dashArray: <double>[10, 5]),
+            dashArray: const <double>[10, 5]),
       ],
     );
   }
@@ -83,8 +84,8 @@ class _CustomSplineSeriesRenderer extends SplineSeriesRenderer {
 
 late List<double> _yVal;
 late List<double> _xVal;
-double? _textXOffset, _textYOffset;
-double? _text1XOffset, _text1YOffset;
+late double? _textXOffset, _textYOffset;
+late double? _text1XOffset, _text1YOffset;
 
 /// custom spline painter class for customized spline series.
 class _SplineCustomPainter extends SplineSegment {

@@ -74,10 +74,10 @@ class _LiveUpdateState extends SampleViewState {
   SfCartesianChart _buildLiveUpdateChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis: NumericAxis(majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getLiveUpdateSeries(),
     );
   }
@@ -87,13 +87,13 @@ class _LiveUpdateState extends SampleViewState {
     return <SplineSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
           dataSource: chartData1,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           width: 2),
       SplineSeries<ChartSampleData, num>(
         dataSource: chartData2,
         width: 2,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       )
     ];

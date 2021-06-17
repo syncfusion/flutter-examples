@@ -41,7 +41,7 @@ class _ThumbCustomizedSliderState extends SampleViewState {
         value: _sliderValue,
         onChanged: (dynamic values) {
           setState(() {
-            _sliderValue = values;
+            _sliderValue = values as double;
           });
         },
         interval: 10,

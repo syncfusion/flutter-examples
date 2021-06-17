@@ -18,11 +18,11 @@ class Events extends SampleView {
 }
 
 // final GlobalKey consoleKey = GlobalKey<ConsoleState>();
-final _scrollController = ScrollController();
+final ScrollController _scrollController = ScrollController();
 
 class _EventsState extends SampleViewState {
   _EventsState();
-  List<String> actionsList = [];
+  List<String> actionsList = <String>[];
   final GlobalKey consoleKey = GlobalKey();
   late TooltipBehavior _tooltipBehavior;
   @override
@@ -44,114 +44,115 @@ class _EventsState extends SampleViewState {
               flex: 6,
               child: _buildDefaultEventChart(),
             ),
-            isCardView
-                ? Container()
-                : Expanded(
-                    flex: 4,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                              child: Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey.withOpacity(0.4))),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: Container(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  10, 0, 0, 0),
-                                              child: Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    'Event Trace',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  )))),
-                                      Expanded(
-                                          child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: IconButton(
-                                                splashRadius: 25,
-                                                icon: Icon(Icons.close),
-                                                onPressed: () {
-                                                  actionsList.clear();
-                                                  consoleKey.currentState
-                                                      ?.setState(() {});
-                                                },
-                                              ))),
-                                    ],
-                                  ))),
-                          Expanded(
-                              child: Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                            child: Console(actionsList, consoleKey),
-                          ))
-                        ],
-                      ),
-                    )),
-          ])
-        : Row(children: <Widget>[
-            Expanded(
-              flex: 6,
-              child: _buildDefaultEventChart(),
-            ),
-            isCardView
-                ? Container()
-                : Expanded(
-                    flex: 4,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                              child: Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey.withOpacity(0.4))),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: Container(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  10, 0, 0, 0),
-                                              child: Align(
+            if (isCardView)
+              Container()
+            else
+              Expanded(
+                  flex: 4,
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+                            child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.4))),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                        child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 0, 0, 0),
+                                            child: const Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
                                                   'Event Trace',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold),
-                                                ),
-                                              ))),
-                                      Expanded(
-                                          child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: IconButton(
-                                                splashRadius: 25,
-                                                icon: Icon(Icons.close),
-                                                onPressed: () {
-                                                  actionsList.clear();
-                                                  consoleKey.currentState
-                                                      ?.setState(() {});
-                                                },
-                                              ))),
-                                    ],
-                                  ))),
-                          Expanded(
-                              child: Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                            child: Console(actionsList, consoleKey),
-                          ))
-                        ],
-                      ),
-                    )),
+                                                )))),
+                                    Expanded(
+                                        child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: IconButton(
+                                              splashRadius: 25,
+                                              icon: const Icon(Icons.close),
+                                              onPressed: () {
+                                                actionsList.clear();
+                                                consoleKey.currentState
+                                                    ?.setState(() {});
+                                              },
+                                            ))),
+                                  ],
+                                ))),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+                          child: Console(actionsList, consoleKey),
+                        ))
+                      ],
+                    ),
+                  )),
+          ])
+        : Row(children: <Widget>[
+            Expanded(
+              flex: 6,
+              child: _buildDefaultEventChart(),
+            ),
+            if (isCardView)
+              Container()
+            else
+              Expanded(
+                  flex: 4,
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+                            child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.4))),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                        child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 0, 0, 0),
+                                            child: const Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                'Event Trace',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ))),
+                                    Expanded(
+                                        child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: IconButton(
+                                              splashRadius: 25,
+                                              icon: const Icon(Icons.close),
+                                              onPressed: () {
+                                                actionsList.clear();
+                                                consoleKey.currentState
+                                                    ?.setState(() {});
+                                              },
+                                            ))),
+                                  ],
+                                ))),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+                          child: Console(actionsList, consoleKey),
+                        ))
+                      ],
+                    ),
+                  )),
           ]);
   }
 
@@ -241,12 +242,12 @@ class _EventsState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Population growth of various countries'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           labelFormat: '{value}%',
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultColumnSeries(),
       legend: Legend(
           isVisible: isCardView ? false : true,
@@ -270,9 +271,9 @@ class _EventsState extends SampleViewState {
         dataSource: chartData,
         animationDuration: 0,
         name: 'Population',
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        markerSettings: MarkerSettings(isVisible: true),
+        markerSettings: const MarkerSettings(isVisible: true),
         dataLabelSettings: DataLabelSettings(isVisible: true),
       )
     ];
@@ -282,7 +283,7 @@ class _EventsState extends SampleViewState {
 /// Renders the console for evets
 class Console extends StatefulWidget {
   /// Creates the console for events
-  Console(this.actionsList, Key consoleKey) : super(key: consoleKey);
+  const Console(this.actionsList, Key consoleKey) : super(key: consoleKey);
 
   /// collections of actions performed
   final List<String> actionsList;
@@ -293,13 +294,13 @@ class Console extends StatefulWidget {
 class _ConsoleState extends State<Console> {
   void scrollToTop() {
     _scrollController.animateTo(_scrollController.position.minScrollExtent,
-        duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+        duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
     setState(() {});
   }
 
   void scrollToBottom() {
     _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 200), curve: Curves.easeOut);
+        duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
     setState(() {});
   }
 
@@ -309,17 +310,18 @@ class _ConsoleState extends State<Console> {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.withOpacity(0.4))),
       child: Padding(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: ListView.separated(
             controller: _scrollController,
-            separatorBuilder: (context, build) => Divider(
+            separatorBuilder: (BuildContext context, int build) =>
+                const Divider(
               color: Colors.grey,
               height: 4,
             ),
             itemCount: widget.actionsList.length,
             itemBuilder: (BuildContext ctxt, int index) {
               return Padding(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 child: Text(widget.actionsList[index]),
               );
             },

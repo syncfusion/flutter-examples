@@ -64,12 +64,13 @@ class _CartesianLegendOptionsState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedPosition,
                     items: _positionList.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'auto',
-                          child: Text('$value',
+                          child: Text(value,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
                     onChanged: (dynamic value) {
@@ -87,13 +88,14 @@ class _CartesianLegendOptionsState extends SampleViewState {
                 width: 0.4 * screenWidth,
                 height: 50,
                 alignment: Alignment.bottomLeft,
-                child: DropdownButton(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                child: DropdownButton<String>(
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedMode,
                     items: _modeList.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'wrap',
-                          child: Text('$value',
+                          child: Text(value,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
                     onChanged: (dynamic value) {
@@ -139,13 +141,13 @@ class _CartesianLegendOptionsState extends SampleViewState {
           overflowMode: _overflowMode,
           toggleSeriesVisibility: toggleVisibility),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         labelRotation: isCardView ? 0 : -45,
       ),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          labelFormat: '\${value}',
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          labelFormat: r'${value}',
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getStackedLineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -201,34 +203,34 @@ class _CartesianLegendOptionsState extends SampleViewState {
     return <StackedLineSeries<ChartSampleData, String>>[
       StackedLineSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Person 1',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Person 2',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Person 3',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Person 4',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.size,
           name: 'Person 5',
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 

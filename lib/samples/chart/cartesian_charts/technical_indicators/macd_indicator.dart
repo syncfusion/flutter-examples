@@ -135,12 +135,13 @@ class _MACDIndicatorState extends SampleViewState {
               height: 50,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  underline:
+                      Container(color: const Color(0xFFBDBDBD), height: 1),
                   value: _selectedMacdIndicatorType,
                   items: _macdIndicatorTypeList.map((String value) {
                     return DropdownMenuItem<String>(
                         value: (value != null) ? value : 'Both',
-                        child: Text('$value',
+                        child: Text(value,
                             style: TextStyle(color: model.textColor)));
                   }).toList(),
                   onChanged: (String? value) {
@@ -162,7 +163,7 @@ class _MACDIndicatorState extends SampleViewState {
       plotAreaBorderWidth: 0,
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.MMM(),
         interval: 3,
         minimum: DateTime(2016, 01, 01),
@@ -172,11 +173,11 @@ class _MACDIndicatorState extends SampleViewState {
           minimum: 70,
           maximum: 130,
           interval: 20,
-          axisLine: AxisLine(width: 0)),
+          axisLine: const AxisLine(width: 0)),
       axes: <ChartAxis>[
         NumericAxis(
-            majorGridLines: MajorGridLines(width: 0),
-            axisLine: AxisLine(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
+            axisLine: const AxisLine(width: 0),
             opposedPosition: true,
             name: 'agybrd',
             interval: 2)
@@ -200,7 +201,7 @@ class _MACDIndicatorState extends SampleViewState {
             emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
             dataSource: chartData,
             opacity: 0.7,
-            xValueMapper: (ChartSampleData sales, _) => sales.x,
+            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
             lowValueMapper: (ChartSampleData sales, _) => sales.low,
             highValueMapper: (ChartSampleData sales, _) => sales.high,
             openValueMapper: (ChartSampleData sales, _) => sales.open,

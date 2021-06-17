@@ -80,7 +80,7 @@ class _PyramidLegendState extends SampleViewState {
     ];
     return PyramidSeries<ChartSampleData, String>(
         dataSource: pieData,
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         dataLabelSettings: DataLabelSettings(
             isVisible: !isCardView,

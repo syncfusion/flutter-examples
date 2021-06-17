@@ -41,13 +41,13 @@ class _RangeColumnDefaultState extends SampleViewState {
               ? ''
               : 'Average half-yearly temperature variation of London, UK'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           interval: isCardView ? 5 : 2,
           labelFormat: '{value}°C',
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultRangeColumnSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -68,7 +68,7 @@ class _RangeColumnDefaultState extends SampleViewState {
     return <RangeColumnSeries<ChartSampleData, String>>[
       RangeColumnSeries<ChartSampleData, String>(
         dataSource: chartData,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         lowValueMapper: (ChartSampleData sales, _) => sales.y,
         highValueMapper: (ChartSampleData sales, _) => sales.yValue,
         dataLabelSettings: DataLabelSettings(

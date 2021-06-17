@@ -25,7 +25,7 @@ class _StepsCounterState extends SampleViewState {
 
   @override
   void didChangeDependencies() {
-    precacheImage(AssetImage('images/person_walking.png'), context);
+    precacheImage(const AssetImage('images/person_walking.png'), context);
     super.didChangeDependencies();
   }
 
@@ -46,10 +46,10 @@ class _StepsCounterState extends SampleViewState {
     final Brightness _brightness = Theme.of(context).brightness;
 
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
             width: isWebOrDesktop
                 ? MediaQuery.of(context).size.width >= 550
@@ -66,18 +66,18 @@ class _StepsCounterState extends SampleViewState {
                 thickness: 32,
                 borderWidth: 1,
                 borderColor: _brightness == Brightness.dark
-                    ? Color(0xff898989)
+                    ? const Color(0xff898989)
                     : Colors.grey[350],
                 color: _brightness == Brightness.light
-                    ? Color(0xffE8EAEB)
-                    : Color(0xff62686A),
+                    ? const Color(0xffE8EAEB)
+                    : const Color(0xff62686A),
               ),
-              barPointers: [
+              barPointers: <LinearBarPointer>[
                 LinearBarPointer(
                     value: _pointerValue,
                     animationDuration: 3000,
                     thickness: 32,
-                    color: Color(0xff0DC9AB)),
+                    color: const Color(0xff0DC9AB)),
                 LinearBarPointer(
                     value: 12000,
                     enableAnimation: false,
@@ -88,19 +88,19 @@ class _StepsCounterState extends SampleViewState {
                     color: Colors.transparent,
                     position: LinearElementPosition.outside,
                     child: Container(
-                        child: Text('Sun, 7 February',
+                        child: const Text('Sun, 7 February',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500)))),
               ],
-              markerPointers: [
+              markerPointers: <LinearMarkerPointer>[
                 LinearWidgetPointer(
                     value: _pointerValue,
                     animationDuration: 2800,
-                    onAnimationCompleted: () => {
-                          setState(() {
-                            _image = 'images/person_walking.png';
-                          })
-                        },
+                    onAnimationCompleted: () {
+                      setState(() {
+                        _image = 'images/person_walking.png';
+                      });
+                    },
                     position: LinearElementPosition.outside,
                     child: Container(
                       width: 45,
@@ -114,21 +114,22 @@ class _StepsCounterState extends SampleViewState {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 65),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text(
-                'STEPS',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
-              ),
-              Text(
-                _pointerValue.toStringAsFixed(0),
-                style: TextStyle(
-                    fontSize: 24,
-                    color: Color(0xff0DC9AB),
-                    fontWeight: FontWeight.bold),
-              )
-            ]),
+            margin: const EdgeInsets.only(top: 65),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    'STEPS',
+                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    _pointerValue.toStringAsFixed(0),
+                    style: const TextStyle(
+                        fontSize: 24,
+                        color: Color(0xff0DC9AB),
+                        fontWeight: FontWeight.bold),
+                  )
+                ]),
           )
         ],
       ),

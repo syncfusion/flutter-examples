@@ -34,15 +34,18 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(
-                height: 400,
-                child: Padding(
-                    padding: EdgeInsets.only(top: 10.0), child: slider)),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(
+                  height: 400,
+                  child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: slider)),
+            );
+    });
   }
 }
 
@@ -73,7 +76,7 @@ class _DefaultSliderState extends SampleViewState {
           max: 100.0,
           onChanged: (dynamic values) {
             setState(() {
-              _activeSliderValue = values;
+              _activeSliderValue = values as double;
             });
           },
           value: _activeSliderValue,
@@ -96,11 +99,13 @@ class _DefaultSliderState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(
-                children: [Expanded(child: _activeSlider()), Text('Enabled')]),
-            Column(children: [
+            Column(children: <Widget>[
+              Expanded(child: _activeSlider()),
+              const Text('Enabled')
+            ]),
+            Column(children: <Widget>[
               Expanded(child: _inactiveSlider()),
-              Text('Disabled')
+              const Text('Disabled')
             ]),
           ],
         ));

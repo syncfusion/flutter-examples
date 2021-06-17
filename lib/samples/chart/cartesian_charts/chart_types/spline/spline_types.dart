@@ -56,12 +56,12 @@ class _SplineTypesState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
-                underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedSplineType,
                 items: _splineList.map((String value) {
                   return DropdownMenuItem<String>(
                       value: (value != null) ? value : 'natural',
-                      child: Text('$value',
+                      child: Text(value,
                           style: TextStyle(color: model.textColor)));
                 }).toList(),
                 onChanged: (dynamic value) {
@@ -80,7 +80,7 @@ class _SplineTypesState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Export growth of Brazil'),
       primaryXAxis: NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         interval: 1,
       ),
       primaryYAxis: NumericAxis(
@@ -88,7 +88,7 @@ class _SplineTypesState extends SampleViewState {
           minimum: -0.1,
           maximum: 0.2,
           interval: 0.1,
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getSplineTypesSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

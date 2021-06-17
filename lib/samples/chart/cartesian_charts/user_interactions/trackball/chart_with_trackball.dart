@@ -82,12 +82,12 @@ class _DefaultTrackballState extends SampleViewState {
                           alignment: Alignment.bottomLeft,
                           child: DropdownButton<String>(
                               underline: Container(
-                                  color: Color(0xFFBDBDBD), height: 1),
+                                  color: const Color(0xFFBDBDBD), height: 1),
                               value: _selectedMode,
                               items: _modeList.map((String value) {
                                 return DropdownMenuItem<String>(
                                     value: (value != null) ? value : 'point',
-                                    child: Text('$value',
+                                    child: Text(value,
                                         style:
                                             TextStyle(color: model.textColor)));
                               }).toList(),
@@ -113,7 +113,7 @@ class _DefaultTrackballState extends SampleViewState {
                             alignment: Alignment.bottomLeft,
                             child: DropdownButton<String>(
                                 underline: Container(
-                                    color: Color(0xFFBDBDBD), height: 1),
+                                    color: const Color(0xFFBDBDBD), height: 1),
                                 value: _tooltipAlignment,
                                 items: _selectedMode != 'groupAllPoints'
                                     ? null
@@ -122,7 +122,7 @@ class _DefaultTrackballState extends SampleViewState {
                                             value: (value != null)
                                                 ? value
                                                 : 'center',
-                                            child: Text('$value',
+                                            child: Text(value,
                                                 style: TextStyle(
                                                     color: model.textColor)));
                                       }).toList(),
@@ -224,12 +224,12 @@ class _DefaultTrackballState extends SampleViewState {
           interval: 1,
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y(),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: !isCardView ? 'Revenue' : ''),
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(width: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(width: 0)),
       series: _getDefaultTrackballSeries(),
 
       /// To set the track ball as true and customized trackball behaviour.
@@ -243,7 +243,7 @@ class _DefaultTrackballState extends SampleViewState {
           width: 10,
           borderWidth: 1,
         ),
-        hideDelay: (duration) * 1000,
+        hideDelay: duration * 1000,
         activationMode: ActivationMode.singleTap,
         tooltipAlignment: _alignment,
         tooltipDisplayMode: _mode,
@@ -329,25 +329,25 @@ class _DefaultTrackballState extends SampleViewState {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           width: 2,
           name: 'John',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
           width: 2,
           name: 'Andrew',
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
           width: 2,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Thomas',
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 

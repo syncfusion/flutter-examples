@@ -49,7 +49,7 @@ class _HeatMapCalendarCalendarState extends SampleViewState {
       body: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
+        children: <Widget>[
           Expanded(
               child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +60,7 @@ class _HeatMapCalendarCalendarState extends SampleViewState {
                 )
               ])),
           Container(
-            margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+            margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             height: 70,
             width: model.isMobileResolution ? screenWidth : screenWidth / 2,
             color: model.cardThemeColor,
@@ -68,23 +68,23 @@ class _HeatMapCalendarCalendarState extends SampleViewState {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
-                children: [
+                children: <Widget>[
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: const <Widget>[
                       Text('Less'),
                       Text('More'),
                     ],
                   ),
                   Container(
                     height: 20,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [
+                        colors: <Color>[
                           _kLightGrey,
                           _kLightGreen,
                           _kMidGreen,
@@ -110,7 +110,7 @@ class _HeatMapCalendarCalendarState extends SampleViewState {
         view: CalendarView.month,
         monthCellBuilder: _monthCellBuilder,
         showDatePickerButton: true,
-        monthViewSettings: MonthViewSettings(
+        monthViewSettings: const MonthViewSettings(
           showTrailingAndLeadingDates: false,
         ));
   }
@@ -146,7 +146,7 @@ class _HeatMapCalendarCalendarState extends SampleViewState {
   }
 
   Color _getMonthCellBackgroundColor(DateTime date) {
-    if (date.month % 2 == 0) {
+    if (date.month.isEven) {
       if (date.day % 6 == 0) {
         // 6, 12, 18, 24, 30
         return _kDarkerGreen;

@@ -37,7 +37,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
     realTimeUpdateDataGridSource =
         _RealTimeUpdateDataGridSource(isWebOrDesktop: isWebOrDesktop);
     timer = Timer.periodic(const Duration(milliseconds: 200), (Timer args) {
@@ -59,7 +59,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
                 : double.nan,
             label: Container(
               alignment: Alignment.center,
-              child: Text('Symbol'),
+              child: const Text('Symbol'),
             )),
         GridTextColumn(
           columnName: 'stock',
@@ -67,7 +67,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
               (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
           label: Container(
             alignment: Alignment.center,
-            child: Text('Stock'),
+            child: const Text('Stock'),
           ),
         ),
         GridTextColumn(
@@ -76,7 +76,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
               (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
           label: Container(
             alignment: Alignment.center,
-            child: Text(' Open'),
+            child: const Text(' Open'),
           ),
         ),
         GridTextColumn(
@@ -84,7 +84,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
           columnName: 'previousClose',
           label: Container(
             alignment: Alignment.center,
-            child: Text('Previous Close'),
+            child: const Text('Previous Close'),
           ),
         ),
         GridTextColumn(
@@ -93,7 +93,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
               (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
           label: Container(
             alignment: Alignment.center,
-            child: Text('Last Trade'),
+            child: const Text('Last Trade'),
           ),
         ),
       ],
@@ -139,9 +139,9 @@ class _RealTimeUpdateDataGridSource extends DataGridSource {
 
   final bool isWebOrDesktop;
 
-  List<_Stock> stocks = [];
+  List<_Stock> stocks = <_Stock>[];
 
-  List<DataGridRow> dataGridRows = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
   // Runtime Updating the cell values
 
@@ -160,13 +160,15 @@ class _RealTimeUpdateDataGridSource extends DataGridSource {
       // Reinitialize the DataGridRow for particular row and call the notify to
       // view the realtime changes in DataGrid.
       void updateDataRow() {
-        dataGridRows[recNo] = DataGridRow(cells: [
-          DataGridCell(columnName: 'symbol', value: stocks[recNo].symbol),
-          DataGridCell(columnName: 'stock', value: stocks[recNo].stock),
-          DataGridCell(columnName: 'open', value: stocks[recNo].open),
-          DataGridCell(
+        dataGridRows[recNo] = DataGridRow(cells: <DataGridCell>[
+          DataGridCell<String>(
+              columnName: 'symbol', value: stocks[recNo].symbol),
+          DataGridCell<double>(columnName: 'stock', value: stocks[recNo].stock),
+          DataGridCell<double>(columnName: 'open', value: stocks[recNo].open),
+          DataGridCell<double>(
               columnName: 'previousClose', value: stocks[recNo].previousClose),
-          DataGridCell(columnName: 'lastTrade', value: stocks[recNo].lastTrade),
+          DataGridCell<int>(
+              columnName: 'lastTrade', value: stocks[recNo].lastTrade),
         ]);
       }
 
@@ -187,21 +189,21 @@ class _RealTimeUpdateDataGridSource extends DataGridSource {
   }
 
   void buildDataGridRows() {
-    dataGridRows = stocks.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell(columnName: 'symbol', value: dataGridRow.symbol),
-        DataGridCell(columnName: 'stock', value: dataGridRow.stock),
-        DataGridCell(columnName: 'open', value: dataGridRow.open),
-        DataGridCell(
-            columnName: 'previousClose', value: dataGridRow.previousClose),
-        DataGridCell(columnName: 'lastTrade', value: dataGridRow.lastTrade),
+    dataGridRows = stocks.map<DataGridRow>((_Stock stock) {
+      return DataGridRow(cells: <DataGridCell>[
+        DataGridCell<String>(columnName: 'symbol', value: stock.symbol),
+        DataGridCell<double>(columnName: 'stock', value: stock.stock),
+        DataGridCell<double>(columnName: 'open', value: stock.open),
+        DataGridCell<double>(
+            columnName: 'previousClose', value: stock.previousClose),
+        DataGridCell<int>(columnName: 'lastTrade', value: stock.lastTrade),
       ]);
     }).toList(growable: false);
   }
 
   // Building Widget for each cell
 
-  Widget buildStocks(dynamic value) {
+  Widget buildStocks(double value) {
     return value >= 0.5
         ? _getWidget(_images[1]!, value)
         : _getWidget(_images[0]!, value);
@@ -260,7 +262,7 @@ class _RealTimeUpdateDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       Container(
         alignment: Alignment.center,
         child: Text(row.getCells()[0].value.toString()),

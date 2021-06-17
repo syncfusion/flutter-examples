@@ -72,12 +72,13 @@ class _SortingDefaultState extends SampleViewState {
                   height: 50,
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedType,
                       items: _labelList.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'y',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -99,12 +100,13 @@ class _SortingDefaultState extends SampleViewState {
                 Container(
                   height: 50,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedSortType,
                       items: _sortList.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'none',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -125,7 +127,8 @@ class _SortingDefaultState extends SampleViewState {
     return SfCartesianChart(
       title: ChartTitle(text: "World's tallest buildings"),
       plotAreaBorderWidth: 0,
-      primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis:
+          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
       onDataLabelRender: (DataLabelRenderArgs args) {
         args.text = args.dataPoints[args.pointIndex].y.toString() + ' m';
       },
@@ -133,8 +136,8 @@ class _SortingDefaultState extends SampleViewState {
           minimum: 500,
           maximum: 900,
           interval: 100,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultSortingSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -153,7 +156,7 @@ class _SortingDefaultState extends SampleViewState {
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
         dataSource: chartData,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         sortingOrder: _sortingOrder,
         dataLabelSettings: DataLabelSettings(

@@ -39,12 +39,12 @@ class _BubbleGradientState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Circket World cup statistics - till 2015'),
       primaryXAxis: CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           title: AxisTitle(text: isCardView ? '' : 'Country'),
           labelIntersectAction: AxisLabelIntersectAction.multipleRows),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
           title: AxisTitle(text: isCardView ? '' : 'Finals count'),
           minimum: 0,
           maximum: 4,
@@ -107,7 +107,7 @@ class _BubbleGradientState extends SampleViewState {
         dataSource: chartData,
         minimumRadius: 5,
         maximumRadius: 10,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         sizeValueMapper: (ChartSampleData sales, _) => sales.yValue,
       )

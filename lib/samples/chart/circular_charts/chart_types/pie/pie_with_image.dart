@@ -26,19 +26,15 @@ class PieImageShader extends SampleView {
 class _PieImageShaderState extends SampleViewState {
   _PieImageShaderState();
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   ui.Image? image1;
   ui.Image? image2;
   ui.Image? image3;
   ui.Image? image4;
 
+  // ignore: avoid_void_async
   void getImage() async {
-    final Completer<ImageInfo> completer = Completer();
-    final ImageProvider imageProvider = AssetImage('images/apple.png');
+    final Completer<ImageInfo> completer = Completer<ImageInfo>();
+    const ImageProvider imageProvider = AssetImage('images/apple.png');
     imageProvider
         .resolve(const ImageConfiguration())
         .addListener(ImageStreamListener((ImageInfo info, bool _) async {
@@ -48,8 +44,8 @@ class _PieImageShaderState extends SampleViewState {
       image1 = imageInfo.image;
     }));
 
-    final Completer<ImageInfo> completer1 = Completer();
-    final ImageProvider imageProvider1 = AssetImage('images/orange.png');
+    final Completer<ImageInfo> completer1 = Completer<ImageInfo>();
+    const ImageProvider imageProvider1 = AssetImage('images/orange.png');
     imageProvider1
         .resolve(const ImageConfiguration())
         .addListener(ImageStreamListener((ImageInfo info, bool _) async {
@@ -58,8 +54,8 @@ class _PieImageShaderState extends SampleViewState {
       image2 = imageInfo1.image;
     }));
 
-    final Completer<ImageInfo> completer2 = Completer();
-    final ImageProvider imageProvider2 = AssetImage('images/pears.png');
+    final Completer<ImageInfo> completer2 = Completer<ImageInfo>();
+    const ImageProvider imageProvider2 = AssetImage('images/pears.png');
     imageProvider2
         .resolve(const ImageConfiguration())
         .addListener(ImageStreamListener((ImageInfo info, bool _) async {
@@ -69,8 +65,8 @@ class _PieImageShaderState extends SampleViewState {
       image3 = imageInfo2.image;
     }));
 
-    final Completer<ImageInfo> completer3 = Completer();
-    final ImageProvider imageProvider3 = AssetImage('images/other_fruits.png');
+    final Completer<ImageInfo> completer3 = Completer<ImageInfo>();
+    const ImageProvider imageProvider3 = AssetImage('images/other_fruits.png');
     imageProvider3
         .resolve(const ImageConfiguration())
         .addListener(ImageStreamListener((ImageInfo info, bool _) async {
@@ -169,7 +165,7 @@ class _PieImageShaderState extends SampleViewState {
       );
     } else {
       getImage();
-      renderWidget = Center(child: CircularProgressIndicator());
+      renderWidget = const Center(child: CircularProgressIndicator());
     }
     return renderWidget!;
   }

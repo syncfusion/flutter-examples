@@ -37,15 +37,16 @@ class _MultipleAxisState extends SampleViewState {
         NumericAxis(
             opposedPosition: true,
             name: 'yAxis1',
-            majorGridLines: MajorGridLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
             labelFormat: '{value}°F',
             minimum: 40,
             maximum: 100,
             interval: 10)
       ],
-      primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis:
+          DateTimeAxis(majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         opposedPosition: false,
         minimum: 0,
         maximum: 50,
@@ -74,13 +75,13 @@ class _MultipleAxisState extends SampleViewState {
     return <ChartSeries<ChartSampleData, DateTime>>[
       ColumnSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'New York'),
       LineSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
           yAxisName: 'yAxis1',
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Washington')
     ];

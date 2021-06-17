@@ -92,15 +92,15 @@ class _AutoScrollingChartState extends SampleViewState {
         },
         plotAreaBorderWidth: 0,
         primaryXAxis: DateTimeAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           dateFormat: DateFormat.Hms(),
           intervalType: DateTimeIntervalType.seconds,
           autoScrollingDelta: 10,
           autoScrollingDeltaType: DateTimeIntervalType.seconds,
         ),
         primaryYAxis: NumericAxis(
-            axisLine: AxisLine(width: 0),
-            majorTickLines: MajorTickLines(size: 0)),
+            axisLine: const AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(size: 0)),
         series: <ColumnSeries<_ChartData, DateTime>>[
           ColumnSeries<_ChartData, DateTime>(
             onRendererCreated: (ChartSeriesController controller) {
@@ -118,7 +118,7 @@ class _AutoScrollingChartState extends SampleViewState {
 
   List<_ChartData> _updateDataSource() {
     chartData.add(_ChartData(
-        chartData[chartData.length - 1].x.add(Duration(seconds: 1)),
+        chartData[chartData.length - 1].x.add(const Duration(seconds: 1)),
         _getRandomInt(30, 60),
         palette[chartData.length % 10]));
     _chartSeriesController?.updateDataSource(
@@ -130,10 +130,10 @@ class _AutoScrollingChartState extends SampleViewState {
   List<_ChartData> _updateTempDataSource() {
     chartDataTemp.add(_ChartData(
         chartDataTemp.isEmpty
-            ? chartData[chartData.length - 1].x.add(Duration(seconds: 1))
+            ? chartData[chartData.length - 1].x.add(const Duration(seconds: 1))
             : chartDataTemp[chartDataTemp.length - 1]
                 .x
-                .add(Duration(seconds: 1)),
+                .add(const Duration(seconds: 1)),
         _getRandomInt(30, 60),
         palette[(chartDataTemp.isEmpty
                 ? chartData.length

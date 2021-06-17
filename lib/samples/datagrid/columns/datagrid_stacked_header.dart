@@ -18,7 +18,7 @@ import '../../../model/sample_view.dart';
 /// Renders stacked header data grid
 class StackedHeaderDataGrid extends SampleView {
   /// Creates stacked header data grid
-  StackedHeaderDataGrid({Key? key}) : super(key: key);
+  const StackedHeaderDataGrid({Key? key}) : super(key: key);
 
   @override
   _StackedHeaderDataGridState createState() => _StackedHeaderDataGridState();
@@ -39,9 +39,9 @@ class _StackedHeaderDataGridState extends SampleViewState {
           width: isWebOrDesktop ? 180 : 140,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             color: _getHeaderCellBackgroundColor(),
-            child: Text(
+            child: const Text(
               'Customer Name',
               overflow: TextOverflow.ellipsis,
             ),
@@ -51,9 +51,9 @@ class _StackedHeaderDataGridState extends SampleViewState {
           width: isWebOrDesktop ? 140 : 100,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             color: _getHeaderCellBackgroundColor(),
-            child: Text(
+            child: const Text(
               'City',
               overflow: TextOverflow.ellipsis,
             ),
@@ -63,9 +63,9 @@ class _StackedHeaderDataGridState extends SampleViewState {
           width: isWebOrDesktop ? 140 : 90,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             color: _getHeaderCellBackgroundColor(),
-            child: Text(
+            child: const Text(
               'Order ID',
               overflow: TextOverflow.ellipsis,
             ),
@@ -75,9 +75,9 @@ class _StackedHeaderDataGridState extends SampleViewState {
           width: isWebOrDesktop ? 140 : 110,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             color: _getHeaderCellBackgroundColor(),
-            child: Text(
+            child: const Text(
               'Order Date',
               overflow: TextOverflow.ellipsis,
             ),
@@ -87,9 +87,9 @@ class _StackedHeaderDataGridState extends SampleViewState {
           width: isWebOrDesktop ? 160 : 100,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             color: _getHeaderCellBackgroundColor(),
-            child: Text(
+            child: const Text(
               'Product',
               overflow: TextOverflow.ellipsis,
             ),
@@ -99,9 +99,9 @@ class _StackedHeaderDataGridState extends SampleViewState {
           width: isWebOrDesktop ? 150 : 100,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             color: _getHeaderCellBackgroundColor(),
-            child: Text(
+            child: const Text(
               'Product ID',
               overflow: TextOverflow.ellipsis,
             ),
@@ -111,9 +111,9 @@ class _StackedHeaderDataGridState extends SampleViewState {
           width: isWebOrDesktop ? 150 : 90,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             color: _getHeaderCellBackgroundColor(),
-            child: Text(
+            child: const Text(
               'Quantity',
               overflow: TextOverflow.ellipsis,
             ),
@@ -123,9 +123,9 @@ class _StackedHeaderDataGridState extends SampleViewState {
           width: isWebOrDesktop ? 140 : 100,
           label: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             color: _getHeaderCellBackgroundColor(),
-            child: Text(
+            child: const Text(
               'Unit Price',
               overflow: TextOverflow.ellipsis,
             ),
@@ -142,7 +142,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
 
   Widget _getWidgetForStackedHeaderCell(String title) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         color: _getHeaderCellBackgroundColor(),
         alignment: Alignment.centerLeft,
         child: Text(title));
@@ -151,18 +151,21 @@ class _StackedHeaderDataGridState extends SampleViewState {
   List<StackedHeaderRow> _getStackedHeaderRows() {
     List<StackedHeaderRow> _stackedHeaderRows;
     _stackedHeaderRows = <StackedHeaderRow>[
-      StackedHeaderRow(cells: [
-        StackedHeaderCell(columnNames: [
+      StackedHeaderRow(cells: <StackedHeaderCell>[
+        StackedHeaderCell(columnNames: <String>[
           'customerName',
           'city',
         ], child: _getWidgetForStackedHeaderCell('Customer Details')),
-        StackedHeaderCell(columnNames: [
+        StackedHeaderCell(columnNames: <String>[
           'orderId',
           'orderDate',
         ], child: _getWidgetForStackedHeaderCell('Order Details')),
-        StackedHeaderCell(
-            columnNames: ['product', 'productId', 'quantity', 'unitPrice'],
-            child: _getWidgetForStackedHeaderCell('Product Details'))
+        StackedHeaderCell(columnNames: <String>[
+          'product',
+          'productId',
+          'quantity',
+          'unitPrice'
+        ], child: _getWidgetForStackedHeaderCell('Product Details'))
       ])
     ];
     return _stackedHeaderRows;
@@ -171,7 +174,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
   @override
@@ -221,24 +224,25 @@ class _StackedHeaderDataGridSource extends DataGridSource {
 
   final Random random = Random();
 
-  List<_Product> products = [];
+  List<_Product> products = <_Product>[];
 
-  List<DataGridRow> dataGridRows = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
   // Building the DataGridRows
 
   void buildDataGridRow() {
-    dataGridRows = products.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell(
-            columnName: 'customerName', value: dataGridRow.customerName),
-        DataGridCell(columnName: 'city', value: dataGridRow.city),
-        DataGridCell(columnName: 'orderId', value: dataGridRow.orderId),
-        DataGridCell(columnName: 'orderDate', value: dataGridRow.orderDate),
-        DataGridCell(columnName: 'product', value: dataGridRow.product),
-        DataGridCell(columnName: 'productId', value: dataGridRow.productId),
-        DataGridCell(columnName: 'quantity', value: dataGridRow.quantity),
-        DataGridCell(columnName: 'unitPrice', value: dataGridRow.unitPrice),
+    dataGridRows = products.map<DataGridRow>((_Product product) {
+      return DataGridRow(cells: <DataGridCell<dynamic>>[
+        DataGridCell<String>(
+            columnName: 'customerName', value: product.customerName),
+        DataGridCell<String>(columnName: 'city', value: product.city),
+        DataGridCell<int>(columnName: 'orderId', value: product.orderId),
+        DataGridCell<DateTime>(
+            columnName: 'orderDate', value: product.orderDate),
+        DataGridCell<String>(columnName: 'product', value: product.product),
+        DataGridCell<int>(columnName: 'productId', value: product.productId),
+        DataGridCell<int>(columnName: 'quantity', value: product.quantity),
+        DataGridCell<double>(columnName: 'unitPrice', value: product.unitPrice),
       ]);
     }).toList(growable: false);
   }
@@ -250,10 +254,10 @@ class _StackedHeaderDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[0].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -261,7 +265,7 @@ class _StackedHeaderDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[1].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -269,7 +273,7 @@ class _StackedHeaderDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[2].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -277,7 +281,7 @@ class _StackedHeaderDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           DateFormat('MM/dd/yyyy').format(row.getCells()[3].value).toString(),
           overflow: TextOverflow.ellipsis,
@@ -285,7 +289,7 @@ class _StackedHeaderDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[4].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -293,7 +297,7 @@ class _StackedHeaderDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[5].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -301,7 +305,7 @@ class _StackedHeaderDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[6].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -309,9 +313,9 @@ class _StackedHeaderDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
-          NumberFormat.currency(locale: 'en_US', symbol: '\$')
+          NumberFormat.currency(locale: 'en_US', symbol: r'$')
               .format(row.getCells()[7].value)
               .toString(),
           overflow: TextOverflow.ellipsis,
@@ -413,7 +417,7 @@ class _StackedHeaderDataGridSource extends DataGridSource {
     DateTime(2013, 10, 22),
   ];
 
-  List<String> names = [
+  List<String> names = <String>[
     'Kyle',
     'Gina',
     'Irene',

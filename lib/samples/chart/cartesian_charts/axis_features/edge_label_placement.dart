@@ -59,12 +59,13 @@ class _EdgeLabelState extends SampleViewState {
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedType,
                       items: _edgeList.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'hide',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -89,7 +90,7 @@ class _EdgeLabelState extends SampleViewState {
           isVisible: isCardView ? false : true,
           position: LegendPosition.bottom),
       primaryXAxis: DateTimeAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           minimum: DateTime(2006, 4, 1),
           interval: 2,
           dateFormat: DateFormat.y(),
@@ -100,8 +101,8 @@ class _EdgeLabelState extends SampleViewState {
           edgeLabelPlacement:
               isCardView ? EdgeLabelPlacement.shift : _edgeLabelPlacement),
       primaryYAxis: NumericAxis(
-        majorTickLines: MajorTickLines(width: 0.5),
-        axisLine: AxisLine(width: 0),
+        majorTickLines: const MajorTickLines(width: 0.5),
+        axisLine: const AxisLine(width: 0),
         labelFormat: '₹{value}',
         minimum: 20,
         maximum: 80,
@@ -146,17 +147,17 @@ class _EdgeLabelState extends SampleViewState {
     return <ChartSeries<ChartSampleData, DateTime>>[
       SplineSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          markerSettings:
-              MarkerSettings(isVisible: true, shape: DataMarkerType.pentagon),
+          markerSettings: const MarkerSettings(
+              isVisible: true, shape: DataMarkerType.pentagon),
           name: 'Petrol'),
       SplineSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          markerSettings:
-              MarkerSettings(isVisible: true, shape: DataMarkerType.pentagon),
+          markerSettings: const MarkerSettings(
+              isVisible: true, shape: DataMarkerType.pentagon),
           name: 'Diesel')
     ];
   }

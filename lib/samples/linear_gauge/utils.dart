@@ -3,10 +3,10 @@ import 'package:flutter/foundation.dart';
 
 /// Renders a given fixed size widget
 bool get isWebOrDesktop {
-  return (defaultTargetPlatform == TargetPlatform.windows ||
+  return defaultTargetPlatform == TargetPlatform.windows ||
       defaultTargetPlatform == TargetPlatform.linux ||
       defaultTargetPlatform == TargetPlatform.macOS ||
-      kIsWeb);
+      kIsWeb;
 }
 
 /// Renders the width of the screen.

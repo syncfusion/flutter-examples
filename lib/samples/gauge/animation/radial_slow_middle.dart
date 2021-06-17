@@ -40,12 +40,12 @@ class _RadialSlowMiddleAnimationState extends SampleViewState {
             maximum: 12,
             interval: 1,
             canRotateLabels: true,
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
                 length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
             minorTicksPerInterval: 4,
             showFirstLabel: false,
-            axisLabelStyle: GaugeTextStyle(fontSize: 12),
-            minorTickStyle: MinorTickStyle(
+            axisLabelStyle: const GaugeTextStyle(fontSize: 12),
+            minorTickStyle: const MinorTickStyle(
                 length: 0.07, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
             pointers: <GaugePointer>[
               NeedlePointer(
@@ -54,7 +54,7 @@ class _RadialSlowMiddleAnimationState extends SampleViewState {
                   lengthUnit: GaugeSizeUnit.factor,
                   needleEndWidth: 5,
                   needleColor: const Color(0xFFC06C84),
-                  knobStyle: KnobStyle(knobRadius: 0),
+                  knobStyle: const KnobStyle(knobRadius: 0),
                   value: 11,
                   enableAnimation: true,
                   animationType: AnimationType.slowMiddle),
@@ -67,8 +67,8 @@ class _RadialSlowMiddleAnimationState extends SampleViewState {
                 value: 2,
                 enableAnimation: true,
                 animationType: AnimationType.slowMiddle,
-                knobStyle: KnobStyle(
-                    color: const Color(0xFFF67280),
+                knobStyle: const KnobStyle(
+                    color: Color(0xFFF67280),
                     sizeUnit: GaugeSizeUnit.logicalPixel,
                     knobRadius: 10),
               ),

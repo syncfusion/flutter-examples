@@ -24,14 +24,15 @@ class _RangeCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(margin: EdgeInsets.all(32.0), child: _buildSegmentedView()),
+    return Column(children: <Widget>[
+      Container(
+          margin: const EdgeInsets.all(32.0), child: _buildSegmentedView()),
       Expanded(
           child: Center(
               child: SingleChildScrollView(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
             Container(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildRange(context),
@@ -43,12 +44,12 @@ class _RangeCustomizationState extends SampleViewState {
   /// Returns the linear gauge range.
   Widget _buildRange(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
       child: _isHorizontalOrientation
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 _buildHorizontalGauges('Default', _buildDefaultRange()),
                 _buildHorizontalGauges(
                     'Exponential', _buildExponentialRange(context)),
@@ -60,13 +61,13 @@ class _RangeCustomizationState extends SampleViewState {
               ],
             )
           : Column(
-              children: [
+              children: <Widget>[
                 Wrap(
                   direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
-                  children: [
+                  children: <Widget>[
                     _buildVerticalGauges('Default', _buildDefaultRange()),
                     _buildVerticalGauges(
                         'Exponential', _buildExponentialRange(context)),
@@ -88,10 +89,10 @@ class _RangeCustomizationState extends SampleViewState {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Text(axisTrackName),
         linearGauge,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -101,7 +102,11 @@ class _RangeCustomizationState extends SampleViewState {
     return Container(
       width: 150,
       child: Column(
-        children: [Text(axisTrackName), SizedBox(height: 16), linearGauge],
+        children: <Widget>[
+          Text(axisTrackName),
+          const SizedBox(height: 16),
+          linearGauge
+        ],
       ),
     );
   }
@@ -116,7 +121,7 @@ class _RangeCustomizationState extends SampleViewState {
           orientation: _isHorizontalOrientation
               ? LinearGaugeOrientation.horizontal
               : LinearGaugeOrientation.vertical,
-          ranges: [LinearGaugeRange()],
+          ranges: const <LinearGaugeRange>[LinearGaugeRange()],
         ));
   }
 
@@ -130,7 +135,7 @@ class _RangeCustomizationState extends SampleViewState {
           orientation: _isHorizontalOrientation
               ? LinearGaugeOrientation.horizontal
               : LinearGaugeOrientation.vertical,
-          ranges: <LinearGaugeRange>[
+          ranges: const <LinearGaugeRange>[
             LinearGaugeRange(
                 startValue: 0.0,
                 midValue: 50.0,
@@ -152,7 +157,7 @@ class _RangeCustomizationState extends SampleViewState {
           orientation: _isHorizontalOrientation
               ? LinearGaugeOrientation.horizontal
               : LinearGaugeOrientation.vertical,
-          ranges: <LinearGaugeRange>[
+          ranges: const <LinearGaugeRange>[
             LinearGaugeRange(
               startValue: 0.0,
               midValue: 50.0,
@@ -192,12 +197,12 @@ class _RangeCustomizationState extends SampleViewState {
                     end: _isHorizontalOrientation
                         ? Alignment.centerRight
                         : Alignment.bottomCenter,
-                    colors: [
+                    colors: const <Color>[
                       Color(0xff42C09A),
                       Color(0xffE8DA5D),
                       Color(0xffFB7D55),
                     ],
-                    stops: <double>[
+                    stops: const <double>[
                       0.1,
                       0.4,
                       0.8
@@ -231,8 +236,8 @@ class _RangeCustomizationState extends SampleViewState {
               endWidth: 40,
               child: Container(
                   color: _brightness == Brightness.light
-                      ? Color(0xffF45656)
-                      : Color(0xffFF7B7B)),
+                      ? const Color(0xffF45656)
+                      : const Color(0xffFF7B7B)),
             ),
             LinearGaugeRange(
               startValue: 30.0,
@@ -242,8 +247,8 @@ class _RangeCustomizationState extends SampleViewState {
               endWidth: 40,
               child: Container(
                   color: _brightness == Brightness.light
-                      ? Color(0xffFFC93E)
-                      : Color(0xffFFC93E)),
+                      ? const Color(0xffFFC93E)
+                      : const Color(0xffFFC93E)),
             ),
             LinearGaugeRange(
               startValue: 65.0,
@@ -253,8 +258,8 @@ class _RangeCustomizationState extends SampleViewState {
               endWidth: 40,
               child: Container(
                   color: _brightness == Brightness.light
-                      ? Color(0xff0DC9AB)
-                      : Color(0xff0DC9AB)),
+                      ? const Color(0xff0DC9AB)
+                      : const Color(0xff0DC9AB)),
             ),
             LinearGaugeRange(
               startValue: 0,
@@ -265,7 +270,7 @@ class _RangeCustomizationState extends SampleViewState {
               child: RotatedBox(
                   quarterTurns: _isHorizontalOrientation ? 0 : 3,
                   child: Container(
-                      child: Center(
+                      child: const Center(
                           child: Text(
                     'Bad',
                     style: TextStyle(
@@ -284,7 +289,7 @@ class _RangeCustomizationState extends SampleViewState {
                   quarterTurns: _isHorizontalOrientation ? 0 : 3,
                   child: Container(
                       height: 20,
-                      child: Center(
+                      child: const Center(
                           child: Text(
                         'Good',
                         style: TextStyle(
@@ -303,7 +308,7 @@ class _RangeCustomizationState extends SampleViewState {
                   quarterTurns: _isHorizontalOrientation ? 0 : 3,
                   child: Container(
                       height: 20,
-                      child: Center(
+                      child: const Center(
                           child: Text(
                         'Excellent',
                         style: TextStyle(
@@ -319,12 +324,12 @@ class _RangeCustomizationState extends SampleViewState {
   /// Returns the segmented view for linear gauge orientation.
   Widget _buildSegmentedView() {
     return Center(
-        child: CupertinoSegmentedControl(
+        child: CupertinoSegmentedControl<bool>(
             selectedColor: model.backgroundColor,
             borderColor: model.backgroundColor,
-            children: {
+            children: <bool, Widget>{
               true: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Horizontal',
                     style: TextStyle(
@@ -333,7 +338,7 @@ class _RangeCustomizationState extends SampleViewState {
                             : Colors.black),
                   )),
               false: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Vertical',
                     style: TextStyle(
@@ -342,8 +347,9 @@ class _RangeCustomizationState extends SampleViewState {
                             : Colors.white),
                   )),
             },
-            onValueChanged: (bool value) =>
-                setState(() => {_isHorizontalOrientation = value}),
+            onValueChanged: (bool value) => setState(() {
+                  _isHorizontalOrientation = value;
+                }),
             groupValue: _isHorizontalOrientation));
   }
 }

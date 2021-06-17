@@ -33,12 +33,13 @@ void onTapControlInWeb(BuildContext context, SampleModel model,
       category.controlList![category.selectedIndex!].subItems[0].type ==
               'parent'
           ? category.controlList![category.selectedIndex!].subItems[0]
-              .subItems[0].subItems[0]
+              .subItems[0].subItems[0] as SubItem
           : category.controlList![category.selectedIndex!].subItems[0].type ==
                   'child'
-              ? category
-                  .controlList![category.selectedIndex!].subItems[0].subItems[0]
-              : category.controlList![category.selectedIndex!].subItems[0];
+              ? category.controlList![category.selectedIndex!].subItems[0]
+                  .subItems[0] as SubItem
+              : category.controlList![category.selectedIndex!].subItems[0]
+                  as SubItem;
 
   Navigator.pushNamed(context, _subItem.breadCrumbText!);
 }
@@ -48,7 +49,8 @@ void onTapExpandSample(
     BuildContext context, SubItem subItem, SampleModel model) {
   model.isCardView = false;
   final Function _sampleWidget = model.sampleWidget[subItem.key]!;
-  final SampleView _sampleView = _sampleWidget(GlobalKey<State>());
+  final SampleView _sampleView =
+      _sampleWidget(GlobalKey<State>()) as SampleView;
   Navigator.push<dynamic>(
       context,
       MaterialPageRoute<dynamic>(
@@ -91,25 +93,26 @@ class _FullViewSampleLayout extends StatelessWidget {
                             actions: (sample!.description != null &&
                                     sample!.description != '')
                                 ? <Widget>[
-                                    (sample!.codeLink != null &&
-                                            sample!.codeLink != '')
-                                        ? Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 0, 10, 0),
-                                            child: Container(
-                                              height: 40,
-                                              width: 40,
-                                              child: IconButton(
-                                                icon: Image.asset(
-                                                    'images/code.png',
-                                                    color: Colors.white),
-                                                onPressed: () {
-                                                  launch(sample!.codeLink!);
-                                                },
-                                              ),
-                                            ),
-                                          )
-                                        : Container(),
+                                    if (sample!.codeLink != null &&
+                                        sample!.codeLink != '')
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 0, 8, 0),
+                                        child: Container(
+                                          height: 37,
+                                          width: 37,
+                                          child: IconButton(
+                                            icon: Image.asset(
+                                                'images/git_hub_mobile.png',
+                                                color: Colors.white),
+                                            onPressed: () {
+                                              launch(sample!.codeLink!);
+                                            },
+                                          ),
+                                        ),
+                                      )
+                                    else
+                                      Container(),
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 0, 10, 0),
@@ -117,7 +120,7 @@ class _FullViewSampleLayout extends StatelessWidget {
                                         height: 40,
                                         width: 40,
                                         child: IconButton(
-                                          icon: Icon(Icons.info_outline,
+                                          icon: const Icon(Icons.info_outline,
                                               color: Colors.white),
                                           onPressed: () {
                                             showBottomInfo(
@@ -132,13 +135,13 @@ class _FullViewSampleLayout extends StatelessWidget {
                                     ? (<Widget>[
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
-                                              0, 0, 10, 0),
+                                              0, 0, 8, 0),
                                           child: Container(
-                                            height: 40,
-                                            width: 40,
+                                            height: 37,
+                                            width: 37,
                                             child: IconButton(
                                               icon: Image.asset(
-                                                  'images/code.png',
+                                                  'images/git_hub_mobile.png',
                                                   color: Colors.white),
                                               onPressed: () {
                                                 launch(sample!.codeLink!);
@@ -165,60 +168,60 @@ class _FullViewSampleLayout extends StatelessWidget {
                           child: Container(child: sampleWidget)),
                       floatingActionButton: needsFloatingBotton
                           ? Stack(children: <Widget>[
-                              (sample!.sourceLink != null &&
-                                      sample!.sourceLink != '')
-                                  ? Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Container(
-                                        padding: EdgeInsets.fromLTRB(
-                                            30, needPadding ? 50 : 0, 0, 0),
-                                        child: Container(
-                                          height: 50,
-                                          width: 230,
-                                          child: InkWell(
-                                            onTap: () =>
-                                                launch(sample!.sourceLink!),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text('Source: ',
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color:
-                                                            model.textColor)),
-                                                Text(sample!.sourceText!,
-                                                    style: const TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.blue)),
-                                              ],
-                                            ),
-                                          ),
+                              if (sample!.sourceLink != null &&
+                                  sample!.sourceLink != '')
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Container(
+                                    padding: EdgeInsets.fromLTRB(
+                                        30, needPadding ? 50 : 0, 0, 0),
+                                    child: Container(
+                                      height: 50,
+                                      width: 230,
+                                      child: InkWell(
+                                        onTap: () =>
+                                            launch(sample!.sourceLink!),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text('Source: ',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: model.textColor)),
+                                            Text(sample!.sourceText!,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.blue)),
+                                          ],
                                         ),
                                       ),
-                                    )
-                                  : Container(),
-                              sample!.needsPropertyPanel != true
-                                  ? Container()
-                                  : Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: FloatingActionButton(
-                                        heroTag: null,
-                                        onPressed: () {
-                                          final GlobalKey _sampleKey =
-                                              sampleWidget!.key as GlobalKey;
-                                          final SampleViewState _sampleState =
-                                              _sampleKey.currentState
-                                                  as SampleViewState;
-                                          final Widget _settingsContent =
-                                              _sampleState
-                                                  .buildSettings(context)!;
-                                          showBottomSheetSettingsPanel(
-                                              context, _settingsContent);
-                                        },
-                                        backgroundColor: model.paletteColor,
-                                        child: const Icon(Icons.graphic_eq,
-                                            color: Colors.white),
-                                      ),
                                     ),
+                                  ),
+                                )
+                              else
+                                Container(),
+                              if (sample!.needsPropertyPanel != true)
+                                Container()
+                              else
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: FloatingActionButton(
+                                    heroTag: null,
+                                    onPressed: () {
+                                      final GlobalKey _sampleKey =
+                                          sampleWidget!.key! as GlobalKey;
+                                      final SampleViewState _sampleState =
+                                          _sampleKey.currentState!
+                                              as SampleViewState;
+                                      final Widget _settingsContent =
+                                          _sampleState.buildSettings(context)!;
+                                      showBottomSheetSettingsPanel(
+                                          context, _settingsContent);
+                                    },
+                                    backgroundColor: model.paletteColor,
+                                    child: const Icon(Icons.graphic_eq,
+                                        color: Colors.white),
+                                  ),
+                                ),
                             ])
                           : null,
                     ))));
@@ -240,18 +243,18 @@ Widget getLeftSideDrawer(SampleModel _model) {
           child: Column(
             children: <Widget>[
               Stack(children: <Widget>[
-                _model.themeData.brightness == Brightness.light
-                    ? Container(
-                        padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
-                        child: Image.asset('images/image_nav_banner.png',
-                            fit: BoxFit.cover),
-                      )
-                    : Container(
-                        padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
-                        child: Image.asset(
-                            'images/image_nav_banner_darktheme.png',
-                            fit: BoxFit.cover),
-                      )
+                if (_model.themeData.brightness == Brightness.light)
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
+                    child: Image.asset('images/image_nav_banner.png',
+                        fit: BoxFit.cover),
+                  )
+                else
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
+                    child: Image.asset('images/image_nav_banner_darktheme.png',
+                        fit: BoxFit.cover),
+                  )
               ]),
               Expanded(
                 /// ListView contains a group of widgets
@@ -576,7 +579,7 @@ Widget getLeftSideDrawer(SampleModel _model) {
                         )),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('Version 19.1.0.54',
+                        child: Text('Version 19.1.63',
                             style: TextStyle(
                                 color: _model.drawerTextIconColor,
                                 fontSize: 12,
@@ -1171,7 +1174,7 @@ void showBottomInfo(BuildContext context, String information) {
                 ),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 45, 12, 15),
-                    child: ListView(shrinkWrap: true, children: [
+                    child: ListView(shrinkWrap: true, children: <Widget>[
                       Text(
                         information,
                         textAlign: TextAlign.justify,

@@ -77,7 +77,7 @@ class _SMAIndicatorState extends SampleViewState {
       plotAreaBorderWidth: 0,
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.MMM(),
         interval: 3,
         minimum: DateTime(2016, 01, 01),
@@ -87,8 +87,8 @@ class _SMAIndicatorState extends SampleViewState {
           minimum: 70,
           maximum: 130,
           interval: 20,
-          labelFormat: '\${value}',
-          axisLine: AxisLine(width: 0)),
+          labelFormat: r'${value}',
+          axisLine: const AxisLine(width: 0)),
       trackballBehavior: _trackballBehavior,
       tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
@@ -102,7 +102,7 @@ class _SMAIndicatorState extends SampleViewState {
             emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
             dataSource: chartData,
             opacity: 0.7,
-            xValueMapper: (ChartSampleData sales, _) => sales.x,
+            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
             lowValueMapper: (ChartSampleData sales, _) => sales.low,
             highValueMapper: (ChartSampleData sales, _) => sales.high,
             openValueMapper: (ChartSampleData sales, _) => sales.open,

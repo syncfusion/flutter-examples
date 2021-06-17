@@ -34,12 +34,18 @@ class _VerticalDateIntervalSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(
+                  height: 400,
+                  child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: slider)),
+            );
+    });
   }
 }
 
@@ -68,7 +74,7 @@ class _VerticalDateIntervalSliderState extends SampleViewState {
           value: _yearValue,
           onChanged: (dynamic value) {
             setState(() {
-              _yearValue = value;
+              _yearValue = value as DateTime;
             });
           },
           enableTooltip: true,
@@ -95,7 +101,7 @@ class _VerticalDateIntervalSliderState extends SampleViewState {
           value: _hourValue,
           onChanged: (dynamic value) {
             setState(() {
-              _hourValue = value;
+              _hourValue = value as DateTime;
             });
           },
           enableTooltip: true,
@@ -123,19 +129,19 @@ class _VerticalDateIntervalSliderState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(
                 flex: 4,
                 child: _yearSlider(),
               ),
-              Text('Interval as year')
+              const Text('Interval as year')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(
                 flex: 4,
                 child: _hourSlider(),
               ),
-              Text('Interval as hour'),
+              const Text('Interval as hour'),
             ]),
           ],
         ));

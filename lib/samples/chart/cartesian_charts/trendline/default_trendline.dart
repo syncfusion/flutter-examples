@@ -72,13 +72,13 @@ class _TrendLineDefaultState extends SampleViewState {
               height: 50,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedTrendLineType,
                 items: _trendlineTypeList.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text('$value',
-                        style: TextStyle(color: model.textColor)),
+                    child:
+                        Text(value, style: TextStyle(color: model.textColor)),
                   );
                 }).toList(),
                 onChanged: (dynamic value) {
@@ -151,13 +151,13 @@ class _TrendLineDefaultState extends SampleViewState {
           text: isCardView ? '' : 'No. of website visitors in a week'),
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
         title: AxisTitle(text: isCardView ? '' : 'Visitors'),
-        majorTickLines: MajorTickLines(width: 0),
+        majorTickLines: const MajorTickLines(width: 0),
         numberFormat: NumberFormat.compact(),
-        axisLine: AxisLine(width: 0),
+        axisLine: const AxisLine(width: 0),
         interval: !isCardView ? 5000 : 10000,
         labelFormat: '{value}',
       ),

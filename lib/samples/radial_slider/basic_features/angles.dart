@@ -21,10 +21,6 @@ class _RadialSliderAnglesState extends SampleViewState {
 
   double _size = 150;
   late double width, height;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +40,18 @@ class _RadialSliderAnglesState extends SampleViewState {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             _buildFirstSlider(),
             Align(
-              alignment:
-                  !model.isWebFullView ? Alignment(0, 0.1) : Alignment(0, 0),
+              alignment: !model.isWebFullView
+                  ? const Alignment(0, 0.1)
+                  : const Alignment(0, 0),
               child: _buildSecondSlider(),
             ),
             Align(
-                alignment:
-                    !model.isWebFullView ? Alignment(0, 0.1) : Alignment(0, 0),
+                alignment: !model.isWebFullView
+                    ? const Alignment(0, 0.1)
+                    : const Alignment(0, 0),
                 child: _buildThirdSlider()),
             _buildFourthSlider(),
           ],
@@ -65,38 +63,34 @@ class _RadialSliderAnglesState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Align(
-              alignment:
-                  model.isWebFullView ? Alignment.centerRight : Alignment(0, 0),
+              alignment: model.isWebFullView
+                  ? Alignment.centerRight
+                  : const Alignment(0, 0),
               child: _buildFirstSlider(),
             ),
             Align(
               alignment: model.isWebFullView
                   ? Alignment.centerLeft
-                  : Alignment(0.8, 0),
+                  : const Alignment(0.8, 0),
               child: _buildSecondSlider(),
             ),
             Align(
               alignment: model.isWebFullView
                   ? Alignment.centerLeft
-                  : Alignment(-0.5, 0),
+                  : const Alignment(-0.5, 0),
               child: _buildThirdSlider(),
             ),
             Align(
                 alignment: model.isWebFullView
-                    ? Alignment(-0.1, 0.25)
-                    : Alignment(0, 0.5),
+                    ? const Alignment(-0.1, 0.25)
+                    : const Alignment(0, 0.5),
                 child: _buildFourthSlider()),
           ],
         ),
       );
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   Widget _buildFirstSlider() {
@@ -107,7 +101,7 @@ class _RadialSliderAnglesState extends SampleViewState {
         RadialAxis(
             useRangeColorForAxis: true,
             radiusFactor: 0.8,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 color: Color.fromRGBO(88, 194, 143, 0.3),
                 thickness: 0.1,
                 thicknessUnit: GaugeSizeUnit.factor),
@@ -129,7 +123,7 @@ class _RadialSliderAnglesState extends SampleViewState {
                 onValueChanged: handlePointerValueChanged,
                 onValueChangeEnd: handlePointerValueChanged,
                 onValueChanging: handlePointerValueChanging,
-                color: Color.fromRGBO(88, 194, 143, 1),
+                color: const Color.fromRGBO(88, 194, 143, 1),
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
@@ -163,12 +157,8 @@ class _RadialSliderAnglesState extends SampleViewState {
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
             radiusFactor: 0.8,
-            canScaleToFit: model.isWebFullView
-                ? width > height
-                    ? true
-                    : false
-                : false,
-            axisLineStyle: AxisLineStyle(
+            canScaleToFit: model.isWebFullView && width > height,
+            axisLineStyle: const AxisLineStyle(
                 cornerStyle: CornerStyle.bothCurve,
                 color: Color.fromRGBO(88, 194, 143, 0.3),
                 thickness: 0.1,
@@ -187,7 +177,7 @@ class _RadialSliderAnglesState extends SampleViewState {
               MarkerPointer(
                 value: _markerValueForFirstHalfSlider,
                 elevation: 5,
-                color: Color.fromRGBO(88, 194, 143, 1),
+                color: const Color.fromRGBO(88, 194, 143, 1),
                 // model.currentThemeData.brightness == Brightness.light
                 //     ? Colors.white
                 //     : Colors.black,
@@ -233,16 +223,12 @@ class _RadialSliderAnglesState extends SampleViewState {
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
             radiusFactor: 0.8,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 cornerStyle: CornerStyle.bothCurve,
                 color: Color.fromRGBO(88, 194, 143, 0.3),
                 thickness: 0.1,
                 thicknessUnit: GaugeSizeUnit.factor),
-            canScaleToFit: model.isWebFullView
-                ? width > height
-                    ? true
-                    : false
-                : false,
+            canScaleToFit: model.isWebFullView && width > height,
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -257,7 +243,7 @@ class _RadialSliderAnglesState extends SampleViewState {
               MarkerPointer(
                 value: _markerValueForPieSlider,
                 elevation: 5,
-                color: Color.fromRGBO(88, 194, 143, 1),
+                color: const Color.fromRGBO(88, 194, 143, 1),
                 // model.currentThemeData.brightness == Brightness.light
                 //     ? Colors.white
                 //     : Colors.black,
@@ -303,7 +289,7 @@ class _RadialSliderAnglesState extends SampleViewState {
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
             radiusFactor: 0.9,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 cornerStyle: CornerStyle.bothCurve,
                 color: Color.fromRGBO(88, 194, 143, 0.3),
                 thickness: 0.1,
@@ -322,7 +308,7 @@ class _RadialSliderAnglesState extends SampleViewState {
               MarkerPointer(
                 value: _markerValueForFirstQuarterSlider,
                 elevation: 5,
-                color: Color.fromRGBO(88, 194, 143, 1),
+                color: const Color.fromRGBO(88, 194, 143, 1),
                 // model.currentThemeData.brightness == Brightness.light
                 //     ? Colors.white
                 //     : Colors.black,
@@ -372,7 +358,7 @@ class _RadialSliderAnglesState extends SampleViewState {
     if ((args.value.round().toInt() - _markerValue).abs() > 20) {
       args.cancel = true;
       if (_markerValue > 50) {
-        final double value = 100;
+        const double value = 100;
         _setPointerValue(value);
       }
     }

@@ -70,15 +70,15 @@ class _CategoryIndexedState extends SampleViewState {
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
           arrangeByIndex: isIndexed ?? true,
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           labelIntersectAction: AxisLabelIntersectAction.multipleRows,
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}%',
           interval: isCardView ? 2 : 1,
           title: AxisTitle(text: isCardView ? '' : 'GDP growth rate'),
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getIndexedCategoryAxisSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -99,12 +99,12 @@ class _CategoryIndexedState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.yValue,
           name: '2015'),
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData1,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.yValue,
           name: '2016')
     ];

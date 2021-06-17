@@ -75,8 +75,8 @@ class _InfiniteScrollingState extends SampleViewState {
             args.visibleMin = oldAxisVisibleMin;
             args.visibleMax = oldAxisVisibleMax;
           }
-          oldAxisVisibleMin = args.visibleMin;
-          oldAxisVisibleMax = args.visibleMax;
+          oldAxisVisibleMin = args.visibleMin as double;
+          oldAxisVisibleMax = args.visibleMax as double;
         }
         isLoadMoreView = false;
       },
@@ -87,10 +87,10 @@ class _InfiniteScrollingState extends SampleViewState {
           interval: 2,
           enableAutoIntervalOnZooming: false,
           edgeLabelPlacement: EdgeLabelPlacement.shift,
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(color: Colors.transparent)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(color: Colors.transparent)),
       series: getSeries(),
       axisLabelFormatter: (AxisLabelRenderDetails details) {
         return ChartAxisLabel(
@@ -112,7 +112,7 @@ class _InfiniteScrollingState extends SampleViewState {
         color: const Color.fromRGBO(75, 135, 185, 0.6),
         borderColor: const Color.fromRGBO(75, 135, 185, 1),
         borderWidth: 2,
-        xValueMapper: (ChartSampleData sales, _) => sales.xValue,
+        xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         onRendererCreated: (ChartSeriesController controller) {
           seriesController = controller;
@@ -159,17 +159,18 @@ class _InfiniteScrollingState extends SampleViewState {
                               Colors.white.withOpacity(0.0),
                               Colors.white.withOpacity(0.74)
                             ]
-                          : <Color>[
+                          : const <Color>[
                               Color.fromRGBO(33, 33, 33, 0.0),
                               Color.fromRGBO(33, 33, 33, 0.74)
                             ],
-                      stops: <double>[0.0, 1]),
+                      stops: const <double>[0.0, 1]),
                 ),
                 child: SizedBox(
                     height: 35,
                     width: 35,
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(model.backgroundColor),
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(model.backgroundColor),
                       backgroundColor: Colors.transparent,
                       strokeWidth: 3,
                     )))));

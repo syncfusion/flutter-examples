@@ -61,7 +61,25 @@ class _SparklineCustomizationState extends SampleViewState {
 
   SfSparkLineChart _buildSparkBarCustomizationChart() {
     return SfSparkLineChart(
-      data: [1, 5, -6, 0, 1, -2, 7, -7, -4, -10, 13, -6, 7, 5, 11, 5, 3],
+      data: const <double>[
+        1,
+        5,
+        -6,
+        0,
+        1,
+        -2,
+        7,
+        -7,
+        -4,
+        -10,
+        13,
+        -6,
+        7,
+        5,
+        11,
+        5,
+        3
+      ],
       labelDisplayMode: _dataLabelDisplayMode,
       axisCrossesAt: _axisCrossingValue,
       axisLineWidth: 1,
@@ -73,10 +91,11 @@ class _SparklineCustomizationState extends SampleViewState {
           start: _startValue,
           end: _endValue,
           color: _enablePlotband
-              ? Color.fromRGBO(191, 212, 252, 1)
+              ? const Color.fromRGBO(191, 212, 252, 1)
               : Colors.transparent),
       trackball: _enableTrackLine
-          ? SparkChartTrackball(activationMode: SparkChartActivationMode.tap)
+          ? const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)
           : null,
     );
   }
@@ -96,17 +115,18 @@ class _SparklineCustomizationState extends SampleViewState {
                       color: model.textColor,
                       fontSize: 16,
                     )),
-                Padding(padding: EdgeInsets.fromLTRB(75, 0, 0, 0)),
+                const Padding(padding: EdgeInsets.fromLTRB(75, 0, 0, 0)),
                 Container(
                   height: 50,
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedMarkerDisplayMode,
                       items: _markerDisplayModeList.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'none',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (String? value) {
@@ -125,17 +145,18 @@ class _SparklineCustomizationState extends SampleViewState {
                       color: model.textColor,
                       fontSize: 16,
                     )),
-                Padding(padding: EdgeInsets.fromLTRB(55, 0, 0, 0)),
+                const Padding(padding: EdgeInsets.fromLTRB(55, 0, 0, 0)),
                 Container(
                   height: 50,
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedDatalabelDisplayMode,
                       items: _datalabelDisplayModeList.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'none',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (String? value) {
@@ -154,7 +175,7 @@ class _SparklineCustomizationState extends SampleViewState {
                       color: model.textColor,
                       fontSize: 16,
                     )),
-                Padding(padding: EdgeInsets.fromLTRB(16, 0, 0, 0)),
+                const Padding(padding: EdgeInsets.fromLTRB(16, 0, 0, 0)),
                 Container(
                     width: 90,
                     child: CheckboxListTile(
@@ -177,7 +198,7 @@ class _SparklineCustomizationState extends SampleViewState {
                       color: model.textColor,
                       fontSize: 16,
                     )),
-                Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
+                const Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
                 Container(
                     width: 150,
                     child: SliderTheme(
@@ -195,7 +216,7 @@ class _SparklineCustomizationState extends SampleViewState {
                             });
                           },
                         ))),
-                Padding(padding: EdgeInsets.fromLTRB(2, 0, 0, 0)),
+                const Padding(padding: EdgeInsets.fromLTRB(2, 0, 0, 0)),
                 Container(
                   child: Text('${_axisCrossingValue.floor()}',
                       style: TextStyle(
@@ -230,22 +251,22 @@ class _SparklineCustomizationState extends SampleViewState {
           ),
           Visibility(
               visible: _enablePlotband,
-              child: Row(children: [
+              child: Row(children: <Widget>[
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       Text(
                         'Start',
                         style:
                             TextStyle(fontSize: 16.0, color: model.textColor),
                       ),
                     ]),
-                Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+                const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       Container(
                         padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
                         child: CustomDirectionalButtons(
@@ -265,22 +286,22 @@ class _SparklineCustomizationState extends SampleViewState {
               ])),
           Visibility(
               visible: _enablePlotband,
-              child: Row(children: [
+              child: Row(children: <Widget>[
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       Text(
                         'End',
                         style:
                             TextStyle(fontSize: 16.0, color: model.textColor),
                       )
                     ]),
-                Padding(padding: EdgeInsets.fromLTRB(25, 0, 0, 0)),
+                const Padding(padding: EdgeInsets.fromLTRB(25, 0, 0, 0)),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       Container(
                         padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
                         child: CustomDirectionalButtons(

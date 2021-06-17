@@ -29,14 +29,15 @@ class _GaugeLabelCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(margin: EdgeInsets.all(32.0), child: _buildSegmentedView()),
+    return Column(children: <Widget>[
+      Container(
+          margin: const EdgeInsets.all(32.0), child: _buildSegmentedView()),
       Expanded(
           child: Center(
               child: SingleChildScrollView(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
             Container(
               width: isWebOrDesktop
                   ? MediaQuery.of(context).size.width >= 1000
@@ -54,12 +55,12 @@ class _GaugeLabelCustomizationState extends SampleViewState {
   /// Returns the linear gauge label customization.
   Widget _buildLabelCustomization(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
       child: _isHorizontalOrientation
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 _buildHorizontalGauges('Custom labels', _buildCustomLabels()),
                 _buildHorizontalGauges(
                     'Label offset', _buildLabelsWithOffset()),
@@ -70,13 +71,13 @@ class _GaugeLabelCustomizationState extends SampleViewState {
               ],
             )
           : Column(
-              children: [
+              children: <Widget>[
                 Wrap(
                   direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
-                  children: [
+                  children: <Widget>[
                     _buildVerticalGauges('Custom labels', _buildCustomLabels()),
                     _buildVerticalGauges(
                         'Text labels', _buildTextLabels(context)),
@@ -96,10 +97,10 @@ class _GaugeLabelCustomizationState extends SampleViewState {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Text(axisTrackName),
         linearGauge,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -109,7 +110,11 @@ class _GaugeLabelCustomizationState extends SampleViewState {
     return Container(
       width: 150,
       child: Column(
-        children: [Text(axisTrackName), SizedBox(height: 16), linearGauge],
+        children: <Widget>[
+          Text(axisTrackName),
+          const SizedBox(height: 16),
+          linearGauge
+        ],
       ),
     );
   }
@@ -121,10 +126,10 @@ class _GaugeLabelCustomizationState extends SampleViewState {
         child: SfLinearGauge(
             onGenerateLabels: () {
               return <LinearAxisLabel>[
-                LinearAxisLabel(text: '\$5', value: 0),
-                LinearAxisLabel(text: '\$10', value: 10),
-                LinearAxisLabel(text: '\$15', value: 20),
-                LinearAxisLabel(text: '\$20', value: 30),
+                const LinearAxisLabel(text: r'$5', value: 0),
+                const LinearAxisLabel(text: r'$10', value: 10),
+                const LinearAxisLabel(text: r'$15', value: 20),
+                const LinearAxisLabel(text: r'$20', value: 30),
               ];
             },
             minimum: 0,
@@ -138,15 +143,16 @@ class _GaugeLabelCustomizationState extends SampleViewState {
   /// Returns the text labels sample.
   Widget _buildTextLabels(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
-    final double _deliveryStatus = 20;
-    final double _orderState = 0;
-    final double _packedState = 10;
-    final double _shippedState = 20;
-    final double _deliveredState = 30;
-    final Color _activeColor =
+    const double _deliveryStatus = 20;
+    const double _orderState = 0;
+    const double _packedState = 10;
+    const double _shippedState = 20;
+    const double _deliveredState = 30;
+    const Color _activeColor =
         _deliveryStatus > _orderState ? Color(0xff0DC9AB) : Color(0xffD1D9DD);
-    final Color _inactiveColor =
-        _brightness == Brightness.dark ? Color(0xff62686A) : Color(0xFFD1D9DD);
+    final Color _inactiveColor = _brightness == Brightness.dark
+        ? const Color(0xff62686A)
+        : const Color(0xFFD1D9DD);
 
     return Container(
         height: _isHorizontalOrientation ? 100 : 300,
@@ -157,20 +163,20 @@ class _GaugeLabelCustomizationState extends SampleViewState {
           minimum: 0,
           maximum: 30,
           labelOffset: 24,
-          isAxisInversed: _isHorizontalOrientation ? false : true,
+          isAxisInversed: !_isHorizontalOrientation,
           showTicks: false,
           onGenerateLabels: () {
             return <LinearAxisLabel>[
-              LinearAxisLabel(text: 'Ordered', value: 0),
-              LinearAxisLabel(text: 'Packed', value: 10),
-              LinearAxisLabel(text: 'Shipped', value: 20),
-              LinearAxisLabel(text: 'Delivered', value: 30),
+              const LinearAxisLabel(text: 'Ordered', value: 0),
+              const LinearAxisLabel(text: 'Packed', value: 10),
+              const LinearAxisLabel(text: 'Shipped', value: 20),
+              const LinearAxisLabel(text: 'Delivered', value: 30),
             ];
           },
           axisTrackStyle: LinearAxisTrackStyle(
             color: _inactiveColor,
           ),
-          barPointers: [
+          barPointers: const <LinearBarPointer>[
             LinearBarPointer(
               value: _deliveryStatus,
               color: _activeColor,
@@ -178,7 +184,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
               position: LinearElementPosition.cross,
             ),
           ],
-          markerPointers: [
+          markerPointers: <LinearMarkerPointer>[
             LinearWidgetPointer(
               value: _orderState,
               enableAnimation: false,
@@ -189,8 +195,8 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                 decoration: BoxDecoration(
                     color: model.cardColor,
                     border: Border.all(width: 4, color: _activeColor),
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Center(
+                    borderRadius: const BorderRadius.all(Radius.circular(12))),
+                child: const Center(
                   child:
                       Icon(Icons.check_rounded, size: 14, color: _activeColor),
                 ),
@@ -206,8 +212,8 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                 decoration: BoxDecoration(
                     color: model.cardColor,
                     border: Border.all(width: 4, color: _activeColor),
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Center(
+                    borderRadius: const BorderRadius.all(Radius.circular(12))),
+                child: const Center(
                   child:
                       Icon(Icons.check_rounded, size: 14, color: _activeColor),
                 ),
@@ -223,8 +229,8 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                 decoration: BoxDecoration(
                     color: model.cardColor,
                     border: Border.all(width: 4, color: _activeColor),
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Center(
+                    borderRadius: const BorderRadius.all(Radius.circular(12))),
+                child: const Center(
                   child:
                       Icon(Icons.check_rounded, size: 14, color: _activeColor),
                 ),
@@ -270,8 +276,8 @@ class _GaugeLabelCustomizationState extends SampleViewState {
             fontWeight: FontWeight.w600,
             fontSize: 10,
             color: _brightness == Brightness.dark
-                ? Color(0xff8580FF)
-                : Color(0xff6F20F0)),
+                ? const Color(0xff8580FF)
+                : const Color(0xff6F20F0)),
       ),
     );
   }
@@ -279,12 +285,12 @@ class _GaugeLabelCustomizationState extends SampleViewState {
   /// Returns the segmented view for linear gauge orientation.
   Widget _buildSegmentedView() {
     return Center(
-        child: CupertinoSegmentedControl(
+        child: CupertinoSegmentedControl<bool>(
             selectedColor: model.backgroundColor,
             borderColor: model.backgroundColor,
-            children: {
+            children: <bool, Widget>{
               true: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Horizontal',
                     style: TextStyle(
@@ -293,7 +299,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                             : Colors.black),
                   )),
               false: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Vertical',
                     style: TextStyle(
@@ -302,8 +308,9 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                             : Colors.white),
                   )),
             },
-            onValueChanged: (bool value) =>
-                setState(() => {_isHorizontalOrientation = value}),
+            onValueChanged: (bool value) => setState(() {
+                  _isHorizontalOrientation = value;
+                }),
             groupValue: _isHorizontalOrientation));
   }
 }

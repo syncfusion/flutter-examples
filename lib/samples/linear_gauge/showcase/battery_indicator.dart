@@ -44,9 +44,9 @@ class _BatteryIndicatorState extends SampleViewState {
     final Brightness _brightness = Theme.of(context).brightness;
 
     final Color? _fillColor = _batteryPercentage <= 25
-        ? Color(0xffF45656)
+        ? const Color(0xffF45656)
         : _batteryPercentage <= 50
-            ? Color(0xffFFC93E)
+            ? const Color(0xffFFC93E)
             : Colors.green[400];
     return Container(
         width: 145,
@@ -56,10 +56,11 @@ class _BatteryIndicatorState extends SampleViewState {
           showLabels: false,
           showTicks: false,
           tickPosition: LinearElementPosition.cross,
-          majorTickStyle: LinearTickStyle(color: Colors.green, length: 20),
-          minorTickStyle: LinearTickStyle(color: Colors.red, length: 10),
-          axisTrackStyle:
-              LinearAxisTrackStyle(thickness: 1, color: Colors.transparent),
+          majorTickStyle:
+              const LinearTickStyle(color: Colors.green, length: 20),
+          minorTickStyle: const LinearTickStyle(color: Colors.red, length: 10),
+          axisTrackStyle: const LinearAxisTrackStyle(
+              thickness: 1, color: Colors.transparent),
           ranges: <LinearGaugeRange>[
             LinearGaugeRange(
                 startValue: _minimum,
@@ -74,10 +75,11 @@ class _BatteryIndicatorState extends SampleViewState {
                         shape: BoxShape.rectangle,
                         border: Border.all(
                             color: _brightness == Brightness.light
-                                ? Color(0xffAAAAAA)
-                                : Color(0xff4D4D4D),
+                                ? const Color(0xffAAAAAA)
+                                : const Color(0xff4D4D4D),
                             width: 4),
-                        borderRadius: BorderRadius.all(Radius.circular(12))))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12))))),
             LinearGaugeRange(
                 startValue: _minimum + 5,
                 startWidth: 55,
@@ -149,7 +151,7 @@ class _BatteryIndicatorState extends SampleViewState {
                         color: _fillColor,
                         borderRadius: BorderRadius.circular(4)))),
           ],
-          markerPointers: [
+          markerPointers: <LinearMarkerPointer>[
             LinearWidgetPointer(
                 value: _maximum,
                 enableAnimation: false,
@@ -160,18 +162,18 @@ class _BatteryIndicatorState extends SampleViewState {
                     decoration: BoxDecoration(
                         color: _brightness == Brightness.light
                             ? Colors.transparent
-                            : Color(0xff232323),
+                            : const Color(0xff232323),
                         shape: BoxShape.rectangle,
                         border: Border.all(
                             color: _brightness == Brightness.light
-                                ? Color(0xffAAAAAA)
-                                : Color(0xff4D4D4D),
+                                ? const Color(0xffAAAAAA)
+                                : const Color(0xff4D4D4D),
                             width: 4),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(6),
                             bottomRight: Radius.circular(6)))))
           ],
-          barPointers: [
+          barPointers: <LinearBarPointer>[
             LinearBarPointer(
               value: 100,
               thickness: 30,

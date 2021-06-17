@@ -63,12 +63,12 @@ class _LabelActionState extends SampleViewState {
           Container(
             padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
             child: DropdownButton<String>(
-                underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedType,
                 items: _labelList.map((String value) {
                   return DropdownMenuItem<String>(
                       value: (value != null) ? value : 'hide',
-                      child: Text('$value',
+                      child: Text(value,
                           style: TextStyle(color: model.textColor)));
                 }).toList(),
                 onChanged: (String? value) {
@@ -88,13 +88,13 @@ class _LabelActionState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Football players with most goals'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         labelIntersectAction: _labelIntersectAction,
       ),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           interval: 40,
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getLabelIntersectActionSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -130,7 +130,7 @@ class _LabelActionState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelSettings: DataLabelSettings(
               isVisible: true, labelAlignment: ChartDataLabelAlignment.top))

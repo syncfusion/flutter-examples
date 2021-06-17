@@ -44,8 +44,9 @@ class _HeaderAndFooterPdfState extends SampleViewState {
                           model.backgroundColor),
                       padding: model.isMobile
                           ? null
-                          : MaterialStateProperty.all(EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15)),
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
                     ),
                     onPressed: _generatePDF,
                     child: const Text('Generate PDF',

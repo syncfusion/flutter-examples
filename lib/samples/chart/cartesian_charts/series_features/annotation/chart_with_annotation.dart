@@ -28,21 +28,21 @@ class _AnnotationWatermarkState extends SampleViewState {
   /// Returns the Cartesian chart with annotation.
   SfCartesianChart _buildWatermarkAnnotationChart() {
     final bool needSmallAnnotation =
-        (model.isWebFullView && MediaQuery.of(context).size.height < 530);
+        model.isWebFullView && MediaQuery.of(context).size.height < 530;
     return SfCartesianChart(
         title: ChartTitle(
             text: isCardView ? '' : 'UK social media reach, by platform'),
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(
-            majorGridLines: MajorGridLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
             edgeLabelPlacement: EdgeLabelPlacement.shift),
         primaryYAxis: NumericAxis(
             isVisible: false,
             labelFormat: '{value}%',
             minimum: 0,
             maximum: 120,
-            axisLine: AxisLine(width: 0),
-            majorTickLines: MajorTickLines(width: 0)),
+            axisLine: const AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(width: 0)),
         series: _getWatermarkAnnotationSeries(),
 
         /// To set the annotation content for chart.
@@ -90,8 +90,9 @@ class _AnnotationWatermarkState extends SampleViewState {
                                     const Color.fromRGBO(217, 67, 80, 1)),
                           ],
                           dataLabelMapper: (ChartSampleData data, _) =>
-                              data.xValue,
-                          xValueMapper: (ChartSampleData data, _) => data.x,
+                              data.xValue as String,
+                          xValueMapper: (ChartSampleData data, _) =>
+                              data.x as String,
                           yValueMapper: (ChartSampleData data, _) => data.y,
                           dataLabelSettings: DataLabelSettings(
                               isVisible: true,
@@ -142,7 +143,7 @@ class _AnnotationWatermarkState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
           width: 0.8,

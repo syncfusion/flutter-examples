@@ -38,9 +38,12 @@ class _BarRoundedState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Population growth rate of countries'),
-      primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis:
+          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
-          minimum: -2, maximum: 2, majorTickLines: MajorTickLines(size: 0)),
+          minimum: -2,
+          maximum: 2,
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getRoundedBarSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -65,7 +68,7 @@ class _BarRoundedState extends SampleViewState {
         /// If we set the border radius value for bar series,
         /// then the series will appear as rounder corner.
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
     ];

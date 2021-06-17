@@ -44,8 +44,9 @@ class _InvoicePdfState extends SampleViewState {
                           model.backgroundColor),
                       padding: model.isMobile
                           ? null
-                          : MaterialStateProperty.all(EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15)),
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
                     ),
                     onPressed: _generatePDF,
                     child: const Text('Generate PDF',
@@ -99,7 +100,7 @@ class _InvoicePdfState extends SampleViewState {
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 90),
         brush: PdfSolidBrush(PdfColor(65, 104, 205)));
-    page.graphics.drawString('\$' + _getTotalAmount(grid).toString(),
+    page.graphics.drawString(r'$' + _getTotalAmount(grid).toString(),
         PdfStandardFont(PdfFontFamily.helvetica, 18),
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 100),
         brush: PdfBrushes.white,
@@ -241,7 +242,8 @@ class _InvoicePdfState extends SampleViewState {
   double _getTotalAmount(PdfGrid grid) {
     double total = 0;
     for (int i = 0; i < grid.rows.count; i++) {
-      final String value = grid.rows[i].cells[grid.columns.count - 1].value;
+      final String value =
+          grid.rows[i].cells[grid.columns.count - 1].value as String;
       total += double.parse(value);
     }
     return total;

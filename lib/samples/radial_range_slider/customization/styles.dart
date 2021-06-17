@@ -58,11 +58,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   String _annotationValue_6 = '30';
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final Size actualSize = MediaQuery.of(context).size;
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
@@ -84,11 +79,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: <Widget>[
               _buildFirtSlider(),
               _buildSecondSlider(),
               _buildThirdSlider()
@@ -97,7 +92,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: <Widget>[
               _buildFourthSlider(),
               _buildFifthSlider(),
               _buildSixthSlider()
@@ -110,11 +105,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: <Widget>[
               _buildFirtSlider(),
               _buildSecondSlider(),
               _buildThirdSlider()
@@ -123,7 +118,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: <Widget>[
               _buildFourthSlider(),
               _buildFifthSlider(),
               _buildSixthSlider()
@@ -157,7 +152,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     endValue: _secondMarkerValue,
                     startValue: _firstMarkerValue,
                     sizeUnit: GaugeSizeUnit.factor,
-                    color: Color.fromRGBO(41, 118, 246, 1),
+                    color: const Color.fromRGBO(41, 118, 246, 1),
                     endWidth: 0.1,
                     startWidth: 0.1)
               ],
@@ -176,8 +171,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     markerType: MarkerType.circle,
                     onValueChanged: handleFirstPointerValueChanged,
                     onValueChanging: handleFirstPointerValueChanging,
-                    overlayColor: Color.fromRGBO(41, 118, 246, 0.125),
-                    borderColor: Color.fromRGBO(41, 118, 246, 1)),
+                    overlayColor: const Color.fromRGBO(41, 118, 246, 0.125),
+                    borderColor: const Color.fromRGBO(41, 118, 246, 1)),
                 MarkerPointer(
                     value: _secondMarkerValue,
                     enableDragging: true,
@@ -192,8 +187,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     markerType: MarkerType.circle,
                     onValueChanged: handleSecondPointerValueChanged,
                     onValueChanging: handleSecondPointerValueChanging,
-                    overlayColor: Color.fromRGBO(41, 118, 246, 0.125),
-                    borderColor: Color.fromRGBO(41, 118, 246, 1)),
+                    overlayColor: const Color.fromRGBO(41, 118, 246, 0.125),
+                    borderColor: const Color.fromRGBO(41, 118, 246, 1)),
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
@@ -291,8 +286,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
         axes: <RadialAxis>[
           RadialAxis(
               radiusFactor: 0.85,
-              axisLineStyle: AxisLineStyle(
-                  color: const Color.fromRGBO(254, 166, 25, 1),
+              axisLineStyle: const AxisLineStyle(
+                  color: Color.fromRGBO(254, 166, 25, 1),
                   thickness: 0.2,
                   thicknessUnit: GaugeSizeUnit.factor),
               showLabels: false,
@@ -326,8 +321,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                   elevation: 5,
                   enableDragging: true,
                   color: model.currentThemeData!.brightness == Brightness.light
-                      ? Color.fromRGBO(255, 255, 255, 1)
-                      : Color.fromRGBO(33, 33, 33, 1),
+                      ? const Color.fromRGBO(255, 255, 255, 1)
+                      : const Color.fromRGBO(33, 33, 33, 1),
                   borderWidth: _borderWidth,
                   markerHeight: _secondMarkerSize,
                   markerWidth: _secondMarkerSize,
@@ -342,8 +337,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                   enableDragging: true,
                   elevation: 5,
                   color: model.currentThemeData!.brightness == Brightness.light
-                      ? Color.fromRGBO(255, 255, 255, 1)
-                      : Color.fromRGBO(33, 33, 33, 1),
+                      ? const Color.fromRGBO(255, 255, 255, 1)
+                      : const Color.fromRGBO(33, 33, 33, 1),
                   borderWidth: _borderWidth,
                   markerHeight: _secondMarkerSize,
                   markerWidth: _secondMarkerSize,
@@ -426,12 +421,12 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     onValueChanged: handleSeventhPointerValueChanged,
                     onValueChanging: handleSeventhPointerValueChanging,
                     overlayRadius: 0,
-                    borderColor: Color.fromRGBO(88, 194, 143, 1)),
+                    borderColor: const Color.fromRGBO(88, 194, 143, 1)),
                 MarkerPointer(
                     value: _seventhMarkerValue,
                     enableDragging: true,
                     // elevation: 5,
-                    color: Color.fromRGBO(88, 194, 143, 1),
+                    color: const Color.fromRGBO(88, 194, 143, 1),
                     borderWidth: 2,
                     markerHeight: 9,
                     markerWidth: 9,
@@ -439,7 +434,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     markerType: MarkerType.circle,
                     onValueChanged: handleSeventhPointerValueChanged,
                     onValueChanging: handleSeventhPointerValueChanging,
-                    borderColor: Color.fromRGBO(88, 194, 143, 1)),
+                    borderColor: const Color.fromRGBO(88, 194, 143, 1)),
                 MarkerPointer(
                     value: _eighthMarkerValue,
                     enableDragging: true,
@@ -454,12 +449,12 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     onValueChanged: handleEighthPointerValueChanged,
                     onValueChanging: handleEighthPointerValueChanging,
                     overlayRadius: 0,
-                    borderColor: Color.fromRGBO(88, 194, 143, 1)),
+                    borderColor: const Color.fromRGBO(88, 194, 143, 1)),
                 MarkerPointer(
                     value: _eighthMarkerValue,
                     enableDragging: true,
                     // elevation: 5,
-                    color: Color.fromRGBO(88, 194, 143, 1),
+                    color: const Color.fromRGBO(88, 194, 143, 1),
                     borderWidth: 2,
                     markerHeight: 9,
                     overlayRadius: 25,
@@ -467,7 +462,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     markerType: MarkerType.circle,
                     onValueChanged: handleEighthPointerValueChanged,
                     onValueChanging: handleEighthPointerValueChanging,
-                    borderColor: Color.fromRGBO(88, 194, 143, 1))
+                    borderColor: const Color.fromRGBO(88, 194, 143, 1))
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
@@ -495,7 +490,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
         axes: <RadialAxis>[
           RadialAxis(
               radiusFactor: 0.85,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                   color: Color.fromRGBO(41, 118, 246, 1),
                   thickness: 0.24,
                   thicknessUnit: GaugeSizeUnit.factor),
@@ -563,9 +558,9 @@ class _RadialRangeSliderStylesState extends SampleViewState {
         axes: <RadialAxis>[
           RadialAxis(
               radiusFactor: 0.85,
-              axisLabelStyle: GaugeTextStyle(fontSize: 8),
+              axisLabelStyle: const GaugeTextStyle(fontSize: 8),
               interval: 10,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                   thickness: 0.03, thicknessUnit: GaugeSizeUnit.factor),
               showTicks: false,
               showLabels: false,
@@ -587,8 +582,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     enableDragging: true,
                     needleColor:
                         model.currentThemeData!.brightness == Brightness.light
-                            ? Color.fromRGBO(65, 65, 65, 1)
-                            : Color.fromRGBO(191, 191, 191, 1),
+                            ? const Color.fromRGBO(65, 65, 65, 1)
+                            : const Color.fromRGBO(191, 191, 191, 1),
                     needleEndWidth: 2,
                     needleStartWidth: 2,
                     onValueChanged: handleTwelethPointerValueChanged,
@@ -600,8 +595,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                       borderWidth: 0.05,
                       borderColor:
                           model.currentThemeData!.brightness == Brightness.light
-                              ? Color.fromRGBO(65, 65, 65, 1)
-                              : Color.fromRGBO(191, 191, 191, 1),
+                              ? const Color.fromRGBO(65, 65, 65, 1)
+                              : const Color.fromRGBO(191, 191, 191, 1),
                       color:
                           model.currentThemeData!.brightness == Brightness.light
                               ? Colors.white
@@ -612,8 +607,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     enableDragging: true,
                     needleColor:
                         model.currentThemeData!.brightness == Brightness.light
-                            ? Color.fromRGBO(65, 65, 65, 1)
-                            : Color.fromRGBO(191, 191, 191, 1),
+                            ? const Color.fromRGBO(65, 65, 65, 1)
+                            : const Color.fromRGBO(191, 191, 191, 1),
                     needleEndWidth: 2,
                     needleStartWidth: 2,
                     onValueChanged: handleEleventhPointerValueChanged,
@@ -625,8 +620,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                       borderWidth: 0.05,
                       borderColor:
                           model.currentThemeData!.brightness == Brightness.light
-                              ? Color.fromRGBO(65, 65, 65, 1)
-                              : Color.fromRGBO(191, 191, 191, 1),
+                              ? const Color.fromRGBO(65, 65, 65, 1)
+                              : const Color.fromRGBO(191, 191, 191, 1),
                       color:
                           model.currentThemeData!.brightness == Brightness.light
                               ? Colors.white
@@ -653,11 +648,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   /// Dragged pointer new value is updated to pointer and

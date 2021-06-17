@@ -77,7 +77,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
               image: ExactAssetImage('images/Check.png'),
               fit: BoxFit.fill,
             )));
-        Future.delayed(const Duration(milliseconds: 500));
+        Future<dynamic>.delayed(const Duration(milliseconds: 500));
         _startTimer();
       } else {
         _value++;
@@ -96,7 +96,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             _getFirstProgressBar(),
             _getSecondProgressBar(),
             _getThirdProgressBar(),
@@ -110,7 +110,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             _getFirstProgressBar(),
             _getSecondProgressBar(),
             _getThirdProgressBar(),
@@ -138,10 +138,10 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
             showLabels: false,
             showTicks: false,
             radiusFactor: 0.8,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.2,
               cornerStyle: CornerStyle.bothCurve,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -180,9 +180,9 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: 0.8,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.05,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -216,9 +216,9 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: 0.8,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.05,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -254,9 +254,9 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: 0.8,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.05,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[

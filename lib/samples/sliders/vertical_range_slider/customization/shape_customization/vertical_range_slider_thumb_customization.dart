@@ -89,12 +89,14 @@ class _VerticalThumbCustomizedRangeSliderState extends SampleViewState {
         MediaQuery.of(context).orientation == Orientation.landscape
             ? 80.0
             : 50.0;
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      _doubleStrokeThumbRangeSlider(),
-      Padding(
-          padding: EdgeInsets.only(left: padding),
-          child: _strokeThumbRangeSlider())
-    ]);
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          _doubleStrokeThumbRangeSlider(),
+          Padding(
+              padding: EdgeInsets.only(left: padding),
+              child: _strokeThumbRangeSlider())
+        ]);
   }
 }
 

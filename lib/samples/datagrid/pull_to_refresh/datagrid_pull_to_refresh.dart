@@ -15,7 +15,7 @@ import '../../../model/sample_view.dart';
 /// Renders pull refresh data grid
 class PullToRefreshDataGrid extends SampleView {
   /// Creates pull refresh data grid
-  PullToRefreshDataGrid({Key? key}) : super(key: key);
+  const PullToRefreshDataGrid({Key? key}) : super(key: key);
 
   @override
   _PullToRefreshDataGridState createState() => _PullToRefreshDataGridState();
@@ -38,7 +38,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
           label: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.centerRight,
-            child: Text(
+            child: const Text(
               'Order ID',
               overflow: TextOverflow.ellipsis,
             ),
@@ -55,7 +55,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
-          child: Text(
+          child: const Text(
             'Customer ID',
             overflow: TextOverflow.ellipsis,
           ),
@@ -68,7 +68,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
-          child: Text(
+          child: const Text(
             'Name',
             overflow: TextOverflow.ellipsis,
           ),
@@ -81,7 +81,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.center,
-          child: Text(
+          child: const Text(
             'Freight',
             overflow: TextOverflow.ellipsis,
           ),
@@ -96,7 +96,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
-          child: Text(
+          child: const Text(
             'City',
             overflow: TextOverflow.ellipsis,
           ),
@@ -110,7 +110,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
-          child: Text(
+          child: const Text(
             'Price',
             overflow: TextOverflow.ellipsis,
           ),
@@ -122,7 +122,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
   @override
@@ -156,21 +156,20 @@ class _EmployeeDataSource extends DataGridSource {
     buildDataGridRows();
   }
 
-  List<_Employee> employees = [];
-  List<DataGridRow> dataGridRows = [];
+  List<_Employee> employees = <_Employee>[];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
   // Building DataGridRows
 
   void buildDataGridRows() {
-    dataGridRows = employees.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell<int>(columnName: 'id', value: dataGridRow.id),
-        DataGridCell<int>(
-            columnName: 'customerId', value: dataGridRow.customerId),
-        DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
-        DataGridCell<double>(columnName: 'freight', value: dataGridRow.freight),
-        DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
-        DataGridCell<double>(columnName: 'price', value: dataGridRow.price),
+    dataGridRows = employees.map<DataGridRow>((_Employee employee) {
+      return DataGridRow(cells: <DataGridCell>[
+        DataGridCell<int>(columnName: 'id', value: employee.id),
+        DataGridCell<int>(columnName: 'customerId', value: employee.customerId),
+        DataGridCell<String>(columnName: 'name', value: employee.name),
+        DataGridCell<double>(columnName: 'freight', value: employee.freight),
+        DataGridCell<String>(columnName: 'city', value: employee.city),
+        DataGridCell<double>(columnName: 'price', value: employee.price),
       ]);
     }).toList();
   }
@@ -182,7 +181,7 @@ class _EmployeeDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       Container(
         padding: const EdgeInsets.all(8),
         alignment: Alignment.centerRight,
@@ -211,7 +210,7 @@ class _EmployeeDataSource extends DataGridSource {
         padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
         child: Text(
-          NumberFormat.currency(locale: 'en_US', symbol: '\$')
+          NumberFormat.currency(locale: 'en_US', symbol: r'$')
               .format(row.getCells()[3].value)
               .toString(),
           overflow: TextOverflow.ellipsis,
@@ -230,7 +229,7 @@ class _EmployeeDataSource extends DataGridSource {
           alignment: Alignment.centerRight,
           child: Text(
             NumberFormat.currency(
-                    locale: 'en_US', symbol: '\$', decimalDigits: 0)
+                    locale: 'en_US', symbol: r'$', decimalDigits: 0)
                 .format(row.getCells()[5].value)
                 .toString(),
             overflow: TextOverflow.ellipsis,
@@ -240,7 +239,7 @@ class _EmployeeDataSource extends DataGridSource {
 
   @override
   Future<void> handleRefresh() async {
-    await Future.delayed(Duration(seconds: 5));
+    await Future<void>.delayed(const Duration(seconds: 5));
     employees = getEmployees(employees, 15);
     buildDataGridRows();
     notifyListeners();

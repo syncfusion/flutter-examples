@@ -43,12 +43,13 @@ class _PyramidDefaultState extends SampleViewState {
               height: 50,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  underline:
+                      Container(color: const Color(0xFFBDBDBD), height: 1),
                   value: _selectedMode,
                   items: _pyramidMode.map((String value) {
                     return DropdownMenuItem<String>(
                         value: (value != null) ? value : 'Linear',
-                        child: Text('$value',
+                        child: Text(value,
                             style: TextStyle(color: model.textColor)));
                   }).toList(),
                   onChanged: (dynamic value) {
@@ -130,7 +131,7 @@ class _PyramidDefaultState extends SampleViewState {
         explode: isCardView ? false : explode,
         gapRatio: isCardView ? 0 : gapRatio,
         pyramidMode: isCardView ? PyramidMode.linear : _selectedPyramidMode,
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         dataLabelSettings: DataLabelSettings(
           isVisible: true,

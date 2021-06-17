@@ -44,7 +44,7 @@ class _BingMapState extends SampleViewState {
       minZoomLevel: 3,
       maxZoomLevel: 10,
       zoomLevel: model.isWebFullView ? 5 : 4,
-      focalLatLng: MapLatLng(27.1751, 78.0421),
+      focalLatLng: const MapLatLng(27.1751, 78.0421),
       enableDoubleTapZooming: true,
     );
   }
@@ -66,7 +66,7 @@ class _BingMapState extends SampleViewState {
     /// pass the URL to this method along with the map type and subscription
     /// key.
     return _hasBingMapKey
-        ? FutureBuilder(
+        ? FutureBuilder<String?>(
             future: getBingUrlTemplate(_bingURL),
             builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
@@ -96,7 +96,7 @@ class _BingMapState extends SampleViewState {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             TextField(
               controller: _textFieldController,
               onSubmitted: (String text) => _handleKeyValidation(),
@@ -115,21 +115,21 @@ class _BingMapState extends SampleViewState {
                       ? Colors.red
                       : const Color.fromRGBO(153, 153, 153, 1),
                 ),
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: const Color.fromRGBO(153, 153, 153, 1),
+                    color: Color.fromRGBO(153, 153, 153, 1),
                     width: 0.5,
                   ),
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: const Color.fromRGBO(153, 153, 153, 1),
+                    color: Color.fromRGBO(153, 153, 153, 1),
                     width: 0.5,
                   ),
                 ),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: const Color.fromRGBO(153, 153, 153, 1),
+                    color: Color.fromRGBO(153, 153, 153, 1),
                     width: 0.5,
                   ),
                 ),
@@ -140,7 +140,7 @@ class _BingMapState extends SampleViewState {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   const SizedBox(height: 10),
                   const Text(
                     'Note:',
@@ -151,8 +151,8 @@ class _BingMapState extends SampleViewState {
                   ),
                   const SizedBox(height: 3),
                   Wrap(
-                    children: [
-                      Text(
+                    children: <Widget>[
+                      const Text(
                         '1. Please use the ',
                         style: TextStyle(fontSize: 11),
                       ),
@@ -163,7 +163,7 @@ class _BingMapState extends SampleViewState {
                             launch(
                                 'https://docs.microsoft.com/en-us/bingmaps/getting-started/bing-maps-dev-center-help/getting-a-bing-maps-key');
                           },
-                          child: Text(
+                          child: const Text(
                             'development or testing key',
                             style: TextStyle(
                                 color: Colors.blue,
@@ -172,7 +172,7 @@ class _BingMapState extends SampleViewState {
                           ),
                         ),
                       ),
-                      Text(
+                      const Text(
                         '.',
                         style: TextStyle(fontSize: 11),
                       ),
@@ -194,7 +194,7 @@ class _BingMapState extends SampleViewState {
 
   Widget _buildBingMap(String urlTemplate) {
     return Stack(
-      children: [
+      children: <Widget>[
         Positioned.fill(
           child: Image.asset(
             'images/maps_grid.png',
@@ -202,7 +202,7 @@ class _BingMapState extends SampleViewState {
           ),
         ),
         SfMaps(
-          layers: [
+          layers: <MapLayer>[
             MapTileLayer(
               urlTemplate: urlTemplate,
               zoomPanBehavior: _zoomPanBehavior,
@@ -214,7 +214,7 @@ class _BingMapState extends SampleViewState {
           child: Wrap(
             alignment: WrapAlignment.center,
             spacing: 10.0,
-            children: [
+            children: <Widget>[
               _buildChip(0, 'Road View'),
               _buildChip(1, 'Aerial View'),
               _buildChip(2, 'Aerial View With Labels'),

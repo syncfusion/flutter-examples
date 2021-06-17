@@ -39,17 +39,17 @@ class _MultipleNeedleExampleState extends SampleViewState {
             interval: 5,
             labelOffset: 10,
             minorTicksPerInterval: 5,
-            axisLabelStyle: GaugeTextStyle(fontSize: 10),
+            axisLabelStyle: const GaugeTextStyle(fontSize: 10),
             onLabelCreated: _handleAxisLabelCreated,
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
                 lengthUnit: GaugeSizeUnit.factor, length: 0.03, thickness: 1),
-            majorTickStyle:
-                MajorTickStyle(lengthUnit: GaugeSizeUnit.factor, length: 0.1)),
+            majorTickStyle: const MajorTickStyle(
+                lengthUnit: GaugeSizeUnit.factor, length: 0.1)),
         RadialAxis(
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 thicknessUnit: GaugeSizeUnit.factor,
                 thickness: 0.08,
-                color: const Color(0xFFFFCD60)),
+                color: Color(0xFFFFCD60)),
             startAngle: 270,
             endAngle: 270,
             minimum: 0,
@@ -61,10 +61,10 @@ class _MultipleNeedleExampleState extends SampleViewState {
             axisLabelStyle: GaugeTextStyle(fontSize: isCardView ? 10 : 12),
             minorTicksPerInterval: 5,
             onLabelCreated: _handleAxisLabelCreated,
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
                 lengthUnit: GaugeSizeUnit.factor, length: 0.05, thickness: 1),
-            majorTickStyle:
-                MajorTickStyle(lengthUnit: GaugeSizeUnit.factor, length: 0.1),
+            majorTickStyle: const MajorTickStyle(
+                lengthUnit: GaugeSizeUnit.factor, length: 0.1),
             pointers: <GaugePointer>[
               NeedlePointer(
                   value: 8,
@@ -74,7 +74,7 @@ class _MultipleNeedleExampleState extends SampleViewState {
                   needleStartWidth: 0,
                   needleEndWidth: isCardView ? 3 : 5,
                   enableAnimation: true,
-                  knobStyle: KnobStyle(knobRadius: 0),
+                  knobStyle: const KnobStyle(knobRadius: 0),
                   animationType: AnimationType.ease),
               NeedlePointer(
                   value: 3,

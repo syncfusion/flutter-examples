@@ -5,17 +5,16 @@ import 'package:flutter/material.dart';
 class CustomDirectionalButtons extends StatefulWidget {
   /// direction arrows surronding in text widget
   const CustomDirectionalButtons({
-    Key? key,
-    this.minValue = 0,
-    this.maxValue,
-    this.initialValue,
-    this.onChanged,
-    this.step = 1,
-    this.loop = false,
+    double this.minValue = 0,
+    required double this.maxValue,
+    required double this.initialValue,
+    required ValueChanged<double> this.onChanged,
+    double this.step = 1,
+    bool this.loop = false,
     this.horizontal = true,
     this.style,
-    this.padding = 0.0,
-    this.iconColor = Colors.black,
+    double this.padding = 0.0,
+    Color this.iconColor = Colors.black,
   })  : assert(minValue != null),
         assert(maxValue != null),
         assert(initialValue != null),
@@ -131,7 +130,7 @@ class _CustomButton extends State<CustomDirectionalButtons> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.arrow_drop_up),
+                icon: const Icon(Icons.arrow_drop_up),
                 padding: EdgeInsets.only(bottom: widget.padding!),
                 alignment: Alignment.bottomCenter,
                 color: widget.iconColor,
@@ -143,7 +142,7 @@ class _CustomButton extends State<CustomDirectionalButtons> {
               ),
               _getCount(),
               IconButton(
-                  icon: Icon(Icons.arrow_drop_down),
+                  icon: const Icon(Icons.arrow_drop_down),
                   padding: EdgeInsets.only(top: widget.padding!),
                   alignment: Alignment.topCenter,
                   color: widget.iconColor,
@@ -158,7 +157,7 @@ class _CustomButton extends State<CustomDirectionalButtons> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               IconButton(
-                  icon: Icon(Icons.arrow_left),
+                  icon: const Icon(Icons.arrow_left),
                   padding: EdgeInsets.only(right: widget.padding!),
                   alignment: Alignment.center,
                   color: widget.iconColor,
@@ -169,7 +168,7 @@ class _CustomButton extends State<CustomDirectionalButtons> {
                   }),
               _getCount(),
               IconButton(
-                icon: Icon(Icons.arrow_right),
+                icon: const Icon(Icons.arrow_right),
                 padding: EdgeInsets.only(left: widget.padding!),
                 alignment: Alignment.center,
                 color: widget.iconColor,

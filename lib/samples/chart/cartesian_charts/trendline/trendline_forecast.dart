@@ -137,24 +137,24 @@ class _TrendLineForecastState extends SampleViewState {
                 : 'Euro to USD yearly exchange rate - 1999 to 2019'),
         legend: Legend(isVisible: !isCardView),
         tooltipBehavior: _tooltipBehavior,
-        primaryXAxis:
-            NumericAxis(majorGridLines: MajorGridLines(width: 0), interval: 2),
+        primaryXAxis: NumericAxis(
+            majorGridLines: const MajorGridLines(width: 0), interval: 2),
         primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Dollars'),
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(width: 0),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(width: 0),
           minimum: 0.8,
           maximum: 1.8,
           interval: 0.2,
-          labelFormat: '\${value}',
+          labelFormat: r'${value}',
         ),
         series: <SplineSeries<ChartSampleData, num>>[
           SplineSeries<ChartSampleData, num>(
               color: const Color.fromRGBO(192, 108, 132, 1),
               dataSource: trendLineData,
-              xValueMapper: (ChartSampleData data, _) => data.x,
+              xValueMapper: (ChartSampleData data, _) => data.x as num,
               yValueMapper: (ChartSampleData data, _) => data.y,
-              markerSettings: MarkerSettings(isVisible: true),
+              markerSettings: const MarkerSettings(isVisible: true),
               name: 'Exchange rate',
               trendlines: <Trendline>[
                 Trendline(
