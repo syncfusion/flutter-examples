@@ -46,13 +46,13 @@ class _CircularSelectionState extends SampleViewState {
                 Container(
                     padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: DropdownButton<String>(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        underline: Container(
+                            color: const Color(0xFFBDBDBD), height: 1),
                         value: _pointIndex.toString(),
                         items: _pointIndexList.map((String value) {
                           return DropdownMenuItem<String>(
                               value: (value != null) ? value : '0',
-                              child: Text('$value',
+                              child: Text(value,
                                   style: TextStyle(color: model.textColor)));
                         }).toList(),
                         onChanged: (dynamic value) {
@@ -67,10 +67,10 @@ class _CircularSelectionState extends SampleViewState {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Container(
                 child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
@@ -79,8 +79,8 @@ class _CircularSelectionState extends SampleViewState {
                       onPressed: () {
                         selectionBehavior.selectDataPoints(_pointIndex);
                       },
-                      child:
-                          Text('Select', style: TextStyle(color: Colors.white)),
+                      child: const Text('Select',
+                          style: TextStyle(color: Colors.white)),
                     )))
           ],
         ),
@@ -121,9 +121,9 @@ class _CircularSelectionState extends SampleViewState {
       PieSeries<ChartSampleData, String>(
           dataSource: chartData,
           radius: '70%',
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
-          dataLabelMapper: (ChartSampleData data, _) => data.x,
+          dataLabelMapper: (ChartSampleData data, _) => data.x as String,
           startAngle: 100,
           endAngle: 100,
           dataLabelSettings: DataLabelSettings(

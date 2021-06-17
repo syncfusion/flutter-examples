@@ -67,10 +67,11 @@ class _LiveLineChartState extends SampleViewState {
   SfCartesianChart _buildLiveLineChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
-        primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryXAxis:
+            NumericAxis(majorGridLines: const MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
-            axisLine: AxisLine(width: 0),
-            majorTickLines: MajorTickLines(size: 0)),
+            axisLine: const AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(size: 0)),
         series: <LineSeries<_ChartData, int>>[
           LineSeries<_ChartData, int>(
             onRendererCreated: (ChartSeriesController controller) {

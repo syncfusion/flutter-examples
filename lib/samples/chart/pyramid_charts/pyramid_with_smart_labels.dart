@@ -46,12 +46,13 @@ class _PyramidSmartLabelState extends SampleViewState {
               height: 50,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  underline:
+                      Container(color: const Color(0xFFBDBDBD), height: 1),
                   value: _selectedPosition,
                   items: _labelPosition.map((String value) {
                     return DropdownMenuItem<String>(
                         value: (value != null) ? value : 'outside',
-                        child: Text('$value',
+                        child: Text(value,
                             style: TextStyle(color: model.textColor)));
                   }).toList(),
                   onChanged: (dynamic value) {
@@ -71,12 +72,13 @@ class _PyramidSmartLabelState extends SampleViewState {
               height: 50,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  underline:
+                      Container(color: const Color(0xFFBDBDBD), height: 1),
                   value: _smartLabelMode,
                   items: _modeList.map((String value) {
                     return DropdownMenuItem<String>(
                         value: (value != null) ? value : 'shift',
-                        child: Text('$value',
+                        child: Text(value,
                             style: TextStyle(color: model.textColor)));
                   }).toList(),
                   onChanged: (dynamic value) {
@@ -171,9 +173,9 @@ class _PyramidSmartLabelState extends SampleViewState {
     return PyramidSeries<ChartSampleData, String>(
         width: '60%',
         dataSource: pieData,
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
-        textFieldMapper: (ChartSampleData data, _) => data.x,
+        textFieldMapper: (ChartSampleData data, _) => data.x as String,
         pointColorMapper: (ChartSampleData data, _) => data.pointColor,
         dataLabelSettings: DataLabelSettings(
             isVisible: true,

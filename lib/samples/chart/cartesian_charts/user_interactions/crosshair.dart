@@ -66,12 +66,13 @@ class _DefaultCrossHairState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedLineType,
                     items: _lineTypeList.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'both',
-                          child: Text('$value',
+                          child: Text(value,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
                     onChanged: (dynamic value) {
@@ -128,7 +129,7 @@ class _DefaultCrossHairState extends SampleViewState {
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
           dateFormat: DateFormat.y(),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           interactiveTooltip: InteractiveTooltip(
               enable: (_lineType == CrosshairLineType.both ||
@@ -139,19 +140,19 @@ class _DefaultCrossHairState extends SampleViewState {
       /// To enable the cross hair for cartesian chart.
       crosshairBehavior: CrosshairBehavior(
           enable: true,
-          hideDelay: (duration) * 1000,
+          hideDelay: duration * 1000,
           lineWidth: 1,
           activationMode: ActivationMode.singleTap,
           shouldAlwaysShow: alwaysShow,
           lineType: _lineType),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           interactiveTooltip: InteractiveTooltip(
               enable: (_lineType == CrosshairLineType.both ||
                       _lineType == CrosshairLineType.horizontal)
                   ? true
                   : false),
-          majorTickLines: MajorTickLines(width: 0)),
+          majorTickLines: const MajorTickLines(width: 0)),
       series: getDefaultCrossHairSeries(),
     );
   }
@@ -162,7 +163,7 @@ class _DefaultCrossHairState extends SampleViewState {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
           dataSource: randomData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           width: 2)
     ];

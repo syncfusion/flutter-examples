@@ -22,6 +22,7 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
   late List<_MarketPlace> _topOnlineMarketPlaces;
   late List<TreemapColorMapper> _colorMappers;
   late bool _isLightTheme;
+  late bool isDesktop;
 
   @override
   void initState() {
@@ -30,35 +31,37 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
     // [visitorsInBillions] is used to get each tile's weight.
     // [name] is the flat level grouping key.
     _topOnlineMarketPlaces = <_MarketPlace>[
-      _MarketPlace(country: 'USA', name: 'Amazon', visitorsInBillions: 5.7),
-      _MarketPlace(
+      const _MarketPlace(
+          country: 'USA', name: 'Amazon', visitorsInBillions: 5.7),
+      const _MarketPlace(
           country: 'Japan', name: 'PayPay Mall', visitorsInBillions: 2.1),
-      _MarketPlace(country: 'USA', name: 'eBay', visitorsInBillions: 1.6),
-      _MarketPlace(
+      const _MarketPlace(country: 'USA', name: 'eBay', visitorsInBillions: 1.6),
+      const _MarketPlace(
           country: 'Argentina',
           name: 'Mercado Libre',
           visitorsInBillions: 0.6617),
-      _MarketPlace(
+      const _MarketPlace(
           country: 'China', name: 'AliExpress', visitorsInBillions: 0.6391),
-      _MarketPlace(
+      const _MarketPlace(
           country: 'Japan', name: 'Rakuten', visitorsInBillions: 0.6215),
-      _MarketPlace(
+      const _MarketPlace(
           country: 'China', name: 'Taobao', visitorsInBillions: 0.5452),
-      _MarketPlace(
+      const _MarketPlace(
           country: 'USA', name: 'Walmart.com', visitorsInBillions: 0.469),
-      _MarketPlace(
+      const _MarketPlace(
           country: 'China', name: 'JD.com', visitorsInBillions: 0.3182),
-      _MarketPlace(country: 'USA', name: 'Etsy', visitorsInBillions: 0.2663),
+      const _MarketPlace(
+          country: 'USA', name: 'Etsy', visitorsInBillions: 0.2663),
     ];
 
     _colorMappers = <TreemapColorMapper>[
-      TreemapColorMapper.value(
+      const TreemapColorMapper.value(
           value: 'USA', color: Color.fromRGBO(71, 94, 209, 1.0)),
-      TreemapColorMapper.value(
+      const TreemapColorMapper.value(
           value: 'Japan', color: Color.fromRGBO(236, 105, 85, 1.0)),
-      TreemapColorMapper.value(
+      const TreemapColorMapper.value(
           value: 'Argentina', color: Color.fromRGBO(78, 198, 125, 1.0)),
-      TreemapColorMapper.value(
+      const TreemapColorMapper.value(
           value: 'China', color: Color.fromRGBO(240, 140, 86, 1.0)),
     ];
 
@@ -75,7 +78,7 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     _isLightTheme = themeData.brightness == Brightness.light;
-    final bool isDesktop = kIsWeb ||
+    isDesktop = kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
@@ -90,7 +93,7 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
               ? const EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5)
               : const EdgeInsets.all(10.0),
           child: Column(
-            children: [
+            children: <Widget>[
               Text(
                 'Top 10 Online Marketplaces',
                 style: Theme.of(context).textTheme.subtitle1,

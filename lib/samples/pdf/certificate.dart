@@ -105,8 +105,8 @@ class _CertificatePdfState extends SampleViewState {
                       MaterialStateProperty.all<Color>(model.backgroundColor),
                   padding: model.isMobile
                       ? null
-                      : MaterialStateProperty.all(
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
+                      : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 15)),
                 ),
                 child: const Text(
                   'Generate PDF',

@@ -20,11 +20,6 @@ class _RadialSliderCustomTextState extends SampleViewState {
   _RadialSliderCustomTextState();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       _firstMarkerSize = 27;
@@ -36,7 +31,7 @@ class _RadialSliderCustomTextState extends SampleViewState {
     return Center(
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.07,
               thicknessUnit: GaugeSizeUnit.factor,
               cornerStyle: CornerStyle.bothCurve,
@@ -75,7 +70,7 @@ class _RadialSliderCustomTextState extends SampleViewState {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      '$_annotationValue',
+                      _annotationValue,
                       style: TextStyle(
                         fontSize: _annotationFontSize,
                         fontFamily: 'Times',
@@ -91,17 +86,12 @@ class _RadialSliderCustomTextState extends SampleViewState {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
   void handlePointerValueChanged(double value) {
     setState(() {
       _markerValue = value;
-      final _value = _markerValue.round().toInt();
+      final int _value = _markerValue.round().toInt();
       if (_value < 100 && _annotationValue != 'In-progress') {
         _annotationValue = 'In-progress';
         if (_rangeColor != const Color.fromRGBO(255, 150, 0, 1)) {

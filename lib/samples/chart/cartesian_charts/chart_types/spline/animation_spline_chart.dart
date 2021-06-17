@@ -40,10 +40,11 @@ class _AnimationSplineDefaultState extends SampleViewState {
   SfCartesianChart _buildAnimationSplineChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
-        primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryXAxis:
+            NumericAxis(majorGridLines: const MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
-            majorTickLines: MajorTickLines(color: Colors.transparent),
-            axisLine: AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(color: Colors.transparent),
+            axisLine: const AxisLine(width: 0),
             minimum: 0,
             maximum: 100),
         series: _getDefaultSplineSeries());
@@ -56,7 +57,7 @@ class _AnimationSplineDefaultState extends SampleViewState {
           dataSource: _chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 

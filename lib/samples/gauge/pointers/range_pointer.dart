@@ -36,7 +36,7 @@ class _RangePointerExampleState extends SampleViewState {
             minimum: 0,
             maximum: 100,
             radiusFactor: 0.8,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(

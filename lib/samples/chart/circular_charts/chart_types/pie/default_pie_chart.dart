@@ -48,7 +48,7 @@ class _PieDefaultState extends SampleViewState {
           explodeIndex: 0,
           explodeOffset: '10%',
           dataSource: pieData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text,
           startAngle: 90,

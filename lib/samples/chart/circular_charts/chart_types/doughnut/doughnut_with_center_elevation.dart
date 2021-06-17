@@ -67,7 +67,7 @@ class _DoughnutDefaultState extends SampleViewState {
       DoughnutSeries<ChartSampleData, String>(
           dataSource: chartData,
           animationDuration: 0,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           pointColorMapper: (ChartSampleData data, _) => data.pointColor)
     ];

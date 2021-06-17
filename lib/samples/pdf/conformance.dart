@@ -52,9 +52,10 @@ class _ConformancePdfState extends SampleViewState {
                             color: model.textColor,
                             fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10, width: 25),
-                    (MediaQuery.of(context).size.width > 800)
-                        ? Row(children: getChildWidgets(context))
-                        : Column(children: getChildWidgets(context)),
+                    if (MediaQuery.of(context).size.width > 800)
+                      Row(children: getChildWidgets(context))
+                    else
+                      Column(children: getChildWidgets(context)),
                     const SizedBox(height: 10, width: 30),
                     Align(
                         alignment: Alignment.center,
@@ -65,7 +66,7 @@ class _ConformancePdfState extends SampleViewState {
                             padding: model.isMobile
                                 ? null
                                 : MaterialStateProperty.all(
-                                    EdgeInsets.symmetric(
+                                    const EdgeInsets.symmetric(
                                         vertical: 15, horizontal: 15)),
                           ),
                           onPressed: _conformance,
@@ -79,17 +80,17 @@ class _ConformancePdfState extends SampleViewState {
   }
 
   List<Widget> getChildWidgets(BuildContext context) {
-    return [
-      Row(children: [
-        Radio(groupValue: _groupValue, onChanged: _changed, value: 0),
+    return <Widget>[
+      Row(children: <Widget>[
+        Radio<int>(groupValue: _groupValue, onChanged: _changed, value: 0),
         Text('PDF/A-1B', style: TextStyle(fontSize: 16, color: model.textColor))
       ]),
-      Row(children: [
-        Radio(groupValue: _groupValue, onChanged: _changed, value: 1),
+      Row(children: <Widget>[
+        Radio<int>(groupValue: _groupValue, onChanged: _changed, value: 1),
         Text('PDF/A-2B', style: TextStyle(fontSize: 16, color: model.textColor))
       ]),
-      Row(children: [
-        Radio(groupValue: _groupValue, onChanged: _changed, value: 2),
+      Row(children: <Widget>[
+        Radio<int>(groupValue: _groupValue, onChanged: _changed, value: 2),
         Text('PDF/A-3B', style: TextStyle(fontSize: 16, color: model.textColor))
       ]),
     ];
@@ -106,7 +107,7 @@ class _ConformancePdfState extends SampleViewState {
     } else {
       //Create document with PDF/A-3B standard.
       document = PdfDocument(conformanceLevel: PdfConformanceLevel.a3b);
-      final String text =
+      const String text =
           'Adventure Works Cycles, the fictitious company on which the AdventureWorks sample databases are based, is a large, multinational manufacturing company. The company manufactures and sells metal and composite bicycles to North American, European and Asian commercial markets. While its base operation is located in Bothell, Washington with 290 employees, several regional sales teams are located throughout their market base.';
       document.attachments.add(PdfAttachment(
           'AdventureCycle.txt', utf8.encode(text),
@@ -163,7 +164,7 @@ class _ConformancePdfState extends SampleViewState {
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 90),
         brush: PdfSolidBrush(PdfColor(65, 104, 205)));
     page.graphics.drawString(
-        '\$' + _getTotalAmount(grid).toString(), footerFont,
+        r'$' + _getTotalAmount(grid).toString(), footerFont,
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 100),
         brush: PdfBrushes.white,
         format: PdfStringFormat(
@@ -278,7 +279,7 @@ class _ConformancePdfState extends SampleViewState {
     }
     for (int i = 0; i < grid.rows.count; i++) {
       final PdfGridRow row = grid.rows[i];
-      if (i % 2 == 0) {
+      if (i.isEven) {
         row.style.backgroundBrush = PdfSolidBrush(PdfColor(217, 226, 243));
       }
       for (int j = 0; j < row.cells.count; j++) {
@@ -310,7 +311,8 @@ class _ConformancePdfState extends SampleViewState {
   double _getTotalAmount(PdfGrid grid) {
     double total = 0;
     for (int i = 0; i < grid.rows.count; i++) {
-      final String value = grid.rows[i].cells[grid.columns.count - 1].value;
+      final String value =
+          grid.rows[i].cells[grid.columns.count - 1].value as String;
       total += double.parse(value);
     }
     return total;

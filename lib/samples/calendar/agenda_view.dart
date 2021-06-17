@@ -180,8 +180,8 @@ class _AgendaViewCalendarState extends SampleViewState {
       dataSource: calendarDataSource,
       monthViewSettings: MonthViewSettings(
           showAgenda: true, numberOfWeeksInView: model.isWebFullView ? 2 : 6),
-      timeSlotViewSettings: TimeSlotViewSettings(
-          minimumAppointmentDuration: const Duration(minutes: 60)),
+      timeSlotViewSettings: const TimeSlotViewSettings(
+          minimumAppointmentDuration: Duration(minutes: 60)),
     );
   }
 }

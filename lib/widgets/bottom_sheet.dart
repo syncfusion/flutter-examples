@@ -35,7 +35,13 @@ const double _kCloseProgressThreshold = 0.5;
 class CustomBottomSheet extends StatefulWidget {
   /// holds the informtion of customized bottom sheet
   const CustomBottomSheet(
-      {Key? key, this.animationController, this.onClosing, this.builder})
+      // ignore: tighten_type_of_initializing_formals
+      {Key? key,
+      this.animationController,
+      // ignore: tighten_type_of_initializing_formals
+      this.onClosing,
+      // ignore: tighten_type_of_initializing_formals
+      this.builder})
       : assert(onClosing != null),
         assert(builder != null),
         super(key: key);
@@ -78,7 +84,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
   double? get _childHeight {
     final RenderBox renderBox =
-        _childKey.currentContext!.findRenderObject() as RenderBox;
+        _childKey.currentContext!.findRenderObject()! as RenderBox;
     return renderBox.size.height;
   }
 
@@ -267,7 +273,7 @@ class _RoundedModalBottomSheetState<T>
             builder: (BuildContext context) => Container(
               decoration: BoxDecoration(
                 color: widget.route!.color,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(12.0),
                   topRight: Radius.circular(12.0),
                 ),

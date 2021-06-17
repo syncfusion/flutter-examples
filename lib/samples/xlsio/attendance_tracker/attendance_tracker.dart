@@ -44,8 +44,9 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
                           model.backgroundColor),
                       padding: model.isMobile
                           ? null
-                          : MaterialStateProperty.all(EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15)),
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
                     ),
                     onPressed: _generateExcel,
                     child: const Text('Generate Excel',
@@ -70,7 +71,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     // Enable sheet calculation.
     sheet.enableSheetCalculations();
 
-    final List<Object> heading = [
+    final List<Object> heading = <Object>[
       'Employee Name',
       'Supervisor',
       DateTime(2019, 1, 1),
@@ -107,7 +108,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     ];
     sheet.importList(heading, 1, 1, false);
 
-    final List<String> attendance_1 = [
+    final List<String> attendance_1 = <String>[
       'Maria Anders',
       'Michael Holz',
       'P',
@@ -142,7 +143,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       'A',
       'L'
     ];
-    final List<String> attendance_2 = [
+    final List<String> attendance_2 = <String>[
       'Ana Trujillo',
       'Michael Holz',
       'P',
@@ -177,7 +178,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       'L',
       'P'
     ];
-    final List<String> attendance_3 = [
+    final List<String> attendance_3 = <String>[
       'Antonio Moreno',
       'Liz Nixon',
       'A',
@@ -212,7 +213,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       'A',
       'A'
     ];
-    final List<String> attendance_4 = [
+    final List<String> attendance_4 = <String>[
       'Thomas Hardy',
       'Liu Wong',
       'L',
@@ -247,7 +248,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       'P',
       'P'
     ];
-    final List<String> attendance_5 = [
+    final List<String> attendance_5 = <String>[
       'Christina Berglund',
       'Mary Saveley',
       'P',
@@ -282,7 +283,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       'P',
       'P'
     ];
-    final List<String> attendance_6 = [
+    final List<String> attendance_6 = <String>[
       'Hanna Moos',
       'Liu Wong',
       'L',
@@ -317,7 +318,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       'L',
       'P'
     ];
-    final List<String> attendance_7 = [
+    final List<String> attendance_7 = <String>[
       'Frederique Citeaux',
       'Mary Saveley',
       'A',
@@ -352,7 +353,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       'A',
       'A'
     ];
-    final List<String> attendance_8 = [
+    final List<String> attendance_8 = <String>[
       'Martin Sommer',
       'Michael Holz',
       'L',
@@ -387,7 +388,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       'L',
       'L'
     ];
-    final List<String> attendance_9 = [
+    final List<String> attendance_9 = <String>[
       'Laurence Lebihan',
       'Mary Saveley',
       'P',
@@ -498,47 +499,47 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     ConditionalFormat leaveCondition = statusCondition.addCondition();
     leaveCondition.formatType = ExcelCFType.cellValue;
     leaveCondition.operator = ExcelComparisonOperator.equal;
-    leaveCondition.firstFormula = '\"L\"';
-    leaveCondition.backColorRgb = Color.fromARGB(255, 253, 167, 92);
+    leaveCondition.firstFormula = '"L"';
+    leaveCondition.backColorRgb = const Color.fromARGB(255, 253, 167, 92);
 
     ConditionalFormat absentCondition = statusCondition.addCondition();
     absentCondition.formatType = ExcelCFType.cellValue;
     absentCondition.operator = ExcelComparisonOperator.equal;
-    absentCondition.firstFormula = '\"A\"';
-    absentCondition.backColorRgb = Color.fromARGB(255, 255, 105, 124);
+    absentCondition.firstFormula = '"A"';
+    absentCondition.backColorRgb = const Color.fromARGB(255, 255, 105, 124);
 
     ConditionalFormat presentCondition = statusCondition.addCondition();
     presentCondition.formatType = ExcelCFType.cellValue;
     presentCondition.operator = ExcelComparisonOperator.equal;
-    presentCondition.firstFormula = '\"P\"';
-    presentCondition.backColorRgb = Color.fromARGB(255, 67, 233, 123);
+    presentCondition.firstFormula = '"P"';
+    presentCondition.backColorRgb = const Color.fromARGB(255, 67, 233, 123);
 
     ConditionalFormat weekendCondition = statusCondition.addCondition();
     weekendCondition.formatType = ExcelCFType.cellValue;
     weekendCondition.operator = ExcelComparisonOperator.equal;
-    weekendCondition.firstFormula = '\"WE\"';
-    weekendCondition.backColorRgb = Color.fromARGB(255, 240, 240, 240);
+    weekendCondition.firstFormula = '"WE"';
+    weekendCondition.backColorRgb = const Color.fromARGB(255, 240, 240, 240);
 
     final ConditionalFormats presentSummaryCF =
         sheet.getRangeByName('C2:C10').conditionalFormats;
     final ConditionalFormat presentCountCF = presentSummaryCF.addCondition();
     presentCountCF.formatType = ExcelCFType.dataBar;
     DataBar dataBar = presentCountCF.dataBar!;
-    dataBar.barColorRgb = Color.fromARGB(255, 61, 242, 142);
+    dataBar.barColorRgb = const Color.fromARGB(255, 61, 242, 142);
 
     final ConditionalFormats leaveSummaryCF =
         sheet.getRangeByName('D2:D10').conditionalFormats;
     final ConditionalFormat leaveCountCF = leaveSummaryCF.addCondition();
     leaveCountCF.formatType = ExcelCFType.dataBar;
     dataBar = leaveCountCF.dataBar!;
-    dataBar.barColorRgb = Color.fromARGB(255, 242, 71, 23);
+    dataBar.barColorRgb = const Color.fromARGB(255, 242, 71, 23);
 
     final ConditionalFormats absentSummaryCF =
         sheet.getRangeByName('E2:E10').conditionalFormats;
     final ConditionalFormat absentCountCF = absentSummaryCF.addCondition();
     absentCountCF.formatType = ExcelCFType.dataBar;
     dataBar = absentCountCF.dataBar!;
-    dataBar.barColorRgb = Color.fromARGB(255, 255, 10, 69);
+    dataBar.barColorRgb = const Color.fromARGB(255, 255, 10, 69);
 
     final ConditionalFormats unplannedSummaryCF =
         sheet.getRangeByName('F2:F10').conditionalFormats;
@@ -547,7 +548,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     unplannedCountCF.formatType = ExcelCFType.dataBar;
     dataBar = unplannedCountCF.dataBar!;
     dataBar.maxPoint.type = ConditionValueType.highestValue;
-    dataBar.barColorRgb = Color.fromARGB(255, 142, 142, 142);
+    dataBar.barColorRgb = const Color.fromARGB(255, 142, 142, 142);
 
     final ConditionalFormats plannedSummaryCF =
         sheet.getRangeByName('G2:G10').conditionalFormats;
@@ -555,32 +556,32 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     plannedCountCF.formatType = ExcelCFType.dataBar;
     dataBar = plannedCountCF.dataBar!;
     dataBar.maxPoint.type = ConditionValueType.highestValue;
-    dataBar.barColorRgb = Color.fromARGB(255, 56, 136, 254);
+    dataBar.barColorRgb = const Color.fromARGB(255, 56, 136, 254);
 
     statusCondition = sheet.getRangeByName('C12:C18').conditionalFormats;
     leaveCondition = statusCondition.addCondition();
     leaveCondition.formatType = ExcelCFType.cellValue;
     leaveCondition.operator = ExcelComparisonOperator.equal;
-    leaveCondition.firstFormula = '\"L\"';
-    leaveCondition.backColorRgb = Color.fromARGB(255, 253, 167, 92);
+    leaveCondition.firstFormula = '"L"';
+    leaveCondition.backColorRgb = const Color.fromARGB(255, 253, 167, 92);
 
     absentCondition = statusCondition.addCondition();
     absentCondition.formatType = ExcelCFType.cellValue;
     absentCondition.operator = ExcelComparisonOperator.equal;
-    absentCondition.firstFormula = '\"A\"';
-    absentCondition.backColorRgb = Color.fromARGB(255, 255, 105, 124);
+    absentCondition.firstFormula = '"A"';
+    absentCondition.backColorRgb = const Color.fromARGB(255, 255, 105, 124);
 
     presentCondition = statusCondition.addCondition();
     presentCondition.formatType = ExcelCFType.cellValue;
     presentCondition.operator = ExcelComparisonOperator.equal;
-    presentCondition.firstFormula = '\"P\"';
-    presentCondition.backColorRgb = Color.fromARGB(255, 67, 233, 123);
+    presentCondition.firstFormula = '"P"';
+    presentCondition.backColorRgb = const Color.fromARGB(255, 67, 233, 123);
 
     weekendCondition = statusCondition.addCondition();
     weekendCondition.formatType = ExcelCFType.cellValue;
     weekendCondition.operator = ExcelComparisonOperator.equal;
-    weekendCondition.firstFormula = '\"WE\"';
-    weekendCondition.backColorRgb = Color.fromARGB(255, 240, 240, 240);
+    weekendCondition.firstFormula = '"WE"';
+    weekendCondition.backColorRgb = const Color.fromARGB(255, 240, 240, 240);
 
     sheet.getRangeByIndex(12, 3).setText('P');
     sheet.getRangeByIndex(14, 3).setText('L');
@@ -594,9 +595,9 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     // Row height and column width.
     sheet.getRangeByName('A1:AL1').rowHeight = 24;
     sheet.getRangeByName('A2:AL10').rowHeight = 20;
-    sheet.getRangeByName('A1:B1').columnWidth = 20.37;
-    sheet.getRangeByName('C1:G1').columnWidth = 16.37;
-    sheet.getRangeByName('H1:AL10').columnWidth = 4.37;
+    sheet.getRangeByName('A1:B1').columnWidth = 19.64;
+    sheet.getRangeByName('C1:G1').columnWidth = 15.64;
+    sheet.getRangeByName('H1:AL10').columnWidth = 3.64;
     sheet.getRangeByIndex(13, 1).rowHeight = 3.8;
     sheet.getRangeByIndex(15, 1).rowHeight = 3.8;
     sheet.getRangeByIndex(17, 1).rowHeight = 3.8;
@@ -604,19 +605,19 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     //Apply styles
     final Style style = workbook.styles.add('Style');
     style.fontSize = 12;
-    style.fontColorRgb = Color.fromARGB(255, 64, 64, 64);
+    style.fontColorRgb = const Color.fromARGB(255, 64, 64, 64);
     style.bold = true;
     style.borders.all.lineStyle = LineStyle.medium;
-    style.borders.all.colorRgb = Color.fromARGB(255, 195, 195, 195);
+    style.borders.all.colorRgb = const Color.fromARGB(255, 195, 195, 195);
     style.vAlign = VAlignType.center;
     style.hAlign = HAlignType.left;
 
     sheet.getRangeByName('A1:AL10').cellStyle = style;
 
     sheet.getRangeByName('A1:AL1').cellStyle.backColorRgb =
-        Color.fromARGB(255, 58, 56, 56);
+        const Color.fromARGB(255, 58, 56, 56);
     sheet.getRangeByName('A1:AL1').cellStyle.fontColorRgb =
-        Color.fromARGB(255, 255, 255, 255);
+        const Color.fromARGB(255, 255, 255, 255);
 
     sheet.getRangeByName('C2:AL10').cellStyle.hAlign = HAlignType.center;
     sheet.getRangeByName('H1:AL1').cellStyle.hAlign = HAlignType.center;
@@ -626,7 +627,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
 
     sheet.getRangeByName('H1:AL1').numberFormat = 'd';
     sheet.getRangeByName('H2:AL10').cellStyle.borders.all.colorRgb =
-        Color.fromARGB(255, 255, 255, 255);
+        const Color.fromARGB(255, 255, 255, 255);
 
     sheet.getRangeByName('F2:G10').numberFormat = '.00%';
 
@@ -635,10 +636,10 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     sheet.getRangeByName('C12:C18').cellStyle.borders.all.lineStyle =
         LineStyle.none;
 
-    final List<int>? bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.
-    await FileSaveHelper.saveAndLaunchFile(bytes!, 'AttendanceTracker.xlsx');
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'AttendanceTracker.xlsx');
   }
 }

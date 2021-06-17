@@ -46,13 +46,13 @@ class _NumericDefaultState extends SampleViewState {
           minimum: 0,
           maximum: 6,
           interval: 1,
-          majorGridLines: MajorGridLines(width: 0),
-          majorTickLines: MajorTickLines(size: 0),
+          majorGridLines: const MajorGridLines(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
           edgeLabelPlacement: EdgeLabelPlacement.hide),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Score'),
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: getDefaultNumericSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -74,14 +74,14 @@ class _NumericDefaultState extends SampleViewState {
           dataSource: chartData,
           color: const Color.fromRGBO(237, 221, 76, 1),
           name: 'Australia',
-          xValueMapper: (ChartSampleData sales, _) => sales.xValue,
+          xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue),
 
       ///second series named "India".
       ColumnSeries<ChartSampleData, num>(
           dataSource: chartData,
           color: const Color.fromRGBO(2, 109, 213, 1),
-          xValueMapper: (ChartSampleData sales, _) => sales.xValue,
+          xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'India'),
     ];

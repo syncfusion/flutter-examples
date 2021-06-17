@@ -59,7 +59,7 @@ class _DefaultZoomingState extends SampleViewState {
           minimum: 100,
           maximum: 220,
           title: AxisTitle(text: isCardView ? '' : 'Height in inches'),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
           minimum: 50,
@@ -77,16 +77,16 @@ class _DefaultZoomingState extends SampleViewState {
         dataSource: _zoomData,
         opacity: 0.8,
         name: 'Male',
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as num,
         yValueMapper: (ChartSampleData data, _) => data.y,
       ),
       ScatterSeries<ChartSampleData, num>(
           dataSource: _zoomData1,
           opacity: 0.8,
           name: 'Female',
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.y,
-          markerSettings: MarkerSettings(shape: DataMarkerType.diamond))
+          markerSettings: const MarkerSettings(shape: DataMarkerType.diamond))
     ];
   }
 

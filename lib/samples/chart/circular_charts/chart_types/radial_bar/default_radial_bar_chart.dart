@@ -76,11 +76,11 @@ class _RadialBarDefaultState extends SampleViewState {
           cornerStyle: CornerStyle.bothCurve,
           gap: '10%',
           radius: '90%',
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           pointRadiusMapper: (ChartSampleData data, _) => data.text,
           pointColorMapper: (ChartSampleData data, _) => data.pointColor,
-          dataLabelMapper: (ChartSampleData data, _) => data.x)
+          dataLabelMapper: (ChartSampleData data, _) => data.x as String)
     ];
   }
 }

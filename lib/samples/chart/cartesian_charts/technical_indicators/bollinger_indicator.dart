@@ -37,8 +37,8 @@ class _BollingerIndicatorState extends SampleViewState {
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
       tooltipSettings: InteractiveTooltip(
         color: model.themeData.brightness == Brightness.light
-            ? Color.fromRGBO(79, 79, 79, 1)
-            : Color.fromRGBO(255, 255, 255, 1),
+            ? const Color.fromRGBO(79, 79, 79, 1)
+            : const Color.fromRGBO(255, 255, 255, 1),
       ),
     );
     _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
@@ -110,7 +110,7 @@ class _BollingerIndicatorState extends SampleViewState {
         isVisible: !isCardView,
       ),
       primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.MMM(),
         interval: 3,
         minimum: DateTime(2016, 01, 01),
@@ -120,8 +120,8 @@ class _BollingerIndicatorState extends SampleViewState {
           minimum: 70,
           maximum: 130,
           interval: 20,
-          labelFormat: '\${value}',
-          axisLine: AxisLine(width: 0)),
+          labelFormat: r'${value}',
+          axisLine: const AxisLine(width: 0)),
       trackballBehavior: _trackballBehavior,
       tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
@@ -140,7 +140,7 @@ class _BollingerIndicatorState extends SampleViewState {
             dataSource: chartData,
             opacity: 0.7,
             borderWidth: 2,
-            xValueMapper: (ChartSampleData sales, _) => sales.x,
+            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
             lowValueMapper: (ChartSampleData sales, _) => sales.low,
             highValueMapper: (ChartSampleData sales, _) => sales.high,
             openValueMapper: (ChartSampleData sales, _) => sales.open,

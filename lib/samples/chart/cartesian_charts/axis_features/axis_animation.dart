@@ -111,7 +111,7 @@ class _AxisAnimationDefaultState extends SampleViewState {
           yValueMapper: (_ChartData sales, _) => sales.y,
           sortingOrder: SortingOrder.ascending,
           sortFieldValueMapper: (_ChartData sales, _) => sales.x,
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 

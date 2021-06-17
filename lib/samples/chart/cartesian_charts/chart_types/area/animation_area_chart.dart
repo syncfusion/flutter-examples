@@ -41,11 +41,11 @@ class _AnimationAreaDefaultState extends SampleViewState {
   SfCartesianChart _buildAnimationAreaChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
-        primaryXAxis:
-            NumericAxis(interval: 1, majorGridLines: MajorGridLines(width: 0)),
+        primaryXAxis: NumericAxis(
+            interval: 1, majorGridLines: const MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
-            majorTickLines: MajorTickLines(color: Colors.transparent),
-            axisLine: AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(color: Colors.transparent),
+            axisLine: const AxisLine(width: 0),
             minimum: 0,
             maximum: 100),
         series: _getDefaultAreaSeries());

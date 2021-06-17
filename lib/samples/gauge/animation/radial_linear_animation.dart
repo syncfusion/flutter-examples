@@ -61,9 +61,9 @@ class _RadialLinearAnimationState extends SampleViewState {
                       ? _linearNeedleColor
                       : _linearNeedleDarkColor),
             ],
-            axisLineStyle: AxisLineStyle(thickness: 3),
+            axisLineStyle: const AxisLineStyle(thickness: 3),
             tickOffset: 2,
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
                 thickness: 2, length: 0.02, lengthUnit: GaugeSizeUnit.factor),
             minorTicksPerInterval: 0),
       ],

@@ -113,7 +113,7 @@ class _SemiDoughnutChartState extends SampleViewState {
           radius: isCardView ? '100%' : '59%',
           startAngle: startAngle,
           endAngle: endAngle,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text,
           dataLabelSettings: DataLabelSettings(

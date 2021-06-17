@@ -67,12 +67,13 @@ class _AxisCrossingState extends SampleViewState {
                   height: 50,
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _ySelectedPositionType,
                       items: _yPositionType.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'outside',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -95,12 +96,13 @@ class _AxisCrossingState extends SampleViewState {
                   height: 50,
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _ySelectedAlignmentType,
                       items: _yAlignmentType.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'start',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -136,12 +138,13 @@ class _AxisCrossingState extends SampleViewState {
                   height: 50,
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _xSelectedPositionType,
                       items: _xPositionType.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'outside',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -164,12 +167,13 @@ class _AxisCrossingState extends SampleViewState {
                   height: 50,
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _xSelectedAlignmentType,
                       items: _xAlignmentType.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'center',
-                            child: Text('$value',
+                            child: Text(value,
                                 style: TextStyle(color: model.textColor)));
                       }).toList(),
                       onChanged: (dynamic value) {
@@ -201,7 +205,7 @@ class _AxisCrossingState extends SampleViewState {
               isCardView ? ChartDataLabelPosition.outside : _labelPositionX,
           labelAlignment: isCardView ? LabelAlignment.center : _labelAlignmentX,
           tickPosition: isCardView ? TickPosition.outside : _tickPositionX,
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
         edgeLabelPlacement:
             isCardView ? EdgeLabelPlacement.none : EdgeLabelPlacement.shift,
@@ -235,9 +239,9 @@ class _AxisCrossingState extends SampleViewState {
     return <ChartSeries<ChartSampleData, String>>[
       SplineSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          markerSettings: MarkerSettings(isVisible: true),
+          markerSettings: const MarkerSettings(isVisible: true),
           name: 'New York')
     ];
   }

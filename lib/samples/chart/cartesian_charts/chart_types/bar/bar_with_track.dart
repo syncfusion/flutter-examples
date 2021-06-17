@@ -38,14 +38,14 @@ class _BarTrackerState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Working hours of employees'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           title: AxisTitle(text: isCardView ? '' : 'Hours'),
           minimum: 0,
           maximum: 8,
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getTrackerBarSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -73,7 +73,7 @@ class _BarTrackerState extends SampleViewState {
         isTrackVisible: true,
         dataLabelSettings: DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.top),
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
     ];

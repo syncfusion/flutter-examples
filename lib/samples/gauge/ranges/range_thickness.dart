@@ -36,12 +36,12 @@ class _RangeThicknessExampleState extends SampleViewState {
             labelsPosition: ElementsPosition.outside,
             radiusFactor: 0.9,
             canRotateLabels: true,
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
               length: 0.1,
               thickness: 1.5,
               lengthUnit: GaugeSizeUnit.factor,
             ),
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
               length: 0.04,
               thickness: 1.5,
               lengthUnit: GaugeSizeUnit.factor,
@@ -49,19 +49,19 @@ class _RangeThicknessExampleState extends SampleViewState {
             minorTicksPerInterval: 5,
             interval: 10,
             labelOffset: 15,
-            axisLabelStyle: GaugeTextStyle(fontSize: 12),
+            axisLabelStyle: const GaugeTextStyle(fontSize: 12),
             useRangeColorForAxis: true,
             pointers: <GaugePointer>[
               NeedlePointer(
                   needleStartWidth: 1,
                   enableAnimation: true,
                   value: 70,
-                  tailStyle: TailStyle(
+                  tailStyle: const TailStyle(
                       length: 0.2, width: 5, lengthUnit: GaugeSizeUnit.factor),
                   needleEndWidth: 5,
                   needleLength: 0.7,
                   lengthUnit: GaugeSizeUnit.factor,
-                  knobStyle: KnobStyle(
+                  knobStyle: const KnobStyle(
                     knobRadius: 0.08,
                     sizeUnit: GaugeSizeUnit.factor,
                   ))

@@ -54,12 +54,12 @@ class _AxisCrossingBaseValueState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
-                underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedAxis,
                 items: _axis.map((String value) {
                   return DropdownMenuItem<String>(
                       value: (value != null) ? value : '-2 (modified)',
-                      child: Text('$value',
+                      child: Text(value,
                           style: TextStyle(color: model.textColor)));
                 }).toList(),
                 onChanged: (dynamic value) {
@@ -75,13 +75,13 @@ class _AxisCrossingBaseValueState extends SampleViewState {
   /// Returns the spline chart with axis crossing at provided axis value.
   SfCartesianChart _buildAxisCrossingBaseValueSample() {
     return SfCartesianChart(
-      margin: EdgeInsets.fromLTRB(10, 10, 15, 10),
+      margin: const EdgeInsets.fromLTRB(10, 10, 15, 10),
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Population growth rate of countries'),
       primaryXAxis: CategoryAxis(
           labelPlacement: LabelPlacement.onTicks,
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: model.isWebFullView
               ? EdgeLabelPlacement.shift
               : EdgeLabelPlacement.none,
@@ -91,10 +91,10 @@ class _AxisCrossingBaseValueState extends SampleViewState {
           crossesAt: _crossAt,
           placeLabelsNearAxisLine: false),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           minimum: -2,
           maximum: 3,
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -120,9 +120,9 @@ class _AxisCrossingBaseValueState extends SampleViewState {
           borderColor: const Color.fromRGBO(75, 135, 185, 1),
           borderWidth: 2,
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
     ];
     return chart;
   }

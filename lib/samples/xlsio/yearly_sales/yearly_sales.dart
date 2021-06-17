@@ -44,8 +44,9 @@ class _YearlySalesXlsIOState extends SampleViewState {
                           model.backgroundColor),
                       padding: model.isMobile
                           ? null
-                          : MaterialStateProperty.all(EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15)),
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
                     ),
                     onPressed: _generateExcel,
                     child: const Text('Generate Excel',
@@ -80,13 +81,13 @@ class _YearlySalesXlsIOState extends SampleViewState {
     range.cellStyle.fontSize = 14;
     range.cellStyle.backColor = '#9BC2E6';
 
-    sheet.getRangeByName('A1').columnWidth = 3.44;
-    sheet.getRangeByName('B1').columnWidth = 11.0;
-    sheet.getRangeByName('C1').columnWidth = 11.0;
-    sheet.getRangeByName('D1').columnWidth = 0.92;
-    sheet.getRangeByName('E1').columnWidth = 11.0;
-    sheet.getRangeByName('F1').columnWidth = 11.0;
-    sheet.getRangeByName('G1').columnWidth = 3.44;
+    sheet.getRangeByName('A1').columnWidth = 2.71;
+    sheet.getRangeByName('B1').columnWidth = 10.27;
+    sheet.getRangeByName('C1').columnWidth = 10.27;
+    sheet.getRangeByName('D1').columnWidth = 0.19;
+    sheet.getRangeByName('E1').columnWidth = 10.27;
+    sheet.getRangeByName('F1').columnWidth = 10.27;
+    sheet.getRangeByName('G1').columnWidth = 2.71;
 
     sheet.getRangeByIndex(1, 1, 1, 7).merge();
 
@@ -107,7 +108,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     final Range range11 = sheet.getRangeByName('E17:F17');
     final Range range12 = sheet.getRangeByName('E18:F18');
 
-    range5.text = '\$ 4.51 M';
+    range5.text = r'\$ 4.51 M';
     range9.formula = '=Data!D14';
     range7.formula = '=Data!C19';
     range11.formula = '=Data!E14';
@@ -121,7 +122,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     range11.merge();
     range12.merge();
 
-    final List styles = createStyles(workbook);
+    final List<Style> styles = createStyles(workbook);
     range5.cellStyle = styles[0];
     range9.cellStyle = styles[1];
     range7.cellStyle = styles[2];
@@ -136,10 +137,10 @@ class _YearlySalesXlsIOState extends SampleViewState {
     range12.cellStyle = styles[7];
     range12.text = 'Customer Count';
 
-    sheet2.getRangeByName('B1').columnWidth = 23;
-    sheet2.getRangeByName('C1').columnWidth = 23;
-    sheet2.getRangeByName('D1').columnWidth = 10;
-    sheet2.getRangeByName('E1').columnWidth = 10;
+    sheet2.getRangeByName('B1').columnWidth = 22.27;
+    sheet2.getRangeByName('C1').columnWidth = 22.27;
+    sheet2.getRangeByName('D1').columnWidth = 9.27;
+    sheet2.getRangeByName('E1').columnWidth = 9.27;
 
     sheet2.getRangeByName('A1').text = 'Months';
     sheet2.getRangeByName('B1').text = 'Internet Sales Amount';
@@ -225,8 +226,8 @@ class _YearlySalesXlsIOState extends SampleViewState {
     sheet2.getRangeByName('C19').formula = '=(C18-C17)/10000000';
 
     sheet2.getRangeByName('C19').numberFormat = '0.00%';
-    sheet2.getRangeByName('C17:C18').numberFormat = '_(\$* #,##0.00';
-    sheet2.getRangeByName('B2:D13').numberFormat = '_(\$* #,##0.00';
+    sheet2.getRangeByName('C17:C18').numberFormat = r'_(\$* #,##0.00';
+    sheet2.getRangeByName('B2:D13').numberFormat = r'_(\$* #,##0.00';
 
     sheet2.getRangeByName('A1:E1').cellStyle.backColor = '#C6E0B4';
     sheet2.getRangeByName('A1:E1').cellStyle.bold = true;
@@ -242,7 +243,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     chart1.chartTitleArea.bold = true;
     chart1.chartTitleArea.size = 12;
     chart1.legend!.position = ExcelLegendPosition.bottom;
-    chart1.primaryValueAxis.numberFormat = '\$#,###';
+    chart1.primaryValueAxis.numberFormat = r'\$#,###';
     chart1.primaryValueAxis.hasMajorGridLines = false;
     chart1.topRow = 2;
     chart1.bottomRow = 13;
@@ -264,7 +265,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     chart2.bottomRow = 32;
     chart2.leftColumn = 1;
     chart2.rightColumn = 8;
-    chart2.primaryValueAxis.numberFormat = '\$#,###';
+    chart2.primaryValueAxis.numberFormat = r'\$#,###';
     chart2.primaryValueAxis.hasMajorGridLines = false;
     chart2.primaryCategoryAxis.titleArea.size = 9;
     chart2.primaryCategoryAxis.titleArea.color = '#595959';
@@ -273,20 +274,20 @@ class _YearlySalesXlsIOState extends SampleViewState {
 
     sheet.charts = charts;
 
-    final List<int>? bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
 
     //Launch file.
-    await FileSaveHelper.saveAndLaunchFile(bytes!, 'YearlySale.xlsx');
+    await FileSaveHelper.saveAndLaunchFile(bytes, 'YearlySale.xlsx');
   }
 
   // Create styles for worksheet
-  List createStyles(Workbook workbook) {
+  List<Style> createStyles(Workbook workbook) {
     final Style style1 = workbook.styles.add('style1');
     style1.backColor = '#9BC2E6';
     style1.fontSize = 18;
     style1.bold = true;
-    style1.numberFormat = '\$#,##0.00';
+    style1.numberFormat = r'\$#,##0.00';
     style1.hAlign = HAlignType.center;
     style1.vAlign = VAlignType.center;
     style1.borders.top.lineStyle = LineStyle.thin;
@@ -300,7 +301,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style2.backColor = '#F4B084';
     style2.fontSize = 18;
     style2.bold = true;
-    style2.numberFormat = '\$#,##0.00';
+    style2.numberFormat = r'\$#,##0.00';
     style2.hAlign = HAlignType.center;
     style2.vAlign = VAlignType.center;
     style2.borders.top.lineStyle = LineStyle.thin;
@@ -386,6 +387,15 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style8.borders.left.lineStyle = LineStyle.thin;
     style8.borders.left.color = '#757171';
 
-    return [style1, style2, style3, style4, style5, style6, style7, style8];
+    return <Style>[
+      style1,
+      style2,
+      style3,
+      style4,
+      style5,
+      style6,
+      style7,
+      style8
+    ];
   }
 }

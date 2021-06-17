@@ -67,13 +67,13 @@ class _HiloChartState extends SampleViewState {
           minimum: DateTime(2016, 01, 01),
           maximum: DateTime(2016, 07, 01),
           intervalType: DateTimeIntervalType.months,
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           interval: 20,
           minimum: 140,
           maximum: 60,
-          labelFormat: '\${value}',
-          axisLine: AxisLine(width: 0)),
+          labelFormat: r'${value}',
+          axisLine: const AxisLine(width: 0)),
       series: _getHiloSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -239,7 +239,7 @@ class _HiloChartState extends SampleViewState {
           color: const Color.fromRGBO(192, 108, 132, 1),
           name: 'AAPL',
           showIndicationForSameValues: isCardView ? true : _toggleVisibility,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
 
           /// High and low value mapper used to render the hilo series.
           lowValueMapper: (ChartSampleData sales, _) => sales.low,

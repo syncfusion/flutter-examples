@@ -26,7 +26,7 @@ class _LineMultiColorState extends SampleViewState {
         enable: true,
         activationMode: ActivationMode.singleTap,
         lineType: TrackballLineType.vertical,
-        tooltipSettings: InteractiveTooltip(format: 'point.x : point.y'));
+        tooltipSettings: const InteractiveTooltip(format: 'point.x : point.y'));
     super.initState();
   }
 
@@ -43,15 +43,15 @@ class _LineMultiColorState extends SampleViewState {
       primaryXAxis: DateTimeAxis(
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y(),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           title: AxisTitle(text: isCardView ? '' : 'Year')),
       primaryYAxis: NumericAxis(
           minimum: 200,
           maximum: 600,
           interval: 100,
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           labelFormat: '{value}mm',
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getMultiColoredLineSeries(),
       trackballBehavior: _trackballBehavior,
     );

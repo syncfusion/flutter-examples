@@ -56,15 +56,17 @@ class _ProgressBarAnglesState extends SampleViewState {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             _getFirstProgressBar(),
             Align(
-                alignment:
-                    !model.isWebFullView ? Alignment(-0.3, 0) : Alignment(0, 0),
+                alignment: !model.isWebFullView
+                    ? const Alignment(-0.3, 0)
+                    : const Alignment(0, 0),
                 child: _getSecondProgressBar()),
             Align(
-              alignment:
-                  !model.isWebFullView ? Alignment(0.3, 0) : Alignment(0, 0),
+              alignment: !model.isWebFullView
+                  ? const Alignment(0.3, 0)
+                  : const Alignment(0, 0),
               child: _getThirdProgressBar(),
             ),
             _getFourthProgressBar(),
@@ -77,13 +79,14 @@ class _ProgressBarAnglesState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             _getFirstProgressBar(),
             _getSecondProgressBar(),
             _getThirdProgressBar(),
             Align(
-                alignment:
-                    model.isWebFullView ? Alignment(0, -0.5) : Alignment(0, 0),
+                alignment: model.isWebFullView
+                    ? const Alignment(0, -0.5)
+                    : const Alignment(0, 0),
                 child: _getFourthProgressBar()),
           ],
         ),
@@ -108,9 +111,9 @@ class _ProgressBarAnglesState extends SampleViewState {
             showLabels: false,
             showTicks: false,
             radiusFactor: 0.9,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.05,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -145,9 +148,9 @@ class _ProgressBarAnglesState extends SampleViewState {
             startAngle: 90,
             endAngle: 270,
             radiusFactor: 0.9,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.05,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -182,9 +185,9 @@ class _ProgressBarAnglesState extends SampleViewState {
             startAngle: 270,
             endAngle: 90,
             radiusFactor: 0.9,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.05,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -220,9 +223,9 @@ class _ProgressBarAnglesState extends SampleViewState {
             endAngle: 0,
             canScaleToFit: true,
             radiusFactor: 0.9,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.05,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[

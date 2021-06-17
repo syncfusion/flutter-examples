@@ -33,7 +33,7 @@ class _StepLineVerticalState extends SampleViewState {
       title:
           ChartTitle(text: isCardView ? '' : 'Unemployment rates 1975 - 2010'),
       primaryXAxis: DateTimeAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y(),
           interval: 5),
@@ -59,16 +59,16 @@ class _StepLineVerticalState extends SampleViewState {
     ];
     return <StepLineSeries<ChartSampleData, DateTime>>[
       StepLineSeries<ChartSampleData, DateTime>(
-          markerSettings: MarkerSettings(isVisible: true),
+          markerSettings: const MarkerSettings(isVisible: true),
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'China'),
       StepLineSeries<ChartSampleData, DateTime>(
-        markerSettings: MarkerSettings(isVisible: true),
+        markerSettings: const MarkerSettings(isVisible: true),
         dataSource: chartData,
         name: 'Australia',
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
       )
     ];

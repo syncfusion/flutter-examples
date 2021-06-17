@@ -26,14 +26,15 @@ class _AxisTrackState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(margin: EdgeInsets.all(32.0), child: _buildSegmentedView()),
+    return Column(children: <Widget>[
+      Container(
+          margin: const EdgeInsets.all(32.0), child: _buildSegmentedView()),
       Expanded(
           child: Center(
               child: SingleChildScrollView(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
             Container(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildAxisTrack(context),
@@ -45,10 +46,10 @@ class _AxisTrackState extends SampleViewState {
   /// Returns the linear gauge axis track.
   Widget _buildAxisTrack(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
       child: _isHorizontalOrientation
           ? Column(
-              children: [
+              children: <Widget>[
                 _buildHorizontalGauges(
                     'Default axis', _buildDefaultAxis(context)),
                 _buildHorizontalGauges(
@@ -62,13 +63,13 @@ class _AxisTrackState extends SampleViewState {
               ],
             )
           : Column(
-              children: [
+              children: <Widget>[
                 Wrap(
                   direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
-                  children: [
+                  children: <Widget>[
                     _buildVerticalGauges(
                         'Default axis', _buildDefaultAxis(context)),
                     _buildVerticalGauges(
@@ -93,10 +94,10 @@ class _AxisTrackState extends SampleViewState {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Text(axisTrackName),
         linearGauge,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -106,7 +107,11 @@ class _AxisTrackState extends SampleViewState {
     return Container(
       width: 150,
       child: Column(
-        children: [Text(axisTrackName), SizedBox(height: 16), linearGauge],
+        children: <Widget>[
+          Text(axisTrackName),
+          const SizedBox(height: 16),
+          linearGauge
+        ],
       ),
     );
   }
@@ -132,7 +137,7 @@ class _AxisTrackState extends SampleViewState {
                 ? LinearGaugeOrientation.horizontal
                 : LinearGaugeOrientation.vertical,
             axisTrackExtent: 8,
-            axisTrackStyle: LinearAxisTrackStyle(
+            axisTrackStyle: const LinearAxisTrackStyle(
                 thickness: 24, edgeStyle: LinearEdgeStyle.bothCurve)));
   }
 
@@ -146,15 +151,17 @@ class _AxisTrackState extends SampleViewState {
             orientation: _isHorizontalOrientation
                 ? LinearGaugeOrientation.horizontal
                 : LinearGaugeOrientation.vertical,
-            barPointers: [
+            barPointers: <LinearBarPointer>[
               LinearBarPointer(value: _pointerValue)
             ],
-            markerPointers: [
+            markerPointers: <LinearMarkerPointer>[
               LinearShapePointer(
                   value: _pointerValue,
-                  onValueChanged: (value) => {
-                        setState(() => {_pointerValue = value})
-                      }),
+                  onValueChanged: (dynamic value) {
+                    setState(() {
+                      _pointerValue = value as double;
+                    });
+                  }),
             ]));
   }
 
@@ -171,7 +178,7 @@ class _AxisTrackState extends SampleViewState {
           orientation: _isHorizontalOrientation
               ? LinearGaugeOrientation.horizontal
               : LinearGaugeOrientation.vertical,
-          axisTrackStyle: LinearAxisTrackStyle(
+          axisTrackStyle: const LinearAxisTrackStyle(
             thickness: 1,
           ),
           ranges: <LinearGaugeRange>[
@@ -180,16 +187,16 @@ class _AxisTrackState extends SampleViewState {
               endValue: 33,
               position: LinearElementPosition.outside,
               color: _brightness == Brightness.light
-                  ? Color(0xffF45656)
-                  : Color(0xffFF7B7B),
+                  ? const Color(0xffF45656)
+                  : const Color(0xffFF7B7B),
             ),
-            LinearGaugeRange(
+            const LinearGaugeRange(
               startValue: 33,
               endValue: 66,
               position: LinearElementPosition.outside,
               color: Color(0xffFFC93E),
             ),
-            LinearGaugeRange(
+            const LinearGaugeRange(
               startValue: 66,
               endValue: 100,
               position: LinearElementPosition.outside,
@@ -217,12 +224,12 @@ class _AxisTrackState extends SampleViewState {
   /// Returns the segmented view for linear gauge orientation.
   Widget _buildSegmentedView() {
     return Center(
-        child: CupertinoSegmentedControl(
+        child: CupertinoSegmentedControl<bool>(
             selectedColor: model.backgroundColor,
             borderColor: model.backgroundColor,
-            children: {
+            children: <bool, Widget>{
               true: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Horizontal',
                     style: TextStyle(
@@ -231,7 +238,7 @@ class _AxisTrackState extends SampleViewState {
                             : Colors.black),
                   )),
               false: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Vertical',
                     style: TextStyle(
@@ -240,8 +247,9 @@ class _AxisTrackState extends SampleViewState {
                             : Colors.white),
                   )),
             },
-            onValueChanged: (bool value) =>
-                setState(() => {_isHorizontalOrientation = value}),
+            onValueChanged: (bool value) => setState(() {
+                  _isHorizontalOrientation = value;
+                }),
             groupValue: _isHorizontalOrientation));
   }
 }

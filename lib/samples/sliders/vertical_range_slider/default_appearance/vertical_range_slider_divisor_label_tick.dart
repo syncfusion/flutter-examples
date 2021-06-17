@@ -30,12 +30,14 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? rangeSlider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: rangeSlider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+    });
   }
 }
 
@@ -111,17 +113,17 @@ class _ScaleRangeSliderState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithDivisor()),
-              Text('Divisors')
+              const Text('Divisors')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithLabel()),
-              Text('Labels'),
+              const Text('Labels'),
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithTick()),
-              Text('Ticks'),
+              const Text('Ticks'),
             ]),
           ],
         ));

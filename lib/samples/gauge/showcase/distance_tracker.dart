@@ -45,7 +45,7 @@ class _DistanceTrackerExampleState extends SampleViewState {
             radiusFactor: 0.8,
             minimum: 0,
             maximum: 240,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 cornerStyle: CornerStyle.startCurve, thickness: 5),
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(

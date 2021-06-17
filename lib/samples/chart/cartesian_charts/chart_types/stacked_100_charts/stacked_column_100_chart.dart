@@ -41,12 +41,12 @@ class _StackedColumn100ChartState extends SampleViewState {
       legend: Legend(
           isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           rangePadding: ChartRangePadding.none,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getStackedColumnSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

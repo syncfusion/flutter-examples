@@ -57,12 +57,12 @@ class _EmptyPointsState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
-                underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedMode,
                 items: _emptyPointMode.map((String value) {
                   return DropdownMenuItem<String>(
                       value: (value != null) ? value : 'gap',
-                      child: Text('$value',
+                      child: Text(value,
                           style: TextStyle(color: model.textColor)));
                 }).toList(),
                 onChanged: (dynamic value) {
@@ -81,12 +81,12 @@ class _EmptyPointsState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: 'Population growth of various countries'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           labelFormat: '{value}%',
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getEmptyPointSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -110,7 +110,7 @@ class _EmptyPointsState extends SampleViewState {
         /// To enable the empty point mode, set the specific mode.
         emptyPointSettings: EmptyPointSettings(
             mode: _selectedEmptyPointMode, color: Colors.grey),
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         dataLabelSettings: DataLabelSettings(
             isVisible: true, textStyle: const TextStyle(fontSize: 10)),

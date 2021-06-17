@@ -35,7 +35,7 @@ class _RadialBounceOutExampleState extends SampleViewState {
             minimum: -8,
             maximum: 12,
             showAxisLine: false,
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
                 length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 2),
             labelOffset: 8,
             axisLabelStyle: GaugeTextStyle(
@@ -56,18 +56,18 @@ class _RadialBounceOutExampleState extends SampleViewState {
                   enableAnimation: true,
                   animationType: AnimationType.bounceOut,
                   animationDuration: 1500,
-                  knobStyle: KnobStyle(
+                  knobStyle: const KnobStyle(
                       knobRadius: 8,
                       sizeUnit: GaugeSizeUnit.logicalPixel,
-                      color: const Color(0xFFF67280)))
+                      color: Color(0xFFF67280)))
             ],
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
                 length: 0.08,
                 thickness: 1,
                 lengthUnit: GaugeSizeUnit.factor,
-                color: const Color(0xFFC4C4C4)),
-            axisLineStyle: AxisLineStyle(
-                color: const Color(0xFFDADADA),
+                color: Color(0xFFC4C4C4)),
+            axisLineStyle: const AxisLineStyle(
+                color: Color(0xFFDADADA),
                 thicknessUnit: GaugeSizeUnit.factor,
                 thickness: 0.1)),
       ],

@@ -82,7 +82,7 @@ class _FormFillingPdfState extends SampleViewState {
                     const SizedBox(height: 20, width: 30),
                     TextFormField(
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             labelText: 'Name',
                             labelStyle: TextStyle(
                                 color: model.themeData.brightness ==
@@ -94,7 +94,7 @@ class _FormFillingPdfState extends SampleViewState {
                     const SizedBox(height: 20, width: 30),
                     TextFormField(
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             labelText: 'Email',
                             labelStyle: TextStyle(
                                 color: model.themeData.brightness ==
@@ -106,7 +106,7 @@ class _FormFillingPdfState extends SampleViewState {
                     const SizedBox(height: 20, width: 30),
                     InputDecorator(
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           labelText: 'Gender',
                           labelStyle: TextStyle(
                               color:
@@ -121,7 +121,7 @@ class _FormFillingPdfState extends SampleViewState {
                     const SizedBox(height: 20, width: 30),
                     TextFormField(
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             labelText: 'Date Of Birth',
                             labelStyle: TextStyle(
                                 color: model.themeData.brightness ==
@@ -191,12 +191,12 @@ class _FormFillingPdfState extends SampleViewState {
                         'Wisconsin',
                         'Wyoming'
                       ]
-                          .map<DropdownMenuItem<String>>((e) =>
+                          .map<DropdownMenuItem<String>>((String e) =>
                               DropdownMenuItem<String>(
                                   value: e, child: Text(e)))
                           .toList(),
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           labelText: 'Coming from',
                           labelStyle: TextStyle(
                               color:
@@ -205,7 +205,7 @@ class _FormFillingPdfState extends SampleViewState {
                                       : Colors.lightBlue)),
                     ),
                     const SizedBox(height: 5, width: 30),
-                    Row(children: [
+                    Row(children: <Widget>[
                       Checkbox(
                           value: _newsletter,
                           onChanged: (bool? value) {
@@ -213,7 +213,7 @@ class _FormFillingPdfState extends SampleViewState {
                               _newsletter = value!;
                             });
                           }),
-                      Text('Would you like to receive our Newsletter?')
+                      const Text('Would you like to receive our Newsletter?')
                     ]),
                     const SizedBox(height: 10, width: 30),
                     Center(
@@ -228,7 +228,7 @@ class _FormFillingPdfState extends SampleViewState {
   }
 
   Widget _getButtonWidgets(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       TextButton(
         onPressed: _viewTemplate,
         style: ButtonStyle(
@@ -237,7 +237,7 @@ class _FormFillingPdfState extends SampleViewState {
           padding: model.isMobile
               ? null
               : MaterialStateProperty.all(
-                  EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
         ),
         child: const Text(
           'View Template',
@@ -253,7 +253,7 @@ class _FormFillingPdfState extends SampleViewState {
           padding: model.isMobile
               ? null
               : MaterialStateProperty.all(
-                  EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
         ),
         child: const Text(
           'Fill Form',
@@ -269,7 +269,7 @@ class _FormFillingPdfState extends SampleViewState {
           padding: model.isMobile
               ? null
               : MaterialStateProperty.all(
-                  EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
         ),
         child: const Text(
           'Fill And Flatten',
@@ -280,9 +280,9 @@ class _FormFillingPdfState extends SampleViewState {
   }
 
   List<Widget> _getGenderWidgets(BuildContext context) {
-    return [
-      Row(children: [
-        Radio(
+    return <Widget>[
+      Row(children: <Widget>[
+        Radio<int>(
           value: 0,
           groupValue: _groupValue,
           onChanged: _changed,
@@ -290,8 +290,8 @@ class _FormFillingPdfState extends SampleViewState {
         ),
         Text('Male', style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(
+      Row(children: <Widget>[
+        Radio<int>(
           value: 2,
           groupValue: _groupValue,
           onChanged: _changed,
@@ -299,8 +299,8 @@ class _FormFillingPdfState extends SampleViewState {
         ),
         Text('Female', style: TextStyle(fontSize: 16, color: model.textColor)),
       ]),
-      Row(children: [
-        Radio(
+      Row(children: <Widget>[
+        Radio<int>(
           value: 1,
           groupValue: _groupValue,
           onChanged: _changed,

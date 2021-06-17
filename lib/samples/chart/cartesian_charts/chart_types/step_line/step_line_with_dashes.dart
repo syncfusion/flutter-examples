@@ -32,15 +32,15 @@ class _StepLineDashedState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'CO2 - Intensity analysis'),
       primaryXAxis: NumericAxis(
         interval: 1,
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         title: AxisTitle(text: isCardView ? '' : 'Year'),
       ),
       primaryYAxis: NumericAxis(
-        axisLine: AxisLine(width: 0),
+        axisLine: const AxisLine(width: 0),
         minimum: 360,
         maximum: 600,
         interval: 30,
-        majorTickLines: MajorTickLines(size: 0),
+        majorTickLines: const MajorTickLines(size: 0),
         title: AxisTitle(text: isCardView ? '' : 'Intensity (g/kWh)'),
       ),
       legend: Legend(isVisible: !isCardView),
@@ -93,32 +93,32 @@ class _StepLineDashedState extends SampleViewState {
     return <StepLineSeries<ChartSampleData, num>>[
       StepLineSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.y,
           name: 'USA',
           width: 2,
-          dashArray: <double>[10, 5]),
+          dashArray: const <double>[10, 5]),
       StepLineSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.yValue,
           name: 'UK',
           width: 2,
-          dashArray: <double>[10, 5]),
+          dashArray: const <double>[10, 5]),
       StepLineSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.secondSeriesYValue,
           name: 'Korea',
           width: 2,
-          dashArray: <double>[10, 5]),
+          dashArray: const <double>[10, 5]),
       StepLineSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.thirdSeriesYValue,
           name: 'Japan',
           width: 2,
-          dashArray: <double>[10, 5])
+          dashArray: const <double>[10, 5])
     ];
   }
 }

@@ -78,7 +78,7 @@ class _VerticalGradientTrackRangeSliderState extends SampleViewState {
           activeTrackColor: Colors.tealAccent,
           inactiveTrackColor: _inactiveColor,
           overlayColor: Colors.tealAccent.withOpacity(0.12),
-          labelOffset: Offset(10, 0),
+          labelOffset: const Offset(10, 0),
           thumbColor: Colors.white,
           thumbStrokeWidth: 2.0,
           thumbStrokeColor: Colors.tealAccent),
@@ -106,17 +106,17 @@ class _VerticalGradientTrackRangeSliderState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _TrackColorCustomizedRangeSlider()),
-              Text('Track')
+              const Text('Track')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _rangeSliderWithThumbCustomization()),
-              Text('Stroke'),
+              const Text('Stroke'),
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _blueGradientRangeSlider()),
-              Text('Gradient'),
+              const Text('Gradient'),
             ])
           ],
         ));

@@ -43,52 +43,52 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
     // [boxOffice] is used to get each tile's weight.
     // [movie] is the flat level grouping key.
     _topTenMovies = <_MovieDetails>[
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'Avengers: Endgame',
           director: 'Anthony and Joe Russo',
           boxOffice: 2.798,
           color: Color.fromRGBO(111, 194, 250, 1.0)),
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'Avatar',
           director: 'James Cameron',
           boxOffice: 2.834,
           color: Color.fromRGBO(71, 94, 209, 1.0)),
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'Titanic',
           director: 'James Cameron',
           boxOffice: 2.195,
           color: Color.fromRGBO(236, 105, 85, 1.0)),
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'Star Wars: The Force Awakens',
           director: 'J. J. Abrams',
           boxOffice: 2.068,
           color: Color.fromRGBO(112, 74, 211, 1.0)),
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'Avengers: Infinity War',
           director: 'Anthony and Joe Russo',
           boxOffice: 2.048,
           color: Color.fromRGBO(78, 198, 125, 1.0)),
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'Jurassic World',
           director: 'Colin Trevorrow',
           boxOffice: 1.670,
           color: Color.fromRGBO(118, 196, 79, 1.0)),
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'The Lion King',
           director: 'Jon Favreau',
           boxOffice: 1.657,
           color: Color.fromRGBO(240, 140, 86, 1.0)),
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'The Avengers',
           director: 'Joss Whedon',
           boxOffice: 1.519,
           color: Color.fromRGBO(84, 114, 246, 1.0)),
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'Furious 7',
           director: 'James Wan',
           boxOffice: 1.516,
           color: Color.fromRGBO(143, 86, 245, 1.0)),
-      _MovieDetails(
+      const _MovieDetails(
           movie: 'Frozen II',
           director: 'Chris Buck',
           boxOffice: 1.450,
@@ -118,7 +118,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
             ? const EdgeInsets.all(12.5)
             : const EdgeInsets.all(10.0),
         child: Column(
-          children: [
+          children: <Widget>[
             Text(
               'Top 10 Highest-Grossing Movies Worldwide',
               style: Theme.of(context).textTheme.subtitle1,
@@ -134,12 +134,18 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
         ),
       ),
     );
-
-    return widget.layoutType != LayoutType.slice ||
-            MediaQuery.of(context).orientation == Orientation.portrait ||
-            _isDesktop
-        ? current
-        : SingleChildScrollView(child: Container(height: 450, child: current));
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return (widget.layoutType == LayoutType.slice &&
+                  constraints.maxHeight > 300) ||
+              widget.layoutType != LayoutType.slice ||
+              MediaQuery.of(context).orientation == Orientation.portrait ||
+              _isDesktop
+          ? current
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: current),
+            );
+    });
   }
 
   Widget _buildTreemap(ThemeData themeData) {
@@ -219,11 +225,12 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  stops: [0, 1.0],
-                  colors: [
-                    (_isLightTheme
-                        ? const Color.fromRGBO(76, 187, 220, 1.0)
-                        : const Color.fromRGBO(76, 187, 220, 1.0)),
+                  stops: const <double>[0, 1.0],
+                  colors: <Color>[
+                    if (_isLightTheme)
+                      const Color.fromRGBO(76, 187, 220, 1.0)
+                    else
+                      const Color.fromRGBO(76, 187, 220, 1.0),
                     const Color.fromRGBO(50, 128, 214, 1.0),
                   ],
                 ),
@@ -235,12 +242,13 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  stops: [0, 1.0],
-                  colors: [
+                  stops: const <double>[0, 1.0],
+                  colors: <Color>[
                     const Color.fromRGBO(50, 128, 214, 1.0),
-                    (_isLightTheme
-                        ? const Color.fromRGBO(76, 187, 220, 1.0)
-                        : const Color.fromRGBO(76, 187, 220, 1.0)),
+                    if (_isLightTheme)
+                      const Color.fromRGBO(76, 187, 220, 1.0)
+                    else
+                      const Color.fromRGBO(76, 187, 220, 1.0),
                   ],
                 ),
               ),
@@ -251,12 +259,13 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  stops: [0.0, 1.0],
-                  colors: [
+                  stops: const <double>[0.0, 1.0],
+                  colors: <Color>[
                     const Color.fromRGBO(50, 128, 214, 1.0),
-                    (_isLightTheme
-                        ? const Color.fromRGBO(76, 187, 220, 1.0)
-                        : const Color.fromRGBO(76, 187, 220, 1.0)),
+                    if (_isLightTheme)
+                      const Color.fromRGBO(76, 187, 220, 1.0)
+                    else
+                      const Color.fromRGBO(76, 187, 220, 1.0),
                   ],
                 ),
               ),
@@ -320,7 +329,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
       padding: const EdgeInsets.fromLTRB(10.0, 7.0, 10.0, 8.5),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           SizedBox(
             child: RichText(
               text: TextSpan(
@@ -331,7 +340,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
                       ? const Color.fromRGBO(255, 255, 255, 0.75)
                       : const Color.fromRGBO(10, 10, 10, 0.75),
                 ),
-                children: <TextSpan>[
+                children: const <TextSpan>[
                   TextSpan(text: '\nBox office'),
                 ],
               ),
@@ -341,7 +350,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
           SizedBox(
             child: RichText(
               text: TextSpan(
-                text: '${movieDetails.director}',
+                text: movieDetails.director,
                 style: themeData.textTheme.caption!.copyWith(
                   height: 1.5,
                   fontWeight: FontWeight.bold,

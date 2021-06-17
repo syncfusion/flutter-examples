@@ -35,12 +35,14 @@ class _VerticalSfRangeSliderSizeCustomizationPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? rangeSlider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: rangeSlider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+    });
   }
 }
 
@@ -134,13 +136,13 @@ class _SfRangeSliderSizeCustomizationState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _numericRangeSlider()),
-              Text('Track')
+              const Text('Track')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _divisorCustomizationRangeSlider()),
-              Text('Divisor')
+              const Text('Divisor')
             ])
           ],
         ));

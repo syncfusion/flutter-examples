@@ -24,7 +24,7 @@ class _ApiCustomizationState extends SampleViewState {
   LinearElementPosition _shapePosition = LinearElementPosition.outside;
   LinearElementPosition _barPosition = LinearElementPosition.outside;
   LinearElementPosition _rangePosition = LinearElementPosition.outside;
-  final _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   String _shapePointerPosition = 'Outside';
   String _barPointerPosition = 'Outside';
@@ -78,7 +78,7 @@ class _ApiCustomizationState extends SampleViewState {
   Widget _buildLinearGauge(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Container(
           height: model.isWebFullView
               ? MediaQuery.of(context).size.height / 2
@@ -102,13 +102,13 @@ class _ApiCustomizationState extends SampleViewState {
                 edgeStyle: LinearEdgeStyle.endCurve,
               ),
             ],
-            markerPointers: [
+            markerPointers: <LinearMarkerPointer>[
               LinearShapePointer(
                 value: 40,
                 position: _shapePosition,
               ),
             ],
-            ranges: [
+            ranges: <LinearGaugeRange>[
               LinearGaugeRange(
                 startValue: 0,
                 endValue: 20,
@@ -130,22 +130,25 @@ class _ApiCustomizationState extends SampleViewState {
             ],
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Visibility(
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
-            visible: _barPosition == LinearElementPosition.cross ? true : false,
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(Icons.lightbulb_outline, color: Colors.orange, size: 24.0),
-              SizedBox(width: 5),
-              Flexible(
-                child: Text(
-                  'Offset positioning is not possible for cross aligned elements.',
-                  style: TextStyle(fontSize: 12),
-                ),
-              )
-            ])),
+            visible: _barPosition == LinearElementPosition.cross,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const <Widget>[
+                  Icon(Icons.lightbulb_outline,
+                      color: Colors.orange, size: 24.0),
+                  SizedBox(width: 5),
+                  Flexible(
+                    child: Text(
+                      'Offset positioning is not possible for cross aligned elements.',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  )
+                ])),
       ],
     );
   }
@@ -153,22 +156,19 @@ class _ApiCustomizationState extends SampleViewState {
   Widget _buildPropertiesPanel(BuildContext context) {
     return Scrollbar(
         controller: _scrollController,
-        isAlwaysShown: model.isMobile
-            ? true
-            : MediaQuery.of(context).size.width >= 550
-                ? false
-                : true,
+        isAlwaysShown:
+            model.isMobile || MediaQuery.of(context).size.width <= 550,
         child: SingleChildScrollView(
             controller: _scrollController,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
+                children: <Widget>[
+                  const Text(
                     'Properties : ',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () {
                       setState(() {
@@ -194,7 +194,8 @@ class _ApiCustomizationState extends SampleViewState {
                                   });
                                 }),
                           ),
-                          Text('Inverse Axis', style: TextStyle(fontSize: 14))
+                          const Text('Inverse Axis',
+                              style: TextStyle(fontSize: 14))
                         ],
                       ),
                     ),
@@ -224,7 +225,7 @@ class _ApiCustomizationState extends SampleViewState {
                                     });
                                   }),
                             ),
-                            Text('Mirror', style: TextStyle(fontSize: 14))
+                            const Text('Mirror', style: TextStyle(fontSize: 14))
                           ],
                         ),
                       )),
@@ -253,32 +254,33 @@ class _ApiCustomizationState extends SampleViewState {
                                     });
                                   }),
                             ),
-                            Text('Horizontal Orientation',
+                            const Text('Horizontal Orientation',
                                 style: TextStyle(fontSize: 14))
                           ],
                         ),
                       )),
                   Row(
-                    children: [
+                    children: <Widget>[
                       Container(
                         width: 150,
-                        margin: EdgeInsets.only(left: 5),
-                        child: Text('Shape Pointer Position',
+                        margin: const EdgeInsets.only(left: 5),
+                        child: const Text('Shape Pointer Position',
                             style: TextStyle(fontSize: 14)),
                       ),
-                      Text(':'),
+                      const Text(':'),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: ButtonTheme(
                             alignedDropdown: true,
-                            child: DropdownButton(
+                            child: DropdownButton<String>(
                                 value: _shapePointerPosition,
                                 items: _pointerPositions.map((String value) {
                                   return DropdownMenuItem<String>(
                                       value:
                                           (value != null) ? value : 'Outside',
-                                      child: Text('$value',
-                                          style: TextStyle(fontSize: 14)));
+                                      child: Text(value,
+                                          style:
+                                              const TextStyle(fontSize: 14)));
                                 }).toList(),
                                 onChanged: (String? value) {
                                   setState(() {
@@ -291,26 +293,27 @@ class _ApiCustomizationState extends SampleViewState {
                     ],
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       Container(
                         width: 150,
-                        margin: EdgeInsets.only(left: 5),
-                        child: Text('Bar Pointer Position',
+                        margin: const EdgeInsets.only(left: 5),
+                        child: const Text('Bar Pointer Position',
                             style: TextStyle(fontSize: 14)),
                       ),
-                      Text(':'),
+                      const Text(':'),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: ButtonTheme(
                             alignedDropdown: true,
-                            child: DropdownButton(
+                            child: DropdownButton<String>(
                                 value: _barPointerPosition,
                                 items: _pointerPositions.map((String value) {
                                   return DropdownMenuItem<String>(
                                       value:
                                           (value != null) ? value : 'Outside',
-                                      child: Text('$value',
-                                          style: TextStyle(fontSize: 14)));
+                                      child: Text(value,
+                                          style:
+                                              const TextStyle(fontSize: 14)));
                                 }).toList(),
                                 onChanged: (String? value) {
                                   setState(() {
@@ -323,27 +326,28 @@ class _ApiCustomizationState extends SampleViewState {
                     ],
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       Container(
                           width: 150,
-                          margin: EdgeInsets.only(left: 5),
-                          child: Text(
+                          margin: const EdgeInsets.only(left: 5),
+                          child: const Text(
                             'Range Position',
                             style: TextStyle(fontSize: 14),
                           )),
-                      Text(':'),
+                      const Text(':'),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: ButtonTheme(
                             alignedDropdown: true,
-                            child: DropdownButton(
+                            child: DropdownButton<String>(
                                 value: _rangePointerPosition,
                                 items: _pointerPositions.map((String value) {
                                   return DropdownMenuItem<String>(
                                       value:
                                           (value != null) ? value : 'Outside',
-                                      child: Text('$value',
-                                          style: TextStyle(fontSize: 14)));
+                                      child: Text(value,
+                                          style:
+                                              const TextStyle(fontSize: 14)));
                                 }).toList(),
                                 onChanged: (dynamic value) {
                                   setState(() {
@@ -354,19 +358,17 @@ class _ApiCustomizationState extends SampleViewState {
                     ],
                   ),
                   Visibility(
-                    visible: _barPosition == LinearElementPosition.cross
-                        ? false
-                        : true,
+                    visible: !(_barPosition == LinearElementPosition.cross),
                     child: Row(
-                      children: [
+                      children: <Widget>[
                         Container(
                             width: 150,
-                            margin: EdgeInsets.only(left: 5),
-                            child: Text(
+                            margin: const EdgeInsets.only(left: 5),
+                            child: const Text(
                               'Bar Offset',
                               style: TextStyle(fontSize: 14),
                             )),
-                        Text(':'),
+                        const Text(':'),
                         Container(
                           transform: Matrix4.translationValues(-8, 0, 0),
                           child: CustomDirectionalButtons(
@@ -397,27 +399,27 @@ class _ApiCustomizationState extends SampleViewState {
     return (isWebOrDesktop && MediaQuery.of(context).size.width >= 550)
         ? Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Spacer(),
-              Wrap(children: [
+            children: <Widget>[
+              const Spacer(),
+              Wrap(children: <Widget>[
                 Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width / 3,
                     child: _buildLinearGauge(context)),
               ]),
-              Spacer(),
+              const Spacer(),
               Container(
                   height: MediaQuery.of(context).size.height,
                   width: 1,
                   color: _brightness == Brightness.dark
-                      ? Color(0xff3D3D3D)
-                      : Color(0xffe2e2e2)),
+                      ? const Color(0xff3D3D3D)
+                      : const Color(0xffe2e2e2)),
               Container(
                   color: _brightness == Brightness.dark
-                      ? Color(0xff2a2a2a)
+                      ? const Color(0xff2a2a2a)
                       : model.webBackgroundColor,
                   height: MediaQuery.of(context).size.height,
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: _buildPropertiesPanel(context)),
             ],
           )
@@ -425,15 +427,15 @@ class _ApiCustomizationState extends SampleViewState {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: SingleChildScrollView(
-                child: Column(children: [
+                child: Column(children: <Widget>[
                   _buildLinearGauge(context),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 4,
-                    padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
                     color: _brightness == Brightness.dark
-                        ? Color(0xff2a2a2a)
+                        ? const Color(0xff2a2a2a)
                         : model.webBackgroundColor,
                     child: _buildPropertiesPanel(context),
                   ),

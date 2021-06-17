@@ -34,12 +34,14 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? rangeSlider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: rangeSlider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+    });
   }
 }
 
@@ -49,7 +51,7 @@ class _TooltipRangeSlider extends SampleView {
 }
 
 class _TooltipRangeSliderState extends SampleViewState {
-  SfRangeValues _values = SfRangeValues(140.0, 160.0);
+  SfRangeValues _values = const SfRangeValues(140.0, 160.0);
   SfRangeValues _hourValues = SfRangeValues(
       DateTime(2010, 01, 01, 13, 00, 00), DateTime(2010, 01, 01, 17, 00, 00));
 
@@ -57,8 +59,8 @@ class _TooltipRangeSliderState extends SampleViewState {
     return SfRangeSliderTheme(
         data: SfRangeSliderThemeData(
             tooltipBackgroundColor: model.backgroundColor,
-            labelOffset: Offset(-40, 0),
-            tickOffset: Offset(-14, 0)),
+            labelOffset: const Offset(-40, 0),
+            tickOffset: const Offset(-14, 0)),
         child: SfRangeSlider.vertical(
           min: 100.0,
           max: 200.0,
@@ -121,13 +123,13 @@ class _TooltipRangeSliderState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _yearRangeSlider()),
-              Text('Tooltip on the right')
+              const Text('Tooltip on the right')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _hourRangeSlider()),
-              Text('Tooltip on the left'),
+              const Text('Tooltip on the left'),
             ]),
           ],
         ));

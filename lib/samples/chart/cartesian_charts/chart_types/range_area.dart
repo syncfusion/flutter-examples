@@ -43,12 +43,12 @@ class _RangeAreaState extends SampleViewState {
       primaryXAxis: DateTimeAxis(
           dateFormat: DateFormat.y(),
           interval: 1,
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}°C',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getRangeAreaSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -84,7 +84,7 @@ class _RangeAreaState extends SampleViewState {
         borderColor: const Color.fromRGBO(50, 198, 255, 1),
         color: const Color.fromRGBO(50, 198, 255, 1),
         borderDrawMode: RangeAreaBorderMode.excludeSides,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         highValueMapper: (ChartSampleData sales, _) => sales.high,
         lowValueMapper: (ChartSampleData sales, _) => sales.low,
       )

@@ -40,10 +40,11 @@ class _AnimationStepLineDefaultState extends SampleViewState {
   SfCartesianChart _buildAnimationStepLineChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
-        primaryXAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryXAxis:
+            NumericAxis(majorGridLines: const MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
-            majorTickLines: MajorTickLines(color: Colors.transparent),
-            axisLine: AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(color: Colors.transparent),
+            axisLine: const AxisLine(width: 0),
             minimum: 0,
             maximum: 100),
         series: _getDefaultStepLineSeries());

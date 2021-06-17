@@ -25,7 +25,7 @@ class _JsonDataState extends SampleViewState {
   _JsonDataState();
   late TrackballBehavior _trackballBehavior;
 
-  List<_SampleData> chartData = [];
+  List<_SampleData> chartData = <_SampleData>[];
 
   // Method to load Json file from assets.
   Future<String> _loadSalesDataAsset() async {
@@ -33,11 +33,14 @@ class _JsonDataState extends SampleViewState {
   }
 
 // Method to hanlde deserialization steps.
+  // ignore: always_specify_types
   Future loadSalesData() async {
     final String jsonString =
         await _loadSalesDataAsset(); // Deserialization  step 1
-    final jsonResponse = json.decode(jsonString); // Deserialization  step 2
+    final dynamic jsonResponse =
+        json.decode(jsonString); // Deserialization  step 2
     setState(() {
+      // ignore: always_specify_types
       for (final Map i in jsonResponse) {
         chartData.add(_SampleData.fromJson(i)); // Deserialization step 3
       }
@@ -81,15 +84,15 @@ class _JsonDataState extends SampleViewState {
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y(),
           name: 'Years',
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           rangePadding: ChartRangePadding.none,
           name: 'Price',
           minimum: 70,
           maximum: 110,
           interval: 10,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(color: Colors.transparent)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(color: Colors.transparent)),
       series: _getDefaultLineSeries(),
       trackballBehavior: _trackballBehavior,
     );
@@ -115,6 +118,7 @@ class _JsonDataState extends SampleViewState {
 }
 
 class _SampleData {
+  _SampleData(this.x, this.y1, this.y2);
   factory _SampleData.fromJson(Map<dynamic, dynamic> parsedJson) {
     return _SampleData(
       DateTime.parse(parsedJson['x']),
@@ -122,7 +126,6 @@ class _SampleData {
       parsedJson['y2'],
     );
   }
-  _SampleData(this.x, this.y1, this.y2);
   DateTime x;
   num y1;
   num y2;

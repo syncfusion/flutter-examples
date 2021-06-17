@@ -60,7 +60,7 @@ class _FunnelLegendState extends SampleViewState {
     return FunnelSeries<ChartSampleData, String>(
         dataSource: pieData,
         textFieldMapper: (ChartSampleData data, _) => data.text,
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         dataLabelSettings: DataLabelSettings(
             isVisible: !isCardView,

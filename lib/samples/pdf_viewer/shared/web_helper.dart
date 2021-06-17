@@ -2,13 +2,15 @@
 import 'dart:html' as html;
 
 /// Prevent default menu.
-void preventDefaultMenu() {
-  html.window.document.onKeyDown.listen((e) => _preventSpecificDefaultMenu(e));
-  html.window.document.onContextMenu.listen((e) => e.preventDefault());
+void preventDefaultContextMenu() {
+  html.window.document.onKeyDown
+      .listen((html.KeyboardEvent e) => _preventDefaultSearchMenu(e));
+  html.window.document.onContextMenu
+      .listen((html.MouseEvent e) => e.preventDefault());
 }
 
 /// Prevent specific default search menu.
-void _preventSpecificDefaultMenu(e) {
+void _preventDefaultSearchMenu(html.KeyboardEvent e) {
   if (e.keyCode == 114 || (e.ctrlKey && e.keyCode == 70)) {
     e.preventDefault();
   }

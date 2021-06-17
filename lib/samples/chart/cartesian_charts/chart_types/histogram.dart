@@ -64,7 +64,7 @@ class _HistogramDefaultState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: 'Examination Result'),
       primaryXAxis: NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
         minimum: 0,
         maximum: 100,
       ),
@@ -72,8 +72,8 @@ class _HistogramDefaultState extends SampleViewState {
           name: 'Number of Students',
           minimum: 0,
           maximum: 50,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getHistogramSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -84,7 +84,7 @@ class _HistogramDefaultState extends SampleViewState {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(x: 5.250),
       ChartSampleData(x: 7.750),
-      ChartSampleData(x: 0),
+      ChartSampleData(x: 0.0),
       ChartSampleData(x: 8.275),
       ChartSampleData(x: 9.750),
       ChartSampleData(x: 7.750),
@@ -199,7 +199,7 @@ class _HistogramDefaultState extends SampleViewState {
         curveDashArray: <double>[12, 3, 3, 3],
         width: 0.99,
         curveWidth: 2.5,
-        yValueMapper: (ChartSampleData sales, _) => sales.x,
+        yValueMapper: (ChartSampleData sales, _) => sales.x as double,
         dataLabelSettings: DataLabelSettings(
             isVisible: true,
             labelAlignment: ChartDataLabelAlignment.top,

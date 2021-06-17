@@ -103,7 +103,7 @@ class _LoadMoreCalendarState extends SampleViewState {
             _view == CalendarView.month) &&
         model.isWebFullView) {
       _view = _calendarController.view!;
-      SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+      SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
         setState(() {
           /// Update the web UI when the calendar view changed from month view
           /// or to month view.
@@ -168,7 +168,7 @@ class _LoadMoreCalendarState extends SampleViewState {
           meetings.add(meeting);
           _dataCollection[date] = meetings;
         } else {
-          _dataCollection[date] = [meeting];
+          _dataCollection[date] = <_Meeting>[meeting];
         }
       }
     }
@@ -194,7 +194,7 @@ class _LoadMoreCalendarState extends SampleViewState {
             (BuildContext context, LoadMoreCallback loadMoreAppointments) {
           return FutureBuilder<void>(
             future: loadMoreAppointments(),
-            builder: (context, snapShot) {
+            builder: (BuildContext context, AsyncSnapshot<void> snapShot) {
               return Container(
                   height: _calendarController.view == CalendarView.schedule
                       ? 50
@@ -202,16 +202,16 @@ class _LoadMoreCalendarState extends SampleViewState {
                   width: double.infinity,
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation(model.backgroundColor)));
+                      valueColor: AlwaysStoppedAnimation<Color?>(
+                          model.backgroundColor)));
             },
           );
         },
-        monthViewSettings: MonthViewSettings(
+        monthViewSettings: const MonthViewSettings(
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
             appointmentDisplayCount: 4),
-        timeSlotViewSettings: TimeSlotViewSettings(
-            minimumAppointmentDuration: const Duration(minutes: 60)));
+        timeSlotViewSettings: const TimeSlotViewSettings(
+            minimumAppointmentDuration: Duration(minutes: 60)));
   }
 }
 
@@ -249,7 +249,7 @@ Widget _scheduleViewBuilder(
     BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
   final String monthName = _getMonthDate(details.date.month);
   return Stack(
-    children: [
+    children: <Widget>[
       Image(
           image: ExactAssetImage('images/' + monthName + '.png'),
           fit: BoxFit.cover,
@@ -262,7 +262,7 @@ Widget _scheduleViewBuilder(
         bottom: 0,
         child: Text(
           monthName + ' ' + details.date.year.toString(),
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
       )
     ],
@@ -307,7 +307,7 @@ class _MeetingDataSource extends CalendarDataSource {
 
   @override
   Future<void> handleLoadMore(DateTime startDate, DateTime endDate) async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future<dynamic>.delayed(const Duration(seconds: 1));
     final List<_Meeting> meetings = <_Meeting>[];
     DateTime date = DateTime(startDate.year, startDate.month, startDate.day);
     final DateTime appEndDate =
@@ -315,7 +315,7 @@ class _MeetingDataSource extends CalendarDataSource {
     while (date.isBefore(appEndDate)) {
       final List<_Meeting>? data = _dataCollection[date];
       if (data == null) {
-        date = date.add(Duration(days: 1));
+        date = date.add(const Duration(days: 1));
         continue;
       }
 
@@ -326,7 +326,7 @@ class _MeetingDataSource extends CalendarDataSource {
 
         meetings.add(meeting);
       }
-      date = date.add(Duration(days: 1));
+      date = date.add(const Duration(days: 1));
     }
 
     appointments.addAll(meetings);

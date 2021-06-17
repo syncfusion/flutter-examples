@@ -33,12 +33,14 @@ class _ThumbCustomizationSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 300, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 300
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 300, child: slider),
+            );
+    });
   }
 }
 
@@ -70,7 +72,7 @@ class _ThumbCustomizationSliderState extends SampleViewState {
           value: _thumbValue,
           onChanged: (dynamic values) {
             setState(() {
-              _thumbValue = values;
+              _thumbValue = values as double;
             });
           },
         ));
@@ -108,7 +110,7 @@ class _ThumbCustomizationSliderState extends SampleViewState {
           value: _value,
           onChanged: (dynamic values) {
             setState(() {
-              _value = values;
+              _value = values as double;
             });
           },
         ));

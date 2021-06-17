@@ -43,7 +43,7 @@ class _DateTimeCategoryLabelState extends SampleViewState {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: DateTimeCategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           dateFormat: DateFormat('''MM/dd/yy\nh:mm a'''),
           title: AxisTitle(
             text: isCardView ? '' : 'Start time',
@@ -52,11 +52,11 @@ class _DateTimeCategoryLabelState extends SampleViewState {
         title: ChartTitle(
             text: isCardView ? '' : 'Server down details in a month'),
         primaryYAxis: NumericAxis(
-          majorTickLines: MajorTickLines(size: 0),
+          majorTickLines: const MajorTickLines(size: 0),
           interval: 10,
           minimum: 0,
           maximum: 50,
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           labelFormat: '{value}m',
           title: AxisTitle(
             text: isCardView ? '' : 'Duration in minutes',
@@ -71,7 +71,7 @@ class _DateTimeCategoryLabelState extends SampleViewState {
               yValueMapper: (_OrdinalSales sales, _) => sales.sales,
               dataLabelSettings: DataLabelSettings(
                 isVisible: true,
-                offset: Offset(0, -5),
+                offset: const Offset(0, -5),
               )),
         ]);
   }

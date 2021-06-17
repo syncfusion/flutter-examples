@@ -34,12 +34,14 @@ class _VerticalSliderSizeCustomizationPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+    });
   }
 }
 
@@ -78,7 +80,7 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
           value: _yearValue,
           onChanged: (dynamic values) {
             setState(() {
-              _yearValue = values;
+              _yearValue = values as DateTime;
             });
           },
           enableTooltip: true,
@@ -105,7 +107,7 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
             value: _value,
             onChanged: (dynamic values) {
               setState(() {
-                _value = values;
+                _value = values as double;
               });
             },
             enableTooltip: true));
@@ -128,13 +130,13 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithTrackCustomization()),
-              Text('Track')
+              const Text('Track')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithdivisorCustomization()),
-              Text('Divisor'),
+              const Text('Divisor'),
             ]),
           ],
         ));

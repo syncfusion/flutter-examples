@@ -39,31 +39,32 @@ class _GettingStartedDataGridState extends SampleViewState {
         GridTextColumn(
           columnName: 'image',
           width: 51,
-          label: SizedBox.shrink(),
+          label: const SizedBox.shrink(),
         ),
         GridTextColumn(
           columnName: 'team',
           width: !isWebOrDesktop ? 90 : double.nan,
           label: Container(
             alignment: Alignment.centerLeft,
-            child: Text('Team'),
+            child: const Text('Team'),
           ),
         ),
         GridTextColumn(
           columnName: 'wins',
-          label: Center(
+          label: const Center(
             child: Text('W'),
           ),
         ),
         GridTextColumn(
             columnName: 'losses',
-            label: Center(
+            label: const Center(
               child: Text('L'),
             )),
-        GridTextColumn(columnName: 'pct', label: Center(child: Text('WPCT'))),
+        GridTextColumn(
+            columnName: 'pct', label: const Center(child: Text('WPCT'))),
         GridTextColumn(
           columnName: 'gb',
-          label: Center(child: Text('GB')),
+          label: const Center(child: Text('GB')),
         ),
       ],
     );
@@ -108,8 +109,8 @@ class _GettingStartedDataGridState extends SampleViewState {
             columnName: 'employeeName',
             label: Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(8.0),
-              child: Text(
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
                 'Employee Name',
                 overflow: TextOverflow.ellipsis,
               ),
@@ -119,8 +120,8 @@ class _GettingStartedDataGridState extends SampleViewState {
           width: (model.isWeb || model.isMacOS || model.isLinux) ? 150 : 130,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Designation',
               overflow: TextOverflow.ellipsis,
             ),
@@ -130,9 +131,9 @@ class _GettingStartedDataGridState extends SampleViewState {
           columnName: 'mail',
           width: 180.0,
           label: Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             alignment: Alignment.centerLeft,
-            child: Text(
+            child: const Text(
               'Mail',
               overflow: TextOverflow.ellipsis,
             ),
@@ -143,8 +144,8 @@ class _GettingStartedDataGridState extends SampleViewState {
           width: model.isLinux ? 120.0 : 105.0,
           label: Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Location',
               overflow: TextOverflow.ellipsis,
             ),
@@ -153,9 +154,9 @@ class _GettingStartedDataGridState extends SampleViewState {
         GridTextColumn(
           columnName: 'status',
           label: Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               alignment: Alignment.center,
-              child: Text(
+              child: const Text(
                 'Status',
                 overflow: TextOverflow.ellipsis,
               )),
@@ -165,8 +166,8 @@ class _GettingStartedDataGridState extends SampleViewState {
             width: 130,
             label: Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.all(8.0),
-                child: Text(
+                padding: const EdgeInsets.all(8.0),
+                child: const Text(
                   'Trustworthiness',
                   overflow: TextOverflow.ellipsis,
                 ))),
@@ -175,17 +176,17 @@ class _GettingStartedDataGridState extends SampleViewState {
             width: 165,
             label: Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.all(8.0),
-                child: Text(
+                padding: const EdgeInsets.all(8.0),
+                child: const Text(
                   'Software Proficiency',
                   overflow: TextOverflow.ellipsis,
                 ))),
         GridTextColumn(
           columnName: 'salary',
           label: Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               alignment: Alignment.centerRight,
-              child: Text(
+              child: const Text(
                 'Salary',
                 overflow: TextOverflow.ellipsis,
               )),
@@ -195,8 +196,8 @@ class _GettingStartedDataGridState extends SampleViewState {
           width: 200,
           label: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
               'Address',
               overflow: TextOverflow.ellipsis,
             ),
@@ -209,7 +210,7 @@ class _GettingStartedDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
     employeeDataGridSource =
         _EmployeeDataGridSource(brightness: model.themeData.brightness);
   }
@@ -245,22 +246,21 @@ class _TeamDataGridSource extends DataGridSource {
     buildDataGridRows();
   }
 
-  List<_Team> teams = [];
+  List<_Team> teams = <_Team>[];
 
-  List<DataGridRow> dataGridRows = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
   // Building DataGridRows
 
   void buildDataGridRows() {
-    dataGridRows = teams.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell<Image>(columnName: 'image', value: dataGridRow.image),
-        DataGridCell<String>(columnName: 'team', value: dataGridRow.team),
-        DataGridCell<int>(columnName: 'wins', value: dataGridRow.wins),
-        DataGridCell<int>(columnName: 'losses', value: dataGridRow.losses),
-        DataGridCell<double>(
-            columnName: 'pct', value: dataGridRow.winPercentage),
-        DataGridCell<double>(columnName: 'gb', value: dataGridRow.gamesBehind),
+    dataGridRows = teams.map<DataGridRow>((_Team team) {
+      return DataGridRow(cells: <DataGridCell>[
+        DataGridCell<Image>(columnName: 'image', value: team.image),
+        DataGridCell<String>(columnName: 'team', value: team.team),
+        DataGridCell<int>(columnName: 'wins', value: team.wins),
+        DataGridCell<int>(columnName: 'losses', value: team.losses),
+        DataGridCell<double>(columnName: 'pct', value: team.winPercentage),
+        DataGridCell<double>(columnName: 'gb', value: team.gamesBehind),
       ]);
     }).toList();
   }
@@ -272,9 +272,9 @@ class _TeamDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: row.getCells()[0].value,
       ),
       Container(
@@ -285,7 +285,7 @@ class _TeamDataGridSource extends DataGridSource {
         ),
       ),
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.center,
         child: Text(
           row.getCells()[2].value.toString(),
@@ -293,7 +293,7 @@ class _TeamDataGridSource extends DataGridSource {
         ),
       ),
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.center,
         child: Text(
           row.getCells()[3].value.toString(),
@@ -301,7 +301,7 @@ class _TeamDataGridSource extends DataGridSource {
         ),
       ),
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.center,
         child: Text(
           row.getCells()[4].value.toString(),
@@ -309,7 +309,7 @@ class _TeamDataGridSource extends DataGridSource {
         ),
       ),
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.center,
         child: Text(
           row.getCells()[5].value.toString(),
@@ -479,29 +479,28 @@ class _EmployeeDataGridSource extends DataGridSource {
 
   final Brightness brightness;
   final math.Random random = math.Random();
-  List<DataGridRow> dataGridRows = [];
-  List<_Employee> employees = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
+  List<_Employee> employees = <_Employee>[];
 
   // Building DataGridRows
 
   void buildDataGridRows() {
-    dataGridRows = employees.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
+    dataGridRows = employees.map<DataGridRow>((_Employee employee) {
+      return DataGridRow(cells: <DataGridCell>[
         DataGridCell<String>(
-            columnName: 'employeeName', value: dataGridRow.employeeName),
+            columnName: 'employeeName', value: employee.employeeName),
         DataGridCell<String>(
-            columnName: 'designation', value: dataGridRow.designation),
-        DataGridCell<String>(columnName: 'mail', value: dataGridRow.mail),
+            columnName: 'designation', value: employee.designation),
+        DataGridCell<String>(columnName: 'mail', value: employee.mail),
+        DataGridCell<String>(columnName: 'location', value: employee.location),
+        DataGridCell<String>(columnName: 'status', value: employee.status),
         DataGridCell<String>(
-            columnName: 'location', value: dataGridRow.location),
-        DataGridCell<String>(columnName: 'status', value: dataGridRow.status),
-        DataGridCell<String>(
-            columnName: 'trustworthiness', value: dataGridRow.trustworthiness),
+            columnName: 'trustworthiness', value: employee.trustworthiness),
         DataGridCell<int>(
             columnName: 'softwareProficiency',
-            value: dataGridRow.softwareProficiency),
-        DataGridCell<int>(columnName: 'salary', value: dataGridRow.salary),
-        DataGridCell<String>(columnName: 'address', value: dataGridRow.address),
+            value: employee.softwareProficiency),
+        DataGridCell<int>(columnName: 'salary', value: employee.salary),
+        DataGridCell<String>(columnName: 'address', value: employee.address),
       ]);
     }).toList();
   }
@@ -525,7 +524,7 @@ class _EmployeeDataGridSource extends DataGridSource {
     );
   }
 
-  Widget buildTrustWorthiness(dynamic value) {
+  Widget buildTrustWorthiness(String value) {
     final String trust = value;
     if (value == 'Perfect') {
       return Padding(
@@ -591,7 +590,7 @@ class _EmployeeDataGridSource extends DataGridSource {
 
   TextStyle getStatusTextStyle(dynamic value) {
     if (value == 'Active') {
-      return TextStyle(color: Colors.green);
+      return const TextStyle(color: Colors.green);
     } else {
       return TextStyle(color: Colors.red[500]);
     }
@@ -605,37 +604,37 @@ class _EmployeeDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       buildEmployeeName(row.getCells()[0].value),
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.centerLeft,
         child: Text(row.getCells()[1].value.toString()),
       ),
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.centerLeft,
         child: Text(row.getCells()[2].value.toString()),
       ),
       buildLocation(row.getCells()[3].value),
       Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           alignment: Alignment.center,
           child: Text(
             row.getCells()[4].value.toString(),
             style: getStatusTextStyle(row.getCells()[4].value),
           )),
-      buildTrustWorthiness(row.getCells()[5].value),
+      buildTrustWorthiness(row.getCells()[5].value.toString()),
       buildSoftwareProficiency(row.getCells()[6].value),
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.centerRight,
-        child: Text(NumberFormat.currency(locale: 'en_US', symbol: '\$')
+        child: Text(NumberFormat.currency(locale: 'en_US', symbol: r'$')
             .format(row.getCells()[7].value)
             .toString()),
       ),
       Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         alignment: Alignment.centerLeft,
         child: Text(row.getCells()[8].value.toString()),
       ),

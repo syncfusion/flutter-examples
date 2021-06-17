@@ -19,6 +19,7 @@ class TreemapCustomBackgroundSample extends SampleView {
 
 class _TreemapCustomBackgroundSampleState extends SampleViewState {
   late List<_MedalDetails> _topRioOlympicCountries;
+  late bool isDesktop;
 
   @override
   void initState() {
@@ -29,330 +30,330 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
     // [medal] is the second level grouping key.
     // [category] is the third level grouping key.
     _topRioOlympicCountries = <_MedalDetails>[
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Gold',
           category: 'Swimming',
           medalCount: 16,
           icon: Icons.pool),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Gold',
           category: 'Athletics',
           medalCount: 13,
           icon: Icons.directions_run),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Gold',
           category: 'Gymnastics',
           medalCount: 4,
           icon: Icons.accessibility),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Gold',
           category: 'Cycling',
           medalCount: 2,
           icon: Icons.directions_bike),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Gold',
           category: 'Wrestling',
           medalCount: 2,
           icon: Icons.sports_kabaddi_outlined),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Gold',
           category: 'Basketball',
           medalCount: 2,
           icon: Icons.sports_basketball),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Silver',
           category: 'Swimming',
           medalCount: 8,
           icon: Icons.pool),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Silver',
           category: 'Athletics',
           medalCount: 10,
           icon: Icons.directions_run),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Silver',
           category: 'Gymnastics',
           medalCount: 6,
           icon: Icons.accessibility),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Silver',
           category: 'Cycling',
           medalCount: 3,
           icon: Icons.directions_bike),
-      _MedalDetails(
+      const _MedalDetails(
         country: 'United States',
         medal: 'Silver',
         category: 'Fencing',
         medalCount: 2,
         icon: Icons.colorize_rounded,
       ),
-      _MedalDetails(
+      const _MedalDetails(
         country: 'United States',
         medal: 'Silver',
         category: 'Diving',
         medalCount: 2,
         icon: Icons.emoji_people,
       ),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Bronze',
           category: 'Swimming',
           medalCount: 9,
           icon: Icons.pool),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Bronze',
           category: 'Athletics',
           medalCount: 9,
           icon: Icons.directions_run),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Bronze',
           category: 'Gymnastics',
           medalCount: 2,
           icon: Icons.accessibility),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Bronze',
           category: 'Volleyball',
           medalCount: 3,
           icon: Icons.sports_volleyball_rounded),
-      _MedalDetails(
+      const _MedalDetails(
         country: 'United States',
         medal: 'Bronze',
         category: 'Fencing',
         medalCount: 2,
         icon: Icons.colorize_rounded,
       ),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United States',
           medal: 'Bronze',
           category: 'Shooting',
           medalCount: 2,
           icon: Icons.gps_fixed),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Gold',
           category: 'Cycling',
           medalCount: 6,
           icon: Icons.directions_bike),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Gold',
           category: 'Rowing',
           medalCount: 3,
           icon: Icons.rowing),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Gold',
           category: 'Gymnastics',
           medalCount: 2,
           icon: Icons.accessibility),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Gold',
           category: 'Athletics',
           medalCount: 2,
           icon: Icons.directions_run),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Gold',
           category: 'Canoeing',
           medalCount: 2,
           icon: Icons.rowing),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Gold',
           category: 'Swimming',
           medalCount: 1,
           icon: Icons.pool),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Silver',
           category: 'Swimming',
           medalCount: 5,
           icon: Icons.pool),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Silver',
           category: 'Athletics',
           medalCount: 1,
           icon: Icons.directions_run),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Silver',
           category: 'Gymnastics',
           medalCount: 2,
           icon: Icons.accessibility),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Silver',
           category: 'Cycling',
           medalCount: 4,
           icon: Icons.directions_bike),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Silver',
           category: 'Rowing',
           medalCount: 2,
           icon: Icons.rowing),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Silver',
           category: 'Canoeing',
           medalCount: 2,
           icon: Icons.rowing),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Bronze',
           category: 'Boxing',
           medalCount: 1,
           icon: Icons.sports_mma),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Bronze',
           category: 'Athletics',
           medalCount: 4,
           icon: Icons.directions_run),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Bronze',
           category: 'Gymnastics',
           medalCount: 3,
           icon: Icons.accessibility),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Bronze',
           category: 'Shooting',
           medalCount: 2,
           icon: Icons.gps_fixed),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'United Kingdom',
           medal: 'Bronze',
           category: 'Cycling',
           medalCount: 2,
           icon: Icons.directions_bike),
-      _MedalDetails(
+      const _MedalDetails(
         country: 'United Kingdom',
         medal: 'Bronze',
         category: 'Diving',
         medalCount: 1,
         icon: Icons.emoji_people,
       ),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Gold',
           category: 'Diving',
           medalCount: 7,
           icon: Icons.emoji_people),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Gold',
           category: 'Weightlifting',
           medalCount: 5,
           icon: Icons.fitness_center),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Gold',
           category: 'Table tennis',
           medalCount: 2,
           icon: Icons.sports_tennis),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Gold',
           category: 'Athletics',
           medalCount: 4,
           icon: Icons.directions_run),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Gold',
           category: 'Badminton',
           medalCount: 2,
           icon: Icons.sports_tennis),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Gold',
           category: 'Swimming',
           medalCount: 1,
           icon: Icons.pool),
-      _MedalDetails(
+      const _MedalDetails(
         country: 'China',
         medal: 'Silver',
         category: 'Diving',
         medalCount: 2,
         icon: Icons.emoji_people,
       ),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Silver',
           category: 'Weightlifting',
           medalCount: 2,
           icon: Icons.fitness_center),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Silver',
           category: 'Table tennis',
           medalCount: 2,
           icon: Icons.sports_tennis),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Silver',
           category: 'Athletics',
           medalCount: 2,
           icon: Icons.directions_run),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Silver',
           category: 'Boxing',
           medalCount: 1,
           icon: Icons.sports_mma),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Silver',
           category: 'Wrestling',
           medalCount: 1,
           icon: Icons.sports_kabaddi_outlined),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Bronze',
           category: 'Swimming',
           medalCount: 3,
           icon: Icons.pool),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Bronze',
           category: 'Athletics',
           medalCount: 4,
           icon: Icons.directions_run),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Bronze',
           category: 'Wrestling',
           medalCount: 2,
           icon: Icons.sports_kabaddi_outlined),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Bronze',
           category: 'Shooting',
           medalCount: 4,
           icon: Icons.gps_fixed),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Bronze',
           category: 'Boxing',
           medalCount: 3,
           icon: Icons.sports_mma),
-      _MedalDetails(
+      const _MedalDetails(
           country: 'China',
           medal: 'Bronze',
           category: 'Rowing',
@@ -372,7 +373,7 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final bool isDesktop = kIsWeb ||
+    isDesktop = kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
@@ -383,7 +384,7 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
             ? const EdgeInsets.all(12.5)
             : const EdgeInsets.all(10.0),
         child: Column(
-          children: [
+          children: <Widget>[
             Text(
               'Top 3 Winningest Countries in Rio Olympics 2016',
               style: Theme.of(context).textTheme.subtitle1,
@@ -461,7 +462,7 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
             padding: EdgeInsets.zero,
             child: Text(
               '${tile.group}' '\nMedals : ${tile.weight.round()}',
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           );
         },
@@ -495,9 +496,9 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
         padding: EdgeInsets.zero,
         border: RoundedRectangleBorder(
           side: BorderSide(
-              color: (themeData.brightness == Brightness.light
+              color: themeData.brightness == Brightness.light
                   ? const Color.fromRGBO(255, 255, 255, 1.0)
-                  : const Color.fromRGBO(0, 0, 0, 1.0)),
+                  : const Color.fromRGBO(0, 0, 0, 1.0),
               width: 0.5),
         ),
         groupMapper: (int index) {
@@ -535,10 +536,10 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
       padding: const EdgeInsets.all(10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           Row(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               Transform.translate(
                 offset: const Offset(-3, 0),
                 child: Icon(

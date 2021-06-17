@@ -29,14 +29,15 @@ class _WidgetPointerState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(margin: EdgeInsets.all(32.0), child: _buildSegmentedView()),
+    return Column(children: <Widget>[
+      Container(
+          margin: const EdgeInsets.all(32.0), child: _buildSegmentedView()),
       Expanded(
           child: Center(
               child: SingleChildScrollView(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
             Container(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildWidgetPointer(context),
@@ -48,12 +49,12 @@ class _WidgetPointerState extends SampleViewState {
   /// Returns the linear gauge widget pointer.
   Widget _buildWidgetPointer(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
       child: _isHorizontalOrientation
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 _buildHorizontalGauges(
                     'Text widget', _buildTextWidgetPointer(context)),
                 _buildHorizontalGauges(
@@ -63,13 +64,13 @@ class _WidgetPointerState extends SampleViewState {
               ],
             )
           : Column(
-              children: [
+              children: <Widget>[
                 Wrap(
                   direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
-                  children: [
+                  children: <Widget>[
                     _buildVerticalGauges(
                         'Text widget', _buildTextWidgetPointer(context)),
                     _buildVerticalGauges(
@@ -88,10 +89,10 @@ class _WidgetPointerState extends SampleViewState {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Text(axisTrackName),
         linearGauge,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -101,7 +102,11 @@ class _WidgetPointerState extends SampleViewState {
     return Container(
       width: 150,
       child: Column(
-        children: [Text(axisTrackName), SizedBox(height: 16), linearGauge],
+        children: <Widget>[
+          Text(axisTrackName),
+          const SizedBox(height: 16),
+          linearGauge
+        ],
       ),
     );
   }
@@ -114,29 +119,31 @@ class _WidgetPointerState extends SampleViewState {
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
-            axisTrackStyle: LinearAxisTrackStyle(thickness: 24),
+            axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
             orientation: _isHorizontalOrientation
                 ? LinearGaugeOrientation.horizontal
                 : LinearGaugeOrientation.vertical,
-            markerPointers: [
+            markerPointers: <LinearMarkerPointer>[
               LinearWidgetPointer(
                 value: _textWidgetPointerValue,
-                onValueChanged: (value) => {
-                  setState(() => {_textWidgetPointerValue = value})
+                onValueChanged: (dynamic value) {
+                  setState(() {
+                    _textWidgetPointerValue = value as double;
+                  });
                 },
                 child: Container(
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
                         color: _brightness == Brightness.dark
-                            ? Color(0xFFFFFFFF)
-                            : Color(0xff06589C),
-                        boxShadow: [
+                            ? const Color(0xFFFFFFFF)
+                            : const Color(0xff06589C),
+                        boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: _brightness == Brightness.light
                                 ? Colors.grey
                                 : Colors.black54,
-                            offset: Offset(0.0, 1.0), //(x,y)
+                            offset: const Offset(0.0, 1.0), //(x,y)
                             blurRadius: 6.0,
                           ),
                         ],
@@ -146,8 +153,8 @@ class _WidgetPointerState extends SampleViewState {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: _brightness == Brightness.light
-                                  ? Color(0xFFFFFFFF)
-                                  : Color(0xffF45656),
+                                  ? const Color(0xFFFFFFFF)
+                                  : const Color(0xffF45656),
                             )))),
               )
             ]));
@@ -161,29 +168,31 @@ class _WidgetPointerState extends SampleViewState {
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
-            axisTrackStyle: LinearAxisTrackStyle(thickness: 24),
+            axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
             orientation: _isHorizontalOrientation
                 ? LinearGaugeOrientation.horizontal
                 : LinearGaugeOrientation.vertical,
-            markerPointers: [
+            markerPointers: <LinearMarkerPointer>[
               LinearWidgetPointer(
                 value: _iconWidgetPointerValue,
-                onValueChanged: (value) => {
-                  setState(() => {_iconWidgetPointerValue = value})
+                onValueChanged: (dynamic value) {
+                  setState(() {
+                    _iconWidgetPointerValue = value as double;
+                  });
                 },
                 child: Container(
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
                         color: _brightness == Brightness.dark
-                            ? Color(0xFFFFFFFF)
-                            : Color(0xff06589C),
-                        boxShadow: [
+                            ? const Color(0xFFFFFFFF)
+                            : const Color(0xff06589C),
+                        boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: _brightness == Brightness.light
                                 ? Colors.grey
                                 : Colors.black54,
-                            offset: Offset(0.0, 1.0), //(x,y)
+                            offset: const Offset(0.0, 1.0), //(x,y)
                             blurRadius: 6.0,
                           ),
                         ],
@@ -193,8 +202,8 @@ class _WidgetPointerState extends SampleViewState {
                       Icons.thumb_up_rounded,
                       size: 20,
                       color: _brightness == Brightness.light
-                          ? Color(0xFFFFFFFF)
-                          : Color(0xffF45656),
+                          ? const Color(0xFFFFFFFF)
+                          : const Color(0xffF45656),
                     ))),
               )
             ]));
@@ -208,29 +217,31 @@ class _WidgetPointerState extends SampleViewState {
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
-            axisTrackStyle: LinearAxisTrackStyle(thickness: 24),
+            axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
             orientation: _isHorizontalOrientation
                 ? LinearGaugeOrientation.horizontal
                 : LinearGaugeOrientation.vertical,
-            markerPointers: [
+            markerPointers: <LinearMarkerPointer>[
               LinearWidgetPointer(
                 value: _textPointerValue,
-                onValueChanged: (value) => {
-                  setState(() => {_textPointerValue = value})
+                onValueChanged: (dynamic value) {
+                  setState(() {
+                    _textPointerValue = value as double;
+                  });
                 },
                 child: Container(
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
                         color: _brightness == Brightness.dark
-                            ? Color(0xFFFFFFFF)
-                            : Color(0xff06589C),
-                        boxShadow: [
+                            ? const Color(0xFFFFFFFF)
+                            : const Color(0xff06589C),
+                        boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: _brightness == Brightness.light
                                 ? Colors.grey
                                 : Colors.black54,
-                            offset: Offset(0.0, 1.0), //(x,y)
+                            offset: const Offset(0.0, 1.0), //(x,y)
                             blurRadius: 6.0,
                           ),
                         ],
@@ -240,28 +251,30 @@ class _WidgetPointerState extends SampleViewState {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: _brightness == Brightness.light
-                                  ? Color(0xFFFFFFFF)
-                                  : Color(0xffF45656),
+                                  ? const Color(0xFFFFFFFF)
+                                  : const Color(0xffF45656),
                             )))),
               ),
               LinearWidgetPointer(
                 value: _iconPointerValue,
-                onValueChanged: (value) => {
-                  setState(() => {_iconPointerValue = value})
+                onValueChanged: (dynamic value) {
+                  setState(() {
+                    _iconPointerValue = value as double;
+                  });
                 },
                 child: Container(
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
                         color: _brightness == Brightness.dark
-                            ? Color(0xFFFFFFFF)
-                            : Color(0xff06589C),
-                        boxShadow: [
+                            ? const Color(0xFFFFFFFF)
+                            : const Color(0xff06589C),
+                        boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: _brightness == Brightness.light
                                 ? Colors.grey
                                 : Colors.black54,
-                            offset: Offset(0.0, 1.0), //(x,y)
+                            offset: const Offset(0.0, 1.0), //(x,y)
                             blurRadius: 6.0,
                           ),
                         ],
@@ -271,8 +284,8 @@ class _WidgetPointerState extends SampleViewState {
                       Icons.thumb_up_rounded,
                       size: 20,
                       color: _brightness == Brightness.light
-                          ? Color(0xFFFFFFFF)
-                          : Color(0xffF45656),
+                          ? const Color(0xFFFFFFFF)
+                          : const Color(0xffF45656),
                     ))),
               )
             ]));
@@ -281,12 +294,12 @@ class _WidgetPointerState extends SampleViewState {
   /// Returns the segmented view for linear gauge orientation.
   Widget _buildSegmentedView() {
     return Center(
-        child: CupertinoSegmentedControl(
+        child: CupertinoSegmentedControl<bool>(
             selectedColor: model.backgroundColor,
             borderColor: model.backgroundColor,
-            children: {
+            children: <bool, Widget>{
               true: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Horizontal',
                     style: TextStyle(
@@ -295,7 +308,7 @@ class _WidgetPointerState extends SampleViewState {
                             : Colors.black),
                   )),
               false: Container(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     'Vertical',
                     style: TextStyle(
@@ -304,8 +317,9 @@ class _WidgetPointerState extends SampleViewState {
                             : Colors.white),
                   )),
             },
-            onValueChanged: (bool value) =>
-                setState(() => {_isHorizontalOrientation = value}),
+            onValueChanged: (bool value) => setState(() {
+                  _isHorizontalOrientation = value;
+                }),
             groupValue: _isHorizontalOrientation));
   }
 }

@@ -33,12 +33,14 @@ class _SliderTooltipPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 325, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 325
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 325, child: slider),
+            );
+    });
   }
 }
 
@@ -66,7 +68,7 @@ class _SliderTooltipTypeState extends SampleViewState {
           value: _yearValue,
           onChanged: (dynamic value) {
             setState(() {
-              _yearValue = value;
+              _yearValue = value as DateTime;
             });
           },
           enableTooltip: true,
@@ -93,11 +95,11 @@ class _SliderTooltipTypeState extends SampleViewState {
           value: _hourValue,
           onChanged: (dynamic value) {
             setState(() {
-              _hourValue = value;
+              _hourValue = value as DateTime;
             });
           },
           enableTooltip: true,
-          tooltipShape: SfPaddleTooltipShape(),
+          tooltipShape: const SfPaddleTooltipShape(),
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat('h:mm a').format(actualLabel);

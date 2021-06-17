@@ -45,13 +45,13 @@ class _DateTimeLabelState extends SampleViewState {
       /// X axis as date time axis placed here.
       primaryXAxis: DateTimeAxis(
           intervalType: DateTimeIntervalType.months,
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           interval: 2,
           labelIntersectAction: AxisLabelIntersectAction.rotate45,
           dateFormat: DateFormat.yMd()),
       primaryYAxis: NumericAxis(
-        axisLine: AxisLine(width: 0),
-        majorTickLines: MajorTickLines(size: 0),
+        axisLine: const AxisLine(width: 0),
+        majorTickLines: const MajorTickLines(size: 0),
         minimum: 4,
         maximum: 8,
         title: AxisTitle(text: isCardView ? '' : 'Magnitude (Mw)'),
@@ -84,9 +84,9 @@ class _DateTimeLabelState extends SampleViewState {
     return <ScatterSeries<ChartSampleData, DateTime>>[
       ScatterSeries<ChartSampleData, DateTime>(
           opacity: 0.8,
-          markerSettings: MarkerSettings(height: 15, width: 15),
+          markerSettings: const MarkerSettings(height: 15, width: 15),
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as DateTime,
           yValueMapper: (ChartSampleData data, _) => data.yValue,
           color: const Color.fromRGBO(232, 84, 84, 1))
     ];

@@ -56,13 +56,13 @@ class _TooltipPositionState extends SampleViewState {
                     height: 50,
                     alignment: Alignment.bottomCenter,
                     child: DropdownButton<String>(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        underline: Container(
+                            color: const Color(0xFFBDBDBD), height: 1),
                         value: _selectedTooltipPosition,
                         items: _tooltipPositionList.map((String value) {
                           return DropdownMenuItem<String>(
                               value: (value != null) ? value : 'auto',
-                              child: Text('$value',
+                              child: Text(value,
                                   style: TextStyle(color: model.textColor)));
                         }).toList(),
                         onChanged: (dynamic value) {
@@ -90,12 +90,12 @@ class _TooltipPositionState extends SampleViewState {
           canShowMarker: false),
       primaryXAxis: CategoryAxis(
           title: AxisTitle(text: isCardView ? '' : 'Years'),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}M',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getCartesianSeries(),
     );
   }

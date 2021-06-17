@@ -34,12 +34,14 @@ class _VerticalThumbCustomizationRangeSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? rangeSlider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: rangeSlider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+    });
   }
 }
 
@@ -65,9 +67,9 @@ class _ThumbCustomizationRangeSliderState extends SampleViewState {
           interval: 2.0,
           min: _thumbMin,
           max: _thumbMax,
-          startThumbIcon: Icon(Icons.keyboard_arrow_down_outlined,
+          startThumbIcon: const Icon(Icons.keyboard_arrow_down_outlined,
               color: Colors.white, size: 16.0),
-          endThumbIcon: Icon(Icons.keyboard_arrow_up_outlined,
+          endThumbIcon: const Icon(Icons.keyboard_arrow_up_outlined,
               color: Colors.white, size: 16.0),
           minorTicksPerInterval: 1,
           showTicks: true,
@@ -125,13 +127,13 @@ class _ThumbCustomizationRangeSliderState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _thumbCustomizationSlider()),
-              Text('Text view')
+              const Text('Text view')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _thumbIconSlider()),
-              Text('Icon view'),
+              const Text('Icon view'),
             ]),
           ],
         ));

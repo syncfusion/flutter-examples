@@ -50,25 +50,27 @@ class _WaterLevelIndicatorState extends SampleViewState {
     final Brightness _brightness = Theme.of(context).brightness;
 
     return Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: SfLinearGauge(
           minimum: _minimumLevel,
           maximum: _maximumLevel,
           orientation: LinearGaugeOrientation.vertical,
           interval: 100,
-          axisTrackStyle: LinearAxisTrackStyle(
+          axisTrackStyle: const LinearAxisTrackStyle(
             thickness: 2,
           ),
-          markerPointers: [
+          markerPointers: <LinearMarkerPointer>[
             LinearWidgetPointer(
               value: _level,
               enableAnimation: false,
-              onValueChanged: (value) {
-                setState(() => {_level = value});
+              onValueChanged: (dynamic value) {
+                setState(() {
+                  _level = value as double;
+                });
               },
               child: Material(
                 elevation: 4.0,
-                shape: CircleBorder(),
+                shape: const CircleBorder(),
                 clipBehavior: Clip.hardEdge,
                 color: Colors.blue,
                 child: Ink(
@@ -157,13 +159,13 @@ class _CustomPathPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Path path = _buildTumblerPath(size.width, size.height);
-    final double factor = (size.height / maximumPoint);
+    final double factor = size.height / maximumPoint;
     final double height = 2 * factor * waterLevel;
-    final strokePaint = Paint()
+    final Paint strokePaint = Paint()
       ..color = Colors.grey
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
-    final paint = Paint()..color = color;
+    final Paint paint = Paint()..color = color;
     canvas.drawPath(path, strokePaint);
     final Rect clipper = Rect.fromCenter(
         center: Offset(size.width / 2, size.height),

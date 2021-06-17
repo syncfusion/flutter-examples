@@ -64,12 +64,13 @@ class _DefaultSelectionState extends SampleViewState {
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
                     isExpanded: true,
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedMode,
                     items: _modeList.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'point',
-                          child: Text('$value',
+                          child: Text(value,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
                     onChanged: (dynamic value) {
@@ -113,11 +114,11 @@ class _DefaultSelectionState extends SampleViewState {
       enableMultiSelection: _enableMultiSelect,
       primaryXAxis: CategoryAxis(
           title: AxisTitle(text: !isCardView ? 'Countries' : ''),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultSelectionSeries(),
     );
   }
@@ -140,19 +141,19 @@ class _DefaultSelectionState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           selectionBehavior: _selectionBehavior,
           name: 'Age 0-14'),
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           selectionBehavior: _selectionBehavior,
           name: 'Age 15-64'),
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           selectionBehavior: _selectionBehavior,
           name: 'Age 65 & Above')

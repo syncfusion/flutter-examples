@@ -25,7 +25,7 @@ class _AnnotationDefaultState extends SampleViewState {
     _trackballBehavior = TrackballBehavior(
         enable: true,
         activationMode: ActivationMode.singleTap,
-        tooltipSettings: InteractiveTooltip(format: 'point.x : point.y'));
+        tooltipSettings: const InteractiveTooltip(format: 'point.x : point.y'));
     super.initState();
   }
 
@@ -42,13 +42,14 @@ class _AnnotationDefaultState extends SampleViewState {
           text: isCardView
               ? ''
               : 'Euro to USD monthly exchange rate - 2015 to 2018'),
-      primaryXAxis: DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis:
+          DateTimeAxis(majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
-        axisLine: AxisLine(width: 0),
-        labelFormat: '\${value}',
+        axisLine: const AxisLine(width: 0),
+        labelFormat: r'${value}',
         minimum: 0.95,
         maximum: 1.3,
-        majorTickLines: MajorTickLines(size: 0),
+        majorTickLines: const MajorTickLines(size: 0),
       ),
       series: _getAnnotationLineSeries(),
       trackballBehavior: _trackballBehavior,
@@ -59,7 +60,7 @@ class _AnnotationDefaultState extends SampleViewState {
         CartesianChartAnnotation(
           widget: Container(
             child: const Text(
-              '€ - \$ ',
+              r'€ - $ ',
               style: TextStyle(
                   color: Color.fromRGBO(216, 225, 227, 0.6),
                   fontWeight: FontWeight.bold,
@@ -131,7 +132,7 @@ class _AnnotationDefaultState extends SampleViewState {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
         dataSource: chartData,
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as DateTime,
         yValueMapper: (ChartSampleData data, _) => data.y,
         color: const Color.fromRGBO(242, 117, 7, 1),
       )

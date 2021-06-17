@@ -43,7 +43,7 @@ class _NumericOpposedState extends SampleViewState {
       primaryXAxis: NumericAxis(
           minimum: 1974,
           maximum: 2022,
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           opposedPosition: true,
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(
@@ -53,7 +53,7 @@ class _NumericOpposedState extends SampleViewState {
           minimum: 8000,
           interval: 2000,
           maximum: 20000,
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getOpposedNumericAxisSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -75,7 +75,7 @@ class _NumericOpposedState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, num>>[
       ColumnSeries<ChartSampleData, num>(
         dataSource: chartData,
-        xValueMapper: (ChartSampleData sales, _) => sales.x,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       )
     ];

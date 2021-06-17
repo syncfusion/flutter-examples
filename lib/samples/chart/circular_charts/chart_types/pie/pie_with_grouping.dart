@@ -92,7 +92,7 @@ class _PieGroupingState extends SampleViewState {
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
           radius: '90%',
-          dataLabelMapper: (ChartSampleData data, _) => data.x,
+          dataLabelMapper: (ChartSampleData data, _) => data.x as String,
           dataLabelSettings: DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.inside),
           dataSource: pieData,
@@ -103,7 +103,7 @@ class _PieGroupingState extends SampleViewState {
           groupMode: CircularChartGroupMode.value,
           groupTo: 7,
           pointColorMapper: (ChartSampleData data, _) => data.pointColor,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y)
     ];
   }

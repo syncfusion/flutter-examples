@@ -53,12 +53,13 @@ class _PieGradientState extends SampleViewState {
               height: 50,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                  underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                  underline:
+                      Container(color: const Color(0xFFBDBDBD), height: 1),
                   value: _shaderType,
                   items: _shader.map((String value) {
                     return DropdownMenuItem<String>(
                         value: (value != null) ? value : 'point',
-                        child: Text('$value',
+                        child: Text(value,
                             style: TextStyle(color: model.textColor)));
                   }).toList(),
                   onChanged: (dynamic value) {
@@ -143,9 +144,9 @@ class _PieGradientState extends SampleViewState {
           strokeWidth: 1.5,
           dataLabelSettings: DataLabelSettings(
             isVisible: true,
-            textStyle: TextStyle(fontSize: 13, color: Colors.white),
+            textStyle: const TextStyle(fontSize: 13, color: Colors.white),
           ),
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text),
     ];

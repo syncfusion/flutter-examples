@@ -75,10 +75,12 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
       }
       if (chartData[i].x.isAfter(
               //ignore: avoid_as
-              (values.start as DateTime).subtract(const Duration(hours: 12))) &&
+              (values.start as DateTime)
+                  .subtract(const Duration(hours: 12))) as bool &&
           chartData[i].x.isBefore(
-              //ignore: avoid_as
-              (values.end as DateTime).add(const Duration(hours: 12)))) {
+                  //ignore: avoid_as
+                  (values.end as DateTime).add(const Duration(hours: 12)))
+              as bool) {
         dataCount++;
         totalData += chartData[i].y!;
       }
@@ -91,128 +93,127 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
     final ThemeData themeData = Theme.of(context);
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Container(
-        margin: const EdgeInsets.all(0),
-        padding: const EdgeInsets.all(0),
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                  0,
-                  mediaQueryData.orientation == Orientation.portrait
-                      ? 50
-                      : model.isWebFullView
-                          ? 15
-                          : 2,
-                  0,
-                  5),
-              child: const SizedBox(
-                height: 30,
-                child: Center(
-                  child: Text(
-                    'Inflation Rate In Percentage',
-                    style: TextStyle(fontSize: 20),
-                  ),
+      margin: const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
+      child: Stack(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+                0,
+                mediaQueryData.orientation == Orientation.portrait
+                    ? 50
+                    : model.isWebFullView
+                        ? 15
+                        : 2,
+                0,
+                5),
+            child: const SizedBox(
+              height: 30,
+              child: Center(
+                child: Text(
+                  'Inflation Rate In Percentage',
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Center(
-                child: SfRangeSelectorTheme(
-                  data: SfRangeSelectorThemeData(
-                    labelOffset: const Offset(0, 0),
-                    activeLabelStyle: TextStyle(
-                        fontSize: 10,
-                        color: themeData.textTheme.bodyText1!.color!
-                            .withOpacity(0.87)),
-                    inactiveLabelStyle: TextStyle(
-                        fontSize: 10,
-                        color: themeData.textTheme.bodyText1!.color!
-                            .withOpacity(0.87)),
-                    inactiveRegionColor:
-                        themeData.brightness == Brightness.light
-                            ? Colors.white.withOpacity(0.75)
-                            : Color.fromRGBO(33, 33, 33, 0.75),
-                  ),
-                  child: SfRangeSelector(
-                    min: min,
-                    max: max,
-                    labelPlacement: LabelPlacement.betweenTicks,
-                    interval: (model.isWebFullView &&
-                            mediaQueryData.size.width <= 1000)
-                        ? 2
-                        : 1,
-                    controller: rangeController,
-                    dateFormat: DateFormat.y(),
-                    dateIntervalType: DateIntervalType.years,
-                    showTicks: true,
-                    showLabels: true,
-                    enableTooltip: true,
-                    tooltipTextFormatterCallback:
-                        (dynamic actualLabel, String formattedText) {
-                      return DateFormat.yMMMd().format(actualLabel).toString();
-                    },
-                    onChanged: (SfRangeValues values) {
-                      setState(() {
-                        /// update the range value changes
-                      });
-                    },
-                    child: Container(
-                      width: mediaQueryData.orientation == Orientation.landscape
-                          ? model.isWebFullView
-                              ? mediaQueryData.size.width * 0.6
-                              : mediaQueryData.size.width
-                          : mediaQueryData.size.width,
-                      height: mediaQueryData.orientation == Orientation.portrait
-                          ? mediaQueryData.size.height * 0.45
-                          : model.isWebFullView
-                              ? mediaQueryData.size.height * 0.38
-                              : mediaQueryData.size.height * 0.4,
-                      child: SfCartesianChart(
-                        margin: const EdgeInsets.all(0),
-                        primaryXAxis: DateTimeAxis(
-                          minimum: min,
-                          maximum: max,
-                          isVisible: false,
-                        ),
-                        primaryYAxis: NumericAxis(isVisible: false, maximum: 4),
-                        plotAreaBorderWidth: 0,
-                        series: <SplineAreaSeries<ChartSampleData, DateTime>>[
-                          SplineAreaSeries<ChartSampleData, DateTime>(
-                              dataSource: chartData,
-                              xValueMapper: (ChartSampleData sales, _) =>
-                                  sales.x,
-                              yValueMapper: (ChartSampleData sales, _) =>
-                                  sales.y,
-                              gradient: gradientColors,
-                              animationDuration: 0)
-                        ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Center(
+              child: SfRangeSelectorTheme(
+                data: SfRangeSelectorThemeData(
+                  labelOffset: const Offset(0, 0),
+                  activeLabelStyle: TextStyle(
+                      fontSize: 10,
+                      color: themeData.textTheme.bodyText1!.color!
+                          .withOpacity(0.87)),
+                  inactiveLabelStyle: TextStyle(
+                      fontSize: 10,
+                      color: themeData.textTheme.bodyText1!.color!
+                          .withOpacity(0.87)),
+                  inactiveRegionColor: themeData.brightness == Brightness.light
+                      ? Colors.white.withOpacity(0.75)
+                      : const Color.fromRGBO(33, 33, 33, 0.75),
+                ),
+                child: SfRangeSelector(
+                  min: min,
+                  max: max,
+                  labelPlacement: LabelPlacement.betweenTicks,
+                  interval:
+                      (model.isWebFullView && mediaQueryData.size.width <= 1000)
+                          ? 2
+                          : 1,
+                  controller: rangeController,
+                  dateFormat: DateFormat.y(),
+                  dateIntervalType: DateIntervalType.years,
+                  showTicks: true,
+                  showLabels: true,
+                  enableTooltip: true,
+                  tooltipTextFormatterCallback:
+                      (dynamic actualLabel, String formattedText) {
+                    return DateFormat.yMMMd().format(actualLabel).toString();
+                  },
+                  onChanged: (SfRangeValues values) {
+                    setState(() {
+                      /// update the range value changes
+                    });
+                  },
+                  child: Container(
+                    width: mediaQueryData.orientation == Orientation.landscape
+                        ? model.isWebFullView
+                            ? mediaQueryData.size.width * 0.6
+                            : mediaQueryData.size.width
+                        : mediaQueryData.size.width,
+                    height: mediaQueryData.orientation == Orientation.portrait
+                        ? mediaQueryData.size.height * 0.45
+                        : model.isWebFullView
+                            ? mediaQueryData.size.height * 0.38
+                            : mediaQueryData.size.height * 0.4,
+                    child: SfCartesianChart(
+                      margin: const EdgeInsets.all(0),
+                      primaryXAxis: DateTimeAxis(
+                        minimum: min,
+                        maximum: max,
+                        isVisible: false,
                       ),
+                      primaryYAxis: NumericAxis(isVisible: false, maximum: 4),
+                      plotAreaBorderWidth: 0,
+                      series: <SplineAreaSeries<ChartSampleData, DateTime>>[
+                        SplineAreaSeries<ChartSampleData, DateTime>(
+                            dataSource: chartData,
+                            xValueMapper: (ChartSampleData sales, _) =>
+                                sales.x as DateTime,
+                            yValueMapper: (ChartSampleData sales, _) => sales.y,
+                            gradient: gradientColors,
+                            animationDuration: 0)
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
-            Padding(
-              padding: mediaQueryData.orientation == Orientation.landscape ||
-                      model.isWebFullView
-                  ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.025)
-                  : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: 25,
-                  child: Text(
-                    'Average rate   :   ' +
-                        _getAverageInflationRate(rangeController)
-                            .toStringAsFixed(2) +
-                        '%',
-                    style: const TextStyle(fontSize: 18),
-                  ),
+          ),
+          Padding(
+            padding: mediaQueryData.orientation == Orientation.landscape ||
+                    model.isWebFullView
+                ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.025)
+                : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: 25,
+                child: Text(
+                  'Average rate   :   ' +
+                      _getAverageInflationRate(rangeController)
+                          .toStringAsFixed(2) +
+                      '%',
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
-            )
-          ],
-        ));
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

@@ -40,13 +40,14 @@ class _ColumnTrackerState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Marks of a student'),
       legend: Legend(isVisible: !isCardView),
-      primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis:
+          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           minimum: 0,
           maximum: 100,
-          axisLine: AxisLine(width: 0),
-          majorGridLines: MajorGridLines(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getTracker(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -69,7 +70,7 @@ class _ColumnTrackerState extends SampleViewState {
           isTrackVisible: true,
           trackColor: const Color.fromRGBO(198, 201, 207, 1),
           borderRadius: BorderRadius.circular(15),
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Marks',
           dataLabelSettings: DataLabelSettings(

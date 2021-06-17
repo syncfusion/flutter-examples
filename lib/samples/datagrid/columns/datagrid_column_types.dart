@@ -44,9 +44,9 @@ class _ColumnTypesDataGridState extends SampleViewState {
               columnName: 'dealer',
               width: 90,
               label: Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   'Dealer',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -60,8 +60,8 @@ class _ColumnTypesDataGridState extends SampleViewState {
                       : double.nan,
               label: Container(
                 alignment: Alignment.centerRight,
-                padding: EdgeInsets.all(8.0),
-                child: Text(
+                padding: const EdgeInsets.all(8.0),
+                child: const Text(
                   'ID',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -75,8 +75,8 @@ class _ColumnTypesDataGridState extends SampleViewState {
                 (isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
             label: Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.all(8.0),
-              child: Text(
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
                 'Name',
                 overflow: TextOverflow.ellipsis,
               ),
@@ -91,8 +91,8 @@ class _ColumnTypesDataGridState extends SampleViewState {
                 : ColumnWidthMode.none,
             label: Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(8.0),
-              child: Text(
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
                 'Freight',
                 overflow: TextOverflow.ellipsis,
               ),
@@ -103,8 +103,8 @@ class _ColumnTypesDataGridState extends SampleViewState {
             width: 110,
             label: Container(
               alignment: Alignment.centerRight,
-              padding: EdgeInsets.all(8.0),
-              child: Text(
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
                 'Shipped Date',
                 overflow: TextOverflow.ellipsis,
               ),
@@ -116,8 +116,8 @@ class _ColumnTypesDataGridState extends SampleViewState {
             width: isWebOrDesktop ? 110.0 : double.nan,
             label: Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.all(8.0),
-              child: Text(
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
                 'City',
                 overflow: TextOverflow.ellipsis,
               ),
@@ -131,8 +131,8 @@ class _ColumnTypesDataGridState extends SampleViewState {
               columnWidthMode: ColumnWidthMode.lastColumnFill,
               label: Container(
                 alignment: Alignment.centerRight,
-                padding: EdgeInsets.all(8.0),
-                child: Text(
+                padding: const EdgeInsets.all(8.0),
+                child: const Text(
                   'Price',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -143,7 +143,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
   @override
@@ -185,21 +185,22 @@ class _ColumnTypesDataGridSource extends DataGridSource {
   }
 
   final math.Random random = math.Random();
-  List<DataGridRow> dataGridRows = [];
-  List<_Employee> employees = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
+  List<_Employee> employees = <_Employee>[];
 
   // Building DataGridRows
 
   void buildDataGridRows() {
-    dataGridRows = employees.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell(columnName: 'dealer', value: dataGridRow.dealer),
-        DataGridCell(columnName: 'id', value: dataGridRow.id),
-        DataGridCell(columnName: 'name', value: dataGridRow.name),
-        DataGridCell(columnName: 'freight', value: dataGridRow.freight),
-        DataGridCell(columnName: 'shippedDate', value: dataGridRow.shippedDate),
-        DataGridCell(columnName: 'city', value: dataGridRow.city),
-        DataGridCell(columnName: 'price', value: dataGridRow.price),
+    dataGridRows = employees.map<DataGridRow>((_Employee dataGridRow) {
+      return DataGridRow(cells: <DataGridCell>[
+        DataGridCell<Image>(columnName: 'dealer', value: dataGridRow.dealer),
+        DataGridCell<int>(columnName: 'id', value: dataGridRow.id),
+        DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
+        DataGridCell<double>(columnName: 'freight', value: dataGridRow.freight),
+        DataGridCell<DateTime>(
+            columnName: 'shippedDate', value: dataGridRow.shippedDate),
+        DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
+        DataGridCell<double>(columnName: 'price', value: dataGridRow.price),
       ]);
     }).toList(growable: false);
   }
@@ -219,11 +220,11 @@ class _ColumnTypesDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
+    return DataGridRowAdapter(cells: <Widget>[
       buildDealer(row.getCells()[0].value),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[1].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -231,7 +232,7 @@ class _ColumnTypesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[2].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -239,9 +240,9 @@ class _ColumnTypesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
-          NumberFormat.currency(locale: 'en_US', symbol: '\$')
+          NumberFormat.currency(locale: 'en_US', symbol: r'$')
               .format(row.getCells()[3].value)
               .toString(),
           overflow: TextOverflow.ellipsis,
@@ -249,7 +250,7 @@ class _ColumnTypesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           DateFormat.yMd().format(row.getCells()[4].value).toString(),
           overflow: TextOverflow.ellipsis,
@@ -257,7 +258,7 @@ class _ColumnTypesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           row.getCells()[5].value.toString(),
           overflow: TextOverflow.ellipsis,
@@ -265,9 +266,9 @@ class _ColumnTypesDataGridSource extends DataGridSource {
       ),
       Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
-          NumberFormat.currency(locale: 'en_US', symbol: '\$')
+          NumberFormat.currency(locale: 'en_US', symbol: r'$')
               .format(row.getCells()[6].value)
               .toString(),
           overflow: TextOverflow.ellipsis,

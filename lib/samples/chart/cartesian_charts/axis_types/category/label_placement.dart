@@ -58,12 +58,13 @@ class _CategoryTicksState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomCenter,
                 child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedType,
                     items: _labelPosition.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'betweenTicks',
-                          child: Text('$value',
+                          child: Text(value,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
                     onChanged: (dynamic value) {
@@ -84,11 +85,11 @@ class _CategoryTicksState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Employees task count'),
       plotAreaBorderWidth: 0,
       primaryXAxis: CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           labelPlacement: _labelPlacement),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(width: 0),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(width: 0),
           minimum: 7,
           maximum: 12,
           interval: 1),
@@ -110,9 +111,9 @@ class _CategoryTicksState extends SampleViewState {
     return <LineSeries<ChartSampleData, String>>[
       LineSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.yValue,
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 

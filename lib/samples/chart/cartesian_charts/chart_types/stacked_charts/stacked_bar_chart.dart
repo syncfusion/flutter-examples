@@ -39,12 +39,12 @@ class _StackedBarChartState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Sales comparison of fruits'),
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           labelFormat: '{value}%',
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getStackedBarSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -64,17 +64,17 @@ class _StackedBarChartState extends SampleViewState {
     return <StackedBarSeries<ChartSampleData, String>>[
       StackedBarSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Apple'),
       StackedBarSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Orange'),
       StackedBarSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Wastage')
     ];

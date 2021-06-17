@@ -607,7 +607,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
           color: const Color.fromRGBO(163, 226, 224, 1),
           borderDrawMode: BorderDrawMode.excludeBottom,
           borderWidth: 1,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
         )
       ],
@@ -633,8 +633,8 @@ class _RangeSelectorZoomingPageState extends SampleViewState
       primaryYAxis: NumericAxis(
         labelPosition: ChartDataLabelPosition.inside,
         labelAlignment: LabelAlignment.end,
-        majorTickLines: MajorTickLines(size: 0),
-        axisLine: AxisLine(color: Colors.transparent),
+        majorTickLines: const MajorTickLines(size: 0),
+        axisLine: const AxisLine(color: Colors.transparent),
       ),
       series: <SplineSeries<ChartSampleData, DateTime>>[
         SplineSeries<ChartSampleData, DateTime>(
@@ -642,7 +642,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
           dataSource: splineSeriesData,
           color: const Color.fromRGBO(0, 193, 187, 1),
           animationDuration: 0,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
         )
       ],
@@ -678,7 +678,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                       activeTrackColor: const Color.fromRGBO(255, 125, 30, 1),
                       inactiveRegionColor: isLightTheme
                           ? Colors.white.withOpacity(0.75)
-                          : Color.fromRGBO(33, 33, 33, 0.75),
+                          : const Color.fromRGBO(33, 33, 33, 0.75),
                       thumbColor: Colors.white,
                       thumbStrokeColor: const Color.fromRGBO(255, 125, 30, 1),
                       thumbStrokeWidth: 2.0,
@@ -734,8 +734,10 @@ class _RangeSelectorZoomingPageState extends SampleViewState
     return Scaffold(
       body: mediaQueryData.orientation == Orientation.landscape &&
               !model.isWebFullView
-          ? SingleChildScrollView(
-              child: Container(height: 400, child: page),
+          ? Center(
+              child: SingleChildScrollView(
+                child: Container(height: 400, child: page),
+              ),
             )
           : page,
     );

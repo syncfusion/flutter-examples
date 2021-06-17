@@ -33,12 +33,14 @@ class _DefaultRangeSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? rangeSlider
-        : SingleChildScrollView(
-            child: Container(height: 300, child: rangeSlider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 300
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 300, child: rangeSlider),
+            );
+    });
   }
 }
 
@@ -48,8 +50,9 @@ class _DefaultRangeSlider extends SampleView {
 }
 
 class _DefaultRangeSliderState extends SampleViewState {
-  final SfRangeValues _inactiveRangeSliderValue = SfRangeValues(20.0, 80.0);
-  SfRangeValues _activeRangeSliderValue = SfRangeValues(20.0, 80.0);
+  final SfRangeValues _inactiveRangeSliderValue =
+      const SfRangeValues(20.0, 80.0);
+  SfRangeValues _activeRangeSliderValue = const SfRangeValues(20.0, 80.0);
 
   SfRangeSlider _inactiveRangeSlider() {
     //ignore: missing_required_param
@@ -70,7 +73,7 @@ class _DefaultRangeSliderState extends SampleViewState {
           max: 100.0,
           onChanged: (dynamic values) {
             setState(() {
-              _activeRangeSliderValue = values;
+              _activeRangeSliderValue = values as SfRangeValues;
             });
           },
           values: _activeRangeSliderValue,

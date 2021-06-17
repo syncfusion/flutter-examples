@@ -110,7 +110,7 @@ class _CircularSelectionState extends SampleViewState {
           radius: '70%',
           startAngle: 30,
           endAngle: 30,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           dataLabelMapper: (ChartSampleData sales, _) => sales.text,
           dataLabelSettings: DataLabelSettings(

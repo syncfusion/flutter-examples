@@ -43,9 +43,9 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
       /// Y axis as logarithmic axis placed here.
       primaryYAxis: LogarithmicAxis(
           minorTicksPerInterval: 5,
-          majorGridLines: MajorGridLines(width: 1.5),
-          minorTickLines: MinorTickLines(size: 4),
-          labelFormat: '\${value}',
+          majorGridLines: const MajorGridLines(width: 1.5),
+          minorTickLines: const MinorTickLines(size: 4),
+          labelFormat: r'${value}',
           interval: 1),
       series: _getSeries(),
       tooltipBehavior: _tooltipBehavior,
@@ -69,9 +69,9 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 }

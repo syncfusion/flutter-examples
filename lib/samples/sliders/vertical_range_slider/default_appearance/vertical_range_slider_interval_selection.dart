@@ -34,12 +34,14 @@ class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? rangeSlider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: rangeSlider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+    });
   }
 }
 
@@ -119,22 +121,22 @@ class _RangeSliderIntervalSelectionState extends SampleViewState {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
         padding: EdgeInsets.fromLTRB(padding, padding, padding, padding / 2),
-        child: Column(children: [
+        child: Column(children: <Widget>[
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Padding(
                     padding: EdgeInsets.only(bottom: padding / 2),
-                    child: Column(children: [
+                    child: Column(children: <Widget>[
                       Expanded(child: _numericRangeSlider()),
-                      Text('Numeric')
+                      const Text('Numeric')
                     ])),
                 Padding(
                     padding: EdgeInsets.only(bottom: padding / 2),
-                    child: Column(children: [
+                    child: Column(children: <Widget>[
                       Expanded(child: _yearRangeSlider()),
-                      Text('DateTime'),
+                      const Text('DateTime'),
                     ])),
               ],
             ),

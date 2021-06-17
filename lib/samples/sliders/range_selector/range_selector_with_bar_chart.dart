@@ -109,9 +109,8 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
                         child: Text(
                           'Sales Metrics',
                           style: TextStyle(fontSize: 20),
@@ -133,7 +132,7 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                                   isLightTheme ? Colors.black : Colors.white,
                               inactiveRegionColor: isLightTheme
                                   ? Colors.white.withOpacity(0.75)
-                                  : Color.fromRGBO(33, 33, 33, 0.75),
+                                  : const Color.fromRGBO(33, 33, 33, 0.75),
                               tooltipBackgroundColor:
                                   isLightTheme ? Colors.black : Colors.white,
                               overlayColor: isLightTheme
@@ -146,10 +145,10 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                             ),
                             child: SfRangeSelector(
                               min: _dayMin.subtract(
-                                Duration(days: 0, hours: 0),
+                                const Duration(days: 0, hours: 0),
                               ),
                               max: _dayMax.add(
-                                Duration(days: 0, hours: 0),
+                                const Duration(days: 0, hours: 0),
                               ),
                               controller: _rangeController,
                               dateFormat: DateFormat.yMd(),
@@ -186,7 +185,7 @@ class _RangeSelectorBarChartPageState extends SampleViewState
               alignment: Alignment.bottomCenter,
               child: Text(
                 _profitText,
-                style: TextStyle(fontSize: 18.0),
+                style: const TextStyle(fontSize: 18.0),
               ),
             ),
           )
@@ -223,7 +222,7 @@ class _RangeSelectorBarChartPageState extends SampleViewState
         yValueMapper: (_ChartSampleData data, _) => data.y,
         pointColorMapper: (_ChartSampleData data, _) =>
             data.y < 0 ? Colors.red : Colors.green,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
       )
     ];
   }
@@ -258,13 +257,13 @@ class _RangeSelectorBarChartPageState extends SampleViewState
 
 //Chart sample data
 class _ChartSampleData {
-  /// Holds the datapoint values like x, y, etc.,
-  _ChartSampleData({this.x, this.y});
+  /// Holds the data point values like x, y, etc.,
+  _ChartSampleData({required this.x, required this.y});
 
-  /// Holds x value of the datapoint
-  final dynamic x;
+  /// Holds x value of the data point
+  final DateTime x;
 
-  final dynamic y;
+  final num y;
 }
 
 /// To move the thumb to center of the chart, we will override the `paint`

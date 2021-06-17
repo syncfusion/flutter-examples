@@ -59,13 +59,13 @@ class ChartSampleData {
       this.volume});
 
   /// Holds x value of the datapoint
-  final dynamic? x;
+  final dynamic x;
 
   /// Holds y value of the datapoint
   final num? y;
 
   /// Holds x value of the datapoint
-  final dynamic? xValue;
+  final dynamic xValue;
 
   /// Holds y value of the datapoint
   final num? yValue;

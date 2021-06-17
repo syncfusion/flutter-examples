@@ -33,14 +33,14 @@ class _SplineVerticalState extends SampleViewState {
       plotAreaBorderWidth: 0,
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
-          majorTickLines: MajorTickLines(size: 0),
-          axisLine: AxisLine(width: 0)),
+          majorTickLines: const MajorTickLines(size: 0),
+          axisLine: const AxisLine(width: 0)),
       primaryYAxis: NumericAxis(
           minimum: -10,
           maximum: 40,
           interval: 10,
           labelFormat: '{value}°C',
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       series: _getVerticalSplineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -60,14 +60,14 @@ class _SplineVerticalState extends SampleViewState {
     ];
     return <SplineSeries<_ChartData, String>>[
       SplineSeries<_ChartData, String>(
-          markerSettings: MarkerSettings(isVisible: true),
+          markerSettings: const MarkerSettings(isVisible: true),
           dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
           width: 2,
           name: 'London'),
       SplineSeries<_ChartData, String>(
-        markerSettings: MarkerSettings(isVisible: true),
+        markerSettings: const MarkerSettings(isVisible: true),
         dataSource: chartData,
         width: 2,
         name: 'France',

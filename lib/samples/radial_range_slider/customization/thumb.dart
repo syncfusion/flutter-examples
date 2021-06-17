@@ -31,12 +31,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   String _annotationValue_2 = '75';
   String _annotationValue3 = '0';
   String _annotationValue_3 = '75';
-
   double _size = 150;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +44,13 @@ class _RadialRangeSliderThumbState extends SampleViewState {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
             _buildSliderWithCircle(),
-            Center(child: Text('Circle thumb')),
+            const Center(child: Text('Circle thumb')),
             _buildSliderWithRectangle(),
-            Center(child: Text('Rectangle thumb')),
+            const Center(child: Text('Rectangle thumb')),
             _buildSliderWithImage(),
-            Center(child: Text('Image thumb')),
+            const Center(child: Text('Image thumb')),
           ]));
     } else {
       _size = MediaQuery.of(context).size.width / 4.5;
@@ -63,27 +58,27 @@ class _RadialRangeSliderThumbState extends SampleViewState {
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   _buildSliderWithCircle(),
-                  Center(child: Text('Circle thumb')),
+                  const Center(child: Text('Circle thumb')),
                 ]),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   _buildSliderWithRectangle(),
-                  Center(child: Text('Rectangle thumb')),
+                  const Center(child: Text('Rectangle thumb')),
                 ]),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   _buildSliderWithImage(),
-                  Center(child: Text('Image thumb')),
+                  const Center(child: Text('Image thumb')),
                 ]),
           ]));
     }
@@ -101,7 +96,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: 0.8,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                 thickness: 0.1,
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
@@ -111,11 +106,11 @@ class _RadialRangeSliderThumbState extends SampleViewState {
                     startValue: _firstMarkerValue,
                     sizeUnit: GaugeSizeUnit.factor,
                     color: model.isWebFullView
-                        ? Color.fromRGBO(197, 91, 226, 1)
+                        ? const Color.fromRGBO(197, 91, 226, 1)
                         : null,
-                    gradient: SweepGradient(colors: <Color>[
-                      const Color.fromRGBO(197, 91, 226, 1),
-                      const Color.fromRGBO(115, 67, 189, 1)
+                    gradient: const SweepGradient(colors: <Color>[
+                      Color.fromRGBO(197, 91, 226, 1),
+                      Color.fromRGBO(115, 67, 189, 1)
                     ], stops: <double>[
                       0.5,
                       1
@@ -169,7 +164,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: 0.8,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                 thickness: 0.1,
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
@@ -179,11 +174,11 @@ class _RadialRangeSliderThumbState extends SampleViewState {
                   startValue: _fourthMarkerValue,
                   sizeUnit: GaugeSizeUnit.factor,
                   color: model.isWebFullView
-                      ? Color.fromRGBO(197, 91, 226, 1)
+                      ? const Color.fromRGBO(197, 91, 226, 1)
                       : null,
-                  gradient: SweepGradient(colors: <Color>[
-                    const Color.fromRGBO(197, 91, 226, 1),
-                    const Color.fromRGBO(115, 67, 189, 1)
+                  gradient: const SweepGradient(colors: <Color>[
+                    Color.fromRGBO(197, 91, 226, 1),
+                    Color.fromRGBO(115, 67, 189, 1)
                   ], stops: <double>[
                     0.5,
                     1
@@ -238,7 +233,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: 0.8,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                 thickness: 0.1,
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
@@ -248,9 +243,9 @@ class _RadialRangeSliderThumbState extends SampleViewState {
                     startValue: _sixthMarkerValue,
                     sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.green,
-                    gradient: SweepGradient(colors: <Color>[
-                      const Color.fromRGBO(197, 91, 226, 1),
-                      const Color.fromRGBO(115, 67, 189, 1)
+                    gradient: const SweepGradient(colors: <Color>[
+                      Color.fromRGBO(197, 91, 226, 1),
+                      Color.fromRGBO(115, 67, 189, 1)
                     ], stops: <double>[
                       0.5,
                       1

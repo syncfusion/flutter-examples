@@ -60,7 +60,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             _getSegmentedProgressBar1(),
             _getSegmentedProgressBar2(),
             _getSementedProgressBar3(),
@@ -73,7 +73,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             _getSegmentedProgressBar1(),
             _getSegmentedProgressBar2(),
             _getSementedProgressBar3(),
@@ -96,9 +96,9 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: 0.85,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.2,
-              color: const Color.fromARGB(30, 0, 169, 181),
+              color: Color.fromARGB(30, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -131,7 +131,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                   widget: Container(
                       // added text widget as an annotation.
                       child: Text(progressValue.toStringAsFixed(0) + '%',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontStyle: FontStyle.italic,
                               fontFamily: 'Times',
                               fontWeight: FontWeight.bold,
@@ -143,7 +143,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                 lengthUnit: GaugeSizeUnit.factor,
                 color: model.currentThemeData!.brightness == Brightness.light
                     ? Colors.white
-                    : Color.fromRGBO(33, 33, 33, 1)),
+                    : const Color.fromRGBO(33, 33, 33, 1)),
           )
         ]));
   }
@@ -159,8 +159,8 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                 showLabels: false,
                 endAngle: 55,
                 radiusFactor: 0.85,
-                axisLineStyle:
-                    AxisLineStyle(thickness: 30, dashArray: <double>[8, 3]),
+                axisLineStyle: const AxisLineStyle(
+                    thickness: 30, dashArray: <double>[8, 3]),
                 annotations: <GaugeAnnotation>[
                   GaugeAnnotation(
                       angle: 90,
@@ -168,7 +168,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                       widget: Container(
                           // added text widget as an annotation.
                           child: Text(progressValue.toStringAsFixed(0) + '%',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontStyle: FontStyle.italic,
                                   fontFamily: 'Times',
                                   fontWeight: FontWeight.bold,
@@ -181,7 +181,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                       animationType: AnimationType.linear,
                       animationDuration: 30,
                       width: 30,
-                      dashArray: <double>[8, 3]),
+                      dashArray: const <double>[8, 3]),
                 ]),
           ],
         ));
@@ -199,15 +199,15 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: 0.85,
-              axisLineStyle:
-                  AxisLineStyle(thickness: 30, dashArray: <double>[15, 2]),
+              axisLineStyle: const AxisLineStyle(
+                  thickness: 30, dashArray: <double>[15, 2]),
               pointers: <GaugePointer>[
                 RangePointer(
                     value: progressValue,
                     width: 30,
                     enableAnimation: true,
                     animationDuration: 30,
-                    gradient: SweepGradient(colors: <Color>[
+                    gradient: const SweepGradient(colors: <Color>[
                       Color.fromRGBO(255, 4, 0, 1),
                       Color.fromRGBO(255, 15, 0, 1),
                       Color.fromRGBO(255, 31, 0, 1),
@@ -246,7 +246,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                       0.85,
                       0.9,
                     ]),
-                    dashArray: <double>[15, 2])
+                    dashArray: const <double>[15, 2])
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
@@ -255,7 +255,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                     widget: Container(
                         // added text widget as an annotation.
                         child: Text(progressValue.toStringAsFixed(0) + '%',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontStyle: FontStyle.italic,
                                 fontFamily: 'Times',
                                 fontWeight: FontWeight.bold,

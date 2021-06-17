@@ -19,6 +19,7 @@ class HierarchicalTreemapSample extends SampleView {
 
 class _HierarchicalTreemapSampleState extends SampleViewState {
   late List<_FootballTeamDetails> _europeanCupAndUEFALeagueWinners;
+  late bool isDesktop;
 
   @override
   void initState() {
@@ -28,28 +29,37 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
     // [nation] is the first level grouping key.
     // [team] is the second level grouping key.
     _europeanCupAndUEFALeagueWinners = <_FootballTeamDetails>[
-      _FootballTeamDetails(nation: 'ESP', team: 'Real Madrid', titles: 13),
-      _FootballTeamDetails(nation: 'ITA', team: 'Milan', titles: 7),
-      _FootballTeamDetails(nation: 'GER', team: 'Bayern Munich', titles: 6),
-      _FootballTeamDetails(nation: 'ENG', team: 'Liverpool', titles: 6),
-      _FootballTeamDetails(nation: 'ESP', team: 'Barcelona', titles: 5),
-      _FootballTeamDetails(nation: 'NED', team: 'Ajax', titles: 4),
-      _FootballTeamDetails(nation: 'ENG', team: 'Manchester United', titles: 3),
-      _FootballTeamDetails(nation: 'ITA', team: 'Inter Milan', titles: 3),
-      _FootballTeamDetails(nation: 'ITA', team: 'Juventus', titles: 2),
-      _FootballTeamDetails(nation: 'POR', team: 'Benfica', titles: 2),
-      _FootballTeamDetails(nation: 'ENG', team: 'Nottingham Forest', titles: 2),
-      _FootballTeamDetails(nation: 'POR', team: 'Porto', titles: 2),
-      _FootballTeamDetails(nation: 'SCO', team: 'Celtic', titles: 1),
-      _FootballTeamDetails(nation: 'GER', team: 'Hamburger SV', titles: 1),
-      _FootballTeamDetails(nation: 'ROU', team: 'Steaua București', titles: 1),
-      _FootballTeamDetails(nation: 'FRA', team: 'Marseille', titles: 1),
-      _FootballTeamDetails(nation: 'GER', team: 'Borussia Dortmund', titles: 1),
-      _FootballTeamDetails(nation: 'ENG', team: 'Chelsea', titles: 1),
-      _FootballTeamDetails(nation: 'NED', team: 'Feyenoord', titles: 1),
-      _FootballTeamDetails(nation: 'ENG', team: 'Aston Villa', titles: 1),
-      _FootballTeamDetails(nation: 'NED', team: 'PSV Eindhoven', titles: 1),
-      _FootballTeamDetails(nation: 'YUG', team: 'Red Star Belgrade', titles: 1),
+      const _FootballTeamDetails(
+          nation: 'ESP', team: 'Real Madrid', titles: 13),
+      const _FootballTeamDetails(nation: 'ITA', team: 'Milan', titles: 7),
+      const _FootballTeamDetails(
+          nation: 'GER', team: 'Bayern Munich', titles: 6),
+      const _FootballTeamDetails(nation: 'ENG', team: 'Liverpool', titles: 6),
+      const _FootballTeamDetails(nation: 'ESP', team: 'Barcelona', titles: 5),
+      const _FootballTeamDetails(nation: 'NED', team: 'Ajax', titles: 4),
+      const _FootballTeamDetails(
+          nation: 'ENG', team: 'Manchester United', titles: 3),
+      const _FootballTeamDetails(nation: 'ITA', team: 'Inter Milan', titles: 3),
+      const _FootballTeamDetails(nation: 'ITA', team: 'Juventus', titles: 2),
+      const _FootballTeamDetails(nation: 'POR', team: 'Benfica', titles: 2),
+      const _FootballTeamDetails(
+          nation: 'ENG', team: 'Nottingham Forest', titles: 2),
+      const _FootballTeamDetails(nation: 'POR', team: 'Porto', titles: 2),
+      const _FootballTeamDetails(nation: 'SCO', team: 'Celtic', titles: 1),
+      const _FootballTeamDetails(
+          nation: 'GER', team: 'Hamburger SV', titles: 1),
+      const _FootballTeamDetails(
+          nation: 'ROU', team: 'Steaua București', titles: 1),
+      const _FootballTeamDetails(nation: 'FRA', team: 'Marseille', titles: 1),
+      const _FootballTeamDetails(
+          nation: 'GER', team: 'Borussia Dortmund', titles: 1),
+      const _FootballTeamDetails(nation: 'ENG', team: 'Chelsea', titles: 1),
+      const _FootballTeamDetails(nation: 'NED', team: 'Feyenoord', titles: 1),
+      const _FootballTeamDetails(nation: 'ENG', team: 'Aston Villa', titles: 1),
+      const _FootballTeamDetails(
+          nation: 'NED', team: 'PSV Eindhoven', titles: 1),
+      const _FootballTeamDetails(
+          nation: 'YUG', team: 'Red Star Belgrade', titles: 1),
     ];
 
     super.initState();
@@ -64,7 +74,7 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final bool isDesktop = kIsWeb ||
+    isDesktop = kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
@@ -75,7 +85,7 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
             ? const EdgeInsets.all(12.5)
             : const EdgeInsets.all(10.0),
         child: Column(
-          children: [
+          children: <Widget>[
             Text(
               'European Cup and UEFA Champions League Winners',
               style: themeData.textTheme.subtitle1,

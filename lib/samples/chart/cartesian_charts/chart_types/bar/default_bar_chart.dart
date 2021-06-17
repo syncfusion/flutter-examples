@@ -33,10 +33,10 @@ class _BarDefaultState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Tourism - Number of arrivals'),
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           numberFormat: NumberFormat.compact()),
       series: _getDefaultBarSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
@@ -80,17 +80,17 @@ class _BarDefaultState extends SampleViewState {
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: '2015'),
       BarSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: '2016'),
       BarSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: '2017')
     ];

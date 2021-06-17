@@ -60,13 +60,13 @@ class _DefaultSelectionState extends SampleViewState {
                 Container(
                     padding: const EdgeInsets.fromLTRB(78, 0, 0, 0),
                     child: DropdownButton<String>(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        underline: Container(
+                            color: const Color(0xFFBDBDBD), height: 1),
                         value: _seriesIndex.toString(),
                         items: _seriesIndexList.map((String value) {
                           return DropdownMenuItem<String>(
                               value: (value != null) ? value : '0',
-                              child: Text('$value',
+                              child: Text(value,
                                   style: TextStyle(color: model.textColor)));
                         }).toList(),
                         onChanged: (dynamic value) {
@@ -87,13 +87,13 @@ class _DefaultSelectionState extends SampleViewState {
                 Container(
                     padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                     child: DropdownButton<String>(
-                        underline:
-                            Container(color: Color(0xFFBDBDBD), height: 1),
+                        underline: Container(
+                            color: const Color(0xFFBDBDBD), height: 1),
                         value: _pointIndex.toString(),
                         items: _pointIndexList.map((String value) {
                           return DropdownMenuItem<String>(
                               value: (value != null) ? value : '0',
-                              child: Text('$value',
+                              child: Text(value,
                                   style: TextStyle(color: model.textColor)));
                         }).toList(),
                         onChanged: (dynamic value) {
@@ -104,7 +104,7 @@ class _DefaultSelectionState extends SampleViewState {
             ),
           ),
           Column(
-            children: [
+            children: <Widget>[
               Container(
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
@@ -116,7 +116,7 @@ class _DefaultSelectionState extends SampleViewState {
                         onPressed: () {
                           selection(_seriesIndex, _pointIndex);
                         },
-                        child: Text('Select',
+                        child: const Text('Select',
                             style: TextStyle(color: Colors.white)),
                       )))
             ],
@@ -142,11 +142,11 @@ class _DefaultSelectionState extends SampleViewState {
       selectionType: SelectionType.point,
       selectionGesture: ActivationMode.singleTap,
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
           numberFormat: NumberFormat.compact()),
       series: _getDefaultSelectionSeries(),
     );
@@ -185,19 +185,19 @@ class _DefaultSelectionState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           selectionBehavior: _selectionBehavior,
           name: '2015'),
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           selectionBehavior: _selectionBehavior,
           name: '2016'),
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           selectionBehavior: _selectionBehavior,
           name: '2017')

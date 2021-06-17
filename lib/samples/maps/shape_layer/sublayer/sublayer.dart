@@ -34,7 +34,7 @@ class _MapSublayerPageState extends SampleViewState
   void initState() {
     super.initState();
 
-    _state = [
+    _state = <String>[
       'New South Wales',
       'Victoria',
       'Queensland',
@@ -52,9 +52,9 @@ class _MapSublayerPageState extends SampleViewState
       //
       // On the basis of this value, shape tooltip text is rendered.
       shapeDataField: 'STATE_NAME',
-      primaryValueMapper: (index) => _state[index],
+      primaryValueMapper: (int index) => _state[index],
       dataCount: _state.length,
-      dataLabelMapper: (index) => index == 0 ? 'NSW' : _state[index],
+      dataLabelMapper: (int index) => index == 0 ? 'NSW' : _state[index],
     );
 
     _zoomPanBehavior = MapZoomPanBehavior();
@@ -70,19 +70,21 @@ class _MapSublayerPageState extends SampleViewState
     final String data = await rootBundle.loadString('assets/river.json');
     final dynamic jsonData = json.decode(data);
 
-    final int length = (jsonData['geometries']).length;
+    final int length = (jsonData['geometries']).length as int;
     for (int i = 0; i < length; i++) {
       List<dynamic> polylineData;
       if (jsonData['geometries'][i]['type'] == 'LineString') {
         final List<MapLatLng> riverPoints = <MapLatLng>[];
-        polylineData = jsonData['geometries'][i]['coordinates'];
+        polylineData =
+            jsonData['geometries'][i]['coordinates'] as List<dynamic>;
         for (int j = 0; j < polylineData.length; j++) {
           riverPoints.add(MapLatLng(polylineData[j][1], polylineData[j][0]));
         }
         polylines.add(riverPoints);
       } else {
         polylineData = <dynamic>[];
-        final int length = (jsonData['geometries'][i]['coordinates']).length;
+        final int length =
+            (jsonData['geometries'][i]['coordinates']).length as int;
         for (int j = 0; j < length; j++) {
           polylineData.add(jsonData['geometries'][i]['coordinates'][j]);
         }
@@ -111,38 +113,55 @@ class _MapSublayerPageState extends SampleViewState
     return Scaffold(
         backgroundColor:
             _isDesktop ? model.cardThemeColor : model.cardThemeColor,
-        body: MediaQuery.of(context).orientation == Orientation.portrait ||
-                _isDesktop
-            ? _buildMapsWidget()
-            : SingleChildScrollView(child: _buildMapsWidget()));
+        body: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          final bool scrollEnabled = constraints.maxHeight > 400;
+          double height = scrollEnabled ? constraints.maxHeight : 400;
+          if (model.isWebFullView ||
+              (model.isMobile &&
+                  MediaQuery.of(context).orientation ==
+                      Orientation.landscape)) {
+            final double refHeight = height * 0.6;
+            height =
+                height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+          }
+          return Center(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: constraints.maxWidth,
+                height: height,
+                child: _buildMapsWidget(scrollEnabled),
+              ),
+            ),
+          );
+        }));
   }
 
-  Widget _buildMapsWidget() {
+  Widget _buildMapsWidget(bool scrollEnabled) {
     final bool isLightTheme = _themeData.brightness == Brightness.light;
-    return FutureBuilder(
+    return FutureBuilder<dynamic>(
         future: getJsonData(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapchat) {
           if (snapchat.hasData) {
-            final List<List<MapLatLng>> polylines = snapchat.data;
+            final List<List<MapLatLng>> polylines =
+                snapchat.data as List<List<MapLatLng>>;
             return Center(
                 child: Padding(
-              padding:
-                  MediaQuery.of(context).orientation == Orientation.portrait ||
-                          _isDesktop
-                      ? EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.05,
-                          bottom: MediaQuery.of(context).size.height * 0.05,
-                          right: 10,
-                        )
-                      : const EdgeInsets.only(right: 10, bottom: 15),
+              padding: scrollEnabled
+                  ? EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.05,
+                      bottom: MediaQuery.of(context).size.height * 0.05,
+                      right: 10,
+                    )
+                  : const EdgeInsets.only(right: 10, bottom: 15),
               child: SfMapsTheme(
                 data: SfMapsThemeData(
                   shapeHoverColor: Colors.transparent,
                   shapeHoverStrokeColor: Colors.transparent,
                 ),
-                child: Column(children: [
+                child: Column(children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: 15, bottom: 30),
+                      padding: const EdgeInsets.only(top: 15, bottom: 30),
                       child: Align(
                           alignment: Alignment.topCenter,
                           child: Text('Rivers in Australia',
@@ -171,20 +190,20 @@ class _MapSublayerPageState extends SampleViewState
                         },
                         tooltipSettings: MapTooltipSettings(
                           color: isLightTheme
-                              ? Color.fromRGBO(45, 45, 45, 1)
-                              : Color.fromRGBO(242, 242, 242, 1),
+                              ? const Color.fromRGBO(45, 45, 45, 1)
+                              : const Color.fromRGBO(242, 242, 242, 1),
                           strokeColor: isLightTheme
-                              ? Color.fromRGBO(242, 242, 242, 1)
-                              : Color.fromRGBO(45, 45, 45, 1),
+                              ? const Color.fromRGBO(242, 242, 242, 1)
+                              : const Color.fromRGBO(45, 45, 45, 1),
                         ),
                         showDataLabels: true,
                         dataLabelSettings: MapDataLabelSettings(
                           overflowMode: MapLabelOverflow.visible,
                           textStyle: _themeData.textTheme.caption!.copyWith(
-                            color: Color.fromRGBO(0, 0, 0, 1),
+                            color: const Color.fromRGBO(0, 0, 0, 1),
                           ),
                         ),
-                        sublayers: [
+                        sublayers: <MapSublayer>[
                           MapPolylineLayer(
                             polylines: List<MapPolyline>.generate(
                               polylines.length,
@@ -192,8 +211,8 @@ class _MapSublayerPageState extends SampleViewState
                                 return MapPolyline(
                                   points: polylines[index],
                                   color: isLightTheme
-                                      ? Color.fromRGBO(0, 168, 204, 1.0)
-                                      : Color.fromRGBO(11, 138, 255, 1.0),
+                                      ? const Color.fromRGBO(0, 168, 204, 1.0)
+                                      : const Color.fromRGBO(11, 138, 255, 1.0),
                                   width: 2.0,
                                 );
                               },
@@ -208,13 +227,13 @@ class _MapSublayerPageState extends SampleViewState
                                       style: model.themeData.textTheme.caption!
                                           .copyWith(
                                               color: isLightTheme
-                                                  ? Color.fromRGBO(
+                                                  ? const Color.fromRGBO(
                                                       255, 255, 255, 1)
-                                                  : Color.fromRGBO(
+                                                  : const Color.fromRGBO(
                                                       10, 10, 10, 1))),
                                 );
                               }
-                              return SizedBox();
+                              return const SizedBox();
                             },
                           ),
                         ],

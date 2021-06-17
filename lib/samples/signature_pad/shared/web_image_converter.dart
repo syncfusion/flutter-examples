@@ -9,17 +9,17 @@ class ImageConverter {
   /// toImage
   static Future<Uint8List> toImage(
       {required RenderSignaturePad renderSignaturePad}) async {
-    final canvas = html.CanvasElement(
+    final html.CanvasElement canvas = html.CanvasElement(
         width: renderSignaturePad.size.width.toInt(),
         height: renderSignaturePad.size.height.toInt());
-    final context = canvas.context2D;
+    final html.CanvasRenderingContext2D context = canvas.context2D;
     renderSignaturePad.renderToContext2D(context);
-    final blob = await canvas.toBlob('image/jpeg', 1.0);
-    final completer = Completer<Uint8List>();
-    final reader = html.FileReader();
+    final html.Blob blob = await canvas.toBlob('image/jpeg', 1.0);
+    final Completer<Uint8List> completer = Completer<Uint8List>();
+    final html.FileReader reader = html.FileReader();
     reader.readAsArrayBuffer(blob);
-    // ignore: avoid_as
-    reader.onLoad.listen((_) => completer.complete(reader.result as Uint8List));
+    reader.onLoad
+        .listen((_) => completer.complete(reader.result! as Uint8List));
     return await completer.future;
   }
 }

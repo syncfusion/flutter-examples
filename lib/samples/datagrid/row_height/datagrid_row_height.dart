@@ -38,9 +38,10 @@ class _RowHeightDataGridState extends SampleViewState {
               columnName: 'id',
               width: isWebOrDesktop ? 135 : 90,
               label: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'ID',
                   softWrap: true,
                   overflow: TextOverflow.clip,
@@ -51,9 +52,10 @@ class _RowHeightDataGridState extends SampleViewState {
               columnName: 'contactName',
               width: isWebOrDesktop ? 135 : 140,
               label: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Contact Name',
                   softWrap: true,
                   overflow: TextOverflow.clip,
@@ -64,9 +66,10 @@ class _RowHeightDataGridState extends SampleViewState {
               columnName: 'companyName',
               width: isWebOrDesktop ? 165 : 140,
               label: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Company Name',
                   softWrap: true,
                   overflow: TextOverflow.clip,
@@ -77,9 +80,10 @@ class _RowHeightDataGridState extends SampleViewState {
               columnName: 'address',
               width: isWebOrDesktop ? 180 : 140,
               label: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Address',
                   softWrap: true,
                   overflow: TextOverflow.clip,
@@ -90,9 +94,10 @@ class _RowHeightDataGridState extends SampleViewState {
               columnName: 'city',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'City',
                   softWrap: true,
                   overflow: TextOverflow.clip,
@@ -103,9 +108,10 @@ class _RowHeightDataGridState extends SampleViewState {
               columnName: 'country',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Country',
                   softWrap: true,
                   overflow: TextOverflow.clip,
@@ -116,9 +122,10 @@ class _RowHeightDataGridState extends SampleViewState {
               columnName: 'designation',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Designation',
                   softWrap: true,
                   overflow: TextOverflow.clip,
@@ -129,9 +136,10 @@ class _RowHeightDataGridState extends SampleViewState {
               columnName: 'postalCode',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Postal Code',
                   softWrap: true,
                   overflow: TextOverflow.clip,
@@ -142,9 +150,10 @@ class _RowHeightDataGridState extends SampleViewState {
               columnName: 'phoneNumber',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Phone Number',
                   softWrap: true,
                   overflow: TextOverflow.clip,
@@ -158,7 +167,7 @@ class _RowHeightDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
   @override
@@ -195,28 +204,28 @@ class _RowHeightDataGridSource extends DataGridSource {
     buildDataGridRow();
   }
 
-  List<_Employee> employees = [];
-  List<DataGridRow> dataGridRows = [];
+  List<_Employee> employees = <_Employee>[];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
 
   // Building DataGridRows
 
   void buildDataGridRow() {
-    dataGridRows = employees.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
-        DataGridCell<String>(columnName: 'id', value: dataGridRow.id),
+    dataGridRows = employees.map<DataGridRow>((_Employee employee) {
+      return DataGridRow(cells: <DataGridCell<String>>[
+        DataGridCell<String>(columnName: 'id', value: employee.id),
         DataGridCell<String>(
-            columnName: 'contactName', value: dataGridRow.contactName),
+            columnName: 'contactName', value: employee.contactName),
         DataGridCell<String>(
-            columnName: 'companyName', value: dataGridRow.companyName),
-        DataGridCell<String>(columnName: 'address', value: dataGridRow.address),
-        DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
-        DataGridCell<String>(columnName: 'country', value: dataGridRow.country),
+            columnName: 'companyName', value: employee.companyName),
+        DataGridCell<String>(columnName: 'address', value: employee.address),
+        DataGridCell<String>(columnName: 'city', value: employee.city),
+        DataGridCell<String>(columnName: 'country', value: employee.country),
         DataGridCell<String>(
-            columnName: 'designation', value: dataGridRow.designation),
+            columnName: 'designation', value: employee.designation),
         DataGridCell<String>(
-            columnName: 'postalCode', value: dataGridRow.postalCode),
+            columnName: 'postalCode', value: employee.postalCode),
         DataGridCell<String>(
-            columnName: 'phoneNumber', value: dataGridRow.phoneNumber),
+            columnName: 'phoneNumber', value: employee.phoneNumber),
       ]);
     }).toList();
   }
@@ -229,9 +238,9 @@ class _RowHeightDataGridSource extends DataGridSource {
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-        cells: row.getCells().map<Widget>((dataCell) {
+        cells: row.getCells().map<Widget>((DataGridCell dataCell) {
       return Container(
-        padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16),
         alignment: Alignment.centerLeft,
         child: Text(dataCell.value.toString()),
       );
@@ -241,7 +250,7 @@ class _RowHeightDataGridSource extends DataGridSource {
   // Employee Data collection set.
 
   List<_Employee> getEmployees() {
-    return [
+    return <_Employee>[
       _Employee('ALFKI', 'Maria Anders', 'Alfreds Futterkiste', 'Obere Str. 57',
           'Berlin', 'Germany', 'Sales Representative', '12209', '030-0074321'),
       _Employee(
@@ -372,8 +381,7 @@ class _RowHeightDataGridSource extends DataGridSource {
           'CONSH',
           'Elizabeth Brown',
           'Consolidated Holdings',
-          ''' Berkeley Gardens
-12  Brewery ''',
+          'Berkeley Gardens \n 12  Brewery',
           'London',
           'UK',
           'Sales Representative',

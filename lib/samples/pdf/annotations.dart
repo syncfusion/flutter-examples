@@ -40,7 +40,7 @@ class _AnnotationsPdfState extends SampleViewState {
               Container(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Checkbox(
                       value: flatten,
                       activeColor: model.backgroundColor,
@@ -62,8 +62,9 @@ class _AnnotationsPdfState extends SampleViewState {
                           model.backgroundColor),
                       padding: model.isMobile
                           ? null
-                          : MaterialStateProperty.all(EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15)),
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
                     ),
                     onPressed: _generatePDF,
                     child: const Text('Generate PDF',
@@ -84,7 +85,7 @@ class _AnnotationsPdfState extends SampleViewState {
     final PdfPage page = document.pages[0];
     //Create a line annotation.
     final PdfLineAnnotation lineAnnotation = PdfLineAnnotation(
-        [60, 710, 187, 710], 'Introduction',
+        <int>[60, 710, 187, 710], 'Introduction',
         color: PdfColor(0, 0, 255),
         author: 'John Milton',
         border: PdfAnnotationBorder(2),
@@ -96,7 +97,7 @@ class _AnnotationsPdfState extends SampleViewState {
 
     //Create a ellipse Annotation.
     final PdfEllipseAnnotation ellipseAnnotation = PdfEllipseAnnotation(
-        Rect.fromLTRB(475, 771, 549, 815), 'Page Number',
+        const Rect.fromLTRB(475, 771, 549, 815), 'Page Number',
         author: 'John Milton',
         border: PdfAnnotationBorder(2),
         color: PdfColor(255, 0, 0),
@@ -106,7 +107,7 @@ class _AnnotationsPdfState extends SampleViewState {
 
     //Create a rectangle annotation.
     final PdfRectangleAnnotation rectangleAnnotation = PdfRectangleAnnotation(
-        Rect.fromLTRB(57, 250, 565, 349), 'Usage',
+        const Rect.fromLTRB(57, 250, 565, 349), 'Usage',
         color: PdfColor(255, 170, 0),
         border: PdfAnnotationBorder(2),
         author: 'John Milton',
@@ -115,9 +116,22 @@ class _AnnotationsPdfState extends SampleViewState {
     page.annotations.add(rectangleAnnotation);
 
     //Create a polygon annotation.
-    final PdfPolygonAnnotation polygonAnnotation = PdfPolygonAnnotation(
-        [129, 356, 486, 356, 532, 333, 486, 310, 129, 310, 83, 333, 129, 356],
-        'Chapter 1 Conceptual Overview',
+    final PdfPolygonAnnotation polygonAnnotation = PdfPolygonAnnotation(<int>[
+      129,
+      356,
+      486,
+      356,
+      532,
+      333,
+      486,
+      310,
+      129,
+      310,
+      83,
+      333,
+      129,
+      356
+    ], 'Chapter 1 Conceptual Overview',
         color: PdfColor(255, 0, 0),
         border: PdfAnnotationBorder(2),
         author: 'John Milton',

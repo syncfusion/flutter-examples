@@ -43,12 +43,12 @@ class _PlotBandDefaultState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
-                underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedType,
                 items: _plotBandType.map((String value) {
                   return DropdownMenuItem<String>(
                       value: (value != null) ? value : 'horizontal',
-                      child: Text('$value',
+                      child: Text(value,
                           style: TextStyle(color: model.textColor)));
                 }).toList(),
                 onChanged: (dynamic value) {
@@ -159,13 +159,13 @@ class _PlotBandDefaultState extends SampleViewState {
                 shouldRenderAboveSeries: false,
                 textStyle: const TextStyle(color: Colors.white, fontSize: 17)),
           ],
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
         minimum: 10,
         maximum: 41,
         interval: 5,
-        axisLine: AxisLine(width: 0),
-        majorTickLines: MajorTickLines(width: 0),
+        axisLine: const AxisLine(width: 0),
+        majorTickLines: const MajorTickLines(width: 0),
         labelFormat: '{value} °C',
         rangePadding: ChartRangePadding.none,
 
@@ -288,16 +288,16 @@ class _PlotBandDefaultState extends SampleViewState {
     return <XyDataSeries<ChartSampleData, String>>[
       LineSeries<ChartSampleData, String>(
           dataSource: lineData,
-          xValueMapper: (ChartSampleData sales, _) => sales.xValue,
+          xValueMapper: (ChartSampleData sales, _) => sales.xValue as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           color: seriesColor,
           name: 'Weather',
           width: 2,
-          markerSettings: MarkerSettings(
+          markerSettings: const MarkerSettings(
               height: 5,
               width: 5,
               isVisible: true,
-              color: const Color.fromRGBO(192, 108, 132, 1)))
+              color: Color.fromRGBO(192, 108, 132, 1)))
     ];
   }
 

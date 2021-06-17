@@ -131,11 +131,11 @@ class _CustomizationCalendarState extends SampleViewState {
       events['Tourism'] =
           'The day that raises awareness to the role of tourism and its effect on social and economic values';
       final List<Color> colors = <Color>[
-        Color(0xFF56AB56),
-        Color(0xFF357CD2),
-        Color(0xFF7FA90E),
+        const Color(0xFF56AB56),
+        const Color(0xFF357CD2),
+        const Color(0xFF7FA90E),
         Colors.deepOrangeAccent,
-        Color(0xFF5BBEAF)
+        const Color(0xFF5BBEAF)
       ];
       final List<String> images = <String>[
         'environment_day',
@@ -150,9 +150,9 @@ class _CustomizationCalendarState extends SampleViewState {
           .subtract(Duration(days: date.weekday - 1));
       for (int i = 0; i < 5; i++) {
         final String key = keys[i];
-        appointment.add(_Meeting(key, date, date.add(Duration(hours: 6)),
+        appointment.add(_Meeting(key, date, date.add(const Duration(hours: 6)),
             colors[i], false, events[key]!, images[i], null, ''));
-        date = date.add(Duration(days: 1));
+        date = date.add(const Duration(days: 1));
       }
     }
 
@@ -261,7 +261,11 @@ class _CustomizationCalendarState extends SampleViewState {
 
   Widget _getAppointmentUI(
       BuildContext context, CalendarAppointmentDetails details) {
-    final _Meeting meeting = details.appointments.first;
+    final dynamic meetingData = details.appointments.first;
+    late final _Meeting meeting;
+    if (meetingData is _Meeting) {
+      meeting = meetingData;
+    }
     final Color textColor = model.themeData == null ||
             model.themeData.brightness == Brightness.light
         ? Colors.black
@@ -275,7 +279,7 @@ class _CustomizationCalendarState extends SampleViewState {
       final double cornerRadius = horizontalHighlight / 4;
       return Container(
         child: Row(
-          children: [
+          children: <Widget>[
             Container(
               width: horizontalHighlight,
               decoration: BoxDecoration(
@@ -290,10 +294,10 @@ class _CustomizationCalendarState extends SampleViewState {
                 child: Container(
                     alignment: Alignment.center,
                     color: meeting.background.withOpacity(0.8),
-                    padding: EdgeInsets.only(left: 2),
+                    padding: const EdgeInsets.only(left: 2),
                     child: Text(
                       meeting.eventName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12,
                       ),
@@ -318,16 +322,16 @@ class _CustomizationCalendarState extends SampleViewState {
         _calendarController.view != CalendarView.schedule) {
       return Container(
         child: Column(
-          children: [
+          children: <Widget>[
             Container(
-              padding: EdgeInsets.all(3),
+              padding: const EdgeInsets.all(3),
               height: 50,
               alignment: model.isMobileResolution
                   ? Alignment.topLeft
                   : Alignment.centerLeft,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(5), topRight: Radius.circular(5)),
                 color: meeting.background,
               ),
@@ -335,10 +339,10 @@ class _CustomizationCalendarState extends SampleViewState {
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     meeting.eventName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -347,31 +351,32 @@ class _CustomizationCalendarState extends SampleViewState {
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  model.isMobileResolution
-                      ? Container()
-                      : Text(
-                          'Time: ${DateFormat('hh:mm a').format(meeting.from)} - '
-                          '${DateFormat('hh:mm a').format(meeting.to)}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                          ),
-                        )
+                  if (model.isMobileResolution)
+                    Container()
+                  else
+                    Text(
+                      'Time: ${DateFormat('hh:mm a').format(meeting.from)} - '
+                      '${DateFormat('hh:mm a').format(meeting.to)}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                    )
                 ],
               )),
             ),
             Container(
               height: details.bounds.height - 70,
-              padding: EdgeInsets.fromLTRB(3, 5, 3, 2),
+              padding: const EdgeInsets.fromLTRB(3, 5, 3, 2),
               color: meeting.background.withOpacity(0.8),
               alignment: Alignment.topLeft,
               child: SingleChildScrollView(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
                       child: Image(
                           image: ExactAssetImage(
                               'images/' + meeting.image + '.png'),
@@ -380,7 +385,7 @@ class _CustomizationCalendarState extends SampleViewState {
                           height: 60)),
                   Text(
                     meeting.notes,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                     ),
@@ -392,7 +397,7 @@ class _CustomizationCalendarState extends SampleViewState {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(5),
                     bottomRight: Radius.circular(5)),
                 color: meeting.background,
@@ -406,10 +411,10 @@ class _CustomizationCalendarState extends SampleViewState {
           details.bounds.height > 11 ? 10 : details.bounds.height - 1;
       return Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.symmetric(horizontal: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 2),
         child: details.isMoreAppointmentRegion
             ? Padding(
-                padding: EdgeInsets.only(left: 2),
+                padding: const EdgeInsets.only(left: 2),
                 child: Text(
                   '+ More',
                   style: TextStyle(
@@ -422,7 +427,7 @@ class _CustomizationCalendarState extends SampleViewState {
                 ))
             : model.isMobileResolution
                 ? Row(
-                    children: [
+                    children: <Widget>[
                       Icon(
                         Icons.circle,
                         color: meeting.background,
@@ -430,7 +435,7 @@ class _CustomizationCalendarState extends SampleViewState {
                       ),
                       Expanded(
                           child: Padding(
-                              padding: EdgeInsets.only(left: 2),
+                              padding: const EdgeInsets.only(left: 2),
                               child: Text(
                                 meeting.eventName,
                                 style: TextStyle(
@@ -444,19 +449,19 @@ class _CustomizationCalendarState extends SampleViewState {
                     ],
                   )
                 : Row(
-                    children: [
+                    children: <Widget>[
                       Icon(
                         Icons.circle,
                         color: meeting.background,
                         size: fontSize,
                       ),
                       Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 2),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 2),
                           child: Text(
                             meeting.isAllDay
                                 ? 'All'
-                                : '${DateFormat('h a').format(meeting.from)}',
+                                : DateFormat('h a').format(meeting.from),
                             style: TextStyle(
                               color: textColor,
                               fontSize: fontSize,
@@ -488,18 +493,18 @@ class _CustomizationCalendarState extends SampleViewState {
         : Colors.white;
 
     return Container(
-        padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+        padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
         color: model.themeData == null ||
                 model.themeData.brightness == Brightness.light
             ? model.webBackgroundColor
             : model.cardColor,
         child: Row(
-          children: [
+          children: <Widget>[
             Container(
               width: 8,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(3),
                     bottomLeft: Radius.circular(3)),
                 color: meeting.background,
@@ -507,20 +512,20 @@ class _CustomizationCalendarState extends SampleViewState {
             ),
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(3),
                       bottomRight: Radius.circular(3)),
                 ),
-                padding: EdgeInsets.only(left: 7),
+                padding: const EdgeInsets.only(left: 7),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Text(
                           meeting.eventName + (model.isWebFullView ? ', ' : ''),
                           style: TextStyle(
@@ -532,19 +537,20 @@ class _CustomizationCalendarState extends SampleViewState {
                           softWrap: false,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        model.isWebFullView
-                            ? Text(
-                                meeting.location,
-                                style: TextStyle(
-                                  color: textColor.withOpacity(0.6),
-                                  fontFamily: 'Roboto',
-                                  fontSize: 14,
-                                ),
-                                maxLines: 1,
-                                softWrap: false,
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            : Text(''),
+                        if (model.isWebFullView)
+                          Text(
+                            meeting.location,
+                            style: TextStyle(
+                              color: textColor.withOpacity(0.6),
+                              fontFamily: 'Roboto',
+                              fontSize: 14,
+                            ),
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        else
+                          const Text(''),
                       ],
                     ),
                     Text(
@@ -566,7 +572,7 @@ class _CustomizationCalendarState extends SampleViewState {
             ),
             _getScheduleAppointmentIcon(meeting),
             Container(
-              margin: EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
               width: 30,
               alignment: Alignment.center,
               child: Icon(
@@ -582,10 +588,10 @@ class _CustomizationCalendarState extends SampleViewState {
   Widget _getScheduleAppointmentIcon(_Meeting meeting) {
     if (meeting.eventName == 'General Meeting') {
       return Container(
-        margin: EdgeInsets.all(0),
+        margin: const EdgeInsets.all(0),
         width: 30,
         alignment: Alignment.center,
-        child: Icon(
+        child: const Icon(
           Icons.priority_high_outlined,
           size: 20,
           color: Colors.red,
@@ -616,14 +622,14 @@ class _CustomizationCalendarState extends SampleViewState {
         scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
         scheduleViewSettings: ScheduleViewSettings(
             appointmentItemHeight: model.isWebFullView ? 60 : 50),
-        monthViewSettings: MonthViewSettings(
+        monthViewSettings: const MonthViewSettings(
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
             showTrailingAndLeadingDates: true,
             appointmentDisplayCount: 3),
-        timeSlotViewSettings: TimeSlotViewSettings(
+        timeSlotViewSettings: const TimeSlotViewSettings(
             timelineAppointmentHeight: 50,
             timeIntervalWidth: 100,
-            minimumAppointmentDuration: const Duration(minutes: 60)));
+            minimumAppointmentDuration: Duration(minutes: 60)));
   }
 }
 

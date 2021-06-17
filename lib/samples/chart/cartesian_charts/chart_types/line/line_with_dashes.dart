@@ -35,15 +35,15 @@ class _LineDashedState extends SampleViewState {
           overflowMode: LegendItemOverflowMode.wrap),
       primaryXAxis: NumericAxis(
           edgeLabelPlacement: EdgeLabelPlacement.shift,
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           interval: 2),
       primaryYAxis: NumericAxis(
           minimum: 3,
           maximum: 21,
           interval: isCardView ? 6 : 3,
           labelFormat: '{value}%',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(color: Colors.transparent)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(color: Colors.transparent)),
       series: _getDashedLineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -71,7 +71,7 @@ class _LineDashedState extends SampleViewState {
           yValueMapper: (_ChartData sales, _) => sales.y,
           width: 2,
           name: 'Singapore',
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
           dataSource: chartData,
@@ -80,7 +80,7 @@ class _LineDashedState extends SampleViewState {
           name: 'Saudi Arabia',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2,
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
           dataSource: chartData,
@@ -89,7 +89,7 @@ class _LineDashedState extends SampleViewState {
           name: 'Spain',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y3,
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
           dataSource: chartData,
@@ -98,7 +98,7 @@ class _LineDashedState extends SampleViewState {
           name: 'Portugal',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y4,
-          markerSettings: MarkerSettings(isVisible: true)),
+          markerSettings: const MarkerSettings(isVisible: true)),
     ];
   }
 }

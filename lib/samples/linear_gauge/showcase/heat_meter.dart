@@ -42,17 +42,17 @@ class _HeatMeterState extends SampleViewState {
         interval: 20.0,
         minorTicksPerInterval: 0,
         animateAxis: true,
-        labelFormatterCallback: (value) {
+        labelFormatterCallback: (String value) {
           return value + '°c';
         },
-        axisTrackStyle: LinearAxisTrackStyle(thickness: 1),
+        axisTrackStyle: const LinearAxisTrackStyle(thickness: 1),
         barPointers: <LinearBarPointer>[
           LinearBarPointer(
               value: 80,
               thickness: 24,
               position: LinearElementPosition.outside,
               shaderCallback: (Rect bounds) {
-                return LinearGradient(colors: <Color>[
+                return const LinearGradient(colors: <Color>[
                   Colors.green,
                   Colors.orange,
                   Colors.red
@@ -63,7 +63,7 @@ class _HeatMeterState extends SampleViewState {
                 ]).createShader(bounds);
               }),
         ],
-        markerPointers: [
+        markerPointers: <LinearMarkerPointer>[
           LinearWidgetPointer(
               value: _widgetPointerWithGradientValue,
               offset: 26,
@@ -85,8 +85,10 @@ class _HeatMeterState extends SampleViewState {
                   )))),
           LinearShapePointer(
             offset: 25,
-            onValueChanged: (value) => {
-              setState(() => {_widgetPointerWithGradientValue = value})
+            onValueChanged: (dynamic value) {
+              setState(() {
+                _widgetPointerWithGradientValue = value as double;
+              });
             },
             value: _widgetPointerWithGradientValue,
             color: _widgetPointerWithGradientValue < 20

@@ -70,7 +70,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
             : sample.control!.title! + ' > ' + sample.title!;
     subItems = sample.parentIndex != null
         ? sample.control!.subItems![sample.parentIndex!]
-            .subItems[sample.childIndex].subItems
+            .subItems[sample.childIndex].subItems as List<SubItem>
         : null;
     model.addListener(_handleChange);
     super.initState();
@@ -136,9 +136,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                         onPressed: () {
                           if (outputContainer != null) {
                             final GlobalKey globalKey =
-                                outputContainer.key as GlobalKey;
+                                outputContainer.key! as GlobalKey;
                             final SampleOutputContainerState
-                                _outputContainerState = globalKey.currentState
+                                _outputContainerState = globalKey.currentState!
                                     as SampleOutputContainerState;
                             if (_outputContainerState.outputScaffoldKey
                                 .currentState!.isEndDrawerOpen) {
@@ -146,9 +146,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                             }
                           }
                           if (popup != null) {
-                            final GlobalKey globalkey = popup.key as GlobalKey;
+                            final GlobalKey globalkey = popup.key! as GlobalKey;
                             final _PopupState popupState =
-                                globalkey.currentState as _PopupState;
+                                globalkey.currentState! as _PopupState;
                             if (popupState.scaffoldKey.currentState != null &&
                                 popupState.scaffoldKey.currentState!
                                     .isEndDrawerOpen) {
@@ -171,107 +171,109 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                         letterSpacing: 0.53,
                         fontFamily: 'Roboto-Medium')),
                 actions: <Widget>[
-                  model.isMobileResolution
-                      ? Container(height: 0, width: 9)
-                      : Container(
-                          child: Container(
-                              padding: const EdgeInsets.only(top: 0, right: 20),
-                              width: MediaQuery.of(context).size.width * 0.215,
-                              height:
-                                  MediaQuery.of(context).size.height * 0.0445,
-                              child: SearchBar(
-                                sampleListModel: model,
-                              ))),
+                  if (model.isMobileResolution)
+                    Container(height: 0, width: 9)
+                  else
+                    Container(
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 0, right: 20),
+                            width: MediaQuery.of(context).size.width * 0.215,
+                            height: MediaQuery.of(context).size.height * 0.0445,
+                            child: SearchBar(
+                              sampleListModel: model,
+                            ))),
 
                   ///download option
-                  model.isMobileResolution
-                      ? Container()
-                      : Container(
-                          alignment: Alignment.center,
-                          child: Container(
-                              width: 115,
-                              height: 32,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white)),
-                              child: StatefulBuilder(builder:
-                                  (BuildContext context, StateSetter setState) {
-                                return MouseRegion(
+                  if (model.isMobileResolution)
+                    Container()
+                  else
+                    Container(
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: 115,
+                            height: 32,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white)),
+                            child: StatefulBuilder(builder:
+                                (BuildContext context, StateSetter setState) {
+                              return MouseRegion(
+                                onHover: (PointerHoverEvent event) {
+                                  isHoveringDownloadButton = true;
+                                  setState(() {});
+                                },
+                                onExit: (PointerExitEvent event) {
+                                  isHoveringDownloadButton = false;
+                                  setState(() {});
+                                },
+                                child: InkWell(
+                                  hoverColor: Colors.white,
+                                  onTap: () {
+                                    launch(
+                                        'https://www.syncfusion.com/downloads/flutter/confirm');
+                                  },
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 9, 8, 9),
+                                    child: Text('DOWNLOAD NOW',
+                                        style: TextStyle(
+                                            color: isHoveringDownloadButton
+                                                ? model.paletteColor
+                                                : Colors.white,
+                                            fontSize: 12,
+                                            fontFamily: 'Roboto-Medium')),
+                                  ),
+                                ),
+                              );
+                            }))),
+
+                  ///Get package from pub.dev option
+                  if (model.isMobileResolution)
+                    Container()
+                  else
+                    Container(
+                        padding: const EdgeInsets.only(left: 12),
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: 118,
+                            height: 32,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white)),
+                            child: StatefulBuilder(builder:
+                                (BuildContext context, StateSetter setState) {
+                              return MouseRegion(
                                   onHover: (PointerHoverEvent event) {
-                                    isHoveringDownloadButton = true;
+                                    isHoveringPubDevButton = true;
                                     setState(() {});
                                   },
                                   onExit: (PointerExitEvent event) {
-                                    isHoveringDownloadButton = false;
+                                    isHoveringPubDevButton = false;
                                     setState(() {});
                                   },
                                   child: InkWell(
                                     hoverColor: Colors.white,
                                     onTap: () {
                                       launch(
-                                          'https://www.syncfusion.com/downloads/flutter/confirm');
+                                          'https://pub.dev/publishers/syncfusion.com/packages');
                                     },
                                     child: Padding(
                                       padding:
-                                          const EdgeInsets.fromLTRB(8, 9, 8, 9),
-                                      child: Text('DOWNLOAD NOW',
-                                          style: TextStyle(
-                                              color: isHoveringDownloadButton
-                                                  ? model.paletteColor
-                                                  : Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'Roboto-Medium')),
+                                          const EdgeInsets.fromLTRB(0, 7, 8, 7),
+                                      child: Row(children: <Widget>[
+                                        Image.asset('images/pub_logo.png',
+                                            fit: BoxFit.contain,
+                                            height: 33,
+                                            width: 33),
+                                        Text('Get Packages',
+                                            style: TextStyle(
+                                                color: isHoveringPubDevButton
+                                                    ? model.paletteColor
+                                                    : Colors.white,
+                                                fontSize: 12,
+                                                fontFamily: 'Roboto-Medium'))
+                                      ]),
                                     ),
-                                  ),
-                                );
-                              }))),
-
-                  ///Get package from pub.dev option
-                  model.isMobileResolution
-                      ? Container()
-                      : Container(
-                          padding: EdgeInsets.only(left: 12),
-                          alignment: Alignment.center,
-                          child: Container(
-                              width: 118,
-                              height: 32,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white)),
-                              child: StatefulBuilder(builder:
-                                  (BuildContext context, StateSetter setState) {
-                                return MouseRegion(
-                                    onHover: (PointerHoverEvent event) {
-                                      isHoveringPubDevButton = true;
-                                      setState(() {});
-                                    },
-                                    onExit: (PointerExitEvent event) {
-                                      isHoveringPubDevButton = false;
-                                      setState(() {});
-                                    },
-                                    child: InkWell(
-                                      hoverColor: Colors.white,
-                                      onTap: () {
-                                        launch(
-                                            'https://pub.dev/publishers/syncfusion.com/packages');
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 7, 8, 7),
-                                        child: Row(children: [
-                                          Image.asset('images/pub_logo.png',
-                                              fit: BoxFit.contain,
-                                              height: 33,
-                                              width: 33),
-                                          Text('Get Packages',
-                                              style: TextStyle(
-                                                  color: isHoveringPubDevButton
-                                                      ? model.paletteColor
-                                                      : Colors.white,
-                                                  fontSize: 12,
-                                                  fontFamily: 'Roboto-Medium'))
-                                        ]),
-                                      ),
-                                    ));
-                              }))),
+                                  ));
+                            }))),
                   Container(
                     height: 60,
                     width: 60,
@@ -280,9 +282,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                       onPressed: () {
                         if (outputContainer != null) {
                           final GlobalKey globalKey =
-                              outputContainer.key as GlobalKey;
+                              outputContainer.key! as GlobalKey;
                           final SampleOutputContainerState
-                              _outputContainerState = globalKey.currentState
+                              _outputContainerState = globalKey.currentState!
                                   as SampleOutputContainerState;
                           if (_outputContainerState.outputScaffoldKey
                               .currentState!.isEndDrawerOpen) {
@@ -290,9 +292,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                           }
                         }
                         if (popup != null) {
-                          final GlobalKey globalkey = popup.key as GlobalKey;
+                          final GlobalKey globalkey = popup.key! as GlobalKey;
                           final _PopupState popupState =
-                              globalkey.currentState as _PopupState;
+                              globalkey.currentState! as _PopupState;
                           if (popupState.scaffoldKey.currentState != null &&
                               popupState
                                   .scaffoldKey.currentState!.isEndDrawerOpen) {
@@ -307,18 +309,19 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
               ),
             )),
         body: Material(
-            child: Stack(children: [
+            child: Stack(children: <Widget>[
           Row(
             children: <Widget>[
-              (MediaQuery.of(context).size.width <= 768)
-                  ? Container()
-                  : SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.17,
-                      child: inputContainer = _SampleInputContainer(
-                          sampleModel: model,
-                          category: category,
-                          key: sampleInputKey,
-                          webLayoutPageState: this)),
+              if (MediaQuery.of(context).size.width <= 768)
+                Container()
+              else
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.17,
+                    child: inputContainer = _SampleInputContainer(
+                        sampleModel: model,
+                        category: category,
+                        key: sampleInputKey,
+                        webLayoutPageState: this)),
               outputContainer = _SampleOutputContainer(
                   sampleModel: model,
                   category: category,
@@ -424,9 +427,9 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                 hoverColor: Colors.grey.withOpacity(0.2),
                 onTap: () {
                   final GlobalKey globalKey = widget
-                      .webLayoutPageState!.outputContainer.key as GlobalKey;
+                      .webLayoutPageState!.outputContainer.key! as GlobalKey;
                   final SampleOutputContainerState _outputContainerState =
-                      globalKey.currentState as SampleOutputContainerState;
+                      globalKey.currentState! as SampleOutputContainerState;
                   if (_outputContainerState
                           .outputScaffoldKey.currentState!.isEndDrawerOpen ||
                       widget.webLayoutPageState!.scaffoldKey.currentState!
@@ -457,7 +460,7 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
 
   List<Widget> _getSampleList(SampleModel model, WidgetCategory category) {
     final List<SubItem> _list =
-        widget.webLayoutPageState!.sample.control!.subItems as List<SubItem>;
+        widget.webLayoutPageState!.sample.control!.subItems! as List<SubItem>;
     final List<Widget> _children = <Widget>[];
     for (int i = 0; i < _list.length; i++) {
       final bool _isNeedSelect = widget.webLayoutPageState!.selectSample == null
@@ -474,11 +477,11 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                         _sampleInputContainerState = widget
                             .webLayoutPageState!
                             .sampleInputKey
-                            .currentState as _SampleInputContainerState;
+                            .currentState! as _SampleInputContainerState;
                     final GlobalKey globalKey = widget
-                        .webLayoutPageState!.outputContainer.key as GlobalKey;
+                        .webLayoutPageState!.outputContainer.key! as GlobalKey;
                     final SampleOutputContainerState _outputContainerState =
-                        globalKey.currentState as SampleOutputContainerState;
+                        globalKey.currentState! as SampleOutputContainerState;
                     if (_outputContainerState
                             .outputScaffoldKey.currentState!.isEndDrawerOpen ||
                         widget.webLayoutPageState!.scaffoldKey.currentState!
@@ -527,29 +530,29 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                                           ? model.backgroundColor
                                           : model.textColor),
                                 ))),
-                        _list[i].status != null
-                            ? Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    color: _list[i].status!.toLowerCase() ==
-                                            'new'
-                                        ? const Color.fromRGBO(55, 153, 30, 1)
-                                        : (_list[i].status!.toLowerCase() ==
-                                                'updated')
-                                            ? const Color.fromRGBO(
-                                                246, 117, 0, 1)
-                                            : Colors.transparent,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10))),
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
-                                child: Text(_list[i].status!,
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 10.5)))
-                            : Container(),
-                        _list[i].status != null
-                            ? const Padding(padding: EdgeInsets.only(right: 5))
-                            : Container(),
+                        if (_list[i].status != null)
+                          Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  color: _list[i].status!.toLowerCase() == 'new'
+                                      ? const Color.fromRGBO(55, 153, 30, 1)
+                                      : (_list[i].status!.toLowerCase() ==
+                                              'updated')
+                                          ? const Color.fromRGBO(246, 117, 0, 1)
+                                          : Colors.transparent,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10))),
+                              padding:
+                                  const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
+                              child: Text(_list[i].status!,
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 10.5)))
+                        else
+                          Container(),
+                        if (_list[i].status != null)
+                          const Padding(padding: EdgeInsets.only(right: 5))
+                        else
+                          Container(),
                       ])),
                 )
               : _expandedChildren(model, _list[i], category, i)));
@@ -799,7 +802,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                     Container(
                                                       width: _scrollbarWidth,
                                                       child: Stack(
-                                                        children: [
+                                                        children: <Widget>[
                                                           SingleChildScrollView(
                                                               key: PageStorageKey<
                                                                   String>((subItems
@@ -824,8 +827,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                               indicatorColor: _model.backgroundColor,
                                                                               onTap: (int value) {
                                                                                 widget.sampleModel!.needToMaximize = false;
-                                                                                final GlobalKey globalKey = widget.webLayoutPageState!.outputContainer.key as GlobalKey;
-                                                                                final SampleOutputContainerState _outputContainerState = globalKey.currentState as SampleOutputContainerState;
+                                                                                final GlobalKey globalKey = widget.webLayoutPageState!.outputContainer.key! as GlobalKey;
+                                                                                final SampleOutputContainerState _outputContainerState = globalKey.currentState! as SampleOutputContainerState;
                                                                                 _outputContainerState.sample = subItems[value];
                                                                                 _outputContainerState.needTabs = true;
                                                                                 _outputContainerState.subItems = subItems;
@@ -839,77 +842,79 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                               isScrollable: true,
                                                                               tabs: tabs!,
                                                                             )))),
-                                                          (_scrollbarWidth +
-                                                                      10) <
-                                                                  _tabTextWidth
-                                                              ? Align(
+                                                          if ((_scrollbarWidth +
+                                                                  10) <
+                                                              _tabTextWidth)
+                                                            Align(
+                                                                alignment: Alignment
+                                                                    .centerRight,
+                                                                child:
+                                                                    Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                          gradient:
+                                                                              LinearGradient(
+                                                                    colors: <
+                                                                        Color>[
+                                                                      _model
+                                                                          .webInputColor
+                                                                          .withOpacity(
+                                                                              0.21),
+                                                                      _model
+                                                                          .webInputColor
+                                                                          .withOpacity(
+                                                                              1.0)
+                                                                    ],
+                                                                    stops: const <
+                                                                        double>[
+                                                                      0.0,
+                                                                      0.7
+                                                                    ],
+                                                                  )),
+                                                                  width: 55,
                                                                   alignment:
                                                                       Alignment
                                                                           .centerRight,
-                                                                  child:
-                                                                      Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                            gradient:
-                                                                                LinearGradient(
-                                                                      colors: [
-                                                                        _model
-                                                                            .webInputColor
-                                                                            .withOpacity(0.21),
-                                                                        _model
-                                                                            .webInputColor
-                                                                            .withOpacity(1.0)
-                                                                      ],
-                                                                      stops: [
-                                                                        0.0,
-                                                                        0.7
-                                                                      ],
-                                                                    )),
-                                                                    width: 55,
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .centerRight,
-                                                                  ))
-                                                              : SizedBox
-                                                                  .fromSize(
-                                                                      size: Size
-                                                                          .zero),
-                                                          (_scrollbarWidth +
-                                                                      10) <
-                                                                  _tabTextWidth
-                                                              ? Align(
+                                                                ))
+                                                          else
+                                                            SizedBox.fromSize(
+                                                                size:
+                                                                    Size.zero),
+                                                          if ((_scrollbarWidth +
+                                                                  10) <
+                                                              _tabTextWidth)
+                                                            Align(
+                                                                alignment: Alignment
+                                                                    .centerRight,
+                                                                child:
+                                                                    Container(
                                                                   alignment:
                                                                       Alignment
                                                                           .centerRight,
-                                                                  child:
-                                                                      Container(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .centerRight,
-                                                                    child: Image.asset(
-                                                                        'images/scroll_arrow.png',
-                                                                        color: _model.themeData.brightness == Brightness.dark
-                                                                            ? Color.fromRGBO(
-                                                                                255,
-                                                                                255,
-                                                                                255,
-                                                                                0.65)
-                                                                            : Color.fromRGBO(
-                                                                                0,
-                                                                                0,
-                                                                                0,
-                                                                                0.54),
-                                                                        fit: BoxFit
-                                                                            .contain,
-                                                                        height:
-                                                                            18,
-                                                                        width:
-                                                                            18),
-                                                                  ))
-                                                              : SizedBox
-                                                                  .fromSize(
-                                                                      size: Size
-                                                                          .zero),
+                                                                  child: Image.asset(
+                                                                      'images/scroll_arrow.png',
+                                                                      color: _model.themeData.brightness == Brightness.dark
+                                                                          ? const Color.fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              0.65)
+                                                                          : const Color.fromRGBO(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              0.54),
+                                                                      fit: BoxFit
+                                                                          .contain,
+                                                                      height:
+                                                                          18,
+                                                                      width:
+                                                                          18),
+                                                                ))
+                                                          else
+                                                            SizedBox.fromSize(
+                                                                size:
+                                                                    Size.zero),
                                                         ],
                                                       ),
                                                     ),
@@ -918,49 +923,86 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .end,
-                                                        children: [
+                                                        children: <Widget>[
                                                           Flexible(
-                                                            child: SizedBox(
-                                                                height: 21,
-                                                                width: 21,
+                                                            child: Material(
+                                                                shape:
+                                                                    const CircleBorder(),
+                                                                clipBehavior: Clip
+                                                                    .hardEdge,
                                                                 child: InkWell(
+                                                                    hoverColor: Colors
+                                                                        .grey
+                                                                        .withOpacity(
+                                                                            0.3),
                                                                     onTap: () {
                                                                       launch(_sample
                                                                           .codeLink!);
                                                                     },
-                                                                    child: Image
-                                                                        .asset(
-                                                                      _model.themeData.brightness ==
-                                                                              Brightness.dark
-                                                                          ? 'images/git_hub_dark.png'
-                                                                          : 'images/git_hub.png',
-                                                                      fit: BoxFit
-                                                                          .contain,
-                                                                    ))),
+                                                                    child: Ink(
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              _model.webInputColor,
+                                                                          border: Border.all(
+                                                                              color: Colors.transparent,
+                                                                              width: 6),
+                                                                          shape:
+                                                                              BoxShape.circle,
+                                                                        ),
+                                                                        child: SizedBox(
+                                                                            height: 21,
+                                                                            width: 21,
+                                                                            child: Image.asset(
+                                                                              _model.themeData.brightness == Brightness.dark ? 'images/git_hub_dark.png' : 'images/git_hub.png',
+                                                                              fit: BoxFit.contain,
+                                                                            ))))),
                                                           ),
                                                           Padding(
                                                               padding: EdgeInsets
                                                                   .only(
                                                                       left: width <
                                                                               500
-                                                                          ? 5
-                                                                          : 10)),
+                                                                          ? 3
+                                                                          : 6)),
                                                           Flexible(
-                                                            child: InkWell(
-                                                              onTap: () {
-                                                                performMaximize(
-                                                                    _model,
-                                                                    _sample);
-                                                              },
-                                                              child: Transform
-                                                                  .scale(
-                                                                scale: 0.85,
-                                                                child: Icon(
-                                                                    Icons
-                                                                        .open_in_full,
-                                                                    color: _model
-                                                                        .webIconColor),
-                                                              ),
+                                                            child: Material(
+                                                              shape:
+                                                                  const CircleBorder(),
+                                                              clipBehavior:
+                                                                  Clip.hardEdge,
+                                                              child: InkWell(
+                                                                  hoverColor: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.3),
+                                                                  onTap: () {
+                                                                    performMaximize(
+                                                                        _model,
+                                                                        _sample);
+                                                                  },
+                                                                  child: Ink(
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: _model
+                                                                            .webInputColor,
+                                                                        border: Border.all(
+                                                                            color:
+                                                                                Colors.transparent,
+                                                                            width: 4),
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                      ),
+                                                                      child: Transform
+                                                                          .scale(
+                                                                        scale:
+                                                                            0.85,
+                                                                        child: Icon(
+                                                                            Icons
+                                                                                .open_in_full,
+                                                                            color:
+                                                                                _model.webIconColor),
+                                                                      ))),
                                                             ),
                                                           ),
                                                           Padding(
@@ -968,24 +1010,35 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                   .only(
                                                                       left: width <
                                                                               500
-                                                                          ? 5
-                                                                          : 10)),
+                                                                          ? 3
+                                                                          : 6)),
                                                           Flexible(
                                                             child: _sample
                                                                         .needsPropertyPanel ==
                                                                     true
-                                                                ? InkWell(
-                                                                    onTap: () {
-                                                                      outputScaffoldKey
-                                                                          .currentState!
-                                                                          .openEndDrawer();
-                                                                    },
-                                                                    child: Icon(
-                                                                        Icons
-                                                                            .menu,
-                                                                        color: _model
-                                                                            .webIconColor),
-                                                                  )
+                                                                ? Material(
+                                                                    shape:
+                                                                        const CircleBorder(),
+                                                                    clipBehavior:
+                                                                        Clip
+                                                                            .hardEdge,
+                                                                    child:
+                                                                        InkWell(
+                                                                            hoverColor: Colors.grey.withOpacity(
+                                                                                0.3),
+                                                                            onTap:
+                                                                                () {
+                                                                              outputScaffoldKey.currentState!.openEndDrawer();
+                                                                            },
+                                                                            child:
+                                                                                Ink(
+                                                                              decoration: BoxDecoration(
+                                                                                color: _model.webInputColor,
+                                                                                border: Border.all(color: Colors.transparent, width: 4),
+                                                                                shape: BoxShape.circle,
+                                                                              ),
+                                                                              child: Icon(Icons.menu, color: _model.webIconColor),
+                                                                            )))
                                                                 : SizedBox.fromSize(
                                                                     size: Size
                                                                         .zero),
@@ -1028,64 +1081,128 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                   width: 0.8)),
                                         ),
                                         padding: const EdgeInsets.fromLTRB(
-                                            10, 5, 10, 5),
+                                            10, 0, 10, 0),
                                         child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              Container(
-                                                height: 21,
-                                                width: 21,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child: Material(
+                                                  shape: const CircleBorder(),
+                                                  clipBehavior: Clip.hardEdge,
+                                                  child: InkWell(
+                                                      hoverColor: Colors.grey
+                                                          .withOpacity(0.3),
+                                                      onTap: () {
+                                                        launch(
+                                                            _sample.codeLink!);
+                                                      },
+                                                      child: Ink(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: _model
+                                                                .webInputColor,
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .transparent,
+                                                                width: 6),
+                                                            shape:
+                                                                BoxShape.circle,
+                                                          ),
+                                                          child: SizedBox(
+                                                              height: 21,
+                                                              width: 21,
+                                                              child:
+                                                                  Image.asset(
+                                                                _model.themeData
+                                                                            .brightness ==
+                                                                        Brightness
+                                                                            .dark
+                                                                    ? 'images/git_hub_dark.png'
+                                                                    : 'images/git_hub.png',
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ))))),
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: width < 500 ? 3 : 6)),
+                                            Flexible(
+                                              child: Material(
+                                                shape: const CircleBorder(),
+                                                clipBehavior: Clip.hardEdge,
                                                 child: InkWell(
+                                                    hoverColor: Colors.grey
+                                                        .withOpacity(0.3),
                                                     onTap: () {
-                                                      launch(_sample.codeLink!);
+                                                      performMaximize(
+                                                          _model, _sample);
                                                     },
-                                                    child: Image.asset(
-                                                        _model.themeData
-                                                                    .brightness ==
-                                                                Brightness.dark
-                                                            ? 'images/git_hub_dark.png'
-                                                            : 'images/git_hub.png',
-                                                        fit: BoxFit.contain)),
+                                                    child: Ink(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: _model
+                                                              .webInputColor,
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              width: 4),
+                                                          shape:
+                                                              BoxShape.circle,
+                                                        ),
+                                                        child: Transform.scale(
+                                                          scale: 0.85,
+                                                          child: Icon(
+                                                              Icons
+                                                                  .open_in_full,
+                                                              color: _model
+                                                                  .webIconColor),
+                                                        ))),
                                               ),
-                                              const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 12),
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  performMaximize(
-                                                      _model, _sample);
-                                                },
-                                                child: Container(
-                                                    child: Transform.scale(
-                                                        scale: 0.85,
-                                                        child: Icon(
-                                                            Icons.open_in_full,
-                                                            color: _model
-                                                                .webIconColor))),
-                                              ),
-                                              const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 12),
-                                              ),
-                                              _sample.needsPropertyPanel == true
-                                                  ? Container(
-                                                      height: 24,
-                                                      width: 24,
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: width < 500 ? 3 : 6)),
+                                            Flexible(
+                                              child: _sample
+                                                          .needsPropertyPanel ==
+                                                      true
+                                                  ? Material(
+                                                      shape:
+                                                          const CircleBorder(),
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
                                                       child: InkWell(
-                                                        onTap: () {
-                                                          outputScaffoldKey
-                                                              .currentState!
-                                                              .openEndDrawer();
-                                                        },
-                                                        child: Icon(Icons.menu,
-                                                            color: _model
-                                                                .webIconColor),
-                                                      ),
-                                                    )
-                                                  : Container(),
-                                            ]),
+                                                          hoverColor: Colors
+                                                              .grey
+                                                              .withOpacity(0.3),
+                                                          onTap: () {
+                                                            outputScaffoldKey
+                                                                .currentState!
+                                                                .openEndDrawer();
+                                                          },
+                                                          child: Ink(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: _model
+                                                                  .webInputColor,
+                                                              border: Border.all(
+                                                                  color: Colors
+                                                                      .transparent,
+                                                                  width: 4),
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                            ),
+                                                            child: Icon(
+                                                                Icons.menu,
+                                                                color: _model
+                                                                    .webIconColor),
+                                                          )))
+                                                  : SizedBox.fromSize(
+                                                      size: Size.zero),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       Expanded(
                                           child: Container(
@@ -1106,67 +1223,64 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                 _sample.key]!,
                                                         sampleModel: _model),
                                                   )),
-                                                  _sample.sourceLink != null &&
-                                                          _sample.sourceLink !=
-                                                              ''
-                                                      ? Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .fromLTRB(
-                                                                    15,
-                                                                    10,
-                                                                    0,
-                                                                    13),
-                                                            height: 40,
-                                                            child: Row(
-                                                              children: <
-                                                                  Widget>[
-                                                                Text(
-                                                                  'Source: ',
-                                                                  style: TextStyle(
-                                                                      color: _model
-                                                                          .textColor
-                                                                          .withOpacity(
-                                                                              0.65),
-                                                                      fontSize:
-                                                                          12),
-                                                                ),
-                                                                InkWell(
-                                                                  onTap: () =>
-                                                                      launch(_sample
-                                                                          .sourceLink!),
-                                                                  child: Text(
-                                                                      _sample
-                                                                          .sourceText!,
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color:
-                                                                              Colors.blue)),
-                                                                ),
-                                                              ],
+                                                  if (_sample.sourceLink !=
+                                                          null &&
+                                                      _sample.sourceLink != '')
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                15, 10, 0, 13),
+                                                        height: 40,
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              'Source: ',
+                                                              style: TextStyle(
+                                                                  color: _model
+                                                                      .textColor
+                                                                      .withOpacity(
+                                                                          0.65),
+                                                                  fontSize: 12),
                                                             ),
-                                                          ),
-                                                        )
-                                                      : Container()
+                                                            InkWell(
+                                                              onTap: () =>
+                                                                  launch(_sample
+                                                                      .sourceLink!),
+                                                              child: Text(
+                                                                  _sample
+                                                                      .sourceText!,
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .blue)),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  else
+                                                    Container()
                                                 ],
                                               ))),
                                     ],
                                   )))),
-                  _sample.description != null && _sample.description != ''
-                      ? Container(
-                          padding: const EdgeInsets.only(left: 10, top: 18),
-                          alignment: Alignment.centerLeft,
-                          child: Text(_sample.description!,
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                  color: _model.textColor,
-                                  fontFamily: 'Roboto-Regular',
-                                  letterSpacing: 0.3)))
-                      : Container(),
+                  if (_sample.description != null && _sample.description != '')
+                    Container(
+                        padding: const EdgeInsets.only(left: 10, top: 18),
+                        alignment: Alignment.centerLeft,
+                        child: Text(_sample.description!,
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                                color: _model.textColor,
+                                fontFamily: 'Roboto-Regular',
+                                letterSpacing: 0.3)))
+                  else
+                    Container(),
                 ],
               ))),
     );
@@ -1176,11 +1290,11 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
   void performMaximize(SampleModel model, SubItem sample) {
     model.needToMaximize = true;
     final _PopupState state =
-        widget.webLayoutPageState!.popUpKey.currentState as _PopupState;
+        widget.webLayoutPageState!.popUpKey.currentState! as _PopupState;
     state._sampleDetails = sample;
-    state._currentWidgetKey = model.currentRenderSample.key;
+    state._currentWidgetKey = model.currentRenderSample.key as GlobalKey;
     final _OutputContainerState _outputContainerState =
-        _outputKey.currentState as _OutputContainerState;
+        _outputKey.currentState! as _OutputContainerState;
     _outputContainerState.setState(() {});
     state.refresh(true);
   }
@@ -1201,9 +1315,10 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     for (int i = 0; i < list.length; i++) {
       if (list.isNotEmpty) {
         final String _status = getStatusTag(list[i]);
-        _tabTextWidth += (_measureTextSize(
+        _tabTextWidth += _measureTextSize(
                     list[i].title.toString() + (_status != '' ? '  ' : ''),
-                    TextStyle(letterSpacing: 0.5, fontFamily: 'Roboto-Medium'))
+                    const TextStyle(
+                        letterSpacing: 0.5, fontFamily: 'Roboto-Medium'))
                 .width +
             _measureTextSize(
                     _status == 'New'
@@ -1211,38 +1326,39 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                         : _status == 'Updated'
                             ? 'U'
                             : '',
-                    TextStyle(fontSize: 11, color: Colors.white))
+                    const TextStyle(fontSize: 11, color: Colors.white))
                 .width +
-            32 /*labelPadding*/);
+            32 /*labelPadding*/;
         _tabs.add(Tab(
             child: Row(
           children: <Widget>[
             Text(list[i].title.toString() + (_status != '' ? '  ' : ''),
                 style: const TextStyle(
                     letterSpacing: 0.5, fontFamily: 'Roboto-Medium')),
-            _status == ''
-                ? Container()
-                : Container(
-                    height: 20,
-                    width: 20,
-                    decoration: BoxDecoration(
-                      color: _status == 'New'
-                          ? const Color.fromRGBO(55, 153, 30, 1)
-                          : _status == 'Updated'
-                              ? const Color.fromRGBO(246, 117, 0, 1)
-                              : Colors.transparent,
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      _status == 'New'
-                          ? 'N'
-                          : _status == 'Updated'
-                              ? 'U'
-                              : '',
-                      style: const TextStyle(fontSize: 11, color: Colors.white),
-                    ),
-                  ),
+            if (_status == '')
+              Container()
+            else
+              Container(
+                height: 20,
+                width: 20,
+                decoration: BoxDecoration(
+                  color: _status == 'New'
+                      ? const Color.fromRGBO(55, 153, 30, 1)
+                      : _status == 'Updated'
+                          ? const Color.fromRGBO(246, 117, 0, 1)
+                          : Colors.transparent,
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  _status == 'New'
+                      ? 'N'
+                      : _status == 'Updated'
+                          ? 'U'
+                          : '',
+                  style: const TextStyle(fontSize: 11, color: Colors.white),
+                ),
+              ),
           ],
         )));
       }
@@ -1265,31 +1381,31 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                   subItem: list[i],
                   sampleView: model.sampleWidget[list[i].key])),
         ),
-        list[i].sourceLink != null && list[i].sourceLink != ''
-            ? Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(15, 10, 0, 13),
-                  height: 40,
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        'Source: ',
-                        style: TextStyle(
-                            color: model.textColor.withOpacity(0.65),
-                            fontSize: 12),
-                      ),
-                      InkWell(
-                        onTap: () => launch(list[i].sourceLink!),
-                        child: Text(list[i].sourceText!,
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.blue)),
-                      ),
-                    ],
+        if (list[i].sourceLink != null && list[i].sourceLink != '')
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(15, 10, 0, 13),
+              height: 40,
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Source: ',
+                    style: TextStyle(
+                        color: model.textColor.withOpacity(0.65), fontSize: 12),
                   ),
-                ),
-              )
-            : Container()
+                  InkWell(
+                    onTap: () => launch(list[i].sourceLink!),
+                    child: Text(list[i].sourceText!,
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.blue)),
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          Container()
       ]));
     }
     return _tabChildren;
@@ -1298,7 +1414,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
 
 /// Output sample renders inside of this widget
 class _OutputContainer extends StatefulWidget {
-  _OutputContainer(
+  const _OutputContainer(
       {this.sampleModel,
       this.key,
       this.subItem,
@@ -1338,7 +1454,7 @@ class _OutputContainerState extends State<_OutputContainer> {
   @override
   Widget build(BuildContext context) {
     widget.sampleModel!.outputContainerState = this;
-    widget.sampleOutputContainerState!._outputKey = widget.key as GlobalKey;
+    widget.sampleOutputContainerState!._outputKey = widget.key! as GlobalKey;
     widget.sampleModel!.oldWindowSize =
         widget.sampleModel!.oldWindowSize == null
             ? MediaQuery.of(context).size
@@ -1358,7 +1474,7 @@ class _OutputContainerState extends State<_OutputContainer> {
           renderWidget ?? widget.sampleView!(GlobalKey<State>());
       renderWidget = null;
       widget.sampleModel!.propertyPanelKey =
-          widget.sampleModel!.currentRenderSample.key;
+          widget.sampleModel!.currentRenderSample.key as GlobalKey;
       widget.sampleModel!.currentSampleKey = widget.subItem!.key;
       return ClipRect(
           child: MaterialApp(
@@ -1380,7 +1496,7 @@ class _OutputContainerState extends State<_OutputContainer> {
 
 /// Get the Proeprty panel widget in the drawer
 class _PropertiesPanel extends StatefulWidget {
-  _PropertiesPanel({this.sampleModel, this.key}) : super(key: key);
+  const _PropertiesPanel({this.sampleModel, this.key}) : super(key: key);
   final SampleModel? sampleModel;
 
   @override
@@ -1400,7 +1516,7 @@ class _PropertiesPanelState extends State<_PropertiesPanel> {
     final SampleModel model = widget.sampleModel!;
     _sampleKey = model.propertyPanelKey;
     final SampleViewState _sampleViewState =
-        _sampleKey!.currentState as SampleViewState;
+        _sampleKey!.currentState! as SampleViewState;
     final Widget _settingPanelContent =
         _sampleViewState.buildSettings(context)!;
 
@@ -1432,13 +1548,19 @@ class _PropertiesPanelState extends State<_PropertiesPanel> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.close,
-                                      color: widget.sampleModel!.webIconColor),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                )
+                                Material(
+                                    color: widget.sampleModel!.cardThemeColor,
+                                    shape: const CircleBorder(),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: IconButton(
+                                      hoverColor: Colors.grey.withOpacity(0.3),
+                                      icon: Icon(Icons.close,
+                                          color:
+                                              widget.sampleModel!.webIconColor),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ))
                               ]),
                           Container(
                               padding: const EdgeInsets.only(right: 5),
@@ -1454,7 +1576,7 @@ class _PropertiesPanelState extends State<_PropertiesPanel> {
 
 /// Get the sample list in an expansion tile
 class _TileContainer extends StatefulWidget {
-  _TileContainer(
+  const _TileContainer(
       {this.sampleModel,
       this.category,
       this.webLayoutPageState,
@@ -1487,7 +1609,7 @@ class _TileContainerState extends State<_TileContainer> {
         final _SampleInputContainerState _sampleInputContainerState = widget
             .webLayoutPageState!
             .sampleInputKey
-            .currentState as _SampleInputContainerState;
+            .currentState! as _SampleInputContainerState;
         final List<_ExpansionKey> expansionKey =
             _sampleInputContainerState.expansionKey;
         for (int k = 0; k < expansionKey.length; k++) {
@@ -1507,7 +1629,7 @@ class _TileContainerState extends State<_TileContainer> {
               fontFamily: 'Roboto-Medium')),
       key: PageStorageKey<String>(widget.item!.title!),
       children: _getNextLevelChildren(
-          _model, widget.item!.subItems as List<SubItem>, widget.item!.title!),
+          _model, widget.item!.subItems! as List<SubItem>, widget.item!.title!),
     );
   }
 
@@ -1543,11 +1665,12 @@ class _TileContainerState extends State<_TileContainer> {
                           _sampleInputContainerState = widget
                               .webLayoutPageState!
                               .sampleInputKey
-                              .currentState as _SampleInputContainerState;
-                      final GlobalKey _globalKey = widget
-                          .webLayoutPageState!.outputContainer.key as GlobalKey;
+                              .currentState! as _SampleInputContainerState;
+                      final GlobalKey _globalKey = widget.webLayoutPageState!
+                          .outputContainer.key! as GlobalKey;
                       final SampleOutputContainerState _outputContainerState =
-                          _globalKey.currentState as SampleOutputContainerState;
+                          _globalKey.currentState!
+                              as SampleOutputContainerState;
                       if (_outputContainerState.outputScaffoldKey.currentState!
                               .isEndDrawerOpen ||
                           widget.webLayoutPageState!.scaffoldKey.currentState!
@@ -1566,7 +1689,7 @@ class _TileContainerState extends State<_TileContainer> {
                       widget.webLayoutPageState!.selectSample = list[i].title!;
                       widget.webLayoutPageState!.sample =
                           list[i].subItems != null
-                              ? list[i].subItems![0]
+                              ? list[i].subItems![0] as SubItem
                               : list[i];
                       if (model.currentSampleKey == null ||
                           (list[i].key != null
@@ -1619,10 +1742,10 @@ class _TileContainerState extends State<_TileContainer> {
                               child: Text(_status,
                                   style: const TextStyle(
                                       fontSize: 10.5, color: Colors.white))),
-                          _status != null && _status != ''
-                              ? const Padding(
-                                  padding: EdgeInsets.only(right: 5))
-                              : Container(),
+                          if (_status != null && _status != '')
+                            const Padding(padding: EdgeInsets.only(right: 5))
+                          else
+                            Container(),
                         ]))))
             : Material(
                 color: model.webBackgroundColor,
@@ -1633,16 +1756,17 @@ class _TileContainerState extends State<_TileContainer> {
                         _sampleInputContainerState = widget
                             .webLayoutPageState!
                             .sampleInputKey
-                            .currentState as _SampleInputContainerState;
+                            .currentState! as _SampleInputContainerState;
                     final GlobalKey _globalKey = widget
-                        .webLayoutPageState!.outputContainer.key as GlobalKey;
+                        .webLayoutPageState!.outputContainer.key! as GlobalKey;
                     final SampleOutputContainerState _outputContainerState =
-                        _globalKey.currentState as SampleOutputContainerState;
+                        _globalKey.currentState! as SampleOutputContainerState;
                     if (list[i].subItems != null &&
                         list[i].subItems!.isNotEmpty) {
                       _outputContainerState.subItems =
-                          list[i].subItems as List<SubItem>;
-                      _outputContainerState.sample = list[i].subItems![0];
+                          list[i].subItems! as List<SubItem>;
+                      _outputContainerState.sample =
+                          list[i].subItems![0] as SubItem;
                       _outputContainerState.tabIndex = 0;
                       _outputContainerState.needTabs = true;
                     } else {
@@ -1664,7 +1788,7 @@ class _TileContainerState extends State<_TileContainer> {
 
                     widget.webLayoutPageState!.selectSample = list[i].title!;
                     widget.webLayoutPageState!.sample = list[i].subItems != null
-                        ? list[i].subItems![0]
+                        ? list[i].subItems![0] as SubItem
                         : list[i];
                     if (model.currentSampleKey == null ||
                         (list[i].key != null
@@ -1702,24 +1826,26 @@ class _TileContainerState extends State<_TileContainer> {
                                         color: _isNeedSelect
                                             ? model.backgroundColor
                                             : model.textColor)))),
-                        _status != null && _status != ''
-                            ? Container(
-                                decoration: BoxDecoration(
-                                    color: _status == 'New'
-                                        ? const Color.fromRGBO(55, 153, 30, 1)
-                                        : const Color.fromRGBO(246, 117, 0, 1),
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                padding:
-                                    const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
-                                child: Text(_status,
-                                    style: const TextStyle(
-                                        fontSize: 10.5, color: Colors.white)))
-                            : Container(),
-                        _status != null && _status != ''
-                            ? const Padding(padding: EdgeInsets.only(right: 5))
-                            : Container(),
+                        if (_status != null && _status != '')
+                          Container(
+                              decoration: BoxDecoration(
+                                  color: _status == 'New'
+                                      ? const Color.fromRGBO(55, 153, 30, 1)
+                                      : const Color.fromRGBO(246, 117, 0, 1),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10.0))),
+                              padding:
+                                  const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
+                              child: Text(_status,
+                                  style: const TextStyle(
+                                      fontSize: 10.5, color: Colors.white)))
+                        else
+                          Container(),
+                        if (_status != null && _status != '')
+                          const Padding(padding: EdgeInsets.only(right: 5))
+                        else
+                          Container(),
                       ])),
                 )));
       }
@@ -1730,11 +1856,12 @@ class _TileContainerState extends State<_TileContainer> {
 
 /// Showing the expanded sample in a pop-up widget
 class _Popup extends StatefulWidget {
-  _Popup({this.key, this.show}) : super(key: key);
+  const _Popup({this.key, this.show}) : super(key: key);
   @override
   final Key? key;
   final bool? show;
   @override
+  // ignore: no_logic_in_create_state
   _PopupState createState() => _PopupState(show!);
 }
 
@@ -1746,7 +1873,7 @@ class _PopupState extends State<_Popup> {
 
   late GlobalKey<State>? _currentWidgetKey;
 
-  void refresh(popupShow) {
+  void refresh(bool popupShow) {
     setState(() {
       show = popupShow;
     });
@@ -1786,7 +1913,7 @@ class _PopupState extends State<_Popup> {
                                 key: scaffoldKey,
                                 endDrawer: _propertiesPanel,
                                 appBar: PreferredSize(
-                                    preferredSize: Size.fromHeight(40),
+                                    preferredSize: const Size.fromHeight(40),
                                     child: AppBar(
                                         title: Text(_sampleDetails!.title!,
                                             style: TextStyle(
@@ -1797,45 +1924,65 @@ class _PopupState extends State<_Popup> {
                                         backgroundColor:
                                             model!.webBackgroundColor,
                                         actions: <Widget>[
-                                          _sampleDetails!.needsPropertyPanel ==
-                                                  true
-                                              ? Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  child: IconButton(
-                                                    icon: Icon(Icons.menu,
-                                                        color: model!
-                                                            .webIconColor),
-                                                    onPressed: () {
-                                                      model!.propertyPanelKey =
-                                                          _currentWidgetKey!;
-                                                      scaffoldKey.currentState!
-                                                          .openEndDrawer();
-                                                    },
-                                                  ))
-                                              : Container(),
+                                          if (_sampleDetails!
+                                                  .needsPropertyPanel ==
+                                              true)
+                                            Container(
+                                                height: 40,
+                                                width: 40,
+                                                child: Material(
+                                                    color: model!
+                                                        .webBackgroundColor,
+                                                    shape: const CircleBorder(),
+                                                    clipBehavior: Clip.hardEdge,
+                                                    child: IconButton(
+                                                      hoverColor: Colors.grey
+                                                          .withOpacity(0.3),
+                                                      icon: Icon(Icons.menu,
+                                                          color: model!
+                                                              .webIconColor),
+                                                      onPressed: () {
+                                                        model!.propertyPanelKey =
+                                                            _currentWidgetKey!;
+                                                        scaffoldKey
+                                                            .currentState!
+                                                            .openEndDrawer();
+                                                      },
+                                                    )))
+                                          else
+                                            Container(),
                                           Container(
                                             height: 40,
                                             width: 40,
-                                            child: IconButton(
-                                              icon: Icon(Icons.close,
-                                                  color: model!.webIconColor),
-                                              onPressed: () {
-                                                model!.needToMaximize = false;
-                                                final _OutputContainerState
-                                                    _outputContainerState =
-                                                    model!.outputContainerState;
-                                                _outputContainerState
-                                                    .setState(() {
-                                                  _outputContainerState
-                                                          .renderWidget =
-                                                      _currentWidgetKey
-                                                          ?.currentWidget;
-                                                });
-                                                _sampleDetails = null;
-                                                refresh(false);
-                                              },
-                                            ),
+                                            child: Material(
+                                                color:
+                                                    model!.webBackgroundColor,
+                                                shape: const CircleBorder(),
+                                                clipBehavior: Clip.hardEdge,
+                                                child: IconButton(
+                                                  hoverColor: Colors.grey
+                                                      .withOpacity(0.3),
+                                                  icon: Icon(Icons.close,
+                                                      color:
+                                                          model!.webIconColor),
+                                                  onPressed: () {
+                                                    model!.needToMaximize =
+                                                        false;
+                                                    final _OutputContainerState
+                                                        _outputContainerState =
+                                                        model!.outputContainerState
+                                                            as _OutputContainerState;
+                                                    _outputContainerState
+                                                        .setState(() {
+                                                      _outputContainerState
+                                                              .renderWidget =
+                                                          _currentWidgetKey
+                                                              ?.currentWidget;
+                                                    });
+                                                    _sampleDetails = null;
+                                                    refresh(false);
+                                                  },
+                                                )),
                                           )
                                         ])),
                                 backgroundColor: model!.themeData.brightness ==

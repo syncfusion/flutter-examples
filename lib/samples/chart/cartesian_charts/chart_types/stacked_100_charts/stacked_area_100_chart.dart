@@ -42,13 +42,13 @@ class _StackedAreaChartState extends SampleViewState {
       legend: Legend(
           isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),
       primaryXAxis: DateTimeAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y()),
       primaryYAxis: NumericAxis(
           rangePadding: ChartRangePadding.none,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getStackedAreaSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

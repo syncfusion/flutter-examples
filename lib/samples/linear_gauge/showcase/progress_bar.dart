@@ -37,11 +37,11 @@ class _ProgressBarState extends SampleViewState {
   /// Returns the progress bar.
   Widget _buildProgressBar(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
-    final double _progressvalue = 41.467;
+    const double _progressvalue = 41.467;
 
-    return Stack(children: [
+    return Stack(children: <Widget>[
       Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Center(
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
@@ -59,13 +59,13 @@ class _ProgressBarState extends SampleViewState {
                           edgeStyle: LinearEdgeStyle.bothCurve,
                           borderWidth: 1,
                           borderColor: _brightness == Brightness.dark
-                              ? Color(0xff898989)
+                              ? const Color(0xff898989)
                               : Colors.grey[350],
                           color: _brightness == Brightness.dark
                               ? Colors.transparent
                               : Colors.grey[350],
                         ),
-                        barPointers: [
+                        barPointers: const <LinearBarPointer>[
                           LinearBarPointer(
                               value: _progressvalue,
                               thickness: 30,
@@ -76,10 +76,10 @@ class _ProgressBarState extends SampleViewState {
       Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-              padding: EdgeInsets.all(30),
+              padding: const EdgeInsets.all(30),
               child: Text(
                 _progressvalue.toStringAsFixed(2) + '%',
-                style: TextStyle(fontSize: 14, color: Color(0xffFFFFFF)),
+                style: const TextStyle(fontSize: 14, color: Color(0xffFFFFFF)),
               ))),
     ]);
   }

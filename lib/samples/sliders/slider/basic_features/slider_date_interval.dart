@@ -33,12 +33,14 @@ class _DateIntervalSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 300, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 300
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 300, child: slider),
+            );
+    });
   }
 }
 
@@ -66,7 +68,7 @@ class _DateIntervalSliderState extends SampleViewState {
           value: _yearValue,
           onChanged: (dynamic value) {
             setState(() {
-              _yearValue = value;
+              _yearValue = value as DateTime;
             });
           },
           enableTooltip: true,
@@ -93,7 +95,7 @@ class _DateIntervalSliderState extends SampleViewState {
           value: _hourValue,
           onChanged: (dynamic value) {
             setState(() {
-              _hourValue = value;
+              _hourValue = value as DateTime;
             });
           },
           enableTooltip: true,

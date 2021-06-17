@@ -239,12 +239,13 @@ class _GettingStartedDatePickerState extends SampleViewState {
               child: Container(
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _viewModeString,
                     items: _viewModeList.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'Month',
-                          child: Text('$value',
+                          child: Text(value,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
@@ -273,12 +274,13 @@ class _GettingStartedDatePickerState extends SampleViewState {
                 padding: const EdgeInsets.all(0),
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectionModeString,
                     items: _selectionModeList.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'Range',
-                          child: Text('$value',
+                          child: Text(value,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
@@ -512,7 +514,10 @@ class _GettingStartedDatePickerState extends SampleViewState {
   /// to the display date property of controller.
   void _onDisplayDateChanged(DateRangePickerSelectionChangedArgs details) {
     setState(() {
-      _controller.displayDate = details.value;
+      final dynamic date = details.value;
+      if (date is DateTime) {
+        _controller.displayDate = date;
+      }
     });
   }
 }
@@ -562,7 +567,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
         color: Colors.transparent,
         child: GestureDetector(
           onTap: () async {
-            final DateTime? result = await showDialog<dynamic>(
+            final DateTime? result = await showDialog<DateTime>(
                 context: context,
                 builder: (BuildContext context) {
                   return Theme(

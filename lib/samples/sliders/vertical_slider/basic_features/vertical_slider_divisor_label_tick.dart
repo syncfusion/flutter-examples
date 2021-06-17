@@ -34,12 +34,14 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+    });
   }
 }
 
@@ -58,7 +60,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(
             tooltipBackgroundColor: model.backgroundColor,
-            labelOffset: Offset(8, 0)),
+            labelOffset: const Offset(8, 0)),
         child: SfSlider.vertical(
           showLabels: true,
           interval: 20,
@@ -67,7 +69,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
           value: _labelSliderValue,
           onChanged: (dynamic values) {
             setState(() {
-              _labelSliderValue = values;
+              _labelSliderValue = values as double;
             });
           },
           enableTooltip: true,
@@ -87,7 +89,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
           value: _tickSliderValue,
           onChanged: (dynamic values) {
             setState(() {
-              _tickSliderValue = values;
+              _tickSliderValue = values as double;
             });
           },
           enableTooltip: true,
@@ -107,7 +109,7 @@ class _SliderLabelCustomizationState extends SampleViewState {
           tooltipPosition: SliderTooltipPosition.right,
           onChanged: (dynamic values) {
             setState(() {
-              _divisorSliderValue = values;
+              _divisorSliderValue = values as double;
             });
           },
           enableTooltip: true,
@@ -132,17 +134,17 @@ class _SliderLabelCustomizationState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithDivisorCustomization()),
-              Text('Divisors')
+              const Text('Divisors')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithLabelCustomization()),
-              Text('Labels'),
+              const Text('Labels'),
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithTickCustomization()),
-              Text('Ticks')
+              const Text('Ticks')
             ]),
           ],
         ));

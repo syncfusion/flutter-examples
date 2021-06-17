@@ -41,7 +41,7 @@ class _SwipingDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = (model.isWeb || model.isDesktop);
+    isWebOrDesktop = model.isWeb || model.isDesktop;
     employeeDataSource = _EmployeeDataSource(isWebOrDesktop: isWebOrDesktop);
     orderIdController = TextEditingController();
     customerIdController = TextEditingController();
@@ -54,23 +54,25 @@ class _SwipingDataGridState extends SampleViewState {
   /// Building the each field with label and TextFormField
   Widget _buildRow(
       {required TextEditingController controller, required String columnName}) {
-    final keyboardType = ['City', 'Name'].contains(columnName)
-        ? TextInputType.text
-        : TextInputType.number;
-    final inputFormatter = ['City', 'Name'].contains(columnName)
-        ? FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
-        : FilteringTextInputFormatter.allow(RegExp('[0-9]'));
+    final TextInputType keyboardType =
+        <String>['City', 'Name'].contains(columnName)
+            ? TextInputType.text
+            : TextInputType.number;
+    final FilteringTextInputFormatter inputFormatter =
+        <String>['City', 'Name'].contains(columnName)
+            ? FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
+            : FilteringTextInputFormatter.allow(RegExp('[0-9]'));
 
     return Row(
-      children: [
+      children: <Widget>[
         Container(
             width: isWebOrDesktop ? 150 : 130,
-            padding: EdgeInsets.symmetric(vertical: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Text(columnName)),
         Container(
           width: isWebOrDesktop ? 150 : 130,
           child: TextFormField(
-            validator: (value) {
+            validator: (String? value) {
               if (value!.isEmpty) {
                 return 'Field must not be empty';
               }
@@ -78,7 +80,7 @@ class _SwipingDataGridState extends SampleViewState {
             },
             controller: controller,
             keyboardType: keyboardType,
-            inputFormatters: [inputFormatter],
+            inputFormatters: <TextInputFormatter>[inputFormatter],
           ),
         )
       ],
@@ -89,7 +91,7 @@ class _SwipingDataGridState extends SampleViewState {
   Widget _buildAlertDialogContent() {
     return isWebOrDesktop
         ? Column(
-            children: [
+            children: <Widget>[
               _buildRow(controller: orderIdController!, columnName: 'Order ID'),
               _buildRow(
                   controller: customerIdController!, columnName: 'Customer ID'),
@@ -100,7 +102,7 @@ class _SwipingDataGridState extends SampleViewState {
             ],
           )
         : Column(
-            children: [
+            children: <Widget>[
               _buildRow(controller: orderIdController!, columnName: 'Order ID'),
               _buildRow(
                   controller: customerIdController!, columnName: 'Customer ID'),
@@ -113,7 +115,7 @@ class _SwipingDataGridState extends SampleViewState {
   /// Updating the DataGridRows after changing the value and notify the DataGrid
   /// to refresh the view
   void _processCellUpdate(DataGridRow row, BuildContext buildContext) {
-    final rowIndex = employeeDataSource.dataGridRows.indexOf(row);
+    final int rowIndex = employeeDataSource.dataGridRows.indexOf(row);
 
     if (_formKey.currentState!.validate()) {
       employeeDataSource.employees[rowIndex] = _Employee(
@@ -136,51 +138,54 @@ class _SwipingDataGridState extends SampleViewState {
 
   // Updating the data to the TextEditingController
   void _updateTextFieldContext(DataGridRow row) {
-    final orderId = row
+    final String? orderId = row
         .getCells()
-        .firstWhereOrNull((element) => element.columnName == 'id')
+        .firstWhereOrNull((DataGridCell element) => element.columnName == 'id')
         ?.value
         .toString();
     orderIdController!.text = orderId ?? '';
 
-    final customerId = row
+    final String? customerId = row
         .getCells()
-        .firstWhereOrNull((element) => element.columnName == 'customerId')
+        .firstWhereOrNull(
+            (DataGridCell element) => element.columnName == 'customerId')
         ?.value
         .toString();
 
     customerIdController!.text = customerId ?? '';
 
-    final name = row
+    final String? name = row
         .getCells()
-        .firstWhereOrNull((element) => element.columnName == 'name')
+        .firstWhereOrNull(
+            (DataGridCell element) => element.columnName == 'name')
         ?.value
         .toString();
 
     nameController!.text = name ?? '';
 
-    final freight = row
+    final dynamic freight = row
         .getCells()
-        .firstWhereOrNull((element) => element.columnName == 'freight')
+        .firstWhereOrNull(
+            (DataGridCell element) => element.columnName == 'freight')
         ?.value;
 
     freightController!.text =
         freight == null ? '' : freight.roundToDouble().toString();
 
-    final city = row
+    final String? city = row
         .getCells()
         .firstWhereOrNull(
-          (element) => element.columnName == 'city',
+          (DataGridCell element) => element.columnName == 'city',
         )
         ?.value
         .toString();
 
     cityController!.text = city ?? '';
 
-    final price = row
+    final String? price = row
         .getCells()
         .firstWhereOrNull(
-          (element) => element.columnName == 'price',
+          (DataGridCell element) => element.columnName == 'price',
         )
         ?.value
         .toString();
@@ -190,7 +195,7 @@ class _SwipingDataGridState extends SampleViewState {
 
   /// Building the option button on the bottom of the alert popup
   List<Widget> _buildActionButtons(DataGridRow row, BuildContext buildContext) {
-    return [
+    return <Widget>[
       TextButton(
         onPressed: () => _processCellUpdate(row, buildContext),
         child: Text(
@@ -211,13 +216,13 @@ class _SwipingDataGridState extends SampleViewState {
   /// Editing the DataGridRow
   void _handleEditWidgetTap(DataGridRow row) {
     _updateTextFieldContext(row);
-    showDialog(
+    showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (BuildContext context) => AlertDialog(
         scrollable: true,
         titleTextStyle: TextStyle(
             color: model.textColor, fontWeight: FontWeight.bold, fontSize: 16),
-        title: Text('Edit Details'),
+        title: const Text('Edit Details'),
         actions: _buildActionButtons(row, context),
         content: Scrollbar(
           child: SingleChildScrollView(
@@ -234,14 +239,14 @@ class _SwipingDataGridState extends SampleViewState {
 
   /// Deleting the DataGridRow
   void _handleDeleteWidgetTap(DataGridRow row) {
-    final index = employeeDataSource.dataGridRows.indexOf(row);
+    final int index = employeeDataSource.dataGridRows.indexOf(row);
     employeeDataSource.dataGridRows.remove(row);
     employeeDataSource.employees.remove(employeeDataSource.employees[index]);
     employeeDataSource.updateDataSource();
-    showDialog(
+    showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        actions: [
+      builder: (BuildContext context) => AlertDialog(
+        actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
@@ -250,7 +255,7 @@ class _SwipingDataGridState extends SampleViewState {
             ),
           ),
         ],
-        content: Text('Row deleted successfully'),
+        content: const Text('Row deleted successfully'),
       ),
     );
   }
@@ -265,7 +270,7 @@ class _SwipingDataGridState extends SampleViewState {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const <Widget>[
             Icon(Icons.edit, color: Colors.white, size: 20),
             SizedBox(width: 16.0),
             Text(
@@ -288,7 +293,7 @@ class _SwipingDataGridState extends SampleViewState {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const <Widget>[
             Icon(Icons.delete, color: Colors.white, size: 20),
             SizedBox(width: 16.0),
             Text(
@@ -326,7 +331,7 @@ class _SwipingDataGridState extends SampleViewState {
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = isWebOrDesktop
-        ? [
+        ? <GridColumn>[
             GridTextColumn(
                 columnName: 'id',
                 width: (isWebOrDesktop && model.isMobileResolution)
@@ -335,7 +340,7 @@ class _SwipingDataGridState extends SampleViewState {
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerRight,
-                  child: Text(
+                  child: const Text(
                     'Order ID',
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -348,7 +353,7 @@ class _SwipingDataGridState extends SampleViewState {
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerRight,
-                  child: Text(
+                  child: const Text(
                     'Customer ID',
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -361,7 +366,7 @@ class _SwipingDataGridState extends SampleViewState {
               label: Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(8),
-                child: Text(
+                child: const Text(
                   'Name',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -375,7 +380,7 @@ class _SwipingDataGridState extends SampleViewState {
               label: Container(
                 padding: const EdgeInsets.all(8),
                 alignment: Alignment.centerRight,
-                child: Text(
+                child: const Text(
                   'Freight',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -389,7 +394,7 @@ class _SwipingDataGridState extends SampleViewState {
               label: Container(
                 padding: const EdgeInsets.all(8),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'City',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -403,20 +408,20 @@ class _SwipingDataGridState extends SampleViewState {
               label: Container(
                 padding: const EdgeInsets.all(8),
                 alignment: Alignment.centerRight,
-                child: Text(
+                child: const Text(
                   'Price',
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
             )
           ]
-        : [
+        : <GridColumn>[
             GridTextColumn(
               columnName: 'id',
               label: Container(
                 padding: const EdgeInsets.all(8),
                 alignment: Alignment.centerRight,
-                child: Text(
+                child: const Text(
                   'ID',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -430,7 +435,7 @@ class _SwipingDataGridState extends SampleViewState {
               label: Container(
                 padding: const EdgeInsets.all(8),
                 alignment: Alignment.centerRight,
-                child: Text(
+                child: const Text(
                   'Customer ID',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -441,7 +446,7 @@ class _SwipingDataGridState extends SampleViewState {
               label: Container(
                 padding: const EdgeInsets.all(8),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Name',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -452,7 +457,7 @@ class _SwipingDataGridState extends SampleViewState {
               label: Container(
                 padding: const EdgeInsets.all(8),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'City',
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -481,33 +486,32 @@ class _EmployeeDataSource extends DataGridSource {
   }
 
   final bool isWebOrDesktop;
-  List<DataGridRow> dataGridRows = [];
-  List<_Employee> employees = [];
+  List<DataGridRow> dataGridRows = <DataGridRow>[];
+  List<_Employee> employees = <_Employee>[];
 
   // Building and Updating DataGridRows
 
   void updateDataGridRow() {
     dataGridRows = isWebOrDesktop
-        ? employees.map<DataGridRow>((dataGridRow) {
-            return DataGridRow(cells: [
-              DataGridCell<int>(columnName: 'id', value: dataGridRow.id),
+        ? employees.map<DataGridRow>((_Employee employee) {
+            return DataGridRow(cells: <DataGridCell>[
+              DataGridCell<int>(columnName: 'id', value: employee.id),
               DataGridCell<int>(
-                  columnName: 'customerId', value: dataGridRow.customerId),
-              DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
+                  columnName: 'customerId', value: employee.customerId),
+              DataGridCell<String>(columnName: 'name', value: employee.name),
               DataGridCell<double>(
-                  columnName: 'freight', value: dataGridRow.freight),
-              DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
-              DataGridCell<double>(
-                  columnName: 'price', value: dataGridRow.price),
+                  columnName: 'freight', value: employee.freight),
+              DataGridCell<String>(columnName: 'city', value: employee.city),
+              DataGridCell<double>(columnName: 'price', value: employee.price),
             ]);
           }).toList()
-        : employees.map<DataGridRow>((dataGridRow) {
-            return DataGridRow(cells: [
-              DataGridCell<int>(columnName: 'id', value: dataGridRow.id),
+        : employees.map<DataGridRow>((_Employee employee) {
+            return DataGridRow(cells: <DataGridCell>[
+              DataGridCell<int>(columnName: 'id', value: employee.id),
               DataGridCell<int>(
-                  columnName: 'customerId', value: dataGridRow.customerId),
-              DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
-              DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
+                  columnName: 'customerId', value: employee.customerId),
+              DataGridCell<String>(columnName: 'name', value: employee.name),
+              DataGridCell<String>(columnName: 'city', value: employee.city),
             ]);
           }).toList();
   }
@@ -520,7 +524,7 @@ class _EmployeeDataSource extends DataGridSource {
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     if (isWebOrDesktop) {
-      return DataGridRowAdapter(cells: [
+      return DataGridRowAdapter(cells: <Widget>[
         Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
@@ -549,7 +553,7 @@ class _EmployeeDataSource extends DataGridSource {
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(row.getCells()[3].value)
                 .toString(),
             overflow: TextOverflow.ellipsis,
@@ -567,7 +571,7 @@ class _EmployeeDataSource extends DataGridSource {
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
           child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: '\$')
+            NumberFormat.currency(locale: 'en_US', symbol: r'$')
                 .format(row.getCells()[5].value)
                 .toString(),
             overflow: TextOverflow.ellipsis,
@@ -592,13 +596,13 @@ class _EmployeeDataSource extends DataGridSource {
       }
 
       return DataGridRowAdapter(
-          cells: row.getCells().map<Widget>((dataCell) {
+          cells: row.getCells().map<Widget>((DataGridCell dataCell) {
         if (dataCell.columnName == 'id' ||
             dataCell.columnName == 'customerId') {
           return buildWidget(
-              alignment: Alignment.centerRight, value: dataCell.value);
+              alignment: Alignment.centerRight, value: dataCell.value!);
         } else {
-          return buildWidget(value: dataCell.value);
+          return buildWidget(value: dataCell.value!);
         }
       }).toList(growable: false));
     }

@@ -20,7 +20,7 @@ class _SparklineAxesTypesState extends SampleViewState {
   _SparklineAxesTypesState();
   double _size = 150;
   bool _isVertical = false;
-  final List<_SalesData> _dateTimeChartData = [
+  final List<_SalesData> _dateTimeChartData = <_SalesData>[
     _SalesData(xval: DateTime(2018, 0, 1), yval: 4),
     _SalesData(xval: DateTime(2018, 0, 2), yval: 4.5),
     _SalesData(xval: DateTime(2018, 0, 3), yval: 8),
@@ -46,7 +46,7 @@ class _SparklineAxesTypesState extends SampleViewState {
     _SalesData(xval: DateTime(2018, 0, 31), yval: 7),
   ];
 
-  final List<_SalesData> _numericdata = [
+  final List<_SalesData> _numericdata = <_SalesData>[
     _SalesData(xval: 1, yval: 190),
     _SalesData(xval: 2, yval: 165),
     _SalesData(xval: 3, yval: 158),
@@ -56,7 +56,7 @@ class _SparklineAxesTypesState extends SampleViewState {
     _SalesData(xval: 7, yval: 210),
   ];
 
-  final List<_SalesData> _categorydata = [
+  final List<_SalesData> _categorydata = <_SalesData>[
     _SalesData(xval: 'Robert', yval: 60),
     _SalesData(xval: 'Andrew', yval: 65),
     _SalesData(xval: 'Suyama', yval: 70),
@@ -84,16 +84,16 @@ class _SparklineAxesTypesState extends SampleViewState {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                  Padding(
+                      children: <Widget>[
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   ),
                   _buildSparkNumericChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   ),
                   _buildSparkCategoryChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   ),
                   _buildSparkDatetimeChart(),
@@ -102,16 +102,16 @@ class _SparklineAxesTypesState extends SampleViewState {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  Padding(
+                  children: <Widget>[
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   ),
                   _buildSparkNumericChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   ),
                   _buildSparkCategoryChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                   ),
                   _buildSparkDatetimeChart(),
@@ -122,13 +122,13 @@ class _SparklineAxesTypesState extends SampleViewState {
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
             _buildSparkNumericChart(),
-            Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
             ),
             _buildSparkCategoryChart(),
-            Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
             ),
             _buildSparkDatetimeChart(),
@@ -141,17 +141,17 @@ class _SparklineAxesTypesState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
               height: _isVertical ? _size : _size * 0.7,
               width: _isVertical ? _size * 1.7 : _size,
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey.withOpacity(0.5))),
-              child: Column(children: [
-                Text('Average working hours for a month',
+              child: Column(children: <Widget>[
+                const Text('Average working hours for a month',
                     textAlign: TextAlign.center),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                 ),
                 Expanded(
@@ -162,10 +162,10 @@ class _SparklineAxesTypesState extends SampleViewState {
                             _dateTimeChartData[index].xval,
                         yValueMapper: (int index) =>
                             _dateTimeChartData[index].yval!,
-                        trackball: SparkChartTrackball(
+                        trackball: const SparkChartTrackball(
                             activationMode: SparkChartActivationMode.tap))),
-                Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                Text('DateTime Axis',
+                const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                const Text('DateTime Axis',
                     style: TextStyle(fontStyle: FontStyle.italic)),
               ])),
         ]);
@@ -176,17 +176,17 @@ class _SparklineAxesTypesState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
               height: _isVertical ? _size : _size * 0.7,
               width: _isVertical ? _size * 1.7 : _size,
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey.withOpacity(0.5))),
-              child: Column(children: [
-                Text('Percentage of the students in a class',
+              child: Column(children: <Widget>[
+                const Text('Percentage of the students in a class',
                     textAlign: TextAlign.center),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                 ),
                 Expanded(
@@ -203,8 +203,8 @@ class _SparklineAxesTypesState extends SampleViewState {
                               return _labelText;
                             },
                             activationMode: SparkChartActivationMode.tap))),
-                Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                Text('Category Axis',
+                const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                const Text('Category Axis',
                     style: TextStyle(fontStyle: FontStyle.italic)),
               ])),
         ]);
@@ -215,17 +215,17 @@ class _SparklineAxesTypesState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
               height: _isVertical ? _size : _size * 0.7,
               width: _isVertical ? _size * 1.7 : _size,
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey.withOpacity(0.5))),
-              child: Column(children: [
-                Text('Expenditure details of various trips',
+              child: Column(children: <Widget>[
+                const Text('Expenditure details of various trips',
                     textAlign: TextAlign.center),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                 ),
                 Expanded(
@@ -242,8 +242,8 @@ class _SparklineAxesTypesState extends SampleViewState {
                               return _labelText;
                             },
                             activationMode: SparkChartActivationMode.tap))),
-                Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                Text('Numeric Axis',
+                const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                const Text('Numeric Axis',
                     style: TextStyle(fontStyle: FontStyle.italic)),
               ])),
         ]);

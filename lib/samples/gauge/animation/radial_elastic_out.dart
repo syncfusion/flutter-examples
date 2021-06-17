@@ -37,7 +37,7 @@ class _RadialElasticOutAnimationState extends SampleViewState {
             interval: 10,
             showLabels: false,
             radiusFactor: 0.9,
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
                 length: 0.1, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
             minorTicksPerInterval: 4,
             pointers: <GaugePointer>[
@@ -62,12 +62,12 @@ class _RadialElasticOutAnimationState extends SampleViewState {
                   animationDuration: 2000,
                   animationType: AnimationType.elasticOut,
                   needleEndWidth: 5,
-                  knobStyle:
-                      KnobStyle(knobRadius: 0, sizeUnit: GaugeSizeUnit.factor))
+                  knobStyle: const KnobStyle(
+                      knobRadius: 0, sizeUnit: GaugeSizeUnit.factor))
             ],
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
                 length: 0.04, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
-            axisLineStyle: AxisLineStyle(color: Colors.transparent))
+            axisLineStyle: const AxisLineStyle(color: Colors.transparent))
       ],
     );
   }

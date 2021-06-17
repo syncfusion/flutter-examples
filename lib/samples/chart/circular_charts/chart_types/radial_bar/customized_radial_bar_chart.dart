@@ -141,7 +141,8 @@ class _RadialBarCustomizedState extends SampleViewState {
                             maximumValue: 100,
                             radius: '100%',
                             cornerStyle: CornerStyle.bothCurve,
-                            xValueMapper: (ChartSampleData data, _) => point.x,
+                            xValueMapper: (ChartSampleData data, _) =>
+                                point.x as String,
                             yValueMapper: (ChartSampleData data, _) => data.y,
                             pointColorMapper: (ChartSampleData data, _) =>
                                 data.pointColor,
@@ -214,7 +215,7 @@ class _RadialBarCustomizedState extends SampleViewState {
         dataSource: chartData,
         cornerStyle: CornerStyle.bothCurve,
         innerRadius: '50%',
-        xValueMapper: (ChartSampleData data, _) => data.x,
+        xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         pointRadiusMapper: (ChartSampleData data, _) => data.text,
 

@@ -56,13 +56,13 @@ class _GaugeCompassExampleState extends SampleViewState {
             axisLabelStyle: GaugeTextStyle(
                 color: const Color(0xFF949494),
                 fontSize: isCardView ? 10 : _labelFontSize),
-            minorTickStyle: MinorTickStyle(
-                color: const Color(0xFF616161),
+            minorTickStyle: const MinorTickStyle(
+                color: Color(0xFF616161),
                 thickness: 1.6,
                 length: 0.058,
                 lengthUnit: GaugeSizeUnit.factor),
-            majorTickStyle: MajorTickStyle(
-                color: const Color(0xFF949494),
+            majorTickStyle: const MajorTickStyle(
+                color: Color(0xFF949494),
                 thickness: 2.3,
                 length: 0.087,
                 lengthUnit: GaugeSizeUnit.factor),

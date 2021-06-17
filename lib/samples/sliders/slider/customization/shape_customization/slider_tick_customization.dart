@@ -45,7 +45,7 @@ class _TickCustomizedSliderState extends SampleViewState {
         value: _value,
         onChanged: (dynamic values) {
           setState(() {
-            _value = values;
+            _value = values as double;
           });
         },
         interval: 10,

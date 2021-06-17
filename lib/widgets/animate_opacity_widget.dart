@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 /// Creates a widget that makes its child partially transparent.
 class AnimateOpacityWidget extends StatefulWidget {
   /// Holds custom opacity widget information
+  // ignore: tighten_type_of_initializing_formals
   const AnimateOpacityWidget({this.opacity, this.child, this.controller})
       : assert(opacity != null),
         assert(child != null);

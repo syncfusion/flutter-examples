@@ -55,15 +55,15 @@ class _LocalDataState extends SampleViewState {
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y(),
           name: 'Years',
-          majorGridLines: MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           minimum: 70,
           maximum: 110,
           interval: 10,
           rangePadding: ChartRangePadding.none,
           name: 'Price',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(color: Colors.transparent)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(color: Colors.transparent)),
       series: _getDefaultLineSeries(),
       trackballBehavior: _trackballBehavior,
     );

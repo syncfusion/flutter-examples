@@ -39,12 +39,14 @@ class _VerticalShapeCustomizedSliderPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+    });
   }
 }
 
@@ -77,7 +79,7 @@ class _ShapeCustomizedSliderState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(
                 child: SfSliderTheme(
                     data: SfSliderThemeData(
@@ -95,24 +97,24 @@ class _ShapeCustomizedSliderState extends SampleViewState {
                       tooltipPosition: SliderTooltipPosition.right,
                       onChanged: (dynamic value) {
                         setState(() {
-                          _value = value;
+                          _value = value as double;
                         });
                       },
                     )),
               ),
-              Text('Track')
+              const Text('Track')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: VerticalDivisorCustomizedSlider()),
-              Text('Divisor'),
+              const Text('Divisor'),
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: VerticalThumbCustomizedSlider()),
-              Text('Thumb'),
+              const Text('Thumb'),
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: VerticalTickCustomizedSlider()),
-              Padding(
+              const Padding(
                   padding: EdgeInsets.only(right: 10.0), child: Text('Tick')),
             ]),
           ],
@@ -127,12 +129,12 @@ class _ShapeCustomizedSliderState extends SampleViewState {
 
 class _SfTrackShape extends SfTrackShape {
   _SfTrackShape(dynamic min, dynamic max) {
-    this.min = min.runtimeType == DateTime
+    this.min = (min.runtimeType == DateTime
         ? min.millisecondsSinceEpoch.toDouble()
-        : min;
-    this.max = max.runtimeType == DateTime
+        : min) as double;
+    this.max = (max.runtimeType == DateTime
         ? max.millisecondsSinceEpoch.toDouble()
-        : max;
+        : max) as double;
   }
   late double min;
   late double max;
@@ -142,7 +144,7 @@ class _SfTrackShape extends SfTrackShape {
   void paint(PaintingContext context, Offset offset, Offset? thumbCenter,
       Offset? startThumbCenter, Offset? endThumbCenter,
       {required RenderBox parentBox,
-      required themeData,
+      required SfSliderThemeData themeData,
       SfRangeValues? currentValues,
       dynamic currentValue,
       required Animation<double> enableAnimation,
@@ -150,9 +152,9 @@ class _SfTrackShape extends SfTrackShape {
       required Paint? activePaint,
       required TextDirection textDirection}) {
     final Rect trackRect = getPreferredRect(parentBox, themeData, offset);
-    final double actualValue = currentValues.runtimeType == DateTime
+    final double actualValue = (currentValues.runtimeType == DateTime
         ? currentValue.millisecondsSinceEpoch.toDouble()
-        : currentValue;
+        : currentValue) as double;
     final double actualValueInPercent =
         ((actualValue - min) * 100) / (max - min);
     trackIntermediatePos = _getTrackIntermediatePosition(trackRect);
@@ -180,12 +182,12 @@ class _SfTrackShape extends SfTrackShape {
 
 class _SfThumbShape extends SfThumbShape {
   _SfThumbShape(dynamic min, dynamic max) {
-    this.min = min.runtimeType == DateTime
+    this.min = (min.runtimeType == DateTime
         ? min.millisecondsSinceEpoch.toDouble()
-        : min;
-    this.max = max.runtimeType == DateTime
+        : min) as double;
+    this.max = (max.runtimeType == DateTime
         ? max.millisecondsSinceEpoch.toDouble()
-        : max;
+        : max) as double;
   }
   late double min;
   late double max;
@@ -194,16 +196,16 @@ class _SfThumbShape extends SfThumbShape {
   void paint(PaintingContext context, Offset center,
       {required RenderBox parentBox,
       required RenderBox? child,
-      required themeData,
+      required SfSliderThemeData themeData,
       SfRangeValues? currentValues,
       dynamic currentValue,
       required Paint? paint,
       required Animation<double> enableAnimation,
       required TextDirection textDirection,
       required SfThumb? thumb}) {
-    final double actualValue = currentValues.runtimeType == DateTime
+    final double actualValue = (currentValues.runtimeType == DateTime
         ? currentValue.millisecondsSinceEpoch.toDouble()
-        : currentValue;
+        : currentValue) as double;
 
     final double actualValueInPercent =
         ((actualValue - min) * 100) / (max - min);

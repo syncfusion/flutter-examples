@@ -73,7 +73,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                         markerHeight: isCardView ? 15 : _markerSize,
                         markerWidth: isCardView ? 15 : _markerSize,
                         markerType: MarkerType.circle,
-                        overlayColor: Color.fromRGBO(255, 205, 96, 0.3),
+                        overlayColor: const Color.fromRGBO(255, 205, 96, 0.3),
                         overlayRadius: isCardView ? 15 : _overlayRadius),
                     MarkerPointer(
                         value: _secondMarkerValue,
@@ -89,7 +89,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                         borderWidth: isCardView ? 3 : _borderWidth,
                         markerWidth: isCardView ? 15 : _markerSize,
                         markerType: MarkerType.circle,
-                        overlayColor: Color.fromRGBO(255, 205, 96, 0.3),
+                        overlayColor: const Color.fromRGBO(255, 205, 96, 0.3),
                         overlayRadius: isCardView ? 15 : _overlayRadius),
                   ],
                   ranges: <GaugeRange>[
@@ -127,7 +127,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
         children: <Widget>[
           Container(
               child: Row(
-            children: [
+            children: <Widget>[
               Text('Enable dragging', style: TextStyle(color: model.textColor)),
               Container(
                   width: 75,
@@ -153,8 +153,8 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                         style: TextStyle(color: model.textColor)),
                     Container(
                       padding: !model.isWebFullView
-                          ? EdgeInsets.fromLTRB(25, 0, 0, 0)
-                          : EdgeInsets.fromLTRB(50, 0, 0, 0),
+                          ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
+                          : const EdgeInsets.fromLTRB(50, 0, 0, 0),
                       child: CustomDirectionalButtons(
                         maxValue: 35,
                         minValue: 15,

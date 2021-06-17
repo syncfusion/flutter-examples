@@ -89,7 +89,7 @@ class _RangeDataLabelExampleState extends SampleViewState {
                   lengthUnit: GaugeSizeUnit.factor,
                   needleStartWidth: 1,
                   needleEndWidth: 10,
-                  knobStyle: KnobStyle(
+                  knobStyle: const KnobStyle(
                     knobRadius: 12,
                     sizeUnit: GaugeSizeUnit.logicalPixel,
                   ))

@@ -32,12 +32,12 @@ class _ColumnBackState extends SampleViewState {
         title: ChartTitle(
             text: isCardView ? '' : 'Population of various countries'),
         primaryXAxis: CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
         ),
         primaryYAxis: NumericAxis(
-            majorTickLines: MajorTickLines(size: 0),
+            majorTickLines: const MajorTickLines(size: 0),
             numberFormat: NumberFormat.compact(),
-            majorGridLines: MajorGridLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
             rangePadding: ChartRangePadding.additional),
         series: _getBackToBackColumn(),
         tooltipBehavior: TooltipBehavior(enable: true));
@@ -65,19 +65,19 @@ class _ColumnBackState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
           width: 0.7,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: '2014'),
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
           width: 0.5,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: '2010'),
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,
           width: 0.3,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: '2006')
     ];

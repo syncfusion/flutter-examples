@@ -83,7 +83,10 @@ class _ShiftSchedulerState extends SampleViewState {
     } else {
       if (calendarTapDetails.appointments != null &&
           calendarTapDetails.targetElement == CalendarElement.appointment) {
-        _selectedAppointment = calendarTapDetails.appointments![0];
+        final dynamic appointment = calendarTapDetails.appointments![0];
+        if (appointment is Appointment) {
+          _selectedAppointment = appointment;
+        }
       }
 
       final DateTime selectedDate = calendarTapDetails.date!;
@@ -186,7 +189,7 @@ class _ShiftSchedulerState extends SampleViewState {
         /// Navigates to the appointment editor page on mobile
         Navigator.push<Widget>(
           context,
-          MaterialPageRoute(
+          MaterialPageRoute<Widget>(
               builder: (BuildContext context) => AppointmentEditor(
                   model,
                   _selectedAppointment,
@@ -417,7 +420,7 @@ class _ShiftSchedulerState extends SampleViewState {
           resourceIds: <Object>[_employeeCollection[i].id],
           recurrenceRule: 'FREQ=DAILY;INTERVAL=1'));
 
-      if (i % 2 == 0) {
+      if (i.isEven) {
         continue;
       }
 
@@ -426,7 +429,7 @@ class _ShiftSchedulerState extends SampleViewState {
 
       _specialTimeRegions.add(TimeRegion(
         startTime: startDate,
-        endTime: startDate.add(Duration(hours: 1)),
+        endTime: startDate.add(const Duration(hours: 1)),
         text: 'Not Available',
         color: Colors.grey.withOpacity(0.2),
         enablePointerInteraction: false,
@@ -440,18 +443,18 @@ class _ShiftSchedulerState extends SampleViewState {
   void _addAppointments() {
     final Random random = Random();
     for (int i = 0; i < _employeeCollection.length; i++) {
-      final _employeeIds = [_employeeCollection[i].id];
+      final List<Object> _employeeIds = <Object>[_employeeCollection[i].id];
       if (i == _employeeCollection.length - 1) {
         int index = random.nextInt(5);
         index = index == i ? index + 1 : index;
-        final employeeId = _employeeCollection[index].id;
+        final Object employeeId = _employeeCollection[index].id;
         if (employeeId is String) {
           _employeeIds.add(employeeId);
         }
       }
 
       for (int k = 0; k < 365; k++) {
-        if (_employeeIds.length > 1 && k % 2 == 0) {
+        if (_employeeIds.length > 1 && k.isEven) {
           continue;
         }
         for (int j = 0; j < 2; j++) {
@@ -463,7 +466,7 @@ class _ShiftSchedulerState extends SampleViewState {
               DateTime(date.year, date.month, date.day, startHour, 0, 0);
           _shiftCollection.add(Appointment(
               startTime: _shiftStartTime,
-              endTime: _shiftStartTime.add(Duration(hours: 1)),
+              endTime: _shiftStartTime.add(const Duration(hours: 1)),
               subject: _subjectCollection[random.nextInt(8)],
               color: _colorCollection[random.nextInt(8)],
               startTimeZone: '',

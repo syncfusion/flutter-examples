@@ -188,7 +188,7 @@ class _CustomLabelsEventState extends SampleViewState {
           xValueMapper: (_LabelData sales, _) => sales.x,
           yValueMapper: (_LabelData sales, _) => sales.y,
           width: 2,
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 

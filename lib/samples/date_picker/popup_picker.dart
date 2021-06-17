@@ -101,7 +101,7 @@ class _PopUpDatePickerState extends SampleViewState
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
+                                    children: <Widget>[
                                       Icon(
                                         _value == 0
                                             ? Icons.radio_button_checked
@@ -109,7 +109,7 @@ class _PopUpDatePickerState extends SampleViewState
                                         color: model.backgroundColor,
                                         size: 22,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 8,
                                       ),
                                       Text(
@@ -135,7 +135,7 @@ class _PopUpDatePickerState extends SampleViewState
                                       const EdgeInsets.fromLTRB(5, 5, 10, 5),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
+                                    children: <Widget>[
                                       Icon(
                                         _value == 1
                                             ? Icons.radio_button_checked
@@ -143,7 +143,7 @@ class _PopUpDatePickerState extends SampleViewState
                                         color: model.backgroundColor,
                                         size: 22,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 8,
                                       ),
                                       Text(
@@ -165,7 +165,7 @@ class _PopUpDatePickerState extends SampleViewState
                         Expanded(
                             flex: 5,
                             child: Container(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: const <Widget>[
@@ -186,7 +186,7 @@ class _PopUpDatePickerState extends SampleViewState
                         Expanded(
                             flex: 5,
                             child: Container(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: const <Widget>[
@@ -219,11 +219,11 @@ class _PopUpDatePickerState extends SampleViewState
                         Expanded(
                             flex: 5,
                             child: RawMaterialButton(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 onPressed: () async {
                                   if (_value == 0) {
                                     final DateTime? date =
-                                        await showDialog<dynamic>(
+                                        await showDialog<DateTime?>(
                                             context: context,
                                             builder: (BuildContext context) {
                                               return DateRangePicker(
@@ -237,7 +237,8 @@ class _PopUpDatePickerState extends SampleViewState
                                     }
                                   } else {
                                     final _picker.PickerDateRange? range =
-                                        await showDialog<dynamic>(
+                                        await showDialog<
+                                                _picker.PickerDateRange?>(
                                             context: context,
                                             builder: (BuildContext context) {
                                               return DateRangePicker(
@@ -263,13 +264,13 @@ class _PopUpDatePickerState extends SampleViewState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text('Departure Date',
+                                        const Text('Departure Date',
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 10)),
                                         Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 5, 5, 0),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 5, 5, 0),
                                           child: Text(
                                               DateFormat('dd MMM yyyy')
                                                   .format(_startDate),
@@ -282,12 +283,13 @@ class _PopUpDatePickerState extends SampleViewState
                         Expanded(
                             flex: 5,
                             child: RawMaterialButton(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 onPressed: _value == 0
                                     ? null
                                     : () async {
                                         final _picker.PickerDateRange range =
-                                            await showDialog<dynamic>(
+                                            (await showDialog<
+                                                    _picker.PickerDateRange>(
                                                 context: context,
                                                 builder:
                                                     (BuildContext context) {
@@ -299,35 +301,36 @@ class _PopUpDatePickerState extends SampleViewState
                                                     minDate: DateTime.now(),
                                                     model: model,
                                                   );
-                                                });
+                                                }))!;
 
                                         if (range != null) {
                                           _onSelectedRangeChanged(range);
                                         }
                                       },
                                 child: Container(
-                                    padding: EdgeInsets.all(0),
+                                    padding: const EdgeInsets.all(0),
                                     alignment: Alignment.centerLeft,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: _value == 0
                                           ? <Widget>[
-                                              Text('Return Date',
-                                                  style: const TextStyle(
+                                              const Text('Return Date',
+                                                  style: TextStyle(
                                                       fontSize: 16,
                                                       color: Colors.grey,
                                                       fontWeight:
                                                           FontWeight.w500))
                                             ]
                                           : <Widget>[
-                                              Text('Return Date',
+                                              const Text('Return Date',
                                                   style: TextStyle(
                                                       color: Colors.grey,
                                                       fontSize: 10)),
                                               Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    0, 5, 5, 0),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 5, 5, 0),
                                                 child: Text(
                                                     DateFormat('dd MMM yyyy')
                                                         .format(_endDate),
@@ -353,7 +356,7 @@ class _PopUpDatePickerState extends SampleViewState
                         Expanded(
                             flex: 5,
                             child: Container(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: const <Widget>[
@@ -374,7 +377,7 @@ class _PopUpDatePickerState extends SampleViewState
                         Expanded(
                             flex: 5,
                             child: Container(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: const <Widget>[
@@ -394,11 +397,11 @@ class _PopUpDatePickerState extends SampleViewState
                                 )))
                       ])),
                   Container(
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
+                        children: <Widget>[
                           RawMaterialButton(
                             fillColor: model.backgroundColor,
                             splashColor: Colors.grey.withOpacity(0.12),
@@ -560,13 +563,15 @@ class _DateRangePickerState extends State<DateRangePicker> {
                         child: Text(
                           _isHijri
                               ? getFormattedHijriString(
-                                  _range.startDate.isAfter(_range.endDate)
+                                  _range.startDate.isAfter(_range.endDate) ==
+                                          true
                                       ? _range.endDate
                                       : _range.startDate,
                                   _localizations,
                                   'MMM')
                               : DateFormat('dd MMM, yyyy').format(
-                                  _range.startDate.isAfter(_range.endDate)
+                                  _range.startDate.isAfter(_range.endDate) ==
+                                          true
                                       ? _range.endDate
                                       : _range.startDate),
                           maxLines: 1,
@@ -587,13 +592,15 @@ class _DateRangePickerState extends State<DateRangePicker> {
                         child: Text(
                           _isHijri
                               ? getFormattedHijriString(
-                                  _range.startDate.isAfter(_range.endDate)
+                                  _range.startDate.isAfter(_range.endDate) ==
+                                          true
                                       ? _range.startDate
                                       : _range.endDate,
                                   _localizations,
                                   'MMM')
                               : DateFormat('dd MMM, yyyy').format(
-                                  _range.startDate.isAfter(_range.endDate)
+                                  _range.startDate.isAfter(_range.endDate) ==
+                                          true
                                       ? _range.startDate
                                       : _range.endDate),
                           maxLines: 1,

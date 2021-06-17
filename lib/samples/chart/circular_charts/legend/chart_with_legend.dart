@@ -51,7 +51,7 @@ class _LegendDefaultState extends SampleViewState {
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           startAngle: 90,
           endAngle: 90,

@@ -54,12 +54,13 @@ class _VerticalCalendarPickerState extends SampleViewState {
                 padding: const EdgeInsets.all(0),
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _navigationModeString,
                     items: _navigationModeList.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'Scroll',
-                          child: Text('$value',
+                          child: Text(value,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
@@ -101,7 +102,9 @@ class _VerticalCalendarPickerState extends SampleViewState {
         margin: model.isWebFullView
             ? const EdgeInsets.fromLTRB(30, 20, 30, 10)
             : const EdgeInsets.fromLTRB(30, 30, 30, 10),
-        child: model.isWebFullView ? ListView(children: [calendar]) : calendar);
+        child: model.isWebFullView
+            ? ListView(children: <Widget>[calendar])
+            : calendar);
     return Scaffold(
         backgroundColor: model.themeData == null ||
                 model.themeData.brightness == Brightness.light
@@ -151,7 +154,7 @@ class _VerticalCalendarPickerState extends SampleViewState {
       navigationDirection: DateRangePickerNavigationDirection.vertical,
       selectionMode: DateRangePickerSelectionMode.multiRange,
       monthViewSettings:
-          DateRangePickerMonthViewSettings(enableSwipeSelection: false),
+          const DateRangePickerMonthViewSettings(enableSwipeSelection: false),
       showNavigationArrow: model.isWebFullView,
       navigationMode: _navigationMode,
     );

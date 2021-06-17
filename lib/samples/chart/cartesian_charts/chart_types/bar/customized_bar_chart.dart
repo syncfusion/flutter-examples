@@ -68,12 +68,12 @@ class _BarCustomizationState extends SampleViewState {
               ? ''
               : 'Popular Android apps in the Google play store'),
       primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Downloads in Billion'),
-          majorGridLines: MajorGridLines(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          majorGridLines: const MajorGridLines(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: <ChartSeries<ChartSampleData, String>>[
         BarSeries<ChartSampleData, String>(
           onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
@@ -92,7 +92,7 @@ class _BarCustomizationState extends SampleViewState {
             ChartSampleData(
                 x: 'Subway Surfers', y: 1.025, pointColor: Colors.yellow),
           ],
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
         )
       ],

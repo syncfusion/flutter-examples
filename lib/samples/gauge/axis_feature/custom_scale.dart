@@ -33,13 +33,13 @@ class _RadialNonLinearLabelState extends SampleViewState {
       axes: <RadialAxis>[
         RadialAxis(
             labelOffset: 15,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
             radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             minimum: 0,
             showTicks: false,
             maximum: 150,
-            axisLabelStyle: GaugeTextStyle(fontSize: 12),
+            axisLabelStyle: const GaugeTextStyle(fontSize: 12),
             // Added custom axis renderer that extended from RadialAxisRenderer
             onCreateAxisRenderer: handleCreateAxisRenderer,
             pointers: <GaugePointer>[
@@ -59,7 +59,7 @@ class _RadialNonLinearLabelState extends SampleViewState {
                   needleStartWidth: isCardView ? 3 : 4,
                   needleEndWidth: isCardView ? 6 : 8,
                   needleLength: 0.8,
-                  knobStyle: KnobStyle(
+                  knobStyle: const KnobStyle(
                     knobRadius: 0,
                   )),
               RangePointer(

@@ -78,12 +78,13 @@ class _DataLabelDefaultState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _labelAln,
                     items: _chartAlign.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'center',
-                          child: Text('$value',
+                          child: Text(value,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
                     onChanged: (dynamic value) {
@@ -105,12 +106,13 @@ class _DataLabelDefaultState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
-                    underline: Container(color: Color(0xFFBDBDBD), height: 1),
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _labelPos,
                     items: _positionType.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'top',
-                          child: Text('$value',
+                          child: Text(value,
                               style: TextStyle(color: model.textColor)));
                     }).toList(),
                     onChanged: (dynamic value) {
@@ -192,15 +194,15 @@ class _DataLabelDefaultState extends SampleViewState {
           minimum: 2006,
           maximum: 2010,
           title: AxisTitle(text: isCardView ? '' : 'Year'),
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           interval: 1),
       primaryYAxis: NumericAxis(
           minimum: 15,
           maximum: 30,
           labelFormat: '{value}%',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getDataLabelDefaultSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -223,9 +225,9 @@ class _DataLabelDefaultState extends SampleViewState {
           dataSource: chartData,
           color: const Color.fromRGBO(140, 198, 64, 1),
           width: 2,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          markerSettings: MarkerSettings(isVisible: true),
+          markerSettings: const MarkerSettings(isVisible: true),
           name: 'Singapore',
           dataLabelSettings: DataLabelSettings(
             isVisible: true,
@@ -239,9 +241,9 @@ class _DataLabelDefaultState extends SampleViewState {
           color: const Color.fromRGBO(203, 164, 199, 1),
           dataSource: chartData,
           width: 2,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          markerSettings: MarkerSettings(isVisible: true),
+          markerSettings: const MarkerSettings(isVisible: true),
           name: 'Russia',
 
           /// To enable the data label for cartesian chart.

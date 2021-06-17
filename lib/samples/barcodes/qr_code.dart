@@ -154,13 +154,13 @@ class _QRCodeGeneratorState extends SampleViewState {
                         height: 50,
                         alignment: Alignment.bottomLeft,
                         child: DropdownButton<String>(
-                            underline:
-                                Container(color: Color(0xFFBDBDBD), height: 1),
+                            underline: Container(
+                                color: const Color(0xFFBDBDBD), height: 1),
                             value: _selectedInputMode,
                             items: _encoding.map((String value) {
                               return DropdownMenuItem<String>(
                                   value: (value != null) ? value : 'Binary',
-                                  child: Text('$value',
+                                  child: Text(value,
                                       textAlign: TextAlign.center,
                                       style:
                                           TextStyle(color: model.textColor)));
@@ -197,13 +197,13 @@ class _QRCodeGeneratorState extends SampleViewState {
                         height: 50,
                         alignment: Alignment.bottomLeft,
                         child: DropdownButton<String>(
-                            underline:
-                                Container(color: Color(0xFFBDBDBD), height: 1),
+                            underline: Container(
+                                color: const Color(0xFFBDBDBD), height: 1),
                             value: _selectedErrorCorrectionLevel,
                             items: _errorCorrectionLevels.map((String value) {
                               return DropdownMenuItem<String>(
                                   value: (value != null) ? value : 'Quartile',
-                                  child: Text('$value',
+                                  child: Text(value,
                                       textAlign: TextAlign.center,
                                       style:
                                           TextStyle(color: model.textColor)));

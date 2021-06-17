@@ -34,12 +34,14 @@ class _VerticalSliderColorCustomizationPageState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait ||
-            model.isWebFullView
-        ? slider
-        : SingleChildScrollView(
-            child: Container(height: 400, child: slider),
-          );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+    });
   }
 }
 
@@ -70,7 +72,7 @@ class _SliderColorCustomizationState extends SampleViewState {
             value: _trackSliderValue,
             onChanged: (dynamic values) {
               setState(() {
-                _trackSliderValue = values;
+                _trackSliderValue = values as double;
               });
             },
             enableTooltip: true,
@@ -109,7 +111,7 @@ class _SliderColorCustomizationState extends SampleViewState {
             value: _thumbStrokeSliderValue,
             onChanged: (dynamic values) {
               setState(() {
-                _thumbStrokeSliderValue = values;
+                _thumbStrokeSliderValue = values as double;
               });
             },
             enableTooltip: true,
@@ -134,13 +136,13 @@ class _SliderColorCustomizationState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithTrackColorCustomization()),
-              Text('Track color')
+              const Text('Track color')
             ]),
-            Column(children: [
+            Column(children: <Widget>[
               Expanded(child: _sliderWithThumbStrokeColorCustomization()),
-              Text('Stroke color'),
+              const Text('Stroke color'),
             ]),
           ],
         ));

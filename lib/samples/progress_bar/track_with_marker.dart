@@ -53,13 +53,13 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
             getProgressBarWithCircle(),
-            Center(child: Text('Circle marker')),
+            const Center(child: Text('Circle marker')),
             getProgressBarWithRectangle(),
-            Center(child: Text('Rectangle marker')),
+            const Center(child: Text('Rectangle marker')),
             getProgressBarWithImage(),
-            Center(child: Text('Image marker')),
+            const Center(child: Text('Image marker')),
           ]));
     } else {
       _size = MediaQuery.of(context).size.width / 4.5;
@@ -67,27 +67,27 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   getProgressBarWithCircle(),
-                  Center(child: Text('Circle marker')),
+                  const Center(child: Text('Circle marker')),
                 ]),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   getProgressBarWithRectangle(),
-                  Center(child: Text('Rectangle marker')),
+                  const Center(child: Text('Rectangle marker')),
                 ]),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   getProgressBarWithImage(),
-                  Center(child: Text('Image marker')),
+                  const Center(child: Text('Image marker')),
                 ]),
           ]));
     }
@@ -111,9 +111,9 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: 0.8,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                 thickness: 0.1,
-                color: const Color.fromARGB(30, 0, 169, 181),
+                color: Color.fromARGB(30, 0, 169, 181),
                 thicknessUnit: GaugeSizeUnit.factor,
                 cornerStyle: CornerStyle.startCurve,
               ),
@@ -126,7 +126,7 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
                     animationDuration: 30,
                     animationType: AnimationType.linear,
                     cornerStyle: CornerStyle.startCurve,
-                    gradient: SweepGradient(
+                    gradient: const SweepGradient(
                         colors: <Color>[Color(0xFF00a9b5), Color(0xFFa4edeb)],
                         stops: <double>[0.25, 0.75])),
                 MarkerPointer(
@@ -160,9 +160,9 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: 0.8,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                 thickness: 0.1,
-                color: const Color.fromARGB(30, 0, 169, 181),
+                color: Color.fromARGB(30, 0, 169, 181),
                 thicknessUnit: GaugeSizeUnit.factor,
                 cornerStyle: CornerStyle.startCurve,
               ),
@@ -209,9 +209,9 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: 0.8,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                 thickness: 0.1,
-                color: const Color.fromARGB(30, 0, 169, 181),
+                color: Color.fromARGB(30, 0, 169, 181),
                 thicknessUnit: GaugeSizeUnit.factor,
                 cornerStyle: CornerStyle.startCurve,
               ),

@@ -64,7 +64,7 @@ class _RadialBarGradientState extends SampleViewState {
             isVisible: !isCardView,
             iconHeight: 20,
             iconWidth: 20,
-            textStyle: TextStyle(fontSize: 15)),
+            textStyle: const TextStyle(fontSize: 15)),
         title: ChartTitle(text: isCardView ? '' : 'Shot put distance'),
         series: _getRadialBarGradientSeries(),
         tooltipBehavior: _tooltipBehavior);

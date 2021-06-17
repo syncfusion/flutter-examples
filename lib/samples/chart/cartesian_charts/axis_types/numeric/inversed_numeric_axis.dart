@@ -97,15 +97,15 @@ class _NumericInverseState extends SampleViewState {
           maximum: 2010,
           title: AxisTitle(text: isCardView ? '' : 'Year'),
           isInversed: isXInversed ?? true,
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           interval: 2),
       primaryYAxis: NumericAxis(
           numberFormat: NumberFormat.decimalPattern(),
-          axisLine: AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
           title: AxisTitle(text: isCardView ? '' : 'Count'),
           isInversed: isYInversed ?? true,
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: getInversedNumericSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -128,10 +128,10 @@ class _NumericInverseState extends SampleViewState {
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.xValue,
+          xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           width: 2,
-          markerSettings: MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true))
     ];
   }
 }

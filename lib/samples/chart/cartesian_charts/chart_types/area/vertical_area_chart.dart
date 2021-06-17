@@ -39,11 +39,11 @@ class _AreaVerticalState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Trend in sales of ethical produce'),
       primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Spends'),
-          majorTickLines: MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0)),
       series: _getVerticalAreaSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -147,14 +147,14 @@ class _AreaVerticalState extends SampleViewState {
     return <AreaSeries<ChartSampleData, DateTime>>[
       AreaSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           opacity: 0.7,
           name: 'Organic'),
       AreaSeries<ChartSampleData, DateTime>(
           dataSource: chartData,
           opacity: 0.7,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Others'),
     ];

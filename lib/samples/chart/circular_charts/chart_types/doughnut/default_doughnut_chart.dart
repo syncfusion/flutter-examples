@@ -52,7 +52,7 @@ class _DoughnutDefaultState extends SampleViewState {
           explode: true,
           explodeOffset: '10%',
           dataSource: chartData,
-          xValueMapper: (ChartSampleData data, _) => data.x,
+          xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text,
           dataLabelSettings: DataLabelSettings(isVisible: true))

@@ -39,9 +39,9 @@ class _RadialLabelCustomizationState extends SampleViewState {
             labelsPosition: ElementsPosition.outside,
             ticksPosition: ElementsPosition.inside,
             labelOffset: 15,
-            minorTickStyle: MinorTickStyle(
+            minorTickStyle: const MinorTickStyle(
                 length: 0.05, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
-            majorTickStyle: MajorTickStyle(
+            majorTickStyle: const MajorTickStyle(
                 length: 0.1, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
             minorTicksPerInterval: 5,
             pointers: <GaugePointer>[
@@ -51,19 +51,19 @@ class _RadialLabelCustomizationState extends SampleViewState {
                   needleEndWidth: 3,
                   needleLength: 0.8,
                   lengthUnit: GaugeSizeUnit.factor,
-                  knobStyle: KnobStyle(
+                  knobStyle: const KnobStyle(
                     knobRadius: 8,
                     sizeUnit: GaugeSizeUnit.logicalPixel,
                   ),
-                  tailStyle: TailStyle(
+                  tailStyle: const TailStyle(
                       width: 3,
                       lengthUnit: GaugeSizeUnit.logicalPixel,
                       length: 20))
             ],
             axisLabelStyle:
-                GaugeTextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                const GaugeTextStyle(fontSize: 12, fontWeight: FontWeight.w500),
             axisLineStyle:
-                AxisLineStyle(thickness: 3, color: const Color(0xFF00A8B5))),
+                const AxisLineStyle(thickness: 3, color: Color(0xFF00A8B5))),
       ],
     );
   }

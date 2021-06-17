@@ -50,7 +50,7 @@ class _MultipleRangesExampleState extends SampleViewState {
                           : 6,
                   needleLength: 0.7,
                   lengthUnit: GaugeSizeUnit.factor,
-                  knobStyle: KnobStyle(
+                  knobStyle: const KnobStyle(
                     knobRadius: 0.08,
                     sizeUnit: GaugeSizeUnit.factor,
                   ))

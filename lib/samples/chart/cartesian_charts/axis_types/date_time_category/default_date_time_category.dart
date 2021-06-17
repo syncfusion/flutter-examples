@@ -51,7 +51,7 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: DateTimeCategoryAxis(
-            majorGridLines: MajorGridLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
             labelIntersectAction: isCardView
                 ? AxisLabelIntersectAction.multipleRows
                 : AxisLabelIntersectAction.rotate45,
@@ -88,8 +88,8 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
         primaryYAxis: NumericAxis(
             labelFormat: '{value}M',
             interval: 20,
-            majorTickLines: MajorTickLines(size: 0),
-            axisLine: AxisLine(width: 0)),
+            majorTickLines: const MajorTickLines(size: 0),
+            axisLine: const AxisLine(width: 0)),
         series: <ColumnSeries<_OrdinalSales, DateTime>>[
           ColumnSeries<_OrdinalSales, DateTime>(
             dataSource: data,

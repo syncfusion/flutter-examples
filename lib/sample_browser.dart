@@ -38,7 +38,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
   Widget build(BuildContext context) {
     final Map<String, WidgetBuilder> navigationRoutes = <String, WidgetBuilder>{
       _sampleListModel.isWebFullView ? '/' : '/demos': (BuildContext context) =>
-          HomePage()
+          const HomePage()
     };
     for (int i = 0; i < _sampleListModel.routes!.length; i++) {
       final SampleRoute sampleRoute = _sampleListModel.routes![i];
@@ -64,7 +64,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
 
     ///Avoiding page poping on escape key press
     final Map<LogicalKeySet, Intent> shortcuts =
-        Map.of(WidgetsApp.defaultShortcuts)
+        Map<LogicalKeySet, Intent>.of(WidgetsApp.defaultShortcuts)
           ..remove(LogicalKeySet(LogicalKeyboardKey.escape));
     return _sampleListModel.isWebFullView
         ? MaterialApp(
@@ -88,11 +88,11 @@ class _SampleBrowserState extends State<SampleBrowser> {
             home: Builder(builder: (BuildContext context) {
               _sampleListModel.systemTheme = Theme.of(context);
               _sampleListModel.currentThemeData ??=
-                  (_sampleListModel.systemTheme.brightness != Brightness.dark
+                  _sampleListModel.systemTheme.brightness != Brightness.dark
                       ? ThemeData.light()
-                      : ThemeData.dark());
+                      : ThemeData.dark();
               _sampleListModel.changeTheme(_sampleListModel.currentThemeData!);
-              return HomePage();
+              return const HomePage();
             }));
   }
 
@@ -217,10 +217,9 @@ class _HomePageState extends State<HomePage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(24, 10, 0, 0),
-                                  child: const Text('Flutter UI Widgets ',
+                                const Padding(
+                                  padding: EdgeInsets.fromLTRB(24, 10, 0, 0),
+                                  child: Text('Flutter UI Widgets ',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 28,
@@ -258,140 +257,137 @@ class _HomePageState extends State<HomePage> {
                               ],
                             )),
                         actions: <Widget>[
-                          MediaQuery.of(context).size.width < 500
-                              ? Container(height: 0, width: 9)
-                              : Container(
-                                  child: Container(
-                                  padding:
-                                      const EdgeInsets.only(top: 10, right: 10),
-                                  width: MediaQuery.of(context).size.width >=
-                                          920
-                                      ? 300
-                                      : MediaQuery.of(context).size.width /
-                                          (MediaQuery.of(context).size.width <
-                                                  820
-                                              ? 5
-                                              : 4),
-                                  height: MediaQuery.of(context).size.height *
-                                      0.0445,
-                                  child: SearchBar(
-                                    sampleListModel: model,
-                                  ),
-                                )),
+                          if (MediaQuery.of(context).size.width < 500)
+                            Container(height: 0, width: 9)
+                          else
+                            Container(
+                                child: Container(
+                              padding:
+                                  const EdgeInsets.only(top: 10, right: 10),
+                              width: MediaQuery.of(context).size.width >= 920
+                                  ? 300
+                                  : MediaQuery.of(context).size.width /
+                                      (MediaQuery.of(context).size.width < 820
+                                          ? 5
+                                          : 4),
+                              height:
+                                  MediaQuery.of(context).size.height * 0.0445,
+                              child: SearchBar(
+                                sampleListModel: model,
+                              ),
+                            )),
 
                           ///download option
-                          model.isMobileResolution
-                              ? Container()
-                              : Container(
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.only(
-                                      top: 10, left: isMaxxSize ? 20 : 0),
-                                  child: Container(
-                                      width: 115,
-                                      height: 32,
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.white)),
-                                      child: StatefulBuilder(builder:
-                                          (BuildContext context,
-                                              StateSetter setState) {
-                                        return MouseRegion(
-                                          onHover: (PointerHoverEvent event) {
-                                            isHoveringDownloadButton = true;
-                                            setState(() {});
+                          if (model.isMobileResolution)
+                            Container()
+                          else
+                            Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.only(
+                                    top: 10, left: isMaxxSize ? 20 : 0),
+                                child: Container(
+                                    width: 115,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.white)),
+                                    child: StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            StateSetter setState) {
+                                      return MouseRegion(
+                                        onHover: (PointerHoverEvent event) {
+                                          isHoveringDownloadButton = true;
+                                          setState(() {});
+                                        },
+                                        onExit: (PointerExitEvent event) {
+                                          isHoveringDownloadButton = false;
+                                          setState(() {});
+                                        },
+                                        child: InkWell(
+                                          hoverColor: Colors.white,
+                                          onTap: () {
+                                            launch(
+                                                'https://www.syncfusion.com/downloads/flutter/confirm');
                                           },
-                                          onExit: (PointerExitEvent event) {
-                                            isHoveringDownloadButton = false;
-                                            setState(() {});
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 9, 8, 9),
+                                            child: Text('DOWNLOAD NOW',
+                                                style: TextStyle(
+                                                    color:
+                                                        isHoveringDownloadButton
+                                                            ? model.paletteColor
+                                                            : Colors.white,
+                                                    fontSize: 12,
+                                                    fontFamily:
+                                                        'Roboto-Medium')),
+                                          ),
+                                        ),
+                                      );
+                                    }))),
+
+                          ///Get package from pub.dev option
+                          if (model.isMobileResolution)
+                            Container()
+                          else
+                            Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.only(
+                                    top: 10, left: isMaxxSize ? 25 : 12),
+                                child: Container(
+                                    width: 118,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.white)),
+                                    child: StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            StateSetter setState) {
+                                      return MouseRegion(
+                                        onHover: (PointerHoverEvent event) {
+                                          isHoveringPubDevButton = true;
+                                          setState(() {});
+                                        },
+                                        onExit: (PointerExitEvent event) {
+                                          isHoveringPubDevButton = false;
+                                          setState(() {});
+                                        },
+                                        child: InkWell(
+                                          hoverColor: Colors.white,
+                                          onTap: () {
+                                            launch(
+                                                'https://pub.dev/publishers/syncfusion.com/packages');
                                           },
-                                          child: InkWell(
-                                            hoverColor: Colors.white,
-                                            onTap: () {
-                                              launch(
-                                                  'https://www.syncfusion.com/downloads/flutter/confirm');
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      8, 9, 8, 9),
-                                              child: Text('DOWNLOAD NOW',
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 7, 8, 7),
+                                            child: Row(children: <Widget>[
+                                              Image.asset('images/pub_logo.png',
+                                                  fit: BoxFit.contain,
+                                                  height: 33,
+                                                  width: 33),
+                                              Text('Get Packages',
                                                   style: TextStyle(
                                                       color:
-                                                          isHoveringDownloadButton
+                                                          isHoveringPubDevButton
                                                               ? model
                                                                   .paletteColor
                                                               : Colors.white,
                                                       fontSize: 12,
                                                       fontFamily:
-                                                          'Roboto-Medium')),
-                                            ),
+                                                          'Roboto-Medium'))
+                                            ]),
                                           ),
-                                        );
-                                      }))),
-
-                          ///Get package from pub.dev option
-                          model.isMobileResolution
-                              ? Container()
-                              : Container(
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.only(
-                                      top: 10, left: isMaxxSize ? 25 : 12),
-                                  child: Container(
-                                      width: 118,
-                                      height: 32,
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.white)),
-                                      child: StatefulBuilder(builder:
-                                          (BuildContext context,
-                                              StateSetter setState) {
-                                        return MouseRegion(
-                                          onHover: (PointerHoverEvent event) {
-                                            isHoveringPubDevButton = true;
-                                            setState(() {});
-                                          },
-                                          onExit: (PointerExitEvent event) {
-                                            isHoveringPubDevButton = false;
-                                            setState(() {});
-                                          },
-                                          child: InkWell(
-                                            hoverColor: Colors.white,
-                                            onTap: () {
-                                              launch(
-                                                  'https://pub.dev/publishers/syncfusion.com/packages');
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 7, 8, 7),
-                                              child: Row(children: [
-                                                Image.asset(
-                                                    'images/pub_logo.png',
-                                                    fit: BoxFit.contain,
-                                                    height: 33,
-                                                    width: 33),
-                                                Text('Get Packages',
-                                                    style: TextStyle(
-                                                        color:
-                                                            isHoveringPubDevButton
-                                                                ? model
-                                                                    .paletteColor
-                                                                : Colors.white,
-                                                        fontSize: 12,
-                                                        fontFamily:
-                                                            'Roboto-Medium'))
-                                              ]),
-                                            ),
-                                          ),
-                                        );
-                                      }))),
+                                        ),
+                                      );
+                                    }))),
                           Padding(
                               padding:
                                   EdgeInsets.only(left: isMaxxSize ? 15 : 0),
                               child: Container(
                                 padding: MediaQuery.of(context).size.width < 500
                                     ? const EdgeInsets.only(top: 20, left: 5)
-                                    : EdgeInsets.only(top: 10, right: 15),
+                                    : const EdgeInsets.only(top: 10, right: 15),
                                 height: 60,
                                 width: 60,
                                 child: IconButton(
@@ -662,7 +658,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
         }
         organizedCardWidget = Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Padding(padding: EdgeInsets.only(left: _sidePadding)),
             Column(children: firstColumnWidgets),
             Padding(padding: EdgeInsets.only(left: padding)),
@@ -694,7 +690,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
         }
         organizedCardWidget = Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Padding(padding: EdgeInsets.only(left: _sidePadding)),
             Column(children: firstColumnWidgets),
             Padding(padding: EdgeInsets.only(left: padding)),
@@ -716,7 +712,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
             .add(Padding(padding: EdgeInsets.only(top: padding)));
       }
       organizedCardWidget = Row(
-        children: [
+        children: <Widget>[
           Padding(padding: EdgeInsets.only(left: _sidePadding)),
           Column(children: verticalOrderedWidgets),
           Padding(
@@ -766,7 +762,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
   List<Widget> _getControlListView(WidgetCategory category) {
     final List<Widget> items = <Widget>[];
     for (int i = 0; i < category.controlList!.length; i++) {
-      final Control control = category.controlList![i];
+      final Control control = category.controlList![i] as Control;
       items.add(Container(
         color: model.cardColor,
         child: Material(
@@ -789,7 +785,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Row(children: [
+                          Row(children: <Widget>[
                             Text(
                               control.title!,
                               textAlign: TextAlign.left,
@@ -802,52 +798,54 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                                   color: model.textColor,
                                   fontFamily: 'Roboto-Bold'),
                             ),
-                            (!model.isWebFullView && Platform.isIOS)
-                                ? Container()
-                                : control.isBeta == true
-                                    ? Padding(
-                                        padding: EdgeInsets.only(left: 8),
-                                        child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                3, 3, 3, 2),
-                                            decoration: const BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                                color: Color.fromRGBO(
-                                                    245, 188, 14, 1)),
-                                            child: const Text(
-                                              'BETA',
-                                              style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w500,
-                                                  letterSpacing: 0.12,
-                                                  fontFamily: 'Roboto-Medium',
-                                                  color: Colors.black),
-                                            )))
-                                    : Container()
+                            if (!model.isWebFullView && Platform.isIOS)
+                              Container()
+                            else
+                              control.isBeta == true
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              3, 3, 3, 2),
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              color: Color.fromRGBO(
+                                                  245, 188, 14, 1)),
+                                          child: const Text(
+                                            'BETA',
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w500,
+                                                letterSpacing: 0.12,
+                                                fontFamily: 'Roboto-Medium',
+                                                color: Colors.black),
+                                          )))
+                                  : Container()
                           ]),
-                          control.status != null
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      color: control.status!.toLowerCase() ==
-                                              'new'
-                                          ? const Color.fromRGBO(55, 153, 30, 1)
-                                          : control.status!.toLowerCase() ==
-                                                  'updated'
-                                              ? const Color.fromRGBO(
-                                                  246, 117, 0, 1)
-                                              : Colors.transparent,
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          bottomLeft: Radius.circular(10))),
-                                  padding:
-                                      const EdgeInsets.fromLTRB(6, 2.7, 4, 2.7),
-                                  child: Text(control.status!,
-                                      style: const TextStyle(
-                                          fontFamily: 'Roboto-Medium',
-                                          color: Colors.white,
-                                          fontSize: 10.5)))
-                              : Container()
+                          if (control.status != null)
+                            Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: control.status!.toLowerCase() ==
+                                            'new'
+                                        ? const Color.fromRGBO(55, 153, 30, 1)
+                                        : control.status!.toLowerCase() ==
+                                                'updated'
+                                            ? const Color.fromRGBO(
+                                                246, 117, 0, 1)
+                                            : Colors.transparent,
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10))),
+                                padding:
+                                    const EdgeInsets.fromLTRB(6, 2.7, 4, 2.7),
+                                child: Text(control.status!,
+                                    style: const TextStyle(
+                                        fontFamily: 'Roboto-Medium',
+                                        color: Colors.white,
+                                        fontSize: 10.5)))
+                          else
+                            Container()
                         ]),
                     subtitle: Container(
                         child: Padding(

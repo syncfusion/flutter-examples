@@ -36,14 +36,14 @@ class _SparklineSeriesTypesState extends SampleViewState {
                   child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(padding: EdgeInsets.all(5)),
+              children: <Widget>[
+                const Padding(padding: EdgeInsets.all(5)),
                 _buildSparkLineChart(),
-                Padding(padding: EdgeInsets.all(5)),
+                const Padding(padding: EdgeInsets.all(5)),
                 _buildSparkAreaChart(),
-                Padding(padding: EdgeInsets.all(5)),
+                const Padding(padding: EdgeInsets.all(5)),
                 _buildSparkBarChart(),
-                Padding(padding: EdgeInsets.all(5)),
+                const Padding(padding: EdgeInsets.all(5)),
                 _buildSparkWinlossChart(),
               ],
             )))
@@ -51,14 +51,14 @@ class _SparklineSeriesTypesState extends SampleViewState {
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(padding: EdgeInsets.all(5)),
+              children: <Widget>[
+                const Padding(padding: EdgeInsets.all(5)),
                 Expanded(child: _buildSparkLineChart()),
-                Padding(padding: EdgeInsets.all(5)),
+                const Padding(padding: EdgeInsets.all(5)),
                 Expanded(child: _buildSparkAreaChart()),
-                Padding(padding: EdgeInsets.all(5)),
+                const Padding(padding: EdgeInsets.all(5)),
                 Expanded(child: _buildSparkBarChart()),
-                Padding(padding: EdgeInsets.all(5)),
+                const Padding(padding: EdgeInsets.all(5)),
                 Expanded(child: _buildSparkWinlossChart()),
               ],
             ));
@@ -67,14 +67,14 @@ class _SparklineSeriesTypesState extends SampleViewState {
       return Center(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(padding: EdgeInsets.all(5)),
+        children: <Widget>[
+          const Padding(padding: EdgeInsets.all(5)),
           _buildSparkLineChart(),
-          Padding(padding: EdgeInsets.all(5)),
+          const Padding(padding: EdgeInsets.all(5)),
           _buildSparkAreaChart(),
-          Padding(padding: EdgeInsets.all(5)),
+          const Padding(padding: EdgeInsets.all(5)),
           _buildSparkBarChart(),
-          Padding(padding: EdgeInsets.all(5)),
+          const Padding(padding: EdgeInsets.all(5)),
           _buildSparkWinlossChart(),
         ],
       ));
@@ -85,7 +85,7 @@ class _SparklineSeriesTypesState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Center(
               child: Container(
                   height: _isVertical ? _size : _size * 0.7,
@@ -93,19 +93,19 @@ class _SparklineSeriesTypesState extends SampleViewState {
                   padding: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey.withOpacity(0.4))),
-                  child: Column(children: [
+                  child: Column(children: <Widget>[
                     Expanded(
                         child: SfSparkLineChart(
-                      trackball: SparkChartTrackball(
+                      trackball: const SparkChartTrackball(
                           activationMode: SparkChartActivationMode.tap),
-                      marker: SparkChartMarker(
+                      marker: const SparkChartMarker(
                           borderWidth: 3,
                           size: 5,
                           shape: SparkChartMarkerShape.circle,
                           displayMode: SparkChartMarkerDisplayMode.all,
                           color: Colors.blue),
                       axisLineWidth: 0,
-                      data: <double>[
+                      data: const <double>[
                         5,
                         6,
                         5,
@@ -132,8 +132,8 @@ class _SparklineSeriesTypesState extends SampleViewState {
                         8
                       ],
                     )),
-                    Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                    Text('Spark Line Chart',
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                    const Text('Spark Line Chart',
                         style: TextStyle(fontStyle: FontStyle.italic)),
                   ]))),
         ]);
@@ -143,7 +143,7 @@ class _SparklineSeriesTypesState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Center(
               child: Container(
                   height: _isVertical ? _size : _size * 0.7,
@@ -151,12 +151,12 @@ class _SparklineSeriesTypesState extends SampleViewState {
                   padding: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey.withOpacity(0.4))),
-                  child: Column(children: [
+                  child: Column(children: <Widget>[
                     Expanded(
                         child: SfSparkAreaChart(
-                            trackball: SparkChartTrackball(
+                            trackball: const SparkChartTrackball(
                                 activationMode: SparkChartActivationMode.tap),
-                            data: <double>[
+                            data: const <double>[
                               34,
                               36,
                               32,
@@ -170,12 +170,13 @@ class _SparklineSeriesTypesState extends SampleViewState {
                               30,
                               29
                             ],
-                            color: Color.fromRGBO(68, 150, 236, 0.3),
+                            color: const Color.fromRGBO(68, 150, 236, 0.3),
                             axisLineWidth: 0,
                             borderWidth: 2,
-                            borderColor: Color.fromRGBO(68, 150, 236, 1))),
-                    Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                    Text('Spark Area Chart',
+                            borderColor:
+                                const Color.fromRGBO(68, 150, 236, 1))),
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                    const Text('Spark Area Chart',
                         style: TextStyle(fontStyle: FontStyle.italic)),
                   ]))),
         ]);
@@ -186,7 +187,7 @@ class _SparklineSeriesTypesState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Center(
               child: Container(
                   height: _isVertical ? _size : _size * 0.7,
@@ -194,12 +195,13 @@ class _SparklineSeriesTypesState extends SampleViewState {
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey.withOpacity(0.4))),
-                  child: Column(children: [
+                  child: Column(children: <Widget>[
                     Expanded(
                         child: SfSparkBarChart(
                             axisLineWidth: 0,
-                            highPointColor: Color.fromRGBO(20, 170, 33, 1),
-                            data: <double>[
+                            highPointColor:
+                                const Color.fromRGBO(20, 170, 33, 1),
+                            data: const <double>[
                               10,
                               6,
                               8,
@@ -213,10 +215,10 @@ class _SparklineSeriesTypesState extends SampleViewState {
                               8,
                               10
                             ],
-                            trackball: SparkChartTrackball(
+                            trackball: const SparkChartTrackball(
                                 activationMode: SparkChartActivationMode.tap))),
-                    Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                    Text('Spark Bar Chart',
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                    const Text('Spark Bar Chart',
                         style: TextStyle(fontStyle: FontStyle.italic)),
                   ]))),
         ]);
@@ -227,7 +229,7 @@ class _SparklineSeriesTypesState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Center(
               child: Container(
                   height: _isVertical ? _size : _size * 0.7,
@@ -235,10 +237,10 @@ class _SparklineSeriesTypesState extends SampleViewState {
                   padding: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey.withOpacity(0.4))),
-                  child: Column(children: [
+                  child: Column(children: <Widget>[
                     Expanded(
                         child: SfSparkWinLossChart(
-                            data: <double>[
+                            data: const <double>[
                           12,
                           15,
                           -10,
@@ -252,10 +254,10 @@ class _SparklineSeriesTypesState extends SampleViewState {
                           8,
                           -10
                         ],
-                            trackball: SparkChartTrackball(
+                            trackball: const SparkChartTrackball(
                                 activationMode: SparkChartActivationMode.tap))),
-                    Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                    Text('Spark Win Loss Chart',
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                    const Text('Spark Win Loss Chart',
                         style: TextStyle(fontStyle: FontStyle.italic)),
                   ]))),
         ]);

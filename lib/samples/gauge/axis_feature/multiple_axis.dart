@@ -38,22 +38,22 @@ class _MultipleAxisExampleState extends SampleViewState {
             : 0.5,
         labelOffset: 15,
         canRotateLabels: true,
-        minorTickStyle: MinorTickStyle(
-            color: const Color(0xFF00A8B5),
+        minorTickStyle: const MinorTickStyle(
+            color: Color(0xFF00A8B5),
             thickness: 1.5,
             lengthUnit: GaugeSizeUnit.factor,
             length: 0.07),
-        majorTickStyle: MajorTickStyle(
-            color: const Color(0xFF00A8B5),
+        majorTickStyle: const MajorTickStyle(
+            color: Color(0xFF00A8B5),
             thickness: 1.5,
             lengthUnit: GaugeSizeUnit.factor,
             length: 0.15),
-        axisLineStyle: AxisLineStyle(
-          color: const Color(0xFF00A8B5),
+        axisLineStyle: const AxisLineStyle(
+          color: Color(0xFF00A8B5),
           thickness: 3,
         ),
         axisLabelStyle:
-            GaugeTextStyle(color: const Color(0xFF00A8B5), fontSize: 12),
+            const GaugeTextStyle(color: Color(0xFF00A8B5), fontSize: 12),
       ),
       RadialAxis(
           minimum: 0,
@@ -64,17 +64,17 @@ class _MultipleAxisExampleState extends SampleViewState {
           minorTicksPerInterval: 5,
           radiusFactor: 0.95,
           labelOffset: 15,
-          minorTickStyle: MinorTickStyle(
+          minorTickStyle: const MinorTickStyle(
               thickness: 1.5, length: 0.07, lengthUnit: GaugeSizeUnit.factor),
-          majorTickStyle: MinorTickStyle(
+          majorTickStyle: const MinorTickStyle(
             thickness: 1.5,
             length: 0.15,
             lengthUnit: GaugeSizeUnit.factor,
           ),
-          axisLineStyle: AxisLineStyle(
+          axisLineStyle: const AxisLineStyle(
             thickness: 3,
           ),
-          axisLabelStyle: GaugeTextStyle(fontSize: 12),
+          axisLabelStyle: const GaugeTextStyle(fontSize: 12),
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
                 angle: 90,
@@ -110,7 +110,7 @@ class _MultipleAxisExampleState extends SampleViewState {
               needleEndWidth: 3,
               value: 33,
               enableAnimation: true,
-              knobStyle: KnobStyle(
+              knobStyle: const KnobStyle(
                   knobRadius: 6.5, sizeUnit: GaugeSizeUnit.logicalPixel),
             )
           ]),

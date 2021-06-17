@@ -34,24 +34,24 @@ class _AnimationDefaultState extends SampleViewState {
 
   /// Returns the cartesian chart with default serie animation.
   Column _buildDefaultAnimationChart() {
-    return Column(children: [
+    return Column(children: <Widget>[
       Expanded(
           child: SfCartesianChart(
         title: ChartTitle(text: isCardView ? '' : 'Sales report'),
         legend: Legend(isVisible: !isCardView),
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(
-            majorGridLines: MajorGridLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
             edgeLabelPlacement: EdgeLabelPlacement.shift),
         primaryYAxis: NumericAxis(
             minimum: 0,
             interval: isCardView ? 50 : 25,
             maximum: 150,
-            majorGridLines: MajorGridLines(width: 0)),
+            majorGridLines: const MajorGridLines(width: 0)),
         axes: <ChartAxis>[
           NumericAxis(
               numberFormat: NumberFormat.compact(),
-              majorGridLines: MajorGridLines(width: 0),
+              majorGridLines: const MajorGridLines(width: 0),
               opposedPosition: true,
               name: 'yAxis1',
               interval: 1000,
@@ -61,28 +61,27 @@ class _AnimationDefaultState extends SampleViewState {
         series: _getDefaultAnimationSeries(),
         tooltipBehavior: TooltipBehavior(enable: true),
       )),
-      isCardView
-          ? Container(height: 0, width: 0)
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    child: model.isWebFullView
-                        ? ButtonTheme(
-                            minWidth: 40.0,
-                            height: 30.0,
-                            child: _buildColumnButton())
-                        : _buildColumnButton()),
-                Padding(padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
-                Container(
-                    child: model.isWebFullView
-                        ? ButtonTheme(
-                            minWidth: 40.0,
-                            height: 30.0,
-                            child: _buildLineButton())
-                        : _buildLineButton()),
-              ],
-            )
+      if (isCardView)
+        Container(height: 0, width: 0)
+      else
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+                child: model.isWebFullView
+                    ? ButtonTheme(
+                        minWidth: 40.0,
+                        height: 30.0,
+                        child: _buildColumnButton())
+                    : _buildColumnButton()),
+            const Padding(padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
+            Container(
+                child: model.isWebFullView
+                    ? ButtonTheme(
+                        minWidth: 40.0, height: 30.0, child: _buildLineButton())
+                    : _buildLineButton()),
+          ],
+        )
     ]);
   }
 
@@ -103,7 +102,7 @@ class _AnimationDefaultState extends SampleViewState {
             _chartSeriesController1 = controller;
           },
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Unit Sold'),
       LineSeries<ChartSampleData, String>(
@@ -113,10 +112,10 @@ class _AnimationDefaultState extends SampleViewState {
           onRendererCreated: (ChartSeriesController controller) {
             _chartSeriesController2 = controller;
           },
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           yAxisName: 'yAxis1',
-          markerSettings: MarkerSettings(isVisible: true),
+          markerSettings: const MarkerSettings(isVisible: true),
           name: 'Total Transaction')
     ];
   }
@@ -130,7 +129,7 @@ class _AnimationDefaultState extends SampleViewState {
       onPressed: () {
         _chartSeriesController2?.animate();
       },
-      child: Text('Animate line series',
+      child: const Text('Animate line series',
           textScaleFactor: 1, style: TextStyle(color: Colors.white)),
     );
   }
@@ -144,7 +143,7 @@ class _AnimationDefaultState extends SampleViewState {
       onPressed: () {
         _chartSeriesController1?.animate();
       },
-      child: Text('Animate column series',
+      child: const Text('Animate column series',
           textScaleFactor: 1, style: TextStyle(color: Colors.white)),
     );
   }

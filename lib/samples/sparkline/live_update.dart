@@ -85,17 +85,17 @@ class _SparklineLiveUpdateState extends SampleViewState {
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                children: <Widget>[
                   _buildCPUDataChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
                   ),
                   _buildDiskDataChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
                   ),
                   _buildMemoryDataChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
                   ),
                   _buildEthernetDataChart(),
@@ -106,17 +106,17 @@ class _SparklineLiveUpdateState extends SampleViewState {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   _buildCPUDataChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
                   ),
                   _buildDiskDataChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
                   ),
                   _buildMemoryDataChart(),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
                   ),
                   _buildEthernetDataChart(),
@@ -128,17 +128,17 @@ class _SparklineLiveUpdateState extends SampleViewState {
       return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             _buildCPUDataChart(),
-            Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
             ),
             _buildDiskDataChart(),
-            Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
             ),
             _buildMemoryDataChart(),
-            Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
             ),
             _buildEthernetDataChart(),
@@ -152,9 +152,9 @@ class _SparklineLiveUpdateState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.withOpacity(0.5))),
             height: _isVertical ? _size : _size * 0.7,
@@ -162,15 +162,15 @@ class _SparklineLiveUpdateState extends SampleViewState {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Container(
-                      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                      child: Text('CPU',
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      child: const Text('CPU',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16))),
                   Container(
-                      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                       child: Text(
                           '$_cpuValue'
                           '%'
@@ -180,17 +180,17 @@ class _SparklineLiveUpdateState extends SampleViewState {
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               fontSize: 12,
-                              color:
-                                  model.themeData.brightness == Brightness.dark
-                                      ? Color.fromRGBO(212, 135, 215, 1)
-                                      : Color.fromRGBO(110, 43, 113, 1)))),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+                              color: model.themeData.brightness ==
+                                      Brightness.dark
+                                  ? const Color.fromRGBO(212, 135, 215, 1)
+                                  : const Color.fromRGBO(110, 43, 113, 1)))),
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
                   Expanded(
                       child: SfSparkAreaChart(
                     data: _cpuData,
                     axisLineWidth: 0,
-                    color: Color.fromRGBO(184, 71, 189, 0.35),
-                    borderColor: Color.fromRGBO(184, 71, 189, 1),
+                    color: const Color.fromRGBO(184, 71, 189, 0.35),
+                    borderColor: const Color.fromRGBO(184, 71, 189, 1),
                     borderWidth: 1,
                   ))
                 ]),
@@ -202,9 +202,9 @@ class _SparklineLiveUpdateState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.withOpacity(0.5))),
             height: _isVertical ? _size : _size * 0.7,
@@ -212,31 +212,31 @@ class _SparklineLiveUpdateState extends SampleViewState {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Container(
-                      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                      child: Text('Disk',
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      child: const Text('Disk',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16))),
                   Container(
-                      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                       child: Text('$_diskValue' '%',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 12,
                             color: model.themeData.brightness == Brightness.dark
-                                ? Color.fromRGBO(169, 144, 253, 1)
-                                : Color.fromRGBO(34, 15, 132, 1),
+                                ? const Color.fromRGBO(169, 144, 253, 1)
+                                : const Color.fromRGBO(34, 15, 132, 1),
                           ))),
-                  Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
                   Expanded(
                       child: SfSparkAreaChart(
                     data: _diskData,
                     axisCrossesAt: 0,
                     axisLineWidth: 0,
-                    color: Color.fromRGBO(128, 94, 246, 0.3),
-                    borderColor: Color.fromRGBO(128, 94, 246, 1),
+                    color: const Color.fromRGBO(128, 94, 246, 0.3),
+                    borderColor: const Color.fromRGBO(128, 94, 246, 1),
                     borderWidth: 1,
                   ))
                 ]),
@@ -248,9 +248,9 @@ class _SparklineLiveUpdateState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey.withOpacity(0.5))),
               height: _isVertical ? _size : _size * 0.7,
@@ -258,15 +258,15 @@ class _SparklineLiveUpdateState extends SampleViewState {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Container(
-                        padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                        child: Text('Memory',
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: const Text('Memory',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16))),
                     Container(
-                        padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                         child: Text(
                             '${int.parse(_memoryValue) / 10}'
                             '/'
@@ -280,17 +280,17 @@ class _SparklineLiveUpdateState extends SampleViewState {
                               fontSize: 12,
                               color:
                                   model.themeData.brightness == Brightness.dark
-                                      ? Color.fromRGBO(89, 176, 227, 1)
-                                      : Color.fromRGBO(23, 118, 217, 1),
+                                      ? const Color.fromRGBO(89, 176, 227, 1)
+                                      : const Color.fromRGBO(23, 118, 217, 1),
                             ))),
-                    Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
                     Expanded(
                         child: SfSparkAreaChart(
                             data: _memoryData,
                             axisCrossesAt: 0,
                             axisLineWidth: 0,
-                            color: Color.fromRGBO(89, 176, 227, 0.3),
-                            borderColor: Color.fromRGBO(89, 176, 227, 1),
+                            color: const Color.fromRGBO(89, 176, 227, 0.3),
+                            borderColor: const Color.fromRGBO(89, 176, 227, 1),
                             borderWidth: 1))
                   ])),
         ]);
@@ -300,9 +300,9 @@ class _SparklineLiveUpdateState extends SampleViewState {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey.withOpacity(0.5))),
               height: _isVertical ? _size : _size * 0.7,
@@ -310,15 +310,15 @@ class _SparklineLiveUpdateState extends SampleViewState {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Container(
-                        padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                        child: Text('Ethernet',
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: const Text('Ethernet',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16))),
                     Container(
-                        padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                         child:
                             Text('R: ' '${int.parse(_ethernetValue)}' ' Kbps',
                                 textAlign: TextAlign.left,
@@ -326,17 +326,17 @@ class _SparklineLiveUpdateState extends SampleViewState {
                                   fontSize: 12,
                                   color: model.themeData.brightness ==
                                           Brightness.dark
-                                      ? Color.fromRGBO(89, 190, 103, 1)
-                                      : Color.fromRGBO(40, 144, 90, 1),
+                                      ? const Color.fromRGBO(89, 190, 103, 1)
+                                      : const Color.fromRGBO(40, 144, 90, 1),
                                 ))),
-                    Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
                     Expanded(
                         child: SfSparkAreaChart(
                       data: _ethernetData,
                       axisCrossesAt: 0,
                       axisLineWidth: 0,
-                      color: Color.fromRGBO(89, 190, 103, 0.3),
-                      borderColor: Color.fromRGBO(89, 190, 103, 1),
+                      color: const Color.fromRGBO(89, 190, 103, 0.3),
+                      borderColor: const Color.fromRGBO(89, 190, 103, 1),
                       borderWidth: 1,
                     ))
                   ])),
@@ -364,10 +364,10 @@ class _SparklineLiveUpdateState extends SampleViewState {
       _ethernetData.removeAt(0);
     }
     setState(() {
-      _cpuData = List.from(_getCPUData());
-      _diskData = List.from(_getDiskData());
-      _memoryData = List.from(_getMemoryData());
-      _ethernetData = List.from(_getEthernetData());
+      _cpuData = List<double>.from(_getCPUData());
+      _diskData = List<double>.from(_getDiskData());
+      _memoryData = List<double>.from(_getMemoryData());
+      _ethernetData = List<double>.from(_getEthernetData());
       _cpuValue = _cpuData[_cpuData.length - 1].round().toString();
       _diskValue = _diskData[_diskData.length - 1].round().toString();
       _memoryValue = _memoryData[_memoryData.length - 1].round().toString();

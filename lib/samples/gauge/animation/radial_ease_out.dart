@@ -39,7 +39,7 @@ class _RadialEaseOutAnimationState extends SampleViewState {
             radiusFactor: 0.8,
             minimum: 0,
             maximum: 50,
-            axisLineStyle: AxisLineStyle(thickness: 40),
+            axisLineStyle: const AxisLineStyle(thickness: 40),
             pointers: <GaugePointer>[
               RangePointer(
                 enableAnimation: true,

@@ -21,11 +21,6 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
   _RadialRangeSliderCustomTextState();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       _firstMarkerSize = 30;
@@ -37,7 +32,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
     return Center(
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
                 thickness: 0.07, thicknessUnit: GaugeSizeUnit.factor),
             showTicks: false,
             showLabels: true,
@@ -90,7 +85,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      '$_annotationValue',
+                      _annotationValue,
                       style: TextStyle(
                         fontSize: _annotationFontSize,
                         fontFamily: 'Times',
@@ -104,11 +99,6 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
             ])
       ]),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   /// Dragged pointer new value is updated to pointer and

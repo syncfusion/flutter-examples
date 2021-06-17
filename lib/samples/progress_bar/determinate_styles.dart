@@ -53,13 +53,13 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             getFilledTrackStyle(),
-            Center(child: Text('Filled track')),
+            const Center(child: Text('Filled track')),
             getFilledProgressStyle(),
-            Center(child: Text('Filled progress')),
+            const Center(child: Text('Filled progress')),
             getGradientProgressStyle(),
-            Center(child: Text('Gradient track'))
+            const Center(child: Text('Gradient track'))
           ],
         ),
       );
@@ -69,29 +69,29 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 getFilledTrackStyle(),
-                Center(child: Text('Filled track')),
+                const Center(child: Text('Filled track')),
               ],
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 getFilledProgressStyle(),
-                Center(child: Text('Filled progress')),
+                const Center(child: Text('Filled progress')),
               ],
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 getGradientProgressStyle(),
-                Center(child: Text('Gradient track'))
+                const Center(child: Text('Gradient track'))
               ],
             ),
           ],
@@ -120,9 +120,9 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                 thickness: 1,
-                color: const Color.fromARGB(255, 0, 169, 181),
+                color: Color.fromARGB(255, 0, 169, 181),
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
               pointers: <GaugePointer>[
@@ -162,9 +162,9 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-            axisLineStyle: AxisLineStyle(
+            axisLineStyle: const AxisLineStyle(
               thickness: 0.05,
-              color: const Color.fromARGB(100, 0, 169, 181),
+              color: Color.fromARGB(100, 0, 169, 181),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -194,9 +194,9 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-              axisLineStyle: AxisLineStyle(
+              axisLineStyle: const AxisLineStyle(
                 thickness: 0.2,
-                color: const Color.fromARGB(30, 0, 169, 181),
+                color: Color.fromARGB(30, 0, 169, 181),
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
               pointers: <GaugePointer>[
@@ -207,7 +207,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
                     enableAnimation: true,
                     animationDuration: 75,
                     animationType: AnimationType.linear,
-                    gradient: SweepGradient(
+                    gradient: const SweepGradient(
                         colors: <Color>[Color(0xFFa4edeb), Color(0xFF00a9b5)],
                         stops: <double>[0.25, 0.75])),
               ],
