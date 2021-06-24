@@ -77,7 +77,7 @@ class _LiveVerticalState extends SampleViewState {
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          dataLabelSettings: DataLabelSettings(isVisible: true)),
+          dataLabelSettings: const DataLabelSettings(isVisible: true)),
     ];
   }
 

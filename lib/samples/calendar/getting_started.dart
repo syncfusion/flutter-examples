@@ -40,7 +40,7 @@ class _GettingStartedCalendarState extends SampleViewState {
   ];
 
   final List<String> _viewNavigationModeList =
-      <String>['Snap', 'None'].toList();
+      <String>['snap', 'none'].toList();
 
   /// Global key used to maintain the state, when we change the parent of the
   /// widget
@@ -55,7 +55,8 @@ class _GettingStartedCalendarState extends SampleViewState {
   bool _showCurrentTimeIndicator = true;
 
   ViewNavigationMode _viewNavigationMode = ViewNavigationMode.snap;
-  String _viewNavigationModeString = 'Snap';
+  String _viewNavigationModeString = 'snap';
+  bool _showWeekNumber = false;
 
   @override
   void initState() {
@@ -212,9 +213,9 @@ class _GettingStartedCalendarState extends SampleViewState {
   /// Allows/Restrict switching to previous/next views through swipe interaction
   void onViewNavigationModeChange(String value) {
     _viewNavigationModeString = value;
-    if (value == 'Snap') {
+    if (value == 'snap') {
       _viewNavigationMode = ViewNavigationMode.snap;
-    } else if (value == 'None') {
+    } else if (value == 'none') {
       _viewNavigationMode = ViewNavigationMode.none;
     }
     setState(() {
@@ -236,9 +237,9 @@ class _GettingStartedCalendarState extends SampleViewState {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Text('Allow view navigation',
+                    softWrap: false,
                     style: TextStyle(fontSize: 16.0, color: model.textColor)),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -269,6 +270,7 @@ class _GettingStartedCalendarState extends SampleViewState {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Text('Show date picker button',
+                    softWrap: false,
                     style: TextStyle(fontSize: 16.0, color: model.textColor)),
                 Container(
                   padding: const EdgeInsets.all(0),
@@ -302,11 +304,14 @@ class _GettingStartedCalendarState extends SampleViewState {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Expanded(
-                    child: Text('Show trailing and leading dates',
+                    child: Text(
+                        model.isWebFullView
+                            ? 'Show trailing and leading \ndates'
+                            : 'Show trailing and leading dates',
+                        softWrap: false,
                         style:
                             TextStyle(fontSize: 16.0, color: model.textColor))),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -338,11 +343,14 @@ class _GettingStartedCalendarState extends SampleViewState {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Expanded(
-                    child: Text('Show current time indicator',
+                    child: Text(
+                        model.isWebFullView
+                            ? 'Show current time \nindicator'
+                            : 'Show current time indicator',
+                        softWrap: false,
                         style:
                             TextStyle(fontSize: 16.0, color: model.textColor))),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -370,15 +378,56 @@ class _GettingStartedCalendarState extends SampleViewState {
           Container(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                    child: Text('Show week number',
+                        softWrap: false,
+                        style:
+                            TextStyle(fontSize: 16.0, color: model.textColor))),
+                Container(
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        canvasColor: model.bottomSheetBackgroundColor),
+                    child: Container(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Transform.scale(
+                            scale: 0.8,
+                            child: CupertinoSwitch(
+                              activeColor: model.backgroundColor,
+                              value: _showWeekNumber,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  _showWeekNumber = value;
+                                  stateSetter(() {});
+                                });
+                              },
+                            )),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                    flex: 6,
-                    child: Text('View navigation mode',
+                    flex: model.isWebFullView ? 5 : 6,
+                    child: Text(
+                        model.isWebFullView
+                            ? 'View navigation \nmode'
+                            : 'View navigation mode',
+                        softWrap: false,
                         style:
                             TextStyle(fontSize: 16.0, color: model.textColor))),
                 Expanded(
-                  flex: 4,
+                  flex: model.isWebFullView ? 5 : 4,
                   child: Container(
                     padding: const EdgeInsets.only(left: 60),
                     alignment: Alignment.bottomLeft,
@@ -438,6 +487,7 @@ class _GettingStartedCalendarState extends SampleViewState {
       timeSlotViewSettings: const TimeSlotViewSettings(
           minimumAppointmentDuration: Duration(minutes: 60)),
       viewNavigationMode: _viewNavigationMode,
+      showWeekNumber: _showWeekNumber,
     );
   }
 }

@@ -41,13 +41,13 @@ class _RadialEaseOutAnimationState extends SampleViewState {
             maximum: 50,
             axisLineStyle: const AxisLineStyle(thickness: 40),
             pointers: <GaugePointer>[
-              RangePointer(
+              const RangePointer(
                 enableAnimation: true,
                 animationType: AnimationType.easeOutBack,
                 width: 40,
-                color: const Color(0xFF00A8B5),
+                color: Color(0xFF00A8B5),
                 value: 40,
-                gradient: const SweepGradient(
+                gradient: SweepGradient(
                     colors: <Color>[Color(0xFFD046CA), Color(0xFF6094EA)],
                     stops: <double>[0.25, 0.75]),
               ),

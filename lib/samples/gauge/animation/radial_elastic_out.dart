@@ -41,8 +41,8 @@ class _RadialElasticOutAnimationState extends SampleViewState {
                 length: 0.1, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
             minorTicksPerInterval: 4,
             pointers: <GaugePointer>[
-              RangePointer(
-                  gradient: const SweepGradient(
+              const RangePointer(
+                  gradient: SweepGradient(
                       colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
                       stops: <double>[0.25, 0.75]),
                   value: 70,
@@ -50,7 +50,7 @@ class _RadialElasticOutAnimationState extends SampleViewState {
                   animationDuration: 2000,
                   enableAnimation: true,
                   animationType: AnimationType.elasticOut,
-                  color: const Color(0xFF00A8B5)),
+                  color: Color(0xFF00A8B5)),
               NeedlePointer(
                   value: 70,
                   needleStartWidth: 0,

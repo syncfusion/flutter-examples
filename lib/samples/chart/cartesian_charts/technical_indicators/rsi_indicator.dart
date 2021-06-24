@@ -61,6 +61,7 @@ class _RSIIndicatorState extends SampleViewState {
           ListTile(
             title: Text(
               'Period',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -80,7 +81,8 @@ class _RSIIndicatorState extends SampleViewState {
           ),
           ListTile(
             title: Text(
-              'Over bought',
+              'Overbought',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -100,7 +102,8 @@ class _RSIIndicatorState extends SampleViewState {
           ),
           ListTile(
             title: Text(
-              'Over Sold',
+              'Oversold',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -119,7 +122,8 @@ class _RSIIndicatorState extends SampleViewState {
             ),
           ),
           ListTile(
-              title: Text('Show zones',
+              title: Text(model.isWebFullView ? 'Show \nzones' : 'Show zones',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),

@@ -23,33 +23,6 @@ class DefaultRangeSliderPage extends SampleView {
 
 class _DefaultRangeSliderPageState extends SampleViewState {
   _DefaultRangeSliderPageState();
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _DefaultRangeSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 300
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 300, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _DefaultRangeSlider extends SampleView {
-  @override
-  _DefaultRangeSliderState createState() => _DefaultRangeSliderState();
-}
-
-class _DefaultRangeSliderState extends SampleViewState {
   final SfRangeValues _inactiveRangeSliderValue =
       const SfRangeValues(20.0, 80.0);
   SfRangeValues _activeRangeSliderValue = const SfRangeValues(20.0, 80.0);
@@ -111,6 +84,14 @@ class _DefaultRangeSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _getMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _getMobileLayout();
+      return constraints.maxHeight > 300
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 300, child: rangeSlider));
+    });
   }
 }

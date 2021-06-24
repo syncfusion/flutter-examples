@@ -69,9 +69,9 @@ class _DateTimeCategoryLabelState extends SampleViewState {
               name: 'Server down time',
               xValueMapper: (_OrdinalSales x, int xx) => x.year,
               yValueMapper: (_OrdinalSales sales, _) => sales.sales,
-              dataLabelSettings: DataLabelSettings(
+              dataLabelSettings: const DataLabelSettings(
                 isVisible: true,
-                offset: const Offset(0, -5),
+                offset: Offset(0, -5),
               )),
         ]);
   }

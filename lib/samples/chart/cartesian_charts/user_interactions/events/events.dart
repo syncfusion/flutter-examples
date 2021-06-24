@@ -177,13 +177,6 @@ class _EventsState extends SampleViewState {
           (consoleKey.currentState)?.setState(() {});
         }
       },
-      onPointTapped: (PointTapArgs args) {
-        if (!isCardView) {
-          actionsList.insert(
-              0, 'Point (${args.pointIndex.toString()}) was tapped');
-          (consoleKey.currentState)?.setState(() {});
-        }
-      },
       onChartTouchInteractionDown: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Chart was tapped down');
@@ -268,13 +261,20 @@ class _EventsState extends SampleViewState {
     ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
+        onPointTap: (ChartPointDetails args) {
+          if (!isCardView) {
+            actionsList.insert(
+                0, 'Point (${args.pointIndex.toString()}) was tapped');
+            (consoleKey.currentState)?.setState(() {});
+          }
+        },
         dataSource: chartData,
         animationDuration: 0,
         name: 'Population',
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         markerSettings: const MarkerSettings(isVisible: true),
-        dataLabelSettings: DataLabelSettings(isVisible: true),
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
       )
     ];
   }

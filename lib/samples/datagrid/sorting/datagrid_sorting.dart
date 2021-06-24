@@ -80,8 +80,8 @@ class _SortingDataGridState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           ListTile(
-            title:
-                Text('Allow sorting', style: TextStyle(color: model.textColor)),
+            title: Text('Allow sorting',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Transform.scale(
                 scale: 0.8,
                 child: CupertinoSwitch(
@@ -95,7 +95,11 @@ class _SortingDataGridState extends SampleViewState {
                 )),
           ),
           ListTile(
-              title: Text('Allow multiple column sorting',
+              title: Text(
+                  model.isWebFullView
+                      ? 'Allow multiple \ncolumn sorting'
+                      : 'Allow multiple column sorting',
+                  softWrap: false,
                   style: TextStyle(color: model.textColor)),
               trailing: Transform.scale(
                   scale: 0.8,
@@ -109,7 +113,11 @@ class _SortingDataGridState extends SampleViewState {
                     },
                   ))),
           ListTile(
-              title: Text('Allow tri-state sorting',
+              title: Text(
+                  model.isWebFullView
+                      ? 'Allow tri-state \nsorting'
+                      : 'Allow tri-state sorting',
+                  softWrap: false,
                   style: TextStyle(color: model.textColor)),
               trailing: Transform.scale(
                   scale: 0.8,
@@ -134,11 +142,19 @@ class _SortingDataGridState extends SampleViewState {
                     });
                   },
                 )),
-            title: Text('Allow sorting for the Name column',
+            title: Text(
+                model.isWebFullView
+                    ? 'Allow sorting for the \nName column'
+                    : 'Allow sorting for the Name column',
+                softWrap: false,
                 style: TextStyle(color: model.textColor)),
           ),
           ListTile(
-              title: Text('Display sort sequence numbers',
+              title: Text(
+                  model.isWebFullView
+                      ? 'Display sort \nsequence numbers'
+                      : 'Display sort sequence numbers',
+                  softWrap: false,
                   style: TextStyle(color: model.textColor)),
               trailing: Transform.scale(
                   scale: 0.8,
@@ -158,7 +174,7 @@ class _SortingDataGridState extends SampleViewState {
 
   List<GridColumn> getColumns() {
     return <GridColumn>[
-      GridTextColumn(
+      GridColumn(
           columnName: 'id',
           columnWidthMode:
               !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
@@ -175,7 +191,7 @@ class _SortingDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
           columnName: 'customerId',
           columnWidthMode:
               !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
@@ -192,7 +208,7 @@ class _SortingDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
           columnName: 'name',
           width: !isWebOrDesktop
               ? 80
@@ -208,7 +224,7 @@ class _SortingDataGridState extends SampleViewState {
             ),
           ),
           allowSorting: allowColumnSorting),
-      GridTextColumn(
+      GridColumn(
         columnName: 'freight',
         width: !isWebOrDesktop
             ? 120
@@ -224,7 +240,7 @@ class _SortingDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'city',
         width: !isWebOrDesktop
             ? 90
@@ -242,7 +258,7 @@ class _SortingDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'price',
         width:
             (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,

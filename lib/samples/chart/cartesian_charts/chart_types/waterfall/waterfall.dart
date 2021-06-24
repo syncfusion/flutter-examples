@@ -130,7 +130,7 @@ class _WaterFallState extends SampleViewState {
               sales.intermediateSumPredicate,
           totalSumPredicate: (_ChartSampleData sales, _) =>
               sales.totalSumPredicate,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
           color: const Color.fromRGBO(0, 189, 174, 1),
           negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),

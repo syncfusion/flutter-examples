@@ -76,6 +76,7 @@ class _WidgetPointerExampleState extends SampleViewState {
           pointers: <GaugePointer>[
             WidgetPointer(
                 offset: isCardView ? -2.5 : -5,
+                value: _value.toDouble(),
                 child: Container(
                   decoration: BoxDecoration(
                       color: model.themeData.brightness == Brightness.light
@@ -150,8 +151,7 @@ class _WidgetPointerExampleState extends SampleViewState {
                       ],
                     ),
                   ),
-                ),
-                value: _value.toDouble())
+                ))
           ],
           ranges: <GaugeRange>[
             GaugeRange(

@@ -359,40 +359,40 @@ class _SparkLineGridState extends SampleViewState {
                 ? ColumnWidthMode.fill
                 : ColumnWidthMode.none,
         columns: <GridColumn>[
-          GridTextColumn(
+          GridColumn(
               columnName: 'id',
               label: Container(
                   padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.centerRight,
                   child: const Text('ID')),
               width: 50),
-          GridTextColumn(
+          GridColumn(
             columnName: 'name',
             label: Container(
                 padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.centerLeft,
                 child: const Text('Name')),
           ),
-          GridTextColumn(
+          GridColumn(
             columnName: 'shipCountry',
             label: Container(
                 padding: const EdgeInsets.all(8.0),
                 alignment: Alignment.centerLeft,
                 child: const Text('Ship country')),
           ),
-          GridTextColumn(
+          GridColumn(
               columnName: 'tax',
               width: model.isWebFullView ? double.nan : 130,
               label: Container(
                   alignment: Alignment.center,
                   child: const Text('Tax per annum'))),
-          GridTextColumn(
+          GridColumn(
               columnName: 'column',
               width: model.isWebFullView ? double.nan : 130,
               label: Container(
                   alignment: Alignment.center,
                   child: const Text('One day index'))),
-          GridTextColumn(
+          GridColumn(
               columnName: 'winloss',
               label: Container(
                   alignment: Alignment.center, child: const Text('Year GR'))),

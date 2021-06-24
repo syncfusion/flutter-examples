@@ -24,44 +24,16 @@ class SliderSizeCustomizationPage extends SampleView {
 
 class _SliderSizeCustomizationPageState extends SampleViewState {
   _SliderSizeCustomizationPageState();
-  late Widget slider;
-
-  @override
-  void initState() {
-    super.initState();
-    slider = _SfSliderSizeCustomization();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 300
-          ? slider
-          : SingleChildScrollView(
-              child: SizedBox(height: 300, child: slider),
-            );
-    });
-  }
-}
-
-class _SfSliderSizeCustomization extends SampleView {
-  @override
-  _SfSliderSizeCustomizationState createState() =>
-      _SfSliderSizeCustomizationState();
-}
-
-class _SfSliderSizeCustomizationState extends SampleViewState {
   DateTime _yearValue = DateTime(2010, 1, 01);
   double _value = 0.0;
 
-  SfSliderTheme _sliderWithdivisorCustomization() {
+  SfSliderTheme _sliderWithdividerCustomization() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-            activeDivisorRadius: 6.0,
-            inactiveDivisorRadius: 3.0,
-            inactiveDivisorColor: Colors.deepOrangeAccent.withOpacity(0.24),
-            activeDivisorColor: Colors.deepOrangeAccent,
+            activeDividerRadius: 6.0,
+            inactiveDividerRadius: 3.0,
+            inactiveDividerColor: Colors.deepOrangeAccent.withOpacity(0.24),
+            activeDividerColor: Colors.deepOrangeAccent,
             activeTrackColor: Colors.deepOrangeAccent,
             thumbColor: Colors.deepOrangeAccent,
             tooltipBackgroundColor: Colors.deepOrangeAccent,
@@ -76,7 +48,7 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
           dateFormat: DateFormat.y(),
           labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.years,
-          showDivisors: true,
+          showDividers: true,
           value: _yearValue,
           onChanged: (dynamic values) {
             setState(() {
@@ -135,9 +107,9 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
             columnSpacing10,
             _sliderWithTrackCustomization(),
             columnSpacing40,
-            title('Active and inactive divisor radius'),
+            title('Active and inactive divider radius'),
             columnSpacing10,
-            _sliderWithdivisorCustomization(),
+            _sliderWithdividerCustomization(),
             columnSpacing40,
           ],
         ));
@@ -145,6 +117,13 @@ class _SfSliderSizeCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget slider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 300
+          ? slider
+          : SingleChildScrollView(child: SizedBox(height: 300, child: slider));
+    });
   }
 }

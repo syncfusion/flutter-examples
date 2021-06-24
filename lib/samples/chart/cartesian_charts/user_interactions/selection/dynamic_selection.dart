@@ -103,7 +103,9 @@ class _DefaultSelectionState extends SampleViewState {
               ],
             ),
           ),
-          Column(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                   child: Padding(

@@ -81,8 +81,8 @@ class _RadialBarGradientState extends SampleViewState {
     return <RadialBarSeries<_ChartShaderData, String>>[
       RadialBarSeries<_ChartShaderData, String>(
           maximumValue: 15,
-          dataLabelSettings: DataLabelSettings(
-              isVisible: true, textStyle: const TextStyle(fontSize: 10.0)),
+          dataLabelSettings: const DataLabelSettings(
+              isVisible: true, textStyle: TextStyle(fontSize: 10.0)),
           dataSource: chartData,
           cornerStyle: CornerStyle.bothCurve,
           gap: '10%',

@@ -2,9 +2,10 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
+
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 /// Barcode import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -52,7 +53,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
           ? ColumnWidthMode.fill
           : ColumnWidthMode.none,
       columns: <GridColumn>[
-        GridTextColumn(
+        GridColumn(
             columnName: 'symbol',
             width: (isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
@@ -61,7 +62,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
               alignment: Alignment.center,
               child: const Text('Symbol'),
             )),
-        GridTextColumn(
+        GridColumn(
           columnName: 'stock',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
@@ -70,7 +71,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
             child: const Text('Stock'),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'open',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
@@ -79,7 +80,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
             child: const Text(' Open'),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           width: (isWebOrDesktop && model.isMobileResolution) ? 150.0 : 130.0,
           columnName: 'previousClose',
           label: Container(
@@ -87,7 +88,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
             child: const Text('Previous Close'),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'lastTrade',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,

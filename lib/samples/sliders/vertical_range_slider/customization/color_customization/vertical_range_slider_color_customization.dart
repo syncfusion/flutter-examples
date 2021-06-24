@@ -18,35 +18,8 @@ class VerticalColorCustomizedRangeSliderPage extends SampleView {
 
 class _VerticalColorCustomizedRangeSliderPageState extends SampleViewState {
   _VerticalColorCustomizedRangeSliderPageState();
+  final GlobalKey gradientKey = GlobalKey();
 
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _ColorCustomizedRangeSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _ColorCustomizedRangeSlider extends SampleView {
-  @override
-  _ColorCustomizedRangeSliderState createState() =>
-      _ColorCustomizedRangeSliderState();
-}
-
-class _ColorCustomizedRangeSliderState extends SampleViewState {
   Widget _buildWebLayout() {
     return Center(
       child: Container(
@@ -58,11 +31,19 @@ class _ColorCustomizedRangeSliderState extends SampleViewState {
   }
 
   Widget _buildMobileLayout() {
-    return VerticalGradientTrackRangeSlider();
+    return VerticalGradientTrackRangeSlider(gradientKey);
   }
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider));
+    });
   }
 }

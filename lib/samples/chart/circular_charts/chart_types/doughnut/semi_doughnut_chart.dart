@@ -32,7 +32,7 @@ class _SemiDoughnutChartState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text('Start Angle  ',
+              Text('Start angle  ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
               Container(
                 padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
@@ -58,7 +58,7 @@ class _SemiDoughnutChartState extends SampleViewState {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                child: Text('End Angle ',
+                child: Text('End angle ',
                     style: TextStyle(fontSize: 16.0, color: model.textColor)),
               ),
               Container(
@@ -116,7 +116,7 @@ class _SemiDoughnutChartState extends SampleViewState {
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.outside))
     ];
   }

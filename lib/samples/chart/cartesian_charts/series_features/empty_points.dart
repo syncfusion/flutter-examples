@@ -112,8 +112,8 @@ class _EmptyPointsState extends SampleViewState {
             mode: _selectedEmptyPointMode, color: Colors.grey),
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        dataLabelSettings: DataLabelSettings(
-            isVisible: true, textStyle: const TextStyle(fontSize: 10)),
+        dataLabelSettings: const DataLabelSettings(
+            isVisible: true, textStyle: TextStyle(fontSize: 10)),
       )
     ];
   }

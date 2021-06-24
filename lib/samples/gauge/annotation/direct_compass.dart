@@ -45,17 +45,17 @@ class _RadialCompassState extends SampleViewState {
             minorTickStyle: const MinorTickStyle(
                 length: 0.16, lengthUnit: GaugeSizeUnit.factor, thickness: 1),
             axisLabelStyle: const GaugeTextStyle(fontSize: 12),
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               MarkerPointer(value: 90, markerType: MarkerType.triangle),
               NeedlePointer(
                   value: 310,
                   needleLength: 0.5,
                   lengthUnit: GaugeSizeUnit.factor,
-                  needleColor: const Color(0xFFC4C4C4),
+                  needleColor: Color(0xFFC4C4C4),
                   needleStartWidth: 1,
                   needleEndWidth: 1,
-                  knobStyle: const KnobStyle(knobRadius: 0),
-                  tailStyle: const TailStyle(
+                  knobStyle: KnobStyle(knobRadius: 0),
+                  tailStyle: TailStyle(
                       color: Color(0xFFC4C4C4),
                       width: 1,
                       lengthUnit: GaugeSizeUnit.factor,
@@ -64,20 +64,20 @@ class _RadialCompassState extends SampleViewState {
                 value: 221,
                 needleLength: 0.5,
                 lengthUnit: GaugeSizeUnit.factor,
-                needleColor: const Color(0xFFC4C4C4),
+                needleColor: Color(0xFFC4C4C4),
                 needleStartWidth: 1,
                 needleEndWidth: 1,
-                knobStyle: const KnobStyle(
-                    knobRadius: 0, sizeUnit: GaugeSizeUnit.factor),
+                knobStyle:
+                    KnobStyle(knobRadius: 0, sizeUnit: GaugeSizeUnit.factor),
               ),
               NeedlePointer(
                 value: 40,
                 needleLength: 0.5,
                 lengthUnit: GaugeSizeUnit.factor,
-                needleColor: const Color(0xFFC4C4C4),
+                needleColor: Color(0xFFC4C4C4),
                 needleStartWidth: 1,
                 needleEndWidth: 1,
-                knobStyle: const KnobStyle(knobRadius: 0),
+                knobStyle: KnobStyle(knobRadius: 0),
               )
             ],
             annotations: <GaugeAnnotation>[

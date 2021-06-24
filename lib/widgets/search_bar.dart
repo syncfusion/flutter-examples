@@ -263,17 +263,18 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   }
 
   /// Navigate to the selected sample
-  void _navigateToSample(int index) {
+  Future<void> _navigateToSample(int index) async {
     _overlayEntry.maintainState = false;
     sampleListModel!.editingController.text = '';
     _isFocus.unfocus();
     _overlayEntry.opaque = false;
     _removeOverlayEntries();
+    _selectionIndex = null;
     final dynamic renderSample = sampleListModel!
         .sampleWidget[sampleListModel!.searchResults[index].key];
     if (renderSample != null) {
       sampleListModel!.isWebFullView
-          ? Navigator.pushNamed(
+          ? Navigator.pushReplacementNamed(
               context, sampleListModel!.searchResults[index].breadCrumbText!)
           : onTapExpandSample(
               context, sampleListModel!.searchResults[index], sampleListModel!);
@@ -297,7 +298,8 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
     final Rect rect = _RectGetterFromListView.getRectFromKey(_globalKey)!;
     final List<int> items = <int>[];
     _keys.forEach((dynamic index, dynamic key) {
-      final Rect itemRect = _RectGetterFromListView.getRectFromKey(key)!;
+      final Rect itemRect = _RectGetterFromListView.getRectFromKey(
+          key.currentContext == null ? _globalKey : key)!;
       if (itemRect != null &&
           (itemRect.top >= rect.top && itemRect.bottom <= rect.bottom + 2)) {
         items.add(index);
@@ -369,7 +371,6 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                               hoverColor:
                                                   Colors.grey.withOpacity(0.2),
                                               onTap: () {
-                                                _selectionIndex = null;
                                                 _navigateToSample(index);
                                               },
                                               child: Padding(
@@ -444,6 +445,11 @@ class _SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                     left: (_isFocus.hasFocus || searchIcon == null) ? 10 : 0),
                 child: Container(
                     child: TextField(
+                  onSubmitted: (String value) {
+                    if (_selectionIndex != null) {
+                      _navigateToSample(_selectionIndex!);
+                    }
+                  },
                   mouseCursor: MaterialStateMouseCursor.clickable,
                   cursorColor: sampleListModel!.isWebFullView
                       ? Colors.white

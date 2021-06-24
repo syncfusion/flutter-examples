@@ -44,10 +44,12 @@ class _DoughnutGradientState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           ListTile(
-            title: Text('Gradient mode',
-                style: TextStyle(
-                  color: model.textColor,
-                )),
+            title:
+                Text(model.isWebFullView ? 'Gradient \nmode' : 'Gradient mode',
+                    softWrap: false,
+                    style: TextStyle(
+                      color: model.textColor,
+                    )),
             trailing: Container(
               padding: EdgeInsets.only(left: 0.07 * screenWidth),
               width: 0.5 * screenWidth,

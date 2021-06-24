@@ -55,7 +55,7 @@ class _LegendDefaultState extends SampleViewState {
           yValueMapper: (ChartSampleData data, _) => data.y,
           startAngle: 90,
           endAngle: 90,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.outside)),
     ];
   }

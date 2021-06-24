@@ -147,7 +147,7 @@ class _TrackballTemplateState extends SampleViewState {
       /// To set the track ball as true and customized trackball behaviour.
       trackballBehavior: TrackballBehavior(
           enable: true,
-          markerSettings: TrackballMarkerSettings(
+          markerSettings: const TrackballMarkerSettings(
             height: 10,
             width: 10,
             borderWidth: 1,

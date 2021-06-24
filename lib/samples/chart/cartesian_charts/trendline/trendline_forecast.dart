@@ -52,7 +52,7 @@ class _TrendLineForecastState extends SampleViewState {
                 style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(30, 0, 20, 0),
                 child: CustomDirectionalButtons(
                   maxValue: 50,
                   initialValue: _forwardForecastValue,
@@ -77,7 +77,7 @@ class _TrendLineForecastState extends SampleViewState {
                 style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
               Container(
-                padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: CustomDirectionalButtons(
                   maxValue: 50,
                   initialValue: _backwardForecastValue,

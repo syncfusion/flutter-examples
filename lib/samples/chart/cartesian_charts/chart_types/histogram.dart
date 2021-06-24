@@ -200,11 +200,11 @@ class _HistogramDefaultState extends SampleViewState {
         width: 0.99,
         curveWidth: 2.5,
         yValueMapper: (ChartSampleData sales, _) => sales.x as double,
-        dataLabelSettings: DataLabelSettings(
+        dataLabelSettings: const DataLabelSettings(
             isVisible: true,
             labelAlignment: ChartDataLabelAlignment.top,
-            textStyle: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white)),
+            textStyle:
+                TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
       )
     ];
   }

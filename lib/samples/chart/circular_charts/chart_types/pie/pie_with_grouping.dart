@@ -93,7 +93,7 @@ class _PieGroupingState extends SampleViewState {
       PieSeries<ChartSampleData, String>(
           radius: '90%',
           dataLabelMapper: (ChartSampleData data, _) => data.x as String,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.inside),
           dataSource: pieData,
           startAngle: 90,

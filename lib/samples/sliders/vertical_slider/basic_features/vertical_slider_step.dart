@@ -22,34 +22,6 @@ class VerticalStepSliderPage extends SampleView {
 
 class _VerticalStepSliderPageState extends SampleViewState {
   _VerticalStepSliderPageState();
-
-  late Widget slider;
-
-  @override
-  void initState() {
-    super.initState();
-    slider = _StepSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 350
-          ? slider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: slider),
-            );
-    });
-  }
-}
-
-class _StepSlider extends SampleView {
-  @override
-  _StepSliderState createState() => _StepSliderState();
-}
-
-class _StepSliderState extends SampleViewState {
   DateTime _yearValue = DateTime(2015, 1, 01);
   double _stepSliderValue = 0;
 
@@ -130,6 +102,13 @@ class _StepSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget slider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
+    });
   }
 }

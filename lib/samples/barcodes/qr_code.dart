@@ -19,16 +19,16 @@ class _QRCodeGeneratorState extends SampleViewState {
   _QRCodeGeneratorState();
 
   final List<String> _encoding = <String>[
-    'Numeric',
-    'AlphaNumeric',
-    'Binary',
+    'numeric',
+    'alphaNumeric',
+    'binary',
   ];
 
   final List<String> _errorCorrectionLevels = <String>[
-    'High',
-    'Quartile',
-    'Medium',
-    'Low'
+    'high',
+    'quartile',
+    'medium',
+    'low'
   ];
 
   late ErrorCorrectionLevel _errorCorrectionLevel;
@@ -41,9 +41,9 @@ class _QRCodeGeneratorState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    _selectedInputMode = 'Binary';
+    _selectedInputMode = 'binary';
     _inputValue = 'http://www.syncfusion.com';
-    _selectedErrorCorrectionLevel = 'Quartile';
+    _selectedErrorCorrectionLevel = 'quartile';
     _errorCorrectionLevel = ErrorCorrectionLevel.quartile;
     _inputMode = QRInputMode.binary;
     _textEditingController = TextEditingController.fromValue(
@@ -99,6 +99,8 @@ class _QRCodeGeneratorState extends SampleViewState {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text('Input value:   ',
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
@@ -119,7 +121,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                                             color: model.textColor))),
                                 autofocus: false,
                                 keyboardType: TextInputType.text,
-                                maxLines: null,
+                                maxLines: 1,
                                 onChanged: (String _text) {
                                   setState(() {
                                     _inputValue = _text;
@@ -143,6 +145,8 @@ class _QRCodeGeneratorState extends SampleViewState {
                     Expanded(
                       child: Text(
                         'Input mode:',
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
@@ -159,7 +163,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                             value: _selectedInputMode,
                             items: _encoding.map((String value) {
                               return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'Binary',
+                                  value: (value != null) ? value : 'binary',
                                   child: Text(value,
                                       textAlign: TextAlign.center,
                                       style:
@@ -186,6 +190,8 @@ class _QRCodeGeneratorState extends SampleViewState {
                     Expanded(
                       child: Text(
                         'Error level:   ',
+                        overflow: TextOverflow.clip,
+                        softWrap: false,
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
@@ -202,7 +208,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                             value: _selectedErrorCorrectionLevel,
                             items: _errorCorrectionLevels.map((String value) {
                               return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'Quartile',
+                                  value: (value != null) ? value : 'quartile',
                                   child: Text(value,
                                       textAlign: TextAlign.center,
                                       style:
@@ -226,13 +232,13 @@ class _QRCodeGeneratorState extends SampleViewState {
   void _onInputModeChanged(String item) {
     _selectedInputMode = item;
     switch (_selectedInputMode) {
-      case 'Numeric':
+      case 'numeric':
         _inputMode = QRInputMode.numeric;
         break;
-      case 'AlphaNumeric':
+      case 'alphaNumeric':
         _inputMode = QRInputMode.alphaNumeric;
         break;
-      case 'Binary':
+      case 'binary':
         _inputMode = QRInputMode.binary;
         break;
     }
@@ -245,16 +251,16 @@ class _QRCodeGeneratorState extends SampleViewState {
   void _onErrorCorrectionLevelChanged(String item) {
     _selectedErrorCorrectionLevel = item;
     switch (_selectedErrorCorrectionLevel) {
-      case 'High':
+      case 'high':
         _errorCorrectionLevel = ErrorCorrectionLevel.high;
         break;
-      case 'Quartile':
+      case 'quartile':
         _errorCorrectionLevel = ErrorCorrectionLevel.quartile;
         break;
-      case 'Medium':
+      case 'medium':
         _errorCorrectionLevel = ErrorCorrectionLevel.medium;
         break;
-      case 'Low':
+      case 'low':
         _errorCorrectionLevel = ErrorCorrectionLevel.low;
         break;
     }

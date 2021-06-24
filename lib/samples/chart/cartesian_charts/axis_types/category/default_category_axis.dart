@@ -75,7 +75,7 @@ class _CategoryDefaultState extends SampleViewState {
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.yValue,
         pointColorMapper: (ChartSampleData data, _) => data.pointColor,
-        dataLabelSettings: DataLabelSettings(isVisible: true),
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
       )
     ];
   }

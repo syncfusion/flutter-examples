@@ -1,10 +1,11 @@
 /// Dart import
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
+
 /// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart';
 
 /// Barcode import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -32,7 +33,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
-      GridTextColumn(
+      GridColumn(
           columnName: 'id',
           width: isWebOrDesktop ? 140 : 90,
           label: Container(
@@ -43,7 +44,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
           columnName: 'productId',
           width: isWebOrDesktop ? 150 : 100,
           label: Container(
@@ -54,7 +55,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
           columnName: 'name',
           width: isWebOrDesktop ? 180 : 140,
           label: Container(
@@ -65,7 +66,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
           columnName: 'product',
           width: isWebOrDesktop ? 160 : 100,
           label: Container(
@@ -76,7 +77,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
           columnName: 'orderDate',
           width: isWebOrDesktop ? 140 : 110,
           label: Container(
@@ -87,7 +88,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
           columnName: 'quantity',
           width: isWebOrDesktop ? 150 : 90,
           label: Container(
@@ -98,7 +99,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
           columnName: 'city',
           width: isWebOrDesktop ? 140 : 100,
           label: Container(
@@ -109,7 +110,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
           columnName: 'unitPrice',
           width: isWebOrDesktop ? 140 : 100,
           label: Container(

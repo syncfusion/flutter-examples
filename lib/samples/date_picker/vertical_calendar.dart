@@ -21,11 +21,11 @@ class _VerticalCalendarPickerState extends SampleViewState {
 
   DateRangePickerNavigationMode _navigationMode =
       DateRangePickerNavigationMode.scroll;
-  String _navigationModeString = 'Scroll';
+  String _navigationModeString = 'scroll';
   final List<String> _navigationModeList = <String>[
-    'None',
-    'Snap',
-    'Scroll',
+    'none',
+    'snap',
+    'scroll',
   ].toList();
 
   @override
@@ -59,7 +59,7 @@ class _VerticalCalendarPickerState extends SampleViewState {
                     value: _navigationModeString,
                     items: _navigationModeList.map((String value) {
                       return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'Scroll',
+                          value: (value != null) ? value : 'scroll',
                           child: Text(value,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: model.textColor)));
@@ -75,13 +75,10 @@ class _VerticalCalendarPickerState extends SampleViewState {
       ));
       return Padding(
         padding: const EdgeInsets.fromLTRB(15, 10, 0, 5),
-        child: model.isWebFullView
-            ? Column(
-                children: propertyOptions,
-              )
-            : ListView(
-                children: propertyOptions,
-              ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: propertyOptions,
+        ),
       );
     });
   }
@@ -132,11 +129,11 @@ class _VerticalCalendarPickerState extends SampleViewState {
 
   void onNavigationModeChange(String value) {
     _navigationModeString = value;
-    if (value == 'None') {
+    if (value == 'none') {
       _navigationMode = DateRangePickerNavigationMode.none;
-    } else if (value == 'Snap') {
+    } else if (value == 'snap') {
       _navigationMode = DateRangePickerNavigationMode.snap;
-    } else if (value == 'Scroll') {
+    } else if (value == 'scroll') {
       _navigationMode = DateRangePickerNavigationMode.scroll;
     }
 

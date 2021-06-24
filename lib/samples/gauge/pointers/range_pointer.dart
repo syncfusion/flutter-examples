@@ -67,7 +67,7 @@ class _RangePointerExampleState extends SampleViewState {
                     ],
                   )),
             ],
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               RangePointer(
                   value: 50,
                   cornerStyle: CornerStyle.bothCurve,
@@ -75,10 +75,10 @@ class _RangePointerExampleState extends SampleViewState {
                   animationDuration: 1200,
                   animationType: AnimationType.ease,
                   sizeUnit: GaugeSizeUnit.factor,
-                  gradient: const SweepGradient(
+                  gradient: SweepGradient(
                       colors: <Color>[Color(0xFF6A6EF6), Color(0xFFDB82F5)],
                       stops: <double>[0.25, 0.75]),
-                  color: const Color(0xFF00A8B5),
+                  color: Color(0xFF00A8B5),
                   width: 0.15),
             ]),
       ],

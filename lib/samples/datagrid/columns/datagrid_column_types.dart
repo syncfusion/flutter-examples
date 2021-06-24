@@ -1,10 +1,11 @@
 ///Dart import
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
+
 /// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart';
 
 /// Barcode imports
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -40,7 +41,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
                 : ColumnWidthMode.fill
             : ColumnWidthMode.none,
         columns: <GridColumn>[
-          GridTextColumn(
+          GridColumn(
               columnName: 'dealer',
               width: 90,
               label: Container(
@@ -51,7 +52,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
                   overflow: TextOverflow.ellipsis,
                 ),
               )),
-          GridTextColumn(
+          GridColumn(
               columnName: 'id',
               width: !isWebOrDesktop
                   ? 50
@@ -69,7 +70,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
               columnWidthMode: isLandscapeInMobileView
                   ? ColumnWidthMode.fill
                   : ColumnWidthMode.none),
-          GridTextColumn(
+          GridColumn(
             columnName: 'name',
             width:
                 (isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
@@ -82,7 +83,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
               ),
             ),
           ),
-          GridTextColumn(
+          GridColumn(
             columnName: 'freight',
             width:
                 (isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
@@ -98,7 +99,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
               ),
             ),
           ),
-          GridTextColumn(
+          GridColumn(
             columnName: 'shippedDate',
             width: 110,
             label: Container(
@@ -111,7 +112,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
             ),
             //dateFormat: DateFormat.yMd()
           ),
-          GridTextColumn(
+          GridColumn(
             columnName: 'city',
             width: isWebOrDesktop ? 110.0 : double.nan,
             label: Container(
@@ -123,7 +124,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
               ),
             ),
           ),
-          GridTextColumn(
+          GridColumn(
               columnName: 'price',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0

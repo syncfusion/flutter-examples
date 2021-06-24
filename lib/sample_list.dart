@@ -19,6 +19,7 @@ import 'samples/chart/cartesian_charts/axis_features/axis_animation.dart';
 import 'samples/chart/cartesian_charts/axis_features/axis_crossing.dart';
 import 'samples/chart/cartesian_charts/axis_features/edge_label_placement.dart';
 import 'samples/chart/cartesian_charts/axis_features/handling_label_collision.dart';
+import 'samples/chart/cartesian_charts/axis_features/interval_type.dart';
 import 'samples/chart/cartesian_charts/axis_features/maximum_width_for_labels.dart';
 import 'samples/chart/cartesian_charts/axis_features/multiple_axis_chart.dart';
 import 'samples/chart/cartesian_charts/axis_features/opposed_axes.dart';
@@ -139,6 +140,7 @@ import 'samples/chart/cartesian_charts/trendline/trendline_forecast.dart';
 import 'samples/chart/cartesian_charts/user_interactions/add_point_on_click.dart';
 import 'samples/chart/cartesian_charts/user_interactions/auto_scrolling.dart';
 import 'samples/chart/cartesian_charts/user_interactions/crosshair.dart';
+import 'samples/chart/cartesian_charts/user_interactions/events/data_point_events.dart';
 import 'samples/chart/cartesian_charts/user_interactions/events/events.dart';
 import 'samples/chart/cartesian_charts/user_interactions/events/navigation_with_events.dart';
 import 'samples/chart/cartesian_charts/user_interactions/pagination.dart';
@@ -168,10 +170,12 @@ import 'samples/chart/circular_charts/chart_types/pie/point_render_mode.dart';
 import 'samples/chart/circular_charts/chart_types/pie/semi_pie_chart.dart';
 import 'samples/chart/circular_charts/chart_types/radial_bar/customized_radial_bar_chart.dart';
 import 'samples/chart/circular_charts/chart_types/radial_bar/default_radial_bar_chart.dart';
+import 'samples/chart/circular_charts/chart_types/radial_bar/overfilled_radial_bar.dart';
 import 'samples/chart/circular_charts/chart_types/radial_bar/radial_bar_with_gradient.dart';
 import 'samples/chart/circular_charts/chart_types/radial_bar/radial_bar_with_legend.dart';
 import 'samples/chart/circular_charts/export.dart';
 import 'samples/chart/circular_charts/legend/chart_with_legend.dart';
+import 'samples/chart/circular_charts/legend/floating_legend.dart';
 import 'samples/chart/circular_charts/legend/legend_with_various_options.dart';
 import 'samples/chart/circular_charts/user_interactions/dynamic_selection.dart';
 import 'samples/chart/circular_charts/user_interactions/selection.dart';
@@ -189,6 +193,7 @@ import 'samples/datagrid/columns/datagrid_custom_header.dart';
 import 'samples/datagrid/columns/datagrid_stacked_header.dart';
 import 'samples/datagrid/data_source/datagrid_json_data_source.dart';
 import 'samples/datagrid/data_source/datagrid_list_data_source.dart';
+import 'samples/datagrid/editing/datagrid_editing.dart';
 import 'samples/datagrid/freeze_panes/datagrid_freeze_panes.dart';
 import 'samples/datagrid/getting_started/datagrid_getting_started.dart';
 import 'samples/datagrid/loadmore/datagrid_infinite_scrolling.dart';
@@ -237,6 +242,7 @@ import 'samples/gauge/ranges/range_thickness.dart';
 import 'samples/gauge/showcase/clock_sample.dart';
 import 'samples/gauge/showcase/distance_tracker.dart';
 import 'samples/gauge/showcase/gauge_compass.dart';
+import 'samples/gauge/showcase/sleep_tracker.dart';
 import 'samples/gauge/showcase/temperature_monitor.dart';
 import 'samples/linear_gauge/api/api_customization.dart';
 import 'samples/linear_gauge/axis/axis_track.dart';
@@ -278,6 +284,7 @@ import 'samples/pdf/encryption.dart';
 import 'samples/pdf/find_text.dart';
 import 'samples/pdf/form.dart';
 import 'samples/pdf/header_and_footer.dart';
+import 'samples/pdf/import_and_export_form_data.dart';
 import 'samples/pdf/invoice.dart';
 import 'samples/pdf/text_extraction.dart';
 import 'samples/pdf_viewer/pdf_viewer_custom_toolbar.dart';
@@ -314,13 +321,13 @@ import 'samples/sliders/range_slider/customization/size_customization/size_custo
 import 'samples/sliders/range_slider/customization/thumb_customization/range_slider_thumb_icon_customization.dart';
 import 'samples/sliders/range_slider/default_appearance/range_slider_date_time_label.dart';
 import 'samples/sliders/range_slider/default_appearance/range_slider_default_appearance.dart';
-import 'samples/sliders/range_slider/default_appearance/range_slider_divisor_label_tick.dart';
+import 'samples/sliders/range_slider/default_appearance/range_slider_divider_label_tick.dart';
 import 'samples/sliders/range_slider/default_appearance/range_slider_interval_selection.dart';
 import 'samples/sliders/range_slider/default_appearance/range_slider_step.dart';
 import 'samples/sliders/range_slider/default_appearance/range_slider_tooltip_type.dart';
 import 'samples/sliders/slider/basic_features/default_slider.dart';
 import 'samples/sliders/slider/basic_features/slider_date_interval.dart';
-import 'samples/sliders/slider/basic_features/slider_divisor_label_tick.dart';
+import 'samples/sliders/slider/basic_features/slider_divider_label_tick.dart';
 import 'samples/sliders/slider/basic_features/slider_step.dart';
 import 'samples/sliders/slider/basic_features/slider_tooltip_type.dart';
 import 'samples/sliders/slider/customization/color_customization/slider_color_customization.dart';
@@ -333,13 +340,13 @@ import 'samples/sliders/vertical_range_slider/customization/size_customization/v
 import 'samples/sliders/vertical_range_slider/customization/thumb_customization/vertical_range_slider_thumb_icon_customization.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_date_time_label.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_default_appearance.dart';
-import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_divisor_label_tick.dart';
+import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_divider_label_tick.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_interval_selection.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_step.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_tooltip_position.dart';
 import 'samples/sliders/vertical_slider/basic_features/default_vertical_slider.dart';
 import 'samples/sliders/vertical_slider/basic_features/vertical_slider_date_interval.dart';
-import 'samples/sliders/vertical_slider/basic_features/vertical_slider_divisor_label_tick.dart';
+import 'samples/sliders/vertical_slider/basic_features/vertical_slider_divider_label_tick.dart';
 import 'samples/sliders/vertical_slider/basic_features/vertical_slider_step.dart';
 import 'samples/sliders/vertical_slider/basic_features/vertical_slider_tooltip_position.dart';
 import 'samples/sliders/vertical_slider/customization/color_customization/vertical_slider_color_customization.dart';
@@ -352,6 +359,7 @@ import 'samples/sparkline/customization.dart';
 import 'samples/sparkline/live_update.dart';
 import 'samples/sparkline/sparkline_in_grid.dart';
 import 'samples/treemap/custom_background/custom_background.dart';
+import 'samples/treemap/drilldown/drilldown.dart';
 import 'samples/treemap/flat/flat.dart';
 import 'samples/treemap/hierarchical/hierarchical.dart';
 import 'samples/treemap/range_color_mapping/range_color_mapping.dart';
@@ -449,6 +457,7 @@ Map<String, Function> getSampleWidget() {
     'axis_animation': (Key key) => AxisAnimationDefault(key),
     'edgelabel_placement': (Key key) => EdgeLabel(key),
     'chart_maximum_label_width': (Key key) => ChartMaximumLabelWidth(key),
+    'interval_type': (Key key) => IntervalType(key),
     'handling_label_collision': (Key key) => LabelAction(key),
     'multiple_axis_chart': (Key key) => MultipleAxis(key),
     'opposed_axes': (Key key) => NumericOpposed(key),
@@ -478,6 +487,7 @@ Map<String, Function> getSampleWidget() {
     'legend_with_various_options': (Key key) => LegendOptions(key),
     'cartesian_legend_various_options': (Key key) =>
         CartesianLegendOptions(key),
+    'circular_floating_legend': (Key key) => CircularFloatingLegend(key),
 
     //Technical Indicators
     'accumulation_distribution': (Key key) => AdIndicator(key),
@@ -507,6 +517,7 @@ Map<String, Function> getSampleWidget() {
     'circular_dynamic_selection': (Key key) => DynamicCircularSelection(key),
     'pie_tooltip_position': (Key key) => PieTooltipPosition(key),
     'events': (Key key) => Events(key),
+    'data_points': (Key key) => DataPoints(key),
     'navigate_with_events': (Key key) => NavigationWithEvents(key),
     'chart_interactivity': (Key key) => InteractiveChart(key),
     'pagination': (Key key) => Pagination(key),
@@ -553,6 +564,7 @@ Map<String, Function> getSampleWidget() {
     'default_radialbar_chart': (Key key) => RadialBarDefault(key),
     'radialbar_with_legend': (Key key) => RadialBarAngle(key),
     'radialbar_with_gradient': (Key key) => RadialBarGradient(key),
+    'overfilled_radialbar': (Key key) => OverfilledRadialBar(key),
 
     //Funnel
     'default_funnel_chart': (Key key) => FunnelDefault(key),
@@ -622,7 +634,7 @@ Map<String, Function> getSampleWidget() {
     'range_datalabels': (Key key) => RangeDataLabelExample(key),
     'range_thickness': (Key key) => RangeThicknessExample(key),
     'clock_sample': (Key key) => ClockExample(key),
-
+    'sleep_tracker': (Key key) => SleepTrackerSample(key),
     'distance_tracker': (Key key) => DistanceTrackerExample(key),
     'gauge_overview': (Key key) => GaugeTemperatureMonitorExample(key),
     'gauge_compass': (Key key) => GaugeCompassExample(key),
@@ -652,12 +664,13 @@ Map<String, Function> getSampleWidget() {
     'certificate': (Key key) => CourseCompletionCertificatePdf(key),
     'header_and_footer': (Key key) => HeaderAndFooterPdf(key),
     'annotations': (Key key) => AnnotationsPdf(key),
+    'digital_signature': (Key key) => SignPdf(key),
+    'encryption': (Key key) => EncryptPdf(key),
+    'form': (Key key) => FormFillingPdf(key),
+    'import_and_export_form_data': (Key key) => ImportAndExportFormData(key),
+    'conformance': (Key key) => ConformancePdf(key),
     'text_extraction': (Key key) => TextExtractionPdf(key),
     'find_text': (Key key) => FindTextPdf(key),
-    'encryption': (Key key) => EncryptPdf(key),
-    'conformance': (Key key) => ConformancePdf(key),
-    'form': (Key key) => FormFillingPdf(key),
-    'digital_signature': (Key key) => SignPdf(key),
 
     // PDF Viewer samples
     'pdf_viewer_getting_started': (Key key) => GettingStartedPdfViewer(key),
@@ -690,7 +703,7 @@ Map<String, Function> getSampleWidget() {
 
     'slider_size_customization': (Key key) => SliderSizeCustomizationPage(key),
 
-    'slider_divisor_label_tick': (Key key) => SliderLabelCustomizationPage(key),
+    'slider_divider_label_tick': (Key key) => SliderLabelCustomizationPage(key),
 
     'slider_color_customization': (Key key) =>
         SliderColorCustomizationPage(key),
@@ -700,7 +713,7 @@ Map<String, Function> getSampleWidget() {
     // Range Slider Samples
     'range_slider_default_appearance': (Key key) => DefaultRangeSliderPage(key),
 
-    'range_slider_divisor_label_tick': (Key key) => ScaleRangeSliderPage(key),
+    'range_slider_divider_label_tick': (Key key) => ScaleRangeSliderPage(key),
 
     'range_slider_date_time_label': (Key key) => DateRangeSliderPage(key),
 
@@ -726,7 +739,7 @@ Map<String, Function> getSampleWidget() {
     'vertical_slider_date_interval': (Key key) =>
         VerticalDateIntervalSliderPage(key),
 
-    'vertical_slider_divisor_label_tick': (Key key) =>
+    'vertical_slider_divider_label_tick': (Key key) =>
         VerticalSliderLabelCustomizationPage(key),
 
     'vertical_slider_step': (Key key) => VerticalStepSliderPage(key),
@@ -751,7 +764,7 @@ Map<String, Function> getSampleWidget() {
     'vertical_range_slider_default_appearance': (Key key) =>
         VerticalDefaultRangeSliderPage(key),
 
-    'vertical_range_slider_divisor_label_tick': (Key key) =>
+    'vertical_range_slider_divider_label_tick': (Key key) =>
         VerticalScaleRangeSliderPage(key),
 
     'vertical_range_slider_date_time_label': (Key key) =>
@@ -797,6 +810,8 @@ Map<String, Function> getSampleWidget() {
     'getting_started_datagrid': (Key key) => GettingStartedDataGrid(key: key),
 
     'column_types_datagrid': (Key key) => ColumnTypeDataGrid(key: key),
+
+    'editing_datagrid': (Key key) => EditingDataGrid(key: key),
 
     'custom_header_datagrid': (Key key) => CustomHeaderDataGrid(key: key),
 
@@ -911,5 +926,6 @@ Map<String, Function> getSampleWidget() {
     'squarified_treemap_custom_background': (Key key) =>
         TreemapCustomBackgroundSample(key),
     'squarified_treemap_selection': (Key key) => TreemapSelectionSample(key),
+    'squarified_treemap_drilldown': (Key key) => TreemapDrilldownSample(key),
   };
 }

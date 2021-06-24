@@ -19,42 +19,7 @@ class ColorCustomizedRangeSliderPage extends SampleView {
 
 class _ColorCustomizedRangeSliderPageState extends SampleViewState {
   _ColorCustomizedRangeSliderPageState();
-
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _ColorCustomizedRangeSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 400
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(
-                  height: 400,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                    child: rangeSlider,
-                  )),
-            );
-    });
-  }
-}
-
-class _ColorCustomizedRangeSlider extends StatefulWidget {
-  @override
-  _ColorCustomizedRangeSliderState createState() =>
-      _ColorCustomizedRangeSliderState();
-}
-
-class _ColorCustomizedRangeSliderState
-    extends State<_ColorCustomizedRangeSlider> {
-  late bool _isDesktop;
+  final GlobalKey gradientKey = GlobalKey();
 
   Widget _buildWebLayout() {
     return Container(
@@ -78,18 +43,26 @@ class _ColorCustomizedRangeSliderState
             const SizedBox(
               height: 10,
             ),
-            GradientTrackRangeSlider()
+            GradientTrackRangeSlider(gradientKey)
           ],
         ));
   }
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    _isDesktop = kIsWeb ||
-        themeData.platform == TargetPlatform.macOS ||
-        themeData.platform == TargetPlatform.windows ||
-        themeData.platform == TargetPlatform.linux;
-    return _isDesktop ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 400
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(
+              height: 400,
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                  child: rangeSlider),
+            ));
+    });
   }
 }

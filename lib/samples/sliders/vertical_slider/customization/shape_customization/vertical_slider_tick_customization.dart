@@ -16,6 +16,9 @@ import '../../../../../model/sample_view.dart';
 
 ///Renders slider with customized ticks
 class VerticalTickCustomizedSlider extends SampleView {
+  ///Renders slider with customized ticks
+  const VerticalTickCustomizedSlider(Key key) : super(key: key);
+
   @override
   _VerticalTickCustomizedSliderState createState() =>
       _VerticalTickCustomizedSliderState();

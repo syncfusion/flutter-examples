@@ -10,6 +10,7 @@ class CustomDirectionalButtons extends StatefulWidget {
     required double this.initialValue,
     required ValueChanged<double> this.onChanged,
     double this.step = 1,
+    bool this.needNull = false,
     bool this.loop = false,
     this.horizontal = true,
     this.style,
@@ -60,13 +61,16 @@ class CustomDirectionalButtons extends StatefulWidget {
   /// Color of the icon button
   final Color? iconColor;
 
+  /// Add null instead of 0.
+  final bool? needNull;
+
   @override
   State<StatefulWidget> createState() => _CustomButton();
 }
 
 /// Contains the direction (increse/decrease)
 enum _CountDirection {
-  /// To ncrease the counter
+  /// To increase the counter
   Up,
 
   /// To decrese the counter
@@ -85,8 +89,13 @@ class _CustomButton extends State<CustomDirectionalButtons> {
   /// Calculate next value for the CustomDirectionalButtons
   void _count(_CountDirection countDirection) {
     if (countDirection == _CountDirection.Up) {
+      // To set the next value after null.
+      if (_counter.isNaN) {
+        setState(() => _counter = 0 + widget.step!.toDouble());
+      }
+
       /// Make sure you can't go over `maxValue` unless `loop == true`
-      if (_counter + widget.step! > widget.maxValue!) {
+      else if (_counter + widget.step! > widget.maxValue!) {
         if (widget.loop!) {
           setState(() {
             /// Calculate the correct value if you go over maxValue in a loop
@@ -96,7 +105,12 @@ class _CustomButton extends State<CustomDirectionalButtons> {
           });
         }
       } else {
-        setState(() => _counter += widget.step!);
+        if ((widget.initialValue!.isNaN || widget.needNull!) &&
+            (_counter + widget.step! == 0)) {
+          setState(() => _counter = double.nan);
+        } else {
+          setState(() => _counter += widget.step!);
+        }
       }
     } else {
       if (_counter - widget.step! < widget.minValue!) {
@@ -108,7 +122,14 @@ class _CustomButton extends State<CustomDirectionalButtons> {
           });
         }
       } else {
-        setState(() => _counter -= widget.step!);
+        if ((widget.initialValue!.isNaN || widget.needNull!) &&
+            _counter - widget.step! == 0) {
+          setState(() => _counter = double.nan);
+        } else if (_counter.isNaN) {
+          setState(() => _counter = 0 - widget.step!);
+        } else {
+          setState(() => _counter -= widget.step!);
+        }
       }
     }
 
@@ -118,8 +139,16 @@ class _CustomButton extends State<CustomDirectionalButtons> {
   Widget _getCount() {
     return Text(
         widget.initialValue! % 1 == 0 && widget.step! % 1 == 0
-            ? _counter.toStringAsFixed(0)
-            : _counter.toStringAsFixed(1),
+            ? ((_counter.isNaN)
+                ? 'null'
+                : ((widget.needNull!)
+                    ? (_counter.toInt()).toString()
+                    : _counter.toStringAsFixed(0)))
+            : (_counter.isNaN)
+                ? 'null'
+                : (widget.needNull!)
+                    ? (_counter.toInt()).toString()
+                    : _counter.toStringAsFixed(1),
         style: widget.style ?? Theme.of(context).textTheme.headline5);
   }
 

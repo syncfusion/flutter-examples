@@ -133,6 +133,9 @@ class _TreemapSelectionSampleState extends SampleViewState {
           color: Color.fromRGBO(202, 231, 198, 1.0)),
     ];
 
+    _importTextEditingController = TextEditingController();
+    _exportTextEditingController = TextEditingController();
+
     super.initState();
   }
 
@@ -180,12 +183,14 @@ class _TreemapSelectionSampleState extends SampleViewState {
                   // The callback will be called while doing selection on the
                   // tile.
                   onSelectionChanged: (TreemapTile tile) {
-                    setState(
-                      () {
-                        _updateLabelBuilderText(tile);
-                      },
-                    );
+                    _updateLabelBuilderText(tile);
                   },
+                  tileHoverBorder: const RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 2,
+                      color: Color.fromRGBO(0, 0, 0, 0.5),
+                    ),
+                  ),
                   levels: _getTreemapLevels(),
                 ),
               ),
@@ -243,39 +248,43 @@ class _TreemapSelectionSampleState extends SampleViewState {
           final Color color =
               brightness == Brightness.dark ? Colors.white : Colors.black;
           if (tile.group == 'Import') {
-            _importTextEditingController =
-                TextEditingController(text: tile.group);
-            return IgnorePointer(
-              child: ColoredBox(
-                color: const Color.fromRGBO(52, 94, 176, 1.0),
-                child: Center(
-                  child: TextField(
-                    controller: _importTextEditingController,
-                    enabled: false,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: color),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.zero,
+            _importTextEditingController.text = tile.group;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 1.0),
+              child: IgnorePointer(
+                child: ColoredBox(
+                  color: const Color.fromRGBO(52, 94, 176, 1.0),
+                  child: Center(
+                    child: TextField(
+                      controller: _importTextEditingController,
+                      enabled: false,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: color),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.zero,
+                      ),
                     ),
                   ),
                 ),
               ),
             );
           } else {
-            _exportTextEditingController =
-                TextEditingController(text: tile.group);
-            return IgnorePointer(
-              child: Container(
-                color: const Color.fromRGBO(67, 156, 67, 1.0),
-                child: Center(
-                  child: TextField(
-                    controller: _exportTextEditingController,
-                    enabled: false,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: color),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
+            _exportTextEditingController.text = tile.group;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 1.0),
+              child: IgnorePointer(
+                child: Container(
+                  color: const Color.fromRGBO(67, 156, 67, 1.0),
+                  child: Center(
+                    child: TextField(
+                      controller: _exportTextEditingController,
+                      enabled: false,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: color),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                 ),
@@ -294,7 +303,10 @@ class _TreemapSelectionSampleState extends SampleViewState {
           return _topImportsAndExports[index].product;
         },
         // Padding around the tile.
-        padding: const EdgeInsets.only(top: 2.0, left: 1.0, right: 1.0),
+        padding: EdgeInsets.zero,
+        // Border around the tile.
+        border: const RoundedRectangleBorder(
+            side: BorderSide(color: Colors.transparent, width: 1.0)),
         // The value returned in the callback will specify the
         // color of each tile.
         colorValueMapper: (TreemapTile tile) {
@@ -313,7 +325,9 @@ class _TreemapSelectionSampleState extends SampleViewState {
                 child: Text(
                   tile.group,
                   style: TextStyle(color: color),
-                  overflow: TextOverflow.ellipsis,
+                  softWrap: isDesktop,
+                  overflow:
+                      isDesktop ? TextOverflow.visible : TextOverflow.ellipsis,
                 ),
               ),
             ),

@@ -21,35 +21,63 @@ class _CircularSelectionState extends SampleViewState {
   late SelectionBehavior selectionBehavior;
 
   bool enableMultiSelect = false;
-
-  @override
-  void initState() {
-    selectionBehavior = SelectionBehavior(enable: true);
-    super.initState();
-  }
+  bool _toggleSelection = true;
 
   @override
   Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(
+      return ListView(
+        shrinkWrap: true,
         children: <Widget>[
-          Text('Enable multi-selection ',
-              style: TextStyle(
-                color: model.textColor,
-                fontSize: 16,
-              )),
-          Container(
-              width: 90,
-              child: CheckboxListTile(
-                  activeColor: model.backgroundColor,
-                  value: enableMultiSelect,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      enableMultiSelect = value!;
-                      stateSetter(() {});
-                    });
-                  }))
+          ListTile(
+              title: Text(
+                  model.isWebFullView
+                      ? 'Enable multi-\nselection'
+                      : 'Enable multi-selection',
+                  softWrap: false,
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                  width: 0.4 * screenWidth,
+                  child: CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      activeColor: model.backgroundColor,
+                      value: enableMultiSelect,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          enableMultiSelect = value!;
+                          stateSetter(() {});
+                        });
+                      }))),
+          ListTile(
+              title: Text(
+                  model.isWebFullView
+                      ? 'Toggle \nselection'
+                      : 'Toggle selection',
+                  softWrap: false,
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                  width: 0.4 * screenWidth,
+                  child: CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      activeColor: model.backgroundColor,
+                      value: _toggleSelection,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _toggleSelection = value!;
+                          stateSetter(() {});
+                        });
+                      }))),
         ],
       );
     });
@@ -57,6 +85,8 @@ class _CircularSelectionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    selectionBehavior =
+        SelectionBehavior(enable: true, toggleSelection: _toggleSelection);
     return _buildCircularSelectionChart();
   }
 

@@ -23,33 +23,6 @@ class SliderStepDurationPage extends SampleView {
 
 class _SliderStepDurationPageState extends SampleViewState {
   _SliderStepDurationPageState();
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _SliderStepDurationView();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 300
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 300, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _SliderStepDurationView extends SampleView {
-  @override
-  _SliderStepDurationState createState() => _SliderStepDurationState();
-}
-
-class _SliderStepDurationState extends SampleViewState {
   SfRangeValues _yearValues =
       SfRangeValues(DateTime(2005, 1, 01), DateTime(2015, 1, 1));
   SfRangeValues _values = const SfRangeValues(-25.0, 25.0);
@@ -134,6 +107,14 @@ class _SliderStepDurationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 300
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 300, child: rangeSlider));
+    });
   }
 }

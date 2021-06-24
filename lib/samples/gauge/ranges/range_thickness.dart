@@ -51,17 +51,17 @@ class _RangeThicknessExampleState extends SampleViewState {
             labelOffset: 15,
             axisLabelStyle: const GaugeTextStyle(fontSize: 12),
             useRangeColorForAxis: true,
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               NeedlePointer(
                   needleStartWidth: 1,
                   enableAnimation: true,
                   value: 70,
-                  tailStyle: const TailStyle(
+                  tailStyle: TailStyle(
                       length: 0.2, width: 5, lengthUnit: GaugeSizeUnit.factor),
                   needleEndWidth: 5,
                   needleLength: 0.7,
                   lengthUnit: GaugeSizeUnit.factor,
-                  knobStyle: const KnobStyle(
+                  knobStyle: KnobStyle(
                     knobRadius: 0.08,
                     sizeUnit: GaugeSizeUnit.factor,
                   ))

@@ -28,8 +28,8 @@ class _MACDIndicatorState extends SampleViewState {
   late double _longPeriod;
   late double _shortPeriod;
   final List<String> _macdIndicatorTypeList =
-      <String>['Both', 'Line', 'Histogram'].toList();
-  late String _selectedMacdIndicatorType = 'Both';
+      <String>['both', 'line', 'histogram'].toList();
+  late String _selectedMacdIndicatorType = 'both';
   late MacdType _macdType = MacdType.both;
   late TrackballBehavior _trackballBehavior;
   late TooltipBehavior _tooltipBehavior;
@@ -40,7 +40,7 @@ class _MACDIndicatorState extends SampleViewState {
     _period = 14;
     _longPeriod = 5.0;
     _shortPeriod = 2.0;
-    _selectedMacdIndicatorType = 'Both';
+    _selectedMacdIndicatorType = 'both';
     _macdType = MacdType.both;
     _trackballBehavior = TrackballBehavior(
       enable: !isCardView,
@@ -67,6 +67,7 @@ class _MACDIndicatorState extends SampleViewState {
           ListTile(
             title: Text(
               'Period',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -86,7 +87,8 @@ class _MACDIndicatorState extends SampleViewState {
           ),
           ListTile(
             title: Text(
-              'Long Period',
+              model.isWebFullView ? 'Long \nperiod' : 'Long period',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -106,7 +108,8 @@ class _MACDIndicatorState extends SampleViewState {
           ),
           ListTile(
             title: Text(
-              'Short period',
+              model.isWebFullView ? 'Short \nperiod' : 'Short period',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -126,6 +129,7 @@ class _MACDIndicatorState extends SampleViewState {
           ),
           ListTile(
             title: Text('MACD type      ',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -215,13 +219,13 @@ class _MACDIndicatorState extends SampleViewState {
   void _onMacdIndicatorTypeChanged(String item) {
     _selectedMacdIndicatorType = item;
     switch (_selectedMacdIndicatorType) {
-      case 'Both':
+      case 'both':
         _macdType = MacdType.both;
         break;
-      case 'Line':
+      case 'line':
         _macdType = MacdType.line;
         break;
-      case 'Histogram':
+      case 'histogram':
         _macdType = MacdType.histogram;
         break;
     }

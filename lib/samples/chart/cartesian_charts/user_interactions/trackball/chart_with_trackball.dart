@@ -72,6 +72,7 @@ class _DefaultTrackballState extends SampleViewState {
                     children: <Widget>[
                       ListTile(
                         title: Text('Mode',
+                            softWrap: false,
                             style: TextStyle(
                               color: model.textColor,
                             )),
@@ -100,7 +101,9 @@ class _DefaultTrackballState extends SampleViewState {
                         ),
                       ),
                       ListTile(
-                        title: Text('Alignment',
+                        title: Text(
+                            model.isWebFullView ? 'Alignm\nent' : 'Alignment',
+                            softWrap: false,
                             style: TextStyle(
                               color: _selectedMode != 'groupAllPoints'
                                   ? model.textColor.withOpacity(0.3)
@@ -134,10 +137,12 @@ class _DefaultTrackballState extends SampleViewState {
                     ]));
           }),
           ListTile(
-              title: Text('Show always ',
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
+              title:
+                  Text(model.isWebFullView ? 'Show \nalways ' : 'Show always',
+                      softWrap: false,
+                      style: TextStyle(
+                        color: model.textColor,
+                      )),
               trailing: Container(
                   padding: EdgeInsets.only(left: 0.05 * screenWidth),
                   width: 0.6 * screenWidth,
@@ -153,8 +158,8 @@ class _DefaultTrackballState extends SampleViewState {
                         });
                       }))),
           ListTile(
-            title:
-                Text('Hide delay  ', style: TextStyle(color: model.textColor)),
+            title: Text(model.isWebFullView ? 'Hide \ndelay  ' : 'Hide delay  ',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
               width: 0.6 * screenWidth,
               padding: EdgeInsets.only(left: 0.03 * screenWidth),
@@ -171,7 +176,11 @@ class _DefaultTrackballState extends SampleViewState {
             ),
           ),
           ListTile(
-            title: Text('Show track\nmarker',
+            title: Text(
+                model.isWebFullView
+                    ? 'Show \ntrack\nmarker'
+                    : 'Show track\nmarker',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -191,7 +200,11 @@ class _DefaultTrackballState extends SampleViewState {
                     })),
           ),
           ListTile(
-            title: Text('Show marker\nin tooltip',
+            title: Text(
+                model.isWebFullView
+                    ? 'Show \nmarker\nin \ntooltip'
+                    : 'Show marker\nin tooltip',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),

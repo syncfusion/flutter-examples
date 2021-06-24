@@ -44,18 +44,18 @@ class _RadialLabelCustomizationState extends SampleViewState {
             majorTickStyle: const MajorTickStyle(
                 length: 0.1, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
             minorTicksPerInterval: 5,
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               NeedlePointer(
                   value: 70,
                   needleStartWidth: 1,
                   needleEndWidth: 3,
                   needleLength: 0.8,
                   lengthUnit: GaugeSizeUnit.factor,
-                  knobStyle: const KnobStyle(
+                  knobStyle: KnobStyle(
                     knobRadius: 8,
                     sizeUnit: GaugeSizeUnit.logicalPixel,
                   ),
-                  tailStyle: const TailStyle(
+                  tailStyle: TailStyle(
                       width: 3,
                       lengthUnit: GaugeSizeUnit.logicalPixel,
                       length: 20))

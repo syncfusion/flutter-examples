@@ -71,7 +71,7 @@ class _BarTrackerState extends SampleViewState {
         /// If we enable this property as true,
         /// then we can show the track of series.
         isTrackVisible: true,
-        dataLabelSettings: DataLabelSettings(
+        dataLabelSettings: const DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.top),
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,

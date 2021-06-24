@@ -68,8 +68,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   void initState() {
     super.initState();
     _documentPath = 'assets/pdf/gis_succinctly.pdf';
-    _isDesktopWeb =
-        kIsWeb && model.isMobileResolution != null && !model.isMobileResolution;
+    _isDesktopWeb = isDesktop &&
+        model.isMobileResolution != null &&
+        !model.isMobileResolution;
     if (_isDesktopWeb) {
       helper.preventDefaultContextMenu();
     }
@@ -93,8 +94,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       _closeOverlays();
       _needToMaximize = model.needToMaximize;
     }
-    _isDesktopWeb =
-        kIsWeb && model.isMobileResolution != null && !model.isMobileResolution;
+    _isDesktopWeb = isDesktop &&
+        model.isMobileResolution != null &&
+        !model.isMobileResolution;
   }
 
   /// Show Context menu for Text Selection.
@@ -457,7 +459,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb) {
+    if (isDesktop) {
       final bool? isDrawerOpened = model.webOutputContainerState.widget
           .webLayoutPageState?.scaffoldKey.currentState?.isEndDrawerOpen;
       if (isDrawerOpened != null && isDrawerOpened) {
@@ -469,7 +471,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       flexibleSpace: RawKeyboardListener(
         focusNode: _focusNode,
         onKey: (RawKeyEvent event) {
-          if (event.isControlPressed &&
+          final bool isPrimaryKeyPressed =
+              kIsWeb ? event.isControlPressed : event.isMetaPressed;
+          if (isPrimaryKeyPressed &&
               event.logicalKey == LogicalKeyboardKey.keyF) {
             _showTextSearchMenu();
           }
@@ -550,9 +554,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             if (toolbarItem != 'Jump to the page') {
               final FocusScopeNode currentFocus = FocusScope.of(context);
               if (!currentFocus.hasPrimaryFocus) {
-                if (!kIsWeb || _isDesktopWeb) {
-                  currentFocus.requestFocus(FocusNode());
-                }
+                currentFocus.requestFocus(FocusNode());
               }
             }
           },
@@ -629,61 +631,67 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           _canShowPdf = true;
         }),
         builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
-          final Widget pdfViewer = SfPdfViewer.asset(
-            _documentPath!,
-            key: _pdfViewerKey,
-            controller: _pdfViewerController,
-            interactionMode: _interactionMode,
-            canShowScrollHead:
-                // ignore: avoid_bool_literals_in_conditional_expressions
-                kIsWeb ? false : _canShowScrollHead,
-            onTextSelectionChanged:
-                (PdfTextSelectionChangedDetails details) async {
-              if (details.selectedText == null &&
-                  _selectionOverlayEntry != null) {
-                _textSelectionDetails = null;
-                _handleContextMenuClose();
-              } else if (details.selectedText != null &&
-                  _selectionOverlayEntry == null) {
-                _textSelectionDetails = details;
-                _showContextMenu(context, null);
+          final Widget pdfViewer = Listener(
+            onPointerDown: (PointerDownEvent details) {
+              if (_isDesktopWeb) {
+                _handleChooseFileClose();
+                _handleZoomPercentageClose();
               }
+              _textSearchKey.currentState?.focusNode!.unfocus();
+              _focusNode.unfocus();
             },
-            onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
-              showErrorDialog(context, details.error, details.description);
-            },
+            child: SfPdfViewer.asset(
+              _documentPath!,
+              key: _pdfViewerKey,
+              controller: _pdfViewerController,
+              interactionMode: _interactionMode,
+              canShowScrollHead:
+                  // ignore: avoid_bool_literals_in_conditional_expressions
+                  isDesktop ? false : _canShowScrollHead,
+              onTextSelectionChanged:
+                  (PdfTextSelectionChangedDetails details) async {
+                if (details.selectedText == null &&
+                    _selectionOverlayEntry != null) {
+                  _textSelectionDetails = null;
+                  _handleContextMenuClose();
+                } else if (details.selectedText != null &&
+                    _selectionOverlayEntry == null) {
+                  _textSelectionDetails = details;
+                  _showContextMenu(context, null);
+                }
+              },
+              onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
+                showErrorDialog(context, details.error, details.description);
+              },
+            ),
           );
           if (_canShowPdf) {
             if (_isDesktopWeb) {
               return Stack(children: <Widget>[
-                Listener(
-                  onPointerDown: (PointerDownEvent details) {
-                    _handleChooseFileClose();
-                    _handleZoomPercentageClose();
+                RawKeyboardListener(
+                  focusNode: _focusNode,
+                  onKey: (RawKeyEvent event) {
+                    final bool isPrimaryKeyPressed =
+                        kIsWeb ? event.isControlPressed : event.isMetaPressed;
+                    if (isPrimaryKeyPressed &&
+                        event.logicalKey == LogicalKeyboardKey.keyF) {
+                      _showTextSearchMenu();
+                    }
                   },
-                  child: RawKeyboardListener(
-                    focusNode: _focusNode,
-                    onKey: (RawKeyEvent event) {
-                      if (event.isControlPressed &&
-                          event.logicalKey == LogicalKeyboardKey.keyF) {
-                        _showTextSearchMenu();
-                      }
-                    },
-                    child: GestureDetector(
-                        onSecondaryTapDown: (TapDownDetails details) {
-                          if (_textSelectionDetails != null &&
-                              _textSelectionDetails!.globalSelectedRegion!
-                                  .contains(details.globalPosition)) {
-                            if (_selectionOverlayEntry != null) {
-                              _handleContextMenuClose();
-                              _showContextMenu(context, details.globalPosition);
-                            } else if (_selectionOverlayEntry == null) {
-                              _showContextMenu(context, details.globalPosition);
-                            }
+                  child: GestureDetector(
+                      onSecondaryTapDown: (TapDownDetails details) {
+                        if (_textSelectionDetails != null &&
+                            _textSelectionDetails!.globalSelectedRegion!
+                                .contains(details.globalPosition)) {
+                          if (_selectionOverlayEntry != null) {
+                            _handleContextMenuClose();
+                            _showContextMenu(context, details.globalPosition);
+                          } else if (_selectionOverlayEntry == null) {
+                            _showContextMenu(context, details.globalPosition);
                           }
-                        },
-                        child: pdfViewer),
-                  ),
+                        }
+                      },
+                      child: pdfViewer),
                 ),
                 showToast(_canShowToast, Alignment.bottomCenter, 'Copied'),
               ]);
@@ -797,8 +805,10 @@ class ToolbarState extends State<Toolbar> {
     if (widget.controller?.pageNumber != null &&
         _textEditingController!.text !=
             widget.controller!.pageNumber.toString()) {
-      _textEditingController!.text = widget.controller!.pageNumber.toString();
-      setState(() {});
+      Future<dynamic>.delayed(Duration.zero, () {
+        _textEditingController!.text = widget.controller!.pageNumber.toString();
+        setState(() {});
+      });
     }
   }
 
@@ -815,7 +825,7 @@ class ToolbarState extends State<Toolbar> {
         : const Color(0x00ffffff).withOpacity(0.87);
     _fillColor = _isLight ? const Color(0xFFD2D2D2) : const Color(0xFF525252);
     _isWeb =
-        kIsWeb && widget.model != null && !widget.model!.isMobileResolution;
+        isDesktop && widget.model != null && !widget.model!.isMobileResolution;
     super.didChangeDependencies();
   }
 
@@ -994,11 +1004,11 @@ class ToolbarState extends State<Toolbar> {
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
+                            padding: const EdgeInsets.only(left: 7.0),
                             child: Text(
                               widget.controller!.pageNumber == 0
                                   ? '0%'
-                                  : '${(_zoomLevel * 100).floorToDouble()}%',
+                                  : '${(_zoomLevel * 100).floor()}%',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -1209,7 +1219,7 @@ class ToolbarState extends State<Toolbar> {
         counterText: '',
         contentPadding: _isWeb
             ? const EdgeInsets.only(bottom: 22)
-            : kIsWeb
+            : isDesktop
                 ? (const EdgeInsets.only(bottom: 20))
                 : null,
         border: const UnderlineInputBorder(
@@ -1246,16 +1256,12 @@ class ToolbarState extends State<Toolbar> {
             } else {
               _textEditingController!.text =
                   widget.controller!.pageNumber.toString();
-              if (!kIsWeb || _isWeb) {
-                showErrorDialog(
-                    context, 'Error', 'Please enter a valid page number.');
-              }
-            }
-          } catch (exception) {
-            if (!kIsWeb || _isWeb) {
-              return showErrorDialog(
+              showErrorDialog(
                   context, 'Error', 'Please enter a valid page number.');
             }
+          } catch (exception) {
+            return showErrorDialog(
+                context, 'Error', 'Please enter a valid page number.');
           }
         }
         widget.onTap?.call('Navigated');

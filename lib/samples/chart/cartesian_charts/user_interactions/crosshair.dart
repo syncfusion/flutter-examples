@@ -59,10 +59,11 @@ class _DefaultCrossHairState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           ListTile(
-            title: Text('Line type', style: TextStyle(color: model.textColor)),
+            title: Text('Line type',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
                 padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                width: 0.5 * screenWidth,
+                width: 0.4 * screenWidth,
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
@@ -81,13 +82,14 @@ class _DefaultCrossHairState extends SampleViewState {
                     })),
           ),
           ListTile(
-              title: Text('Show always',
+              title: Text(model.isWebFullView ? 'Show \nalways' : 'Show always',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),
               trailing: Container(
                   padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                  width: 0.5 * screenWidth,
+                  width: 0.4 * screenWidth,
                   child: CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
                       contentPadding: EdgeInsets.zero,
@@ -100,10 +102,10 @@ class _DefaultCrossHairState extends SampleViewState {
                         });
                       }))),
           ListTile(
-            title:
-                Text('Hide delay  ', style: TextStyle(color: model.textColor)),
+            title: Text('Hide delay  ',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
-              width: 0.5 * screenWidth,
+              width: 0.4 * screenWidth,
               padding: EdgeInsets.only(left: 0.03 * screenWidth),
               child: CustomDirectionalButtons(
                 maxValue: 10,

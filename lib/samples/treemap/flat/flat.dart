@@ -28,13 +28,18 @@ class TreemapLayoutSample extends SampleView {
   final LayoutType layoutType;
 
   @override
-  _TreemapLayoutSampleState createState() => _TreemapLayoutSampleState();
+  _TreemapLayoutSampleState createState() =>
+      // ignore: no_logic_in_create_state
+      _TreemapLayoutSampleState(layoutType);
 }
 
-class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
+class _TreemapLayoutSampleState extends SampleViewState {
+  _TreemapLayoutSampleState(this.layoutType);
+  final LayoutType layoutType;
   late List<_MovieDetails> _topTenMovies;
   late bool _isLightTheme;
   late bool _isDesktop;
+  bool _sortAscending = false;
 
   @override
   void initState() {
@@ -94,6 +99,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
           boxOffice: 1.450,
           color: Color.fromRGBO(255, 128, 170, 1.0)),
     ];
+
     super.initState();
   }
 
@@ -134,22 +140,52 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
         ),
       ),
     );
-    return LayoutBuilder(
+    return Scaffold(
+      body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      return (widget.layoutType == LayoutType.slice &&
-                  constraints.maxHeight > 300) ||
-              widget.layoutType != LayoutType.slice ||
-              MediaQuery.of(context).orientation == Orientation.portrait ||
-              _isDesktop
-          ? current
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: current),
-            );
-    });
+          return (layoutType == LayoutType.slice &&
+                      constraints.maxHeight > 300) ||
+                  layoutType != LayoutType.slice ||
+                  MediaQuery.of(context).orientation == Orientation.portrait ||
+                  _isDesktop
+              ? current
+              : SingleChildScrollView(
+                  child: SizedBox(height: 400, child: current),
+                );
+        },
+      ),
+      floatingActionButton: layoutType != LayoutType.squarified
+          ? FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  _sortAscending = !_sortAscending;
+                });
+              },
+              backgroundColor: model.currentPaletteColor,
+              foregroundColor: Colors.white,
+              tooltip: _sortAscending
+                  ? 'Sort in descending order'
+                  : 'Sort in ascending order',
+              child: _buildIcon(layoutType),
+            )
+          : null,
+    );
+  }
+
+  Widget _buildIcon(LayoutType layoutType) {
+    if (layoutType == LayoutType.slice) {
+      return _sortAscending
+          ? const Icon(Icons.arrow_drop_down_sharp, size: 40)
+          : const Icon(Icons.arrow_drop_up_sharp, size: 40);
+    } else {
+      return _sortAscending
+          ? const Icon(Icons.arrow_right_sharp, size: 40)
+          : const Icon(Icons.arrow_left_sharp, size: 40);
+    }
   }
 
   Widget _buildTreemap(ThemeData themeData) {
-    if (widget.layoutType == LayoutType.slice) {
+    if (layoutType == LayoutType.slice) {
       return SfTreemap.slice(
         // The number of data in your data source collection.
         //
@@ -162,6 +198,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
         weightValueMapper: (int index) {
           return _topTenMovies[index].boxOffice;
         },
+        sortAscending: _sortAscending,
         tooltipSettings: TreemapTooltipSettings(
           color: _isLightTheme
               ? const Color.fromRGBO(45, 45, 45, 1)
@@ -169,12 +206,13 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
         ),
         levels: _getTreemapLevels(themeData),
       );
-    } else if (widget.layoutType == LayoutType.dice) {
+    } else if (layoutType == LayoutType.dice) {
       return SfTreemap.dice(
         dataCount: _topTenMovies.length,
         weightValueMapper: (int index) {
           return _topTenMovies[index].boxOffice;
         },
+        sortAscending: _sortAscending,
         tooltipSettings: TreemapTooltipSettings(
           color: _isLightTheme
               ? const Color.fromRGBO(45, 45, 45, 1)
@@ -219,7 +257,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
         },
         // Returns a widget for each tile's content.
         itemBuilder: (BuildContext context, TreemapTile tile) {
-          if (widget.layoutType == LayoutType.dice) {
+          if (layoutType == LayoutType.dice) {
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -236,7 +274,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
                 ),
               ),
             );
-          } else if (widget.layoutType == LayoutType.slice) {
+          } else if (layoutType == LayoutType.slice) {
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -281,7 +319,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
   }
 
   Widget _buildLabelBuilder(TreemapTile tile) {
-    if (widget.layoutType == LayoutType.slice) {
+    if (layoutType == LayoutType.slice) {
       return Padding(
         padding: const EdgeInsets.only(left: 4.0),
         child: Align(
@@ -293,7 +331,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
           ),
         ),
       );
-    } else if (widget.layoutType == LayoutType.dice) {
+    } else if (layoutType == LayoutType.dice) {
       return Align(
         alignment: Alignment.bottomCenter,
         child: Padding(

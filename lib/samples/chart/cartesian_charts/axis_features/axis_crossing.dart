@@ -80,7 +80,7 @@ class _AxisCrossingState extends SampleViewState {
           ),
           Row(
             children: <Widget>[
-              Text('Cross At  ',
+              Text('Cross at  ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
               Container(
                 padding: const EdgeInsets.fromLTRB(85, 0, 0, 0),
@@ -100,7 +100,7 @@ class _AxisCrossingState extends SampleViewState {
           ),
           Row(
             children: <Widget>[
-              Text('Labels Near Axisline',
+              Text('Labels near axis line',
                   style: TextStyle(color: model.textColor, fontSize: 16)),
               Container(
                   width: 75,

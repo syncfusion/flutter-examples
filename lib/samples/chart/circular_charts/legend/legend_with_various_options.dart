@@ -1,5 +1,6 @@
 /// Package import
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/custom_button.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -27,6 +28,8 @@ class _LegendOptionsState extends SampleViewState {
   final List<String> _modeList = <String>['wrap', 'scroll', 'none'].toList();
   String _selectedMode = 'wrap';
   LegendItemOverflowMode _overflowMode = LegendItemOverflowMode.wrap;
+  late double _xOffset = double.nan;
+  late double _yOffset = double.nan;
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -39,6 +42,7 @@ class _LegendOptionsState extends SampleViewState {
         children: <Widget>[
           ListTile(
             title: Text('Position ',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -64,10 +68,12 @@ class _LegendOptionsState extends SampleViewState {
             ),
           ),
           ListTile(
-            title: Text('Overflow mode',
-                style: TextStyle(
-                  color: model.textColor,
-                )),
+            title:
+                Text(model.isWebFullView ? 'Overflow \nmode' : 'Overflow mode',
+                    softWrap: false,
+                    style: TextStyle(
+                      color: model.textColor,
+                    )),
             trailing: Container(
                 padding: EdgeInsets.only(left: 0.07 * screenWidth),
                 width: 0.4 * screenWidth,
@@ -89,7 +95,11 @@ class _LegendOptionsState extends SampleViewState {
                     })),
           ),
           ListTile(
-            title: Text('Toggle visibility',
+            title: Text(
+                model.isWebFullView
+                    ? 'Toggle \nvisibility'
+                    : 'Toggle visibility',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -108,6 +118,48 @@ class _LegendOptionsState extends SampleViewState {
                       });
                     })),
           ),
+          ListTile(
+              title: Text('X offset',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                width: 0.4 * screenWidth,
+                height: 50,
+                child: CustomDirectionalButtons(
+                  minValue: -100,
+                  maxValue: 100,
+                  needNull: true,
+                  initialValue: _xOffset,
+                  onChanged: (double val) => setState(() {
+                    _xOffset = val;
+                  }),
+                  step: 10,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+              )),
+          ListTile(
+              title: Text('Y offset',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                width: 0.4 * screenWidth,
+                height: 50,
+                child: CustomDirectionalButtons(
+                  minValue: -100,
+                  maxValue: 100,
+                  needNull: true,
+                  initialValue: _yOffset,
+                  onChanged: (double val) => setState(() {
+                    _yOffset = val;
+                  }),
+                  step: 10,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+              )),
         ],
       );
     });
@@ -125,6 +177,9 @@ class _LegendOptionsState extends SampleViewState {
       legend: Legend(
           isVisible: true,
           position: _position,
+          offset: (_xOffset.isNaN || _yOffset.isNaN)
+              ? null
+              : Offset(_xOffset, _yOffset),
           overflowMode: _overflowMode,
           toggleSeriesVisibility: toggleVisibility),
       series: _getLegendOptionsSeries(),
@@ -149,7 +204,7 @@ class _LegendOptionsState extends SampleViewState {
           yValueMapper: (ChartSampleData data, _) => data.y,
           startAngle: 90,
           endAngle: 90,
-          dataLabelSettings: DataLabelSettings(isVisible: true)),
+          dataLabelSettings: const DataLabelSettings(isVisible: true)),
     ];
   }
 

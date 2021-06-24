@@ -65,6 +65,7 @@ class _StochasticcIndicatorState extends SampleViewState {
           ListTile(
             title: Text(
               'Period',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -85,6 +86,7 @@ class _StochasticcIndicatorState extends SampleViewState {
           ListTile(
             title: Text(
               'K Period',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -105,6 +107,7 @@ class _StochasticcIndicatorState extends SampleViewState {
           ListTile(
             title: Text(
               'D Period',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -125,6 +128,7 @@ class _StochasticcIndicatorState extends SampleViewState {
           ListTile(
             title: Text(
               'Overbought',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -145,6 +149,7 @@ class _StochasticcIndicatorState extends SampleViewState {
           ListTile(
             title: Text(
               'Oversold',
+              softWrap: false,
               style: TextStyle(color: model.textColor),
             ),
             trailing: Container(
@@ -163,7 +168,8 @@ class _StochasticcIndicatorState extends SampleViewState {
             ),
           ),
           ListTile(
-              title: Text('Show zones',
+              title: Text(model.isWebFullView ? 'Show \nzones' : 'Show zones',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),

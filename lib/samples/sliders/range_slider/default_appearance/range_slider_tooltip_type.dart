@@ -23,33 +23,6 @@ class TooltipRangeSliderPage extends SampleView {
 
 class _TooltipRangeSliderPageState extends SampleViewState {
   _TooltipRangeSliderPageState();
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _TooltipRangeSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 300
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 300, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _TooltipRangeSlider extends SampleView {
-  @override
-  _TooltipRangeSliderState createState() => _TooltipRangeSliderState();
-}
-
-class _TooltipRangeSliderState extends SampleViewState {
   SfRangeValues _yearValues =
       SfRangeValues(DateTime(2002, 4, 01), DateTime(2003, 10, 01));
   SfRangeValues _hourValues = SfRangeValues(
@@ -143,6 +116,14 @@ class _TooltipRangeSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 300
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 300, child: rangeSlider));
+    });
   }
 }

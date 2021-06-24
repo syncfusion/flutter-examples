@@ -14,7 +14,7 @@ import '../../../../../model/sample_view.dart';
 
 ///Renders range slider with customized size
 class VerticalSfRangeSliderSizeCustomizationPage extends SampleView {
-  ///Creates range slider with customized divisor
+  ///Creates range slider with customized divider
   const VerticalSfRangeSliderSizeCustomizationPage(Key key) : super(key: key);
 
   @override
@@ -24,46 +24,17 @@ class VerticalSfRangeSliderSizeCustomizationPage extends SampleView {
 
 class _VerticalSfRangeSliderSizeCustomizationPageState extends SampleViewState {
   _VerticalSfRangeSliderSizeCustomizationPageState();
-
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _SfRangeSliderSizeCustomization();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _SfRangeSliderSizeCustomization extends SampleView {
-  @override
-  _SfRangeSliderSizeCustomizationState createState() =>
-      _SfRangeSliderSizeCustomizationState();
-}
-
-class _SfRangeSliderSizeCustomizationState extends SampleViewState {
   SfRangeValues _yearValues =
       SfRangeValues(DateTime(2005, 1, 01), DateTime(2015, 1, 1));
   SfRangeValues _values = const SfRangeValues(-25.0, 25.0);
 
-  SfRangeSliderTheme _divisorCustomizationRangeSlider() {
+  SfRangeSliderTheme _dividerCustomizationRangeSlider() {
     return SfRangeSliderTheme(
         data: SfRangeSliderThemeData(
-            activeDivisorRadius: 6.0,
-            inactiveDivisorRadius: 3.0,
-            inactiveDivisorColor: Colors.teal.withOpacity(0.24),
-            activeDivisorColor: Colors.teal,
+            activeDividerRadius: 6.0,
+            inactiveDividerRadius: 3.0,
+            inactiveDividerColor: Colors.teal.withOpacity(0.24),
+            activeDividerColor: Colors.teal,
             activeTrackColor: Colors.teal,
             thumbColor: Colors.teal,
             tooltipBackgroundColor: Colors.teal,
@@ -78,7 +49,7 @@ class _SfRangeSliderSizeCustomizationState extends SampleViewState {
           dateFormat: DateFormat.y(),
           labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.years,
-          showDivisors: true,
+          showDividers: true,
           values: _yearValues,
           onChanged: (SfRangeValues values) {
             setState(() {
@@ -141,8 +112,8 @@ class _SfRangeSliderSizeCustomizationState extends SampleViewState {
               const Text('Track')
             ]),
             Column(children: <Widget>[
-              Expanded(child: _divisorCustomizationRangeSlider()),
-              const Text('Divisor')
+              Expanded(child: _dividerCustomizationRangeSlider()),
+              const Text('Divider')
             ])
           ],
         ));
@@ -150,6 +121,14 @@ class _SfRangeSliderSizeCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider));
+    });
   }
 }

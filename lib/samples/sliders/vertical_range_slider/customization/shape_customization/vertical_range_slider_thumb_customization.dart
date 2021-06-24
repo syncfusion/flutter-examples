@@ -14,6 +14,8 @@ import '../../../../../model/sample_view.dart';
 
 ///Renders range slider with customized thumb
 class VerticalThumbCustomizedRangeSlider extends SampleView {
+  /// Creates range slider with customized thumb
+  const VerticalThumbCustomizedRangeSlider(Key key) : super(key: key);
   @override
   _VerticalThumbCustomizedRangeSliderState createState() =>
       _VerticalThumbCustomizedRangeSliderState();

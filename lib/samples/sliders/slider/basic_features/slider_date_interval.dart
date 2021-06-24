@@ -23,33 +23,6 @@ class DateIntervalSliderPage extends SampleView {
 
 class _DateIntervalSliderPageState extends SampleViewState {
   _DateIntervalSliderPageState();
-  late Widget slider;
-
-  @override
-  void initState() {
-    super.initState();
-    slider = _DateIntervalSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 300
-          ? slider
-          : SingleChildScrollView(
-              child: SizedBox(height: 300, child: slider),
-            );
-    });
-  }
-}
-
-class _DateIntervalSlider extends SampleView {
-  @override
-  _DateIntervalSliderState createState() => _DateIntervalSliderState();
-}
-
-class _DateIntervalSliderState extends SampleViewState {
   DateTime _yearValue = DateTime(2018, 01, 01);
   DateTime _hourValue = DateTime(2020, 01, 01, 13, 00, 00);
 
@@ -138,6 +111,13 @@ class _DateIntervalSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget slider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 300
+          ? slider
+          : SingleChildScrollView(child: SizedBox(height: 300, child: slider));
+    });
   }
 }

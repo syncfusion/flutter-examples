@@ -132,7 +132,7 @@ class _LabelActionState extends SampleViewState {
           dataSource: chartData,
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelAlignment: ChartDataLabelAlignment.top))
     ];
   }

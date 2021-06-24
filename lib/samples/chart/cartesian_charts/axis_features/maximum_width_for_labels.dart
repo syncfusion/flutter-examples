@@ -188,7 +188,7 @@ class _ChartMaximumLabelWidthState extends SampleViewState {
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         dataLabelSettings:
-            DataLabelSettings(isVisible: true, offset: const Offset(-5, 0)),
+            const DataLabelSettings(isVisible: true, offset: Offset(-5, 0)),
       )
     ];
   }

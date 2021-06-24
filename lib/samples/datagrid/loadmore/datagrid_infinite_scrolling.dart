@@ -1,10 +1,11 @@
 /// Dart import
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 /// Package import
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 /// DataGrid import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -91,7 +92,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
 
   List<GridColumn> _getColumns() {
     return <GridColumn>[
-      GridTextColumn(
+      GridColumn(
           columnName: 'id',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
@@ -104,7 +105,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
                 'Order ID',
                 overflow: TextOverflow.ellipsis,
               ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'customerId',
           columnWidthMode:
               !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
@@ -120,7 +121,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
                 'Customer ID',
                 overflow: TextOverflow.ellipsis,
               ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'name',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
@@ -131,7 +132,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
                 'Name',
                 overflow: TextOverflow.ellipsis,
               ))),
-      GridTextColumn(
+      GridColumn(
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
           columnName: 'freight',
@@ -142,7 +143,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
                 'Freight',
                 overflow: TextOverflow.ellipsis,
               ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'city',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
@@ -155,7 +156,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
                 'City',
                 overflow: TextOverflow.ellipsis,
               ))),
-      GridTextColumn(
+      GridColumn(
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
           columnName: 'price',
