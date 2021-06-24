@@ -17,19 +17,19 @@ dependencies:
   desktop_window: 0.4.0
 
 
-  syncfusion_flutter_datagrid: ^19.1.67-beta 
-  syncfusion_flutter_calendar: ^19.1.67
-  syncfusion_flutter_datepicker: ^19.1.67-beta 
-  syncfusion_flutter_charts: ^19.1.67
-  syncfusion_flutter_gauges: ^19.1.67 
-  syncfusion_flutter_sliders: ^19.1.67-beta
-  syncfusion_flutter_pdf: ^19.1.67-beta
-  syncfusion_flutter_barcodes: ^19.1.67
-  syncfusion_officechart: ^19.1.67-beta
-  syncfusion_flutter_maps: ^19.1.67-beta
-  syncfusion_flutter_signaturepad: ^19.1.67-beta
-  syncfusion_flutter_pdfviewer: ^19.1.67-beta
-  syncfusion_flutter_treemap: ^19.1.67-beta
+  syncfusion_flutter_datagrid: ^19.1.67+1-beta 
+  syncfusion_flutter_calendar: ^19.1.67+1
+  syncfusion_flutter_datepicker: ^19.1.67+1-beta 
+  syncfusion_flutter_charts: ^19.1.67+1
+  syncfusion_flutter_gauges: ^19.1.67+1 
+  syncfusion_flutter_sliders: ^19.1.67+1-beta
+  syncfusion_flutter_pdf: ^19.1.67+1-beta
+  syncfusion_flutter_barcodes: ^19.1.67+1
+  syncfusion_officechart: ^19.1.67+1-beta
+  syncfusion_flutter_maps: ^19.1.67+1-beta
+  syncfusion_flutter_signaturepad: ^19.1.67+1-beta
+  syncfusion_flutter_pdfviewer: ^19.1.67+1-beta
+  syncfusion_flutter_treemap: ^19.1.67+1-beta
 
 flutter:
   uses-material-design: true
