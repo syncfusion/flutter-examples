@@ -23,6 +23,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
   _CartesianLegendOptionsState();
 
   late bool toggleVisibility;
+  late bool enableFloatingLegend;
   final List<String> _positionList =
       <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
   late String _selectedPosition;
@@ -30,8 +31,8 @@ class _CartesianLegendOptionsState extends SampleViewState {
   final List<String> _modeList = <String>['wrap', 'scroll', 'none'].toList();
   late String _selectedMode;
   late LegendItemOverflowMode _overflowMode;
-  late double _xOffset = double.nan;
-  late double _yOffset = double.nan;
+  late double _xOffset = 0.0;
+  late double _yOffset = 0.0;
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
     _selectedMode = 'wrap';
     _overflowMode = LegendItemOverflowMode.wrap;
     toggleVisibility = true;
+    enableFloatingLegend = false;
     super.initState();
   }
 
@@ -134,6 +136,28 @@ class _CartesianLegendOptionsState extends SampleViewState {
                     })),
           ),
           ListTile(
+            title: Text(
+                model.isWebFullView ? 'Floating \nlegend' : 'Floating legend',
+                softWrap: false,
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                width: 0.4 * screenWidth,
+                child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: model.backgroundColor,
+                    value: enableFloatingLegend,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        enableFloatingLegend = value!;
+                        stateSetter(() {});
+                      });
+                    })),
+          ),
+          ListTile(
               title: Text('X offset',
                   style: TextStyle(
                     color: model.textColor,
@@ -145,13 +169,16 @@ class _CartesianLegendOptionsState extends SampleViewState {
                   minValue: -100,
                   maxValue: 100,
                   initialValue: _xOffset,
-                  needNull: true,
                   onChanged: (double val) => setState(() {
-                    _xOffset = val;
+                    _xOffset = enableFloatingLegend ? val : 0;
                   }),
-                  step: 10,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  step: enableFloatingLegend ? 10 : 0,
+                  iconColor: model.textColor
+                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      color: model.textColor
+                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
                 ),
               )),
           ListTile(
@@ -165,14 +192,17 @@ class _CartesianLegendOptionsState extends SampleViewState {
                 child: CustomDirectionalButtons(
                   minValue: -100,
                   maxValue: 100,
-                  needNull: true,
                   initialValue: _yOffset,
                   onChanged: (double val) => setState(() {
-                    _yOffset = val;
+                    _yOffset = enableFloatingLegend ? val : 0;
                   }),
-                  step: 10,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  step: enableFloatingLegend ? 10 : 0,
+                  iconColor: model.textColor
+                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      color: model.textColor
+                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
                 ),
               )),
         ],
@@ -191,9 +221,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
       legend: Legend(
         isVisible: true,
         position: _position,
-        offset: (_xOffset.isNaN || _yOffset.isNaN)
-            ? null
-            : Offset(_xOffset, _yOffset),
+        offset: enableFloatingLegend ? Offset(_xOffset, _yOffset) : null,
         overflowMode: _overflowMode,
         toggleSeriesVisibility: toggleVisibility,
         backgroundColor: model.currentThemeData?.brightness == Brightness.light

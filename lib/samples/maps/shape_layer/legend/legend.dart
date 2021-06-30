@@ -381,7 +381,9 @@ class _MapLegendPageState extends SampleViewState {
           ),
           child: Column(children: <Widget>[
             Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 30),
+                padding: EdgeInsets.only(
+                    top: 15,
+                    bottom: (_enableGradient && !model.isMobile) ? 18 : 30),
                 child: Align(
                     alignment: Alignment.center,
                     child: Text('Average Internet Prices in Africa',
@@ -492,13 +494,10 @@ class _MapLegendPageState extends SampleViewState {
                               ? MapLegendPaintingStyle.gradient
                               : MapLegendPaintingStyle.solid,
                           segmentSize: _enableGradient
-                              ? const Size(300.0, 9.0)
+                              ? const Size(279.0, 9.0)
                               : const Size(55.0, 9.0),
                           showPointerOnHover: true,
-                          padding: EdgeInsets.only(
-                              bottom: (_enableGradient && !model.isMobile)
-                                  ? 30
-                                  : 20),
+                          padding: const EdgeInsets.only(bottom: 20),
                         )
                       : MapLegend(
                           /// You can show legend for the shapes or bubbles. By

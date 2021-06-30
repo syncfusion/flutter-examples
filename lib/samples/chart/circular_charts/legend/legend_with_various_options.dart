@@ -20,6 +20,7 @@ class LegendOptions extends SampleView {
 class _LegendOptionsState extends SampleViewState {
   _LegendOptionsState();
   bool toggleVisibility = true;
+  bool enableFloatingLegend = false;
   final List<String> _positionList =
       <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
   String _selectedPosition = 'auto';
@@ -28,8 +29,8 @@ class _LegendOptionsState extends SampleViewState {
   final List<String> _modeList = <String>['wrap', 'scroll', 'none'].toList();
   String _selectedMode = 'wrap';
   LegendItemOverflowMode _overflowMode = LegendItemOverflowMode.wrap;
-  late double _xOffset = double.nan;
-  late double _yOffset = double.nan;
+  late double _xOffset = 0.0;
+  late double _yOffset = 0.0;
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -119,6 +120,28 @@ class _LegendOptionsState extends SampleViewState {
                     })),
           ),
           ListTile(
+            title: Text(
+                model.isWebFullView ? 'Floating \nlegend' : 'Floating legend',
+                softWrap: false,
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                width: 0.4 * screenWidth,
+                child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: model.backgroundColor,
+                    value: enableFloatingLegend,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        enableFloatingLegend = value!;
+                        stateSetter(() {});
+                      });
+                    })),
+          ),
+          ListTile(
               title: Text('X offset',
                   style: TextStyle(
                     color: model.textColor,
@@ -129,14 +152,17 @@ class _LegendOptionsState extends SampleViewState {
                 child: CustomDirectionalButtons(
                   minValue: -100,
                   maxValue: 100,
-                  needNull: true,
                   initialValue: _xOffset,
                   onChanged: (double val) => setState(() {
-                    _xOffset = val;
+                    _xOffset = enableFloatingLegend ? val : 0;
                   }),
-                  step: 10,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  step: enableFloatingLegend ? 10 : 0,
+                  iconColor: model.textColor
+                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      color: model.textColor
+                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
                 ),
               )),
           ListTile(
@@ -150,14 +176,17 @@ class _LegendOptionsState extends SampleViewState {
                 child: CustomDirectionalButtons(
                   minValue: -100,
                   maxValue: 100,
-                  needNull: true,
                   initialValue: _yOffset,
                   onChanged: (double val) => setState(() {
-                    _yOffset = val;
+                    _yOffset = enableFloatingLegend ? val : 0;
                   }),
-                  step: 10,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  step: enableFloatingLegend ? 10 : 0,
+                  iconColor: model.textColor
+                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      color: model.textColor
+                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
                 ),
               )),
         ],
@@ -177,9 +206,7 @@ class _LegendOptionsState extends SampleViewState {
       legend: Legend(
           isVisible: true,
           position: _position,
-          offset: (_xOffset.isNaN || _yOffset.isNaN)
-              ? null
-              : Offset(_xOffset, _yOffset),
+          offset: enableFloatingLegend ? Offset(_xOffset, _yOffset) : null,
           overflowMode: _overflowMode,
           toggleSeriesVisibility: toggleVisibility),
       series: _getLegendOptionsSeries(),

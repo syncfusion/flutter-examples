@@ -142,6 +142,8 @@ class _TreemapSelectionSampleState extends SampleViewState {
   @override
   void dispose() {
     _topImportsAndExports.clear();
+    _importTextEditingController.dispose();
+    _exportTextEditingController.dispose();
     super.dispose();
   }
 

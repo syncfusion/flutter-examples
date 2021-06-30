@@ -141,46 +141,93 @@ class _TreemapLayoutSampleState extends SampleViewState {
       ),
     );
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return (layoutType == LayoutType.slice &&
-                      constraints.maxHeight > 300) ||
-                  layoutType != LayoutType.slice ||
-                  MediaQuery.of(context).orientation == Orientation.portrait ||
-                  _isDesktop
-              ? current
-              : SingleChildScrollView(
-                  child: SizedBox(height: 400, child: current),
-                );
-        },
-      ),
-      floatingActionButton: layoutType != LayoutType.squarified
-          ? FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  _sortAscending = !_sortAscending;
-                });
-              },
-              backgroundColor: model.currentPaletteColor,
-              foregroundColor: Colors.white,
-              tooltip: _sortAscending
-                  ? 'Sort in descending order'
-                  : 'Sort in ascending order',
-              child: _buildIcon(layoutType),
+      body: Stack(
+        children: <Widget>[
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return (layoutType == LayoutType.slice &&
+                          constraints.maxHeight > 300) ||
+                      layoutType != LayoutType.slice ||
+                      MediaQuery.of(context).orientation ==
+                          Orientation.portrait ||
+                      _isDesktop
+                  ? current
+                  : SingleChildScrollView(
+                      child: SizedBox(height: 400, child: current),
+                    );
+            },
+          ),
+          if (layoutType != LayoutType.squarified)
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: MediaQuery.of(context).orientation ==
+                            Orientation.portrait ||
+                        _isDesktop
+                    ? const EdgeInsets.only(right: 16.5, bottom: 16.5)
+                    : const EdgeInsets.only(right: 14.0, bottom: 14.0),
+                child: SizedBox(
+                  height: 45.0,
+                  width: 45.0,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      boxShadow: const <BoxShadow>[
+                        BoxShadow(
+                          spreadRadius: 2.0,
+                          blurRadius: 2.0,
+                          offset: Offset(0.0, 2.0),
+                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(45 / 2),
+                    ),
+                    child: TextButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(45 / 2))),
+                        backgroundColor: MaterialStateProperty.all(
+                            themeData.colorScheme.surface),
+                      ),
+                      onPressed: () {
+                        setState(
+                          () {
+                            _sortAscending = !_sortAscending;
+                          },
+                        );
+                      },
+                      child: Padding(
+                        padding: _isDesktop
+                            ? const EdgeInsets.all(10.0)
+                            : const EdgeInsets.all(4.0),
+                        child: _buildIcon(layoutType),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             )
-          : null,
+        ],
+      ),
     );
   }
 
   Widget _buildIcon(LayoutType layoutType) {
-    if (layoutType == LayoutType.slice) {
+    if (_isLightTheme) {
       return _sortAscending
-          ? const Icon(Icons.arrow_drop_down_sharp, size: 40)
-          : const Icon(Icons.arrow_drop_up_sharp, size: 40);
+          ? Tooltip(
+              message: 'Sort in descending order',
+              child: Image.asset('images/treemap_descending_light.png'))
+          : Tooltip(
+              message: 'Sort in ascending order',
+              child: Image.asset('images/treemap_ascending_light.png'));
     } else {
       return _sortAscending
-          ? const Icon(Icons.arrow_right_sharp, size: 40)
-          : const Icon(Icons.arrow_left_sharp, size: 40);
+          ? Tooltip(
+              message: 'Sort in descending order',
+              child: Image.asset('images/treemap_descending_dark.png'))
+          : Tooltip(
+              message: 'Sort in ascending order',
+              child: Image.asset('images/treemap_ascending_dark.png'));
     }
   }
 
