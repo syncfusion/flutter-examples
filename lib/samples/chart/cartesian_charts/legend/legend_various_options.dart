@@ -1,5 +1,7 @@
 /// Package import
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/custom_button.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -21,6 +23,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
   _CartesianLegendOptionsState();
 
   late bool toggleVisibility;
+  late bool enableFloatingLegend;
   final List<String> _positionList =
       <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
   late String _selectedPosition;
@@ -28,6 +31,8 @@ class _CartesianLegendOptionsState extends SampleViewState {
   final List<String> _modeList = <String>['wrap', 'scroll', 'none'].toList();
   late String _selectedMode;
   late LegendItemOverflowMode _overflowMode;
+  late double _xOffset = 0.0;
+  late double _yOffset = 0.0;
 
   @override
   void initState() {
@@ -36,6 +41,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
     _selectedMode = 'wrap';
     _overflowMode = LegendItemOverflowMode.wrap;
     toggleVisibility = true;
+    enableFloatingLegend = false;
     super.initState();
   }
 
@@ -55,6 +61,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
         children: <Widget>[
           ListTile(
             title: Text('Position ',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -80,6 +87,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
           ),
           ListTile(
             title: Text('Overflow mode',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -104,7 +112,11 @@ class _CartesianLegendOptionsState extends SampleViewState {
                     })),
           ),
           ListTile(
-            title: Text('Toggle visibility',
+            title: Text(
+                model.isWebFullView
+                    ? 'Toggle \nvisibility'
+                    : 'Toggle visibility',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -123,6 +135,76 @@ class _CartesianLegendOptionsState extends SampleViewState {
                       });
                     })),
           ),
+          ListTile(
+            title: Text(
+                model.isWebFullView ? 'Floating \nlegend' : 'Floating legend',
+                softWrap: false,
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                width: 0.4 * screenWidth,
+                child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: model.backgroundColor,
+                    value: enableFloatingLegend,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        enableFloatingLegend = value!;
+                        stateSetter(() {});
+                      });
+                    })),
+          ),
+          ListTile(
+              title: Text('X offset',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                width: 0.4 * screenWidth,
+                height: 50,
+                child: CustomDirectionalButtons(
+                  minValue: -100,
+                  maxValue: 100,
+                  initialValue: _xOffset,
+                  onChanged: (double val) => setState(() {
+                    _xOffset = enableFloatingLegend ? val : 0;
+                  }),
+                  step: enableFloatingLegend ? 10 : 0,
+                  iconColor: model.textColor
+                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      color: model.textColor
+                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
+                ),
+              )),
+          ListTile(
+              title: Text('Y offset',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                width: 0.4 * screenWidth,
+                height: 50,
+                child: CustomDirectionalButtons(
+                  minValue: -100,
+                  maxValue: 100,
+                  initialValue: _yOffset,
+                  onChanged: (double val) => setState(() {
+                    _yOffset = enableFloatingLegend ? val : 0;
+                  }),
+                  step: enableFloatingLegend ? 10 : 0,
+                  iconColor: model.textColor
+                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      color: model.textColor
+                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
+                ),
+              )),
         ],
       );
     });
@@ -132,105 +214,165 @@ class _CartesianLegendOptionsState extends SampleViewState {
   SfCartesianChart _buildCartesianLegendOptionsChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(text: isCardView ? '' : 'Monthly expense of a family'),
+      title: ChartTitle(
+          text: isCardView ? '' : 'Sales comparision of fruits in a shop'),
 
       /// Legend and its options for cartesian chart.
       legend: Legend(
-          isVisible: !isCardView,
-          position: _position,
-          overflowMode: _overflowMode,
-          toggleSeriesVisibility: toggleVisibility),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
-        labelRotation: isCardView ? 0 : -45,
+        isVisible: true,
+        position: _position,
+        offset: enableFloatingLegend ? Offset(_xOffset, _yOffset) : null,
+        overflowMode: _overflowMode,
+        toggleSeriesVisibility: toggleVisibility,
+        backgroundColor: model.currentThemeData?.brightness == Brightness.light
+            ? Colors.white.withOpacity(0.5)
+            : const Color.fromRGBO(33, 33, 33, 0.5),
+        borderColor: model.currentThemeData?.brightness == Brightness.light
+            ? Colors.black.withOpacity(0.5)
+            : Colors.white.withOpacity(0.5),
+        borderWidth: 1,
       ),
+
+      primaryXAxis: DateTimeAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          intervalType: DateTimeIntervalType.years,
+          dateFormat: DateFormat.y()),
       primaryYAxis: NumericAxis(
           axisLine: const AxisLine(width: 0),
-          labelFormat: r'${value}',
+          labelFormat: '{value}B',
+          interval: isCardView ? null : 1,
           majorTickLines: const MajorTickLines(size: 0)),
-      series: _getStackedLineSeries(),
+      series: _getStackedAreaSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
   /// Returns the list of chart series which need to render
-  /// on the stacked line chart.
-  List<StackedLineSeries<ChartSampleData, String>> _getStackedLineSeries() {
+  /// on the stacked area chart.
+  List<StackedAreaSeries<ChartSampleData, DateTime>> _getStackedAreaSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'Food',
-          y: 55,
-          yValue: 40,
-          secondSeriesYValue: 45,
-          thirdSeriesYValue: 48,
-          size: 28),
+          x: DateTime(2000, 1, 1),
+          y: 0.61,
+          yValue: 0.03,
+          secondSeriesYValue: 0.48,
+          thirdSeriesYValue: 0.23),
       ChartSampleData(
-          x: 'Transport',
-          y: 33,
-          yValue: 45,
-          secondSeriesYValue: 54,
-          thirdSeriesYValue: 28,
-          size: 35),
+          x: DateTime(2001, 1, 1),
+          y: 0.81,
+          yValue: 0.05,
+          secondSeriesYValue: 0.53,
+          thirdSeriesYValue: 0.17),
       ChartSampleData(
-          x: 'Medical',
-          y: 43,
-          yValue: 23,
-          secondSeriesYValue: 20,
-          thirdSeriesYValue: 34,
-          size: 48),
+          x: DateTime(2002, 1, 1),
+          y: 0.91,
+          yValue: 0.06,
+          secondSeriesYValue: 0.57,
+          thirdSeriesYValue: 0.17),
       ChartSampleData(
-          x: 'Clothes',
-          y: 32,
-          yValue: 54,
-          secondSeriesYValue: 23,
-          thirdSeriesYValue: 54,
-          size: 27),
+          x: DateTime(2003, 1, 1),
+          y: 1.00,
+          yValue: 0.09,
+          secondSeriesYValue: 0.61,
+          thirdSeriesYValue: 0.20),
       ChartSampleData(
-          x: 'Books',
-          y: 56,
-          yValue: 18,
-          secondSeriesYValue: 43,
-          thirdSeriesYValue: 55,
-          size: 31),
+          x: DateTime(2004, 1, 1),
+          y: 1.19,
+          yValue: 0.14,
+          secondSeriesYValue: 0.63,
+          thirdSeriesYValue: 0.23),
       ChartSampleData(
-          x: 'Others',
-          y: 23,
-          yValue: 54,
-          secondSeriesYValue: 33,
-          thirdSeriesYValue: 56,
-          size: 35),
+          x: DateTime(2005, 1, 1),
+          y: 1.47,
+          yValue: 0.20,
+          secondSeriesYValue: 0.64,
+          thirdSeriesYValue: 0.36),
+      ChartSampleData(
+          x: DateTime(2006, 1, 1),
+          y: 1.74,
+          yValue: 0.29,
+          secondSeriesYValue: 0.66,
+          thirdSeriesYValue: 0.43),
+      ChartSampleData(
+          x: DateTime(2007, 1, 1),
+          y: 1.98,
+          yValue: 0.46,
+          secondSeriesYValue: 0.76,
+          thirdSeriesYValue: 0.52),
+      ChartSampleData(
+          x: DateTime(2008, 1, 1),
+          y: 1.99,
+          yValue: 0.64,
+          secondSeriesYValue: 0.77,
+          thirdSeriesYValue: 0.72),
+      ChartSampleData(
+          x: DateTime(2009, 1, 1),
+          y: 1.70,
+          yValue: 0.75,
+          secondSeriesYValue: 0.55,
+          thirdSeriesYValue: 1.29),
+      ChartSampleData(
+          x: DateTime(2010, 1, 1),
+          y: 1.48,
+          yValue: 1.06,
+          secondSeriesYValue: 0.54,
+          thirdSeriesYValue: 1.38),
+      ChartSampleData(
+          x: DateTime(2011, 1, 1),
+          y: 1.38,
+          yValue: 1.25,
+          secondSeriesYValue: 0.57,
+          thirdSeriesYValue: 1.82),
+      ChartSampleData(
+          x: DateTime(2012, 1, 1),
+          y: 1.66,
+          yValue: 1.55,
+          secondSeriesYValue: 0.61,
+          thirdSeriesYValue: 2.16),
+      ChartSampleData(
+          x: DateTime(2013, 1, 1),
+          y: 1.66,
+          yValue: 1.55,
+          secondSeriesYValue: 0.67,
+          thirdSeriesYValue: 2.51),
+      ChartSampleData(
+          x: DateTime(2014, 1, 1),
+          y: 1.67,
+          yValue: 1.65,
+          secondSeriesYValue: 0.67,
+          thirdSeriesYValue: 2.61),
+      ChartSampleData(
+          x: DateTime(2015, 1, 1),
+          y: 1.68,
+          yValue: 1.75,
+          secondSeriesYValue: 0.71,
+          thirdSeriesYValue: 2.71),
     ];
-    return <StackedLineSeries<ChartSampleData, String>>[
-      StackedLineSeries<ChartSampleData, String>(
+    return <StackedAreaSeries<ChartSampleData, DateTime>>[
+      StackedAreaSeries<ChartSampleData, DateTime>(
+          animationDuration: 2500,
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          name: 'Person 1',
-          markerSettings: const MarkerSettings(isVisible: true)),
-      StackedLineSeries<ChartSampleData, String>(
+          name: 'Apple'),
+      StackedAreaSeries<ChartSampleData, DateTime>(
+          animationDuration: 2500,
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          name: 'Person 2',
-          markerSettings: const MarkerSettings(isVisible: true)),
-      StackedLineSeries<ChartSampleData, String>(
+          name: 'Orange'),
+      StackedAreaSeries<ChartSampleData, DateTime>(
+          animationDuration: 2500,
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          name: 'Person 3',
-          markerSettings: const MarkerSettings(isVisible: true)),
-      StackedLineSeries<ChartSampleData, String>(
+          name: 'Pear'),
+      StackedAreaSeries<ChartSampleData, DateTime>(
+          animationDuration: 2500,
           dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
-          name: 'Person 4',
-          markerSettings: const MarkerSettings(isVisible: true)),
-      StackedLineSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.size,
-          name: 'Person 5',
-          markerSettings: const MarkerSettings(isVisible: true))
+          name: 'Others')
     ];
   }
 

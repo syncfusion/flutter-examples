@@ -53,7 +53,7 @@ class _PieDefaultState extends SampleViewState {
           dataLabelMapper: (ChartSampleData data, _) => data.text,
           startAngle: 90,
           endAngle: 90,
-          dataLabelSettings: DataLabelSettings(isVisible: true)),
+          dataLabelSettings: const DataLabelSettings(isVisible: true)),
     ];
   }
 }

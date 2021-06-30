@@ -47,18 +47,18 @@ class _RadialEaseInCircExampleState extends SampleViewState {
               lengthUnit: GaugeSizeUnit.factor,
               thickness: 1,
             ),
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               RangePointer(
                   width: 15,
                   pointerOffset: 10,
                   value: 45,
                   animationDuration: 1000,
-                  gradient: const SweepGradient(
+                  gradient: SweepGradient(
                       colors: <Color>[Color(0xFF3B3FF3), Color(0xFF46D0ED)],
                       stops: <double>[0.25, 0.75]),
                   animationType: AnimationType.easeInCirc,
                   enableAnimation: true,
-                  color: const Color(0xFFF8B195))
+                  color: Color(0xFFF8B195))
             ])
       ],
     );

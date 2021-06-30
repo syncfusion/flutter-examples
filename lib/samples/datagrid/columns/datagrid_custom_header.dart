@@ -1,11 +1,11 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:collection/collection.dart';
 
 /// Renders custom header data grid sample
 class CustomHeaderDataGrid extends SampleView {
@@ -170,7 +170,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
-      GridTextColumn(
+      GridColumn(
           columnName: 'id',
           width: 140,
           label: buildHeaderCell(Container(
@@ -180,7 +180,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'productId',
           width: 150,
           label: buildHeaderCell(Container(
@@ -190,7 +190,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'name',
           width: 185,
           label: buildHeaderCell(Container(
@@ -200,7 +200,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'product',
           width: 135,
           label: buildHeaderCell(Container(
@@ -210,7 +210,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'orderDate',
           width: 150,
           label: buildHeaderCell(Container(
@@ -220,7 +220,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'quantity',
           width: 135,
           label: buildHeaderCell(Container(
@@ -230,7 +230,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'city',
           width: 130,
           label: buildHeaderCell(Container(
@@ -240,7 +240,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           ))),
-      GridTextColumn(
+      GridColumn(
           columnName: 'unitPrice',
           width: 140,
           label: buildHeaderCell(Container(

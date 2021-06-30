@@ -39,6 +39,7 @@ class _CircularSelectionState extends SampleViewState {
             child: Row(
               children: <Widget>[
                 Text('Point index ',
+                    softWrap: false,
                     style: TextStyle(
                       color: model.textColor,
                       fontSize: 16,
@@ -64,7 +65,7 @@ class _CircularSelectionState extends SampleViewState {
             ),
           );
         }),
-        Column(
+        Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -126,7 +127,7 @@ class _CircularSelectionState extends SampleViewState {
           dataLabelMapper: (ChartSampleData data, _) => data.x as String,
           startAngle: 100,
           endAngle: 100,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.outside),
           selectionBehavior: selectionBehavior)
     ];

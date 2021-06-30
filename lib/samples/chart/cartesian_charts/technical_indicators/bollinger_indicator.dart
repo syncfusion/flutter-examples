@@ -60,6 +60,7 @@ class _BollingerIndicatorState extends SampleViewState {
         ListTile(
           title: Text(
             'Period',
+            softWrap: false,
             style: TextStyle(color: model.textColor),
           ),
           trailing: Container(
@@ -79,7 +80,8 @@ class _BollingerIndicatorState extends SampleViewState {
         ),
         ListTile(
           title: Text(
-            'Standard deviation',
+            model.isWebFullView ? 'Standard \ndeviation' : 'Standard deviation',
+            softWrap: false,
             style: TextStyle(color: model.textColor),
           ),
           trailing: Container(

@@ -325,7 +325,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                 padding:
                     EdgeInsets.only(left: model.isWebFullView ? 5.0 : 15.0),
                 child: const Text(
-                  r'\$100 to \$1000',
+                  r'$100 to $1000',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

@@ -21,20 +21,20 @@ class _MarkerPointerExampleState extends SampleViewState {
   _MarkerPointerExampleState();
 
   final List<String> _markerTypes = <String>[
-    'Circle',
-    'Diamond',
-    'Inverted triangle',
-    'Rectangle',
-    'Triangle',
+    'circle',
+    'diamond',
+    'invertedTriangle',
+    'rectangle',
+    'triangle',
   ];
 
-  String _selectedMarkerType = 'Inverted triangle';
+  String _selectedMarkerType = 'invertedTriangle';
   MarkerType _markerType = MarkerType.invertedTriangle;
   double _elevation = 4;
 
   @override
   void initState() {
-    _selectedMarkerType = 'Inverted triangle';
+    _selectedMarkerType = 'invertedTriangle';
     _markerType = MarkerType.invertedTriangle;
     super.initState();
   }
@@ -65,7 +65,7 @@ class _MarkerPointerExampleState extends SampleViewState {
                   value: _selectedMarkerType,
                   items: _markerTypes.map((String value) {
                     return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'Inverted triangle',
+                        value: (value != null) ? value : 'invertedTriangle',
                         child: Text(value,
                             style: TextStyle(color: model.textColor)));
                   }).toList(),
@@ -112,15 +112,15 @@ class _MarkerPointerExampleState extends SampleViewState {
   void _onMarkerTypeChange(String item) {
     setState(() {
       _selectedMarkerType = item;
-      if (_selectedMarkerType == 'Circle') {
+      if (_selectedMarkerType == 'circle') {
         _markerType = MarkerType.circle;
-      } else if (_selectedMarkerType == 'Diamond') {
+      } else if (_selectedMarkerType == 'diamond') {
         _markerType = MarkerType.diamond;
-      } else if (_selectedMarkerType == 'Inverted triangle') {
+      } else if (_selectedMarkerType == 'invertedTriangle') {
         _markerType = MarkerType.invertedTriangle;
-      } else if (_selectedMarkerType == 'Rectangle') {
+      } else if (_selectedMarkerType == 'rectangle') {
         _markerType = MarkerType.rectangle;
-      } else if (_selectedMarkerType == 'Triangle') {
+      } else if (_selectedMarkerType == 'triangle') {
         _markerType = MarkerType.triangle;
       }
     });

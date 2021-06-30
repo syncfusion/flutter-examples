@@ -71,6 +71,8 @@ class _DataMatrixGeneratorState extends SampleViewState {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Input value:   ',
+                  overflow: TextOverflow.clip,
+                  softWrap: false,
                   style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
@@ -91,7 +93,7 @@ class _DataMatrixGeneratorState extends SampleViewState {
                                       BorderSide(color: model.textColor))),
                           autofocus: false,
                           keyboardType: TextInputType.text,
-                          maxLines: null,
+                          maxLines: 1,
                           onChanged: (String _text) {
                             setState(() {
                               _inputValue = _text;

@@ -21,12 +21,16 @@ class WidgetCategory {
       this.controlList,
       this.mobileCategoryId,
       this.webCategoryId,
-      this.showInWeb]);
+      this.platformsToHide]);
 
   /// Getting the control details from the json file
   factory WidgetCategory.fromJson(Map<String, dynamic> json) {
-    return WidgetCategory(json['categoryName'], json['controlList'],
-        json['mobileCategoryId'], json['webCategoryId'], json['showInWeb']);
+    return WidgetCategory(
+        json['categoryName'],
+        json['controlList'],
+        json['mobileCategoryId'],
+        json['webCategoryId'],
+        json['platformsToHide']);
   }
 
   /// Name of the category
@@ -41,12 +45,16 @@ class WidgetCategory {
   /// Sorting the categories based on this id in web.
   final int? webCategoryId;
 
-  /// Specify false if the category need not to show in web
-  /// (as Viewer - not supported in web).
-  final bool? showInWeb;
-
   /// Selected control in the controllist under the particular category
   int? selectedIndex = 0;
+
+  /// To specify the category not to show on the web/android/iOS/windows/linux/macOS
+  /// platforms in list format.
+  ///
+  /// Eg: In json file we can specify like below,
+  ///
+  /// "platformsToHide": ["linux", "android"] => the specific category should not show on the linux and android platforms
+  final List<dynamic>? platformsToHide;
 }
 
 /// Defines the control class.
@@ -60,8 +68,8 @@ class Control {
       this.displayType,
       this.subItems,
       this.controlId,
-      this.showInWeb,
-      this.isBeta);
+      this.isBeta,
+      this.platformsToHide);
 
   /// Getting the control details from the json file
   factory Control.fromJson(Map<String, dynamic> json) {
@@ -73,8 +81,8 @@ class Control {
         json['displayType'],
         json['subItems'],
         json['controlId'],
-        json['showInWeb'],
-        json['isBeta']);
+        json['isBeta'],
+        json['platformsToHide']);
   }
 
   /// Contains title of the control, display in the home page
@@ -96,10 +104,6 @@ class Control {
   /// Mention as card/fullView, by default it will taken as "fullView".
   final String? displayType;
 
-  /// Specify false if the control need not to show in web
-  /// (as pdf viewer - not supported in web).
-  final bool? showInWeb;
-
   /// Contains the subItem list which comes under sample type
   List<SubItem>? sampleList;
 
@@ -111,6 +115,14 @@ class Control {
 
   /// To specify the control is beta or not in `https://pub.dev/publishers/syncfusion.com/packages`
   final bool? isBeta;
+
+  /// To specify the control not to show on the web/android/iOS/windows/linux/macOS
+  /// platforms in list format.
+  ///
+  /// Eg: In json file we can specify like below,
+  ///
+  /// "platformsToHide": ["linux", "android"] => the current control should not show on the linux and android platforms
+  final List<dynamic>? platformsToHide;
 }
 
 /// Contains the detail of sample in different hierarchy levels
@@ -126,10 +138,10 @@ class SubItem {
       this.description,
       this.status,
       this.subItems,
-      this.showInWeb,
       this.sourceLink,
       this.sourceText,
-      this.needsPropertyPanel]);
+      this.needsPropertyPanel,
+      this.platformsToHide]);
 
   /// Getting the SubItem details from the json file
   factory SubItem.fromJson(Map<String, dynamic> json) {
@@ -142,10 +154,10 @@ class SubItem {
         json['description'],
         json['status'],
         json['subItems'],
-        json['showInWeb'],
         json['sourceLink'],
         json['sourceText'],
-        json['needsPropertyPanel']);
+        json['needsPropertyPanel'],
+        json['platformsToHide']);
   }
 
   /// Type given as parent/child/sample.
@@ -180,10 +192,6 @@ class SubItem {
   /// Status of the sample, displays above the sample
   final String? status;
 
-  /// Specify false if the sample need not to show in web
-  /// (as sample with dash array).
-  final bool? showInWeb;
-
   /// SourceLink which will launch a url of the sample's source
   /// on tapping source text present under the sample.
   final String? sourceLink;
@@ -214,6 +222,14 @@ class SubItem {
 
   /// Holds appropriate control
   Control? control;
+
+  /// To specify the sample not to show on the web/android/iOS/windows/linux/macOS
+  /// platforms in list format.
+  ///
+  /// Eg: In json file we can specify like below,
+  ///
+  /// "platformsToHide": ["linux", "android"] => the specific sample should not show on the linux and android platforms
+  final List<dynamic>? platformsToHide;
 }
 
 /// SampleModel class is the base of the Sample browser
@@ -428,6 +444,15 @@ class SampleModel extends Listenable {
   ///Check whether application is running on the macOS desktop
   bool isMacOS = false;
 
+  /// This controls to open / hide the property panel
+  bool isPropertyPanelOpened = true;
+
+  /// holds the current route of sample.
+  late SampleRoute currentSampleRoute;
+
+  /// holds the collection of all sample routes.
+  static List<SampleRoute> sampleRoutes = <SampleRoute>[];
+
   /// Switching between light, dark, system themes
   void changeTheme(ThemeData _themeData) {
     themeData = _themeData;
@@ -509,16 +534,15 @@ Future<void> updateControlItems() async {
   for (int index = 0; index < categoryList.length; index++) {
     SampleModel._categoryList.add(WidgetCategory.fromJson(categoryList[index]));
     final List<Control> controlList = <Control>[];
-    if ((!_isWeb || SampleModel._categoryList[index].showInWeb != false) &&
-        (SampleModel._categoryList[index].categoryName != 'Viewer' ||
-            kIsWeb ||
-            (!Platform.isWindows && !Platform.isLinux))) {
+    if (SampleModel._categoryList[index].platformsToHide == null ||
+        _needToShow(SampleModel._categoryList[index].platformsToHide)) {
       for (int i = 0;
           i < SampleModel._categoryList[index].controlList!.length;
           i++) {
         controlList.add(
             Control.fromJson(SampleModel._categoryList[index].controlList![i]));
-        if (!_isWeb || controlList[i].showInWeb != false) {
+        if (controlList[i].platformsToHide == null ||
+            _needToShow(controlList[i].platformsToHide)) {
           for (int j = 0; j < controlList[i].subItems!.length; j++) {
             _firstLevelSubItems
                 .add(SubItem.fromJson(controlList[i].subItems![j]));
@@ -526,10 +550,12 @@ Future<void> updateControlItems() async {
               for (int k = 0;
                   k < _firstLevelSubItems[j].subItems!.length;
                   k++) {
-                if (!_isWeb ||
-                    SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
-                            .showInWeb !=
-                        false) {
+                if (SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
+                            .platformsToHide ==
+                        null ||
+                    _needToShow(
+                        SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
+                            .platformsToHide)) {
                   _secondLevelSubItems.add(
                       SubItem.fromJson(_firstLevelSubItems[j].subItems![k]));
                   for (int l = 0;
@@ -538,12 +564,15 @@ Future<void> updateControlItems() async {
                               .subItems!
                               .length;
                       l++) {
-                    if (!_isWeb ||
-                        SubItem.fromJson(_secondLevelSubItems[
+                    if (SubItem.fromJson(_secondLevelSubItems[
                                         _secondLevelSubItems.length - 1]
                                     .subItems![l])
-                                .showInWeb !=
-                            false) {
+                                .platformsToHide ==
+                            null ||
+                        _needToShow(SubItem.fromJson(_secondLevelSubItems[
+                                    _secondLevelSubItems.length - 1]
+                                .subItems![l])
+                            .platformsToHide)) {
                       _thirdLevelSubItems.add(SubItem.fromJson(
                           _secondLevelSubItems[_secondLevelSubItems.length - 1]
                               .subItems![l]));
@@ -594,15 +623,18 @@ Future<void> updateControlItems() async {
               _firstLevelSubItems[j].subItems = _secondLevelSubItems;
               _secondLevelSubItems = <SubItem>[];
             } else if (_firstLevelSubItems[j].type == 'child') {
-              if (!_isWeb || _firstLevelSubItems[j].showInWeb != false) {
+              if (_firstLevelSubItems[j].platformsToHide == null ||
+                  _needToShow(_firstLevelSubItems[j].platformsToHide)) {
                 _isChild = true;
                 for (int k = 0;
                     k < _firstLevelSubItems[j].subItems!.length;
                     k++) {
-                  if (!_isWeb ||
-                      SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
-                              .showInWeb !=
-                          false) {
+                  if (SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
+                              .platformsToHide ==
+                          null ||
+                      _needToShow(
+                          SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
+                              .platformsToHide)) {
                     _secondLevelSubItems.add(
                         SubItem.fromJson(_firstLevelSubItems[j].subItems![k]));
                     _secondLevelSubItems[_secondLevelSubItems.length - 1]
@@ -642,7 +674,8 @@ Future<void> updateControlItems() async {
             } else {
               _isSample = true;
               _firstLevelSubItems[j].sampleIndex ??= j;
-              if (!_isWeb || _firstLevelSubItems[j].showInWeb != false) {
+              if (_firstLevelSubItems[j].platformsToHide == null ||
+                  _needToShow(_firstLevelSubItems[j].platformsToHide)) {
                 final String breadCrumbText = ('/' +
                         controlList[i].title! +
                         '/' +
@@ -709,14 +742,42 @@ Future<void> updateControlItems() async {
   }
 }
 
+bool _needToShow(List<dynamic>? platforms) {
+  return !((platforms!.contains('web') && kIsWeb) ||
+      (!kIsWeb &&
+          ((platforms.contains('linux') && Platform.isLinux) ||
+              (platforms.contains('android') && Platform.isAndroid) ||
+              (platforms.contains('iOS') && Platform.isIOS) ||
+              (platforms.contains('windows') && Platform.isWindows) ||
+              (platforms.contains('macOS') && Platform.isMacOS))));
+}
+
 ///Holds the [SubItem] and the appropriate route name
 class SampleRoute {
   ///Contains the URL routes of the appropriate subItem
-  SampleRoute({this.routeName, this.subItem});
-
-  ///Holds the text which show in the URL
-  final String? routeName;
+  SampleRoute(
+      {this.routeName,
+      this.subItem,
+      this.currentContext,
+      this.currentState,
+      this.currentWidget,
+      this.globalKey});
 
   ///Holds the sample details
   final SubItem? subItem;
+
+  ///Holds the global key
+  final GlobalKey<State>? globalKey;
+
+  ///Holds the text which show in the URL
+  String? routeName;
+
+  ///Holds the current state
+  State? currentState;
+
+  ///Holds the current context
+  BuildContext? currentContext;
+
+  ///Holds the current widget
+  Widget? currentWidget;
 }

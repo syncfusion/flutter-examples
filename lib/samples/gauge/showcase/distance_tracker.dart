@@ -87,13 +87,13 @@ class _DistanceTrackerExampleState extends SampleViewState {
                   )),
             ],
             pointers: <GaugePointer>[
-              RangePointer(
+              const RangePointer(
                 value: 142,
                 width: 18,
                 pointerOffset: -6,
                 cornerStyle: CornerStyle.bothCurve,
-                color: const Color(0xFFF67280),
-                gradient: const SweepGradient(
+                color: Color(0xFFF67280),
+                gradient: SweepGradient(
                     colors: <Color>[Color(0xFFFF7676), Color(0xFFF54EA2)],
                     stops: <double>[0.25, 0.75]),
               ),

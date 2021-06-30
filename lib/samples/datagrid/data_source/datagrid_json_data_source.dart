@@ -26,7 +26,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
   List<GridColumn> getColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
-      GridTextColumn(
+      GridColumn(
         columnName: 'id',
         width: isWebOrDesktop ? 135 : 90,
         label: Container(
@@ -39,7 +39,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'contactName',
         width: 150,
         label: Container(
@@ -52,7 +52,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'companyName',
         width: isWebOrDesktop ? 165 : 140,
         label: Container(
@@ -65,7 +65,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'city',
         width: isWebOrDesktop ? 150 : 120,
         label: Container(
@@ -78,7 +78,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'country',
         width: isWebOrDesktop ? 150 : 120,
         label: Container(
@@ -91,7 +91,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'designation',
         width: 170,
         label: Container(
@@ -104,7 +104,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'postalCode',
         width: 110,
         label: Container(
@@ -113,7 +113,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
           child: const Text('Postal Code'),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'phoneNumber',
         width: 150,
         label: Container(

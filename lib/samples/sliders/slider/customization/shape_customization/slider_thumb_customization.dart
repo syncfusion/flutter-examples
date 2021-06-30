@@ -14,6 +14,8 @@ import '../../../slider_utils.dart';
 
 ///Renders slider with customized thumb
 class ThumbCustomizedSlider extends SampleView {
+  ///Creates slider with customized thumb
+  const ThumbCustomizedSlider(Key key) : super(key: key);
   @override
   _ThumbCustomizedSliderState createState() => _ThumbCustomizedSliderState();
 }
@@ -31,10 +33,10 @@ class _ThumbCustomizedSliderState extends SampleViewState {
           tickOffset: const Offset(0, 13),
           overlayColor: Colors.transparent,
           tooltipBackgroundColor: _activeColor,
-          activeDivisorColor: _activeColor,
-          inactiveDivisorColor: _activeColor.withOpacity(0.80),
-          activeDivisorRadius: 2.0,
-          inactiveDivisorRadius: 2.0),
+          activeDividerColor: _activeColor,
+          inactiveDividerColor: _activeColor.withOpacity(0.80),
+          activeDividerRadius: 2.0,
+          inactiveDividerRadius: 2.0),
       child: SfSlider(
         min: 0.0,
         max: 100.0,
@@ -45,7 +47,7 @@ class _ThumbCustomizedSliderState extends SampleViewState {
           });
         },
         interval: 10,
-        showDivisors: true,
+        showDividers: true,
         enableTooltip: true,
         numberFormat: NumberFormat('#'),
         thumbShape: _RectThumbShape(),

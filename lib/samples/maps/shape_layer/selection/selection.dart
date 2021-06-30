@@ -1,11 +1,11 @@
-///Flutter package imports
+/// Flutter package imports
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
-///Map import
-// ignore: import_of_legacy_library_into_null_safe
+/// Map import
 import 'package:syncfusion_flutter_maps/maps.dart';
 
-///Local import
+/// Local import
 import '../../../../model/sample_view.dart';
 
 /// Renders the map widget with range color mapping
@@ -18,16 +18,14 @@ class MapSelectionPage extends SampleView {
 }
 
 class _MapSelectionPageState extends SampleViewState {
-  int _selectedIndex = -1;
-
-  late List<_StateDetails> _electionResults;
-
+  late List<_StateElectionDetails> _stateWiseElectionResult;
+  late List<MapColorMapper> _colorMappers;
   late MapShapeSource _selectionMapSource;
+  late bool isDesktop;
+  int _selectedIndex = -1;
 
   @override
   void initState() {
-    super.initState();
-
     // Data source to the map.
     //
     // [primaryKey]: Field name in the .json file to identify the shape.
@@ -37,56 +35,459 @@ class _MapSelectionPageState extends SampleViewState {
     //
     // [wonBy]: On the basis of this value, color mapping color has been
     // applied to the shape.
-    _electionResults = <_StateDetails>[
-      _StateDetails('Washington', 52.5, 36.8, 'Wash.', 'Democratic'),
-      _StateDetails('Oregon', 50.1, 39.1, 'Ore.', 'Democratic'),
-      _StateDetails('California', 61.5, 31.5, 'Calif.', 'Democratic'),
-      _StateDetails('Nevada', 47.9, 45.5, 'Nev.', 'Democratic'),
-      _StateDetails('Idaho', 59.2, 27.5, 'Idaho', 'Republican'),
-      _StateDetails('Montana', 55.6, 35.4, 'Mont.', 'Republican'),
-      _StateDetails('Wyoming', 68.2, 21.9, 'Wyo.', 'Republican'),
-      _StateDetails('Utah', 45.1, 27.2, 'Utah', 'Republican'),
-      _StateDetails('Arizona', 48.1, 44.6, 'Ariz.', 'Republican'),
-      _StateDetails('Colorado', 48.2, 43.3, 'Colo.', 'Democratic'),
-      _StateDetails('New Mexico', 48.3, 40.0, 'N.M.', 'Democratic'),
-      _StateDetails('Texas', 52.2, 43.2, 'Tex.', 'Republican'),
-      _StateDetails('Oklahoma', 65.3, 28.9, 'Okla.', 'Republican'),
-      _StateDetails('Kansas', 56.2, 36.7, 'Kan.', 'Republican'),
-      _StateDetails('Nebraska', 58.7, 33.7, 'Neb.', 'Republican'),
-      _StateDetails('South Dakota', 61.5, 31.7, 'S.D.', 'Republican'),
-      _StateDetails('North Dakota', 63.0, 27.2, 'N.D.', 'Republican'),
-      _StateDetails('Minnesota', 46.4, 44.9, 'Minn.', 'Democratic'),
-      _StateDetails('Lowa', 51.1, 41.7, 'Lowa', 'Republican'),
-      _StateDetails('Missouri', 56.4, 37.9, 'Mo.', 'Republican'),
-      _StateDetails('Arkansas', 60.6, 33.7, 'Ark.', 'Republican'),
-      _StateDetails('Louisiana', 58.1, 38.4, 'La.', 'Republican'),
-      _StateDetails('Mississippi', 57.9, 40.1, 'Miss.', 'Republican'),
-      _StateDetails('Tennessee', 60.7, 34.7, 'Tenn.', 'Republican'),
-      _StateDetails('Alabama', 62.1, 34.4, 'Ala.', 'Republican'),
-      _StateDetails('Georgia', 50.4, 45.3, 'Ga.', 'Republican'),
-      _StateDetails('Florida', 48.6, 47.4, 'Fla.', 'Republican'),
-      _StateDetails('South Carolina', 54.9, 40.7, 'S.C.', 'Republican'),
-      _StateDetails('North Carolina', 49.8, 46.2, 'N.C.', 'Republican'),
-      _StateDetails('Virginia', 49.8, 44.4, 'Va.', 'Democratic'),
-      _StateDetails('West Virginia', 67.9, 26.2, 'W.Va.', 'Republican'),
-      _StateDetails('Kentucky', 62.5, 32.7, 'Ky.', 'Republican'),
-      _StateDetails('Illinois', 55.2, 38.4, 'Ill.', 'Democratic'),
-      _StateDetails('Indiana', 56.5, 37.5, 'Ind.', 'Republican'),
-      _StateDetails('Ohio', 51.3, 43.2, 'Ohio', 'Republican'),
-      _StateDetails('Pennsylvania', 48.2, 47.5, 'Pa', 'Republican'),
-      _StateDetails('Maryland', 60.3, 33.9, 'Md.', 'Democratic'),
-      _StateDetails('New Jersey', 55.0, 41.0, 'N.J.', 'Democratic'),
-      _StateDetails('New York', 59.0, 36.5, 'N.Y.', 'Democratic'),
-      _StateDetails('Wisconsin', 47.2, 46.5, 'Wis.', 'Republican'),
-      _StateDetails('Michigan', 47.3, 47.0, 'Mich.', 'Republican'),
-      _StateDetails('Connecticut', 60.0, 32.8, 'Conn.', 'Democratic'),
-      _StateDetails('Massachusetts', 55.0, 41.0, 'Mass.', 'Democratic'),
-      _StateDetails('Vermont', 56.7, 30.3, 'Vt.', 'Democratic'),
-      _StateDetails('New Hampshire', 46.8, 46.5, 'N.H.', 'Democratic'),
-      _StateDetails('Massachusetts', 55.0, 41.0, 'Mass.', 'Democratic'),
-      _StateDetails('Maine', 47.8, 44.9, 'Me.', 'Democratic'),
-      _StateDetails('Alaska', 51.3, 36.6, 'Alaska', 'Republican'),
-      _StateDetails('Hawaii', 62.2, 30.0, 'Hawaii', 'Democratic'),
+    _stateWiseElectionResult = <_StateElectionDetails>[
+      const _StateElectionDetails(
+          state: 'Washington',
+          stateCode: 'DC',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 4087631,
+          votes: 2369612,
+          percentage: 57.97),
+      const _StateElectionDetails(
+          state: 'Oregon',
+          stateCode: 'OR',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 2374321,
+          votes: 1340383,
+          percentage: 56.45),
+      const _StateElectionDetails(
+          state: 'Alabama',
+          stateCode: 'AL',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 2323282,
+          votes: 1441170,
+          percentage: 62.03),
+      const _StateElectionDetails(
+          state: 'Alaska',
+          stateCode: 'AK',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 359530,
+          votes: 189951,
+          percentage: 52.83),
+      const _StateElectionDetails(
+          state: 'Arizona',
+          stateCode: 'AZ',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 3387326,
+          votes: 1672143,
+          percentage: 49.36),
+      const _StateElectionDetails(
+          state: 'Arkansas',
+          stateCode: 'AR',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 1219069,
+          votes: 760647,
+          percentage: 62.40),
+      const _StateElectionDetails(
+          state: 'California',
+          stateCode: 'CA',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 17500881,
+          votes: 11110250,
+          percentage: 63.48),
+      const _StateElectionDetails(
+          state: 'Colorado',
+          stateCode: 'CO',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 3256980,
+          votes: 1804352,
+          percentage: 55.40),
+      const _StateElectionDetails(
+          state: 'Connecticut',
+          stateCode: 'CT',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 1823857,
+          votes: 1080831,
+          percentage: 59.26),
+      const _StateElectionDetails(
+          state: 'Delaware',
+          stateCode: 'DE',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 504346,
+          votes: 296268,
+          percentage: 58.74),
+      const _StateElectionDetails(
+          state: 'Florida',
+          stateCode: 'FL',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 11067456,
+          votes: 5668731,
+          percentage: 51.22),
+      const _StateElectionDetails(
+          state: 'Georgia',
+          stateCode: 'GA',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 4999960,
+          votes: 2473633,
+          percentage: 49.47),
+      const _StateElectionDetails(
+          state: 'Hawaii',
+          stateCode: 'HI',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 574469,
+          votes: 366130,
+          percentage: 63.73),
+      const _StateElectionDetails(
+          state: 'Idaho',
+          stateCode: 'ID',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 868014,
+          votes: 554119,
+          percentage: 63.84),
+      const _StateElectionDetails(
+          state: 'Illinois',
+          stateCode: 'IL',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 6033744,
+          votes: 3471915,
+          percentage: 57.54),
+      const _StateElectionDetails(
+          state: 'Indiana',
+          stateCode: 'IN',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 3033121,
+          votes: 1729519,
+          percentage: 57.02),
+      const _StateElectionDetails(
+          state: 'Lowa',
+          stateCode: 'IA',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 1690871,
+          votes: 897672,
+          percentage: 53.09),
+      const _StateElectionDetails(
+          state: 'Kansas',
+          stateCode: 'KS',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 1372303,
+          votes: 771406,
+          percentage: 56.21),
+      const _StateElectionDetails(
+          state: 'Kentucky',
+          stateCode: 'KY',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 2136768,
+          votes: 1326646,
+          percentage: 62.09),
+      const _StateElectionDetails(
+          state: 'Louisiana',
+          stateCode: 'LA',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 2148062,
+          votes: 1255776,
+          percentage: 58.46),
+      const _StateElectionDetails(
+          state: 'Maine',
+          stateCode: 'ME',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 443112,
+          votes: 266376,
+          percentage: 60.11),
+      const _StateElectionDetails(
+          state: 'Maryland',
+          stateCode: 'MD',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 3037030,
+          votes: 1985023,
+          percentage: 65.36),
+      const _StateElectionDetails(
+          state: 'Massachusetts',
+          stateCode: 'MA',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 3631402,
+          votes: 2382202,
+          percentage: 65.60),
+      const _StateElectionDetails(
+          state: 'Michigan',
+          stateCode: 'MI',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 5539302,
+          votes: 2804040,
+          percentage: 50.62),
+      const _StateElectionDetails(
+          state: 'Minnesota',
+          stateCode: 'MN',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 3277171,
+          votes: 1717077,
+          percentage: 52.40),
+      const _StateElectionDetails(
+          state: 'Mississippi',
+          stateCode: 'MS',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 1313759,
+          votes: 756764,
+          percentage: 57.60),
+      const _StateElectionDetails(
+          state: 'Missouri',
+          stateCode: 'MO',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 3025962,
+          votes: 1718736,
+          percentage: 56.80),
+      const _StateElectionDetails(
+          state: 'Montana',
+          stateCode: 'MT',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 603674,
+          votes: 343602,
+          percentage: 56.92),
+      const _StateElectionDetails(
+          state: 'Nebraska',
+          stateCode: 'NE',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 321886,
+          votes: 180290,
+          percentage: 56.01),
+      const _StateElectionDetails(
+          state: 'Nevada',
+          stateCode: 'NV',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 1405376,
+          votes: 703486,
+          percentage: 50.06),
+      const _StateElectionDetails(
+          state: 'New Hampshire',
+          stateCode: 'NH',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 806205,
+          votes: 424937,
+          percentage: 52.71),
+      const _StateElectionDetails(
+          state: 'New Jersey',
+          stateCode: 'NJ',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 4549353,
+          votes: 2608335,
+          percentage: 57.33),
+      const _StateElectionDetails(
+          state: 'New Mexico',
+          stateCode: 'NM',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 923965,
+          votes: 501614,
+          percentage: 54.29),
+      const _StateElectionDetails(
+          state: 'New York',
+          stateCode: 'NY',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 8594826,
+          votes: 5230985,
+          percentage: 60.86),
+      const _StateElectionDetails(
+          state: 'North Carolina',
+          stateCode: 'NC',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 5524804,
+          votes: 2758775,
+          percentage: 49.93),
+      const _StateElectionDetails(
+          state: 'North Dakota',
+          stateCode: 'ND',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 361819,
+          votes: 235595,
+          percentage: 65.11),
+      const _StateElectionDetails(
+          state: 'Ohio',
+          stateCode: 'OH',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 5922202,
+          votes: 3154834,
+          percentage: 53.27),
+      const _StateElectionDetails(
+          state: 'Oklahoma',
+          stateCode: 'OK',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 1560699,
+          votes: 1020280,
+          percentage: 65.37),
+      const _StateElectionDetails(
+          state: 'Pennsylvania',
+          stateCode: 'PA',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 6915283,
+          votes: 3458229,
+          percentage: 50.01),
+      const _StateElectionDetails(
+          state: 'Rhode Island',
+          stateCode: 'RI',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 517757,
+          votes: 307486,
+          percentage: 59.39),
+      const _StateElectionDetails(
+          state: 'South Carolina',
+          stateCode: 'SC',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 2513329,
+          votes: 1385103,
+          percentage: 55.11),
+      const _StateElectionDetails(
+          state: 'South Dakota',
+          stateCode: 'SD',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 422609,
+          votes: 261043,
+          percentage: 61.77),
+      const _StateElectionDetails(
+          state: 'Tennessee',
+          stateCode: 'TN',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 3053851,
+          votes: 1852475,
+          percentage: 60.66),
+      const _StateElectionDetails(
+          state: 'Texas',
+          stateCode: 'TX',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 11315056,
+          votes: 5890347,
+          percentage: 52.06),
+      const _StateElectionDetails(
+          state: 'Utah',
+          stateCode: 'UT',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 1488289,
+          votes: 865140,
+          percentage: 58.13),
+      const _StateElectionDetails(
+          state: 'Vermont',
+          stateCode: 'VT',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 367428,
+          votes: 242820,
+          percentage: 66.09),
+      const _StateElectionDetails(
+          state: 'Virginia',
+          stateCode: 'VA',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 4460524,
+          votes: 2413568,
+          percentage: 54.11),
+      const _StateElectionDetails(
+          state: 'West Virginia',
+          stateCode: 'WV',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 794731,
+          votes: 235984,
+          percentage: 68.62),
+      const _StateElectionDetails(
+          state: 'Wisconsin',
+          stateCode: 'WI',
+          candidate: 'Joe Biden',
+          party: 'Democratic',
+          totalVoters: 3298041,
+          votes: 1610184,
+          percentage: 49.45),
+      const _StateElectionDetails(
+          state: 'Wyoming',
+          stateCode: 'WY',
+          candidate: 'Donald Trump',
+          party: 'Republican',
+          totalVoters: 276765,
+          votes: 193559,
+          percentage: 69.94),
+    ];
+
+    _colorMappers = <MapColorMapper>[
+      const MapColorMapper(
+          from: 80,
+          to: 100,
+          color: Color.fromRGBO(0, 0, 81, 1.0),
+          text: '{Democratic},{}'),
+      const MapColorMapper(
+          from: 75, to: 80, color: Color.fromRGBO(0, 43, 132, 1.0), text: ''),
+      const MapColorMapper(
+          from: 70, to: 75, color: Color.fromRGBO(6, 69, 180, 1.0), text: ''),
+      const MapColorMapper(
+          from: 65, to: 70, color: Color.fromRGBO(22, 102, 203, 1.0), text: ''),
+      const MapColorMapper(
+          from: 60, to: 65, color: Color.fromRGBO(67, 137, 227, 1.0), text: ''),
+      const MapColorMapper(
+          from: 55, to: 60, color: Color.fromRGBO(80, 154, 242, 1.0), text: ''),
+      const MapColorMapper(
+          from: 45,
+          to: 55,
+          color: Color.fromRGBO(134, 182, 242, 1.0),
+          text: ''),
+      const MapColorMapper(
+          from: -55,
+          to: -45,
+          color: Color.fromRGBO(255, 178, 178, 1.0),
+          text: ''),
+      const MapColorMapper(
+          from: -60,
+          to: -55,
+          color: Color.fromRGBO(255, 127, 127, 1.0),
+          text: ''),
+      const MapColorMapper(
+          from: -65,
+          to: -60,
+          color: Color.fromRGBO(255, 76, 76, 1.0),
+          text: ''),
+      const MapColorMapper(
+          from: -70,
+          to: -65,
+          color: Color.fromRGBO(255, 50, 50, 1.0),
+          text: ''),
+      const MapColorMapper(
+          from: -75, to: -70, color: Color.fromRGBO(178, 0, 0, 1.0), text: ''),
+      const MapColorMapper(
+          from: -80, to: -75, color: Color.fromRGBO(127, 0, 0, 1.0), text: ''),
+      const MapColorMapper(
+          from: -100,
+          to: -80,
+          color: Color.fromRGBO(102, 0, 0, 1.0),
+          text: 'Republican'),
     ];
 
     _selectionMapSource = MapShapeSource.asset(
@@ -106,14 +507,20 @@ class _MapSelectionPageState extends SampleViewState {
       // exactly matched with the value of the [shapeDataField]
       // in the .json file. This is how the mapping between the
       // data source and the shapes in the .json file is done.
-      dataCount: _electionResults.length,
-      primaryValueMapper: (int index) => _electionResults[index].primaryKey,
+      dataCount: _stateWiseElectionResult.length,
+      primaryValueMapper: (int index) => _stateWiseElectionResult[index].state!,
       // Used for color mapping.
       //
       // The value of the [MapColorMapper.value] will be compared with the value
       // returned in the [shapeColorValueMapper]. If it is equal, the respective
       // [MapColorMapper.color] will be applied to the shape.
-      shapeColorValueMapper: (int index) => _electionResults[index].wonBy,
+      shapeColorValueMapper: (int index) {
+        if (_stateWiseElectionResult[index].candidate == 'Joe Biden') {
+          return _stateWiseElectionResult[index].percentage;
+        } else {
+          return -_stateWiseElectionResult[index].percentage!;
+        }
+      },
       // Group and differentiate the shapes using the color
       // based on [MapColorMapper.value] value.
       //
@@ -121,21 +528,26 @@ class _MapSelectionPageState extends SampleViewState {
       // will be compared with the value returned in the
       // [shapeColorValueMapper] and the respective [MapColorMapper.color]
       // will be applied to the shape.
-      shapeColorMappers: <MapColorMapper>[
-        const MapColorMapper(value: 'Democratic', color: Colors.blue),
-        const MapColorMapper(value: 'Republican', color: Colors.red),
-      ],
+      shapeColorMappers: _colorMappers,
+      dataLabelMapper: (int index) =>
+          _stateWiseElectionResult[index].stateCode!,
     );
+    super.initState();
   }
 
   @override
   void dispose() {
-    _electionResults.clear();
+    _stateWiseElectionResult.clear();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    isDesktop = kIsWeb ||
+        themeData.platform == TargetPlatform.macOS ||
+        themeData.platform == TargetPlatform.linux ||
+        themeData.platform == TargetPlatform.windows;
     return Scaffold(
         backgroundColor:
             model.isWebFullView ? model.cardThemeColor : model.cardThemeColor,
@@ -151,19 +563,21 @@ class _MapSelectionPageState extends SampleViewState {
             height =
                 height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
           }
+
+          final Size size = Size(constraints.maxWidth, height);
           return Center(
             child: SingleChildScrollView(
               child: SizedBox(
                 width: constraints.maxWidth,
                 height: height,
-                child: _buildMapsWidget(scrollEnabled),
+                child: _buildMapsWidget(scrollEnabled, size, themeData),
               ),
             ),
           );
         }));
   }
 
-  Widget _buildMapsWidget(bool scrollEnabled) {
+  Widget _buildMapsWidget(bool scrollEnabled, Size size, ThemeData themeData) {
     return Center(
         child: Padding(
       padding: scrollEnabled
@@ -178,7 +592,7 @@ class _MapSelectionPageState extends SampleViewState {
             padding: const EdgeInsets.only(top: 15, bottom: 30),
             child: Align(
                 alignment: Alignment.center,
-                child: Text('2016 US Election Results',
+                child: Text('2020 US Election Results',
                     style: Theme.of(context).textTheme.subtitle1))),
         Expanded(
             child: SfMaps(
@@ -194,14 +608,26 @@ class _MapSelectionPageState extends SampleViewState {
                 );
               },
               source: _selectionMapSource,
+              showDataLabels: true,
+              dataLabelSettings: const MapDataLabelSettings(
+                overflowMode: MapLabelOverflow.hide,
+                textStyle: TextStyle(color: Colors.black, fontSize: 9),
+              ),
               // Selection will not work if [MapShapeLayerDelegate.dataCount]
               // is null or empty.
               selectedIndex: _selectedIndex,
               strokeColor: Colors.white30,
-              legend: const MapLegend(
+              legend: MapLegend.bar(
                 MapElement.shape,
+                segmentSize: isDesktop
+                    ? const Size(25, 12)
+                    : Size((size.width * 0.80) / _colorMappers.length, 12.0),
+                edgeLabelsPlacement: MapLegendEdgeLabelsPlacement.inside,
+                labelOverflow: MapLabelOverflow.visible,
                 position: MapLegendPosition.bottom,
-                padding: EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 15),
+                spacing: 0.0,
+                textStyle: const TextStyle(fontSize: 10),
               ),
               selectionSettings: const MapSelectionSettings(
                   color: Color.fromRGBO(252, 177, 0, 1),
@@ -213,7 +639,7 @@ class _MapSelectionPageState extends SampleViewState {
                   ScaffoldMessenger.of(context).removeCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor:
-                        _electionResults[index].wonBy == 'Republican'
+                        _stateWiseElectionResult[index].party == 'Republican'
                             ? Colors.red
                             : Colors.blue,
                     content: Container(
@@ -224,7 +650,7 @@ class _MapSelectionPageState extends SampleViewState {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                Text(_electionResults[index].primaryKey,
+                                Text(_stateWiseElectionResult[index].state!,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline6!
@@ -256,10 +682,10 @@ class _MapSelectionPageState extends SampleViewState {
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white)),
                                 Text(
-                                    _electionResults[index].wonBy ==
+                                    _stateWiseElectionResult[index].party ==
                                             'Republican'
-                                        ? 'Trump'
-                                        : 'Clinton',
+                                        ? 'Donald Trump'
+                                        : 'Joe Biden',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText2!
@@ -279,8 +705,8 @@ class _MapSelectionPageState extends SampleViewState {
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white)),
                                 Text(
-                                    _electionResults[index]
-                                            .wonVotePercent
+                                    _stateWiseElectionResult[index]
+                                            .percentage
                                             .toString() +
                                         '%',
                                     style: Theme.of(context)
@@ -315,13 +741,21 @@ class _MapSelectionPageState extends SampleViewState {
   }
 }
 
-class _StateDetails {
-  _StateDetails(this.primaryKey, this.wonVotePercent, this.lostVotePercent,
-      this.state, this.wonBy);
+class _StateElectionDetails {
+  const _StateElectionDetails(
+      {required this.totalVoters,
+      this.state,
+      this.stateCode,
+      this.party,
+      this.candidate,
+      this.votes,
+      this.percentage});
 
-  final String primaryKey;
-  final double wonVotePercent;
-  final double lostVotePercent;
-  final String state;
-  final String wonBy;
+  final String? state;
+  final String? stateCode;
+  final double totalVoters;
+  final String? party;
+  final String? candidate;
+  final double? votes;
+  final double? percentage;
 }

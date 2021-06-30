@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 
 ///Local imports
 import '../../../../../model/sample_view.dart';
-import 'vertical_range_slider_divisor_customization.dart';
+import 'vertical_range_slider_divider_customization.dart';
 import 'vertical_range_slider_thumb_customization.dart';
 import 'vertical_range_slider_tick_customization.dart';
 
@@ -20,35 +20,10 @@ class VerticalShapeCustomizedRangeSliderPage extends SampleView {
 
 class _VerticalShapeCustomizedRangeSliderPageState extends SampleViewState {
   _VerticalShapeCustomizedRangeSliderPageState();
+  final GlobalKey dividerKey = GlobalKey();
+  final GlobalKey thumbKey = GlobalKey();
+  final GlobalKey tickKey = GlobalKey();
 
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _ShapeCustomizedRangeSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _ShapeCustomizedRangeSlider extends SampleView {
-  @override
-  _ShapeCustomizedRangeSliderState createState() =>
-      _ShapeCustomizedRangeSliderState();
-}
-
-class _ShapeCustomizedRangeSliderState extends SampleViewState {
   Widget _buildWebLayout() {
     return Center(
       child: Container(
@@ -67,15 +42,16 @@ class _ShapeCustomizedRangeSliderState extends SampleViewState {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Column(children: <Widget>[
-                Expanded(child: VerticalThumbCustomizedRangeSlider()),
+                Expanded(child: VerticalThumbCustomizedRangeSlider(thumbKey)),
                 const Text('Thumb')
               ]),
               Column(children: <Widget>[
-                Expanded(child: VerticalDivisorCustomizedRangeSlider()),
-                const Text('Divisor'),
+                Expanded(
+                    child: VerticalDividerCustomizedRangeSlider(dividerKey)),
+                const Text('Divider'),
               ]),
               Column(children: <Widget>[
-                Expanded(child: VerticalTickCustomizedRangeSlider()),
+                Expanded(child: VerticalTickCustomizedRangeSlider(tickKey)),
                 const Text('Tick'),
               ]),
             ]));
@@ -83,6 +59,14 @@ class _ShapeCustomizedRangeSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider));
+    });
   }
 }

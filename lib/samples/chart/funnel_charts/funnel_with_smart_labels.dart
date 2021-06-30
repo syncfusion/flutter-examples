@@ -37,8 +37,8 @@ class _FunnelSmartLabelState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           ListTile(
-            title: Text('Label Position  ',
-                style: TextStyle(color: model.textColor)),
+            title: Text('Label position  ',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
               padding: EdgeInsets.only(left: 0.07 * screenWidth),
               width: 0.4 * screenWidth,
@@ -61,7 +61,9 @@ class _FunnelSmartLabelState extends SampleViewState {
             ),
           ),
           ListTile(
-            title: Text('Smart label mode',
+            title: Text(
+                model.isWebFullView ? 'Smart label \nmode' : 'Smart label mode',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),

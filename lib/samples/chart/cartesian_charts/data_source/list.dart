@@ -30,7 +30,7 @@ class _LocalDataState extends SampleViewState {
             : const Color.fromRGBO(0, 0, 0, 0.03),
         lineWidth: 15,
         activationMode: ActivationMode.singleTap,
-        markerSettings: TrackballMarkerSettings(
+        markerSettings: const TrackballMarkerSettings(
             borderWidth: 4,
             height: 10,
             width: 10,

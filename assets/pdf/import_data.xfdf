@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xfdf xmlns="http://ns.adobe.com/xfdf/" xml:space="preserve">
+  <fields>
+    <field name="dob">
+      <value>05/01/1992</value>
+    </field>
+    <field name="name">
+      <value>John</value>
+    </field>
+    <field name="email">
+      <value>John.simonsbistro@gmail.com</value>
+    </field>
+    <field name="gender">
+      <value>Male</value>
+    </field>
+    <field name="state">
+      <value>Georgia</value>
+    </field>
+    <field name="newsletter">
+      <value>On</value>
+    </field>
+  </fields>
+  <f href=""/>
+</xfdf>

@@ -36,13 +36,13 @@ class _RadialImageAnnotationState extends SampleViewState {
             showTicks: false,
             showLabels: false,
             axisLineStyle: const AxisLineStyle(thickness: 20),
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               RangePointer(
                   value: 73,
                   width: 20,
-                  color: const Color(0xFFFFCD60),
+                  color: Color(0xFFFFCD60),
                   enableAnimation: true,
-                  gradient: const SweepGradient(
+                  gradient: SweepGradient(
                       colors: <Color>[Color(0xFFFCE38A), Color(0xFFF38181)],
                       stops: <double>[0.25, 0.75]),
                   cornerStyle: CornerStyle.bothCurve)

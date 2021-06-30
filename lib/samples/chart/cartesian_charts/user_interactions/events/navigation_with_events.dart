@@ -220,22 +220,6 @@ class _NavigationWithEventsState extends SampleViewState {
         ));
         launchHyperLink(args.value.toString());
       },
-      onPointTapped: (PointTapArgs args) {
-        _scaffoldKey.currentState?.showSnackBar(SnackBar(
-          width: model.isWebFullView
-              ? _measureText(
-                      'Data point tapped/clicked. Navigating to the link.')
-                  .width
-              : null,
-          behavior: SnackBarBehavior.floating,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5))),
-          duration: const Duration(milliseconds: 2000),
-          content:
-              const Text('Data point tapped/clicked. Navigating to the link.'),
-        ));
-        launchHyperLink(args.pointIndex.toString());
-      },
       primaryXAxis: CategoryAxis(
           labelIntersectAction: isCardView
               ? AxisLabelIntersectAction.multipleRows
@@ -293,11 +277,27 @@ class _NavigationWithEventsState extends SampleViewState {
   List<CartesianSeries<ChartSampleData, String>> _getDefaultSortingSeries() {
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
+        onPointTap: (ChartPointDetails args) {
+          _scaffoldKey.currentState?.showSnackBar(SnackBar(
+            width: model.isWebFullView
+                ? _measureText(
+                        'Data point tapped/clicked. Navigating to the link.')
+                    .width
+                : null,
+            behavior: SnackBarBehavior.floating,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            duration: const Duration(milliseconds: 2000),
+            content: const Text(
+                'Data point tapped/clicked. Navigating to the link.'),
+          ));
+          launchHyperLink(args.pointIndex.toString());
+        },
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         dataLabelSettings:
-            DataLabelSettings(isVisible: true, offset: const Offset(-5, 0)),
+            const DataLabelSettings(isVisible: true, offset: Offset(-5, 0)),
       )
     ];
   }

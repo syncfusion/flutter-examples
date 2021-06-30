@@ -51,7 +51,11 @@ class _PiePointRenderModeState extends SampleViewState {
                     physics: const ClampingScrollPhysics(),
                     children: <Widget>[
                       ListTile(
-                        title: Text('Point rendering mode',
+                        title: Text(
+                            model.isWebFullView
+                                ? 'Point \nrendering \nmode'
+                                : 'Point rendering mode',
+                            softWrap: false,
                             style: TextStyle(
                               color: model.textColor,
                             )),
@@ -116,7 +120,7 @@ class _PiePointRenderModeState extends SampleViewState {
       PieSeries<ChartSampleData, String>(
           radius: isCardView ? '70%' : '58%',
           dataLabelMapper: (ChartSampleData data, _) => data.text,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.outside),
           dataSource: pieData,
           pointRenderMode: _mode,

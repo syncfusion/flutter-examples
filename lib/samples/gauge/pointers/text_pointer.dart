@@ -38,14 +38,14 @@ class _RadialTextPointerState extends SampleViewState {
             maximum: 120,
             canScaleToFit: true,
             radiusFactor: 0.79,
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               NeedlePointer(
                   needleStartWidth: 1,
                   lengthUnit: GaugeSizeUnit.factor,
                   needleEndWidth: 5,
                   needleLength: 0.7,
                   value: 82,
-                  knobStyle: const KnobStyle(knobRadius: 0)),
+                  knobStyle: KnobStyle(knobRadius: 0)),
             ],
             ranges: <GaugeRange>[
               GaugeRange(

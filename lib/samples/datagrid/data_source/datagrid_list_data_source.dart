@@ -31,7 +31,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
     List<GridColumn> columns;
     columns = isWebOrDesktop
         ? <GridColumn>[
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
@@ -45,7 +45,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 150.0
                   : double.nan,
@@ -59,7 +59,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
@@ -73,7 +73,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
                   : double.nan,
@@ -87,7 +87,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
@@ -101,7 +101,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
@@ -117,7 +117,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
             )
           ]
         : <GridColumn>[
-            GridTextColumn(
+            GridColumn(
                 columnName: 'id',
                 label: Container(
                   padding: const EdgeInsets.all(8),
@@ -127,7 +127,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
                     overflow: TextOverflow.ellipsis,
                   ),
                 )),
-            GridTextColumn(
+            GridColumn(
               columnName: 'customerId',
               columnWidthMode: isLandscapeInMobileView
                   ? ColumnWidthMode.fill
@@ -141,7 +141,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'name',
               label: Container(
                 padding: const EdgeInsets.all(8),
@@ -152,7 +152,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
                 columnName: 'city',
                 label: Container(
                   padding: const EdgeInsets.all(8),

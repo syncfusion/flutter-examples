@@ -45,18 +45,18 @@ class _RadialBounceOutExampleState extends SampleViewState {
                 fontStyle: FontStyle.italic),
             minorTicksPerInterval: 9,
             interval: 2,
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               NeedlePointer(
                   value: 0,
                   needleStartWidth: 2,
                   needleEndWidth: 2,
-                  needleColor: const Color(0xFFF67280),
+                  needleColor: Color(0xFFF67280),
                   needleLength: 0.8,
                   lengthUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationType: AnimationType.bounceOut,
                   animationDuration: 1500,
-                  knobStyle: const KnobStyle(
+                  knobStyle: KnobStyle(
                       knobRadius: 8,
                       sizeUnit: GaugeSizeUnit.logicalPixel,
                       color: Color(0xFFF67280)))

@@ -20,6 +20,7 @@ class DefaultSelection extends SampleView {
 class _DefaultSelectionState extends SampleViewState {
   _DefaultSelectionState();
   late bool _enableMultiSelect;
+  late bool _toggleSelection;
 
   final List<String> _modeList =
       <String>['point', 'series', 'cluster'].toList();
@@ -33,13 +34,16 @@ class _DefaultSelectionState extends SampleViewState {
     _selectedMode = 'point';
     _mode = SelectionType.point;
     _enableMultiSelect = false;
-    _selectionBehavior =
-        SelectionBehavior(enable: true, unselectedOpacity: 0.5);
+    _toggleSelection = true;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    _selectionBehavior = SelectionBehavior(
+        enable: true,
+        unselectedOpacity: 0.5,
+        toggleSelection: _toggleSelection);
     return _buildDefaultSelectionChart();
   }
 
@@ -54,6 +58,7 @@ class _DefaultSelectionState extends SampleViewState {
         children: <Widget>[
           ListTile(
               title: Text('Mode',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),
@@ -79,7 +84,11 @@ class _DefaultSelectionState extends SampleViewState {
                     }),
               )),
           ListTile(
-              title: Text('Enable multi-selection',
+              title: Text(
+                  model.isWebFullView
+                      ? 'Enable multi-\nselection'
+                      : 'Enable multi-selection',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),
@@ -94,6 +103,29 @@ class _DefaultSelectionState extends SampleViewState {
                       onChanged: (bool? value) {
                         setState(() {
                           _enableMultiSelect = value!;
+                          stateSetter(() {});
+                        });
+                      }))),
+          ListTile(
+              title: Text(
+                  model.isWebFullView
+                      ? 'Toggle \nselection'
+                      : 'Toggle selection',
+                  softWrap: false,
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                  width: 0.4 * screenWidth,
+                  child: CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      activeColor: model.backgroundColor,
+                      value: _toggleSelection,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _toggleSelection = value!;
                           stateSetter(() {});
                         });
                       }))),

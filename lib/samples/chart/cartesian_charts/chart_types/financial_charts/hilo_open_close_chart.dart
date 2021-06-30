@@ -121,10 +121,10 @@ class _HiloOpenCloseChartState extends SampleViewState {
           close: 92.04),
       ChartSampleData(
           x: DateTime(2016, 02, 22),
-          open: 96.31,
+          open: 98.0237,
           high: 98.0237,
           low: 98.0237,
-          close: 96.31),
+          close: 98.0237),
       ChartSampleData(
           x: DateTime(2016, 02, 29),
           open: 99.86,
@@ -355,10 +355,10 @@ class _HiloOpenCloseChartState extends SampleViewState {
           close: 110.06),
       ChartSampleData(
           x: DateTime(2016, 11, 21),
-          open: 114.12,
+          open: 115.42,
           high: 115.42,
           low: 115.42,
-          close: 114.12),
+          close: 115.42),
       ChartSampleData(
           x: DateTime(2016, 11, 28),
           open: 111.43,

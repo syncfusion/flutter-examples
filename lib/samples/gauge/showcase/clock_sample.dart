@@ -23,6 +23,7 @@ class ClockExample extends SampleView {
 class _ClockExampleState extends SampleViewState {
   _ClockExampleState();
   late Timer timer;
+  bool enableNeedleAnimation = true;
 
   @override
   void initState() {
@@ -34,8 +35,16 @@ class _ClockExampleState extends SampleViewState {
   void _updateData(Timer timer) {
     final double _previousValue = _value;
     setState(() {
-      _value =
-          (_previousValue >= 0 && _previousValue < 12) ? _value + 0.2 : 0.2;
+      if (_previousValue >= 0 && _previousValue < 12) {
+        if (!enableNeedleAnimation) {
+          enableNeedleAnimation = true;
+        }
+
+        _value = _value + 0.2;
+      } else {
+        enableNeedleAnimation = false;
+        _value = 0;
+      }
     });
   }
 
@@ -84,15 +93,15 @@ class _ClockExampleState extends SampleViewState {
                 length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 1),
             axisLineStyle: const AxisLineStyle(
                 thickness: 0.03, thicknessUnit: GaugeSizeUnit.factor),
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               NeedlePointer(
                 value: 5,
                 needleLength: 0.7,
                 lengthUnit: GaugeSizeUnit.factor,
-                needleColor: const Color(0xFF00A8B5),
+                needleColor: Color(0xFF00A8B5),
                 needleStartWidth: 0.5,
                 needleEndWidth: 1,
-                knobStyle: const KnobStyle(
+                knobStyle: KnobStyle(
                   knobRadius: 0,
                 ),
               )
@@ -129,15 +138,15 @@ class _ClockExampleState extends SampleViewState {
             ),
             axisLineStyle: const AxisLineStyle(
                 thicknessUnit: GaugeSizeUnit.factor, thickness: 0.03),
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               NeedlePointer(
                 value: 8,
                 needleLength: 0.7,
                 lengthUnit: GaugeSizeUnit.factor,
-                needleColor: const Color(0xFF00A8B5),
+                needleColor: Color(0xFF00A8B5),
                 needleStartWidth: 0.5,
                 needleEndWidth: 1,
-                knobStyle: const KnobStyle(knobRadius: 0),
+                knobStyle: KnobStyle(knobRadius: 0),
               )
             ]),
         // Renders outer axis
@@ -183,7 +192,7 @@ class _ClockExampleState extends SampleViewState {
               NeedlePointer(
                   needleLength: 0.9,
                   lengthUnit: GaugeSizeUnit.factor,
-                  enableAnimation: true,
+                  enableAnimation: enableNeedleAnimation,
                   animationType: AnimationType.bounceOut,
                   needleStartWidth: 0.8,
                   needleEndWidth: 0.8,

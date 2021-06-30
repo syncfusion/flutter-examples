@@ -64,25 +64,25 @@ class _StackedColumn100ChartState extends SampleViewState {
     return <ChartSeries<_ChartData, String>>[
       StackedColumn100Series<_ChartData, String>(
           dataSource: chartData,
-          dataLabelSettings: DataLabelSettings(isVisible: true),
+          dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y1,
           name: 'Product A'),
       StackedColumn100Series<_ChartData, String>(
           dataSource: chartData,
-          dataLabelSettings: DataLabelSettings(isVisible: true),
+          dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2,
           name: 'Product B'),
       StackedColumn100Series<_ChartData, String>(
           dataSource: chartData,
-          dataLabelSettings: DataLabelSettings(isVisible: true),
+          dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y3,
           name: 'Product C'),
       StackedColumn100Series<_ChartData, String>(
           dataSource: chartData,
-          dataLabelSettings: DataLabelSettings(isVisible: true),
+          dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y4,
           name: 'Product D')

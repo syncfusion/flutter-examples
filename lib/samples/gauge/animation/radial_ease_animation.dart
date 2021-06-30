@@ -71,14 +71,14 @@ class _RadialEaseExampleState extends SampleViewState {
               ))
             ],
             pointers: <GaugePointer>[
-              RangePointer(
+              const RangePointer(
                 value: 11.5,
                 width: 0.1,
-                color: const Color(0xFFF67280),
+                color: Color(0xFFF67280),
                 enableAnimation: true,
                 sizeUnit: GaugeSizeUnit.factor,
                 animationType: AnimationType.ease,
-                gradient: const SweepGradient(
+                gradient: SweepGradient(
                     colors: <Color>[Color(0xFFFFB397), Color(0xFFF46AA0)],
                     stops: <double>[0.25, 0.75]),
               ),

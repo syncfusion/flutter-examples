@@ -34,8 +34,8 @@ class _FunnelDefaultState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           ListTile(
-            title:
-                Text('Gap ratio  ', style: TextStyle(color: model.textColor)),
+            title: Text('Gap ratio  ',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
               padding: EdgeInsets.only(left: 0.03 * screenWidth),
               width: 0.5 * screenWidth,
@@ -52,8 +52,8 @@ class _FunnelDefaultState extends SampleViewState {
             ),
           ),
           ListTile(
-            title:
-                Text('Neck height  ', style: TextStyle(color: model.textColor)),
+            title: Text(model.isWebFullView ? 'Neck \nheight' : 'Neck height  ',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
               padding: EdgeInsets.only(left: 0.03 * screenWidth),
               width: 0.5 * screenWidth,
@@ -70,7 +70,8 @@ class _FunnelDefaultState extends SampleViewState {
             ),
           ),
           ListTile(
-            title: Text('Neck width', style: TextStyle(color: model.textColor)),
+            title: Text('Neck width',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
               padding: EdgeInsets.only(left: 0.03 * screenWidth),
               width: 0.5 * screenWidth,
@@ -88,6 +89,7 @@ class _FunnelDefaultState extends SampleViewState {
           ),
           ListTile(
               title: Text('Explode',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),
@@ -148,6 +150,6 @@ class _FunnelDefaultState extends SampleViewState {
         gapRatio: isCardView ? 0 : gapRatio,
         neckHeight: isCardView ? '20%' : neckHeight.toString() + '%',
         neckWidth: isCardView ? '20%' : neckWidth.toString() + '%',
-        dataLabelSettings: DataLabelSettings(isVisible: true));
+        dataLabelSettings: const DataLabelSettings(isVisible: true));
   }
 }

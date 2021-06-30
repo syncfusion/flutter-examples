@@ -1,16 +1,17 @@
 ///Dart import
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
+
 /// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart';
-
-/// DataGrid Package
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+/// DataGrid Package
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../model/sample_view.dart';
@@ -56,7 +57,7 @@ class _PagingDataGridState extends SampleViewState {
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
         columns: <GridColumn>[
-          GridTextColumn(
+          GridColumn(
               columnName: 'orderID',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
@@ -72,7 +73,7 @@ class _PagingDataGridState extends SampleViewState {
               columnWidthMode: isLandscapeInMobileView
                   ? ColumnWidthMode.fill
                   : ColumnWidthMode.none),
-          GridTextColumn(
+          GridColumn(
               columnName: 'customerID',
               width: 130.0,
               label: Container(
@@ -83,7 +84,7 @@ class _PagingDataGridState extends SampleViewState {
                   overflow: TextOverflow.ellipsis,
                 ),
               )),
-          GridTextColumn(
+          GridColumn(
             columnName: 'orderDate',
             width: !isWebOrDesktop
                 ? 110
@@ -99,7 +100,7 @@ class _PagingDataGridState extends SampleViewState {
               ),
             ),
           ),
-          GridTextColumn(
+          GridColumn(
             columnName: 'freight',
             width: (isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
@@ -116,7 +117,7 @@ class _PagingDataGridState extends SampleViewState {
                 ? ColumnWidthMode.fill
                 : ColumnWidthMode.none,
           ),
-          GridTextColumn(
+          GridColumn(
             columnName: 'shippingDate',
             width: !isWebOrDesktop
                 ? 120
@@ -132,7 +133,7 @@ class _PagingDataGridState extends SampleViewState {
               ),
             ),
           ),
-          GridTextColumn(
+          GridColumn(
               columnName: 'shipCountry',
               width: !isWebOrDesktop
                   ? 120

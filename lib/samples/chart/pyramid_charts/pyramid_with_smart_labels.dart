@@ -39,7 +39,7 @@ class _PyramidSmartLabelState extends SampleViewState {
         children: <Widget>[
           ListTile(
             title: Text('Label position  ',
-                style: TextStyle(color: model.textColor)),
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
               padding: EdgeInsets.only(left: 0.07 * screenWidth),
               width: 0.4 * screenWidth,
@@ -62,7 +62,9 @@ class _PyramidSmartLabelState extends SampleViewState {
             ),
           ),
           ListTile(
-            title: Text('Smart label mode',
+            title: Text(
+                model.isWebFullView ? 'Smart label \nmode' : 'Smart label mode',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),

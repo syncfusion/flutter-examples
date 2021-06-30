@@ -43,10 +43,12 @@ class _PieGradientState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           ListTile(
-            title: Text('Gradient mode',
-                style: TextStyle(
-                  color: model.textColor,
-                )),
+            title:
+                Text(model.isWebFullView ? 'Gradient \nmode' : 'Gradient mode',
+                    softWrap: false,
+                    style: TextStyle(
+                      color: model.textColor,
+                    )),
             trailing: Container(
               padding: EdgeInsets.only(left: 0.07 * screenWidth),
               width: 0.5 * screenWidth,
@@ -142,9 +144,9 @@ class _PieGradientState extends SampleViewState {
               ? Colors.black.withOpacity(0.3)
               : Colors.white.withOpacity(0.3),
           strokeWidth: 1.5,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
             isVisible: true,
-            textStyle: const TextStyle(fontSize: 13, color: Colors.white),
+            textStyle: TextStyle(fontSize: 13, color: Colors.white),
           ),
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,

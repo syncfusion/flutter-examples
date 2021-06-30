@@ -1,10 +1,11 @@
 ///Dart import
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
+
 /// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart';
 
 /// Barcode import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -36,12 +37,12 @@ class _GettingStartedDataGridState extends SampleViewState {
       columnWidthMode: ColumnWidthMode.fill,
       rowHeight: 50,
       columns: <GridColumn>[
-        GridTextColumn(
+        GridColumn(
           columnName: 'image',
           width: 51,
           label: const SizedBox.shrink(),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'team',
           width: !isWebOrDesktop ? 90 : double.nan,
           label: Container(
@@ -49,20 +50,19 @@ class _GettingStartedDataGridState extends SampleViewState {
             child: const Text('Team'),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'wins',
           label: const Center(
             child: Text('W'),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
             columnName: 'losses',
             label: const Center(
               child: Text('L'),
             )),
-        GridTextColumn(
-            columnName: 'pct', label: const Center(child: Text('WPCT'))),
-        GridTextColumn(
+        GridColumn(columnName: 'pct', label: const Center(child: Text('WPCT'))),
+        GridColumn(
           columnName: 'gb',
           label: const Center(child: Text('GB')),
         ),
@@ -104,7 +104,7 @@ class _GettingStartedDataGridState extends SampleViewState {
     return SfDataGrid(
       source: employeeDataGridSource,
       columns: <GridColumn>[
-        GridTextColumn(
+        GridColumn(
             width: 130,
             columnName: 'employeeName',
             label: Container(
@@ -115,7 +115,7 @@ class _GettingStartedDataGridState extends SampleViewState {
                 overflow: TextOverflow.ellipsis,
               ),
             )),
-        GridTextColumn(
+        GridColumn(
           columnName: 'designation',
           width: (model.isWeb || model.isMacOS || model.isLinux) ? 150 : 130,
           label: Container(
@@ -127,7 +127,7 @@ class _GettingStartedDataGridState extends SampleViewState {
             ),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'mail',
           width: 180.0,
           label: Container(
@@ -139,7 +139,7 @@ class _GettingStartedDataGridState extends SampleViewState {
             ),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'location',
           width: model.isLinux ? 120.0 : 105.0,
           label: Container(
@@ -151,7 +151,7 @@ class _GettingStartedDataGridState extends SampleViewState {
             ),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'status',
           label: Container(
               padding: const EdgeInsets.all(8.0),
@@ -161,7 +161,7 @@ class _GettingStartedDataGridState extends SampleViewState {
                 overflow: TextOverflow.ellipsis,
               )),
         ),
-        GridTextColumn(
+        GridColumn(
             columnName: 'trustworthiness',
             width: 130,
             label: Container(
@@ -171,7 +171,7 @@ class _GettingStartedDataGridState extends SampleViewState {
                   'Trustworthiness',
                   overflow: TextOverflow.ellipsis,
                 ))),
-        GridTextColumn(
+        GridColumn(
             columnName: 'softwareProficiency',
             width: 165,
             label: Container(
@@ -181,7 +181,7 @@ class _GettingStartedDataGridState extends SampleViewState {
                   'Software Proficiency',
                   overflow: TextOverflow.ellipsis,
                 ))),
-        GridTextColumn(
+        GridColumn(
           columnName: 'salary',
           label: Container(
               padding: const EdgeInsets.all(8.0),
@@ -191,7 +191,7 @@ class _GettingStartedDataGridState extends SampleViewState {
                 overflow: TextOverflow.ellipsis,
               )),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'address',
           width: 200,
           label: Container(

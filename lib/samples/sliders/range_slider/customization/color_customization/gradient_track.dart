@@ -14,6 +14,9 @@ import '../../../slider_utils.dart';
 
 /// Renders range slider with gradient track
 class GradientTrackRangeSlider extends SampleView {
+  ///Creates range slider with gradient track.
+  const GradientTrackRangeSlider(Key key) : super(key: key);
+
   @override
   _GradientTrackRangeSliderState createState() =>
       _GradientTrackRangeSliderState();
@@ -63,14 +66,14 @@ class _GradientTrackRangeSliderState extends SampleViewState {
   SfRangeSliderTheme _rangeSliderWithThumbCustomization() {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-          inactiveDivisorColor: Colors.white,
-          activeDivisorColor: Colors.white,
-          activeDivisorStrokeWidth: 2,
-          activeDivisorStrokeColor: _inactiveColor,
-          inactiveDivisorStrokeWidth: 2,
-          inactiveDivisorStrokeColor: Colors.tealAccent,
-          activeDivisorRadius: 5.0,
-          inactiveDivisorRadius: 5.0,
+          inactiveDividerColor: Colors.white,
+          activeDividerColor: Colors.white,
+          activeDividerStrokeWidth: 2,
+          activeDividerStrokeColor: _inactiveColor,
+          inactiveDividerStrokeWidth: 2,
+          inactiveDividerStrokeColor: Colors.tealAccent,
+          activeDividerRadius: 5.0,
+          inactiveDividerRadius: 5.0,
           activeTrackColor: Colors.tealAccent,
           inactiveTrackColor: _inactiveColor,
           overlayColor: Colors.tealAccent.withOpacity(0.12),
@@ -82,7 +85,7 @@ class _GradientTrackRangeSliderState extends SampleViewState {
         max: 100.0,
         interval: 20.0,
         showLabels: true,
-        showDivisors: true,
+        showDividers: true,
         values: _sliderValues,
         onChanged: (SfRangeValues values) {
           setState(() {
@@ -99,7 +102,7 @@ class _GradientTrackRangeSliderState extends SampleViewState {
       children: <Widget>[
         _TrackColorCustomizedRangeSlider(),
         const SizedBox(height: 25),
-        title('Thumb and divisor stroke color'),
+        title('Thumb and divider stroke color'),
         columnSpacing10,
         _rangeSliderWithThumbCustomization(),
         const SizedBox(height: 25),

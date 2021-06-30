@@ -48,26 +48,26 @@ class _RadialSlowMiddleAnimationState extends SampleViewState {
             minorTickStyle: const MinorTickStyle(
                 length: 0.07, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
             pointers: <GaugePointer>[
-              NeedlePointer(
+              const NeedlePointer(
                   needleLength: 0.95,
                   needleStartWidth: 0,
                   lengthUnit: GaugeSizeUnit.factor,
                   needleEndWidth: 5,
-                  needleColor: const Color(0xFFC06C84),
-                  knobStyle: const KnobStyle(knobRadius: 0),
+                  needleColor: Color(0xFFC06C84),
+                  knobStyle: KnobStyle(knobRadius: 0),
                   value: 11,
                   enableAnimation: true,
                   animationType: AnimationType.slowMiddle),
-              NeedlePointer(
+              const NeedlePointer(
                 needleLength: 0.7,
                 needleStartWidth: 0,
                 lengthUnit: GaugeSizeUnit.factor,
                 needleEndWidth: 5,
-                needleColor: const Color(0xFFF67280),
+                needleColor: Color(0xFFF67280),
                 value: 2,
                 enableAnimation: true,
                 animationType: AnimationType.slowMiddle,
-                knobStyle: const KnobStyle(
+                knobStyle: KnobStyle(
                     color: Color(0xFFF67280),
                     sizeUnit: GaugeSizeUnit.logicalPixel,
                     knobRadius: 10),

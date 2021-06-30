@@ -22,35 +22,6 @@ class VerticalThumbCustomizationSliderPage extends SampleView {
 
 class _VerticalThumbCustomizationSliderPageState extends SampleViewState {
   _VerticalThumbCustomizationSliderPageState();
-
-  late Widget slider;
-
-  @override
-  void initState() {
-    super.initState();
-    slider = _ThumbCustomizationSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 350
-          ? slider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: slider),
-            );
-    });
-  }
-}
-
-class _ThumbCustomizationSlider extends SampleView {
-  @override
-  _ThumbCustomizationSliderState createState() =>
-      _ThumbCustomizationSliderState();
-}
-
-class _ThumbCustomizationSliderState extends SampleViewState {
   double _thumbValue = 4.0;
   final double _thumbMin = 0.0;
   final double _thumbMax = 10.0;
@@ -151,6 +122,13 @@ class _ThumbCustomizationSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget slider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
+    });
   }
 }

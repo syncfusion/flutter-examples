@@ -64,8 +64,8 @@ class _ColumnDefaultState extends SampleViewState {
         dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        dataLabelSettings: DataLabelSettings(
-            isVisible: true, textStyle: const TextStyle(fontSize: 10)),
+        dataLabelSettings: const DataLabelSettings(
+            isVisible: true, textStyle: TextStyle(fontSize: 10)),
       )
     ];
   }

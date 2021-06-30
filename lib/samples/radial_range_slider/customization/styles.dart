@@ -551,6 +551,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   Widget _buildSixthSlider() {
+    final Orientation _orientation = MediaQuery.of(context).orientation;
     return Container(
       height: _size,
       width: _size,
@@ -568,13 +569,23 @@ class _RadialRangeSliderStylesState extends SampleViewState {
               endAngle: 270,
               ranges: <GaugeRange>[
                 GaugeRange(
-                    endValue: _twelethMarkerValue,
-                    startValue: _eleventhMarkerValue,
-                    sizeUnit: GaugeSizeUnit.factor,
-                    color: const Color.fromRGBO(135, 80, 221, 1),
-                    endWidth: 0.17,
-                    rangeOffset: 0.17,
-                    startWidth: 0.17),
+                  endValue: _twelethMarkerValue,
+                  startValue: _eleventhMarkerValue,
+                  sizeUnit: GaugeSizeUnit.factor,
+                  color: const Color.fromRGBO(135, 80, 221, 1),
+                  endWidth:
+                      model.isMobile && _orientation == Orientation.landscape
+                          ? 0.13
+                          : 0.17,
+                  rangeOffset:
+                      model.isMobile && _orientation == Orientation.landscape
+                          ? 0.13
+                          : 0.17,
+                  startWidth:
+                      model.isMobile && _orientation == Orientation.landscape
+                          ? 0.13
+                          : 0.17,
+                ),
               ],
               pointers: <GaugePointer>[
                 NeedlePointer(
@@ -589,9 +600,17 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     onValueChanged: handleTwelethPointerValueChanged,
                     // onValueChangeEnd: handleTwelethPointerValueChanged,
                     onValueChanging: handleTwelethPointerValueChanging,
-                    needleLength: 0.82,
+                    needleLength:
+                        model.isMobile && _orientation == Orientation.landscape
+                            ? 0.85
+                            : 0.82,
                     knobStyle: KnobStyle(
-                      knobRadius: model.isWebFullView ? 0.4 : 0.3,
+                      knobRadius: model.isWebFullView
+                          ? 0.4
+                          : model.isMobile &&
+                                  _orientation == Orientation.landscape
+                              ? 0.6
+                              : 0.3,
                       borderWidth: 0.05,
                       borderColor:
                           model.currentThemeData!.brightness == Brightness.light
@@ -614,9 +633,17 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     onValueChanged: handleEleventhPointerValueChanged,
                     // onValueChangeEnd: handleEleventhPointerValueChanged,
                     onValueChanging: handleEleventhPointerValueChanging,
-                    needleLength: 0.82,
+                    needleLength:
+                        model.isMobile && _orientation == Orientation.landscape
+                            ? 0.85
+                            : 0.82,
                     knobStyle: KnobStyle(
-                      knobRadius: model.isWebFullView ? 0.4 : 0.3,
+                      knobRadius: model.isWebFullView
+                          ? 0.4
+                          : model.isMobile &&
+                                  _orientation == Orientation.landscape
+                              ? 0.6
+                              : 0.3,
                       borderWidth: 0.05,
                       borderColor:
                           model.currentThemeData!.brightness == Brightness.light

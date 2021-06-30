@@ -20,6 +20,8 @@ class HierarchicalTreemapSample extends SampleView {
 class _HierarchicalTreemapSampleState extends SampleViewState {
   late List<_FootballTeamDetails> _europeanCupAndUEFALeagueWinners;
   late bool isDesktop;
+  late List<DropdownMenuItem<TreemapLayoutDirection>> _dropDownMenuItems;
+  TreemapLayoutDirection _layoutDirection = TreemapLayoutDirection.topLeft;
 
   @override
   void initState() {
@@ -62,13 +64,30 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
           nation: 'YUG', team: 'Red Star Belgrade', titles: 1),
     ];
 
+    _dropDownMenuItems = _getDropDownMenuItems();
+    _layoutDirection = _dropDownMenuItems[0].value!;
     super.initState();
   }
 
   @override
   void dispose() {
+    _dropDownMenuItems.clear();
     _europeanCupAndUEFALeagueWinners.clear();
     super.dispose();
+  }
+
+  List<DropdownMenuItem<TreemapLayoutDirection>> _getDropDownMenuItems() {
+    return <DropdownMenuItem<TreemapLayoutDirection>>[
+      const DropdownMenuItem<TreemapLayoutDirection>(
+          value: TreemapLayoutDirection.topLeft, child: Text('topLeft')),
+      const DropdownMenuItem<TreemapLayoutDirection>(
+          value: TreemapLayoutDirection.bottomLeft, child: Text('bottomLeft')),
+      const DropdownMenuItem<TreemapLayoutDirection>(
+          value: TreemapLayoutDirection.topRight, child: Text('topRight')),
+      const DropdownMenuItem<TreemapLayoutDirection>(
+          value: TreemapLayoutDirection.bottomRight,
+          child: Text('bottomRight')),
+    ];
   }
 
   @override
@@ -106,6 +125,7 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
                   weightValueMapper: (int index) {
                     return _europeanCupAndUEFALeagueWinners[index].titles;
                   },
+                  layoutDirection: _layoutDirection,
                   tooltipSettings: const TreemapTooltipSettings(
                     color: Color.fromRGBO(2, 99, 103, 1.0),
                   ),
@@ -135,13 +155,16 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
         // Returns a widget for each tile's data label.
         labelBuilder: (BuildContext context, TreemapTile tile) {
           return Padding(
-            padding: const EdgeInsets.only(left: 6, top: 4.0),
-            child: Text(
-              tile.group,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Theme.of(context).textTheme.caption!.fontSize),
+            padding: _getHeaderLabelPadding(),
+            child: Align(
+              alignment: _getLabelAlignment(),
+              child: Text(
+                tile.group,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Theme.of(context).textTheme.caption!.fontSize),
+              ),
             ),
           );
         },
@@ -160,13 +183,16 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
         // Returns a widget for each tile's data label.
         labelBuilder: (BuildContext context, TreemapTile tile) {
           return Padding(
-            padding: const EdgeInsets.only(left: 4.0, top: 2.0),
-            child: Text(
-              tile.group,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: Theme.of(context).textTheme.caption!.fontSize),
+            padding: _getLabelPadding(),
+            child: Align(
+              alignment: _getLabelAlignment(),
+              child: Text(
+                tile.group,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: Theme.of(context).textTheme.caption!.fontSize),
+              ),
             ),
           );
         },
@@ -194,6 +220,102 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
         },
       ),
     ];
+  }
+
+  EdgeInsets _getHeaderLabelPadding() {
+    switch (_layoutDirection) {
+      case TreemapLayoutDirection.topLeft:
+        return const EdgeInsets.only(left: 6.0, top: 4.0);
+      case TreemapLayoutDirection.topRight:
+        return const EdgeInsets.only(right: 6.0, top: 4.0);
+      case TreemapLayoutDirection.bottomLeft:
+        return const EdgeInsets.only(left: 6.0, top: 4.0);
+      case TreemapLayoutDirection.bottomRight:
+        return const EdgeInsets.only(right: 6.0, top: 4.0);
+    }
+  }
+
+  EdgeInsets _getLabelPadding() {
+    switch (_layoutDirection) {
+      case TreemapLayoutDirection.topLeft:
+        return const EdgeInsets.only(left: 4.0, top: 2.0);
+      case TreemapLayoutDirection.topRight:
+        return const EdgeInsets.only(right: 4.0, top: 2.0, left: 4.0);
+      case TreemapLayoutDirection.bottomLeft:
+        return const EdgeInsets.only(left: 4.0, bottom: 2.0);
+      case TreemapLayoutDirection.bottomRight:
+        return const EdgeInsets.only(right: 4.0, bottom: 2.0, left: 4.0);
+    }
+  }
+
+  Alignment _getLabelAlignment() {
+    switch (_layoutDirection) {
+      case TreemapLayoutDirection.topLeft:
+        return Alignment.topLeft;
+      case TreemapLayoutDirection.topRight:
+        return Alignment.topRight;
+      case TreemapLayoutDirection.bottomLeft:
+        return Alignment.bottomLeft;
+      case TreemapLayoutDirection.bottomRight:
+        return Alignment.bottomRight;
+    }
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Layout direction',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: DropdownButton<TreemapLayoutDirection>(
+                    value: _layoutDirection,
+                    items: _dropDownMenuItems,
+                    onChanged: (TreemapLayoutDirection? value) {
+                      setState(
+                        () {
+                          _layoutDirection = value!;
+                          switch (_layoutDirection) {
+                            case TreemapLayoutDirection.topLeft:
+                              _layoutDirection = TreemapLayoutDirection.topLeft;
+                              break;
+                            case TreemapLayoutDirection.topRight:
+                              _layoutDirection =
+                                  TreemapLayoutDirection.topRight;
+                              break;
+                            case TreemapLayoutDirection.bottomLeft:
+                              _layoutDirection =
+                                  TreemapLayoutDirection.bottomLeft;
+                              break;
+                            case TreemapLayoutDirection.bottomRight:
+                              _layoutDirection =
+                                  TreemapLayoutDirection.bottomRight;
+                              break;
+                          }
+                          stateSetter(() {});
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 

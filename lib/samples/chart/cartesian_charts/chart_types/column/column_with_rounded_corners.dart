@@ -65,7 +65,7 @@ class _ColumnRoundedState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         width: 0.9,
-        dataLabelSettings: DataLabelSettings(
+        dataLabelSettings: const DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.top),
         dataSource: chartData,
 

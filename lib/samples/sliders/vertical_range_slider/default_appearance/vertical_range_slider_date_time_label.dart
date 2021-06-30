@@ -23,34 +23,6 @@ class VerticalDateRangeSliderPage extends SampleView {
 
 class _VerticalDateRangeSliderPageState extends SampleViewState {
   _VerticalDateRangeSliderPageState();
-
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _DateRangeSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _DateRangeSlider extends SampleView {
-  @override
-  _DateRangeSliderState createState() => _DateRangeSliderState();
-}
-
-class _DateRangeSliderState extends SampleViewState {
   SfRangeValues _yearValues =
       SfRangeValues(DateTime(2002, 4, 01), DateTime(2003, 10, 01));
   SfRangeValues _hourValues = SfRangeValues(
@@ -141,6 +113,14 @@ class _DateRangeSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider));
+    });
   }
 }

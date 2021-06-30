@@ -1,10 +1,11 @@
 /// Dart import
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
+
 /// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart';
 
 /// Barcode import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -42,16 +43,16 @@ class _SelectionDataGridPageState extends SampleViewState {
 
   /// Selection modes for drop down widget
   final List<String> _encoding = <String>[
-    'None',
-    'Single',
-    'Single Deselect',
-    'Multiple',
+    'none',
+    'single',
+    'singleDeselect',
+    'multiple',
   ];
 
   /// Navigation modes for drop down widget
   final List<String> _navigation = <String>[
-    'Cell',
-    'Row',
+    'cell',
+    'row',
   ];
 
   /// DataGridController to do the programmatical selection.
@@ -68,16 +69,16 @@ class _SelectionDataGridPageState extends SampleViewState {
   void _onSelectionModeChanged(String item) {
     _selectionMode = item;
     switch (_selectionMode) {
-      case 'None':
+      case 'none':
         selectionMode = SelectionMode.none;
         break;
-      case 'Single':
+      case 'single':
         selectionMode = SelectionMode.single;
         break;
-      case 'Single Deselect':
+      case 'singleDeselect':
         selectionMode = SelectionMode.singleDeselect;
         break;
-      case 'Multiple':
+      case 'multiple':
         selectionMode = SelectionMode.multiple;
         break;
     }
@@ -89,10 +90,10 @@ class _SelectionDataGridPageState extends SampleViewState {
   void _onNavigationModeChanged(String item) {
     _navigationMode = item;
     switch (_navigationMode) {
-      case 'Cell':
+      case 'cell':
         navigationMode = GridNavigationMode.cell;
         break;
-      case 'Row':
+      case 'row':
         navigationMode = GridNavigationMode.row;
         break;
     }
@@ -106,7 +107,7 @@ class _SelectionDataGridPageState extends SampleViewState {
 
     columns = isWebOrDesktop
         ? <GridColumn>[
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
@@ -120,7 +121,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 150.0
                   : double.nan,
@@ -134,7 +135,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
@@ -148,7 +149,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
                   : double.nan,
@@ -162,7 +163,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
@@ -176,7 +177,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
                 width: (isWebOrDesktop && model.isMobileResolution)
                     ? 120.0
                     : double.nan,
@@ -191,7 +192,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                 ))
           ]
         : <GridColumn>[
-            GridTextColumn(
+            GridColumn(
               columnName: 'id',
               label: Container(
                 padding: const EdgeInsets.all(8),
@@ -202,7 +203,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'customerId',
               width: 110,
               label: Container(
@@ -214,7 +215,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'name',
               label: Container(
                 padding: const EdgeInsets.all(8),
@@ -225,7 +226,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
                 columnName: 'city',
                 label: Container(
                   padding: const EdgeInsets.all(8),
@@ -258,9 +259,9 @@ class _SelectionDataGridPageState extends SampleViewState {
   void initState() {
     super.initState();
     isWebOrDesktop = model.isWeb || model.isDesktop;
-    _selectionMode = 'Multiple';
+    _selectionMode = 'multiple';
     selectionMode = SelectionMode.multiple;
-    _navigationMode = isWebOrDesktop ? 'Cell' : 'Row';
+    _navigationMode = isWebOrDesktop ? 'cell' : 'row';
     navigationMode =
         isWebOrDesktop ? GridNavigationMode.cell : GridNavigationMode.row;
     selectionDataGridSource =
@@ -279,11 +280,9 @@ class _SelectionDataGridPageState extends SampleViewState {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    'Selection mode:',
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: model.textColor),
+                    'Selection mode',
+                    softWrap: false,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
                 Expanded(
@@ -297,7 +296,7 @@ class _SelectionDataGridPageState extends SampleViewState {
                         value: _selectionMode,
                         items: _encoding.map((String value) {
                           return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'Multiple',
+                              value: (value != null) ? value : 'multiple',
                               child: Text(value,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(color: model.textColor)));
@@ -319,11 +318,11 @@ class _SelectionDataGridPageState extends SampleViewState {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    'Navigation mode:',
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: model.textColor),
+                    model.isWebFullView
+                        ? 'Navigation \nmode'
+                        : 'Navigation mode',
+                    softWrap: false,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
                 Expanded(

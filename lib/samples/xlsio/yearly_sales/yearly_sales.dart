@@ -108,7 +108,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     final Range range11 = sheet.getRangeByName('E17:F17');
     final Range range12 = sheet.getRangeByName('E18:F18');
 
-    range5.text = r'\$ 4.51 M';
+    range5.text = r'$ 4.51 M';
     range9.formula = '=Data!D14';
     range7.formula = '=Data!C19';
     range11.formula = '=Data!E14';
@@ -226,8 +226,8 @@ class _YearlySalesXlsIOState extends SampleViewState {
     sheet2.getRangeByName('C19').formula = '=(C18-C17)/10000000';
 
     sheet2.getRangeByName('C19').numberFormat = '0.00%';
-    sheet2.getRangeByName('C17:C18').numberFormat = r'_(\$* #,##0.00';
-    sheet2.getRangeByName('B2:D13').numberFormat = r'_(\$* #,##0.00';
+    sheet2.getRangeByName('C17:C18').numberFormat = r'_($* #,##0.00';
+    sheet2.getRangeByName('B2:D13').numberFormat = r'_($* #,##0.00';
 
     sheet2.getRangeByName('A1:E1').cellStyle.backColor = '#C6E0B4';
     sheet2.getRangeByName('A1:E1').cellStyle.bold = true;
@@ -243,7 +243,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     chart1.chartTitleArea.bold = true;
     chart1.chartTitleArea.size = 12;
     chart1.legend!.position = ExcelLegendPosition.bottom;
-    chart1.primaryValueAxis.numberFormat = r'\$#,###';
+    chart1.primaryValueAxis.numberFormat = r'$#,###';
     chart1.primaryValueAxis.hasMajorGridLines = false;
     chart1.topRow = 2;
     chart1.bottomRow = 13;
@@ -265,7 +265,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     chart2.bottomRow = 32;
     chart2.leftColumn = 1;
     chart2.rightColumn = 8;
-    chart2.primaryValueAxis.numberFormat = r'\$#,###';
+    chart2.primaryValueAxis.numberFormat = r'$#,###';
     chart2.primaryValueAxis.hasMajorGridLines = false;
     chart2.primaryCategoryAxis.titleArea.size = 9;
     chart2.primaryCategoryAxis.titleArea.color = '#595959';
@@ -287,7 +287,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style1.backColor = '#9BC2E6';
     style1.fontSize = 18;
     style1.bold = true;
-    style1.numberFormat = r'\$#,##0.00';
+    style1.numberFormat = r'$#,##0.00';
     style1.hAlign = HAlignType.center;
     style1.vAlign = VAlignType.center;
     style1.borders.top.lineStyle = LineStyle.thin;
@@ -301,7 +301,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     style2.backColor = '#F4B084';
     style2.fontSize = 18;
     style2.bold = true;
-    style2.numberFormat = r'\$#,##0.00';
+    style2.numberFormat = r'$#,##0.00';
     style2.hAlign = HAlignType.center;
     style2.vAlign = VAlignType.center;
     style2.borders.top.lineStyle = LineStyle.thin;

@@ -82,14 +82,14 @@ class _RangeDataLabelExampleState extends SampleViewState {
                 endWidth: 0.15,
               ),
             ],
-            pointers: <GaugePointer>[
+            pointers: const <GaugePointer>[
               NeedlePointer(
                   value: 60,
                   needleLength: 0.7,
                   lengthUnit: GaugeSizeUnit.factor,
                   needleStartWidth: 1,
                   needleEndWidth: 10,
-                  knobStyle: const KnobStyle(
+                  knobStyle: KnobStyle(
                     knobRadius: 12,
                     sizeUnit: GaugeSizeUnit.logicalPixel,
                   ))

@@ -1,13 +1,13 @@
 /// Dart import
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:collection/collection.dart';
 
 /// Renders column type data grid
 class SwipingDataGrid extends SampleView {
@@ -51,6 +51,14 @@ class _SwipingDataGridState extends SampleViewState {
     priceController = TextEditingController();
   }
 
+  RegExp _getRegExp(TextInputType keyboardType, String columnName) {
+    return keyboardType == TextInputType.number
+        ? columnName == 'Freight' || columnName == 'Price'
+            ? RegExp('[0-9.]')
+            : RegExp('[0-9]')
+        : RegExp('[a-zA-Z ]');
+  }
+
   /// Building the each field with label and TextFormField
   Widget _buildRow(
       {required TextEditingController controller, required String columnName}) {
@@ -58,10 +66,9 @@ class _SwipingDataGridState extends SampleViewState {
         <String>['City', 'Name'].contains(columnName)
             ? TextInputType.text
             : TextInputType.number;
-    final FilteringTextInputFormatter inputFormatter =
-        <String>['City', 'Name'].contains(columnName)
-            ? FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
-            : FilteringTextInputFormatter.allow(RegExp('[0-9]'));
+
+    // Holds the regular expression pattern based on the column type.
+    final RegExp regExp = _getRegExp(keyboardType, columnName);
 
     return Row(
       children: <Widget>[
@@ -80,7 +87,9 @@ class _SwipingDataGridState extends SampleViewState {
             },
             controller: controller,
             keyboardType: keyboardType,
-            inputFormatters: <TextInputFormatter>[inputFormatter],
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(regExp)
+            ],
           ),
         )
       ],
@@ -332,7 +341,7 @@ class _SwipingDataGridState extends SampleViewState {
     List<GridColumn> columns;
     columns = isWebOrDesktop
         ? <GridColumn>[
-            GridTextColumn(
+            GridColumn(
                 columnName: 'id',
                 width: (isWebOrDesktop && model.isMobileResolution)
                     ? 120.0
@@ -345,7 +354,7 @@ class _SwipingDataGridState extends SampleViewState {
                     overflow: TextOverflow.ellipsis,
                   ),
                 )),
-            GridTextColumn(
+            GridColumn(
                 columnName: 'customerId',
                 width: (isWebOrDesktop && model.isMobileResolution)
                     ? 150.0
@@ -358,7 +367,7 @@ class _SwipingDataGridState extends SampleViewState {
                     overflow: TextOverflow.ellipsis,
                   ),
                 )),
-            GridTextColumn(
+            GridColumn(
               columnName: 'name',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
@@ -372,7 +381,7 @@ class _SwipingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'freight',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
@@ -386,7 +395,7 @@ class _SwipingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'city',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
@@ -400,7 +409,7 @@ class _SwipingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'price',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
@@ -416,7 +425,7 @@ class _SwipingDataGridState extends SampleViewState {
             )
           ]
         : <GridColumn>[
-            GridTextColumn(
+            GridColumn(
               columnName: 'id',
               label: Container(
                 padding: const EdgeInsets.all(8),
@@ -427,7 +436,7 @@ class _SwipingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'customerId',
               columnWidthMode: isLandscapeInMobileView
                   ? ColumnWidthMode.fill
@@ -441,7 +450,7 @@ class _SwipingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'name',
               label: Container(
                 padding: const EdgeInsets.all(8),
@@ -452,7 +461,7 @@ class _SwipingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'city',
               label: Container(
                 padding: const EdgeInsets.all(8),

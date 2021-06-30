@@ -50,7 +50,7 @@ class _ColumnVerticalState extends SampleViewState {
             return _CustomColumnSeriesRenderer();
           },
           isTrackVisible: false,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
           dataSource: <ChartSampleData>[
             ChartSampleData(

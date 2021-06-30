@@ -579,7 +579,7 @@ Widget getLeftSideDrawer(SampleModel _model) {
                         )),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('Version 19.1.63',
+                        child: Text('Version 19.2.44',
                             style: TextStyle(
                                 color: _model.drawerTextIconColor,
                                 fontSize: 12,

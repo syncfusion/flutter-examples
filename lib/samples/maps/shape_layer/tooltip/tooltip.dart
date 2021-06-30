@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
@@ -381,6 +380,7 @@ class _MapTooltipPageState extends SampleViewState {
                       strokeColor: isLightTheme
                           ? const Color.fromRGBO(255, 255, 255, 1)
                           : const Color.fromRGBO(49, 49, 49, 1),
+                      strokeWidth: 0.5,
                       bubbleSettings: MapBubbleSettings(
                         minRadius: 15,
                         maxRadius: 30,

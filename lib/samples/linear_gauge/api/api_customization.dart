@@ -26,51 +26,51 @@ class _ApiCustomizationState extends SampleViewState {
   LinearElementPosition _rangePosition = LinearElementPosition.outside;
   final ScrollController _scrollController = ScrollController();
 
-  String _shapePointerPosition = 'Outside';
-  String _barPointerPosition = 'Outside';
-  String _rangePointerPosition = 'Outside';
+  String _shapePointerPosition = 'outside';
+  String _barPointerPosition = 'outside';
+  String _rangePointerPosition = 'outside';
   bool _isMirror = false;
   bool _isInverse = false;
   bool _isHorizontalOrientation = false;
   double _barOffset = 5;
 
-  final List<String> _pointerPositions = <String>['Outside', 'Cross', 'Inside'];
+  final List<String> _pointerPositions = <String>['outside', 'cross', 'inside'];
 
   void shapePosition(String item) {
     _shapePointerPosition = item;
-    if (_shapePointerPosition == 'Inside') {
+    if (_shapePointerPosition == 'inside') {
       _shapePosition = LinearElementPosition.inside;
     }
-    if (_shapePointerPosition == 'Outside') {
+    if (_shapePointerPosition == 'outside') {
       _shapePosition = LinearElementPosition.outside;
     }
-    if (_shapePointerPosition == 'Cross') {
+    if (_shapePointerPosition == 'cross') {
       _shapePosition = LinearElementPosition.cross;
     }
   }
 
   void barPosition(String item) {
     _barPointerPosition = item;
-    if (_barPointerPosition == 'Inside') {
+    if (_barPointerPosition == 'inside') {
       _barPosition = LinearElementPosition.inside;
     }
-    if (_barPointerPosition == 'Outside') {
+    if (_barPointerPosition == 'outside') {
       _barPosition = LinearElementPosition.outside;
     }
-    if (_barPointerPosition == 'Cross') {
+    if (_barPointerPosition == 'cross') {
       _barPosition = LinearElementPosition.cross;
     }
   }
 
   void rangePosition(String item) {
     _rangePointerPosition = item;
-    if (_rangePointerPosition == 'Inside') {
+    if (_rangePointerPosition == 'inside') {
       _rangePosition = LinearElementPosition.inside;
     }
-    if (_rangePointerPosition == 'Outside') {
+    if (_rangePointerPosition == 'outside') {
       _rangePosition = LinearElementPosition.outside;
     }
-    if (_rangePointerPosition == 'Cross') {
+    if (_rangePointerPosition == 'cross') {
       _rangePosition = LinearElementPosition.cross;
     }
   }
@@ -194,7 +194,7 @@ class _ApiCustomizationState extends SampleViewState {
                                   });
                                 }),
                           ),
-                          const Text('Inverse Axis',
+                          const Text('Inverse axis',
                               style: TextStyle(fontSize: 14))
                         ],
                       ),
@@ -254,7 +254,7 @@ class _ApiCustomizationState extends SampleViewState {
                                     });
                                   }),
                             ),
-                            const Text('Horizontal Orientation',
+                            const Text('Horizontal orientation',
                                 style: TextStyle(fontSize: 14))
                           ],
                         ),
@@ -264,7 +264,7 @@ class _ApiCustomizationState extends SampleViewState {
                       Container(
                         width: 150,
                         margin: const EdgeInsets.only(left: 5),
-                        child: const Text('Shape Pointer Position',
+                        child: const Text('Shape pointer position',
                             style: TextStyle(fontSize: 14)),
                       ),
                       const Text(':'),
@@ -277,7 +277,7 @@ class _ApiCustomizationState extends SampleViewState {
                                 items: _pointerPositions.map((String value) {
                                   return DropdownMenuItem<String>(
                                       value:
-                                          (value != null) ? value : 'Outside',
+                                          (value != null) ? value : 'outside',
                                       child: Text(value,
                                           style:
                                               const TextStyle(fontSize: 14)));
@@ -297,7 +297,7 @@ class _ApiCustomizationState extends SampleViewState {
                       Container(
                         width: 150,
                         margin: const EdgeInsets.only(left: 5),
-                        child: const Text('Bar Pointer Position',
+                        child: const Text('Bar pointer position',
                             style: TextStyle(fontSize: 14)),
                       ),
                       const Text(':'),
@@ -310,7 +310,7 @@ class _ApiCustomizationState extends SampleViewState {
                                 items: _pointerPositions.map((String value) {
                                   return DropdownMenuItem<String>(
                                       value:
-                                          (value != null) ? value : 'Outside',
+                                          (value != null) ? value : 'outside',
                                       child: Text(value,
                                           style:
                                               const TextStyle(fontSize: 14)));
@@ -331,7 +331,7 @@ class _ApiCustomizationState extends SampleViewState {
                           width: 150,
                           margin: const EdgeInsets.only(left: 5),
                           child: const Text(
-                            'Range Position',
+                            'Range position',
                             style: TextStyle(fontSize: 14),
                           )),
                       const Text(':'),
@@ -344,7 +344,7 @@ class _ApiCustomizationState extends SampleViewState {
                                 items: _pointerPositions.map((String value) {
                                   return DropdownMenuItem<String>(
                                       value:
-                                          (value != null) ? value : 'Outside',
+                                          (value != null) ? value : 'outside',
                                       child: Text(value,
                                           style:
                                               const TextStyle(fontSize: 14)));
@@ -365,7 +365,7 @@ class _ApiCustomizationState extends SampleViewState {
                             width: 150,
                             margin: const EdgeInsets.only(left: 5),
                             child: const Text(
-                              'Bar Offset',
+                              'Bar offset',
                               style: TextStyle(fontSize: 14),
                             )),
                         const Text(':'),

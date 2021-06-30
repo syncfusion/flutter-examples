@@ -111,7 +111,7 @@ class _RadialSliderStateTypesState extends SampleViewState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return Row(children: <Widget>[
-        Text('Enable Drag', style: TextStyle(color: model.textColor)),
+        Text('Enable drag', style: TextStyle(color: model.textColor)),
         Padding(
           padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
           child: Transform.scale(

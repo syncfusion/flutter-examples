@@ -1,10 +1,11 @@
 /// Dart import
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 /// Package import
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 /// DataGrid import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -29,7 +30,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
 
   List<GridColumn> _getColumns() {
     return <GridColumn>[
-      GridTextColumn(
+      GridColumn(
           columnName: 'id',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
@@ -43,7 +44,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
             ),
           )),
-      GridTextColumn(
+      GridColumn(
         columnName: 'customerId',
         columnWidthMode:
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
@@ -61,7 +62,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'name',
         width:
             (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
@@ -74,7 +75,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'freight',
         width:
             (isWebOrDesktop && model.isMobileResolution) ? 110.0 : double.nan,
@@ -87,7 +88,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'city',
         width:
             (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
@@ -102,7 +103,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
           ),
         ),
       ),
-      GridTextColumn(
+      GridColumn(
         columnName: 'price',
         width:
             (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
@@ -130,7 +131,9 @@ class _PullToRefreshDataGridState extends SampleViewState {
     return Theme(
         data: ThemeData(
           brightness: model.themeData.brightness,
-          accentColor: model.backgroundColor,
+          colorScheme: model.themeData.brightness == Brightness.light
+              ? ColorScheme.light(primary: model.backgroundColor)
+              : ColorScheme.dark(primary: model.backgroundColor),
         ),
         child: SfDataGrid(
             source: employeeDataSource,

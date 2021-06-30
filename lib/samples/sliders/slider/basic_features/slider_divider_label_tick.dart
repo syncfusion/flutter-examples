@@ -24,37 +24,9 @@ class SliderLabelCustomizationPage extends SampleView {
 
 class _SliderLabelCustomizationPageState extends SampleViewState {
   _SliderLabelCustomizationPageState();
-  late Widget slider;
-
-  @override
-  void initState() {
-    super.initState();
-    slider = _SliderLabelCustomization();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 325
-          ? slider
-          : SingleChildScrollView(
-              child: SizedBox(height: 325, child: slider),
-            );
-    });
-  }
-}
-
-class _SliderLabelCustomization extends SampleView {
-  @override
-  _SliderLabelCustomizationState createState() =>
-      _SliderLabelCustomizationState();
-}
-
-class _SliderLabelCustomizationState extends SampleViewState {
   double _labelSliderValue = 50;
   double _tickSliderValue = 0;
-  double _divisorSliderValue = 50;
+  double _dividerSliderValue = 50;
 
   SfSliderTheme _sliderWithLabelCustomization() {
     return SfSliderTheme(
@@ -95,18 +67,18 @@ class _SliderLabelCustomizationState extends SampleViewState {
         ));
   }
 
-  SfSliderTheme _sliderWithDivisorCustomization() {
+  SfSliderTheme _sliderWithDividerCustomization() {
     return SfSliderTheme(
         data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
         child: SfSlider(
           interval: 25,
-          showDivisors: true,
+          showDividers: true,
           min: 0.0,
           max: 100.0,
-          value: _divisorSliderValue,
+          value: _dividerSliderValue,
           onChanged: (dynamic values) {
             setState(() {
-              _divisorSliderValue = values as double;
+              _dividerSliderValue = values as double;
             });
           },
           enableTooltip: true,
@@ -132,8 +104,8 @@ class _SliderLabelCustomizationState extends SampleViewState {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            title('Divisors'),
-            _sliderWithDivisorCustomization(),
+            title('Dividers'),
+            _sliderWithDividerCustomization(),
             columnSpacing30,
             title('Labels'),
             _sliderWithLabelCustomization(),
@@ -147,6 +119,13 @@ class _SliderLabelCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget slider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 325
+          ? slider
+          : SingleChildScrollView(child: SizedBox(height: 325, child: slider));
+    });
   }
 }

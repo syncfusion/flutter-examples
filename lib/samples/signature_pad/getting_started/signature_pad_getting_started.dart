@@ -120,8 +120,9 @@ class _GettingStartedSignaturePadState extends SampleViewState {
     return _strokeColorWidgets;
   }
 
-  void _handleOnSignStart() {
+  bool _handleOnDrawStart() {
     _isSigned = true;
+    return false;
   }
 
   void _showPopup() {
@@ -188,7 +189,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                             maximumStrokeWidth: _maxWidth,
                             strokeColor: _strokeColor,
                             backgroundColor: _backgroundColor,
-                            onSignStart: _handleOnSignStart,
+                            onDrawStart: _handleOnDrawStart,
                             key: _signaturePadKey),
                       ),
                       const SizedBox(height: 24),
@@ -321,7 +322,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
               source: _productDataSource,
               columnWidthMode: ColumnWidthMode.fill,
               columns: <GridColumn>[
-                GridTextColumn(
+                GridColumn(
                   columnName: 'name',
                   label: Container(
                     alignment: Alignment.centerLeft,
@@ -336,7 +337,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                     ),
                   ),
                 ),
-                GridTextColumn(
+                GridColumn(
                   columnName: 'price',
                   label: Container(
                     padding: const EdgeInsets.all(8),
@@ -351,7 +352,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                     ),
                   ),
                 ),
-                GridTextColumn(
+                GridColumn(
                   columnName: 'quantity',
                   label: Container(
                     alignment: Alignment.centerRight,
@@ -366,7 +367,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                     ),
                   ),
                 ),
-                GridTextColumn(
+                GridColumn(
                   columnName: 'total',
                   label: Container(
                     padding: const EdgeInsets.all(8),
@@ -602,7 +603,8 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         Padding(
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           child: Text(
-            'Minimum Width',
+            'Minimum width',
+            softWrap: false,
             style: TextStyle(fontSize: 16.0, color: model.textColor),
           ),
         ),
@@ -640,7 +642,8 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         Padding(
           padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
           child: Text(
-            'Maximum Width',
+            'Maximum width',
+            softWrap: false,
             style: TextStyle(fontSize: 16.0, color: model.textColor),
           ),
         ),

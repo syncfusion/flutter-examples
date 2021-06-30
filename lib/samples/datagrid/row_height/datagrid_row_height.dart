@@ -1,10 +1,10 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 
 /// Barcode imports
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
@@ -34,7 +34,7 @@ class _RowHeightDataGridState extends SampleViewState {
           source: rowHeightDataGridSource,
           rowHeight: 65.0,
           columns: <GridColumn>[
-            GridTextColumn(
+            GridColumn(
               columnName: 'id',
               width: isWebOrDesktop ? 135 : 90,
               label: Container(
@@ -48,7 +48,7 @@ class _RowHeightDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'contactName',
               width: isWebOrDesktop ? 135 : 140,
               label: Container(
@@ -62,7 +62,7 @@ class _RowHeightDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'companyName',
               width: isWebOrDesktop ? 165 : 140,
               label: Container(
@@ -76,7 +76,7 @@ class _RowHeightDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'address',
               width: isWebOrDesktop ? 180 : 140,
               label: Container(
@@ -90,7 +90,7 @@ class _RowHeightDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'city',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(
@@ -104,7 +104,7 @@ class _RowHeightDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'country',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(
@@ -118,7 +118,7 @@ class _RowHeightDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'designation',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(
@@ -132,7 +132,7 @@ class _RowHeightDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'postalCode',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(
@@ -146,7 +146,7 @@ class _RowHeightDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'phoneNumber',
               width: isWebOrDesktop ? 150 : 140,
               label: Container(

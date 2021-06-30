@@ -549,8 +549,6 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
         // Once grouped, we will get [labelBuilder], [tooltipBuilder], and
         // [colorValueMapper] callbacks respectively.
         groupMapper: (int index) => _stateWiseElectionResult[index].state,
-        // Padding around the tile.
-        padding: const EdgeInsets.all(0.5),
         // The value returned in the callback will specify the
         // color of each tile.
         colorValueMapper: (TreemapTile tile) {

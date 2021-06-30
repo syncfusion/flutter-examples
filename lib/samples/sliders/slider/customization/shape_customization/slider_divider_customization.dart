@@ -12,14 +12,16 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 import '../../../../../model/model.dart';
 import '../../../../../model/sample_view.dart';
 
-///Renders slider with customized divisor
-class DivisorCustomizedSlider extends SampleView {
+/// Renders slider with customized divider
+class DividerCustomizedSlider extends SampleView {
+  /// Creates slider with customized divider
+  const DividerCustomizedSlider(Key key) : super(key: key);
   @override
-  _DivisorCustomizedSliderState createState() =>
-      _DivisorCustomizedSliderState();
+  _DividerCustomizedSliderState createState() =>
+      _DividerCustomizedSliderState();
 }
 
-class _DivisorCustomizedSliderState extends SampleViewState {
+class _DividerCustomizedSliderState extends SampleViewState {
   double _value = 60.0;
 
   @override
@@ -34,15 +36,15 @@ class _DivisorCustomizedSliderState extends SampleViewState {
         });
       },
       interval: 10,
-      showDivisors: true,
+      showDividers: true,
       numberFormat: NumberFormat('#'),
-      divisorShape: _DivisorShape(model),
+      dividerShape: _DividerShape(model),
     );
   }
 }
 
-class _DivisorShape extends SfDivisorShape {
-  _DivisorShape(this.model);
+class _DividerShape extends SfDividerShape {
+  _DividerShape(this.model);
   SampleModel model;
 
   @override

@@ -152,7 +152,7 @@ class _ExportState extends SampleViewState {
           strokeWidth: 1,
           legendIconType: LegendIconType.rectangle,
           dataLabelMapper: (ChartSampleData sales, _) => sales.text,
-          dataLabelSettings: DataLabelSettings(isVisible: true))
+          dataLabelSettings: const DataLabelSettings(isVisible: true))
     ];
   }
 

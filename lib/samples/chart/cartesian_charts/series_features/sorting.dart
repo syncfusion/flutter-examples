@@ -159,7 +159,7 @@ class _SortingDefaultState extends SampleViewState {
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         sortingOrder: _sortingOrder,
-        dataLabelSettings: DataLabelSettings(
+        dataLabelSettings: const DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.auto),
         sortFieldValueMapper: (ChartSampleData sales, _) =>
             _sortby == 'x' ? sales.x : sales.y,

@@ -24,34 +24,6 @@ class RangeSliderIntervalSelectionPage extends SampleView {
 
 class _RangeSliderIntervalSelectionPageState extends SampleViewState {
   _RangeSliderIntervalSelectionPageState();
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _RangeSliderIntervalSelection();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 325
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 325, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _RangeSliderIntervalSelection extends SampleView {
-  @override
-  _RangeSliderIntervalSelectionState createState() =>
-      _RangeSliderIntervalSelectionState();
-}
-
-class _RangeSliderIntervalSelectionState extends SampleViewState {
   SfRangeValues _yearValues =
       SfRangeValues(DateTime(2012, 1, 01), DateTime(2018, 1, 1));
   SfRangeValues _values = const SfRangeValues(20.0, 80.0);
@@ -63,7 +35,6 @@ class _RangeSliderIntervalSelectionState extends SampleViewState {
         child: SfRangeSlider(
           min: DateTime(2010, 01, 01),
           max: DateTime(2020, 01, 01),
-          //showDivisors: true,
           interval: 2,
           showLabels: true,
           stepDuration: const SliderStepDuration(years: 2),
@@ -152,6 +123,14 @@ class _RangeSliderIntervalSelectionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 325
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 325, child: rangeSlider));
+    });
   }
 }

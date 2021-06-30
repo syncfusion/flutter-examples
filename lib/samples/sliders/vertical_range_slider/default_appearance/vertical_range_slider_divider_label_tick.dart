@@ -7,9 +7,9 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 ///Local imports
 import '../../../../model/sample_view.dart';
 
-/// Renders the range slider with divisor, labels, ticks
+/// Renders the range slider with divider, labels, ticks
 class VerticalScaleRangeSliderPage extends SampleView {
-  /// Creates the range slider with divisor, labels, ticks
+  /// Creates the range slider with divider, labels, ticks
   const VerticalScaleRangeSliderPage(Key key) : super(key: key);
 
   @override
@@ -19,44 +19,16 @@ class VerticalScaleRangeSliderPage extends SampleView {
 
 class _VerticalScaleRangeSliderPageState extends SampleViewState {
   _VerticalScaleRangeSliderPageState();
-
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _ScaleRangeSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _ScaleRangeSlider extends SampleView {
-  @override
-  _ScaleRangeSliderState createState() => _ScaleRangeSliderState();
-}
-
-class _ScaleRangeSliderState extends SampleViewState {
   SfRangeValues _divisonSliderValues = const SfRangeValues(20.0, 80.0);
   SfRangeValues _tickSliderValues = const SfRangeValues(20.0, 80.0);
   SfRangeValues _labelSliderValues = const SfRangeValues(20.0, 80.0);
 
-  SfRangeSlider _sliderWithDivisor() {
+  SfRangeSlider _sliderWithDivider() {
     return SfRangeSlider.vertical(
         min: 0.0,
         max: 100.0,
         interval: 20,
-        showDivisors: true,
+        showDividers: true,
         values: _divisonSliderValues,
         onChanged: (SfRangeValues values) {
           setState(() {
@@ -114,8 +86,8 @@ class _ScaleRangeSliderState extends SampleViewState {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Column(children: <Widget>[
-              Expanded(child: _sliderWithDivisor()),
-              const Text('Divisors')
+              Expanded(child: _sliderWithDivider()),
+              const Text('Dividers')
             ]),
             Column(children: <Widget>[
               Expanded(child: _sliderWithLabel()),
@@ -131,6 +103,14 @@ class _ScaleRangeSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 350
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider));
+    });
   }
 }

@@ -16,6 +16,8 @@ import '../../../../../model/sample_view.dart';
 
 ///Renders slider with customized ticks
 class TickCustomizedSlider extends SampleView {
+  ///Creates slider with customized ticks
+  const TickCustomizedSlider(Key key) : super(key: key);
   @override
   _TickCustomizedSliderState createState() => _TickCustomizedSliderState();
 }

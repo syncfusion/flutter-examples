@@ -322,7 +322,7 @@ class _PaginationState extends SampleViewState {
         borderColor: const Color.fromRGBO(255, 204, 5, 1),
         borderWidth: 2,
         color: const Color.fromRGBO(255, 245, 211, 1),
-        dataLabelSettings: DataLabelSettings(
+        dataLabelSettings: const DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.outer),
         xValueMapper: (ChartSampleData sales, _) => sales.xValue as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,

@@ -38,7 +38,7 @@
         "description": "Visualize hierarchically structured data that is sized and colored by quantitative variables",
         "image": "images/treemap.png",
         "displayType": "tab",
-        "status": "New",
+        "status": "Updated",
         "isBeta": true,
         "controlId": 4,
         "subItems": [
@@ -56,12 +56,14 @@
                 "type": "sample",
                 "title": "Slice",
                 "key": "slice_treemap_flat",
+                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/treemap/flat/flat.dart"
               },
               {
                 "type": "sample",
                 "title": "Dice",
                 "key": "dice_treemap_flat",
+                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/treemap/flat/flat.dart"
               }
             ]
@@ -74,7 +76,9 @@
                 "type": "sample",
                 "title": "Hierarchical",
                 "key": "squarified_treemap_hierarchical",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/treemap/hierarchical/hierarchical.dart"
+                "status": "Updated",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/treemap/hierarchical/hierarchical.dart",
+                "needsPropertyPanel": true
               }
             ]
           },
@@ -116,6 +120,19 @@
           },
           {
             "type": "child",
+            "title": "Drilldown",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Drilldown",
+                "key": "squarified_treemap_drilldown",
+                "status": "New",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/treemap/drilldown/drilldown.dart"
+              }
+            ]
+          },
+          {
+            "type": "child",
             "title": "Custom background",
             "subItems": [
               {
@@ -130,9 +147,9 @@
       },
       {
         "title": "Cartesian Charts",
+        "status": "Updated",
         "description": "Plot over 30 chart types ranging from line charts to financial charts",
         "image": "images/cartesian_types.png",
-        "status": "Updated",
         "controlId": 1,
         "subItems": [
           {
@@ -355,7 +372,12 @@
                   {
                     "title": "Customized bar chart",
                     "key": "customized_bar_chart",
-                    "showInWeb": false,
+                    "platformsToHide": [
+                      "linux",
+                      "macOS",
+                      "windows",
+                      "web"
+                    ],
                     "description": "This sample demonstrates the rendering of custom bars. Here, the bars are filled with images, to look like  pattern fill.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/chart_types/bar/customized_bar_chart.dart",
                     "sourceLink": "https://www.makeuseof.com/tag/most-popular-android-apps/",
@@ -689,7 +711,6 @@
               {
                 "title": "Infinite scrolling",
                 "key": "infinite_scrolling",
-                "status": "New",
                 "description": "This sample demonstrates the infinite scrolling functionality. When horizontal scrolling reaches the end of the chart, more data will be loaded and a circular progress indicator will be shown until loading. ",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/on_demand_loading/infinite_scrolling.dart"
               }
@@ -740,8 +761,7 @@
                     "title": "Default category axis",
                     "key": "default_category_axis",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_types/category/default_category_axis.dart",
-                    "description": "",
-                    "status": ""
+                    "description": ""
                   },
                   {
                     "title": "Arranged by index",
@@ -755,7 +775,6 @@
                     "key": "category_label_placement",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_types/category/label_placement.dart",
                     "description": "",
-                    "status": "",
                     "needsPropertyPanel": true
                   }
                 ]
@@ -770,7 +789,6 @@
                     "key": "default_datetime_axis",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_types/date_time/default_date_time_axis.dart",
                     "description": "",
-                    "status": "",
                     "sourceLink": "https://www.x-rates.com/graph/?from=USD&to=INR&amount=1",
                     "sourceText": "www.x-rates.com"
                   },
@@ -779,7 +797,6 @@
                     "key": "datetime_axis_with_label_format",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_types/date_time/date_time_axis_with_label_format.dart",
                     "description": "",
-                    "status": "",
                     "sourceLink": "https://en.wikipedia.org/wiki/List_of_earthquakes_in_Indonesia",
                     "sourceText": "en.wikipedia.org"
                   }
@@ -789,21 +806,18 @@
                 "type": "child",
                 "title": "Date Time Category",
                 "displayType": "card",
-                "status": "New",
                 "subItems": [
                   {
                     "title": "Default date time category axis",
                     "key": "default_datetime_category_axis",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_types/date_time_category/default_date_time_category.dart",
-                    "description": "",
-                    "status": "new"
+                    "description": ""
                   },
                   {
                     "title": "Label format",
                     "key": "default_datetime_category_axis_label",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_types/date_time_category/date_time_category_with_label_format.dart",
-                    "description": "",
-                    "status": "new"
+                    "description": ""
                   }
                 ]
               },
@@ -835,6 +849,13 @@
             "title": "Axis Features",
             "displayType": "card",
             "subItems": [
+              {
+                "title": "Interval type",
+                "key": "interval_type",
+                "status": "New",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/interval_type.dart",
+                "needsPropertyPanel": true
+              },
               {
                 "title": "Opposed axes",
                 "key": "opposed_axes",
@@ -1078,6 +1099,7 @@
               },
               {
                 "title": "Legend with various options",
+                "status": "Updated",
                 "key": "cartesian_legend_various_options",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/legend/legend_various_options.dart",
                 "needsPropertyPanel": true
@@ -1161,13 +1183,11 @@
               {
                 "type": "child",
                 "title": "Trackball",
-                "status": "Updated",
                 "displayType": "card",
                 "subItems": [
                   {
                     "title": "Chart with trackball",
                     "key": "chart_with_trackball",
-                    "status": "Updated",
                     "description": "The trackball is enabled in this sample. Tap the chart to show the trackball and drag the chart to change the position of the trackball continuously. On the web, you can move the cursor over the chart area to display the trackball.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/user_interactions/trackball/chart_with_trackball.dart",
                     "needsPropertyPanel": true
@@ -1189,7 +1209,8 @@
                   {
                     "title": "Selection modes",
                     "key": "selection_modes",
-                    "description": "This sample depicts the selection feature in the chart. Tap the data point to select or unselect in mobile and web click the data points.",
+                    "status": "Updated",
+                    "description": "This sample depicts the selection feature in the chart. In mobile, tap the data points and on web/desktop click the data points to select or deselect them.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/user_interactions/selection/selection_modes.dart",
                     "needsPropertyPanel": true
                   },
@@ -1207,6 +1228,13 @@
                 "title": "Events",
                 "displayType": "card",
                 "subItems": [
+                  {
+                    "title": "Data point events",
+                    "key": "data_points",
+                    "status": "New",
+                    "description": "Tap on a data point to display additional information in the snack bar. Double-tap on it to navigate to that site and long press on it to get the sorting options. This is achieved by using the onPointTap, onPointDoubleTap and onPointLongPress callbacks.",
+                    "codeLink": " https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/user_interactions/events/data_point_events.dart"
+                  },
                   {
                     "title": "Events",
                     "key": "events",
@@ -1244,7 +1272,6 @@
                   {
                     "title": "Pagination",
                     "key": "pagination",
-                    "status": "New",
                     "description": "This sample shows how to view the next set of data on swiping the chart using the 'onPlotAreaSwipe' callback function. You can swipe from left to right or vice versa and also click on the days at the bottom to view the next set of data.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/user_interactions/pagination.dart"
                   }
@@ -1258,7 +1285,6 @@
                   {
                     "title": "Auto Scrolling",
                     "description": "In this sample, the data is being added every second. The chart is scrolled to the end automatically to view the current data and you can pan the chart from left to right direction to view the previous data points.",
-                    "status": "new",
                     "key": "auto_scrolling",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/user_interactions/auto_scrolling.dart"
                   }
@@ -1432,12 +1458,22 @@
             "type": "child",
             "title": "Exporting",
             "displayType": "tab",
-            "showInWeb": false,
+            "platformsToHide": [
+              "linux",
+              "macOS",
+              "windows",
+              "web"
+            ],
             "subItems": [
               {
                 "title": "Export",
                 "key": "exporting_chart",
-                "showInWeb": false,
+                "platformsToHide": [
+                  "linux",
+                  "macOS",
+                  "windows",
+                  "web"
+                ],
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/export.dart"
               }
             ]
@@ -1446,9 +1482,9 @@
       },
       {
         "title": "Circular Charts",
+        "status": "Updated",
         "description": "Visualize the data using pie, doughnut, and radial bar charts",
         "image": "images/circle_series.png",
-        "status": "Updated",
         "controlId": 2,
         "subItems": [
           {
@@ -1482,7 +1518,7 @@
                   {
                     "title": "Grouping",
                     "key": "pie_with_grouping",
-                    "description": "This sample demonstrates the grouping functionality in a pie chart. Data points’ values less than the specified value can be grouped together.",
+                    "description": "This sample demonstrates the grouping functionality in the pie chart. Data points whose values are less than the specified value will be grouped together",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/pie/pie_with_grouping.dart"
                   },
                   {
@@ -1496,21 +1532,18 @@
                     "key": "pie_with_gradient",
                     "description": "This sample demonstrates how to apply different types of gradient to the pie slices. Here you can apply the linear, sweep, and radial gradients using the dropdown menu in the property panel.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/pie/pie_with_gradient.dart",
-                    "status": "new",
                     "needsPropertyPanel": true
                   },
                   {
                     "title": "Image fill",
                     "key": "pie_with_imageShader",
-                    "status": "new",
-                    "description":"This sample demonstrates how to fill the pie slices with various images for each slice using the 'ImageShader'.",
+                    "description": "This sample demonstrates how to fill the pie slices with various images for each slice using the 'ImageShader'.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/pie/pie_with_image.dart"
                   },
                   {
                     "title": "Point render mode",
                     "key": "pie_point_render_mode",
-                    "status": "new",
-                    "description":"This sample demonstrates how to fill the pie slices with various images for each slice using the 'ImageShader'.",
+                    "description": "This sample demonstrates how to fill the pie slices with various images for each slice using the 'ImageShader'.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/pie/point_render_mode.dart",
                     "needsPropertyPanel": true
                   }
@@ -1553,9 +1586,8 @@
                   {
                     "title": "Gradient fill",
                     "key": "doughnut_with_gradient",
-                    "description":"This sample demonstrates how to apply different types of gradient to the doughnut slices. Here you can apply the linear, sweep, and radial gradients using the dropdown menu in the property panel.",
+                    "description": "This sample demonstrates how to apply different types of gradient to the doughnut slices. Here you can apply the linear, sweep, and radial gradients using the dropdown menu in the property panel.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/doughnut/doughnut_with_gradient.dart",
-                    "status": "new",
                     "needsPropertyPanel": true
                   }
                 ]
@@ -1583,10 +1615,15 @@
                   },
                   {
                     "title": "Gradient fill",
-                    "status": "new",
                     "key": "radialbar_with_gradient",
                     "description": "This sample renders the radial bar chart with gradient.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/radial_bar/radial_bar_with_gradient.dart"
+                  },
+                  {
+                    "title": "Overfilled radial bar",
+                    "key": "overfilled_radialbar",
+                    "status": "New",
+                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/radial_bar/overfilled_radial_bar.dart"
                   }
                 ]
               }
@@ -1605,6 +1642,7 @@
               {
                 "title": "Legend with various options",
                 "key": "legend_with_various_options",
+                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/legend/legend_with_various_options.dart",
                 "needsPropertyPanel": true
               }
@@ -1625,7 +1663,8 @@
               {
                 "title": "Selection",
                 "key": "circular_selection",
-                "description": "This sample depicts the selection feature in the chart. Tap the data point to select or unselect in mobile and web click the data points.",
+                "status": "Updated",
+                "description": "This sample depicts the selection feature in the chart. In mobile, tap the data points and on web/desktop click the data points to select or deselect them.",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/user_interactions/selection.dart",
                 "needsPropertyPanel": true
               },
@@ -1642,13 +1681,23 @@
             "type": "child",
             "title": "Exporting",
             "displayType": "tab",
-            "showInWeb": false,
+            "platformsToHide": [
+              "linux",
+              "macOS",
+              "windows",
+              "web"
+            ],
             "subItems": [
               {
                 "title": "Export",
                 "key": "export_circular_chart",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/export.dart",
-                "showInWeb": false
+                "platformsToHide": [
+                  "linux",
+                  "macOS",
+                  "windows",
+                  "web"
+                ]
               }
             ]
           }
@@ -1658,14 +1707,22 @@
         "title": "Radial Gauge",
         "description": "Visualize one or multiple measures on a circular scale with pointers and ranges",
         "image": "images/circle_gauge.png",
+ 		"status": "Updated",
         "controlId": 4,
-        "status": "Updated",
         "subItems": [
           {
             "type": "child",
             "title": "Showcase",
             "displayType": "card",
             "subItems": [
+              {
+                "type": "sample",
+                "title": "Sleep tracker",
+                "key": "sleep_tracker",
+                "status": "New",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/gauge/showcase/sleep_tracker.dart",
+                "description": ""
+              },
               {
                 "type": "sample",
                 "title": "Gauge compass",
@@ -1775,7 +1832,6 @@
                 "type": "sample",
                 "title": "Marker pointer",
                 "key": "radial_marker",
-                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/gauge/pointers/marker_pointer.dart",
                 "description": "",
                 "needsPropertyPanel": true
@@ -1791,7 +1847,6 @@
                 "type": "sample",
                 "title": "Widget pointer",
                 "key": "radial_widget_pointer",
-                "status": "new",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/gauge/pointers/widget_pointer.dart",
                 "description": "This sample demonstrates how to use a custom widget as a pointer using the 'WidgetPointer'."
               }
@@ -1862,7 +1917,6 @@
                 "type": "sample",
                 "title": "Pointer drag",
                 "key": "radial_slider",
-                "status": "updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/gauge/pointer_interaction/radial_range_slider.dart",
                 "description": "",
                 "needsPropertyPanel": true
@@ -1936,13 +1990,23 @@
             "type": "child",
             "title": "Exporting",
             "displayType": "tab",
-            "showInWeb": false,
+            "platformsToHide": [
+              "linux",
+              "macOS",
+              "windows",
+              "web"
+            ],
             "subItems": [
               {
                 "type": "sample",
                 "title": "Export",
                 "key": "export_gauge",
-                "showInWeb": false,
+                "platformsToHide": [
+                  "linux",
+                  "macOS",
+                  "windows",
+                  "web"
+                ],
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/gauge/export/export.dart"
               }
             ]
@@ -1951,7 +2015,6 @@
       },
       {
         "title": "Linear Gauge",
-        "status": "New",
         "description": "Visualize one or multiple measures on a linear scale with pointers and ranges",
         "image": "images/linear_gauge.png",
         "controlId": 5,
@@ -2124,7 +2187,6 @@
         "title": "Funnel Chart",
         "description": "Visualize the sequential data using funnel chart",
         "image": "images/funnel.png",
-        "status": "",
         "displayType": "card",
         "controlId": 7,
         "subItems": [
@@ -2151,7 +2213,6 @@
         "title": "Pyramid Chart",
         "description": "Visualize the organized data using pyramid chart",
         "image": "images/pyramid.png",
-        "status": "",
         "displayType": "card",
         "controlId": 6,
         "subItems": [
@@ -2181,14 +2242,15 @@
         "description": "Easily visualize data over a geographical area",
         "image": "images/map.png",
         "displayType": "tab",
+        "status": "Updated",
         "controlId": 3,
         "isBeta": true,
-        "status": "Updated",
         "subItems": [
           {
             "type": "child",
             "title": "Shape Layer",
             "displayType": "tab",
+            "status": "Updated",
             "subItems": [
               {
                 "type": "sample",
@@ -2210,12 +2272,6 @@
               },
               {
                 "type": "sample",
-                "title": "Selection",
-                "key": "selection",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/shape_layer/selection/selection.dart"
-              },
-              {
-                "type": "sample",
                 "title": "Marker",
                 "key": "marker",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/shape_layer/marker/marker.dart"
@@ -2224,6 +2280,7 @@
                 "type": "sample",
                 "title": "Legend",
                 "key": "legend",
+                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/shape_layer/legend/legend.dart",
                 "needsPropertyPanel": true
               },
@@ -2235,9 +2292,14 @@
               },
               {
                 "type": "sample",
+                "title": "Selection",
+                "key": "selection",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/shape_layer/selection/selection.dart"
+              },
+              {
+                "type": "sample",
                 "title": "Zooming",
                 "key": "zooming",
-                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/shape_layer/zooming/zooming.dart"
               },
               {
@@ -2258,7 +2320,6 @@
                 "type": "sample",
                 "title": "OpenStreetMap",
                 "key": "open_street_map",
-                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/tile_layer/open_street_map/open_street_map.dart"
               },
               {
@@ -2285,7 +2346,6 @@
               {
                 "type": "sample",
                 "title": "Polygon",
-                "status": "New",
                 "key": "polygon",
                 "description": "This sample demonstrates how the default and inverted polygons can be used to denote a particular area",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/tile_layer/vector_layer/polygon.dart"
@@ -2344,7 +2404,6 @@
         "description": "Light-weight line, area, column and win-loss charts which fits in a very small area.",
         "image": "images/sparkline_winloss.png",
         "displayType": "tab",
-        "isBeta":true,
         "controlId": 9,
         "subItems": [
           {
@@ -2455,6 +2514,20 @@
           },
           {
             "type": "child",
+            "title": "Editing",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Editing",
+                "key": "editing_datagrid",
+                "status": "New",
+                "needsPropertyPanel": true,
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/editing/datagrid_editing.dart"
+              }
+            ]
+          },
+          {
+            "type": "child",
             "title": "Sorting",
             "subItems": [
               {
@@ -2487,7 +2560,6 @@
               {
                 "type": "sample",
                 "title": "Freeze Panes",
-                "status": "Updated",
                 "key": "freeze_panes_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/freeze_panes/datagrid_freeze_panes.dart"
               }
@@ -2512,7 +2584,6 @@
               {
                 "type": "sample",
                 "title": "Styling",
-                "status": "Updated",
                 "key": "styling_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/apperance/styling/datagrid_styling.dart",
                 "needsPropertyPanel": true
@@ -2551,7 +2622,6 @@
                 "type": "sample",
                 "title": "Pull To Refresh",
                 "key": "pull_to_refresh_datagrid",
-                "status": "New",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/pull_to_refresh/datagrid_pull_to_refresh.dart"
               }
             ]
@@ -2575,7 +2645,6 @@
               {
                 "type": "sample",
                 "title": "Swiping",
-                "status": "New",
                 "key": "swiping_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/swiping/datagrid_swiping.dart"
               }
@@ -2646,7 +2715,6 @@
             "type": "sample",
             "title": "Load More",
             "key": "loadmore_calendar",
-            "status": "New",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/calendar_loadmore.dart"
           },
           {
@@ -2691,9 +2759,9 @@
         "title": "Date Range Picker",
         "description": "Allows to easily select dates or range of dates",
         "image": "images/Date_range_picker.png",
+        "status": "Updated",
         "displayType": "tab",
         "controlId": 2,
-        "isBeta": true,
         "subItems": [
           {
             "type": "sample",
@@ -2706,6 +2774,7 @@
           {
             "type": "sample",
             "title": "Hijri Calendar",
+            "status": "Updated",
             "key": "hijri_calendar_date_picker",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/hijri_calendar.dart",
             "needsPropertyPanel": true
@@ -2732,7 +2801,6 @@
             "type": "sample",
             "title": "Vertical Calendar",
             "key": "vertical_calendar",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/vertical_calendar.dart",
             "needsPropertyPanel": true
           }
@@ -2744,6 +2812,10 @@
     "categoryName": "Viewer",
     "mobileCategoryId": 4,
     "webCategoryId": 4,
+    "platformsToHide": [
+      "linux",
+      "windows"
+    ],
     "controlList": [
       {
         "title": "PDF Viewer",
@@ -2752,20 +2824,17 @@
         "displayType": "tab",
         "isBeta": true,
         "controlId": 1,
-        "status": "Updated",
         "subItems": [
           {
             "type": "sample",
             "title": "Getting Started",
             "key": "pdf_viewer_getting_started",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_getting_started.dart"
           },
           {
             "type": "sample",
             "title": "Custom Toolbar",
             "key": "pdf_viewer_custom_toolbar",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_custom_toolbar.dart"
           }
         ]
@@ -2784,6 +2853,7 @@
         "displayType": "tab",
         "isBeta": true,
         "controlId": 1,
+        "status": "Updated",
         "subItems": [
           {
             "type": "sample",
@@ -2811,15 +2881,9 @@
           },
           {
             "type": "sample",
-            "title": "Text Extraction",
-            "key": "text_extraction",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/text_extraction.dart"
-          },
-          {
-            "type": "sample",
-            "title": "Find Text",
-            "key": "find_text",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/find_text.dart"
+            "title": "Digital Signature",
+            "key": "digital_signature",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/digital_signature.dart"
           },
           {
             "type": "sample",
@@ -2829,23 +2893,34 @@
           },
           {
             "type": "sample",
+            "title": "Form Filling",
+            "key": "form",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/form.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Import and Export Form Data",
+            "status": "New",
+            "key": "import_and_export_form_data",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/import_and_export_form_data.dart"
+          },
+          {
+            "type": "sample",
             "title": "Conformance",
             "key": "conformance",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/conformance.dart"
           },
           {
             "type": "sample",
-            "title": "Form Filling",
-            "key": "form",
-            "status": "New",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/form.dart"
+            "title": "Text Extraction",
+            "key": "text_extraction",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/text_extraction.dart"
           },
           {
             "type": "sample",
-            "title": "Digital Signature",
-            "key": "digital_signature",
-            "status": "New",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/digital_signature.dart"
+            "title": "Find Text",
+            "key": "find_text",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/find_text.dart"
           }
         ]
       },
@@ -2856,6 +2931,7 @@
         "displayType": "tab",
         "isBeta": true,
         "controlId": 2,
+        "status": "Updated",
         "subItems": [
           {
             "type": "sample",
@@ -2885,9 +2961,9 @@
             "type": "sample",
             "title": "Attendance Tracker",
             "key": "attendance_tracker",
-            "status": "New",
+            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/attendance_tracker/attendance_tracker.dart"
-          }   
+          }
         ]
       }
     ]
@@ -2919,9 +2995,9 @@
               },
               {
                 "type": "sample",
-                "title": "Divisors, labels, and ticks",
-                "key": "slider_divisor_label_tick",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/slider/basic_features/slider_divisor_label_tick.dart",
+                "title": "Dividers, labels, and ticks",
+                "key": "slider_divider_label_tick",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/slider/basic_features/slider_divider_label_tick.dart",
                 "description": ""
               },
               {
@@ -2949,7 +3025,6 @@
           },
           {
             "type": "child",
-            "status": "New",
             "title": "Customization",
             "displayType": "tab",
             "subItems": [
@@ -3001,9 +3076,9 @@
               },
               {
                 "type": "sample",
-                "title": "Divisors, labels, and ticks",
-                "key": "range_slider_divisor_label_tick",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/range_slider/default_appearance/range_slider_divisor_label_tick.dart",
+                "title": "Dividers, labels, and ticks",
+                "key": "range_slider_divider_label_tick",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/range_slider/default_appearance/range_slider_divider_label_tick.dart",
                 "description": ""
               },
               {
@@ -3074,13 +3149,11 @@
         "description": "The vertical slider enables you to select a date or a numeric value",
         "image": "images/vertical_slider.png",
         "displayType": "tab",
-        "status": "New",
         "controlId": 3,
         "subItems": [
           {
             "type": "child",
             "title": "Basic features",
-            "status": "New",
             "displayType": "tab",
             "subItems": [
               {
@@ -3092,9 +3165,9 @@
               },
               {
                 "type": "sample",
-                "title": "Divisors, labels, and ticks",
-                "key": "vertical_slider_divisor_label_tick",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_slider/basic_features/vertical_slider_divisor_label_tick.dart",
+                "title": "Dividers, labels, and ticks",
+                "key": "vertical_slider_divider_label_tick",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_slider/basic_features/vertical_slider_divider_label_tick.dart",
                 "description": ""
               },
               {
@@ -3122,7 +3195,6 @@
           },
           {
             "type": "child",
-            "status": "New",
             "title": "Customization",
             "displayType": "tab",
             "subItems": [
@@ -3159,7 +3231,6 @@
         "description": "The vertical range slider enables you to select a date or a numeric range",
         "image": "images/vertical_range_slider.png",
         "displayType": "tab",
-        "status": "New",
         "controlId": 4,
         "subItems": [
           {
@@ -3177,9 +3248,9 @@
               },
               {
                 "type": "sample",
-                "title": "Divisors, labels, and ticks",
-                "key": "vertical_range_slider_divisor_label_tick",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_divisor_label_tick.dart",
+                "title": "Dividers, labels, and ticks",
+                "key": "vertical_range_slider_divider_label_tick",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_divider_label_tick.dart",
                 "description": ""
               },
               {
@@ -3214,7 +3285,6 @@
           },
           {
             "type": "child",
-            "status": "New",
             "title": "Customization",
             "displayType": "tab",
             "subItems": [
@@ -3252,7 +3322,6 @@
         "image": "images/range_selector.png",
         "displayType": "tab",
         "controlId": 5,
-        "isBeta": true,
         "subItems": [
           {
             "type": "sample",
@@ -3369,6 +3438,7 @@
         "image": "images/radial_range_slider.png",
         "category": "Sliders",
         "displayType": "tab",
+        "status": "Updated",
         "controlId": 7,
         "subItems": [
           {
@@ -3389,6 +3459,7 @@
                 "type": "sample",
                 "title": "Labels and Ticks",
                 "key": "radial_range_slider_ticks_and_labels",
+                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/radial_range_slider/basic_features/labels_and_ticks.dart",
                 "description": ""
               },
@@ -3451,7 +3522,6 @@
         "description": "Captures the signature and save it as an image to sync across devices and documents",
         "image": "images/SignaturePad.png",
         "displayType": "tab",
-        "isBeta": true,
         "controlId": 1,
         "subItems": [
           {

@@ -298,14 +298,14 @@ class _ArcsSampleState extends SampleViewState
   List<DropdownMenuItem<String>> _getDropDownMenuItems() {
     final List<DropdownMenuItem<String>> sublayerItems =
         <DropdownMenuItem<String>>[
-      const DropdownMenuItem<String>(value: 'Arcs', child: Text('Arcs')),
-      const DropdownMenuItem<String>(value: 'Lines', child: Text('Lines'))
+      const DropdownMenuItem<String>(value: 'arcs', child: Text('arcs')),
+      const DropdownMenuItem<String>(value: 'lines', child: Text('lines'))
     ];
     return sublayerItems;
   }
 
   MapSublayer _getCurrentSublayer(String _currentLegend) {
-    if (_currentLegend == 'Arcs') {
+    if (_currentLegend == 'arcs') {
       return MapArcLayer(
         arcs: List<MapArc>.generate(
           _airports.length,
@@ -492,6 +492,7 @@ class _ArcsSampleState extends SampleViewState
               children: <Widget>[
                 Text(
                   'Layer type',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                     fontSize: 16,
@@ -517,6 +518,7 @@ class _ArcsSampleState extends SampleViewState
                 Expanded(
                   child: Text(
                     'Show dashes',
+                    softWrap: false,
                     style: TextStyle(
                       color: model.textColor,
                       fontSize: 16,

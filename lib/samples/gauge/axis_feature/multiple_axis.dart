@@ -102,7 +102,7 @@ class _MultipleAxisExampleState extends SampleViewState {
                   ],
                 ))
           ],
-          pointers: <GaugePointer>[
+          pointers: const <GaugePointer>[
             NeedlePointer(
               needleLength: 0.68,
               lengthUnit: GaugeSizeUnit.factor,
@@ -110,7 +110,7 @@ class _MultipleAxisExampleState extends SampleViewState {
               needleEndWidth: 3,
               value: 33,
               enableAnimation: true,
-              knobStyle: const KnobStyle(
+              knobStyle: KnobStyle(
                   knobRadius: 6.5, sizeUnit: GaugeSizeUnit.logicalPixel),
             )
           ]),

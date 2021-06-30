@@ -7,8 +7,7 @@ import 'package:flutter/rendering.dart';
 ///Local imports
 import '../../../../../model/sample_view.dart';
 import '../../../slider_utils.dart';
-
-import 'divisor_customization.dart';
+import 'divider_customization.dart';
 import 'thumb_customization.dart';
 import 'tick_customization.dart';
 
@@ -24,40 +23,9 @@ class ShapeCustomizedRangeSliderPage extends SampleView {
 
 class _ShapeCustomizedRangeSliderPageState extends SampleViewState {
   _ShapeCustomizedRangeSliderPageState();
-
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _ShapeCustomizedRangeSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 400
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(
-                  height: 500,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                    child: rangeSlider,
-                  )));
-    });
-  }
-}
-
-class _ShapeCustomizedRangeSlider extends SampleView {
-  @override
-  _ShapeCustomizedRangeSliderState createState() =>
-      _ShapeCustomizedRangeSliderState();
-}
-
-class _ShapeCustomizedRangeSliderState extends SampleViewState {
-  late bool _isDesktop;
+  final GlobalKey dividerKey = GlobalKey();
+  final GlobalKey thumbKey = GlobalKey();
+  final GlobalKey tickKey = GlobalKey();
 
   Widget _buildWebLayout() {
     return Container(
@@ -77,24 +45,32 @@ class _ShapeCustomizedRangeSliderState extends SampleViewState {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ThumbCustomizedRangeSlider(),
+            ThumbCustomizedRangeSlider(thumbKey),
             columnSpacing40,
-            title('Divisor'),
-            DivisorCustomizedRangeSlider(),
+            title('Divider'),
+            DividerCustomizedRangeSlider(dividerKey),
             columnSpacing40,
             title('Ticks'),
-            TickCustomizedRangeSlider()
+            TickCustomizedRangeSlider(tickKey)
           ],
         ));
   }
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    _isDesktop = kIsWeb ||
-        themeData.platform == TargetPlatform.macOS ||
-        themeData.platform == TargetPlatform.windows ||
-        themeData.platform == TargetPlatform.linux;
-    return _isDesktop ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 400
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(
+              height: 500,
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                  child: rangeSlider),
+            ));
+    });
   }
 }

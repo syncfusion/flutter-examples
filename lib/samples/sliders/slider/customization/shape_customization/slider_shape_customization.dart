@@ -13,7 +13,7 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 ///Local imports
 import '../../../../../model/sample_view.dart';
 import '../../../slider_utils.dart';
-import 'slider_divisor_customization.dart';
+import 'slider_divider_customization.dart';
 import 'slider_thumb_customization.dart';
 import 'slider_tick_customization.dart';
 
@@ -29,42 +29,12 @@ class ShapeCustomizedSliderPage extends SampleView {
 
 class _ShapeCustomizedSliderPageState extends SampleViewState {
   _ShapeCustomizedSliderPageState();
-  late Widget slider;
-
-  @override
-  void initState() {
-    super.initState();
-    slider = _ShapeCustomizedSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 400
-          ? slider
-          : SingleChildScrollView(
-              child: SizedBox(
-                  height: 500,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                    child: slider,
-                  )),
-            );
-    });
-  }
-}
-
-class _ShapeCustomizedSlider extends SampleView {
-  @override
-  _ShapeCustomizedSliderState createState() => _ShapeCustomizedSliderState();
-}
-
-class _ShapeCustomizedSliderState extends SampleViewState {
-  _ShapeCustomizedSliderState();
-  double _value = 60.0;
+  final GlobalKey dividerKey = GlobalKey();
+  final GlobalKey thumbKey = GlobalKey();
+  final GlobalKey tickKey = GlobalKey();
   final double _min = 0.0;
   final double _max = 100.0;
+  double _value = 60.0;
 
   Widget _buildWebLayout() {
     return Container(
@@ -105,19 +75,32 @@ class _ShapeCustomizedSliderState extends SampleViewState {
                     },
                   )),
               columnSpacing40,
-              title('Divisor'),
-              DivisorCustomizedSlider(),
+              title('Divider'),
+              DividerCustomizedSlider(dividerKey),
               columnSpacing40,
-              ThumbCustomizedSlider(),
+              ThumbCustomizedSlider(thumbKey),
               title('Tick'),
               columnSpacing10,
-              TickCustomizedSlider(),
+              TickCustomizedSlider(tickKey),
             ]));
   }
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget slider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 400
+          ? slider
+          : SingleChildScrollView(
+              child: SizedBox(
+              height: 500,
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                  child: slider),
+            ));
+    });
   }
 }
 

@@ -24,34 +24,6 @@ class ThumbCustomizationRangeSliderPage extends SampleView {
 
 class _ThumbCustomizationRangeSliderPageState extends SampleViewState {
   _ThumbCustomizationRangeSliderPageState();
-  late Widget rangeSlider;
-
-  @override
-  void initState() {
-    super.initState();
-    rangeSlider = _ThumbCustomizationRangeSlider();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 300
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 300, child: rangeSlider),
-            );
-    });
-  }
-}
-
-class _ThumbCustomizationRangeSlider extends SampleView {
-  @override
-  _ThumbCustomizationRangeSliderState createState() =>
-      _ThumbCustomizationRangeSliderState();
-}
-
-class _ThumbCustomizationRangeSliderState extends SampleViewState {
   SfRangeValues _thumbValues = const SfRangeValues(4.0, 6.0);
   final double _thumbMin = 0.0;
   final double _thumbMax = 10.0;
@@ -142,6 +114,14 @@ class _ThumbCustomizationRangeSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget rangeSlider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 300
+          ? rangeSlider
+          : SingleChildScrollView(
+              child: SizedBox(height: 300, child: rangeSlider));
+    });
   }
 }

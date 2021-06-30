@@ -23,35 +23,6 @@ class VerticalSliderColorCustomizationPage extends SampleView {
 
 class _VerticalSliderColorCustomizationPageState extends SampleViewState {
   _VerticalSliderColorCustomizationPageState();
-
-  late Widget slider;
-
-  @override
-  void initState() {
-    super.initState();
-    slider = _SliderColorCustomization();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return constraints.maxHeight > 350
-          ? slider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: slider),
-            );
-    });
-  }
-}
-
-class _SliderColorCustomization extends SampleView {
-  @override
-  _SliderColorCustomizationState createState() =>
-      _SliderColorCustomizationState();
-}
-
-class _SliderColorCustomizationState extends SampleViewState {
   double _trackSliderValue = 0;
   double _thumbStrokeSliderValue = 50;
 
@@ -82,18 +53,18 @@ class _SliderColorCustomizationState extends SampleViewState {
   SfSliderTheme _sliderWithThumbStrokeColorCustomization() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-            inactiveDivisorColor: model.isWebFullView
+            inactiveDividerColor: model.isWebFullView
                 ? model.webBackgroundColor
                 : model.cardThemeColor,
-            activeDivisorColor: model.isWebFullView
+            activeDividerColor: model.isWebFullView
                 ? model.webBackgroundColor
                 : model.cardThemeColor,
-            activeDivisorStrokeWidth: 2,
-            activeDivisorStrokeColor: Colors.deepOrange.withOpacity(0.24),
-            inactiveDivisorStrokeWidth: 2,
-            inactiveDivisorStrokeColor: Colors.deepOrange,
-            activeDivisorRadius: 5.0,
-            inactiveDivisorRadius: 5.0,
+            activeDividerStrokeWidth: 2,
+            activeDividerStrokeColor: Colors.deepOrange.withOpacity(0.24),
+            inactiveDividerStrokeWidth: 2,
+            inactiveDividerStrokeColor: Colors.deepOrange,
+            activeDividerRadius: 5.0,
+            inactiveDividerRadius: 5.0,
             activeTrackColor: Colors.deepOrange,
             inactiveTrackColor: Colors.deepOrange.withOpacity(0.24),
             overlayColor: Colors.deepOrange.withOpacity(0.12),
@@ -105,7 +76,7 @@ class _SliderColorCustomizationState extends SampleViewState {
             thumbStrokeColor: Colors.deepOrange),
         child: SfSlider.vertical(
             interval: 25,
-            showDivisors: true,
+            showDividers: true,
             min: 0.0,
             max: 100.0,
             value: _thumbStrokeSliderValue,
@@ -150,6 +121,13 @@ class _SliderColorCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final Widget slider =
+          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+      return constraints.maxHeight > 350
+          ? slider
+          : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
+    });
   }
 }

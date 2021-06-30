@@ -41,7 +41,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
       source: conditionalStyleDataGridSource,
       columnWidthMode: ColumnWidthMode.fill,
       columns: <GridColumn>[
-        GridTextColumn(
+        GridColumn(
           columnName: 'name',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
@@ -54,7 +54,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
             ),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'qs1',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
@@ -68,7 +68,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
             ),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'qs2',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
@@ -82,7 +82,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
             ),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'qs3',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
@@ -96,7 +96,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
             ),
           ),
         ),
-        GridTextColumn(
+        GridColumn(
           columnName: 'qs4',
           width:
               (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,

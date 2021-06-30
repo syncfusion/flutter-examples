@@ -24,12 +24,12 @@ class _TrendLineDefaultState extends SampleViewState {
 
   int periodMaxValue = 0;
   final List<String> _trendlineTypeList = <String>[
-    'Linear',
-    'Exponential',
-    'Power',
-    'Logarithmic',
-    'Polynomial',
-    'MovingAverage'
+    'linear',
+    'exponential',
+    'power',
+    'logarithmic',
+    'polynomial',
+    'movingAverage'
   ].toList();
   late String _selectedTrendLineType;
   late TrendlineType _type;
@@ -39,7 +39,7 @@ class _TrendLineDefaultState extends SampleViewState {
 
   @override
   void initState() {
-    _selectedTrendLineType = 'Linear';
+    _selectedTrendLineType = 'linear';
     _type = TrendlineType.linear;
     _polynomialOrder = 2;
     _period = 2;
@@ -62,7 +62,9 @@ class _TrendLineDefaultState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           ListTile(
-            title: Text('Trendline type',
+            title: Text(
+                model.isWebFullView ? 'Trendlin\ne type' : 'Trendline type',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -89,10 +91,14 @@ class _TrendLineDefaultState extends SampleViewState {
             ),
           ),
           Visibility(
-            visible: _selectedTrendLineType != 'Polynomial' ? false : true,
+            visible: _selectedTrendLineType != 'polynomial' ? false : true,
             maintainState: true,
             child: ListTile(
-              title: Text('Polynomial Order',
+              title: Text(
+                  model.isWebFullView
+                      ? 'Polyno\nmial \norder'
+                      : 'Polynomial \norder',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),
@@ -114,10 +120,11 @@ class _TrendLineDefaultState extends SampleViewState {
             ),
           ),
           Visibility(
-            visible: _selectedTrendLineType != 'MovingAverage' ? false : true,
+            visible: _selectedTrendLineType != 'movingAverage' ? false : true,
             maintainState: true,
             child: ListTile(
               title: Text('Period',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),
@@ -202,22 +209,22 @@ class _TrendLineDefaultState extends SampleViewState {
   void _onTrendLineTypeChanged(String item) {
     _selectedTrendLineType = item;
     switch (_selectedTrendLineType) {
-      case 'Linear':
+      case 'linear':
         _type = TrendlineType.linear;
         break;
-      case 'Exponential':
+      case 'exponential':
         _type = TrendlineType.exponential;
         break;
-      case 'Power':
+      case 'power':
         _type = TrendlineType.power;
         break;
-      case 'Logarithmic':
+      case 'logarithmic':
         _type = TrendlineType.logarithmic;
         break;
-      case 'Polynomial':
+      case 'polynomial':
         _type = TrendlineType.polynomial;
         break;
-      case 'MovingAverage':
+      case 'movingAverage':
         _type = TrendlineType.movingAverage;
         break;
     }

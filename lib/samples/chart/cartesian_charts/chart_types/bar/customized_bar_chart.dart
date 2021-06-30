@@ -79,7 +79,7 @@ class _BarCustomizationState extends SampleViewState {
           onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
             return _CustomBarSeriesRenderer();
           },
-          dataLabelSettings: DataLabelSettings(isVisible: true),
+          dataLabelSettings: const DataLabelSettings(isVisible: true),
           dataSource: <ChartSampleData>[
             ChartSampleData(
                 x: 'Facebook', y: 4.119, pointColor: Colors.redAccent),

@@ -85,7 +85,7 @@ class _RadialBarAngleState extends SampleViewState {
           yValueMapper: (ChartSampleData data, _) => data.y,
           pointColorMapper: (ChartSampleData data, _) => data.pointColor,
           dataLabelMapper: (ChartSampleData data, _) => data.text,
-          dataLabelSettings: DataLabelSettings(isVisible: true))
+          dataLabelSettings: const DataLabelSettings(isVisible: true))
     ];
     return list;
   }

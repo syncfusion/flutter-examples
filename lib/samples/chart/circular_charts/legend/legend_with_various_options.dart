@@ -1,5 +1,6 @@
 /// Package import
 import 'package:flutter/material.dart';
+import 'package:flutter_examples/widgets/custom_button.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -19,6 +20,7 @@ class LegendOptions extends SampleView {
 class _LegendOptionsState extends SampleViewState {
   _LegendOptionsState();
   bool toggleVisibility = true;
+  bool enableFloatingLegend = false;
   final List<String> _positionList =
       <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
   String _selectedPosition = 'auto';
@@ -27,6 +29,8 @@ class _LegendOptionsState extends SampleViewState {
   final List<String> _modeList = <String>['wrap', 'scroll', 'none'].toList();
   String _selectedMode = 'wrap';
   LegendItemOverflowMode _overflowMode = LegendItemOverflowMode.wrap;
+  late double _xOffset = 0.0;
+  late double _yOffset = 0.0;
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -39,6 +43,7 @@ class _LegendOptionsState extends SampleViewState {
         children: <Widget>[
           ListTile(
             title: Text('Position ',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -64,10 +69,12 @@ class _LegendOptionsState extends SampleViewState {
             ),
           ),
           ListTile(
-            title: Text('Overflow mode',
-                style: TextStyle(
-                  color: model.textColor,
-                )),
+            title:
+                Text(model.isWebFullView ? 'Overflow \nmode' : 'Overflow mode',
+                    softWrap: false,
+                    style: TextStyle(
+                      color: model.textColor,
+                    )),
             trailing: Container(
                 padding: EdgeInsets.only(left: 0.07 * screenWidth),
                 width: 0.4 * screenWidth,
@@ -89,7 +96,11 @@ class _LegendOptionsState extends SampleViewState {
                     })),
           ),
           ListTile(
-            title: Text('Toggle visibility',
+            title: Text(
+                model.isWebFullView
+                    ? 'Toggle \nvisibility'
+                    : 'Toggle visibility',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -108,6 +119,76 @@ class _LegendOptionsState extends SampleViewState {
                       });
                     })),
           ),
+          ListTile(
+            title: Text(
+                model.isWebFullView ? 'Floating \nlegend' : 'Floating legend',
+                softWrap: false,
+                style: TextStyle(
+                  color: model.textColor,
+                )),
+            trailing: Container(
+                padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                width: 0.4 * screenWidth,
+                child: CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: model.backgroundColor,
+                    value: enableFloatingLegend,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        enableFloatingLegend = value!;
+                        stateSetter(() {});
+                      });
+                    })),
+          ),
+          ListTile(
+              title: Text('X offset',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                width: 0.4 * screenWidth,
+                height: 50,
+                child: CustomDirectionalButtons(
+                  minValue: -100,
+                  maxValue: 100,
+                  initialValue: _xOffset,
+                  onChanged: (double val) => setState(() {
+                    _xOffset = enableFloatingLegend ? val : 0;
+                  }),
+                  step: enableFloatingLegend ? 10 : 0,
+                  iconColor: model.textColor
+                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      color: model.textColor
+                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
+                ),
+              )),
+          ListTile(
+              title: Text('Y offset',
+                  style: TextStyle(
+                    color: model.textColor,
+                  )),
+              trailing: Container(
+                width: 0.4 * screenWidth,
+                height: 50,
+                child: CustomDirectionalButtons(
+                  minValue: -100,
+                  maxValue: 100,
+                  initialValue: _yOffset,
+                  onChanged: (double val) => setState(() {
+                    _yOffset = enableFloatingLegend ? val : 0;
+                  }),
+                  step: enableFloatingLegend ? 10 : 0,
+                  iconColor: model.textColor
+                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      color: model.textColor
+                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
+                ),
+              )),
         ],
       );
     });
@@ -125,6 +206,7 @@ class _LegendOptionsState extends SampleViewState {
       legend: Legend(
           isVisible: true,
           position: _position,
+          offset: enableFloatingLegend ? Offset(_xOffset, _yOffset) : null,
           overflowMode: _overflowMode,
           toggleSeriesVisibility: toggleVisibility),
       series: _getLegendOptionsSeries(),
@@ -149,7 +231,7 @@ class _LegendOptionsState extends SampleViewState {
           yValueMapper: (ChartSampleData data, _) => data.y,
           startAngle: 90,
           endAngle: 90,
-          dataLabelSettings: DataLabelSettings(isVisible: true)),
+          dataLabelSettings: const DataLabelSettings(isVisible: true)),
     ];
   }
 

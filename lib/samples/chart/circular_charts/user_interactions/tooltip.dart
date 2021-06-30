@@ -137,7 +137,7 @@ class _PieTooltipPositionState extends SampleViewState {
           startAngle: 100,
           endAngle: 100,
           pointRadiusMapper: (ChartSampleData data, _) => data.text,
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.outside))
     ];
   }

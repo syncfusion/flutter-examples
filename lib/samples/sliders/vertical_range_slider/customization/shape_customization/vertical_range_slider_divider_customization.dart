@@ -13,16 +13,18 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 import '../../../../../model/model.dart';
 import '../../../../../model/sample_view.dart';
 
-///Renders range slider with customized divisor
-class DivisorCustomizedRangeSlider extends SampleView {
+///Renders range slider with customized divider
+class VerticalDividerCustomizedRangeSlider extends SampleView {
+  /// Creates range slider with customized divider
+  const VerticalDividerCustomizedRangeSlider(Key key) : super(key: key);
   @override
-  _DivisorCustomizedRangeSliderState createState() =>
-      _DivisorCustomizedRangeSliderState();
+  _VerticalDividerCustomizedRangeSliderState createState() =>
+      _VerticalDividerCustomizedRangeSliderState();
 }
 
-class _DivisorCustomizedRangeSliderState extends SampleViewState {
+class _VerticalDividerCustomizedRangeSliderState extends SampleViewState {
   final Color _inactiveColor = const Color.fromARGB(255, 194, 194, 194);
-  final Color _activeColor = const Color.fromARGB(255, 255, 0, 58);
+  final Color _activeColor = Colors.blue;
   SfRangeValues _values = const SfRangeValues(30.0, 70.0);
 
   @override
@@ -32,12 +34,11 @@ class _DivisorCustomizedRangeSliderState extends SampleViewState {
           inactiveTrackColor: _inactiveColor.withOpacity(0.5),
           activeTrackColor: _activeColor,
           thumbColor: _activeColor,
-          inactiveDivisorColor:
-              const Color.fromARGB(255, 214, 214, 214).withOpacity(1),
-          activeDivisorColor: const Color.fromARGB(255, 255, 0, 58),
+          inactiveDividerColor: const Color.fromARGB(255, 194, 194, 194),
+          activeDividerColor: Colors.blue,
           overlayColor: _activeColor.withOpacity(0.12),
           tooltipBackgroundColor: _activeColor),
-      child: SfRangeSlider(
+      child: SfRangeSlider.vertical(
         min: 0.0,
         max: 100.0,
         values: _values,
@@ -47,49 +48,41 @@ class _DivisorCustomizedRangeSliderState extends SampleViewState {
           });
         },
         interval: 10,
-        showDivisors: true,
+        showDividers: true,
         enableTooltip: true,
         numberFormat: NumberFormat('#'),
-        divisorShape: _DivisorShape(model),
+        dividerShape: _DividerShape(model),
       ),
     );
   }
 }
 
-class _DivisorShape extends SfDivisorShape {
-  _DivisorShape(this.model);
+class _DividerShape extends SfDividerShape {
+  _DividerShape(this.model);
+
   SampleModel model;
 
   @override
   void paint(PaintingContext context, Offset center, Offset? thumbCenter,
       Offset? startThumbCenter, Offset? endThumbCenter,
-      {required RenderBox parentBox,
-      required SfSliderThemeData themeData,
+      {RenderBox? parentBox,
+      SfSliderThemeData? themeData,
       SfRangeValues? currentValues,
       dynamic currentValue,
-      required Paint? paint,
-      required Animation<double> enableAnimation,
-      required TextDirection textDirection}) {
-    late bool isActive;
-
-    switch (textDirection) {
-      case TextDirection.ltr:
-        isActive = center.dx >= startThumbCenter!.dx &&
-            center.dx <= endThumbCenter!.dx;
-        break;
-      case TextDirection.rtl:
-        isActive = center.dx >= endThumbCenter!.dx &&
-            center.dx <= startThumbCenter!.dx;
-        break;
-    }
+      Paint? paint,
+      Animation<double>? enableAnimation,
+      TextDirection? textDirection}) {
+    bool isActive;
+    isActive =
+        center.dy <= startThumbCenter!.dy && center.dy >= endThumbCenter!.dy;
 
     context.canvas.drawRect(
-        Rect.fromCenter(center: center, width: 5.0, height: 10.0),
+        Rect.fromCenter(center: center, width: 10.0, height: 5.0),
         Paint()
           ..isAntiAlias = true
           ..style = PaintingStyle.fill
           ..color = isActive
-              ? themeData.activeDivisorColor!
+              ? themeData!.activeDividerColor!
               : model.themeData.canvasColor);
   }
 }

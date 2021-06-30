@@ -17,6 +17,9 @@ import '../../../../../model/sample_view.dart';
 
 ///Renders range slider with customized tick
 class TickCustomizedRangeSlider extends SampleView {
+  /// Creates range slider with customized tick
+  const TickCustomizedRangeSlider(Key key) : super(key: key);
+
   @override
   _TickCustomizedRangeSliderState createState() =>
       _TickCustomizedRangeSliderState();

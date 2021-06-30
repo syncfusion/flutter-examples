@@ -168,27 +168,27 @@ class _MapLegendPageState extends SampleViewState {
           from: 0,
           to: 0.99,
           color: Color.fromRGBO(3, 192, 150, 1),
-          text: r'<\$1'),
+          text: r'<$1'),
       const MapColorMapper(
           from: 1.0,
           to: 4.99,
           color: Color.fromRGBO(3, 192, 150, 0.6),
-          text: r'\$1 - \$4.99'),
+          text: r'$1 - $4.99'),
       const MapColorMapper(
           from: 5,
           to: 9.99,
           color: Color.fromRGBO(3, 192, 150, 0.35),
-          text: r'\$5 - \$9.99'),
+          text: r'$5 - $9.99'),
       const MapColorMapper(
           from: 10,
           to: 29.99,
           color: Color.fromRGBO(255, 175, 33, 0.70),
-          text: r'\$10 - \$29.99'),
+          text: r'$10 - $29.99'),
       const MapColorMapper(
           from: 30,
           to: 100,
           color: Color.fromRGBO(255, 175, 33, 1.0),
-          text: r'>\$30'),
+          text: r'>$30'),
     ];
 
     _bubbleColorMappers = <MapColorMapper>[
@@ -196,27 +196,27 @@ class _MapLegendPageState extends SampleViewState {
           from: 0,
           to: 0.99,
           color: Color.fromRGBO(34, 205, 72, 0.6),
-          text: r'<\$1'),
+          text: r'<$1'),
       const MapColorMapper(
           from: 1.0,
           to: 4.99,
           color: Color.fromRGBO(237, 171, 0, 0.6),
-          text: r'\$1 - \$4.99'),
+          text: r'$1 - $4.99'),
       const MapColorMapper(
           from: 5,
           to: 9.99,
           color: Color.fromRGBO(24, 152, 207, 0.6),
-          text: r'\$5 - \$9.99'),
+          text: r'$5 - $9.99'),
       const MapColorMapper(
           from: 10,
           to: 29.99,
           color: Color.fromRGBO(255, 0, 0, 0.6),
-          text: r'\$10 - \$29.99'),
+          text: r'$10 - $29.99'),
       const MapColorMapper(
           from: 30,
           to: 100,
           color: Color.fromRGBO(134, 0, 179, 0.6),
-          text: r'>\$30'),
+          text: r'>$30'),
     ];
 
     _shapeBarLegendColorMappers = <MapColorMapper>[
@@ -224,27 +224,27 @@ class _MapLegendPageState extends SampleViewState {
           from: 0,
           to: 0.99,
           color: Color.fromRGBO(3, 192, 150, 1),
-          text: r'{\$0},{\$1}'),
+          text: r'{$0},{$1}'),
       const MapColorMapper(
           from: 1.0,
           to: 4.99,
           color: Color.fromRGBO(3, 192, 150, 0.6),
-          text: r'\$5'),
+          text: r'$5'),
       const MapColorMapper(
           from: 5,
           to: 9.99,
           color: Color.fromRGBO(3, 192, 150, 0.35),
-          text: r'\$10'),
+          text: r'$10'),
       const MapColorMapper(
           from: 10,
           to: 29.99,
           color: Color.fromRGBO(255, 175, 33, 0.70),
-          text: r'\$30'),
+          text: r'$30'),
       const MapColorMapper(
           from: 30,
           to: 100,
           color: Color.fromRGBO(255, 175, 33, 1.0),
-          text: r'\$100'),
+          text: r'$100'),
     ];
 
     _bubbleBarLegendColorMappers = <MapColorMapper>[
@@ -252,27 +252,27 @@ class _MapLegendPageState extends SampleViewState {
           from: 0,
           to: 0.99,
           color: Color.fromRGBO(34, 205, 72, 0.6),
-          text: r'{\$0},{\$1}'),
+          text: r'{$0},{$1}'),
       const MapColorMapper(
           from: 1.0,
           to: 4.99,
           color: Color.fromRGBO(237, 171, 0, 0.6),
-          text: r'\$5'),
+          text: r'$5'),
       const MapColorMapper(
           from: 5,
           to: 9.99,
           color: Color.fromRGBO(24, 152, 207, 0.6),
-          text: r'\$10'),
+          text: r'$10'),
       const MapColorMapper(
           from: 10,
           to: 29.99,
           color: Color.fromRGBO(255, 0, 0, 0.6),
-          text: r'\$30'),
+          text: r'$30'),
       const MapColorMapper(
           from: 30,
           to: 100,
           color: Color.fromRGBO(134, 0, 179, 0.6),
-          text: r'\$100'),
+          text: r'$100'),
     ];
 
     _mapBubbleSource = MapShapeSource.asset(
@@ -316,8 +316,8 @@ class _MapLegendPageState extends SampleViewState {
   List<DropdownMenuItem<String>> _getDropDownMenuItems() {
     const List<DropdownMenuItem<String>> legendItems =
         <DropdownMenuItem<String>>[
-      DropdownMenuItem<String>(value: 'Default', child: Text('Default')),
-      DropdownMenuItem<String>(value: 'Bar', child: Text('Bar'))
+      DropdownMenuItem<String>(value: 'default', child: Text('default')),
+      DropdownMenuItem<String>(value: 'bar', child: Text('bar'))
     ];
     return legendItems;
   }
@@ -381,7 +381,9 @@ class _MapLegendPageState extends SampleViewState {
           ),
           child: Column(children: <Widget>[
             Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 30),
+                padding: EdgeInsets.only(
+                    top: 15,
+                    bottom: (_enableGradient && !model.isMobile) ? 18 : 30),
                 child: Align(
                     alignment: Alignment.center,
                     child: Text('Average Internet Prices in Africa',
@@ -492,8 +494,9 @@ class _MapLegendPageState extends SampleViewState {
                               ? MapLegendPaintingStyle.gradient
                               : MapLegendPaintingStyle.solid,
                           segmentSize: _enableGradient
-                              ? const Size(300.0, 9.0)
+                              ? const Size(279.0, 9.0)
                               : const Size(55.0, 9.0),
+                          showPointerOnHover: true,
                           padding: const EdgeInsets.only(bottom: 20),
                         )
                       : MapLegend(
@@ -505,7 +508,9 @@ class _MapLegendPageState extends SampleViewState {
                           position: MapLegendPosition.left,
                           offset: Offset(
                               MediaQuery.of(context).size.width *
-                                  (model.isWebFullView ? 0.25 : 0.12),
+                                  (model.isWebFullView && model.needToMaximize
+                                      ? 0.25
+                                      : 0.12),
                               50),
                           iconType: MapIconType.rectangle,
                           enableToggleInteraction: _enableToggleInteraction,
@@ -535,6 +540,7 @@ class _MapLegendPageState extends SampleViewState {
             children: <Widget>[
               Text(
                 'Legend type',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                   fontSize: 16,
@@ -548,7 +554,7 @@ class _MapLegendPageState extends SampleViewState {
                     onChanged: (String? value) {
                       setState(() {
                         _currentLegend = value!;
-                        if (_currentLegend == 'Bar') {
+                        if (_currentLegend == 'bar') {
                           _showBarLegend = true;
                           _mapBubbleSource = MapShapeSource.asset(
                             'assets/africa.json',
@@ -613,7 +619,10 @@ class _MapLegendPageState extends SampleViewState {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  'Enable legend for bubbles',
+                  model.isWebFullView
+                      ? 'Enable legend for \nbubbles'
+                      : 'Enable legend for bubbles',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                     fontSize: 16,
@@ -637,7 +646,10 @@ class _MapLegendPageState extends SampleViewState {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  'Enable toggle interaction',
+                  model.isWebFullView
+                      ? 'Enable toggle \ninteraction'
+                      : 'Enable toggle interaction',
+                  softWrap: false,
                   style: TextStyle(
                     color: _showBarLegend
                         ? model.textColor.withOpacity(0.5)
@@ -667,6 +679,7 @@ class _MapLegendPageState extends SampleViewState {
               Expanded(
                 child: Text(
                   'Enable gradient',
+                  softWrap: false,
                   style: TextStyle(
                     color: _showBarLegend
                         ? model.textColor

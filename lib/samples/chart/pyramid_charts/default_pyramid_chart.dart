@@ -19,9 +19,9 @@ class PyramidDefault extends SampleView {
 
 class _PyramidDefaultState extends SampleViewState {
   _PyramidDefaultState();
-  final List<String> _pyramidMode = <String>['Linear', 'Surface'].toList();
+  final List<String> _pyramidMode = <String>['linear', 'surface'].toList();
   PyramidMode _selectedPyramidMode = PyramidMode.linear;
-  String _selectedMode = 'Linear';
+  String _selectedMode = 'linear';
   double gapRatio = 0;
   bool explode = false;
 
@@ -35,8 +35,8 @@ class _PyramidDefaultState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           ListTile(
-            title:
-                Text('Pyramid mode', style: TextStyle(color: model.textColor)),
+            title: Text(model.isWebFullView ? 'Pyramid \nmode' : 'Pyramid mode',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
               padding: EdgeInsets.only(left: 0.07 * screenWidth),
               width: 0.5 * screenWidth,
@@ -48,7 +48,7 @@ class _PyramidDefaultState extends SampleViewState {
                   value: _selectedMode,
                   items: _pyramidMode.map((String value) {
                     return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'Linear',
+                        value: (value != null) ? value : 'linear',
                         child: Text(value,
                             style: TextStyle(color: model.textColor)));
                   }).toList(),
@@ -59,7 +59,8 @@ class _PyramidDefaultState extends SampleViewState {
             ),
           ),
           ListTile(
-            title: Text('Gap ratio', style: TextStyle(color: model.textColor)),
+            title: Text('Gap ratio',
+                softWrap: false, style: TextStyle(color: model.textColor)),
             trailing: Container(
               padding: EdgeInsets.only(left: 0.03 * screenWidth),
               width: 0.5 * screenWidth,
@@ -77,6 +78,7 @@ class _PyramidDefaultState extends SampleViewState {
           ),
           ListTile(
             title: Text('Explode',
+                softWrap: false,
                 style: TextStyle(
                   color: model.textColor,
                 )),
@@ -133,7 +135,7 @@ class _PyramidDefaultState extends SampleViewState {
         pyramidMode: isCardView ? PyramidMode.linear : _selectedPyramidMode,
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
-        dataLabelSettings: DataLabelSettings(
+        dataLabelSettings: const DataLabelSettings(
           isVisible: true,
         ));
   }
@@ -141,9 +143,9 @@ class _PyramidDefaultState extends SampleViewState {
   /// Change the pyramid mode
   void _onPyramidModeChange(String item) {
     _selectedMode = item;
-    if (_selectedMode == 'Linear') {
+    if (_selectedMode == 'linear') {
       _selectedPyramidMode = PyramidMode.linear;
-    } else if (_selectedMode == 'Surface') {
+    } else if (_selectedMode == 'surface') {
       _selectedPyramidMode = PyramidMode.surface;
     }
     setState(() {

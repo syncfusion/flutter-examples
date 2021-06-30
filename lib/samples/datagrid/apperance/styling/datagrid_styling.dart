@@ -1,16 +1,17 @@
 ///Dart import
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
+
 /// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart';
-
-/// Barcode import
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+/// Barcode import
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../../model/model.dart';
@@ -47,25 +48,25 @@ class _StylingDataGridState extends SampleViewState {
 
   /// GridLineVisibility strings for drop down widget.
   final List<String> _encoding = <String>[
-    'Both',
-    'Horizontal',
-    'None',
-    'Vertical',
+    'both',
+    'horizontal',
+    'none',
+    'vertical',
   ];
 
   void _onGridLinesVisibilityChanges(String item) {
     gridLinesVisibility = item;
     switch (gridLinesVisibility) {
-      case 'Both':
+      case 'both':
         gridLineVisibility = GridLinesVisibility.both;
         break;
-      case 'Horizontal':
+      case 'horizontal':
         gridLineVisibility = GridLinesVisibility.horizontal;
         break;
-      case 'None':
+      case 'none':
         gridLineVisibility = GridLinesVisibility.none;
         break;
-      case 'Vertical':
+      case 'vertical':
         gridLineVisibility = GridLinesVisibility.vertical;
         break;
     }
@@ -77,7 +78,7 @@ class _StylingDataGridState extends SampleViewState {
         TextStyle(color: Color.fromRGBO(255, 255, 255, 1));
     return isWebOrDesktop
         ? <GridColumn>[
-            GridTextColumn(
+            GridColumn(
               columnName: 'orderId',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
@@ -92,7 +93,7 @@ class _StylingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'customerId',
               width: 120.0,
               label: Container(
@@ -105,7 +106,7 @@ class _StylingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'name',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
@@ -120,7 +121,7 @@ class _StylingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'freight',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 100.0
@@ -135,7 +136,7 @@ class _StylingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'city',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 100.0
@@ -150,7 +151,7 @@ class _StylingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'price',
               width: (isWebOrDesktop && model.isMobileResolution)
                   ? 115.0
@@ -167,7 +168,7 @@ class _StylingDataGridState extends SampleViewState {
             )
           ]
         : <GridColumn>[
-            GridTextColumn(
+            GridColumn(
               columnName: 'orderId',
               label: Container(
                 padding: const EdgeInsets.all(8),
@@ -179,7 +180,7 @@ class _StylingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               width: 100,
               columnName: 'customerId',
               columnWidthMode: isLandscapeInMobileView
@@ -195,7 +196,7 @@ class _StylingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'name',
               label: Container(
                 padding: const EdgeInsets.all(8),
@@ -207,7 +208,7 @@ class _StylingDataGridState extends SampleViewState {
                 ),
               ),
             ),
-            GridTextColumn(
+            GridColumn(
               columnName: 'city',
               label: Container(
                 padding: const EdgeInsets.all(8),
@@ -243,7 +244,7 @@ class _StylingDataGridState extends SampleViewState {
     isWebOrDesktop = model.isWeb || model.isDesktop;
     stylingDataGridSource =
         _StylingDataGridSource(model: model, isWebOrDesktop: isWebOrDesktop);
-    gridLinesVisibility = 'None';
+    gridLinesVisibility = 'horizontal';
     gridLineVisibility = GridLinesVisibility.horizontal;
     panelOpen = frontPanelVisible.value;
     frontPanelVisible.addListener(_subscribeToValueNotifier);
@@ -263,11 +264,11 @@ class _StylingDataGridState extends SampleViewState {
       return ListView(shrinkWrap: true, children: <Widget>[
         ListTile(
           title: Text(
-            'Grid lines visibility:',
-            style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-                color: model.textColor),
+            model.isWebFullView
+                ? 'Grid lines \nvisibility'
+                : 'Grid lines visibility',
+            softWrap: false,
+            style: TextStyle(fontSize: 16.0, color: model.textColor),
           ),
           trailing: Theme(
             data: ThemeData(canvasColor: model.bottomSheetBackgroundColor),
@@ -275,7 +276,7 @@ class _StylingDataGridState extends SampleViewState {
                 value: gridLinesVisibility,
                 items: _encoding.map((String value) {
                   return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'None',
+                      value: (value != null) ? value : 'none',
                       child: Text(value,
                           textAlign: TextAlign.center,
                           style: TextStyle(color: model.textColor)));
@@ -296,9 +297,20 @@ class _StylingDataGridState extends SampleViewState {
         color: model.themeData.brightness == Brightness.light
             ? const Color.fromRGBO(0, 0, 0, 0.26)
             : const Color.fromRGBO(255, 255, 255, 0.26));
-    return BoxDecoration(
-        border:
-            Border(left: borderSide, right: borderSide, bottom: borderSide));
+
+    // Restricts the right side border when Datagrid has gridlinesVisibility
+    // to both and vertical to maintains the border thickness.
+    switch (gridLineVisibility) {
+      case GridLinesVisibility.none:
+      case GridLinesVisibility.horizontal:
+        return BoxDecoration(
+            border: Border(
+                left: borderSide, right: borderSide, bottom: borderSide));
+      case GridLinesVisibility.both:
+      case GridLinesVisibility.vertical:
+        return BoxDecoration(
+            border: Border(left: borderSide, bottom: borderSide));
+    }
   }
 
   @override
@@ -314,10 +326,11 @@ class _StylingDataGridState extends SampleViewState {
             clipBehavior: Clip.antiAlias,
             elevation: 1.0,
             child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Container(
-                    decoration: drawBorder(),
-                    child: _buildDataGrid(gridLineVisibility)))));
+              padding: const EdgeInsets.all(16.0),
+              child: DecoratedBox(
+                  decoration: drawBorder(),
+                  child: _buildDataGrid(gridLineVisibility)),
+            )));
   }
 }
 

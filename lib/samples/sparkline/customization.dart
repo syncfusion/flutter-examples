@@ -105,7 +105,7 @@ class _SparklineCustomizationState extends SampleViewState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
-        shrinkWrap: !model.isWebFullView,
+        shrinkWrap: true,
         children: <Widget>[
           Container(
             child: Row(
@@ -235,6 +235,7 @@ class _SparklineCustomizationState extends SampleViewState {
                       color: model.textColor,
                       fontSize: 16,
                     )),
+                const Padding(padding: EdgeInsets.fromLTRB(12, 0, 0, 0)),
                 Container(
                     width: 90,
                     child: CheckboxListTile(

@@ -55,7 +55,7 @@ class _DoughnutDefaultState extends SampleViewState {
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text,
-          dataLabelSettings: DataLabelSettings(isVisible: true))
+          dataLabelSettings: const DataLabelSettings(isVisible: true))
     ];
   }
 }

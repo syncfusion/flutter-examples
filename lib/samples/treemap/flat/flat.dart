@@ -28,13 +28,18 @@ class TreemapLayoutSample extends SampleView {
   final LayoutType layoutType;
 
   @override
-  _TreemapLayoutSampleState createState() => _TreemapLayoutSampleState();
+  _TreemapLayoutSampleState createState() =>
+      // ignore: no_logic_in_create_state
+      _TreemapLayoutSampleState(layoutType);
 }
 
-class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
+class _TreemapLayoutSampleState extends SampleViewState {
+  _TreemapLayoutSampleState(this.layoutType);
+  final LayoutType layoutType;
   late List<_MovieDetails> _topTenMovies;
   late bool _isLightTheme;
   late bool _isDesktop;
+  bool _sortAscending = false;
 
   @override
   void initState() {
@@ -94,6 +99,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
           boxOffice: 1.450,
           color: Color.fromRGBO(255, 128, 170, 1.0)),
     ];
+
     super.initState();
   }
 
@@ -134,22 +140,99 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
         ),
       ),
     );
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return (widget.layoutType == LayoutType.slice &&
-                  constraints.maxHeight > 300) ||
-              widget.layoutType != LayoutType.slice ||
-              MediaQuery.of(context).orientation == Orientation.portrait ||
-              _isDesktop
-          ? current
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: current),
-            );
-    });
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return (layoutType == LayoutType.slice &&
+                          constraints.maxHeight > 300) ||
+                      layoutType != LayoutType.slice ||
+                      MediaQuery.of(context).orientation ==
+                          Orientation.portrait ||
+                      _isDesktop
+                  ? current
+                  : SingleChildScrollView(
+                      child: SizedBox(height: 400, child: current),
+                    );
+            },
+          ),
+          if (layoutType != LayoutType.squarified)
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: MediaQuery.of(context).orientation ==
+                            Orientation.portrait ||
+                        _isDesktop
+                    ? const EdgeInsets.only(right: 16.5, bottom: 16.5)
+                    : const EdgeInsets.only(right: 14.0, bottom: 14.0),
+                child: SizedBox(
+                  height: 45.0,
+                  width: 45.0,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      boxShadow: const <BoxShadow>[
+                        BoxShadow(
+                          spreadRadius: 2.0,
+                          blurRadius: 2.0,
+                          offset: Offset(0.0, 2.0),
+                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(45 / 2),
+                    ),
+                    child: TextButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(45 / 2))),
+                        backgroundColor: MaterialStateProperty.all(
+                            themeData.colorScheme.surface),
+                      ),
+                      onPressed: () {
+                        setState(
+                          () {
+                            _sortAscending = !_sortAscending;
+                          },
+                        );
+                      },
+                      child: Padding(
+                        padding: _isDesktop
+                            ? const EdgeInsets.all(10.0)
+                            : const EdgeInsets.all(4.0),
+                        child: _buildIcon(layoutType),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIcon(LayoutType layoutType) {
+    if (_isLightTheme) {
+      return _sortAscending
+          ? Tooltip(
+              message: 'Sort in descending order',
+              child: Image.asset('images/treemap_descending_light.png'))
+          : Tooltip(
+              message: 'Sort in ascending order',
+              child: Image.asset('images/treemap_ascending_light.png'));
+    } else {
+      return _sortAscending
+          ? Tooltip(
+              message: 'Sort in descending order',
+              child: Image.asset('images/treemap_descending_dark.png'))
+          : Tooltip(
+              message: 'Sort in ascending order',
+              child: Image.asset('images/treemap_ascending_dark.png'));
+    }
   }
 
   Widget _buildTreemap(ThemeData themeData) {
-    if (widget.layoutType == LayoutType.slice) {
+    if (layoutType == LayoutType.slice) {
       return SfTreemap.slice(
         // The number of data in your data source collection.
         //
@@ -162,6 +245,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
         weightValueMapper: (int index) {
           return _topTenMovies[index].boxOffice;
         },
+        sortAscending: _sortAscending,
         tooltipSettings: TreemapTooltipSettings(
           color: _isLightTheme
               ? const Color.fromRGBO(45, 45, 45, 1)
@@ -169,12 +253,13 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
         ),
         levels: _getTreemapLevels(themeData),
       );
-    } else if (widget.layoutType == LayoutType.dice) {
+    } else if (layoutType == LayoutType.dice) {
       return SfTreemap.dice(
         dataCount: _topTenMovies.length,
         weightValueMapper: (int index) {
           return _topTenMovies[index].boxOffice;
         },
+        sortAscending: _sortAscending,
         tooltipSettings: TreemapTooltipSettings(
           color: _isLightTheme
               ? const Color.fromRGBO(45, 45, 45, 1)
@@ -219,7 +304,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
         },
         // Returns a widget for each tile's content.
         itemBuilder: (BuildContext context, TreemapTile tile) {
-          if (widget.layoutType == LayoutType.dice) {
+          if (layoutType == LayoutType.dice) {
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -236,7 +321,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
                 ),
               ),
             );
-          } else if (widget.layoutType == LayoutType.slice) {
+          } else if (layoutType == LayoutType.slice) {
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -281,7 +366,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
   }
 
   Widget _buildLabelBuilder(TreemapTile tile) {
-    if (widget.layoutType == LayoutType.slice) {
+    if (layoutType == LayoutType.slice) {
       return Padding(
         padding: const EdgeInsets.only(left: 4.0),
         child: Align(
@@ -293,7 +378,7 @@ class _TreemapLayoutSampleState extends State<TreemapLayoutSample> {
           ),
         ),
       );
-    } else if (widget.layoutType == LayoutType.dice) {
+    } else if (layoutType == LayoutType.dice) {
       return Align(
         alignment: Alignment.bottomCenter,
         child: Padding(

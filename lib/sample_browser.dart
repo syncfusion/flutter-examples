@@ -52,6 +52,8 @@ class _SampleBrowserState extends State<SampleBrowser> {
       }
       navigationRoutes[sampleRoute.routeName!] = (BuildContext context) =>
           WebLayoutPage(
+              key: GlobalKey<State>(),
+              routeName: sampleRoute.routeName!,
               sampleModel: _sampleListModel,
               category: category,
               subItem: sampleRoute.subItem);
@@ -511,11 +513,17 @@ class _HomePageState extends State<HomePage> {
                   text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                          text: model.sampleList[i].title,
+                          text: model.sampleList[i].control!.title,
+                          style: TextStyle(
+                              fontFamily: 'Roboto-Bold',
+                              fontWeight: FontWeight.normal,
+                              color: model.textColor,
+                              letterSpacing: 0.3)),
+                      TextSpan(
+                          text: ' - ' + model.sampleList[i].title!,
                           style: TextStyle(
                               fontFamily: 'HeeboMedium',
                               fontWeight: FontWeight.normal,
-                              fontSize: 14.0,
                               color: model.textColor,
                               letterSpacing: 0.3)),
                     ],
@@ -763,6 +771,10 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
     final List<Widget> items = <Widget>[];
     for (int i = 0; i < category.controlList!.length; i++) {
       final Control control = category.controlList![i] as Control;
+      final String? status =
+          control.title == 'PDF Viewer' && !kIsWeb && Platform.isMacOS
+              ? 'New'
+              : control.status;
       items.add(Container(
         color: model.cardColor,
         child: Material(
@@ -805,8 +817,13 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                                   ? Padding(
                                       padding: const EdgeInsets.only(left: 8),
                                       child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              3, 3, 3, 2),
+                                          alignment: Alignment.center,
+                                          padding: model.isWeb &&
+                                                  model.isMobileResolution
+                                              ? const EdgeInsets.fromLTRB(
+                                                  3, 1.5, 3, 5.5)
+                                              : const EdgeInsets.fromLTRB(
+                                                  3, 3, 3, 2),
                                           decoration: const BoxDecoration(
                                               shape: BoxShape.rectangle,
                                               color: Color.fromRGBO(
@@ -822,24 +839,23 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                                           )))
                                   : Container()
                           ]),
-                          if (control.status != null)
+                          if (status != null)
                             Container(
                                 decoration: BoxDecoration(
                                     shape: BoxShape.rectangle,
-                                    color: control.status!.toLowerCase() ==
-                                            'new'
+                                    color: status.toLowerCase() == 'new'
                                         ? const Color.fromRGBO(55, 153, 30, 1)
-                                        : control.status!.toLowerCase() ==
-                                                'updated'
+                                        : status.toLowerCase() == 'updated'
                                             ? const Color.fromRGBO(
                                                 246, 117, 0, 1)
                                             : Colors.transparent,
                                     borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(10),
                                         bottomLeft: Radius.circular(10))),
-                                padding:
-                                    const EdgeInsets.fromLTRB(6, 2.7, 4, 2.7),
-                                child: Text(control.status!,
+                                padding: model.isWeb && model.isMobileResolution
+                                    ? const EdgeInsets.fromLTRB(6, 1.5, 4, 5.5)
+                                    : const EdgeInsets.fromLTRB(6, 2.7, 4, 2.7),
+                                child: Text(status,
                                     style: const TextStyle(
                                         fontFamily: 'Roboto-Medium',
                                         color: Colors.white,

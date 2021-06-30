@@ -73,10 +73,10 @@ class _ColumnTrackerState extends SampleViewState {
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Marks',
-          dataLabelSettings: DataLabelSettings(
+          dataLabelSettings: const DataLabelSettings(
               isVisible: true,
               labelAlignment: ChartDataLabelAlignment.top,
-              textStyle: const TextStyle(fontSize: 10, color: Colors.white)))
+              textStyle: TextStyle(fontSize: 10, color: Colors.white)))
     ];
   }
 }

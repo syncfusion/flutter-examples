@@ -13,6 +13,9 @@ import '../../../../../model/sample_view.dart';
 
 /// Renders range slider with gradient track
 class VerticalGradientTrackRangeSlider extends SampleView {
+  ///Creates range slider with gradient track
+  const VerticalGradientTrackRangeSlider(Key key) : super(key: key);
+
   @override
   _VerticalGradientTrackRangeSliderState createState() =>
       _VerticalGradientTrackRangeSliderState();
@@ -67,14 +70,14 @@ class _VerticalGradientTrackRangeSliderState extends SampleViewState {
   SfRangeSliderTheme _rangeSliderWithThumbCustomization() {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-          inactiveDivisorColor: Colors.white,
-          activeDivisorColor: Colors.white,
-          activeDivisorStrokeWidth: 2,
-          activeDivisorStrokeColor: _inactiveColor,
-          inactiveDivisorStrokeWidth: 2,
-          inactiveDivisorStrokeColor: Colors.tealAccent,
-          activeDivisorRadius: 5.0,
-          inactiveDivisorRadius: 5.0,
+          inactiveDividerColor: Colors.white,
+          activeDividerColor: Colors.white,
+          activeDividerStrokeWidth: 2,
+          activeDividerStrokeColor: _inactiveColor,
+          inactiveDividerStrokeWidth: 2,
+          inactiveDividerStrokeColor: Colors.tealAccent,
+          activeDividerRadius: 5.0,
+          inactiveDividerRadius: 5.0,
           activeTrackColor: Colors.tealAccent,
           inactiveTrackColor: _inactiveColor,
           overlayColor: Colors.tealAccent.withOpacity(0.12),
@@ -87,7 +90,7 @@ class _VerticalGradientTrackRangeSliderState extends SampleViewState {
         max: 90.0,
         interval: 20.0,
         showLabels: true,
-        showDivisors: true,
+        showDividers: true,
         values: _sliderValues,
         onChanged: (SfRangeValues values) {
           setState(() {
