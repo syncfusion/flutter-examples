@@ -22,17 +22,19 @@ class VerticalStepSliderPage extends SampleView {
 
 class _VerticalStepSliderPageState extends SampleViewState {
   _VerticalStepSliderPageState();
-  DateTime _yearValue = DateTime(2015, 1, 01);
+  DateTime _yearValue = DateTime(2014, 1, 01);
   double _stepSliderValue = 0;
+  bool _isInversed = false;
 
   SfSliderTheme _sliderWithStepDurationCustomization() {
     return SfSliderTheme(
         data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
         child: SfSlider.vertical(
           min: DateTime(2010, 01, 01),
-          max: DateTime(2020, 01, 01),
+          max: DateTime(2018, 01, 01),
           showLabels: true,
           interval: 2,
+          isInversed: _isInversed,
           stepDuration: const SliderStepDuration(years: 2),
           dateFormat: DateFormat.y(),
           labelPlacement: LabelPlacement.onTicks,
@@ -62,6 +64,7 @@ class _VerticalStepSliderPageState extends SampleViewState {
             max: 10.0,
             stepSize: 5,
             showTicks: true,
+            isInversed: _isInversed,
             value: _stepSliderValue,
             onChanged: (dynamic values) {
               setState(() {
@@ -110,5 +113,25 @@ class _VerticalStepSliderPageState extends SampleViewState {
           ? slider
           : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: _isInversed,
+          title: const Text('Inversed', softWrap: false),
+          contentPadding: const EdgeInsets.all(0.0),
+          activeColor: model.backgroundColor,
+          onChanged: (bool? value) {
+            setState(() {
+              _isInversed = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
+    );
   }
 }

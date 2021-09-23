@@ -32,6 +32,7 @@ class FileExplorerState extends State<FileExplorer> {
     Document('GIS Succinctly', 'assets/pdf/gis_succinctly.pdf'),
     Document('HTTP Succinctly', 'assets/pdf/http_succinctly.pdf'),
     Document('JavaScript Succinctly', 'assets/pdf/javascript_succinctly.pdf'),
+    Document('Rotated Document', 'assets/pdf/rotated_document.pdf'),
     Document('Single Page Document', 'assets/pdf/single_page_document.pdf'),
     Document('Corrupted Document', 'assets/pdf/corrupted_document.pdf')
   ];
@@ -446,10 +447,11 @@ class SearchToolbarState extends State<SearchToolbar> {
 class ToolbarItem extends StatelessWidget {
   ///Creates a toolbar item
   const ToolbarItem({
+    Key? key,
     this.height,
     this.width,
     @required this.child,
-  });
+  }) : super(key: key);
 
   /// Height of the toolbar item
   final double? height;

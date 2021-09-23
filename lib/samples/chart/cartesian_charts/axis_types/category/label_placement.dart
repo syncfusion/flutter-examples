@@ -54,7 +54,8 @@ class _CategoryTicksState extends SampleViewState {
                     fontSize: 16,
                   )),
               Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                padding:
+                    EdgeInsets.fromLTRB(model.isWebFullView ? 4 : 20, 0, 0, 0),
                 height: 50,
                 alignment: Alignment.bottomCenter,
                 child: DropdownButton<String>(

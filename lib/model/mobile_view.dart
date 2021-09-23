@@ -44,6 +44,18 @@ class _LayoutPageState extends State<LayoutPage> {
   int _secondaryTabIndex = 0;
   bool _showIcon = false;
 
+  /// Method to get the widget's color based on the widget state
+  Color? getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.selected,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return widget.sampleModel!.backgroundColor;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isInitState) {
@@ -77,6 +89,8 @@ class _LayoutPageState extends State<LayoutPage> {
             : null;
     return Theme(
         data: ThemeData(
+            checkboxTheme: CheckboxThemeData(
+                fillColor: MaterialStateProperty.resolveWith(getColor)),
             brightness: _model.themeData.brightness,
             primaryColor: _model.backgroundColor),
         child: SafeArea(
@@ -357,7 +371,7 @@ class _LayoutPageState extends State<LayoutPage> {
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
                         child: Container(
-                          height: 50,
+                          height: 30,
                           width: 230,
                           child: InkWell(
                             onTap: () => launch(_sampleDetail.sourceLink!),

@@ -131,6 +131,7 @@ class _PolylinesSampleState extends SampleViewState
                             key: UniqueKey(),
                             latitude: _routes[index].latLan.latitude,
                             longitude: _routes[index].latLan.longitude,
+                            alignment: Alignment.bottomCenter,
                             child: _routes[index].icon,
                           );
                         } else {

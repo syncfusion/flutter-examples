@@ -50,25 +50,6 @@ class _HorizantalGradientState extends SampleViewState {
           axisLine: const AxisLine(width: 0),
           majorTickLines: const MajorTickLines(size: 0)),
       series: _getGradientAreaSeries(),
-      onMarkerRender: (MarkerRenderArgs args) {
-        if (args.pointIndex == 0) {
-          args.color = const Color.fromRGBO(207, 124, 168, 1);
-        } else if (args.pointIndex == 1) {
-          args.color = const Color.fromRGBO(210, 133, 167, 1);
-        } else if (args.pointIndex == 2) {
-          args.color = const Color.fromRGBO(219, 128, 161, 1);
-        } else if (args.pointIndex == 3) {
-          args.color = const Color.fromRGBO(213, 143, 151, 1);
-        } else if (args.pointIndex == 4) {
-          args.color = const Color.fromRGBO(226, 157, 126, 1);
-        } else if (args.pointIndex == 5) {
-          args.color = const Color.fromRGBO(220, 169, 122, 1);
-        } else if (args.pointIndex == 6) {
-          args.color = const Color.fromRGBO(221, 176, 108, 1);
-        } else if (args.pointIndex == 7) {
-          args.color = const Color.fromRGBO(222, 187, 97, 1);
-        }
-      },
     );
   }
 
@@ -94,6 +75,11 @@ class _HorizantalGradientState extends SampleViewState {
 
     return <ChartSeries<_ChartData, String>>[
       SplineAreaSeries<_ChartData, String>(
+        onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
+          return _CustomSplineAreaSeriesRenderer(
+              series as SplineAreaSeries<_ChartData, String>);
+        },
+
         /// To set the gradient colors for border here.
         borderGradient: const LinearGradient(colors: <Color>[
           Color.fromRGBO(212, 126, 166, 1),
@@ -132,4 +118,31 @@ class _ChartData {
   _ChartData({this.x, this.y});
   final String? x;
   final double? y;
+}
+
+class _CustomSplineAreaSeriesRenderer extends SplineAreaSeriesRenderer {
+  _CustomSplineAreaSeriesRenderer(this.series);
+
+  final SplineAreaSeries<dynamic, dynamic> series;
+
+  List<Color> markerColorList = <Color>[
+    const Color.fromRGBO(207, 124, 168, 1),
+    const Color.fromRGBO(210, 133, 167, 1),
+    const Color.fromRGBO(219, 128, 161, 1),
+    const Color.fromRGBO(213, 143, 151, 1),
+    const Color.fromRGBO(226, 157, 126, 1),
+    const Color.fromRGBO(220, 169, 122, 1),
+    const Color.fromRGBO(221, 176, 108, 1),
+    const Color.fromRGBO(222, 187, 97, 1)
+  ];
+
+  @override
+  void drawDataMarker(int index, Canvas canvas, Paint fillPaint,
+      Paint strokePaint, double pointX, double pointY,
+      [CartesianSeriesRenderer? seriesRenderer]) {
+    strokePaint.color = Colors.white;
+    fillPaint.color = markerColorList[index];
+    super.drawDataMarker(
+        index, canvas, fillPaint, strokePaint, pointX, pointY, seriesRenderer);
+  }
 }

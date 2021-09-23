@@ -1,6 +1,6 @@
 /// package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -58,20 +58,29 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
     model = widget.sampleModel!;
     category = widget.category!;
     sample = widget.subItem!;
-    orginText = sample.parentIndex != null
-        ? sample.control!.title! +
+    if (sample.parentIndex != null) {
+      orginText = sample.control!.title! +
+          ' > ' +
+          sample.control!.subItems![sample.parentIndex!].title +
+          ' > ' +
+          sample.control!.subItems![sample.parentIndex!]
+              .subItems[sample.childIndex].title;
+    } else {
+      if (sample.childIndex != null &&
+          (widget.subItem!.control!.subItems![sample.childIndex!]! as SubItem)
+                  .subItems!
+                  .length >
+              1) {
+        orginText = sample.control!.title! +
             ' > ' +
-            sample.control!.subItems![sample.parentIndex!].title +
+            widget.subItem!.control!.subItems![sample.childIndex!].title +
             ' > ' +
-            sample.control!.subItems![sample.parentIndex!]
-                .subItems[sample.childIndex].title
-        : sample.childIndex != null
-            ? sample.control!.title! +
-                ' > ' +
-                widget.subItem!.control!.subItems![sample.childIndex!].title +
-                ' > ' +
-                sample.title!
-            : sample.control!.title! + ' > ' + sample.title!;
+            sample.title!;
+      } else {
+        orginText = sample.control!.title! + ' > ' + sample.title!;
+      }
+    }
+
     subItems = sample.parentIndex != null
         ? sample.control!.subItems![sample.parentIndex!]
             .subItems[sample.childIndex].subItems as List<SubItem>
@@ -109,7 +118,11 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
         // ignore: cast_nullable_to_non_nullable
         globalKey: widget.key as GlobalKey<State>,
         routeName: widget.routeName);
-    SampleModel.sampleRoutes.add(model.currentSampleRoute);
+    if (SampleModel.sampleRoutes.isNotEmpty &&
+        SampleModel.sampleRoutes.any((SampleRoute element) =>
+            element.routeName != model.currentSampleRoute.routeName)) {
+      SampleModel.sampleRoutes.add(model.currentSampleRoute);
+    }
 
     return Scaffold(
         key: scaffoldKey,
@@ -424,49 +437,152 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
         }
       }
     }
-    return item.subItems != null && item.subItems!.isNotEmpty
-        ? _TileContainer(
+
+    late Widget childWidget;
+    if (item.subItems != null && item.subItems!.isNotEmpty) {
+      if (item.subItems!.length != 1) {
+        childWidget = _TileContainer(
             key: _currentGlobalKey,
             category: category,
             sampleModel: model,
             expansionKey: _currentExpansionKey,
             webLayoutPageState: widget.webLayoutPageState!,
-            item: item)
-        : Material(
+            item: item);
+      } else {
+        final SubItem currentSample = widget.webLayoutPageState!.sample;
+        final bool _isNeedSelect =
+            currentSample.breadCrumbText == item.subItems![0].breadCrumbText;
+        childWidget = Material(
             color: model.webBackgroundColor,
             child: InkWell(
-                hoverColor: Colors.grey.withOpacity(0.2),
-                onTap: () {
-                  final GlobalKey globalKey = widget
-                      .webLayoutPageState!.outputContainer.key! as GlobalKey;
-                  final SampleOutputContainerState _outputContainerState =
-                      globalKey.currentState! as SampleOutputContainerState;
-                  if (_outputContainerState
-                          .outputScaffoldKey.currentState!.isEndDrawerOpen ||
-                      widget.webLayoutPageState!.scaffoldKey.currentState!
-                          .isDrawerOpen) {
-                    Navigator.pop(context);
-                  }
-                  _outputContainerState.sample = item;
-                  _outputContainerState.needTabs = false;
-                  _outputContainerState.orginText =
-                      widget.webLayoutPageState!.sample.control!.title! +
-                          ' > ' +
-                          item.title!;
-                  if (model.currentSampleKey == null ||
-                      model.currentSampleKey != item.key) {
-                    _outputContainerState.refresh();
-                  }
-                },
-                child: Container(
-                    color: Colors.transparent,
-                    padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-                    alignment: Alignment.centerLeft,
-                    child: Text(item.title!,
-                        style: TextStyle(
-                            color: model.textColor,
-                            fontSize: 13,
-                            fontFamily: 'Roboto-Regular')))));
+              hoverColor: Colors.grey.withOpacity(0.2),
+              onTap: () {
+                model.isPropertyPanelOpened = true;
+                final _SampleInputContainerState _sampleInputContainerState =
+                    widget.webLayoutPageState!.sampleInputKey.currentState!
+                        as _SampleInputContainerState;
+                final GlobalKey _globalKey = widget
+                    .webLayoutPageState!.outputContainer.key! as GlobalKey;
+                final SampleOutputContainerState _outputContainerState =
+                    _globalKey.currentState! as SampleOutputContainerState;
+                _outputContainerState.subItems =
+                    item.subItems! as List<SubItem>;
+                _outputContainerState.sample = item.subItems![0] as SubItem;
+                _outputContainerState.tabIndex = 0;
+                _outputContainerState.needTabs = true;
+                if (_outputContainerState
+                        .outputScaffoldKey.currentState!.isEndDrawerOpen ||
+                    widget.webLayoutPageState!.scaffoldKey.currentState!
+                        .isDrawerOpen) {
+                  Navigator.pop(context);
+                }
+                _outputContainerState.orginText =
+                    widget.webLayoutPageState!.sample.control!.title! +
+                        ' > ' +
+                        item.subItems![0].title!;
+
+                widget.webLayoutPageState!.selectSample = item.title!;
+                widget.webLayoutPageState!.sample =
+                    item.subItems != null ? item.subItems![0] as SubItem : item;
+                if (model.currentSampleKey == null ||
+                    (item.key != null
+                        ? model.currentSampleKey != item.key
+                        : model.currentSampleKey != item.subItems![0].key)) {
+                  _sampleInputContainerState.refresh();
+                  _outputContainerState.refresh();
+                }
+              },
+              child: Container(
+                  color: _isNeedSelect
+                      ? Colors.grey.withOpacity(0.2)
+                      : Colors.transparent,
+                  child: Row(children: <Widget>[
+                    Container(
+                        color: _isNeedSelect
+                            ? model.backgroundColor
+                            : Colors.transparent,
+                        width: 5,
+                        height: 40,
+                        padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+                        alignment: Alignment.centerLeft,
+                        child: const Opacity(opacity: 0.0, child: Text('1'))),
+                    Expanded(
+                        child: Container(
+                            height: 40,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(
+                                left: 11, top: 10, bottom: 10),
+                            child: Text(item.subItems![0].title!,
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Roboto-Medium',
+                                    color: _isNeedSelect
+                                        ? model.backgroundColor
+                                        : model.textColor)))),
+                    if (item.subItems![0].status != null &&
+                        item.subItems![0].status != '')
+                      Container(
+                          decoration: BoxDecoration(
+                              color: item.subItems![0].status == 'New'
+                                  ? const Color.fromRGBO(55, 153, 30, 1)
+                                  : const Color.fromRGBO(246, 117, 0, 1),
+                              shape: BoxShape.rectangle,
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0))),
+                          padding: model.isWeb && model.isMobileResolution
+                              ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
+                              : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
+                          child: Text(item.subItems![0].status,
+                              style: const TextStyle(
+                                  fontSize: 10.5, color: Colors.white)))
+                    else
+                      Container(),
+                    if (item.subItems![0].status != null &&
+                        item.subItems![0].status != '')
+                      const Padding(padding: EdgeInsets.only(right: 5))
+                    else
+                      Container(),
+                  ])),
+            ));
+      }
+    } else {
+      childWidget = Material(
+          color: model.webBackgroundColor,
+          child: InkWell(
+              hoverColor: Colors.grey.withOpacity(0.2),
+              onTap: () {
+                final GlobalKey globalKey = widget
+                    .webLayoutPageState!.outputContainer.key! as GlobalKey;
+                final SampleOutputContainerState _outputContainerState =
+                    globalKey.currentState! as SampleOutputContainerState;
+                if (_outputContainerState
+                        .outputScaffoldKey.currentState!.isEndDrawerOpen ||
+                    widget.webLayoutPageState!.scaffoldKey.currentState!
+                        .isDrawerOpen) {
+                  Navigator.pop(context);
+                }
+                _outputContainerState.sample = item;
+                _outputContainerState.needTabs = false;
+                _outputContainerState.orginText =
+                    widget.webLayoutPageState!.sample.control!.title! +
+                        ' > ' +
+                        item.title!;
+                if (model.currentSampleKey == null ||
+                    model.currentSampleKey != item.key) {
+                  _outputContainerState.refresh();
+                }
+              },
+              child: Container(
+                  color: Colors.transparent,
+                  padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                  alignment: Alignment.centerLeft,
+                  child: Text(item.title!,
+                      style: TextStyle(
+                          color: model.textColor,
+                          fontSize: 13,
+                          fontFamily: 'Roboto-Regular')))));
+    }
+    return childWidget;
   }
 
   List<Widget> _getSampleList(SampleModel model, WidgetCategory category) {
@@ -541,7 +657,8 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                                           ? model.backgroundColor
                                           : model.textColor),
                                 ))),
-                        if (_list[i].status != null)
+                        if (_list[i].status != null &&
+                            _getSampleStatus(model, _list[i], context))
                           Container(
                               decoration: BoxDecoration(
                                   shape: BoxShape.rectangle,
@@ -561,7 +678,8 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                                       color: Colors.white, fontSize: 10.5)))
                         else
                           Container(),
-                        if (_list[i].status != null)
+                        if (_list[i].status != null &&
+                            _getSampleStatus(model, _list[i], context))
                           const Padding(padding: EdgeInsets.only(right: 5))
                         else
                           Container(),
@@ -571,6 +689,23 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
     }
 
     return _children;
+  }
+
+  /// Checks whether to display the sample status such as new, updated for the incoming sample
+  bool _getSampleStatus(
+      SampleModel model, SubItem sample, BuildContext context) {
+    final Function? sampleView = model.sampleWidget[sample.key];
+    final dynamic currentSample = sampleView!(GlobalKey<State>());
+    bool? isPlatformSpecified;
+    late bool hideStatus;
+    try {
+      isPlatformSpecified = currentSample.hideSampleStatus != null &&
+          currentSample.hideSampleStatus! == true;
+      // ignore: empty_catches
+    } catch (e) {}
+    hideStatus = sample.status != null &&
+        (isPlatformSpecified == null || isPlatformSpecified == true);
+    return hideStatus;
   }
 
   Future<void> onTapEvent() async {
@@ -715,29 +850,49 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
   double _tabTextWidth = 0;
   late ScrollController _controller;
   late StateSetter _setState;
-  bool _midScrolled = false;
-  double? _oldScrollPosition;
+  String? _prevCategory;
+  String? _currentCategory;
+  double? _prevPosition;
+  Size? _prevSize;
+  late bool _isMaximized;
+  bool? _hasLeftSideScrolled;
+  late bool _isLeftScrolled;
+  late double _scrollbarWidth;
+  late bool _isRightScrolled;
+  bool? _hasRightSideScrolled;
+  double? _prevScrollExtent;
+  late bool _needsPropertyPanel;
 
   @override
   void initState() {
     _initialRender = true;
     orginText = widget.orginText!;
+    _prevCategory = widget.webLayoutPageState != null &&
+            widget.webLayoutPageState!.selectSample != null
+        ? widget.webLayoutPageState!.selectSample
+        : 'Line';
     super.initState();
   }
 
   void _onTabScroll() {
     _setState(() {
-      _midScrolled = _oldScrollPosition != null &&
-          _oldScrollPosition! > _controller.position.pixels;
+      // ignore: invalid_use_of_protected_member
+      if (_controller.positions.isNotEmpty) {
+        _prevPosition = _controller.position.pixels;
+        _prevScrollExtent = _controller.position.maxScrollExtent;
+      } else {
+        _prevPosition = null;
+        _prevScrollExtent = null;
+      }
+
+      _isLeftSideScrolled();
+      _isRightSideScrolled();
     });
-    _oldScrollPosition = _controller.position.pixels;
   }
 
   /// Notify the framework
   void refresh() {
-    _midScrolled = false;
     _initialRender = false;
-    _oldScrollPosition = null;
     _controller.removeListener(_onTabScroll);
     _controller.dispose();
     if (mounted) {
@@ -745,6 +900,23 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
         /// update the sample and sample details changes
       });
     }
+  }
+
+  /// Checks whether the property panel is enabled
+  bool _checkPropertyPanelIsEnabled(SampleModel model, SubItem sample,
+      _PropertiesPanel propertiesPanel, BuildContext context) {
+    final Function? sampleView = model.sampleWidget[sample.key];
+    final dynamic currentSample = sampleView!(GlobalKey<State>());
+    _needsPropertyPanel = sample.needsPropertyPanel ?? false;
+    bool? isPlatformSpecified;
+    try {
+      isPlatformSpecified = currentSample.needsPropertyPanel != null &&
+          currentSample.needsPropertyPanel! == true;
+      // ignore: empty_catches
+    } catch (e) {}
+    _needsPropertyPanel = sample.needsPropertyPanel == true &&
+        (isPlatformSpecified == null || isPlatformSpecified == true);
+    return _needsPropertyPanel;
   }
 
   @override
@@ -760,9 +932,31 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     final SampleModel _model = widget.sampleModel!;
     _model.webOutputContainerState = this;
     final double width = MediaQuery.of(context).size.width;
+    _isMaximized = false;
+    if (_prevSize == null) {
+      _prevSize = MediaQuery.of(context).size;
+    } else {
+      if (_prevSize != MediaQuery.of(context).size) {
+        _isMaximized = true;
+        _prevSize = MediaQuery.of(context).size;
+      }
+    }
     if (_initialRender && widget.initialSubItems != null) {
       needTabs = true;
       subItems = widget.initialSubItems!;
+    }
+    if (_currentCategory == null) {
+      _currentCategory = widget.webLayoutPageState != null &&
+              widget.webLayoutPageState!.selectSample != null
+          ? widget.webLayoutPageState!.selectSample
+          : 'Line';
+    } else {
+      if (widget.webLayoutPageState != null &&
+          widget.webLayoutPageState!.selectSample != null &&
+          _currentCategory != widget.webLayoutPageState!.selectSample) {
+        _prevCategory = _currentCategory;
+        _currentCategory = widget.webLayoutPageState!.selectSample;
+      }
     }
     final SubItem _sample = (_initialRender ? widget.initialSample : sample)!;
     _propertiesPanel =
@@ -770,7 +964,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     _tabTextWidth = 0;
     final List<Widget>? tabs =
         needTabs == true && subItems.length > 1 ? _getTabs(subItems) : null;
-    final double _scrollbarWidth = width *
+    _scrollbarWidth = width *
         ((_model.isMobileResolution && width > 600)
             ? 0.75
             : (width <= 500
@@ -779,6 +973,10 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                     ? 0.58
                     : 0.65));
     final List<bool> isSelected = <bool>[true];
+    _isLeftSideScrolled();
+    _isRightSideScrolled();
+
+    _model.isPropertyPanelTapped = false;
     return Theme(
       data: ThemeData(
           brightness: _model.themeData.brightness,
@@ -817,7 +1015,10 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                       child: Scaffold(
                           backgroundColor: _model.webOutputContainerColor,
                           key: outputScaffoldKey,
-                          endDrawer: _propertiesPanel,
+                          endDrawer: _checkPropertyPanelIsEnabled(
+                                  _model, _sample, _propertiesPanel, context)
+                              ? _propertiesPanel
+                              : null,
                           body: needTabs == true
                               ? DefaultTabController(
                                   initialIndex: (tabIndex ??
@@ -853,7 +1054,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                   ? const EdgeInsets.fromLTRB(
                                                       2, 5, 2, 0)
                                                   : const EdgeInsets.fromLTRB(
-                                                      10, 0, 10, 0),
+                                                      5, 0, 10, 0),
                                               child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -868,63 +1069,55 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                         width: _scrollbarWidth,
                                                         child: Stack(
                                                           children: <Widget>[
-                                                            SingleChildScrollView(
-                                                                controller:
-                                                                    _controller,
-                                                                key: PageStorageKey<
-                                                                    String>((subItems
-                                                                            .isNotEmpty
-                                                                        ? subItems[0]
-                                                                            .title!
-                                                                        : '') +
-                                                                    'tabscroll'),
-                                                                scrollDirection:
-                                                                    Axis
-                                                                        .horizontal,
-                                                                child: Material(
-                                                                    color: _model
-                                                                        .webInputColor,
-                                                                    child: InkWell(
-                                                                        hoverColor: _model.paletteColor.withOpacity(0.3),
-                                                                        child: subItems.length == 1
-                                                                            ? Container()
-                                                                            : Padding(
-                                                                                padding: const EdgeInsets.only(right: 30),
-                                                                                child: TabBar(
-                                                                                  indicatorPadding: EdgeInsets.zero,
-                                                                                  indicatorColor: _model.backgroundColor,
-                                                                                  onTap: (int value) {
-                                                                                    _model.isPropertyPanelOpened = true;
-                                                                                    widget.sampleModel!.needToMaximize = false;
-                                                                                    final GlobalKey globalKey = widget.webLayoutPageState!.outputContainer.key! as GlobalKey;
-                                                                                    final SampleOutputContainerState _outputContainerState = globalKey.currentState! as SampleOutputContainerState;
-                                                                                    _outputContainerState.sample = subItems[value];
-                                                                                    _outputContainerState.needTabs = true;
-                                                                                    _outputContainerState.subItems = subItems;
-                                                                                    _outputContainerState.tabIndex = value;
-                                                                                    if (_model.currentSampleKey == null || _model.currentSampleKey != _outputContainerState.sample.key) {
-                                                                                      _outputContainerState.refresh();
-                                                                                    }
-                                                                                  },
-                                                                                  labelColor: _model.backgroundColor,
-                                                                                  unselectedLabelColor: _model.themeData.brightness == Brightness.dark ? Colors.white : const Color.fromRGBO(89, 89, 89, 1),
-                                                                                  isScrollable: true,
-                                                                                  tabs: tabs!,
-                                                                                ))))),
-                                                            if (((_scrollbarWidth +
-                                                                        10) <
-                                                                    _tabTextWidth) &&
-                                                                ((_controller
-                                                                            // ignore: invalid_use_of_protected_member
-                                                                            .positions
-                                                                            .isNotEmpty &&
-                                                                        _controller.position.maxScrollExtent >
-                                                                            _controller.position.pixels +
-                                                                                10) ||
-                                                                    _midScrolled ==
-                                                                        true ||
-                                                                    _oldScrollPosition ==
-                                                                        null))
+                                                            Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    left:
+                                                                        _isLeftScrolled
+                                                                            ? 2
+                                                                            : 0),
+                                                                child: ScrollConfiguration(
+                                                                    behavior: ScrollConfiguration.of(context).copyWith(dragDevices: <PointerDeviceKind>{
+                                                                      PointerDeviceKind
+                                                                          .touch,
+                                                                      PointerDeviceKind
+                                                                          .mouse,
+                                                                    }),
+                                                                    child: SingleChildScrollView(
+                                                                        controller: _controller,
+                                                                        key: PageStorageKey<String>((subItems.isNotEmpty ? subItems[0].title! : '') + 'tabscroll'),
+                                                                        scrollDirection: Axis.horizontal,
+                                                                        child: Material(
+                                                                            color: _model.webInputColor,
+                                                                            child: InkWell(
+                                                                                hoverColor: _model.paletteColor.withOpacity(0.3),
+                                                                                child: subItems.length == 1
+                                                                                    ? Container()
+                                                                                    : Padding(
+                                                                                        padding: const EdgeInsets.only(left: 25, right: 30),
+                                                                                        child: TabBar(
+                                                                                          indicatorPadding: const EdgeInsets.only(left: 2, right: 2),
+                                                                                          indicatorColor: _model.backgroundColor,
+                                                                                          onTap: (int value) {
+                                                                                            _model.isPropertyPanelOpened = true;
+                                                                                            widget.sampleModel!.needToMaximize = false;
+                                                                                            final GlobalKey globalKey = widget.webLayoutPageState!.outputContainer.key! as GlobalKey;
+                                                                                            final SampleOutputContainerState _outputContainerState = globalKey.currentState! as SampleOutputContainerState;
+                                                                                            _outputContainerState.sample = subItems[value];
+                                                                                            _outputContainerState.needTabs = true;
+                                                                                            _outputContainerState.subItems = subItems;
+                                                                                            _outputContainerState.tabIndex = value;
+                                                                                            if (_model.currentSampleKey == null || _model.currentSampleKey != _outputContainerState.sample.key) {
+                                                                                              _outputContainerState.refresh();
+                                                                                            }
+                                                                                          },
+                                                                                          labelColor: _model.backgroundColor,
+                                                                                          unselectedLabelColor: _model.themeData.brightness == Brightness.dark ? Colors.white : const Color.fromRGBO(89, 89, 89, 1),
+                                                                                          isScrollable: true,
+                                                                                          tabs: tabs!,
+                                                                                        ))))))),
+                                                            if (_scrollbarWidth +
+                                                                    10 <
+                                                                _tabTextWidth)
                                                               Align(
                                                                   alignment:
                                                                       Alignment
@@ -959,8 +1152,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                               SizedBox.fromSize(
                                                                   size: Size
                                                                       .zero),
-                                                            if ((_scrollbarWidth +
-                                                                    10) <
+                                                            if (_scrollbarWidth +
+                                                                    10 <
                                                                 _tabTextWidth)
                                                               Align(
                                                                   alignment:
@@ -975,14 +1168,10 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                         shape: const CircleBorder(),
                                                                         clipBehavior: Clip.hardEdge,
                                                                         child: InkWell(
-                                                                            // ignore: invalid_use_of_protected_member
-                                                                            hoverColor: (_controller.positions.isNotEmpty && (_controller.position.maxScrollExtent - _controller.position.pixels).abs() < 50) && _midScrolled != true ? Colors.transparent : Colors.grey.withOpacity(0.3),
-                                                                            // ignore: invalid_use_of_protected_member
-                                                                            highlightColor: (_controller.positions.isNotEmpty && (_controller.position.maxScrollExtent - _controller.position.pixels).abs() < 50) && _midScrolled != true ? Colors.transparent : null,
-                                                                            // ignore: invalid_use_of_protected_member
-                                                                            splashColor: (_controller.positions.isNotEmpty && (_controller.position.maxScrollExtent - _controller.position.pixels).abs() < 50) && _midScrolled != true ? Colors.transparent : null,
-                                                                            // ignore: invalid_use_of_protected_member
-                                                                            focusColor: (_controller.positions.isNotEmpty && (_controller.position.maxScrollExtent - _controller.position.pixels).abs() < 50) && _midScrolled != true ? Colors.transparent : null,
+                                                                            hoverColor: _isRightScrolled ? Colors.grey.withOpacity(0.3) : Colors.transparent,
+                                                                            highlightColor: _isRightScrolled ? Colors.transparent : null,
+                                                                            splashColor: _isRightScrolled ? Colors.transparent : null,
+                                                                            focusColor: _isRightScrolled ? Colors.transparent : null,
                                                                             onTap: () {
                                                                               if (_controller.position.maxScrollExtent > _controller.position.pixels + 12) {
                                                                                 _controller.animateTo(_controller.position.pixels + 150, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
@@ -1000,7 +1189,90 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                                   width: 18,
                                                                                   child: Image.asset('images/scroll_arrow.png',
                                                                                       // ignore: invalid_use_of_protected_member
-                                                                                      color: (_controller.positions.isNotEmpty && (_controller.position.maxScrollExtent - _controller.position.pixels).abs() < 50) && _midScrolled != true ? _model.textColor.withOpacity(0.5) : _model.textColor,
+                                                                                      color: _isRightScrolled ? _model.textColor : _model.textColor.withOpacity(0.5),
+                                                                                      fit: BoxFit.contain),
+                                                                                )))),
+                                                                  ))
+                                                            else
+                                                              SizedBox.fromSize(
+                                                                  size: Size
+                                                                      .zero),
+                                                            if (_scrollbarWidth +
+                                                                    10 <
+                                                                _tabTextWidth)
+                                                              Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .centerLeft,
+                                                                  child:
+                                                                      Container(
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                            gradient:
+                                                                                LinearGradient(
+                                                                      colors: <
+                                                                          Color>[
+                                                                        _model
+                                                                            .webInputColor
+                                                                            .withOpacity(1.0),
+                                                                        _model
+                                                                            .webInputColor
+                                                                            .withOpacity(1.0),
+                                                                        _model
+                                                                            .webInputColor
+                                                                            .withOpacity(0.21),
+                                                                      ],
+                                                                      stops: const <
+                                                                          double>[
+                                                                        0.0,
+                                                                        0.5,
+                                                                        0.9
+                                                                      ],
+                                                                    )),
+                                                                    width: 55,
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .centerLeft,
+                                                                  ))
+                                                            else
+                                                              SizedBox.fromSize(
+                                                                  size: Size
+                                                                      .zero),
+                                                            if (_scrollbarWidth +
+                                                                    10 <
+                                                                _tabTextWidth)
+                                                              Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .centerLeft,
+                                                                  child:
+                                                                      Container(
+                                                                    child: Material(
+                                                                        shape: const CircleBorder(),
+                                                                        clipBehavior: Clip.hardEdge,
+                                                                        child: InkWell(
+                                                                            hoverColor: _isLeftScrolled ? Colors.grey.withOpacity(0.3) : Colors.transparent,
+                                                                            highlightColor: _isLeftScrolled ? Colors.transparent : null,
+                                                                            splashColor: _isLeftScrolled ? Colors.transparent : null,
+                                                                            focusColor: _isLeftScrolled ? Colors.transparent : null,
+                                                                            onTap: () {
+                                                                              if (_controller.position.pixels != 0) {
+                                                                                _controller.animateTo(_controller.position.pixels - 150, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+                                                                              }
+                                                                              _stateSetter(() {});
+                                                                            },
+                                                                            child: Ink(
+                                                                                decoration: BoxDecoration(
+                                                                                  color: _model.webInputColor,
+                                                                                  border: Border.all(color: Colors.transparent, width: 6),
+                                                                                  shape: BoxShape.circle,
+                                                                                ),
+                                                                                child: SizedBox(
+                                                                                  height: 18,
+                                                                                  width: 18,
+                                                                                  child: Image.asset('images/scroll-arrow-left.png',
+                                                                                      // ignore: invalid_use_of_protected_member
+                                                                                      color: _isLeftScrolled ? _model.textColor : _model.textColor.withOpacity(0.5),
                                                                                       fit: BoxFit.contain),
                                                                                 )))),
                                                                   ))
@@ -1099,52 +1371,53 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                           ? 3
                                                                           : 6)),
                                                           Flexible(
-                                                            child: _sample
-                                                                        .needsPropertyPanel ==
-                                                                    true
-                                                                ? StatefulBuilder(builder:
-                                                                    (BuildContext
+                                                            child:
+                                                                _needsPropertyPanel
+                                                                    ? StatefulBuilder(builder: (BuildContext
                                                                             context,
                                                                         StateSetter
                                                                             stateSetter) {
-                                                                    return Material(
-                                                                        color: _model
-                                                                            .webInputColor,
-                                                                        shape:
-                                                                            const CircleBorder(),
-                                                                        clipBehavior:
-                                                                            Clip.hardEdge,
-                                                                        child: ToggleButtons(
-                                                                            constraints: const BoxConstraints(minHeight: 30, minWidth: 30),
-                                                                            fillColor: Colors.grey.withOpacity(0.3),
-                                                                            splashColor: Colors.grey.withOpacity(0.3),
-                                                                            borderColor: Colors.transparent,
-                                                                            isSelected: isSelected,
-                                                                            hoverColor: Colors.grey.withOpacity(0.3),
-                                                                            onPressed: (int index) {
-                                                                              isSelected[index] = !isSelected[index];
-                                                                              if (MediaQuery.of(context).size.width > 720) {
-                                                                                stateSetter(() {
-                                                                                  _model.isPropertyPanelOpened = !_model.isPropertyPanelOpened;
-                                                                                  final _OutputContainerState _outputContainerState = _model.outputContainerState as _OutputContainerState;
-                                                                                  _outputContainerState.propertyPanelStateChange(() {
-                                                                                    _outputContainerState.show = _model.isPropertyPanelOpened;
-                                                                                  });
-                                                                                });
-                                                                              } else {
-                                                                                outputScaffoldKey.currentState!.openEndDrawer();
-                                                                              }
-                                                                            },
-                                                                            children: <Widget>[
-                                                                              Tooltip(
-                                                                                message: MediaQuery.of(context).size.width <= 720 || !_model.isPropertyPanelOpened ? 'Open Property Panel' : 'Close Property Panel',
-                                                                                child: Icon(Icons.menu, color: _model.webIconColor),
-                                                                              )
-                                                                            ]));
-                                                                  })
-                                                                : SizedBox.fromSize(
-                                                                    size: Size
-                                                                        .zero),
+                                                                        return Material(
+                                                                            color: _model
+                                                                                .webInputColor,
+                                                                            shape:
+                                                                                const CircleBorder(),
+                                                                            clipBehavior:
+                                                                                Clip.hardEdge,
+                                                                            child: ToggleButtons(
+                                                                                constraints: const BoxConstraints(minHeight: 30, minWidth: 30),
+                                                                                fillColor: Colors.grey.withOpacity(0.3),
+                                                                                splashColor: Colors.grey.withOpacity(0.3),
+                                                                                borderColor: Colors.transparent,
+                                                                                isSelected: isSelected,
+                                                                                hoverColor: Colors.grey.withOpacity(0.3),
+                                                                                onPressed: (int index) {
+                                                                                  isSelected[index] = !isSelected[index];
+                                                                                  if (MediaQuery.of(context).size.width > 720) {
+                                                                                    stateSetter(() {
+                                                                                      _model.isPropertyPanelOpened = !_model.isPropertyPanelOpened;
+                                                                                      if (!_model.isPropertyPanelOpened) {
+                                                                                        _model.isPropertyPanelTapped = true;
+                                                                                      }
+                                                                                      final _OutputContainerState _outputContainerState = _model.outputContainerState as _OutputContainerState;
+                                                                                      _outputContainerState.propertyPanelStateChange(() {
+                                                                                        _outputContainerState.show = _model.isPropertyPanelOpened;
+                                                                                      });
+                                                                                    });
+                                                                                  } else {
+                                                                                    outputScaffoldKey.currentState!.openEndDrawer();
+                                                                                  }
+                                                                                },
+                                                                                children: <Widget>[
+                                                                                  Tooltip(
+                                                                                    message: MediaQuery.of(context).size.width <= 720 || !_model.isPropertyPanelOpened ? 'Open Property Panel' : 'Close Property Panel',
+                                                                                    child: Icon(Icons.menu, color: _model.webIconColor),
+                                                                                  )
+                                                                                ]));
+                                                                      })
+                                                                    : SizedBox.fromSize(
+                                                                        size: Size
+                                                                            .zero),
                                                           )
                                                         ],
                                                       ),
@@ -1270,100 +1543,115 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                 padding: EdgeInsets.only(
                                                     left: width < 500 ? 3 : 6)),
                                             Flexible(
-                                              child:
-                                                  _sample.needsPropertyPanel ==
-                                                          true
-                                                      ? StatefulBuilder(builder:
-                                                          (BuildContext context,
-                                                              StateSetter
-                                                                  stateSetter) {
-                                                          return Material(
-                                                              color: _model
-                                                                  .webInputColor,
-                                                              shape:
-                                                                  const CircleBorder(),
-                                                              clipBehavior:
-                                                                  Clip.hardEdge,
-                                                              child:
-                                                                  ToggleButtons(
-                                                                      constraints: const BoxConstraints(
-                                                                          minHeight:
-                                                                              30,
-                                                                          minWidth:
-                                                                              30),
-                                                                      fillColor: Colors
-                                                                          .grey
-                                                                          .withOpacity(
-                                                                              0.3),
-                                                                      splashColor: Colors
-                                                                          .grey
-                                                                          .withOpacity(
-                                                                              0.3),
-                                                                      borderColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      isSelected:
-                                                                          isSelected,
-                                                                      hoverColor: Colors
-                                                                          .grey
-                                                                          .withOpacity(
-                                                                              0.3),
-                                                                      onPressed:
-                                                                          (int
-                                                                              index) {
-                                                                        isSelected[index] =
-                                                                            !isSelected[index];
-                                                                        if (MediaQuery.of(context).size.width >
-                                                                            720) {
-                                                                          stateSetter(
-                                                                              () {
-                                                                            _model.isPropertyPanelOpened =
-                                                                                !_model.isPropertyPanelOpened;
-                                                                            final _OutputContainerState
-                                                                                _outputContainerState =
-                                                                                _model.outputContainerState as _OutputContainerState;
-                                                                            _outputContainerState.propertyPanelStateChange(() {
-                                                                              _outputContainerState.show = _model.isPropertyPanelOpened;
-                                                                            });
-                                                                          });
-                                                                        } else {
-                                                                          outputScaffoldKey
-                                                                              .currentState!
-                                                                              .openEndDrawer();
-                                                                        }
-                                                                      },
-                                                                      children: <
-                                                                          Widget>[
-                                                                    Tooltip(
-                                                                      message: MediaQuery.of(context).size.width <= 720 ||
-                                                                              !_model.isPropertyPanelOpened
-                                                                          ? 'Open Property Panel'
-                                                                          : 'Close Property Panel',
-                                                                      child: Icon(
-                                                                          Icons
-                                                                              .menu,
-                                                                          color:
-                                                                              _model.webIconColor),
-                                                                    )
-                                                                  ]));
-                                                        })
-                                                      : SizedBox.fromSize(
-                                                          size: Size.zero),
+                                              child: _needsPropertyPanel
+                                                  ? StatefulBuilder(builder:
+                                                      (BuildContext context,
+                                                          StateSetter
+                                                              stateSetter) {
+                                                      return Material(
+                                                          color: _model
+                                                              .webInputColor,
+                                                          shape:
+                                                              const CircleBorder(),
+                                                          clipBehavior:
+                                                              Clip.hardEdge,
+                                                          child: ToggleButtons(
+                                                              constraints:
+                                                                  const BoxConstraints(
+                                                                      minHeight:
+                                                                          30,
+                                                                      minWidth:
+                                                                          30),
+                                                              fillColor: Colors
+                                                                  .grey
+                                                                  .withOpacity(
+                                                                      0.3),
+                                                              splashColor: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.3),
+                                                              borderColor: Colors
+                                                                  .transparent,
+                                                              isSelected:
+                                                                  isSelected,
+                                                              hoverColor: Colors
+                                                                  .grey
+                                                                  .withOpacity(
+                                                                      0.3),
+                                                              onPressed:
+                                                                  (int index) {
+                                                                isSelected[
+                                                                        index] =
+                                                                    !isSelected[
+                                                                        index];
+                                                                if (MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width >
+                                                                    720) {
+                                                                  stateSetter(
+                                                                      () {
+                                                                    _model.isPropertyPanelOpened =
+                                                                        !_model
+                                                                            .isPropertyPanelOpened;
+                                                                    if (!_model
+                                                                        .isPropertyPanelOpened) {
+                                                                      _model.isPropertyPanelTapped =
+                                                                          true;
+                                                                    }
+                                                                    final _OutputContainerState
+                                                                        _outputContainerState =
+                                                                        _model.outputContainerState
+                                                                            as _OutputContainerState;
+                                                                    _outputContainerState
+                                                                        .propertyPanelStateChange(
+                                                                            () {
+                                                                      _outputContainerState
+                                                                              .show =
+                                                                          _model
+                                                                              .isPropertyPanelOpened;
+                                                                    });
+                                                                  });
+                                                                } else {
+                                                                  outputScaffoldKey
+                                                                      .currentState!
+                                                                      .openEndDrawer();
+                                                                }
+                                                              },
+                                                              children: <
+                                                                  Widget>[
+                                                                Tooltip(
+                                                                  message: MediaQuery.of(context).size.width <=
+                                                                              720 ||
+                                                                          !_model
+                                                                              .isPropertyPanelOpened
+                                                                      ? 'Open Property Panel'
+                                                                      : 'Close Property Panel',
+                                                                  child: Icon(
+                                                                      Icons
+                                                                          .menu,
+                                                                      color: _model
+                                                                          .webIconColor),
+                                                                )
+                                                              ]));
+                                                    })
+                                                  : SizedBox.fromSize(
+                                                      size: Size.zero),
                                             )
                                           ],
                                         ),
                                       ),
                                       Expanded(
                                           child: Container(
-                                        color: _model.cardThemeColor,
-                                        child: _OutputContainer(
-                                            key: GlobalKey(),
-                                            sampleOutputContainerState: this,
-                                            subItem: _sample,
-                                            sampleView: _model
-                                                .sampleWidget[_sample.key]!,
-                                            sampleModel: _model),
-                                      )),
+                                              color: _model.cardThemeColor,
+                                              child: _OutputContainer(
+                                                  key: GlobalKey(),
+                                                  sampleOutputContainerState:
+                                                      this,
+                                                  subItem: _sample,
+                                                  sampleView:
+                                                      _model.sampleWidget[
+                                                          _sample.key]!,
+                                                  sampleModel: _model))),
                                     ],
                                   )))),
                   if (_sample.description != null && _sample.description != '')
@@ -1383,9 +1671,68 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     );
   }
 
+  /// To check whether the scroll has done in left side
+  bool _isLeftSideScrolled() {
+    if (_isMaximized) {
+      _isLeftScrolled = _hasLeftSideScrolled!;
+    }
+    // ignore: invalid_use_of_protected_member
+    if ((_scrollbarWidth + 10 < _tabTextWidth) &&
+            // ignore: invalid_use_of_protected_member
+            (_controller.positions.isNotEmpty &&
+                _controller.position.pixels > 25) ||
+        (_prevCategory == _currentCategory &&
+            _prevPosition != null &&
+            _prevPosition! > 25)) {
+      _isLeftScrolled = true;
+    } else {
+      _isLeftScrolled = false;
+    }
+
+    _hasLeftSideScrolled = _isLeftScrolled;
+    return _isLeftScrolled;
+  }
+
+  /// To check whether the scroll has done in right side
+  bool _isRightSideScrolled() {
+    if (_isMaximized) {
+      _isRightScrolled = _hasRightSideScrolled!;
+      _isMaximized = false;
+    }
+
+    if (_scrollbarWidth + 10 < _tabTextWidth &&
+        // ignore: invalid_use_of_protected_member
+        ((_controller.positions.isNotEmpty &&
+                (_controller.position.pixels -
+                            _controller.position.maxScrollExtent)
+                        .abs() >
+                    25) ||
+            (_prevCategory == _currentCategory &&
+                _prevPosition != null &&
+                (_prevPosition! - _prevScrollExtent!).abs() > 25) ||
+            // ignore: invalid_use_of_protected_member
+            (_controller.positions.isEmpty &&
+                (_prevPosition == null ||
+                    _prevCategory != _currentCategory)))) {
+      _isRightScrolled = true;
+    } else {
+      _isRightScrolled = false;
+    }
+
+    if (_prevCategory != _currentCategory) {
+      _prevCategory = _currentCategory;
+    }
+
+    _hasRightSideScrolled = _isRightScrolled;
+    return _isRightScrolled;
+  }
+
   /// Method to maximize sample
   void performMaximize(SampleModel model, SubItem sample) {
     model.needToMaximize = true;
+    if (model.isPropertyPanelTapped) {
+      model.isPropertyPanelTapped = false;
+    }
     final _PopupState state =
         widget.webLayoutPageState!.popUpKey.currentState! as _PopupState;
     state._sampleDetails = sample;
@@ -1523,19 +1870,48 @@ class _OutputContainerState extends State<_OutputContainer> {
 
   @override
   void initState() {
-    widget.sampleModel!.isPropertyPanelOpened = true;
     renderOutputKey = GlobalKey<State>();
     super.initState();
   }
 
   @override
   void dispose() {
-    widget.sampleModel!.isPropertyPanelOpened = true;
     super.dispose();
+  }
+
+  late bool _needsPropertyPanel;
+
+  /// Checks whether the property panel is enabled
+  bool _checkPropertyPanelIsEnabled(SampleModel model, BuildContext context) {
+    final Function? sampleView = model.sampleWidget[widget.subItem!.key];
+    final dynamic currentSample = sampleView!(GlobalKey<State>());
+    _needsPropertyPanel = widget.subItem!.needsPropertyPanel ?? false;
+    bool? isPlatformSpecified;
+    try {
+      isPlatformSpecified = currentSample.needsPropertyPanel != null &&
+          currentSample.needsPropertyPanel! == true;
+      // ignore: empty_catches
+    } catch (e) {}
+    _needsPropertyPanel = widget.subItem!.needsPropertyPanel == true &&
+        (isPlatformSpecified == null || isPlatformSpecified == true);
+    return _needsPropertyPanel;
+  }
+
+  /// Method to get the widget's color based on the widget state
+  Color? getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.selected,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return widget.sampleModel!.backgroundColor;
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    _checkPropertyPanelIsEnabled(widget.sampleModel!, context);
     widget.sampleModel!.outputContainerState = this;
     widget.sampleOutputContainerState!._outputKey = widget.key! as GlobalKey;
     widget.sampleModel!.oldWindowSize =
@@ -1551,50 +1927,59 @@ class _OutputContainerState extends State<_OutputContainer> {
       widget.sampleModel!.currentSampleKey = widget.subItem!.key!;
       return widget.sampleModel!.needToMaximize
           ? Container()
-          : Row(children: <Widget>[
-              Expanded(
-                  child: Column(
-                children: <Widget>[
-                  Expanded(child: widget.sampleModel!.currentRenderSample),
-                  if (widget.subItem!.sourceLink != null &&
-                      widget.subItem!.sourceLink != '')
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(15, 10, 0, 13),
-                        height: 40,
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'Source: ',
-                              style: TextStyle(
-                                  color: widget.sampleModel!.textColor
-                                      .withOpacity(0.65),
-                                  fontSize: 12),
-                            ),
-                            InkWell(
-                              onTap: () => launch(widget.subItem!.sourceLink!),
-                              child: Text(widget.subItem!.sourceText!,
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Colors.blue)),
-                            ),
-                          ],
+          : StatefulBuilder(
+              builder: (BuildContext context, StateSetter stateSetter) {
+              propertyPanelStateChange = stateSetter;
+              return Row(children: <Widget>[
+                Expanded(
+                    child: Column(
+                  children: <Widget>[
+                    Expanded(child: widget.sampleModel!.currentRenderSample),
+                    if (widget.subItem!.sourceLink != null &&
+                        widget.subItem!.sourceLink != '')
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                          height: 20,
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                'Source: ',
+                                style: TextStyle(
+                                    color: widget.sampleModel!.textColor
+                                        .withOpacity(0.65),
+                                    fontSize: 12),
+                              ),
+                              InkWell(
+                                onTap: () =>
+                                    launch(widget.subItem!.sourceLink!),
+                                child: Text(widget.subItem!.sourceText!,
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.blue)),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  else
-                    Container()
-                ],
-              )),
-              if (widget.subItem!.needsPropertyPanel == true &&
-                  MediaQuery.of(context).size.width > 720)
-                _PropertiesPanel(
+                      )
+                    else
+                      Container()
+                  ],
+                )),
+                if (_needsPropertyPanel &&
+                    MediaQuery.of(context).size.width > 720 &&
+                    (widget.sampleModel!.isPropertyPanelOpened ||
+                        (!widget.sampleModel!.isPropertyPanelOpened &&
+                            widget.sampleModel!.isPropertyPanelTapped)))
+                  _PropertiesPanel(
                     sampleModel: widget.sampleModel,
                     key: propertyPanelWidgetKey,
-                    openState: true)
-              else
-                Container()
-            ]);
+                    openState: true,
+                  )
+                else
+                  Container()
+              ]);
+            });
     } else {
       widget.sampleModel!.currentRenderSample =
           renderWidget ?? widget.sampleView!(GlobalKey<State>());
@@ -1606,6 +1991,8 @@ class _OutputContainerState extends State<_OutputContainer> {
           child: MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
+                  checkboxTheme: CheckboxThemeData(
+                      fillColor: MaterialStateProperty.resolveWith(getColor)),
                   brightness: widget.sampleModel!.themeData.brightness,
                   primaryColor: widget.sampleModel!.backgroundColor),
               initialRoute: widget.subItem!.breadCrumbText,
@@ -1629,9 +2016,9 @@ class _OutputContainerState extends State<_OutputContainer> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Container(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        15, 10, 0, 13),
-                                    height: 40,
+                                    padding:
+                                        const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                    height: 20,
                                     child: Row(
                                       children: <Widget>[
                                         Text(
@@ -1659,8 +2046,12 @@ class _OutputContainerState extends State<_OutputContainer> {
                                 Container()
                             ],
                           )),
-                          if (widget.subItem!.needsPropertyPanel == true &&
-                              MediaQuery.of(context).size.width > 720)
+                          if (_needsPropertyPanel &&
+                              MediaQuery.of(context).size.width > 720 &&
+                              (widget.sampleModel!.isPropertyPanelOpened ||
+                                  (!widget.sampleModel!.isPropertyPanelOpened &&
+                                      widget
+                                          .sampleModel!.isPropertyPanelTapped)))
                             _PropertiesPanel(
                                 sampleModel: widget.sampleModel,
                                 key: propertyPanelWidgetKey,
@@ -1723,92 +2114,96 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
     _sampleKey = model.propertyPanelKey;
     final SampleViewState _sampleViewState =
         _sampleKey!.currentState! as SampleViewState;
-    final Widget _settingPanelContent =
-        _sampleViewState.buildSettings(context)!;
-    animation =
-        Tween<double>(begin: 0.0, end: 1.0).animate(animationController);
-    final _OutputContainerState _outputContainerState =
-        model.outputContainerState as _OutputContainerState;
-    if (!initialRender) {
-      if (_outputContainerState.show) {
-        animationController.forward(from: 0.0);
+    final Widget? _settingPanelContent =
+        _sampleViewState.buildSettings(context);
+    if (_settingPanelContent != null) {
+      animation =
+          Tween<double>(begin: 0.0, end: 1.0).animate(animationController);
+      final _OutputContainerState _outputContainerState =
+          model.outputContainerState as _OutputContainerState;
+      if (!initialRender) {
+        if (_outputContainerState.show) {
+          animationController.forward(from: 0.0);
+        } else {
+          animationController.reverse(from: 1.0);
+        }
       } else {
-        animationController.reverse(from: 1.0);
+        animationController.forward(from: 1.0);
       }
+      return AnimatedBuilder(
+          animation: animation,
+          builder: (BuildContext context, Widget? child) {
+            return Theme(
+              data: ThemeData(
+                  brightness: widget.sampleModel!.themeData.brightness,
+                  primaryColor: widget.sampleModel!.backgroundColor),
+              child: SizedBox(
+                  width: widget.openState == true
+                      ? animation.value * 275
+                      : (animation.value * 275),
+                  child: Drawer(
+                      elevation: 3,
+                      child: Container(
+                          decoration: BoxDecoration(
+                            color: widget.sampleModel!.cardThemeColor,
+                            border: widget.openState == true
+                                ? Border(
+                                    left: BorderSide(
+                                        color: widget.sampleModel!.textColor
+                                            .withOpacity(0.3),
+                                        width: 0.5))
+                                : Border.all(
+                                    color: const Color.fromRGBO(0, 0, 0, 0.12),
+                                    width: 2),
+                          ),
+                          padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
+                          child: Container(
+                              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: <Widget>[
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        const Text(
+                                          'Properties',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                        if (widget.openState == true)
+                                          Container()
+                                        else
+                                          Material(
+                                              color: widget
+                                                  .sampleModel!.cardThemeColor,
+                                              shape: const CircleBorder(),
+                                              clipBehavior: Clip.hardEdge,
+                                              child: IconButton(
+                                                hoverColor: Colors.grey
+                                                    .withOpacity(0.3),
+                                                icon: Icon(Icons.close,
+                                                    color: widget.sampleModel!
+                                                        .webIconColor),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ))
+                                      ]),
+                                  Container(
+                                      padding: const EdgeInsets.only(
+                                          right: 5, top: 5),
+                                      width: 238,
+                                      alignment: Alignment.topCenter,
+                                      child: _settingPanelContent)
+                                ],
+                              ))))),
+            );
+          });
     } else {
-      animationController.forward(from: 1.0);
+      return SizedBox.fromSize(size: Size.zero);
     }
-    return AnimatedBuilder(
-        animation: animation,
-        builder: (BuildContext context, Widget? child) {
-          return Theme(
-            data: ThemeData(
-                brightness: widget.sampleModel!.themeData.brightness,
-                primaryColor: widget.sampleModel!.backgroundColor),
-            child: SizedBox(
-                width: widget.openState == true
-                    ? animation.value * 275
-                    : (animation.value * 275),
-                child: Drawer(
-                    elevation: 3,
-                    child: Container(
-                        decoration: BoxDecoration(
-                          color: widget.sampleModel!.cardThemeColor,
-                          border: widget.openState == true
-                              ? Border(
-                                  left: BorderSide(
-                                      color: widget.sampleModel!.textColor
-                                          .withOpacity(0.3),
-                                      width: 0.5))
-                              : Border.all(
-                                  color: const Color.fromRGBO(0, 0, 0, 0.12),
-                                  width: 2),
-                        ),
-                        padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
-                        child: Container(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: <Widget>[
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      const Text(
-                                        'Properties',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                      if (widget.openState == true)
-                                        Container()
-                                      else
-                                        Material(
-                                            color: widget
-                                                .sampleModel!.cardThemeColor,
-                                            shape: const CircleBorder(),
-                                            clipBehavior: Clip.hardEdge,
-                                            child: IconButton(
-                                              hoverColor:
-                                                  Colors.grey.withOpacity(0.3),
-                                              icon: Icon(Icons.close,
-                                                  color: widget.sampleModel!
-                                                      .webIconColor),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                            ))
-                                    ]),
-                                Container(
-                                    padding:
-                                        const EdgeInsets.only(right: 5, top: 5),
-                                    width: 238,
-                                    alignment: Alignment.topCenter,
-                                    child: _settingPanelContent)
-                              ],
-                            ))))),
-          );
-        });
   }
 }
 
@@ -1875,14 +2270,14 @@ class _TileContainerState extends State<_TileContainer> {
   List<Widget> _getNextLevelChildren(
       SampleModel model, List<SubItem> list, String text) {
     final List<Widget> _nextLevelChildren = <Widget>[];
-    final SubItem currenSample = widget.webLayoutPageState!.sample;
+    final SubItem currentSample = widget.webLayoutPageState!.sample;
     if (list != null && list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {
         final String _status = getStatusTag(list[i]);
         bool _isNeedSelect = false;
         if (list[i].subItems != null) {
           for (int j = 0; j < list[i].subItems!.length; j++) {
-            if (currenSample.breadCrumbText ==
+            if (currentSample.breadCrumbText ==
                 list[i].subItems![j].breadCrumbText) {
               _isNeedSelect = true;
               break;
@@ -1891,7 +2286,8 @@ class _TileContainerState extends State<_TileContainer> {
             }
           }
         } else {
-          _isNeedSelect = currenSample.breadCrumbText == list[i].breadCrumbText;
+          _isNeedSelect =
+              currentSample.breadCrumbText == list[i].breadCrumbText;
         }
         _nextLevelChildren.add(list[i].type == 'sample'
             ? Material(
@@ -1917,6 +2313,8 @@ class _TileContainerState extends State<_TileContainer> {
                       }
                       _outputContainerState.sample = list[i];
                       _outputContainerState.needTabs = false;
+                      final String prevBreadCrumbText =
+                          _outputContainerState.orginText;
                       _outputContainerState.orginText =
                           widget.webLayoutPageState!.sample.control!.title! +
                               ' > ' +
@@ -1931,9 +2329,13 @@ class _TileContainerState extends State<_TileContainer> {
                               : list[i];
                       if (model.currentSampleKey == null ||
                           (list[i].key != null
-                              ? model.currentSampleKey != list[i].key
+                              ? (model.currentSampleKey != list[i].key ||
+                                  (model.currentSampleKey == list[i].key &&
+                                      prevBreadCrumbText !=
+                                          list[i].breadCrumbText))
                               : model.currentSampleKey !=
                                   list[i].subItems![0].key)) {
+                        model.isPropertyPanelOpened = true;
                         _sampleInputContainerState.refresh();
                         _outputContainerState.refresh();
                       }
@@ -2001,6 +2403,8 @@ class _TileContainerState extends State<_TileContainer> {
                         .webLayoutPageState!.outputContainer.key! as GlobalKey;
                     final SampleOutputContainerState _outputContainerState =
                         _globalKey.currentState! as SampleOutputContainerState;
+                    final String prevBreadCrumbText =
+                        _outputContainerState.orginText;
                     if (list[i].subItems != null &&
                         list[i].subItems!.isNotEmpty) {
                       _outputContainerState.subItems =
@@ -2032,7 +2436,10 @@ class _TileContainerState extends State<_TileContainer> {
                         : list[i];
                     if (model.currentSampleKey == null ||
                         (list[i].key != null
-                            ? model.currentSampleKey != list[i].key
+                            ? (model.currentSampleKey != list[i].key ||
+                                (model.currentSampleKey == list[i].key &&
+                                    prevBreadCrumbText !=
+                                        list[i].breadCrumbText))
                             : model.currentSampleKey !=
                                 list[i].subItems![0].key)) {
                       _sampleInputContainerState.refresh();
@@ -2131,6 +2538,24 @@ class _PopupState extends State<_Popup> {
   final GlobalKey<State> _propertiesPanelKey = GlobalKey<State>();
 
   SampleModel? model;
+  late bool _needsPropertyPanel;
+
+  /// Checks whether the property panel is enabled
+  bool _checkPropertyPanelIsEnabled(BuildContext context) {
+    final Function? sampleView = model!.sampleWidget[_sampleDetails!.key];
+    final dynamic currentSample = sampleView!(GlobalKey<State>());
+    _needsPropertyPanel = _sampleDetails!.needsPropertyPanel ?? false;
+    bool? isPlatformSpecified;
+    try {
+      isPlatformSpecified = currentSample.needsPropertyPanel != null &&
+          currentSample.needsPropertyPanel! == true;
+      // ignore: empty_catches
+    } catch (e) {}
+    _needsPropertyPanel = _sampleDetails!.needsPropertyPanel == true &&
+        (isPlatformSpecified == null || isPlatformSpecified == true);
+    return _needsPropertyPanel;
+  }
+
   @override
   Widget build(BuildContext context) {
     model = SampleModel.instance;
@@ -2148,6 +2573,10 @@ class _PopupState extends State<_Popup> {
                     child: _sampleDetails != null
                         ? Theme(
                             data: ThemeData(
+                                checkboxTheme: CheckboxThemeData(
+                                    fillColor:
+                                        MaterialStateProperty.resolveWith(
+                                            getColor)),
                                 brightness: model!.themeData.brightness,
                                 primaryColor: model!.backgroundColor),
                             child: Scaffold(
@@ -2165,9 +2594,8 @@ class _PopupState extends State<_Popup> {
                                         backgroundColor:
                                             model!.webBackgroundColor,
                                         actions: <Widget>[
-                                          if (_sampleDetails!
-                                                  .needsPropertyPanel ==
-                                              true)
+                                          if (_checkPropertyPanelIsEnabled(
+                                              context))
                                             Container(
                                                 height: 40,
                                                 width: 40,
@@ -2235,5 +2663,17 @@ class _PopupState extends State<_Popup> {
                                     : Colors.white,
                                 body: _currentWidgetKey?.currentWidget))
                         : Container()))));
+  }
+
+  /// Method to get the widget's color based on the widget state
+  Color? getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.selected,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return model!.backgroundColor;
+    }
+    return null;
   }
 }

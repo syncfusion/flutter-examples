@@ -130,7 +130,8 @@ class _SortingDefaultState extends SampleViewState {
       primaryXAxis:
           CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
       onDataLabelRender: (DataLabelRenderArgs args) {
-        args.text = args.dataPoints[args.pointIndex].y.toString() + ' m';
+        args.text =
+            args.dataPoints[args.viewportPointIndex].y.toString() + ' m';
       },
       primaryYAxis: NumericAxis(
           minimum: 500,

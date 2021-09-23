@@ -63,7 +63,6 @@ class _AnnotationWatermarkState extends SampleViewState {
                     series: <PieSeries<ChartSampleData, String>>[
                       PieSeries<ChartSampleData, String>(
                           radius: '90%',
-                          enableSmartLabels: false,
                           dataSource: <ChartSampleData>[
                             ChartSampleData(
                                 x: 'Facebook',

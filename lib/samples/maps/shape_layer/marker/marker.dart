@@ -5,12 +5,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
-///Map import
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:syncfusion_flutter_maps/maps.dart';
-
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Map import
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
 import '../../../../model/sample_view.dart';
@@ -140,6 +139,8 @@ class _MapMarkerPageState extends SampleViewState {
                   return MapMarker(
                     longitude: _worldClockData[index].longitude,
                     latitude: _worldClockData[index].latitude,
+                    alignment: Alignment.topCenter,
+                    offset: const Offset(0, -4),
                     size: const Size(150, 150),
                     child: _ClockWidget(
                         countryName: _worldClockData[index].countryName,
@@ -193,7 +194,7 @@ class _ClockWidgetState extends State<_ClockWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: <Widget>[
         Center(
           child: Container(
@@ -203,26 +204,20 @@ class _ClockWidgetState extends State<_ClockWidget> {
                 const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 35),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                widget.countryName,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              Center(
-                child: Text(_currentTime,
-                    style: Theme.of(context).textTheme.overline!.copyWith(
-                        letterSpacing: 0.5, fontWeight: FontWeight.w500)),
-              ),
-            ],
-          ),
-        )
+        Text(
+          widget.countryName,
+          style: Theme.of(context)
+              .textTheme
+              .bodyText2!
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
+        Center(
+          child: Text(_currentTime,
+              style: Theme.of(context)
+                  .textTheme
+                  .overline!
+                  .copyWith(letterSpacing: 0.5, fontWeight: FontWeight.w500)),
+        ),
       ],
     );
   }

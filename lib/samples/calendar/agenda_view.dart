@@ -43,7 +43,9 @@ class _AgendaViewCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final Widget _calendar = Theme(
-        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        data: model.themeData.copyWith(
+            colorScheme: model.themeData.colorScheme
+                .copyWith(secondary: model.backgroundColor)),
         child: _getAgendaViewCalendar(
             _events, _onViewChanged, _calendarController));
     return model.isMobileResolution &&

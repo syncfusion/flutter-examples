@@ -192,10 +192,10 @@ class _SleepTrackerSampleState extends SampleViewState {
                                         : const Duration(milliseconds: 200),
                                     child: CustomAnimatedBuilder(
                                       value: !_isBedTime
-                                          ? (_isLandscape || isCardView)
+                                          ? (isWebOrDesktop || isCardView)
                                               ? 1.1
                                               : 2.0
-                                          : (_isLandscape || isCardView)
+                                          : (isWebOrDesktop || isCardView)
                                               ? 0.6
                                               : 1.3,
                                       curve: Curves.decelerate,
@@ -281,10 +281,10 @@ class _SleepTrackerSampleState extends SampleViewState {
                                         : const Duration(milliseconds: 200),
                                     child: CustomAnimatedBuilder(
                                       value: !_isWakeupTime
-                                          ? (_isLandscape || isCardView)
+                                          ? (isWebOrDesktop || isCardView)
                                               ? 1.1
                                               : 2.0
-                                          : (_isLandscape || isCardView)
+                                          : (isWebOrDesktop || isCardView)
                                               ? 0.6
                                               : 1.3,
                                       curve: Curves.decelerate,

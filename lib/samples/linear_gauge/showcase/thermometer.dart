@@ -137,7 +137,7 @@ class _ThermometerState extends SampleViewState {
                                   value: _meterValue,
                                   enableAnimation: false,
                                   position: LinearElementPosition.outside,
-                                  onValueChanged: (dynamic value) {
+                                  onChanged: (dynamic value) {
                                     setState(() {
                                       _meterValue = value as double;
                                     });
@@ -160,7 +160,7 @@ class _ThermometerState extends SampleViewState {
                                 enableAnimation: false,
                                 color: Colors.transparent,
                                 position: LinearElementPosition.cross,
-                                onValueChanged: (dynamic value) {
+                                onChanged: (dynamic value) {
                                   setState(() {
                                     _meterValue = value as double;
                                   });

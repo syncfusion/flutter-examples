@@ -64,9 +64,9 @@ class _SampleBrowserState extends State<SampleBrowser> {
       _sampleListModel.changeTheme(_sampleListModel.currentThemeData!);
     }
 
-    ///Avoiding page poping on escape key press
-    final Map<LogicalKeySet, Intent> shortcuts =
-        Map<LogicalKeySet, Intent>.of(WidgetsApp.defaultShortcuts)
+    ///Avoiding page popping on escape key press
+    final Map<ShortcutActivator, Intent> shortcuts =
+        Map<ShortcutActivator, Intent>.of(WidgetsApp.defaultShortcuts)
           ..remove(LogicalKeySet(LogicalKeyboardKey.escape));
     return _sampleListModel.isWebFullView
         ? MaterialApp(
@@ -636,8 +636,8 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
 
       ///setting max cardwidth, spacing between cards in higher resolutions
       if (deviceWidth > 3000) {
-        _cardWidth = 2800 / 3;
-        _sidePadding = (deviceWidth - 2740) * 0.5;
+        _cardWidth = deviceWidth / 3.5;
+        _sidePadding = (_cardWidth / 2) * 0.125;
         padding = 30;
       }
       final List<Widget> firstColumnWidgets = <Widget>[];
@@ -766,14 +766,14 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
         ]));
   }
 
-  /// get the list view of the controls in the specified category
+  /// get the list view of the controls in the specified category.
   List<Widget> _getControlListView(WidgetCategory category) {
     final List<Widget> items = <Widget>[];
     for (int i = 0; i < category.controlList!.length; i++) {
       final Control control = category.controlList![i] as Control;
       final String? status =
-          control.title == 'PDF Viewer' && !kIsWeb && Platform.isMacOS
-              ? 'New'
+          (control.title == 'Maps' && (model.isAndroid || model.isIOS))
+              ? null
               : control.status;
       items.add(Container(
         color: model.cardColor,

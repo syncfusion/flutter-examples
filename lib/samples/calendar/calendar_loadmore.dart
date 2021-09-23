@@ -62,7 +62,9 @@ class _LoadMoreCalendarState extends SampleViewState {
         /// The key set here to maintain the state,
         ///  when we change the parent of the widget
         key: _globalKey,
-        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        data: model.themeData.copyWith(
+            colorScheme: model.themeData.colorScheme
+                .copyWith(secondary: model.backgroundColor)),
         child: _getLoadMoreCalendar(_calendarController, _onViewChanged,
             _events, _scheduleViewBuilder));
 

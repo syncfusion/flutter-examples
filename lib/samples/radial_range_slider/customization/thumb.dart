@@ -170,8 +170,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
               ),
               ranges: <GaugeRange>[
                 GaugeRange(
-                  endValue: _thirdMarkerValue,
-                  startValue: _fourthMarkerValue,
+                  startValue: _thirdMarkerValue,
+                  endValue: _fourthMarkerValue,
                   sizeUnit: GaugeSizeUnit.factor,
                   color: model.isWebFullView
                       ? const Color.fromRGBO(197, 91, 226, 1)
@@ -239,8 +239,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
               ),
               ranges: <GaugeRange>[
                 GaugeRange(
-                    endValue: _fifthMarkerValue,
-                    startValue: _sixthMarkerValue,
+                    startValue: _fifthMarkerValue,
+                    endValue: _sixthMarkerValue,
                     sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.green,
                     gradient: const SweepGradient(colors: <Color>[

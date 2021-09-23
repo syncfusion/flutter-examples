@@ -91,7 +91,7 @@ class _SleepWatchState extends SampleViewState {
                       markerPointers: <LinearMarkerPointer>[
                         LinearShapePointer(
                             value: _todayValue,
-                            onValueChanged: (dynamic value) {
+                            onChanged: (dynamic value) {
                               setState(() {
                                 _todayValue = value as double;
                               });
@@ -248,7 +248,7 @@ class _SleepWatchState extends SampleViewState {
                       markerPointers: <LinearMarkerPointer>[
                         LinearShapePointer(
                             value: _overallValue,
-                            onValueChanged: (dynamic value) {
+                            onChanged: (dynamic value) {
                               setState(() {
                                 _overallValue = value as double;
                               });

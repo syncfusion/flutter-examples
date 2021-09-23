@@ -41,7 +41,9 @@ class _HeatMapCalendarCalendarState extends SampleViewState {
         /// The key set here to maintain the state,
         ///  when we change the parent of the widget
         key: _globalKey,
-        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        data: model.themeData.copyWith(
+            colorScheme: model.themeData.colorScheme
+                .copyWith(secondary: model.backgroundColor)),
         child: _getHeatMapCalendar());
 
     return Scaffold(

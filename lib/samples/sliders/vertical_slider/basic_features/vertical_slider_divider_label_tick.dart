@@ -27,6 +27,7 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
   double _labelSliderValue = 50;
   double _tickSliderValue = 0;
   double _dividerSliderValue = 50;
+  bool _isInversed = false;
 
   SfSliderTheme _sliderWithLabelCustomization() {
     return SfSliderTheme(
@@ -38,6 +39,7 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
           interval: 20,
           min: 10.0,
           max: 90.0,
+          isInversed: _isInversed,
           value: _labelSliderValue,
           onChanged: (dynamic values) {
             setState(() {
@@ -58,6 +60,7 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
           interval: 25,
           min: -50.0,
           max: 50.0,
+          isInversed: _isInversed,
           value: _tickSliderValue,
           onChanged: (dynamic values) {
             setState(() {
@@ -77,6 +80,7 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
           showDividers: true,
           min: 0.0,
           max: 100.0,
+          isInversed: _isInversed,
           value: _dividerSliderValue,
           tooltipPosition: SliderTooltipPosition.right,
           onChanged: (dynamic values) {
@@ -132,5 +136,25 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
           ? slider
           : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: _isInversed,
+          title: const Text('Inversed', softWrap: false),
+          contentPadding: const EdgeInsets.all(0.0),
+          activeColor: model.backgroundColor,
+          onChanged: (bool? value) {
+            setState(() {
+              _isInversed = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
+    );
   }
 }

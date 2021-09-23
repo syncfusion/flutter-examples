@@ -26,6 +26,7 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
 
   DateTime _hourValue = DateTime(2020, 01, 01, 13, 00, 00);
   double _sliderValue = 20;
+  bool _isInversed = false;
 
   SfSliderTheme _numerical() {
     return SfSliderTheme(
@@ -39,6 +40,7 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
             min: 10.0,
             max: 40.0,
             showTicks: true,
+            isInversed: _isInversed,
             tooltipPosition: SliderTooltipPosition.right,
             value: _sliderValue,
             onChanged: (dynamic values) {
@@ -56,10 +58,11 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
         ),
         child: SfSlider.vertical(
           min: DateTime(2020, 01, 01, 9, 00, 00),
-          max: DateTime(2020, 01, 01, 21, 05, 00),
+          max: DateTime(2020, 01, 01, 21, 00, 00),
           showLabels: true,
           interval: 4,
           showTicks: true,
+          isInversed: _isInversed,
           minorTicksPerInterval: 3,
           dateFormat: DateFormat('h a'),
           labelPlacement: LabelPlacement.onTicks,
@@ -118,5 +121,28 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
           ? slider
           : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: _isInversed,
+          title: const Text(
+            'Inversed',
+            softWrap: false,
+          ),
+          contentPadding: const EdgeInsets.all(0.0),
+          activeColor: model.backgroundColor,
+          onChanged: (bool? value) {
+            setState(() {
+              _isInversed = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
+    );
   }
 }

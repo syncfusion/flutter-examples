@@ -1,6 +1,6 @@
 /// Package imports
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -101,8 +101,7 @@ class _DefaultTrackballState extends SampleViewState {
                         ),
                       ),
                       ListTile(
-                        title: Text(
-                            model.isWebFullView ? 'Alignm\nent' : 'Alignment',
+                        title: Text('Alignment',
                             softWrap: false,
                             style: TextStyle(
                               color: _selectedMode != 'groupAllPoints'
@@ -110,8 +109,11 @@ class _DefaultTrackballState extends SampleViewState {
                                   : model.textColor,
                             )),
                         trailing: Container(
-                            padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                            width: 0.6 * screenWidth,
+                            padding: EdgeInsets.only(
+                                left: (model.isWebFullView ? 0.02 : 0.07) *
+                                    screenWidth),
+                            width: (model.isWebFullView ? 0.54 : 0.6) *
+                                screenWidth,
                             height: 50,
                             alignment: Alignment.bottomLeft,
                             child: DropdownButton<String>(

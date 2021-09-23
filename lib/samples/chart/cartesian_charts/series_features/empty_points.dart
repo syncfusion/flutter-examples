@@ -21,14 +21,14 @@ class _EmptyPointsState extends SampleViewState {
   _EmptyPointsState();
   final List<String> _emptyPointMode =
       <String>['gap', 'zero', 'average', 'drop'].toList();
-  late EmptyPointMode _selectedEmptyPointMode = EmptyPointMode.gap;
+  late EmptyPointMode _selectedEmptyPointMode = EmptyPointMode.zero;
   late String _selectedMode;
   late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
     _selectedMode = 'zero';
-    _selectedEmptyPointMode = EmptyPointMode.gap;
+    _selectedEmptyPointMode = EmptyPointMode.zero;
     _tooltipBehavior =
         TooltipBehavior(enable: true, header: '', canShowMarker: false);
     super.initState();
@@ -61,7 +61,7 @@ class _EmptyPointsState extends SampleViewState {
                 value: _selectedMode,
                 items: _emptyPointMode.map((String value) {
                   return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'gap',
+                      value: (value != null) ? value : 'zero',
                       child: Text(value,
                           style: TextStyle(color: model.textColor)));
                 }).toList(),

@@ -23,7 +23,7 @@ class StepSliderPage extends SampleView {
 
 class _StepSliderPageState extends SampleViewState {
   _StepSliderPageState();
-  DateTime _yearValue = DateTime(2015, 1, 01);
+  DateTime _yearValue = DateTime(2014, 1, 01);
   double _stepSliderValue = 0;
 
   SfSliderTheme _sliderWithStepDurationCustomization() {
@@ -31,7 +31,7 @@ class _StepSliderPageState extends SampleViewState {
         data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
         child: SfSlider(
           min: DateTime(2010, 01, 01),
-          max: DateTime(2020, 01, 01),
+          max: DateTime(2018, 01, 01),
           showLabels: true,
           interval: 2,
           stepDuration: const SliderStepDuration(years: 2),

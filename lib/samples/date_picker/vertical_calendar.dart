@@ -90,7 +90,9 @@ class _VerticalCalendarPickerState extends SampleViewState {
       padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
       color: model.cardThemeColor,
       child: Theme(
-        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        data: model.themeData.copyWith(
+            colorScheme: model.themeData.colorScheme
+                .copyWith(secondary: model.backgroundColor)),
         child: _getVerticalCalendar(),
       ),
     );

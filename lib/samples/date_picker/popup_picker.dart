@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-///Date picker imports
-import 'package:syncfusion_flutter_datepicker/datepicker.dart' as _picker;
-
 /// Core import
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:syncfusion_flutter_core/localizations.dart';
+
+///Date picker imports
+import 'package:syncfusion_flutter_datepicker/datepicker.dart' as _picker;
 
 ///Local import
 import '../../model/model.dart';
@@ -287,8 +287,8 @@ class _PopUpDatePickerState extends SampleViewState
                                 onPressed: _value == 0
                                     ? null
                                     : () async {
-                                        final _picker.PickerDateRange range =
-                                            (await showDialog<
+                                        final _picker.PickerDateRange? range =
+                                            await showDialog<
                                                     _picker.PickerDateRange>(
                                                 context: context,
                                                 builder:
@@ -301,7 +301,7 @@ class _PopUpDatePickerState extends SampleViewState
                                                     minDate: DateTime.now(),
                                                     model: model,
                                                   );
-                                                }))!;
+                                                });
 
                                         if (range != null) {
                                           _onSelectedRangeChanged(range);
@@ -701,7 +701,8 @@ class _DateRangePickerState extends State<DateRangePicker> {
             color: widget.model.cardThemeColor,
             child: Theme(
               data: widget.model.themeData.copyWith(
-                accentColor: widget.model.backgroundColor,
+                colorScheme: widget.model.themeData.colorScheme
+                    .copyWith(secondary: widget.model.backgroundColor),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,

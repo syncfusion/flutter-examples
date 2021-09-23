@@ -104,7 +104,7 @@ class _VolumeSettingsState extends SampleViewState {
                 LinearShapePointer(
                     enableAnimation: false,
                     value: _musicValue - 20,
-                    onValueChanged: (dynamic value) {
+                    onChanged: (dynamic value) {
                       setState(() {
                         _musicValue = value as double;
                       });
@@ -183,7 +183,7 @@ class _VolumeSettingsState extends SampleViewState {
                     LinearShapePointer(
                         value: _ringValue - 20,
                         enableAnimation: false,
-                        onValueChanged: (dynamic value) {
+                        onChanged: (dynamic value) {
                           setState(() {
                             _ringValue = value as double;
                           });
@@ -260,7 +260,7 @@ class _VolumeSettingsState extends SampleViewState {
                   LinearShapePointer(
                       value: _alarmValue - 20,
                       enableAnimation: false,
-                      onValueChanged: (dynamic value) {
+                      onChanged: (dynamic value) {
                         setState(() {
                           _alarmValue = value as double;
                         });
