@@ -627,14 +627,17 @@ class _RangeSelectorZoomingPageState extends SampleViewState
       primaryXAxis: DateTimeAxis(
           labelStyle: const TextStyle(),
           isVisible: false,
-          minimum: DateTime.fromMillisecondsSinceEpoch(1498608000000),
-          maximum: DateTime.fromMillisecondsSinceEpoch(1508112000000),
+          minimum: DateTime.fromMillisecondsSinceEpoch(1483315200000),
+          maximum: DateTime.fromMillisecondsSinceEpoch(1514678400000),
+          visibleMinimum: rangeController.start,
+          visibleMaximum: rangeController.end,
           rangeController: rangeController),
       primaryYAxis: NumericAxis(
         labelPosition: ChartDataLabelPosition.inside,
         labelAlignment: LabelAlignment.end,
         majorTickLines: const MajorTickLines(size: 0),
         axisLine: const AxisLine(color: Colors.transparent),
+        anchorRangeToVisiblePoints: false,
       ),
       series: <SplineSeries<ChartSampleData, DateTime>>[
         SplineSeries<ChartSampleData, DateTime>(
@@ -706,7 +709,6 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                           controller: rangeController,
                           showTicks: true,
                           showLabels: true,
-                          enableIntervalSelection: true,
                           dragMode: SliderDragMode.both,
                           labelFormatterCallback:
                               (dynamic actualLabel, String formattedText) {

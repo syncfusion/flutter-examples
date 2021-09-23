@@ -85,7 +85,7 @@ class _HeatMeterState extends SampleViewState {
                   )))),
           LinearShapePointer(
             offset: 25,
-            onValueChanged: (dynamic value) {
+            onChanged: (dynamic value) {
               setState(() {
                 _widgetPointerWithGradientValue = value as double;
               });

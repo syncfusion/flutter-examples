@@ -89,6 +89,9 @@ class _LoadMoreDataGridState extends SampleViewState {
                     // load more view, current load more view is checked whether
                     // loaded widget is mounted or not.
                     if (context is StatefulElement &&
+                        // Need to check whether the widget is available or not
+                        // in the current widget tree.
+                        context.renderObject != null &&
                         context.state != null &&
                         context.state.mounted) {
                       setState(() {
@@ -104,6 +107,9 @@ class _LoadMoreDataGridState extends SampleViewState {
                     // load more view, current load more view is checked whether
                     // loaded widget is mounted or not.
                     if (context is StatefulElement &&
+                        // Need to check whether the widget is available or not
+                        // in the current widget tree.
+                        context.renderObject != null &&
                         context.state != null &&
                         context.state.mounted) {
                       setState(() {

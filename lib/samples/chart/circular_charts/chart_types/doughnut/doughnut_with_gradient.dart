@@ -141,6 +141,7 @@ class _DoughnutGradientState extends SampleViewState {
     ];
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
+          animationDuration: 0,
           dataSource: pieData,
           explodeAll: true,
           radius: isCardView ? '85%' : '63%',

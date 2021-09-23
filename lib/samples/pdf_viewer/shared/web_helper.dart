@@ -15,3 +15,11 @@ void _preventDefaultSearchMenu(html.KeyboardEvent e) {
     e.preventDefault();
   }
 }
+
+/// Gets platform type.
+String getPlatformType() {
+  if (html.window.navigator.platform!.toLowerCase().contains('macintel')) {
+    return 'macos';
+  }
+  return html.window.navigator.platform!.toString().toLowerCase();
+}

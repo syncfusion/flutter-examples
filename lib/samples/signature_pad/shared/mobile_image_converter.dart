@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
+// ignore: avoid_classes_with_only_static_members
 /// Convert to image format.
 class ImageConverter {
   /// toImage

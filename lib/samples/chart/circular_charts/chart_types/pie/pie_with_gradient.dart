@@ -136,6 +136,7 @@ class _PieGradientState extends SampleViewState {
     ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
+          animationDuration: 0,
           dataSource: pieData,
           explodeAll: true,
           explodeOffset: '3%',

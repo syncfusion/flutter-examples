@@ -1,9 +1,14 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import './mobile_helper.dart' if (dart.library.html) './web_helper.dart'
+    as helper;
 
 /// To check platform whether it is desktop or not.
 bool isDesktop = kIsWeb || Platform.isMacOS;
+
+/// Indicates whether the current environment is running in macOS
+bool kIsMacOS = helper.getPlatformType() == 'macos';
 
 /// Shows toast once after the selected text is copied to the Clipboard.
 Widget showToast(bool canShowToast, Alignment alignment, String toastText) {

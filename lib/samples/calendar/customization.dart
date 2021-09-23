@@ -1,12 +1,12 @@
 ///Dart imports
 import 'dart:math';
 import 'dart:ui';
-import 'package:intl/intl.dart' show DateFormat;
 
 ///Package imports
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 ///calendar import
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -66,7 +66,9 @@ class _CustomizationCalendarState extends SampleViewState {
         /// The key set here to maintain the state,
         ///  when we change the parent of the widget
         key: _globalKey,
-        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        data: model.themeData.copyWith(
+            colorScheme: model.themeData.colorScheme
+                .copyWith(secondary: model.backgroundColor)),
         child: _getCustomizationCalendar(
             _calendarController, _events, _onViewChanged, _getAppointmentUI));
 

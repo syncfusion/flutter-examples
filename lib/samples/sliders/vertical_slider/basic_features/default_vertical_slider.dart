@@ -26,12 +26,14 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
 
   final double _inactiveSliderValue = 50.0;
   double _activeSliderValue = 50.0;
+  bool _isInversed = false;
 
   SfSlider _inactiveSlider() {
     //ignore: missing_required_param
     return SfSlider.vertical(
       min: 0.0,
       max: 100.0,
+      isInversed: _isInversed,
       value: _inactiveSliderValue,
       onChanged: null,
     );
@@ -43,6 +45,7 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
         child: SfSlider.vertical(
           min: 0.0,
           max: 100.0,
+          isInversed: _isInversed,
           onChanged: (dynamic values) {
             setState(() {
               _activeSliderValue = values as double;
@@ -95,5 +98,25 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
                   padding: const EdgeInsets.only(top: 10.0), child: slider),
             ));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          contentPadding: const EdgeInsets.all(0.0),
+          value: _isInversed,
+          title: const Text('Inversed', softWrap: false),
+          activeColor: model.backgroundColor,
+          onChanged: (bool? value) {
+            setState(() {
+              _isInversed = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
+    );
   }
 }

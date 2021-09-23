@@ -85,6 +85,7 @@ class _SortingDataGridState extends SampleViewState {
             trailing: Transform.scale(
                 scale: 0.8,
                 child: CupertinoSwitch(
+                  activeColor: model.backgroundColor,
                   value: allowSorting,
                   onChanged: (bool value) {
                     setState(() {
@@ -104,6 +105,7 @@ class _SortingDataGridState extends SampleViewState {
               trailing: Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
+                    activeColor: model.backgroundColor,
                     value: allowMultiSorting,
                     onChanged: (bool value) {
                       setState(() {
@@ -122,6 +124,7 @@ class _SortingDataGridState extends SampleViewState {
               trailing: Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
+                    activeColor: model.backgroundColor,
                     value: allowTriStateSorting,
                     onChanged: (bool value) {
                       setState(() {
@@ -134,6 +137,7 @@ class _SortingDataGridState extends SampleViewState {
             trailing: Transform.scale(
                 scale: 0.8,
                 child: CupertinoSwitch(
+                  activeColor: model.backgroundColor,
                   value: allowColumnSorting,
                   onChanged: (bool value) {
                     setState(() {
@@ -159,6 +163,7 @@ class _SortingDataGridState extends SampleViewState {
               trailing: Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
+                    activeColor: model.backgroundColor,
                     value: showSortNumbers,
                     onChanged: (bool value) {
                       setState(() {

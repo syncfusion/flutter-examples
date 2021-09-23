@@ -176,7 +176,7 @@ class _FullViewSampleLayout extends StatelessWidget {
                                     padding: EdgeInsets.fromLTRB(
                                         30, needPadding ? 50 : 0, 0, 0),
                                     child: Container(
-                                      height: 50,
+                                      height: 20,
                                       width: 230,
                                       child: InkWell(
                                         onTap: () =>
@@ -579,7 +579,7 @@ Widget getLeftSideDrawer(SampleModel _model) {
                         )),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('Version 19.2.44',
+                        child: Text('Version 19.3.43',
                             style: TextStyle(
                                 color: _model.drawerTextIconColor,
                                 fontSize: 12,

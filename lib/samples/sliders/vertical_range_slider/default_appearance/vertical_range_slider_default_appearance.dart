@@ -26,6 +26,7 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
   final SfRangeValues _inactiveRangeSliderValue =
       const SfRangeValues(20.0, 80.0);
   SfRangeValues _activeRangeSliderValue = const SfRangeValues(20.0, 80.0);
+  bool _isInversed = false;
 
   SfRangeSlider _inactiveRangeSlider() {
     //ignore: missing_required_param
@@ -33,6 +34,7 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
       min: 0.0,
       max: 100.0,
       values: _inactiveRangeSliderValue,
+      isInversed: _isInversed,
       onChanged: null,
     );
   }
@@ -50,6 +52,7 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
             });
           },
           values: _activeRangeSliderValue,
+          isInversed: _isInversed,
           enableTooltip: true,
           numberFormat: NumberFormat('#'),
         ));
@@ -95,5 +98,28 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
           : SingleChildScrollView(
               child: SizedBox(height: 400, child: rangeSlider));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: _isInversed,
+          title: const Text(
+            'Inversed',
+            softWrap: false,
+          ),
+          contentPadding: const EdgeInsets.all(0.0),
+          activeColor: model.backgroundColor,
+          onChanged: (bool? value) {
+            setState(() {
+              _isInversed = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
+    );
   }
 }

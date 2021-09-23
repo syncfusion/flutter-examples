@@ -1,10 +1,10 @@
 /// Dart imports
 import 'dart:async';
 import 'dart:math' as math;
-import 'package:intl/intl.dart';
 
 /// Package imports
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';

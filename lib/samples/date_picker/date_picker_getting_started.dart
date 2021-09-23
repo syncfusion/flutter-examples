@@ -11,9 +11,9 @@ import '../../model/model.dart';
 import '../../model/sample_view.dart';
 import 'popup_picker.dart';
 
-/// Render getting started datepicker widget
+/// Render getting started date picker widget
 class GettingStartedDatePicker extends SampleView {
-  /// Creates datepicker widget with customized options
+  /// Creates date picker widget with customized options
   const GettingStartedDatePicker(Key key) : super(key: key);
 
   @override
@@ -35,6 +35,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
   bool _isWeb = false;
   late Orientation _deviceOrientation;
   bool _showWeekNumber = false;
+  bool _showTodayButton = true;
 
   String _selectionModeString = 'extendableRange';
   final List<String> _selectionModeList = <String>[
@@ -118,8 +119,9 @@ class _GettingStartedDatePickerState extends SampleViewState {
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
           color: model.cardThemeColor,
           child: Theme(
-              data:
-                  model.themeData.copyWith(accentColor: model.backgroundColor),
+              data: model.themeData.copyWith(
+                  colorScheme: model.themeData.colorScheme
+                      .copyWith(secondary: model.backgroundColor)),
               child: _getGettingStartedDatePicker(
                   _controller,
                   _selectionMode,
@@ -132,6 +134,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                   DateTime.now().add(const Duration(days: 200)),
                   _enableMultiView,
                   _showWeekNumber,
+                  _showTodayButton,
                   context)),
         ));
     return Scaffold(
@@ -221,6 +224,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
       _showActionButtons = value;
     } else if (property == 'ShowWeekNumber') {
       _showWeekNumber = value;
+    } else if (property == 'ShowTodayButton') {
+      _showTodayButton = value;
     }
     setState(() {
       /// update the bool value changes
@@ -231,55 +236,59 @@ class _GettingStartedDatePickerState extends SampleViewState {
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
-      _controller.addPropertyChangedListener((String value) {
-        if (value == 'view') {
-          if (_controller.view == DateRangePickerView.month) {
-            _viewModeString = 'month';
-          } else if (_controller.view == DateRangePickerView.year) {
-            _viewModeString = 'year';
-          } else if (_controller.view == DateRangePickerView.decade) {
-            _viewModeString = 'decade';
-          } else if (_controller.view == DateRangePickerView.century) {
-            _viewModeString = 'century';
-          }
-          stateSetter(() {});
-        }
-      });
       final List<Widget> propertyOptions = <Widget>[];
-      propertyOptions.add(Container(
-        height: 50,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
+      if (!model.isMobile) {
+        _controller.addPropertyChangedListener((String value) {
+          if (value == 'view') {
+            if (_controller.view == DateRangePickerView.month) {
+              _viewModeString = 'month';
+            } else if (_controller.view == DateRangePickerView.year) {
+              _viewModeString = 'year';
+            } else if (_controller.view == DateRangePickerView.decade) {
+              _viewModeString = 'decade';
+            } else if (_controller.view == DateRangePickerView.century) {
+              _viewModeString = 'century';
+            }
+            stateSetter(() {});
+          }
+        });
+        propertyOptions.add(Container(
+          height: 50,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                  flex: 5,
+                  child: Text('Picker view',
+                      style:
+                          TextStyle(fontSize: 16.0, color: model.textColor))),
+              Expanded(
                 flex: 5,
-                child: Text('Picker view',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-              flex: 5,
-              child: Container(
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _viewModeString,
-                    items: _viewModeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'month',
-                          child: Text(value,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      onPickerViewChange(value);
-                      stateSetter(() {});
-                    }),
-              ),
-            )
-          ],
-        ),
-      ));
+                child: Container(
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
+                      value: _viewModeString,
+                      items: _viewModeList.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'month',
+                            child: Text(value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        onPickerViewChange(value);
+                        stateSetter(() {});
+                      }),
+                ),
+              )
+            ],
+          ),
+        ));
+      }
+
       propertyOptions.add(Container(
         height: 50,
         child: Row(
@@ -366,6 +375,42 @@ class _GettingStartedDatePickerState extends SampleViewState {
                               onChanged: (dynamic value) {
                                 setState(() {
                                   onBoolValueChange('ShowActionButtons', value);
+                                  stateSetter(() {});
+                                });
+                              },
+                              activeColor: model.backgroundColor,
+                            ))),
+                  ),
+                ))
+          ],
+        ),
+      ));
+      propertyOptions.add(Container(
+        height: 50,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+                flex: 7,
+                child: Text('Show today button',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
+            Expanded(
+                flex: 3,
+                child: Container(
+                  padding: const EdgeInsets.all(0),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        canvasColor: model.bottomSheetBackgroundColor),
+                    child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Transform.scale(
+                            scale: 0.8,
+                            child: CupertinoSwitch(
+                              value: _showTodayButton,
+                              onChanged: (dynamic value) {
+                                setState(() {
+                                  onBoolValueChange('ShowTodayButton', value);
                                   stateSetter(() {});
                                 });
                               },
@@ -667,6 +712,7 @@ SfDateRangePicker _getGettingStartedDatePicker(
     DateTime maxDate,
     bool enableMultiView,
     bool showWeekNumber,
+    bool showTodayButton,
     BuildContext context) {
   return SfDateRangePicker(
     enablePastDates: enablePastDates,
@@ -677,6 +723,7 @@ SfDateRangePicker _getGettingStartedDatePicker(
     showActionButtons: showActionButtons,
     selectionMode: mode,
     controller: controller,
+    showTodayButton: showTodayButton,
     headerStyle: DateRangePickerHeaderStyle(
         textAlign: enableMultiView ? TextAlign.center : TextAlign.left),
     onCancel: () {

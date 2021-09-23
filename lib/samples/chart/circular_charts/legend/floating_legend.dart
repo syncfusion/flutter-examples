@@ -155,11 +155,12 @@ class _CircularFloatingLegendState extends SampleViewState {
           explodeAll: true,
           explodeOffset: '3%',
           dataSource: chartData,
-          enableSmartLabels: false,
           explode: true,
           enableTooltip: true,
           dataLabelSettings: const DataLabelSettings(
-              isVisible: true, labelPosition: ChartDataLabelPosition.outside),
+              isVisible: true,
+              labelPosition: ChartDataLabelPosition.outside,
+              labelIntersectAction: LabelIntersectAction.shift),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y),
     ];

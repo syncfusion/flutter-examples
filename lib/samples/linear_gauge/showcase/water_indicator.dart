@@ -63,7 +63,7 @@ class _WaterLevelIndicatorState extends SampleViewState {
             LinearWidgetPointer(
               value: _level,
               enableAnimation: false,
-              onValueChanged: (dynamic value) {
+              onChanged: (dynamic value) {
                 setState(() {
                   _level = value as double;
                 });
