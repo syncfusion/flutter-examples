@@ -16,11 +16,11 @@ dependencies:
   path_provider_macos: ^2.0.0
   desktop_window: 0.4.0
 
-  syncfusion_flutter_datagrid: ^19.3.43
+  syncfusion_flutter_datagrid_export: ^19.3.43-beta
   syncfusion_flutter_calendar: ^19.3.43
-  syncfusion_flutter_datepicker: ^19.3.43 
+  syncfusion_flutter_datepicker: ^19.3.43
   syncfusion_flutter_charts: ^19.3.43
-  syncfusion_flutter_gauges: ^19.3.43 
+  syncfusion_flutter_gauges: ^19.3.43
   syncfusion_flutter_sliders: ^19.3.43
   syncfusion_flutter_pdf: ^19.3.43-beta
   syncfusion_flutter_barcodes: ^19.3.43
