@@ -26,7 +26,7 @@ dependencies:
   syncfusion_flutter_barcodes: ^19.3.43
   syncfusion_officechart: ^19.3.43-beta
   syncfusion_flutter_maps: ^19.3.43-beta
-  syncfusion_flutter_signaturepad: ^19.3.43
+  syncfusion_flutter_signaturepad: ^19.3.43-beta
   syncfusion_flutter_pdfviewer: ^19.3.43-beta
   syncfusion_flutter_treemap: ^19.3.43-beta
 
