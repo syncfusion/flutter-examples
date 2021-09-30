@@ -4,6 +4,7 @@ import 'dart:ui';
 
 /// Package imports
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -34,32 +35,36 @@ class _SplineVerticalState extends SampleViewState {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Product sales prediction'),
       plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(
+      primaryXAxis: DateTimeAxis(
         majorGridLines: const MajorGridLines(width: 0),
+        intervalType: DateTimeIntervalType.years,
+        interval: model.isWebFullView ? 1 : 2,
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        dateFormat: DateFormat.y(),
       ),
       primaryYAxis: NumericAxis(
           majorGridLines: const MajorGridLines(width: 0),
           minimum: 1.2,
           maximum: 2.4,
           interval: 0.2),
-      series: <ChartSeries<ChartSampleData, num>>[
-        SplineSeries<ChartSampleData, num>(
+      series: <ChartSeries<ChartSampleData, DateTime>>[
+        SplineSeries<ChartSampleData, DateTime>(
             onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
               return _CustomSplineSeriesRenderer(
-                  series as SplineSeries<ChartSampleData, num>);
+                  series as SplineSeries<ChartSampleData, DateTime>);
             },
             dataSource: <ChartSampleData>[
-              ChartSampleData(x: 2016, y: 2),
-              ChartSampleData(x: 2017, y: 1.5),
-              ChartSampleData(x: 2018, y: 2),
-              ChartSampleData(x: 2019, y: 1.75),
-              ChartSampleData(x: 2020, y: 1.5),
-              ChartSampleData(x: 2021, y: 2),
-              ChartSampleData(x: 2022, y: 1.5),
-              ChartSampleData(x: 2023, y: 2.2),
-              ChartSampleData(x: 2024, y: 1.9),
+              ChartSampleData(x: DateTime(2016), y: 2),
+              ChartSampleData(x: DateTime(2017), y: 1.5),
+              ChartSampleData(x: DateTime(2018), y: 2),
+              ChartSampleData(x: DateTime(2019), y: 1.75),
+              ChartSampleData(x: DateTime(2020), y: 1.5),
+              ChartSampleData(x: DateTime(2021), y: 2),
+              ChartSampleData(x: DateTime(2022), y: 1.5),
+              ChartSampleData(x: DateTime(2023), y: 2.2),
+              ChartSampleData(x: DateTime(2024), y: 1.9),
             ],
-            xValueMapper: (ChartSampleData sales, _) => sales.x as num,
+            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
             yValueMapper: (ChartSampleData sales, _) => sales.y,
             width: 2,
             dashArray: const <double>[10, 5]),

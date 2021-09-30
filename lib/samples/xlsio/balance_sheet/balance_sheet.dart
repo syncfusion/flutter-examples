@@ -10,8 +10,8 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Alignment;
 
 ///Local imports
 import '../../../model/sample_view.dart';
-import '../helper/save_file_mobile.dart'
-    if (dart.library.html) '../helper/save_file_web.dart';
+import '../../common/export/save_file_mobile.dart'
+    if (dart.library.html) '../../common/export/save_file_web.dart';
 
 /// Render XlsIO of balance sheet
 class BalanceSheetXlsIO extends SampleView {

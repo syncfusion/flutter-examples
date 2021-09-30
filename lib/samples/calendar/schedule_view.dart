@@ -96,7 +96,9 @@ class _ScheduleViewCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Theme(
-        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        data: model.themeData.copyWith(
+            colorScheme: model.themeData.colorScheme
+                .copyWith(secondary: model.backgroundColor)),
         child: Container(
             color: model.cardThemeColor,
             child: getScheduleViewCalendar(

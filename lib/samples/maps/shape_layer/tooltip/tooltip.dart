@@ -1,4 +1,5 @@
 ///Flutter package imports
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 ///Core theme import
@@ -11,9 +12,18 @@ import 'package:syncfusion_flutter_maps/maps.dart';
 import '../../../../model/sample_view.dart';
 
 /// Renders the map tooltip sample.
+// ignore: must_be_immutable
 class MapTooltipPage extends SampleView {
   /// Creates the map tooltip sample.
-  const MapTooltipPage(Key key) : super(key: key);
+  MapTooltipPage(Key key) : super(key: key) {
+    needsPropertyPanel = hideSampleStatus = false;
+  }
+
+  /// Specifies whether the property panel is required in web and other desktop platforms
+  bool? needsPropertyPanel;
+
+  /// Specifies whether to display sample status such as updated tag in web and other desktop platforms
+  bool? hideSampleStatus;
 
   @override
   _MapTooltipPageState createState() => _MapTooltipPageState();
@@ -33,6 +43,7 @@ class _MapTooltipPageState extends SampleViewState {
 
   // Index of either forest, river or rainfall data.
   int _currentDataTypeIndex = 0;
+  bool _autoHide = true;
 
   late String _title;
 
@@ -330,8 +341,8 @@ class _MapTooltipPageState extends SampleViewState {
               ? EdgeInsets.only(
                   left: 15,
                   top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.15)
-              : const EdgeInsets.only(bottom: 75.0),
+                  bottom: MediaQuery.of(context).size.height * 0.075)
+              : const EdgeInsets.only(bottom: 70.0),
           child: SfMapsTheme(
               data: SfMapsThemeData(
                 shapeHoverColor: Colors.transparent,
@@ -394,6 +405,7 @@ class _MapTooltipPageState extends SampleViewState {
                             : const Color.fromRGBO(66, 66, 66, 1),
                         strokeColor: const Color.fromRGBO(153, 153, 153, 1),
                         strokeWidth: 0.5,
+                        hideDelay: _autoHide ? 3.0 : double.infinity,
                       ),
                     ),
                   ],
@@ -412,6 +424,26 @@ class _MapTooltipPageState extends SampleViewState {
           ),
         )
       ],
+    );
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          contentPadding: const EdgeInsets.all(0.0),
+          value: _autoHide,
+          title: const Text('Auto hide'),
+          activeColor: model.backgroundColor,
+          onChanged: (bool? value) {
+            setState(() {
+              _autoHide = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
     );
   }
 }

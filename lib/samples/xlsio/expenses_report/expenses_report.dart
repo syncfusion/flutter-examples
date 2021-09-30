@@ -7,8 +7,8 @@ import 'package:syncfusion_officechart/officechart.dart';
 
 ///Local imports
 import '../../../model/sample_view.dart';
-import '../helper/save_file_mobile.dart'
-    if (dart.library.html) '../helper/save_file_web.dart';
+import '../../common/export/save_file_mobile.dart'
+    if (dart.library.html) '../../common/export/save_file_web.dart';
 
 /// Render xlsio of expenses report
 class ExpensesReportXlsIO extends SampleView {

@@ -65,7 +65,7 @@ class _TaskTrackingState extends SampleViewState {
                   markerPointers: <LinearMarkerPointer>[
                     LinearShapePointer(
                         value: _pointerValue,
-                        onValueChanged: (dynamic value) {
+                        onChanged: (dynamic value) {
                           setState(() {
                             _pointerValue = value as double;
                           });

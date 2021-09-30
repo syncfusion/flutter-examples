@@ -1,6 +1,6 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -129,7 +129,7 @@ class _ShapePointerState extends SampleViewState {
           markerPointers: <LinearShapePointer>[
             LinearShapePointer(
               value: _invertedTrianglePointerValue,
-              onValueChanged: (dynamic value) {
+              onChanged: (dynamic value) {
                 setState(() {
                   _invertedTrianglePointerValue = value as double;
                 });
@@ -154,7 +154,7 @@ class _ShapePointerState extends SampleViewState {
             markerPointers: <LinearShapePointer>[
               LinearShapePointer(
                   value: _circlePointerValue,
-                  onValueChanged: (dynamic value) {
+                  onChanged: (dynamic value) {
                     setState(() {
                       _circlePointerValue = value as double;
                     });
@@ -178,7 +178,7 @@ class _ShapePointerState extends SampleViewState {
             markerPointers: <LinearShapePointer>[
               LinearShapePointer(
                   value: _diamondPointerValue,
-                  onValueChanged: (dynamic value) {
+                  onChanged: (dynamic value) {
                     setState(() {
                       _diamondPointerValue = value as double;
                     });
@@ -202,7 +202,7 @@ class _ShapePointerState extends SampleViewState {
             markerPointers: <LinearShapePointer>[
               LinearShapePointer(
                 value: _rectanglePointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _rectanglePointerValue = value as double;
                   });
@@ -227,7 +227,7 @@ class _ShapePointerState extends SampleViewState {
             markerPointers: <LinearShapePointer>[
               LinearShapePointer(
                 value: _pointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _pointerValue = value as double;
                   });
@@ -235,7 +235,7 @@ class _ShapePointerState extends SampleViewState {
               ),
               LinearShapePointer(
                   value: _multiPointerValue,
-                  onValueChanged: (dynamic value) {
+                  onChanged: (dynamic value) {
                     setState(() {
                       _multiPointerValue = value as double;
                     });

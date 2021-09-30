@@ -1,14 +1,14 @@
 ///Flutter package imports
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-///Map import
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:syncfusion_flutter_maps/maps.dart';
-
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Map import
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
 import '../../../../model/sample_view.dart';

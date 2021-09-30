@@ -159,6 +159,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
           ),
           ListTile(
               title: Text('X offset',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),
@@ -183,6 +184,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
               )),
           ListTile(
               title: Text('Y offset',
+                  softWrap: false,
                   style: TextStyle(
                     color: model.textColor,
                   )),

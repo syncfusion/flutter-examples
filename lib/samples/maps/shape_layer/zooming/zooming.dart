@@ -205,6 +205,7 @@ class _MapZoomingPageState extends SampleViewState {
                       return MapMarker(
                         latitude: _touristPlaces[index].latLng.latitude,
                         longitude: _touristPlaces[index].latLng.longitude,
+                        offset: Offset(0, -_markerSize / 2),
                         size: Size(_markerSize, _markerSize * 2),
                         child: Icon(
                           Icons.location_on,

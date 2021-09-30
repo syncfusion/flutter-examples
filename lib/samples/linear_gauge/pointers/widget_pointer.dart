@@ -1,6 +1,6 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -126,7 +126,7 @@ class _WidgetPointerState extends SampleViewState {
             markerPointers: <LinearMarkerPointer>[
               LinearWidgetPointer(
                 value: _textWidgetPointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _textWidgetPointerValue = value as double;
                   });
@@ -175,7 +175,7 @@ class _WidgetPointerState extends SampleViewState {
             markerPointers: <LinearMarkerPointer>[
               LinearWidgetPointer(
                 value: _iconWidgetPointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _iconWidgetPointerValue = value as double;
                   });
@@ -224,7 +224,7 @@ class _WidgetPointerState extends SampleViewState {
             markerPointers: <LinearMarkerPointer>[
               LinearWidgetPointer(
                 value: _textPointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _textPointerValue = value as double;
                   });
@@ -257,7 +257,7 @@ class _WidgetPointerState extends SampleViewState {
               ),
               LinearWidgetPointer(
                 value: _iconPointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _iconPointerValue = value as double;
                   });

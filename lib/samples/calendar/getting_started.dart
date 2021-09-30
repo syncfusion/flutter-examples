@@ -60,7 +60,7 @@ class _GettingStartedCalendarState extends SampleViewState {
 
   @override
   void initState() {
-    _calendarController.view = CalendarView.month;
+    _calendarController.view = CalendarView.week;
     addAppointmentDetails();
     super.initState();
   }
@@ -72,7 +72,9 @@ class _GettingStartedCalendarState extends SampleViewState {
         /// The key set here to maintain the state,
         ///  when we change the parent of the widget
         key: _globalKey,
-        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        data: model.themeData.copyWith(
+            colorScheme: model.themeData.colorScheme
+                .copyWith(secondary: model.backgroundColor)),
         child: _getGettingStartedCalendar(_calendarController, _events,
             _onViewChanged, _minDate, _maxDate, scheduleViewBuilder));
 
@@ -549,7 +551,7 @@ Widget scheduleViewBuilder(
 /// An object to set the appointment collection data source to collection, which
 /// used to map the custom appointment data to the calendar appointment, and
 /// allows to add, remove or reset the appointment collection.
-class _MeetingDataSource extends CalendarDataSource {
+class _MeetingDataSource extends CalendarDataSource<_Meeting> {
   _MeetingDataSource(this.source);
 
   List<_Meeting> source;
@@ -580,6 +582,13 @@ class _MeetingDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) {
     return source[index].background;
+  }
+
+  @override
+  _Meeting convertAppointmentToObject(
+      _Meeting eventName, Appointment appointment) {
+    return _Meeting(appointment.subject, appointment.startTime,
+        appointment.endTime, appointment.color, appointment.isAllDay);
   }
 }
 

@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'dart:io' show Platform;
 
 /// Package imports
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:desktop_window/desktop_window.dart';
 
 import '../model/web_view.dart';
 
@@ -15,7 +15,7 @@ import '../sample_list.dart';
 
 /// WidgetCategory of the each control as Data Visualization, Editors,etc.,
 class WidgetCategory {
-  /// Contructor holds the name, id, control collection of the [WidgetCategory]
+  /// Constructor holds the name, id, control collection of the [WidgetCategory]
   WidgetCategory(
       [this.categoryName,
       this.controlList,
@@ -453,6 +453,9 @@ class SampleModel extends Listenable {
   /// holds the collection of all sample routes.
   static List<SampleRoute> sampleRoutes = <SampleRoute>[];
 
+  /// Holds the value whether the property panel option is tapped
+  late bool isPropertyPanelTapped;
+
   /// Switching between light, dark, system themes
   void changeTheme(ThemeData _themeData) {
     themeData = _themeData;
@@ -643,16 +646,30 @@ Future<void> updateControlItems() async {
                         .sampleIndex ??= k;
                     _secondLevelSubItems[_secondLevelSubItems.length - 1]
                         .control = controlList[i];
-                    final String breadCrumbText = ('/' +
-                            controlList[i].title! +
-                            '/' +
-                            _firstLevelSubItems[j].title! +
-                            '/' +
-                            _secondLevelSubItems[
-                                    _secondLevelSubItems.length - 1]
-                                .title!)
-                        .replaceAll(' ', '-')
-                        .toLowerCase();
+                    String breadCrumbText;
+                    if (_firstLevelSubItems[j].subItems!.length == 1 &&
+                        _secondLevelSubItems.length == 1) {
+                      breadCrumbText = ('/' +
+                              controlList[i].title! +
+                              '/' +
+                              _secondLevelSubItems[
+                                      _secondLevelSubItems.length - 1]
+                                  .title!)
+                          .replaceAll(' ', '-')
+                          .toLowerCase();
+                    } else {
+                      breadCrumbText = ('/' +
+                              controlList[i].title! +
+                              '/' +
+                              _firstLevelSubItems[j].title! +
+                              '/' +
+                              _secondLevelSubItems[
+                                      _secondLevelSubItems.length - 1]
+                                  .title!)
+                          .replaceAll(' ', '-')
+                          .toLowerCase();
+                    }
+
                     _secondLevelSubItems[_secondLevelSubItems.length - 1]
                         .breadCrumbText = breadCrumbText;
                     _secondLevelSubItems[_secondLevelSubItems.length - 1]

@@ -1,14 +1,13 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
-///Map import
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Map import
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
 import '../../../../model/sample_view.dart';
@@ -336,6 +335,7 @@ class _ArcsSampleState extends SampleViewState
               to: _airports[index].to,
               dashArray: _dashArray,
               color: _layerColor,
+              strokeCap: StrokeCap.round,
               width: 2.0,
             );
           },

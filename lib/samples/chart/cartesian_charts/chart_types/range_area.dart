@@ -1,9 +1,8 @@
 /// Dart import
 import 'dart:math';
 
-/// Package imports
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';

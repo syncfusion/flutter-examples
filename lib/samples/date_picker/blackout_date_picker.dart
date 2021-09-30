@@ -41,11 +41,22 @@ class _BlackoutDatePickerState extends SampleViewState {
     final Random random = Random();
     for (DateTime date = startDate;
         date.isBefore(endDate);
-        date = date.add(Duration(days: random.nextInt(25)))) {
-      dates.add(date);
+        date = date.add(Duration(days: random.nextInt(30)))) {
+      if (date.weekday != DateTime.saturday &&
+          date.weekday != DateTime.sunday) {
+        dates.add(date);
+      }
     }
 
     return dates;
+  }
+
+  bool _selectableDayPredicateDates(DateTime date) {
+    if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+      return false;
+    }
+
+    return true;
   }
 
   @override
@@ -65,7 +76,9 @@ class _BlackoutDatePickerState extends SampleViewState {
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
         color: model.cardThemeColor,
         child: Theme(
-            data: model.themeData.copyWith(accentColor: model.backgroundColor),
+            data: model.themeData.copyWith(
+                colorScheme: model.themeData.colorScheme
+                    .copyWith(secondary: model.backgroundColor)),
             child: _getBlackoutDatePicker()),
       ),
     );
@@ -107,6 +120,7 @@ class _BlackoutDatePickerState extends SampleViewState {
       monthViewSettings: DateRangePickerMonthViewSettings(
           showTrailingAndLeadingDates: true, blackoutDates: _blackoutDates),
       showNavigationArrow: model.isWebFullView,
+      selectableDayPredicate: _selectableDayPredicateDates,
     );
   }
 }

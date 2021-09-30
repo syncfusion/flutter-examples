@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
+// ignore: avoid_classes_with_only_static_members
 ///To save the pdf file in the device
 class FileSaveHelper {
   static const MethodChannel _platformCall = MethodChannel('launchFile');

@@ -1,9 +1,11 @@
 /// Package imports
-import 'package:intl/intl.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_core/core.dart';
 
 /// Local imports
 import '../../../../model/sample_view.dart';
@@ -11,17 +13,23 @@ import '../../../../widgets/custom_button.dart';
 
 /// Render the default trendline chart sample.
 class TrendLineDefault extends SampleView {
-  /// craetes the default trendline chart sample
+  /// creates the default trendline chart sample
   const TrendLineDefault(Key key) : super(key: key);
 
   @override
   _TrendLineDefaultState createState() => _TrendLineDefaultState();
 }
 
-/// State class of dtefaul trendline chart.
+/// State class of default trendline chart.
 class _TrendLineDefaultState extends SampleViewState {
   _TrendLineDefaultState();
 
+  bool? _displayRSquare = false;
+  bool? _displaySlopeEquation = false;
+  String _slopeEquation = '';
+  late double? _intercept;
+  late List<double>? _slope;
+  String _rSquare = '';
   int periodMaxValue = 0;
   final List<String> _trendlineTypeList = <String>[
     'linear',
@@ -36,6 +44,8 @@ class _TrendLineDefaultState extends SampleViewState {
   late int _polynomialOrder;
   late int _period;
   late TooltipBehavior _tooltipBehavior;
+  late bool isLegendTapped;
+  Size? slopeTextSize;
 
   @override
   void initState() {
@@ -44,114 +54,188 @@ class _TrendLineDefaultState extends SampleViewState {
     _polynomialOrder = 2;
     _period = 2;
     _tooltipBehavior = TooltipBehavior(enable: true);
+    isLegendTapped = false;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildTrendLineDefaultChart();
+    return _buildTrendLineDefaultChart(context);
   }
 
   @override
   Widget buildSettings(BuildContext context) {
     final double screenWidth =
         model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double dropDownWidth =
+        (model.isWebFullView ? 0.76 : 0.57) * screenWidth;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          ListTile(
-            title: Text(
-                model.isWebFullView ? 'Trendlin\ne type' : 'Trendline type',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
+          Container(
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  child: Text('Trendline \ntype',
+                      style: TextStyle(color: model.textColor)),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(
+                      model.isWebFullView ? 50 : 70, 0, 0, 0),
+                  width: dropDownWidth,
+                  child: DropdownButton<String>(
+                    isExpanded: !model.isWebFullView,
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _selectedTrendLineType,
+                    items: _trendlineTypeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value,
+                            textWidthBasis: TextWidthBasis.parent,
+                            style: TextStyle(color: model.textColor)),
+                      );
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      setState(() {
+                        _onTrendLineTypeChanged(value.toString());
+                        stateSetter(() {});
+                      });
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Row(
+                children: <Widget>[
+                  Text('Display slope \nequation',
+                      style: TextStyle(
+                        color: model.textColor,
+                      )),
+                  Container(
+                    width: model.isWebFullView ? 70 : 90,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: CheckboxListTile(
+                          activeColor: model.backgroundColor,
+                          value: _displaySlopeEquation,
+                          onChanged: _type == TrendlineType.movingAverage
+                              ? null
+                              : (bool? value) {
+                                  setState(() {
+                                    _displaySlopeEquation = value!;
+                                    stateSetter(() {});
+                                  });
+                                }),
+                    ),
+                  ),
+                ],
+              )),
+          Container(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Row(
+                children: <Widget>[
+                  Text('Display \nR - squared  \nvalue',
+                      style: TextStyle(
+                        color: model.textColor,
+                      )),
+                  Container(
+                    width: model.isWebFullView ? 78 : 98,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: CheckboxListTile(
+                          activeColor: model.backgroundColor,
+                          value: _displayRSquare,
+                          onChanged: _type == TrendlineType.movingAverage
+                              ? null
+                              : (bool? value) {
+                                  setState(() {
+                                    _displayRSquare = value!;
+                                    stateSetter(() {});
+                                  });
+                                }),
+                    ),
+                  ),
+                ],
+              )),
+          Container(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: Visibility(
+                visible: _selectedTrendLineType != 'polynomial' ? false : true,
+                maintainState: true,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Polynomial\norder',
+                        style: TextStyle(color: model.textColor)),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: CustomDirectionalButtons(
+                          minValue: 2,
+                          maxValue: 4,
+                          initialValue: _polynomialOrder.toDouble(),
+                          onChanged: (double val) => setState(() {
+                            _polynomialOrder = val.floor();
+                          }),
+                          loop: true,
+                          iconColor: model.textColor,
+                          style:
+                              TextStyle(fontSize: 16.0, color: model.textColor),
+                        ),
+                      ),
+                    ),
+                  ],
                 )),
-            trailing: Container(
-              padding: EdgeInsets.only(left: 0.07 * screenWidth),
-              width: 0.6 * screenWidth,
-              height: 50,
-              alignment: Alignment.bottomLeft,
-              child: DropdownButton<String>(
-                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-                value: _selectedTrendLineType,
-                items: _trendlineTypeList.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child:
-                        Text(value, style: TextStyle(color: model.textColor)),
-                  );
-                }).toList(),
-                onChanged: (dynamic value) {
-                  _onTrendLineTypeChanged(value.toString());
-                  stateSetter(() {});
-                },
-              ),
-            ),
           ),
-          Visibility(
-            visible: _selectedTrendLineType != 'polynomial' ? false : true,
-            maintainState: true,
-            child: ListTile(
-              title: Text(
-                  model.isWebFullView
-                      ? 'Polyno\nmial \norder'
-                      : 'Polynomial \norder',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                width: 0.6 * screenWidth,
-                padding: EdgeInsets.only(left: 0.03 * screenWidth),
-                child: CustomDirectionalButtons(
-                  minValue: 2,
-                  maxValue: 6,
-                  initialValue: _polynomialOrder.toDouble(),
-                  onChanged: (double val) => setState(() {
-                    _polynomialOrder = val.floor();
-                  }),
-                  loop: true,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
-              ),
-            ),
-          ),
-          Visibility(
-            visible: _selectedTrendLineType != 'movingAverage' ? false : true,
-            maintainState: true,
-            child: ListTile(
-              title: Text('Period',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                width: 0.6 * screenWidth,
-                padding: EdgeInsets.only(left: 0.03 * screenWidth),
-                child: CustomDirectionalButtons(
-                  minValue: 2,
-                  maxValue: periodMaxValue.toDouble(),
-                  initialValue: _period.toDouble(),
-                  onChanged: (double val) => setState(() {
-                    _period = val.floor();
-                  }),
-                  loop: true,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
-              ),
-            ),
+          Container(
+            alignment: Alignment.topCenter,
+            child: Visibility(
+                visible:
+                    _selectedTrendLineType != 'movingAverage' ? false : true,
+                maintainState: true,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Period',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: model.textColor)),
+                    Container(
+                      height: 20.0,
+                      padding: EdgeInsets.fromLTRB(
+                          model.isWebFullView ? 50 : 70, 0, 0, 0),
+                      child: CustomDirectionalButtons(
+                        minValue: 2,
+                        maxValue: periodMaxValue.toDouble(),
+                        initialValue: _period.toDouble(),
+                        onChanged: (double val) => setState(() {
+                          _period = val.floor();
+                        }),
+                        loop: true,
+                        iconColor: model.textColor,
+                        style:
+                            TextStyle(fontSize: 16.0, color: model.textColor),
+                      ),
+                    ),
+                  ],
+                )),
           )
         ],
       );
     });
   }
 
-  /// Returns the column chart with defaul trendline types.
-  SfCartesianChart _buildTrendLineDefaultChart() {
+  /// Returns the column chart with default trendline types.
+  SfCartesianChart _buildTrendLineDefaultChart(BuildContext context) {
+    final Orientation orientation = MediaQuery.of(context).orientation;
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -161,20 +245,81 @@ class _TrendLineDefaultState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-        title: AxisTitle(text: isCardView ? '' : 'Visitors'),
-        majorTickLines: const MajorTickLines(width: 0),
-        numberFormat: NumberFormat.compact(),
-        axisLine: const AxisLine(width: 0),
-        interval: !isCardView ? 5000 : 10000,
-        labelFormat: '{value}',
-      ),
+          title: AxisTitle(text: isCardView ? '' : 'Visitors'),
+          majorTickLines: const MajorTickLines(width: 0),
+          numberFormat: NumberFormat.compact(),
+          axisLine: const AxisLine(width: 0),
+          interval: !isCardView ? 5000 : 10000,
+          labelFormat: '{value}',
+          maximum: 40000),
       series: _getTrendLineDefaultSeries(),
+      onLegendTapped: (LegendTapArgs args) {
+        setState(() {
+          isLegendTapped = isLegendTapped == true ? false : true;
+        });
+      },
       tooltipBehavior: _tooltipBehavior,
+      annotations: <CartesianChartAnnotation>[
+        CartesianChartAnnotation(
+            widget: Container(
+                height: kIsWeb
+                    ? 60
+                    : orientation == Orientation.landscape
+                        ? 50
+                        : 90,
+                width: kIsWeb
+                    ? slopeTextSize != null && slopeTextSize!.width > 200
+                        ? slopeTextSize!.width
+                        : 200
+                    : slopeTextSize != null && slopeTextSize!.width > 170
+                        ? orientation == Orientation.portrait
+                            ? 220
+                            : slopeTextSize!.width
+                        : 170,
+                child: Visibility(
+                  visible: !isLegendTapped,
+                  child: Column(children: <Widget>[
+                    // ignore: prefer_if_elements_to_conditional_expressions
+                    (_displaySlopeEquation != null &&
+                            _displaySlopeEquation! &&
+                            _type != TrendlineType.movingAverage)
+                        ? Text(
+                            _slopeEquation,
+                            style: TextStyle(color: model.textColor),
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        : const Text(''),
+                    SizedBox(
+                      height: kIsWeb
+                          ? 15
+                          : orientation == Orientation.landscape
+                              ? 8
+                              : 20,
+                    ),
+                    // ignore: prefer_if_elements_to_conditional_expressions
+                    (_displayRSquare != null &&
+                            _displayRSquare! &&
+                            _type != TrendlineType.movingAverage)
+                        ? Text('R² = ' + _rSquare,
+                            style: TextStyle(color: model.textColor))
+                        : const Text('')
+                  ]),
+                )),
+            coordinateUnit: CoordinateUnit.point,
+            x: model.isWebFullView
+                ? slopeTextSize != null && slopeTextSize!.width > 200
+                    ? 'Thu'
+                    : 'Fri'
+                : slopeTextSize != null && slopeTextSize!.width > 170
+                    ? 'Wed'
+                    : 'Thu',
+            y: 34000),
+      ],
     );
   }
 
   /// Returns the list of chart series which
-  /// need to render on the column chart with defaul trendline.
+  /// need to render on the column chart with default trendline.
   List<ColumnSeries<ChartSampleData, String>> _getTrendLineDefaultSeries() {
     final List<ChartSampleData> chartData = <ChartSampleData>[
       ChartSampleData(text: 'Sun', yValue: 12500),
@@ -200,9 +345,61 @@ class _TrendLineDefaultState extends SampleViewState {
                 dashArray: <double>[15, 3, 3, 3],
                 enableTooltip: true,
                 polynomialOrder: _polynomialOrder,
-                period: _period)
+                period: _period,
+                onRenderDetailsUpdate: (TrendlineRenderParams args) {
+                  _rSquare =
+                      double.parse((args.rSquaredValue)!.toStringAsFixed(4))
+                          .toString();
+                  _slope = args.slope;
+                  _intercept = args.intercept;
+                  _getSlopeEquation(_slope, _intercept);
+                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                    if (_displayRSquare! || _displaySlopeEquation!) {
+                      setState(() {});
+                    }
+                  });
+                })
           ])
     ];
+  }
+
+  void _getSlopeEquation(List<double>? slope, double? intercept) {
+    if (_type == TrendlineType.linear) {
+      _slopeEquation =
+          'y = ${double.parse((slope![0]).toStringAsFixed(3))}x + ${double.parse(intercept!.toStringAsFixed(3))}';
+    }
+    if (_type == TrendlineType.exponential) {
+      _slopeEquation =
+          'y = ${double.parse(intercept!.toStringAsFixed(3))}e^${double.parse((slope![0]).toStringAsFixed(3))}x';
+    }
+    if (_type == TrendlineType.logarithmic) {
+      _slopeEquation =
+          'y = ${double.parse(intercept!.toStringAsFixed(3))}ln(x) + ${double.parse((slope![0]).toStringAsFixed(3))}';
+    }
+    if (_type == TrendlineType.polynomial) {
+      if (_polynomialOrder == 2) {
+        _slopeEquation =
+            'y = ${double.parse((slope![1]).toStringAsFixed(3))}x +  ${double.parse((slope[0]).toStringAsFixed(3))}';
+      }
+      if (_polynomialOrder == 3) {
+        _slopeEquation =
+            'y = ${double.parse((slope![2]).toStringAsFixed(3))}x² + ${double.parse((slope[1]).toStringAsFixed(3))}x + ${double.parse((slope[0]).toStringAsFixed(3))}';
+      }
+      if (_polynomialOrder == 4) {
+        _slopeEquation =
+            'y = ${double.parse((slope![3]).toStringAsFixed(3))}x³ + ${double.parse((slope[2]).toStringAsFixed(3))}x²  + ${double.parse((slope[1]).toStringAsFixed(3))}x + ${double.parse((slope[0]).toStringAsFixed(3))}';
+      }
+    }
+    if (_type == TrendlineType.power) {
+      _slopeEquation =
+          'y = ${double.parse(intercept!.toStringAsFixed(3))}x^${double.parse((slope![0]).toStringAsFixed(3))}';
+    }
+    if (_type == TrendlineType.movingAverage) {
+      _slopeEquation = '';
+    }
+
+    slopeTextSize =
+        measureText(_slopeEquation, TextStyle(color: model.textColor));
   }
 
   /// Method to update the selected trendline type for the chart.

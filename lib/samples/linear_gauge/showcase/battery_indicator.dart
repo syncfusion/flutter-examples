@@ -1,6 +1,6 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';

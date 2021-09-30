@@ -1,6 +1,6 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -157,7 +157,7 @@ class _AxisTrackState extends SampleViewState {
             markerPointers: <LinearMarkerPointer>[
               LinearShapePointer(
                   value: _pointerValue,
-                  onValueChanged: (dynamic value) {
+                  onChanged: (dynamic value) {
                     setState(() {
                       _pointerValue = value as double;
                     });

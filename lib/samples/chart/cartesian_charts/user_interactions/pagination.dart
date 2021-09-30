@@ -94,7 +94,8 @@ class _PaginationState extends SampleViewState {
             : width * 0.7
         : double.infinity;
     height = MediaQuery.of(context).size.height;
-    _calculateHeight();
+    height = !model.isWebFullView ? height - 46 : height;
+    height = model.isWebFullView && !kIsWeb ? height * 0.6 : height * 0.65;
     _containerHeight = 30;
     return Center(
         child: Column(children: <Widget>[
@@ -157,30 +158,6 @@ class _PaginationState extends SampleViewState {
                   children: _getButtons(orientation),
                   onValueChanged: (int? i) => _loadGroupValue(i!))))
     ]));
-  }
-
-  /// Method to calculate widget height
-  void _calculateHeight() {
-    height = !model.isWebFullView ? height - 46 : height;
-    height = model.isWebFullView && !kIsWeb ? height * 0.6 : height;
-    if (kIsWeb &&
-        model.webOutputContainerState != null &&
-        model.webOutputContainerState.outputScaffoldKey != null &&
-        (model.webOutputContainerState.outputScaffoldKey)
-                .currentContext
-                ?.size !=
-            null) {
-      height = (model.webOutputContainerState.outputScaffoldKey)
-          .currentContext!
-          .size!
-          .height;
-
-      if (diff == null) {
-        diff = MediaQuery.of(context).size.height - height;
-      } else {
-        height = MediaQuery.of(context).size.height - diff!;
-      }
-    }
   }
 
   /// Returns the item of segmented control

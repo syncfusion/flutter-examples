@@ -1,8 +1,5 @@
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Package import
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../../../model/sample_view.dart';
