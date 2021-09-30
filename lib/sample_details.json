@@ -1566,7 +1566,7 @@
                     "title": "Smart data labels",
                     "key": "pie_with_smart_data_labels",
                     "status": "New",
-                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/pie/pie_with_smart_data_labels.dart",
+                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/pie/pie_with_smart_data_label.dart",
                     "needsPropertyPanel": true,
                     "sourceLink" : "https://www.insidethegames.biz/games/7/medals",
                     "sourceText": "insidethegames.biz"
@@ -2529,7 +2529,7 @@
                 "type": "sample",
                 "title": "Getting Started",
                 "key": "getting_started_datagrid",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/getting_started/datagrid_getting_started.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_getting_started.dart"
               }
             ]
           },
@@ -2566,7 +2566,8 @@
                 "title": "Column Sizing",
                 "key": "column_sizing_datagrid",
                 "needsPropertyPanel": true,
-                "status": "New"
+                "status": "New",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_column_sizing.dart"
               },
               {
                 "type": "sample",
@@ -2585,7 +2586,8 @@
                 "type": "sample",
                 "title": "Checkbox Column",
                 "key": "checkbox_selection_datagrid",
-                "status": "New"
+                "status": "New",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_checkbox_selection.dart"
               }
             ]
           },
@@ -2598,7 +2600,7 @@
                 "title": "Editing",
                 "key": "editing_datagrid",
                 "needsPropertyPanel": true,
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/editing/datagrid_editing.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_editing.dart"
               }
             ]
           },
@@ -2619,7 +2621,8 @@
                 "title": "Custom Sorting",
                 "description": "This sample demonstrates custom sorting in DataGrid. In this sample, Customer Name column is sorted based on the length of a cell value.",
                 "key": "custom_sorting_datagrid",
-                "status": "New"
+                "status": "New",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/sorting/datagrid_custom_sorting.dart"
               }
             ]
           },
@@ -2631,13 +2634,14 @@
                 "type": "sample",
                 "title": "Selection",
                 "key": "selection_datagrid",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/selection/datagrid_selection.dart",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_selection.dart",
                 "needsPropertyPanel": true
               },
               {
                 "title": "Checkbox Selection",
                 "key": "checkbox_selection_datagrid",
-                "status": "New"
+                "status": "New",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_checkbox_selection.dart"
               }
             ]
           },
@@ -2650,7 +2654,7 @@
                 "status": "New",
                 "title": "Summaries",
                 "key": "table_summary_datagrid",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/summaries/datagrid_table_summary.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_table_summary.dart"
               }
             ]
           },
@@ -2664,7 +2668,7 @@
                 "status": "New",
                 "key": "column_resizing_datagrid",
                 "description": "This sample demonstrates how to resize the columns. In the Desktop platforms, resize columns by clicking and dragging the right (left in RTL mode) border of a column header. In the mobile platforms, when the column is long pressed the indicator will be displayed at the right border of a column header, Then, tap and drag the indicator to resize columns.",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_column_resizing.dart",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_column_resizing.dart",
                 "needsPropertyPanel": true
               }
             ]
@@ -2677,7 +2681,7 @@
                 "type": "sample",
                 "title": "Freeze Panes",
                 "key": "freeze_panes_datagrid",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/freeze_panes/datagrid_freeze_panes.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_freeze_panes.dart"
               }
             ]
           },
@@ -2689,7 +2693,7 @@
                 "type": "sample",
                 "title": "Row Height",
                 "key": "row_height_datagrid",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/row_height/datagrid_row_height.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_row_height.dart"
               }
             ]
           },
@@ -2738,7 +2742,7 @@
                 "type": "sample",
                 "title": "Pull To Refresh",
                 "key": "pull_to_refresh_datagrid",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/pull_to_refresh/datagrid_pull_to_refresh.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_pull_to_refresh.dart"
               }
             ]
           },
@@ -2767,7 +2771,7 @@
                 "title": "Paging",
                 "key": "paging_datagrid",
                 "status": "Updated",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/paging/datagrid_paging.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_paging.dart"
               }
             ]
           },
@@ -2779,7 +2783,7 @@
                 "type": "sample",
                 "title": "Swiping",
                 "key": "swiping_datagrid",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/swiping/datagrid_swiping.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_swiping.dart"
               }
             ]
           },
@@ -2791,7 +2795,7 @@
                 "type": "sample",
                 "title": "Real-Time Update",
                 "key": "real_time_update_datagrid",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/real_time_update/datagrid_real_time_update.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_real_time_update.dart"
               }
             ]
           },
@@ -2804,7 +2808,7 @@
                 "status": "New",
                 "title": "Exporting",
                 "key": "exporting_datagrid",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/exporting/datagrid_exporting.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_exporting.dart"
               }
             ]
           }
