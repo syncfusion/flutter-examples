@@ -19,6 +19,22 @@ class LineDashed extends SampleView {
 class _LineDashedState extends SampleViewState {
   _LineDashedState();
 
+  List<_ChartData>? chartData;
+
+  @override
+  void initState() {
+    chartData = <_ChartData>[
+      _ChartData(2010, 6.6, 9.0, 15.1, 18.8),
+      _ChartData(2011, 6.3, 9.3, 15.5, 18.5),
+      _ChartData(2012, 6.7, 10.2, 14.5, 17.6),
+      _ChartData(2013, 6.7, 10.2, 13.9, 16.1),
+      _ChartData(2014, 6.4, 10.9, 13, 17.2),
+      _ChartData(2015, 6.8, 9.3, 13.4, 18.9),
+      _ChartData(2016, 7.7, 10.1, 14.2, 19.4),
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return _buildDashedLineChart();
@@ -51,22 +67,13 @@ class _LineDashedState extends SampleViewState {
 
   /// The method returns dashed line series to chart.
   List<LineSeries<_ChartData, num>> _getDashedLineSeries() {
-    final List<_ChartData> chartData = <_ChartData>[
-      _ChartData(2010, 6.6, 9.0, 15.1, 18.8),
-      _ChartData(2011, 6.3, 9.3, 15.5, 18.5),
-      _ChartData(2012, 6.7, 10.2, 14.5, 17.6),
-      _ChartData(2013, 6.7, 10.2, 13.9, 16.1),
-      _ChartData(2014, 6.4, 10.9, 13, 17.2),
-      _ChartData(2015, 6.8, 9.3, 13.4, 18.9),
-      _ChartData(2016, 7.7, 10.1, 14.2, 19.4),
-    ];
     return <LineSeries<_ChartData, num>>[
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
 
           /// The property uses to render a line with dashes.
           dashArray: <double>[15, 3, 3, 3],
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
           width: 2,
@@ -74,7 +81,7 @@ class _LineDashedState extends SampleViewState {
           markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartData!,
           dashArray: <double>[15, 3, 3, 3],
           width: 2,
           name: 'Saudi Arabia',
@@ -83,7 +90,7 @@ class _LineDashedState extends SampleViewState {
           markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartData!,
           width: 2,
           dashArray: <double>[15, 3, 3, 3],
           name: 'Spain',
@@ -92,7 +99,7 @@ class _LineDashedState extends SampleViewState {
           markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartData!,
           width: 2,
           dashArray: <double>[15, 3, 3, 3],
           name: 'Portugal',
@@ -100,6 +107,12 @@ class _LineDashedState extends SampleViewState {
           yValueMapper: (_ChartData sales, _) => sales.y4,
           markerSettings: const MarkerSettings(isVisible: true)),
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }
 

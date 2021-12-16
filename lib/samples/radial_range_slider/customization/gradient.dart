@@ -54,16 +54,16 @@ class _RadialRangeSliderGradientState extends SampleViewState {
                       Text(
                         '$_firstCelsiusAnnotationValue°C'
                         ' to $_secondCelsiusAnnotationValue',
-                        style: TextStyle(
-                          fontSize: _celsiusAnnotationFontSize,
+                        style: const TextStyle(
+                          fontSize: 18,
                           fontFamily: 'Times',
                           // fontWeight: FontWeight.bold
                         ),
                       ),
-                      Text(
+                      const Text(
                         '°C',
                         style: TextStyle(
-                          fontSize: _celsiusAnnotationFontSize,
+                          fontSize: 18,
                           fontFamily: 'Times',
                           // fontWeight: FontWeight.bold,
                         ),
@@ -170,7 +170,7 @@ class _RadialRangeSliderGradientState extends SampleViewState {
       _secondMarkerValue = value;
       // final int _value =
       //     (_firstMarkerValue - _secondMarkerValue).abs().round().toInt();
-      final int _value = _secondMarkerValue.abs().round().toInt();
+      final int _value = _secondMarkerValue.abs().round();
       _secondAnnotationValue = '$_value';
       final double _celsiusValue = (_value - 32) / 1.8;
       _secondCelsiusAnnotationValue = _celsiusValue.toStringAsFixed(1);
@@ -191,7 +191,7 @@ class _RadialRangeSliderGradientState extends SampleViewState {
       _firstMarkerValue = value;
       // final int _value =
       // (_firstMarkerValue - _secondMarkerValue).abs().round().toInt();
-      final int _value = _firstMarkerValue.abs().round().toInt();
+      final int _value = _firstMarkerValue.abs().round();
       _firstAnnotationValue = '$_value';
       final double _celsiusValue = (_value - 32) / 1.8;
       _firstCelsiusAnnotationValue = _celsiusValue.toStringAsFixed(1);
@@ -210,7 +210,6 @@ class _RadialRangeSliderGradientState extends SampleViewState {
   double _firstMarkerValue = 0;
   double _firstMarkerSize = 30;
   double _annotationFontSize = 25;
-  final double _celsiusAnnotationFontSize = 18;
   String _firstAnnotationValue = '0';
   String _secondAnnotationValue = '60';
   String _firstCelsiusAnnotationValue = '-${17.7778.toStringAsFixed(1)}';

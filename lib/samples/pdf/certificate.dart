@@ -1,6 +1,3 @@
-///Dart import
-import 'dart:typed_data';
-
 ///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -71,7 +68,8 @@ class _CertificatePdfState extends SampleViewState {
                   decoration: InputDecoration(
                       labelText: 'Recipient Name',
                       labelStyle: TextStyle(
-                          color: model.themeData.brightness == Brightness.light
+                          color: model.themeData.colorScheme.brightness ==
+                                  Brightness.light
                               ? Colors.grey
                               : Colors.lightBlue)),
                   controller: _nameController,
@@ -80,7 +78,8 @@ class _CertificatePdfState extends SampleViewState {
                   decoration: InputDecoration(
                       labelText: 'Course Name',
                       labelStyle: TextStyle(
-                          color: model.themeData.brightness == Brightness.light
+                          color: model.themeData.colorScheme.brightness ==
+                                  Brightness.light
                               ? Colors.grey
                               : Colors.lightBlue)),
                   controller: _courceNameController,
@@ -89,7 +88,8 @@ class _CertificatePdfState extends SampleViewState {
                   decoration: InputDecoration(
                       labelText: 'Date',
                       labelStyle: TextStyle(
-                          color: model.themeData.brightness == Brightness.light
+                          color: model.themeData.colorScheme.brightness ==
+                                  Brightness.light
                               ? Colors.grey
                               : Colors.lightBlue)),
                   controller: _dateController,

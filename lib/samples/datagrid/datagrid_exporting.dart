@@ -1,10 +1,9 @@
 ///Dart import
 import 'dart:core';
-import 'dart:math';
 
+/// Packages import
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/model.dart';
 import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -16,6 +15,9 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart'
 // Platform specific import
 import '../common/export/save_file_mobile.dart'
     if (dart.library.html) '../common/export/save_file_web.dart' as helper;
+
+/// Local import
+import 'datagridsource/dealer_datagridsource.dart';
 
 /// Render data grid with editing.
 class ExportingDataGrid extends SampleView {
@@ -31,7 +33,7 @@ class _ExportingDataGridState extends SampleViewState {
   final GlobalKey<SfDataGridState> _key = GlobalKey<SfDataGridState>();
 
   /// DataGridSource of [SfDataGrid]
-  late _ExportingDataSource dataGridSource;
+  late DealerDataGridSource dataGridSource;
 
   /// Determine to decide whether the device in landscape or in portrait.
   late bool isLandscapeInMobileView;
@@ -43,7 +45,7 @@ class _ExportingDataGridState extends SampleViewState {
   void initState() {
     super.initState();
     isWebOrDesktop = model.isWeb || model.isDesktop;
-    dataGridSource = _ExportingDataSource(model);
+    dataGridSource = DealerDataGridSource(model);
   }
 
   @override
@@ -56,14 +58,13 @@ class _ExportingDataGridState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildExportingButtons(),
         _buildDataGrid(context),
       ],
-    ));
+    );
   }
 
   Widget _buildExportingButtons() {
@@ -136,7 +137,8 @@ class _ExportingDataGridState extends SampleViewState {
         decoration: BoxDecoration(
             border: Border(
                 top: BorderSide(
-                    color: model.themeData.brightness == Brightness.light
+                    color: model.themeData.colorScheme.brightness ==
+                            Brightness.light
                         ? const Color.fromRGBO(0, 0, 0, 0.26)
                         : const Color.fromRGBO(255, 255, 255, 0.26),
                     width: 1))),
@@ -250,318 +252,5 @@ class _ExportingDataGridState extends SampleViewState {
         ),
       ),
     );
-  }
-}
-
-class _ExportingDataSource extends DataGridSource {
-  _ExportingDataSource(this.sampleModel) {
-    textStyle = sampleModel.themeData.brightness == Brightness.light
-        ? const TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-            color: Colors.black87)
-        : const TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-            color: Color.fromRGBO(255, 255, 255, 1));
-    dealers = getDealerDetails(100);
-    buildDataGridRows();
-  }
-
-  /// Helps to change the widget appearance based on the sample browser theme.
-  SampleModel sampleModel;
-
-  /// Collection of dealer info.
-  late List<_DealerInfo> dealers;
-
-  /// Collection of [DataGridRow].
-  late List<DataGridRow> dataGridRows;
-
-  /// Helps to change the [TextStyle] of editable widget.
-  /// Decide the text appearance of editable widget based on [Brightness].
-  late TextStyle textStyle;
-
-  /// Building the [DataGridRow]'s.
-  void buildDataGridRows() {
-    dataGridRows = dealers
-        .map<DataGridRow>((_DealerInfo dealer) => dealer.getDataGridRow())
-        .toList();
-  }
-
-  @override
-  List<DataGridRow> get rows => dataGridRows;
-
-  @override
-  DataGridRowAdapter? buildRow(DataGridRow row) {
-    return DataGridRowAdapter(
-        cells: row.getCells().map<Widget>((DataGridCell dataGridCell) {
-      final bool isRightAlign = dataGridCell.columnName == 'Product No' ||
-          dataGridCell.columnName == 'Shipped Date' ||
-          dataGridCell.columnName == 'Price';
-
-      String value = dataGridCell.value.toString();
-
-      if (dataGridCell.columnName == 'Price') {
-        value = NumberFormat.currency(locale: 'en_US', symbol: r'$')
-            .format(dataGridCell.value)
-            .toString();
-      } else if (dataGridCell.columnName == 'Shipped Date') {
-        value = DateFormat('MM/dd/yyyy').format(dataGridCell.value).toString();
-      }
-
-      return Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: isRightAlign ? Alignment.centerRight : Alignment.centerLeft,
-        child: Text(
-          value,
-          overflow: TextOverflow.ellipsis,
-        ),
-      );
-    }).toList());
-  }
-
-  // ------------- Populating the dealer info collection's. ----------------
-  // ------------------------------------------------------------------------
-
-  final Random random = Random();
-
-  List<_DealerInfo> getDealerDetails(int count) {
-    final List<_DealerInfo> dealerDetails = <_DealerInfo>[];
-    final List<DateTime> shippedDate = getDateBetween(2001, 2016, count);
-    for (int i = 1; i <= count; i++) {
-      final String selectedShipCountry = shipCountry[random.nextInt(5)];
-      final List<String> selectedShipCities = shipCity[selectedShipCountry]!;
-      final _DealerInfo ord = _DealerInfo(
-          productNo[random.nextInt(15)],
-          i.isEven
-              ? customersMale[random.nextInt(15)]
-              : customersFemale[random.nextInt(14)],
-          shippedDate[i - 1],
-          selectedShipCountry,
-          selectedShipCities[random.nextInt(selectedShipCities.length - 1)],
-          next(2000, 10000).toDouble());
-      dealerDetails.add(ord);
-    }
-
-    return dealerDetails;
-  }
-
-  /// Helps to populate the random number between the [min] and [max] value.
-  int next(int min, int max) => min + random.nextInt(max - min);
-
-  /// Populate the random date between the [startYear] and [endYear]
-  List<DateTime> getDateBetween(int startYear, int endYear, int count) {
-    final List<DateTime> date = <DateTime>[];
-    for (int i = 0; i < count; i++) {
-      final int year = next(startYear, endYear);
-      final int month = random.nextInt(12);
-      final int day = random.nextInt(30);
-      date.add(DateTime(year, month, day));
-    }
-
-    return date;
-  }
-
-  final Map<String, List<String>> shipCity = <String, List<String>>{
-    'Argentina': <String>['Rosario', 'Catamarca', 'Formosa', 'Salta'],
-    'Austria': <String>['Graz', 'Salzburg', 'Linz', 'Wels'],
-    'Belgium': <String>['Bruxelles', 'Charleroi', 'Namur', 'Mons'],
-    'Brazil': <String>[
-      'Campinas',
-      'Resende',
-      'Recife',
-      'Manaus',
-    ],
-    'Canada': <String>[
-      'Alberta',
-      'Montreal',
-      'Tsawwassen',
-      'Vancouver',
-    ],
-    'Denmark': <String>[
-      'Svendborg',
-      'Farum',
-      'Åarhus',
-      'København',
-    ],
-    'Finland': <String>['Helsinki', 'Espoo', 'Oulu'],
-    'France': <String>[
-      'Lille',
-      'Lyon',
-      'Marseille',
-      'Nantes',
-      'Paris',
-      'Reims',
-      'Strasbourg',
-      'Toulouse',
-      'Versailles'
-    ],
-    'Germany': <String>[
-      'Aachen',
-      'Berlin',
-      'Brandenburg',
-      'Cunewalde',
-      'Frankfurt',
-      'Köln',
-      'Leipzig',
-      'Mannheim',
-      'München',
-      'Münster',
-      'Stuttgart'
-    ],
-    'Ireland': <String>['Cork', 'Waterford', 'Bray', 'Athlone'],
-    'Italy': <String>[
-      'Bergamo',
-      'Reggio Calabria',
-      'Torino',
-      'Genoa',
-    ],
-    'Mexico': <String>[
-      'Mexico City',
-      'Puebla',
-      'León',
-      'Zapopan',
-    ],
-    'Norway': <String>['Stavern', 'Hamar', 'Harstad', 'Narvik'],
-    'Poland': <String>['Warszawa', 'Gdynia', 'Rybnik', 'Legnica'],
-    'Portugal': <String>['Lisboa', 'Albufeira', 'Elvas', 'Estremoz'],
-    'Spain': <String>[
-      'Barcelona',
-      'Madrid',
-      'Sevilla',
-      'Bilboa',
-    ],
-    'Sweden': <String>['Bräcke', 'Piteå', 'Robertsfors', 'Luleå'],
-    'Switzerland': <String>[
-      'Bern',
-      'Genève',
-      'Charrat',
-      'Châtillens',
-    ],
-    'UK': <String>['Colchester', 'Hedge End', 'London', 'Bristol'],
-    'USA': <String>[
-      'Albuquerque',
-      'Anchorage',
-      'Boise',
-      'Butte',
-      'Elgin',
-      'Eugene',
-      'Kirkland',
-      'Lander',
-      'Portland',
-      'San Francisco',
-      'Seattle',
-    ],
-    'Venezuela': <String>[
-      'Barquisimeto',
-      'Caracas',
-      'Isla de Margarita',
-      'San Cristóbal',
-      'Cantaura',
-    ],
-  };
-
-  List<String> customersMale = <String>[
-    'Adams',
-    'Owens',
-    'Thomas',
-    'Doran',
-    'Jefferson',
-    'Spencer',
-    'Vargas',
-    'Grimes',
-    'Edwards',
-    'Stark',
-    'Cruise',
-    'Fitz',
-    'Chief',
-    'Blanc',
-    'Stone',
-    'Williams',
-    'Jobs',
-    'Holmes'
-  ];
-
-  List<String> customersFemale = <String>[
-    'Crowley',
-    'Waddell',
-    'Irvine',
-    'Keefe',
-    'Ellis',
-    'Gable',
-    'Mendoza',
-    'Rooney',
-    'Lane',
-    'Landry',
-    'Perry',
-    'Perez',
-    'Newberry',
-    'Betts',
-    'Fitzgerald',
-  ];
-
-  List<int> productNo = <int>[
-    1803,
-    1345,
-    4523,
-    4932,
-    9475,
-    5243,
-    4263,
-    2435,
-    3527,
-    3634,
-    2523,
-    3652,
-    3524,
-    6532,
-    2123
-  ];
-
-  List<String> shipCountry = <String>[
-    'Argentina',
-    'Austria',
-    'Belgium',
-    'Brazil',
-    'Canada',
-    'Denmark',
-    'Finland',
-    'France',
-    'Germany',
-    'Ireland',
-    'Italy',
-    'Mexico',
-    'Norway',
-    'Poland',
-    'Portugal',
-    'Spain',
-    'Sweden',
-    'UK',
-    'USA',
-  ];
-}
-
-class _DealerInfo {
-  _DealerInfo(this.productNo, this.dealerName, this.shippedDate,
-      this.shipCountry, this.shipCity, this.productPrice);
-
-  int productNo;
-  String dealerName;
-  double productPrice;
-  DateTime shippedDate;
-  String shipCity;
-  String shipCountry;
-
-  DataGridRow getDataGridRow() {
-    return DataGridRow(cells: <DataGridCell>[
-      DataGridCell<int>(columnName: 'Product No', value: productNo),
-      DataGridCell<String>(columnName: 'Dealer Name', value: dealerName),
-      DataGridCell<DateTime>(columnName: 'Shipped Date', value: shippedDate),
-      DataGridCell<String>(columnName: 'Ship Country', value: shipCountry),
-      DataGridCell<String>(columnName: 'Ship City', value: shipCity),
-      DataGridCell<double>(columnName: 'Price', value: productPrice),
-    ]);
   }
 }

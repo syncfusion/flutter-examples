@@ -18,7 +18,7 @@ class ColumnRounded extends SampleView {
 
 class _ColumnRoundedState extends SampleViewState {
   _ColumnRoundedState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(
@@ -55,19 +55,18 @@ class _ColumnRoundedState extends SampleViewState {
 
   /// Get rounded corner column series
   List<ColumnSeries<ChartSampleData, String>> _getRoundedColumnSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'New York', y: 8683),
-      ChartSampleData(x: 'Tokyo', y: 6993),
-      ChartSampleData(x: 'Chicago', y: 5498),
-      ChartSampleData(x: 'Atlanta', y: 5083),
-      ChartSampleData(x: 'Boston', y: 4497),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         width: 0.9,
         dataLabelSettings: const DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.top),
-        dataSource: chartData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'New York', y: 8683),
+          ChartSampleData(x: 'Tokyo', y: 6993),
+          ChartSampleData(x: 'Chicago', y: 5498),
+          ChartSampleData(x: 'Atlanta', y: 5083),
+          ChartSampleData(x: 'Boston', y: 4497),
+        ],
 
         /// If we set the border radius value for column series,
         /// then the series will appear as rounder corner.

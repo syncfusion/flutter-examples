@@ -70,7 +70,7 @@ class _CustomizedDatePickerState extends SampleViewState {
     );
     return Scaffold(
       backgroundColor: model.themeData == null ||
-              model.themeData.brightness == Brightness.light
+              model.themeData.colorScheme.brightness == Brightness.light
           ? null
           : const Color(0x00171a21),
       body: Column(children: <Widget>[
@@ -79,9 +79,9 @@ class _CustomizedDatePickerState extends SampleViewState {
             child: model.isWebFullView
                 ? Center(
                     child:
-                        Container(width: 400, height: 600, child: _datePicker))
+                        SizedBox(width: 400, height: 600, child: _datePicker))
                 : ListView(children: <Widget>[
-                    Container(height: 450, child: _datePicker)
+                    SizedBox(height: 450, child: _datePicker)
                   ])),
         Expanded(
             flex: model.isWebFullView

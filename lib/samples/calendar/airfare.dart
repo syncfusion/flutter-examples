@@ -175,10 +175,10 @@ class _AirFareCalendarCalendarState extends SampleViewState {
     final Random random = Random();
     final bool isToday = isSameDate(details.date, DateTime.now());
     final AirFare airFare = _airFareDataCollection[random.nextInt(100)];
-    final Color defaultColor =
-        model.themeData != null && model.themeData.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black54;
+    final Color defaultColor = model.themeData != null &&
+            model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black54;
     final bool isBestPrice = airFare.fare == _kBestPrice;
     final bool isDisabledDate =
         details.date.isBefore(_minDate) && !isSameDate(details.date, _minDate);

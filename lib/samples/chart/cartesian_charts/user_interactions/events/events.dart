@@ -22,16 +22,27 @@ final ScrollController _scrollController = ScrollController();
 
 class _EventsState extends SampleViewState {
   _EventsState();
-  List<String> actionsList = <String>[];
-  final GlobalKey consoleKey = GlobalKey();
+  late List<String> actionsList;
+  late GlobalKey consoleKey;
   late TooltipBehavior _tooltipBehavior;
+  late List<ChartSampleData> chartData;
   @override
   void initState() {
+    actionsList = <String>[];
+    consoleKey = GlobalKey();
     _tooltipBehavior = TooltipBehavior(
       animationDuration: 0,
       canShowMarker: false,
       enable: true,
     );
+    chartData = <ChartSampleData>[
+      ChartSampleData(x: 'China', y: 0.541),
+      ChartSampleData(x: 'Brazil', y: 0.818),
+      ChartSampleData(x: 'Bolivia', y: 1.51),
+      ChartSampleData(x: 'Mexico', y: 1.302),
+      ChartSampleData(x: 'Egypt', y: 2.017),
+      ChartSampleData(x: 'Mongolia', y: 1.683),
+    ];
     super.initState();
   }
 
@@ -48,53 +59,51 @@ class _EventsState extends SampleViewState {
               Container()
             else
               Expanded(
-                  flex: 4,
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            child: Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey.withOpacity(0.4))),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                        child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                10, 0, 0, 0),
-                                            child: const Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  'Event Trace',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                )))),
-                                    Expanded(
-                                        child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: IconButton(
-                                              splashRadius: 25,
-                                              icon: const Icon(Icons.close),
-                                              onPressed: () {
-                                                actionsList.clear();
-                                                consoleKey.currentState
-                                                    ?.setState(() {});
-                                              },
-                                            ))),
-                                  ],
-                                ))),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-                          child: Console(actionsList, consoleKey),
-                        ))
-                      ],
-                    ),
-                  )),
+                flex: 4,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+                        child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.4))),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 0, 0, 0),
+                                        child: const Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              'Event Trace',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            )))),
+                                Expanded(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: IconButton(
+                                          splashRadius: 25,
+                                          icon: const Icon(Icons.close),
+                                          onPressed: () {
+                                            actionsList.clear();
+                                            consoleKey.currentState
+                                                ?.setState(() {});
+                                          },
+                                        ))),
+                              ],
+                            ))),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+                      child: Console(actionsList, consoleKey),
+                    ))
+                  ],
+                ),
+              ),
           ])
         : Row(children: <Widget>[
             Expanded(
@@ -105,66 +114,58 @@ class _EventsState extends SampleViewState {
               Container()
             else
               Expanded(
-                  flex: 4,
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            child: Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey.withOpacity(0.4))),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                        child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                10, 0, 0, 0),
-                                            child: const Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                'Event Trace',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ))),
-                                    Expanded(
-                                        child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: IconButton(
-                                              splashRadius: 25,
-                                              icon: const Icon(Icons.close),
-                                              onPressed: () {
-                                                actionsList.clear();
-                                                consoleKey.currentState
-                                                    ?.setState(() {});
-                                              },
-                                            ))),
-                                  ],
-                                ))),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-                          child: Console(actionsList, consoleKey),
-                        ))
-                      ],
-                    ),
-                  )),
+                flex: 4,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+                        child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.4))),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 0, 0, 0),
+                                        child: const Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            'Event Trace',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ))),
+                                Expanded(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: IconButton(
+                                          splashRadius: 25,
+                                          icon: const Icon(Icons.close),
+                                          onPressed: () {
+                                            actionsList.clear();
+                                            consoleKey.currentState
+                                                ?.setState(() {});
+                                          },
+                                        ))),
+                              ],
+                            ))),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+                      child: Console(actionsList, consoleKey),
+                    ))
+                  ],
+                ),
+              ),
           ]);
   }
 
   /// Get default column chart
   SfCartesianChart _buildDefaultEventChart() {
     return SfCartesianChart(
-      axisLabelFormatter: (AxisLabelRenderDetails details) {
-        if (!isCardView) {
-          actionsList.insert(0, 'Axis label (${details.text}) was rendered');
-        }
-        return ChartAxisLabel(details.text, null);
-      },
       onAxisLabelTapped: (AxisLabelTapArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Axis label (${args.text}) was tapped');
@@ -227,8 +228,7 @@ class _EventsState extends SampleViewState {
       },
       onDataLabelRender: (DataLabelRenderArgs args) {
         if (!isCardView) {
-          actionsList.insert(
-              0, 'Data label (${args.text.toString()}) was rendered');
+          actionsList.insert(0, 'Data label (${args.text}) was rendered');
         }
       },
       plotAreaBorderWidth: 0,
@@ -236,11 +236,24 @@ class _EventsState extends SampleViewState {
           text: isCardView ? '' : 'Population growth of various countries'),
       primaryXAxis: CategoryAxis(
         majorGridLines: const MajorGridLines(width: 0),
+        axisLabelFormatter: (AxisLabelRenderDetails details) {
+          if (!isCardView) {
+            actionsList.insert(0, 'Axis label (${details.text}) was rendered');
+          }
+          return ChartAxisLabel(details.text, null);
+        },
       ),
       primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          labelFormat: '{value}%',
-          majorTickLines: const MajorTickLines(size: 0)),
+        axisLine: const AxisLine(width: 0),
+        labelFormat: '{value}%',
+        majorTickLines: const MajorTickLines(size: 0),
+        axisLabelFormatter: (AxisLabelRenderDetails details) {
+          if (!isCardView) {
+            actionsList.insert(0, 'Axis label (${details.text}) was rendered');
+          }
+          return ChartAxisLabel(details.text, null);
+        },
+      ),
       series: _getDefaultColumnSeries(),
       legend: Legend(
           isVisible: isCardView ? false : true,
@@ -251,14 +264,6 @@ class _EventsState extends SampleViewState {
 
   /// Get default column series
   List<ColumnSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'China', y: 0.541),
-      ChartSampleData(x: 'Brazil', y: 0.818),
-      ChartSampleData(x: 'Bolivia', y: 1.51),
-      ChartSampleData(x: 'Mexico', y: 1.302),
-      ChartSampleData(x: 'Egypt', y: 2.017),
-      ChartSampleData(x: 'Mongolia', y: 1.683),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         onPointTap: (ChartPointDetails args) {
@@ -277,6 +282,12 @@ class _EventsState extends SampleViewState {
         dataLabelSettings: const DataLabelSettings(isVisible: true),
       )
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData.clear();
+    super.dispose();
   }
 }
 

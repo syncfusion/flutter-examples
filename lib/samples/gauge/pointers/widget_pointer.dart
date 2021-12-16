@@ -36,6 +36,12 @@ class _WidgetPointerExampleState extends SampleViewState {
     _startTimer();
   }
 
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   void _startTimer() {
     if (mounted) {
       _timer = Timer.periodic(const Duration(milliseconds: 20), (Timer _timer) {
@@ -79,13 +85,15 @@ class _WidgetPointerExampleState extends SampleViewState {
                 value: _value.toDouble(),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: model.themeData.brightness == Brightness.light
+                      color: model.themeData.colorScheme.brightness ==
+                              Brightness.light
                           ? Colors.white
                           : const Color.fromRGBO(33, 33, 33, 1),
                       borderRadius: BorderRadius.circular(40),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                          color: model.themeData.brightness == Brightness.light
+                          color: model.themeData.colorScheme.brightness ==
+                                  Brightness.light
                               ? Colors.grey
                               : Colors.white.withOpacity(0.2),
                           offset: Offset.zero,
@@ -93,7 +101,8 @@ class _WidgetPointerExampleState extends SampleViewState {
                         ),
                       ],
                       border: Border.all(
-                        color: model.themeData.brightness == Brightness.light
+                        color: model.themeData.colorScheme.brightness ==
+                                Brightness.light
                             ? Colors.black.withOpacity(0.1)
                             : Colors.white.withOpacity(0.1),
                         style: BorderStyle.solid,
@@ -131,7 +140,7 @@ class _WidgetPointerExampleState extends SampleViewState {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: ExactAssetImage(model
-                                            .themeData.brightness ==
+                                            .themeData.colorScheme.brightness ==
                                         Brightness.light
                                     ? 'images/temperature_indicator_light.png'
                                     : 'images/temperature_indicator_dark.png'),

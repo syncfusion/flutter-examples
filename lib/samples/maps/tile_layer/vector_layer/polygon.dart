@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 /// Map import
@@ -77,7 +76,7 @@ class _MapPolygonPageState extends SampleViewState {
       );
 
   Widget _toggleButtons(ThemeData themeData) {
-    _isLightTheme = themeData.brightness == Brightness.light;
+    _isLightTheme = themeData.colorScheme.brightness == Brightness.light;
     return Padding(
       padding: const EdgeInsets.only(left: 10, top: 10),
       child: DecoratedBox(
@@ -162,12 +161,12 @@ class _MapPolygonPageState extends SampleViewState {
       ),
       shape: MaterialStateProperty.all<OutlinedBorder>(
         const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(0.0)),
+          borderRadius: BorderRadius.zero,
           side: BorderSide(color: Colors.transparent),
         ),
       ),
       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-        const EdgeInsets.all(0.0),
+        EdgeInsets.zero,
       ),
     );
   }

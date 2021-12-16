@@ -25,6 +25,7 @@ class _SliderTooltipPageState extends SampleViewState {
   _SliderTooltipPageState();
   DateTime _yearValue = DateTime(2018, 01, 01);
   DateTime _hourValue = DateTime(2020, 01, 01, 13, 00, 00);
+  bool _shouldAlwaysShowTooltip = false;
 
   SfSliderTheme _yearSlider() {
     return SfSliderTheme(
@@ -45,6 +46,7 @@ class _SliderTooltipPageState extends SampleViewState {
             });
           },
           enableTooltip: true,
+          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat.yMMM().format(actualLabel);
@@ -72,6 +74,7 @@ class _SliderTooltipPageState extends SampleViewState {
             });
           },
           enableTooltip: true,
+          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
           tooltipShape: const SfPaddleTooltipShape(),
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
@@ -120,5 +123,28 @@ class _SliderTooltipPageState extends SampleViewState {
           ? slider
           : SingleChildScrollView(child: SizedBox(height: 325, child: slider));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: _shouldAlwaysShowTooltip,
+          title: const Text(
+            'Show tooltip always',
+            softWrap: false,
+          ),
+          activeColor: model.backgroundColor,
+          contentPadding: EdgeInsets.zero,
+          onChanged: (bool? value) {
+            setState(() {
+              _shouldAlwaysShowTooltip = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
+    );
   }
 }

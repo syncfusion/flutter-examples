@@ -538,6 +538,7 @@ class _MapSelectionPageState extends SampleViewState {
   @override
   void dispose() {
     _stateWiseElectionResult.clear();
+    _colorMappers.clear();
     super.dispose();
   }
 
@@ -599,10 +600,10 @@ class _MapSelectionPageState extends SampleViewState {
           layers: <MapLayer>[
             MapShapeLayer(
               loadingBuilder: (BuildContext context) {
-                return Container(
+                return const SizedBox(
                   height: 25,
                   width: 25,
-                  child: const CircularProgressIndicator(
+                  child: CircularProgressIndicator(
                     strokeWidth: 3,
                   ),
                 );

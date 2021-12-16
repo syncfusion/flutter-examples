@@ -53,16 +53,18 @@ class _RadialEaseOutAnimationState extends SampleViewState {
               ),
               NeedlePointer(
                   knobStyle: KnobStyle(
-                      color: model.themeData.brightness == Brightness.light
+                      color: model.themeData.colorScheme.brightness ==
+                              Brightness.light
                           ? null
                           : _darkNeedleColor,
                       knobRadius: 5,
                       sizeUnit: GaugeSizeUnit.logicalPixel),
                   needleEndWidth: 2,
                   needleStartWidth: 2,
-                  needleColor: model.themeData.brightness == Brightness.light
-                      ? null
-                      : _darkNeedleColor,
+                  needleColor:
+                      model.themeData.colorScheme.brightness == Brightness.light
+                          ? null
+                          : _darkNeedleColor,
                   lengthUnit: GaugeSizeUnit.factor,
                   needleLength: 0.98,
                   value: 40,

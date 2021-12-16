@@ -33,7 +33,7 @@ class _RangeCustomizationState extends SampleViewState {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-            Container(
+            SizedBox(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildRange(context),
             )
@@ -99,7 +99,7 @@ class _RangeCustomizationState extends SampleViewState {
 
   /// Returns the vertical axis track.
   Widget _buildVerticalGauges(String axisTrackName, Widget linearGauge) {
-    return Container(
+    return SizedBox(
       width: 150,
       child: Column(
         children: <Widget>[
@@ -113,7 +113,7 @@ class _RangeCustomizationState extends SampleViewState {
 
   /// Returns the default range sample.
   Widget _buildDefaultRange() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           animateAxis: true,
@@ -127,7 +127,7 @@ class _RangeCustomizationState extends SampleViewState {
 
   /// Returns the exponential range sample.
   Widget _buildExponentialRange(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           animateAxis: true,
@@ -149,7 +149,7 @@ class _RangeCustomizationState extends SampleViewState {
 
   /// Returns the concave range sample.
   Widget _buildConcaveRange(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 120 : 300,
         child: SfLinearGauge(
           animateAxis: true,
@@ -173,7 +173,7 @@ class _RangeCustomizationState extends SampleViewState {
 
   /// Returns the range shader sample.
   Widget _buildRangeShader(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           animateAxis: true,
@@ -217,7 +217,7 @@ class _RangeCustomizationState extends SampleViewState {
   Widget _buildMultipleRanges(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           minimum: 0,
@@ -262,23 +262,21 @@ class _RangeCustomizationState extends SampleViewState {
                       : const Color(0xff0DC9AB)),
             ),
             LinearGaugeRange(
-              startValue: 0,
-              endValue: 30,
-              startWidth: 40,
-              endWidth: 40,
-              color: Colors.transparent,
-              child: RotatedBox(
-                  quarterTurns: _isHorizontalOrientation ? 0 : 3,
-                  child: Container(
-                      child: const Center(
-                          child: Text(
-                    'Bad',
-                    style: TextStyle(
-                        fontFamily: 'Roboto-Medium',
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff191A1B)),
-                  )))),
-            ),
+                startValue: 0,
+                endValue: 30,
+                startWidth: 40,
+                endWidth: 40,
+                color: Colors.transparent,
+                child: RotatedBox(
+                    quarterTurns: _isHorizontalOrientation ? 0 : 3,
+                    child: const Center(
+                        child: Text(
+                      'Bad',
+                      style: TextStyle(
+                          fontFamily: 'Roboto-Medium',
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff191A1B)),
+                    )))),
             LinearGaugeRange(
               startValue: 30,
               endValue: 65,
@@ -287,9 +285,9 @@ class _RangeCustomizationState extends SampleViewState {
               color: Colors.transparent,
               child: RotatedBox(
                   quarterTurns: _isHorizontalOrientation ? 0 : 3,
-                  child: Container(
+                  child: const SizedBox(
                       height: 20,
-                      child: const Center(
+                      child: Center(
                           child: Text(
                         'Good',
                         style: TextStyle(
@@ -306,9 +304,9 @@ class _RangeCustomizationState extends SampleViewState {
               color: Colors.transparent,
               child: RotatedBox(
                   quarterTurns: _isHorizontalOrientation ? 0 : 3,
-                  child: Container(
+                  child: const SizedBox(
                       height: 20,
-                      child: const Center(
+                      child: Center(
                           child: Text(
                         'Excellent',
                         style: TextStyle(

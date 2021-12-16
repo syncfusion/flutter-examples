@@ -1,11 +1,6 @@
 ///Dart import
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-
-// ignore: unused_import
-import 'package:flutter/gestures.dart';
-
 ///Flutter package imports
 import 'package:flutter/material.dart';
 
@@ -130,7 +125,8 @@ class _MapZoomingPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final bool isLightTheme = themeData.brightness == Brightness.light;
+    final bool isLightTheme =
+        themeData.colorScheme.brightness == Brightness.light;
     final Color surfaceColor = isLightTheme
         ? const Color.fromRGBO(45, 45, 45, 1)
         : const Color.fromRGBO(242, 242, 242, 1);
@@ -168,10 +164,10 @@ class _MapZoomingPageState extends SampleViewState {
                 layers: <MapLayer>[
                   MapShapeLayer(
                     loadingBuilder: (BuildContext context) {
-                      return Container(
+                      return const SizedBox(
                         height: 25,
                         width: 25,
-                        child: const CircularProgressIndicator(
+                        child: CircularProgressIndicator(
                           strokeWidth: 3,
                         ),
                       );

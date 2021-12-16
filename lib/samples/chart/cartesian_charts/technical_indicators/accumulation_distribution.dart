@@ -21,8 +21,9 @@ class AdIndicator extends SampleView {
 /// State class of the OHLC chart with Accumulation distribution indicator.
 class _AdIndicatorState extends SampleViewState {
   _AdIndicatorState();
-  late TrackballBehavior _trackballBehavior;
-  late TooltipBehavior _tooltipBehavior;
+  TrackballBehavior? _trackballBehavior;
+  TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
     super.initState();
@@ -41,7 +42,6 @@ class _AdIndicatorState extends SampleViewState {
 
   /// Returns the OHLC chart with Accumulation distribution indicator.
   SfCartesianChart _buildDefaultAdIndicator() {
-    final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
       plotAreaBorderWidth: 0,
@@ -83,7 +83,7 @@ class _AdIndicatorState extends SampleViewState {
       series: <ChartSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
             emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: chartData,
+            dataSource: getChartData(),
             opacity: 0.7,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
             lowValueMapper: (ChartSampleData sales, _) => sales.low,

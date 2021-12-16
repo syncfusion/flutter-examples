@@ -84,7 +84,7 @@ class _BlackoutDatePickerState extends SampleViewState {
     );
     return Scaffold(
         backgroundColor: model.themeData == null ||
-                model.themeData.brightness == Brightness.light
+                model.themeData.colorScheme.brightness == Brightness.light
             ? null
             : const Color(0x00171a21),
         body: Column(children: <Widget>[
@@ -92,10 +92,9 @@ class _BlackoutDatePickerState extends SampleViewState {
               flex: model.isWebFullView ? 9 : 8,
               child: model.isWebFullView
                   ? Center(
-                      child:
-                          Container(width: 400, height: 600, child: cardView))
+                      child: SizedBox(width: 400, height: 600, child: cardView))
                   : ListView(children: <Widget>[
-                      Container(
+                      SizedBox(
                         height: 450,
                         child: cardView,
                       )

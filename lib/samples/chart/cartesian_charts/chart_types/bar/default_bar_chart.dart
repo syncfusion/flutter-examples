@@ -20,32 +20,11 @@ class BarDefault extends SampleView {
 /// State class of default bar chart.
 class _BarDefaultState extends SampleViewState {
   _BarDefaultState();
+  List<ChartSampleData>? chartData;
 
   @override
-  Widget build(BuildContext context) {
-    return _buildDefaultBarChart();
-  }
-
-  /// Returns the default cartesian bar chart.
-  SfCartesianChart _buildDefaultBarChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      title: ChartTitle(text: isCardView ? '' : 'Tourism - Number of arrivals'),
-      legend: Legend(isVisible: !isCardView),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
-      ),
-      primaryYAxis: NumericAxis(
-          majorGridLines: const MajorGridLines(width: 0),
-          numberFormat: NumberFormat.compact()),
-      series: _getDefaultBarSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
-    );
-  }
-
-  /// Returns the list of chart series which need to render on the barchart.
-  List<BarSeries<ChartSampleData, String>> _getDefaultBarSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
+  void initState() {
+    chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'France',
           y: 84452000,
@@ -77,22 +56,55 @@ class _BarDefaultState extends SampleViewState {
           secondSeriesYValue: 35814000,
           thirdSeriesYValue: 37651000),
     ];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildDefaultBarChart();
+  }
+
+  /// Returns the default cartesian bar chart.
+  SfCartesianChart _buildDefaultBarChart() {
+    return SfCartesianChart(
+      plotAreaBorderWidth: 0,
+      title: ChartTitle(text: isCardView ? '' : 'Tourism - Number of arrivals'),
+      legend: Legend(isVisible: !isCardView),
+      primaryXAxis: CategoryAxis(
+        majorGridLines: const MajorGridLines(width: 0),
+      ),
+      primaryYAxis: NumericAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          numberFormat: NumberFormat.compact()),
+      series: _getDefaultBarSeries(),
+      tooltipBehavior: TooltipBehavior(enable: true),
+    );
+  }
+
+  /// Returns the list of chart series which need to render on the barchart.
+  List<BarSeries<ChartSampleData, String>> _getDefaultBarSeries() {
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: '2015'),
       BarSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: '2016'),
       BarSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: '2017')
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

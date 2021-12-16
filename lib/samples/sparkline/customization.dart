@@ -19,23 +19,28 @@ class SparklineCustomization extends SampleView {
 
 class _SparklineCustomizationState extends SampleViewState {
   _SparklineCustomizationState();
-  double _axisCrossingValue = 0, _startValue = 0, _endValue = 0;
-  final List<String> _markerDisplayModeList =
-      <String>['none', 'all', 'high', 'low', 'first', 'last'].toList();
-  String _selectedMarkerDisplayMode = 'none';
-  SparkChartMarkerDisplayMode _markerDisplayMode =
-      SparkChartMarkerDisplayMode.none;
-  final List<String> _datalabelDisplayModeList =
-      <String>['none', 'all', 'high', 'low', 'first', 'last'].toList();
-  String _selectedDatalabelDisplayMode = 'none';
-  SparkChartLabelDisplayMode _dataLabelDisplayMode =
-      SparkChartLabelDisplayMode.none;
-  bool _enableTrackLine = false, _enablePlotband = false;
+  late double _axisCrossingValue, _startValue, _endValue;
+  late List<String> _markerDisplayModeList;
+  late String _selectedMarkerDisplayMode;
+  late SparkChartMarkerDisplayMode _markerDisplayMode;
+  late List<String> _datalabelDisplayModeList;
+  late String _selectedDatalabelDisplayMode;
+  late SparkChartLabelDisplayMode _dataLabelDisplayMode;
+  late bool _enableTrackLine, _enablePlotband;
 
   @override
   void initState() {
-    _selectedDatalabelDisplayMode = 'none';
+    _axisCrossingValue = 0;
+    _startValue = 0;
+    _endValue = 0;
+    _markerDisplayModeList =
+        <String>['none', 'all', 'high', 'low', 'first', 'last'].toList();
+    _datalabelDisplayModeList =
+        <String>['none', 'all', 'high', 'low', 'first', 'last'].toList();
+    _enableTrackLine = false;
     _dataLabelDisplayMode = SparkChartLabelDisplayMode.none;
+    _enablePlotband = false;
+    _selectedDatalabelDisplayMode = 'none';
     _selectedMarkerDisplayMode = 'none';
     _markerDisplayMode = SparkChartMarkerDisplayMode.none;
     _enableTrackLine = false;
@@ -49,7 +54,7 @@ class _SparklineCustomizationState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Container(
+        child: SizedBox(
       height: MediaQuery.of(context).size.height / 3,
       width: model.isWebFullView ||
               MediaQuery.of(context).orientation == Orientation.landscape
@@ -57,6 +62,13 @@ class _SparklineCustomizationState extends SampleViewState {
           : MediaQuery.of(context).size.width / 1.2,
       child: _buildSparkBarCustomizationChart(),
     ));
+  }
+
+  @override
+  void dispose() {
+    _markerDisplayModeList.clear();
+    _datalabelDisplayModeList.clear();
+    super.dispose();
   }
 
   SfSparkLineChart _buildSparkBarCustomizationChart() {
@@ -83,7 +95,7 @@ class _SparklineCustomizationState extends SampleViewState {
       labelDisplayMode: _dataLabelDisplayMode,
       axisCrossesAt: _axisCrossingValue,
       axisLineWidth: 1,
-      axisLineColor: model.themeData.brightness == Brightness.dark
+      axisLineColor: model.themeData.colorScheme.brightness == Brightness.dark
           ? const Color.fromRGBO(101, 101, 101, 1)
           : const Color.fromRGBO(181, 181, 181, 1),
       marker: SparkChartMarker(borderWidth: 2, displayMode: _markerDisplayMode),
@@ -107,148 +119,136 @@ class _SparklineCustomizationState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Marker',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                const Padding(padding: EdgeInsets.fromLTRB(75, 0, 0, 0)),
-                Container(
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _selectedMarkerDisplayMode,
-                      items: _markerDisplayModeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'none',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (String? value) {
-                        _onMarkerDisplayModeChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                )
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Marker',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              const Padding(padding: EdgeInsets.fromLTRB(75, 0, 0, 0)),
+              Container(
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _selectedMarkerDisplayMode,
+                    items: _markerDisplayModeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'none',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (String? value) {
+                      _onMarkerDisplayModeChange(value.toString());
+                      stateSetter(() {});
+                    }),
+              )
+            ],
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Data label',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                const Padding(padding: EdgeInsets.fromLTRB(55, 0, 0, 0)),
-                Container(
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _selectedDatalabelDisplayMode,
-                      items: _datalabelDisplayModeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'none',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (String? value) {
-                        _onDatalabelDisplayModeChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                )
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Data label',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              const Padding(padding: EdgeInsets.fromLTRB(55, 0, 0, 0)),
+              Container(
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _selectedDatalabelDisplayMode,
+                    items: _datalabelDisplayModeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'none',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (String? value) {
+                      _onDatalabelDisplayModeChange(value.toString());
+                      stateSetter(() {});
+                    }),
+              )
+            ],
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Trackball',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                const Padding(padding: EdgeInsets.fromLTRB(16, 0, 0, 0)),
-                Container(
-                    width: 90,
-                    child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
-                        value: _enableTrackLine,
-                        onChanged: (bool? value) {
+          Row(
+            children: <Widget>[
+              Text('Trackball',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              const Padding(padding: EdgeInsets.fromLTRB(16, 0, 0, 0)),
+              SizedBox(
+                  width: 90,
+                  child: CheckboxListTile(
+                      activeColor: model.backgroundColor,
+                      value: _enableTrackLine,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _enableTrackLine = value!;
+                          stateSetter(() {});
+                        });
+                      }))
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Text('Axis value',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              const Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
+              SizedBox(
+                  width: 150,
+                  child: SliderTheme(
+                      data: SliderThemeData(
+                          tickMarkShape: SliderTickMarkShape.noTickMark),
+                      child: Slider(
+                        value: _axisCrossingValue,
+                        min: -10,
+                        max: 13,
+                        divisions: 24,
+                        onChanged: (double value) {
                           setState(() {
-                            _enableTrackLine = value!;
+                            _axisCrossingValue = value;
                             stateSetter(() {});
                           });
-                        }))
-              ],
-            ),
+                        },
+                      ))),
+              const Padding(padding: EdgeInsets.fromLTRB(2, 0, 0, 0)),
+              Text('${_axisCrossingValue.floor()}',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+            ],
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Axis value',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                const Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
-                Container(
-                    width: 150,
-                    child: SliderTheme(
-                        data: SliderThemeData(
-                            tickMarkShape: SliderTickMarkShape.noTickMark),
-                        child: Slider(
-                          value: _axisCrossingValue,
-                          min: -10,
-                          max: 13,
-                          divisions: 24,
-                          onChanged: (double value) {
-                            setState(() {
-                              _axisCrossingValue = value;
-                              stateSetter(() {});
-                            });
-                          },
-                        ))),
-                const Padding(padding: EdgeInsets.fromLTRB(2, 0, 0, 0)),
-                Container(
-                  child: Text('${_axisCrossingValue.floor()}',
-                      style: TextStyle(
-                        color: model.textColor,
-                        fontSize: 16,
-                      )),
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Plot band',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                const Padding(padding: EdgeInsets.fromLTRB(12, 0, 0, 0)),
-                Container(
-                    width: 90,
-                    child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
-                        value: _enablePlotband,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _enablePlotband = value!;
-                            stateSetter(() {});
-                          });
-                        }))
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Plot band',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              const Padding(padding: EdgeInsets.fromLTRB(12, 0, 0, 0)),
+              SizedBox(
+                  width: 90,
+                  child: CheckboxListTile(
+                      activeColor: model.backgroundColor,
+                      value: _enablePlotband,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _enablePlotband = value!;
+                          stateSetter(() {});
+                        });
+                      }))
+            ],
           ),
           Visibility(
               visible: _enablePlotband,

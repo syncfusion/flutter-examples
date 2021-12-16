@@ -23,8 +23,8 @@ class SMAIndicator extends SampleView {
 class _SMAIndicatorState extends SampleViewState {
   _SMAIndicatorState();
   late double _period;
-  late TrackballBehavior _trackballBehavior;
-  late TooltipBehavior _tooltipBehavior;
+  TrackballBehavior? _trackballBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -72,7 +72,6 @@ class _SMAIndicatorState extends SampleViewState {
 
   /// Returns the OHLC chart with Simple moving average indicator.
   SfCartesianChart _buildDefaulSMAIndicator() {
-    final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       legend: Legend(isVisible: !isCardView),
@@ -100,7 +99,7 @@ class _SMAIndicatorState extends SampleViewState {
       series: <ChartSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
             emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: chartData,
+            dataSource: getChartData(),
             opacity: 0.7,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
             lowValueMapper: (ChartSampleData sales, _) => sales.low,

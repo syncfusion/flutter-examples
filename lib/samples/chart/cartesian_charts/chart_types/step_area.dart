@@ -48,10 +48,11 @@ class _StepAreaState extends SampleViewState {
     );
   }
 
-  /// Returns the list of chart series
-  /// which need to render on teh step area chart.
-  List<ChartSeries<_StepAreaData, DateTime>> _getStepAreaSeries() {
-    final List<_StepAreaData> chartData = <_StepAreaData>[
+  List<_StepAreaData>? chartData;
+
+  @override
+  void initState() {
+    chartData = <_StepAreaData>[
       _StepAreaData(DateTime(2019, 3, 1), 12, 9),
       _StepAreaData(DateTime(2019, 3, 2), 13, 7),
       _StepAreaData(DateTime(2019, 3, 3), 14, 10),
@@ -71,9 +72,15 @@ class _StepAreaState extends SampleViewState {
       _StepAreaData(DateTime(2019, 3, 17), 11, 4),
       _StepAreaData(DateTime(2019, 3, 18), 11, 2),
     ];
+    super.initState();
+  }
+
+  /// Returns the list of chart series
+  /// which need to render on teh step area chart.
+  List<ChartSeries<_StepAreaData, DateTime>> _getStepAreaSeries() {
     return <ChartSeries<_StepAreaData, DateTime>>[
       StepAreaSeries<_StepAreaData, DateTime>(
-        dataSource: chartData,
+        dataSource: chartData!,
         color: const Color.fromRGBO(75, 135, 185, 0.6),
         borderColor: const Color.fromRGBO(75, 135, 185, 1),
         borderWidth: 2,
@@ -82,7 +89,7 @@ class _StepAreaState extends SampleViewState {
         yValueMapper: (_StepAreaData sales, _) => sales.high,
       ),
       StepAreaSeries<_StepAreaData, DateTime>(
-        dataSource: chartData,
+        dataSource: chartData!,
         borderColor: const Color.fromRGBO(192, 108, 132, 1),
         color: const Color.fromRGBO(192, 108, 132, 0.6),
         borderWidth: 2,
@@ -91,6 +98,12 @@ class _StepAreaState extends SampleViewState {
         yValueMapper: (_StepAreaData sales, _) => sales.low,
       )
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }
 

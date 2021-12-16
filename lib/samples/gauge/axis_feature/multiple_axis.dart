@@ -81,24 +81,22 @@ class _MultipleAxisExampleState extends SampleViewState {
                 positionFactor: 1,
                 widget: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                        child: const Text(
+                  children: const <Widget>[
+                    Text(
                       '33°C  :',
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Times'),
-                    )),
-                    Container(
-                        child: const Text(
+                    ),
+                    Text(
                       ' 91.4°F',
                       style: TextStyle(
                           fontSize: 12,
                           color: Color(0xFF00A8B5),
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Times'),
-                    ))
+                    )
                   ],
                 ))
           ],

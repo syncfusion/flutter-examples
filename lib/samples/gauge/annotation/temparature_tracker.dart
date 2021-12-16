@@ -64,13 +64,11 @@ class _RadialImageAnnotationState extends SampleViewState {
                           )),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-                        child: Container(
-                          child: Text('73°F',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: isCardView ? 15.00 : 25)),
-                        ),
-                      )
+                        child: Text('73°F',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: isCardView ? 15.00 : 25)),
+                      ),
                     ],
                   ),
                   angle: 270,

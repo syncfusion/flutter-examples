@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 
 /// Flutter package imports
 import 'package:flutter/material.dart';
@@ -38,7 +37,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-            Container(
+            SizedBox(
               width: isWebOrDesktop
                   ? MediaQuery.of(context).size.width >= 1000
                       ? _isHorizontalOrientation
@@ -107,7 +106,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
 
   /// Returns the vertical axis track.
   Widget _buildVerticalGauges(String axisTrackName, Widget linearGauge) {
-    return Container(
+    return SizedBox(
       width: 150,
       child: Column(
         children: <Widget>[
@@ -121,7 +120,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
 
   /// Returns the custom labels sample.
   Widget _buildCustomLabels() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             onGenerateLabels: () {
@@ -154,7 +153,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
         ? const Color(0xff62686A)
         : const Color(0xFFD1D9DD);
 
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           orientation: _isHorizontalOrientation
@@ -251,7 +250,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
 
   /// Returns the labels with offset sample.
   Widget _buildLabelsWithOffset() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           animateAxis: true,
@@ -266,7 +265,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
   Widget _buildLabelStyleCustomization(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         orientation: _isHorizontalOrientation

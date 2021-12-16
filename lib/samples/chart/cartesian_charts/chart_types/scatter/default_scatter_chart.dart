@@ -20,6 +20,7 @@ class ScatterDefault extends SampleView {
 class _ScatterDefaultState extends SampleViewState {
   _ScatterDefaultState();
 
+  List<ChartSampleData>? chartData;
   @override
   Widget build(BuildContext context) {
     return _buildDefaultScatterChart();
@@ -44,10 +45,9 @@ class _ScatterDefaultState extends SampleViewState {
     );
   }
 
-  /// Returns the list of chart series
-  /// which need to render on the scatter chart.
-  List<ScatterSeries<ChartSampleData, DateTime>> _getDefaultScatterSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
+  @override
+  void initState() {
+    chartData = <ChartSampleData>[
       ChartSampleData(
           x: DateTime(2006, 1, 1),
           y: 0.01,
@@ -101,9 +101,15 @@ class _ScatterDefaultState extends SampleViewState {
           yValue: 0,
           secondSeriesYValue: 0.02),
     ];
+    super.initState();
+  }
+
+  /// Returns the list of chart series
+  /// which need to render on the scatter chart.
+  List<ScatterSeries<ChartSampleData, DateTime>> _getDefaultScatterSeries() {
     return <ScatterSeries<ChartSampleData, DateTime>>[
       ScatterSeries<ChartSampleData, DateTime>(
-          dataSource: chartData,
+          dataSource: chartData!,
           opacity: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -111,13 +117,13 @@ class _ScatterDefaultState extends SampleViewState {
           name: 'Brazil'),
       ScatterSeries<ChartSampleData, DateTime>(
           opacity: 0.7,
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           markerSettings: const MarkerSettings(height: 15, width: 15),
           name: 'Canada'),
       ScatterSeries<ChartSampleData, DateTime>(
-        dataSource: chartData,
+        dataSource: chartData!,
         color: const Color.fromRGBO(0, 168, 181, 1),
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
@@ -125,5 +131,11 @@ class _ScatterDefaultState extends SampleViewState {
         markerSettings: const MarkerSettings(height: 15, width: 15),
       )
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

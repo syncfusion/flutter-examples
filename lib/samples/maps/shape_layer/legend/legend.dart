@@ -59,7 +59,7 @@ class _MapLegendPageState extends SampleViewState {
       const _InternetPrice('Chad', price: 23.33),
       const _InternetPrice('Comoros', price: 12.57),
       const _InternetPrice('Congo', price: 5.63),
-      const _InternetPrice('C�te d\'Ivoire',
+      const _InternetPrice("C�te d'Ivoire",
           price: 4.1, countryName: 'Ivory Coast'),
       const _InternetPrice('Dem. Rep. Congo',
           price: 0.88, countryName: 'Democratic Republic of the Congo'),
@@ -122,7 +122,7 @@ class _MapLegendPageState extends SampleViewState {
       const _InternetPrice('Chad', price: 23.33),
       const _InternetPrice('Comoros', price: 12.57),
       const _InternetPrice('Congo', price: 5.63),
-      const _InternetPrice('C�te d\'Ivoire',
+      const _InternetPrice("C�te d'Ivoire",
           price: 4.1, countryName: 'Ivory Coast'),
       const _InternetPrice('Dem. Rep. Congo',
           price: 0.88, countryName: 'Democratic Republic of the Congo'),
@@ -347,7 +347,8 @@ class _MapLegendPageState extends SampleViewState {
   }
 
   Widget _buildMapsWidget(bool scrollEnabled) {
-    final bool isLightTheme = model.themeData.brightness == Brightness.light;
+    final bool isLightTheme =
+        model.themeData.colorScheme.brightness == Brightness.light;
     return Padding(
         padding: scrollEnabled
             ? EdgeInsets.only(
@@ -357,7 +358,7 @@ class _MapLegendPageState extends SampleViewState {
             : const EdgeInsets.only(left: 5, right: 10),
         child: SfMapsTheme(
           data: SfMapsThemeData(
-            brightness: model.themeData.brightness,
+            brightness: model.themeData.colorScheme.brightness,
             shapeHoverColor: _showBubbleData
                 ? Colors.transparent
                 : (isLightTheme
@@ -393,10 +394,10 @@ class _MapLegendPageState extends SampleViewState {
               layers: <MapShapeLayer>[
                 MapShapeLayer(
                   loadingBuilder: (BuildContext context) {
-                    return Container(
+                    return const SizedBox(
                       height: 25,
                       width: 25,
-                      child: const CircularProgressIndicator(
+                      child: CircularProgressIndicator(
                         strokeWidth: 3,
                       ),
                     );
@@ -629,7 +630,7 @@ class _MapLegendPageState extends SampleViewState {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                   width: 90,
                   child: CheckboxListTile(
                       activeColor: model.backgroundColor,
@@ -658,7 +659,7 @@ class _MapLegendPageState extends SampleViewState {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 90,
                 child: CheckboxListTile(
                     activeColor: model.backgroundColor,
@@ -688,7 +689,7 @@ class _MapLegendPageState extends SampleViewState {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 90,
                 child: CheckboxListTile(
                     activeColor: model.backgroundColor,

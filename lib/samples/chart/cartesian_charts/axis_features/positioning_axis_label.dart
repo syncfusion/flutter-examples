@@ -18,23 +18,50 @@ class LabelCustomization extends SampleView {
 /// State class of positioning axis label.
 class _AxisCrossingState extends SampleViewState {
   _AxisCrossingState();
-  String _ySelectedPositionType = 'inside';
-  String _xSelectedPositionType = 'outside';
-  String _ySelectedAlignmentType = 'end';
-  String _xSelectedAlignmentType = 'center';
+  late String _ySelectedPositionType;
+  late String _xSelectedPositionType;
+  late String _ySelectedAlignmentType;
+  late String _xSelectedAlignmentType;
   late ChartDataLabelPosition _labelPositionX, _labelPositionY;
   late TickPosition _tickPositionX, _tickPositionY;
   late LabelAlignment _labelAlignmentX, _labelAlignmentY;
 
   /// List the axis position types.
-  final List<String> _yPositionType = <String>['outside', 'inside'].toList();
+  List<String>? _yPositionType;
 
   /// List the alignment type.
-  final List<String> _yAlignmentType =
-      <String>['start', 'end', 'center'].toList();
-  final List<String> _xPositionType = <String>['outside', 'inside'].toList();
-  final List<String> _xAlignmentType =
-      <String>['start', 'end', 'center'].toList();
+  List<String>? _yAlignmentType;
+  List<String>? _xPositionType;
+  List<String>? _xAlignmentType;
+
+  @override
+  void initState() {
+    _ySelectedPositionType = 'inside';
+    _xSelectedPositionType = 'outside';
+    _ySelectedAlignmentType = 'end';
+    _xSelectedAlignmentType = 'center';
+    _labelPositionX = ChartDataLabelPosition.outside;
+    _labelPositionY = ChartDataLabelPosition.inside;
+    _tickPositionX = TickPosition.outside;
+    _tickPositionY = TickPosition.inside;
+    _labelAlignmentX = LabelAlignment.center;
+    _labelAlignmentY = LabelAlignment.end;
+    _yPositionType = <String>['outside', 'inside'].toList();
+    _yAlignmentType = <String>['start', 'end', 'center'].toList();
+    _xPositionType = <String>['outside', 'inside'].toList();
+    _xAlignmentType = <String>['start', 'end', 'center'].toList();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _yPositionType!.clear();
+    _xPositionType!.clear();
+    _yAlignmentType!.clear();
+    _xAlignmentType!.clear();
+    super.dispose();
+  }
+
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -42,147 +69,135 @@ class _AxisCrossingState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Y Axis',
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: model.textColor)),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text('Y Axis',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: model.textColor)),
+            ],
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Label position  ',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _ySelectedPositionType,
-                      items: _yPositionType.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'outside',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onPositionChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text('Label position  ',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _ySelectedPositionType,
+                    items: _yPositionType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'outside',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onPositionChange(value.toString());
+                      stateSetter(() {});
+                    }),
+              ),
+            ],
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Label alignment',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _ySelectedAlignmentType,
-                      items: _yAlignmentType.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'start',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onAlignmentChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text('Label alignment',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
+              Container(
+                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _ySelectedAlignmentType,
+                    items: _yAlignmentType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'start',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onAlignmentChange(value.toString());
+                      stateSetter(() {});
+                    }),
+              ),
+            ],
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('X Axis',
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: model.textColor)),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text('X Axis',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: model.textColor)),
+            ],
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Label position  ',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _xSelectedPositionType,
-                      items: _xPositionType.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'outside',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onXPositionChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text('Label position  ',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _xSelectedPositionType,
+                    items: _xPositionType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'outside',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onXPositionChange(value.toString());
+                      stateSetter(() {});
+                    }),
+              ),
+            ],
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Label alignment',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _xSelectedAlignmentType,
-                      items: _xAlignmentType.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'center',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onXAlignmentChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text('Label alignment',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
+              Container(
+                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _xSelectedAlignmentType,
+                    items: _xAlignmentType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'center',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onXAlignmentChange(value.toString());
+                      stateSetter(() {});
+                    }),
+              ),
+            ],
           ),
         ],
       );
@@ -226,35 +241,23 @@ class _AxisCrossingState extends SampleViewState {
 
   /// Return the spline series.
   List<ChartSeries<ChartSampleData, String>> _getSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'May 1', y: 13, secondSeriesYValue: 69.8),
-      ChartSampleData(x: 'May 2', y: 26, secondSeriesYValue: 87.8),
-      ChartSampleData(x: 'May 3', y: 13, secondSeriesYValue: 78.8),
-      ChartSampleData(x: 'May 4', y: 22, secondSeriesYValue: 75.2),
-      ChartSampleData(x: 'May 5', y: 14, secondSeriesYValue: 68),
-      ChartSampleData(x: 'May 6', y: 23, secondSeriesYValue: 78.8),
-      ChartSampleData(x: 'May 7', y: 21, secondSeriesYValue: 80.6),
-      ChartSampleData(x: 'May 8', y: 22, secondSeriesYValue: 73.4)
-    ];
     return <ChartSeries<ChartSampleData, String>>[
       SplineSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'May 1', y: 13, secondSeriesYValue: 69.8),
+            ChartSampleData(x: 'May 2', y: 26, secondSeriesYValue: 87.8),
+            ChartSampleData(x: 'May 3', y: 13, secondSeriesYValue: 78.8),
+            ChartSampleData(x: 'May 4', y: 22, secondSeriesYValue: 75.2),
+            ChartSampleData(x: 'May 5', y: 14, secondSeriesYValue: 68),
+            ChartSampleData(x: 'May 6', y: 23, secondSeriesYValue: 78.8),
+            ChartSampleData(x: 'May 7', y: 21, secondSeriesYValue: 80.6),
+            ChartSampleData(x: 'May 8', y: 22, secondSeriesYValue: 73.4)
+          ],
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           markerSettings: const MarkerSettings(isVisible: true),
           name: 'New York')
     ];
-  }
-
-  @override
-  void initState() {
-    _labelPositionX = ChartDataLabelPosition.outside;
-    _labelPositionY = ChartDataLabelPosition.inside;
-    _tickPositionX = TickPosition.outside;
-    _tickPositionY = TickPosition.inside;
-    _labelAlignmentX = LabelAlignment.center;
-    _labelAlignmentY = LabelAlignment.end;
-    super.initState();
   }
 
   /// Method for Y axis label position change.

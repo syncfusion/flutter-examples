@@ -12,6 +12,7 @@ import '../model/web_view.dart';
 
 /// Local import
 import '../sample_list.dart';
+import '../widgets/search_bar.dart';
 
 /// WidgetCategory of the each control as Data Visualization, Editors,etc.,
 class WidgetCategory {
@@ -313,6 +314,9 @@ class SampleModel extends Listenable {
   /// To handle search
   late List<SubItem> searchResults;
 
+  /// To handle the search bar
+  SearchBar? searchBar;
+
   /// holds theme based current palette color
   Color backgroundColor = const Color.fromRGBO(0, 116, 227, 1);
 
@@ -459,7 +463,7 @@ class SampleModel extends Listenable {
   /// Switching between light, dark, system themes
   void changeTheme(ThemeData _themeData) {
     themeData = _themeData;
-    switch (_themeData.brightness) {
+    switch (_themeData.colorScheme.brightness) {
       case Brightness.dark:
         {
           dividerColor = const Color.fromRGBO(61, 61, 61, 1);
@@ -612,7 +616,7 @@ Future<void> updateControlItems() async {
                         .breadCrumbText = breadCrumbText;
                     _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
                             .categoryName =
-                        SampleModel._categoryList[index].categoryName!;
+                        SampleModel._categoryList[index].categoryName;
                     sampleRoutes.add(SampleRoute(
                         routeName: breadCrumbText,
                         subItem: _thirdLevelSubItems[
@@ -674,7 +678,7 @@ Future<void> updateControlItems() async {
                         .breadCrumbText = breadCrumbText;
                     _secondLevelSubItems[_secondLevelSubItems.length - 1]
                             .categoryName =
-                        SampleModel._categoryList[index].categoryName!;
+                        SampleModel._categoryList[index].categoryName;
                     sampleRoutes.add(SampleRoute(
                         routeName: breadCrumbText,
                         subItem: _secondLevelSubItems[
@@ -702,7 +706,7 @@ Future<void> updateControlItems() async {
                 _firstLevelSubItems[j].breadCrumbText = breadCrumbText;
                 _firstLevelSubItems[j].control = controlList[i];
                 _firstLevelSubItems[j].categoryName =
-                    SampleModel._categoryList[index].categoryName!;
+                    SampleModel._categoryList[index].categoryName;
                 sampleRoutes.add(SampleRoute(
                     routeName: breadCrumbText,
                     subItem: _firstLevelSubItems[j]));

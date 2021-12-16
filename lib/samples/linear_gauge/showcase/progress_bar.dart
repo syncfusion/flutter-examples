@@ -45,7 +45,7 @@ class _ProgressBarState extends SampleViewState {
           child: Center(
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Container(
+                  child: SizedBox(
                       height: 30,
                       child: SfLinearGauge(
                         orientation: LinearGaugeOrientation.horizontal,

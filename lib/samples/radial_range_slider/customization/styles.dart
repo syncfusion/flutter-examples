@@ -130,7 +130,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   Widget _buildFirtSlider() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -208,7 +208,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   Widget _buildSecondSlider() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -279,7 +279,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   Widget _buildThirdSlider() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -368,7 +368,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   Widget _buildFourthSlider() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -483,7 +483,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   Widget _buildFifthSlider() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -552,7 +552,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
 
   Widget _buildSixthSlider() {
     final Orientation _orientation = MediaQuery.of(context).orientation;
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -682,7 +682,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
-      final int _value = _secondMarkerValue.abs().round().toInt();
+      final int _value = _secondMarkerValue.abs().round();
       _annotationValue_1 = '$_value%';
     });
   }
@@ -699,7 +699,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
-      final int _value = _firstMarkerValue.abs().round().toInt();
+      final int _value = _firstMarkerValue.abs().round();
       _annotationValue1 = '$_value';
     });
   }
@@ -717,7 +717,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleFourthPointerValueChanged(double value) {
     setState(() {
       _fourthMarkerValue = value;
-      final int _value = _fourthMarkerValue.abs().round().toInt();
+      final int _value = _fourthMarkerValue.abs().round();
       _annotationValue_2 = '$_value%';
     });
   }
@@ -734,7 +734,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleThirdPointerValueChanged(double value) {
     setState(() {
       _thirdMarkerValue = value;
-      final int _value = _thirdMarkerValue.abs().round().toInt();
+      final int _value = _thirdMarkerValue.abs().round();
       _annotationValue2 = '$_value';
     });
   }
@@ -752,7 +752,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleSixthPointerValueChanged(double value) {
     setState(() {
       _sixthMarkerValue = value;
-      final int _value = _sixthMarkerValue.abs().round().toInt();
+      final int _value = _sixthMarkerValue.abs().round();
       _annotationValue_3 = '$_value%';
     });
   }
@@ -769,7 +769,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleFifthPointerValueChanged(double value) {
     setState(() {
       _fifthMarkerValue = value;
-      final int _value = _fifthMarkerValue.abs().round().toInt();
+      final int _value = _fifthMarkerValue.abs().round();
       _annotationValue3 = '$_value';
     });
   }
@@ -787,7 +787,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleEighthPointerValueChanged(double value) {
     setState(() {
       _eighthMarkerValue = value;
-      final int _value = _eighthMarkerValue.abs().round().toInt();
+      final int _value = _eighthMarkerValue.abs().round();
       _annotationValue_4 = '$_value%';
     });
   }
@@ -804,7 +804,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleSeventhPointerValueChanged(double value) {
     setState(() {
       _seventhMarkerValue = value;
-      final int _value = _seventhMarkerValue.abs().round().toInt();
+      final int _value = _seventhMarkerValue.abs().round();
       _annotationValue4 = '$_value';
     });
   }
@@ -822,7 +822,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleTenthPointerValueChanged(double value) {
     setState(() {
       _tenthMarkerValue = value;
-      final int _value = _tenthMarkerValue.abs().round().toInt();
+      final int _value = _tenthMarkerValue.abs().round();
       _annotationValue_5 = '$_value%';
     });
   }
@@ -839,7 +839,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleNinthPointerValueChanged(double value) {
     setState(() {
       _ninthMarkerValue = value;
-      final int _value = _ninthMarkerValue.abs().round().toInt();
+      final int _value = _ninthMarkerValue.abs().round();
       _annotationValue5 = '$_value';
     });
   }
@@ -857,7 +857,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleTwelethPointerValueChanged(double value) {
     setState(() {
       _twelethMarkerValue = value;
-      final int _value = _twelethMarkerValue.abs().round().toInt();
+      final int _value = _twelethMarkerValue.abs().round();
       _annotationValue_6 = '$_value';
     });
   }
@@ -874,7 +874,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleEleventhPointerValueChanged(double value) {
     setState(() {
       _eleventhMarkerValue = value;
-      final int _value = _eleventhMarkerValue.abs().round().toInt();
+      final int _value = _eleventhMarkerValue.abs().round();
       _annotationValue6 = '$_value';
     });
   }

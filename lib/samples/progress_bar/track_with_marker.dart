@@ -101,7 +101,7 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget getProgressBarWithCircle() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -150,7 +150,7 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget getProgressBarWithRectangle() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -199,7 +199,7 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget getProgressBarWithImage() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[

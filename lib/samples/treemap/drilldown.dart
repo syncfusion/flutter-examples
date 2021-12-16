@@ -1496,13 +1496,14 @@ class _TreemapDrilldownSampleState extends SampleViewState
   void dispose() {
     _opacityAnimationController.dispose();
     _worldPopulationDetails.clear();
+    _levels.clear();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    _isLightTheme = themeData.brightness == Brightness.light;
+    _isLightTheme = themeData.colorScheme.brightness == Brightness.light;
     _isDesktop = kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||

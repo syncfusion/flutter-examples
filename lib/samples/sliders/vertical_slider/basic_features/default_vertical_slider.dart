@@ -59,7 +59,7 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
 
   Widget _buildWebLayout() {
     return Center(
-        child: Container(
+        child: SizedBox(
             width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
             child: _buildMobileLayout()));
   }
@@ -105,7 +105,7 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return CheckboxListTile(
-          contentPadding: const EdgeInsets.all(0.0),
+          contentPadding: EdgeInsets.zero,
           value: _isInversed,
           title: const Text('Inversed', softWrap: false),
           activeColor: model.backgroundColor,

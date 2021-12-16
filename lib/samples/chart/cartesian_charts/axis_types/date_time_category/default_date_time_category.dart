@@ -21,8 +21,8 @@ class DateTimeCategoryDefault extends SampleView {
 class _DateTimeCategoryDefaultState extends SampleViewState {
   _DateTimeCategoryDefaultState();
 
-  late List<_OrdinalSales> data;
-  late TooltipBehavior _tooltipBehavior;
+  List<_OrdinalSales>? data;
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
@@ -45,9 +45,10 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
 
   /// Returns the line chart with default datetime axis.
   SfCartesianChart _buildDefaultDateTimeAxisChart(BuildContext context) {
-    final Color labelColor = model.themeData.brightness == Brightness.dark
-        ? Colors.white
-        : Colors.black;
+    final Color labelColor =
+        model.themeData.colorScheme.brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black;
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: DateTimeCategoryAxis(
@@ -92,12 +93,18 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
             axisLine: const AxisLine(width: 0)),
         series: <ColumnSeries<_OrdinalSales, DateTime>>[
           ColumnSeries<_OrdinalSales, DateTime>(
-            dataSource: data,
+            dataSource: data!,
             name: 'Sales',
             xValueMapper: (_OrdinalSales x, int xx) => x.year,
             yValueMapper: (_OrdinalSales sales, _) => sales.sales,
           ),
         ]);
+  }
+
+  @override
+  void dispose() {
+    data!.clear();
+    super.dispose();
   }
 }
 

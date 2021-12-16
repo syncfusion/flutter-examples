@@ -296,9 +296,9 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                         child: Theme(
                             data: model.themeData,
                             child: Card(
-                              margin: const EdgeInsets.all(0.0),
+                              margin: EdgeInsets.zero,
                               color: model.themeData != null &&
-                                      model.themeData.brightness ==
+                                      model.themeData.colorScheme.brightness ==
                                           Brightness.dark
                                   ? Colors.grey[850]
                                   : Colors.white,
@@ -579,15 +579,11 @@ String _getAppointmentTimeText(Appointment selectedAppointment) {
   if (selectedAppointment.isAllDay) {
     if (isSameDate(
         selectedAppointment.startTime, selectedAppointment.endTime)) {
-      return DateFormat('EEEE, MMM dd')
-          .format(selectedAppointment.startTime)
-          .toString();
+      return DateFormat('EEEE, MMM dd').format(selectedAppointment.startTime);
     }
     return DateFormat('EEEE, MMM dd').format(selectedAppointment.startTime) +
         ' - ' +
-        DateFormat('EEEE, MMM dd')
-            .format(selectedAppointment.endTime)
-            .toString();
+        DateFormat('EEEE, MMM dd').format(selectedAppointment.endTime);
   } else if (selectedAppointment.startTime.day !=
           selectedAppointment.endTime.day ||
       selectedAppointment.startTime.month !=
@@ -620,22 +616,22 @@ Widget _editExceptionSeries(
     Appointment selectedAppointment,
     Appointment recurrenceAppointment,
     CalendarDataSource events) {
-  final Color defaultColor =
-      model.themeData != null && model.themeData.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black54;
+  final Color defaultColor = model.themeData != null &&
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black54;
 
-  final Color defaultTextColor =
-      model.themeData != null && model.themeData.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black87;
+  final Color defaultTextColor = model.themeData != null &&
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black87;
 
   return Dialog(
     child: Container(
       width: 400,
       height: 200,
       padding: const EdgeInsets.only(left: 20, top: 10),
-      child: ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
+      child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         Container(
           width: 360,
           height: 50,
@@ -765,22 +761,22 @@ Widget _editExceptionSeries(
 /// delete the entire series.
 Widget _deleteRecurrence(BuildContext context, SampleModel model,
     Appointment selectedAppointment, CalendarDataSource events) {
-  final Color defaultColor =
-      model.themeData != null && model.themeData.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black54;
+  final Color defaultColor = model.themeData != null &&
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black54;
 
-  final Color defaultTextColor =
-      model.themeData != null && model.themeData.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black87;
+  final Color defaultTextColor = model.themeData != null &&
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black87;
 
   return Dialog(
       child: Container(
     width: 400,
     height: 170,
     padding: const EdgeInsets.only(left: 20, top: 10),
-    child: ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
+    child: ListView(padding: EdgeInsets.zero, children: <Widget>[
       Container(
         width: 360,
         height: 50,
@@ -823,7 +819,7 @@ Widget _deleteRecurrence(BuildContext context, SampleModel model,
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Container(
+          SizedBox(
             width: 110,
             child: RawMaterialButton(
               shape: const RoundedRectangleBorder(
@@ -864,7 +860,7 @@ Widget _deleteRecurrence(BuildContext context, SampleModel model,
           Container(
             width: 20,
           ),
-          Container(
+          SizedBox(
             width: 110,
             child: RawMaterialButton(
               onPressed: () {
@@ -922,15 +918,15 @@ Widget _editRecurrence(
     CalendarDataSource events,
     List<String> timeZoneCollection,
     List<DateTime> visibleDates) {
-  final Color defaultColor =
-      model.themeData != null && model.themeData.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black54;
+  final Color defaultColor = model.themeData != null &&
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black54;
 
-  final Color defaultTextColor =
-      model.themeData != null && model.themeData.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black87;
+  final Color defaultTextColor = model.themeData != null &&
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black87;
 
   final List<Appointment> appointmentCollection = <Appointment>[];
   final Appointment? parentAppointment =
@@ -941,7 +937,7 @@ Widget _editRecurrence(
     width: 400,
     height: 170,
     padding: const EdgeInsets.only(left: 20, top: 10),
-    child: ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
+    child: ListView(padding: EdgeInsets.zero, children: <Widget>[
       Container(
         width: 360,
         height: 50,
@@ -1083,19 +1079,19 @@ Widget displayAppointmentDetails(
     CalendarDataSource events,
     List<String> timeZoneCollection,
     List<DateTime> visibleDates) {
-  final Color defaultColor =
-      model.themeData != null && model.themeData.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black54;
+  final Color defaultColor = model.themeData != null &&
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black54;
 
-  final Color defaultTextColor =
-      model.themeData != null && model.themeData.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black87;
+  final Color defaultTextColor = model.themeData != null &&
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black87;
 
   final List<Appointment> appointmentCollection = <Appointment>[];
 
-  return ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
+  return ListView(padding: EdgeInsets.zero, children: <Widget>[
     ListTile(
         trailing: Row(
       mainAxisSize: MainAxisSize.min,
@@ -1295,14 +1291,14 @@ class _CalendarColorPickerState extends State<_CalendarColorPicker> {
     return Theme(
       data: widget.model.themeData,
       child: AlertDialog(
-        content: Container(
+        content: SizedBox(
             width: kIsWeb ? 500 : double.maxFinite,
             height: (widget.colorCollection.length * 50).toDouble(),
             child: ListView.builder(
-              padding: const EdgeInsets.all(0),
+              padding: EdgeInsets.zero,
               itemCount: widget.colorCollection.length,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
+                return SizedBox(
                     height: 50,
                     child: ListTile(
                       contentPadding:
@@ -1355,16 +1351,16 @@ class _ResourcePickerState extends State<_ResourcePicker> {
     return Theme(
         data: widget.model.themeData,
         child: AlertDialog(
-          content: Container(
+          content: SizedBox(
               width: kIsWeb ? 500 : double.maxFinite,
               height: (widget.resourceCollection.length * 50).toDouble(),
               child: ListView.builder(
-                padding: const EdgeInsets.all(0),
+                padding: EdgeInsets.zero,
                 itemCount: widget.resourceCollection.length,
                 itemBuilder: (BuildContext context, int index) {
                   final CalendarResource resource =
                       widget.resourceCollection[index];
-                  return Container(
+                  return SizedBox(
                       height: 50,
                       child: ListTile(
                         contentPadding:
@@ -1439,13 +1435,13 @@ class _CalendarTimeZonePickerState extends State<_CalendarTimeZonePicker> {
     return Theme(
         data: widget.model.themeData,
         child: AlertDialog(
-          content: Container(
+          content: SizedBox(
               width: kIsWeb ? 500 : double.maxFinite,
               child: ListView.builder(
-                padding: const EdgeInsets.all(0),
+                padding: EdgeInsets.zero,
                 itemCount: widget.timeZoneCollection.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
+                  return SizedBox(
                       height: 50,
                       child: ListTile(
                         contentPadding:
@@ -1584,12 +1580,12 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
   @override
   Widget build(BuildContext context) {
     final Color defaultColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white
         : Colors.black54;
 
     final Color defaultTextColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white
         : Colors.black87;
 
@@ -1608,7 +1604,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 /// The themedata created based
                 ///  on the selected theme and primary color.
                 data: ThemeData(
-                  brightness: widget.model.themeData.brightness,
+                  brightness: widget.model.themeData.colorScheme.brightness,
                   colorScheme: _getColorScheme(widget.model, true),
                   primaryColor: widget.model.backgroundColor,
                 ),
@@ -1646,7 +1642,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 /// The themedata created based
                 /// on the selected theme and primary color.
                 data: ThemeData(
-                  brightness: widget.model.themeData.brightness,
+                  brightness: widget.model.themeData.colorScheme.brightness,
                   colorScheme: _getColorScheme(widget.model, false),
                   primaryColor: widget.model.backgroundColor,
                 ),
@@ -1686,7 +1682,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 /// The themedata created based
                 /// on the selected theme and primary color.
                 data: ThemeData(
-                  brightness: widget.model.themeData.brightness,
+                  brightness: widget.model.themeData.colorScheme.brightness,
                   colorScheme: _getColorScheme(widget.model, false),
                   primaryColor: widget.model.backgroundColor,
                 ),
@@ -1730,7 +1726,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 /// The themedata created based
                 /// on the selected theme and primary color.
                 data: ThemeData(
-                  brightness: widget.model.themeData.brightness,
+                  brightness: widget.model.themeData.colorScheme.brightness,
                   colorScheme: _getColorScheme(widget.model, true),
                   primaryColor: widget.model.backgroundColor,
                 ),
@@ -1757,8 +1753,8 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           textAlign: TextAlign.left),
     );
 
-    return ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
-      Container(
+    return ListView(padding: EdgeInsets.zero, children: <Widget>[
+      SizedBox(
           height: 50,
           child: ListTile(
             trailing: IconButton(
@@ -2004,7 +2000,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               ),
             ),
           )),
-      Container(
+      SizedBox(
           height: 50,
           child: ListTile(
             title: Row(
@@ -2152,7 +2148,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
     for (int i = 0; i < _selectedResources.length; i++) {
       final CalendarResource selectedResource = _selectedResources[i];
       chipWidgets.add(Chip(
-        padding: const EdgeInsets.only(left: 0),
+        padding: EdgeInsets.zero,
         avatar: CircleAvatar(
           backgroundColor: widget.model.backgroundColor,
           backgroundImage: selectedResource.image,
@@ -2502,7 +2498,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
       _recurrenceProperties!.week = _weekNumber;
       _recurrenceProperties!.dayOfWeek = _dayOfWeek;
       _monthIconColor = widget.model.themeData != null &&
-              widget.model.themeData.brightness == Brightness.dark
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
           ? Colors.white
           : Colors.black54;
       _weekIconColor = widget.model.backgroundColor;
@@ -2517,7 +2513,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
       _recurrenceProperties!.week = 0;
       _recurrenceProperties!.dayOfMonth = _dayOfMonth;
       _weekIconColor = widget.model.themeData != null &&
-              widget.model.themeData.brightness == Brightness.dark
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
           ? Colors.white
           : Colors.black54;
       _monthIconColor = widget.model.backgroundColor;
@@ -2675,7 +2671,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
     for (int i = 0; i < _selectedResources.length; i++) {
       final CalendarResource selectedResource = _selectedResources[i];
       chipWidgets.add(Chip(
-        padding: const EdgeInsets.only(left: 0),
+        padding: EdgeInsets.zero,
         avatar: CircleAvatar(
           backgroundColor: widget.model.backgroundColor,
           backgroundImage: selectedResource.image,
@@ -2704,21 +2700,21 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
   @override
   Widget build(BuildContext context) {
     final Color defaultColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white
         : Colors.black54;
 
     final Color defaultTextColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white
         : Colors.black87;
 
     final Color defaultButtonColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white10
         : Colors.white;
     final Color borderColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white
         : Colors.transparent;
 
@@ -2730,7 +2726,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
           shape: BoxShape.rectangle,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
           color: widget.model.themeData != null &&
-                  widget.model.themeData.brightness == Brightness.dark
+                  widget.model.themeData.colorScheme.brightness ==
+                      Brightness.dark
               ? Colors.grey[850]
               : Colors.white,
         ),
@@ -2755,7 +2752,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
           children: <Widget>[
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.all(0.0),
+                padding: EdgeInsets.zero,
                 children: <Widget>[
                   Container(
                       margin: const EdgeInsets.symmetric(vertical: 3),
@@ -2940,7 +2937,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         fontWeight: FontWeight.w400),
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      suffix: Container(
+                                      suffix: SizedBox(
                                         height: 20,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
@@ -3015,8 +3012,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     }
                                                   },
                                                   shape: const CircleBorder(),
-                                                  padding:
-                                                      const EdgeInsets.all(0.0),
+                                                  padding: EdgeInsets.zero,
                                                   child: Icon(
                                                     Icons.date_range,
                                                     color: defaultColor,
@@ -3024,7 +3020,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                   ),
                                                 )),
                                             if (_isAllDay)
-                                              Container(
+                                              const SizedBox(
                                                 width: 0,
                                                 height: 0,
                                               )
@@ -3038,9 +3034,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     disabledElevation: 0,
                                                     hoverElevation: 0,
                                                     shape: const CircleBorder(),
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            0.0),
+                                                    padding: EdgeInsets.zero,
                                                     onPressed: () async {
                                                       final TimeOfDay? time =
                                                           await showTimePicker(
@@ -3160,7 +3154,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         fontWeight: FontWeight.w400),
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      suffix: Container(
+                                      suffix: SizedBox(
                                         height: 20,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
@@ -3174,8 +3168,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                   disabledElevation: 0,
                                                   hoverElevation: 0,
                                                   shape: const CircleBorder(),
-                                                  padding:
-                                                      const EdgeInsets.all(0.0),
+                                                  padding: EdgeInsets.zero,
                                                   onPressed: () async {
                                                     final DateTime? date =
                                                         await showDatePicker(
@@ -3246,7 +3239,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                   ),
                                                 )),
                                             if (_isAllDay)
-                                              Container(
+                                              const SizedBox(
                                                 width: 0,
                                                 height: 0,
                                               )
@@ -3260,8 +3253,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     disabledElevation: 0,
                                                     hoverElevation: 0,
                                                     shape: const CircleBorder(),
-                                                    padding:
-                                                        const EdgeInsets.all(0),
+                                                    padding: EdgeInsets.zero,
                                                     onPressed: () async {
                                                       final TimeOfDay? time =
                                                           await showTimePicker(
@@ -3416,8 +3408,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                         ),
                       )),
                   if (_isTimeZoneEnabled)
-                    Container(
-                        child: ListTile(
+                    ListTile(
                       contentPadding: const EdgeInsets.only(
                           left: 20, top: 2, bottom: 2, right: 305),
                       title: Container(
@@ -3480,7 +3471,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                           ],
                         ),
                       ),
-                    ))
+                    )
                   else
                     Container(),
                   Visibility(
@@ -3519,7 +3510,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                             text: _selectedRecurrenceType),
                                         decoration: InputDecoration(
                                           isDense: true,
-                                          suffix: Container(
+                                          suffix: SizedBox(
                                               height: 28,
                                               child: DropdownButton<String>(
                                                   isExpanded: true,
@@ -4028,7 +4019,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 text: _monthName),
                                             decoration: InputDecoration(
                                               isDense: true,
-                                              suffix: Container(
+                                              suffix: SizedBox(
                                                 height: 27,
                                                 child: DropdownButton<String>(
                                                     isExpanded: true,
@@ -4294,7 +4285,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         decoration:
                                                             InputDecoration(
                                                           isDense: true,
-                                                          suffix: Container(
+                                                          suffix: SizedBox(
                                                             height: 25,
                                                             child: Row(
                                                               mainAxisSize:
@@ -4415,7 +4406,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                             decoration:
                                                                 InputDecoration(
                                                               isDense: true,
-                                                              suffix: Container(
+                                                              suffix: SizedBox(
                                                                 height: 27,
                                                                 child: DropdownButton<
                                                                         String>(
@@ -4712,7 +4703,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                                 lastDate: DateTime(2050),
                                                                                 builder: (BuildContext context, Widget? child) {
                                                                                   return Theme(
-                                                                                    data: ThemeData(brightness: widget.model.themeData.brightness, colorScheme: _getColorScheme(widget.model, true), primaryColor: widget.model.backgroundColor),
+                                                                                    data: ThemeData(brightness: widget.model.themeData.colorScheme.brightness, colorScheme: _getColorScheme(widget.model, true), primaryColor: widget.model.backgroundColor),
                                                                                     child: child!,
                                                                                   );
                                                                                 });
@@ -4776,7 +4767,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       )),
                   Visibility(
                     visible: _selectedRecurrenceType == 'Yearly',
-                    child: Container(
+                    child: SizedBox(
                       width: 284,
                       height: 50,
                       child: Column(
@@ -4806,7 +4797,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         color: defaultTextColor,
                                         fontWeight: FontWeight.w400)),
                               ),
-                              Container(
+                              SizedBox(
                                 width: 208,
                                 height: 28,
                                 child: TextField(
@@ -4833,12 +4824,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     _recurrenceProperties!.week = 0;
                                     _recurrenceProperties!.dayOfMonth =
                                         _dayOfMonth;
-                                    _weekIconColor = widget.model.themeData !=
-                                                null &&
-                                            widget.model.themeData.brightness ==
-                                                Brightness.dark
-                                        ? Colors.white
-                                        : Colors.black54;
+                                    _weekIconColor =
+                                        widget.model.themeData != null &&
+                                                widget
+                                                        .model
+                                                        .themeData
+                                                        .colorScheme
+                                                        .brightness ==
+                                                    Brightness.dark
+                                            ? Colors.white
+                                            : Colors.black54;
                                     _monthIconColor =
                                         widget.model.backgroundColor;
                                     _monthDayRadio = Icons.radio_button_checked;
@@ -4856,7 +4851,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                       fontWeight: FontWeight.w400),
                                   decoration: InputDecoration(
                                     isDense: true,
-                                    suffix: Container(
+                                    suffix: SizedBox(
                                       height: 25,
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
@@ -4929,7 +4924,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           text: _weekNumberText),
                                       decoration: InputDecoration(
                                         isDense: true,
-                                        suffix: Container(
+                                        suffix: SizedBox(
                                           height: 25,
                                           child: DropdownButton<String>(
                                               isExpanded: true,
@@ -5006,7 +5001,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           text: _dayOfWeekText),
                                       decoration: InputDecoration(
                                         isDense: true,
-                                        suffix: Container(
+                                        suffix: SizedBox(
                                           height: 25,
                                           child: DropdownButton<String>(
                                               isExpanded: true,
@@ -5101,8 +5096,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       widget.events.resources!.isEmpty)
                     Container()
                   else
-                    Container(
-                        child: ListTile(
+                    ListTile(
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 2, horizontal: 20),
                       title: Column(
@@ -5160,7 +5154,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                               /// update the color picker changes
                             }));
                       },
-                    )),
+                    ),
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 3),
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -5205,86 +5199,81 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       ],
                     ),
                   ),
-                  Container(
-                      child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 2, horizontal: 20),
-                          title: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: defaultColor.withOpacity(0.4),
-                                  width: 1.0,
+                  ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 2, horizontal: 20),
+                      title: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: defaultColor.withOpacity(0.4),
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: RawMaterialButton(
+                                padding: const EdgeInsets.only(left: 5),
+                                onPressed: () {
+                                  showDialog<Widget>(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return _CalendarColorPicker(
+                                        widget.colorCollection,
+                                        _selectedColorIndex,
+                                        widget.colorNames,
+                                        widget.model,
+                                        onChanged:
+                                            (_PickerChangedDetails details) {
+                                          _selectedColorIndex = details.index;
+                                        },
+                                      );
+                                    },
+                                  ).then((dynamic value) => setState(() {
+                                        /// update the color picker changes
+                                      }));
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.lens,
+                                      size: 20,
+                                      color: widget
+                                          .colorCollection[_selectedColorIndex],
+                                    ),
+                                    Expanded(
+                                      flex: 9,
+                                      child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
+                                          child: Text(
+                                            widget.colorNames[
+                                                _selectedColorIndex],
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                color: defaultTextColor,
+                                                fontWeight: FontWeight.w400),
+                                          )),
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_drop_down,
+                                      size: 24,
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  child: RawMaterialButton(
-                                    padding: const EdgeInsets.only(left: 5),
-                                    onPressed: () {
-                                      showDialog<Widget>(
-                                        context: context,
-                                        barrierDismissible: true,
-                                        builder: (BuildContext context) {
-                                          return _CalendarColorPicker(
-                                            widget.colorCollection,
-                                            _selectedColorIndex,
-                                            widget.colorNames,
-                                            widget.model,
-                                            onChanged: (_PickerChangedDetails
-                                                details) {
-                                              _selectedColorIndex =
-                                                  details.index;
-                                            },
-                                          );
-                                        },
-                                      ).then((dynamic value) => setState(() {
-                                            /// update the color picker changes
-                                          }));
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.lens,
-                                          size: 20,
-                                          color: widget.colorCollection[
-                                              _selectedColorIndex],
-                                        ),
-                                        Expanded(
-                                          flex: 9,
-                                          child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Text(
-                                                widget.colorNames[
-                                                    _selectedColorIndex],
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: defaultTextColor,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              )),
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_drop_down,
-                                          size: 24,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ))),
+                          ],
+                        ),
+                      )),
                 ],
               ),
             ),
@@ -5655,7 +5644,7 @@ ColorScheme _getColorScheme(SampleModel model, bool isDatePicker) {
   /// For time picker used the default surface color based for corresponding
   /// theme, so that the picker background color doesn't cover with the model's
   /// background color.
-  if (model.themeData.brightness == Brightness.dark) {
+  if (model.themeData.colorScheme.brightness == Brightness.dark) {
     return ColorScheme.dark(
       primary: model.backgroundColor,
       secondary: model.backgroundColor,
@@ -5851,7 +5840,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
     return Container(
         color: backgroundColor,
         child: ListView(
-          padding: const EdgeInsets.all(0),
+          padding: EdgeInsets.zero,
           children: <Widget>[
             ListTile(
               contentPadding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
@@ -5917,8 +5906,8 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                 builder: (BuildContext context, Widget? child) {
                                   return Theme(
                                     data: ThemeData(
-                                      brightness:
-                                          widget.model.themeData.brightness,
+                                      brightness: widget.model.themeData
+                                          .colorScheme.brightness,
                                       colorScheme:
                                           _getColorScheme(widget.model, true),
                                       primaryColor:
@@ -5967,8 +5956,11 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                                 Widget? child) {
                                               return Theme(
                                                 data: ThemeData(
-                                                  brightness: widget.model
-                                                      .themeData.brightness,
+                                                  brightness: widget
+                                                      .model
+                                                      .themeData
+                                                      .colorScheme
+                                                      .brightness,
                                                   colorScheme: _getColorScheme(
                                                       widget.model, false),
                                                   primaryColor: widget
@@ -6021,8 +6013,8 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                 builder: (BuildContext context, Widget? child) {
                                   return Theme(
                                     data: ThemeData(
-                                      brightness:
-                                          widget.model.themeData.brightness,
+                                      brightness: widget.model.themeData
+                                          .colorScheme.brightness,
                                       colorScheme:
                                           _getColorScheme(widget.model, true),
                                       primaryColor:
@@ -6074,8 +6066,11 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                                 Widget? child) {
                                               return Theme(
                                                 data: ThemeData(
-                                                  brightness: widget.model
-                                                      .themeData.brightness,
+                                                  brightness: widget
+                                                      .model
+                                                      .themeData
+                                                      .colorScheme
+                                                      .brightness,
                                                   colorScheme: _getColorScheme(
                                                       widget.model, false),
                                                   primaryColor: widget
@@ -6331,7 +6326,8 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
         data: widget.model.themeData,
         child: Scaffold(
             backgroundColor: widget.model.themeData != null &&
-                    widget.model.themeData.brightness == Brightness.dark
+                    widget.model.themeData.colorScheme.brightness ==
+                        Brightness.dark
                 ? Colors.grey[850]
                 : Colors.white,
             appBar: AppBar(
@@ -6490,11 +6486,12 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                 children: <Widget>[
                   _getAppointmentEditor(
                       context,
-                      (widget.model.themeData.brightness == Brightness.dark
+                      (widget.model.themeData.colorScheme.brightness ==
+                              Brightness.dark
                           ? Colors.grey[850]
                           : Colors.white)!,
-                      widget.model.themeData.brightness != null &&
-                              widget.model.themeData.brightness ==
+                      widget.model.themeData.colorScheme.brightness != null &&
+                              widget.model.themeData.colorScheme.brightness ==
                                   Brightness.dark
                           ? Colors.white
                           : Colors.black87)
@@ -6554,7 +6551,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
     for (int i = 0; i < _selectedResources.length; i++) {
       final CalendarResource selectedResource = _selectedResources[i];
       chipWidgets.add(Chip(
-        padding: const EdgeInsets.only(left: 0),
+        padding: EdgeInsets.zero,
         avatar: CircleAvatar(
           backgroundColor: widget.model.backgroundColor,
           backgroundImage: selectedResource.image,
@@ -6723,7 +6720,7 @@ class _SelectRuleDialogState extends State<_SelectRuleDialog> {
         width: 400,
         height: 360,
         padding: const EdgeInsets.only(left: 20, top: 10),
-        child: ListView(padding: const EdgeInsets.all(0.0), children: <Widget>[
+        child: ListView(padding: EdgeInsets.zero, children: <Widget>[
           Container(
             width: 360,
             padding: const EdgeInsets.only(bottom: 10),
@@ -6922,7 +6919,7 @@ class _DeleteDialogState extends State<_DeleteDialog> {
   @override
   Widget build(BuildContext context) {
     final Color defaultTextColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white
         : Colors.black87;
     return SimpleDialog(
@@ -7098,7 +7095,7 @@ class _EditDialogState extends State<_EditDialog> {
   @override
   Widget build(BuildContext context) {
     final Color defaultTextColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white
         : Colors.black87;
     return SimpleDialog(
@@ -7657,17 +7654,17 @@ class _CustomRuleState extends State<_CustomRule> {
   Widget _getCustomRule(
       BuildContext context, Color backgroundColor, Color defaultColor) {
     final Color defaultTextColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white
         : Colors.black87;
     final Color defaultButtonColor = widget.model.themeData != null &&
-            widget.model.themeData.brightness == Brightness.dark
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
         ? Colors.white10
         : Colors.white;
     return Container(
         color: backgroundColor,
         child: ListView(
-          padding: const EdgeInsets.all(0),
+          padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
               height: 20,
@@ -7963,10 +7960,9 @@ class _CustomRuleState extends State<_CustomRule> {
                             value: 'Monthly on day ' +
                                 _startDate.day.toString() +
                                 'th',
-                            child: Container(
-                                child: Text('Monthly on day ' +
-                                    _startDate.day.toString() +
-                                    'th')),
+                            child: Text('Monthly on day ' +
+                                _startDate.day.toString() +
+                                'th'),
                           ),
                           DropdownMenuItem<String>(
                             value: 'Monthly on the ' + _weekNumberDay!,
@@ -8056,8 +8052,11 @@ class _CustomRuleState extends State<_CustomRule> {
                                               Widget? child) {
                                             return Theme(
                                               data: ThemeData(
-                                                  brightness: widget.model
-                                                      .themeData.brightness,
+                                                  brightness: widget
+                                                      .model
+                                                      .themeData
+                                                      .colorScheme
+                                                      .brightness,
                                                   colorScheme: _getColorScheme(
                                                       widget.model, true),
                                                   primaryColor: widget
@@ -8081,8 +8080,7 @@ class _CustomRuleState extends State<_CustomRule> {
                                 shape: const CircleBorder(),
                                 child: Text(
                                   DateFormat('MM/dd/yyyy')
-                                      .format(_selectedDate)
-                                      .toString(),
+                                      .format(_selectedDate),
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: defaultTextColor,
@@ -8096,7 +8094,7 @@ class _CustomRuleState extends State<_CustomRule> {
                   activeColor: widget.model.backgroundColor,
                   onChanged: (_EndRule? value) {
                     setState(() {
-                      _endRule = value!;
+                      _endRule = value;
                       _rangeEndDate();
                     });
                   },
@@ -8106,7 +8104,7 @@ class _CustomRuleState extends State<_CustomRule> {
                   height: 1.0,
                   thickness: 1,
                 ),
-                Container(
+                SizedBox(
                   height: 40,
                   child: RadioListTile<_EndRule>(
                     contentPadding: const EdgeInsets.only(left: 7),
@@ -8180,7 +8178,7 @@ class _CustomRuleState extends State<_CustomRule> {
                     activeColor: widget.model.backgroundColor,
                     onChanged: (_EndRule? value) {
                       setState(() {
-                        _endRule = value!;
+                        _endRule = value;
                         _recurrenceProperties!.recurrenceRange =
                             RecurrenceRange.count;
                         _recurrenceProperties!.recurrenceCount = _count!;
@@ -8200,7 +8198,8 @@ class _CustomRuleState extends State<_CustomRule> {
         data: widget.model.themeData,
         child: Scaffold(
           backgroundColor: widget.model.themeData != null &&
-                  widget.model.themeData.brightness == Brightness.dark
+                  widget.model.themeData.colorScheme.brightness ==
+                      Brightness.dark
               ? Colors.grey[850]
               : Colors.white,
           appBar: AppBar(
@@ -8233,11 +8232,13 @@ class _CustomRuleState extends State<_CustomRule> {
               children: <Widget>[
                 _getCustomRule(
                     context,
-                    (widget.model.themeData.brightness == Brightness.dark
+                    (widget.model.themeData.colorScheme.brightness ==
+                            Brightness.dark
                         ? Colors.grey[850]
                         : Colors.white)!,
-                    widget.model.themeData.brightness != null &&
-                            widget.model.themeData.brightness == Brightness.dark
+                    widget.model.themeData.colorScheme.brightness != null &&
+                            widget.model.themeData.colorScheme.brightness ==
+                                Brightness.dark
                         ? Colors.white
                         : Colors.black87)
               ],

@@ -20,63 +20,66 @@ class SemiDoughnutChart extends SampleView {
 /// State class of semi doughunut series.
 class _SemiDoughnutChartState extends SampleViewState {
   _SemiDoughnutChartState();
-  int startAngle = 270;
-  int endAngle = 90;
+  late int startAngle;
+  late int endAngle;
+  @override
+  void initState() {
+    startAngle = 270;
+    endAngle = 90;
+    super.initState();
+  }
+
   @override
   Widget buildSettings(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       children: <Widget>[
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Start angle  ',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
-                padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                child: CustomDirectionalButtons(
-                  minValue: 90,
-                  maxValue: 270,
-                  initialValue: startAngle.toDouble(),
-                  onChanged: (double val) => setState(() {
-                    startAngle = val.toInt();
-                  }),
-                  step: 10,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 20.0, color: model.textColor),
-                ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text('Start angle  ',
+                style: TextStyle(fontSize: 16.0, color: model.textColor)),
+            Container(
+              padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+              child: CustomDirectionalButtons(
+                minValue: 90,
+                maxValue: 270,
+                initialValue: startAngle.toDouble(),
+                onChanged: (double val) => setState(() {
+                  startAngle = val.toInt();
+                }),
+                step: 10,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                child: Text('End angle ',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+              child: Text('End angle ',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+              child: CustomDirectionalButtons(
+                minValue: 90,
+                maxValue: 270,
+                initialValue: endAngle.toDouble(),
+                onChanged: (double val) => setState(() {
+                  endAngle = val.toInt();
+                }),
+                step: 10,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                child: CustomDirectionalButtons(
-                  minValue: 90,
-                  maxValue: 270,
-                  initialValue: endAngle.toDouble(),
-                  onChanged: (double val) => setState(() {
-                    endAngle = val.toInt();
-                  }),
-                  step: 10,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 20.0, color: model.textColor),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
@@ -100,15 +103,14 @@ class _SemiDoughnutChartState extends SampleViewState {
 
   /// Returns  semi doughnut series.
   List<DoughnutSeries<ChartSampleData, String>> _getSemiDoughnutSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'David', y: 45, text: 'David 45%'),
-      ChartSampleData(x: 'Steve', y: 15, text: 'Steve 15%'),
-      ChartSampleData(x: 'Jack', y: 21, text: 'Jack 21%'),
-      ChartSampleData(x: 'Others', y: 19, text: 'Others 19%')
-    ];
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'David', y: 45, text: 'David 45%'),
+            ChartSampleData(x: 'Steve', y: 15, text: 'Steve 15%'),
+            ChartSampleData(x: 'Jack', y: 21, text: 'Jack 21%'),
+            ChartSampleData(x: 'Others', y: 19, text: 'Others 19%')
+          ],
           innerRadius: '70%',
           radius: isCardView ? '100%' : '59%',
           startAngle: startAngle,

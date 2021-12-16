@@ -21,6 +21,6 @@ class ImageConverter {
     reader.readAsArrayBuffer(blob);
     reader.onLoad
         .listen((_) => completer.complete(reader.result! as Uint8List));
-    return await completer.future;
+    return completer.future;
   }
 }

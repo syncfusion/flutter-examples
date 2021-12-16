@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_examples/samples/chart/cartesian_charts/axis_features/multi_level_labels.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/chart_types/area/area_zone.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/chart_types/error_bar.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/chart_types/line/line_zone.dart';
 import 'package:flutter_examples/samples/chart/cartesian_charts/series_features/gradients/gradient_based_on_values.dart';
 import 'package:flutter_examples/samples/chart/circular_charts/chart_types/pie/pie_with_smart_data_label.dart';
 import 'package:flutter_examples/samples/linear_gauge/showcase/active_hours.dart';
+import 'package:flutter_examples/samples/pdf_viewer/encrypted.dart';
 
 import 'samples/barcodes/data_matrix.dart';
 import 'samples/barcodes/one_dimensional.dart';
@@ -482,6 +484,7 @@ Map<String, Function> getSampleWidget() {
     'interval_type': (Key key) => IntervalType(key),
     'handling_label_collision': (Key key) => LabelAction(key),
     'multiple_axis_chart': (Key key) => MultipleAxis(key),
+    'multi_level_labels': (Key key) => MultiLevelLabelsSample(key),
     'opposed_axes': (Key key) => NumericOpposed(key),
     'plot_band_recurrence': (Key key) => PlotBandRecurrence(key),
     'plot_band': (Key key) => PlotBandDefault(key),
@@ -703,6 +706,7 @@ Map<String, Function> getSampleWidget() {
     // PDF Viewer samples
     'pdf_viewer_getting_started': (Key key) => GettingStartedPdfViewer(key),
     'pdf_viewer_custom_toolbar': (Key key) => CustomToolbarPdfViewer(key),
+    'encrypted': (Key key) => Encrypted(key),
 
     // XlsIO samples
     'expenses_report': (Key key) => ExpensesReportXlsIO(key),

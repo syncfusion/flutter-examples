@@ -110,7 +110,7 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
             'Inversed',
             softWrap: false,
           ),
-          contentPadding: const EdgeInsets.all(0.0),
+          contentPadding: EdgeInsets.zero,
           activeColor: model.backgroundColor,
           onChanged: (bool? value) {
             setState(() {

@@ -3,7 +3,6 @@ import 'dart:math' as math;
 
 ///flutter package import
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
@@ -80,11 +79,11 @@ class _TickShape extends SfTickShape {
         ? offset.dx > thumbCenter!.dx
         : offset.dx < startThumbCenter!.dx || offset.dx > endThumbCenter.dx;
     final Color begin = isTickRightOfThumb
-        ? themeData.disabledInactiveTickColor
-        : themeData.disabledActiveTickColor;
+        ? themeData.disabledInactiveTickColor!
+        : themeData.disabledActiveTickColor!;
     final Color end = isTickRightOfThumb
-        ? themeData.inactiveTickColor
-        : themeData.activeTickColor;
+        ? themeData.inactiveTickColor!
+        : themeData.activeTickColor!;
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = tickSize.width
@@ -125,11 +124,11 @@ class _MinorTickShape extends SfTickShape {
         : offset.dx < startThumbCenter!.dx || offset.dx > endThumbCenter.dx;
 
     final Color begin = isMinorTickRightOfThumb
-        ? themeData.disabledInactiveMinorTickColor
-        : themeData.disabledActiveMinorTickColor;
+        ? themeData.disabledInactiveMinorTickColor!
+        : themeData.disabledActiveMinorTickColor!;
     final Color end = isMinorTickRightOfThumb
-        ? themeData.inactiveMinorTickColor
-        : themeData.activeMinorTickColor;
+        ? themeData.inactiveMinorTickColor!
+        : themeData.activeMinorTickColor!;
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = minorTickSize.width

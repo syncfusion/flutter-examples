@@ -21,35 +21,8 @@ class _SplineDefaultState extends SampleViewState {
   _SplineDefaultState();
 
   @override
-  Widget build(BuildContext context) {
-    return _buildDefaultSplineChart();
-  }
-
-  /// Returns the defaul spline chart.
-  SfCartesianChart _buildDefaultSplineChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      title: ChartTitle(
-          text: isCardView ? '' : 'Average high/low temperature of London'),
-      legend: Legend(isVisible: !isCardView),
-      primaryXAxis: CategoryAxis(
-          majorGridLines: const MajorGridLines(width: 0),
-          labelPlacement: LabelPlacement.onTicks),
-      primaryYAxis: NumericAxis(
-          minimum: 30,
-          maximum: 80,
-          axisLine: const AxisLine(width: 0),
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          labelFormat: '{value}°F',
-          majorTickLines: const MajorTickLines(size: 0)),
-      series: _getDefaultSplineSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
-    );
-  }
-
-  /// Returns the list of chart series which need to render on the spline chart.
-  List<SplineSeries<ChartSampleData, String>> _getDefaultSplineSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
+  void initState() {
+    chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'Jan', y: 43, secondSeriesYValue: 37, thirdSeriesYValue: 41),
       ChartSampleData(
@@ -75,21 +48,61 @@ class _SplineDefaultState extends SampleViewState {
       ChartSampleData(
           x: 'Dec', y: 45, secondSeriesYValue: 37, thirdSeriesYValue: 45)
     ];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildDefaultSplineChart();
+  }
+
+  List<ChartSampleData>? chartData;
+
+  /// Returns the defaul spline chart.
+  SfCartesianChart _buildDefaultSplineChart() {
+    return SfCartesianChart(
+      plotAreaBorderWidth: 0,
+      title: ChartTitle(
+          text: isCardView ? '' : 'Average high/low temperature of London'),
+      legend: Legend(isVisible: !isCardView),
+      primaryXAxis: CategoryAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          labelPlacement: LabelPlacement.onTicks),
+      primaryYAxis: NumericAxis(
+          minimum: 30,
+          maximum: 80,
+          axisLine: const AxisLine(width: 0),
+          edgeLabelPlacement: EdgeLabelPlacement.shift,
+          labelFormat: '{value}°F',
+          majorTickLines: const MajorTickLines(size: 0)),
+      series: _getDefaultSplineSeries(),
+      tooltipBehavior: TooltipBehavior(enable: true),
+    );
+  }
+
+  /// Returns the list of chart series which need to render on the spline chart.
+  List<SplineSeries<ChartSampleData, String>> _getDefaultSplineSeries() {
     return <SplineSeries<ChartSampleData, String>>[
       SplineSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: chartData!,
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'High',
       ),
       SplineSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: chartData!,
         name: 'Low',
         markerSettings: const MarkerSettings(isVisible: true),
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
       )
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

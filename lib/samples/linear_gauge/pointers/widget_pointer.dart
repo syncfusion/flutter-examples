@@ -38,7 +38,7 @@ class _WidgetPointerState extends SampleViewState {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-            Container(
+            SizedBox(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildWidgetPointer(context),
             )
@@ -99,7 +99,7 @@ class _WidgetPointerState extends SampleViewState {
 
   /// Returns the vertical axis track.
   Widget _buildVerticalGauges(String axisTrackName, Widget linearGauge) {
-    return Container(
+    return SizedBox(
       width: 150,
       child: Column(
         children: <Widget>[
@@ -115,7 +115,7 @@ class _WidgetPointerState extends SampleViewState {
   Widget _buildTextWidgetPointer(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -164,7 +164,7 @@ class _WidgetPointerState extends SampleViewState {
   Widget _buildIconWidgetPointer(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -213,7 +213,7 @@ class _WidgetPointerState extends SampleViewState {
   Widget _buildMultipleWidgetPointers(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,

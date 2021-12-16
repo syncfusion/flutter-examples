@@ -1,6 +1,5 @@
 ///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
 ///Chart import
@@ -35,6 +34,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
   late List<ChartSampleData> chartData;
   late RangeController rangeController;
   late LinearGradient gradientColors;
+  bool _shouldAlwaysShowTooltip = false;
 
   @override
   void initState() {
@@ -62,6 +62,13 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
       0.0,
       0.5
     ]);
+  }
+
+  @override
+  void dispose() {
+    rangeController.dispose();
+    chartData.clear();
+    super.dispose();
   }
 
   double _getAverageInflationRate(RangeController values) {
@@ -93,8 +100,8 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
     final ThemeData themeData = Theme.of(context);
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Container(
-      margin: const EdgeInsets.all(0),
-      padding: const EdgeInsets.all(0),
+      margin: EdgeInsets.zero,
+      padding: EdgeInsets.zero,
       child: Stack(
         children: <Widget>[
           Padding(
@@ -122,7 +129,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
             child: Center(
               child: SfRangeSelectorTheme(
                 data: SfRangeSelectorThemeData(
-                  labelOffset: const Offset(0, 0),
+                  labelOffset: Offset.zero,
                   activeLabelStyle: TextStyle(
                       fontSize: 10,
                       color: themeData.textTheme.bodyText1!.color!
@@ -131,9 +138,10 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                       fontSize: 10,
                       color: themeData.textTheme.bodyText1!.color!
                           .withOpacity(0.87)),
-                  inactiveRegionColor: themeData.brightness == Brightness.light
-                      ? Colors.white.withOpacity(0.75)
-                      : const Color.fromRGBO(33, 33, 33, 0.75),
+                  inactiveRegionColor:
+                      themeData.colorScheme.brightness == Brightness.light
+                          ? Colors.white.withOpacity(0.75)
+                          : const Color.fromRGBO(33, 33, 33, 0.75),
                 ),
                 child: SfRangeSelector(
                   min: min,
@@ -149,16 +157,17 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                   showTicks: true,
                   showLabels: true,
                   enableTooltip: true,
+                  shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
                   tooltipTextFormatterCallback:
                       (dynamic actualLabel, String formattedText) {
-                    return DateFormat.yMMMd().format(actualLabel).toString();
+                    return DateFormat.yMMMd().format(actualLabel);
                   },
                   onChanged: (SfRangeValues values) {
                     setState(() {
                       /// update the range value changes
                     });
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: mediaQueryData.orientation == Orientation.landscape
                         ? model.isWebFullView
                             ? mediaQueryData.size.width * 0.6
@@ -170,7 +179,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                             ? mediaQueryData.size.height * 0.38
                             : mediaQueryData.size.height * 0.4,
                     child: SfCartesianChart(
-                      margin: const EdgeInsets.all(0),
+                      margin: EdgeInsets.zero,
                       primaryXAxis: DateTimeAxis(
                         minimum: min,
                         maximum: max,
@@ -214,6 +223,29 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
           )
         ],
       ),
+    );
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: _shouldAlwaysShowTooltip,
+          title: const Text(
+            'Show tooltip always',
+            softWrap: false,
+          ),
+          activeColor: model.backgroundColor,
+          contentPadding: EdgeInsets.zero,
+          onChanged: (bool? value) {
+            setState(() {
+              _shouldAlwaysShowTooltip = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
     );
   }
 }

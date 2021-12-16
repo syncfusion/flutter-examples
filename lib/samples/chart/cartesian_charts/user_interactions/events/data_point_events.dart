@@ -1,4 +1,3 @@
-/// Package import
 import 'package:flutter/material.dart';
 
 /// Chart import
@@ -38,10 +37,10 @@ class _DataPointsState extends SampleViewState {
   late List<ChartSampleData> chartData;
   late SortingOrder sortingOrder;
   late String sortBy;
-  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
-      GlobalKey<ScaffoldMessengerState>();
+  late GlobalKey<ScaffoldMessengerState> _scaffoldKey;
   @override
   void initState() {
+    _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
     sortBy = '';
     sortingOrder = SortingOrder.none;
     chartData = <ChartSampleData>[
@@ -107,13 +106,13 @@ class _DataPointsState extends SampleViewState {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          contentPadding: const EdgeInsets.all(0),
-          content: Container(
+          contentPadding: EdgeInsets.zero,
+          content: SizedBox(
             width: double.minPositive,
             child: ListView(
               shrinkWrap: true,
               children: <Widget>[
-                Container(
+                SizedBox(
                     height: 40,
                     child: ListTile(
                       contentPadding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -212,29 +211,13 @@ class _DataPointsState extends SampleViewState {
 
   /// Get default column series
   List<ColumnSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
-    final List<Color> color = <Color>[];
-    color.add(const Color.fromRGBO(93, 80, 202, 1));
-    color.add(const Color.fromRGBO(183, 45, 145, 1));
-    color.add(const Color.fromRGBO(250, 203, 118, 1));
-
-    final List<double> stops = <double>[];
-    stops.add(0.0);
-    stops.add(0.5);
-    stops.add(1.0);
-
-    final LinearGradient gradientColors = LinearGradient(
-        colors: color,
-        stops: stops,
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter);
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
           return _CustomColumnSeriesRenderer(isCardView);
         },
         onPointTap: (ChartPointDetails args) {
-          final String xValue =
-              xvalue![args.viewportPointIndex! as int].toString();
+          final String xValue = xvalue![args.viewportPointIndex! as int];
           String? snackBarText = '';
           if (xValue == 'YouTube') {
             snackBarText = '51% of YouTube users are using it on daily basis.';
@@ -286,9 +269,23 @@ class _DataPointsState extends SampleViewState {
             sortBy == 'sortByX' ? sales.x : sales.y,
         dataLabelSettings: const DataLabelSettings(
             isVisible: true, textStyle: TextStyle(fontSize: 10)),
-        gradient: gradientColors,
+        gradient: const LinearGradient(colors: <Color>[
+          Color.fromRGBO(93, 80, 202, 1),
+          Color.fromRGBO(183, 45, 145, 1),
+          Color.fromRGBO(250, 203, 118, 1)
+        ], stops: <double>[
+          0.0,
+          0.5,
+          1.0
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
       )
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData.clear();
+    super.dispose();
   }
 }
 

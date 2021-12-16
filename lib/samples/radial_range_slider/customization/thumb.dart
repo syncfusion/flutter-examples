@@ -86,7 +86,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget _buildSliderWithCircle() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -154,7 +154,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget _buildSliderWithRectangle() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -223,7 +223,7 @@ class _RadialRangeSliderThumbState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget _buildSliderWithImage() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[

@@ -19,15 +19,35 @@ class CartesianTooltipPosition extends SampleView {
 /// State class of the cartesian chart with tooltip position option.
 class _TooltipPositionState extends SampleViewState {
   _TooltipPositionState();
-  final List<String> _tooltipPositionList =
-      <String>['auto', 'pointer'].toList();
-  String _selectedTooltipPosition = 'auto';
-  TooltipPosition _tooltipPosition = TooltipPosition.auto;
+  late List<String> _tooltipPositionList;
+  late String _selectedTooltipPosition;
+  late TooltipPosition _tooltipPosition;
+  late List<_ChartData> chartData;
 
   @override
   void initState() {
+    _tooltipPositionList = <String>['auto', 'pointer'].toList();
     _selectedTooltipPosition = 'auto';
     _tooltipPosition = TooltipPosition.auto;
+    chartData = <_ChartData>[
+      _ChartData(
+        '<5',
+        5.55,
+        const Color.fromRGBO(53, 92, 125, 1),
+      ),
+      _ChartData(
+        '5-15',
+        11.61,
+        const Color.fromRGBO(192, 108, 132, 1),
+      ),
+      _ChartData(
+        '15-24',
+        12.87,
+        const Color.fromRGBO(246, 114, 128, 1),
+      ),
+      _ChartData('25-64', 69.59, const Color.fromRGBO(248, 177, 149, 1)),
+      _ChartData('>65', 28.92, const Color.fromRGBO(116, 180, 155, 1))
+    ];
     super.initState();
   }
 
@@ -37,40 +57,45 @@ class _TooltipPositionState extends SampleViewState {
   }
 
   @override
+  void dispose() {
+    _tooltipPositionList.clear();
+    chartData.clear();
+    super.dispose();
+  }
+
+  @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Tooltip position     ',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    height: 50,
-                    alignment: Alignment.bottomCenter,
-                    child: DropdownButton<String>(
-                        underline: Container(
-                            color: const Color(0xFFBDBDBD), height: 1),
-                        value: _selectedTooltipPosition,
-                        items: _tooltipPositionList.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'auto',
-                              child: Text(value,
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          _onPositionTypeChange(value.toString());
-                          stateSetter(() {});
-                        }))
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Tooltip position     ',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  height: 50,
+                  alignment: Alignment.bottomCenter,
+                  child: DropdownButton<String>(
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
+                      value: _selectedTooltipPosition,
+                      items: _tooltipPositionList.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'auto',
+                            child: Text(value,
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        _onPositionTypeChange(value.toString());
+                        stateSetter(() {});
+                      }))
+            ],
           ),
         ],
       );
@@ -99,27 +124,6 @@ class _TooltipPositionState extends SampleViewState {
       series: _getCartesianSeries(),
     );
   }
-
-  /// list of chart series data points.
-  final List<_ChartData> chartData = <_ChartData>[
-    _ChartData(
-      '<5',
-      5.55,
-      const Color.fromRGBO(53, 92, 125, 1),
-    ),
-    _ChartData(
-      '5-15',
-      11.61,
-      const Color.fromRGBO(192, 108, 132, 1),
-    ),
-    _ChartData(
-      '15-24',
-      12.87,
-      const Color.fromRGBO(246, 114, 128, 1),
-    ),
-    _ChartData('25-64', 69.59, const Color.fromRGBO(248, 177, 149, 1)),
-    _ChartData('>65', 28.92, const Color.fromRGBO(116, 180, 155, 1))
-  ];
 
   ///Returns the list of chart series
   ///which need to render on the cartesian chart.

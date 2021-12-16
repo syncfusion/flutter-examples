@@ -133,7 +133,7 @@ class _RadialSliderLabelsTicksState extends SampleViewState {
       _markerValue = _value;
       // _currentValue = _value.roundToDouble();
       // final int _value = _currentValue.round().toInt();
-      _annotationValue = '${_value.round().toInt()}';
+      _annotationValue = '${_value.round()}';
     });
   }
 }

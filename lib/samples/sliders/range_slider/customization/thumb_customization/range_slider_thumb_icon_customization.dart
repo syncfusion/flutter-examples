@@ -1,6 +1,5 @@
 ///flutter package import
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';

@@ -19,11 +19,10 @@ class EmptyPoints extends SampleView {
 /// State class of the chart with empty points.
 class _EmptyPointsState extends SampleViewState {
   _EmptyPointsState();
-  final List<String> _emptyPointMode =
-      <String>['gap', 'zero', 'average', 'drop'].toList();
+  List<String>? _emptyPointMode;
   late EmptyPointMode _selectedEmptyPointMode = EmptyPointMode.zero;
   late String _selectedMode;
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -31,7 +30,14 @@ class _EmptyPointsState extends SampleViewState {
     _selectedEmptyPointMode = EmptyPointMode.zero;
     _tooltipBehavior =
         TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    _emptyPointMode = <String>['gap', 'zero', 'average', 'drop'].toList();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emptyPointMode!.clear();
+    super.dispose();
   }
 
   @override
@@ -59,7 +65,7 @@ class _EmptyPointsState extends SampleViewState {
             child: DropdownButton<String>(
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedMode,
-                items: _emptyPointMode.map((String value) {
+                items: _emptyPointMode!.map((String value) {
                   return DropdownMenuItem<String>(
                       value: (value != null) ? value : 'zero',
                       child: Text(value,
@@ -95,17 +101,16 @@ class _EmptyPointsState extends SampleViewState {
   /// Returns the list of charts which need to
   /// render on the chart with empty points.
   List<ColumnSeries<ChartSampleData, String>> _getEmptyPointSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'China', y: 0.541),
-      ChartSampleData(x: 'Brazil', y: null),
-      ChartSampleData(x: 'Bolivia', y: 1.51),
-      ChartSampleData(x: 'Mexico', y: 1.302),
-      ChartSampleData(x: 'Egypt', y: null),
-      ChartSampleData(x: 'Mongolia', y: 1.683),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'China', y: 0.541),
+          ChartSampleData(x: 'Brazil', y: null),
+          ChartSampleData(x: 'Bolivia', y: 1.51),
+          ChartSampleData(x: 'Mexico', y: 1.302),
+          ChartSampleData(x: 'Egypt', y: null),
+          ChartSampleData(x: 'Mongolia', y: 1.683),
+        ],
 
         /// To enable the empty point mode, set the specific mode.
         emptyPointSettings: EmptyPointSettings(

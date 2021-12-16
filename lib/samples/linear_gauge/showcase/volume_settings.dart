@@ -29,7 +29,7 @@ class _VolumeSettingsState extends SampleViewState {
     return isCardView
         ? _buildVolumeControl()
         : Center(
-            child: Container(
+            child: SizedBox(
             height: orientation == Orientation.landscape
                 ? MediaQuery.of(context).size.height / 2
                 : MediaQuery.of(context).size.height / 3,
@@ -42,7 +42,7 @@ class _VolumeSettingsState extends SampleViewState {
     final Brightness _brightness = Theme.of(context).brightness;
 
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-      Container(
+      SizedBox(
         height: isCardView ? 205 : 240,
         child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
@@ -76,7 +76,7 @@ class _VolumeSettingsState extends SampleViewState {
                     enableAnimation: false,
                     markerAlignment: LinearMarkerAlignment.end,
                     value: 100,
-                    child: Container(
+                    child: SizedBox(
                       height: 25,
                       child: Text(_musicValue.toStringAsFixed(0) + '%'),
                     )),
@@ -90,7 +90,7 @@ class _VolumeSettingsState extends SampleViewState {
                           _musicValue = 0;
                         });
                       },
-                      child: Container(
+                      child: SizedBox(
                           height: 30,
                           width: 30,
                           child: Center(
@@ -121,7 +121,7 @@ class _VolumeSettingsState extends SampleViewState {
       const SizedBox(
         width: 25,
       ),
-      Container(
+      SizedBox(
           height: isCardView ? 205 : 240,
           child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(20.0)),
@@ -155,7 +155,7 @@ class _VolumeSettingsState extends SampleViewState {
                       value: 5,
                       enableAnimation: false,
                       markerAlignment: LinearMarkerAlignment.end,
-                      child: Container(
+                      child: SizedBox(
                           height: 30,
                           width: 30,
                           child: GestureDetector(
@@ -176,7 +176,7 @@ class _VolumeSettingsState extends SampleViewState {
                         markerAlignment: LinearMarkerAlignment.end,
                         value: 100,
                         enableAnimation: false,
-                        child: Container(
+                        child: SizedBox(
                           height: 25,
                           child: Text(_ringValue.toStringAsFixed(0) + '%'),
                         )),
@@ -198,7 +198,7 @@ class _VolumeSettingsState extends SampleViewState {
       const SizedBox(
         width: 25,
       ),
-      Container(
+      SizedBox(
           height: isCardView ? 205 : 240,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
@@ -232,7 +232,7 @@ class _VolumeSettingsState extends SampleViewState {
                       enableAnimation: false,
                       markerAlignment: LinearMarkerAlignment.end,
                       value: 100,
-                      child: Container(
+                      child: SizedBox(
                         height: 25,
                         child: Text(_alarmValue.toStringAsFixed(0) + '%'),
                       )),
@@ -246,7 +246,7 @@ class _VolumeSettingsState extends SampleViewState {
                             _alarmValue = 0;
                           });
                         },
-                        child: Container(
+                        child: SizedBox(
                             height: 30,
                             width: 30,
                             child: Center(

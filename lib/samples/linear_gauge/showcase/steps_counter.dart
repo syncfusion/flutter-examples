@@ -50,7 +50,7 @@ class _StepsCounterState extends SampleViewState {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
+          SizedBox(
             width: isWebOrDesktop
                 ? MediaQuery.of(context).size.width >= 550
                     ? 450
@@ -87,10 +87,9 @@ class _StepsCounterState extends SampleViewState {
                         : 60,
                     color: Colors.transparent,
                     position: LinearElementPosition.outside,
-                    child: Container(
-                        child: const Text('Sun, 7 February',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500)))),
+                    child: const Text('Sun, 7 February',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500))),
               ],
               markerPointers: <LinearMarkerPointer>[
                 LinearWidgetPointer(
@@ -102,7 +101,7 @@ class _StepsCounterState extends SampleViewState {
                       });
                     },
                     position: LinearElementPosition.outside,
-                    child: Container(
+                    child: SizedBox(
                       width: 45,
                       height: 45,
                       child: Image.asset(

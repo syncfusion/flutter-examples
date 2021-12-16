@@ -19,6 +19,22 @@ class LineDefault extends SampleView {
 class _LineDefaultState extends SampleViewState {
   _LineDefaultState();
 
+  List<_ChartData>? chartData;
+
+  @override
+  void initState() {
+    chartData = <_ChartData>[
+      _ChartData(2005, 21, 28),
+      _ChartData(2006, 24, 44),
+      _ChartData(2007, 36, 48),
+      _ChartData(2008, 38, 50),
+      _ChartData(2009, 54, 66),
+      _ChartData(2010, 57, 78),
+      _ChartData(2011, 70, 84)
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return _buildDefaultLineChart();
@@ -47,19 +63,10 @@ class _LineDefaultState extends SampleViewState {
 
   /// The method returns line series to chart.
   List<LineSeries<_ChartData, num>> _getDefaultLineSeries() {
-    final List<_ChartData> chartData = <_ChartData>[
-      _ChartData(2005, 21, 28),
-      _ChartData(2006, 24, 44),
-      _ChartData(2007, 36, 48),
-      _ChartData(2008, 38, 50),
-      _ChartData(2009, 54, 66),
-      _ChartData(2010, 57, 78),
-      _ChartData(2011, 70, 84)
-    ];
     return <LineSeries<_ChartData, num>>[
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
           width: 2,
@@ -67,13 +74,19 @@ class _LineDefaultState extends SampleViewState {
           markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartData!,
           width: 2,
           name: 'England',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2,
           markerSettings: const MarkerSettings(isVisible: true))
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }
 

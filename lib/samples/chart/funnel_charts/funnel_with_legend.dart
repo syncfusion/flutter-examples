@@ -18,7 +18,7 @@ class FunnelLegend extends SampleView {
 
 class _FunnelLegendState extends SampleViewState {
   _FunnelLegendState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _FunnelLegendState extends SampleViewState {
   ///Get the funnel chart which contains the legend
   SfFunnelChart _buildLegendFunnelChart() {
     return SfFunnelChart(
-      smartLabelMode: SmartLabelMode.none,
+      //   smartLabelMode: SmartLabelMode.none,
       title: ChartTitle(
           text: isCardView ? '' : 'Monthly expenditure of an individual'),
 
@@ -49,21 +49,21 @@ class _FunnelLegendState extends SampleViewState {
 
   /// Get the funnel series
   FunnelSeries<ChartSampleData, String> _getFunnelSeries() {
-    final List<ChartSampleData> pieData = <ChartSampleData>[
-      ChartSampleData(x: 'Others', y: 10, text: '10%'),
-      ChartSampleData(x: 'Medical ', y: 11, text: '11%'),
-      ChartSampleData(x: 'Saving ', y: 14, text: '14%'),
-      ChartSampleData(x: 'Shopping', y: 17, text: '17%'),
-      ChartSampleData(x: 'Travel', y: 21, text: '21%'),
-      ChartSampleData(x: 'Food', y: 27, text: '27%'),
-    ];
     return FunnelSeries<ChartSampleData, String>(
-        dataSource: pieData,
-        textFieldMapper: (ChartSampleData data, _) => data.text,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'Others', y: 10, text: '10%'),
+          ChartSampleData(x: 'Medical ', y: 11, text: '11%'),
+          ChartSampleData(x: 'Saving ', y: 14, text: '14%'),
+          ChartSampleData(x: 'Shopping', y: 17, text: '17%'),
+          ChartSampleData(x: 'Travel', y: 21, text: '21%'),
+          ChartSampleData(x: 'Food', y: 27, text: '27%'),
+        ],
+        //   textFieldMapper: (ChartSampleData data, _) => data.text,
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         dataLabelSettings: DataLabelSettings(
-            isVisible: !isCardView,
-            labelPosition: ChartDataLabelPosition.inside));
+          isVisible: !isCardView,
+          //labelPosition: ChartDataLabelPosition.inside
+        ));
   }
 }

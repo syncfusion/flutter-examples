@@ -84,7 +84,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
   }
 
   Widget _getSegmentedProgressBar1() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -128,14 +128,12 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
               GaugeAnnotation(
                   angle: 90,
                   positionFactor: 0.1,
-                  widget: Container(
-                      // added text widget as an annotation.
-                      child: Text(progressValue.toStringAsFixed(0) + '%',
-                          style: const TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontFamily: 'Times',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15))))
+                  widget: Text(progressValue.toStringAsFixed(0) + '%',
+                      style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontFamily: 'Times',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15)))
             ],
             majorTickStyle: MajorTickStyle(
                 length: 0.3,
@@ -149,7 +147,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
   }
 
   Widget _getSegmentedProgressBar2() {
-    return Container(
+    return SizedBox(
         width: _size,
         height: _size,
         child: SfRadialGauge(
@@ -165,14 +163,12 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                   GaugeAnnotation(
                       angle: 90,
                       positionFactor: 0.25,
-                      widget: Container(
-                          // added text widget as an annotation.
-                          child: Text(progressValue.toStringAsFixed(0) + '%',
-                              style: const TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  fontFamily: 'Times',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15))))
+                      widget: Text(progressValue.toStringAsFixed(0) + '%',
+                          style: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontFamily: 'Times',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15)))
                 ],
                 pointers: <GaugePointer>[
                   RangePointer(
@@ -188,7 +184,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
   }
 
   Widget _getSementedProgressBar3() {
-    return Container(
+    return SizedBox(
         width: _size,
         height: _size,
         child: SfRadialGauge(
@@ -252,14 +248,12 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                 GaugeAnnotation(
                     angle: 90,
                     positionFactor: 0.25,
-                    widget: Container(
-                        // added text widget as an annotation.
-                        child: Text(progressValue.toStringAsFixed(0) + '%',
-                            style: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontFamily: 'Times',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15))))
+                    widget: Text(progressValue.toStringAsFixed(0) + '%',
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontFamily: 'Times',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15)))
               ],
             ),
           ],

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_examples/model/model.dart';
@@ -72,6 +71,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   final double _kSearchOverlayWidth = 412;
   Color? _fillColor;
   Orientation? _deviceOrientation;
+  final TextEditingController _textFieldController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FocusNode _passwordDialogFocusNode = FocusNode();
+  bool _passwordVisible = true;
+  bool _errorTextPresent = false;
+  String? password;
+  bool _visibility = false;
 
   @override
   void initState() {
@@ -94,7 +100,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLight = model.themeData.brightness == Brightness.light;
+    _isLight = model.themeData.colorScheme.brightness == Brightness.light;
     _contextMenuColor =
         _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242);
     _copyTextColor =
@@ -109,6 +115,438 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     _fillColor = _isLight ? const Color(0xFFE5E5E5) : const Color(0xFF525252);
   }
 
+  /// Show the password dialog box
+  Future<void> _showPasswordDialog() async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        final Orientation orientation = model.isMobile
+            ? MediaQuery.of(context).orientation
+            : Orientation.portrait;
+        return AlertDialog(
+          scrollable: true,
+          insetPadding: EdgeInsets.zero,
+          contentPadding: orientation == Orientation.portrait
+              ? const EdgeInsets.all(24)
+              : const EdgeInsets.only(top: 0, right: 24, left: 24, bottom: 0),
+          buttonPadding: orientation == Orientation.portrait
+              ? const EdgeInsets.all(8)
+              : const EdgeInsets.all(4),
+          backgroundColor:
+              Theme.of(context).colorScheme.brightness == Brightness.light
+                  ? Colors.white
+                  : const Color(0xFF424242),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Password required',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.87),
+                ),
+              ),
+              SizedBox(
+                height: 36,
+                width: 36,
+                child: RawMaterialButton(
+                  onPressed: () {
+                    _passwordDialogFocusNode.unfocus();
+                    _textFieldController.clear();
+                    Navigator.of(context).pop();
+                  },
+                  child: Icon(
+                    Icons.clear,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                    size: 24,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(4.0))),
+          content: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return SingleChildScrollView(
+              child: SizedBox(
+                width: 328,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                        child: Text(
+                          'The document is password protected.Please enter a password',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.6),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        obscureText: _passwordVisible,
+                        obscuringCharacter: '*',
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: model.backgroundColor,
+                          )),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: model.backgroundColor,
+                          )),
+                          hintText: 'Password: syncfusion',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.6),
+                          ),
+                          labelText: 'Enter password',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: _errorTextPresent
+                                ? Theme.of(context).colorScheme.error
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.87),
+                          ),
+                          errorStyle: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                          suffixIcon: IconButton(
+                              icon: Icon(
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.6)),
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              }),
+                        ),
+                        enableInteractiveSelection: false,
+                        controller: _textFieldController,
+                        autofocus: true,
+                        focusNode: _passwordDialogFocusNode,
+                        onFieldSubmitted: (String value) {
+                          _passwordDialogFocusNode.requestFocus();
+                          _handlePasswordValidation();
+                        },
+                        // ignore: missing_return
+                        validator: (String? value) {
+                          if (value != null &&
+                              value != '' &&
+                              (value == 'syncfusion' || value == 'password')) {
+                            setState(() {
+                              password = value;
+                            });
+                          } else {
+                            _textFieldController.clear();
+                            setState(() {
+                              _errorTextPresent = true;
+                            });
+                            _passwordDialogFocusNode.requestFocus();
+                            return 'Invalid password';
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                _textFieldController.clear();
+                _passwordDialogFocusNode.unfocus();
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'CANCEL',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: model.backgroundColor,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+              child: TextButton(
+                onPressed: () {
+                  _passwordDialogFocusNode.requestFocus();
+                  _handlePasswordValidation();
+                },
+                child: Text(
+                  'OPEN',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: model.backgroundColor,
+                  ),
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  /// Validates the password entered in text field.
+  void _handlePasswordValidation() {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      _textFieldController.clear();
+      Navigator.of(context, rootNavigator: true).pop();
+    }
+  }
+
+  /// Show the password dialog box for web.
+  Widget _showWebPasswordDialogue() {
+    return Visibility(
+      visible: _visibility,
+      child: Center(
+        child: Container(
+          height: 200,
+          width: 500,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color:
+                  (Theme.of(context).colorScheme.brightness == Brightness.light)
+                      ? Colors.white
+                      : const Color(0xFF424242)),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 14, 17, 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Password required',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.87),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 36,
+                      width: 36,
+                      child: RawMaterialButton(
+                        onPressed: () {
+                          setState(() {
+                            _passwordDialogFocusNode.unfocus();
+                            _textFieldController.clear();
+                            _visibility = false;
+                            _passwordVisible = true;
+                            _errorTextPresent = false;
+                          });
+                        },
+                        child: Icon(
+                          Icons.clear,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.6),
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 14, 0),
+                child: Text(
+                  'The document is password protected.Please enter a password',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 460,
+                height: 65,
+                child: TextFormField(
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.87),
+                  ),
+                  maxLines: 1,
+                  obscureText: _passwordVisible,
+                  obscuringCharacter: '*',
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                      color: model.backgroundColor,
+                    )),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                      color: model.backgroundColor,
+                    )),
+                    contentPadding: const EdgeInsets.fromLTRB(0, 18, 0, 0),
+                    hintText: 'Password: syncfusion',
+                    errorText: _errorTextPresent ? 'Invalid Password' : null,
+                    hintStyle: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.6),
+                    ),
+                    errorStyle: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                    suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.6),
+                          size: 24,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        }),
+                  ),
+                  enableInteractiveSelection: false,
+                  controller: _textFieldController,
+                  autofocus: true,
+                  focusNode: _passwordDialogFocusNode,
+                  onFieldSubmitted: (String value) {
+                    _passwordValidation(value);
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 18, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _textFieldController.clear();
+                          _visibility = false;
+                          _passwordVisible = true;
+                          _errorTextPresent = false;
+                        });
+                      },
+                      child: Text(
+                        'CANCEL',
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: model.backgroundColor,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        _passwordValidation(_textFieldController.text);
+                      },
+                      child: Text(
+                        'OPEN',
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: model.backgroundColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  ///validate the password for encrypted document for web.
+  void _passwordValidation(String value) {
+    if (value != null &&
+        value != '' &&
+        (value == 'syncfusion' || value == 'password')) {
+      setState(() {
+        password = value;
+        _textFieldController.clear();
+        _visibility = false;
+      });
+    } else {
+      _textFieldController.clear();
+      setState(() {
+        _errorTextPresent = true;
+      });
+      _passwordDialogFocusNode.requestFocus();
+    }
+  }
+
   /// Show Context menu for Text Selection.
   void _showContextMenu(BuildContext context, Offset? offset) {
     final RenderBox renderBoxContainer =
@@ -118,7 +556,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         BoxShadow(
           color: Color.fromRGBO(0, 0, 0, 0.14),
           blurRadius: 2,
-          offset: Offset(0, 0),
+          offset: Offset.zero,
         ),
         BoxShadow(
           color: Color.fromRGBO(0, 0, 0, 0.12),
@@ -311,9 +749,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               child: TextSearchOverlay(
                 key: _textSearchOverlayKey,
                 controller: _pdfViewerController,
-                textSearchOverlayEntry: _textSearchOverlayEntry!,
+                textSearchOverlayEntry: _textSearchOverlayEntry,
                 onClose: _handleSearchMenuClose,
-                brightness: model.themeData.brightness,
+                brightness: model.themeData.colorScheme.brightness,
                 primaryColor: model.backgroundColor,
               ),
             );
@@ -353,6 +791,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           _chooseFileEntry(
               'Single Page Document', 'assets/pdf/single_page_document.pdf'),
           _chooseFileEntry(
+              'Encrypted Document', 'assets/pdf/encrypted_document.pdf'),
+          _chooseFileEntry(
               'Corrupted Document', 'assets/pdf/corrupted_document.pdf'),
         ],
       );
@@ -377,7 +817,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
 
   /// Get choose file entry to change pdf for web platform.
   Widget _chooseFileEntry(String fileName, String path) {
-    return Container(
+    return SizedBox(
       height: 32, // height of each file list
       width: 202, // width of each file list
       child: RawMaterialButton(
@@ -385,6 +825,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           _handleChooseFileClose();
           setState(() {
             _documentPath = path;
+            _passwordVisible = true;
+            password = null;
+            _errorTextPresent = false;
           });
         },
         child: Align(
@@ -443,7 +886,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
 
   /// Get zoom percentage list for web platform.
   Widget _zoomPercentageDropDownItem(String percentage, double zoomLevel) {
-    return Container(
+    return SizedBox(
       height: 32, // height of each percentage list
       width: 120, // width of each percentage list
       child: RawMaterialButton(
@@ -499,7 +942,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           _settingsOverlayEntry,
           BoxConstraints.tightFor(width: 191.0, height: totalHeight),
           SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: 191.0,
               child: Column(
                 children: <Widget>[
@@ -587,7 +1030,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   /// Settings drop down items for both mobile and desktop.
   Widget _settingsDropDownItem(String imagePath, String mode,
       bool canShowFillColor, Function() onPressed) {
-    return Container(
+    return SizedBox(
       height: 40.0, // height of each Option
       width: 191.0, // width of each Option
       child: RawMaterialButton(
@@ -683,6 +1126,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   } else {
                     _handleChooseFileClose();
                   }
+                  setState(() {
+                    _visibility = false;
+                    _passwordVisible = true;
+                    password = null;
+                    _textFieldController.clear();
+                    _errorTextPresent = false;
+                  });
                 } else if (toolbarItem == 'Zoom Percentage') {
                   _handleSearchMenuClose();
                   if (_zoomPercentageOverlay == null) {
@@ -715,6 +1165,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 if (toolbarItem is Document) {
                   setState(() {
                     _documentPath = toolbarItem.path;
+                    _passwordVisible = true;
+                    password = null;
+                    _errorTextPresent = false;
                   });
                 }
                 if (toolbarItem.toString() == 'Bookmarks') {
@@ -755,7 +1208,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       ),
       automaticallyImplyLeading: false,
       backgroundColor:
-          SfPdfViewerTheme.of(context)!.bookmarkViewStyle.headerBarColor,
+          SfPdfViewerTheme.of(context)!.bookmarkViewStyle?.headerBarColor ??
+              ((Theme.of(context).colorScheme.brightness == Brightness.light)
+                  ? const Color(0xFFFAFAFA)
+                  : const Color(0xFF424242)),
     );
     if (!_isDesktopWeb) {
       appBar = _canShowToolbar
@@ -766,7 +1222,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     key: _textSearchKey,
                     canShowTooltip: true,
                     controller: _pdfViewerController,
-                    brightness: model.themeData.brightness,
+                    brightness: model.themeData.colorScheme.brightness,
                     primaryColor: model.backgroundColor,
                     onTap: (Object toolbarItem) async {
                       if (toolbarItem.toString() == 'Cancel Search') {
@@ -807,8 +1263,12 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   ),
                   automaticallyImplyLeading: false,
                   backgroundColor: SfPdfViewerTheme.of(context)!
-                      .bookmarkViewStyle
-                      .headerBarColor,
+                          .bookmarkViewStyle
+                          ?.headerBarColor ??
+                      ((Theme.of(context).colorScheme.brightness ==
+                              Brightness.light)
+                          ? const Color(0xFFFAFAFA)
+                          : const Color(0xFF424242)),
                 )
               : PreferredSize(
                   preferredSize: Size.zero,
@@ -841,6 +1301,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               interactionMode: _interactionMode,
               scrollDirection: _scrollDirection,
               pageLayoutMode: _pageLayoutMode,
+              password: password,
+              canShowPasswordDialog: false,
               canShowScrollHead:
                   // ignore: avoid_bool_literals_in_conditional_expressions
                   isDesktop ? false : _canShowScrollHead,
@@ -857,7 +1319,20 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 }
               },
               onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
-                showErrorDialog(context, details.error, details.description);
+                if (details.error.contains('Password')) {
+                  if (model.isMobile) {
+                    _showPasswordDialog();
+                  } else {
+                    setState(() {
+                      _visibility = true;
+                      if (!_passwordDialogFocusNode.hasFocus) {
+                        _passwordDialogFocusNode.requestFocus();
+                      }
+                    });
+                  }
+                } else {
+                  showErrorDialog(context, details.error, details.description);
+                }
               },
             ),
           );
@@ -890,11 +1365,12 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       child: pdfViewer),
                 ),
                 showToast(_canShowToast, Alignment.bottomCenter, 'Copied'),
+                _showWebPasswordDialogue(),
               ]);
             }
             return SfPdfViewerTheme(
-              data:
-                  SfPdfViewerThemeData(brightness: model.themeData.brightness),
+              data: SfPdfViewerThemeData(
+                  brightness: model.themeData.colorScheme.brightness),
               child: WillPopScope(
                 onWillPop: () async {
                   setState(() {
@@ -912,7 +1388,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             );
           } else {
             return Container(
-              color: SfPdfViewerTheme.of(context)!.backgroundColor,
+              color: SfPdfViewerTheme.of(context)!.backgroundColor ??
+                  Theme.of(context).colorScheme.surface.withOpacity(0.08),
             );
           }
         },
@@ -1052,7 +1529,7 @@ class ToolbarState extends State<Toolbar> {
             : const EdgeInsets.only(left: 8),
         child: Tooltip(
             message: toolTip,
-            child: Container(
+            child: SizedBox(
                 key: key,
                 height: 36,
                 width: toolTip == 'Choose file' ? 50 : 36,
@@ -1082,7 +1559,7 @@ class ToolbarState extends State<Toolbar> {
 
   /// Get custom toolbar for web platform.
   Widget _webToolbar(bool canJumpToPreviousPage, bool canJumpToNextPage) {
-    return Container(
+    return SizedBox(
         height: 56, // height of toolbar for web
         width: 1200, // width of toolbar for web
         child: Row(
@@ -1129,7 +1606,7 @@ class ToolbarState extends State<Toolbar> {
                 // Text field for page number
                 Padding(
                   padding: const EdgeInsets.only(top: 4.0),
-                  child: Container(
+                  child: SizedBox(
                     height: 20, // height of text field
                     width: 48, // width of text field
                     child: paginationTextField(context),
@@ -1190,7 +1667,7 @@ class ToolbarState extends State<Toolbar> {
                 // Zoom level drop down
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Container(
+                  child: SizedBox(
                     key: _zoomPercentageKey,
                     height: 36, // height of zoom percentage menu
                     width: 72, // width of zoom percentage menu

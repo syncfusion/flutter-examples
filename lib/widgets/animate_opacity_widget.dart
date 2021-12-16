@@ -43,9 +43,7 @@ class _AnimateOpacityWidgetState extends State<AnimateOpacityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Opacity(opacity: _opacity!, child: widget.child),
-    );
+    return Opacity(opacity: _opacity!, child: widget.child);
   }
 
   @override

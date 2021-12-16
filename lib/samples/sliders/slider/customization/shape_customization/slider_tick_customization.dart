@@ -75,11 +75,11 @@ class _TickShape extends SfTickShape {
     final Size tickSize = getPreferredSize(themeData);
     final bool isTickRightOfThumb = offset.dx > thumbCenter!.dx;
     final Color begin = isTickRightOfThumb
-        ? themeData.disabledInactiveTickColor
-        : themeData.disabledActiveTickColor;
+        ? themeData.disabledInactiveTickColor!
+        : themeData.disabledActiveTickColor!;
     final Color end = isTickRightOfThumb
-        ? themeData.inactiveTickColor
-        : themeData.activeTickColor;
+        ? themeData.inactiveTickColor!
+        : themeData.activeTickColor!;
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = tickSize.width
@@ -117,11 +117,11 @@ class _MinorTickShape extends SfTickShape {
     final bool isMinorTickRightOfThumb = offset.dx > thumbCenter!.dx;
 
     final Color begin = isMinorTickRightOfThumb
-        ? themeData.disabledInactiveMinorTickColor
-        : themeData.disabledActiveMinorTickColor;
+        ? themeData.disabledInactiveMinorTickColor!
+        : themeData.disabledActiveMinorTickColor!;
     final Color end = isMinorTickRightOfThumb
-        ? themeData.inactiveMinorTickColor
-        : themeData.activeMinorTickColor;
+        ? themeData.inactiveMinorTickColor!
+        : themeData.activeMinorTickColor!;
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = minorTickSize.width

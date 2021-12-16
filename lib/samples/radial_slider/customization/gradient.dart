@@ -121,7 +121,7 @@ class _RadialSliderGradientState extends SampleViewState {
     setState(() {
       _currentValue = value.roundToDouble();
       _markerValue = _currentValue;
-      final int _value = _currentValue.round().toInt();
+      final int _value = _currentValue.round();
       _annotationValue = '$_value';
       final double _celsiusValue = (_currentValue - 32) / 1.8;
       _annotationValue2 = _celsiusValue.toStringAsFixed(1);

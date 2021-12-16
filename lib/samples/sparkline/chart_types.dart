@@ -31,9 +31,8 @@ class _SparklineSeriesTypesState extends SampleViewState {
           ? MediaQuery.of(context).size.height / 6
           : MediaQuery.of(context).size.height / 6;
       return model.isWebFullView && model.isMobileResolution
-          ? Container(
-              child: SingleChildScrollView(
-                  child: Column(
+          ? SingleChildScrollView(
+              child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -46,7 +45,7 @@ class _SparklineSeriesTypesState extends SampleViewState {
                 const Padding(padding: EdgeInsets.all(5)),
                 _buildSparkWinlossChart(),
               ],
-            )))
+            ))
           : Center(
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

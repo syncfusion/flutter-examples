@@ -1,11 +1,15 @@
-import 'dart:math';
-
-import 'package:flutter/foundation.dart';
+/// Packages import
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/sample_view.dart';
-import 'package:intl/intl.dart';
+
+/// Core import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+/// DataGrid import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+/// Local import
+import 'datagridsource/product_datagridsource.dart';
 
 /// Renders column resizing data grid sample
 class ColumnResizingDataGrid extends SampleView {
@@ -17,7 +21,7 @@ class ColumnResizingDataGrid extends SampleView {
 }
 
 class _ColumnResizingDataGridState extends SampleViewState {
-  late _ColumnResizingDataGridSource columnResizingDataGridSource;
+  late ProductDataGridSource columnResizingDataGridSource;
   late List<GridColumn> columns;
   late double orderIdColumnWidth;
   late double customerNameColumnWidth;
@@ -29,7 +33,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
   late double orderDateColumnWidth;
 
   Color _getHeaderCellBackgroundColor() {
-    return model.themeData.brightness == Brightness.light
+    return model.themeData.colorScheme.brightness == Brightness.light
         ? const Color(0xFFF1F1F1)
         : const Color(0xFF3A3A3A);
   }
@@ -141,7 +145,8 @@ class _ColumnResizingDataGridState extends SampleViewState {
     unitPriceColumnWidth = model.isWeb ? 150 : 120;
     orderDateColumnWidth = model.isWeb ? 150 : 120;
     columns = _getColumns();
-    columnResizingDataGridSource = _ColumnResizingDataGridSource();
+    columnResizingDataGridSource =
+        ProductDataGridSource('Column Resizing', productDataCount: 30);
   }
 
   String _columnResizeMode = 'onResize';
@@ -172,39 +177,37 @@ class _ColumnResizingDataGridState extends SampleViewState {
       return ListView(shrinkWrap: true, children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-          child: Container(
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    'Column resize \nmode',
-                    softWrap: false,
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  'Column resize \nmode',
+                  softWrap: false,
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                        underline: Container(
-                            color: const Color(0xFFBDBDBD), height: 1),
-                        value: _columnResizeMode,
-                        items: _columnResize.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'onResize',
-                              child: Text(value,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          _onColumnResizeModeChanged(value);
-                          stateSetter(() {});
-                        }),
-                  ),
-                )
-              ],
-            ),
+              ),
+              Expanded(
+                child: Container(
+                  height: 40,
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
+                      value: _columnResizeMode,
+                      items: _columnResize.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'onResize',
+                            child: Text(value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        _onColumnResizeModeChanged(value);
+                        stateSetter(() {});
+                      }),
+                ),
+              )
+            ],
           ),
         ),
       ]);
@@ -215,7 +218,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-          brightness: model.themeData.brightness,
+          brightness: model.themeData.colorScheme.brightness,
           headerColor: _getHeaderCellBackgroundColor(),
           headerHoverColor: _getHeaderCellBackgroundColor(),
           columnResizeIndicatorColor: model.backgroundColor),
@@ -250,266 +253,5 @@ class _ColumnResizingDataGridState extends SampleViewState {
         },
       ),
     );
-  }
-}
-
-class _Product {
-  _Product(
-      this.orderId,
-      this.productId,
-      this.product,
-      this.quantity,
-      this.unitPrice,
-      this.city,
-      this.customerId,
-      this.orderDate,
-      this.customerName);
-  final int orderId;
-  final int productId;
-  final String product;
-  final int quantity;
-  final double unitPrice;
-  final String city;
-  final int customerId;
-  final DateTime orderDate;
-  final String customerName;
-}
-
-class _ColumnResizingDataGridSource extends DataGridSource {
-  _ColumnResizingDataGridSource() {
-    _productData = _generateProductData(30);
-    buildDataGridRows();
-  }
-  List<_Product> _productData = <_Product>[];
-  List<DataGridRow> dataGridRows = <DataGridRow>[];
-  void buildDataGridRows() {
-    dataGridRows = _productData.map<DataGridRow>((_Product dataGridRow) {
-      return DataGridRow(cells: <DataGridCell>[
-        DataGridCell<int>(columnName: 'orderId', value: dataGridRow.orderId),
-        DataGridCell<int>(
-            columnName: 'productId', value: dataGridRow.productId),
-        DataGridCell<String>(
-            columnName: 'CustomerName', value: dataGridRow.customerName),
-        DataGridCell<String>(columnName: 'product', value: dataGridRow.product),
-        DataGridCell<DateTime>(
-            columnName: 'orderDate', value: dataGridRow.orderDate),
-        DataGridCell<int>(columnName: 'quantity', value: dataGridRow.quantity),
-        DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
-        DataGridCell<double>(
-            columnName: 'unitPrice', value: dataGridRow.unitPrice),
-      ]);
-    }).toList();
-  }
-
-  @override
-  List<DataGridRow> get rows => dataGridRows;
-
-  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: <Widget>[
-      Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            row.getCells()[0].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          )),
-      Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            row.getCells()[1].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          )),
-      Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            row.getCells()[2].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          )),
-      Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            row.getCells()[3].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          )),
-      Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            DateFormat('MM/dd/yyyy').format(row.getCells()[4].value).toString(),
-            overflow: TextOverflow.ellipsis,
-          )),
-      Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            row.getCells()[5].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          )),
-      Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            row.getCells()[6].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          )),
-      Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                .format(row.getCells()[7].value)
-                .toString(),
-            overflow: TextOverflow.ellipsis,
-          )),
-    ]);
-  }
-
-  final Random random = Random();
-
-  List<_Product> productData = <_Product>[];
-
-  final List<String> product = <String>[
-    'Lax',
-    'Chocolate',
-    'Syrup',
-    'Chai',
-    'Bags',
-    'Meat',
-    'Filo',
-    'Cashew',
-    'Walnuts',
-    'Geitost',
-    'Cote de',
-    'Crab',
-    'Chang',
-    'Cajun',
-    'Gum',
-    'Filo',
-    'Cashew',
-    'Walnuts',
-    'Geitost',
-    'Bag',
-    'Meat',
-    'Filo',
-    'Cashew',
-    'Geitost',
-    'Cote de',
-    'Crab',
-    'Chang',
-    'Cajun',
-    'Gum',
-  ];
-
-  final List<String> cities = <String>[
-    'Bruxelles',
-    'Rosario',
-    'Recife',
-    'Graz',
-    'Montreal',
-    'Tsawassen',
-    'Campinas',
-    'Resende',
-  ];
-
-  final List<int> productId = <int>[
-    3524,
-    2523,
-    1345,
-    5243,
-    1803,
-    4932,
-    6532,
-    9475,
-    2435,
-    2123,
-    3652,
-    4523,
-    4263,
-    3527,
-    3634,
-    4932,
-    6532,
-    9475,
-    2435,
-    2123,
-    6532,
-    9475,
-    2435,
-    2123,
-    4523,
-    4263,
-    3527,
-    3634,
-    4932,
-  ];
-
-  final List<DateTime> orderDate = <DateTime>[
-    DateTime.now(),
-    DateTime(2002, 8, 27),
-    DateTime(2015, 7, 4),
-    DateTime(2007, 4, 15),
-    DateTime(2010, 12, 23),
-    DateTime(2010, 4, 20),
-    DateTime(2004, 6, 13),
-    DateTime(2008, 11, 11),
-    DateTime(2005, 7, 29),
-    DateTime(2009, 4, 5),
-    DateTime(2003, 3, 20),
-    DateTime(2011, 3, 8),
-    DateTime(2013, 10, 22),
-  ];
-
-  List<String> names = <String>[
-    'Kyle',
-    'Gina',
-    'Irene',
-    'Katie',
-    'Michael',
-    'Oscar',
-    'Ralph',
-    'Torrey',
-    'William',
-    'Bill',
-    'Daniel',
-    'Frank',
-    'Brenda',
-    'Danielle',
-    'Fiona',
-    'Howard',
-    'Jack',
-    'Larry',
-    'Holly',
-    'Jennifer',
-    'Liz',
-    'Pete',
-    'Steve',
-    'Vince',
-    'Zeke'
-  ];
-
-  List<_Product> _generateProductData(int count) {
-    final List<_Product> productData = <_Product>[];
-    for (int i = 0; i < count; i++) {
-      productData.add(
-        _Product(
-            i + 1000,
-            productId[i < productId.length
-                ? i
-                : random.nextInt(productId.length - 1)],
-            product[
-                i < product.length ? i : random.nextInt(product.length - 1)],
-            random.nextInt(count),
-            70.0 + random.nextInt(100),
-            cities[i < cities.length ? i : random.nextInt(cities.length - 1)],
-            1700 + random.nextInt(100),
-            orderDate[random.nextInt(orderDate.length - 1)],
-            names[i < names.length ? i : random.nextInt(names.length - 1)]),
-      );
-    }
-    return productData;
   }
 }

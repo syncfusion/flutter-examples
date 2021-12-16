@@ -22,19 +22,32 @@ class _DefaultSelectionState extends SampleViewState {
   late bool _enableMultiSelect;
   late bool _toggleSelection;
 
-  final List<String> _modeList =
-      <String>['point', 'series', 'cluster'].toList();
+  late List<String> _modeList;
 
   late String _selectedMode;
   late SelectionBehavior _selectionBehavior;
   late SelectionType _mode;
+  late List<ChartSampleData> chartData;
 
   @override
   void initState() {
+    _modeList = <String>['point', 'series', 'cluster'].toList();
     _selectedMode = 'point';
     _mode = SelectionType.point;
     _enableMultiSelect = false;
     _toggleSelection = true;
+    chartData = <ChartSampleData>[
+      ChartSampleData(
+          x: 'CHN', y: 17, secondSeriesYValue: 54, thirdSeriesYValue: 9),
+      ChartSampleData(
+          x: 'USA', y: 19, secondSeriesYValue: 67, thirdSeriesYValue: 14),
+      ChartSampleData(
+          x: 'IDN', y: 29, secondSeriesYValue: 65, thirdSeriesYValue: 6),
+      ChartSampleData(
+          x: 'JAP', y: 13, secondSeriesYValue: 61, thirdSeriesYValue: 26),
+      ChartSampleData(
+          x: 'BRZ', y: 24, secondSeriesYValue: 68, thirdSeriesYValue: 8)
+    ];
     super.initState();
   }
 
@@ -48,87 +61,102 @@ class _DefaultSelectionState extends SampleViewState {
   }
 
   @override
+  void dispose() {
+    chartData.clear();
+    super.dispose();
+  }
+
+  @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          ListTile(
-              title: Text('Mode',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                width: 0.4 * screenWidth,
-                height: 50,
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
-                    isExpanded: true,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _selectedMode,
-                    items: _modeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'point',
-                          child: Text(value,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      _onModeTypeChange(value);
-                      stateSetter(() {});
-                    }),
-              )),
-          ListTile(
-              title: Text(
-                  model.isWebFullView
-                      ? 'Enable multi-\nselection'
-                      : 'Enable multi-selection',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                  width: 0.4 * screenWidth,
-                  child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: EdgeInsets.zero,
-                      activeColor: model.backgroundColor,
-                      value: _enableMultiSelect,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _enableMultiSelect = value!;
-                          stateSetter(() {});
-                        });
-                      }))),
-          ListTile(
-              title: Text(
-                  model.isWebFullView
-                      ? 'Toggle \nselection'
-                      : 'Toggle selection',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                  width: 0.4 * screenWidth,
-                  child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: EdgeInsets.zero,
-                      activeColor: model.backgroundColor,
-                      value: _toggleSelection,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _toggleSelection = value!;
-                          stateSetter(() {});
-                        });
-                      }))),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: model.isMobile ? 0.0 : 18.0),
+                      Text('Mode',
+                          softWrap: false,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: model.textColor,
+                          )),
+                      SizedBox(height: model.isMobile ? 30.0 : 16.0),
+                      Text(
+                          model.isWebFullView
+                              ? 'Enable multi-\nselection'
+                              : 'Enable multi-selection',
+                          softWrap: false,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: model.textColor,
+                          )),
+                      SizedBox(height: model.isMobile ? 30.0 : 16.0),
+                      Text(
+                          model.isWebFullView
+                              ? 'Toggle \nselection'
+                              : 'Toggle selection',
+                          softWrap: false,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: model.textColor,
+                          )),
+                    ]),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Align(
+                        alignment: model.isMobile
+                            ? Alignment.topRight
+                            : Alignment.topLeft,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(width: model.isMobile ? 14.0 : 0.0),
+                            DropdownButton<String>(
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _selectedMode,
+                                items: _modeList.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: (value != null) ? value : 'point',
+                                      child: Text(value,
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                onChanged: (dynamic value) {
+                                  _onModeTypeChange(value);
+                                  stateSetter(() {});
+                                }),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: model.isMobile ? 2.0 : 10.0),
+                      Checkbox(
+                          activeColor: model.backgroundColor,
+                          value: _enableMultiSelect,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _enableMultiSelect = value!;
+                              stateSetter(() {});
+                            });
+                          }),
+                      SizedBox(height: model.isMobile ? 2.0 : 25.0),
+                      Checkbox(
+                          activeColor: model.backgroundColor,
+                          value: _toggleSelection,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _toggleSelection = value!;
+                              stateSetter(() {});
+                            });
+                          }),
+                    ])
+              ]),
         ],
       );
     });
@@ -158,18 +186,6 @@ class _DefaultSelectionState extends SampleViewState {
   /// Returns the list of chart series
   /// which need to render on the cartesian chart.
   List<ColumnSeries<ChartSampleData, String>> _getDefaultSelectionSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'CHN', y: 17, secondSeriesYValue: 54, thirdSeriesYValue: 9),
-      ChartSampleData(
-          x: 'USA', y: 19, secondSeriesYValue: 67, thirdSeriesYValue: 14),
-      ChartSampleData(
-          x: 'IDN', y: 29, secondSeriesYValue: 65, thirdSeriesYValue: 6),
-      ChartSampleData(
-          x: 'JAP', y: 13, secondSeriesYValue: 61, thirdSeriesYValue: 26),
-      ChartSampleData(
-          x: 'BRZ', y: 24, secondSeriesYValue: 68, thirdSeriesYValue: 8)
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,

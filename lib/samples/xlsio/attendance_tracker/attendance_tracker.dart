@@ -27,33 +27,30 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       backgroundColor: model.cardThemeColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                  'Attendance tracker or attendance sheet is essential to any organization. This attendance tracker is designed to keep one month data. In this application, employee name, supervisor, present count, absent count, leave count, unplanned%, planned% and dates for a particular month are available.\r\n\r\nThis sample demonstrates following features:\r\n\r\n   * Import data from a collection objects to Excel worksheet\r\n\r\n   * Advanced options of conditional formatting in Excel such as, color scales, data bars',
-                  style: TextStyle(fontSize: 16, color: model.textColor)),
-              const SizedBox(height: 20, width: 30),
-              Align(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          model.backgroundColor),
-                      padding: model.isMobile
-                          ? null
-                          : MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15)),
-                    ),
-                    onPressed: _generateExcel,
-                    child: const Text('Generate Excel',
-                        style: TextStyle(color: Colors.white)),
-                  ))
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+                'Attendance tracker or attendance sheet is essential to any organization. This attendance tracker is designed to keep one month data. In this application, employee name, supervisor, present count, absent count, leave count, unplanned%, planned% and dates for a particular month are available.\r\n\r\nThis sample demonstrates following features:\r\n\r\n   * Import data from a collection objects to Excel worksheet\r\n\r\n   * Advanced options of conditional formatting in Excel such as, color scales, data bars',
+                style: TextStyle(fontSize: 16, color: model.textColor)),
+            const SizedBox(height: 20, width: 30),
+            Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                    padding: model.isMobile
+                        ? null
+                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15)),
+                  ),
+                  onPressed: _generateExcel,
+                  child: const Text('Generate Excel',
+                      style: TextStyle(color: Colors.white)),
+                ))
+          ],
         ),
       ),
     );
@@ -79,37 +76,37 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     sheet.insertColumn(3, 5);
 
     sheet.getRangeByName('C1').setText('Present Count');
-    sheet.getRangeByName('C2').setFormula('=COUNTIFS(H2:AL2,\'P\')');
-    sheet.getRangeByName('C3').setFormula('=COUNTIFS(H3:AL3,\'P\')');
-    sheet.getRangeByName('C4').setFormula('=COUNTIFS(H4:AL4,\'P\')');
-    sheet.getRangeByName('C5').setFormula('=COUNTIFS(H5:AL5,\'P\')');
-    sheet.getRangeByName('C6').setFormula('=COUNTIFS(H6:AL6,\'P\')');
-    sheet.getRangeByName('C7').setFormula('=COUNTIFS(H7:AL7,\'P\')');
-    sheet.getRangeByName('C8').setFormula('=COUNTIFS(H8:AL8,\'P\')');
-    sheet.getRangeByName('C9').setFormula('=COUNTIFS(H9:AL9,\'P\')');
-    sheet.getRangeByName('C10').setFormula('=COUNTIFS(H10:AL10,\'P\')');
+    sheet.getRangeByName('C2').setFormula("=COUNTIFS(H2:AL2,'P')");
+    sheet.getRangeByName('C3').setFormula("=COUNTIFS(H3:AL3,'P')");
+    sheet.getRangeByName('C4').setFormula("=COUNTIFS(H4:AL4,'P')");
+    sheet.getRangeByName('C5').setFormula("=COUNTIFS(H5:AL5,'P')");
+    sheet.getRangeByName('C6').setFormula("=COUNTIFS(H6:AL6,'P')");
+    sheet.getRangeByName('C7').setFormula("=COUNTIFS(H7:AL7,'P')");
+    sheet.getRangeByName('C8').setFormula("=COUNTIFS(H8:AL8,'P')");
+    sheet.getRangeByName('C9').setFormula("=COUNTIFS(H9:AL9,'P')");
+    sheet.getRangeByName('C10').setFormula("=COUNTIFS(H10:AL10,'P')");
 
     sheet.getRangeByName('D1').setText('Leave Count');
-    sheet.getRangeByName('D2').setFormula('=COUNTIFS(H2:AL2,\'L\')');
-    sheet.getRangeByName('D3').setFormula('=COUNTIFS(H3:AL3,\'L\')');
-    sheet.getRangeByName('D4').setFormula('=COUNTIFS(H4:AL4,\'L\')');
-    sheet.getRangeByName('D5').setFormula('=COUNTIFS(H5:AL5,\'L\')');
-    sheet.getRangeByName('D6').setFormula('=COUNTIFS(H6:AL6,\'L\')');
-    sheet.getRangeByName('D7').setFormula('=COUNTIFS(H7:AL7,\'L\')');
-    sheet.getRangeByName('D8').setFormula('=COUNTIFS(H8:AL8,\'L\')');
-    sheet.getRangeByName('D9').setFormula('=COUNTIFS(H9:AL9,\'L\')');
-    sheet.getRangeByName('D10').setFormula('=COUNTIFS(H10:AL10,\'L\')');
+    sheet.getRangeByName('D2').setFormula("=COUNTIFS(H2:AL2,'L')");
+    sheet.getRangeByName('D3').setFormula("=COUNTIFS(H3:AL3,'L')");
+    sheet.getRangeByName('D4').setFormula("=COUNTIFS(H4:AL4,'L')");
+    sheet.getRangeByName('D5').setFormula("=COUNTIFS(H5:AL5,'L')");
+    sheet.getRangeByName('D6').setFormula("=COUNTIFS(H6:AL6,'L')");
+    sheet.getRangeByName('D7').setFormula("=COUNTIFS(H7:AL7,'L')");
+    sheet.getRangeByName('D8').setFormula("=COUNTIFS(H8:AL8,'L')");
+    sheet.getRangeByName('D9').setFormula("=COUNTIFS(H9:AL9,'L')");
+    sheet.getRangeByName('D10').setFormula("=COUNTIFS(H10:AL10,'L')");
 
     sheet.getRangeByName('E1').setText('Absent Count');
-    sheet.getRangeByName('E2').setFormula('=COUNTIFS(H2:AL2,\'A\')');
-    sheet.getRangeByName('E3').setFormula('=COUNTIFS(H3:AL3,\'A\')');
-    sheet.getRangeByName('E4').setFormula('=COUNTIFS(H4:AL4,\'A\')');
-    sheet.getRangeByName('E5').setFormula('=COUNTIFS(H5:AL5,\'A\')');
-    sheet.getRangeByName('E6').setFormula('=COUNTIFS(H6:AL6,\'A\')');
-    sheet.getRangeByName('E7').setFormula('=COUNTIFS(H7:AL7,\'A\')');
-    sheet.getRangeByName('E8').setFormula('=COUNTIFS(H8:AL8,\'A\')');
-    sheet.getRangeByName('E9').setFormula('=COUNTIFS(H9:AL9,\'A\')');
-    sheet.getRangeByName('E10').setFormula('=COUNTIFS(H10:AL10,\'A\')');
+    sheet.getRangeByName('E2').setFormula("=COUNTIFS(H2:AL2,'A')");
+    sheet.getRangeByName('E3').setFormula("=COUNTIFS(H3:AL3,'A')");
+    sheet.getRangeByName('E4').setFormula("=COUNTIFS(H4:AL4,'A')");
+    sheet.getRangeByName('E5').setFormula("=COUNTIFS(H5:AL5,'A')");
+    sheet.getRangeByName('E6').setFormula("=COUNTIFS(H6:AL6,'A')");
+    sheet.getRangeByName('E7').setFormula("=COUNTIFS(H7:AL7,'A')");
+    sheet.getRangeByName('E8').setFormula("=COUNTIFS(H8:AL8,'A')");
+    sheet.getRangeByName('E9').setFormula("=COUNTIFS(H9:AL9,'A')");
+    sheet.getRangeByName('E10').setFormula("=COUNTIFS(H10:AL10,'A')");
 
     sheet.getRangeByName('F1').setText('Unplanned %');
     sheet.getRangeByName('F2').setFormula('=E2/(C2+D2+E2)');

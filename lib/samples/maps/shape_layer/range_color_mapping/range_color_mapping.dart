@@ -412,10 +412,10 @@ class _MapRangeColorMappingPageState extends SampleViewState {
               layers: <MapLayer>[
                 MapShapeLayer(
                   loadingBuilder: (BuildContext context) {
-                    return Container(
+                    return const SizedBox(
                       height: 25,
                       width: 25,
-                      child: const CircularProgressIndicator(
+                      child: CircularProgressIndicator(
                         strokeWidth: 3,
                       ),
                     );
@@ -428,10 +428,8 @@ class _MapRangeColorMappingPageState extends SampleViewState {
                       child: Text(
                           _worldPopulationDensity[index].countryName +
                               ' : ' +
-                              _numberFormat
-                                  .format(
-                                      _worldPopulationDensity[index].density)
-                                  .toString() +
+                              _numberFormat.format(
+                                  _worldPopulationDensity[index].density) +
                               ' per sq. km.',
                           style: Theme.of(context).textTheme.caption!.copyWith(
                               color: Theme.of(context).colorScheme.surface)),
@@ -446,13 +444,14 @@ class _MapRangeColorMappingPageState extends SampleViewState {
                       spacing: 1.0,
                       segmentSize: Size(55.0, 9.0)),
                   tooltipSettings: MapTooltipSettings(
-                      color: model.themeData.brightness == Brightness.light
+                      color: model.themeData.colorScheme.brightness ==
+                              Brightness.light
                           ? const Color.fromRGBO(0, 32, 128, 1)
                           : const Color.fromRGBO(226, 233, 255, 1),
-                      strokeColor:
-                          model.themeData.brightness == Brightness.light
-                              ? Colors.white
-                              : Colors.black),
+                      strokeColor: model.themeData.colorScheme.brightness ==
+                              Brightness.light
+                          ? Colors.white
+                          : Colors.black),
                 ),
               ],
             ),

@@ -19,40 +19,11 @@ class StepLineDashed extends SampleView {
 /// State class of the dashed stepline chart.
 class _StepLineDashedState extends SampleViewState {
   _StepLineDashedState();
+  List<ChartSampleData>? chartData;
 
   @override
-  Widget build(BuildContext context) {
-    return _buildDashedStepLineChart();
-  }
-
-  /// Returns the dashed cartesian stepline chart.
-  SfCartesianChart _buildDashedStepLineChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      title: ChartTitle(text: isCardView ? '' : 'CO2 - Intensity analysis'),
-      primaryXAxis: NumericAxis(
-        interval: 1,
-        majorGridLines: const MajorGridLines(width: 0),
-        title: AxisTitle(text: isCardView ? '' : 'Year'),
-      ),
-      primaryYAxis: NumericAxis(
-        axisLine: const AxisLine(width: 0),
-        minimum: 360,
-        maximum: 600,
-        interval: 30,
-        majorTickLines: const MajorTickLines(size: 0),
-        title: AxisTitle(text: isCardView ? '' : 'Intensity (g/kWh)'),
-      ),
-      legend: Legend(isVisible: !isCardView),
-      tooltipBehavior: TooltipBehavior(enable: true),
-      series: _getDashedStepLineSeries(),
-    );
-  }
-
-  /// Returns the list of chart series which
-  /// need to render on the stepline chart.
-  List<StepLineSeries<ChartSampleData, num>> _getDashedStepLineSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
+  void initState() {
+    chartData = <ChartSampleData>[
       ChartSampleData(
           x: 2006,
           y: 378,
@@ -90,35 +61,76 @@ class _StepLineDashedState extends SampleViewState {
           secondSeriesYValue: 470,
           thirdSeriesYValue: 525)
     ];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildDashedStepLineChart();
+  }
+
+  /// Returns the dashed cartesian stepline chart.
+  SfCartesianChart _buildDashedStepLineChart() {
+    return SfCartesianChart(
+      plotAreaBorderWidth: 0,
+      title: ChartTitle(text: isCardView ? '' : 'CO2 - Intensity analysis'),
+      primaryXAxis: NumericAxis(
+        interval: 1,
+        majorGridLines: const MajorGridLines(width: 0),
+        title: AxisTitle(text: isCardView ? '' : 'Year'),
+      ),
+      primaryYAxis: NumericAxis(
+        axisLine: const AxisLine(width: 0),
+        minimum: 360,
+        maximum: 600,
+        interval: 30,
+        majorTickLines: const MajorTickLines(size: 0),
+        title: AxisTitle(text: isCardView ? '' : 'Intensity (g/kWh)'),
+      ),
+      legend: Legend(isVisible: !isCardView),
+      tooltipBehavior: TooltipBehavior(enable: true),
+      series: _getDashedStepLineSeries(),
+    );
+  }
+
+  /// Returns the list of chart series which
+  /// need to render on the stepline chart.
+  List<StepLineSeries<ChartSampleData, num>> _getDashedStepLineSeries() {
     return <StepLineSeries<ChartSampleData, num>>[
       StepLineSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.y,
           name: 'USA',
           width: 2,
           dashArray: const <double>[10, 5]),
       StepLineSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.yValue,
           name: 'UK',
           width: 2,
           dashArray: const <double>[10, 5]),
       StepLineSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.secondSeriesYValue,
           name: 'Korea',
           width: 2,
           dashArray: const <double>[10, 5]),
       StepLineSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.thirdSeriesYValue,
           name: 'Japan',
           width: 2,
           dashArray: const <double>[10, 5])
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

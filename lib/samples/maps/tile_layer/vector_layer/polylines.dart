@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 ///Core theme import
@@ -71,10 +70,8 @@ class _PolylinesSampleState extends SampleViewState
 
   @override
   void dispose() {
-    _animationController?.dispose();
-    _animationController = null;
-    _mapController?.dispose();
-    _mapController = null;
+    _animationController!.dispose();
+    _mapController!.dispose();
     _routes.clear();
     super.dispose();
   }
@@ -216,9 +213,10 @@ class _PolylinesSampleState extends SampleViewState
           ? const EdgeInsets.only(left: 8.0, top: 8.0)
           : const EdgeInsets.only(left: 8.0),
       child: ChoiceChip(
-        backgroundColor: model.themeData.brightness == Brightness.light
-            ? Colors.white
-            : Colors.black,
+        backgroundColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? Colors.white
+                : Colors.black,
         elevation: 3.0,
         label: Text(
           city,

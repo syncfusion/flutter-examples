@@ -58,6 +58,12 @@ class _GettingStartedSignaturePadState extends SampleViewState {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _strokeColors.clear();
+    super.dispose();
+  }
+
   List<_Product> _loadDataSource() {
     return <_Product>[
       const _Product(name: 'Jersey', price: 49.99, quantity: 3, total: 149.97),
@@ -168,7 +174,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
               ),
               titlePadding: const EdgeInsets.all(16.0),
               content: SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width < 306
                       ? MediaQuery.of(context).size.width
                       : 306,
@@ -203,7 +209,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                                 fontWeight: FontWeight.w400,
                                 fontFamily: 'Roboto-Regular'),
                           ),
-                          Container(
+                          SizedBox(
                             width: 124,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -290,9 +296,9 @@ class _GettingStartedSignaturePadState extends SampleViewState {
   }
 
   Widget _getInvoiceHeader() {
-    return Container(
+    return const SizedBox(
       height: 60,
-      child: const Center(
+      child: Center(
         child: Text(
           'INVOICE',
           style: TextStyle(
@@ -411,7 +417,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     final String formattedTime = formatter.format(now);
 
-    return Container(
+    return SizedBox(
       height: 150,
       child: Padding(
         padding: const EdgeInsets.all(20.0),

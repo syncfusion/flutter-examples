@@ -4,12 +4,13 @@ import 'dart:io' show Platform;
 /// Package imports
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Local imports
 import '../widgets/bottom_sheet.dart';
+import '../widgets/search_bar.dart';
 import 'mobile_view.dart';
 import 'model.dart';
 import 'sample_view.dart';
@@ -60,8 +61,177 @@ void onTapExpandSample(
               )));
   model.sampleList.clear();
   model.editingController.text = '';
+  if (!model.isWebFullView &&
+      model.searchBar != null &&
+      model.searchBar!.key != null) {
+    final SearchBarState searchBarState =
+        (model.searchBar!.key! as GlobalKey).currentState! as SearchBarState;
+    searchBarState.isFocus.unfocus();
+    searchBarState.isOpen = false;
+  }
   //ignore: invalid_use_of_protected_member
   model.notifyListeners();
+}
+
+/// Method to return list of text span from the provide sample description
+List<TextSpan> getTextSpan(String description, SampleModel model) {
+  final List<String> highlightList = <String>[];
+  final List<String> list = <String>[];
+  final List<String> value = description.split(' ');
+  bool isHightlightStarted = false;
+  String? highlightText;
+  String? overallText;
+
+  for (int i = 0; i < value.length; i++) {
+    if (value[i].contains('<highlight>') &&
+        value[i].contains('<endHighlight>')) {
+      String word = value[i].replaceAll('<highlight>', '');
+      word = word.replaceAll('<endHighlight>', '');
+      if (word.isNotEmpty) {
+        if (overallText != null) {
+          list.add(overallText);
+          overallText = null;
+          list.add(word);
+          highlightList.add(word);
+        }
+      }
+    } else if (value[i] == '<highlight>' || value[i].contains('<highlight>')) {
+      if (overallText != null) {
+        list.add(overallText);
+      }
+      overallText = null;
+      isHightlightStarted = true;
+
+      if (value[i] == '<highlight>') {
+        continue;
+      }
+    } else if (value[i] == '<endHighlight>' ||
+        value[i].contains('<endHighlight>')) {
+      String word = '';
+      if (value[i].contains('<endHighlight>')) {
+        word = value[i].replaceAll('<endHighlight>', '');
+      }
+      if (overallText != null) {
+        list.add(overallText);
+      }
+
+      if (word.isNotEmpty) {
+        list.add(word);
+      }
+
+      if (highlightText != null) {
+        highlightList.add(highlightText);
+      }
+
+      if (word.isNotEmpty) {
+        highlightList.add(word);
+      }
+      overallText = null;
+      highlightText = null;
+      isHightlightStarted = false;
+      continue;
+    }
+
+    if (isHightlightStarted) {
+      String word;
+      if (value[i].contains('<highlight>')) {
+        word = value[i].replaceAll('<highlight>', '');
+      } else if (value[i].contains('<endHighlight>')) {
+        word = value[i].replaceAll('<endHighlight>', '');
+      } else {
+        word = value[i];
+      }
+      if (overallText != null) {
+        overallText = overallText + ' ' + word;
+      } else {
+        overallText = word;
+      }
+
+      if (highlightText != null) {
+        highlightText = highlightText + ' ' + word;
+      } else {
+        highlightText = word;
+      }
+    } else if (!value[i].contains('<highlight>') &&
+        !value[i].contains('<endHighlight>')) {
+      if (overallText != null) {
+        overallText = overallText + ' ' + value[i];
+      } else {
+        overallText = value[i];
+      }
+    }
+  }
+
+  if (overallText != null && !list.contains(overallText)) {
+    list.add(overallText);
+  }
+
+  if (highlightText != null && !highlightList.contains(highlightText)) {
+    highlightList.add(highlightText);
+  }
+
+  final List<TextSpan> textSpans = <TextSpan>[];
+  for (int i = 0; i < list.length; i++) {
+    if (list[i].contains('[')) {
+      final List<String> splits = list[i].split('[');
+      final String text = splits[0].isEmpty
+          ? splits[1].contains(']')
+              ? splits[1].replaceAll(']', '')
+              : splits[1]
+          : splits[0];
+      if (i != 0) {
+        textSpans.add(const TextSpan(text: ' '));
+      }
+      textSpans.add(TextSpan(
+          text: text,
+          style: const TextStyle(
+              fontWeight: FontWeight.normal,
+              letterSpacing: 0.25,
+              fontFamily: 'Roboto-Regular',
+              fontSize: 14,
+              color: Color(0xFF0274E5),
+              height: 1.2,
+              decoration: TextDecoration.underline),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () {
+              launch(splits[1].replaceAll(']', ''));
+            }));
+    } else if (highlightList.any((String element) => element == list[i])) {
+      if (i != 0) {
+        textSpans.add(const TextSpan(text: ' '));
+      }
+
+      textSpans.add(TextSpan(
+          text: list[i],
+          style: const TextStyle(
+            backgroundColor: Color.fromRGBO(252, 228, 217, 0.6),
+            letterSpacing: 0.25,
+            fontSize: 12,
+            fontFamily: 'Menlo',
+            height: 1.2,
+            fontWeight: FontWeight.normal,
+            color: Color(0xFF83300C),
+          )));
+    } else {
+      textSpans.add(TextSpan(
+        text: i == 0 ? list[i] : ' ' + list[i],
+        style: model.isWebFullView
+            ? TextStyle(
+                color: model.textColor,
+                fontFamily: 'Roboto-Regular',
+                letterSpacing: 0.3,
+              )
+            : TextStyle(
+                fontWeight: FontWeight.normal,
+                letterSpacing: 0.2,
+                fontSize: 15,
+                height: 1.2,
+                color: model.textColor,
+              ),
+      ));
+    }
+  }
+  return textSpans;
 }
 
 ///On expanding sample, full view sample layout renders
@@ -98,7 +268,7 @@ class _FullViewSampleLayout extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             0, 0, 8, 0),
-                                        child: Container(
+                                        child: SizedBox(
                                           height: 37,
                                           width: 37,
                                           child: IconButton(
@@ -116,7 +286,7 @@ class _FullViewSampleLayout extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 0, 10, 0),
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 40,
                                         width: 40,
                                         child: IconButton(
@@ -136,7 +306,7 @@ class _FullViewSampleLayout extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               0, 0, 8, 0),
-                                          child: Container(
+                                          child: SizedBox(
                                             height: 37,
                                             width: 37,
                                             child: IconButton(
@@ -159,12 +329,12 @@ class _FullViewSampleLayout extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(12),
-                                  bottom: Radius.circular(0)),
+                                  bottom: Radius.zero),
                               color: model.cardThemeColor),
                           padding: needPadding
                               ? EdgeInsets.fromLTRB(
                                   5, 0, 5, needsFloatingBotton ? 57 : 0)
-                              : const EdgeInsets.all(0),
+                              : EdgeInsets.zero,
                           child: Container(child: sampleWidget)),
                       floatingActionButton: needsFloatingBotton
                           ? Stack(children: <Widget>[
@@ -175,7 +345,7 @@ class _FullViewSampleLayout extends StatelessWidget {
                                   child: Container(
                                     padding: EdgeInsets.fromLTRB(
                                         30, needPadding ? 50 : 0, 0, 0),
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 20,
                                       width: 230,
                                       child: InkWell(
@@ -237,13 +407,13 @@ Widget getLeftSideDrawer(SampleModel _model) {
             (MediaQuery.of(context).size.width < 600 ? 0.7 : 0.4),
         child: Drawer(
             child: Container(
-          color: _model.themeData.brightness == Brightness.dark
+          color: _model.themeData.colorScheme.brightness == Brightness.dark
               ? Colors.black
               : Colors.white,
           child: Column(
             children: <Widget>[
               Stack(children: <Widget>[
-                if (_model.themeData.brightness == Brightness.light)
+                if (_model.themeData.colorScheme.brightness == Brightness.light)
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
                     child: Image.asset('images/image_nav_banner.png',
@@ -446,10 +616,8 @@ Widget getLeftSideDrawer(SampleModel _model) {
                                                       fontWeight:
                                                           FontWeight.normal))),
                                           const Spacer(),
-                                          Container(
-                                            child: Icon(Icons.arrow_forward,
-                                                color: _model.backgroundColor),
-                                          ),
+                                          Icon(Icons.arrow_forward,
+                                              color: _model.backgroundColor),
                                         ],
                                       ),
                                       const Padding(
@@ -495,10 +663,8 @@ Widget getLeftSideDrawer(SampleModel _model) {
                                                         FontWeight.normal)),
                                           ),
                                           const Spacer(),
-                                          Container(
-                                            child: Icon(Icons.arrow_forward,
-                                                color: _model.backgroundColor),
-                                          ),
+                                          Icon(Icons.arrow_forward,
+                                              color: _model.backgroundColor),
                                         ],
                                       ),
                                       const Padding(
@@ -544,10 +710,8 @@ Widget getLeftSideDrawer(SampleModel _model) {
                                                         FontWeight.normal)),
                                           ),
                                           const Spacer(),
-                                          Container(
-                                            child: Icon(Icons.arrow_forward,
-                                                color: _model.backgroundColor),
-                                          ),
+                                          Icon(Icons.arrow_forward,
+                                              color: _model.backgroundColor),
                                         ],
                                       ),
                                       const Padding(
@@ -570,7 +734,8 @@ Widget getLeftSideDrawer(SampleModel _model) {
                     Align(
                         alignment: Alignment.bottomCenter,
                         child: Image.asset(
-                          _model.themeData.brightness == Brightness.dark
+                          _model.themeData.colorScheme.brightness ==
+                                  Brightness.dark
                               ? 'images/syncfusion_dark.png'
                               : 'images/syncfusion.png',
                           fit: BoxFit.contain,
@@ -579,7 +744,7 @@ Widget getLeftSideDrawer(SampleModel _model) {
                         )),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('Version 19.3.43',
+                        child: Text('Version 19.4.38',
                             style: TextStyle(
                                 color: _model.drawerTextIconColor,
                                 fontSize: 12,
@@ -604,7 +769,7 @@ Widget getFooter(BuildContext context, SampleModel model) {
       border: Border(
         top: BorderSide(width: 0.8, color: model.dividerColor),
       ),
-      color: model.themeData.brightness == Brightness.dark
+      color: model.themeData.colorScheme.brightness == Brightness.dark
           ? const Color.fromRGBO(33, 33, 33, 1)
           : const Color.fromRGBO(234, 234, 234, 1),
     ),
@@ -616,8 +781,7 @@ Widget getFooter(BuildContext context, SampleModel model) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Container(
-            child: Column(
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -665,11 +829,11 @@ Widget getFooter(BuildContext context, SampleModel model) {
                         fontSize: 12,
                         letterSpacing: 0.23)))
           ],
-        )),
+        ),
         InkWell(
           onTap: () => launch('https://www.syncfusion.com'),
           child: Image.asset(
-              model.themeData.brightness == Brightness.dark
+              model.themeData.colorScheme.brightness == Brightness.dark
                   ? 'images/syncfusion_dark.png'
                   : 'images/syncfusion.png',
               fit: BoxFit.contain,
@@ -686,9 +850,10 @@ Widget showWebThemeSettings(SampleModel model) {
   int _selectedValue = model.selectedThemeIndex;
   return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
     final double _width = MediaQuery.of(context).size.width * 0.4;
-    final Color _textColor = model.themeData.brightness == Brightness.light
-        ? const Color.fromRGBO(84, 84, 84, 1)
-        : const Color.fromRGBO(218, 218, 218, 1);
+    final Color _textColor =
+        model.themeData.colorScheme.brightness == Brightness.light
+            ? const Color.fromRGBO(84, 84, 84, 1)
+            : const Color.fromRGBO(218, 218, 218, 1);
     return Drawer(
         child: Container(
             color: model.bottomSheetBackgroundColor,
@@ -751,8 +916,12 @@ Widget showWebThemeSettings(SampleModel model) {
                                 onValueChanged: (int value) {
                                   _selectedValue = value;
                                   model.currentThemeData = (value == 0)
-                                      ? ThemeData.light()
-                                      : ThemeData.dark();
+                                      ? ThemeData.from(
+                                          colorScheme:
+                                              const ColorScheme.light())
+                                      : ThemeData.from(
+                                          colorScheme:
+                                              const ColorScheme.dark());
 
                                   setState(() {
                                     /// update the theme changes
@@ -822,6 +991,11 @@ void _applyThemeAndPaletteColor(
       ? model.currentPrimaryColor
       : model.currentPaletteColor;
   model.paletteColor = model.currentPaletteColor;
+  model.currentThemeData = model.currentThemeData!.copyWith(
+      colorScheme: model.currentThemeData!.colorScheme.copyWith(
+          primary: model.currentPaletteColor,
+          secondary: model.currentPaletteColor,
+          onPrimary: Colors.white));
   model.changeTheme(model.currentThemeData!);
   // ignore: invalid_use_of_protected_member
   model.notifyListeners();
@@ -851,6 +1025,7 @@ List<Widget> _addColorPalettes(SampleModel model, [StateSetter? setState]) {
           ),
         )));
   }
+
   return _colorPaletteWidgets;
 }
 
@@ -923,20 +1098,21 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
   final double _orientationPadding =
       ((MediaQuery.of(context).size.width) / 100) * 10;
   final double _width = MediaQuery.of(context).size.width * 0.3;
-  final Color _textColor = model.themeData.brightness == Brightness.light
-      ? const Color.fromRGBO(84, 84, 84, 1)
-      : const Color.fromRGBO(218, 218, 218, 1);
+  final Color _textColor =
+      model.themeData.colorScheme.brightness == Brightness.light
+          ? const Color.fromRGBO(84, 84, 84, 1)
+          : const Color.fromRGBO(218, 218, 218, 1);
   showRoundedModalBottomSheet<dynamic>(
       context: context,
       color: model.bottomSheetBackgroundColor,
-      builder: (BuildContext context) => Container(
+      builder: (BuildContext context) => SizedBox(
           height: 250,
           child: Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
                 child: Stack(children: <Widget>[
-                  Container(
+                  SizedBox(
                     height: 40,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -1016,12 +1192,18 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
                                   model.currentThemeData =
                                       model.systemTheme.brightness !=
                                               Brightness.dark
-                                          ? ThemeData.light()
-                                          : ThemeData.dark();
+                                          ? ThemeData.from(
+                                              colorScheme:
+                                                  const ColorScheme.light())
+                                          : ThemeData.from(
+                                              colorScheme:
+                                                  const ColorScheme.dark());
                                 } else if (value == 1) {
-                                  model.currentThemeData = ThemeData.light();
+                                  model.currentThemeData = ThemeData.from(
+                                      colorScheme: const ColorScheme.light());
                                 } else {
-                                  model.currentThemeData = ThemeData.dark();
+                                  model.currentThemeData = ThemeData.from(
+                                      colorScheme: const ColorScheme.dark());
                                 }
                                 setState(() {
                                   /// update the theme changes to
@@ -1035,8 +1217,7 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
                       padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: MediaQuery.of(context).orientation ==
                               Orientation.portrait
-                          ? Container(
-                              child: Row(
+                          ? Row(
                               children: <Widget>[
                                 Expanded(
                                   child: Padding(
@@ -1051,9 +1232,8 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
                                   ),
                                 ),
                               ],
-                            ))
-                          : Container(
-                              child: Row(
+                            )
+                          : Row(
                               children: <Widget>[
                                 Expanded(
                                   child: Padding(
@@ -1071,7 +1251,7 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
                                   ),
                                 ),
                               ],
-                            )),
+                            ),
                     ),
                   ],
                 ),
@@ -1079,7 +1259,7 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
               Align(
                   alignment: FractionalOffset.bottomCenter,
                   child: Container(
-                    margin: const EdgeInsets.all(0),
+                    margin: EdgeInsets.zero,
                     height: 50,
                     width: double.infinity,
                     child: ElevatedButton(
@@ -1129,8 +1309,9 @@ void showBottomSheetSettingsPanel(BuildContext context, Widget propertyWidget) {
               ),
               Theme(
                   data: ThemeData(
-                      brightness: _model.themeData.brightness,
-                      primaryColor: _model.backgroundColor),
+                      brightness: _model.themeData.colorScheme.brightness,
+                      primaryColor: _model.backgroundColor,
+                      colorScheme: _model.themeData.colorScheme),
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(10, 50, 0, 0),
                       child: propertyWidget))
@@ -1142,13 +1323,19 @@ void showBottomSheetSettingsPanel(BuildContext context, Widget propertyWidget) {
 void showBottomInfo(BuildContext context, String information) {
   final SampleModel _model = SampleModel.instance;
   if (information != null && information != '') {
+    List<TextSpan>? textSpans;
+    TextSpan? textSpan;
+    textSpans = getTextSpan(information, _model);
+    textSpan = textSpans[0];
+    textSpans.removeAt(0);
     showRoundedModalBottomSheet<dynamic>(
         context: context,
         color: _model.bottomSheetBackgroundColor,
         builder: (BuildContext context) => Theme(
             data: ThemeData(
-                brightness: _model.themeData.brightness,
-                primaryColor: _model.backgroundColor),
+                brightness: _model.themeData.colorScheme.brightness,
+                primaryColor: _model.backgroundColor,
+                colorScheme: _model.themeData.colorScheme),
             child: Container(
               padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
               child: Stack(children: <Widget>[
@@ -1175,15 +1362,18 @@ void showBottomInfo(BuildContext context, String information) {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 45, 12, 15),
                     child: ListView(shrinkWrap: true, children: <Widget>[
-                      Text(
-                        information,
+                      RichText(
                         textAlign: TextAlign.justify,
-                        style: TextStyle(
-                            color: _model.textColor,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15.0,
-                            letterSpacing: 0.2,
-                            height: 1.2),
+                        text: TextSpan(
+                          text: textSpan!.text,
+                          style: TextStyle(
+                              color: _model.textColor,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15.0,
+                              letterSpacing: 0.2,
+                              height: 1.2),
+                          children: textSpans,
+                        ),
                       )
                     ]))
               ]),

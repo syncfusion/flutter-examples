@@ -121,10 +121,10 @@ class _MapMarkerPageState extends SampleViewState {
             layers: <MapLayer>[
               MapShapeLayer(
                 loadingBuilder: (BuildContext context) {
-                  return Container(
+                  return const SizedBox(
                     height: 25,
                     width: 25,
-                    child: const CircularProgressIndicator(
+                    child: CircularProgressIndicator(
                       strokeWidth: 3,
                     ),
                   );
@@ -148,9 +148,10 @@ class _MapMarkerPageState extends SampleViewState {
                   );
                 },
                 strokeWidth: 0,
-                color: model.themeData.brightness == Brightness.light
-                    ? const Color.fromRGBO(71, 70, 75, 0.2)
-                    : const Color.fromRGBO(71, 70, 75, 1),
+                color:
+                    model.themeData.colorScheme.brightness == Brightness.light
+                        ? const Color.fromRGBO(71, 70, 75, 0.2)
+                        : const Color.fromRGBO(71, 70, 75, 1),
               ),
             ],
           )),
@@ -187,8 +188,7 @@ class _ClockWidgetState extends State<_ClockWidget> {
 
   @override
   void dispose() {
-    _timer?.cancel();
-    _timer = null;
+    _timer!.cancel();
     super.dispose();
   }
 

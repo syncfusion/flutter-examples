@@ -27,6 +27,7 @@ class _TooltipRangeSliderPageState extends SampleViewState {
       SfRangeValues(DateTime(2002, 4, 01), DateTime(2003, 10, 01));
   SfRangeValues _hourValues = SfRangeValues(
       DateTime(2010, 01, 01, 13, 00, 00), DateTime(2010, 01, 01, 17, 00, 00));
+  bool _shouldAlwaysShowTooltip = false;
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
@@ -48,6 +49,7 @@ class _TooltipRangeSliderPageState extends SampleViewState {
             });
           },
           enableTooltip: true,
+          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
             return DateFormat.yMMM().format(actualLabel);
@@ -76,6 +78,7 @@ class _TooltipRangeSliderPageState extends SampleViewState {
             });
           },
           enableTooltip: true,
+          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
           tooltipShape: const SfPaddleTooltipShape(),
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
@@ -125,5 +128,28 @@ class _TooltipRangeSliderPageState extends SampleViewState {
           : SingleChildScrollView(
               child: SizedBox(height: 300, child: rangeSlider));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: _shouldAlwaysShowTooltip,
+          title: const Text(
+            'Show tooltip always',
+            softWrap: false,
+          ),
+          activeColor: model.backgroundColor,
+          contentPadding: EdgeInsets.zero,
+          onChanged: (bool? value) {
+            setState(() {
+              _shouldAlwaysShowTooltip = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
+    );
   }
 }

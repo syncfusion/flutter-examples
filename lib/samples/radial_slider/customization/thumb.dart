@@ -77,7 +77,7 @@ class _RadialSliderThumbState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget _buildSliderWithCircle() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -129,7 +129,7 @@ class _RadialSliderThumbState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget _buildSliderWithRectangle() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -181,7 +181,7 @@ class _RadialSliderThumbState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget _buildSliderWithImage() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -235,7 +235,7 @@ class _RadialSliderThumbState extends SampleViewState {
   }
 
   void handleFirstPointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _progressValue1).abs() > 20) {
+    if ((args.value.round() - _progressValue1).abs() > 20) {
       args.cancel = true;
     }
   }
@@ -247,7 +247,7 @@ class _RadialSliderThumbState extends SampleViewState {
   }
 
   void handleSecondPointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _progressValue2).abs() > 20) {
+    if ((args.value.round() - _progressValue2).abs() > 20) {
       args.cancel = true;
     }
   }
@@ -259,7 +259,7 @@ class _RadialSliderThumbState extends SampleViewState {
   }
 
   void handleThirdPointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _progressValue3).abs() > 20) {
+    if ((args.value.round() - _progressValue3).abs() > 20) {
       args.cancel = true;
     }
   }

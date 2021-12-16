@@ -30,7 +30,13 @@ class ExportCircular extends SampleView {
 
 class _ExportState extends SampleViewState {
   _ExportState();
-  final GlobalKey<SfCircularChartState> _circularChartKey = GlobalKey();
+  late GlobalKey<SfCircularChartState> _circularChartKey;
+
+  @override
+  void initState() {
+    _circularChartKey = GlobalKey();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,13 +123,12 @@ class _ExportState extends SampleViewState {
         CircularChartAnnotation(
             height: '55%',
             width: '55%',
-            widget: Container(
-                child: SizedBox(
+            widget: SizedBox(
               height: 20,
               width: 20,
               child: Image.asset('images/cart.png',
                   color: model.drawerTextIconColor),
-            )))
+            ))
       ],
       series: _getDefaultCircularSeries(),
     );
@@ -131,23 +136,23 @@ class _ExportState extends SampleViewState {
 
   /// Get default circular series
   List<CircularSeries<ChartSampleData, String>> _getDefaultCircularSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Once a month', y: 25, text: '25%'),
-      ChartSampleData(x: 'Everyday', y: 4, text: '4%'),
-      ChartSampleData(x: 'At least once a week', y: 14, text: '14%'),
-      ChartSampleData(x: 'Once every 2-3 months', y: 10, text: '10%'),
-      ChartSampleData(x: 'A few times a year', y: 15, text: '15%'),
-      ChartSampleData(x: 'Less often than that', y: 7, text: '7%'),
-      ChartSampleData(x: 'Never', y: 25, text: '25%'),
-    ];
     return <CircularSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'Once a month', y: 25, text: '25%'),
+            ChartSampleData(x: 'Everyday', y: 4, text: '4%'),
+            ChartSampleData(x: 'At least once a week', y: 14, text: '14%'),
+            ChartSampleData(x: 'Once every 2-3 months', y: 10, text: '10%'),
+            ChartSampleData(x: 'A few times a year', y: 15, text: '15%'),
+            ChartSampleData(x: 'Less often than that', y: 7, text: '7%'),
+            ChartSampleData(x: 'Never', y: 25, text: '25%'),
+          ],
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          strokeColor: model.themeData.brightness == Brightness.light
-              ? Colors.white
-              : Colors.black,
+          strokeColor:
+              model.themeData.colorScheme.brightness == Brightness.light
+                  ? Colors.white
+                  : Colors.black,
           explode: true,
           strokeWidth: 1,
           legendIconType: LegendIconType.rectangle,

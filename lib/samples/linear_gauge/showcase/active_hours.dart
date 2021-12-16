@@ -1,5 +1,4 @@
 /// Flutter package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Gauge imports
@@ -22,9 +21,13 @@ class ActiveHours extends SampleView {
 class _ActiveHoursState extends SampleViewState {
   _ActiveHoursState();
 
-  double barValue = 50;
-
   late List<double> _inActiveHours;
+
+  @override
+  void dispose() {
+    _inActiveHours.clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,77 +69,75 @@ class _ActiveHoursState extends SampleViewState {
   Widget _buildActiveHours(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
     return Center(
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: SfLinearGauge(
-                orientation: LinearGaugeOrientation.horizontal,
-                showLabels: true,
-                showTicks: false,
-                minimum: 0,
-                maximum: 100,
-                interval: 30,
-                labelOffset: 0,
-                axisTrackStyle: const LinearAxisTrackStyle(
-                    thickness: 75, color: Colors.transparent),
-                labelFormatterCallback: (String label) {
-                  switch (label) {
-                    case '0':
-                      return '00:00';
-                    case '30':
-                      return '06:00';
-                    case '60':
-                      return '12:00';
-                    case '90':
-                      return '18:00';
-                    case '100':
-                      return ' ';
-                  }
-                  return label;
-                },
-                markerPointers: List<LinearWidgetPointer>.generate(
-                  24,
-                  (int index) => _buildLinearWidgetPointer(
-                      index * 4,
-                      _inActiveHours.contains(index)
-                          ? _getInActivePointerColor(
-                              const Color(0xFF05C3DD),
-                              0.7,
-                              _brightness == Brightness.dark
-                                  ? Colors.black
-                                  : Colors.white)
-                          : const Color(0xFF05C3DD)),
-                ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: SfLinearGauge(
+              orientation: LinearGaugeOrientation.horizontal,
+              showLabels: true,
+              showTicks: false,
+              minimum: 0,
+              maximum: 100,
+              interval: 30,
+              labelOffset: 0,
+              axisTrackStyle: const LinearAxisTrackStyle(
+                  thickness: 75, color: Colors.transparent),
+              labelFormatterCallback: (String label) {
+                switch (label) {
+                  case '0':
+                    return '00:00';
+                  case '30':
+                    return '06:00';
+                  case '60':
+                    return '12:00';
+                  case '90':
+                    return '18:00';
+                  case '100':
+                    return ' ';
+                }
+                return label;
+              },
+              markerPointers: List<LinearWidgetPointer>.generate(
+                24,
+                (int index) => _buildLinearWidgetPointer(
+                    index * 4,
+                    _inActiveHours.contains(index)
+                        ? _getInActivePointerColor(
+                            const Color(0xFF05C3DD),
+                            0.7,
+                            _brightness == Brightness.dark
+                                ? Colors.black
+                                : Colors.white)
+                        : const Color(0xFF05C3DD)),
               ),
             ),
-            const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.only(right: 30),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    const Text(
-                      'Active Hours',
-                      style: TextStyle(fontSize: 20, color: Colors.grey),
-                    ),
-                    Text(
-                      (24 - _inActiveHours.length).toString(),
-                      style: const TextStyle(
-                          fontSize: 30, color: Color(0xFF05C3DD)),
-                    ),
-                  ],
-                ),
+          ),
+          const SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.only(right: 30),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  const Text(
+                    'Active Hours',
+                    style: TextStyle(fontSize: 20, color: Colors.grey),
+                  ),
+                  Text(
+                    (24 - _inActiveHours.length).toString(),
+                    style:
+                        const TextStyle(fontSize: 30, color: Color(0xFF05C3DD)),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -24,38 +24,52 @@ class TrendLineDefault extends SampleView {
 class _TrendLineDefaultState extends SampleViewState {
   _TrendLineDefaultState();
 
-  bool? _displayRSquare = false;
-  bool? _displaySlopeEquation = false;
+  bool? _displayRSquare;
+  bool? _displaySlopeEquation;
   String _slopeEquation = '';
   late double? _intercept;
-  late List<double>? _slope;
-  String _rSquare = '';
-  int periodMaxValue = 0;
-  final List<String> _trendlineTypeList = <String>[
-    'linear',
-    'exponential',
-    'power',
-    'logarithmic',
-    'polynomial',
-    'movingAverage'
-  ].toList();
+  List<double>? _slope;
+  late String _rSquare;
+  late int periodMaxValue;
+  List<String>? _trendlineTypeList;
   late String _selectedTrendLineType;
   late TrendlineType _type;
   late int _polynomialOrder;
   late int _period;
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
   late bool isLegendTapped;
   Size? slopeTextSize;
 
   @override
   void initState() {
+    _displayRSquare = false;
+    _displaySlopeEquation = false;
+    _rSquare = '';
+    periodMaxValue = 0;
     _selectedTrendLineType = 'linear';
     _type = TrendlineType.linear;
     _polynomialOrder = 2;
     _period = 2;
     _tooltipBehavior = TooltipBehavior(enable: true);
     isLegendTapped = false;
+    _trendlineTypeList = <String>[
+      'linear',
+      'exponential',
+      'power',
+      'logarithmic',
+      'polynomial',
+      'movingAverage'
+    ].toList();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (_slope != null) {
+      _slope!.clear();
+    }
+    _trendlineTypeList!.clear();
+    super.dispose();
   }
 
   @override
@@ -74,41 +88,39 @@ class _TrendLineDefaultState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                  child: Text('Trendline \ntype',
-                      style: TextStyle(color: model.textColor)),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: Text('Trendline \ntype',
+                    style: TextStyle(color: model.textColor)),
+              ),
+              Container(
+                padding:
+                    EdgeInsets.fromLTRB(model.isWebFullView ? 50 : 70, 0, 0, 0),
+                width: dropDownWidth,
+                child: DropdownButton<String>(
+                  isExpanded: !model.isWebFullView,
+                  underline:
+                      Container(color: const Color(0xFFBDBDBD), height: 1),
+                  value: _selectedTrendLineType,
+                  items: _trendlineTypeList!.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value,
+                          textWidthBasis: TextWidthBasis.parent,
+                          style: TextStyle(color: model.textColor)),
+                    );
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    setState(() {
+                      _onTrendLineTypeChanged(value.toString());
+                      stateSetter(() {});
+                    });
+                  },
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(
-                      model.isWebFullView ? 50 : 70, 0, 0, 0),
-                  width: dropDownWidth,
-                  child: DropdownButton<String>(
-                    isExpanded: !model.isWebFullView,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _selectedTrendLineType,
-                    items: _trendlineTypeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value,
-                            textWidthBasis: TextWidthBasis.parent,
-                            style: TextStyle(color: model.textColor)),
-                      );
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      setState(() {
-                        _onTrendLineTypeChanged(value.toString());
-                        stateSetter(() {});
-                      });
-                    },
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
           Container(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -118,7 +130,7 @@ class _TrendLineDefaultState extends SampleViewState {
                       style: TextStyle(
                         color: model.textColor,
                       )),
-                  Container(
+                  SizedBox(
                     width: model.isWebFullView ? 70 : 90,
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -129,7 +141,7 @@ class _TrendLineDefaultState extends SampleViewState {
                               ? null
                               : (bool? value) {
                                   setState(() {
-                                    _displaySlopeEquation = value!;
+                                    _displaySlopeEquation = value;
                                     stateSetter(() {});
                                   });
                                 }),
@@ -145,7 +157,7 @@ class _TrendLineDefaultState extends SampleViewState {
                       style: TextStyle(
                         color: model.textColor,
                       )),
-                  Container(
+                  SizedBox(
                     width: model.isWebFullView ? 78 : 98,
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -156,7 +168,7 @@ class _TrendLineDefaultState extends SampleViewState {
                               ? null
                               : (bool? value) {
                                   setState(() {
-                                    _displayRSquare = value!;
+                                    _displayRSquare = value;
                                     stateSetter(() {});
                                   });
                                 }),
@@ -261,7 +273,7 @@ class _TrendLineDefaultState extends SampleViewState {
       tooltipBehavior: _tooltipBehavior,
       annotations: <CartesianChartAnnotation>[
         CartesianChartAnnotation(
-            widget: Container(
+            widget: SizedBox(
                 height: kIsWeb
                     ? 60
                     : orientation == Orientation.landscape
@@ -321,19 +333,18 @@ class _TrendLineDefaultState extends SampleViewState {
   /// Returns the list of chart series which
   /// need to render on the column chart with default trendline.
   List<ColumnSeries<ChartSampleData, String>> _getTrendLineDefaultSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(text: 'Sun', yValue: 12500),
-      ChartSampleData(text: 'Mon', yValue: 14000),
-      ChartSampleData(text: 'Tue', yValue: 22000),
-      ChartSampleData(text: 'Wed', yValue: 26000),
-      ChartSampleData(text: 'Thu', yValue: 19000),
-      ChartSampleData(text: 'Fri', yValue: 28000),
-      ChartSampleData(text: 'Sat', yValue: 32000),
-    ];
-    periodMaxValue = chartData.length - 1;
+    periodMaxValue = 6; // dataSource.length - 1;
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(text: 'Sun', yValue: 12500),
+            ChartSampleData(text: 'Mon', yValue: 14000),
+            ChartSampleData(text: 'Tue', yValue: 22000),
+            ChartSampleData(text: 'Wed', yValue: 26000),
+            ChartSampleData(text: 'Thu', yValue: 19000),
+            ChartSampleData(text: 'Fri', yValue: 28000),
+            ChartSampleData(text: 'Sat', yValue: 32000),
+          ],
           xValueMapper: (ChartSampleData data, _) => data.text,
           yValueMapper: (ChartSampleData data, _) => data.yValue,
           name: 'Visitors count',

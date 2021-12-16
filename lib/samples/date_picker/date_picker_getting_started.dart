@@ -27,6 +27,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
   final DateRangePickerController _controller = DateRangePickerController();
   DateRangePickerSelectionMode _selectionMode =
       DateRangePickerSelectionMode.extendableRange;
+  ExtendableRangeSelectionDirection _selectionDirection =
+      ExtendableRangeSelectionDirection.both;
   bool _showTrailingAndLeadingDates = false;
   bool _enablePastDates = true;
   bool _enableSwipingSelection = true;
@@ -53,6 +55,10 @@ class _GettingStartedDatePickerState extends SampleViewState {
     'decade',
     'century',
   ].toList();
+
+  String _selectionDirectionString = 'both';
+  final List<String> _selectionDirectionList =
+      <String>['forward', 'backward', 'none', 'both'].toList();
 
   @override
   void initState() {
@@ -135,11 +141,12 @@ class _GettingStartedDatePickerState extends SampleViewState {
                   _enableMultiView,
                   _showWeekNumber,
                   _showTodayButton,
+                  _selectionDirection,
                   context)),
         ));
     return Scaffold(
       backgroundColor: model.themeData == null ||
-              model.themeData.brightness == Brightness.light
+              model.themeData.colorScheme.brightness == Brightness.light
           ? null
           : const Color(0x00171a21),
       body: Column(children: <Widget>[
@@ -147,12 +154,12 @@ class _GettingStartedDatePickerState extends SampleViewState {
             flex: model.isWebFullView ? 9 : 8,
             child: model.isWebFullView
                 ? Center(
-                    child: Container(
+                    child: SizedBox(
                         width: !_enableMultiView ? 550 : 700,
                         height: 600,
                         child: cardView))
                 : ListView(children: <Widget>[
-                    Container(
+                    SizedBox(
                       height: 450,
                       child: cardView,
                     )
@@ -208,6 +215,22 @@ class _GettingStartedDatePickerState extends SampleViewState {
     });
   }
 
+  void onselectionDirectionchanged(String value) {
+    _selectionDirectionString = value;
+    if (value == 'none') {
+      _selectionDirection = ExtendableRangeSelectionDirection.none;
+    } else if (value == 'forward') {
+      _selectionDirection = ExtendableRangeSelectionDirection.forward;
+    } else if (value == 'backward') {
+      _selectionDirection = ExtendableRangeSelectionDirection.backward;
+    } else if (value == 'both') {
+      _selectionDirection = ExtendableRangeSelectionDirection.both;
+    }
+    setState(() {
+      /// update the date range picker selection mode changes
+    });
+  }
+
   /// Handled to update the boolean values from the property window, whenever the
   /// boolean value changed it's value set the corresponding property of date range
   /// picker.
@@ -252,44 +275,43 @@ class _GettingStartedDatePickerState extends SampleViewState {
             stateSetter(() {});
           }
         });
-        propertyOptions.add(Container(
-          height: 50,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                  flex: 5,
-                  child: Text('Picker view',
-                      style:
-                          TextStyle(fontSize: 16.0, color: model.textColor))),
-              Expanded(
-                flex: 5,
-                child: Container(
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _viewModeString,
-                      items: _viewModeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'month',
-                            child: Text(value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        onPickerViewChange(value);
-                        stateSetter(() {});
-                      }),
-                ),
-              )
-            ],
-          ),
-        ));
       }
+      propertyOptions.add(SizedBox(
+        height: 50,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+                flex: model.isWebFullView ? 4 : 5,
+                child: Text('Picker view',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
+            Expanded(
+              flex: model.isWebFullView ? 6 : 5,
+              child: Container(
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _viewModeString,
+                    items: _viewModeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'month',
+                          child: Text(value,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      onPickerViewChange(value);
+                      stateSetter(() {});
+                    }),
+              ),
+            )
+          ],
+        ),
+      ));
 
-      propertyOptions.add(Container(
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -302,7 +324,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             Expanded(
               flex: model.isWebFullView ? 6 : 5,
               child: Container(
-                padding: const EdgeInsets.all(0),
+                padding: EdgeInsets.zero,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
                     underline:
@@ -324,20 +346,57 @@ class _GettingStartedDatePickerState extends SampleViewState {
           ],
         ),
       ));
-      propertyOptions.add(Container(
+      propertyOptions.add(_selectionModeString == 'extendableRange'
+          ? SizedBox(
+              height: 50,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                      flex: model.isWebFullView ? 4 : 5,
+                      child: Text('Selection Direction',
+                          style: TextStyle(
+                              fontSize: 16.0, color: model.textColor))),
+                  Expanded(
+                    flex: model.isWebFullView ? 6 : 5,
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      child: DropdownButton<String>(
+                          underline: Container(
+                              color: const Color(0xFFBDBDBD), height: 1),
+                          value: _selectionDirectionString,
+                          items: _selectionDirectionList.map((String value) {
+                            return DropdownMenuItem<String>(
+                                value: (value != null) ? value : 'both',
+                                child: Text(value,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: model.textColor)));
+                          }).toList(),
+                          onChanged: (dynamic value) {
+                            onselectionDirectionchanged(value);
+                            stateSetter(() {});
+                          }),
+                    ),
+                  )
+                ],
+              ),
+            )
+          : Container());
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
-                flex: 5,
+                flex: model.isWebFullView ? 4 : 5,
                 child: Text('Display date',
                     style: TextStyle(fontSize: 16.0, color: model.textColor))),
             Expanded(
-                flex: 5,
+                flex: model.isWebFullView ? 6 : 5,
                 child: Container(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   alignment: Alignment.centerLeft,
                   child: Theme(
                       data: model.themeData.copyWith(
@@ -349,7 +408,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
           ],
         ),
       ));
-      propertyOptions.add(Container(
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -362,7 +421,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             Expanded(
                 flex: 3,
                 child: Container(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -385,7 +444,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
           ],
         ),
       ));
-      propertyOptions.add(Container(
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -398,7 +457,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             Expanded(
                 flex: 3,
                 child: Container(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -421,7 +480,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
           ],
         ),
       ));
-      propertyOptions.add(Container(
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -434,7 +493,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             Expanded(
                 flex: 3,
                 child: Container(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -458,7 +517,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
           ],
         ),
       ));
-      propertyOptions.add(Container(
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -471,7 +530,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             Expanded(
                 flex: 3,
                 child: Container(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -492,7 +551,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
           ],
         ),
       ));
-      propertyOptions.add(Container(
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -505,7 +564,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             Expanded(
                 flex: 3,
                 child: Container(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -529,7 +588,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
           ],
         ),
       ));
-      propertyOptions.add(Container(
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -542,7 +601,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             Expanded(
                 flex: 3,
                 child: Container(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -565,7 +624,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
           ],
         ),
       ));
-      propertyOptions.add(Container(
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -578,7 +637,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             Expanded(
                 flex: 3,
                 child: Container(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   child: Theme(
                     data: Theme.of(context).copyWith(
                         canvasColor: model.bottomSheetBackgroundColor),
@@ -713,8 +772,10 @@ SfDateRangePicker _getGettingStartedDatePicker(
     bool enableMultiView,
     bool showWeekNumber,
     bool showTodayButton,
+    ExtendableRangeSelectionDirection selectionDirection,
     BuildContext context) {
   return SfDateRangePicker(
+    extendableRangeSelectionDirection: selectionDirection,
     enablePastDates: enablePastDates,
     minDate: minDate,
     maxDate: maxDate,
@@ -734,7 +795,7 @@ SfDateRangePicker _getGettingStartedDatePicker(
         duration: Duration(milliseconds: 200),
       ));
     },
-    onSubmit: (Object value) {
+    onSubmit: (Object? value) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
           'Selection Confirmed',

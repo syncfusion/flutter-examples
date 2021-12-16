@@ -36,18 +36,17 @@ class _PieDefaultState extends SampleViewState {
 
   /// Returns the pie series.
   List<PieSeries<ChartSampleData, String>> _getDefaultPieSeries() {
-    final List<ChartSampleData> pieData = <ChartSampleData>[
-      ChartSampleData(x: 'David', y: 13, text: 'David \n 13%'),
-      ChartSampleData(x: 'Steve', y: 24, text: 'Steve \n 24%'),
-      ChartSampleData(x: 'Jack', y: 25, text: 'Jack \n 25%'),
-      ChartSampleData(x: 'Others', y: 38, text: 'Others \n 38%'),
-    ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
           explode: true,
           explodeIndex: 0,
           explodeOffset: '10%',
-          dataSource: pieData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'David', y: 13, text: 'David \n 13%'),
+            ChartSampleData(x: 'Steve', y: 24, text: 'Steve \n 24%'),
+            ChartSampleData(x: 'Jack', y: 25, text: 'Jack \n 25%'),
+            ChartSampleData(x: 'Others', y: 38, text: 'Others \n 38%'),
+          ],
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text,

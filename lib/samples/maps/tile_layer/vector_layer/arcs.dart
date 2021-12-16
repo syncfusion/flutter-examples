@@ -1,7 +1,6 @@
 /// Flutter package imports
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
@@ -349,7 +348,7 @@ class _ArcsSampleState extends SampleViewState
   Widget _tooltipBuilder(BuildContext context, int index) {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
-      child: Container(
+      child: SizedBox(
         height: _isDesktop ? 45 : 40,
         child: Column(
           children: <Widget>[
@@ -453,9 +452,10 @@ class _ArcsSampleState extends SampleViewState
           ? const EdgeInsets.only(left: 8.0, top: 8.0)
           : const EdgeInsets.only(left: 8.0),
       child: ChoiceChip(
-        backgroundColor: model.themeData.brightness == Brightness.light
-            ? Colors.white
-            : Colors.black,
+        backgroundColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? Colors.white
+                : Colors.black,
         elevation: 3.0,
         label: Text(
           city,
@@ -525,7 +525,7 @@ class _ArcsSampleState extends SampleViewState
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                     width: 90,
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,

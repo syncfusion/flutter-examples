@@ -18,11 +18,12 @@ class PiePointRenderMode extends SampleView {
 
 class _PiePointRenderModeState extends SampleViewState {
   _PiePointRenderModeState();
-  final List<String> _modeList = <String>['gradient', 'segment'].toList();
-  String _selectedMode = 'gradient';
-  PointRenderMode _mode = PointRenderMode.segment;
+  List<String>? _modeList;
+  late String _selectedMode;
+  late PointRenderMode _mode;
   @override
   void initState() {
+    _modeList = <String>['gradient', 'segment'].toList();
     _selectedMode = 'gradient';
     _mode = PointRenderMode.gradient;
     super.initState();
@@ -44,45 +45,49 @@ class _PiePointRenderModeState extends SampleViewState {
         children: <Widget>[
           StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return Container(
+            return SizedBox(
                 height: 60,
                 child: ListView(
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     children: <Widget>[
-                      ListTile(
-                        title: Text(
-                            model.isWebFullView
-                                ? 'Point \nrendering \nmode'
-                                : 'Point rendering mode',
-                            softWrap: false,
-                            style: TextStyle(
-                              color: model.textColor,
-                            )),
-                        trailing: Container(
-                          padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                          width: 0.5 * screenWidth,
-                          height: 50,
-                          alignment: Alignment.bottomLeft,
-                          child: DropdownButton<String>(
-                              underline: Container(
-                                  color: const Color(0xFFBDBDBD), height: 1),
-                              value: _selectedMode,
-                              items: _modeList.map((String value) {
-                                return DropdownMenuItem<String>(
-                                    value:
-                                        (value != null) ? value : 'Render mode',
-                                    child: Text(value,
-                                        style:
-                                            TextStyle(color: model.textColor)));
-                              }).toList(),
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  onModeTypeChange(value);
-                                  stateSetter(() {});
-                                });
-                              }),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                              model.isWebFullView
+                                  ? 'Point \nrendering \nmode'
+                                  : 'Point rendering mode',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                          Container(
+                            padding: EdgeInsets.only(left: 0.07 * screenWidth),
+                            width: 0.5 * screenWidth,
+                            alignment: Alignment.bottomLeft,
+                            child: DropdownButton<String>(
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _selectedMode,
+                                items: _modeList!.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: (value != null)
+                                          ? value
+                                          : 'Render mode',
+                                      child: Text(value,
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                onChanged: (dynamic value) {
+                                  setState(() {
+                                    onModeTypeChange(value);
+                                    stateSetter(() {});
+                                  });
+                                }),
+                          )
+                        ],
                       ),
                     ]));
           }),
@@ -100,29 +105,35 @@ class _PiePointRenderModeState extends SampleViewState {
     );
   }
 
+  @override
+  void dispose() {
+    _modeList!.clear();
+    super.dispose();
+  }
+
   /// Return the pie series which need to be grouping.
   List<PieSeries<ChartSampleData, String>> _getGroupingPieSeries() {
-    final List<ChartSampleData> pieData = <ChartSampleData>[
-      ChartSampleData(x: 'Food', y: 15, text: 'Food\n15%', pointColor: null),
-      ChartSampleData(
-          x: 'Medical', y: 28, text: 'Medical\n28%', pointColor: null),
-      ChartSampleData(
-          x: 'Travel', y: 15, text: 'Travel\n15%', pointColor: null),
-      ChartSampleData(
-          x: 'Shopping', y: 17, text: 'Shopping\n17%', pointColor: null),
-      ChartSampleData(
-          x: 'Others',
-          y: 25,
-          text: 'Others\n25%',
-          pointColor: const Color.fromRGBO(198, 201, 207, 1))
-    ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
           radius: isCardView ? '70%' : '58%',
           dataLabelMapper: (ChartSampleData data, _) => data.text,
           dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.outside),
-          dataSource: pieData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(
+                x: 'Food', y: 15, text: 'Food\n15%', pointColor: null),
+            ChartSampleData(
+                x: 'Medical', y: 28, text: 'Medical\n28%', pointColor: null),
+            ChartSampleData(
+                x: 'Travel', y: 15, text: 'Travel\n15%', pointColor: null),
+            ChartSampleData(
+                x: 'Shopping', y: 17, text: 'Shopping\n17%', pointColor: null),
+            ChartSampleData(
+                x: 'Others',
+                y: 25,
+                text: 'Others\n25%',
+                pointColor: const Color.fromRGBO(198, 201, 207, 1))
+          ],
           pointRenderMode: _mode,
 
           /// To enable and specify the group mode for pie chart.

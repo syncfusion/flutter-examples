@@ -20,13 +20,15 @@ class HeatMapCalendar extends SampleView {
   const HeatMapCalendar(Key key) : super(key: key);
 
   @override
-  _HeatMapCalendarCalendarState createState() =>
-      _HeatMapCalendarCalendarState();
+  HeatMapCalendarCalendarState createState() => HeatMapCalendarCalendarState();
 }
 
-class _HeatMapCalendarCalendarState extends SampleViewState {
-  _HeatMapCalendarCalendarState();
+//// Represents the state class of HeatMapCalendar
+class HeatMapCalendarCalendarState extends SampleViewState {
+  /// Creates an instance of state class of HeatMapCalendar
+  HeatMapCalendarCalendarState();
 
+  /// Represents the controller
   final ScrollController controller = ScrollController();
 
   /// Global key used to maintain the state, when we change the parent of the
@@ -130,10 +132,10 @@ class _HeatMapCalendarCalendarState extends SampleViewState {
   Widget _monthCellBuilder(
       BuildContext buildContext, MonthCellDetails details) {
     final Color backgroundColor = _getMonthCellBackgroundColor(details.date);
-    final Color defaultColor =
-        model.themeData != null && model.themeData.brightness == Brightness.dark
-            ? Colors.black54
-            : Colors.white;
+    final Color defaultColor = model.themeData != null &&
+            model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.black54
+        : Colors.white;
     return Container(
       decoration: BoxDecoration(
           color: backgroundColor,

@@ -18,10 +18,17 @@ class CircularSelection extends SampleView {
 
 class _CircularSelectionState extends SampleViewState {
   _CircularSelectionState();
-  late SelectionBehavior selectionBehavior;
+  SelectionBehavior? selectionBehavior;
 
-  bool enableMultiSelect = false;
-  bool _toggleSelection = true;
+  late bool enableMultiSelect;
+  late bool _toggleSelection;
+
+  @override
+  void initState() {
+    enableMultiSelect = false;
+    _toggleSelection = true;
+    super.initState();
+  }
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -32,52 +39,69 @@ class _CircularSelectionState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          ListTile(
-              title: Text(
-                  model.isWebFullView
-                      ? 'Enable multi-\nselection'
-                      : 'Enable multi-selection',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                  width: 0.4 * screenWidth,
-                  child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: EdgeInsets.zero,
-                      activeColor: model.backgroundColor,
-                      value: enableMultiSelect,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          enableMultiSelect = value!;
-                          stateSetter(() {});
-                        });
-                      }))),
-          ListTile(
-              title: Text(
-                  model.isWebFullView
-                      ? 'Toggle \nselection'
-                      : 'Toggle selection',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                  width: 0.4 * screenWidth,
-                  child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: EdgeInsets.zero,
-                      activeColor: model.backgroundColor,
-                      value: _toggleSelection,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _toggleSelection = value!;
-                          stateSetter(() {});
-                        });
-                      }))),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(
+                      model.isWebFullView
+                          ? 'Enable multi-\nselection'
+                          : 'Enable multi-selection',
+                      softWrap: false,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: model.textColor,
+                      )),
+                ),
+                Container(
+                    padding: EdgeInsets.only(left: 0.01 * screenWidth),
+                    width: 0.4 * screenWidth,
+                    child: CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        activeColor: model.backgroundColor,
+                        value: enableMultiSelect,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            enableMultiSelect = value!;
+                            stateSetter(() {});
+                          });
+                        }))
+              ]),
+          Padding(
+            padding: const EdgeInsets.only(top: 6.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Text(
+                        model.isWebFullView
+                            ? 'Toggle \nselection'
+                            : 'Toggle selection',
+                        softWrap: false,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: model.textColor,
+                        )),
+                  ),
+                  Container(
+                      padding: EdgeInsets.only(left: 0.01 * screenWidth),
+                      width: 0.4 * screenWidth,
+                      child: CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          contentPadding: EdgeInsets.zero,
+                          activeColor: model.backgroundColor,
+                          value: _toggleSelection,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _toggleSelection = value!;
+                              stateSetter(() {});
+                            });
+                          }))
+                ]),
+          ),
         ],
       );
     });
@@ -102,41 +126,40 @@ class _CircularSelectionState extends SampleViewState {
   }
 
   List<PieSeries<ChartSampleData, String>> getCircularSelectionSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'CHN',
-          y: 17,
-          secondSeriesYValue: 54,
-          thirdSeriesYValue: 9,
-          text: 'CHN : 54M'),
-      ChartSampleData(
-          x: 'USA',
-          y: 19,
-          secondSeriesYValue: 67,
-          thirdSeriesYValue: 14,
-          text: 'USA : 67M'),
-      ChartSampleData(
-          x: 'IDN',
-          y: 29,
-          secondSeriesYValue: 65,
-          thirdSeriesYValue: 6,
-          text: 'IDN : 65M'),
-      ChartSampleData(
-          x: 'JAP',
-          y: 13,
-          secondSeriesYValue: 61,
-          thirdSeriesYValue: 26,
-          text: 'JAP : 61M'),
-      ChartSampleData(
-          x: 'BRZ',
-          y: 24,
-          secondSeriesYValue: 68,
-          thirdSeriesYValue: 8,
-          text: 'BRZ : 68M')
-    ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(
+                x: 'CHN',
+                y: 17,
+                secondSeriesYValue: 54,
+                thirdSeriesYValue: 9,
+                text: 'CHN : 54M'),
+            ChartSampleData(
+                x: 'USA',
+                y: 19,
+                secondSeriesYValue: 67,
+                thirdSeriesYValue: 14,
+                text: 'USA : 67M'),
+            ChartSampleData(
+                x: 'IDN',
+                y: 29,
+                secondSeriesYValue: 65,
+                thirdSeriesYValue: 6,
+                text: 'IDN : 65M'),
+            ChartSampleData(
+                x: 'JAP',
+                y: 13,
+                secondSeriesYValue: 61,
+                thirdSeriesYValue: 26,
+                text: 'JAP : 61M'),
+            ChartSampleData(
+                x: 'BRZ',
+                y: 24,
+                secondSeriesYValue: 68,
+                thirdSeriesYValue: 8,
+                text: 'BRZ : 68M')
+          ],
           radius: '70%',
           startAngle: 30,
           endAngle: 30,

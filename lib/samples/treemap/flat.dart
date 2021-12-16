@@ -116,7 +116,7 @@ class _TreemapLayoutSampleState extends SampleViewState {
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
-    _isLightTheme = themeData.brightness == Brightness.light;
+    _isLightTheme = themeData.colorScheme.brightness == Brightness.light;
     final Widget current = Center(
       child: Padding(
         padding: MediaQuery.of(context).orientation == Orientation.portrait ||
@@ -197,8 +197,8 @@ class _TreemapLayoutSampleState extends SampleViewState {
                       },
                       child: Padding(
                         padding: _isDesktop
-                            ? const EdgeInsets.all(10.0)
-                            : const EdgeInsets.all(4.0),
+                            ? const EdgeInsets.all(2.0)
+                            : const EdgeInsets.all(1.0),
                         child: _buildIcon(layoutType),
                       ),
                     ),

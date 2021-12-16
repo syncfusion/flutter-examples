@@ -37,17 +37,16 @@ class _DoughnutRoundedState extends SampleViewState {
 
   /// Returns rounded corner doughunut series.
   List<DoughnutSeries<ChartSampleData, String>> _getRoundedDoughnutSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Planning', y: 10),
-      ChartSampleData(x: 'Analysis', y: 10),
-      ChartSampleData(x: 'Design', y: 10),
-      ChartSampleData(x: 'Development', y: 10),
-      ChartSampleData(x: 'Testing & Integration', y: 10),
-      ChartSampleData(x: 'Maintainance', y: 10)
-    ];
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'Planning', y: 10),
+          ChartSampleData(x: 'Analysis', y: 10),
+          ChartSampleData(x: 'Design', y: 10),
+          ChartSampleData(x: 'Development', y: 10),
+          ChartSampleData(x: 'Testing & Integration', y: 10),
+          ChartSampleData(x: 'Maintainance', y: 10)
+        ],
         animationDuration: 0,
         cornerStyle: CornerStyle.bothCurve,
         radius: '80%',
