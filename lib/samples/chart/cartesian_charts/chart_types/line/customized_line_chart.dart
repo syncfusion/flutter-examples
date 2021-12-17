@@ -29,7 +29,7 @@ List<double> _yPointValues = <double>[];
 
 class _LineDefaultState extends SampleViewState {
   _LineDefaultState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =
@@ -72,7 +72,7 @@ class _LineDefaultState extends SampleViewState {
           yValueMapper: (_ChartData sales, _) => sales.y,
           enableTooltip: false,
           width: 2,
-          color: model.themeData.brightness == Brightness.dark
+          color: model.themeData.colorScheme.brightness == Brightness.dark
               ? Colors.grey
               : Colors.black,
         ),
@@ -101,6 +101,15 @@ class _LineDefaultState extends SampleViewState {
       ],
       tooltipBehavior: _tooltipBehavior,
     );
+  }
+
+  @override
+  void dispose() {
+    _xValues.clear();
+    _yValues.clear();
+    _xPointValues.clear();
+    _yPointValues.clear();
+    super.dispose();
   }
 }
 

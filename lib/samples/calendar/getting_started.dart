@@ -18,11 +18,13 @@ class GettingStartedCalendar extends SampleView {
   const GettingStartedCalendar(Key key) : super(key: key);
 
   @override
-  _GettingStartedCalendarState createState() => _GettingStartedCalendarState();
+  GettingStartedCalendarState createState() => GettingStartedCalendarState();
 }
 
-class _GettingStartedCalendarState extends SampleViewState {
-  _GettingStartedCalendarState();
+/// Represents the state class of  GettingStartedCalendarState
+class GettingStartedCalendarState extends SampleViewState {
+  /// Creates an instance of  GettingStartedCalendarState state
+  GettingStartedCalendarState();
 
   final List<String> _subjectCollection = <String>[];
   final List<Color> _colorCollection = <Color>[];
@@ -232,226 +234,200 @@ class _GettingStartedCalendarState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Text('Allow view navigation',
-                    softWrap: false,
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            activeColor: model.backgroundColor,
-                            value: _allowViewNavigation,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _allowViewNavigation = value;
-                                stateSetter(() {});
-                              });
-                            },
-                          )),
-                    ),
-                  ),
-                )
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Text('Allow view navigation',
+                  softWrap: false,
+                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
+              Theme(
+                data: Theme.of(context)
+                    .copyWith(canvasColor: model.bottomSheetBackgroundColor),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: Transform.scale(
+                      scale: 0.8,
+                      child: CupertinoSwitch(
+                        activeColor: model.backgroundColor,
+                        value: _allowViewNavigation,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _allowViewNavigation = value;
+                            stateSetter(() {});
+                          });
+                        },
+                      )),
+                ),
+              ),
+            ],
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Text('Show date picker button',
-                    softWrap: false,
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.all(0),
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            activeColor: model.backgroundColor,
-                            value: _showDatePickerButton,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _showDatePickerButton = value;
-                                stateSetter(() {});
-                              });
-                            },
-                          )),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Expanded(
-                    child: Text(
-                        model.isWebFullView
-                            ? 'Show trailing and leading \ndates'
-                            : 'Show trailing and leading dates',
-                        softWrap: false,
-                        style:
-                            TextStyle(fontSize: 16.0, color: model.textColor))),
-                Container(
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
-                    child: Container(
-                        child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            activeColor: model.backgroundColor,
-                            value: _showLeadingAndTrailingDates,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _showLeadingAndTrailingDates = value;
-                                stateSetter(() {});
-                              });
-                            },
-                          )),
-                    )),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Expanded(
-                    child: Text(
-                        model.isWebFullView
-                            ? 'Show current time \nindicator'
-                            : 'Show current time indicator',
-                        softWrap: false,
-                        style:
-                            TextStyle(fontSize: 16.0, color: model.textColor))),
-                Container(
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
-                    child: Container(
-                        child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            activeColor: model.backgroundColor,
-                            value: _showCurrentTimeIndicator,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _showCurrentTimeIndicator = value;
-                                stateSetter(() {});
-                              });
-                            },
-                          )),
-                    )),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Expanded(
-                    child: Text('Show week number',
-                        softWrap: false,
-                        style:
-                            TextStyle(fontSize: 16.0, color: model.textColor))),
-                Container(
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
-                    child: Container(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                            scale: 0.8,
-                            child: CupertinoSwitch(
-                              activeColor: model.backgroundColor,
-                              value: _showWeekNumber,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  _showWeekNumber = value;
-                                  stateSetter(() {});
-                                });
-                              },
-                            )),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                    flex: model.isWebFullView ? 5 : 6,
-                    child: Text(
-                        model.isWebFullView
-                            ? 'View navigation \nmode'
-                            : 'View navigation mode',
-                        softWrap: false,
-                        style:
-                            TextStyle(fontSize: 16.0, color: model.textColor))),
-                Expanded(
-                  flex: model.isWebFullView ? 5 : 4,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Text('Show date picker button',
+                  softWrap: false,
+                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
+              Container(
+                padding: EdgeInsets.zero,
+                child: Theme(
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.bottomSheetBackgroundColor),
                   child: Container(
-                    padding: const EdgeInsets.only(left: 60),
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                        underline: Container(
-                            color: const Color(0xFFBDBDBD), height: 1),
-                        value: _viewNavigationModeString,
-                        items: _viewNavigationModeList.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'Snap',
-                              child: Text(value,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          onViewNavigationModeChange(value);
-                          stateSetter(() {});
-                        }),
+                    alignment: Alignment.centerLeft,
+                    child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          activeColor: model.backgroundColor,
+                          value: _showDatePickerButton,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _showDatePickerButton = value;
+                              stateSetter(() {});
+                            });
+                          },
+                        )),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Expanded(
+                  child: Text(
+                      model.isWebFullView
+                          ? 'Show trailing and leading \ndates'
+                          : 'Show trailing and leading dates',
+                      softWrap: false,
+                      style:
+                          TextStyle(fontSize: 16.0, color: model.textColor))),
+              Theme(
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.bottomSheetBackgroundColor),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          activeColor: model.backgroundColor,
+                          value: _showLeadingAndTrailingDates,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _showLeadingAndTrailingDates = value;
+                              stateSetter(() {});
+                            });
+                          },
+                        )),
+                  )),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Expanded(
+                  child: Text(
+                      model.isWebFullView
+                          ? 'Show current time \nindicator'
+                          : 'Show current time indicator',
+                      softWrap: false,
+                      style:
+                          TextStyle(fontSize: 16.0, color: model.textColor))),
+              Theme(
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.bottomSheetBackgroundColor),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          activeColor: model.backgroundColor,
+                          value: _showCurrentTimeIndicator,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _showCurrentTimeIndicator = value;
+                              stateSetter(() {});
+                            });
+                          },
+                        )),
+                  )),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Expanded(
+                  child: Text('Show week number',
+                      softWrap: false,
+                      style:
+                          TextStyle(fontSize: 16.0, color: model.textColor))),
+              Theme(
+                data: Theme.of(context)
+                    .copyWith(canvasColor: model.bottomSheetBackgroundColor),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Transform.scale(
+                      scale: 0.8,
+                      child: CupertinoSwitch(
+                        activeColor: model.backgroundColor,
+                        value: _showWeekNumber,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _showWeekNumber = value;
+                            stateSetter(() {});
+                          });
+                        },
+                      )),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                  flex: model.isWebFullView ? 5 : 6,
+                  child: Text(
+                      model.isWebFullView
+                          ? 'View navigation \nmode'
+                          : 'View navigation mode',
+                      softWrap: false,
+                      style:
+                          TextStyle(fontSize: 16.0, color: model.textColor))),
+              Expanded(
+                flex: model.isWebFullView ? 5 : 4,
+                child: Container(
+                  padding: const EdgeInsets.only(left: 60),
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
+                      value: _viewNavigationModeString,
+                      items: _viewNavigationModeList.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'Snap',
+                            child: Text(value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        onViewNavigationModeChange(value);
+                        stateSetter(() {});
+                      }),
+                ),
+              )
+            ],
           ),
         ],
       );

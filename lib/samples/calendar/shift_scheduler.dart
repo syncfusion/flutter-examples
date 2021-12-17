@@ -152,7 +152,7 @@ class _ShiftSchedulerState extends SampleViewState {
                   return true;
                 },
                 child: Center(
-                    child: Container(
+                    child: SizedBox(
                         width: _isAppointmentTapped ? 400 : 500,
                         height: _isAppointmentTapped
                             ? (_selectedAppointment!.location == null ||
@@ -163,7 +163,7 @@ class _ShiftSchedulerState extends SampleViewState {
                         child: Theme(
                             data: model.themeData,
                             child: Card(
-                              margin: const EdgeInsets.all(0.0),
+                              margin: EdgeInsets.zero,
                               color: model.cardThemeColor,
                               shape: const RoundedRectangleBorder(
                                   borderRadius:

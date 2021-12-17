@@ -62,6 +62,7 @@ class _MapSublayerPageState extends SampleViewState
 
   @override
   void dispose() {
+    _state.clear();
     super.dispose();
   }
 
@@ -138,7 +139,8 @@ class _MapSublayerPageState extends SampleViewState
   }
 
   Widget _buildMapsWidget(bool scrollEnabled) {
-    final bool isLightTheme = _themeData.brightness == Brightness.light;
+    final bool isLightTheme =
+        _themeData.colorScheme.brightness == Brightness.light;
     return FutureBuilder<dynamic>(
         future: getJsonData(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapchat) {
@@ -180,10 +182,10 @@ class _MapSublayerPageState extends SampleViewState
                             ? const Color.fromRGBO(205, 195, 152, 0.5)
                             : const Color.fromRGBO(117, 156, 22, 1.0),
                         loadingBuilder: (BuildContext context) {
-                          return Container(
+                          return const SizedBox(
                             height: 25,
                             width: 25,
-                            child: const CircularProgressIndicator(
+                            child: CircularProgressIndicator(
                               strokeWidth: 3,
                             ),
                           );

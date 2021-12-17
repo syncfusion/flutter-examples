@@ -20,6 +20,22 @@ class SplineVertical extends SampleView {
 class _SplineVerticalState extends SampleViewState {
   _SplineVerticalState();
 
+  List<_ChartData>? chartData;
+
+  @override
+  void initState() {
+    chartData = <_ChartData>[
+      _ChartData('Jan', -1, 7),
+      _ChartData('Mar', 12, 2),
+      _ChartData('Apr', 25, 13),
+      _ChartData('Jun', 31, 21),
+      _ChartData('Aug', 26, 26),
+      _ChartData('Oct', 14, 10),
+      _ChartData('Dec', 8, 0),
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return _buildVerticalSplineChart();
@@ -49,32 +65,29 @@ class _SplineVerticalState extends SampleViewState {
   /// Returns the list of chart series
   /// which need to render on the vertical spline chart.
   List<SplineSeries<_ChartData, String>> _getVerticalSplineSeries() {
-    final List<_ChartData> chartData = <_ChartData>[
-      _ChartData('Jan', -1, 7),
-      _ChartData('Mar', 12, 2),
-      _ChartData('Apr', 25, 13),
-      _ChartData('Jun', 31, 21),
-      _ChartData('Aug', 26, 26),
-      _ChartData('Oct', 14, 10),
-      _ChartData('Dec', 8, 0),
-    ];
     return <SplineSeries<_ChartData, String>>[
       SplineSeries<_ChartData, String>(
           markerSettings: const MarkerSettings(isVisible: true),
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
           width: 2,
           name: 'London'),
       SplineSeries<_ChartData, String>(
         markerSettings: const MarkerSettings(isVisible: true),
-        dataSource: chartData,
+        dataSource: chartData!,
         width: 2,
         name: 'France',
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y2,
       )
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }
 

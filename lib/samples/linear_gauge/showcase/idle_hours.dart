@@ -1,5 +1,4 @@
 /// Flutter package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Gauge imports
@@ -22,8 +21,6 @@ class IdleHours extends SampleView {
 class _IdleHoursState extends SampleViewState {
   _IdleHoursState();
 
-  double barValue = 50;
-
   @override
   Widget build(BuildContext context) {
     return isWebOrDesktop
@@ -39,45 +36,42 @@ class _IdleHoursState extends SampleViewState {
 
   Widget _buildIdleHours(BuildContext context) {
     return Center(
-      child: Container(
-        child: SfLinearGauge(
-          orientation: LinearGaugeOrientation.horizontal,
-          showLabels: true,
-          showTicks: false,
-          interval: 30,
-          labelOffset: 0,
-          axisTrackStyle: const LinearAxisTrackStyle(
-              thickness: 100, color: Colors.transparent),
-          labelFormatterCallback: (String label) {
-            if (label == '0') {
-              return '00:00';
-            }
+      child: SfLinearGauge(
+        orientation: LinearGaugeOrientation.horizontal,
+        showLabels: true,
+        showTicks: false,
+        interval: 30,
+        labelOffset: 0,
+        axisTrackStyle: const LinearAxisTrackStyle(
+            thickness: 100, color: Colors.transparent),
+        labelFormatterCallback: (String label) {
+          if (label == '0') {
+            return '00:00';
+          }
 
-            if (label == '30') {
-              return '06:00';
-            }
+          if (label == '30') {
+            return '06:00';
+          }
 
-            if (label == '60') {
-              return '12:00';
-            }
+          if (label == '60') {
+            return '12:00';
+          }
 
-            if (label == '90') {
-              return '18:00';
-            }
+          if (label == '90') {
+            return '18:00';
+          }
 
-            if (label == '100') {
-              return '';
-            }
+          if (label == '100') {
+            return '';
+          }
 
-            return label;
-          },
-          markerPointers: List<LinearWidgetPointer>.generate(
-            24,
-            (int index) => index % 3 == 0
-                ? _buildLinearWidgetPointer(
-                    index * 4, Colors.lightBlue.shade900)
-                : _buildLinearWidgetPointer(index * 4, Colors.lightBlue),
-          ),
+          return label;
+        },
+        markerPointers: List<LinearWidgetPointer>.generate(
+          24,
+          (int index) => index % 3 == 0
+              ? _buildLinearWidgetPointer(index * 4, Colors.lightBlue.shade900)
+              : _buildLinearWidgetPointer(index * 4, Colors.lightBlue),
         ),
       ),
     );

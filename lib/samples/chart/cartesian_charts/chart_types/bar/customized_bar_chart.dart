@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 
 /// Package import
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -31,20 +30,21 @@ bool isImageloaded = false;
 /// State class of the customized bar chart.
 class _BarCustomizationState extends SampleViewState {
   _BarCustomizationState();
-  late TooltipBehavior _tooltipBehavior;
 
-  Future<void> _init() async {
-    final ByteData data = await rootBundle.load('images/dashline.png');
-    image = await _loadImage(Uint8List.view(data.buffer));
-  }
+  TooltipBehavior? _tooltipBehavior;
 
-  Future<ui.Image> _loadImage(List<int> img) async {
-    final Completer<ui.Image> completer = Completer<ui.Image>();
-    ui.decodeImageFromList(img as Uint8List, (ui.Image img) {
+  void _loadImage() {
+    final Completer<ImageInfo> completer = Completer<ImageInfo>();
+    const ImageProvider imageProvider = AssetImage('images/dashline.png');
+    imageProvider
+        .resolve(ImageConfiguration.empty)
+        .addListener(ImageStreamListener((ImageInfo info, bool _) async {
       isImageloaded = true;
-      return completer.complete(img);
-    });
-    return completer.future;
+      completer.complete(info);
+      final ImageInfo imageInfo = await completer.future;
+
+      image = imageInfo.image;
+    }));
   }
 
   @override
@@ -52,7 +52,7 @@ class _BarCustomizationState extends SampleViewState {
     _tooltipBehavior =
         TooltipBehavior(enable: true, canShowMarker: false, header: '');
     super.initState();
-    _init();
+    _loadImage();
   }
 
   @override
@@ -72,6 +72,9 @@ class _BarCustomizationState extends SampleViewState {
       ),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Downloads in Billion'),
+          minimum: 0,
+          maximum: model.isWebFullView ? 4.5 : 5,
+          interval: model.isWebFullView ? 0.5 : 1,
           majorGridLines: const MajorGridLines(width: 0),
           majorTickLines: const MajorTickLines(size: 0)),
       series: <ChartSeries<ChartSampleData, String>>[

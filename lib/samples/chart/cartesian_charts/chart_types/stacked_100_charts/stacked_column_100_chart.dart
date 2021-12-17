@@ -19,11 +19,20 @@ class StackedColumn100Chart extends SampleView {
 /// State class of the stacked column 100 chart.
 class _StackedColumn100ChartState extends SampleViewState {
   _StackedColumn100ChartState();
-  late TooltipBehavior _tooltipBehavior;
+
+  List<_ChartData>? chartData;
+
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =
         TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    chartData = <_ChartData>[
+      _ChartData('Q1', 50, 55, 72, 65),
+      _ChartData('Q2', 80, 75, 70, 60),
+      _ChartData('Q3', 35, 45, 55, 52),
+      _ChartData('Q4', 65, 50, 70, 65),
+    ];
     super.initState();
   }
 
@@ -55,38 +64,38 @@ class _StackedColumn100ChartState extends SampleViewState {
   /// Returns the list of chart series
   /// which need to render on the stacked column 1oo chart.
   List<ChartSeries<_ChartData, String>> _getStackedColumnSeries() {
-    final List<_ChartData> chartData = <_ChartData>[
-      _ChartData('Q1', 50, 55, 72, 65),
-      _ChartData('Q2', 80, 75, 70, 60),
-      _ChartData('Q3', 35, 45, 55, 52),
-      _ChartData('Q4', 65, 50, 70, 65),
-    ];
     return <ChartSeries<_ChartData, String>>[
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y1,
           name: 'Product A'),
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2,
           name: 'Product B'),
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y3,
           name: 'Product C'),
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y4,
           name: 'Product D')
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }
 

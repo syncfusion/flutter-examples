@@ -23,15 +23,23 @@ class UpdateDataSource extends SampleView {
 class _LiveVerticalState extends SampleViewState {
   _LiveVerticalState();
 
-  List<ChartSampleData> chartData = <ChartSampleData>[
-    ChartSampleData(x: 1, y: 30),
-    ChartSampleData(x: 3, y: 13),
-    ChartSampleData(x: 5, y: 80),
-    ChartSampleData(x: 7, y: 30),
-    ChartSampleData(x: 9, y: 72)
-  ];
-  int count = 11;
-  final Random random = Random();
+  List<ChartSampleData>? chartData;
+  late int count;
+  Random? random;
+
+  @override
+  void initState() {
+    count = 11;
+    chartData = <ChartSampleData>[
+      ChartSampleData(x: 1, y: 30),
+      ChartSampleData(x: 3, y: 13),
+      ChartSampleData(x: 5, y: 80),
+      ChartSampleData(x: 7, y: 30),
+      ChartSampleData(x: 9, y: 72)
+    ];
+    random = Random();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +82,7 @@ class _LiveVerticalState extends SampleViewState {
   List<ColumnSeries<ChartSampleData, num>> _getUpdateDataSourceSeries() {
     return <ColumnSeries<ChartSampleData, num>>[
       ColumnSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           dataLabelSettings: const DataLabelSettings(isVisible: true)),
@@ -83,15 +91,21 @@ class _LiveVerticalState extends SampleViewState {
 
   ///Get the random value
   int _getRandomInt(int min, int max) {
-    return min + random.nextInt(max - min);
+    return min + random!.nextInt(max - min);
   }
 
   List<ChartSampleData> _getChartData() {
-    chartData.add(ChartSampleData(x: 1, y: _getRandomInt(10, 100)));
-    chartData.add(ChartSampleData(x: 3, y: _getRandomInt(10, 100)));
-    chartData.add(ChartSampleData(x: 5, y: _getRandomInt(10, 100)));
-    chartData.add(ChartSampleData(x: 7, y: _getRandomInt(10, 100)));
-    chartData.add(ChartSampleData(x: 9, y: _getRandomInt(10, 100)));
-    return chartData;
+    chartData!.add(ChartSampleData(x: 1, y: _getRandomInt(10, 100)));
+    chartData!.add(ChartSampleData(x: 3, y: _getRandomInt(10, 100)));
+    chartData!.add(ChartSampleData(x: 5, y: _getRandomInt(10, 100)));
+    chartData!.add(ChartSampleData(x: 7, y: _getRandomInt(10, 100)));
+    chartData!.add(ChartSampleData(x: 9, y: _getRandomInt(10, 100)));
+    return chartData!;
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

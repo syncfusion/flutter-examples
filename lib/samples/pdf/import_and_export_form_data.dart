@@ -64,87 +64,85 @@ class _ImportAndExportFormDataState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: model.cardThemeColor,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                  'This sample shows how to import or export form data from the PDF document. It supports XFDF, FDF, XML, and JSON format for import and export.',
+                  style: TextStyle(fontSize: 16, color: model.textColor)),
+              const SizedBox(height: 20, width: 30),
+              Text('Choose the data type for import or export:',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: model.textColor,
+                      fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10, width: 30),
+              if (MediaQuery.of(context).size.width > 800)
+                Row(children: getDataTypeChildWidgets(context))
+              else
+                Column(children: getDataTypeChildWidgets(context)),
+              const SizedBox(height: 20, width: 30),
+              Text('Select import or export:',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: model.textColor,
+                      fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10, width: 30),
+              if (MediaQuery.of(context).size.width > 800)
+                Row(children: getProcessChildWidgets(context))
+              else
+                Column(children: getProcessChildWidgets(context)),
+              const SizedBox(height: 20, width: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                      'This sample shows how to import or export form data from the PDF document. It supports XFDF, FDF, XML, and JSON format for import and export.',
-                      style: TextStyle(fontSize: 16, color: model.textColor)),
-                  const SizedBox(height: 20, width: 30),
-                  Text('Choose the data type for import or export:',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: model.textColor,
-                          fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10, width: 30),
-                  if (MediaQuery.of(context).size.width > 800)
-                    Row(children: getDataTypeChildWidgets(context))
-                  else
-                    Column(children: getDataTypeChildWidgets(context)),
-                  const SizedBox(height: 20, width: 30),
-                  Text('Select import or export:',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: model.textColor,
-                          fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10, width: 30),
-                  if (MediaQuery.of(context).size.width > 800)
-                    Row(children: getProcessChildWidgets(context))
-                  else
-                    Column(children: getProcessChildWidgets(context)),
-                  const SizedBox(height: 20, width: 30),
-                  Container(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      const SizedBox(height: 10, width: 30),
-                      TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              model.backgroundColor),
-                          padding: model.isMobile
-                              ? null
-                              : MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 15)),
-                        ),
-                        onPressed: _viewTemplate,
-                        child: const Text('View Template',
-                            style: TextStyle(color: Colors.white)),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                        width: 20,
-                      ),
-                      TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              model.backgroundColor),
-                          padding: model.isMobile
-                              ? null
-                              : MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 15)),
-                        ),
-                        onPressed: _processData,
-                        child: Text(_processText,
-                            style: const TextStyle(color: Colors.white)),
-                      )
-                    ],
-                  ))
+                  TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _viewTemplate,
+                    child: const Text('View Template',
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                    width: 20,
+                  ),
+                  TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _processData,
+                    child: Text(_processText,
+                        style: const TextStyle(color: Colors.white)),
+                  )
                 ],
-              ),
-            ),
+              )
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   List<Widget> getDataTypeChildWidgets(BuildContext context) {

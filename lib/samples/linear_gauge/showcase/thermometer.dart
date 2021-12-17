@@ -42,7 +42,7 @@ class _ThermometerState extends SampleViewState {
     final Brightness brightness = Theme.of(context).brightness;
 
     return Center(
-        child: Container(
+        child: SizedBox(
             height: isCardView
                 ? MediaQuery.of(context).size.height
                 : orientation == Orientation.portrait
@@ -78,7 +78,7 @@ class _ThermometerState extends SampleViewState {
                                   enableAnimation: false,
                                   position: LinearElementPosition.outside,
                                   offset: 8,
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 30,
                                     child: Text(
                                       '°C',
@@ -199,7 +199,7 @@ class _ThermometerState extends SampleViewState {
                                     position: LinearElementPosition.inside,
                                     offset: 6,
                                     enableAnimation: false,
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 30,
                                       child: Text(
                                         '°F',

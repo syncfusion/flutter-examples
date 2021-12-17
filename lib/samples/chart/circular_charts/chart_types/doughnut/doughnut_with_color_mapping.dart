@@ -30,9 +30,8 @@ class _DoughnutDefaultState extends SampleViewState {
     return SfCircularChart(
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
-            widget: Container(
-                child: const Text('90%',
-                    style: TextStyle(color: Colors.grey, fontSize: 25))))
+            widget: const Text('90%',
+                style: TextStyle(color: Colors.grey, fontSize: 25)))
       ],
       title: ChartTitle(
           text: isCardView ? '' : 'Work progress',
@@ -44,53 +43,54 @@ class _DoughnutDefaultState extends SampleViewState {
   /// Return the list of doughnut series which need to be color mapping.
   List<DoughnutSeries<ChartSampleData, String>>
       _getDoughnutCustomizationSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'A', y: 10, pointColor: const Color.fromRGBO(255, 4, 0, 1)),
-      ChartSampleData(
-          x: 'B', y: 10, pointColor: const Color.fromRGBO(255, 15, 0, 1)),
-      ChartSampleData(
-          x: 'C', y: 10, pointColor: const Color.fromRGBO(255, 31, 0, 1)),
-      ChartSampleData(
-          x: 'D', y: 10, pointColor: const Color.fromRGBO(255, 60, 0, 1)),
-      ChartSampleData(
-          x: 'E', y: 10, pointColor: const Color.fromRGBO(255, 90, 0, 1)),
-      ChartSampleData(
-          x: 'F', y: 10, pointColor: const Color.fromRGBO(255, 115, 0, 1)),
-      ChartSampleData(
-          x: 'G', y: 10, pointColor: const Color.fromRGBO(255, 135, 0, 1)),
-      ChartSampleData(
-          x: 'H', y: 10, pointColor: const Color.fromRGBO(255, 155, 0, 1)),
-      ChartSampleData(
-          x: 'I', y: 10, pointColor: const Color.fromRGBO(255, 175, 0, 1)),
-      ChartSampleData(
-          x: 'J', y: 10, pointColor: const Color.fromRGBO(255, 188, 0, 1)),
-      ChartSampleData(
-          x: 'K', y: 10, pointColor: const Color.fromRGBO(255, 188, 0, 1)),
-      ChartSampleData(
-          x: 'L', y: 10, pointColor: const Color.fromRGBO(251, 188, 2, 1)),
-      ChartSampleData(
-          x: 'M', y: 10, pointColor: const Color.fromRGBO(245, 188, 6, 1)),
-      ChartSampleData(
-          x: 'N', y: 10, pointColor: const Color.fromRGBO(233, 188, 12, 1)),
-      ChartSampleData(
-          x: 'O', y: 10, pointColor: const Color.fromRGBO(220, 187, 19, 1)),
-      ChartSampleData(
-          x: 'P', y: 10, pointColor: const Color.fromRGBO(208, 187, 26, 1)),
-      ChartSampleData(
-          x: 'Q', y: 10, pointColor: const Color.fromRGBO(193, 187, 34, 1)),
-      ChartSampleData(
-          x: 'R', y: 10, pointColor: const Color.fromRGBO(177, 186, 43, 1)),
-      ChartSampleData(
-          x: 'S', y: 10, pointColor: const Color.fromRGBO(230, 230, 230, 1)),
-      ChartSampleData(
-          x: 'T', y: 10, pointColor: const Color.fromRGBO(230, 230, 230, 1))
-    ];
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(
+              x: 'A', y: 10, pointColor: const Color.fromRGBO(255, 4, 0, 1)),
+          ChartSampleData(
+              x: 'B', y: 10, pointColor: const Color.fromRGBO(255, 15, 0, 1)),
+          ChartSampleData(
+              x: 'C', y: 10, pointColor: const Color.fromRGBO(255, 31, 0, 1)),
+          ChartSampleData(
+              x: 'D', y: 10, pointColor: const Color.fromRGBO(255, 60, 0, 1)),
+          ChartSampleData(
+              x: 'E', y: 10, pointColor: const Color.fromRGBO(255, 90, 0, 1)),
+          ChartSampleData(
+              x: 'F', y: 10, pointColor: const Color.fromRGBO(255, 115, 0, 1)),
+          ChartSampleData(
+              x: 'G', y: 10, pointColor: const Color.fromRGBO(255, 135, 0, 1)),
+          ChartSampleData(
+              x: 'H', y: 10, pointColor: const Color.fromRGBO(255, 155, 0, 1)),
+          ChartSampleData(
+              x: 'I', y: 10, pointColor: const Color.fromRGBO(255, 175, 0, 1)),
+          ChartSampleData(
+              x: 'J', y: 10, pointColor: const Color.fromRGBO(255, 188, 0, 1)),
+          ChartSampleData(
+              x: 'K', y: 10, pointColor: const Color.fromRGBO(255, 188, 0, 1)),
+          ChartSampleData(
+              x: 'L', y: 10, pointColor: const Color.fromRGBO(251, 188, 2, 1)),
+          ChartSampleData(
+              x: 'M', y: 10, pointColor: const Color.fromRGBO(245, 188, 6, 1)),
+          ChartSampleData(
+              x: 'N', y: 10, pointColor: const Color.fromRGBO(233, 188, 12, 1)),
+          ChartSampleData(
+              x: 'O', y: 10, pointColor: const Color.fromRGBO(220, 187, 19, 1)),
+          ChartSampleData(
+              x: 'P', y: 10, pointColor: const Color.fromRGBO(208, 187, 26, 1)),
+          ChartSampleData(
+              x: 'Q', y: 10, pointColor: const Color.fromRGBO(193, 187, 34, 1)),
+          ChartSampleData(
+              x: 'R', y: 10, pointColor: const Color.fromRGBO(177, 186, 43, 1)),
+          ChartSampleData(
+              x: 'S',
+              y: 10,
+              pointColor: const Color.fromRGBO(230, 230, 230, 1)),
+          ChartSampleData(
+              x: 'T', y: 10, pointColor: const Color.fromRGBO(230, 230, 230, 1))
+        ],
         radius: '100%',
-        strokeColor: model.themeData.brightness == Brightness.light
+        strokeColor: model.themeData.colorScheme.brightness == Brightness.light
             ? Colors.white
             : Colors.black,
         strokeWidth: 2,

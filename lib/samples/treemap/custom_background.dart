@@ -496,7 +496,7 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
         padding: EdgeInsets.zero,
         border: RoundedRectangleBorder(
           side: BorderSide(
-              color: themeData.brightness == Brightness.light
+              color: themeData.colorScheme.brightness == Brightness.light
                   ? const Color.fromRGBO(255, 255, 255, 1.0)
                   : const Color.fromRGBO(0, 0, 0, 1.0),
               width: 0.5),

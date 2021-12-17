@@ -1,13 +1,15 @@
-/// Dart import
-import 'dart:math';
-
+/// Package imports
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_examples/model/sample_view.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_examples/samples/datagrid/datagridsource/orderinfo_datagridsource.dart';
+
+/// DataGrid import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+/// Local import
+import 'model/orderinfo.dart';
 
 /// Renders column type data grid
 class SwipingDataGrid extends SampleView {
@@ -23,7 +25,7 @@ class _SwipingDataGridState extends SampleViewState {
   bool isLandscapeInMobileView = false;
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late _EmployeeDataSource employeeDataSource;
+  late OrderInfoDataGridSource dataSource;
 
   /// Editing controller for forms to perform update the values.
   TextEditingController? orderIdController,
@@ -42,7 +44,8 @@ class _SwipingDataGridState extends SampleViewState {
   void initState() {
     super.initState();
     isWebOrDesktop = model.isWeb || model.isDesktop;
-    employeeDataSource = _EmployeeDataSource(isWebOrDesktop: isWebOrDesktop);
+    dataSource = OrderInfoDataGridSource(
+        isWebOrDesktop: isWebOrDesktop, orderDataCount: 100);
     orderIdController = TextEditingController();
     customerIdController = TextEditingController();
     cityController = TextEditingController();
@@ -76,7 +79,7 @@ class _SwipingDataGridState extends SampleViewState {
             width: isWebOrDesktop ? 150 : 130,
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Text(columnName)),
-        Container(
+        SizedBox(
           width: isWebOrDesktop ? 150 : 130,
           child: TextFormField(
             validator: (String? value) {
@@ -124,10 +127,10 @@ class _SwipingDataGridState extends SampleViewState {
   /// Updating the DataGridRows after changing the value and notify the DataGrid
   /// to refresh the view
   void _processCellUpdate(DataGridRow row, BuildContext buildContext) {
-    final int rowIndex = employeeDataSource.dataGridRows.indexOf(row);
+    final int rowIndex = dataSource.dataGridRows.indexOf(row);
 
     if (_formKey.currentState!.validate()) {
-      employeeDataSource.employees[rowIndex] = _Employee(
+      dataSource.orders[rowIndex] = OrderInfo(
         int.tryParse(orderIdController!.text)!,
         int?.tryParse(customerIdController!.text)!,
         nameController!.text,
@@ -139,8 +142,8 @@ class _SwipingDataGridState extends SampleViewState {
             ? 0.0
             : double.tryParse(priceController!.text)!,
       );
-      employeeDataSource.updateDataGridRow();
-      employeeDataSource.updateDataSource();
+      dataSource.buildDataGridRows();
+      dataSource.updateDataSource();
       Navigator.pop(buildContext);
     }
   }
@@ -248,10 +251,10 @@ class _SwipingDataGridState extends SampleViewState {
 
   /// Deleting the DataGridRow
   void _handleDeleteWidgetTap(DataGridRow row) {
-    final int index = employeeDataSource.dataGridRows.indexOf(row);
-    employeeDataSource.dataGridRows.remove(row);
-    employeeDataSource.employees.remove(employeeDataSource.employees[index]);
-    employeeDataSource.updateDataSource();
+    final int index = dataSource.dataGridRows.indexOf(row);
+    dataSource.dataGridRows.remove(row);
+    dataSource.orders.remove(dataSource.orders[index]);
+    dataSource.updateDataSource();
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -319,16 +322,14 @@ class _SwipingDataGridState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SfDataGrid(
-        allowSwiping: true,
-        swipeMaxOffset: 121.0,
-        columns: getColumns(),
-        source: employeeDataSource,
-        columnWidthMode: ColumnWidthMode.fill,
-        endSwipeActionsBuilder: _buildEndSwipeWidget,
-        startSwipeActionsBuilder: _buildStartSwipeWidget,
-      ),
+    return SfDataGrid(
+      allowSwiping: true,
+      swipeMaxOffset: 121.0,
+      columns: getColumns(),
+      source: dataSource,
+      columnWidthMode: ColumnWidthMode.fill,
+      endSwipeActionsBuilder: _buildEndSwipeWidget,
+      startSwipeActionsBuilder: _buildStartSwipeWidget,
     );
   }
 
@@ -476,197 +477,5 @@ class _SwipingDataGridState extends SampleViewState {
             ),
           ];
     return columns;
-  }
-}
-
-class _Employee {
-  _Employee(
-      this.id, this.customerId, this.name, this.freight, this.city, this.price);
-  final int id;
-  final int customerId;
-  final String name;
-  final String city;
-  final double freight;
-  final double price;
-}
-
-class _EmployeeDataSource extends DataGridSource {
-  _EmployeeDataSource({required this.isWebOrDesktop}) {
-    employees = getEmployees(100);
-    updateDataGridRow();
-  }
-
-  final bool isWebOrDesktop;
-  List<DataGridRow> dataGridRows = <DataGridRow>[];
-  List<_Employee> employees = <_Employee>[];
-
-  // Building and Updating DataGridRows
-
-  void updateDataGridRow() {
-    dataGridRows = isWebOrDesktop
-        ? employees.map<DataGridRow>((_Employee employee) {
-            return DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(columnName: 'id', value: employee.id),
-              DataGridCell<int>(
-                  columnName: 'customerId', value: employee.customerId),
-              DataGridCell<String>(columnName: 'name', value: employee.name),
-              DataGridCell<double>(
-                  columnName: 'freight', value: employee.freight),
-              DataGridCell<String>(columnName: 'city', value: employee.city),
-              DataGridCell<double>(columnName: 'price', value: employee.price),
-            ]);
-          }).toList()
-        : employees.map<DataGridRow>((_Employee employee) {
-            return DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(columnName: 'id', value: employee.id),
-              DataGridCell<int>(
-                  columnName: 'customerId', value: employee.customerId),
-              DataGridCell<String>(columnName: 'name', value: employee.name),
-              DataGridCell<String>(columnName: 'city', value: employee.city),
-            ]);
-          }).toList();
-  }
-
-  // Overrides
-
-  @override
-  List<DataGridRow> get rows => dataGridRows;
-
-  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
-    if (isWebOrDesktop) {
-      return DataGridRowAdapter(cells: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerRight,
-          child: Text(
-            row.getCells()[0].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerRight,
-          child: Text(
-            row.getCells()[1].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[2].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerRight,
-          child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                .format(row.getCells()[3].value)
-                .toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            row.getCells()[4].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerRight,
-          child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                .format(row.getCells()[5].value)
-                .toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ]);
-    } else {
-      Widget buildWidget({
-        AlignmentGeometry alignment = Alignment.centerLeft,
-        EdgeInsetsGeometry padding = const EdgeInsets.all(8.0),
-        TextOverflow textOverflow = TextOverflow.ellipsis,
-        required Object value,
-      }) {
-        return Container(
-          padding: padding,
-          alignment: alignment,
-          child: Text(
-            value.toString(),
-            overflow: textOverflow,
-          ),
-        );
-      }
-
-      return DataGridRowAdapter(
-          cells: row.getCells().map<Widget>((DataGridCell dataCell) {
-        if (dataCell.columnName == 'id' ||
-            dataCell.columnName == 'customerId') {
-          return buildWidget(
-              alignment: Alignment.centerRight, value: dataCell.value!);
-        } else {
-          return buildWidget(value: dataCell.value!);
-        }
-      }).toList(growable: false));
-    }
-  }
-
-  void updateDataSource() {
-    notifyListeners();
-  }
-
-  final List<String> names = <String>[
-    'Welli',
-    'Blonp',
-    'Folko',
-    'Furip',
-    'Folig',
-    'Picco',
-    'Frans',
-    'Warth',
-    'Linod',
-    'Simop',
-    'Merep',
-    'Riscu',
-    'Seves',
-    'Vaffe',
-    'Alfki',
-  ];
-
-  final List<String> cities = <String>[
-    'Bruxelles',
-    'Rosario',
-    'Recife',
-    'Graz',
-    'Montreal',
-    'Tsawassen',
-    'Campinas',
-    'Resende',
-  ];
-
-  List<_Employee> getEmployees(int count) {
-    final Random random = Random();
-    final List<_Employee> employeeData = <_Employee>[];
-    for (int i = 0; i < count; i++) {
-      employeeData.add(
-        _Employee(
-          1000 + i,
-          1700 + i,
-          names[i < names.length ? i : random.nextInt(names.length - 1)],
-          random.nextInt(1000) + random.nextDouble(),
-          cities[random.nextInt(cities.length - 1)],
-          1500.0 + random.nextInt(100),
-        ),
-      );
-    }
-    return employeeData;
   }
 }

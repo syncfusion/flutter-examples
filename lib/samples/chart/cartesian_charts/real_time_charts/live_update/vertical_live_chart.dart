@@ -22,25 +22,28 @@ class VerticalLineLiveUpdate extends SampleView {
 
 /// State class of the vertical live update chart.
 class _LiveUpdateState extends SampleViewState {
-  _LiveUpdateState();
+  _LiveUpdateState() {
+    chartData = <ChartSampleData>[
+      ChartSampleData(x: 0, y: -4),
+      ChartSampleData(x: 1, y: 3),
+      ChartSampleData(x: 2, y: -3),
+      ChartSampleData(x: 3, y: 2),
+      ChartSampleData(x: 4, y: -2),
+      ChartSampleData(x: 5, y: 0),
+      ChartSampleData(x: 6, y: -3),
+      ChartSampleData(x: 7, y: 4),
+      ChartSampleData(x: 8, y: 0),
+      ChartSampleData(x: 9, y: 0),
+      ChartSampleData(x: 10, y: 0)
+    ];
+  }
   Timer? timer;
-  int count = 0;
+  late int count;
   ChartSeriesController? _chartSeriesController;
-  List<ChartSampleData> chartData = <ChartSampleData>[
-    ChartSampleData(x: 0, y: -4),
-    ChartSampleData(x: 1, y: 3),
-    ChartSampleData(x: 2, y: -3),
-    ChartSampleData(x: 3, y: 2),
-    ChartSampleData(x: 4, y: -2),
-    ChartSampleData(x: 5, y: 0),
-    ChartSampleData(x: 6, y: -3),
-    ChartSampleData(x: 7, y: 4),
-    ChartSampleData(x: 8, y: 0),
-    ChartSampleData(x: 9, y: 0),
-    ChartSampleData(x: 10, y: 0)
-  ];
+  List<ChartSampleData>? chartData;
   @override
   void initState() {
+    count = 0;
     chartData = <ChartSampleData>[
       ChartSampleData(x: 0, y: 0),
     ];
@@ -53,6 +56,8 @@ class _LiveUpdateState extends SampleViewState {
     count = 0;
     chartData = <ChartSampleData>[];
     timer?.cancel();
+    _chartSeriesController = null;
+    chartData!.clear();
     super.dispose();
   }
 
@@ -86,7 +91,7 @@ class _LiveUpdateState extends SampleViewState {
         onRendererCreated: (ChartSeriesController controller) {
           _chartSeriesController = controller;
         },
-        dataSource: chartData,
+        dataSource: chartData!,
         animationDuration: 0,
         xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -100,7 +105,7 @@ class _LiveUpdateState extends SampleViewState {
     if (isCardView != null) {
       chartData = _getChartData();
       _chartSeriesController?.updateDataSource(
-        addedDataIndexes: <int>[chartData.length - 1],
+        addedDataIndexes: <int>[chartData!.length - 1],
       );
     }
   }
@@ -114,27 +119,27 @@ class _LiveUpdateState extends SampleViewState {
   ///Get the chart data points
   List<ChartSampleData> _getChartData() {
     count = count + 1;
-    if (count > 350 || chartData.length > 350) {
+    if (count > 350 || chartData!.length > 350) {
       timer?.cancel();
     } else if (count > 300) {
-      chartData
-          .add(ChartSampleData(x: chartData.length, y: _getRandomInt(0, 1)));
+      chartData!
+          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(0, 1)));
     } else if (count > 250) {
-      chartData
-          .add(ChartSampleData(x: chartData.length, y: _getRandomInt(-2, 1)));
+      chartData!
+          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-2, 1)));
     } else if (count > 180) {
-      chartData
-          .add(ChartSampleData(x: chartData.length, y: _getRandomInt(-3, 2)));
+      chartData!
+          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-3, 2)));
     } else if (count > 100) {
-      chartData
-          .add(ChartSampleData(x: chartData.length, y: _getRandomInt(-7, 6)));
+      chartData!
+          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-7, 6)));
     } else if (count < 50) {
-      chartData
-          .add(ChartSampleData(x: chartData.length, y: _getRandomInt(-3, 3)));
+      chartData!
+          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-3, 3)));
     } else {
-      chartData
-          .add(ChartSampleData(x: chartData.length, y: _getRandomInt(-9, 9)));
+      chartData!
+          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-9, 9)));
     }
-    return chartData;
+    return chartData!;
   }
 }

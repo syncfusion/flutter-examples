@@ -18,7 +18,8 @@ class WaterFall extends SampleView {
 
 class _WaterFallState extends SampleViewState {
   _WaterFallState();
-  late TooltipBehavior _tooltipBehavior;
+  List<_ChartSampleData>? chartData;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +29,6 @@ class _WaterFallState extends SampleViewState {
   /// Get the cartesian chart with histogram series
   SfCartesianChart _buildDefaultWaterfallChart() {
     return SfCartesianChart(
-      axisLabelFormatter: (AxisLabelRenderDetails details) {
-        return ChartAxisLabel(
-            details.axisName == 'Expenditure'
-                ? (details.value ~/ 1000).toString() + 'B'
-                : details.text,
-            null);
-      },
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Company revenue and profit'),
       primaryXAxis: CategoryAxis(
@@ -48,7 +42,11 @@ class _WaterFallState extends SampleViewState {
           maximum: 5000,
           interval: 1000,
           axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: const MajorTickLines(size: 0),
+          axisLabelFormatter: (AxisLabelRenderDetails details) {
+            return ChartAxisLabel(
+                (details.value ~/ 1000).toString() + 'B', null);
+          }),
       series: _getWaterFallSeries(),
       tooltipBehavior: _tooltipBehavior,
       onTooltipRender: (TooltipArgs args) {
@@ -81,49 +79,48 @@ class _WaterFallState extends SampleViewState {
 
   ///Get the histogram series
   List<WaterfallSeries<_ChartSampleData, dynamic>> _getWaterFallSeries() {
-    final List<_ChartSampleData> chartData = <_ChartSampleData>[
-      _ChartSampleData(
-          x: 'Income',
-          y: 4700,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Sales',
-          y: -1100,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Development',
-          y: -700,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Revenue',
-          y: 1200,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Balance',
-          intermediateSumPredicate: true,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Expense',
-          y: -400,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Tax',
-          y: -800,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Net Profit',
-          intermediateSumPredicate: false,
-          totalSumPredicate: true),
-    ];
     return <WaterfallSeries<_ChartSampleData, dynamic>>[
       WaterfallSeries<_ChartSampleData, dynamic>(
-          dataSource: chartData,
+          dataSource: <_ChartSampleData>[
+            _ChartSampleData(
+                x: 'Income',
+                y: 4700,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Sales',
+                y: -1100,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Development',
+                y: -700,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Revenue',
+                y: 1200,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Balance',
+                intermediateSumPredicate: true,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Expense',
+                y: -400,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Tax',
+                y: -800,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Net Profit',
+                intermediateSumPredicate: false,
+                totalSumPredicate: true),
+          ],
           xValueMapper: (_ChartSampleData sales, _) => sales.x,
           yValueMapper: (_ChartSampleData sales, _) => sales.y,
           intermediateSumPredicate: (_ChartSampleData sales, _) =>

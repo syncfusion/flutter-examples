@@ -21,11 +21,9 @@ class RadialBarGradient extends SampleView {
 /// State class of radial bar.
 class _RadialBarGradientState extends SampleViewState {
   _RadialBarGradientState();
-  late TooltipBehavior _tooltipBehavior;
-
-  late List<Color> colors;
-
-  late List<double> stops;
+  TooltipBehavior? _tooltipBehavior;
+  List<Color>? colors;
+  List<double>? stops;
 
   @override
   void initState() {
@@ -45,6 +43,12 @@ class _RadialBarGradientState extends SampleViewState {
     return _buildDefaultRadialBarChart();
   }
 
+  @override
+  void dispose() {
+    stops!.clear();
+    super.dispose();
+  }
+
   /// Returns the circular chart with radial series.
   SfCircularChart _buildDefaultRadialBarChart() {
     return SfCircularChart(
@@ -52,7 +56,7 @@ class _RadialBarGradientState extends SampleViewState {
         onCreateShader: (ChartShaderDetails chartShaderDetails) {
           return ui.Gradient.sweep(
               chartShaderDetails.outerRect.center,
-              colors,
+              colors!,
               stops,
               TileMode.clamp,
               _degreeToRadian(0),
@@ -73,17 +77,16 @@ class _RadialBarGradientState extends SampleViewState {
   /// Returns default radial series.
   List<RadialBarSeries<_ChartShaderData, String>>
       _getRadialBarGradientSeries() {
-    final List<_ChartShaderData> chartData = <_ChartShaderData>[
-      _ChartShaderData('John', 10, '100%'),
-      _ChartShaderData('Almaida', 11, '100%'),
-      _ChartShaderData('Don', 12, '100%'),
-    ];
     return <RadialBarSeries<_ChartShaderData, String>>[
       RadialBarSeries<_ChartShaderData, String>(
           maximumValue: 15,
           dataLabelSettings: const DataLabelSettings(
               isVisible: true, textStyle: TextStyle(fontSize: 10.0)),
-          dataSource: chartData,
+          dataSource: <_ChartShaderData>[
+            _ChartShaderData('John', 10, '100%'),
+            _ChartShaderData('Almaida', 11, '100%'),
+            _ChartShaderData('Don', 12, '100%'),
+          ],
           cornerStyle: CornerStyle.bothCurve,
           gap: '10%',
           radius: '90%',

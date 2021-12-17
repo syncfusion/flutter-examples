@@ -1,5 +1,4 @@
 ///Flutter package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 ///Core theme import
@@ -333,7 +332,8 @@ class _MapTooltipPageState extends SampleViewState {
   }
 
   Widget _buildMapsWidget(ThemeData themeData, bool scrollEnabled) {
-    final bool isLightTheme = themeData.brightness == Brightness.light;
+    final bool isLightTheme =
+        themeData.colorScheme.brightness == Brightness.light;
     return Stack(
       children: <Widget>[
         Container(
@@ -364,10 +364,10 @@ class _MapTooltipPageState extends SampleViewState {
                   layers: <MapLayer>[
                     MapShapeLayer(
                       loadingBuilder: (BuildContext context) {
-                        return Container(
+                        return const SizedBox(
                           height: 25,
                           width: 25,
-                          child: const CircularProgressIndicator(
+                          child: CircularProgressIndicator(
                             strokeWidth: 3,
                           ),
                         );
@@ -432,7 +432,7 @@ class _MapTooltipPageState extends SampleViewState {
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return CheckboxListTile(
-          contentPadding: const EdgeInsets.all(0.0),
+          contentPadding: EdgeInsets.zero,
           value: _autoHide,
           title: const Text('Auto hide'),
           activeColor: model.backgroundColor,

@@ -133,7 +133,7 @@ class _ProgressBarTypesState extends SampleViewState {
   }
 
   Widget _getDeterminateProgressBar() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -165,7 +165,7 @@ class _ProgressBarTypesState extends SampleViewState {
   }
 
   Widget _getBufferProgressBar() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -206,7 +206,7 @@ class _ProgressBarTypesState extends SampleViewState {
   }
 
   Widget _getSegmentProgressBar() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[

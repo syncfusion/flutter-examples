@@ -19,12 +19,30 @@ class CategoryIndexed extends SampleView {
 /// State class of arrange by index chart.
 class _CategoryIndexedState extends SampleViewState {
   _CategoryIndexedState();
-  bool? isIndexed = true;
-
+  bool? isIndexed;
+  late List<ChartSampleData> chartData;
+  late List<ChartSampleData> chartData1;
   @override
   void initState() {
     isIndexed = true;
+    chartData = <ChartSampleData>[
+      ChartSampleData(x: 'Myanmar', yValue: 7.3),
+      ChartSampleData(x: 'India', yValue: 7.9),
+      ChartSampleData(x: 'Bangladesh', yValue: 6.8)
+    ];
+    chartData1 = <ChartSampleData>[
+      ChartSampleData(x: 'Poland', yValue: 2.7),
+      ChartSampleData(x: 'Australia', yValue: 2.5),
+      ChartSampleData(x: 'Singapore', yValue: 2.0)
+    ];
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    chartData.clear();
+    chartData1.clear();
+    super.dispose();
   }
 
   @override
@@ -45,14 +63,14 @@ class _CategoryIndexedState extends SampleViewState {
               )),
           Padding(
             padding: const EdgeInsets.only(left: 2.0),
-            child: Container(
+            child: SizedBox(
                 width: 90,
                 child: CheckboxListTile(
                     activeColor: model.backgroundColor,
                     value: isIndexed,
                     onChanged: (bool? value) {
                       setState(() {
-                        isIndexed = value!;
+                        isIndexed = value;
                         stateSetter(() {});
                       });
                     })),
@@ -86,16 +104,6 @@ class _CategoryIndexedState extends SampleViewState {
 
   /// Returns the list of chart series which need to render on the column chart.
   List<ColumnSeries<ChartSampleData, String>> _getIndexedCategoryAxisSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Myanmar', yValue: 7.3),
-      ChartSampleData(x: 'India', yValue: 7.9),
-      ChartSampleData(x: 'Bangladesh', yValue: 6.8)
-    ];
-    final List<ChartSampleData> chartData1 = <ChartSampleData>[
-      ChartSampleData(x: 'Poland', yValue: 2.7),
-      ChartSampleData(x: 'Australia', yValue: 2.5),
-      ChartSampleData(x: 'Singapore', yValue: 2.0)
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,

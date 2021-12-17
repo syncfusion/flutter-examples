@@ -87,18 +87,17 @@ class _InfiniteScrollingState extends SampleViewState {
           interval: 2,
           enableAutoIntervalOnZooming: false,
           edgeLabelPlacement: EdgeLabelPlacement.shift,
-          majorGridLines: const MajorGridLines(width: 0)),
+          majorGridLines: const MajorGridLines(width: 0),
+          axisLabelFormatter: (AxisLabelRenderDetails details) {
+            return ChartAxisLabel(details.text.split('.')[0], null);
+          }),
       primaryYAxis: NumericAxis(
           axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent)),
+          majorTickLines: const MajorTickLines(color: Colors.transparent),
+          axisLabelFormatter: (AxisLabelRenderDetails details) {
+            return ChartAxisLabel(details.text, null);
+          }),
       series: getSeries(),
-      axisLabelFormatter: (AxisLabelRenderDetails details) {
-        return ChartAxisLabel(
-            details.axisName == 'XAxis'
-                ? details.text.split('.')[0]
-                : details.text,
-            null);
-      },
       loadMoreIndicatorBuilder:
           (BuildContext context, ChartSwipeDirection direction) =>
               getloadMoreIndicatorBuilder(context, direction),
@@ -154,7 +153,8 @@ class _InfiniteScrollingState extends SampleViewState {
                 alignment: Alignment.centerRight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      colors: model.themeData.brightness == Brightness.light
+                      colors: model.themeData.colorScheme.brightness ==
+                              Brightness.light
                           ? <Color>[
                               Colors.white.withOpacity(0.0),
                               Colors.white.withOpacity(0.74)
@@ -211,5 +211,11 @@ class _InfiniteScrollingState extends SampleViewState {
     final Random random = Random();
     final int result = min + random.nextInt(max - min);
     return result < 50 ? 95 : result;
+  }
+
+  @override
+  void dispose() {
+    seriesController = null;
+    super.dispose();
   }
 }

@@ -91,7 +91,7 @@ class _CustomButton extends State<CustomDirectionalButtons> {
     if (countDirection == _CountDirection.Up) {
       // To set the next value after null.
       if (_counter.isNaN) {
-        setState(() => _counter = 0 + widget.step!.toDouble());
+        setState(() => _counter = 0 + widget.step!);
       }
 
       /// Make sure you can't go over `maxValue` unless `loop == true`

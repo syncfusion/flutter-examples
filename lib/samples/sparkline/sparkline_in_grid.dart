@@ -1,6 +1,3 @@
-///Dart import
-import 'dart:math' as math;
-
 /// Package imports
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
@@ -22,11 +19,295 @@ class SparkLineGrid extends SampleView {
 
 class _SparkLineGridState extends SampleViewState {
   _SparkLineGridState();
-  //ignore: unused_field
-  final math.Random _random = math.Random();
-  late bool _isLandscapeInMobileView;
 
+  late bool _isLandscapeInMobileView;
   late _ColumnTypesDataGridSource _columnTypesDataGridSource;
+  late List<Widget> _taxs;
+  late List<String> _names;
+  late List<List<double>> _winlossData;
+  late List<Widget> _columnData;
+  late List<String> _shipCountrys;
+
+  @override
+  void initState() {
+    super.initState();
+    _names = <String>[
+      'VINET',
+      'TOMSP',
+      'HANAR',
+      'VICTE',
+      'SUPRD',
+      'HANAR',
+      'CHOPS',
+      'RICSU',
+      'WELLI',
+      'HILAA',
+      'ERNSH',
+      'CENTC',
+      'OTTIK',
+      'QUEDE',
+      'RATTC',
+      'ERNSH',
+      'FOLKO',
+      'BLONP',
+      'WARTH',
+      'FRANK'
+    ];
+
+    _winlossData = <List<double>>[
+      <double>[0, 6, -4, 1, -3, 2, 5],
+      <double>[5, -4, 6, 3, -1, 2, 0],
+      <double>[6, 4, 0, 3, -2, 5, 1],
+      <double>[4, -6, 3, 0, 1, -2, 5],
+      <double>[3, 5, -6, -4, 0, 1, 2],
+      <double>[1, -3, 4, -2, 5, 0, 6],
+      <double>[2, 4, 0, -3, 5, -6, 1],
+      <double>[5, 4, -6, 3, 1, -2, 0],
+      <double>[0, -6, 4, 1, -3, 2, 5],
+      <double>[6, 4, 0, -3, 2, -5, 1],
+      <double>[4, 6, -3, 0, 1, 2, 5],
+      <double>[3, -5, -6, 4, 0, 1, 2],
+      <double>[1, 3, -4, -2, 5, 0, 6],
+      <double>[2, -4, 0, -3, 5, 6, 1],
+      <double>[5, 4, -6, 3, 1, -2, 0],
+      <double>[0, 6, 4, -1, -3, 2, 5],
+      <double>[6, -4, 0, -3, 2, 5, 1],
+      <double>[4, 6, -3, 0, -1, 2, 5],
+      <double>[6, 4, 0, -3, 2, -5, 1],
+      <double>[3, 5, 6, -4, 0, 1, 2],
+      <double>[1, 3, -4, 2, -5, 0, 6]
+    ];
+    _shipCountrys = <String>[
+      'France',
+      'Germany',
+      'Brazil',
+      'France',
+      'Belgium',
+      'Brazil',
+      'Switzerland',
+      'Switzerland',
+      'Brazil',
+      'Venezuela',
+      'Austria',
+      'Mexico',
+      'Germany',
+      'Brazil',
+      'USA',
+      'Austria',
+      'Sweden',
+      'France',
+      'Finland',
+      'Germany',
+    ];
+
+    _taxs = <Widget>[
+      SfSparkLineChart(
+          data: const <double>[0, 6, 4, 1, 3, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[5, 4, 6, 3, 1, 2, 0],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[6, 4, 0, 3, 2, 5, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[4, 6, 3, 0, 1, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[3, 5, 6, 4, 0, 1, 2],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[1, 3, 4, 2, 5, 0, 6],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[2, 4, 0, 3, 5, 6, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[5, 4, 6, 3, 1, 2, 0],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[0, 6, 4, 1, 3, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[6, 4, 0, 3, 2, 5, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[4, 6, 3, 0, 1, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[3, 5, 6, 4, 0, 1, 2],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[1, 3, 4, 2, 5, 0, 6],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[2, 4, 0, 3, 5, 6, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[5, 4, 6, 3, 1, 2, 0],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[0, 6, 4, 1, 3, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[6, 4, 0, 3, 2, 5, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[4, 6, 3, 0, 1, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[2, 4, 0, 3, 5, 6, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkLineChart(
+          data: const <double>[3, 5, 6, 4, 0, 1, 2],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+    ];
+
+    _columnData = <Widget>[
+      SfSparkBarChart(
+          data: const <double>[0, 6, -4, 1, -3, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[5, -4, 6, 3, -1, 2, 0],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[6, 4, 0, 3, -2, 5, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[4, -6, 3, 0, 1, -2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[3, 5, -6, -4, 0, 1, 2],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[1, -3, 4, -2, 5, 0, 6],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[2, 4, 0, -3, 5, -6, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[5, 4, -6, 3, 1, -2, 0],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[0, -6, 4, 1, -3, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[6, 4, 0, -3, 2, -5, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[4, 6, -3, 0, 1, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[3, -5, -6, 4, 0, 1, 2],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[1, 3, -4, -2, 5, 0, 6],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[2, -4, 0, -3, 5, 6, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[5, 4, -6, 3, 1, -2, 0],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[0, 6, 4, -1, -3, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[6, -4, 0, -3, 2, 5, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[4, 6, -3, 0, -1, 2, 5],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[6, 4, 0, -3, 2, -5, 1],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap)),
+      SfSparkBarChart(
+          data: const <double>[3, 5, 6, -4, 0, 1, 2],
+          axisLineWidth: 0,
+          trackball: const SparkChartTrackball(
+              activationMode: SparkChartActivationMode.tap))
+    ];
+    _columnTypesDataGridSource =
+        _ColumnTypesDataGridSource(_generateList(20), model.isWebFullView);
+  }
 
   List<_Employee> _generateList(int _count) {
     final List<_Employee> _employeeData = <_Employee>[];
@@ -50,305 +331,6 @@ class _SparkLineGridState extends SampleViewState {
     }
     return _employeeData;
   }
-
-  final List<Widget> _taxs = <Widget>[
-    SfSparkLineChart(
-        data: const <double>[0, 6, 4, 1, 3, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[5, 4, 6, 3, 1, 2, 0],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[6, 4, 0, 3, 2, 5, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[4, 6, 3, 0, 1, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[3, 5, 6, 4, 0, 1, 2],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[1, 3, 4, 2, 5, 0, 6],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[2, 4, 0, 3, 5, 6, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[5, 4, 6, 3, 1, 2, 0],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[0, 6, 4, 1, 3, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[6, 4, 0, 3, 2, 5, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[4, 6, 3, 0, 1, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[3, 5, 6, 4, 0, 1, 2],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[1, 3, 4, 2, 5, 0, 6],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[2, 4, 0, 3, 5, 6, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[5, 4, 6, 3, 1, 2, 0],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[0, 6, 4, 1, 3, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[6, 4, 0, 3, 2, 5, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[4, 6, 3, 0, 1, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[2, 4, 0, 3, 5, 6, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkLineChart(
-        data: const <double>[3, 5, 6, 4, 0, 1, 2],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-  ];
-
-  final List<String> _names = <String>[
-    'VINET',
-    'TOMSP',
-    'HANAR',
-    'VICTE',
-    'SUPRD',
-    'HANAR',
-    'CHOPS',
-    'RICSU',
-    'WELLI',
-    'HILAA',
-    'ERNSH',
-    'CENTC',
-    'OTTIK',
-    'QUEDE',
-    'RATTC',
-    'ERNSH',
-    'FOLKO',
-    'BLONP',
-    'WARTH',
-    'FRANK'
-  ];
-
-  final List<List<double>> _winlossData = <List<double>>[
-    <double>[0, 6, -4, 1, -3, 2, 5],
-    <double>[5, -4, 6, 3, -1, 2, 0],
-    <double>[6, 4, 0, 3, -2, 5, 1],
-    <double>[4, -6, 3, 0, 1, -2, 5],
-    <double>[3, 5, -6, -4, 0, 1, 2],
-    <double>[1, -3, 4, -2, 5, 0, 6],
-    <double>[2, 4, 0, -3, 5, -6, 1],
-    <double>[5, 4, -6, 3, 1, -2, 0],
-    <double>[0, -6, 4, 1, -3, 2, 5],
-    <double>[6, 4, 0, -3, 2, -5, 1],
-    <double>[4, 6, -3, 0, 1, 2, 5],
-    <double>[3, -5, -6, 4, 0, 1, 2],
-    <double>[1, 3, -4, -2, 5, 0, 6],
-    <double>[2, -4, 0, -3, 5, 6, 1],
-    <double>[5, 4, -6, 3, 1, -2, 0],
-    <double>[0, 6, 4, -1, -3, 2, 5],
-    <double>[6, -4, 0, -3, 2, 5, 1],
-    <double>[4, 6, -3, 0, -1, 2, 5],
-    <double>[6, 4, 0, -3, 2, -5, 1],
-    <double>[3, 5, 6, -4, 0, 1, 2],
-    <double>[1, 3, -4, 2, -5, 0, 6]
-  ];
-  final List<Widget> _columnData = <Widget>[
-    SfSparkBarChart(
-        data: const <double>[0, 6, -4, 1, -3, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[5, -4, 6, 3, -1, 2, 0],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[6, 4, 0, 3, -2, 5, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[4, -6, 3, 0, 1, -2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[3, 5, -6, -4, 0, 1, 2],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[1, -3, 4, -2, 5, 0, 6],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[2, 4, 0, -3, 5, -6, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[5, 4, -6, 3, 1, -2, 0],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[0, -6, 4, 1, -3, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[6, 4, 0, -3, 2, -5, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[4, 6, -3, 0, 1, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[3, -5, -6, 4, 0, 1, 2],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[1, 3, -4, -2, 5, 0, 6],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[2, -4, 0, -3, 5, 6, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[5, 4, -6, 3, 1, -2, 0],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[0, 6, 4, -1, -3, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[6, -4, 0, -3, 2, 5, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[4, 6, -3, 0, -1, 2, 5],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[6, 4, 0, -3, 2, -5, 1],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap)),
-    SfSparkBarChart(
-        data: const <double>[3, 5, 6, -4, 0, 1, 2],
-        axisLineWidth: 0,
-        trackball: const SparkChartTrackball(
-            activationMode: SparkChartActivationMode.tap))
-  ];
-
-  //ignore: unused_field
-  final List<DateTime> _orderDates = <DateTime>[
-    DateTime(1996, 07, 04),
-    DateTime(1996, 07, 05),
-    DateTime(1996, 07, 08),
-    DateTime(1996, 07, 08),
-    DateTime(1996, 07, 09),
-    DateTime(1996, 07, 10),
-    DateTime(1996, 07, 11),
-    DateTime(1996, 07, 12),
-    DateTime(1996, 07, 15),
-    DateTime(1996, 07, 16),
-    DateTime(1996, 07, 17),
-    DateTime(1996, 07, 18),
-    DateTime(1996, 07, 19),
-    DateTime(1996, 07, 19),
-    DateTime(1996, 07, 22),
-    DateTime(1996, 07, 23),
-    DateTime(1996, 07, 24),
-    DateTime(1996, 07, 25),
-    DateTime(1996, 07, 26),
-    DateTime(1996, 07, 29),
-  ];
-
-  final List<String> _shipCountrys = <String>[
-    'France',
-    'Germany',
-    'Brazil',
-    'France',
-    'Belgium',
-    'Brazil',
-    'Switzerland',
-    'Switzerland',
-    'Brazil',
-    'Venezuela',
-    'Austria',
-    'Mexico',
-    'Germany',
-    'Brazil',
-    'USA',
-    'Austria',
-    'Sweden',
-    'France',
-    'Finland',
-    'Germany',
-  ];
 
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
@@ -397,13 +379,6 @@ class _SparkLineGridState extends SampleViewState {
               label: Container(
                   alignment: Alignment.center, child: const Text('Year GR'))),
         ]);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _columnTypesDataGridSource =
-        _ColumnTypesDataGridSource(_generateList(20), model.isWebFullView);
   }
 
   @override

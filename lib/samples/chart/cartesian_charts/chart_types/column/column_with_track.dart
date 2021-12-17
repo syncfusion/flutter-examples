@@ -18,7 +18,8 @@ class ColumnTracker extends SampleView {
 
 class _ColumnTrackerState extends SampleViewState {
   _ColumnTrackerState();
-  late TooltipBehavior _tooltipBehavior;
+
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(
@@ -55,16 +56,15 @@ class _ColumnTrackerState extends SampleViewState {
 
   /// Get column series with tracker
   List<ColumnSeries<ChartSampleData, String>> _getTracker() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Subject 1', y: 71),
-      ChartSampleData(x: 'Subject 2', y: 84),
-      ChartSampleData(x: 'Subject 3', y: 48),
-      ChartSampleData(x: 'Subject 4', y: 80),
-      ChartSampleData(x: 'Subject 5', y: 76),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'Subject 1', y: 71),
+            ChartSampleData(x: 'Subject 2', y: 84),
+            ChartSampleData(x: 'Subject 3', y: 48),
+            ChartSampleData(x: 'Subject 4', y: 80),
+            ChartSampleData(x: 'Subject 5', y: 76),
+          ],
 
           /// We can enable the track for column here.
           isTrackVisible: true,

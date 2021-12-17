@@ -53,10 +53,11 @@ class _GettingStartedPdfViewerState extends SampleViewState {
   @override
   void didChangeDependencies() {
     /// Used figma colors for context menu color and copy text color.
-    _contextMenuColor = model.themeData.brightness == Brightness.light
-        ? const Color(0xFFFFFFFF)
-        : const Color(0xFF424242);
-    _copyColor = model.themeData.brightness == Brightness.light
+    _contextMenuColor =
+        model.themeData.colorScheme.brightness == Brightness.light
+            ? const Color(0xFFFFFFFF)
+            : const Color(0xFF424242);
+    _copyColor = model.themeData.colorScheme.brightness == Brightness.light
         ? const Color(0xFF000000)
         : const Color(0xFFFFFFFF);
     super.didChangeDependencies();
@@ -69,7 +70,7 @@ class _GettingStartedPdfViewerState extends SampleViewState {
       BoxShadow(
         color: Color.fromRGBO(0, 0, 0, 0.14),
         blurRadius: 2,
-        offset: Offset(0, 0),
+        offset: Offset.zero,
       ),
       BoxShadow(
         color: Color.fromRGBO(0, 0, 0, 0.12),
@@ -178,7 +179,7 @@ class _GettingStartedPdfViewerState extends SampleViewState {
             if (_canShowPdf) {
               return SfPdfViewerTheme(
                 data: SfPdfViewerThemeData(
-                    brightness: model.themeData.brightness),
+                    brightness: model.themeData.colorScheme.brightness),
                 child: Stack(children: <Widget>[
                   SfPdfViewer.asset(
                     'assets/pdf/flutter_succinctly.pdf',

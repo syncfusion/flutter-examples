@@ -20,19 +20,20 @@ class OverfilledRadialBar extends SampleView {
 /// State class of radial series with legend.
 class _OverfilledRadialBarState extends SampleViewState {
   _OverfilledRadialBarState();
-  late TooltipBehavior _tooltipBehavior;
-  final List<_ChartData> chartData = <_ChartData>[
-    _ChartData(
-        'Low \n3.5k/6k', 3500, const Color.fromRGBO(235, 97, 143, 1), 'Low'),
-    _ChartData('Average \n7.2k/6k', 7200,
-        const Color.fromRGBO(145, 132, 202, 1), 'Average'),
-    _ChartData('High \n10.5k/6k', 10500, const Color.fromRGBO(69, 187, 161, 1),
-        'High'),
-  ];
+  TooltipBehavior? _tooltipBehavior;
+  List<_ChartData>? chartData;
 
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
+    chartData = <_ChartData>[
+      _ChartData(
+          'Low \n3.5k/6k', 3500, const Color.fromRGBO(235, 97, 143, 1), 'Low'),
+      _ChartData('Average \n7.2k/6k', 7200,
+          const Color.fromRGBO(145, 132, 202, 1), 'Average'),
+      _ChartData('High \n10.5k/6k', 10500,
+          const Color.fromRGBO(69, 187, 161, 1), 'High'),
+    ];
     super.initState();
   }
 
@@ -66,41 +67,38 @@ class _OverfilledRadialBarState extends SampleViewState {
             width: isCardView || orientation == Orientation.landscape
                 ? '65%'
                 : '55%',
-            widget: Container(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                      padding: EdgeInsets.only(
-                          top: model.isWeb || model.isDesktop
-                              ? 5
-                              : model.isWebFullView
-                                  ? 15
-                                  : 0),
-                      child: Text('Goal -',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize:
-                                  model.isWeb || model.isDesktop ? 20 : 15))),
-                  Padding(
-                      padding: EdgeInsets.only(
-                          top: model.isAndroid &&
-                                  !isCardView &&
-                                  orientation == Orientation.landscape
-                              ? 0
-                              : isCardView ||
-                                      orientation == Orientation.landscape
-                                  ? 0
-                                  : 10)),
-                  Text('6k steps/day',
-                      softWrap: false,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize:
-                              isCardView || orientation == Orientation.landscape
-                                  ? 10
-                                  : 14))
-                ],
-              ),
+            widget: Column(
+              children: <Widget>[
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: model.isWeb || model.isDesktop
+                            ? 5
+                            : model.isWebFullView
+                                ? 15
+                                : 0),
+                    child: Text('Goal -',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize:
+                                model.isWeb || model.isDesktop ? 20 : 15))),
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: model.isAndroid &&
+                                !isCardView &&
+                                orientation == Orientation.landscape
+                            ? 0
+                            : isCardView || orientation == Orientation.landscape
+                                ? 0
+                                : 10)),
+                Text('6k steps/day',
+                    softWrap: false,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize:
+                            isCardView || orientation == Orientation.landscape
+                                ? 10
+                                : 14))
+              ],
             ),
           ),
         ],
@@ -112,12 +110,11 @@ class _OverfilledRadialBarState extends SampleViewState {
             symbol: '',
           );
           // ignore: cast_nullable_to_non_nullable
-          args.text = chartData[args.pointIndex as int].text +
+          args.text = chartData![args.pointIndex as int].text +
               ' : ' +
               numberFormat
                   // ignore: cast_nullable_to_non_nullable
-                  .format(chartData[args.pointIndex as int].y)
-                  .toString();
+                  .format(chartData![args.pointIndex as int].y);
         });
   }
 
@@ -138,6 +135,12 @@ class _OverfilledRadialBarState extends SampleViewState {
           dataLabelSettings: const DataLabelSettings(isVisible: true))
     ];
     return list;
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }
 

@@ -22,84 +22,16 @@ class _TrendLineForecastState extends SampleViewState {
   _TrendLineForecastState();
   late double _backwardForecastValue;
   late double _forwardForecastValue;
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
+  late List<ChartSampleData> trendLineData;
 
   @override
   void initState() {
     _backwardForecastValue = 0.0;
     _forwardForecastValue = 0.0;
     _tooltipBehavior = TooltipBehavior(enable: true);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildTrendLineForecastChart();
-  }
-
-  @override
-  Widget buildSettings(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Forward forecast',
-                style: TextStyle(fontSize: 16.0, color: model.textColor),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(30, 0, 20, 0),
-                child: CustomDirectionalButtons(
-                  maxValue: 50,
-                  initialValue: _forwardForecastValue,
-                  onChanged: (double val) => setState(() {
-                    _forwardForecastValue = val;
-                  }),
-                  loop: true,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 20.0, color: model.textColor),
-                ),
-              )
-            ],
-          ),
-        ),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Backward forecast',
-                style: TextStyle(fontSize: 16.0, color: model.textColor),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: CustomDirectionalButtons(
-                  maxValue: 50,
-                  initialValue: _backwardForecastValue,
-                  onChanged: (double val) => setState(() {
-                    _backwardForecastValue = val;
-                  }),
-                  loop: true,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 20.0, color: model.textColor),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
-  /// Returns the spline chart with trendline forcating.
-  SfCartesianChart _buildTrendLineForecastChart() {
     int j = 0;
-    final List<ChartSampleData> trendLineData = <ChartSampleData>[];
+    trendLineData = <ChartSampleData>[];
     final List<double> yValue = <double>[
       1.2,
       1.07,
@@ -128,7 +60,71 @@ class _TrendLineForecastState extends SampleViewState {
       trendLineData.add(ChartSampleData(x: i, y: yValue[j]));
       j++;
     }
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    return _buildTrendLineForecastChart();
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Forward forecast',
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(30, 0, 20, 0),
+              child: CustomDirectionalButtons(
+                maxValue: 50,
+                initialValue: _forwardForecastValue,
+                onChanged: (double val) => setState(() {
+                  _forwardForecastValue = val;
+                }),
+                loop: true,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
+            )
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Backward forecast',
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: CustomDirectionalButtons(
+                maxValue: 50,
+                initialValue: _backwardForecastValue,
+                onChanged: (double val) => setState(() {
+                  _backwardForecastValue = val;
+                }),
+                loop: true,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  /// Returns the spline chart with trendline forcating.
+  SfCartesianChart _buildTrendLineForecastChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(

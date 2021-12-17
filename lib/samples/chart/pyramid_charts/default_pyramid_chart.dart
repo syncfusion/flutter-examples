@@ -19,83 +19,138 @@ class PyramidDefault extends SampleView {
 
 class _PyramidDefaultState extends SampleViewState {
   _PyramidDefaultState();
-  final List<String> _pyramidMode = <String>['linear', 'surface'].toList();
-  PyramidMode _selectedPyramidMode = PyramidMode.linear;
-  String _selectedMode = 'linear';
-  double gapRatio = 0;
-  bool explode = false;
+  List<String>? _pyramidMode;
+  late PyramidMode _selectedPyramidMode;
+  late String _selectedMode;
+  late double gapRatio;
+  late bool explode;
+
+  @override
+  void initState() {
+    _selectedPyramidMode = PyramidMode.linear;
+    _selectedMode = 'linear';
+    gapRatio = 0;
+    explode = false;
+    _pyramidMode = <String>['linear', 'surface'].toList();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pyramidMode!.clear();
+    super.dispose();
+  }
 
   @override
   Widget buildSettings(BuildContext context) {
     final double screenWidth =
         model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double dropDownWidth = 0.7 * screenWidth;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          ListTile(
-            title: Text(model.isWebFullView ? 'Pyramid \nmode' : 'Pyramid mode',
-                softWrap: false, style: TextStyle(color: model.textColor)),
-            trailing: Container(
-              padding: EdgeInsets.only(left: 0.07 * screenWidth),
-              width: 0.5 * screenWidth,
-              height: 50,
-              alignment: Alignment.bottomLeft,
-              child: DropdownButton<String>(
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: _selectedMode,
-                  items: _pyramidMode.map((String value) {
-                    return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'linear',
-                        child: Text(value,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    _onPyramidModeChange(value.toString());
-                    stateSetter(() {});
-                  }),
-            ),
-          ),
-          ListTile(
-            title: Text('Gap ratio',
-                softWrap: false, style: TextStyle(color: model.textColor)),
-            trailing: Container(
-              padding: EdgeInsets.only(left: 0.03 * screenWidth),
-              width: 0.5 * screenWidth,
-              child: CustomDirectionalButtons(
-                maxValue: 0.5,
-                initialValue: gapRatio,
-                onChanged: (double val) => setState(() {
-                  gapRatio = val;
-                }),
-                step: 0.1,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 20.0, color: model.textColor),
+          Row(
+            children: <Widget>[
+              Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
+              Expanded(
+                flex: 14,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                              model.isWebFullView
+                                  ? 'Pyramid \nmode'
+                                  : 'Pyramid mode',
+                              softWrap: false,
+                              style: TextStyle(
+                                  fontSize: 16, color: model.textColor)),
+                        ),
+                        Flexible(
+                          child: DropdownButton<String>(
+                              isExpanded: true,
+                              underline: Container(
+                                  color: const Color(0xFFBDBDBD), height: 1),
+                              value: _selectedMode,
+                              items: _pyramidMode!.map((String value) {
+                                return DropdownMenuItem<String>(
+                                    value: (value != null) ? value : 'linear',
+                                    child: Text(value,
+                                        style:
+                                            TextStyle(color: model.textColor)));
+                              }).toList(),
+                              onChanged: (dynamic value) {
+                                _onPyramidModeChange(value.toString());
+                                stateSetter(() {});
+                              }),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          flex: 3,
+                          child: Text('Gap ratio',
+                              softWrap: false,
+                              style: TextStyle(
+                                  fontSize: 16, color: model.textColor)),
+                        ),
+                        Flexible(
+                          flex: 4,
+                          child: CustomDirectionalButtons(
+                            maxValue: 0.5,
+                            initialValue: gapRatio,
+                            onChanged: (double val) => setState(() {
+                              gapRatio = val;
+                            }),
+                            step: 0.1,
+                            iconColor: model.textColor,
+                            style: TextStyle(
+                                fontSize: 20.0, color: model.textColor),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('Explode',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: Container(
+                              padding: EdgeInsets.only(
+                                  right: model.isMobile
+                                      ? 0.29 * screenWidth
+                                      : 0.37 * screenWidth),
+                              width: dropDownWidth,
+                              child: Checkbox(
+                                  activeColor: model.backgroundColor,
+                                  value: explode,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      explode = value!;
+                                      stateSetter(() {});
+                                    });
+                                  })),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
-          ListTile(
-            title: Text('Explode',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
-                )),
-            trailing: Container(
-                padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                width: 0.5 * screenWidth,
-                child: CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
-                    activeColor: model.backgroundColor,
-                    value: explode,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        explode = value!;
-                        stateSetter(() {});
-                      });
-                    })),
+              Expanded(flex: model.isMobile ? 3 : 1, child: Container()),
+            ],
           ),
         ],
       );
@@ -110,7 +165,6 @@ class _PyramidDefaultState extends SampleViewState {
   ///Get the default pyramid chart
   SfPyramidChart _buildDefaultPyramidChart() {
     return SfPyramidChart(
-      smartLabelMode: SmartLabelMode.shift,
       title: ChartTitle(text: isCardView ? '' : 'Comparison of calories'),
       tooltipBehavior: TooltipBehavior(enable: true),
       series: _getPyramidSeries(),
@@ -119,16 +173,15 @@ class _PyramidDefaultState extends SampleViewState {
 
   ///Get the default pyramid series
   PyramidSeries<ChartSampleData, String> _getPyramidSeries() {
-    final List<ChartSampleData> pieData = <ChartSampleData>[
-      ChartSampleData(x: 'Walnuts', y: 654),
-      ChartSampleData(x: 'Almonds', y: 575),
-      ChartSampleData(x: 'Soybeans', y: 446),
-      ChartSampleData(x: 'Black beans', y: 341),
-      ChartSampleData(x: 'Mushrooms', y: 296),
-      ChartSampleData(x: 'Avacado', y: 160),
-    ];
     return PyramidSeries<ChartSampleData, String>(
-        dataSource: pieData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'Walnuts', y: 654),
+          ChartSampleData(x: 'Almonds', y: 575),
+          ChartSampleData(x: 'Soybeans', y: 446),
+          ChartSampleData(x: 'Black beans', y: 341),
+          ChartSampleData(x: 'Mushrooms', y: 296),
+          ChartSampleData(x: 'Avacado', y: 160),
+        ],
         height: '90%',
         explode: isCardView ? false : explode,
         gapRatio: isCardView ? 0 : gapRatio,

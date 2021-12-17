@@ -19,11 +19,19 @@ class NumericDefault extends SampleView {
 /// State class of the default numeric axis.
 class _NumericDefaultState extends SampleViewState {
   _NumericDefaultState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
+  List<ChartSampleData>? chartData;
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(
         enable: true, format: 'Score: point.y', canShowMarker: false);
+    chartData = <ChartSampleData>[
+      ChartSampleData(xValue: 1, yValue: 240, secondSeriesYValue: 236),
+      ChartSampleData(xValue: 2, yValue: 250, secondSeriesYValue: 242),
+      ChartSampleData(xValue: 3, yValue: 281, secondSeriesYValue: 313),
+      ChartSampleData(xValue: 4, yValue: 358, secondSeriesYValue: 359),
+      ChartSampleData(xValue: 5, yValue: 237, secondSeriesYValue: 272)
+    ];
     super.initState();
   }
 
@@ -61,17 +69,10 @@ class _NumericDefaultState extends SampleViewState {
   /// Returns the list of Chart series
   /// which need to render on the default numeric axis.
   List<ColumnSeries<ChartSampleData, num>> getDefaultNumericSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(xValue: 1, yValue: 240, secondSeriesYValue: 236),
-      ChartSampleData(xValue: 2, yValue: 250, secondSeriesYValue: 242),
-      ChartSampleData(xValue: 3, yValue: 281, secondSeriesYValue: 313),
-      ChartSampleData(xValue: 4, yValue: 358, secondSeriesYValue: 359),
-      ChartSampleData(xValue: 5, yValue: 237, secondSeriesYValue: 272)
-    ];
     return <ColumnSeries<ChartSampleData, num>>[
       ///first series named "Australia".
       ColumnSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           color: const Color.fromRGBO(237, 221, 76, 1),
           name: 'Australia',
           xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
@@ -79,11 +80,17 @@ class _NumericDefaultState extends SampleViewState {
 
       ///second series named "India".
       ColumnSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           color: const Color.fromRGBO(2, 109, 213, 1),
           xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'India'),
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

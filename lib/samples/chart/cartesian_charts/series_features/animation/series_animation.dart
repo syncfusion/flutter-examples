@@ -20,7 +20,22 @@ class AnimationDefault extends SampleView {
 /// State class of the cartesian chart with default serie animation.
 class _AnimationDefaultState extends SampleViewState {
   _AnimationDefaultState();
-  double padding = 0;
+  late double padding;
+
+  @override
+  void initState() {
+    padding = 0;
+    chartData = <ChartSampleData>[
+      ChartSampleData(x: 'Jan', y: 45, secondSeriesYValue: 1000),
+      ChartSampleData(x: 'Feb', y: 100, secondSeriesYValue: 3000),
+      ChartSampleData(x: 'March', y: 25, secondSeriesYValue: 1000),
+      ChartSampleData(x: 'April', y: 100, secondSeriesYValue: 7000),
+      ChartSampleData(x: 'May', y: 85, secondSeriesYValue: 5000),
+      ChartSampleData(x: 'June', y: 140, secondSeriesYValue: 7000)
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     padding = MediaQuery.of(context).orientation == Orientation.landscape ||
@@ -31,6 +46,7 @@ class _AnimationDefaultState extends SampleViewState {
   }
 
   ChartSeriesController? _chartSeriesController1, _chartSeriesController2;
+  List<ChartSampleData>? chartData;
 
   /// Returns the cartesian chart with default serie animation.
   Column _buildDefaultAnimationChart() {
@@ -62,7 +78,7 @@ class _AnimationDefaultState extends SampleViewState {
         tooltipBehavior: TooltipBehavior(enable: true),
       )),
       if (isCardView)
-        Container(height: 0, width: 0)
+        const SizedBox(height: 0, width: 0)
       else
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -87,27 +103,19 @@ class _AnimationDefaultState extends SampleViewState {
 
   /// Returns the list of chart which need to render on the cartesian chart.
   List<ChartSeries<ChartSampleData, String>> _getDefaultAnimationSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Jan', y: 45, secondSeriesYValue: 1000),
-      ChartSampleData(x: 'Feb', y: 100, secondSeriesYValue: 3000),
-      ChartSampleData(x: 'March', y: 25, secondSeriesYValue: 1000),
-      ChartSampleData(x: 'April', y: 100, secondSeriesYValue: 7000),
-      ChartSampleData(x: 'May', y: 85, secondSeriesYValue: 5000),
-      ChartSampleData(x: 'June', y: 140, secondSeriesYValue: 7000)
-    ];
     return <ChartSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           animationDuration: 2000,
           onRendererCreated: (ChartSeriesController controller) {
             _chartSeriesController1 = controller;
           },
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Unit Sold'),
       LineSeries<ChartSampleData, String>(
           animationDuration: 4500,
-          dataSource: chartData,
+          dataSource: chartData!,
           width: 2,
           onRendererCreated: (ChartSeriesController controller) {
             _chartSeriesController2 = controller;
@@ -146,5 +154,13 @@ class _AnimationDefaultState extends SampleViewState {
       child: const Text('Animate column series',
           textScaleFactor: 1, style: TextStyle(color: Colors.white)),
     );
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    _chartSeriesController1 = null;
+    _chartSeriesController2 = null;
+    super.dispose();
   }
 }

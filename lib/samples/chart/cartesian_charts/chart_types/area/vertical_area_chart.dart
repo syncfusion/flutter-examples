@@ -19,40 +19,11 @@ class AreaVertical extends SampleView {
 /// State class of vertical area chart.
 class _AreaVerticalState extends SampleViewState {
   _AreaVerticalState();
+  List<ChartSampleData>? chartData;
 
   @override
-  Widget build(BuildContext context) {
-    return _buildVerticalAreaChart();
-  }
-
-  /// Returns the cartesian area chart in transposed form.
-  SfCartesianChart _buildVerticalAreaChart() {
-    return SfCartesianChart(
-      legend: Legend(
-          isVisible: isCardView ? false : true,
-          overflowMode: LegendItemOverflowMode.wrap,
-          opacity: 0.7),
-
-      /// If we enable transposed mode as true
-      /// then the series turned as vertical.
-      isTransposed: true,
-      title: ChartTitle(
-          text: isCardView ? '' : 'Trend in sales of ethical produce'),
-      primaryXAxis: DateTimeAxis(
-        majorGridLines: const MajorGridLines(width: 0),
-      ),
-      primaryYAxis: NumericAxis(
-          title: AxisTitle(text: isCardView ? '' : 'Spends'),
-          majorTickLines: const MajorTickLines(size: 0)),
-      series: _getVerticalAreaSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
-    );
-  }
-
-  /// Returns the list of chart series
-  /// which need to render the vertical area chart.
-  List<AreaSeries<ChartSampleData, DateTime>> _getVerticalAreaSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
+  void initState() {
+    chartData = <ChartSampleData>[
       ChartSampleData(
           x: DateTime(2000, 0, 1),
           y: 0.61,
@@ -144,19 +115,60 @@ class _AreaVerticalState extends SampleViewState {
           secondSeriesYValue: 0.67,
           thirdSeriesYValue: 2.61),
     ];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildVerticalAreaChart();
+  }
+
+  /// Returns the cartesian area chart in transposed form.
+  SfCartesianChart _buildVerticalAreaChart() {
+    return SfCartesianChart(
+      legend: Legend(
+          isVisible: isCardView ? false : true,
+          overflowMode: LegendItemOverflowMode.wrap,
+          opacity: 0.7),
+
+      /// If we enable transposed mode as true
+      /// then the series turned as vertical.
+      isTransposed: true,
+      title: ChartTitle(
+          text: isCardView ? '' : 'Trend in sales of ethical produce'),
+      primaryXAxis: DateTimeAxis(
+        majorGridLines: const MajorGridLines(width: 0),
+      ),
+      primaryYAxis: NumericAxis(
+          title: AxisTitle(text: isCardView ? '' : 'Spends'),
+          majorTickLines: const MajorTickLines(size: 0)),
+      series: _getVerticalAreaSeries(),
+      tooltipBehavior: TooltipBehavior(enable: true),
+    );
+  }
+
+  /// Returns the list of chart series
+  /// which need to render the vertical area chart.
+  List<AreaSeries<ChartSampleData, DateTime>> _getVerticalAreaSeries() {
     return <AreaSeries<ChartSampleData, DateTime>>[
       AreaSeries<ChartSampleData, DateTime>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           opacity: 0.7,
           name: 'Organic'),
       AreaSeries<ChartSampleData, DateTime>(
-          dataSource: chartData,
+          dataSource: chartData!,
           opacity: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Others'),
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

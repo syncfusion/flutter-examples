@@ -108,7 +108,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
 
   /// Returns filled track style circular progress bar.
   Widget getFilledTrackStyle() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -150,7 +150,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
 
   /// Returns filled progress style circular progress bar.
   Widget getFilledProgressStyle() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
@@ -184,7 +184,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget getGradientProgressStyle() {
-    return Container(
+    return SizedBox(
         height: _size,
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[

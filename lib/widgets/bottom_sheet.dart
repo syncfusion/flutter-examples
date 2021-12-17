@@ -208,15 +208,13 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    return Container(
-        child: MediaQuery.removePadding(
-      context: context,
-      removeTop: true,
-      child: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: _RoundedModalBottomSheet<T>(route: this),
-      ),
-    ));
+    return MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: Theme(
+          data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+          child: _RoundedModalBottomSheet<T>(route: this),
+        ));
   }
 }
 

@@ -51,7 +51,7 @@ class _TileLayerSampleState extends SampleViewState {
         latitude: 20.6843,
         longitude: -88.5678,
         description:
-            'Mayan ruins on Mexico\'s Yucatan Peninsula. It was one of the largest Maya cities, thriving from around A.D. 600 to 1200.',
+            "Mayan ruins on Mexico's Yucatan Peninsula. It was one of the largest Maya cities, thriving from around A.D. 600 to 1200.",
         imagePath: 'images/maps_chichen_itza.jpg',
         tooltipImagePath: 'images/maps-chichen-itza.jpg'));
 
@@ -90,7 +90,7 @@ class _TileLayerSampleState extends SampleViewState {
 
     _worldWonders.add(const _WonderDetails(
         place: 'Petra',
-        state: 'Ma\'an Governorate',
+        state: "Ma'an Governorate",
         country: 'Jordan',
         latitude: 30.3285,
         longitude: 35.4444,

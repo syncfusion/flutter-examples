@@ -91,8 +91,9 @@ class _LayoutPageState extends State<LayoutPage> {
         data: ThemeData(
             checkboxTheme: CheckboxThemeData(
                 fillColor: MaterialStateProperty.resolveWith(getColor)),
-            brightness: _model.themeData.brightness,
-            primaryColor: _model.backgroundColor),
+            brightness: _model.themeData.colorScheme.brightness,
+            primaryColor: _model.backgroundColor,
+            colorScheme: _model.themeData.colorScheme),
         child: SafeArea(
           child: DefaultTabController(
             length: _category
@@ -209,7 +210,7 @@ class _LayoutPageState extends State<LayoutPage> {
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 37,
                                     width: 37,
                                     child: IconButton(
@@ -234,7 +235,7 @@ class _LayoutPageState extends State<LayoutPage> {
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 40,
                                     width: 40,
                                     child: IconButton(
@@ -370,7 +371,7 @@ class _LayoutPageState extends State<LayoutPage> {
                       alignment: Alignment.bottomLeft,
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                        child: Container(
+                        child: SizedBox(
                           height: 30,
                           width: 230,
                           child: InkWell(
@@ -436,7 +437,7 @@ class _LayoutPageState extends State<LayoutPage> {
             _sampleWidget = model.sampleWidget[list[position].key]!;
             _sampleView = _sampleWidget(GlobalKey<State>()) as SampleView;
             return Container(
-              color: model.themeData.brightness == Brightness.dark
+              color: model.themeData.colorScheme.brightness == Brightness.dark
                   ? Colors.black
                   : const Color.fromRGBO(250, 250, 250, 1),
               padding: const EdgeInsets.all(5.0),
@@ -476,8 +477,7 @@ class _LayoutPageState extends State<LayoutPage> {
                                         color: model.textColor,
                                         letterSpacing: 0.2),
                                   ),
-                                  Container(
-                                      child: Row(
+                                  Row(
                                     children: <Widget>[
                                       Container(
                                           decoration: BoxDecoration(
@@ -522,18 +522,16 @@ class _LayoutPageState extends State<LayoutPage> {
                                         ),
                                       ),
                                     ],
-                                  )),
+                                  ),
                                 ]),
                           ),
                         ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                            child: SizedBox(
-                                width: double.infinity,
-                                height: 230,
-                                child: _sampleView),
-                          ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                          child: SizedBox(
+                              width: double.infinity,
+                              height: 230,
+                              child: _sampleView),
                         ),
                       ],
                     ),

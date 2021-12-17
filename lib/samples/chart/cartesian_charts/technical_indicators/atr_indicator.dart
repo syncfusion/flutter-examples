@@ -23,8 +23,8 @@ class ATRIndicator extends SampleView {
 class _ATRIndicatorState extends SampleViewState {
   _ATRIndicatorState();
   late double _period;
-  late TrackballBehavior _trackballBehavior;
-  late TooltipBehavior _tooltipBehavior;
+  TrackballBehavior? _trackballBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -72,7 +72,6 @@ class _ATRIndicatorState extends SampleViewState {
 
   /// Returns the OHLC Ohart with Average true range indicator.
   SfCartesianChart _buildDefaultATRIndicator() {
-    final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
       plotAreaBorderWidth: 0,
@@ -110,7 +109,7 @@ class _ATRIndicatorState extends SampleViewState {
       series: <ChartSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
           emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
-          dataSource: chartData,
+          dataSource: getChartData(),
           opacity: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           lowValueMapper: (ChartSampleData sales, _) => sales.low,

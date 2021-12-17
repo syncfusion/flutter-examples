@@ -1,6 +1,5 @@
 ///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 ///Chart import
@@ -84,6 +83,9 @@ class _RangeSelectorSelectionPageState extends SampleViewState
   @override
   void dispose() {
     textController.dispose();
+    rangeController.dispose();
+    data.clear();
+    selectedItems.clear();
     super.dispose();
   }
 
@@ -118,8 +120,8 @@ class _RangeSelectorSelectionPageState extends SampleViewState
     }
 
     return Container(
-      margin: const EdgeInsets.all(0),
-      padding: const EdgeInsets.all(0),
+      margin: EdgeInsets.zero,
+      padding: EdgeInsets.zero,
       child: Stack(
         children: <Widget>[
           Container(
@@ -127,7 +129,7 @@ class _RangeSelectorSelectionPageState extends SampleViewState
             child: Center(
               child: SfRangeSelectorTheme(
                 data: SfRangeSelectorThemeData(
-                    brightness: themeData.brightness,
+                    brightness: themeData.colorScheme.brightness,
                     labelOffset: const Offset(0, 2),
                     thumbColor: Colors.white,
                     overlayColor: const Color.fromRGBO(0, 178, 206, 0.24),
@@ -156,7 +158,7 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                   onChanged: (SfRangeValues values) {
                     _setTotalDataUsage(values);
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: mediaQueryData.orientation == Orientation.landscape
                         ? model.isWebFullView
                             ? mediaQueryData.size.width * 0.5
@@ -167,7 +169,7 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                       padding: const EdgeInsets.only(top: 20),
                       child: SfCartesianChart(
                         title: ChartTitle(text: 'Data Usage For April 2019'),
-                        margin: const EdgeInsets.all(0),
+                        margin: EdgeInsets.zero,
                         primaryXAxis: DateTimeAxis(
                             isVisible: false,
                             minimum: DateTime(2019, 04, 01),

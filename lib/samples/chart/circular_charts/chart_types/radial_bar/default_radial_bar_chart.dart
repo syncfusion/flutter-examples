@@ -19,7 +19,7 @@ class RadialBarDefault extends SampleView {
 /// State class of radial bar.
 class _RadialBarDefaultState extends SampleViewState {
   _RadialBarDefaultState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -45,34 +45,33 @@ class _RadialBarDefaultState extends SampleViewState {
 
   /// Returns default radial series.
   List<RadialBarSeries<ChartSampleData, String>> _getRadialBarDefaultSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'John',
-          y: 10,
-          text: '100%',
-          pointColor: const Color.fromRGBO(248, 177, 149, 1.0)),
-      ChartSampleData(
-          x: 'Almaida',
-          y: 11,
-          text: '100%',
-          pointColor: const Color.fromRGBO(246, 114, 128, 1.0)),
-      ChartSampleData(
-          x: 'Don',
-          y: 12,
-          text: '100%',
-          pointColor: const Color.fromRGBO(61, 205, 171, 1.0)),
-      ChartSampleData(
-          x: 'Tom',
-          y: 13,
-          text: '100%',
-          pointColor: const Color.fromRGBO(1, 174, 190, 1.0)),
-    ];
     return <RadialBarSeries<ChartSampleData, String>>[
       RadialBarSeries<ChartSampleData, String>(
           maximumValue: 15,
           dataLabelSettings: const DataLabelSettings(
               isVisible: true, textStyle: TextStyle(fontSize: 10.0)),
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(
+                x: 'John',
+                y: 10,
+                text: '100%',
+                pointColor: const Color.fromRGBO(248, 177, 149, 1.0)),
+            ChartSampleData(
+                x: 'Almaida',
+                y: 11,
+                text: '100%',
+                pointColor: const Color.fromRGBO(246, 114, 128, 1.0)),
+            ChartSampleData(
+                x: 'Don',
+                y: 12,
+                text: '100%',
+                pointColor: const Color.fromRGBO(61, 205, 171, 1.0)),
+            ChartSampleData(
+                x: 'Tom',
+                y: 13,
+                text: '100%',
+                pointColor: const Color.fromRGBO(1, 174, 190, 1.0)),
+          ],
           cornerStyle: CornerStyle.bothCurve,
           gap: '10%',
           radius: '90%',

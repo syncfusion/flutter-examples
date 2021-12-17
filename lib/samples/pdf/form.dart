@@ -1,6 +1,3 @@
-///Dart import
-import 'dart:typed_data';
-
 ///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -85,7 +82,7 @@ class _FormFillingPdfState extends SampleViewState {
                             border: const OutlineInputBorder(),
                             labelText: 'Name',
                             labelStyle: TextStyle(
-                                color: model.themeData.brightness ==
+                                color: model.themeData.colorScheme.brightness ==
                                         Brightness.light
                                     ? Colors.grey
                                     : Colors.lightBlue)),
@@ -97,7 +94,7 @@ class _FormFillingPdfState extends SampleViewState {
                             border: const OutlineInputBorder(),
                             labelText: 'Email',
                             labelStyle: TextStyle(
-                                color: model.themeData.brightness ==
+                                color: model.themeData.colorScheme.brightness ==
                                         Brightness.light
                                     ? Colors.grey
                                     : Colors.lightBlue)),
@@ -109,10 +106,10 @@ class _FormFillingPdfState extends SampleViewState {
                           border: const OutlineInputBorder(),
                           labelText: 'Gender',
                           labelStyle: TextStyle(
-                              color:
-                                  model.themeData.brightness == Brightness.light
-                                      ? Colors.grey
-                                      : Colors.lightBlue)),
+                              color: model.themeData.colorScheme.brightness ==
+                                      Brightness.light
+                                  ? Colors.grey
+                                  : Colors.lightBlue)),
                       child: SizedBox(
                         height: 25,
                         child: Row(children: _getGenderWidgets(context)),
@@ -124,7 +121,7 @@ class _FormFillingPdfState extends SampleViewState {
                             border: const OutlineInputBorder(),
                             labelText: 'Date Of Birth',
                             labelStyle: TextStyle(
-                                color: model.themeData.brightness ==
+                                color: model.themeData.colorScheme.brightness ==
                                         Brightness.light
                                     ? Colors.grey
                                     : Colors.lightBlue)),
@@ -199,10 +196,10 @@ class _FormFillingPdfState extends SampleViewState {
                           border: const OutlineInputBorder(),
                           labelText: 'Coming from',
                           labelStyle: TextStyle(
-                              color:
-                                  model.themeData.brightness == Brightness.light
-                                      ? Colors.grey
-                                      : Colors.lightBlue)),
+                              color: model.themeData.colorScheme.brightness ==
+                                      Brightness.light
+                                  ? Colors.grey
+                                  : Colors.lightBlue)),
                     ),
                     const SizedBox(height: 5, width: 30),
                     Row(children: <Widget>[

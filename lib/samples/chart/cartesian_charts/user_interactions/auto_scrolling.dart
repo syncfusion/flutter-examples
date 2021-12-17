@@ -39,6 +39,9 @@ class _AutoScrollingChartState extends SampleViewState {
   @override
   void dispose() {
     timer?.cancel();
+    chartData.clear();
+    chartDataTemp.clear();
+    _chartSeriesController = null;
     super.dispose();
   }
 

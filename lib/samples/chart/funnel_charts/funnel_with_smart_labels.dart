@@ -18,75 +18,177 @@ class FunnelSmartLabels extends SampleView {
 
 class _FunnelSmartLabelState extends SampleViewState {
   _FunnelSmartLabelState();
-  final List<String> _labelPosition = <String>['outside', 'inside'].toList();
-  ChartDataLabelPosition _selectedLabelPosition =
-      ChartDataLabelPosition.outside;
-  String _selectedPosition = 'outside';
+  List<String>? _labelPosition;
+  late ChartDataLabelPosition _selectedLabelPosition;
+  late String _selectedPosition;
+  List<String>? _labelIntersectActionList;
+  late String _labelIntersectAction;
+  late LabelIntersectAction _intersectAction;
+  late String _selectedOverflowMode;
+  late OverflowMode _overflowMode;
+  List<String>? _overflowModeList;
 
-  final List<String> _modeList = <String>['shift', 'none', 'hide'].toList();
-  String _smartLabelMode = 'shift';
-  SmartLabelMode _mode = SmartLabelMode.shift;
+  @override
+  void initState() {
+    _selectedLabelPosition = ChartDataLabelPosition.inside;
+    _intersectAction = LabelIntersectAction.shift;
+    _labelIntersectAction = 'shift';
+    _selectedPosition = 'inside';
+    _selectedOverflowMode = 'none';
+    _overflowMode = OverflowMode.none;
+    _overflowModeList = <String>['shift', 'none', 'hide', 'trim'].toList();
+    _labelPosition = <String>['inside', 'outside'].toList();
+    _labelIntersectActionList = <String>['shift', 'none', 'hide'].toList();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _labelPosition!.clear();
+    _labelIntersectActionList!.clear();
+    _overflowModeList!.clear();
+    super.dispose();
+  }
 
   @override
   Widget buildSettings(BuildContext context) {
     final double screenWidth =
         model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double dropDownWidth = (model.isMobile ? 0.2 : 0.4) * screenWidth;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          ListTile(
-            title: Text('Label position  ',
-                softWrap: false, style: TextStyle(color: model.textColor)),
-            trailing: Container(
-              padding: EdgeInsets.only(left: 0.07 * screenWidth),
-              width: 0.4 * screenWidth,
-              height: 50,
-              alignment: Alignment.bottomLeft,
-              child: DropdownButton<String>(
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: _selectedPosition,
-                  items: _labelPosition.map((String value) {
-                    return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'outside',
-                        child: Text(value,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    _onLabelPositionChange(value.toString());
-                    stateSetter(() {});
-                  }),
-            ),
-          ),
-          ListTile(
-            title: Text(
-                model.isWebFullView ? 'Smart label \nmode' : 'Smart label mode',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
-                )),
-            trailing: Container(
-              padding: EdgeInsets.only(left: 0.07 * screenWidth),
-              width: 0.4 * screenWidth,
-              height: 50,
-              alignment: Alignment.bottomLeft,
-              child: DropdownButton<String>(
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: _smartLabelMode,
-                  items: _modeList.map((String value) {
-                    return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'shift',
-                        child: Text(value,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    _onSmartLabelModeChange(value.toString());
-                    stateSetter(() {});
-                  }),
-            ),
+          Row(
+            children: <Widget>[
+              Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
+              Expanded(
+                flex: 14,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('Label position',
+                              softWrap: false,
+                              style: TextStyle(
+                                  fontSize: 16, color: model.textColor)),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                            width: dropDownWidth,
+                            child: DropdownButton<String>(
+                                isExpanded: true,
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _selectedPosition,
+                                items: _labelPosition!.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value:
+                                          (value != null) ? value : 'outside',
+                                      child: Text(value,
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                onChanged: (dynamic value) {
+                                  _onLabelPositionChange(value.toString());
+                                  stateSetter(() {});
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('Overflow mode',
+                              softWrap: false,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: _selectedPosition != 'inside'
+                                      ? model.textColor.withOpacity(0.3)
+                                      : model.textColor)),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                            height: 50,
+                            width: dropDownWidth,
+                            child: DropdownButton<String>(
+                                isExpanded: true,
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _selectedOverflowMode,
+                                items: _selectedPosition != 'inside'
+                                    ? null
+                                    : _overflowModeList!.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                            value: (value != null)
+                                                ? value
+                                                : 'none',
+                                            child: Text(value,
+                                                style: TextStyle(
+                                                    color: model.textColor)));
+                                      }).toList(),
+                                onChanged: (dynamic value) {
+                                  _changeOverflowMode(value.toString());
+                                  stateSetter(() {});
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('Label intersect \naction',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: (_selectedOverflowMode != 'none' &&
+                                        _selectedPosition != 'outside')
+                                    ? model.textColor.withOpacity(0.3)
+                                    : model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                            height: 50,
+                            width: dropDownWidth,
+                            child: DropdownButton<String>(
+                                isExpanded: true,
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _labelIntersectAction,
+                                items: (_selectedOverflowMode != 'none' &&
+                                        _selectedPosition != 'outside')
+                                    ? null
+                                    : _labelIntersectActionList!
+                                        .map((String value) {
+                                        return DropdownMenuItem<String>(
+                                            value: (value != null)
+                                                ? value
+                                                : 'shift',
+                                            child: Text(value,
+                                                style: TextStyle(
+                                                    color: model.textColor)));
+                                      }).toList(),
+                                onChanged: (dynamic value) {
+                                  _changeLabelIntersectAction(value.toString());
+                                  stateSetter(() {});
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(flex: model.isMobile ? 3 : 1, child: Container()),
+            ],
           ),
         ],
       );
@@ -101,7 +203,6 @@ class _FunnelSmartLabelState extends SampleViewState {
   ///Get the funnel chart with smart data label
   SfFunnelChart _buildFunnelSmartLabelChart() {
     return SfFunnelChart(
-      smartLabelMode: _mode,
       title: ChartTitle(text: isCardView ? '' : 'Tournament details'),
       tooltipBehavior: TooltipBehavior(
         enable: true,
@@ -112,18 +213,17 @@ class _FunnelSmartLabelState extends SampleViewState {
 
   ///Get the funnel series with smart data label
   FunnelSeries<ChartSampleData, String> _getFunnelSeries() {
-    final List<ChartSampleData> pieData = <ChartSampleData>[
-      ChartSampleData(x: 'Finals', y: 2),
-      ChartSampleData(x: 'Semifinals', y: 4),
-      ChartSampleData(x: 'Quarter finals', y: 8),
-      ChartSampleData(x: 'League matches', y: 16),
-      ChartSampleData(x: 'Participated', y: 32),
-      ChartSampleData(x: 'Eligible', y: 36),
-      ChartSampleData(x: 'Applicants', y: 40),
-    ];
     return FunnelSeries<ChartSampleData, String>(
         width: '60%',
-        dataSource: pieData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'Finals', y: 2),
+          ChartSampleData(x: 'Semifinals', y: 4),
+          ChartSampleData(x: 'Quarter finals', y: 8),
+          ChartSampleData(x: 'League matches', y: 16),
+          ChartSampleData(x: 'Participated', y: 32),
+          ChartSampleData(x: 'Eligible', y: 36),
+          ChartSampleData(x: 'Applicants', y: 40),
+        ],
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
 
@@ -133,6 +233,8 @@ class _FunnelSmartLabelState extends SampleViewState {
             labelPosition: isCardView
                 ? ChartDataLabelPosition.outside
                 : _selectedLabelPosition,
+            labelIntersectAction: _intersectAction,
+            overflowMode: _overflowMode,
             useSeriesColor: true));
   }
 
@@ -149,20 +251,40 @@ class _FunnelSmartLabelState extends SampleViewState {
     });
   }
 
-  ///Change the data label mode
-  void _onSmartLabelModeChange(String item) {
-    _smartLabelMode = item;
-    if (_smartLabelMode == 'shift') {
-      _mode = SmartLabelMode.shift;
+  /// Change the overflow mode
+  void _changeOverflowMode(String item) {
+    _selectedOverflowMode = item;
+    if (_selectedOverflowMode == 'shift') {
+      _overflowMode = OverflowMode.shift;
     }
-    if (_smartLabelMode == 'hide') {
-      _mode = SmartLabelMode.hide;
+    if (_selectedOverflowMode == 'hide') {
+      _overflowMode = OverflowMode.hide;
     }
-    if (_smartLabelMode == 'none') {
-      _mode = SmartLabelMode.none;
+    if (_selectedOverflowMode == 'none') {
+      _overflowMode = OverflowMode.none;
+    }
+    if (_selectedOverflowMode == 'trim') {
+      _overflowMode = OverflowMode.trim;
     }
     setState(() {
-      /// update the smart data label mode changes
+      /// update the overflow mode
+    });
+  }
+
+  ///Change the label intersect action
+  void _changeLabelIntersectAction(String item) {
+    _labelIntersectAction = item;
+    if (_labelIntersectAction == 'shift') {
+      _intersectAction = LabelIntersectAction.shift;
+    }
+    if (_labelIntersectAction == 'hide') {
+      _intersectAction = LabelIntersectAction.hide;
+    }
+    if (_labelIntersectAction == 'none') {
+      _intersectAction = LabelIntersectAction.none;
+    }
+    setState(() {
+      /// update the label intersect action
     });
   }
 }

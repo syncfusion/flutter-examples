@@ -21,19 +21,41 @@ class DataLabelDefault extends SampleView {
 class _DataLabelDefaultState extends SampleViewState {
   _DataLabelDefaultState();
   late bool _seriescolor;
-  String _labelPos = 'top';
-  String _labelAln = 'center';
-  late ChartDataLabelAlignment _labelPosition;
-  late ChartAlignment _chartAlignment;
+  late String _labelPos;
+  late String _labelAln;
+
   late double _horizontalPaddding;
   late double _verticalPaddding;
-  late TooltipBehavior _tooltipBehavior;
+  List<String>? _positionType;
+  List<String>? _chartAlign;
+  List<ChartSampleData>? chartData;
+  ChartDataLabelAlignment? _labelPosition;
+  ChartAlignment? _chartAlignment;
+  TooltipBehavior? _tooltipBehavior;
 
-  final List<String> _positionType =
-      <String>['outer', 'top', 'bottom', 'middle'].toList();
+  @override
+  void initState() {
+    _labelPos = 'top';
+    _labelAln = 'center';
+    _labelPosition = ChartDataLabelAlignment.top;
+    _chartAlignment = ChartAlignment.center;
+    _seriescolor = true;
+    _horizontalPaddding = 0;
+    _verticalPaddding = 0;
+    _chartAlign = <String>['near', 'far', 'center'].toList();
+    _positionType = <String>['outer', 'top', 'bottom', 'middle'].toList();
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    chartData = <ChartSampleData>[
+      ChartSampleData(x: 2006, y: 21.8, yValue: 18.2),
+      ChartSampleData(x: 2007, y: 24.9, yValue: 21),
+      ChartSampleData(x: 2008, y: 28.5, yValue: 22.1),
+      ChartSampleData(x: 2009, y: 27.2, yValue: 21.5),
+      ChartSampleData(x: 2010, y: 23.4, yValue: 18.9),
+      ChartSampleData(x: 2011, y: 23.4, yValue: 21.3)
+    ];
+    super.initState();
+  }
 
-  /// List the alignment type.
-  final List<String> _chartAlign = <String>['near', 'far', 'center'].toList();
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -41,33 +63,30 @@ class _DataLabelDefaultState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Use series color',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                  child: Container(
-                      width: 90,
-                      child: CheckboxListTile(
-                          activeColor: model.backgroundColor,
-                          value: _seriescolor,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _seriescolor = value!;
-                              stateSetter(() {});
-                            });
-                          })),
-                ),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Use series color',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                child: SizedBox(
+                    width: 90,
+                    child: CheckboxListTile(
+                        activeColor: model.backgroundColor,
+                        value: _seriescolor,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _seriescolor = value!;
+                            stateSetter(() {});
+                          });
+                        })),
+              ),
+            ],
           ),
-          Container(
-              child: Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -81,7 +100,7 @@ class _DataLabelDefaultState extends SampleViewState {
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _labelAln,
-                    items: _chartAlign.map((String value) {
+                    items: _chartAlign!.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'center',
                           child: Text(value,
@@ -93,9 +112,8 @@ class _DataLabelDefaultState extends SampleViewState {
                     }),
               ),
             ],
-          )),
-          Container(
-              child: Row(
+          ),
+          Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -109,7 +127,7 @@ class _DataLabelDefaultState extends SampleViewState {
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _labelPos,
-                    items: _positionType.map((String value) {
+                    items: _positionType!.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'top',
                           child: Text(value,
@@ -121,58 +139,54 @@ class _DataLabelDefaultState extends SampleViewState {
                     }),
               ),
             ],
-          )),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Horizontal padding',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    minValue: -50,
-                    maxValue: 50,
-                    initialValue: _horizontalPaddding,
-                    onChanged: (double val) => setState(() {
-                      _horizontalPaddding = val;
-                    }),
-                    step: 10,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
-            ),
           ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Vertical padding',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Horizontal padding',
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: CustomDirectionalButtons(
+                  minValue: -50,
+                  maxValue: 50,
+                  initialValue: _horizontalPaddding,
+                  onChanged: (double val) => setState(() {
+                    _horizontalPaddding = val;
+                  }),
+                  step: 10,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 20.0, color: model.textColor),
                 ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(28, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    minValue: -50,
-                    maxValue: 50,
-                    initialValue: _verticalPaddding,
-                    onChanged: (double val) => setState(() {
-                      _verticalPaddding = val;
-                    }),
-                    step: 10,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Vertical padding',
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(28, 0, 0, 0),
+                child: CustomDirectionalButtons(
+                  minValue: -50,
+                  maxValue: 50,
+                  initialValue: _verticalPaddding,
+                  onChanged: (double val) => setState(() {
+                    _verticalPaddding = val;
+                  }),
+                  step: 10,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 20.0, color: model.textColor),
+                ),
+              )
+            ],
           ),
         ],
       );
@@ -211,18 +225,10 @@ class _DataLabelDefaultState extends SampleViewState {
   /// Returns the list of chart series which need to
   /// render on the chart with default data labels.
   List<SplineSeries<ChartSampleData, num>> _getDataLabelDefaultSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 2006, y: 21.8, yValue: 18.2),
-      ChartSampleData(x: 2007, y: 24.9, yValue: 21),
-      ChartSampleData(x: 2008, y: 28.5, yValue: 22.1),
-      ChartSampleData(x: 2009, y: 27.2, yValue: 21.5),
-      ChartSampleData(x: 2010, y: 23.4, yValue: 18.9),
-      ChartSampleData(x: 2011, y: 23.4, yValue: 21.3)
-    ];
     return <SplineSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
           legendIconType: LegendIconType.rectangle,
-          dataSource: chartData,
+          dataSource: chartData!,
           color: const Color.fromRGBO(140, 198, 64, 1),
           width: 2,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
@@ -232,14 +238,14 @@ class _DataLabelDefaultState extends SampleViewState {
           dataLabelSettings: DataLabelSettings(
             isVisible: true,
             useSeriesColor: _seriescolor,
-            alignment: _chartAlignment,
-            labelAlignment: _labelPosition,
+            alignment: _chartAlignment!,
+            labelAlignment: _labelPosition!,
             offset: Offset(_horizontalPaddding, _verticalPaddding),
           )),
       SplineSeries<ChartSampleData, num>(
           legendIconType: LegendIconType.rectangle,
           color: const Color.fromRGBO(203, 164, 199, 1),
-          dataSource: chartData,
+          dataSource: chartData!,
           width: 2,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
@@ -250,22 +256,19 @@ class _DataLabelDefaultState extends SampleViewState {
           dataLabelSettings: DataLabelSettings(
             isVisible: true,
             useSeriesColor: _seriescolor,
-            alignment: _chartAlignment,
-            labelAlignment: _labelPosition,
+            alignment: _chartAlignment!,
+            labelAlignment: _labelPosition!,
             offset: Offset(_horizontalPaddding, _verticalPaddding),
           ))
     ];
   }
 
   @override
-  void initState() {
-    _labelPosition = ChartDataLabelAlignment.top;
-    _chartAlignment = ChartAlignment.center;
-    _seriescolor = true;
-    _horizontalPaddding = 0;
-    _verticalPaddding = 0;
-    _tooltipBehavior = TooltipBehavior(enable: true);
-    super.initState();
+  void dispose() {
+    _positionType!.clear();
+    _chartAlign!.clear();
+    chartData!.clear();
+    super.dispose();
   }
 
   void _onAlignmentChange(String item) {

@@ -19,7 +19,7 @@ class LogarithmicAxisDefault extends SampleView {
 /// State class of the line cahrt with default logarithmic axis sample.
 class _LogarithmicAxisDefaultState extends SampleViewState {
   _LogarithmicAxisDefaultState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =
@@ -54,21 +54,20 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
 
   /// Returns the list of chart series which need to render on the line chart.
   List<LineSeries<ChartSampleData, DateTime>> _getSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: DateTime(1996, 1, 1), yValue: 200),
-      ChartSampleData(x: DateTime(1997, 1, 1), yValue: 400),
-      ChartSampleData(x: DateTime(1998, 1, 1), yValue: 600),
-      ChartSampleData(x: DateTime(1999, 1, 1), yValue: 700),
-      ChartSampleData(x: DateTime(2000, 1, 1), yValue: 1400),
-      ChartSampleData(x: DateTime(2001, 1, 1), yValue: 2000),
-      ChartSampleData(x: DateTime(2002, 1, 1), yValue: 4000),
-      ChartSampleData(x: DateTime(2003, 1, 1), yValue: 6000),
-      ChartSampleData(x: DateTime(2004, 1, 1), yValue: 8000),
-      ChartSampleData(x: DateTime(2005, 1, 1), yValue: 11000)
-    ];
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: DateTime(1996, 1, 1), yValue: 200),
+            ChartSampleData(x: DateTime(1997, 1, 1), yValue: 400),
+            ChartSampleData(x: DateTime(1998, 1, 1), yValue: 600),
+            ChartSampleData(x: DateTime(1999, 1, 1), yValue: 700),
+            ChartSampleData(x: DateTime(2000, 1, 1), yValue: 1400),
+            ChartSampleData(x: DateTime(2001, 1, 1), yValue: 2000),
+            ChartSampleData(x: DateTime(2002, 1, 1), yValue: 4000),
+            ChartSampleData(x: DateTime(2003, 1, 1), yValue: 6000),
+            ChartSampleData(x: DateTime(2004, 1, 1), yValue: 8000),
+            ChartSampleData(x: DateTime(2005, 1, 1), yValue: 11000)
+          ],
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           markerSettings: const MarkerSettings(isVisible: true))

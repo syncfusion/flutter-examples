@@ -19,7 +19,8 @@ class RangeColumnDefault extends SampleView {
 /// State class of range column chart.
 class _RangeColumnDefaultState extends SampleViewState {
   _RangeColumnDefaultState();
-  late TooltipBehavior _tooltipBehavior;
+
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =
@@ -57,17 +58,16 @@ class _RangeColumnDefaultState extends SampleViewState {
   /// which need to render on the default range column chart.
   List<RangeColumnSeries<ChartSampleData, String>>
       _getDefaultRangeColumnSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Jan', y: 3, yValue: 6),
-      ChartSampleData(x: 'Feb', y: 3, yValue: 7),
-      ChartSampleData(x: 'Mar', y: 4, yValue: 10),
-      ChartSampleData(x: 'Apr', y: 6, yValue: 13),
-      ChartSampleData(x: 'May', y: 9, yValue: 17),
-      ChartSampleData(x: 'June', y: 12, yValue: 20),
-    ];
     return <RangeColumnSeries<ChartSampleData, String>>[
       RangeColumnSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'Jan', y: 3, yValue: 6),
+          ChartSampleData(x: 'Feb', y: 3, yValue: 7),
+          ChartSampleData(x: 'Mar', y: 4, yValue: 10),
+          ChartSampleData(x: 'Apr', y: 6, yValue: 13),
+          ChartSampleData(x: 'May', y: 9, yValue: 17),
+          ChartSampleData(x: 'June', y: 12, yValue: 20),
+        ],
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         lowValueMapper: (ChartSampleData sales, _) => sales.y,
         highValueMapper: (ChartSampleData sales, _) => sales.yValue,

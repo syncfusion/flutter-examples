@@ -19,7 +19,8 @@ class BarTracker extends SampleView {
 /// State class of tracker bar chart.
 class _BarTrackerState extends SampleViewState {
   _BarTrackerState();
-  late TooltipBehavior _tooltipBehavior;
+
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =
@@ -54,17 +55,16 @@ class _BarTrackerState extends SampleViewState {
   /// Returns the lsit of chart series
   /// which need to render on the bar chart with trackers.
   List<BarSeries<ChartSampleData, String>> _getTrackerBarSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Mike', y: 7.5),
-      ChartSampleData(x: 'Chris', y: 7),
-      ChartSampleData(x: 'Helana', y: 6),
-      ChartSampleData(x: 'Tom', y: 5),
-      ChartSampleData(x: 'Federer', y: 7),
-      ChartSampleData(x: 'Hussain', y: 7),
-    ];
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'Mike', y: 7.5),
+          ChartSampleData(x: 'Chris', y: 7),
+          ChartSampleData(x: 'Helana', y: 6),
+          ChartSampleData(x: 'Tom', y: 5),
+          ChartSampleData(x: 'Federer', y: 7),
+          ChartSampleData(x: 'Hussain', y: 7),
+        ],
         borderRadius: BorderRadius.circular(15),
         trackColor: const Color.fromRGBO(198, 201, 207, 1),
 

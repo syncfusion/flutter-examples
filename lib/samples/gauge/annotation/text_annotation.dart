@@ -50,14 +50,12 @@ class _RadialTextAnnotationState extends SampleViewState {
                   angle: 270,
                   positionFactor: 0,
                   verticalAlignment: GaugeAlignment.far,
-                  widget: Container(
-                      // added text widget as an annotation.
-                      child: Text(' 63%',
-                          style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontFamily: 'Times',
-                              fontWeight: FontWeight.bold,
-                              fontSize: isCardView ? 18 : 25))))
+                  widget: Text(' 63%',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontFamily: 'Times',
+                          fontWeight: FontWeight.bold,
+                          fontSize: isCardView ? 18 : 25)))
             ],
             axisLineStyle: const AxisLineStyle(
                 color: Color(0xFF00A8B5),

@@ -1,10 +1,13 @@
-import 'dart:math';
+/// Packages import
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_examples/model/sample_view.dart';
-import 'package:intl/intl.dart';
+
+/// DataGrid import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+/// Local import
+import 'datagridsource/product_datagridsource.dart';
 
 /// Renders context menu data grid sample
 class ContextMenuDataGrid extends SampleView {
@@ -19,7 +22,7 @@ class _ContextMenuDataGridState extends SampleViewState {
   GlobalKey key = GlobalKey();
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late _ContextMenuDataSource source;
+  late ProductDataGridSource source;
 
   /// Collection of GridColumn and it required for SfDataGrid
   late List<GridColumn> columns;
@@ -40,7 +43,7 @@ class _ContextMenuDataGridState extends SampleViewState {
   void initState() {
     super.initState();
     isDesktop = model.isDesktop;
-    source = _ContextMenuDataSource();
+    source = ProductDataGridSource('Context Menu', productDataCount: 20);
   }
 
   ///create popup menu items
@@ -60,7 +63,7 @@ class _ContextMenuDataGridState extends SampleViewState {
         String itemName, IconData icon, GridColumn column,
         {DataGridSortDirection? sortDirection}) {
       return PopupMenuItem<String>(
-        padding: const EdgeInsets.all(0),
+        padding: EdgeInsets.zero,
         value: itemName,
         enabled: sortDirection != null
             ? isEnabled(sortDirection)
@@ -170,7 +173,7 @@ class _ContextMenuDataGridState extends SampleViewState {
           showMenu(
               context: context,
               position: RelativeRect.fromRect(
-                  details.globalPosition & const Size(0, 0),
+                  details.globalPosition & Size.zero,
                   Offset.zero & renderObject.size),
               items: buildMenuItems(details.column));
         }
@@ -185,7 +188,7 @@ class _ContextMenuDataGridState extends SampleViewState {
           showMenu(
               context: context,
               position: RelativeRect.fromSize(
-                  localPosition & const Size(0, 0), renderObject.size),
+                  localPosition & Size.zero, renderObject.size),
               items: buildMenuItems(details.column));
         }
       },
@@ -289,260 +292,5 @@ class _ContextMenuDataGridState extends SampleViewState {
           )),
     ];
     return columns;
-  }
-}
-
-class _Product {
-  _Product(this.id, this.productId, this.product, this.quantity, this.unitPrice,
-      this.city, this.orderDate, this.name);
-  final int id;
-  final int productId;
-  final String product;
-  final int quantity;
-  final double unitPrice;
-  final String city;
-  final DateTime orderDate;
-  final String name;
-}
-
-class _ContextMenuDataSource extends DataGridSource {
-  _ContextMenuDataSource() {
-    products = getProducts(20);
-    buildDataGridRows();
-  }
-
-  final Random random = Random();
-  List<_Product> products = <_Product>[];
-
-  List<DataGridRow> dataGridRows = <DataGridRow>[];
-
-  /// Build DataGridRow collection
-  void buildDataGridRows() {
-    dataGridRows = products.map<DataGridRow>((_Product product) {
-      return DataGridRow(cells: <DataGridCell<dynamic>>[
-        DataGridCell<int>(columnName: 'id', value: product.id),
-        DataGridCell<int>(columnName: 'productId', value: product.productId),
-        DataGridCell<String>(columnName: 'name', value: product.name),
-        DataGridCell<String>(columnName: 'product', value: product.product),
-        DataGridCell<DateTime>(
-            columnName: 'orderDate', value: product.orderDate),
-        DataGridCell<int>(columnName: 'quantity', value: product.quantity),
-        DataGridCell<String>(columnName: 'city', value: product.city),
-        DataGridCell<double>(columnName: 'unitPrice', value: product.unitPrice),
-      ]);
-    }).toList();
-  }
-
-  /// override's
-  @override
-  List<DataGridRow> get rows => dataGridRows;
-
-  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: <Widget>[
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[0].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[1].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[2].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[3].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          DateFormat('MM/dd/yyyy').format(row.getCells()[4].value).toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[5].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[6].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          NumberFormat.currency(locale: 'en_US', symbol: r'$')
-              .format(row.getCells()[7].value)
-              .toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    ]);
-  }
-
-  final List<String> product = <String>[
-    'Lax',
-    'Chocolate',
-    'Syrup',
-    'Chai',
-    'Bags',
-    'Meat',
-    'Filo',
-    'Cashew',
-    'Walnuts',
-    'Geitost',
-    'Cote de',
-    'Crab',
-    'Chang',
-    'Cajun',
-    'Gum',
-    'Filo',
-    'Cashew',
-    'Walnuts',
-    'Geitost',
-    'Bag',
-    'Meat',
-    'Filo',
-    'Cashew',
-    'Geitost',
-    'Cote de',
-    'Crab',
-    'Chang',
-    'Cajun',
-    'Gum',
-  ];
-
-  final List<String> cities = <String>[
-    'Bruxelles',
-    'Rosario',
-    'Recife',
-    'Graz',
-    'Montreal',
-    'Tsawassen',
-    'Campinas',
-    'Resende',
-  ];
-
-  final List<int> productId = <int>[
-    3524,
-    2523,
-    1345,
-    5243,
-    1803,
-    4932,
-    6532,
-    9475,
-    2435,
-    2123,
-    3652,
-    4523,
-    4263,
-    3527,
-    3634,
-    4932,
-    6532,
-    9475,
-    2435,
-    2123,
-    6532,
-    9475,
-    2435,
-    2123,
-    4523,
-    4263,
-    3527,
-    3634,
-    4932,
-  ];
-
-  final List<DateTime> orderDate = <DateTime>[
-    DateTime.now(),
-    DateTime(2002, 8, 27),
-    DateTime(2015, 7, 4),
-    DateTime(2007, 4, 15),
-    DateTime(2010, 12, 23),
-    DateTime(2010, 4, 20),
-    DateTime(2004, 6, 13),
-    DateTime(2008, 11, 11),
-    DateTime(2005, 7, 29),
-    DateTime(2009, 4, 5),
-    DateTime(2003, 3, 20),
-    DateTime(2011, 3, 8),
-    DateTime(2013, 10, 22),
-  ];
-
-  List<String> names = <String>[
-    'Kyle',
-    'Gina',
-    'Irene',
-    'Katie',
-    'Michael',
-    'Oscar',
-    'Ralph',
-    'Torrey',
-    'William',
-    'Bill',
-    'Daniel',
-    'Frank',
-    'Brenda',
-    'Danielle',
-    'Fiona',
-    'Howard',
-    'Jack',
-    'Larry',
-    'Holly',
-    'Jennifer',
-    'Liz',
-    'Pete',
-    'Steve',
-    'Vince',
-    'Zeke'
-  ];
-
-  List<_Product> getProducts(int count) {
-    final List<_Product> productData = <_Product>[];
-    for (int i = 0; i < count; i++) {
-      productData.add(
-        _Product(
-            i + 1000,
-            productId[i],
-            product[i],
-            random.nextInt(20),
-            70.0 + random.nextInt(100),
-            cities[i < cities.length ? i : random.nextInt(cities.length - 1)],
-            orderDate[random.nextInt(orderDate.length - 1)],
-            names[i]),
-      );
-    }
-    return productData;
   }
 }

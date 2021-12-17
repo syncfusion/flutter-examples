@@ -33,19 +33,17 @@ class _DoughnutDefaultState extends SampleViewState {
         CircularChartAnnotation(
             height: '100%',
             width: '100%',
-            widget: Container(
-                child: PhysicalModel(
+            widget: PhysicalModel(
               shape: BoxShape.circle,
               elevation: 10,
               shadowColor: Colors.black,
               color: const Color.fromRGBO(230, 230, 230, 1),
               child: Container(),
-            ))),
+            )),
         CircularChartAnnotation(
-            widget: Container(
-                child: const Text('62%',
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25))))
+            widget: const Text('62%',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25)))
       ],
       title: ChartTitle(
           text: isCardView ? '' : 'Progress of a task',
@@ -56,16 +54,18 @@ class _DoughnutDefaultState extends SampleViewState {
 
   /// Returns the doughnut series which need to be center elevation.
   List<DoughnutSeries<ChartSampleData, String>> _getElevationDoughnutSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'A', y: 62, pointColor: const Color.fromRGBO(0, 220, 252, 1)),
-      ChartSampleData(
-          x: 'B', y: 38, pointColor: const Color.fromRGBO(230, 230, 230, 1))
-    ];
-
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(
+                x: 'A',
+                y: 62,
+                pointColor: const Color.fromRGBO(0, 220, 252, 1)),
+            ChartSampleData(
+                x: 'B',
+                y: 38,
+                pointColor: const Color.fromRGBO(230, 230, 230, 1))
+          ],
           animationDuration: 0,
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,

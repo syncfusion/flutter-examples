@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_examples/samples/pdf_viewer/shared/helper.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -34,6 +31,7 @@ class FileExplorerState extends State<FileExplorer> {
     Document('JavaScript Succinctly', 'assets/pdf/javascript_succinctly.pdf'),
     Document('Rotated Document', 'assets/pdf/rotated_document.pdf'),
     Document('Single Page Document', 'assets/pdf/single_page_document.pdf'),
+    Document('Encrypted Document', 'assets/pdf/encrypted_document.pdf'),
     Document('Corrupted Document', 'assets/pdf/corrupted_document.pdf')
   ];
 
@@ -171,7 +169,7 @@ class SearchToolbarState extends State<SearchToolbar> {
                     fontSize: 20,
                     decoration: TextDecoration.none),
               ),
-              Container(
+              SizedBox(
                 height: 36, // height of close search menu button
                 width: 36, // width of close search menu button
                 child: RawMaterialButton(
@@ -191,7 +189,7 @@ class SearchToolbarState extends State<SearchToolbar> {
           ),
           backgroundColor:
               _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242),
-          content: Container(
+          content: SizedBox(
               width: 328,
               child: Text(
                 'No more occurrences found. Would you like to continue to search from the beginning?',
@@ -254,7 +252,7 @@ class SearchToolbarState extends State<SearchToolbar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 56, // height of search toolbar
       child: Row(
         children: <Widget>[
@@ -464,7 +462,7 @@ class ToolbarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: height,
       width: width,
       child: child,
@@ -579,7 +577,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                     left: 16, // x position of search word in search menu
                     top: 15, // y position of search word in search menu
                   ),
-                  child: Container(
+                  child: SizedBox(
                     height: 23, // height of search word in search menu
                     width: 66, // width of search word in search menu
                     child: Text(
@@ -601,7 +599,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                     right: 8, // x position of clear button in search menu
                     top: 8, // y position of clear button in search menu
                   ),
-                  child: Container(
+                  child: SizedBox(
                     height: 36, // height of close search menu button
                     width: 36, // width of close search menu button
                     child: RawMaterialButton(
@@ -661,7 +659,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                             ? Padding(
                                 padding: const EdgeInsets.only(
                                     left: 8, right: 8, bottom: 6, top: 15),
-                                child: Container(
+                                child: SizedBox(
                                   height:
                                       14.57, // height of search button in search menu
                                   width:
@@ -685,7 +683,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                             : Padding(
                                 padding: const EdgeInsets.only(
                                     left: 8, right: 8, bottom: 6, top: 15),
-                                child: Container(
+                                child: SizedBox(
                                   height:
                                       14.57, // height of clear search button
                                   width: 14.57, // width of clear search button
@@ -766,7 +764,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                 // Group divider
                 Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: Container(
+                    child: SizedBox(
                       height: 24, // height of vertical divider
                       child: VerticalDivider(
                         width: 24.0, // width of vertical divider
@@ -779,7 +777,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                 // Previous search instance button
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Container(
+                  child: SizedBox(
                     height: 36, // height of previous instance button
                     width: 36, // width of previous instance button
                     child: RawMaterialButton(
@@ -813,7 +811,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                     top: 10,
                     right: 8,
                   ),
-                  child: Container(
+                  child: SizedBox(
                     height: 36, // height of next instance button
                     width: 36, // width of next instance button
                     child: RawMaterialButton(
@@ -848,7 +846,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                 // Check box for case sensitive search.
                 Padding(
                   padding: const EdgeInsets.only(left: 16, top: 16, bottom: 16),
-                  child: Container(
+                  child: SizedBox(
                     height: 18, // height of match case checkbox
                     width: 18, // width of match case checkbox
                     child: Theme(
@@ -888,7 +886,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                 // Check box for whole word search.
                 Padding(
                   padding: const EdgeInsets.only(left: 16, top: 16, bottom: 16),
-                  child: Container(
+                  child: SizedBox(
                     height: 18, // height of whole word checkbox
                     width: 18, // height of whole word checkbox
                     child: Theme(

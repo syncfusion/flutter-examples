@@ -1,5 +1,4 @@
 /// Flutter package imports
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Gauge imports
@@ -36,7 +35,7 @@ class _DragBehaviorState extends SampleViewState {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
+                SizedBox(
                   width: getScreenWidth(context, _isHorizontalOrientation),
                   child: _buildWidgetPointer(context),
                 ),
@@ -83,7 +82,7 @@ class _DragBehaviorState extends SampleViewState {
   /// Returns the icon widget pointer sample.
   Widget _buildIconWidgetPointer(
       BuildContext context, LinearMarkerDragBehavior dragMode) {
-    return Container(
+    return SizedBox(
       height: 100,
       child: SfLinearGauge(
         animateAxis: true,
@@ -112,7 +111,7 @@ class _DragBehaviorState extends SampleViewState {
             position: LinearElementPosition.outside,
             child: RotatedBox(
               quarterTurns: 3,
-              child: Container(
+              child: SizedBox(
                 width: 20,
                 height: 16,
                 child: Image.asset(
@@ -140,7 +139,7 @@ class _DragBehaviorState extends SampleViewState {
             position: LinearElementPosition.outside,
             child: RotatedBox(
               quarterTurns: 3,
-              child: Container(
+              child: SizedBox(
                 width: 20,
                 height: 16,
                 child: Image.asset(

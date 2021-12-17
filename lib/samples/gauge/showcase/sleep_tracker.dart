@@ -51,7 +51,7 @@ class _SleepTrackerSampleState extends SampleViewState {
               const SizedBox(height: 10)
             else
               const SizedBox(height: 15),
-            Container(
+            SizedBox(
               height: isCardView ? 220 : MediaQuery.of(context).size.height / 2,
               child: SfRadialGauge(axes: <RadialAxis>[
                 RadialAxis(
@@ -92,7 +92,8 @@ class _SleepTrackerSampleState extends SampleViewState {
                                 shape: BoxShape.circle,
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
-                                    color: model.themeData.brightness ==
+                                    color: model.themeData.colorScheme
+                                                .brightness ==
                                             Brightness.light
                                         ? Colors.grey
                                         : Colors.white.withOpacity(0.2),
@@ -208,34 +209,32 @@ class _SleepTrackerSampleState extends SampleViewState {
                                         scale: animation.value,
                                         child: child,
                                       ),
-                                      child: Container(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text(
-                                              '4 Apr',
-                                              style: TextStyle(
-                                                fontSize: isWebOrDesktop
-                                                    ? 24
-                                                    : isCardView
-                                                        ? 14
-                                                        : 10,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Text(
+                                            '4 Apr',
+                                            style: TextStyle(
+                                              fontSize: isWebOrDesktop
+                                                  ? 24
+                                                  : isCardView
+                                                      ? 14
+                                                      : 10,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            _wakeupTimeAnnotation,
+                                            style: TextStyle(
                                                 color: Colors.blue,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              _wakeupTimeAnnotation,
-                                              style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: isWebOrDesktop
-                                                      ? 28
-                                                      : isCardView
-                                                          ? 20
-                                                          : 16),
-                                            ),
-                                          ],
-                                        ),
+                                                fontSize: isWebOrDesktop
+                                                    ? 28
+                                                    : isCardView
+                                                        ? 20
+                                                        : 16),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -297,34 +296,32 @@ class _SleepTrackerSampleState extends SampleViewState {
                                         scale: animation.value,
                                         child: child,
                                       ),
-                                      child: Container(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text(
-                                              '5 Apr',
-                                              style: TextStyle(
-                                                fontSize: isWebOrDesktop
-                                                    ? 24
-                                                    : isCardView
-                                                        ? 14
-                                                        : 10,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Text(
+                                            '5 Apr',
+                                            style: TextStyle(
+                                              fontSize: isWebOrDesktop
+                                                  ? 24
+                                                  : isCardView
+                                                      ? 14
+                                                      : 10,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            _bedTimeAnnotation,
+                                            style: TextStyle(
                                                 color: Colors.blue,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              _bedTimeAnnotation,
-                                              style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: isWebOrDesktop
-                                                      ? 28
-                                                      : isCardView
-                                                          ? 20
-                                                          : 16),
-                                            ),
-                                          ],
-                                        ),
+                                                fontSize: isWebOrDesktop
+                                                    ? 28
+                                                    : isCardView
+                                                        ? 20
+                                                        : 16),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -398,8 +395,8 @@ class _SleepTrackerSampleState extends SampleViewState {
       final DateTime _sleep =
           dateFormat.parse(_bedTime == '09:00 pm' ? '12:00' : _bedTime);
       final String _sleepDuration = _sleep.difference(_wakeup).toString();
-      _sleepHours = _sleepDuration.toString().split(':')[0];
-      _sleepMinutes = _sleepDuration.toString().split(':')[1];
+      _sleepHours = _sleepDuration.split(':')[0];
+      _sleepMinutes = _sleepDuration.split(':')[1];
     });
   }
 
@@ -455,8 +452,8 @@ class _SleepTrackerSampleState extends SampleViewState {
           dateFormat.parse(_wakeupTime == '06:00 am' ? '03:00' : _wakeupTime);
       final DateTime _sleep = dateFormat.parse(_bedTime);
       final String _sleepDuration = _sleep.difference(_wakeup).toString();
-      _sleepHours = _sleepDuration.toString().split(':')[0];
-      _sleepMinutes = _sleepDuration.toString().split(':')[1];
+      _sleepHours = _sleepDuration.split(':')[0];
+      _sleepMinutes = _sleepDuration.split(':')[1];
     });
   }
 

@@ -135,7 +135,7 @@ class _VerticalDateRangeSliderPageState extends SampleViewState {
           value: _isInversed,
           title: const Text('Inversed', softWrap: false),
           activeColor: model.backgroundColor,
-          contentPadding: const EdgeInsets.all(0.0),
+          contentPadding: EdgeInsets.zero,
           onChanged: (bool? value) {
             setState(() {
               _isInversed = value!;

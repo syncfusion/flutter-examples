@@ -38,7 +38,7 @@ class _SleepWatchState extends SampleViewState {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
+              SizedBox(
                   width: (defaultTargetPlatform == TargetPlatform.macOS ||
                           defaultTargetPlatform == TargetPlatform.iOS)
                       ? 54
@@ -66,7 +66,7 @@ class _SleepWatchState extends SampleViewState {
                       )
                     ],
                   )),
-              Container(
+              SizedBox(
                   width: isWebOrDesktop
                       ? MediaQuery.of(context).size.width >= 550
                           ? 450
@@ -194,7 +194,7 @@ class _SleepWatchState extends SampleViewState {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
+              SizedBox(
                   width: (defaultTargetPlatform == TargetPlatform.macOS ||
                           defaultTargetPlatform == TargetPlatform.iOS)
                       ? 54
@@ -222,7 +222,7 @@ class _SleepWatchState extends SampleViewState {
                       )
                     ],
                   )),
-              Container(
+              SizedBox(
                   width: isWebOrDesktop
                       ? MediaQuery.of(context).size.width >= 550
                           ? 450

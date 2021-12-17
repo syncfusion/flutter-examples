@@ -1,7 +1,6 @@
 /// package imports
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///Local imports
@@ -51,7 +50,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
   late SampleModel model;
   late WidgetCategory category;
   late SubItem sample;
-  late List<SubItem>? subItems;
+  List<SubItem>? subItems;
   late String orginText;
   @override
   void initState() {
@@ -196,9 +195,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                         fontFamily: 'Roboto-Medium')),
                 actions: <Widget>[
                   if (model.isMobileResolution)
-                    Container(height: 0, width: 9)
+                    const SizedBox(height: 0, width: 9)
                   else
-                    Container(
+                    SizedBox(
                         child: Container(
                             padding: const EdgeInsets.only(top: 0, right: 20),
                             width: MediaQuery.of(context).size.width * 0.215,
@@ -298,7 +297,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                                     ),
                                   ));
                             }))),
-                  Container(
+                  SizedBox(
                     height: 60,
                     width: 60,
                     child: IconButton(
@@ -446,7 +445,7 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
             category: category,
             sampleModel: model,
             expansionKey: _currentExpansionKey,
-            webLayoutPageState: widget.webLayoutPageState!,
+            webLayoutPageState: widget.webLayoutPageState,
             item: item);
       } else {
         final SubItem currentSample = widget.webLayoutPageState!.sample;
@@ -481,7 +480,7 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                         ' > ' +
                         item.subItems![0].title!;
 
-                widget.webLayoutPageState!.selectSample = item.title!;
+                widget.webLayoutPageState!.selectSample = item.title;
                 widget.webLayoutPageState!.sample =
                     item.subItems != null ? item.subItems![0] as SubItem : item;
                 if (model.currentSampleKey == null ||
@@ -621,7 +620,7 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                         widget.webLayoutPageState!.sample.control!.title! +
                             ' > ' +
                             _list[i].title!;
-                    widget.webLayoutPageState!.selectSample = _list[i].title!;
+                    widget.webLayoutPageState!.selectSample = _list[i].title;
                     if (model.currentSampleKey == null ||
                         (_list[i].key != null
                             ? model.currentSampleKey != _list[i].key
@@ -762,9 +761,8 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                     const Padding(
                       padding: EdgeInsets.only(left: 16),
                     ),
-                    Container(
-                        child: Icon(Icons.arrow_back,
-                            size: 20, color: sampleModel.backgroundColor)),
+                    Icon(Icons.arrow_back,
+                        size: 20, color: sampleModel.backgroundColor),
                     Flexible(
                         child: Container(
                             padding: const EdgeInsets.only(left: 12),
@@ -848,7 +846,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
   late bool _initialRender;
   late GlobalKey<State> _outputKey;
   double _tabTextWidth = 0;
-  late ScrollController _controller;
+  ScrollController? _controller;
   late StateSetter _setState;
   String? _prevCategory;
   String? _currentCategory;
@@ -877,9 +875,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
   void _onTabScroll() {
     _setState(() {
       // ignore: invalid_use_of_protected_member
-      if (_controller.positions.isNotEmpty) {
-        _prevPosition = _controller.position.pixels;
-        _prevScrollExtent = _controller.position.maxScrollExtent;
+      if (_controller!.positions.isNotEmpty) {
+        _prevPosition = _controller!.position.pixels;
+        _prevScrollExtent = _controller!.position.maxScrollExtent;
       } else {
         _prevPosition = null;
         _prevScrollExtent = null;
@@ -893,8 +891,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
   /// Notify the framework
   void refresh() {
     _initialRender = false;
-    _controller.removeListener(_onTabScroll);
-    _controller.dispose();
+    _controller!.removeListener(_onTabScroll);
+    _controller!.dispose();
     if (mounted) {
       setState(() {
         /// update the sample and sample details changes
@@ -922,13 +920,14 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
   @override
   void dispose() {
     tabIndex = null;
+    _controller!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     _controller = ScrollController();
-    _controller.addListener(_onTabScroll);
+    _controller!.addListener(_onTabScroll);
     final SampleModel _model = widget.sampleModel!;
     _model.webOutputContainerState = this;
     final double width = MediaQuery.of(context).size.width;
@@ -977,10 +976,19 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     _isRightSideScrolled();
 
     _model.isPropertyPanelTapped = false;
+    List<TextSpan>? textSpans;
+    TextSpan? textSpan;
+    if (_sample.description != null && _sample.description != '') {
+      textSpans = getTextSpan(_sample.description!, _model);
+      textSpan = textSpans[0];
+      textSpans.removeAt(0);
+    }
+
     return Theme(
       data: ThemeData(
-          brightness: _model.themeData.brightness,
-          primaryColor: _model.backgroundColor),
+          brightness: _model.themeData.colorScheme.brightness,
+          primaryColor: _model.backgroundColor,
+          colorScheme: _model.themeData.colorScheme),
       child: Expanded(
           child: Container(
               color: _model.webOutputContainerColor,
@@ -1030,11 +1038,11 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                       decoration: BoxDecoration(
                                         color: _model.webOutputContainerColor,
                                         border: Border.all(
-                                            color:
-                                                (_model.themeData.brightness ==
-                                                        Brightness.light
-                                                    ? Colors.grey[300]
-                                                    : Colors.transparent)!,
+                                            color: (_model.themeData.colorScheme
+                                                        .brightness ==
+                                                    Brightness.light
+                                                ? Colors.grey[300]
+                                                : Colors.transparent)!,
                                             width: 1),
                                         borderRadius: BorderRadius.circular(3),
                                       ),
@@ -1065,7 +1073,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                             StateSetter
                                                                 _stateSetter) {
                                                       _setState = _stateSetter;
-                                                      return Container(
+                                                      return SizedBox(
                                                         width: _scrollbarWidth,
                                                         child: Stack(
                                                           children: <Widget>[
@@ -1111,7 +1119,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                                             }
                                                                                           },
                                                                                           labelColor: _model.backgroundColor,
-                                                                                          unselectedLabelColor: _model.themeData.brightness == Brightness.dark ? Colors.white : const Color.fromRGBO(89, 89, 89, 1),
+                                                                                          unselectedLabelColor: _model.themeData.colorScheme.brightness == Brightness.dark ? Colors.white : const Color.fromRGBO(89, 89, 89, 1),
                                                                                           isScrollable: true,
                                                                                           tabs: tabs!,
                                                                                         ))))))),
@@ -1173,8 +1181,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                             splashColor: _isRightScrolled ? Colors.transparent : null,
                                                                             focusColor: _isRightScrolled ? Colors.transparent : null,
                                                                             onTap: () {
-                                                                              if (_controller.position.maxScrollExtent > _controller.position.pixels + 12) {
-                                                                                _controller.animateTo(_controller.position.pixels + 150, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+                                                                              if (_controller!.position.maxScrollExtent > _controller!.position.pixels + 12) {
+                                                                                _controller!.animateTo(_controller!.position.pixels + 150, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
                                                                               }
                                                                               _stateSetter(() {});
                                                                             },
@@ -1242,40 +1250,43 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                     10 <
                                                                 _tabTextWidth)
                                                               Align(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .centerLeft,
-                                                                  child:
-                                                                      Container(
-                                                                    child: Material(
-                                                                        shape: const CircleBorder(),
-                                                                        clipBehavior: Clip.hardEdge,
-                                                                        child: InkWell(
-                                                                            hoverColor: _isLeftScrolled ? Colors.grey.withOpacity(0.3) : Colors.transparent,
-                                                                            highlightColor: _isLeftScrolled ? Colors.transparent : null,
-                                                                            splashColor: _isLeftScrolled ? Colors.transparent : null,
-                                                                            focusColor: _isLeftScrolled ? Colors.transparent : null,
-                                                                            onTap: () {
-                                                                              if (_controller.position.pixels != 0) {
-                                                                                _controller.animateTo(_controller.position.pixels - 150, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
-                                                                              }
-                                                                              _stateSetter(() {});
-                                                                            },
-                                                                            child: Ink(
-                                                                                decoration: BoxDecoration(
-                                                                                  color: _model.webInputColor,
-                                                                                  border: Border.all(color: Colors.transparent, width: 6),
-                                                                                  shape: BoxShape.circle,
-                                                                                ),
-                                                                                child: SizedBox(
-                                                                                  height: 18,
-                                                                                  width: 18,
-                                                                                  child: Image.asset('images/scroll-arrow-left.png',
-                                                                                      // ignore: invalid_use_of_protected_member
-                                                                                      color: _isLeftScrolled ? _model.textColor : _model.textColor.withOpacity(0.5),
-                                                                                      fit: BoxFit.contain),
-                                                                                )))),
-                                                                  ))
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                child: Material(
+                                                                    shape:
+                                                                        const CircleBorder(),
+                                                                    clipBehavior:
+                                                                        Clip.hardEdge,
+                                                                    child: InkWell(
+                                                                        hoverColor: _isLeftScrolled ? Colors.grey.withOpacity(0.3) : Colors.transparent,
+                                                                        highlightColor: _isLeftScrolled ? Colors.transparent : null,
+                                                                        splashColor: _isLeftScrolled ? Colors.transparent : null,
+                                                                        focusColor: _isLeftScrolled ? Colors.transparent : null,
+                                                                        onTap: () {
+                                                                          if (_controller!.position.pixels !=
+                                                                              0) {
+                                                                            _controller!.animateTo(_controller!.position.pixels - 150,
+                                                                                duration: const Duration(milliseconds: 250),
+                                                                                curve: Curves.easeOut);
+                                                                          }
+                                                                          _stateSetter(
+                                                                              () {});
+                                                                        },
+                                                                        child: Ink(
+                                                                            decoration: BoxDecoration(
+                                                                              color: _model.webInputColor,
+                                                                              border: Border.all(color: Colors.transparent, width: 6),
+                                                                              shape: BoxShape.circle,
+                                                                            ),
+                                                                            child: SizedBox(
+                                                                              height: 18,
+                                                                              width: 18,
+                                                                              child: Image.asset('images/scroll-arrow-left.png',
+                                                                                  // ignore: invalid_use_of_protected_member
+                                                                                  color: _isLeftScrolled ? _model.textColor : _model.textColor.withOpacity(0.5),
+                                                                                  fit: BoxFit.contain),
+                                                                            )))),
+                                                              )
                                                             else
                                                               SizedBox.fromSize(
                                                                   size: Size
@@ -1317,7 +1328,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                                 height: 21,
                                                                                 width: 21,
                                                                                 child: Image.asset(
-                                                                                  _model.themeData.brightness == Brightness.dark ? 'images/git_hub_dark.png' : 'images/git_hub.png',
+                                                                                  _model.themeData.colorScheme.brightness == Brightness.dark ? 'images/git_hub_dark.png' : 'images/git_hub.png',
                                                                                   fit: BoxFit.contain,
                                                                                 )))))),
                                                           ),
@@ -1438,7 +1449,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                   decoration: BoxDecoration(
                                     color: _model.webOutputContainerColor,
                                     border: Border.all(
-                                        color: (_model.themeData.brightness ==
+                                        color: (_model.themeData.colorScheme
+                                                    .brightness ==
                                                 Brightness.light
                                             ? Colors.grey[300]
                                             : Colors.transparent)!,
@@ -1492,7 +1504,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                   width: 21,
                                                                   child: Image
                                                                       .asset(
-                                                                    _model.themeData.brightness ==
+                                                                    _model.themeData.colorScheme.brightness ==
                                                                             Brightness.dark
                                                                         ? 'images/git_hub_dark.png'
                                                                         : 'images/git_hub.png',
@@ -1650,7 +1662,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                   subItem: _sample,
                                                   sampleView:
                                                       _model.sampleWidget[
-                                                          _sample.key]!,
+                                                          _sample.key],
                                                   sampleModel: _model))),
                                     ],
                                   )))),
@@ -1658,12 +1670,18 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                     Container(
                         padding: const EdgeInsets.only(left: 10, top: 18),
                         alignment: Alignment.centerLeft,
-                        child: Text(_sample.description!,
-                            textAlign: TextAlign.justify,
+                        child: RichText(
+                          textAlign: TextAlign.justify,
+                          text: TextSpan(
+                            text: textSpan!.text,
                             style: TextStyle(
-                                color: _model.textColor,
-                                fontFamily: 'Roboto-Regular',
-                                letterSpacing: 0.3)))
+                              color: _model.textColor,
+                              fontFamily: 'Roboto-Regular',
+                              letterSpacing: 0.3,
+                            ),
+                            children: textSpans,
+                          ),
+                        ))
                   else
                     Container(),
                 ],
@@ -1679,8 +1697,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     // ignore: invalid_use_of_protected_member
     if ((_scrollbarWidth + 10 < _tabTextWidth) &&
             // ignore: invalid_use_of_protected_member
-            (_controller.positions.isNotEmpty &&
-                _controller.position.pixels > 25) ||
+            (_controller!.positions.isNotEmpty &&
+                _controller!.position.pixels > 25) ||
         (_prevCategory == _currentCategory &&
             _prevPosition != null &&
             _prevPosition! > 25)) {
@@ -1702,16 +1720,16 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
 
     if (_scrollbarWidth + 10 < _tabTextWidth &&
         // ignore: invalid_use_of_protected_member
-        ((_controller.positions.isNotEmpty &&
-                (_controller.position.pixels -
-                            _controller.position.maxScrollExtent)
+        ((_controller!.positions.isNotEmpty &&
+                (_controller!.position.pixels -
+                            _controller!.position.maxScrollExtent)
                         .abs() >
                     25) ||
             (_prevCategory == _currentCategory &&
                 _prevPosition != null &&
                 (_prevPosition! - _prevScrollExtent!).abs() > 25) ||
             // ignore: invalid_use_of_protected_member
-            (_controller.positions.isEmpty &&
+            (_controller!.positions.isEmpty &&
                 (_prevPosition == null ||
                     _prevCategory != _currentCategory)))) {
       _isRightScrolled = true;
@@ -1874,11 +1892,6 @@ class _OutputContainerState extends State<_OutputContainer> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   late bool _needsPropertyPanel;
 
   /// Checks whether the property panel is enabled
@@ -1924,7 +1937,7 @@ class _OutputContainerState extends State<_OutputContainer> {
             widget.sampleModel!.currentWindowSize.width ||
         widget.sampleModel!.oldWindowSize!.height !=
             widget.sampleModel!.currentWindowSize.height) {
-      widget.sampleModel!.currentSampleKey = widget.subItem!.key!;
+      widget.sampleModel!.currentSampleKey = widget.subItem!.key;
       return widget.sampleModel!.needToMaximize
           ? Container()
           : StatefulBuilder(
@@ -1993,8 +2006,10 @@ class _OutputContainerState extends State<_OutputContainer> {
               theme: ThemeData(
                   checkboxTheme: CheckboxThemeData(
                       fillColor: MaterialStateProperty.resolveWith(getColor)),
-                  brightness: widget.sampleModel!.themeData.brightness,
-                  primaryColor: widget.sampleModel!.backgroundColor),
+                  brightness:
+                      widget.sampleModel!.themeData.colorScheme.brightness,
+                  primaryColor: widget.sampleModel!.backgroundColor,
+                  colorScheme: widget.sampleModel!.themeData.colorScheme),
               initialRoute: widget.subItem!.breadCrumbText,
               routes: <String, WidgetBuilder>{
             widget.subItem!.breadCrumbText!: (BuildContext cotext) => Scaffold(
@@ -2135,8 +2150,10 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData(
-                  brightness: widget.sampleModel!.themeData.brightness,
-                  primaryColor: widget.sampleModel!.backgroundColor),
+                  brightness:
+                      widget.sampleModel!.themeData.colorScheme.brightness,
+                  primaryColor: widget.sampleModel!.backgroundColor,
+                  colorScheme: widget.sampleModel!.themeData.colorScheme),
               child: SizedBox(
                   width: widget.openState == true
                       ? animation.value * 275
@@ -2322,7 +2339,7 @@ class _TileContainerState extends State<_TileContainer> {
                               ' > ' +
                               list[i].title!;
 
-                      widget.webLayoutPageState!.selectSample = list[i].title!;
+                      widget.webLayoutPageState!.selectSample = list[i].title;
                       widget.webLayoutPageState!.sample =
                           list[i].subItems != null
                               ? list[i].subItems![0] as SubItem
@@ -2430,7 +2447,7 @@ class _TileContainerState extends State<_TileContainer> {
                             ' > ' +
                             list[i].title!;
 
-                    widget.webLayoutPageState!.selectSample = list[i].title!;
+                    widget.webLayoutPageState!.selectSample = list[i].title;
                     widget.webLayoutPageState!.sample = list[i].subItems != null
                         ? list[i].subItems![0] as SubItem
                         : list[i];
@@ -2567,63 +2584,33 @@ class _PopupState extends State<_Popup> {
             color: show ? Colors.black54 : Colors.transparent,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Container(
-                child: Opacity(
-                    opacity: show ? 1.0 : 0.0,
-                    child: _sampleDetails != null
-                        ? Theme(
-                            data: ThemeData(
-                                checkboxTheme: CheckboxThemeData(
-                                    fillColor:
-                                        MaterialStateProperty.resolveWith(
-                                            getColor)),
-                                brightness: model!.themeData.brightness,
-                                primaryColor: model!.backgroundColor),
-                            child: Scaffold(
-                                key: scaffoldKey,
-                                endDrawer: _propertiesPanel,
-                                appBar: PreferredSize(
-                                    preferredSize: const Size.fromHeight(40),
-                                    child: AppBar(
-                                        title: Text(_sampleDetails!.title!,
-                                            style: TextStyle(
-                                                fontFamily: 'Roboto-Medium',
-                                                fontSize: 16,
-                                                color: model!.textColor)),
-                                        automaticallyImplyLeading: false,
-                                        backgroundColor:
-                                            model!.webBackgroundColor,
-                                        actions: <Widget>[
-                                          if (_checkPropertyPanelIsEnabled(
-                                              context))
-                                            Container(
-                                                height: 40,
-                                                width: 40,
-                                                child: Material(
-                                                    color: model!
-                                                        .webBackgroundColor,
-                                                    shape: const CircleBorder(),
-                                                    clipBehavior: Clip.hardEdge,
-                                                    child: Tooltip(
-                                                        message: 'Options',
-                                                        child: IconButton(
-                                                          hoverColor: Colors
-                                                              .grey
-                                                              .withOpacity(0.3),
-                                                          icon: Icon(Icons.menu,
-                                                              color: model!
-                                                                  .webIconColor),
-                                                          onPressed: () {
-                                                            model!.propertyPanelKey =
-                                                                _currentWidgetKey!;
-                                                            scaffoldKey
-                                                                .currentState!
-                                                                .openEndDrawer();
-                                                          },
-                                                        ))))
-                                          else
-                                            Container(),
-                                          Container(
+            child: Opacity(
+                opacity: show ? 1.0 : 0.0,
+                child: _sampleDetails != null
+                    ? Theme(
+                        data: ThemeData(
+                            checkboxTheme: CheckboxThemeData(
+                                fillColor: MaterialStateProperty.resolveWith(
+                                    getColor)),
+                            brightness: model!.themeData.colorScheme.brightness,
+                            primaryColor: model!.backgroundColor,
+                            colorScheme: model!.themeData.colorScheme),
+                        child: Scaffold(
+                            key: scaffoldKey,
+                            endDrawer: _propertiesPanel,
+                            appBar: PreferredSize(
+                                preferredSize: const Size.fromHeight(40),
+                                child: AppBar(
+                                    title: Text(_sampleDetails!.title!,
+                                        style: TextStyle(
+                                            fontFamily: 'Roboto-Medium',
+                                            fontSize: 16,
+                                            color: model!.textColor)),
+                                    automaticallyImplyLeading: false,
+                                    backgroundColor: model!.webBackgroundColor,
+                                    actions: <Widget>[
+                                      if (_checkPropertyPanelIsEnabled(context))
+                                        SizedBox(
                                             height: 40,
                                             width: 40,
                                             child: Material(
@@ -2631,38 +2618,62 @@ class _PopupState extends State<_Popup> {
                                                     model!.webBackgroundColor,
                                                 shape: const CircleBorder(),
                                                 clipBehavior: Clip.hardEdge,
-                                                child: IconButton(
-                                                  hoverColor: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  icon: Icon(Icons.close,
-                                                      color:
-                                                          model!.webIconColor),
-                                                  onPressed: () {
-                                                    model!.needToMaximize =
-                                                        false;
-                                                    final _OutputContainerState
-                                                        _outputContainerState =
-                                                        model!.outputContainerState
-                                                            as _OutputContainerState;
-                                                    _outputContainerState
-                                                        .setState(() {
-                                                      _outputContainerState
-                                                              .renderWidget =
-                                                          _currentWidgetKey
-                                                              ?.currentWidget;
-                                                    });
-                                                    _sampleDetails = null;
-                                                    refresh(false);
-                                                  },
-                                                )),
-                                          )
-                                        ])),
-                                backgroundColor: model!.themeData.brightness ==
+                                                child: Tooltip(
+                                                    message: 'Options',
+                                                    child: IconButton(
+                                                      hoverColor: Colors.grey
+                                                          .withOpacity(0.3),
+                                                      icon: Icon(Icons.menu,
+                                                          color: model!
+                                                              .webIconColor),
+                                                      onPressed: () {
+                                                        model!.propertyPanelKey =
+                                                            _currentWidgetKey!;
+                                                        scaffoldKey
+                                                            .currentState!
+                                                            .openEndDrawer();
+                                                      },
+                                                    ))))
+                                      else
+                                        Container(),
+                                      SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: Material(
+                                            color: model!.webBackgroundColor,
+                                            shape: const CircleBorder(),
+                                            clipBehavior: Clip.hardEdge,
+                                            child: IconButton(
+                                              hoverColor:
+                                                  Colors.grey.withOpacity(0.3),
+                                              icon: Icon(Icons.close,
+                                                  color: model!.webIconColor),
+                                              onPressed: () {
+                                                model!.needToMaximize = false;
+                                                final _OutputContainerState
+                                                    _outputContainerState =
+                                                    model!.outputContainerState
+                                                        as _OutputContainerState;
+                                                _outputContainerState
+                                                    .setState(() {
+                                                  _outputContainerState
+                                                          .renderWidget =
+                                                      _currentWidgetKey
+                                                          ?.currentWidget;
+                                                });
+                                                _sampleDetails = null;
+                                                refresh(false);
+                                              },
+                                            )),
+                                      )
+                                    ])),
+                            backgroundColor:
+                                model!.themeData.colorScheme.brightness ==
                                         Brightness.dark
                                     ? const Color.fromRGBO(33, 33, 33, 1)
                                     : Colors.white,
-                                body: _currentWidgetKey?.currentWidget))
-                        : Container()))));
+                            body: _currentWidgetKey?.currentWidget))
+                    : Container())));
   }
 
   /// Method to get the widget's color based on the widget state

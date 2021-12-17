@@ -27,33 +27,30 @@ class _YearlySalesXlsIOState extends SampleViewState {
       backgroundColor: model.cardThemeColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                  'This sample showcases on how to create a simple Excel report for yearly sales with data, chart, formulas, and cell formatting using XlsIO.',
-                  style: TextStyle(fontSize: 16, color: model.textColor)),
-              const SizedBox(height: 20, width: 30),
-              Align(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          model.backgroundColor),
-                      padding: model.isMobile
-                          ? null
-                          : MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15)),
-                    ),
-                    onPressed: _generateExcel,
-                    child: const Text('Generate Excel',
-                        style: TextStyle(color: Colors.white)),
-                  ))
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+                'This sample showcases on how to create a simple Excel report for yearly sales with data, chart, formulas, and cell formatting using XlsIO.',
+                style: TextStyle(fontSize: 16, color: model.textColor)),
+            const SizedBox(height: 20, width: 30),
+            Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                    padding: model.isMobile
+                        ? null
+                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15)),
+                  ),
+                  onPressed: _generateExcel,
+                  child: const Text('Generate Excel',
+                      style: TextStyle(color: Colors.white)),
+                ))
+          ],
         ),
       ),
     );

@@ -41,7 +41,7 @@ class _DataMatrixGeneratorState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    EdgeInsets _padding = const EdgeInsets.all(0);
+    EdgeInsets _padding = EdgeInsets.zero;
     double _margin;
     if (!model.isWebFullView) {
       _margin = (MediaQuery.of(context).size.width -
@@ -65,45 +65,43 @@ class _DataMatrixGeneratorState extends SampleViewState {
     return ListView(shrinkWrap: true, children: <Widget>[
       Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Input value:   ',
-                  overflow: TextOverflow.clip,
-                  softWrap: false,
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: model.textColor)),
-              Container(
-                  padding: const EdgeInsets.fromLTRB(0, 5, 10, 0),
-                  height: 50,
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                          canvasColor: model.bottomSheetBackgroundColor),
-                      child: TextField(
-                          style: TextStyle(color: model.textColor),
-                          decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: model.textColor))),
-                          autofocus: false,
-                          keyboardType: TextInputType.text,
-                          maxLines: 1,
-                          onChanged: (String _text) {
-                            setState(() {
-                              _inputValue = _text;
-                            });
-                          },
-                          controller: _textEditingController),
-                    ),
-                  ))
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text('Input value:   ',
+                overflow: TextOverflow.clip,
+                softWrap: false,
+                style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: model.textColor)),
+            Container(
+                padding: const EdgeInsets.fromLTRB(0, 5, 10, 0),
+                height: 50,
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        canvasColor: model.bottomSheetBackgroundColor),
+                    child: TextField(
+                        style: TextStyle(color: model.textColor),
+                        decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: model.textColor))),
+                        autofocus: false,
+                        keyboardType: TextInputType.text,
+                        maxLines: 1,
+                        onChanged: (String _text) {
+                          setState(() {
+                            _inputValue = _text;
+                          });
+                        },
+                        controller: _textEditingController),
+                  ),
+                ))
+          ],
         ),
       ),
     ]);
@@ -112,7 +110,7 @@ class _DataMatrixGeneratorState extends SampleViewState {
   /// Returns the data matrix barcode generator
   Widget _buildDataMatrixGenerator(String _inputValue, EdgeInsets _padding) {
     return Center(
-      child: Container(
+      child: SizedBox(
           height: model.isWebFullView ? 300 : double.infinity,
           child: Padding(
             padding: _padding,

@@ -82,45 +82,41 @@ class _RadialCompassState extends SampleViewState {
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  angle: 230,
-                  positionFactor: 0.38,
-                  widget: Container(
-                    child: Text('W',
-                        style: TextStyle(
-                            fontFamily: 'Times',
-                            fontWeight: FontWeight.bold,
-                            fontSize: isCardView ? 12 : 18)),
-                  )),
+                angle: 230,
+                positionFactor: 0.38,
+                widget: Text('W',
+                    style: TextStyle(
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
+                        fontSize: isCardView ? 12 : 18)),
+              ),
               GaugeAnnotation(
-                  angle: 310,
-                  positionFactor: 0.38,
-                  widget: Container(
-                    child: Text('N',
-                        style: TextStyle(
-                            fontFamily: 'Times',
-                            fontWeight: FontWeight.bold,
-                            fontSize: isCardView ? 12 : 18)),
-                  )),
+                angle: 310,
+                positionFactor: 0.38,
+                widget: Text('N',
+                    style: TextStyle(
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
+                        fontSize: isCardView ? 12 : 18)),
+              ),
               GaugeAnnotation(
-                  angle: 129,
-                  positionFactor: 0.38,
-                  widget: Container(
-                    child: Text('S',
-                        style: TextStyle(
-                            fontFamily: 'Times',
-                            fontWeight: FontWeight.bold,
-                            fontSize: isCardView ? 12 : 18)),
-                  )),
+                angle: 129,
+                positionFactor: 0.38,
+                widget: Text('S',
+                    style: TextStyle(
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
+                        fontSize: isCardView ? 12 : 18)),
+              ),
               GaugeAnnotation(
-                  angle: 50,
-                  positionFactor: 0.38,
-                  widget: Container(
-                    child: Text('E',
-                        style: TextStyle(
-                            fontFamily: 'Times',
-                            fontWeight: FontWeight.bold,
-                            fontSize: isCardView ? 12 : 18)),
-                  ))
+                angle: 50,
+                positionFactor: 0.38,
+                widget: Text('E',
+                    style: TextStyle(
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
+                        fontSize: isCardView ? 12 : 18)),
+              )
             ])
       ],
     );

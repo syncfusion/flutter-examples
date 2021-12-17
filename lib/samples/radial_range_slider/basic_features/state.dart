@@ -1,6 +1,5 @@
 ///Package imports
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 ///calendar import
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -43,9 +42,10 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
           RadialAxis(
               radiusFactor: 0.8,
               axisLineStyle: AxisLineStyle(
-                  color: model.themeData.brightness == Brightness.light
-                      ? const Color.fromRGBO(191, 214, 245, 1)
-                      : const Color.fromRGBO(36, 58, 89, 1),
+                  color:
+                      model.themeData.colorScheme.brightness == Brightness.light
+                          ? const Color.fromRGBO(191, 214, 245, 1)
+                          : const Color.fromRGBO(36, 58, 89, 1),
                   thickness: 0.05,
                   thicknessUnit: GaugeSizeUnit.factor),
               showLabels: false,

@@ -44,26 +44,22 @@ class _RangePointerExampleState extends SampleViewState {
                   widget: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Container(
-                        child: Text(
-                          '50',
-                          style: TextStyle(
-                              fontFamily: 'Times',
-                              fontSize: isCardView ? 18 : 22,
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.italic),
-                        ),
+                      Text(
+                        '50',
+                        style: TextStyle(
+                            fontFamily: 'Times',
+                            fontSize: isCardView ? 18 : 22,
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.italic),
                       ),
-                      Container(
-                        child: Text(
-                          ' / 100',
-                          style: TextStyle(
-                              fontFamily: 'Times',
-                              fontSize: isCardView ? 18 : 22,
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.italic),
-                        ),
-                      )
+                      Text(
+                        ' / 100',
+                        style: TextStyle(
+                            fontFamily: 'Times',
+                            fontSize: isCardView ? 18 : 22,
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.italic),
+                      ),
                     ],
                   )),
             ],

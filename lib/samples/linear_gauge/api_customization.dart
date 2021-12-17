@@ -34,7 +34,19 @@ class _ApiCustomizationState extends SampleViewState {
   bool _isHorizontalOrientation = false;
   double _barOffset = 5;
 
-  final List<String> _pointerPositions = <String>['outside', 'cross', 'inside'];
+  late List<String> _pointerPositions;
+
+  @override
+  void initState() {
+    _pointerPositions = <String>['outside', 'cross', 'inside'];
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pointerPositions.clear();
+    super.dispose();
+  }
 
   void shapePosition(String item) {
     _shapePointerPosition = item;
@@ -79,7 +91,7 @@ class _ApiCustomizationState extends SampleViewState {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
+        SizedBox(
           height: model.isWebFullView
               ? MediaQuery.of(context).size.height / 2
               : MediaQuery.of(context).size.height /
@@ -180,7 +192,7 @@ class _ApiCustomizationState extends SampleViewState {
                       color: Colors.transparent,
                       child: Row(
                         children: <Widget>[
-                          Container(
+                          SizedBox(
                             width: 30,
                             child: Checkbox(
                                 value: _isInverse,
@@ -211,7 +223,7 @@ class _ApiCustomizationState extends SampleViewState {
                         color: Colors.transparent,
                         child: Row(
                           children: <Widget>[
-                            Container(
+                            SizedBox(
                               width: 30,
                               child: Checkbox(
                                   splashRadius: 15,
@@ -240,7 +252,7 @@ class _ApiCustomizationState extends SampleViewState {
                         color: Colors.transparent,
                         child: Row(
                           children: <Widget>[
-                            Container(
+                            SizedBox(
                               width: 30,
                               child: Checkbox(
                                   value: _isHorizontalOrientation,
@@ -285,7 +297,7 @@ class _ApiCustomizationState extends SampleViewState {
                                 onChanged: (String? value) {
                                   setState(() {
                                     if (value != null) {
-                                      shapePosition(value.toString());
+                                      shapePosition(value);
                                     }
                                   });
                                 })),
@@ -318,7 +330,7 @@ class _ApiCustomizationState extends SampleViewState {
                                 onChanged: (String? value) {
                                   setState(() {
                                     if (value != null) {
-                                      barPosition(value.toString());
+                                      barPosition(value);
                                     }
                                   });
                                 })),

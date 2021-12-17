@@ -21,13 +21,13 @@ class CircularFloatingLegend extends SampleView {
 class _CircularFloatingLegendState extends SampleViewState {
   _CircularFloatingLegendState();
 
-  final List<String> _position =
-      <String>['left', 'right', 'top', 'bottom', 'center'].toList();
+  List<String>? _position;
   late String _selectedPosition;
   late double _xValue;
   late double _yValue;
   @override
   void initState() {
+    _position = <String>['left', 'right', 'top', 'bottom', 'center'].toList();
     _selectedPosition = 'left';
     _xValue = 100;
     _yValue = 100;
@@ -63,7 +63,7 @@ class _CircularFloatingLegendState extends SampleViewState {
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedPosition,
-                    items: _position.map((String value) {
+                    items: _position!.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'left',
                           child: Text(value,
@@ -79,7 +79,7 @@ class _CircularFloatingLegendState extends SampleViewState {
                   style: TextStyle(
                     color: model.textColor,
                   )),
-              trailing: Container(
+              trailing: SizedBox(
                   width: 0.4 * screenWidth,
                   child: CustomDirectionalButtons(
                     minValue: 100,
@@ -97,7 +97,7 @@ class _CircularFloatingLegendState extends SampleViewState {
                   style: TextStyle(
                     color: model.textColor,
                   )),
-              trailing: Container(
+              trailing: SizedBox(
                   width: 0.4 * screenWidth,
                   child: CustomDirectionalButtons(
                     minValue: 100,
@@ -124,10 +124,10 @@ class _CircularFloatingLegendState extends SampleViewState {
       series: _getStackedAreaSeries(),
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
-          widget: Container(
+          widget: const SizedBox(
               height: 80,
               width: 80,
-              child: const Text(
+              child: Text(
                 'Floating',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               )),
@@ -139,14 +139,6 @@ class _CircularFloatingLegendState extends SampleViewState {
   /// Returns the list of chart series which need to render
   /// on the stacked area chart.
   List<PieSeries<ChartSampleData, String>> _getStackedAreaSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Medical Care', y: 8.49),
-      ChartSampleData(x: 'Housing', y: 2.40),
-      ChartSampleData(x: 'Transportation', y: 4.44),
-      ChartSampleData(x: 'Education', y: 3.11),
-      ChartSampleData(x: 'Electronics', y: 3.06),
-      ChartSampleData(x: 'Other Personal', y: 78.4),
-    ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
           animationDuration: 2500,
@@ -154,7 +146,14 @@ class _CircularFloatingLegendState extends SampleViewState {
           endAngle: 120,
           explodeAll: true,
           explodeOffset: '3%',
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'Medical Care', y: 8.49),
+            ChartSampleData(x: 'Housing', y: 2.40),
+            ChartSampleData(x: 'Transportation', y: 4.44),
+            ChartSampleData(x: 'Education', y: 3.11),
+            ChartSampleData(x: 'Electronics', y: 3.06),
+            ChartSampleData(x: 'Other Personal', y: 78.4),
+          ],
           explode: true,
           enableTooltip: true,
           dataLabelSettings: const DataLabelSettings(
@@ -164,5 +163,11 @@ class _CircularFloatingLegendState extends SampleViewState {
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y),
     ];
+  }
+
+  @override
+  void dispose() {
+    _position!.clear();
+    super.dispose();
   }
 }

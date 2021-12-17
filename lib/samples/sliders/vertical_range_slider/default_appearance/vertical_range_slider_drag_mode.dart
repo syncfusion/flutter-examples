@@ -135,7 +135,7 @@ class _VerticalRangeSliderDragModePageState extends SampleViewState {
         return CheckboxListTile(
           value: _isInversed,
           title: const Text('Inversed', softWrap: false),
-          contentPadding: const EdgeInsets.all(0.0),
+          contentPadding: EdgeInsets.zero,
           activeColor: model.backgroundColor,
           onChanged: (bool? value) {
             setState(() {

@@ -27,33 +27,30 @@ class _HeaderAndFooterPdfState extends SampleViewState {
       backgroundColor: model.cardThemeColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                  'This sample shows how to create a PDF document with a header and footer. Also, the generated PDF document contains hyperlinks, bookmarks, and table of contents.',
-                  style: TextStyle(fontSize: 16, color: model.textColor)),
-              const SizedBox(height: 20, width: 30),
-              Align(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          model.backgroundColor),
-                      padding: model.isMobile
-                          ? null
-                          : MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15)),
-                    ),
-                    onPressed: _generatePDF,
-                    child: const Text('Generate PDF',
-                        style: TextStyle(color: Colors.white)),
-                  ))
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+                'This sample shows how to create a PDF document with a header and footer. Also, the generated PDF document contains hyperlinks, bookmarks, and table of contents.',
+                style: TextStyle(fontSize: 16, color: model.textColor)),
+            const SizedBox(height: 20, width: 30),
+            Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                    padding: model.isMobile
+                        ? null
+                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15)),
+                  ),
+                  onPressed: _generatePDF,
+                  child: const Text('Generate PDF',
+                      style: TextStyle(color: Colors.white)),
+                ))
+          ],
         ),
       ),
     );
@@ -138,7 +135,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
     _addBookmark(page, 'Introduction', result.bounds.topLeft, doc: document);
     result = _addParagraph(
         result.page,
-        'Adobe Systems Incorporated\'s Portable Document Format (PDF) is the de facto standard for the accurate, reliable, and platform-independent representation of a paged document. It\'s the only universally accepted file format that allows pixel-perfect layouts. In addition, PDF supports user interaction and collaborative workflows that are not possible with printed documents.\n\nPDF documents have been in widespread use for years, and dozens of free and commercial PDF readers, editors, and libraries are readily available. However, despite this popularity, it\'s still difficult to find a succinct guide to the native PDF format. Understanding the internal workings of a PDF makes it possible to dynamically generate PDF documents. For example, a web server can extract information from a database, use it to customize an invoice, and serve it to the customer on the fly.',
+        "Adobe Systems Incorporated's Portable Document Format (PDF) is the de facto standard for the accurate, reliable, and platform-independent representation of a paged document. It's the only universally accepted file format that allows pixel-perfect layouts. In addition, PDF supports user interaction and collaborative workflows that are not possible with printed documents.\n\nPDF documents have been in widespread use for years, and dozens of free and commercial PDF readers, editors, and libraries are readily available. However, despite this popularity, it's still difficult to find a succinct guide to the native PDF format. Understanding the internal workings of a PDF makes it possible to dynamically generate PDF documents. For example, a web server can extract information from a database, use it to customize an invoice, and serve it to the customer on the fly.",
         Rect.fromLTWH(20, result.bounds.bottom + 20, 495, pageSize.height),
         false);
     result = _addParagraph(
@@ -184,7 +181,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         doc: document);
     result = _addParagraph(
         result.page,
-        'We\'ll begin with a conceptual overview of a simple PDF document. This chapter is designed to be a brief orientation before diving in and creating a real document from scratch.\nA PDF file can be divided into four parts: a header, body, cross-reference table, and trailer. The header marks the file as a PDF, the body defines the visible document, the cross-reference table lists the location of everything in the file, and the trailer provides instructions for how to start reading the file.',
+        "We'll begin with a conceptual overview of a simple PDF document. This chapter is designed to be a brief orientation before diving in and creating a real document from scratch.\nA PDF file can be divided into four parts: a header, body, cross-reference table, and trailer. The header marks the file as a PDF, the body defines the visible document, the cross-reference table lists the location of everything in the file, and the trailer provides instructions for how to start reading the file.",
         Rect.fromLTWH(20, result.bounds.bottom + 20, 495, pageSize.height),
         false);
     final PdfPage page2 = document.pages.add();

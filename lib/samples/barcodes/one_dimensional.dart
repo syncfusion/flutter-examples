@@ -56,19 +56,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
   /// Returns the one dimensional barcodes for web view.
   List<Widget> _buildWidgetForWeb(BuildContext context) {
     final ThemeData _themeData = Theme.of(context);
-    final Color _color = _themeData.brightness == Brightness.dark
+    final Color _color = _themeData.colorScheme.brightness == Brightness.dark
         ? const Color(0xFF666666)
         : const Color(0xFFC4C4C4);
     return <Widget>[
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Codabar barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
@@ -103,15 +103,15 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // Added Code39 barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 10, 1, 10),
@@ -146,19 +146,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code39 Extended barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                      child: Container(
+                      child: SizedBox(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
                           // backgroundColor: Colors.red,
@@ -191,19 +191,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code93 barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(1, 10, 20, 10),
-                      child: Container(
+                      child: SizedBox(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
                           //    backgroundColor: Colors.red,
@@ -235,19 +235,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added UPC-A barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(1, 10, 25, 10),
-                      child: Container(
+                      child: SizedBox(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
                           textStyle: const TextStyle(fontSize: 10),
@@ -280,19 +280,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added UPC-E barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 10, 20, 10),
-                    child: Container(
+                    child: SizedBox(
                         child: SfBarcodeGenerator(
                       textAlign: TextAlign.justify,
                       textSpacing: 3,
@@ -324,19 +324,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added EAN-8 barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(1, 10, 20, 10),
-                      child: Container(
+                      child: SizedBox(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
                           textSpacing: 3,
@@ -367,29 +367,27 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added EAN-13 barcode
-            Container(
-              child: Container(
-                  width: 200,
-                  child: Padding(
+            SizedBox(
+                child: SizedBox(
+                    width: 200,
+                    child: Padding(
                       padding: const EdgeInsets.fromLTRB(7, 10, 35, 10),
-                      child: Container(
-                        child: SfBarcodeGenerator(
-                          textAlign: TextAlign.justify,
-                          textStyle: const TextStyle(fontSize: 11),
-                          textSpacing: 3,
-                          value: '9735940564824',
-                          showValue: true,
-                          symbology: EAN13(module: 1),
-                        ),
-                      ))),
-            ),
+                      child: SfBarcodeGenerator(
+                        textAlign: TextAlign.justify,
+                        textStyle: const TextStyle(fontSize: 11),
+                        textSpacing: 3,
+                        value: '9735940564824',
+                        showValue: true,
+                        symbology: EAN13(module: 1),
+                      ),
+                    ))),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const <Widget>[
@@ -411,19 +409,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code128 barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(15, 10, 20, 10),
-                      child: Container(
+                      child: SizedBox(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
                           textSpacing: 10,
@@ -453,19 +451,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code128A barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(25, 10, 30, 10),
-                      child: Container(
+                      child: SizedBox(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
                           textSpacing: 10,
@@ -496,19 +494,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code128B barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(25, 10, 20, 10),
-                    child: Container(
+                    child: SizedBox(
                         child: SfBarcodeGenerator(
                       textAlign: TextAlign.justify,
                       textSpacing: 10,
@@ -539,19 +537,19 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code128C barcode
-            Container(
-              child: Container(
+            SizedBox(
+              child: SizedBox(
                   width: 200,
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(25, 10, 20, 10),
-                      child: Container(
+                      child: SizedBox(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
                           textSpacing: 10,
@@ -585,18 +583,18 @@ class _OneDimensionalBarcodesState extends SampleViewState {
   /// Returns the one dimensional barcodes for mobile view.
   List<Widget> _buildWidgetForMobile(BuildContext context) {
     final ThemeData _themeData = Theme.of(context);
-    final Color _color = _themeData.brightness == Brightness.dark
+    final Color _color = _themeData.colorScheme.brightness == Brightness.dark
         ? const Color(0xFF666666)
         : const Color(0xFFC4C4C4);
     return <Widget>[
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Codabar barcode
             Expanded(
-              child: Container(
+              child: SizedBox(
                   child: Padding(
                 padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
                 child: SfBarcodeGenerator(
@@ -630,14 +628,14 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code39 barcode
             Expanded(
-              child: Container(
+              child: SizedBox(
                   child: Padding(
                 padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
                 child: SfBarcodeGenerator(
@@ -672,27 +670,25 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code39Extended barcode
             Expanded(
-              child: Container(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                      child: Container(
-                        child: SfBarcodeGenerator(
-                          textAlign: TextAlign.justify,
-                          // backgroundColor: Colors.red,
-                          textSpacing: 10,
-                          value: '051091',
-                          showValue: true,
-                          symbology: Code39Extended(),
-                        ),
-                      ))),
-            ),
+                child: SizedBox(
+                    child: Padding(
+              padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
+              child: SfBarcodeGenerator(
+                textAlign: TextAlign.justify,
+                // backgroundColor: Colors.red,
+                textSpacing: 10,
+                value: '051091',
+                showValue: true,
+                symbology: Code39Extended(),
+              ),
+            ))),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -715,17 +711,17 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code93 barcode
             Expanded(
-              child: Container(
+              child: SizedBox(
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                      child: Container(
+                      child: SizedBox(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
                           textSpacing: 10,
@@ -757,17 +753,17 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added UPC-A barcode
             Expanded(
-              child: Container(
+              child: SizedBox(
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                      child: Container(
+                      child: SizedBox(
                         child: SfBarcodeGenerator(
                           textAlign: TextAlign.justify,
                           textSpacing: 3,
@@ -800,26 +796,24 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added UPC-E barcode
             Expanded(
-              child: Container(
-                  child: Padding(
-                padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                child: Container(
-                    child: SfBarcodeGenerator(
-                  textAlign: TextAlign.justify,
-                  textSpacing: 3,
-                  value: '123456',
-                  showValue: true,
-                  symbology: UPCE(),
-                )),
-              )),
-            ),
+                child: SizedBox(
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
+                  child: SfBarcodeGenerator(
+                    textAlign: TextAlign.justify,
+                    textSpacing: 3,
+                    value: '123456',
+                    showValue: true,
+                    symbology: UPCE(),
+                  )),
+            )),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -842,26 +836,24 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added EAN-8 barcode
             Expanded(
-              child: Container(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                      child: Container(
-                        child: SfBarcodeGenerator(
-                          textAlign: TextAlign.justify,
-                          textSpacing: 3,
-                          value: '11223344',
-                          showValue: true,
-                          symbology: EAN8(),
-                        ),
-                      ))),
-            ),
+                child: SizedBox(
+                    child: Padding(
+              padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
+              child: SfBarcodeGenerator(
+                textAlign: TextAlign.justify,
+                textSpacing: 3,
+                value: '11223344',
+                showValue: true,
+                symbology: EAN8(),
+              ),
+            ))),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -884,27 +876,25 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added EAN-13 barcode
             Expanded(
-              child: Container(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                      child: Container(
-                        child: SfBarcodeGenerator(
-                          textAlign: TextAlign.justify,
-                          textSpacing: 3,
-                          value: '9735940564824',
-                          showValue: true,
-                          textStyle: const TextStyle(fontSize: 11),
-                          symbology: EAN13(module: 1),
-                        ),
-                      ))),
-            ),
+                child: SizedBox(
+                    child: Padding(
+              padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
+              child: SfBarcodeGenerator(
+                textAlign: TextAlign.justify,
+                textSpacing: 3,
+                value: '9735940564824',
+                showValue: true,
+                textStyle: const TextStyle(fontSize: 11),
+                symbology: EAN13(module: 1),
+              ),
+            ))),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -927,26 +917,24 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code128 barcode
             Expanded(
-              child: Container(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                      child: Container(
-                        child: SfBarcodeGenerator(
-                          textAlign: TextAlign.justify,
-                          textSpacing: 10,
-                          value: 'CODE128',
-                          showValue: true,
-                          symbology: Code128(),
-                        ),
-                      ))),
-            ),
+                child: SizedBox(
+                    child: Padding(
+              padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
+              child: SfBarcodeGenerator(
+                textAlign: TextAlign.justify,
+                textSpacing: 10,
+                value: 'CODE128',
+                showValue: true,
+                symbology: Code128(),
+              ),
+            ))),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -969,26 +957,24 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code128A barcode
             Expanded(
-              child: Container(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                      child: Container(
-                        child: SfBarcodeGenerator(
-                          textAlign: TextAlign.justify,
-                          textSpacing: 10,
-                          value: 'CODE128A',
-                          showValue: true,
-                          symbology: Code128A(),
-                        ),
-                      ))),
-            ),
+                child: SizedBox(
+                    child: Padding(
+              padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
+              child: SfBarcodeGenerator(
+                textAlign: TextAlign.justify,
+                textSpacing: 10,
+                value: 'CODE128A',
+                showValue: true,
+                symbology: Code128A(),
+              ),
+            ))),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1011,17 +997,17 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code128B barcode
             Expanded(
-              child: Container(
+              child: SizedBox(
                   child: Padding(
                 padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                child: Container(
+                child: SizedBox(
                     child: SfBarcodeGenerator(
                   textAlign: TextAlign.justify,
                   textSpacing: 10,
@@ -1053,26 +1039,24 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Divider(height: 20.0, indent: 5.0, color: _color)),
-      Container(
+      SizedBox(
         height: 125,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Added Code128C barcode
             Expanded(
-              child: Container(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-                      child: Container(
-                        child: SfBarcodeGenerator(
-                          textAlign: TextAlign.justify,
-                          textSpacing: 10,
-                          value: '0123456',
-                          showValue: true,
-                          symbology: Code128C(),
-                        ),
-                      ))),
-            ),
+                child: SizedBox(
+                    child: Padding(
+              padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
+              child: SfBarcodeGenerator(
+                textAlign: TextAlign.justify,
+                textSpacing: 10,
+                value: '0123456',
+                showValue: true,
+                symbology: Code128C(),
+              ),
+            ))),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

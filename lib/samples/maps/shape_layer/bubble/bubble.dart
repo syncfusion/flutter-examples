@@ -1,5 +1,4 @@
 ///Flutter package imports
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 ///Core theme import
@@ -71,7 +70,7 @@ class _MapBubblePageState extends SampleViewState
   void initState() {
     super.initState();
 
-    _isLightTheme = model.themeData.brightness == Brightness.light;
+    _isLightTheme = model.themeData.colorScheme.brightness == Brightness.light;
 
     _facebookController = AnimationController(
         duration: const Duration(milliseconds: 500),
@@ -362,10 +361,10 @@ class _MapBubblePageState extends SampleViewState
                     layers: <MapLayer>[
                       MapShapeLayer(
                         loadingBuilder: (BuildContext context) {
-                          return Container(
+                          return const SizedBox(
                             height: 25,
                             width: 25,
-                            child: const CircularProgressIndicator(
+                            child: CircularProgressIndicator(
                               strokeWidth: 3,
                             ),
                           );

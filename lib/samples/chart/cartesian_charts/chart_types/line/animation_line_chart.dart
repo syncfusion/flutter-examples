@@ -23,7 +23,7 @@ class _AnimationLineDefaultState extends SampleViewState {
   _AnimationLineDefaultState();
 
   Timer? _timer;
-  late List<_ChartData> _chartData;
+  List<_ChartData>? _chartData;
   @override
   Widget build(BuildContext context) {
     _getChartData();
@@ -54,7 +54,7 @@ class _AnimationLineDefaultState extends SampleViewState {
   List<LineSeries<_ChartData, num>> _getDefaultLineSeries() {
     return <LineSeries<_ChartData, num>>[
       LineSeries<_ChartData, num>(
-          dataSource: _chartData,
+          dataSource: _chartData!,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
           markerSettings: const MarkerSettings(isVisible: true))
@@ -65,6 +65,7 @@ class _AnimationLineDefaultState extends SampleViewState {
   void dispose() {
     super.dispose();
     _timer?.cancel();
+    _chartData!.clear();
   }
 
   int _getRandomInt(int min, int max) {
@@ -75,7 +76,7 @@ class _AnimationLineDefaultState extends SampleViewState {
   void _getChartData() {
     _chartData = <_ChartData>[];
     for (int i = 0; i < 11; i++) {
-      _chartData.add(_ChartData(i, _getRandomInt(5, 95)));
+      _chartData!.add(_ChartData(i, _getRandomInt(5, 95)));
     }
     _timer?.cancel();
   }

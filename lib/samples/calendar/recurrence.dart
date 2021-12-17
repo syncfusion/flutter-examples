@@ -19,12 +19,15 @@ class RecurrenceCalendar extends SampleView {
   const RecurrenceCalendar(Key key) : super(key: key);
 
   @override
-  _RecurrenceCalendarState createState() => _RecurrenceCalendarState();
+  RecurrenceCalendarState createState() => RecurrenceCalendarState();
 }
 
-class _RecurrenceCalendarState extends SampleViewState {
-  _RecurrenceCalendarState();
+/// Represents the the state class of RecurrenceCalendarState
+class RecurrenceCalendarState extends SampleViewState {
+  /// Creates an instance of  state class of RecurrenceCalendarState
+  RecurrenceCalendarState();
 
+  /// Represents the calendar controller
   final CalendarController calendarController = CalendarController();
   late _AppointmentDataSource _dataSource;
   final List<Color> _colorCollection = <Color>[];
@@ -39,6 +42,7 @@ class _RecurrenceCalendarState extends SampleViewState {
     CalendarView.schedule
   ];
 
+  /// Represents the controller
   final ScrollController controller = ScrollController();
 
   /// Global key used to maintain the state, when we change the parent of the
@@ -138,7 +142,7 @@ class _RecurrenceCalendarState extends SampleViewState {
                   return true;
                 },
                 child: Center(
-                    child: Container(
+                    child: SizedBox(
                         width: _isAppointmentTapped ? 400 : 500,
                         height: _isAppointmentTapped
                             ? (_selectedAppointment!.location == null ||
@@ -149,7 +153,7 @@ class _RecurrenceCalendarState extends SampleViewState {
                         child: Theme(
                             data: model.themeData,
                             child: Card(
-                              margin: const EdgeInsets.all(0.0),
+                              margin: EdgeInsets.zero,
                               color: model.cardThemeColor,
                               shape: const RoundedRectangleBorder(
                                   borderRadius:

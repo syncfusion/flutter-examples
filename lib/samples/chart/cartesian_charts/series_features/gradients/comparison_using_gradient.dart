@@ -19,7 +19,8 @@ class GradientComparison extends SampleView {
 
 class _GradientComparisonState extends SampleViewState {
   _GradientComparisonState();
-  late TooltipBehavior _tooltipBehavior;
+
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true, canShowMarker: false);

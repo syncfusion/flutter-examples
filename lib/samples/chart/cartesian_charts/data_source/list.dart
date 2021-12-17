@@ -19,13 +19,15 @@ class LocalData extends SampleView {
 
 class _LocalDataState extends SampleViewState {
   _LocalDataState();
-  late TrackballBehavior _trackballBehavior;
+
+  List<_ChartData>? chartData;
+  TrackballBehavior? _trackballBehavior;
   @override
   void initState() {
     super.initState();
     _trackballBehavior = TrackballBehavior(
         enable: true,
-        lineColor: model.themeData.brightness == Brightness.dark
+        lineColor: model.themeData.colorScheme.brightness == Brightness.dark
             ? const Color.fromRGBO(255, 255, 255, 0.03)
             : const Color.fromRGBO(0, 0, 0, 0.03),
         lineWidth: 15,
@@ -35,43 +37,7 @@ class _LocalDataState extends SampleViewState {
             height: 10,
             width: 10,
             markerVisibility: TrackballVisibilityMode.visible));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildDefaultLineChart();
-  }
-
-  /// Get the cartesian chart with default line series
-  SfCartesianChart _buildDefaultLineChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      title: ChartTitle(text: isCardView ? '' : 'Sales comparison'),
-      legend: Legend(
-          isVisible: isCardView ? false : true,
-          overflowMode: LegendItemOverflowMode.wrap),
-      primaryXAxis: DateTimeAxis(
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          intervalType: DateTimeIntervalType.years,
-          dateFormat: DateFormat.y(),
-          name: 'Years',
-          majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          minimum: 70,
-          maximum: 110,
-          interval: 10,
-          rangePadding: ChartRangePadding.none,
-          name: 'Price',
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent)),
-      series: _getDefaultLineSeries(),
-      trackballBehavior: _trackballBehavior,
-    );
-  }
-
-  /// The method returns line series to chart.
-  List<LineSeries<_ChartData, DateTime>> _getDefaultLineSeries() {
-    final List<_ChartData> chartData = <_ChartData>[
+    chartData = <_ChartData>[
       _ChartData(x: DateTime(1980, 1, 23), y1: 83, y2: 94),
       _ChartData(x: DateTime(1980, 2, 24), y1: 83, y2: 93),
       _ChartData(x: DateTime(1980, 3, 25), y1: 82, y2: 93),
@@ -340,19 +306,60 @@ class _LocalDataState extends SampleViewState {
       _ChartData(x: DateTime(2002, 11, 18), y1: 84, y2: 93),
       _ChartData(x: DateTime(2002, 12, 19), y1: 83, y2: 92),
     ];
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    return _buildDefaultLineChart();
+  }
+
+  /// Get the cartesian chart with default line series
+  SfCartesianChart _buildDefaultLineChart() {
+    return SfCartesianChart(
+      plotAreaBorderWidth: 0,
+      title: ChartTitle(text: isCardView ? '' : 'Sales comparison'),
+      legend: Legend(
+          isVisible: isCardView ? false : true,
+          overflowMode: LegendItemOverflowMode.wrap),
+      primaryXAxis: DateTimeAxis(
+          edgeLabelPlacement: EdgeLabelPlacement.shift,
+          intervalType: DateTimeIntervalType.years,
+          dateFormat: DateFormat.y(),
+          name: 'Years',
+          majorGridLines: const MajorGridLines(width: 0)),
+      primaryYAxis: NumericAxis(
+          minimum: 70,
+          maximum: 110,
+          interval: 10,
+          rangePadding: ChartRangePadding.none,
+          name: 'Price',
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(color: Colors.transparent)),
+      series: _getDefaultLineSeries(),
+      trackballBehavior: _trackballBehavior,
+    );
+  }
+
+  /// The method returns line series to chart.
+  List<LineSeries<_ChartData, DateTime>> _getDefaultLineSeries() {
     return <LineSeries<_ChartData, DateTime>>[
       LineSeries<_ChartData, DateTime>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y1,
           name: 'Product A'),
       LineSeries<_ChartData, DateTime>(
-          dataSource: chartData,
+          dataSource: chartData!,
           name: 'Product B',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2)
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }
 

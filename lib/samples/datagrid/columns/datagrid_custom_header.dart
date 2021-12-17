@@ -1,10 +1,12 @@
-import 'dart:math';
-
+/// Package imports
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+/// Local import
 import 'package:flutter_examples/model/sample_view.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_examples/samples/datagrid/datagridsource/product_datagridsource.dart';
+
+/// DataGrid import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Renders custom header data grid sample
@@ -20,7 +22,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
   GlobalKey key = GlobalKey();
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late _SortingDataSource source;
+  late ProductDataGridSource source;
 
   /// Collection of GridColumn and it required for SfDataGrid
   late List<GridColumn> columns;
@@ -39,7 +41,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
     super.initState();
     isWebOrDesktop = model.isWeb || model.isDesktop;
     columns = getColumns();
-    source = _SortingDataSource();
+    source = ProductDataGridSource('Custom Header', productDataCount: 20);
   }
 
   Widget buildMenuItem(GridColumn column, String value) {
@@ -50,7 +52,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
           });
           Navigator.pop(context);
         },
-        child: Container(width: 130, height: 30, child: Text(value)));
+        child: SizedBox(width: 130, height: 30, child: Text(value)));
   }
 
   List<PopupMenuItem<String>> buildMenuItems(GridColumn column) {
@@ -113,8 +115,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
   }
 
   Widget buildHeaderCell(Widget headerChild) {
-    return Container(
-        child: Row(
+    return Row(
       children: <Widget>[
         Flexible(child: headerChild),
         const Icon(
@@ -123,7 +124,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
           color: Colors.grey,
         )
       ],
-    ));
+    );
   }
 
   void buildShowMenu(BuildContext context, DataGridCellTapDetails details) {
@@ -252,258 +253,5 @@ class _CustomHeaderDataGridState extends SampleViewState {
           ))),
     ];
     return columns;
-  }
-}
-
-class _Product {
-  _Product(this.id, this.productId, this.product, this.quantity, this.unitPrice,
-      this.city, this.orderDate, this.name);
-  final int id;
-  final int productId;
-  final String product;
-  final int quantity;
-  final double unitPrice;
-  final String city;
-  final DateTime orderDate;
-  final String name;
-}
-
-class _SortingDataSource extends DataGridSource {
-  _SortingDataSource() {
-    products = getProducts(20);
-    buildDataGridRows();
-  }
-
-  final Random random = Random();
-  List<_Product> products = <_Product>[];
-
-  List<DataGridRow> dataGridRows = <DataGridRow>[];
-
-  void buildDataGridRows() {
-    dataGridRows = products.map<DataGridRow>((_Product product) {
-      return DataGridRow(cells: <DataGridCell<dynamic>>[
-        DataGridCell<int>(columnName: 'id', value: product.id),
-        DataGridCell<int>(columnName: 'productId', value: product.productId),
-        DataGridCell<String>(columnName: 'name', value: product.name),
-        DataGridCell<String>(columnName: 'product', value: product.product),
-        DataGridCell<DateTime>(
-            columnName: 'orderDate', value: product.orderDate),
-        DataGridCell<int>(columnName: 'quantity', value: product.quantity),
-        DataGridCell<String>(columnName: 'city', value: product.city),
-        DataGridCell<double>(columnName: 'unitPrice', value: product.unitPrice),
-      ]);
-    }).toList();
-  }
-
-  @override
-  List<DataGridRow> get rows => dataGridRows;
-
-  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: <Widget>[
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[0].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[1].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[2].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[3].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          DateFormat('MM/dd/yyyy').format(row.getCells()[4].value).toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[5].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          row.getCells()[6].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8),
-        child: Text(
-          NumberFormat.currency(locale: 'en_US', symbol: r'$')
-              .format(row.getCells()[7].value)
-              .toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    ]);
-  }
-
-  final List<String> product = <String>[
-    'Lax',
-    'Chocolate',
-    'Syrup',
-    'Chai',
-    'Bags',
-    'Meat',
-    'Filo',
-    'Cashew',
-    'Walnuts',
-    'Geitost',
-    'Cote de',
-    'Crab',
-    'Chang',
-    'Cajun',
-    'Gum',
-    'Filo',
-    'Cashew',
-    'Walnuts',
-    'Geitost',
-    'Bag',
-    'Meat',
-    'Filo',
-    'Cashew',
-    'Geitost',
-    'Cote de',
-    'Crab',
-    'Chang',
-    'Cajun',
-    'Gum',
-  ];
-
-  final List<String> cities = <String>[
-    'Bruxelles',
-    'Rosario',
-    'Recife',
-    'Graz',
-    'Montreal',
-    'Tsawassen',
-    'Campinas',
-    'Resende',
-  ];
-
-  final List<int> productId = <int>[
-    3524,
-    2523,
-    1345,
-    5243,
-    1803,
-    4932,
-    6532,
-    9475,
-    2435,
-    2123,
-    3652,
-    4523,
-    4263,
-    3527,
-    3634,
-    4932,
-    6532,
-    9475,
-    2435,
-    2123,
-    6532,
-    9475,
-    2435,
-    2123,
-    4523,
-    4263,
-    3527,
-    3634,
-    4932,
-  ];
-
-  final List<DateTime> orderDate = <DateTime>[
-    DateTime.now(),
-    DateTime(2002, 8, 27),
-    DateTime(2015, 7, 4),
-    DateTime(2007, 4, 15),
-    DateTime(2010, 12, 23),
-    DateTime(2010, 4, 20),
-    DateTime(2004, 6, 13),
-    DateTime(2008, 11, 11),
-    DateTime(2005, 7, 29),
-    DateTime(2009, 4, 5),
-    DateTime(2003, 3, 20),
-    DateTime(2011, 3, 8),
-    DateTime(2013, 10, 22),
-  ];
-
-  List<String> names = <String>[
-    'Kyle',
-    'Gina',
-    'Irene',
-    'Katie',
-    'Michael',
-    'Oscar',
-    'Ralph',
-    'Torrey',
-    'William',
-    'Bill',
-    'Daniel',
-    'Frank',
-    'Brenda',
-    'Danielle',
-    'Fiona',
-    'Howard',
-    'Jack',
-    'Larry',
-    'Holly',
-    'Jennifer',
-    'Liz',
-    'Pete',
-    'Steve',
-    'Vince',
-    'Zeke'
-  ];
-
-  List<_Product> getProducts(int count) {
-    final List<_Product> productData = <_Product>[];
-    for (int i = 0; i < count; i++) {
-      productData.add(
-        _Product(
-            i + 1000,
-            productId[i],
-            product[i],
-            random.nextInt(20),
-            70.0 + random.nextInt(100),
-            cities[i < cities.length ? i : random.nextInt(cities.length - 1)],
-            orderDate[random.nextInt(orderDate.length - 1)],
-            names[i]),
-      );
-    }
-    return productData;
   }
 }

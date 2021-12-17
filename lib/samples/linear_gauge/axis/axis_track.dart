@@ -35,7 +35,7 @@ class _AxisTrackState extends SampleViewState {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-            Container(
+            SizedBox(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildAxisTrack(context),
             )
@@ -104,7 +104,7 @@ class _AxisTrackState extends SampleViewState {
 
   /// Returns the vertical axis track.
   Widget _buildVerticalGauges(String axisTrackName, Widget linearGauge) {
-    return Container(
+    return SizedBox(
       width: 150,
       child: Column(
         children: <Widget>[
@@ -118,7 +118,7 @@ class _AxisTrackState extends SampleViewState {
 
   /// Returns the default axis.
   Widget _buildDefaultAxis(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           orientation: _isHorizontalOrientation
@@ -129,7 +129,7 @@ class _AxisTrackState extends SampleViewState {
 
   /// Returns the edge style axis.
   Widget _buildEdgeStyleAxis(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -143,7 +143,7 @@ class _AxisTrackState extends SampleViewState {
 
   /// Returns the inversed axis.
   Widget _buildInversedAxis(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             isAxisInversed: true,
@@ -169,7 +169,7 @@ class _AxisTrackState extends SampleViewState {
   Widget _buildRangeColorAxis(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           minorTicksPerInterval: 4,
@@ -208,7 +208,7 @@ class _AxisTrackState extends SampleViewState {
 
   /// Returns the axis extent.
   Widget _buildAxisExtent(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           axisTrackExtent: 20,

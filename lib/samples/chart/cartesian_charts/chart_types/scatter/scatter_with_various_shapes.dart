@@ -19,11 +19,36 @@ class ScatterShapes extends SampleView {
 /// State class of scatter chart with various shapes.
 class _ScatterShapesState extends SampleViewState {
   _ScatterShapesState();
-  late TooltipBehavior _tooltipBehavior;
+  List<ChartSampleData>? chartData;
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =
         TooltipBehavior(enable: true, header: '', canShowMarker: false);
+    chartData = <ChartSampleData>[
+      ChartSampleData(
+          x: 1950, y: 0.8, secondSeriesYValue: 1.4, thirdSeriesYValue: 2),
+      ChartSampleData(
+          x: 1955, y: 1.2, secondSeriesYValue: 1.7, thirdSeriesYValue: 2.4),
+      ChartSampleData(
+          x: 1960, y: 0.9, secondSeriesYValue: 1.5, thirdSeriesYValue: 2.2),
+      ChartSampleData(
+          x: 1965, y: 1, secondSeriesYValue: 1.6, thirdSeriesYValue: 2.5),
+      ChartSampleData(
+          x: 1970, y: 0.8, secondSeriesYValue: 1.4, thirdSeriesYValue: 2.2),
+      ChartSampleData(
+          x: 1975, y: 1, secondSeriesYValue: 1.8, thirdSeriesYValue: 2.4),
+      ChartSampleData(
+          x: 1980, y: 1, secondSeriesYValue: 1.7, thirdSeriesYValue: 2),
+      ChartSampleData(
+          x: 1985, y: 1.2, secondSeriesYValue: 1.9, thirdSeriesYValue: 2.3),
+      ChartSampleData(
+          x: 1990, y: 1.1, secondSeriesYValue: 1.4, thirdSeriesYValue: 2),
+      ChartSampleData(
+          x: 1995, y: 1.2, secondSeriesYValue: 1.8, thirdSeriesYValue: 2.2),
+      ChartSampleData(
+          x: 2000, y: 1.4, secondSeriesYValue: 2, thirdSeriesYValue: 2.4),
+    ];
     super.initState();
   }
 
@@ -58,52 +83,34 @@ class _ScatterShapesState extends SampleViewState {
   /// Returns the list of chart series with various marker shapes which need to
   /// render on the scatter chart.
   List<ScatterSeries<ChartSampleData, num>> _getScatterShapesSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 1950, y: 0.8, secondSeriesYValue: 1.4, thirdSeriesYValue: 2),
-      ChartSampleData(
-          x: 1955, y: 1.2, secondSeriesYValue: 1.7, thirdSeriesYValue: 2.4),
-      ChartSampleData(
-          x: 1960, y: 0.9, secondSeriesYValue: 1.5, thirdSeriesYValue: 2.2),
-      ChartSampleData(
-          x: 1965, y: 1, secondSeriesYValue: 1.6, thirdSeriesYValue: 2.5),
-      ChartSampleData(
-          x: 1970, y: 0.8, secondSeriesYValue: 1.4, thirdSeriesYValue: 2.2),
-      ChartSampleData(
-          x: 1975, y: 1, secondSeriesYValue: 1.8, thirdSeriesYValue: 2.4),
-      ChartSampleData(
-          x: 1980, y: 1, secondSeriesYValue: 1.7, thirdSeriesYValue: 2),
-      ChartSampleData(
-          x: 1985, y: 1.2, secondSeriesYValue: 1.9, thirdSeriesYValue: 2.3),
-      ChartSampleData(
-          x: 1990, y: 1.1, secondSeriesYValue: 1.4, thirdSeriesYValue: 2),
-      ChartSampleData(
-          x: 1995, y: 1.2, secondSeriesYValue: 1.8, thirdSeriesYValue: 2.2),
-      ChartSampleData(
-          x: 2000, y: 1.4, secondSeriesYValue: 2, thirdSeriesYValue: 2.4),
-    ];
     return <ScatterSeries<ChartSampleData, num>>[
       ScatterSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           markerSettings: const MarkerSettings(
               width: 15, height: 15, shape: DataMarkerType.diamond),
           name: 'India'),
       ScatterSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           markerSettings: const MarkerSettings(
               width: 15, height: 15, shape: DataMarkerType.triangle),
           name: 'China'),
       ScatterSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           markerSettings: const MarkerSettings(
               width: 15, height: 15, shape: DataMarkerType.pentagon),
           name: 'Japan')
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

@@ -469,13 +469,14 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
   @override
   void dispose() {
     _stateWiseElectionResult.clear();
+    _colorMappers.clear();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    _isLightTheme = themeData.brightness == Brightness.light;
+    _isLightTheme = themeData.colorScheme.brightness == Brightness.light;
     isDesktop = kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||

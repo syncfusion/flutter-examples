@@ -19,30 +19,71 @@ class TrackballTemplate extends SampleView {
 /// State class the chart with default trackball.
 class _TrackballTemplateState extends SampleViewState {
   _TrackballTemplateState();
-  // ignore: unused_field
-  double _duration = 2;
-  // ignore: unused_field
-  bool _showAlways = false;
-  final List<String> _modeList =
-      <String>['floatAllPoints', 'groupAllPoints', 'nearestPoint'].toList();
-  String _selectedMode = 'floatAllPoints';
 
-  TrackballDisplayMode _mode = TrackballDisplayMode.floatAllPoints;
-
-  bool _isTemplate = true;
+  late List<String> _modeList;
+  late String _selectedMode;
+  late TrackballDisplayMode _mode;
+  late bool _isTemplate;
+  late List<ChartSampleData> _chartData;
 
   @override
   void initState() {
-    _duration = 2;
-    _showAlways = false;
+    _modeList =
+        <String>['floatAllPoints', 'groupAllPoints', 'nearestPoint'].toList();
+    _isTemplate = true;
     _selectedMode = 'floatAllPoints';
     _mode = TrackballDisplayMode.floatAllPoints;
+    _chartData = <ChartSampleData>[
+      ChartSampleData(
+          x: 'Food',
+          y: 55,
+          yValue: 40,
+          secondSeriesYValue: 45,
+          thirdSeriesYValue: 48),
+      ChartSampleData(
+          x: 'Transport',
+          y: 33,
+          yValue: 45,
+          secondSeriesYValue: 54,
+          thirdSeriesYValue: 28),
+      ChartSampleData(
+          x: 'Medical',
+          y: 43,
+          yValue: 23,
+          secondSeriesYValue: 20,
+          thirdSeriesYValue: 34),
+      ChartSampleData(
+          x: 'Clothes',
+          y: 32,
+          yValue: 54,
+          secondSeriesYValue: 23,
+          thirdSeriesYValue: 54),
+      ChartSampleData(
+          x: 'Books',
+          y: 56,
+          yValue: 18,
+          secondSeriesYValue: 43,
+          thirdSeriesYValue: 55),
+      ChartSampleData(
+          x: 'Others',
+          y: 23,
+          yValue: 54,
+          secondSeriesYValue: 33,
+          thirdSeriesYValue: 56),
+    ];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return _buildTrackballTemplateChart();
+  }
+
+  @override
+  void dispose() {
+    _modeList.clear();
+    _chartData.clear();
+    super.dispose();
   }
 
   @override
@@ -54,13 +95,13 @@ class _TrackballTemplateState extends SampleViewState {
         children: <Widget>[
           StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return Container(
+            return SizedBox(
                 height: 50,
                 child: ListView(
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     children: <Widget>[
-                      Container(
+                      SizedBox(
                         child: Row(
                           children: <Widget>[
                             Text('Display mode',
@@ -100,7 +141,7 @@ class _TrackballTemplateState extends SampleViewState {
                       )
                     ]));
           }),
-          Container(
+          SizedBox(
             child: Row(
               children: <Widget>[
                 Text('Tooltip template',
@@ -108,7 +149,7 @@ class _TrackballTemplateState extends SampleViewState {
                       color: model.textColor,
                       fontSize: 16,
                     )),
-                Container(
+                SizedBox(
                     width: 90,
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
@@ -159,7 +200,7 @@ class _TrackballTemplateState extends SampleViewState {
           builder: _isTemplate
               ? (BuildContext context, TrackballDetails trackballDetails) {
                   return Padding(
-                      padding: const EdgeInsets.all(0),
+                      padding: EdgeInsets.zero,
                       child: Container(
                           height: _mode == TrackballDisplayMode.groupAllPoints
                               ? model.isWebFullView
@@ -170,7 +211,8 @@ class _TrackballTemplateState extends SampleViewState {
                               ? 145
                               : 120,
                           decoration: BoxDecoration(
-                            color: model.themeData.brightness == Brightness.dark
+                            color: model.themeData.colorScheme.brightness ==
+                                    Brightness.dark
                                 ? const Color.fromRGBO(255, 255, 255, 1)
                                 : const Color.fromRGBO(0, 8, 22, 0.75),
                             borderRadius:
@@ -213,21 +255,21 @@ class _TrackballTemplateState extends SampleViewState {
       children: <Widget>[],
     );
     if (_mode == TrackballDisplayMode.groupAllPoints) {
-      _columnWidgets.children.add(Container(
-          child: Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Text(
-                  _trackballDetails.groupingModeInfo!.points[0].x.toString(),
-                  style: TextStyle(
-                      color: model.themeData.brightness == Brightness.dark
+      _columnWidgets.children.add(Padding(
+          padding: EdgeInsets.zero,
+          child: Text(
+              _trackballDetails.groupingModeInfo!.points[0].x.toString(),
+              style: TextStyle(
+                  color:
+                      model.themeData.colorScheme.brightness == Brightness.dark
                           ? const Color.fromRGBO(0, 0, 0, 1)
-                          : const Color.fromRGBO(255, 255, 255, 1))))));
+                          : const Color.fromRGBO(255, 255, 255, 1)))));
       _columnWidgets.children.add(Padding(
           padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
           child: Container(
             height: 1,
             width: 80,
-            color: model.themeData.brightness == Brightness.dark
+            color: model.themeData.colorScheme.brightness == Brightness.dark
                 ? const Color.fromRGBO(61, 61, 61, 1)
                 : const Color.fromRGBO(238, 238, 238, 1),
           )));
@@ -243,11 +285,10 @@ class _TrackballTemplateState extends SampleViewState {
           _trackballDetails.groupingModeInfo!.visibleSeriesIndices;
       for (int i = 0; i < seriesIndices.length; i++) {
         _columnChildWidgets.children.add(
-          Container(
-              child: Text(
-                  '${_trackballDetails.groupingModeInfo!.visibleSeriesList[i].name.toString()} : \$${_trackballDetails.groupingModeInfo!.points[i].y.toString()}',
-                  textAlign: TextAlign.left,
-                  style: _getTrackballTextStyle())),
+          Text(
+              '${_trackballDetails.groupingModeInfo!.visibleSeriesList[i].name.toString()} : \$${_trackballDetails.groupingModeInfo!.points[i].y.toString()}',
+              textAlign: TextAlign.left,
+              style: _getTrackballTextStyle()),
         );
       }
       _columnWidgets.children.add(_columnChildWidgets);
@@ -258,7 +299,7 @@ class _TrackballTemplateState extends SampleViewState {
           '\$${_trackballDetails.point!.y.toString()}',
           style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: model.themeData.brightness == Brightness.dark
+              color: model.themeData.colorScheme.brightness == Brightness.dark
                   ? const Color.fromRGBO(0, 0, 0, 1)
                   : const Color.fromRGBO(255, 255, 255, 1))));
     }
@@ -267,51 +308,13 @@ class _TrackballTemplateState extends SampleViewState {
 
   TextStyle _getTrackballTextStyle() {
     return TextStyle(
-        color: model.themeData.brightness == Brightness.dark
+        color: model.themeData.colorScheme.brightness == Brightness.dark
             ? const Color.fromRGBO(0, 0, 0, 1)
             : const Color.fromRGBO(255, 255, 255, 1));
   }
 
   /// Returns the list of chart which need to render  on the cartesian chart.
   List<CartesianSeries<ChartSampleData, String>> _getDefaultTrackballSeries() {
-    final List<ChartSampleData> _chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'Food',
-          y: 55,
-          yValue: 40,
-          secondSeriesYValue: 45,
-          thirdSeriesYValue: 48),
-      ChartSampleData(
-          x: 'Transport',
-          y: 33,
-          yValue: 45,
-          secondSeriesYValue: 54,
-          thirdSeriesYValue: 28),
-      ChartSampleData(
-          x: 'Medical',
-          y: 43,
-          yValue: 23,
-          secondSeriesYValue: 20,
-          thirdSeriesYValue: 34),
-      ChartSampleData(
-          x: 'Clothes',
-          y: 32,
-          yValue: 54,
-          secondSeriesYValue: 23,
-          thirdSeriesYValue: 54),
-      ChartSampleData(
-          x: 'Books',
-          y: 56,
-          yValue: 18,
-          secondSeriesYValue: 43,
-          thirdSeriesYValue: 55),
-      ChartSampleData(
-          x: 'Others',
-          y: 23,
-          yValue: 54,
-          secondSeriesYValue: 33,
-          thirdSeriesYValue: 56),
-    ];
     return <CartesianSeries<ChartSampleData, String>>[
       StackedLineSeries<ChartSampleData, String>(
           dataSource: _chartData,
@@ -352,7 +355,7 @@ class _TrackballTemplateState extends SampleViewState {
                 ? 'images/People_Circle14.png'
                 : _seriesIndex == 3
                     ? 'images/People_Circle16.png'
-                    : model.themeData.brightness == Brightness.dark
+                    : model.themeData.colorScheme.brightness == Brightness.dark
                         ? 'images/grouping_dark.png'
                         : 'images/grouping_light.png';
 

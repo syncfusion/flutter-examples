@@ -1,6 +1,3 @@
-///Dart import
-import 'dart:typed_data';
-
 ///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,33 +27,30 @@ class _InvoiceXlsIOState extends SampleViewState {
       backgroundColor: model.cardThemeColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                  'This sample showcases on how to create a simple Excel invoice with data, image, formulas, and cell formatting using XlsIO.',
-                  style: TextStyle(fontSize: 16, color: model.textColor)),
-              const SizedBox(height: 20, width: 30),
-              Align(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          model.backgroundColor),
-                      padding: model.isMobile
-                          ? null
-                          : MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15)),
-                    ),
-                    onPressed: _generateExcel,
-                    child: const Text('Generate Excel',
-                        style: TextStyle(color: Colors.white)),
-                  ))
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+                'This sample showcases on how to create a simple Excel invoice with data, image, formulas, and cell formatting using XlsIO.',
+                style: TextStyle(fontSize: 16, color: model.textColor)),
+            const SizedBox(height: 20, width: 30),
+            Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                    padding: model.isMobile
+                        ? null
+                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15)),
+                  ),
+                  onPressed: _generateExcel,
+                  child: const Text('Generate Excel',
+                      style: TextStyle(color: Colors.white)),
+                ))
+          ],
         ),
       ),
     );

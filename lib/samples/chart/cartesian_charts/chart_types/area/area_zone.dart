@@ -21,12 +21,7 @@ class AreaZone extends SampleView {
 class _AreaZoneState extends SampleViewState {
   _AreaZoneState();
 
-  @override
-  Widget build(BuildContext context) {
-    return _buildAreaZoneChart(context);
-  }
-
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(
@@ -34,6 +29,11 @@ class _AreaZoneState extends SampleViewState {
       canShowMarker: false,
     );
     super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildAreaZoneChart(context);
   }
 
   /// Get the cartesian chart with default line series
@@ -67,7 +67,7 @@ class _AreaZoneState extends SampleViewState {
       /// To set the annotation content for chart.
       annotations: <CartesianChartAnnotation>[
         CartesianChartAnnotation(
-            widget: Container(
+            widget: SizedBox(
                 height: containerSize,
                 width: containerSize,
                 child: Column(

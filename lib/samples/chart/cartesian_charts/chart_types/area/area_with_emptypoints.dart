@@ -20,7 +20,9 @@ class AreaEmpty extends SampleView {
 /// State class for the area with empty point chart.
 class _AreaEmptyState extends SampleViewState {
   _AreaEmptyState();
-  late TooltipBehavior _tooltipBehavior;
+
+  TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
     _tooltipBehavior =
@@ -57,23 +59,22 @@ class _AreaEmptyState extends SampleViewState {
   /// Returns the list of chart series
   /// which need to render on the emptypoints area chart.
   List<AreaSeries<ChartSampleData, num>> _getEmptyPointAreaSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 2002, y: 220000000),
-      ChartSampleData(x: 2003, y: 340000000),
-      ChartSampleData(x: 2004, y: 280000000),
-
-      /// Data for empty point.
-      ChartSampleData(x: 2005, y: null),
-      ChartSampleData(x: 2006, y: null),
-      ChartSampleData(x: 2007, y: 250000000),
-      ChartSampleData(x: 2008, y: 290000000),
-      ChartSampleData(x: 2009, y: 380000000),
-      ChartSampleData(x: 2010, y: 140000000),
-      ChartSampleData(x: 2011, y: 310000000),
-    ];
     return <AreaSeries<ChartSampleData, num>>[
       AreaSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 2002, y: 220000000),
+            ChartSampleData(x: 2003, y: 340000000),
+            ChartSampleData(x: 2004, y: 280000000),
+
+            /// Data for empty point.
+            ChartSampleData(x: 2005, y: null),
+            ChartSampleData(x: 2006, y: null),
+            ChartSampleData(x: 2007, y: 250000000),
+            ChartSampleData(x: 2008, y: 290000000),
+            ChartSampleData(x: 2009, y: 380000000),
+            ChartSampleData(x: 2010, y: 140000000),
+            ChartSampleData(x: 2011, y: 310000000),
+          ],
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y),
     ];

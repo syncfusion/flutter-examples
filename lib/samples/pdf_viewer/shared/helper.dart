@@ -50,12 +50,12 @@ void showErrorDialog(BuildContext context, String error, String description) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        insetPadding: const EdgeInsets.all(0),
+        insetPadding: EdgeInsets.zero,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(error),
-            Container(
+            SizedBox(
               height: 36, // height of close search menu button
               width: 36, // width of close search menu button
               child: RawMaterialButton(
@@ -70,7 +70,7 @@ void showErrorDialog(BuildContext context, String error, String description) {
             ),
           ],
         ),
-        content: Container(width: 328.0, child: Text(description)),
+        content: SizedBox(width: 328.0, child: Text(description)),
         actions: <Widget>[
           TextButton(
             onPressed: () {

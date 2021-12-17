@@ -19,7 +19,7 @@ class HorizantalGradient extends SampleView {
 /// State class of horizontal gradient.
 class _HorizantalGradientState extends SampleViewState {
   _HorizantalGradientState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true, canShowMarker: false);
@@ -55,24 +55,6 @@ class _HorizantalGradientState extends SampleViewState {
 
   /// Returns the list of spline area series with horizontal gradient.
   List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
-    final List<_ChartData> chartData = <_ChartData>[
-      _ChartData(x: '1997', y: 17.70),
-      _ChartData(x: '1998', y: 18.20),
-      _ChartData(x: '1999', y: 18),
-      _ChartData(x: '2000', y: 19),
-      _ChartData(x: '2001', y: 18.5),
-      _ChartData(x: '2002', y: 18),
-      _ChartData(x: '2003', y: 18.80),
-      _ChartData(x: '2004', y: 17.90)
-    ];
-    final List<Color> color = <Color>[];
-    color.add(Colors.blue[200]!);
-    color.add(Colors.orange[200]!);
-
-    final List<double> stops = <double>[];
-    stops.add(0.2);
-    stops.add(0.7);
-
     return <ChartSeries<_ChartData, String>>[
       SplineAreaSeries<_ChartData, String>(
         onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
@@ -105,7 +87,16 @@ class _HorizantalGradientState extends SampleViewState {
             borderColor: Colors.white,
             borderWidth: 2),
         borderDrawMode: BorderDrawMode.top,
-        dataSource: chartData,
+        dataSource: <_ChartData>[
+          _ChartData(x: '1997', y: 17.70),
+          _ChartData(x: '1998', y: 18.20),
+          _ChartData(x: '1999', y: 18),
+          _ChartData(x: '2000', y: 19),
+          _ChartData(x: '2001', y: 18.5),
+          _ChartData(x: '2002', y: 18),
+          _ChartData(x: '2003', y: 18.80),
+          _ChartData(x: '2004', y: 17.90)
+        ],
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y,
         name: 'Investment',

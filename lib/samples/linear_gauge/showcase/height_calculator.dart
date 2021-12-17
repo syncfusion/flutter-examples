@@ -102,7 +102,7 @@ class _HeightCalculatorState extends SampleViewState {
                             _pointerValue = value as double;
                           });
                         },
-                        child: Container(
+                        child: SizedBox(
                             width: 24,
                             height: 16,
                             child: Image.asset(

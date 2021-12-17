@@ -40,7 +40,7 @@ class _ShapePointerState extends SampleViewState {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-            Container(
+            SizedBox(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildShapePointer(context),
             )
@@ -106,7 +106,7 @@ class _ShapePointerState extends SampleViewState {
 
   /// Returns the vertical axis track.
   Widget _buildVerticalGauges(String axisTrackName, Widget linearGauge) {
-    return Container(
+    return SizedBox(
         width: 150,
         child: Column(
           children: <Widget>[
@@ -119,7 +119,7 @@ class _ShapePointerState extends SampleViewState {
 
   /// Returns the inverted triangle shape pointer sample.
   Widget _buildInvertedTriangleShapePointer() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           animateAxis: true,
@@ -144,7 +144,7 @@ class _ShapePointerState extends SampleViewState {
 
   /// Returns the circle shape pointer sample.
   Widget _buildCircleShapePointer() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -168,7 +168,7 @@ class _ShapePointerState extends SampleViewState {
 
   /// Returns the diamond shape pointer sample.
   Widget _buildDiamondShapePointer() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -192,7 +192,7 @@ class _ShapePointerState extends SampleViewState {
 
   /// Returns the rectangle shape pointer sample.
   Widget _buildRectangleShapePointer() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -217,7 +217,7 @@ class _ShapePointerState extends SampleViewState {
 
   /// Returns the multiple shape pointers sample.
   Widget _buildMultipleShapePointers() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,

@@ -21,12 +21,11 @@ class DoughnutGradient extends SampleView {
 /// State class of pie series.
 class _DoughnutGradientState extends SampleViewState {
   _DoughnutGradientState();
-  late List<Color> colors;
-
-  late List<double> stops;
   late String _shaderType;
-  late List<String> _shader;
-  late List<double> customStops;
+  List<Color>? colors;
+  List<double>? stops;
+  List<String>? _shader;
+  List<double>? customStops;
 
   @override
   void initState() {
@@ -43,35 +42,37 @@ class _DoughnutGradientState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          ListTile(
-            title:
-                Text(model.isWebFullView ? 'Gradient \nmode' : 'Gradient mode',
-                    softWrap: false,
-                    style: TextStyle(
-                      color: model.textColor,
-                    )),
-            trailing: Container(
-              padding: EdgeInsets.only(left: 0.07 * screenWidth),
-              width: 0.5 * screenWidth,
-              height: 50,
-              alignment: Alignment.bottomLeft,
-              child: DropdownButton<String>(
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: _shaderType,
-                  items: _shader.map((String value) {
-                    return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'point',
-                        child: Text(value,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      onShaderTyeChange(value);
-                      stateSetter(() {});
-                    });
-                  }),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text(model.isWebFullView ? 'Gradient \nmode' : 'Gradient mode',
+                  softWrap: false,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: model.textColor,
+                  )),
+              Container(
+                padding: EdgeInsets.only(left: 0.07 * screenWidth),
+                width: 0.5 * screenWidth,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _shaderType,
+                    items: _shader!.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'point',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      setState(() {
+                        onShaderTyeChange(value);
+                        stateSetter(() {});
+                      });
+                    }),
+              )
+            ],
           ),
         ],
       );
@@ -100,23 +101,23 @@ class _DoughnutGradientState extends SampleViewState {
     return SfCircularChart(
       onCreateShader: (ChartShaderDetails chartShaderDetails) {
         if (chartShaderDetails.renderType == 'series') {
-          customStops = _calculateDoughnut(colors, stops,
+          customStops = _calculateDoughnut(colors!, stops!,
               chartShaderDetails.outerRect, chartShaderDetails.innerRect!);
         }
         if (_shaderType == 'linear') {
           return ui.Gradient.linear(chartShaderDetails.outerRect.topRight,
-              chartShaderDetails.outerRect.centerLeft, colors, stops);
+              chartShaderDetails.outerRect.centerLeft, colors!, stops);
         } else if (_shaderType == 'radial') {
           return ui.Gradient.radial(
               chartShaderDetails.outerRect.center,
               chartShaderDetails.outerRect.right -
                   chartShaderDetails.outerRect.center.dx,
-              colors,
+              colors!,
               customStops);
         } else {
           return ui.Gradient.sweep(
               chartShaderDetails.outerRect.center,
-              colors,
+              colors!,
               stops,
               TileMode.clamp,
               _degreeToRadian(0),
@@ -133,16 +134,15 @@ class _DoughnutGradientState extends SampleViewState {
 
   /// Returns the pie series.
   List<DoughnutSeries<ChartSampleData, String>> _getGradientDoughnutSeries() {
-    final List<ChartSampleData> pieData = <ChartSampleData>[
-      ChartSampleData(x: 'David', y: 14, text: '14%'),
-      ChartSampleData(x: 'Steve', y: 15, text: '15%'),
-      ChartSampleData(x: 'Jack', y: 30, text: '30%'),
-      ChartSampleData(x: 'Others', y: 41, text: '41%')
-    ];
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
           animationDuration: 0,
-          dataSource: pieData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'David', y: 14, text: '14%'),
+            ChartSampleData(x: 'Steve', y: 15, text: '15%'),
+            ChartSampleData(x: 'Jack', y: 30, text: '30%'),
+            ChartSampleData(x: 'Others', y: 41, text: '41%')
+          ],
           explodeAll: true,
           radius: isCardView ? '85%' : '63%',
           explodeOffset: '3%',
@@ -216,5 +216,13 @@ class _DoughnutGradientState extends SampleViewState {
       }
     }
     return stopOffsets;
+  }
+
+  @override
+  void dispose() {
+    stops!.clear();
+    _shader!.clear();
+    customStops!.clear();
+    super.dispose();
   }
 }

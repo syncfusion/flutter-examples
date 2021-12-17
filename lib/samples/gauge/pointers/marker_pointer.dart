@@ -20,13 +20,7 @@ class MarkerPointerExample extends SampleView {
 class _MarkerPointerExampleState extends SampleViewState {
   _MarkerPointerExampleState();
 
-  final List<String> _markerTypes = <String>[
-    'circle',
-    'diamond',
-    'invertedTriangle',
-    'rectangle',
-    'triangle',
-  ];
+  late List<String> _markerTypes;
 
   String _selectedMarkerType = 'invertedTriangle';
   MarkerType _markerType = MarkerType.invertedTriangle;
@@ -36,7 +30,20 @@ class _MarkerPointerExampleState extends SampleViewState {
   void initState() {
     _selectedMarkerType = 'invertedTriangle';
     _markerType = MarkerType.invertedTriangle;
+    _markerTypes = <String>[
+      'circle',
+      'diamond',
+      'invertedTriangle',
+      'rectangle',
+      'triangle',
+    ];
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _markerTypes.clear();
+    super.dispose();
   }
 
   @override
@@ -49,8 +56,7 @@ class _MarkerPointerExampleState extends SampleViewState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(shrinkWrap: true, children: <Widget>[
-        Container(
-            child: Row(
+        Row(
           children: <Widget>[
             Text('Marker type ',
                 style: TextStyle(
@@ -75,9 +81,8 @@ class _MarkerPointerExampleState extends SampleViewState {
                   }),
             ),
           ],
-        )),
-        Container(
-            child: Row(
+        ),
+        Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -103,7 +108,7 @@ class _MarkerPointerExampleState extends SampleViewState {
               ),
             ),
           ],
-        )),
+        ),
       ]);
     });
   }
@@ -152,27 +157,24 @@ class _MarkerPointerExampleState extends SampleViewState {
               GaugeAnnotation(
                   angle: 175,
                   positionFactor: 0.8,
-                  widget: Container(
-                      child: Text('Min',
-                          style: TextStyle(
-                              fontSize: isCardView ? 12 : 16,
-                              fontWeight: FontWeight.bold)))),
+                  widget: Text('Min',
+                      style: TextStyle(
+                          fontSize: isCardView ? 12 : 16,
+                          fontWeight: FontWeight.bold))),
               GaugeAnnotation(
                   angle: 270,
                   positionFactor: 0.1,
-                  widget: Container(
-                      child: Text('70%',
-                          style: TextStyle(
-                              fontSize: isCardView ? 12 : 16,
-                              fontWeight: FontWeight.bold)))),
+                  widget: Text('70%',
+                      style: TextStyle(
+                          fontSize: isCardView ? 12 : 16,
+                          fontWeight: FontWeight.bold))),
               GaugeAnnotation(
                   angle: 5,
                   positionFactor: 0.8,
-                  widget: Container(
-                      child: Text('Max',
-                          style: TextStyle(
-                              fontSize: isCardView ? 12 : 16,
-                              fontWeight: FontWeight.bold))))
+                  widget: Text('Max',
+                      style: TextStyle(
+                          fontSize: isCardView ? 12 : 16,
+                          fontWeight: FontWeight.bold)))
             ],
             ranges: <GaugeRange>[
               GaugeRange(

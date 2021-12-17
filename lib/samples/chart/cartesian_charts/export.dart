@@ -30,10 +30,27 @@ class Export extends SampleView {
 
 class _ExportState extends SampleViewState {
   _ExportState();
-  final GlobalKey<SfCartesianChartState> _chartKey = GlobalKey();
+  late GlobalKey<SfCartesianChartState> _chartKey;
   // ScaffoldState _scaffoldState;
 
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  late GlobalKey<ScaffoldState> scaffoldKey;
+  late List<ChartSampleData> chartData;
+
+  @override
+  void initState() {
+    _chartKey = GlobalKey();
+    scaffoldKey = GlobalKey<ScaffoldState>();
+    chartData = <ChartSampleData>[
+      ChartSampleData(x: "Jan '19", y: 184.9, yValue: 17),
+      ChartSampleData(x: "Feb '19", y: 160.3, yValue: 18),
+      ChartSampleData(x: "Mar '19", y: 70.6, yValue: 13),
+      ChartSampleData(x: "Apr '19", y: 201.4, yValue: 17),
+      ChartSampleData(x: "May '19", y: 86.7, yValue: 15),
+      ChartSampleData(x: "Jun '19", y: 151.5, yValue: 23),
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,6 +119,12 @@ class _ExportState extends SampleViewState {
         ]));
   }
 
+  @override
+  void dispose() {
+    chartData.clear();
+    super.dispose();
+  }
+
   /// Get default column chart
   SfCartesianChart _buildDefaultColumnChart() {
     return SfCartesianChart(
@@ -137,14 +160,6 @@ class _ExportState extends SampleViewState {
 
   /// Get default column series
   List<ChartSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Jan \'19', y: 184.9, yValue: 17),
-      ChartSampleData(x: 'Feb \'19', y: 160.3, yValue: 18),
-      ChartSampleData(x: 'Mar \'19', y: 70.6, yValue: 13),
-      ChartSampleData(x: 'Apr \'19', y: 201.4, yValue: 17),
-      ChartSampleData(x: 'May \'19', y: 86.7, yValue: 15),
-      ChartSampleData(x: 'Jun \'19', y: 151.5, yValue: 23),
-    ];
     return <ChartSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           name: 'Rainy days',

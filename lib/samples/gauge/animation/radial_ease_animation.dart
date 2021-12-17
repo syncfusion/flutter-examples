@@ -65,9 +65,10 @@ class _RadialEaseExampleState extends SampleViewState {
                           fit: BoxFit.fitHeight,
                         ),
                       ))),
-              GaugeAnnotation(
-                  widget: Container(
-                child: const Text('Distance', style: TextStyle(fontSize: 20)),
+              const GaugeAnnotation(
+                  widget: Text(
+                'Distance',
+                style: TextStyle(fontSize: 20),
               ))
             ],
             pointers: <GaugePointer>[

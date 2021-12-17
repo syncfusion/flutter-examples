@@ -23,45 +23,57 @@ class _ErrorBarDefaultState extends SampleViewState {
   late String _errorBarMode;
   late String _errorBarType;
   late String _errorBarDirection;
-  late RenderingMode _selectedErrorBarMode;
-  late ErrorBarType _selectedErrorBarType;
-  late Direction _selectedErrorBarDirection;
-  double _verticalErrorValue = 3;
-  double _horizontalErrorValue = 1;
-  double _horizontalPositiveErrorValue = 1;
-  double _verticalPositiveErrorValue = 2;
-  double _horizontalNegativeErrorValue = 1;
-  double _verticalNegativeErrorValue = 2;
-  bool _isCustomTypeErrorBar = false;
-  late TooltipBehavior _tooltipbehavior;
-
-  final List<String> _errorBarModes = <String>[
-    'vertical',
-    'horizontal',
-    'both'
-  ];
-
-  final List<String> _errorBarTypes = <String>[
-    'fixed',
-    'percentage',
-    'standardError',
-    'standardDeviation',
-    'custom'
-  ].toList();
-
-  final List<String> _errorBarDirections =
-      <String>['plus', 'minus', 'both'].toList();
+  late double _verticalErrorValue;
+  late double _horizontalErrorValue;
+  late double _horizontalPositiveErrorValue;
+  late double _verticalPositiveErrorValue;
+  late double _horizontalNegativeErrorValue;
+  late double _verticalNegativeErrorValue;
+  late bool _isCustomTypeErrorBar;
+  List<String>? _errorBarModes;
+  List<String>? _errorBarTypes;
+  List<String>? _errorBarDirections;
+  List<SalesData>? chartData;
+  RenderingMode? _selectedErrorBarMode;
+  ErrorBarType? _selectedErrorBarType;
+  Direction? _selectedErrorBarDirection;
+  TooltipBehavior? _tooltipbehavior;
 
   @override
   void initState() {
     super.initState();
+    _verticalErrorValue = 3;
+    _horizontalErrorValue = 1;
+    _horizontalPositiveErrorValue = 1;
+    _verticalPositiveErrorValue = 2;
+    _horizontalNegativeErrorValue = 1;
+    _verticalNegativeErrorValue = 2;
+    _isCustomTypeErrorBar = false;
     _errorBarMode = 'vertical';
     _errorBarType = 'fixed';
     _errorBarDirection = 'both';
     _selectedErrorBarDirection = Direction.both;
     _selectedErrorBarMode = RenderingMode.vertical;
     _selectedErrorBarType = ErrorBarType.fixed;
+    _errorBarDirections = <String>['plus', 'minus', 'both'].toList();
+    _errorBarTypes = <String>[
+      'fixed',
+      'percentage',
+      'standardError',
+      'standardDeviation',
+      'custom'
+    ].toList();
+    _errorBarModes = <String>['vertical', 'horizontal', 'both'];
     _tooltipbehavior = TooltipBehavior(enable: true);
+    chartData = <SalesData>[
+      SalesData('IND', 24, Colors.blueAccent),
+      SalesData('AUS', 20, Colors.black),
+      SalesData('USA', 35, Colors.deepOrangeAccent),
+      SalesData('DEU', 27, Colors.green),
+      SalesData('ITA', 30, Colors.orange),
+      SalesData('UK', 41, Colors.blueGrey),
+      SalesData('RUS', 26, Colors.greenAccent)
+    ];
   }
 
   void _updateErrorBarType(String value) {
@@ -116,392 +128,480 @@ class _ErrorBarDefaultState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     final double screenWidth =
-        model.isWebFullView ? 255 : MediaQuery.of(context).size.width;
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double dropDownWidth = 0.8 * screenWidth;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          ListTile(
-              title: Text('Error bar \ntype',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                width: 0.54 * screenWidth,
-                height: 50,
-                alignment: Alignment.center,
-                child: DropdownButton<String>(
-                    isExpanded: true,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _errorBarType,
-                    items: _errorBarTypes.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value,
+          Row(
+            children: <Widget>[
+              Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
+              Expanded(
+                flex: 14,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('Error bar \ntype',
                               softWrap: false,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (String? value) {
-                      _updateErrorBarType(value!);
-                      if (_errorBarType != 'custom') {
-                        _isCustomTypeErrorBar = false;
-                      }
-                      stateSetter(() {});
-                    }),
-              )),
-          ListTile(
-              title: Text('Direction',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                width: 0.54 * screenWidth,
-                height: 50,
-                alignment: Alignment.center,
-                child: DropdownButton<String>(
-                    isExpanded: true,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _errorBarDirection,
-                    items: _errorBarDirections.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                              width: dropDownWidth,
+                              child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  underline: Container(
+                                      color: const Color(0xFFBDBDBD),
+                                      height: 1),
+                                  value: _errorBarType,
+                                  items: _errorBarTypes!.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value,
+                                            softWrap: false,
+                                            style: TextStyle(
+                                                color: model.textColor)));
+                                  }).toList(),
+                                  onChanged: (String? value) {
+                                    _updateErrorBarType(value!);
+                                    if (_errorBarType != 'custom') {
+                                      _isCustomTypeErrorBar = false;
+                                    }
+                                    stateSetter(() {});
+                                  })),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('Direction',
                               softWrap: false,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (String? value) {
-                      _updateDirection(value!);
-                      stateSetter(() {});
-                    }),
-              )),
-          ListTile(
-              title: Text('Drawing \nmode',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                width: 0.54 * screenWidth,
-                height: 50,
-                alignment: Alignment.center,
-                child: DropdownButton<String>(
-                    isExpanded: true,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _errorBarMode,
-                    items: _errorBarModes.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                            width: dropDownWidth,
+                            child: DropdownButton<String>(
+                                isExpanded: true,
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _errorBarDirection,
+                                items: _errorBarDirections!.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value,
+                                          softWrap: false,
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  _updateDirection(value!);
+                                  stateSetter(() {});
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('Drawing \nmode',
                               softWrap: false,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (String? value) {
-                      _updateErrorBarMode(value!);
-                      stateSetter(() {});
-                    }),
-              )),
-          Visibility(
-            visible: !_isCustomTypeErrorBar,
-            child: ListTile(
-                title: Text('Vertical \nerror',
-                    softWrap: false,
-                    style: TextStyle(
-                      color: model.textColor,
-                    )),
-                trailing: Container(
-                  width: 0.52 * screenWidth,
-                  height: 50,
-                  child: CustomDirectionalButtons(
-                    minValue: 2,
-                    maxValue: 10,
-                    initialValue: _verticalErrorValue,
-                    onChanged: (double val) => setState(() {
-                      _verticalErrorValue = (_errorBarMode == 'vertical' ||
-                              _errorBarMode == 'both')
-                          ? val
-                          : 0;
-                    }),
-                    step:
-                        (_errorBarMode == 'vertical' || _errorBarMode == 'both')
-                            ? 1
-                            : 0,
-                    horizontal: true,
-                    loop: false,
-                    padding: 0,
-                    iconColor: model.textColor.withOpacity(
-                        (_errorBarMode == 'vertical' || _errorBarMode == 'both')
-                            ? 1
-                            : 0.5),
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        color: model.textColor.withOpacity(
-                            (_errorBarMode == 'vertical' ||
-                                    _errorBarMode == 'both')
-                                ? 1
-                                : 0.5)),
-                  ),
-                )),
-          ),
-          Visibility(
-            visible: !_isCustomTypeErrorBar,
-            child: ListTile(
-                title: Text('Horizontal \nerror',
-                    softWrap: false,
-                    style: TextStyle(
-                      color: model.textColor,
-                    )),
-                trailing: Container(
-                  width: 0.52 * screenWidth,
-                  height: 50,
-                  child: CustomDirectionalButtons(
-                    minValue: 1,
-                    maxValue: 10,
-                    initialValue: _horizontalErrorValue,
-                    onChanged: (double val) => setState(() {
-                      _horizontalErrorValue = (_errorBarMode == 'horizontal' ||
-                              _errorBarMode == 'both')
-                          ? val
-                          : 0;
-                    }),
-                    step: (_errorBarMode == 'horizontal' ||
-                            _errorBarMode == 'both')
-                        ? 1
-                        : 0,
-                    horizontal: true,
-                    loop: false,
-                    padding: 0,
-                    iconColor: model.textColor.withOpacity(
-                        (_errorBarMode == 'horizontal' ||
-                                _errorBarMode == 'both')
-                            ? 1
-                            : 0.5),
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                        color: model.textColor.withOpacity(
-                            (_errorBarMode == 'horizontal' ||
-                                    _errorBarMode == 'both')
-                                ? 1
-                                : 0.5)),
-                  ),
-                )),
-          ),
-          Visibility(
-            visible: _isCustomTypeErrorBar,
-            child: ListTile(
-                title: Text('Horizontal \npositive',
-                    softWrap: false,
-                    style: TextStyle(
-                      color: model.textColor,
-                    )),
-                trailing: Container(
-                  width: 0.52 * screenWidth,
-                  height: 50,
-                  child: CustomDirectionalButtons(
-                    minValue: 1,
-                    maxValue: 10,
-                    initialValue: _horizontalPositiveErrorValue,
-                    onChanged: (double val) => setState(() {
-                      _horizontalPositiveErrorValue =
-                          ((_errorBarMode == 'horizontal' ||
-                                      _errorBarMode == 'both') &&
-                                  (_errorBarDirection == 'plus' ||
-                                      _errorBarDirection == 'both'))
-                              ? val
-                              : 0;
-                    }),
-                    step: ((_errorBarMode == 'horizontal' ||
-                                _errorBarMode == 'both') &&
-                            (_errorBarDirection == 'plus' ||
-                                _errorBarDirection == 'both'))
-                        ? 1
-                        : 0,
-                    horizontal: true,
-                    loop: false,
-                    padding: 0,
-                    iconColor: model.textColor.withOpacity(
-                        ((_errorBarMode == 'horizontal' ||
-                                    _errorBarMode == 'both') &&
-                                (_errorBarDirection == 'plus' ||
-                                    _errorBarDirection == 'both'))
-                            ? 1
-                            : 0.5),
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        color: model.textColor.withOpacity(
-                            ((_errorBarMode == 'horizontal' ||
-                                        _errorBarMode == 'both') &&
-                                    (_errorBarDirection == 'plus' ||
-                                        _errorBarDirection == 'both'))
-                                ? 1
-                                : 0.5)),
-                  ),
-                )),
-          ),
-          Visibility(
-            visible: _isCustomTypeErrorBar,
-            child: ListTile(
-                title: Text('Horizontal \nnegative',
-                    softWrap: false,
-                    style: TextStyle(
-                      color: model.textColor,
-                    )),
-                trailing: Container(
-                  width: 0.52 * screenWidth,
-                  height: 50,
-                  child: CustomDirectionalButtons(
-                    minValue: 1,
-                    maxValue: 10,
-                    initialValue: _horizontalNegativeErrorValue,
-                    onChanged: (double val) => setState(() {
-                      _horizontalNegativeErrorValue =
-                          ((_errorBarMode == 'horizontal' ||
-                                      _errorBarMode == 'both') &&
-                                  (_errorBarDirection == 'minus' ||
-                                      _errorBarDirection == 'both'))
-                              ? val
-                              : 0;
-                    }),
-                    step: ((_errorBarMode == 'horizontal' ||
-                                _errorBarMode == 'both') &&
-                            (_errorBarDirection == 'minus' ||
-                                _errorBarDirection == 'both'))
-                        ? 1
-                        : 0,
-                    horizontal: true,
-                    loop: false,
-                    padding: 0,
-                    iconColor: model.textColor.withOpacity(
-                        ((_errorBarMode == 'horizontal' ||
-                                    _errorBarMode == 'both') &&
-                                (_errorBarDirection == 'minus' ||
-                                    _errorBarDirection == 'both'))
-                            ? 1
-                            : 0.5),
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        color: model.textColor.withOpacity(
-                            ((_errorBarMode == 'horizontal' ||
-                                        _errorBarMode == 'both') &&
-                                    (_errorBarDirection == 'minus' ||
-                                        _errorBarDirection == 'both'))
-                                ? 1
-                                : 0.5)),
-                  ),
-                )),
-          ),
-          Visibility(
-            visible: _isCustomTypeErrorBar,
-            child: ListTile(
-                title: Text('Vertical \nnegative',
-                    softWrap: false,
-                    style: TextStyle(
-                      color: model.textColor,
-                    )),
-                trailing: Container(
-                  width: 0.52 * screenWidth,
-                  height: 50,
-                  child: CustomDirectionalButtons(
-                    minValue: 2,
-                    maxValue: 10,
-                    initialValue: _verticalNegativeErrorValue,
-                    onChanged: (double val) => setState(() {
-                      _verticalNegativeErrorValue =
-                          ((_errorBarMode == 'vertical' ||
-                                      _errorBarMode == 'both') &&
-                                  (_errorBarDirection == 'minus' ||
-                                      _errorBarDirection == 'both'))
-                              ? val
-                              : 0;
-                    }),
-                    step: ((_errorBarMode == 'vertical' ||
-                                _errorBarMode == 'both') &&
-                            (_errorBarDirection == 'minus' ||
-                                _errorBarDirection == 'both'))
-                        ? 1
-                        : 0,
-                    horizontal: true,
-                    loop: false,
-                    padding: 0,
-                    iconColor: model.textColor.withOpacity(
-                        ((_errorBarMode == 'vertical' ||
-                                    _errorBarMode == 'both') &&
-                                (_errorBarDirection == 'minus' ||
-                                    _errorBarDirection == 'both'))
-                            ? 1
-                            : 0.5),
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        color: model.textColor.withOpacity(
-                            ((_errorBarMode == 'vertical' ||
-                                        _errorBarMode == 'both') &&
-                                    (_errorBarDirection == 'minus' ||
-                                        _errorBarDirection == 'both'))
-                                ? 1
-                                : 0.5)),
-                  ),
-                )),
-          ),
-          Visibility(
-            visible: _isCustomTypeErrorBar,
-            child: ListTile(
-                title: Text('Vertical \npositive',
-                    softWrap: false,
-                    style: TextStyle(
-                      color: model.textColor,
-                    )),
-                trailing: Container(
-                  width: 0.52 * screenWidth,
-                  height: 50,
-                  child: CustomDirectionalButtons(
-                    minValue: 2,
-                    maxValue: 50,
-                    initialValue: _verticalPositiveErrorValue,
-                    onChanged: (double val) => setState(() {
-                      _verticalPositiveErrorValue =
-                          ((_errorBarMode == 'vertical' ||
-                                      _errorBarMode == 'both') &&
-                                  (_errorBarDirection == 'plus' ||
-                                      _errorBarDirection == 'both'))
-                              ? val
-                              : 0;
-                    }),
-                    step: ((_errorBarMode == 'vertical' ||
-                                _errorBarMode == 'both') &&
-                            (_errorBarDirection == 'plus' ||
-                                _errorBarDirection == 'both'))
-                        ? 1
-                        : 0,
-                    horizontal: true,
-                    loop: false,
-                    padding: 0,
-                    iconColor: model.textColor.withOpacity(
-                        ((_errorBarMode == 'vertical' ||
-                                    _errorBarMode == 'both') &&
-                                (_errorBarDirection == 'plus' ||
-                                    _errorBarDirection == 'both'))
-                            ? 1
-                            : 0.5),
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        color: model.textColor.withOpacity(
-                            ((_errorBarMode == 'vertical' ||
-                                        _errorBarMode == 'both') &&
-                                    (_errorBarDirection == 'plus' ||
-                                        _errorBarDirection == 'both'))
-                                ? 1
-                                : 0.5)),
-                  ),
-                )),
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                            width: dropDownWidth,
+                            child: DropdownButton<String>(
+                                isExpanded: true,
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _errorBarMode,
+                                items: _errorBarModes!.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value,
+                                          softWrap: false,
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  _updateErrorBarMode(value!);
+                                  stateSetter(() {});
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: model.isMobile ? 0.0 : 10.0),
+                    Visibility(
+                      visible: !_isCustomTypeErrorBar,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 3,
+                            child: Text('Vertical \nerror',
+                                softWrap: false,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: model.textColor,
+                                )),
+                          ),
+                          Flexible(
+                            flex: 4,
+                            child: CustomDirectionalButtons(
+                              minValue: 2,
+                              maxValue: 10,
+                              initialValue: _verticalErrorValue,
+                              onChanged: (double val) => setState(() {
+                                _verticalErrorValue =
+                                    (_errorBarMode == 'vertical' ||
+                                            _errorBarMode == 'both')
+                                        ? val
+                                        : 0;
+                              }),
+                              step: (_errorBarMode == 'vertical' ||
+                                      _errorBarMode == 'both')
+                                  ? 1
+                                  : 0,
+                              horizontal: true,
+                              loop: false,
+                              padding: 0,
+                              iconColor: model.textColor.withOpacity(
+                                  (_errorBarMode == 'vertical' ||
+                                          _errorBarMode == 'both')
+                                      ? 1
+                                      : 0.5),
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: model.textColor.withOpacity(
+                                      (_errorBarMode == 'vertical' ||
+                                              _errorBarMode == 'both')
+                                          ? 1
+                                          : 0.5)),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: model.isMobile ? 0.0 : 10.0),
+                    Visibility(
+                      visible: !_isCustomTypeErrorBar,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 3,
+                            child: Text('Horizontal \nerror',
+                                softWrap: false,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: model.textColor,
+                                )),
+                          ),
+                          Flexible(
+                            flex: 4,
+                            child: CustomDirectionalButtons(
+                              minValue: 1,
+                              maxValue: 10,
+                              initialValue: _horizontalErrorValue,
+                              onChanged: (double val) => setState(() {
+                                _horizontalErrorValue =
+                                    (_errorBarMode == 'horizontal' ||
+                                            _errorBarMode == 'both')
+                                        ? val
+                                        : 0;
+                              }),
+                              step: (_errorBarMode == 'horizontal' ||
+                                      _errorBarMode == 'both')
+                                  ? 1
+                                  : 0,
+                              horizontal: true,
+                              loop: false,
+                              padding: 0,
+                              iconColor: model.textColor.withOpacity(
+                                  (_errorBarMode == 'horizontal' ||
+                                          _errorBarMode == 'both')
+                                      ? 1
+                                      : 0.5),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.normal,
+                                  color: model.textColor.withOpacity(
+                                      (_errorBarMode == 'horizontal' ||
+                                              _errorBarMode == 'both')
+                                          ? 1
+                                          : 0.5)),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: model.isMobile ? 0.0 : 10.0),
+                    Visibility(
+                      visible: _isCustomTypeErrorBar,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 3,
+                            child: Text('Horizontal \npositive',
+                                softWrap: false,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: model.textColor,
+                                )),
+                          ),
+                          Flexible(
+                            flex: 4,
+                            child: CustomDirectionalButtons(
+                              minValue: 1,
+                              maxValue: 10,
+                              initialValue: _horizontalPositiveErrorValue,
+                              onChanged: (double val) => setState(() {
+                                _horizontalPositiveErrorValue =
+                                    ((_errorBarMode == 'horizontal' ||
+                                                _errorBarMode == 'both') &&
+                                            (_errorBarDirection == 'plus' ||
+                                                _errorBarDirection == 'both'))
+                                        ? val
+                                        : 0;
+                              }),
+                              step: ((_errorBarMode == 'horizontal' ||
+                                          _errorBarMode == 'both') &&
+                                      (_errorBarDirection == 'plus' ||
+                                          _errorBarDirection == 'both'))
+                                  ? 1
+                                  : 0,
+                              horizontal: true,
+                              loop: false,
+                              padding: 0,
+                              iconColor: model.textColor.withOpacity(
+                                  ((_errorBarMode == 'horizontal' ||
+                                              _errorBarMode == 'both') &&
+                                          (_errorBarDirection == 'plus' ||
+                                              _errorBarDirection == 'both'))
+                                      ? 1
+                                      : 0.5),
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: model.textColor.withOpacity(
+                                      ((_errorBarMode == 'horizontal' ||
+                                                  _errorBarMode == 'both') &&
+                                              (_errorBarDirection == 'plus' ||
+                                                  _errorBarDirection == 'both'))
+                                          ? 1
+                                          : 0.5)),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: model.isMobile ? 0.0 : 10.0),
+                    Visibility(
+                      visible: _isCustomTypeErrorBar,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 3,
+                            child: Text('Horizontal \nnegative',
+                                softWrap: false,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: model.textColor,
+                                )),
+                          ),
+                          Flexible(
+                              flex: 4,
+                              child: CustomDirectionalButtons(
+                                minValue: 1,
+                                maxValue: 10,
+                                initialValue: _horizontalNegativeErrorValue,
+                                onChanged: (double val) => setState(() {
+                                  _horizontalNegativeErrorValue =
+                                      ((_errorBarMode == 'horizontal' ||
+                                                  _errorBarMode == 'both') &&
+                                              (_errorBarDirection == 'minus' ||
+                                                  _errorBarDirection == 'both'))
+                                          ? val
+                                          : 0;
+                                }),
+                                step: ((_errorBarMode == 'horizontal' ||
+                                            _errorBarMode == 'both') &&
+                                        (_errorBarDirection == 'minus' ||
+                                            _errorBarDirection == 'both'))
+                                    ? 1
+                                    : 0,
+                                horizontal: true,
+                                loop: false,
+                                padding: 0,
+                                iconColor: model.textColor.withOpacity(
+                                    ((_errorBarMode == 'horizontal' ||
+                                                _errorBarMode == 'both') &&
+                                            (_errorBarDirection == 'minus' ||
+                                                _errorBarDirection == 'both'))
+                                        ? 1
+                                        : 0.5),
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: model.textColor.withOpacity(
+                                        ((_errorBarMode == 'horizontal' ||
+                                                    _errorBarMode == 'both') &&
+                                                (_errorBarDirection ==
+                                                        'minus' ||
+                                                    _errorBarDirection ==
+                                                        'both'))
+                                            ? 1
+                                            : 0.5)),
+                              ))
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: model.isMobile ? 0.0 : 10.0),
+                    Visibility(
+                      visible: _isCustomTypeErrorBar,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 3,
+                            child: Text('Vertical \nnegative',
+                                softWrap: false,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: model.textColor,
+                                )),
+                          ),
+                          Flexible(
+                              flex: 4,
+                              child: CustomDirectionalButtons(
+                                minValue: 2,
+                                maxValue: 10,
+                                initialValue: _verticalNegativeErrorValue,
+                                onChanged: (double val) => setState(() {
+                                  _verticalNegativeErrorValue =
+                                      ((_errorBarMode == 'vertical' ||
+                                                  _errorBarMode == 'both') &&
+                                              (_errorBarDirection == 'minus' ||
+                                                  _errorBarDirection == 'both'))
+                                          ? val
+                                          : 0;
+                                }),
+                                step: ((_errorBarMode == 'vertical' ||
+                                            _errorBarMode == 'both') &&
+                                        (_errorBarDirection == 'minus' ||
+                                            _errorBarDirection == 'both'))
+                                    ? 1
+                                    : 0,
+                                horizontal: true,
+                                loop: false,
+                                padding: 0,
+                                iconColor: model.textColor.withOpacity(
+                                    ((_errorBarMode == 'vertical' ||
+                                                _errorBarMode == 'both') &&
+                                            (_errorBarDirection == 'minus' ||
+                                                _errorBarDirection == 'both'))
+                                        ? 1
+                                        : 0.5),
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: model.textColor.withOpacity(
+                                        ((_errorBarMode == 'vertical' ||
+                                                    _errorBarMode == 'both') &&
+                                                (_errorBarDirection ==
+                                                        'minus' ||
+                                                    _errorBarDirection ==
+                                                        'both'))
+                                            ? 1
+                                            : 0.5)),
+                              ))
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: model.isMobile ? 0.0 : 10.0),
+                    Visibility(
+                      visible: _isCustomTypeErrorBar,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 3,
+                            child: Text('Vertical \npositive',
+                                softWrap: false,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: model.textColor,
+                                )),
+                          ),
+                          Flexible(
+                            flex: 4,
+                            child: CustomDirectionalButtons(
+                              minValue: 2,
+                              maxValue: 50,
+                              initialValue: _verticalPositiveErrorValue,
+                              onChanged: (double val) => setState(() {
+                                _verticalPositiveErrorValue =
+                                    ((_errorBarMode == 'vertical' ||
+                                                _errorBarMode == 'both') &&
+                                            (_errorBarDirection == 'plus' ||
+                                                _errorBarDirection == 'both'))
+                                        ? val
+                                        : 0;
+                              }),
+                              step: ((_errorBarMode == 'vertical' ||
+                                          _errorBarMode == 'both') &&
+                                      (_errorBarDirection == 'plus' ||
+                                          _errorBarDirection == 'both'))
+                                  ? 1
+                                  : 0,
+                              horizontal: true,
+                              loop: false,
+                              padding: 0,
+                              iconColor: model.textColor.withOpacity(
+                                  ((_errorBarMode == 'vertical' ||
+                                              _errorBarMode == 'both') &&
+                                          (_errorBarDirection == 'plus' ||
+                                              _errorBarDirection == 'both'))
+                                      ? 1
+                                      : 0.5),
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: model.textColor.withOpacity(
+                                      ((_errorBarMode == 'vertical' ||
+                                                  _errorBarMode == 'both') &&
+                                              (_errorBarDirection == 'plus' ||
+                                                  _errorBarDirection == 'both'))
+                                          ? 1
+                                          : 0.5)),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(flex: model.isMobile ? 3 : 1, child: Container()),
+            ],
           ),
         ],
       );
@@ -510,16 +610,6 @@ class _ErrorBarDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final dynamic chartData = <SalesData>[
-      SalesData('IND', 24, Colors.blueAccent),
-      SalesData('AUS', 20, Colors.black),
-      SalesData('USA', 35, Colors.deepOrangeAccent),
-      SalesData('DEU', 27, Colors.green),
-      SalesData('ITA', 30, Colors.orange),
-      SalesData('UK', 41, Colors.blueGrey),
-      SalesData('RUS', 26, Colors.greenAccent)
-    ];
-
     return Padding(
       padding:
           EdgeInsets.only(bottom: model.isWebFullView || !isCardView ? 0 : 60),
@@ -527,24 +617,41 @@ class _ErrorBarDefaultState extends SampleViewState {
         title: ChartTitle(text: 'Sales distribution of cars by region'),
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(
-            interval: 1, majorGridLines: const MajorGridLines(width: 0)),
+            interval: 1,
+            majorGridLines: const MajorGridLines(width: 0),
+            axisLabelFormatter: (AxisLabelRenderDetails details) {
+              return ChartAxisLabel(
+                  details.axis.name == 'primaryXAxis' &&
+                          details.text.contains(RegExp(r'[0-9]'))
+                      ? ''
+                      : details.text,
+                  null);
+            }),
         primaryYAxis: NumericAxis(
             labelFormat: '{value}%',
             interval: 10,
             axisLine: const AxisLine(width: 0),
-            majorTickLines: const MajorTickLines(color: Colors.transparent)),
-        axisLabelFormatter: (AxisLabelRenderDetails details) {
-          return ChartAxisLabel(
-              details.axisName == 'primaryXAxis' &&
-                      details.text.contains(RegExp(r'[0-9]'))
-                  ? ''
-                  : details.text,
-              null);
-        },
+            majorTickLines: const MajorTickLines(color: Colors.transparent),
+            axisLabelFormatter: (AxisLabelRenderDetails details) {
+              return ChartAxisLabel(
+                  details.axis.name == 'primaryXAxis' &&
+                          details.text.contains(RegExp(r'[0-9]'))
+                      ? ''
+                      : details.text,
+                  null);
+            }),
+        // axisLabelFormatter: (AxisLabelRenderDetails details) {
+        //   return ChartAxisLabel(
+        //       details.axisName == 'primaryXAxis' &&
+        //               details.text.contains(RegExp(r'[0-9]'))
+        //           ? ''
+        //           : details.text,
+        //       null);
+        // },
         tooltipBehavior: _tooltipbehavior,
         series: <ChartSeries<SalesData, dynamic>>[
           ScatterSeries<SalesData, dynamic>(
-            dataSource: chartData,
+            dataSource: chartData!,
             name: 'Sales',
             animationDuration: 1000,
             xValueMapper: (SalesData sales, _) => sales.country,
@@ -552,13 +659,13 @@ class _ErrorBarDefaultState extends SampleViewState {
             isVisible: true,
           ),
           ErrorBarSeries<SalesData, dynamic>(
-            dataSource: chartData,
+            dataSource: chartData!,
             animationDuration: 1000,
             animationDelay: 1000,
             xValueMapper: (SalesData sales, _) => sales.country,
             yValueMapper: (SalesData sales, _) => sales.salesCount,
             isVisible: true,
-            color: model.themeData.brightness == Brightness.dark
+            color: model.themeData.colorScheme.brightness == Brightness.dark
                 ? Colors.white
                 : Colors.black,
             type: _selectedErrorBarType,
@@ -576,6 +683,17 @@ class _ErrorBarDefaultState extends SampleViewState {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _errorBarModes!.clear();
+
+    _errorBarTypes!.clear();
+
+    _errorBarDirections!.clear();
+    chartData!.clear();
+    super.dispose();
   }
 }
 

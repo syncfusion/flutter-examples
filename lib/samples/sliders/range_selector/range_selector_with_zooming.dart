@@ -3,7 +3,6 @@ import 'dart:math';
 
 ///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 ///Chart import
@@ -595,7 +594,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
           x: DateTime.fromMillisecondsSinceEpoch(1514678400000), y: 0.8324)
     ];
     columnChart = SfCartesianChart(
-      margin: const EdgeInsets.all(0),
+      margin: EdgeInsets.zero,
       primaryXAxis:
           DateTimeAxis(isVisible: false, maximum: DateTime(2018, 1, 1)),
       primaryYAxis: NumericAxis(isVisible: false),
@@ -615,9 +614,19 @@ class _RangeSelectorZoomingPageState extends SampleViewState
   }
 
   @override
+  void dispose() {
+    chartData.clear();
+    rangeController.dispose();
+    columnData.clear();
+    splineSeriesData.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final bool isLightTheme = themeData.brightness == Brightness.light;
+    final bool isLightTheme =
+        themeData.colorScheme.brightness == Brightness.light;
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     splineChart = SfCartesianChart(
       title: ChartTitle(text: 'EUR Exchange Rate From USD'),
@@ -651,8 +660,8 @@ class _RangeSelectorZoomingPageState extends SampleViewState
       ],
     );
     final Widget page = Container(
-        margin: const EdgeInsets.all(0),
-        padding: const EdgeInsets.all(0),
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
         color:
             model.isWebFullView ? model.cardThemeColor : model.cardThemeColor,
         child: Center(
@@ -688,8 +697,8 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                       overlayRadius: 1,
                       overlayColor: Colors.transparent),
                   child: Container(
-                    margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(0),
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
                     width: mediaQueryData.orientation == Orientation.landscape
                         ? model.isWebFullView
                             ? mediaQueryData.size.width * 0.7
@@ -722,8 +731,8 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                           onChanged: (SfRangeValues values) {},
                           child: Container(
                             height: 75,
-                            padding: const EdgeInsets.all(0),
-                            margin: const EdgeInsets.all(0),
+                            padding: EdgeInsets.zero,
+                            margin: EdgeInsets.zero,
                             child: columnChart,
                           ),
                         ),
@@ -738,7 +747,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
               !model.isWebFullView
           ? Center(
               child: SingleChildScrollView(
-                child: Container(height: 400, child: page),
+                child: SizedBox(height: 400, child: page),
               ),
             )
           : page,
@@ -748,27 +757,25 @@ class _RangeSelectorZoomingPageState extends SampleViewState
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(children: <Widget>[
-        Text('Enable deferred update  ',
-            style: TextStyle(
-              color: model.textColor,
-              fontSize: 16,
-            )),
-        Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-                width: 90,
-                child: CheckboxListTile(
-                    activeColor: model.backgroundColor,
-                    value: enableDeferredUpdate,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        enableDeferredUpdate = value!;
-                        stateSetter(() {});
-                      });
-                    }))),
-      ]);
-    });
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: enableDeferredUpdate,
+          title: const Text(
+            'Enable deferred update',
+            softWrap: false,
+          ),
+          activeColor: model.backgroundColor,
+          contentPadding: EdgeInsets.zero,
+          onChanged: (bool? value) {
+            setState(
+              () {
+                enableDeferredUpdate = value!;
+                stateSetter(() {});
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }

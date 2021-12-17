@@ -38,7 +38,7 @@ class _VerticalCalendarPickerState extends SampleViewState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       final List<Widget> propertyOptions = <Widget>[];
-      propertyOptions.add(Container(
+      propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,7 +51,7 @@ class _VerticalCalendarPickerState extends SampleViewState {
             Expanded(
               flex: 4,
               child: Container(
-                padding: const EdgeInsets.all(0),
+                padding: EdgeInsets.zero,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
                     underline:
@@ -106,7 +106,7 @@ class _VerticalCalendarPickerState extends SampleViewState {
             : calendar);
     return Scaffold(
         backgroundColor: model.themeData == null ||
-                model.themeData.brightness == Brightness.light
+                model.themeData.colorScheme.brightness == Brightness.light
             ? null
             : const Color(0x00171a21),
         body: Column(children: <Widget>[
@@ -117,11 +117,11 @@ class _VerticalCalendarPickerState extends SampleViewState {
                       child:
 
                           /// 580 defines 550 height and 30 margin
-                          Container(width: 400, height: 580, child: _cardView))
+                          SizedBox(width: 400, height: 580, child: _cardView))
 
                   /// 590 defines 550 height and 40 margin
                   : ListView(children: <Widget>[
-                      Container(
+                      SizedBox(
                         height: 590,
                         child: _cardView,
                       )

@@ -39,7 +39,7 @@ class _WaterLevelIndicatorState extends SampleViewState {
         : isCardView
             ? _buildWaterIndicator(context)
             : Center(
-                child: Container(
+                child: SizedBox(
                 height: 300,
                 child: _buildWaterIndicator(context),
               ));
@@ -109,7 +109,7 @@ class _WaterLevelIndicatorState extends SampleViewState {
                       ? 120
                       : 95,
               position: LinearElementPosition.outside,
-              child: Container(
+              child: SizedBox(
                   width: 50,
                   height: 20,
                   child: Center(
