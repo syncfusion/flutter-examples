@@ -16,19 +16,19 @@ dependencies:
   path_provider_macos: ^2.0.0
   desktop_window: 0.4.0
 
-  syncfusion_flutter_datagrid_export: ^19.4.38
+  syncfusion_flutter_datagrid_export: ^19.4.38-beta
   syncfusion_flutter_calendar: ^19.4.38
   syncfusion_flutter_datepicker: ^19.4.38
   syncfusion_flutter_charts:  ^19.4.38
   syncfusion_flutter_gauges: ^19.4.38
   syncfusion_flutter_sliders: ^19.4.38
-  syncfusion_flutter_pdf: ^19.4.38
+  syncfusion_flutter_pdf: ^19.4.38-beta
   syncfusion_flutter_barcodes: ^19.4.38
-  syncfusion_officechart: ^19.4.38
-  syncfusion_flutter_maps: ^19.4.38
-  syncfusion_flutter_signaturepad: ^19.4.38
-  syncfusion_flutter_pdfviewer: ^19.4.38
-  syncfusion_flutter_treemap: ^19.4.38
+  syncfusion_officechart: ^19.4.38-beta
+  syncfusion_flutter_maps: ^19.4.38-beta
+  syncfusion_flutter_signaturepad: ^19.4.38-beta
+  syncfusion_flutter_pdfviewer: ^19.4.38-beta
+  syncfusion_flutter_treemap: ^19.4.38-beta
 
 flutter:
   uses-material-design: true
