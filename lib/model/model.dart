@@ -60,7 +60,7 @@ class WidgetCategory {
 
 /// Defines the control class.
 class Control {
-  /// Contructor holds the tile, description, status etc., of the [Control]
+  /// Constructor holds the tile, description, status etc., of the [Control]
   Control(
       this.title,
       this.description,
