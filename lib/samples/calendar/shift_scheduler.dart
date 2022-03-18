@@ -41,6 +41,8 @@ class _ShiftSchedulerState extends SampleViewState {
     CalendarView.timelineMonth
   ];
 
+  late List<DateTime> _visibleDates;
+
   bool _isAllDay = false;
   String _subject = '';
   int _selectedColorIndex = 0;
@@ -60,6 +62,10 @@ class _ShiftSchedulerState extends SampleViewState {
     _addAppointments();
     _events = _ShiftDataSource(_shiftCollection, _employeeCollection);
     super.initState();
+  }
+
+  void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
+    _visibleDates = visibleDatesChangedDetails.visibleDates;
   }
 
   /// Navigates to appointment editor page when the calendar elements tapped
@@ -146,7 +152,7 @@ class _ShiftSchedulerState extends SampleViewState {
                   return true;
                 },
                 child: Center(
-                    child: Container(
+                    child: SizedBox(
                         width: _isAppointmentTapped ? 400 : 500,
                         height: _isAppointmentTapped
                             ? (_selectedAppointment!.location == null ||
@@ -157,7 +163,7 @@ class _ShiftSchedulerState extends SampleViewState {
                         child: Theme(
                             data: model.themeData,
                             child: Card(
-                              margin: const EdgeInsets.all(0.0),
+                              margin: EdgeInsets.zero,
                               color: model.cardThemeColor,
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
@@ -172,7 +178,8 @@ class _ShiftSchedulerState extends SampleViewState {
                                       _colorCollection,
                                       _colorNames,
                                       _events,
-                                      _timeZoneCollection)
+                                      _timeZoneCollection,
+                                      _visibleDates)
                                   : PopUpAppointmentEditor(
                                       model,
                                       newAppointment,
@@ -181,7 +188,8 @@ class _ShiftSchedulerState extends SampleViewState {
                                       _colorCollection,
                                       _colorNames,
                                       _selectedAppointment!,
-                                      _timeZoneCollection),
+                                      _timeZoneCollection,
+                                      _visibleDates),
                             )))),
               );
             });
@@ -210,8 +218,11 @@ class _ShiftSchedulerState extends SampleViewState {
     return Container(
       color: model.cardThemeColor,
       child: Theme(
-          data: model.themeData.copyWith(accentColor: model.backgroundColor),
-          child: _getShiftScheduler(_events, _onCalendarTapped)),
+          data: model.themeData.copyWith(
+              colorScheme: model.themeData.colorScheme
+                  .copyWith(secondary: model.backgroundColor)),
+          child:
+              _getShiftScheduler(_events, _onCalendarTapped, _onViewChanged)),
     );
   }
 

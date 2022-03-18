@@ -1,6 +1,6 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -48,7 +48,7 @@ class _BatteryIndicatorState extends SampleViewState {
         : _batteryPercentage <= 50
             ? const Color(0xffFFC93E)
             : Colors.green[400];
-    return Container(
+    return SizedBox(
         width: 145,
         child: SfLinearGauge(
           minimum: _minimum,

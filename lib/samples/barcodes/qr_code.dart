@@ -18,19 +18,8 @@ class QRCodeGenerator extends SampleView {
 class _QRCodeGeneratorState extends SampleViewState {
   _QRCodeGeneratorState();
 
-  final List<String> _encoding = <String>[
-    'numeric',
-    'alphaNumeric',
-    'binary',
-  ];
-
-  final List<String> _errorCorrectionLevels = <String>[
-    'high',
-    'quartile',
-    'medium',
-    'low'
-  ];
-
+  late List<String> _encoding;
+  late List<String> _errorCorrectionLevels;
   late ErrorCorrectionLevel _errorCorrectionLevel;
   late String _selectedErrorCorrectionLevel;
   late QRInputMode _inputMode;
@@ -41,6 +30,12 @@ class _QRCodeGeneratorState extends SampleViewState {
   @override
   void initState() {
     super.initState();
+    _encoding = <String>[
+      'numeric',
+      'alphaNumeric',
+      'binary',
+    ];
+    _errorCorrectionLevels = <String>['high', 'quartile', 'medium', 'low'];
     _selectedInputMode = 'binary';
     _inputValue = 'http://www.syncfusion.com';
     _selectedErrorCorrectionLevel = 'quartile';
@@ -61,7 +56,7 @@ class _QRCodeGeneratorState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    EdgeInsets _padding = const EdgeInsets.all(0);
+    EdgeInsets _padding = EdgeInsets.zero;
     double _margin;
     if (!model.isWebFullView) {
       _margin = (MediaQuery.of(context).size.width -
@@ -92,7 +87,7 @@ class _QRCodeGeneratorState extends SampleViewState {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-              child: Container(
+              child: SizedBox(
                 height: 100,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +131,7 @@ class _QRCodeGeneratorState extends SampleViewState {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-              child: Container(
+              child: SizedBox(
                 height: 50,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,6 +153,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                         height: 50,
                         alignment: Alignment.bottomLeft,
                         child: DropdownButton<String>(
+                            focusColor: Colors.transparent,
                             underline: Container(
                                 color: const Color(0xFFBDBDBD), height: 1),
                             value: _selectedInputMode,
@@ -181,7 +177,7 @@ class _QRCodeGeneratorState extends SampleViewState {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-              child: Container(
+              child: SizedBox(
                 height: 70,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -203,6 +199,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                         height: 50,
                         alignment: Alignment.bottomLeft,
                         child: DropdownButton<String>(
+                            focusColor: Colors.transparent,
                             underline: Container(
                                 color: const Color(0xFFBDBDBD), height: 1),
                             value: _selectedErrorCorrectionLevel,
@@ -276,7 +273,7 @@ class _QRCodeGeneratorState extends SampleViewState {
       QRInputMode _inputMode,
       EdgeInsets _padding) {
     return Center(
-      child: Container(
+      child: SizedBox(
           height: model.isWebFullView ? 300 : double.infinity,
           child: Padding(
             padding: _padding,

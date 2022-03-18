@@ -1,8 +1,7 @@
 /// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
-
 /// Package import
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../../model/sample_view.dart';
@@ -20,18 +19,19 @@ class AxisCrossing extends SampleView {
 /// State class of the spline chart with axis crossing.
 class _AxisCrossingState extends SampleViewState {
   _AxisCrossingState();
-  final List<String> _axis = <String>['x', 'y'].toList();
-  String _selectedSeriesType = 'column';
+  List<String>? _axis;
+  late String _selectedSeriesType;
   //ignore: unused_field
   late String _selectedSeries;
-  String _selectedAxisType = 'x';
+  late String _selectedAxisType;
   late String _selectedAxis;
   late double _crossAt = 0;
   bool? _isPlaceLabelsNearAxisLine = true;
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
+    _axis = <String>['x', 'y'].toList();
     _selectedAxisType = 'x';
     _selectedAxis = 'x';
     _selectedSeriesType = 'column';
@@ -62,10 +62,11 @@ class _AxisCrossingState extends SampleViewState {
               Container(
                 padding: const EdgeInsets.fromLTRB(138, 0, 0, 0),
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedAxis,
-                    items: _axis.map((String value) {
+                    items: _axis!.map((String value) {
                       return DropdownMenuItem<String>(
                           value: (value != null) ? value : 'X',
                           child: Text(value,
@@ -102,14 +103,14 @@ class _AxisCrossingState extends SampleViewState {
             children: <Widget>[
               Text('Labels near axis line',
                   style: TextStyle(color: model.textColor, fontSize: 16)),
-              Container(
+              SizedBox(
                   width: 75,
                   child: CheckboxListTile(
                       activeColor: model.backgroundColor,
                       value: _isPlaceLabelsNearAxisLine,
                       onChanged: (bool? value) {
                         setState(() {
-                          _isPlaceLabelsNearAxisLine = value!;
+                          _isPlaceLabelsNearAxisLine = value;
                           stateSetter(() {});
                         });
                       })),
@@ -157,28 +158,25 @@ class _AxisCrossingState extends SampleViewState {
   /// the spline chart with axis crossing.
 
   List<ChartSeries<ChartSampleData, num>> _getSeries(String seriesType) {
-    List<ChartSeries<ChartSampleData, num>> chart;
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: -7, y: -3),
-      ChartSampleData(x: -4.5, y: -2),
-      ChartSampleData(x: -3.5, y: 0),
-      ChartSampleData(x: -3, y: 2),
-      ChartSampleData(x: 0, y: 7),
-      ChartSampleData(x: 3, y: 2),
-      ChartSampleData(x: 3.5, y: 0),
-      ChartSampleData(x: 4.5, y: -2),
-      ChartSampleData(x: 7, y: -3),
-    ];
-    chart = <ChartSeries<ChartSampleData, num>>[
+    return <ChartSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: -7, y: -3),
+            ChartSampleData(x: -4.5, y: -2),
+            ChartSampleData(x: -3.5, y: 0),
+            ChartSampleData(x: -3, y: 2),
+            ChartSampleData(x: 0, y: 7),
+            ChartSampleData(x: 3, y: 2),
+            ChartSampleData(x: 3.5, y: 0),
+            ChartSampleData(x: 4.5, y: -2),
+            ChartSampleData(x: 7, y: -3),
+          ],
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           color: const Color.fromRGBO(20, 122, 20, 1),
           name: 'Cubic Interpolation',
           width: 2),
     ];
-    return chart;
   }
 
   /// Method for updating the axis type on change.
@@ -192,5 +190,11 @@ class _AxisCrossingState extends SampleViewState {
     setState(() {
       /// update the axis type changes
     });
+  }
+
+  @override
+  void dispose() {
+    _axis!.clear();
+    super.dispose();
   }
 }

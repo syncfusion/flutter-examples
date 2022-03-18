@@ -26,6 +26,8 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
 
   DateTime _hourValue = DateTime(2020, 01, 01, 13, 00, 00);
   double _sliderValue = 20;
+  bool _isInversed = false;
+  bool _shouldAlwaysShowTooltip = false;
 
   SfSliderTheme _numerical() {
     return SfSliderTheme(
@@ -34,19 +36,22 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
             labelOffset: const Offset(-30, 0),
             tickOffset: const Offset(-15, 0)),
         child: SfSlider.vertical(
-            showLabels: true,
-            interval: 10,
-            min: 10.0,
-            max: 40.0,
-            showTicks: true,
-            tooltipPosition: SliderTooltipPosition.right,
-            value: _sliderValue,
-            onChanged: (dynamic values) {
-              setState(() {
-                _sliderValue = values as double;
-              });
-            },
-            enableTooltip: true));
+          showLabels: true,
+          interval: 10,
+          min: 10.0,
+          max: 40.0,
+          showTicks: true,
+          isInversed: _isInversed,
+          tooltipPosition: SliderTooltipPosition.right,
+          value: _sliderValue,
+          onChanged: (dynamic values) {
+            setState(() {
+              _sliderValue = values as double;
+            });
+          },
+          enableTooltip: true,
+          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
+        ));
   }
 
   SfSliderTheme _dateTimeSlider() {
@@ -56,10 +61,11 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
         ),
         child: SfSlider.vertical(
           min: DateTime(2020, 01, 01, 9, 00, 00),
-          max: DateTime(2020, 01, 01, 21, 05, 00),
+          max: DateTime(2020, 01, 01, 21, 00, 00),
           showLabels: true,
           interval: 4,
           showTicks: true,
+          isInversed: _isInversed,
           minorTicksPerInterval: 3,
           dateFormat: DateFormat('h a'),
           labelPlacement: LabelPlacement.onTicks,
@@ -71,6 +77,7 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
             });
           },
           enableTooltip: true,
+          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
           //tooltipShape: SfPaddleTooltipShape(),
           tooltipTextFormatterCallback:
               (dynamic actualLabel, String formattedText) {
@@ -118,5 +125,47 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
           ? slider
           : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Column(
+          children: <Widget>[
+            CheckboxListTile(
+              value: _isInversed,
+              title: const Text(
+                'Inversed',
+                softWrap: false,
+              ),
+              contentPadding: EdgeInsets.zero,
+              activeColor: model.backgroundColor,
+              onChanged: (bool? value) {
+                setState(() {
+                  _isInversed = value!;
+                  stateSetter(() {});
+                });
+              },
+            ),
+            CheckboxListTile(
+              value: _shouldAlwaysShowTooltip,
+              title: const Text(
+                'Show tooltip always',
+                softWrap: false,
+              ),
+              activeColor: model.backgroundColor,
+              contentPadding: EdgeInsets.zero,
+              onChanged: (bool? value) {
+                setState(() {
+                  _shouldAlwaysShowTooltip = value!;
+                  stateSetter(() {});
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

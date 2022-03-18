@@ -18,7 +18,8 @@ class ColumnDefault extends SampleView {
 
 class _ColumnDefaultState extends SampleViewState {
   _ColumnDefaultState();
-  late TooltipBehavior _tooltipBehavior;
+
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =
@@ -51,17 +52,16 @@ class _ColumnDefaultState extends SampleViewState {
 
   /// Get default column series
   List<ColumnSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'China', y: 0.541),
-      ChartSampleData(x: 'Brazil', y: 0.818),
-      ChartSampleData(x: 'Bolivia', y: 1.51),
-      ChartSampleData(x: 'Mexico', y: 1.302),
-      ChartSampleData(x: 'Egypt', y: 2.017),
-      ChartSampleData(x: 'Mongolia', y: 1.683),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'China', y: 0.541),
+          ChartSampleData(x: 'Brazil', y: 0.818),
+          ChartSampleData(x: 'Bolivia', y: 1.51),
+          ChartSampleData(x: 'Mexico', y: 1.302),
+          ChartSampleData(x: 'Egypt', y: 2.017),
+          ChartSampleData(x: 'Mongolia', y: 1.683),
+        ],
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         dataLabelSettings: const DataLabelSettings(

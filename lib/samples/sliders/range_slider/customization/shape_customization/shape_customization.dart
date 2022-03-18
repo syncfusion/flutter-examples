@@ -1,8 +1,5 @@
-import 'package:flutter/foundation.dart';
-
 ///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 ///Local imports
 import '../../../../../model/sample_view.dart';

@@ -38,7 +38,7 @@ class _SleepWatchState extends SampleViewState {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
+              SizedBox(
                   width: (defaultTargetPlatform == TargetPlatform.macOS ||
                           defaultTargetPlatform == TargetPlatform.iOS)
                       ? 54
@@ -66,7 +66,7 @@ class _SleepWatchState extends SampleViewState {
                       )
                     ],
                   )),
-              Container(
+              SizedBox(
                   width: isWebOrDesktop
                       ? MediaQuery.of(context).size.width >= 550
                           ? 450
@@ -91,7 +91,7 @@ class _SleepWatchState extends SampleViewState {
                       markerPointers: <LinearMarkerPointer>[
                         LinearShapePointer(
                             value: _todayValue,
-                            onValueChanged: (dynamic value) {
+                            onChanged: (dynamic value) {
                               setState(() {
                                 _todayValue = value as double;
                               });
@@ -194,7 +194,7 @@ class _SleepWatchState extends SampleViewState {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
+              SizedBox(
                   width: (defaultTargetPlatform == TargetPlatform.macOS ||
                           defaultTargetPlatform == TargetPlatform.iOS)
                       ? 54
@@ -222,7 +222,7 @@ class _SleepWatchState extends SampleViewState {
                       )
                     ],
                   )),
-              Container(
+              SizedBox(
                   width: isWebOrDesktop
                       ? MediaQuery.of(context).size.width >= 550
                           ? 450
@@ -248,7 +248,7 @@ class _SleepWatchState extends SampleViewState {
                       markerPointers: <LinearMarkerPointer>[
                         LinearShapePointer(
                             value: _overallValue,
-                            onValueChanged: (dynamic value) {
+                            onChanged: (dynamic value) {
                               setState(() {
                                 _overallValue = value as double;
                               });

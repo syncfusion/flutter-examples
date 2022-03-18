@@ -1,6 +1,6 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -34,7 +34,7 @@ class _TickCustomizationState extends SampleViewState {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-            Container(
+            SizedBox(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildLinearTickCustomization(context),
             )
@@ -93,7 +93,7 @@ class _TickCustomizationState extends SampleViewState {
 
   /// Returns the vertical axis track.
   Widget _buildVerticalGauges(String axisTrackName, Widget linearGauge) {
-    return Container(
+    return SizedBox(
       width: 150,
       child: Column(
         children: <Widget>[
@@ -107,7 +107,7 @@ class _TickCustomizationState extends SampleViewState {
 
   /// Returns the outside ticks sample.
   Widget _buildOutsideTicks() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           animateAxis: true,
@@ -121,7 +121,7 @@ class _TickCustomizationState extends SampleViewState {
 
   /// Returns the cross ticks sample.
   Widget _buildCrossTicks() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           tickPosition: LinearElementPosition.cross,
@@ -135,7 +135,7 @@ class _TickCustomizationState extends SampleViewState {
 
   /// Returns the inside ticks sample.
   Widget _buildInsideTicks() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           animateAxis: true,
@@ -147,7 +147,7 @@ class _TickCustomizationState extends SampleViewState {
 
   /// Returns the ticks with offset sample.
   Widget _buildTicksWithOffset() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           animateAxis: true,

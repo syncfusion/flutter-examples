@@ -1,8 +1,5 @@
-/// Chart import
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-/// Package import
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../../../model/sample_view.dart';
@@ -19,18 +16,19 @@ class ColumnAxisCrossingBaseValue extends SampleView {
 /// State class of the spline chart with axis crossing.
 class _AxisCrossingBaseValueState extends SampleViewState {
   _AxisCrossingBaseValueState();
-  final List<String> _axis = <String>['-2 (modified)', '0 (default)'].toList();
+  List<String>? _axis;
   //ignore: unused_field
-  String _selectedAxisType = '-2 (modified)';
-  late String _selectedAxis;
-  double _crossAt = 0;
-  late TooltipBehavior _tooltipBehavior;
+  String? _selectedAxisType;
+  String? _selectedAxis;
+  double? _crossAt;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
     _selectedAxisType = '-2 (modified)';
     _selectedAxis = '-2 (modified)';
     _crossAt = -2;
+    _axis = <String>['-2 (modified)', '0 (default)'].toList();
     _tooltipBehavior =
         TooltipBehavior(enable: true, header: '', canShowMarker: false);
     super.initState();
@@ -54,9 +52,10 @@ class _AxisCrossingBaseValueState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
+                focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedAxis,
-                items: _axis.map((String value) {
+                items: _axis!.map((String value) {
                   return DropdownMenuItem<String>(
                       value: (value != null) ? value : '-2 (modified)',
                       child: Text(value,
@@ -97,40 +96,38 @@ class _AxisCrossingBaseValueState extends SampleViewState {
   /// the bar or column chart with axis crossing.
 
   List<ChartSeries<ChartSampleData, String>> _getSeries() {
-    List<ChartSeries<ChartSampleData, String>> chart;
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'Iceland',
-          y: 1.13,
-          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
-      ChartSampleData(
-          x: 'Algeria',
-          y: 1.7,
-          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
-      ChartSampleData(
-          x: 'Singapore',
-          y: 1.82,
-          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
-      ChartSampleData(
-          x: 'Malaysia',
-          y: 1.37,
-          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
-      ChartSampleData(
-          x: 'Moldova',
-          y: -1.05,
-          pointColor: const Color.fromRGBO(199, 86, 86, 1)),
-      ChartSampleData(
-          x: 'American Samoa',
-          y: -1.3,
-          pointColor: const Color.fromRGBO(199, 86, 86, 1)),
-      ChartSampleData(
-          x: 'Latvia',
-          y: -1.1,
-          pointColor: const Color.fromRGBO(199, 86, 86, 1))
-    ];
-    chart = <ChartSeries<ChartSampleData, String>>[
+    return <ChartSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(
+                x: 'Iceland',
+                y: 1.13,
+                pointColor: const Color.fromRGBO(107, 189, 98, 1)),
+            ChartSampleData(
+                x: 'Algeria',
+                y: 1.7,
+                pointColor: const Color.fromRGBO(107, 189, 98, 1)),
+            ChartSampleData(
+                x: 'Singapore',
+                y: 1.82,
+                pointColor: const Color.fromRGBO(107, 189, 98, 1)),
+            ChartSampleData(
+                x: 'Malaysia',
+                y: 1.37,
+                pointColor: const Color.fromRGBO(107, 189, 98, 1)),
+            ChartSampleData(
+                x: 'Moldova',
+                y: -1.05,
+                pointColor: const Color.fromRGBO(199, 86, 86, 1)),
+            ChartSampleData(
+                x: 'American Samoa',
+                y: -1.3,
+                pointColor: const Color.fromRGBO(199, 86, 86, 1)),
+            ChartSampleData(
+                x: 'Latvia',
+                y: -1.1,
+                pointColor: const Color.fromRGBO(199, 86, 86, 1))
+          ],
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
@@ -139,7 +136,6 @@ class _AxisCrossingBaseValueState extends SampleViewState {
               labelAlignment: ChartDataLabelAlignment.middle,
               alignment: ChartAlignment.center)),
     ];
-    return chart;
   }
 
   /// Method for updating the axis type on change.
@@ -155,5 +151,11 @@ class _AxisCrossingBaseValueState extends SampleViewState {
     setState(() {
       /// update the axis type changes
     });
+  }
+
+  @override
+  void dispose() {
+    _axis!.clear();
+    super.dispose();
   }
 }

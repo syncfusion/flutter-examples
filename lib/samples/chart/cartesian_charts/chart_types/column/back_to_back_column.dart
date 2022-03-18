@@ -20,6 +20,30 @@ class ColumnBack extends SampleView {
 class _ColumnBackState extends SampleViewState {
   _ColumnBackState();
 
+  List<ChartSampleData>? chartData;
+
+  @override
+  void initState() {
+    chartData = <ChartSampleData>[
+      ChartSampleData(
+          x: 'France',
+          y: 63621381,
+          yValue: 65027507,
+          secondSeriesYValue: 66316092),
+      ChartSampleData(
+          x: 'United Kingdom',
+          y: 60846820,
+          yValue: 62766365,
+          secondSeriesYValue: 64613160),
+      ChartSampleData(
+          x: 'Italy',
+          y: 58143979,
+          yValue: 59277417,
+          secondSeriesYValue: 60789140),
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return _buildBackColumnChart();
@@ -44,42 +68,31 @@ class _ColumnBackState extends SampleViewState {
   }
 
   List<ColumnSeries<ChartSampleData, String>> _getBackToBackColumn() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'France',
-          y: 63621381,
-          yValue: 65027507,
-          secondSeriesYValue: 66316092),
-      ChartSampleData(
-          x: 'United Kingdom',
-          y: 60846820,
-          yValue: 62766365,
-          secondSeriesYValue: 64613160),
-      ChartSampleData(
-          x: 'Italy',
-          y: 58143979,
-          yValue: 59277417,
-          secondSeriesYValue: 60789140),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           width: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: '2014'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           width: 0.5,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: '2010'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           width: 0.3,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: '2006')
     ];
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    chartData!.clear();
   }
 }

@@ -19,19 +19,20 @@ class SortingDefault extends SampleView {
 /// State class the chart with sorting options.
 class _SortingDefaultState extends SampleViewState {
   _SortingDefaultState();
-  bool isSorting = true;
-  final List<String> _labelList = <String>['y', 'x'].toList();
-  final List<String> _sortList =
-      <String>['none', 'descending', 'ascending'].toList();
+  late bool isSorting;
+  List<String>? _labelList;
+  List<String>? _sortList;
   late String _selectedType;
   late String _selectedSortType;
   late SortingOrder _sortingOrder;
-  late TooltipBehavior _tooltipBehavior;
-
+  TooltipBehavior? _tooltipBehavior;
   late String _sortby;
 
   @override
   void initState() {
+    isSorting = true;
+    _labelList = <String>['y', 'x'].toList();
+    _sortList = <String>['none', 'descending', 'ascending'].toList();
     _selectedType = 'y';
     _selectedSortType = 'none';
     _sortingOrder = SortingOrder.none;
@@ -42,6 +43,13 @@ class _SortingDefaultState extends SampleViewState {
         format: 'point.x : point.y m');
     _sortby = 'y';
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _labelList!.clear();
+    _sortList!.clear();
+    super.dispose();
   }
 
   @override
@@ -59,37 +67,36 @@ class _SortingDefaultState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Sort by ',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _selectedType,
-                      items: _labelList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'y',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onPositionTypeChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Sort by ',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              Container(
+                padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _selectedType,
+                    items: _labelList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'y',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onPositionTypeChange(value.toString());
+                      stateSetter(() {});
+                    }),
+              ),
+            ],
           ),
-          Container(
+          SizedBox(
             child: Row(
               children: <Widget>[
                 Text('Sorting order   ',
@@ -97,13 +104,14 @@ class _SortingDefaultState extends SampleViewState {
                       color: model.textColor,
                       fontSize: 16,
                     )),
-                Container(
+                SizedBox(
                   height: 50,
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedSortType,
-                      items: _sortList.map((String value) {
+                      items: _sortList!.map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'none',
                             child: Text(value,
@@ -130,7 +138,8 @@ class _SortingDefaultState extends SampleViewState {
       primaryXAxis:
           CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
       onDataLabelRender: (DataLabelRenderArgs args) {
-        args.text = args.dataPoints[args.pointIndex].y.toString() + ' m';
+        args.text =
+            args.dataPoints[args.viewportPointIndex].y.toString() + ' m';
       },
       primaryYAxis: NumericAxis(
           minimum: 500,
@@ -146,16 +155,15 @@ class _SortingDefaultState extends SampleViewState {
   /// Returns the list of chart series which need to
   /// render on the chart with sorting options.
   List<BarSeries<ChartSampleData, String>> _getDefaultSortingSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Burj\nKhalifa', y: 828),
-      ChartSampleData(x: 'Goldin\nFinance 117', y: 597),
-      ChartSampleData(x: 'Makkah Clock\nRoyal Tower', y: 601),
-      ChartSampleData(x: 'Ping An\nFinance Center', y: 599),
-      ChartSampleData(x: 'Shanghai\nTower', y: 632),
-    ];
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(x: 'Burj\nKhalifa', y: 828),
+          ChartSampleData(x: 'Goldin\nFinance 117', y: 597),
+          ChartSampleData(x: 'Makkah Clock\nRoyal Tower', y: 601),
+          ChartSampleData(x: 'Ping An\nFinance Center', y: 599),
+          ChartSampleData(x: 'Shanghai\nTower', y: 632),
+        ],
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         sortingOrder: _sortingOrder,

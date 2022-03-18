@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 ///Core theme import
@@ -71,10 +70,8 @@ class _PolylinesSampleState extends SampleViewState
 
   @override
   void dispose() {
-    _animationController?.dispose();
-    _animationController = null;
-    _mapController?.dispose();
-    _mapController = null;
+    _animationController!.dispose();
+    _mapController!.dispose();
     _routes.clear();
     super.dispose();
   }
@@ -131,6 +128,7 @@ class _PolylinesSampleState extends SampleViewState
                             key: UniqueKey(),
                             latitude: _routes[index].latLan.latitude,
                             longitude: _routes[index].latLan.longitude,
+                            alignment: Alignment.bottomCenter,
                             child: _routes[index].icon,
                           );
                         } else {
@@ -215,9 +213,10 @@ class _PolylinesSampleState extends SampleViewState
           ? const EdgeInsets.only(left: 8.0, top: 8.0)
           : const EdgeInsets.only(left: 8.0),
       child: ChoiceChip(
-        backgroundColor: model.themeData.brightness == Brightness.light
-            ? Colors.white
-            : Colors.black,
+        backgroundColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? Colors.white
+                : Colors.black,
         elevation: 3.0,
         label: Text(
           city,
@@ -226,6 +225,10 @@ class _PolylinesSampleState extends SampleViewState
           ),
         ),
         selected: _currentSelectedCityIndex == index,
+        selectedColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? model.backgroundColor.withOpacity(0.25)
+                : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {
             setState(() {

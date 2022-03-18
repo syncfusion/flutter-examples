@@ -3,19 +3,20 @@ import 'dart:convert';
 import 'dart:io' show Platform;
 
 /// Package imports
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:desktop_window/desktop_window.dart';
 
 import '../model/web_view.dart';
 
 /// Local import
 import '../sample_list.dart';
+import '../widgets/search_bar.dart';
 
 /// WidgetCategory of the each control as Data Visualization, Editors,etc.,
 class WidgetCategory {
-  /// Contructor holds the name, id, control collection of the [WidgetCategory]
+  /// Constructor holds the name, id, control collection of the [WidgetCategory]
   WidgetCategory(
       [this.categoryName,
       this.controlList,
@@ -237,6 +238,7 @@ class SubItem {
 class SampleModel extends Listenable {
   /// Contains the category, control, theme information
   SampleModel() {
+    isInitialRender = true;
     searchControlItems = <Control>[];
     sampleList = <SubItem>[];
     searchResults = <SubItem>[];
@@ -287,6 +289,9 @@ class SampleModel extends Listenable {
   /// Used to create the instance of [SampleModel]
   static SampleModel instance = SampleModel();
 
+  /// Specifies the widget initial rendering
+  late bool isInitialRender;
+
   /// Contains the output widget of sample
   /// appropriate key and output widget mapped
   final Map<String, Function> sampleWidget = getSampleWidget();
@@ -312,6 +317,9 @@ class SampleModel extends Listenable {
 
   /// To handle search
   late List<SubItem> searchResults;
+
+  /// To handle the search bar
+  SearchBar? searchBar;
 
   /// holds theme based current palette color
   Color backgroundColor = const Color.fromRGBO(0, 116, 227, 1);
@@ -379,7 +387,7 @@ class SampleModel extends Listenable {
   /// Contains the pallete's border colors
   late List<Color>? paletteBorderColors;
 
-  /// Contains dark theme theme palatte colors
+  /// Contains dark theme theme palatte colors.
   late List<Color>? darkPaletteColors;
 
   /// Holds current theme data
@@ -394,6 +402,12 @@ class SampleModel extends Listenable {
 
   /// Holds the information of isCardView or not
   bool isCardView = true;
+
+  /// Gets the locale assigned to [SampleModel].
+  Locale? locale = const Locale('ar', 'AE');
+
+  /// Gets the textDirection assigned to [SampleModel].
+  TextDirection textDirection = TextDirection.rtl;
 
   /// Holds the information of isMobileResolution or not
   /// To render the appbar and search bar based on it
@@ -450,13 +464,19 @@ class SampleModel extends Listenable {
   /// holds the current route of sample.
   late SampleRoute currentSampleRoute;
 
+  /// Hold the current sample details.
+  late SubItem sampleDetail;
+
   /// holds the collection of all sample routes.
   static List<SampleRoute> sampleRoutes = <SampleRoute>[];
+
+  /// Holds the value whether the property panel option is tapped
+  late bool isPropertyPanelTapped;
 
   /// Switching between light, dark, system themes
   void changeTheme(ThemeData _themeData) {
     themeData = _themeData;
-    switch (_themeData.brightness) {
+    switch (_themeData.colorScheme.brightness) {
       case Brightness.dark:
         {
           dividerColor = const Color.fromRGBO(61, 61, 61, 1);
@@ -609,7 +629,7 @@ Future<void> updateControlItems() async {
                         .breadCrumbText = breadCrumbText;
                     _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
                             .categoryName =
-                        SampleModel._categoryList[index].categoryName!;
+                        SampleModel._categoryList[index].categoryName;
                     sampleRoutes.add(SampleRoute(
                         routeName: breadCrumbText,
                         subItem: _thirdLevelSubItems[
@@ -643,21 +663,35 @@ Future<void> updateControlItems() async {
                         .sampleIndex ??= k;
                     _secondLevelSubItems[_secondLevelSubItems.length - 1]
                         .control = controlList[i];
-                    final String breadCrumbText = ('/' +
-                            controlList[i].title! +
-                            '/' +
-                            _firstLevelSubItems[j].title! +
-                            '/' +
-                            _secondLevelSubItems[
-                                    _secondLevelSubItems.length - 1]
-                                .title!)
-                        .replaceAll(' ', '-')
-                        .toLowerCase();
+                    String breadCrumbText;
+                    if (_firstLevelSubItems[j].subItems!.length == 1 &&
+                        _secondLevelSubItems.length == 1) {
+                      breadCrumbText = ('/' +
+                              controlList[i].title! +
+                              '/' +
+                              _secondLevelSubItems[
+                                      _secondLevelSubItems.length - 1]
+                                  .title!)
+                          .replaceAll(' ', '-')
+                          .toLowerCase();
+                    } else {
+                      breadCrumbText = ('/' +
+                              controlList[i].title! +
+                              '/' +
+                              _firstLevelSubItems[j].title! +
+                              '/' +
+                              _secondLevelSubItems[
+                                      _secondLevelSubItems.length - 1]
+                                  .title!)
+                          .replaceAll(' ', '-')
+                          .toLowerCase();
+                    }
+
                     _secondLevelSubItems[_secondLevelSubItems.length - 1]
                         .breadCrumbText = breadCrumbText;
                     _secondLevelSubItems[_secondLevelSubItems.length - 1]
                             .categoryName =
-                        SampleModel._categoryList[index].categoryName!;
+                        SampleModel._categoryList[index].categoryName;
                     sampleRoutes.add(SampleRoute(
                         routeName: breadCrumbText,
                         subItem: _secondLevelSubItems[
@@ -685,7 +719,7 @@ Future<void> updateControlItems() async {
                 _firstLevelSubItems[j].breadCrumbText = breadCrumbText;
                 _firstLevelSubItems[j].control = controlList[i];
                 _firstLevelSubItems[j].categoryName =
-                    SampleModel._categoryList[index].categoryName!;
+                    SampleModel._categoryList[index].categoryName;
                 sampleRoutes.add(SampleRoute(
                     routeName: breadCrumbText,
                     subItem: _firstLevelSubItems[j]));

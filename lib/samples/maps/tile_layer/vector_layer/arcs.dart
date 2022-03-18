@@ -1,14 +1,12 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/rendering.dart';
-
-///Map import
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:syncfusion_flutter_maps/maps.dart';
+import 'package:flutter/material.dart';
 
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Map import
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
 import '../../../../model/sample_view.dart';
@@ -336,6 +334,7 @@ class _ArcsSampleState extends SampleViewState
               to: _airports[index].to,
               dashArray: _dashArray,
               color: _layerColor,
+              strokeCap: StrokeCap.round,
               width: 2.0,
             );
           },
@@ -349,7 +348,7 @@ class _ArcsSampleState extends SampleViewState
   Widget _tooltipBuilder(BuildContext context, int index) {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
-      child: Container(
+      child: SizedBox(
         height: _isDesktop ? 45 : 40,
         child: Column(
           children: <Widget>[
@@ -453,9 +452,10 @@ class _ArcsSampleState extends SampleViewState
           ? const EdgeInsets.only(left: 8.0, top: 8.0)
           : const EdgeInsets.only(left: 8.0),
       child: ChoiceChip(
-        backgroundColor: model.themeData.brightness == Brightness.light
-            ? Colors.white
-            : Colors.black,
+        backgroundColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? Colors.white
+                : Colors.black,
         elevation: 3.0,
         label: Text(
           city,
@@ -464,6 +464,10 @@ class _ArcsSampleState extends SampleViewState
           ),
         ),
         selected: _currentSelectedCityIndex == index,
+        selectedColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? model.backgroundColor.withOpacity(0.25)
+                : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {
             setState(() {
@@ -501,6 +505,7 @@ class _ArcsSampleState extends SampleViewState
                 Padding(
                     padding: const EdgeInsets.only(right: 15.0),
                     child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       value: _currentSublayer,
                       items: _dropDownMenuItems,
                       onChanged: (String? value) {
@@ -525,7 +530,7 @@ class _ArcsSampleState extends SampleViewState
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                     width: 90,
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,

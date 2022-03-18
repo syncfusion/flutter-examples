@@ -59,7 +59,7 @@ class _ClockExampleState extends SampleViewState {
     final Size _size = MediaQuery.of(context).size;
     final double _containerSize = math.min(_size.width, _size.height);
     return Center(
-      child: Container(
+      child: SizedBox(
         height: _containerSize,
         width: _containerSize,
         child: _buildClockExample(),

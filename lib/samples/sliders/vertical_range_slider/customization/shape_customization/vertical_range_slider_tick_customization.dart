@@ -3,7 +3,6 @@ import 'dart:math' as math;
 
 ///flutter package import
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
@@ -41,7 +40,7 @@ class _VerticalTickCustomizedRangeSliderState extends SampleViewState {
           activeMinorTickColor: _activeColor,
           thumbColor: _activeColor,
           overlayColor: _activeColor.withOpacity(0.24),
-          tickOffset: const Offset(0, 0),
+          tickOffset: Offset.zero,
           tooltipBackgroundColor: _activeColor),
       child: SfRangeSlider.vertical(
         min: 0.0,
@@ -79,11 +78,11 @@ class _TickShape extends SfTickShape {
         ? offset.dy < thumbCenter!.dy
         : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
     final Color begin = isTickRightOfThumb
-        ? themeData.disabledInactiveTickColor
-        : themeData.disabledActiveTickColor;
+        ? themeData.disabledInactiveTickColor!
+        : themeData.disabledActiveTickColor!;
     final Color end = isTickRightOfThumb
-        ? themeData.inactiveTickColor
-        : themeData.activeTickColor;
+        ? themeData.inactiveTickColor!
+        : themeData.activeTickColor!;
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = tickSize.height
@@ -124,11 +123,11 @@ class _MinorTickShape extends SfTickShape {
         ? offset.dy < thumbCenter!.dy
         : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
     final Color begin = isMinorTickRightOfThumb
-        ? themeData.disabledInactiveMinorTickColor
-        : themeData.disabledActiveMinorTickColor;
+        ? themeData.disabledInactiveMinorTickColor!
+        : themeData.disabledActiveMinorTickColor!;
     final Color end = isMinorTickRightOfThumb
-        ? themeData.inactiveMinorTickColor
-        : themeData.activeMinorTickColor;
+        ? themeData.inactiveMinorTickColor!
+        : themeData.activeMinorTickColor!;
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = minorTickSize.height

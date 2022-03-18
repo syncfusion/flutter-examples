@@ -45,13 +45,13 @@ class _RadialSliderAnglesState extends SampleViewState {
             Align(
               alignment: !model.isWebFullView
                   ? const Alignment(0, 0.1)
-                  : const Alignment(0, 0),
+                  : Alignment.center,
               child: _buildSecondSlider(),
             ),
             Align(
                 alignment: !model.isWebFullView
                     ? const Alignment(0, 0.1)
-                    : const Alignment(0, 0),
+                    : Alignment.center,
                 child: _buildThirdSlider()),
             _buildFourthSlider(),
           ],
@@ -67,7 +67,7 @@ class _RadialSliderAnglesState extends SampleViewState {
             Align(
               alignment: model.isWebFullView
                   ? Alignment.centerRight
-                  : const Alignment(0, 0),
+                  : Alignment.center,
               child: _buildFirstSlider(),
             ),
             Align(
@@ -94,7 +94,7 @@ class _RadialSliderAnglesState extends SampleViewState {
   }
 
   Widget _buildFirstSlider() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -151,7 +151,7 @@ class _RadialSliderAnglesState extends SampleViewState {
   }
 
   Widget _buildSecondSlider() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -217,7 +217,7 @@ class _RadialSliderAnglesState extends SampleViewState {
   }
 
   Widget _buildThirdSlider() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -283,7 +283,7 @@ class _RadialSliderAnglesState extends SampleViewState {
   }
 
   Widget _buildFourthSlider() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -355,7 +355,7 @@ class _RadialSliderAnglesState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 6.
   void handlePointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValue).abs() > 20) {
+    if ((args.value.round() - _markerValue).abs() > 20) {
       args.cancel = true;
       if (_markerValue > 50) {
         const double value = 100;
@@ -375,7 +375,7 @@ class _RadialSliderAnglesState extends SampleViewState {
 
   /// Value changing call back for pie slider.
   void handleValueChangingForPieSlider(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValueForPieSlider).abs() > 80) {
+    if ((args.value.round() - _markerValueForPieSlider).abs() > 80) {
       args.cancel = true;
       if (_markerValueForPieSlider > 95) {
         _setPointerValueForPieSlider(100);
@@ -398,8 +398,7 @@ class _RadialSliderAnglesState extends SampleViewState {
 
   /// Value changing call back for first half slider.
   void handleValueChangingForFirstHalfSlider(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValueForFirstHalfSlider).abs() >
-        80) {
+    if ((args.value.round() - _markerValueForFirstHalfSlider).abs() > 80) {
       args.cancel = true;
       if (_markerValueForFirstHalfSlider > 95) {
         _setPointerValueForHalfSlider(100);

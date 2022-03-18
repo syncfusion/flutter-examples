@@ -19,22 +19,40 @@ class InteractiveChart extends SampleView {
 /// State class of the cartesian chart with default tootlip.
 class _InteractiveChartState extends SampleViewState {
   _InteractiveChartState();
-  List<ChartSampleData> chartData = <ChartSampleData>[
-    ChartSampleData(x: 1, y: 5),
-    ChartSampleData(x: 2, y: 8),
-    ChartSampleData(x: 3, y: 6),
-    ChartSampleData(x: 4, y: 8),
-    ChartSampleData(x: 5, y: 10)
-  ];
-  List<ChartSampleData> scatterData = <ChartSampleData>[];
-  bool isLineExist = false;
+  late List<ChartSampleData> chartData;
+  late List<ChartSampleData> scatterData;
+  late bool isLineExist;
   ChartSeriesController? seriesController;
-  // List<CartesianSeries<ChartSampleData, num>> chartSeries;
-  bool isSorting = false;
-  bool isDataAdded = false;
-  bool isScatterData = false;
-  bool isRender = false;
-  bool isResetVisible = false;
+  late bool isSorting;
+  late bool isDataAdded;
+  late bool isScatterData;
+  late bool isRender;
+  late bool isResetVisible;
+
+  @override
+  void initState() {
+    chartData = <ChartSampleData>[
+      ChartSampleData(x: 1, y: 5),
+      ChartSampleData(x: 2, y: 8),
+      ChartSampleData(x: 3, y: 6),
+      ChartSampleData(x: 4, y: 8),
+      ChartSampleData(x: 5, y: 10)
+    ];
+    scatterData = <ChartSampleData>[];
+    isSorting = false;
+    isDataAdded = false;
+    isScatterData = false;
+    isRender = false;
+    isResetVisible = false;
+    isLineExist = false;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    chartData.clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

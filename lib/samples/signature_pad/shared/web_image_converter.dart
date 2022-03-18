@@ -4,6 +4,7 @@ import 'dart:html' as html;
 import 'dart:typed_data';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
+// ignore: avoid_classes_with_only_static_members
 /// Convert to image format.
 class ImageConverter {
   /// toImage
@@ -20,6 +21,6 @@ class ImageConverter {
     reader.readAsArrayBuffer(blob);
     reader.onLoad
         .listen((_) => completer.complete(reader.result! as Uint8List));
-    return await completer.future;
+    return completer.future;
   }
 }

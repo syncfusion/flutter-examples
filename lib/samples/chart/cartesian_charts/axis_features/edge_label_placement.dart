@@ -1,6 +1,6 @@
 /// Package imports
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -21,18 +21,27 @@ class EdgeLabel extends SampleView {
 class _EdgeLabelState extends SampleViewState {
   _EdgeLabelState();
 
-  final List<String> _edgeList = <String>['hide', 'none', 'shift'].toList();
+  List<String>? _edgeList;
   late String _selectedType;
-  late EdgeLabelPlacement _edgeLabelPlacement;
-  late TooltipBehavior _tooltipBehavior;
+  EdgeLabelPlacement? _edgeLabelPlacement;
+  TooltipBehavior? _tooltipBehavior;
+  List<ChartSampleData>? chartData;
 
   @override
   void initState() {
     _selectedType = 'shift';
+    _edgeList = <String>['hide', 'none', 'shift'].toList();
     _edgeLabelPlacement = EdgeLabelPlacement.shift;
     _tooltipBehavior =
         TooltipBehavior(enable: true, format: 'point.x : point.y');
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _edgeList!.clear();
+    chartData!.clear();
+    super.dispose();
   }
 
   @override
@@ -47,34 +56,33 @@ class _EdgeLabelState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Edge label placement',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _selectedType,
-                      items: _edgeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'hide',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onPositionTypeChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Edge label placement',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _selectedType,
+                    items: _edgeList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'hide',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onPositionTypeChange(value.toString());
+                      stateSetter(() {});
+                    }),
+              ),
+            ],
           ),
         ],
       );
@@ -99,7 +107,7 @@ class _EdgeLabelState extends SampleViewState {
 
           /// This is the API for x axis edge label placement.
           edgeLabelPlacement:
-              isCardView ? EdgeLabelPlacement.shift : _edgeLabelPlacement),
+              isCardView ? EdgeLabelPlacement.shift : _edgeLabelPlacement!),
       primaryYAxis: NumericAxis(
         majorTickLines: const MajorTickLines(width: 0.5),
         axisLine: const AxisLine(width: 0),
@@ -119,7 +127,7 @@ class _EdgeLabelState extends SampleViewState {
   /// Returns the list of chart serires whcih need to render
   /// on the spline edge label placement chart.
   List<ChartSeries<ChartSampleData, DateTime>> _getEdgeLabelPlacementSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
+    chartData = <ChartSampleData>[
       ChartSampleData(
           x: DateTime(2005, 4, 1), y: 37.99, secondSeriesYValue: 28.22),
       ChartSampleData(
@@ -146,14 +154,14 @@ class _EdgeLabelState extends SampleViewState {
     ];
     return <ChartSeries<ChartSampleData, DateTime>>[
       SplineSeries<ChartSampleData, DateTime>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           markerSettings: const MarkerSettings(
               isVisible: true, shape: DataMarkerType.pentagon),
           name: 'Petrol'),
       SplineSeries<ChartSampleData, DateTime>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           markerSettings: const MarkerSettings(

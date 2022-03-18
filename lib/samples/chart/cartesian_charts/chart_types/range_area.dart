@@ -1,9 +1,8 @@
 /// Dart import
 import 'dart:math';
 
-/// Package imports
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -23,7 +22,8 @@ class RangeArea extends SampleView {
 /// State class of the Range area chart.
 class _RangeAreaState extends SampleViewState {
   _RangeAreaState();
-  late TooltipBehavior _tooltipBehavior;
+
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true, decimalPlaces: 1);
@@ -74,10 +74,9 @@ class _RangeAreaState extends SampleViewState {
   /// Returns the list of Chart series
   /// which need to render on the Range area chart.
   List<ChartSeries<ChartSampleData, DateTime>> _getRangeAreaSeries() {
-    final List<ChartSampleData> chartData = _getData();
     return <ChartSeries<ChartSampleData, DateTime>>[
       RangeAreaSeries<ChartSampleData, DateTime>(
-        dataSource: chartData,
+        dataSource: _getData(),
         name: 'London',
         borderWidth: 2,
         opacity: 0.5,

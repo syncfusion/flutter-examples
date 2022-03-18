@@ -1,14 +1,14 @@
 ///Flutter package imports
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-///Map import
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:syncfusion_flutter_maps/maps.dart';
-
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
+
+///Map import
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///Local import
 import '../../../../model/sample_view.dart';
@@ -22,8 +22,7 @@ class MapSublayerPage extends SampleView {
   _MapSublayerPageState createState() => _MapSublayerPageState();
 }
 
-class _MapSublayerPageState extends SampleViewState
-    with SingleTickerProviderStateMixin {
+class _MapSublayerPageState extends SampleViewState {
   late MapShapeSource _mapSource;
   late MapZoomPanBehavior _zoomPanBehavior;
   late bool _isDesktop;
@@ -62,6 +61,7 @@ class _MapSublayerPageState extends SampleViewState
 
   @override
   void dispose() {
+    _state.clear();
     super.dispose();
   }
 
@@ -138,7 +138,8 @@ class _MapSublayerPageState extends SampleViewState
   }
 
   Widget _buildMapsWidget(bool scrollEnabled) {
-    final bool isLightTheme = _themeData.brightness == Brightness.light;
+    final bool isLightTheme =
+        _themeData.colorScheme.brightness == Brightness.light;
     return FutureBuilder<dynamic>(
         future: getJsonData(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapchat) {
@@ -180,10 +181,10 @@ class _MapSublayerPageState extends SampleViewState
                             ? const Color.fromRGBO(205, 195, 152, 0.5)
                             : const Color.fromRGBO(117, 156, 22, 1.0),
                         loadingBuilder: (BuildContext context) {
-                          return Container(
+                          return const SizedBox(
                             height: 25,
                             width: 25,
-                            child: const CircularProgressIndicator(
+                            child: CircularProgressIndicator(
                               strokeWidth: 3,
                             ),
                           );

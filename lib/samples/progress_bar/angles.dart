@@ -61,12 +61,12 @@ class _ProgressBarAnglesState extends SampleViewState {
             Align(
                 alignment: !model.isWebFullView
                     ? const Alignment(-0.3, 0)
-                    : const Alignment(0, 0),
+                    : Alignment.center,
                 child: _getSecondProgressBar()),
             Align(
               alignment: !model.isWebFullView
                   ? const Alignment(0.3, 0)
-                  : const Alignment(0, 0),
+                  : Alignment.center,
               child: _getThirdProgressBar(),
             ),
             _getFourthProgressBar(),
@@ -86,7 +86,7 @@ class _ProgressBarAnglesState extends SampleViewState {
             Align(
                 alignment: model.isWebFullView
                     ? const Alignment(0, -0.5)
-                    : const Alignment(0, 0),
+                    : Alignment.center,
                 child: _getFourthProgressBar()),
           ],
         ),
@@ -101,7 +101,7 @@ class _ProgressBarAnglesState extends SampleViewState {
   }
 
   Widget _getFirstProgressBar() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -136,7 +136,7 @@ class _ProgressBarAnglesState extends SampleViewState {
 
   Widget _getSecondProgressBar() {
     return Center(
-        child: Container(
+        child: SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -173,7 +173,7 @@ class _ProgressBarAnglesState extends SampleViewState {
 
   Widget _getThirdProgressBar() {
     return Center(
-        child: Container(
+        child: SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
@@ -210,7 +210,7 @@ class _ProgressBarAnglesState extends SampleViewState {
 
   Widget _getFourthProgressBar() {
     return Center(
-        child: Container(
+        child: SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[

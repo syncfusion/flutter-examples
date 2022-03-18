@@ -21,38 +21,44 @@ class SparklineLiveUpdate extends SampleView {
 class _SparklineLiveUpdateState extends SampleViewState {
   _SparklineLiveUpdateState();
 
-  double _size = 140;
+  late double _size;
   late Timer _timer;
-  bool _isVertical = false;
-  String _cpuValue = '';
-  String _diskValue = '';
-  String _memoryValue = '';
-  String _ethernetValue = '';
-  List<double> _cpuData = <double>[20, 19, 39, 25, 11, 28, 34, 28];
-  List<double> _diskData = <double>[
-    60,
-    59,
-    55,
-    60,
-    64,
-    56,
-    55,
-    65,
-    55,
-    60,
-    59,
-    55,
-    60,
-    64,
-    56,
-    55,
-    65,
-    55
-  ];
-  List<double> _memoryData = <double>[0, 68, 47, 74, 52, 74, 42, 3, 16];
-  List<double> _ethernetData = <double>[0, 12, 0, 63, 13, 25, 48, 24, 74];
+  late bool _isVertical;
+  late String _cpuValue;
+  late String _diskValue;
+  late String _memoryValue;
+  late String _ethernetValue;
+  late List<double> _cpuData;
+  late List<double> _diskData;
+  late List<double> _memoryData;
+  late List<double> _ethernetData;
   @override
   void initState() {
+    _size = 140;
+    _isVertical = false;
+    _cpuData = <double>[20, 19, 39, 25, 11, 28, 34, 28];
+    _diskData = <double>[
+      60,
+      59,
+      55,
+      60,
+      64,
+      56,
+      55,
+      65,
+      55,
+      60,
+      59,
+      55,
+      60,
+      64,
+      56,
+      55,
+      65,
+      55
+    ];
+    _memoryData = <double>[0, 68, 47, 74, 52, 74, 42, 3, 16];
+    _ethernetData = <double>[0, 12, 0, 63, 13, 25, 48, 24, 74];
     _cpuValue = _cpuData[_cpuData.length - 1].round().toString();
     _diskValue = _diskData[_diskData.length - 1].round().toString();
     _memoryValue = _memoryData[_memoryData.length - 1].round().toString();
@@ -80,28 +86,26 @@ class _SparklineLiveUpdateState extends SampleViewState {
           ? MediaQuery.of(context).size.height / 6.5
           : MediaQuery.of(context).size.height / 6;
       return model.isWebFullView && model.isMobileResolution
-          ? Container(
-              child: SingleChildScrollView(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _buildCPUDataChart(),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
-                  ),
-                  _buildDiskDataChart(),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
-                  ),
-                  _buildMemoryDataChart(),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
-                  ),
-                  _buildEthernetDataChart(),
-                ],
-              )),
-            )
+          ? SingleChildScrollView(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                _buildCPUDataChart(),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                ),
+                _buildDiskDataChart(),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                ),
+                _buildMemoryDataChart(),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                ),
+                _buildEthernetDataChart(),
+              ],
+            ))
           : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -180,7 +184,7 @@ class _SparklineLiveUpdateState extends SampleViewState {
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               fontSize: 12,
-                              color: model.themeData.brightness ==
+                              color: model.themeData.colorScheme.brightness ==
                                       Brightness.dark
                                   ? const Color.fromRGBO(212, 135, 215, 1)
                                   : const Color.fromRGBO(110, 43, 113, 1)))),
@@ -225,7 +229,8 @@ class _SparklineLiveUpdateState extends SampleViewState {
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 12,
-                            color: model.themeData.brightness == Brightness.dark
+                            color: model.themeData.colorScheme.brightness ==
+                                    Brightness.dark
                                 ? const Color.fromRGBO(169, 144, 253, 1)
                                 : const Color.fromRGBO(34, 15, 132, 1),
                           ))),
@@ -278,10 +283,10 @@ class _SparklineLiveUpdateState extends SampleViewState {
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 12,
-                              color:
-                                  model.themeData.brightness == Brightness.dark
-                                      ? const Color.fromRGBO(89, 176, 227, 1)
-                                      : const Color.fromRGBO(23, 118, 217, 1),
+                              color: model.themeData.colorScheme.brightness ==
+                                      Brightness.dark
+                                  ? const Color.fromRGBO(89, 176, 227, 1)
+                                  : const Color.fromRGBO(23, 118, 217, 1),
                             ))),
                     const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
                     Expanded(
@@ -319,16 +324,16 @@ class _SparklineLiveUpdateState extends SampleViewState {
                                 fontWeight: FontWeight.bold, fontSize: 16))),
                     Container(
                         padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                        child:
-                            Text('R: ' '${int.parse(_ethernetValue)}' ' Kbps',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: model.themeData.brightness ==
-                                          Brightness.dark
-                                      ? const Color.fromRGBO(89, 190, 103, 1)
-                                      : const Color.fromRGBO(40, 144, 90, 1),
-                                ))),
+                        child: Text(
+                            'R: ' '${int.parse(_ethernetValue)}' ' Kbps',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: model.themeData.colorScheme.brightness ==
+                                      Brightness.dark
+                                  ? const Color.fromRGBO(89, 190, 103, 1)
+                                  : const Color.fromRGBO(40, 144, 90, 1),
+                            ))),
                     const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
                     Expanded(
                         child: SfSparkAreaChart(

@@ -165,7 +165,9 @@ class _SpecialRegionsCalendarState extends SampleViewState {
           child: Container(
         color: model.cardThemeColor,
         child: Theme(
-            data: model.themeData.copyWith(accentColor: model.backgroundColor),
+            data: model.themeData.copyWith(
+                colorScheme: model.themeData.colorScheme
+                    .copyWith(secondary: model.backgroundColor)),
             child: _getSpecialRegionCalendar(
                 regions: regions, dataSource: events)),
       ))

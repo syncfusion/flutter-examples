@@ -19,11 +19,20 @@ class PieTooltipPosition extends SampleView {
 
 class _PieTooltipPositionState extends SampleViewState {
   _PieTooltipPositionState();
-  final List<String> _tooltipPositionList =
-      <String>['auto', 'pointer'].toList();
-  String _selectedTooltipPosition = 'auto';
-  TooltipPosition _tooltipPosition = TooltipPosition.auto;
-  double duration = 2;
+  List<String>? _tooltipPositionList;
+  late String _selectedTooltipPosition;
+  late TooltipPosition _tooltipPosition;
+  late double duration;
+
+  @override
+  void initState() {
+    _selectedTooltipPosition = 'auto';
+    _tooltipPosition = TooltipPosition.auto;
+    duration = 2;
+    _tooltipPositionList = <String>['auto', 'pointer'].toList();
+    super.initState();
+  }
+
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -31,62 +40,59 @@ class _PieTooltipPositionState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Tooltip position',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _selectedTooltipPosition,
-                      items: _tooltipPositionList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'auto',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          onPositionTypeChange(value.toString());
-                          stateSetter(() {});
-                        });
-                      }),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text('Hide delay',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    minValue: 1,
-                    maxValue: 10,
-                    initialValue: duration,
-                    onChanged: (double val) => setState(() {
-                      duration = val;
+          Row(
+            children: <Widget>[
+              Text('Tooltip position',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              Container(
+                padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                height: 50,
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _selectedTooltipPosition,
+                    items: _tooltipPositionList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'auto',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      setState(() {
+                        onPositionTypeChange(value.toString());
+                        stateSetter(() {});
+                      });
                     }),
-                    step: 2,
-                    loop: true,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text('Hide delay',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
+              Container(
+                padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                child: CustomDirectionalButtons(
+                  minValue: 1,
+                  maxValue: 10,
+                  initialValue: duration,
+                  onChanged: (double val) => setState(() {
+                    duration = val;
+                  }),
+                  step: 2,
+                  loop: true,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 20.0, color: model.textColor),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       );
@@ -119,18 +125,17 @@ class _PieTooltipPositionState extends SampleViewState {
   }
 
   List<PieSeries<ChartSampleData, String>> _getPieSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Argentina', y: 505370, text: '45%'),
-      ChartSampleData(x: 'Belgium', y: 551500, text: '53.7%'),
-      ChartSampleData(x: 'Cuba', y: 312685, text: '59.6%'),
-      ChartSampleData(x: 'Dominican Republic', y: 350000, text: '72.5%'),
-      ChartSampleData(x: 'Egypt', y: 301000, text: '85.8%'),
-      ChartSampleData(x: 'Kazakhstan', y: 300000, text: '90.5%'),
-      ChartSampleData(x: 'Somalia', y: 357022, text: '95.6%')
-    ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'Argentina', y: 505370, text: '45%'),
+            ChartSampleData(x: 'Belgium', y: 551500, text: '53.7%'),
+            ChartSampleData(x: 'Cuba', y: 312685, text: '59.6%'),
+            ChartSampleData(x: 'Dominican Republic', y: 350000, text: '72.5%'),
+            ChartSampleData(x: 'Egypt', y: 301000, text: '85.8%'),
+            ChartSampleData(x: 'Kazakhstan', y: 300000, text: '90.5%'),
+            ChartSampleData(x: 'Somalia', y: 357022, text: '95.6%')
+          ],
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.x as String,
@@ -153,5 +158,11 @@ class _PieTooltipPositionState extends SampleViewState {
     setState(() {
       /// update the tooltip position changes
     });
+  }
+
+  @override
+  void dispose() {
+    _tooltipPositionList!.clear();
+    super.dispose();
   }
 }

@@ -128,7 +128,9 @@ class _AirFareCalendarCalendarState extends SampleViewState {
         /// The key set here to maintain the state,
         ///  when we change the parent of the widget
         key: _globalKey,
-        data: model.themeData.copyWith(accentColor: model.backgroundColor),
+        data: model.themeData.copyWith(
+            colorScheme: model.themeData.colorScheme
+                .copyWith(secondary: model.backgroundColor)),
         child: _getAirFareCalendar());
 
     return Scaffold(
@@ -173,10 +175,10 @@ class _AirFareCalendarCalendarState extends SampleViewState {
     final Random random = Random();
     final bool isToday = isSameDate(details.date, DateTime.now());
     final AirFare airFare = _airFareDataCollection[random.nextInt(100)];
-    final Color defaultColor =
-        model.themeData != null && model.themeData.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black54;
+    final Color defaultColor = model.themeData != null &&
+            model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black54;
     final bool isBestPrice = airFare.fare == _kBestPrice;
     final bool isDisabledDate =
         details.date.isBefore(_minDate) && !isSameDate(details.date, _minDate);
@@ -240,12 +242,14 @@ class _AirFareCalendarCalendarState extends SampleViewState {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Transform.rotate(
-                angle: -pi / 4,
+                angle: pi / 4,
                 child: Text(
-                  '\u2708',
+                  // '\u2708',
+                  String.fromCharCode(Icons.airplanemode_active.codePoint),
                   style: TextStyle(
                       color: airFare.color,
-                      fontFamily: 'Roboto',
+                      fontFamily:
+                          Icons.airplanemode_active.fontFamily, //'Roboto',
                       fontSize: !model.isMobileResolution ? 20 : 14),
                   textAlign: TextAlign.center,
                 ),

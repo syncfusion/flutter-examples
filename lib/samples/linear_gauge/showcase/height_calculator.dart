@@ -83,7 +83,7 @@ class _HeightCalculatorState extends SampleViewState {
                     LinearShapePointer(
                         value: _pointerValue,
                         enableAnimation: false,
-                        onValueChanged: (dynamic value) {
+                        onChanged: (dynamic value) {
                           setState(() {
                             _pointerValue = value as double;
                           });
@@ -97,12 +97,12 @@ class _HeightCalculatorState extends SampleViewState {
                         value: _pointerValue,
                         enableAnimation: false,
                         position: LinearElementPosition.cross,
-                        onValueChanged: (dynamic value) {
+                        onChanged: (dynamic value) {
                           setState(() {
                             _pointerValue = value as double;
                           });
                         },
-                        child: Container(
+                        child: SizedBox(
                             width: 24,
                             height: 16,
                             child: Image.asset(
@@ -112,7 +112,7 @@ class _HeightCalculatorState extends SampleViewState {
                         value: _pointerValue,
                         markerAlignment: LinearMarkerAlignment.center,
                         enableAnimation: false,
-                        onValueChanged: (dynamic value) {
+                        onChanged: (dynamic value) {
                           setState(() {
                             _pointerValue = value as double;
                           });

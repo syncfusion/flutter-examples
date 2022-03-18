@@ -1,6 +1,6 @@
 /// Package imports
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -23,8 +23,8 @@ class MomentummIndicator extends SampleView {
 class _MomentummIndicatorState extends SampleViewState {
   _MomentummIndicatorState();
   late double _period;
-  late TooltipBehavior _tooltipBehavior;
-  late TrackballBehavior _trackballBehavior;
+  TooltipBehavior? _tooltipBehavior;
+  TrackballBehavior? _trackballBehavior;
 
   @override
   void initState() {
@@ -71,7 +71,6 @@ class _MomentummIndicatorState extends SampleViewState {
 
   /// Returns the OHLC chart with Momentum indicator.
   SfCartesianChart _buildDefaulMomentumIndicator() {
-    final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       legend: Legend(isVisible: !isCardView),
@@ -109,7 +108,7 @@ class _MomentummIndicatorState extends SampleViewState {
       series: <ChartSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
             emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: chartData,
+            dataSource: getChartData(),
             opacity: 0.7,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
             lowValueMapper: (ChartSampleData sales, _) => sales.low,

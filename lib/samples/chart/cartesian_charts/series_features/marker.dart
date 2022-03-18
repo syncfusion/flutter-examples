@@ -21,35 +21,11 @@ class MarkerDefault extends SampleView {
 class _MarkerDefaultState extends SampleViewState {
   _MarkerDefaultState();
 
+  List<ChartSampleData>? chartData;
+
   @override
-  Widget build(BuildContext context) {
-    return _buildMarkerDefaultChart();
-  }
-
-  /// Returns the chart with various marker shapes.
-  SfCartesianChart _buildMarkerDefaultChart() {
-    return SfCartesianChart(
-      title: ChartTitle(text: 'Vehicles crossed tollgate'),
-      legend: Legend(isVisible: true),
-      plotAreaBorderWidth: 0,
-      primaryXAxis: DateTimeAxis(
-        majorGridLines: const MajorGridLines(width: 0),
-        dateFormat: DateFormat.Hm(),
-        title: AxisTitle(text: 'Time'),
-      ),
-      primaryYAxis: NumericAxis(
-          title: AxisTitle(text: 'Count'),
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
-      series: _getMarkeSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
-    );
-  }
-
-  /// Returns the list of chart which need to
-  /// render on the chart with various marker shapes.
-  List<LineSeries<ChartSampleData, DateTime>> _getMarkeSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
+  void initState() {
+    chartData = <ChartSampleData>[
       ChartSampleData(
           x: DateTime(2018, 3, 1, 8, 0),
           y: 60,
@@ -86,9 +62,40 @@ class _MarkerDefaultState extends SampleViewState {
           secondSeriesYValue: 32,
           thirdSeriesYValue: 20),
     ];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildMarkerDefaultChart();
+  }
+
+  /// Returns the chart with various marker shapes.
+  SfCartesianChart _buildMarkerDefaultChart() {
+    return SfCartesianChart(
+      title: ChartTitle(text: 'Vehicles crossed tollgate'),
+      legend: Legend(isVisible: true),
+      plotAreaBorderWidth: 0,
+      primaryXAxis: DateTimeAxis(
+        majorGridLines: const MajorGridLines(width: 0),
+        dateFormat: DateFormat.Hm(),
+        title: AxisTitle(text: 'Time'),
+      ),
+      primaryYAxis: NumericAxis(
+          title: AxisTitle(text: 'Count'),
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0)),
+      series: _getMarkeSeries(),
+      tooltipBehavior: TooltipBehavior(enable: true),
+    );
+  }
+
+  /// Returns the list of chart which need to
+  /// render on the chart with various marker shapes.
+  List<LineSeries<ChartSampleData, DateTime>> _getMarkeSeries() {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
-        dataSource: chartData,
+        dataSource: chartData!,
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         width: 2,
@@ -101,7 +108,7 @@ class _MarkerDefaultState extends SampleViewState {
             image: AssetImage('images/truck.png')),
       ),
       LineSeries<ChartSampleData, DateTime>(
-        dataSource: chartData,
+        dataSource: chartData!,
         width: 2,
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
@@ -110,7 +117,7 @@ class _MarkerDefaultState extends SampleViewState {
             isVisible: true, shape: DataMarkerType.triangle),
       ),
       LineSeries<ChartSampleData, DateTime>(
-        dataSource: chartData,
+        dataSource: chartData!,
         width: 2,
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
@@ -119,5 +126,11 @@ class _MarkerDefaultState extends SampleViewState {
             isVisible: true, shape: DataMarkerType.rectangle),
       )
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

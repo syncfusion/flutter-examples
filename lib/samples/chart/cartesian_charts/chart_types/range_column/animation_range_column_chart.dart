@@ -24,7 +24,7 @@ class AnimationRangeColumnDefault extends SampleView {
 class _AnimationRangeColumnDefaultState extends SampleViewState {
   _AnimationRangeColumnDefaultState();
   Timer? _timer;
-  late List<_ChartData> _chartData;
+  List<_ChartData>? _chartData;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _AnimationRangeColumnDefaultState extends SampleViewState {
   List<RangeColumnSeries<_ChartData, num>> _getDefaultRangeColumnSeries() {
     return <RangeColumnSeries<_ChartData, num>>[
       RangeColumnSeries<_ChartData, num>(
-          dataSource: _chartData,
+          dataSource: _chartData!,
           xValueMapper: (_ChartData sales, _) => sales.x,
           lowValueMapper: (_ChartData sales, _) => sales.y,
           highValueMapper: (_ChartData sales, _) => sales.z)
@@ -66,6 +66,7 @@ class _AnimationRangeColumnDefaultState extends SampleViewState {
   void dispose() {
     super.dispose();
     _timer?.cancel();
+    _chartData!.clear();
   }
 
   int _getRandomInt(int min, int max) {
@@ -76,7 +77,7 @@ class _AnimationRangeColumnDefaultState extends SampleViewState {
   void _getChartData() {
     _chartData = <_ChartData>[];
     for (int i = 1; i <= 7; i++) {
-      _chartData
+      _chartData!
           .add(_ChartData(i, _getRandomInt(5, 45), _getRandomInt(46, 95)));
     }
     _timer?.cancel();

@@ -22,6 +22,7 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
   SfRangeValues _divisonSliderValues = const SfRangeValues(20.0, 80.0);
   SfRangeValues _tickSliderValues = const SfRangeValues(20.0, 80.0);
   SfRangeValues _labelSliderValues = const SfRangeValues(20.0, 80.0);
+  bool _isInversed = false;
 
   SfRangeSlider _sliderWithDivider() {
     return SfRangeSlider.vertical(
@@ -29,6 +30,7 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
         max: 100.0,
         interval: 20,
         showDividers: true,
+        isInversed: _isInversed,
         values: _divisonSliderValues,
         onChanged: (SfRangeValues values) {
           setState(() {
@@ -44,6 +46,7 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
         interval: 20,
         showLabels: true,
         showTicks: true,
+        isInversed: _isInversed,
         minorTicksPerInterval: 1,
         labelPlacement: LabelPlacement.onTicks,
         values: _tickSliderValues,
@@ -61,6 +64,7 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
         interval: 20,
         showLabels: true,
         values: _labelSliderValues,
+        isInversed: _isInversed,
         onChanged: (SfRangeValues values) {
           setState(() {
             _labelSliderValues = values;
@@ -112,5 +116,28 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
           : SingleChildScrollView(
               child: SizedBox(height: 400, child: rangeSlider));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: _isInversed,
+          title: const Text(
+            'Inversed',
+            softWrap: false,
+          ),
+          contentPadding: EdgeInsets.zero,
+          activeColor: model.backgroundColor,
+          onChanged: (bool? value) {
+            setState(() {
+              _isInversed = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
+    );
   }
 }

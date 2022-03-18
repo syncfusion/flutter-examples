@@ -91,7 +91,7 @@ class _RadialSliderCustomTextState extends SampleViewState {
   void handlePointerValueChanged(double value) {
     setState(() {
       _markerValue = value;
-      final int _value = _markerValue.round().toInt();
+      final int _value = _markerValue.round();
       if (_value < 100 && _annotationValue != 'In-progress') {
         _annotationValue = 'In-progress';
         if (_rangeColor != const Color.fromRGBO(255, 150, 0, 1)) {

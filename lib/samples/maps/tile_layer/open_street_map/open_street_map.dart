@@ -51,7 +51,7 @@ class _TileLayerSampleState extends SampleViewState {
         latitude: 20.6843,
         longitude: -88.5678,
         description:
-            'Mayan ruins on Mexico\'s Yucatan Peninsula. It was one of the largest Maya cities, thriving from around A.D. 600 to 1200.',
+            "Mayan ruins on Mexico's Yucatan Peninsula. It was one of the largest Maya cities, thriving from around A.D. 600 to 1200.",
         imagePath: 'images/maps_chichen_itza.jpg',
         tooltipImagePath: 'images/maps-chichen-itza.jpg'));
 
@@ -90,7 +90,7 @@ class _TileLayerSampleState extends SampleViewState {
 
     _worldWonders.add(const _WonderDetails(
         place: 'Petra',
-        state: 'Ma\'an Governorate',
+        state: "Ma'an Governorate",
         country: 'Jordan',
         latitude: 30.3285,
         longitude: 35.4444,
@@ -233,34 +233,36 @@ class _TileLayerSampleState extends SampleViewState {
                 return const SizedBox();
               },
               markerBuilder: (BuildContext context, int index) {
+                final double _markerSize =
+                    _currentSelectedIndex == index ? 40 : 25;
                 return MapMarker(
                   latitude: _worldWonders[index].latitude,
                   longitude: _worldWonders[index].longitude,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          if (_currentSelectedIndex != index) {
-                            _canUpdateFocalLatLng = false;
-                            _tappedMarkerIndex = index;
-                            _pageViewController.animateToPage(
-                              index,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                            );
-                          }
-                        },
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      if (_currentSelectedIndex != index) {
+                        _canUpdateFocalLatLng = false;
+                        _tappedMarkerIndex = index;
+                        _pageViewController.animateToPage(
+                          index,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      height: _markerSize,
+                      width: _markerSize,
+                      child: FittedBox(
                         child: Icon(Icons.location_on,
                             color: _currentSelectedIndex == index
                                 ? Colors.blue
                                 : Colors.red,
-                            size: _currentSelectedIndex == index ? 40 : 25),
+                            size: _markerSize),
                       ),
-                      SizedBox(
-                        height: _currentSelectedIndex == index ? 40 : 25,
-                      ),
-                    ],
+                    ),
                   ),
                 );
               },

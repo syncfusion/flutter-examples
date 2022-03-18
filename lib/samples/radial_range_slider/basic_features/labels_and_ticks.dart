@@ -211,7 +211,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
   void _handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
-      final int _value = _secondMarkerValue.round().toInt();
+      final int _value = _secondMarkerValue.round();
       _annotationValue2 = _value == 12
           ? '$_value PM'
           : _value == 0
@@ -232,7 +232,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
   void _handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
-      final int _value = _firstMarkerValue.round().toInt();
+      final int _value = _firstMarkerValue.round();
       _annotationValue1 = _value == 12
           ? '$_value PM'
           : _value == 0

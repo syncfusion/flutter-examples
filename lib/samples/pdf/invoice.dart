@@ -27,33 +27,30 @@ class _InvoicePdfState extends SampleViewState {
       backgroundColor: model.cardThemeColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                  'The PDF package is a non-UI and reusable flutter library to create PDF reports programmatically with formatted text, images, tables, links, list, header and footer, and more.\r\n\r\nThis sample showcase how to create a simple invoice report using PDF grid with built-in styles.',
-                  style: TextStyle(fontSize: 16, color: model.textColor)),
-              const SizedBox(height: 20, width: 30),
-              Align(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          model.backgroundColor),
-                      padding: model.isMobile
-                          ? null
-                          : MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15)),
-                    ),
-                    onPressed: _generatePDF,
-                    child: const Text('Generate PDF',
-                        style: TextStyle(color: Colors.white)),
-                  ))
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+                'The PDF package is a non-UI and reusable flutter library to create PDF reports programmatically with formatted text, images, tables, links, list, header and footer, and more.\r\n\r\nThis sample showcase how to create a simple invoice report using PDF grid with built-in styles.',
+                style: TextStyle(fontSize: 16, color: model.textColor)),
+            const SizedBox(height: 20, width: 30),
+            Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                    padding: model.isMobile
+                        ? null
+                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15)),
+                  ),
+                  onPressed: _generatePDF,
+                  child: const Text('Generate PDF',
+                      style: TextStyle(color: Colors.white)),
+                ))
+          ],
         ),
       ),
     );

@@ -7,8 +7,8 @@ import 'package:syncfusion_officechart/officechart.dart';
 
 ///Local imports
 import '../../../model/sample_view.dart';
-import '../helper/save_file_mobile.dart'
-    if (dart.library.html) '../helper/save_file_web.dart';
+import '../../common/export/save_file_mobile.dart'
+    if (dart.library.html) '../../common/export/save_file_web.dart';
 
 /// Render xlsio of expenses report
 class ExpensesReportXlsIO extends SampleView {
@@ -27,33 +27,30 @@ class _ExpensesReportXlsIOState extends SampleViewState {
       backgroundColor: model.cardThemeColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                  'The XlsIO package is a non-UI and reusable flutter library to create Excel reports programmatically with formatted text, numbers, datetime, number formats, cell styles, images, charts and more.\r\n\r\nThis sample showcases on how to create a simple Excel report for expenses with data, chart, formulas, and cell formatting using XlsIO.',
-                  style: TextStyle(fontSize: 16, color: model.textColor)),
-              const SizedBox(height: 20, width: 30),
-              Align(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          model.backgroundColor),
-                      padding: model.isMobile
-                          ? null
-                          : MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15)),
-                    ),
-                    onPressed: _generateExcel,
-                    child: const Text('Generate Excel',
-                        style: TextStyle(color: Colors.white)),
-                  ))
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+                'The XlsIO package is a non-UI and reusable flutter library to create Excel reports programmatically with formatted text, numbers, datetime, number formats, cell styles, images, charts and more.\r\n\r\nThis sample showcases on how to create a simple Excel report for expenses with data, chart, formulas, and cell formatting using XlsIO.',
+                style: TextStyle(fontSize: 16, color: model.textColor)),
+            const SizedBox(height: 20, width: 30),
+            Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                    padding: model.isMobile
+                        ? null
+                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15)),
+                  ),
+                  onPressed: _generateExcel,
+                  child: const Text('Generate Excel',
+                      style: TextStyle(color: Colors.white)),
+                ))
+          ],
         ),
       ),
     );
@@ -115,8 +112,8 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     sheet1.getRangeByIndex(12, 1).text = 'Seating & Decor';
     sheet1.getRangeByIndex(13, 1).text = 'Technical team';
     sheet1.getRangeByIndex(14, 1).text = 'Performers';
-    sheet1.getRangeByIndex(15, 1).text = 'Performer\'s transport';
-    sheet1.getRangeByIndex(16, 1).text = 'Performer\'s stay';
+    sheet1.getRangeByIndex(15, 1).text = "Performer's transport";
+    sheet1.getRangeByIndex(16, 1).text = "Performer's stay";
     sheet1.getRangeByIndex(17, 1).text = 'Marketing';
     sheet1.getRangeByIndex(18, 1).text = 'Total';
 

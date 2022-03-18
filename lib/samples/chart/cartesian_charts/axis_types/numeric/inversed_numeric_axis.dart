@@ -1,6 +1,5 @@
 /// Package imports
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 /// Chart import
@@ -21,15 +20,17 @@ class NumericInverse extends SampleView {
 /// State class of the inversed numeric axis.
 class _NumericInverseState extends SampleViewState {
   _NumericInverseState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
+    isYInversed = true;
+    isXInversed = true;
     _tooltipBehavior =
         TooltipBehavior(enable: true, header: '', canShowMarker: false);
     super.initState();
   }
 
-  bool? isYInversed = true, isXInversed = true;
+  bool? isYInversed, isXInversed;
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -114,20 +115,19 @@ class _NumericInverseState extends SampleViewState {
   /// Returns the list of Chart series
   /// which need to render on the inversed numeric axis.
   List<LineSeries<ChartSampleData, num>> getInversedNumericSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(xValue: 2000, yValue: 14720),
-      ChartSampleData(xValue: 2001, yValue: 14695),
-      ChartSampleData(xValue: 2002, yValue: 14801),
-      ChartSampleData(xValue: 2003, yValue: 14807),
-      ChartSampleData(xValue: 2004, yValue: 14857),
-      ChartSampleData(xValue: 2006, yValue: 14858),
-      ChartSampleData(xValue: 2007, yValue: 14947),
-      ChartSampleData(xValue: 2008, yValue: 14951),
-      ChartSampleData(xValue: 2010, yValue: 15079),
-    ];
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(xValue: 2000, yValue: 14720),
+            ChartSampleData(xValue: 2001, yValue: 14695),
+            ChartSampleData(xValue: 2002, yValue: 14801),
+            ChartSampleData(xValue: 2003, yValue: 14807),
+            ChartSampleData(xValue: 2004, yValue: 14857),
+            ChartSampleData(xValue: 2006, yValue: 14858),
+            ChartSampleData(xValue: 2007, yValue: 14947),
+            ChartSampleData(xValue: 2008, yValue: 14951),
+            ChartSampleData(xValue: 2010, yValue: 15079),
+          ],
           xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           width: 2,

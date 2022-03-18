@@ -1,6 +1,6 @@
 /// Package imports
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -24,8 +24,8 @@ class _BollingerIndicatorState extends SampleViewState {
   _BollingerIndicatorState();
   late double _period;
   late double _standardDeviation;
-  late TrackballBehavior _trackballBehavior;
-  late TooltipBehavior _tooltipBehavior;
+  TrackballBehavior? _trackballBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class _BollingerIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
       tooltipSettings: InteractiveTooltip(
-        color: model.themeData.brightness == Brightness.light
+        color: model.themeData.colorScheme.brightness == Brightness.light
             ? const Color.fromRGBO(79, 79, 79, 1)
             : const Color.fromRGBO(255, 255, 255, 1),
       ),
@@ -52,52 +52,61 @@ class _BollingerIndicatorState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return ListView(
       shrinkWrap: true,
       children: <Widget>[
-        ListTile(
-          title: Text(
-            'Period',
-            softWrap: false,
-            style: TextStyle(color: model.textColor),
-          ),
-          trailing: Container(
-            width: 0.5 * screenWidth,
-            padding: EdgeInsets.only(left: 0.03 * screenWidth),
-            child: CustomDirectionalButtons(
-              maxValue: 50,
-              initialValue: _period,
-              onChanged: (double val) => setState(() {
-                _period = val;
-              }),
-              loop: true,
-              iconColor: model.textColor,
-              style: TextStyle(fontSize: 20.0, color: model.textColor),
-            ),
-          ),
-        ),
-        ListTile(
-          title: Text(
-            model.isWebFullView ? 'Standard \ndeviation' : 'Standard deviation',
-            softWrap: false,
-            style: TextStyle(color: model.textColor),
-          ),
-          trailing: Container(
-            width: 0.5 * screenWidth,
-            padding: EdgeInsets.only(left: 0.03 * screenWidth),
-            child: CustomDirectionalButtons(
-              maxValue: 5,
-              initialValue: _standardDeviation,
-              onChanged: (double val) => setState(() {
-                _standardDeviation = val;
-              }),
-              loop: true,
-              iconColor: model.textColor,
-              style: TextStyle(fontSize: 20.0, color: model.textColor),
-            ),
-          ),
+        Container(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Period',
+                        softWrap: false,
+                        style: TextStyle(fontSize: 16, color: model.textColor),
+                      ),
+                      SizedBox(height: model.isMobile ? 30.0 : 16.0),
+                      Text(
+                        model.isWebFullView
+                            ? 'Standard \ndeviation'
+                            : 'Standard deviation',
+                        softWrap: false,
+                        style: TextStyle(fontSize: 16, color: model.textColor),
+                      ),
+                    ]),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CustomDirectionalButtons(
+                        maxValue: 50,
+                        initialValue: _period,
+                        onChanged: (double val) => setState(() {
+                          _period = val;
+                        }),
+                        loop: true,
+                        iconColor: model.textColor,
+                        style:
+                            TextStyle(fontSize: 20.0, color: model.textColor),
+                      ),
+                      const SizedBox(height: 10.0),
+                      CustomDirectionalButtons(
+                        maxValue: 5,
+                        initialValue: _standardDeviation,
+                        onChanged: (double val) => setState(() {
+                          _standardDeviation = val;
+                        }),
+                        loop: true,
+                        iconColor: model.textColor,
+                        style:
+                            TextStyle(fontSize: 20.0, color: model.textColor),
+                      ),
+                      const SizedBox(height: 10.0),
+                    ])
+              ]),
         ),
       ],
     );
@@ -105,7 +114,6 @@ class _BollingerIndicatorState extends SampleViewState {
 
   // Returns the OHLC chart with Bollinger band indicator
   SfCartesianChart _buildDefaulBollingerIndicator() {
-    final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       legend: Legend(
@@ -139,7 +147,7 @@ class _BollingerIndicatorState extends SampleViewState {
       series: <ChartSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
             emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: chartData,
+            dataSource: getChartData(),
             opacity: 0.7,
             borderWidth: 2,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

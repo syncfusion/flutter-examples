@@ -19,6 +19,13 @@ class DoughnutDefault extends SampleView {
 /// State class of doughnut chart.
 class _DoughnutDefaultState extends SampleViewState {
   _DoughnutDefaultState();
+  late TooltipBehavior _tooltip;
+
+  @override
+  void initState() {
+    _tooltip = TooltipBehavior(enable: true, format: 'point.x : point.y%');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,26 +39,25 @@ class _DoughnutDefaultState extends SampleViewState {
       legend: Legend(
           isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),
       series: _getDefaultDoughnutSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      tooltipBehavior: _tooltip,
     );
   }
 
   /// Returns the doughnut series which need to be render.
   List<DoughnutSeries<ChartSampleData, String>> _getDefaultDoughnutSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Chlorine', y: 55, text: '55%'),
-      ChartSampleData(x: 'Sodium', y: 31, text: '31%'),
-      ChartSampleData(x: 'Magnesium', y: 7.7, text: '7.7%'),
-      ChartSampleData(x: 'Sulfur', y: 3.7, text: '3.7%'),
-      ChartSampleData(x: 'Calcium', y: 1.2, text: '1.2%'),
-      ChartSampleData(x: 'Others', y: 1.4, text: '1.4%'),
-    ];
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
           radius: '80%',
           explode: true,
           explodeOffset: '10%',
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'Chlorine', y: 55, text: '55%'),
+            ChartSampleData(x: 'Sodium', y: 31, text: '31%'),
+            ChartSampleData(x: 'Magnesium', y: 7.7, text: '7.7%'),
+            ChartSampleData(x: 'Sulfur', y: 3.7, text: '3.7%'),
+            ChartSampleData(x: 'Calcium', y: 1.2, text: '1.2%'),
+            ChartSampleData(x: 'Others', y: 1.4, text: '1.4%'),
+          ],
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) => data.text,

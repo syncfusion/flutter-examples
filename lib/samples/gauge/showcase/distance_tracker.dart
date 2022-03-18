@@ -72,19 +72,17 @@ class _DistanceTrackerExampleState extends SampleViewState {
                     ],
                   )),
               GaugeAnnotation(
-                  angle: 124,
-                  positionFactor: 1.1,
-                  widget: Container(
-                    child: Text('0',
-                        style: TextStyle(fontSize: isCardView ? 12 : 14)),
-                  )),
+                angle: 124,
+                positionFactor: 1.1,
+                widget:
+                    Text('0', style: TextStyle(fontSize: isCardView ? 12 : 14)),
+              ),
               GaugeAnnotation(
-                  angle: 54,
-                  positionFactor: 1.1,
-                  widget: Container(
-                    child: Text('240',
-                        style: TextStyle(fontSize: isCardView ? 12 : 14)),
-                  )),
+                angle: 54,
+                positionFactor: 1.1,
+                widget: Text('240',
+                    style: TextStyle(fontSize: isCardView ? 12 : 14)),
+              ),
             ],
             pointers: <GaugePointer>[
               const RangePointer(

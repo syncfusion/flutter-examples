@@ -18,7 +18,8 @@ class ColumnVertical extends SampleView {
 
 class _ColumnVerticalState extends SampleViewState {
   _ColumnVerticalState();
-  late TooltipBehavior _tooltipBehavior;
+
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =

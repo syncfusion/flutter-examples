@@ -19,176 +19,269 @@ class LegendOptions extends SampleView {
 
 class _LegendOptionsState extends SampleViewState {
   _LegendOptionsState();
-  bool toggleVisibility = true;
-  bool enableFloatingLegend = false;
-  final List<String> _positionList =
-      <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
-  String _selectedPosition = 'auto';
-  LegendPosition _position = LegendPosition.auto;
+  late bool toggleVisibility;
+  late bool enableFloatingLegend;
+  List<String>? _positionList;
+  List<String>? _modeList;
+  late String _selectedPosition;
+  late LegendPosition _position;
 
-  final List<String> _modeList = <String>['wrap', 'scroll', 'none'].toList();
-  String _selectedMode = 'wrap';
-  LegendItemOverflowMode _overflowMode = LegendItemOverflowMode.wrap;
-  late double _xOffset = 0.0;
-  late double _yOffset = 0.0;
+  late String _selectedMode;
+  late LegendItemOverflowMode _overflowMode;
+  late double _xOffset;
+  late double _yOffset;
+
+  @override
+  void initState() {
+    _xOffset = 0.0;
+    _yOffset = 0.0;
+    _overflowMode = LegendItemOverflowMode.wrap;
+    _selectedMode = 'wrap';
+    _position = LegendPosition.auto;
+    _selectedPosition = 'auto';
+    toggleVisibility = true;
+    enableFloatingLegend = false;
+    _positionList = <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
+    _modeList = <String>['wrap', 'scroll', 'none'].toList();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _positionList!.clear();
+    _modeList!.clear();
+    super.dispose();
+  }
 
   @override
   Widget buildSettings(BuildContext context) {
     final double screenWidth =
         model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double dropDownWidth = 0.7 * screenWidth;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          ListTile(
-            title: Text('Position ',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
-                )),
-            trailing: Container(
-              padding: EdgeInsets.only(left: 0.07 * screenWidth),
-              width: 0.4 * screenWidth,
-              height: 50,
-              alignment: Alignment.bottomLeft,
-              child: DropdownButton<String>(
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: _selectedPosition,
-                  items: _positionList.map((String value) {
-                    return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'auto',
-                        child: Text(value,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    _onPositionTypeChange(value.toString());
-                    stateSetter(() {});
-                  }),
-            ),
-          ),
-          ListTile(
-            title:
-                Text(model.isWebFullView ? 'Overflow \nmode' : 'Overflow mode',
-                    softWrap: false,
-                    style: TextStyle(
-                      color: model.textColor,
-                    )),
-            trailing: Container(
-                padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                width: 0.4 * screenWidth,
-                height: 50,
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _selectedMode,
-                    items: _modeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'wrap',
-                          child: Text(value,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      _onModeTypeChange(value);
-                      stateSetter(() {});
-                    })),
-          ),
-          ListTile(
-            title: Text(
-                model.isWebFullView
-                    ? 'Toggle \nvisibility'
-                    : 'Toggle visibility',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
-                )),
-            trailing: Container(
-                padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                width: 0.4 * screenWidth,
-                child: CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
-                    activeColor: model.backgroundColor,
-                    value: toggleVisibility,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        toggleVisibility = value!;
-                        stateSetter(() {});
-                      });
-                    })),
-          ),
-          ListTile(
-            title: Text(
-                model.isWebFullView ? 'Floating \nlegend' : 'Floating legend',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
-                )),
-            trailing: Container(
-                padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                width: 0.4 * screenWidth,
-                child: CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
-                    activeColor: model.backgroundColor,
-                    value: enableFloatingLegend,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        enableFloatingLegend = value!;
-                        stateSetter(() {});
-                      });
-                    })),
-          ),
-          ListTile(
-              title: Text('X offset',
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                width: 0.4 * screenWidth,
-                height: 50,
-                child: CustomDirectionalButtons(
-                  minValue: -100,
-                  maxValue: 100,
-                  initialValue: _xOffset,
-                  onChanged: (double val) => setState(() {
-                    _xOffset = enableFloatingLegend ? val : 0;
-                  }),
-                  step: enableFloatingLegend ? 10 : 0,
-                  iconColor: model.textColor
-                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor
-                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
+          Row(
+            children: <Widget>[
+              Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
+              Expanded(
+                flex: 14,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('Position',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                              width: dropDownWidth,
+                              child: DropdownButton<String>(
+                                  focusColor: Colors.transparent,
+                                  isExpanded: true,
+                                  underline: Container(
+                                      color: const Color(0xFFBDBDBD),
+                                      height: 1),
+                                  value: _selectedPosition,
+                                  items: _positionList!.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                        value: (value != null) ? value : 'auto',
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                color: model.textColor)));
+                                  }).toList(),
+                                  onChanged: (dynamic value) {
+                                    _onPositionTypeChange(value.toString());
+                                    stateSetter(() {});
+                                  })),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                              model.isWebFullView
+                                  ? 'Overflow \nmode'
+                                  : 'Overflow mode',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                            width: dropDownWidth,
+                            child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
+                                isExpanded: true,
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _selectedMode,
+                                items: _modeList!.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: (value != null) ? value : 'wrap',
+                                      child: Text(value,
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                onChanged: (dynamic value) {
+                                  _onModeTypeChange(value);
+                                  stateSetter(() {});
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 6.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                              model.isWebFullView
+                                  ? 'Toggle \nvisibility'
+                                  : 'Toggle visibility',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: Container(
+                              padding: EdgeInsets.only(
+                                  right: model.isMobile
+                                      ? 0.29 * screenWidth
+                                      : 0.37 * screenWidth),
+                              width: dropDownWidth,
+                              child: Checkbox(
+                                  activeColor: model.backgroundColor,
+                                  value: toggleVisibility,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      toggleVisibility = value!;
+                                      stateSetter(() {});
+                                    });
+                                  })),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 6.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                              model.isWebFullView
+                                  ? 'Floating \nlegend'
+                                  : 'Floating legend',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: Container(
+                              padding: EdgeInsets.only(
+                                  right: model.isMobile
+                                      ? 0.29 * screenWidth
+                                      : 0.37 * screenWidth),
+                              width: dropDownWidth,
+                              child: Checkbox(
+                                  activeColor: model.backgroundColor,
+                                  value: enableFloatingLegend,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      enableFloatingLegend = value!;
+                                      stateSetter(() {});
+                                    });
+                                  })),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 6.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          flex: 3,
+                          child: Text('X offset',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          flex: 4,
+                          child: CustomDirectionalButtons(
+                            minValue: -100,
+                            maxValue: 100,
+                            initialValue: _xOffset,
+                            onChanged: (double val) => setState(() {
+                              _xOffset = enableFloatingLegend ? val : 0;
+                            }),
+                            step: enableFloatingLegend ? 10 : 0,
+                            iconColor: model.textColor
+                                .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: model.textColor.withOpacity(
+                                    enableFloatingLegend ? 1 : 0.5)),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          flex: 3,
+                          child: Text('Y offset',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          flex: 4,
+                          child: CustomDirectionalButtons(
+                            minValue: -100,
+                            maxValue: 100,
+                            initialValue: _yOffset,
+                            onChanged: (double val) => setState(() {
+                              _yOffset = enableFloatingLegend ? val : 0;
+                            }),
+                            step: enableFloatingLegend ? 10 : 0,
+                            iconColor: model.textColor
+                                .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: model.textColor.withOpacity(
+                                    enableFloatingLegend ? 1 : 0.5)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
-              )),
-          ListTile(
-              title: Text('Y offset',
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                width: 0.4 * screenWidth,
-                height: 50,
-                child: CustomDirectionalButtons(
-                  minValue: -100,
-                  maxValue: 100,
-                  initialValue: _yOffset,
-                  onChanged: (double val) => setState(() {
-                    _yOffset = enableFloatingLegend ? val : 0;
-                  }),
-                  step: enableFloatingLegend ? 10 : 0,
-                  iconColor: model.textColor
-                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor
-                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
-                ),
-              )),
+              ),
+              Expanded(flex: model.isMobile ? 3 : 1, child: Container()),
+            ],
+          ),
         ],
       );
     });
@@ -216,17 +309,16 @@ class _LegendOptionsState extends SampleViewState {
 
   ///Get the pie series
   List<PieSeries<ChartSampleData, String>> _getLegendOptionsSeries() {
-    final List<ChartSampleData> pieData = <ChartSampleData>[
-      ChartSampleData(x: 'Tution Fees', y: 21),
-      ChartSampleData(x: 'Entertainment', y: 21),
-      ChartSampleData(x: 'Private Gifts', y: 8),
-      ChartSampleData(x: 'Local Revenue', y: 21),
-      ChartSampleData(x: 'Federal Revenue', y: 16),
-      ChartSampleData(x: 'Others', y: 8)
-    ];
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
-          dataSource: pieData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'Tution Fees', y: 21),
+            ChartSampleData(x: 'Entertainment', y: 21),
+            ChartSampleData(x: 'Private Gifts', y: 8),
+            ChartSampleData(x: 'Local Revenue', y: 21),
+            ChartSampleData(x: 'Federal Revenue', y: 16),
+            ChartSampleData(x: 'Others', y: 8)
+          ],
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           startAngle: 90,

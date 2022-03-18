@@ -1,8 +1,5 @@
 ///Flutter package imports
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 ///Map import
 // ignore: import_of_legacy_library_into_null_safe
@@ -90,7 +87,7 @@ class _BingMapState extends SampleViewState {
   /// Home screen with the `TextField` to get the subscription key.
   Widget _buildKeyValidationScreen() {
     return Center(
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width *
             (model.isWebFullView ? 0.4 : 0.8),
         child: Column(

@@ -32,71 +32,67 @@ class _EncryptPdfState extends SampleViewState {
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                          'This sample shows how to encrypt the existing PDF document with encryption standard like 40-bit RC4, 128-bit RC4, 128-bit AES, 256-bit AES, and advanced encryption standard 256-bit AES Revision 6 (PDF 2.0) to protect documents against unauthorized access.',
-                          style:
-                              TextStyle(fontSize: 16, color: model.textColor)),
-                      const SizedBox(height: 20, width: 30),
-                      Text('Encryption Type',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: model.textColor,
-                              fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 10, width: 30),
-                      if (MediaQuery.of(context).size.width > 800)
-                        Row(children: getChildWidgets(context))
-                      else
-                        Column(children: getChildWidgets(context)),
-                      const SizedBox(height: 10, width: 30),
-                      Row(children: <Widget>[
-                        Text('User Password: ',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: model.textColor,
-                                fontWeight: FontWeight.bold)),
-                        Text('password@123',
-                            style: TextStyle(
-                                fontSize: 16, color: model.textColor)),
-                      ]),
-                      const SizedBox(height: 15, width: 30),
-                      Row(children: <Widget>[
-                        Text('Owner Password: ',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: model.textColor,
-                                fontWeight: FontWeight.bold)),
-                        Text('syncfusion',
-                            style: TextStyle(
-                                fontSize: 16, color: model.textColor)),
-                      ]),
-                      const SizedBox(height: 15, width: 30),
-                      Align(
-                          alignment: Alignment.center,
-                          child: TextButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  model.backgroundColor),
-                              padding: model.isMobile
-                                  ? null
-                                  : MaterialStateProperty.all(
-                                      const EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 15)),
-                            ),
-                            onPressed: _encryptPDF,
-                            child: const Text('Encrypt PDF',
-                                style: TextStyle(color: Colors.white)),
-                          ))
-                    ]),
-              ),
-            )));
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                      'This sample shows how to encrypt the existing PDF document with encryption standard like 40-bit RC4, 128-bit RC4, 128-bit AES, 256-bit AES, and advanced encryption standard 256-bit AES Revision 6 (PDF 2.0) to protect documents against unauthorized access.',
+                      style: TextStyle(fontSize: 16, color: model.textColor)),
+                  const SizedBox(height: 20, width: 30),
+                  Text('Encryption Type',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: model.textColor,
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10, width: 30),
+                  if (MediaQuery.of(context).size.width > 800)
+                    Row(children: getChildWidgets(context))
+                  else
+                    Column(children: getChildWidgets(context)),
+                  const SizedBox(height: 10, width: 30),
+                  Row(children: <Widget>[
+                    Text('User Password: ',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: model.textColor,
+                            fontWeight: FontWeight.bold)),
+                    Text('password@123',
+                        style: TextStyle(fontSize: 16, color: model.textColor)),
+                  ]),
+                  const SizedBox(height: 15, width: 30),
+                  Row(children: <Widget>[
+                    Text('Owner Password: ',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: model.textColor,
+                            fontWeight: FontWeight.bold)),
+                    Text('syncfusion',
+                        style: TextStyle(fontSize: 16, color: model.textColor)),
+                  ]),
+                  const SizedBox(height: 15, width: 30),
+                  Align(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              model.backgroundColor),
+                          padding: model.isMobile
+                              ? null
+                              : MaterialStateProperty.all(
+                                  const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 15)),
+                        ),
+                        onPressed: _encryptPDF,
+                        child: const Text('Encrypt PDF',
+                            style: TextStyle(color: Colors.white)),
+                      ))
+                ]),
+          ),
+        ));
   }
 
   List<Widget> getChildWidgets(BuildContext context) {

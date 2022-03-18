@@ -23,7 +23,7 @@ class AnimationColumnDefault extends SampleView {
 class _AnimationColumnDefaultState extends SampleViewState {
   _AnimationColumnDefaultState();
 
-  late List<_ChartData> _chartData;
+  List<_ChartData>? _chartData;
   Timer? _timer;
 
   @override
@@ -55,7 +55,7 @@ class _AnimationColumnDefaultState extends SampleViewState {
   List<ColumnSeries<_ChartData, num>> _getDefaultColumnSeries() {
     return <ColumnSeries<_ChartData, num>>[
       ColumnSeries<_ChartData, num>(
-          dataSource: _chartData,
+          dataSource: _chartData!,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y)
     ];
@@ -65,6 +65,7 @@ class _AnimationColumnDefaultState extends SampleViewState {
   void dispose() {
     super.dispose();
     _timer!.cancel();
+    _chartData!.clear();
   }
 
   ///Generate random value
@@ -77,7 +78,7 @@ class _AnimationColumnDefaultState extends SampleViewState {
   void _getChartData() {
     _chartData = <_ChartData>[];
     for (int i = 1; i < 8; i++) {
-      _chartData.add(_ChartData(i, _getRandomInt(0, 100)));
+      _chartData!.add(_ChartData(i, _getRandomInt(0, 100)));
     }
     _timer?.cancel();
   }

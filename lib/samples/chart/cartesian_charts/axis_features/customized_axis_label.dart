@@ -5,7 +5,6 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/rendering.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -21,45 +20,80 @@ class CustomLabelsEvent extends SampleView {
   _CustomLabelsEventState createState() => _CustomLabelsEventState();
 }
 
-class _CustomLabelsEventState extends SampleViewState {
+class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
   _CustomLabelsEventState();
 
-  int _segmentedControlValue = 0;
+  late int _segmentedControlValue;
 
   /// Here we define the chart data source.
-  List<_LabelData> _chartData = <_LabelData>[
-    _LabelData(DateTime(2016), 57),
-    _LabelData(DateTime(2017), 70),
-    _LabelData(DateTime(2018), 58),
-    _LabelData(DateTime(2019), 65),
-    _LabelData(DateTime(2020), 38),
-  ];
-  final List<_LabelData> _tileViewData = <_LabelData>[
-    _LabelData(DateTime(2016), 57),
-    _LabelData(DateTime(2017), 70),
-    _LabelData(DateTime(2018), 58),
-    _LabelData(DateTime(2019), 65),
-    _LabelData(DateTime(2020), 38),
-  ];
-  final int _count = 5;
+  late List<_LabelData> _chartData;
+  late List<_LabelData> _tileViewData;
+  late int _count = 5;
   static DateTime _current = DateTime.now();
-  int _currentyear = _current.year;
-  int _currentmonth = _current.month;
-  int _currentdate = _current.day;
-  int _currenthour = _current.hour;
-  int _currentmin = _current.minute;
-  final DateFormat _formatter = DateFormat().add_d();
-  final DateFormat _formatter1 = DateFormat().add_j();
-  final DateFormat _formatter2 = DateFormat().add_m();
-  final DateFormat _formatter3 = DateFormat().add_MMM();
-  final DateFormat _formatter4 = DateFormat().add_y();
-  DateTimeIntervalType _timeinterval = DateTimeIntervalType.years;
-  DateFormat _format = DateFormat.y();
-  bool _isYear = true;
-  bool _isMonth = false;
-  bool _isDay = false;
-  bool _isHours = false;
-  bool _isMin = false;
+  late int _currentyear;
+  late int _currentmonth;
+  late int _currentdate;
+  late int _currenthour;
+  late int _currentmin;
+  late DateFormat _formatter;
+  late DateFormat _formatter1;
+  late DateFormat _formatter2;
+  late DateFormat _formatter3;
+  late DateFormat _formatter4;
+  late DateTimeIntervalType _timeinterval;
+  late DateFormat _format;
+  late bool _isYear;
+  late bool _isMonth;
+  late bool _isDay;
+  late bool _isHours;
+  late bool _isMin;
+  late double bottomPadding;
+
+  @override
+  void initState() {
+    _segmentedControlValue = 0;
+    _chartData = <_LabelData>[
+      _LabelData(DateTime(2016), 57),
+      _LabelData(DateTime(2017), 70),
+      _LabelData(DateTime(2018), 58),
+      _LabelData(DateTime(2019), 65),
+      _LabelData(DateTime(2020), 38),
+    ];
+    _tileViewData = <_LabelData>[
+      _LabelData(DateTime(2016), 57),
+      _LabelData(DateTime(2017), 70),
+      _LabelData(DateTime(2018), 58),
+      _LabelData(DateTime(2019), 65),
+      _LabelData(DateTime(2020), 38),
+    ];
+    _count = 5;
+    _currentyear = _current.year;
+    _currentmonth = _current.month;
+    _currentdate = _current.day;
+    _currenthour = _current.hour;
+    _currentmin = _current.minute;
+    _formatter = DateFormat().add_d();
+    _formatter1 = DateFormat().add_j();
+    _formatter2 = DateFormat().add_m();
+    _formatter3 = DateFormat().add_MMM();
+    _formatter4 = DateFormat().add_y();
+    _timeinterval = DateTimeIntervalType.years;
+    _format = DateFormat.y();
+    _isYear = true;
+    _isMonth = false;
+    _isDay = false;
+    _isHours = false;
+    _isMin = false;
+    random = Random();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _chartData.clear();
+    _tileViewData.clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +104,7 @@ class _CustomLabelsEventState extends SampleViewState {
       _isHours = false;
       _isMin = false;
     });
-    final double bottomPadding = isCardView ? 0 : 50;
+    bottomPadding = isCardView ? 0 : 50;
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: Padding(
@@ -81,7 +115,7 @@ class _CustomLabelsEventState extends SampleViewState {
   }
 
   /// Get the format picker
-  Widget _segmentedControl() => Container(
+  Widget _segmentedControl() => SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Container(
             foregroundDecoration: const BoxDecoration(shape: BoxShape.circle),
@@ -140,41 +174,52 @@ class _CustomLabelsEventState extends SampleViewState {
       [List<_LabelData>? data]) {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      axisLabelFormatter: (AxisLabelRenderDetails details) {
-        if (details.axis is DateTimeAxis &&
-            _isYear &&
-            _formatter4.format(_current).toString() == details.text) {
-          return ChartAxisLabel('Current\nYear',
-              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
-        } else if (details.axis is DateTimeAxis &&
-            _isMonth &&
-            _formatter3.format(_current).toString() == details.text) {
-          return ChartAxisLabel('Current\nMonth',
-              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
-        } else if (details.axis is DateTimeAxis &&
-            _isDay &&
-            _formatter.format(_current).toString() == details.text) {
-          return ChartAxisLabel('Today',
-              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
-        } else if (details.axis is DateTimeAxis &&
-            _isHours &&
-            _formatter1.format(_current).toString() == details.text) {
-          return ChartAxisLabel('Current\nHour',
-              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
-        } else if (details.axis is DateTimeAxis &&
-            _isMin &&
-            _formatter2.format(_current).toString() == details.text) {
-          return ChartAxisLabel('Now',
-              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red));
-        } else {
-          return ChartAxisLabel(details.text, null);
-        }
-      },
       primaryXAxis: DateTimeAxis(
-          interval: 1,
-          intervalType: _timeinterval,
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          dateFormat: _format),
+        interval: 1,
+        intervalType: _timeinterval,
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        dateFormat: _format,
+        axisLabelFormatter: (AxisLabelRenderDetails details) {
+          if (details.axis is DateTimeAxis &&
+              _isYear &&
+              _formatter4.format(_current) == details.text) {
+            return ChartAxisLabel(
+                'Current\nYear',
+                const TextStyle(
+                    fontStyle: FontStyle.italic, color: Colors.red));
+          } else if (details.axis is DateTimeAxis &&
+              _isMonth &&
+              _formatter3.format(_current) == details.text) {
+            return ChartAxisLabel(
+                'Current\nMonth',
+                const TextStyle(
+                    fontStyle: FontStyle.italic, color: Colors.red));
+          } else if (details.axis is DateTimeAxis &&
+              _isDay &&
+              _formatter.format(_current) == details.text) {
+            return ChartAxisLabel(
+                'Today',
+                const TextStyle(
+                    fontStyle: FontStyle.italic, color: Colors.red));
+          } else if (details.axis is DateTimeAxis &&
+              _isHours &&
+              _formatter1.format(_current) == details.text) {
+            return ChartAxisLabel(
+                'Current\nHour',
+                const TextStyle(
+                    fontStyle: FontStyle.italic, color: Colors.red));
+          } else if (details.axis is DateTimeAxis &&
+              _isMin &&
+              _formatter2.format(_current) == details.text) {
+            return ChartAxisLabel(
+                'Now',
+                const TextStyle(
+                    fontStyle: FontStyle.italic, color: Colors.red));
+          } else {
+            return ChartAxisLabel(details.text, null);
+          }
+        },
+      ),
       series: _getDefaultLineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -192,7 +237,7 @@ class _CustomLabelsEventState extends SampleViewState {
     ];
   }
 
-  final Random random = Random();
+  late Random random;
   int _getRandomInt(int min, int max) {
     return min + random.nextInt(max - min);
   }

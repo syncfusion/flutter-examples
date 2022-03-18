@@ -1,6 +1,6 @@
 /// Package imports
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -26,8 +26,8 @@ class _RSIIndicatorState extends SampleViewState {
   late double _overBought;
   late double _overSold;
   late bool _showZones;
-  late TrackballBehavior _trackballBehavior;
-  late TooltipBehavior _tooltipBehavior;
+  TrackballBehavior? _trackballBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -58,89 +58,102 @@ class _RSIIndicatorState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          ListTile(
-            title: Text(
-              'Period',
-              softWrap: false,
-              style: TextStyle(color: model.textColor),
-            ),
-            trailing: Container(
-              width: 0.5 * screenWidth,
-              padding: EdgeInsets.only(left: 0.03 * screenWidth),
-              child: CustomDirectionalButtons(
-                maxValue: 50,
-                initialValue: _period,
-                onChanged: (double val) => setState(() {
-                  _period = val;
-                }),
-                loop: true,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 20.0, color: model.textColor),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                '  Period',
+                softWrap: false,
+                style: TextStyle(fontSize: 16, color: model.textColor),
               ),
-            ),
+              Container(
+                width: 0.5 * screenWidth,
+                padding: EdgeInsets.only(left: 0.03 * screenWidth),
+                child: CustomDirectionalButtons(
+                  maxValue: 50,
+                  initialValue: _period,
+                  onChanged: (double val) => setState(() {
+                    _period = val;
+                  }),
+                  loop: true,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 20.0, color: model.textColor),
+                ),
+              )
+            ],
           ),
-          ListTile(
-            title: Text(
-              'Overbought',
-              softWrap: false,
-              style: TextStyle(color: model.textColor),
-            ),
-            trailing: Container(
-              width: 0.5 * screenWidth,
-              padding: EdgeInsets.only(left: 0.03 * screenWidth),
-              child: CustomDirectionalButtons(
-                maxValue: 100,
-                initialValue: _overBought,
-                onChanged: (double val) => setState(() {
-                  _overBought = val;
-                }),
-                loop: true,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 20.0, color: model.textColor),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                '  Overbought',
+                softWrap: false,
+                style: TextStyle(fontSize: 16, color: model.textColor),
               ),
-            ),
+              Container(
+                width: 0.5 * screenWidth,
+                padding: EdgeInsets.only(left: 0.03 * screenWidth),
+                child: CustomDirectionalButtons(
+                  maxValue: 100,
+                  initialValue: _overBought,
+                  onChanged: (double val) => setState(() {
+                    _overBought = val;
+                  }),
+                  loop: true,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 20.0, color: model.textColor),
+                ),
+              )
+            ],
           ),
-          ListTile(
-            title: Text(
-              'Oversold',
-              softWrap: false,
-              style: TextStyle(color: model.textColor),
-            ),
-            trailing: Container(
-              width: 0.5 * screenWidth,
-              padding: EdgeInsets.only(left: 0.03 * screenWidth),
-              child: CustomDirectionalButtons(
-                maxValue: 50,
-                initialValue: _overSold,
-                onChanged: (double val) => setState(() {
-                  _overSold = val;
-                }),
-                loop: true,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 20.0, color: model.textColor),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                '  Oversold',
+                softWrap: false,
+                style: TextStyle(fontSize: 16, color: model.textColor),
               ),
-            ),
+              Container(
+                width: 0.5 * screenWidth,
+                padding: EdgeInsets.only(left: 0.03 * screenWidth),
+                child: CustomDirectionalButtons(
+                  maxValue: 50,
+                  initialValue: _overSold,
+                  onChanged: (double val) => setState(() {
+                    _overSold = val;
+                  }),
+                  loop: true,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 20.0, color: model.textColor),
+                ),
+              )
+            ],
           ),
-          ListTile(
-              title: Text(model.isWebFullView ? 'Show \nzones' : 'Show zones',
-                  softWrap: false,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                  width: 0.5 * screenWidth,
-                  child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: EdgeInsets.zero,
-                      activeColor: model.backgroundColor,
-                      value: _showZones,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _showZones = value!;
-                          stateSetter(() {});
-                        });
-                      }))),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(model.isWebFullView ? '  Show \n  zones' : '  Show zones',
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: model.textColor,
+                    )),
+                Container(
+                    padding: EdgeInsets.only(left: 0.05 * screenWidth),
+                    width: 0.5 * screenWidth,
+                    child: CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        activeColor: model.backgroundColor,
+                        value: _showZones,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _showZones = value!;
+                            stateSetter(() {});
+                          });
+                        }))
+              ]),
         ],
       );
     });
@@ -192,11 +205,10 @@ class _RSIIndicatorState extends SampleViewState {
 
   /// Returns the list of chart series which need to render on the OHLC chart.
   List<ChartSeries<ChartSampleData, DateTime>> _getDataLabelHilotSeries() {
-    final List<ChartSampleData> chartData = getChartData();
     return <ChartSeries<ChartSampleData, DateTime>>[
       HiloOpenCloseSeries<ChartSampleData, DateTime>(
           emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
-          dataSource: chartData,
+          dataSource: getChartData(),
           opacity: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           lowValueMapper: (ChartSampleData sales, _) => sales.low,

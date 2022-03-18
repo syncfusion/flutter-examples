@@ -1,9 +1,14 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import './mobile_helper.dart' if (dart.library.html) './web_helper.dart'
+    as helper;
 
 /// To check platform whether it is desktop or not.
-bool isDesktop = kIsWeb || Platform.isMacOS;
+bool isDesktop = kIsWeb || Platform.isMacOS || Platform.isWindows;
+
+/// Indicates whether the current environment is running in macOS desktop.
+bool kIsMacOS = helper.getPlatformType() == 'macos';
 
 /// Shows toast once after the selected text is copied to the Clipboard.
 Widget showToast(bool canShowToast, Alignment alignment, String toastText) {
@@ -39,18 +44,18 @@ Widget showToast(bool canShowToast, Alignment alignment, String toastText) {
       ));
 }
 
-/// Displays the error message
+/// Displays the error message.
 void showErrorDialog(BuildContext context, String error, String description) {
   showDialog<dynamic>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        insetPadding: const EdgeInsets.all(0),
+        insetPadding: EdgeInsets.zero,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(error),
-            Container(
+            SizedBox(
               height: 36, // height of close search menu button
               width: 36, // width of close search menu button
               child: RawMaterialButton(
@@ -65,7 +70,7 @@ void showErrorDialog(BuildContext context, String error, String description) {
             ),
           ],
         ),
-        content: Container(width: 328.0, child: Text(description)),
+        content: SizedBox(width: 328.0, child: Text(description)),
         actions: <Widget>[
           TextButton(
             onPressed: () {

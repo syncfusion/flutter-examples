@@ -24,233 +24,37 @@ class _CartesianLegendOptionsState extends SampleViewState {
 
   late bool toggleVisibility;
   late bool enableFloatingLegend;
-  final List<String> _positionList =
-      <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
   late String _selectedPosition;
-  late LegendPosition _position;
-  final List<String> _modeList = <String>['wrap', 'scroll', 'none'].toList();
   late String _selectedMode;
-  late LegendItemOverflowMode _overflowMode;
-  late double _xOffset = 0.0;
-  late double _yOffset = 0.0;
+  late double _xOffset;
+  late double _yOffset;
+  LegendPosition? _position;
+  LegendItemOverflowMode? _overflowMode;
+  List<String>? _positionList;
+  List<String>? _modeList;
+  List<ChartSampleData>? chartData;
+
+  @override
+  void dispose() {
+    _positionList!.clear();
+    _modeList!.clear();
+    chartData!.clear();
+    super.dispose();
+  }
 
   @override
   void initState() {
+    _xOffset = 0.0;
+    _yOffset = 0.0;
     _selectedPosition = 'auto';
     _position = LegendPosition.auto;
     _selectedMode = 'wrap';
     _overflowMode = LegendItemOverflowMode.wrap;
     toggleVisibility = true;
     enableFloatingLegend = false;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildCartesianLegendOptionsChart();
-  }
-
-  @override
-  Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
-    return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          ListTile(
-            title: Text('Position ',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
-                )),
-            trailing: Container(
-                padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                width: 0.4 * screenWidth,
-                height: 50,
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _selectedPosition,
-                    items: _positionList.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'auto',
-                          child: Text(value,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      _onPositionTypeChange(value.toString());
-                      stateSetter(() {});
-                    })),
-          ),
-          ListTile(
-            title: Text('Overflow mode',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
-                )),
-            trailing: Container(
-                padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                width: 0.4 * screenWidth,
-                height: 50,
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _selectedMode,
-                    items: _modeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'wrap',
-                          child: Text(value,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      _onModeTypeChange(value);
-                      stateSetter(() {});
-                    })),
-          ),
-          ListTile(
-            title: Text(
-                model.isWebFullView
-                    ? 'Toggle \nvisibility'
-                    : 'Toggle visibility',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
-                )),
-            trailing: Container(
-                padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                width: 0.4 * screenWidth,
-                child: CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
-                    activeColor: model.backgroundColor,
-                    value: toggleVisibility,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        toggleVisibility = value!;
-                        stateSetter(() {});
-                      });
-                    })),
-          ),
-          ListTile(
-            title: Text(
-                model.isWebFullView ? 'Floating \nlegend' : 'Floating legend',
-                softWrap: false,
-                style: TextStyle(
-                  color: model.textColor,
-                )),
-            trailing: Container(
-                padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                width: 0.4 * screenWidth,
-                child: CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
-                    activeColor: model.backgroundColor,
-                    value: enableFloatingLegend,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        enableFloatingLegend = value!;
-                        stateSetter(() {});
-                      });
-                    })),
-          ),
-          ListTile(
-              title: Text('X offset',
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                width: 0.4 * screenWidth,
-                height: 50,
-                child: CustomDirectionalButtons(
-                  minValue: -100,
-                  maxValue: 100,
-                  initialValue: _xOffset,
-                  onChanged: (double val) => setState(() {
-                    _xOffset = enableFloatingLegend ? val : 0;
-                  }),
-                  step: enableFloatingLegend ? 10 : 0,
-                  iconColor: model.textColor
-                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor
-                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
-                ),
-              )),
-          ListTile(
-              title: Text('Y offset',
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-              trailing: Container(
-                width: 0.4 * screenWidth,
-                height: 50,
-                child: CustomDirectionalButtons(
-                  minValue: -100,
-                  maxValue: 100,
-                  initialValue: _yOffset,
-                  onChanged: (double val) => setState(() {
-                    _yOffset = enableFloatingLegend ? val : 0;
-                  }),
-                  step: enableFloatingLegend ? 10 : 0,
-                  iconColor: model.textColor
-                      .withOpacity(enableFloatingLegend ? 1 : 0.5),
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor
-                          .withOpacity(enableFloatingLegend ? 1 : 0.5)),
-                ),
-              )),
-        ],
-      );
-    });
-  }
-
-  /// Returns the stacked line chart with various legedn modification options.
-  SfCartesianChart _buildCartesianLegendOptionsChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      title: ChartTitle(
-          text: isCardView ? '' : 'Sales comparision of fruits in a shop'),
-
-      /// Legend and its options for cartesian chart.
-      legend: Legend(
-        isVisible: true,
-        position: _position,
-        offset: enableFloatingLegend ? Offset(_xOffset, _yOffset) : null,
-        overflowMode: _overflowMode,
-        toggleSeriesVisibility: toggleVisibility,
-        backgroundColor: model.currentThemeData?.brightness == Brightness.light
-            ? Colors.white.withOpacity(0.5)
-            : const Color.fromRGBO(33, 33, 33, 0.5),
-        borderColor: model.currentThemeData?.brightness == Brightness.light
-            ? Colors.black.withOpacity(0.5)
-            : Colors.white.withOpacity(0.5),
-        borderWidth: 1,
-      ),
-
-      primaryXAxis: DateTimeAxis(
-          majorGridLines: const MajorGridLines(width: 0),
-          intervalType: DateTimeIntervalType.years,
-          dateFormat: DateFormat.y()),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          labelFormat: '{value}B',
-          interval: isCardView ? null : 1,
-          majorTickLines: const MajorTickLines(size: 0)),
-      series: _getStackedAreaSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
-    );
-  }
-
-  /// Returns the list of chart series which need to render
-  /// on the stacked area chart.
-  List<StackedAreaSeries<ChartSampleData, DateTime>> _getStackedAreaSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
+    _positionList = <String>['auto', 'bottom', 'left', 'right', 'top'].toList();
+    _modeList = <String>['wrap', 'scroll', 'none'].toList();
+    chartData = <ChartSampleData>[
       ChartSampleData(
           x: DateTime(2000, 1, 1),
           y: 0.61,
@@ -348,28 +152,310 @@ class _CartesianLegendOptionsState extends SampleViewState {
           secondSeriesYValue: 0.71,
           thirdSeriesYValue: 2.71),
     ];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildCartesianLegendOptionsChart();
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    final double screenWidth =
+        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double dropDownWidth = 0.7 * screenWidth;
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
+              Expanded(
+                flex: 14,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('Position',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                              width: dropDownWidth,
+                              child: DropdownButton<String>(
+                                  focusColor: Colors.transparent,
+                                  isExpanded: true,
+                                  underline: Container(
+                                      color: const Color(0xFFBDBDBD),
+                                      height: 1),
+                                  value: _selectedPosition,
+                                  items: _positionList!.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                        value: (value != null) ? value : 'auto',
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                color: model.textColor)));
+                                  }).toList(),
+                                  onChanged: (dynamic value) {
+                                    _onPositionTypeChange(value.toString());
+                                    stateSetter(() {});
+                                  })),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                              model.isWebFullView
+                                  ? 'Overflow \nmode'
+                                  : 'Overflow mode',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: SizedBox(
+                            width: dropDownWidth,
+                            child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
+                                isExpanded: true,
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _selectedMode,
+                                items: _modeList!.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: (value != null) ? value : 'wrap',
+                                      child: Text(value,
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                onChanged: (dynamic value) {
+                                  _onModeTypeChange(value);
+                                  stateSetter(() {});
+                                }),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 6.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                              model.isWebFullView
+                                  ? 'Toggle \nvisibility'
+                                  : 'Toggle visibility',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          child: Container(
+                              padding: EdgeInsets.only(
+                                  right: model.isMobile
+                                      ? 0.29 * screenWidth
+                                      : 0.37 * screenWidth),
+                              width: dropDownWidth,
+                              child: Checkbox(
+                                  activeColor: model.backgroundColor,
+                                  value: toggleVisibility,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      toggleVisibility = value!;
+                                      stateSetter(() {});
+                                    });
+                                  })),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 6.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                              model.isWebFullView
+                                  ? 'Floating \nlegend'
+                                  : 'Floating legend',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        const SizedBox(height: 6.0),
+                        Flexible(
+                          child: Container(
+                              padding: EdgeInsets.only(
+                                  right: model.isMobile
+                                      ? 0.29 * screenWidth
+                                      : 0.37 * screenWidth),
+                              width: dropDownWidth,
+                              child: Checkbox(
+                                  activeColor: model.backgroundColor,
+                                  value: enableFloatingLegend,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      enableFloatingLegend = value!;
+                                      stateSetter(() {});
+                                    });
+                                  })),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          flex: 3,
+                          child: Text('X offset',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          flex: 4,
+                          child: CustomDirectionalButtons(
+                            minValue: -100,
+                            maxValue: 100,
+                            initialValue: _xOffset,
+                            onChanged: (double val) => setState(() {
+                              _xOffset = enableFloatingLegend ? val : 0;
+                            }),
+                            step: enableFloatingLegend ? 10 : 0,
+                            iconColor: model.textColor
+                                .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: model.textColor.withOpacity(
+                                    enableFloatingLegend ? 1 : 0.5)),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          flex: 3,
+                          child: Text('Y offset',
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: model.textColor,
+                              )),
+                        ),
+                        Flexible(
+                          flex: 4,
+                          child: CustomDirectionalButtons(
+                            minValue: -100,
+                            maxValue: 100,
+                            initialValue: _yOffset,
+                            onChanged: (double val) => setState(() {
+                              _yOffset = enableFloatingLegend ? val : 0;
+                            }),
+                            step: enableFloatingLegend ? 10 : 0,
+                            iconColor: model.textColor
+                                .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: model.textColor.withOpacity(
+                                    enableFloatingLegend ? 1 : 0.5)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(flex: model.isMobile ? 3 : 1, child: Container()),
+            ],
+          ),
+        ],
+      );
+    });
+  }
+
+  /// Returns the stacked line chart with various legedn modification options.
+  SfCartesianChart _buildCartesianLegendOptionsChart() {
+    return SfCartesianChart(
+      plotAreaBorderWidth: 0,
+      title: ChartTitle(
+          text: isCardView ? '' : 'Sales comparision of fruits in a shop'),
+
+      /// Legend and its options for cartesian chart.
+      legend: Legend(
+        isVisible: true,
+        position: _position,
+        offset: enableFloatingLegend ? Offset(_xOffset, _yOffset) : null,
+        overflowMode: _overflowMode,
+        toggleSeriesVisibility: toggleVisibility,
+        backgroundColor: model.currentThemeData?.brightness == Brightness.light
+            ? Colors.white.withOpacity(0.5)
+            : const Color.fromRGBO(33, 33, 33, 0.5),
+        borderColor: model.currentThemeData?.brightness == Brightness.light
+            ? Colors.black.withOpacity(0.5)
+            : Colors.white.withOpacity(0.5),
+        borderWidth: 1,
+      ),
+
+      primaryXAxis: DateTimeAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          intervalType: DateTimeIntervalType.years,
+          dateFormat: DateFormat.y()),
+      primaryYAxis: NumericAxis(
+          axisLine: const AxisLine(width: 0),
+          labelFormat: '{value}B',
+          interval: isCardView ? null : 1,
+          majorTickLines: const MajorTickLines(size: 0)),
+      series: _getStackedAreaSeries(),
+      tooltipBehavior: TooltipBehavior(enable: true),
+    );
+  }
+
+  /// Returns the list of chart series which need to render
+  /// on the stacked area chart.
+  List<StackedAreaSeries<ChartSampleData, DateTime>> _getStackedAreaSeries() {
     return <StackedAreaSeries<ChartSampleData, DateTime>>[
       StackedAreaSeries<ChartSampleData, DateTime>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Apple'),
       StackedAreaSeries<ChartSampleData, DateTime>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Orange'),
       StackedAreaSeries<ChartSampleData, DateTime>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Pear'),
       StackedAreaSeries<ChartSampleData, DateTime>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Others')

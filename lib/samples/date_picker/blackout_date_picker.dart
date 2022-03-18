@@ -41,11 +41,22 @@ class _BlackoutDatePickerState extends SampleViewState {
     final Random random = Random();
     for (DateTime date = startDate;
         date.isBefore(endDate);
-        date = date.add(Duration(days: random.nextInt(25)))) {
-      dates.add(date);
+        date = date.add(Duration(days: random.nextInt(30)))) {
+      if (date.weekday != DateTime.saturday &&
+          date.weekday != DateTime.sunday) {
+        dates.add(date);
+      }
     }
 
     return dates;
+  }
+
+  bool _selectableDayPredicateDates(DateTime date) {
+    if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+      return false;
+    }
+
+    return true;
   }
 
   @override
@@ -65,13 +76,15 @@ class _BlackoutDatePickerState extends SampleViewState {
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
         color: model.cardThemeColor,
         child: Theme(
-            data: model.themeData.copyWith(accentColor: model.backgroundColor),
+            data: model.themeData.copyWith(
+                colorScheme: model.themeData.colorScheme
+                    .copyWith(secondary: model.backgroundColor)),
             child: _getBlackoutDatePicker()),
       ),
     );
     return Scaffold(
         backgroundColor: model.themeData == null ||
-                model.themeData.brightness == Brightness.light
+                model.themeData.colorScheme.brightness == Brightness.light
             ? null
             : const Color(0x00171a21),
         body: Column(children: <Widget>[
@@ -79,10 +92,9 @@ class _BlackoutDatePickerState extends SampleViewState {
               flex: model.isWebFullView ? 9 : 8,
               child: model.isWebFullView
                   ? Center(
-                      child:
-                          Container(width: 400, height: 600, child: cardView))
+                      child: SizedBox(width: 400, height: 600, child: cardView))
                   : ListView(children: <Widget>[
-                      Container(
+                      SizedBox(
                         height: 450,
                         child: cardView,
                       )
@@ -107,6 +119,7 @@ class _BlackoutDatePickerState extends SampleViewState {
       monthViewSettings: DateRangePickerMonthViewSettings(
           showTrailingAndLeadingDates: true, blackoutDates: _blackoutDates),
       showNavigationArrow: model.isWebFullView,
+      selectableDayPredicate: _selectableDayPredicateDates,
     );
   }
 }

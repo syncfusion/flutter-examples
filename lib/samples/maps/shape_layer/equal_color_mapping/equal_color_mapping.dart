@@ -171,7 +171,8 @@ class _MapEqualColorMappingPageState extends SampleViewState {
   }
 
   Widget _buildMapsWidget(ThemeData themeData, bool scrollEnabled) {
-    final bool isLightTheme = themeData.brightness == Brightness.light;
+    final bool isLightTheme =
+        themeData.colorScheme.brightness == Brightness.light;
     return Center(
         child: Padding(
       padding: scrollEnabled
@@ -193,10 +194,10 @@ class _MapEqualColorMappingPageState extends SampleViewState {
           layers: <MapLayer>[
             MapShapeLayer(
               loadingBuilder: (BuildContext context) {
-                return Container(
+                return const SizedBox(
                   height: 25,
                   width: 25,
-                  child: const CircularProgressIndicator(
+                  child: CircularProgressIndicator(
                     strokeWidth: 3,
                   ),
                 );

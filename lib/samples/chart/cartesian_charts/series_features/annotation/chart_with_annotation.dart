@@ -48,7 +48,7 @@ class _AnnotationWatermarkState extends SampleViewState {
         /// To set the annotation content for chart.
         annotations: <CartesianChartAnnotation>[
           CartesianChartAnnotation(
-              widget: Container(
+              widget: SizedBox(
                   height: isCardView
                       ? 100
                       : needSmallAnnotation
@@ -63,7 +63,6 @@ class _AnnotationWatermarkState extends SampleViewState {
                     series: <PieSeries<ChartSampleData, String>>[
                       PieSeries<ChartSampleData, String>(
                           radius: '90%',
-                          enableSmartLabels: false,
                           dataSource: <ChartSampleData>[
                             ChartSampleData(
                                 x: 'Facebook',
@@ -118,31 +117,30 @@ class _AnnotationWatermarkState extends SampleViewState {
   /// Returns the list of series which need to
   /// render on the chart with annotation.
   List<ColumnSeries<ChartSampleData, String>> _getWatermarkAnnotationSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'Facebook',
-          y: 90,
-          xValue: '90',
-          pointColor: const Color.fromRGBO(0, 63, 92, 1)),
-      ChartSampleData(
-          x: 'Twitter',
-          y: 60,
-          xValue: '60',
-          pointColor: const Color.fromRGBO(242, 117, 7, 1)),
-      ChartSampleData(
-          x: 'Instagram',
-          y: 51,
-          xValue: '51',
-          pointColor: const Color.fromRGBO(89, 59, 84, 1)),
-      ChartSampleData(
-          x: 'Snapchat',
-          y: 50,
-          xValue: '50',
-          pointColor: const Color.fromRGBO(217, 67, 80, 1)),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(
+                x: 'Facebook',
+                y: 90,
+                xValue: '90',
+                pointColor: const Color.fromRGBO(0, 63, 92, 1)),
+            ChartSampleData(
+                x: 'Twitter',
+                y: 60,
+                xValue: '60',
+                pointColor: const Color.fromRGBO(242, 117, 7, 1)),
+            ChartSampleData(
+                x: 'Instagram',
+                y: 51,
+                xValue: '51',
+                pointColor: const Color.fromRGBO(89, 59, 84, 1)),
+            ChartSampleData(
+                x: 'Snapchat',
+                y: 50,
+                xValue: '50',
+                pointColor: const Color.fromRGBO(217, 67, 80, 1)),
+          ],
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,

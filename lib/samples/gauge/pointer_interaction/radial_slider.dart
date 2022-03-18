@@ -97,7 +97,7 @@ class _RadialSliderExampleState extends SampleViewState {
                     ),
                     Expanded(
                         flex: model.isWebFullView ? 2 : 3,
-                        child: Container(
+                        child: SizedBox(
                           width: _width,
                           child: Slider(
                             activeColor: const Color(0xFF02AAB0),

@@ -20,40 +20,11 @@ class RangeBarChart extends SampleView {
 class _RangeBarChartState extends SampleViewState {
   _RangeBarChartState();
 
+  List<ChartSampleData>? chartData;
+
   @override
-  Widget build(BuildContext context) {
-    return _buildRangeBarChart();
-  }
-
-  /// Returns the vertical range column chart.
-  SfCartesianChart _buildRangeBarChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 1,
-      title: ChartTitle(
-          text:
-              isCardView ? '' : 'Temperature variation – Sydney vs Melbourne'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
-      ),
-      legend: Legend(isVisible: !isCardView),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          labelFormat: '{value}°F',
-          minimum: 40,
-          maximum: 80),
-      series: _getVerticalRangeColumnSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
-
-      /// To enable this property we can get the vertical series.
-      isTransposed: true,
-    );
-  }
-
-  /// Returns the list of chart series
-  /// which need to render on the vertical range column chart.
-  List<RangeColumnSeries<ChartSampleData, String>>
-      _getVerticalRangeColumnSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
+  void initState() {
+    chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'Jul',
           y: 46,
@@ -91,9 +62,45 @@ class _RangeBarChartState extends SampleViewState {
           secondSeriesYValue: 57,
           thirdSeriesYValue: 75),
     ];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildRangeBarChart();
+  }
+
+  /// Returns the vertical range column chart.
+  SfCartesianChart _buildRangeBarChart() {
+    return SfCartesianChart(
+      plotAreaBorderWidth: 1,
+      title: ChartTitle(
+          text:
+              isCardView ? '' : 'Temperature variation – Sydney vs Melbourne'),
+      primaryXAxis: CategoryAxis(
+        majorGridLines: const MajorGridLines(width: 0),
+      ),
+      legend: Legend(isVisible: !isCardView),
+      primaryYAxis: NumericAxis(
+          axisLine: const AxisLine(width: 0),
+          labelFormat: '{value}°F',
+          minimum: 40,
+          maximum: 80),
+      series: _getVerticalRangeColumnSeries(),
+      tooltipBehavior: TooltipBehavior(enable: true),
+
+      /// To enable this property we can get the vertical series.
+      isTransposed: true,
+    );
+  }
+
+  /// Returns the list of chart series
+  /// which need to render on the vertical range column chart.
+  List<RangeColumnSeries<ChartSampleData, String>>
+      _getVerticalRangeColumnSeries() {
     return <RangeColumnSeries<ChartSampleData, String>>[
       RangeColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           lowValueMapper: (ChartSampleData sales, _) => sales.y,
           highValueMapper: (ChartSampleData sales, _) => sales.yValue,
@@ -102,7 +109,7 @@ class _RangeBarChartState extends SampleViewState {
               isVisible: !isCardView,
               labelAlignment: ChartDataLabelAlignment.top)),
       RangeColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           lowValueMapper: (ChartSampleData sales, _) =>
               sales.secondSeriesYValue,
@@ -113,5 +120,11 @@ class _RangeBarChartState extends SampleViewState {
               isVisible: !isCardView,
               labelAlignment: ChartDataLabelAlignment.top))
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

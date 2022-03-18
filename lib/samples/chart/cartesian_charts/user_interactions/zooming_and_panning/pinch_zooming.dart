@@ -21,17 +21,23 @@ class DefaultPanning extends SampleView {
 /// State class of the chart with pinch zooming.
 class _DefaultPanningState extends SampleViewState {
   _DefaultPanningState();
-  final List<String> _zoomModeTypeList = <String>['x', 'y', 'xy'].toList();
-  late String _selectedModeType = 'x';
-  late ZoomMode _zoomModeType = ZoomMode.x;
+  late List<String> _zoomModeTypeList;
+  late String _selectedModeType;
+  late ZoomMode _zoomModeType;
   late bool _enableAnchor;
-  GlobalKey<State> chartKey = GlobalKey<State>();
-  num left = 0, top = 0;
+  late GlobalKey<State> chartKey;
+  late num left, top;
+  late List<ChartSampleData> randomData;
   @override
   void initState() {
+    _zoomModeTypeList = <String>['x', 'y', 'xy'].toList();
     _selectedModeType = 'x';
     _zoomModeType = ZoomMode.x;
+    chartKey = GlobalKey<State>();
     _enableAnchor = true;
+    left = 0;
+    top = 0;
+    getDateTimeData();
     super.initState();
   }
 
@@ -49,34 +55,33 @@ class _DefaultPanningState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Zoom mode ',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(70, 0, 40, 0),
-                  height: 50,
-                  child: DropdownButton<String>(
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _selectedModeType,
-                      items: _zoomModeTypeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'x',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (String? value) {
-                        _onZoomTypeChange(value.toString());
-                        stateSetter(() {});
-                      }),
-                ),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Zoom mode ',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              Container(
+                padding: const EdgeInsets.fromLTRB(70, 0, 40, 0),
+                height: 50,
+                child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
+                    underline:
+                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    value: _selectedModeType,
+                    items: _zoomModeTypeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'x',
+                          child: Text(value,
+                              style: TextStyle(color: model.textColor)));
+                    }).toList(),
+                    onChanged: (String? value) {
+                      _onZoomTypeChange(value.toString());
+                      stateSetter(() {});
+                    }),
+              ),
+            ],
           ),
           Visibility(
             visible: _selectedModeType == 'x' ? true : false,
@@ -87,7 +92,7 @@ class _DefaultPanningState extends SampleViewState {
                       color: model.textColor,
                       fontSize: 16,
                     )),
-                Container(
+                SizedBox(
                     width: 90,
                     child: CheckboxListTile(
                         activeColor: model.backgroundColor,
@@ -131,33 +136,22 @@ class _DefaultPanningState extends SampleViewState {
   /// Returns the list of chart series
   /// which need to render on the chart with pinch zooming.
   List<AreaSeries<ChartSampleData, DateTime>> getDefaultPanningSeries() {
-    final List<Color> color = <Color>[];
-    color.add(Colors.teal[50]!);
-    color.add(Colors.teal[200]!);
-    color.add(Colors.teal);
-
-    final List<double> stops = <double>[];
-    stops.add(0.0);
-    stops.add(0.4);
-    stops.add(1.0);
-
-    final LinearGradient gradientColors = LinearGradient(
-        colors: color,
-        stops: stops,
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter);
     return <AreaSeries<ChartSampleData, DateTime>>[
       AreaSeries<ChartSampleData, DateTime>(
-          dataSource: getDateTimeData(),
+          dataSource: randomData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          gradient: gradientColors)
+          gradient: LinearGradient(
+              colors: <Color>[Colors.teal[50]!, Colors.teal[200]!, Colors.teal],
+              stops: const <double>[0.0, 0.4, 1.0],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter))
     ];
   }
 
   /// Method to get chart data points.
-  List<ChartSampleData> getDateTimeData() {
-    final List<ChartSampleData> randomData = <ChartSampleData>[
+  void getDateTimeData() {
+    randomData = <ChartSampleData>[
       ChartSampleData(x: DateTime(1950, 3, 31), y: 80.7),
       ChartSampleData(x: DateTime(1950, 5, 1), y: 80.2),
       ChartSampleData(x: DateTime(1950, 6, 2), y: 79.3),
@@ -485,7 +479,6 @@ class _DefaultPanningState extends SampleViewState {
       ChartSampleData(x: DateTime(1978, 02, 18), y: 82.0),
       ChartSampleData(x: DateTime(1978, 03, 21), y: 82.0),
     ];
-    return randomData;
   }
 
   /// Method to update the selected zoom type in the chart on change.

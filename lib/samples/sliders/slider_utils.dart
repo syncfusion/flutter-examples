@@ -19,7 +19,9 @@ Widget get columnSpacing30 {
 /// Renders a text widget with left alignment and padding
 Widget title(String text) {
   return Align(
-    alignment: Alignment.centerLeft,
-    child: Padding(padding: const EdgeInsets.only(left: 25), child: Text(text)),
+    alignment: AlignmentDirectional.centerStart,
+    child: Padding(
+        padding: const EdgeInsetsDirectional.only(start: 25),
+        child: Text(text)),
   );
 }

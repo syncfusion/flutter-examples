@@ -1,6 +1,6 @@
 /// Package imports
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -23,8 +23,8 @@ class EMAIndicator extends SampleView {
 class _EMAIndicatorState extends SampleViewState {
   _EMAIndicatorState();
   late double _period;
-  late TrackballBehavior _trackballBehavior;
-  late TooltipBehavior _tooltipBehavior;
+  TrackballBehavior? _trackballBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -72,7 +72,6 @@ class _EMAIndicatorState extends SampleViewState {
 
   /// Returns the the OHLC chart with Exponential moving average indicator.
   SfCartesianChart _buildDefaulEMAIndicator() {
-    final List<ChartSampleData> chartData = getChartData();
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
       plotAreaBorderWidth: 0,
@@ -100,7 +99,7 @@ class _EMAIndicatorState extends SampleViewState {
       series: <ChartSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
             emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: chartData,
+            dataSource: getChartData(),
             opacity: 0.7,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
             lowValueMapper: (ChartSampleData sales, _) => sales.low,

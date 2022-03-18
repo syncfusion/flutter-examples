@@ -1,6 +1,6 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -38,7 +38,7 @@ class _WidgetPointerState extends SampleViewState {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-            Container(
+            SizedBox(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildWidgetPointer(context),
             )
@@ -75,7 +75,10 @@ class _WidgetPointerState extends SampleViewState {
                         'Text widget', _buildTextWidgetPointer(context)),
                     _buildVerticalGauges(
                         'Icon widget', _buildIconWidgetPointer(context)),
-                    _buildVerticalGauges('Multiple widget pointers',
+                    _buildVerticalGauges(
+                        model.isDesktop
+                            ? 'Multiple widgets'
+                            : 'Multiple widget pointers',
                         _buildMultipleWidgetPointers(context)),
                   ],
                 ),
@@ -99,7 +102,7 @@ class _WidgetPointerState extends SampleViewState {
 
   /// Returns the vertical axis track.
   Widget _buildVerticalGauges(String axisTrackName, Widget linearGauge) {
-    return Container(
+    return SizedBox(
       width: 150,
       child: Column(
         children: <Widget>[
@@ -115,7 +118,7 @@ class _WidgetPointerState extends SampleViewState {
   Widget _buildTextWidgetPointer(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -126,7 +129,7 @@ class _WidgetPointerState extends SampleViewState {
             markerPointers: <LinearMarkerPointer>[
               LinearWidgetPointer(
                 value: _textWidgetPointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _textWidgetPointerValue = value as double;
                   });
@@ -164,7 +167,7 @@ class _WidgetPointerState extends SampleViewState {
   Widget _buildIconWidgetPointer(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -175,7 +178,7 @@ class _WidgetPointerState extends SampleViewState {
             markerPointers: <LinearMarkerPointer>[
               LinearWidgetPointer(
                 value: _iconWidgetPointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _iconWidgetPointerValue = value as double;
                   });
@@ -213,7 +216,7 @@ class _WidgetPointerState extends SampleViewState {
   Widget _buildMultipleWidgetPointers(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
 
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -224,7 +227,7 @@ class _WidgetPointerState extends SampleViewState {
             markerPointers: <LinearMarkerPointer>[
               LinearWidgetPointer(
                 value: _textPointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _textPointerValue = value as double;
                   });
@@ -257,7 +260,7 @@ class _WidgetPointerState extends SampleViewState {
               ),
               LinearWidgetPointer(
                 value: _iconPointerValue,
-                onValueChanged: (dynamic value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     _iconPointerValue = value as double;
                   });

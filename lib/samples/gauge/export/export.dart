@@ -144,12 +144,10 @@ class _ExportState extends SampleViewState {
                           )),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-                        child: Container(
-                          child: Text('Temp °C',
-                              style: TextStyle(
-                                  color: model.textColor,
-                                  fontSize: isPortrait ? 22 : 14)),
-                        ),
+                        child: Text('Temp °C',
+                            style: TextStyle(
+                                color: model.textColor,
+                                fontSize: isPortrait ? 22 : 14)),
                       )
                     ],
                   ),

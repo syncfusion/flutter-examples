@@ -19,7 +19,8 @@ class RangeColumnWithTrack extends SampleView {
 /// State class of range column chart with tracker.
 class _RangeColumnWithTrackState extends SampleViewState {
   _RangeColumnWithTrackState();
-  late TooltipBehavior _tooltipBehavior;
+
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =
@@ -56,16 +57,15 @@ class _RangeColumnWithTrackState extends SampleViewState {
   ///  range column cahrt series with tracker.
   List<RangeColumnSeries<ChartSampleData, String>>
       _getRangeColumnSerieswithTrack() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Day 1', y: 3, yValue: 5),
-      ChartSampleData(x: 'Day 2', y: 4, yValue: 7),
-      ChartSampleData(x: 'Day 3', y: 4, yValue: 8),
-      ChartSampleData(x: 'Day 4', y: 2, yValue: 5),
-      ChartSampleData(x: 'Day 5', y: 5, yValue: 7),
-    ];
     return <RangeColumnSeries<ChartSampleData, String>>[
       RangeColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(x: 'Day 1', y: 3, yValue: 5),
+            ChartSampleData(x: 'Day 2', y: 4, yValue: 7),
+            ChartSampleData(x: 'Day 3', y: 4, yValue: 8),
+            ChartSampleData(x: 'Day 4', y: 2, yValue: 5),
+            ChartSampleData(x: 'Day 5', y: 5, yValue: 7),
+          ],
 
           /// To enable tracker for range column using this property.
           isTrackVisible: true,

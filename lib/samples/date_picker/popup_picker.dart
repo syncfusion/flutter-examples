@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-///Date picker imports
-import 'package:syncfusion_flutter_datepicker/datepicker.dart' as _picker;
-
 /// Core import
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:syncfusion_flutter_core/localizations.dart';
+
+///Date picker imports
+import 'package:syncfusion_flutter_datepicker/datepicker.dart' as _picker;
 
 ///Local import
 import '../../model/model.dart';
@@ -85,7 +85,7 @@ class _PopUpDatePickerState extends SampleViewState
                     ),
                   ),
                   Container(
-                      padding: const EdgeInsets.all(0),
+                      padding: EdgeInsets.zero,
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
@@ -158,10 +158,9 @@ class _PopUpDatePickerState extends SampleViewState
                                   ),
                                 )),
                           ])),
-                  Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
                         Expanded(
                             flex: 5,
                             child: Container(
@@ -204,7 +203,7 @@ class _PopUpDatePickerState extends SampleViewState
                                     ),
                                   ],
                                 )))
-                      ])),
+                      ]),
                   const Padding(
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                       child: Divider(
@@ -212,42 +211,86 @@ class _PopUpDatePickerState extends SampleViewState
                         height: 1.0,
                         thickness: 1,
                       )),
-                  Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                        Expanded(
-                            flex: 5,
-                            child: RawMaterialButton(
-                                padding: const EdgeInsets.all(5),
-                                onPressed: () async {
-                                  if (_value == 0) {
-                                    final DateTime? date =
-                                        await showDialog<DateTime?>(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return DateRangePicker(
-                                                  _startDate, null,
-                                                  displayDate: _startDate,
-                                                  minDate: DateTime.now(),
-                                                  model: model);
-                                            });
-                                    if (date != null) {
-                                      _onSelectedDateChanged(date);
-                                    }
-                                  } else {
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: <
+                      Widget>[
+                    Expanded(
+                        flex: 5,
+                        child: RawMaterialButton(
+                            padding: const EdgeInsets.all(5),
+                            onPressed: () async {
+                              if (_value == 0) {
+                                final DateTime? date =
+                                    await showDialog<DateTime?>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return DateRangePicker(
+                                              _startDate, null,
+                                              displayDate: _startDate,
+                                              minDate: DateTime.now(),
+                                              model: model);
+                                        });
+                                if (date != null) {
+                                  _onSelectedDateChanged(date);
+                                }
+                              } else {
+                                final _picker.PickerDateRange? range =
+                                    await showDialog<_picker.PickerDateRange?>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return DateRangePicker(
+                                            null,
+                                            _picker.PickerDateRange(
+                                              _startDate,
+                                              _endDate,
+                                            ),
+                                            displayDate: _startDate,
+                                            minDate: DateTime.now(),
+                                            model: model,
+                                          );
+                                        });
+
+                                if (range != null) {
+                                  _onSelectedRangeChanged(range);
+                                }
+                              }
+                            },
+                            child: Container(
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    const Text('Departure Date',
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 10)),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                                      child: Text(
+                                          DateFormat('dd MMM yyyy')
+                                              .format(_startDate),
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                )))),
+                    Expanded(
+                        flex: 5,
+                        child: RawMaterialButton(
+                            padding: const EdgeInsets.all(5),
+                            onPressed: _value == 0
+                                ? null
+                                : () async {
                                     final _picker.PickerDateRange? range =
                                         await showDialog<
-                                                _picker.PickerDateRange?>(
+                                                _picker.PickerDateRange>(
                                             context: context,
                                             builder: (BuildContext context) {
                                               return DateRangePicker(
                                                 null,
                                                 _picker.PickerDateRange(
-                                                  _startDate,
-                                                  _endDate,
-                                                ),
-                                                displayDate: _startDate,
+                                                    _startDate, _endDate),
+                                                displayDate: _endDate,
                                                 minDate: DateTime.now(),
                                                 model: model,
                                               );
@@ -256,92 +299,39 @@ class _PopUpDatePickerState extends SampleViewState
                                     if (range != null) {
                                       _onSelectedRangeChanged(range);
                                     }
-                                  }
-                                },
-                                child: Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        const Text('Departure Date',
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 10)),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 5, 5, 0),
-                                          child: Text(
-                                              DateFormat('dd MMM yyyy')
-                                                  .format(_startDate),
-                                              style: const TextStyle(
+                                  },
+                            child: Container(
+                                padding: EdgeInsets.zero,
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: _value == 0
+                                      ? <Widget>[
+                                          const Text('Return Date',
+                                              style: TextStyle(
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.w500)),
-                                        ),
-                                      ],
-                                    )))),
-                        Expanded(
-                            flex: 5,
-                            child: RawMaterialButton(
-                                padding: const EdgeInsets.all(5),
-                                onPressed: _value == 0
-                                    ? null
-                                    : () async {
-                                        final _picker.PickerDateRange range =
-                                            (await showDialog<
-                                                    _picker.PickerDateRange>(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return DateRangePicker(
-                                                    null,
-                                                    _picker.PickerDateRange(
-                                                        _startDate, _endDate),
-                                                    displayDate: _endDate,
-                                                    minDate: DateTime.now(),
-                                                    model: model,
-                                                  );
-                                                }))!;
-
-                                        if (range != null) {
-                                          _onSelectedRangeChanged(range);
-                                        }
-                                      },
-                                child: Container(
-                                    padding: const EdgeInsets.all(0),
-                                    alignment: Alignment.centerLeft,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: _value == 0
-                                          ? <Widget>[
-                                              const Text('Return Date',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.grey,
-                                                      fontWeight:
-                                                          FontWeight.w500))
-                                            ]
-                                          : <Widget>[
-                                              const Text('Return Date',
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 10)),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 5, 5, 0),
-                                                child: Text(
-                                                    DateFormat('dd MMM yyyy')
-                                                        .format(_endDate),
-                                                    style: const TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w500)),
-                                              ),
-                                            ],
-                                    ))))
-                      ])),
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w500))
+                                        ]
+                                      : <Widget>[
+                                          const Text('Return Date',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 10)),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 5, 5, 0),
+                                            child: Text(
+                                                DateFormat('dd MMM yyyy')
+                                                    .format(_endDate),
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                          ),
+                                        ],
+                                ))))
+                  ]),
                   const Padding(
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                       child: Divider(
@@ -349,10 +339,9 @@ class _PopUpDatePickerState extends SampleViewState
                         height: 1.0,
                         thickness: 1,
                       )),
-                  Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
                         Expanded(
                             flex: 5,
                             child: Container(
@@ -395,7 +384,7 @@ class _PopUpDatePickerState extends SampleViewState
                                     ),
                                   ],
                                 )))
-                      ])),
+                      ]),
                   Container(
                       margin: const EdgeInsets.only(top: 30),
                       child: Row(
@@ -433,13 +422,13 @@ class _PopUpDatePickerState extends SampleViewState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: model.themeData == null ||
-              model.themeData.brightness == Brightness.light
+              model.themeData.colorScheme.brightness == Brightness.light
           ? null
           : const Color(0x00171a21),
       body: model.isWebFullView
           ? Center(
-              child: Container(width: 400, height: 380, child: _getBooking()))
-          : Container(
+              child: SizedBox(width: 400, height: 380, child: _getBooking()))
+          : SizedBox(
               height: 450,
               child: _getBooking(),
             ),
@@ -583,10 +572,9 @@ class _DateRangePickerState extends State<DateRangePicker> {
                               color: widget.model.textColor),
                         ),
                       ),
-                      Container(
-                          child: const VerticalDivider(
+                      const VerticalDivider(
                         thickness: 1,
-                      )),
+                      ),
                       Expanded(
                         flex: 5,
                         child: Text(
@@ -636,7 +624,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
             textAlign: TextAlign.center,
             textStyle:
                 TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
-        onSubmit: (Object value) {
+        onSubmit: (Object? value) {
           if (_range == null) {
             Navigator.pop(context, _date);
           } else {
@@ -672,7 +660,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
             textAlign: TextAlign.center,
             textStyle:
                 TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
-        onSubmit: (Object value) {
+        onSubmit: (Object? value) {
           if (_range == null) {
             Navigator.pop(context, _date);
           } else {
@@ -701,7 +689,8 @@ class _DateRangePickerState extends State<DateRangePicker> {
             color: widget.model.cardThemeColor,
             child: Theme(
               data: widget.model.themeData.copyWith(
-                accentColor: widget.model.backgroundColor,
+                colorScheme: widget.model.themeData.colorScheme
+                    .copyWith(secondary: widget.model.backgroundColor),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,

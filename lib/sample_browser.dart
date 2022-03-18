@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// local imports
@@ -31,6 +33,8 @@ class _SampleBrowserState extends State<SampleBrowser> {
   void initState() {
     _sampleListModel = SampleModel.instance;
     _initializeProperties();
+    _sampleListModel.searchBar = SearchBar(
+        key: GlobalKey<SearchBarState>(), sampleListModel: _sampleListModel);
     super.initState();
   }
 
@@ -50,33 +54,56 @@ class _SampleBrowserState extends State<SampleBrowser> {
           break;
         }
       }
+
       navigationRoutes[sampleRoute.routeName!] = (BuildContext context) =>
           WebLayoutPage(
               key: GlobalKey<State>(),
-              routeName: sampleRoute.routeName!,
+              routeName: sampleRoute.routeName,
               sampleModel: _sampleListModel,
               category: category,
               subItem: sampleRoute.subItem);
     }
+
     if (_sampleListModel.isWebFullView) {
-      _sampleListModel.currentThemeData = ThemeData.light();
+      _sampleListModel.currentThemeData = ThemeData.from(
+          colorScheme: const ColorScheme.light().copyWith(
+              primary: _sampleListModel.currentPaletteColor,
+              secondary: _sampleListModel.currentPaletteColor));
       _sampleListModel.paletteBorderColors = <Color>[];
       _sampleListModel.changeTheme(_sampleListModel.currentThemeData!);
     }
 
-    ///Avoiding page poping on escape key press
-    final Map<LogicalKeySet, Intent> shortcuts =
-        Map<LogicalKeySet, Intent>.of(WidgetsApp.defaultShortcuts)
+    ///Avoiding page popping on escape key press
+    final Map<ShortcutActivator, Intent> shortcuts =
+        Map<ShortcutActivator, Intent>.of(WidgetsApp.defaultShortcuts)
           ..remove(LogicalKeySet(LogicalKeyboardKey.escape));
     return _sampleListModel.isWebFullView
         ? MaterialApp(
             shortcuts: shortcuts,
             initialRoute: '/',
             routes: navigationRoutes,
+            //ignore: always_specify_types
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              SfGlobalLocalizations.delegate
+            ],
+            //ignore: always_specify_types
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ar', 'AE'),
+            ],
+            locale: const Locale('en', 'US'),
             debugShowCheckedModeBanner: false,
             title: 'Demos & Examples of Syncfusion Flutter Widgets',
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
+            theme: ThemeData.from(
+                colorScheme: const ColorScheme.light().copyWith(
+                    primary: _sampleListModel.currentPaletteColor,
+                    secondary: _sampleListModel.currentPaletteColor)),
+            darkTheme: ThemeData.from(
+                colorScheme: const ColorScheme.dark().copyWith(
+                    primary: _sampleListModel.currentPaletteColor,
+                    secondary: _sampleListModel.currentPaletteColor,
+                    onPrimary: Colors.white)),
             themeMode: ThemeMode.system,
           )
         : MaterialApp(
@@ -84,15 +111,39 @@ class _SampleBrowserState extends State<SampleBrowser> {
             routes: navigationRoutes,
             debugShowCheckedModeBanner: false,
             title: 'Demos & Examples of Syncfusion Flutter Widgets',
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
+            localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+              GlobalMaterialLocalizations.delegate,
+              SfGlobalLocalizations.delegate
+            ],
+            //ignore: always_specify_types
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ar', 'AE'),
+            ],
+            locale: const Locale('en', 'US'),
+            theme: ThemeData.from(
+                colorScheme: const ColorScheme.light().copyWith(
+                    primary: _sampleListModel.currentPaletteColor,
+                    secondary: _sampleListModel.currentPaletteColor)),
+            darkTheme: ThemeData.from(
+                colorScheme: const ColorScheme.dark().copyWith(
+                    primary: _sampleListModel.currentPaletteColor,
+                    secondary: _sampleListModel.currentPaletteColor,
+                    onPrimary: Colors.white)),
             themeMode: ThemeMode.system,
             home: Builder(builder: (BuildContext context) {
               _sampleListModel.systemTheme = Theme.of(context);
               _sampleListModel.currentThemeData ??=
                   _sampleListModel.systemTheme.brightness != Brightness.dark
-                      ? ThemeData.light()
-                      : ThemeData.dark();
+                      ? ThemeData.from(
+                          colorScheme: const ColorScheme.light().copyWith(
+                              primary: _sampleListModel.currentPaletteColor,
+                              secondary: _sampleListModel.currentPaletteColor))
+                      : ThemeData.from(
+                          colorScheme: const ColorScheme.dark().copyWith(
+                              primary: _sampleListModel.currentPaletteColor,
+                              secondary: _sampleListModel.currentPaletteColor,
+                              onPrimary: Colors.white));
               _sampleListModel.changeTheme(_sampleListModel.currentThemeData!);
               return const HomePage();
             }));
@@ -157,253 +208,244 @@ class _HomePageState extends State<HomePage> {
     final bool isMaxxSize = MediaQuery.of(context).size.width >= 1000;
     final SampleModel model = sampleListModel;
     model.isMobileResolution = (MediaQuery.of(context).size.width) < 768;
-    return Container(
-      child: SafeArea(
-          child: model.isMobileResolution
-              ? Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  drawer: (!model.isWebFullView && Platform.isIOS)
-                      ? null //Avoiding drawer in iOS platform
-                      : getLeftSideDrawer(model),
-                  key: scaffoldKey,
-                  backgroundColor: model.webBackgroundColor,
-                  endDrawer:
-                      model.isWebFullView ? showWebThemeSettings(model) : null,
-                  appBar: PreferredSize(
-                      preferredSize: const Size.fromHeight(46.0),
-                      child: AppBar(
-                        leading: (!model.isWebFullView && Platform.isIOS)
-                            ? Container()
-                            : null,
-                        elevation: 0.0,
-                        backgroundColor: model.paletteColor,
-                        title: AnimateOpacityWidget(
-                            controller: controller,
-                            opacity: 0,
-                            child: const Text('Flutter UI Widgets',
-                                style: TextStyle(
-                                    fontSize: 18, fontFamily: 'HeeboMedium'))),
-                        actions: <Widget>[
-                          Container(
-                            height: 40,
-                            width: 40,
-                            child: IconButton(
-                              icon: const Icon(Icons.settings,
-                                  color: Colors.white),
-                              onPressed: () {
-                                model.isWebFullView
-                                    ? scaffoldKey.currentState!.openEndDrawer()
-                                    : showBottomSettingsPanel(model, context);
-                              },
-                            ),
+    return SafeArea(
+        child: model.isMobileResolution
+            ? Scaffold(
+                resizeToAvoidBottomInset: false,
+                drawer: (!model.isWebFullView && Platform.isIOS)
+                    ? null //Avoiding drawer in iOS platform
+                    : getLeftSideDrawer(model),
+                key: scaffoldKey,
+                backgroundColor: model.webBackgroundColor,
+                endDrawer:
+                    model.isWebFullView ? showWebThemeSettings(model) : null,
+                appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(46.0),
+                    child: AppBar(
+                      leading: (!model.isWebFullView && Platform.isIOS)
+                          ? Container()
+                          : null,
+                      elevation: 0.0,
+                      backgroundColor: model.paletteColor,
+                      title: AnimateOpacityWidget(
+                          controller: controller,
+                          opacity: 0,
+                          child: const Text('Flutter UI Widgets',
+                              style: TextStyle(
+                                  fontSize: 18, fontFamily: 'HeeboMedium'))),
+                      actions: <Widget>[
+                        SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: IconButton(
+                            icon:
+                                const Icon(Icons.settings, color: Colors.white),
+                            onPressed: () {
+                              model.isWebFullView
+                                  ? scaffoldKey.currentState!.openEndDrawer()
+                                  : showBottomSettingsPanel(model, context);
+                            },
                           ),
-                        ],
-                      )),
-                  body: Container(
-                      transform: Matrix4.translationValues(0, -1, 0),
-                      child: _getScrollableWidget(model)))
-              : Scaffold(
-                  bottomNavigationBar: getFooter(context, model),
-                  key: scaffoldKey,
-                  backgroundColor: model.webBackgroundColor,
-                  endDrawer: showWebThemeSettings(model),
-                  resizeToAvoidBottomInset: false,
-                  appBar: PreferredSize(
-                      preferredSize: const Size.fromHeight(90.0),
-                      child: AppBar(
-                        leading: Container(),
-                        elevation: 0.0,
-                        backgroundColor: model.paletteColor,
-                        flexibleSpace: Container(
-                            transform: Matrix4.translationValues(0, 4, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                const Padding(
-                                  padding: EdgeInsets.fromLTRB(24, 10, 0, 0),
-                                  child: Text('Flutter UI Widgets ',
+                        ),
+                      ],
+                    )),
+                body: Container(
+                    transform: Matrix4.translationValues(0, -1, 0),
+                    child: _getScrollableWidget(model)))
+            : Scaffold(
+                bottomNavigationBar: getFooter(context, model),
+                key: scaffoldKey,
+                backgroundColor: model.webBackgroundColor,
+                endDrawer: showWebThemeSettings(model),
+                resizeToAvoidBottomInset: false,
+                appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(90.0),
+                    child: AppBar(
+                      leading: Container(),
+                      elevation: 0.0,
+                      backgroundColor: model.paletteColor,
+                      flexibleSpace: Container(
+                          transform: Matrix4.translationValues(0, 4, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const Padding(
+                                padding: EdgeInsets.fromLTRB(24, 10, 0, 0),
+                                child: Text('Flutter UI Widgets ',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 28,
+                                        letterSpacing: 0.53,
+                                        fontFamily: 'Roboto-Bold')),
+                              ),
+                              const Padding(
+                                  padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+                                  child: Text('Fast . Fluid . Flexible',
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 28,
-                                          letterSpacing: 0.53,
-                                          fontFamily: 'Roboto-Bold')),
-                                ),
-                                const Padding(
-                                    padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
-                                    child: Text('Fast . Fluid . Flexible',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontFamily: 'Roboto-Regular',
-                                            letterSpacing: 0.26,
-                                            fontWeight: FontWeight.normal))),
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 15),
-                                ),
-                                Container(
-                                    alignment: Alignment.bottomCenter,
-                                    width: double.infinity,
-                                    height: kIsWeb ? 16 : 14,
-                                    decoration: BoxDecoration(
-                                        color: model.webBackgroundColor,
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(12.0),
-                                            topRight: Radius.circular(12.0)),
-                                        boxShadow: <BoxShadow>[
-                                          BoxShadow(
-                                            color: model.webBackgroundColor,
-                                            offset: const Offset(0, 2.0),
-                                            blurRadius: 0.25,
-                                          )
-                                        ]))
-                              ],
-                            )),
-                        actions: <Widget>[
-                          if (MediaQuery.of(context).size.width < 500)
-                            Container(height: 0, width: 9)
-                          else
-                            Container(
-                                child: Container(
-                              padding:
-                                  const EdgeInsets.only(top: 10, right: 10),
-                              width: MediaQuery.of(context).size.width >= 920
-                                  ? 300
-                                  : MediaQuery.of(context).size.width /
-                                      (MediaQuery.of(context).size.width < 820
-                                          ? 5
-                                          : 4),
-                              height:
-                                  MediaQuery.of(context).size.height * 0.0445,
-                              child: SearchBar(
-                                sampleListModel: model,
+                                          fontSize: 14,
+                                          fontFamily: 'Roboto-Regular',
+                                          letterSpacing: 0.26,
+                                          fontWeight: FontWeight.normal))),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 15),
                               ),
-                            )),
+                              Container(
+                                  alignment: Alignment.bottomCenter,
+                                  width: double.infinity,
+                                  height: kIsWeb ? 16 : 14,
+                                  decoration: BoxDecoration(
+                                      color: model.webBackgroundColor,
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(12.0),
+                                          topRight: Radius.circular(12.0)),
+                                      boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                          color: model.webBackgroundColor,
+                                          offset: const Offset(0, 2.0),
+                                          blurRadius: 0.25,
+                                        )
+                                      ]))
+                            ],
+                          )),
+                      actions: <Widget>[
+                        if (MediaQuery.of(context).size.width < 500)
+                          const SizedBox(height: 0, width: 9)
+                        else
+                          SizedBox(
+                              child: Container(
+                            padding: const EdgeInsets.only(top: 10, right: 10),
+                            width: MediaQuery.of(context).size.width >= 920
+                                ? 300
+                                : MediaQuery.of(context).size.width /
+                                    (MediaQuery.of(context).size.width < 820
+                                        ? 5
+                                        : 4),
+                            height: MediaQuery.of(context).size.height * 0.0445,
+                            child: SearchBar(
+                              sampleListModel: model,
+                            ),
+                          )),
 
-                          ///download option
-                          if (model.isMobileResolution)
-                            Container()
-                          else
-                            Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.only(
-                                    top: 10, left: isMaxxSize ? 20 : 0),
-                                child: Container(
-                                    width: 115,
-                                    height: 32,
-                                    decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.white)),
-                                    child: StatefulBuilder(builder:
-                                        (BuildContext context,
-                                            StateSetter setState) {
-                                      return MouseRegion(
-                                        onHover: (PointerHoverEvent event) {
-                                          isHoveringDownloadButton = true;
-                                          setState(() {});
+                        ///download option
+                        if (model.isMobileResolution)
+                          Container()
+                        else
+                          Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.only(
+                                  top: 10, left: isMaxxSize ? 20 : 0),
+                              child: Container(
+                                  width: 115,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.white)),
+                                  child: StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setState) {
+                                    return MouseRegion(
+                                      onHover: (PointerHoverEvent event) {
+                                        isHoveringDownloadButton = true;
+                                        setState(() {});
+                                      },
+                                      onExit: (PointerExitEvent event) {
+                                        isHoveringDownloadButton = false;
+                                        setState(() {});
+                                      },
+                                      child: InkWell(
+                                        hoverColor: Colors.white,
+                                        onTap: () {
+                                          launch(
+                                              'https://www.syncfusion.com/downloads/flutter/confirm');
                                         },
-                                        onExit: (PointerExitEvent event) {
-                                          isHoveringDownloadButton = false;
-                                          setState(() {});
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 9, 8, 9),
+                                          child: Text('DOWNLOAD NOW',
+                                              style: TextStyle(
+                                                  color:
+                                                      isHoveringDownloadButton
+                                                          ? model.paletteColor
+                                                          : Colors.white,
+                                                  fontSize: 12,
+                                                  fontFamily: 'Roboto-Medium')),
+                                        ),
+                                      ),
+                                    );
+                                  }))),
+
+                        ///Get package from pub.dev option
+                        if (model.isMobileResolution)
+                          Container()
+                        else
+                          Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.only(
+                                  top: 10, left: isMaxxSize ? 25 : 12),
+                              child: Container(
+                                  width: 118,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.white)),
+                                  child: StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setState) {
+                                    return MouseRegion(
+                                      onHover: (PointerHoverEvent event) {
+                                        isHoveringPubDevButton = true;
+                                        setState(() {});
+                                      },
+                                      onExit: (PointerExitEvent event) {
+                                        isHoveringPubDevButton = false;
+                                        setState(() {});
+                                      },
+                                      child: InkWell(
+                                        hoverColor: Colors.white,
+                                        onTap: () {
+                                          launch(
+                                              'https://pub.dev/publishers/syncfusion.com/packages');
                                         },
-                                        child: InkWell(
-                                          hoverColor: Colors.white,
-                                          onTap: () {
-                                            launch(
-                                                'https://www.syncfusion.com/downloads/flutter/confirm');
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                8, 9, 8, 9),
-                                            child: Text('DOWNLOAD NOW',
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 7, 8, 7),
+                                          child: Row(children: <Widget>[
+                                            Image.asset('images/pub_logo.png',
+                                                fit: BoxFit.contain,
+                                                height: 33,
+                                                width: 33),
+                                            Text('Get Packages',
                                                 style: TextStyle(
                                                     color:
-                                                        isHoveringDownloadButton
+                                                        isHoveringPubDevButton
                                                             ? model.paletteColor
                                                             : Colors.white,
                                                     fontSize: 12,
                                                     fontFamily:
-                                                        'Roboto-Medium')),
-                                          ),
+                                                        'Roboto-Medium'))
+                                          ]),
                                         ),
-                                      );
-                                    }))),
-
-                          ///Get package from pub.dev option
-                          if (model.isMobileResolution)
-                            Container()
-                          else
-                            Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.only(
-                                    top: 10, left: isMaxxSize ? 25 : 12),
-                                child: Container(
-                                    width: 118,
-                                    height: 32,
-                                    decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.white)),
-                                    child: StatefulBuilder(builder:
-                                        (BuildContext context,
-                                            StateSetter setState) {
-                                      return MouseRegion(
-                                        onHover: (PointerHoverEvent event) {
-                                          isHoveringPubDevButton = true;
-                                          setState(() {});
-                                        },
-                                        onExit: (PointerExitEvent event) {
-                                          isHoveringPubDevButton = false;
-                                          setState(() {});
-                                        },
-                                        child: InkWell(
-                                          hoverColor: Colors.white,
-                                          onTap: () {
-                                            launch(
-                                                'https://pub.dev/publishers/syncfusion.com/packages');
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 7, 8, 7),
-                                            child: Row(children: <Widget>[
-                                              Image.asset('images/pub_logo.png',
-                                                  fit: BoxFit.contain,
-                                                  height: 33,
-                                                  width: 33),
-                                              Text('Get Packages',
-                                                  style: TextStyle(
-                                                      color:
-                                                          isHoveringPubDevButton
-                                                              ? model
-                                                                  .paletteColor
-                                                              : Colors.white,
-                                                      fontSize: 12,
-                                                      fontFamily:
-                                                          'Roboto-Medium'))
-                                            ]),
-                                          ),
-                                        ),
-                                      );
-                                    }))),
-                          Padding(
-                              padding:
-                                  EdgeInsets.only(left: isMaxxSize ? 15 : 0),
-                              child: Container(
-                                padding: MediaQuery.of(context).size.width < 500
-                                    ? const EdgeInsets.only(top: 20, left: 5)
-                                    : const EdgeInsets.only(top: 10, right: 15),
-                                height: 60,
-                                width: 60,
-                                child: IconButton(
-                                  icon: const Icon(Icons.settings,
-                                      color: Colors.white),
-                                  onPressed: () {
-                                    scaffoldKey.currentState!.openEndDrawer();
-                                  },
-                                ),
-                              )),
-                        ],
-                      )),
-                  body: _CategorizedCards())),
-    );
+                                      ),
+                                    );
+                                  }))),
+                        Padding(
+                            padding: EdgeInsets.only(left: isMaxxSize ? 15 : 0),
+                            child: Container(
+                              padding: MediaQuery.of(context).size.width < 500
+                                  ? const EdgeInsets.only(top: 20, left: 5)
+                                  : const EdgeInsets.only(top: 10, right: 15),
+                              height: 60,
+                              width: 60,
+                              child: IconButton(
+                                icon: const Icon(Icons.settings,
+                                    color: Colors.white),
+                                onPressed: () {
+                                  scaffoldKey.currentState!.openEndDrawer();
+                                },
+                              ),
+                            )),
+                      ],
+                    )),
+                body: _CategorizedCards()));
   }
 
   /// get scrollable widget to getting stickable view
@@ -453,7 +495,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                         color: model.webBackgroundColor,
                         child: searchResults.isNotEmpty
-                            ? Container(
+                            ? SizedBox(
                                 height: MediaQuery.of(context).size.height,
                                 child: ListView(children: searchResults))
                             : _CategorizedCards()),
@@ -558,6 +600,7 @@ class _PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
     _sampleListModel = sampleModel;
   }
   SampleModel? _sampleListModel;
+
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -570,7 +613,7 @@ class _PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
               Container(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 height: 70,
-                child: SearchBar(sampleListModel: _sampleListModel),
+                child: _sampleListModel!.searchBar,
               ),
               Container(
                   height: 20,
@@ -636,8 +679,8 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
 
       ///setting max cardwidth, spacing between cards in higher resolutions
       if (deviceWidth > 3000) {
-        _cardWidth = 2800 / 3;
-        _sidePadding = (deviceWidth - 2740) * 0.5;
+        _cardWidth = deviceWidth / 3.5;
+        _sidePadding = (_cardWidth / 2) * 0.125;
         padding = 30;
       }
       final List<Widget> firstColumnWidgets = <Widget>[];
@@ -757,7 +800,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
             ),
           ),
           Divider(
-            color: model.themeData.brightness == Brightness.dark
+            color: model.themeData.colorScheme.brightness == Brightness.dark
                 ? const Color.fromRGBO(61, 61, 61, 1)
                 : const Color.fromRGBO(238, 238, 238, 1),
             thickness: 1,
@@ -766,21 +809,23 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
         ]));
   }
 
-  /// get the list view of the controls in the specified category
+  /// get the list view of the controls in the specified category.
   List<Widget> _getControlListView(WidgetCategory category) {
     final List<Widget> items = <Widget>[];
     for (int i = 0; i < category.controlList!.length; i++) {
       final Control control = category.controlList![i] as Control;
-      final String? status =
-          control.title == 'PDF Viewer' && !kIsWeb && Platform.isMacOS
-              ? 'New'
-              : control.status;
-      items.add(Container(
-        color: model.cardColor,
-        child: Material(
+      String? status = control.status;
+      if (control.title == 'PDF Viewer' && model.isWindows) {
+        status = 'New';
+      }
+
+      items.add(
+        Container(
             color: model.cardColor,
-            elevation: 0.0,
-            child: InkWell(
+            child: Material(
+              color: model.cardColor,
+              elevation: 0.0,
+              child: InkWell(
                 splashFactory: InkRipple.splashFactory,
                 hoverColor: Colors.grey.withOpacity(0.2),
                 onTap: () {
@@ -789,8 +834,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                       : onTapControlInWeb(context, model, category, i);
                   model.searchResults.clear();
                 },
-                child: Container(
-                  child: ListTile(
+                child: ListTile(
                     contentPadding: EdgeInsets.fromLTRB(
                         12, 2, 0, category.controlList!.length > 3 ? 6 : 0),
                     leading: Image.asset(control.image!, fit: BoxFit.cover),
@@ -863,8 +907,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                           else
                             Container()
                         ]),
-                    subtitle: Container(
-                        child: Padding(
+                    subtitle: Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 7.0, 12.0, 0.0),
                       child: Text(
                         control.description!,
@@ -879,9 +922,9 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                         ),
                       ),
                     )),
-                  ),
-                ))),
-      ));
+              ),
+            )),
+      );
     }
     return items;
   }

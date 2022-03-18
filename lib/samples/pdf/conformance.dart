@@ -34,48 +34,47 @@ class _ConformancePdfState extends SampleViewState {
     return Scaffold(
       backgroundColor: model.cardThemeColor,
       body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-            child: Container(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                        'This sample shows how to create various PDF conformance document like PDF/A-1B, PDF/A-2B, and PDF/A-3B',
-                        style: TextStyle(fontSize: 16, color: model.textColor)),
-                    const SizedBox(height: 20, width: 30),
-                    Text('Choose the conformance level:',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: model.textColor,
-                            fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10, width: 25),
-                    if (MediaQuery.of(context).size.width > 800)
-                      Row(children: getChildWidgets(context))
-                    else
-                      Column(children: getChildWidgets(context)),
-                    const SizedBox(height: 10, width: 30),
-                    Align(
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                model.backgroundColor),
-                            padding: model.isMobile
-                                ? null
-                                : MaterialStateProperty.all(
-                                    const EdgeInsets.symmetric(
-                                        vertical: 15, horizontal: 15)),
-                          ),
-                          onPressed: _conformance,
-                          child: const Text('Generate PDF',
-                              style: TextStyle(color: Colors.white)),
-                        ))
-                  ]),
-            ),
-          )),
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    'This sample shows how to create various PDF conformance document like PDF/A-1B, PDF/A-2B, and PDF/A-3B',
+                    style: TextStyle(fontSize: 16, color: model.textColor)),
+                const SizedBox(height: 20, width: 30),
+                Text('Choose the conformance level:',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: model.textColor,
+                        fontWeight: FontWeight.bold)),
+                const SizedBox(height: 10, width: 25),
+                if (MediaQuery.of(context).size.width > 800)
+                  Row(children: getChildWidgets(context))
+                else
+                  Column(children: getChildWidgets(context)),
+                const SizedBox(height: 10, width: 30),
+                Align(
+                    alignment: Alignment.center,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            model.backgroundColor),
+                        padding: model.isMobile
+                            ? null
+                            : MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 15)),
+                      ),
+                      onPressed: _conformance,
+                      child: const Text('Generate PDF',
+                          style: TextStyle(color: Colors.white)),
+                    ))
+              ]),
+        ),
+      ),
     );
   }
 

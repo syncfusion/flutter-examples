@@ -1,6 +1,5 @@
 ///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 ///Chart import
 import 'package:syncfusion_flutter_charts/charts.dart' hide LabelPlacement;
@@ -421,7 +420,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
-            child: Container(
+            child: SizedBox(
               height: 327,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -507,7 +506,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
   }
 
   Widget _buildFilterButton() {
-    return Container(
+    return SizedBox(
       width: 350,
       height: 50,
       child: ElevatedButton(

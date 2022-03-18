@@ -20,6 +20,7 @@ class TooltipTemplate extends SampleView {
 class _TooltipTemplateState extends SampleViewState {
   _TooltipTemplateState();
   late TooltipBehavior _tooltipBehavior;
+  late List<ChartSampleData> chartData;
 
   @override
   void initState() {
@@ -51,13 +52,44 @@ class _TooltipTemplateState extends SampleViewState {
                     ),
                   ])));
         });
-
+    chartData = <ChartSampleData>[
+      ChartSampleData(
+        x: 'YouTube',
+        y: 51,
+        pointColor: const Color.fromRGBO(192, 33, 39, 1),
+      ),
+      ChartSampleData(
+        x: 'Twitter',
+        y: 42,
+        pointColor: const Color.fromRGBO(26, 157, 235, 1),
+      ),
+      ChartSampleData(
+        x: 'Instagram',
+        y: 63,
+      ),
+      ChartSampleData(
+        x: 'Snapchat',
+        y: 61,
+        pointColor: const Color.fromRGBO(254, 250, 55, 1),
+      ),
+      ChartSampleData(
+        x: 'Facebook',
+        y: 74,
+        pointColor: const Color.fromRGBO(47, 107, 167, 1),
+      ),
+    ];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return _buildTooltipTemplateChart();
+  }
+
+  @override
+  void dispose() {
+    chartData.clear();
+    super.dispose();
   }
 
   /// Returns the chart with various marker shapes.
@@ -101,48 +133,6 @@ class _TooltipTemplateState extends SampleViewState {
   /// Returns the list of chart which need to
   /// render on the chart with Tooltip template.
   List<ColumnSeries<ChartSampleData, String>> _getMarkeSeries() {
-    final List<Color> color = <Color>[];
-    color.add(const Color.fromRGBO(93, 80, 202, 1));
-    color.add(const Color.fromRGBO(183, 45, 145, 1));
-    color.add(const Color.fromRGBO(250, 203, 118, 1));
-
-    final List<double> stops = <double>[];
-    stops.add(0.0);
-    stops.add(0.5);
-    stops.add(1.0);
-
-    final LinearGradient gradientColors = LinearGradient(
-        colors: color,
-        stops: stops,
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter);
-
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-        x: 'YouTube',
-        y: 51,
-        pointColor: const Color.fromRGBO(192, 33, 39, 1),
-      ),
-      ChartSampleData(
-        x: 'Twitter',
-        y: 42,
-        pointColor: const Color.fromRGBO(26, 157, 235, 1),
-      ),
-      ChartSampleData(
-        x: 'Instagram',
-        y: 63,
-      ),
-      ChartSampleData(
-        x: 'Snapchat',
-        y: 61,
-        pointColor: const Color.fromRGBO(254, 250, 55, 1),
-      ),
-      ChartSampleData(
-        x: 'Facebook',
-        y: 74,
-        pointColor: const Color.fromRGBO(47, 107, 167, 1),
-      ),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
@@ -153,7 +143,15 @@ class _TooltipTemplateState extends SampleViewState {
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
-        gradient: gradientColors,
+        gradient: const LinearGradient(colors: <Color>[
+          Color.fromRGBO(93, 80, 202, 1),
+          Color.fromRGBO(183, 45, 145, 1),
+          Color.fromRGBO(250, 203, 118, 1)
+        ], stops: <double>[
+          0.0,
+          0.5,
+          1.0
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
       ),
     ];
   }

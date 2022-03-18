@@ -19,7 +19,7 @@ class RadialBarAngle extends SampleView {
 /// State class of radial series with legend.
 class _RadialBarAngleState extends SampleViewState {
   _RadialBarAngleState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -50,26 +50,6 @@ class _RadialBarAngleState extends SampleViewState {
 
   /// Returns radial bar series with legend.
   List<RadialBarSeries<ChartSampleData, String>> _getRadialBarSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'Move 65%\n338/520 CAL',
-          y: 65,
-          text: 'Move  ',
-          xValue: null,
-          pointColor: const Color.fromRGBO(0, 201, 230, 1.0)),
-      ChartSampleData(
-          x: 'Exercise 43%\n13/30 MIN',
-          y: 43,
-          text: 'Exercise  ',
-          xValue: null,
-          pointColor: const Color.fromRGBO(63, 224, 0, 1.0)),
-      ChartSampleData(
-          x: 'Stand 58%\n7/12 HR',
-          y: 58,
-          text: 'Stand  ',
-          xValue: null,
-          pointColor: const Color.fromRGBO(226, 1, 26, 1.0)),
-    ];
     final List<RadialBarSeries<ChartSampleData, String>> list =
         <RadialBarSeries<ChartSampleData, String>>[
       RadialBarSeries<ChartSampleData, String>(
@@ -79,7 +59,26 @@ class _RadialBarAngleState extends SampleViewState {
           radius: '100%',
           gap: '2%',
           innerRadius: '30%',
-          dataSource: chartData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(
+                x: 'Move 65%\n338/520 CAL',
+                y: 65,
+                text: 'Move  ',
+                xValue: null,
+                pointColor: const Color.fromRGBO(0, 201, 230, 1.0)),
+            ChartSampleData(
+                x: 'Exercise 43%\n13/30 MIN',
+                y: 43,
+                text: 'Exercise  ',
+                xValue: null,
+                pointColor: const Color.fromRGBO(63, 224, 0, 1.0)),
+            ChartSampleData(
+                x: 'Stand 58%\n7/12 HR',
+                y: 58,
+                text: 'Stand  ',
+                xValue: null,
+                pointColor: const Color.fromRGBO(226, 1, 26, 1.0)),
+          ],
           cornerStyle: CornerStyle.bothCurve,
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,

@@ -102,16 +102,15 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                   ],
                   annotations: <GaugeAnnotation>[
                     GaugeAnnotation(
-                        widget: Container(
-                            child: Center(
-                                child: Text(
+                        widget: Center(
+                            child: Text(
                           '${_annotationValue}hr ${_minutesValue}m',
                           style: TextStyle(
                               fontSize: isCardView ? 18 : _annotationFontSize,
                               fontFamily: 'Times',
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFF00A8B5)),
-                        ))),
+                        )),
                         positionFactor: 0.05,
                         angle: 0)
                   ])
@@ -125,11 +124,11 @@ class _RadialRangeSliderExampleState extends SampleViewState {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
+          SizedBox(
               child: Row(
             children: <Widget>[
               Text('Enable dragging', style: TextStyle(color: model.textColor)),
-              Container(
+              SizedBox(
                   width: 75,
                   child: CheckboxListTile(
                       activeColor: model.backgroundColor,
@@ -142,38 +141,35 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                       }))
             ],
           )),
-          Container(
-            child: Visibility(
-                visible: _enableDragging,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Overlay radius',
-                        style: TextStyle(color: model.textColor)),
-                    Container(
-                      padding: !model.isWebFullView
-                          ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
-                          : const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                      child: CustomDirectionalButtons(
-                        maxValue: 35,
-                        minValue: 15,
-                        initialValue: _overlayRadius,
-                        onChanged: (double val) {
-                          setState(() {
-                            _overlayRadius = val;
-                          });
-                        },
-                        step: 5,
-                        loop: false,
-                        iconColor: model.textColor,
-                        style:
-                            TextStyle(fontSize: 16.0, color: model.textColor),
-                      ),
+          Visibility(
+              visible: _enableDragging,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text('Overlay radius',
+                      style: TextStyle(color: model.textColor)),
+                  Container(
+                    padding: !model.isWebFullView
+                        ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
+                        : const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                    child: CustomDirectionalButtons(
+                      maxValue: 35,
+                      minValue: 15,
+                      initialValue: _overlayRadius,
+                      onChanged: (double val) {
+                        setState(() {
+                          _overlayRadius = val;
+                        });
+                      },
+                      step: 5,
+                      loop: false,
+                      iconColor: model.textColor,
+                      style: TextStyle(fontSize: 16.0, color: model.textColor),
                     ),
-                  ],
-                )),
-          ),
+                  ),
+                ],
+              )),
         ],
       );
     });

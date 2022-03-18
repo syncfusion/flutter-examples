@@ -1,11 +1,6 @@
-///Dart import
-import 'dart:math' as math;
-
-import 'package:flutter/foundation.dart';
-
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_examples/samples/datagrid/datagridsource/orderinfo_datagridsource.dart';
 
 ///Core theme import
 import 'package:syncfusion_flutter_core/theme.dart';
@@ -14,7 +9,6 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
-import '../../../../model/model.dart';
 import '../../../../model/sample_view.dart';
 
 /// render data grid widget
@@ -36,7 +30,7 @@ class _StylingDataGridState extends SampleViewState {
   bool isLandscapeInMobileView = false;
 
   /// Required for SfDataGrid to obtain the row data.
-  late _StylingDataGridSource stylingDataGridSource;
+  late OrderInfoDataGridSource stylingDataGridSource;
 
   /// Determine to set the gridLineVisibility of SfDataGrid.
   late String gridLinesVisibility;
@@ -226,7 +220,7 @@ class _StylingDataGridState extends SampleViewState {
   SfDataGridTheme _buildDataGrid(GridLinesVisibility gridLineVisibility) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-          brightness: model.themeData.brightness,
+          brightness: model.themeData.colorScheme.brightness,
           headerHoverColor: Colors.white.withOpacity(0.3),
           headerColor: model.backgroundColor),
       child: SfDataGrid(
@@ -242,8 +236,8 @@ class _StylingDataGridState extends SampleViewState {
   void initState() {
     super.initState();
     isWebOrDesktop = model.isWeb || model.isDesktop;
-    stylingDataGridSource =
-        _StylingDataGridSource(model: model, isWebOrDesktop: isWebOrDesktop);
+    stylingDataGridSource = OrderInfoDataGridSource(
+        model: model, isWebOrDesktop: isWebOrDesktop, orderDataCount: 100);
     gridLinesVisibility = 'horizontal';
     gridLineVisibility = GridLinesVisibility.horizontal;
     panelOpen = frontPanelVisible.value;
@@ -261,40 +255,41 @@ class _StylingDataGridState extends SampleViewState {
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(shrinkWrap: true, children: <Widget>[
-        ListTile(
-          title: Text(
-            model.isWebFullView
-                ? 'Grid lines \nvisibility'
-                : 'Grid lines visibility',
-            softWrap: false,
-            style: TextStyle(fontSize: 16.0, color: model.textColor),
-          ),
-          trailing: Theme(
-            data: ThemeData(canvasColor: model.bottomSheetBackgroundColor),
-            child: DropdownButton<String>(
-                value: gridLinesVisibility,
-                items: _encoding.map((String value) {
-                  return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'none',
-                      child: Text(value,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: model.textColor)));
-                }).toList(),
-                onChanged: (dynamic value) {
-                  _onGridLinesVisibilityChanges(value);
-                  stateSetter(() {});
-                }),
-          ),
-        ),
-      ]);
+      return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              model.isWebFullView
+                  ? 'Grid lines \nvisibility'
+                  : 'Grid lines visibility',
+              softWrap: false,
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
+            ),
+            Theme(
+              data: ThemeData(canvasColor: model.bottomSheetBackgroundColor),
+              child: DropdownButton<String>(
+                  focusColor: Colors.transparent,
+                  value: gridLinesVisibility,
+                  items: _encoding.map((String value) {
+                    return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'none',
+                        child: Text(value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: model.textColor)));
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    _onGridLinesVisibilityChanges(value);
+                    stateSetter(() {});
+                  }),
+            ),
+          ]);
     });
   }
 
   BoxDecoration drawBorder() {
     final BorderSide borderSide = BorderSide(
         width: 1.0,
-        color: model.themeData.brightness == Brightness.light
+        color: model.themeData.colorScheme.brightness == Brightness.light
             ? const Color.fromRGBO(0, 0, 0, 0.26)
             : const Color.fromRGBO(255, 255, 255, 0.26));
 
@@ -316,7 +311,7 @@ class _StylingDataGridState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: model.themeData.brightness == Brightness.light
+        color: model.themeData.colorScheme.brightness == Brightness.light
             ? const Color(0xFFFAFAFA)
             : null,
         child: Card(
@@ -331,205 +326,5 @@ class _StylingDataGridState extends SampleViewState {
                   decoration: drawBorder(),
                   child: _buildDataGrid(gridLineVisibility)),
             )));
-  }
-}
-
-class _Employee {
-  _Employee(this.orderId, this.customerId, this.name, this.city, this.freight,
-      this.price);
-  final int orderId;
-  final int customerId;
-  final String name;
-  final String city;
-  final double freight;
-  final double price;
-}
-
-class _StylingDataGridSource extends DataGridSource {
-  _StylingDataGridSource({required this.model, required this.isWebOrDesktop}) {
-    employees = getEmployees(100);
-    buildDataGridRows();
-  }
-
-  final math.Random random = math.Random();
-  final SampleModel model;
-  List<_Employee> employees = <_Employee>[];
-  List<DataGridRow> dataGridRows = <DataGridRow>[];
-  final bool isWebOrDesktop;
-
-  /// Build DataGridRow collection
-
-  void buildDataGridRows() {
-    dataGridRows = isWebOrDesktop
-        ? employees.map<DataGridRow>((_Employee dataGridRow) {
-            return DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(
-                  columnName: 'orderId', value: dataGridRow.orderId),
-              DataGridCell<int>(
-                  columnName: 'customerId', value: dataGridRow.customerId),
-              DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
-              DataGridCell<double>(
-                  columnName: 'freight', value: dataGridRow.freight),
-              DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
-              DataGridCell<double>(
-                  columnName: 'price', value: dataGridRow.price),
-            ]);
-          }).toList(growable: false)
-        : employees.map<DataGridRow>((_Employee dataGridRow) {
-            return DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(
-                  columnName: 'orderId', value: dataGridRow.orderId),
-              DataGridCell<int>(
-                  columnName: 'customerId', value: dataGridRow.customerId),
-              DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
-              DataGridCell<String>(columnName: 'city', value: dataGridRow.city),
-            ]);
-          }).toList(growable: false);
-  }
-
-  // Overrides
-
-  @override
-  List<DataGridRow> get rows => dataGridRows;
-
-  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
-    final int rowIndex = dataGridRows.indexOf(row);
-    Color backgroundColor = Colors.transparent;
-    if ((rowIndex % 2) == 0) {
-      backgroundColor = model.backgroundColor.withOpacity(0.07);
-    }
-
-    if (isWebOrDesktop) {
-      return DataGridRowAdapter(color: backgroundColor, cells: <Widget>[
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            row.getCells()[0].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              row.getCells()[1].value.toString(),
-              overflow: TextOverflow.ellipsis,
-            )),
-        Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              row.getCells()[2].value.toString(),
-              overflow: TextOverflow.ellipsis,
-            )),
-        Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(row.getCells()[3].value)
-                  .toString(),
-              overflow: TextOverflow.ellipsis,
-            )),
-        Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              row.getCells()[4].value.toString(),
-              overflow: TextOverflow.ellipsis,
-            )),
-        Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(row.getCells()[5].value)
-                  .toString(),
-              overflow: TextOverflow.ellipsis,
-            )),
-      ]);
-    } else {
-      return DataGridRowAdapter(color: backgroundColor, cells: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerRight,
-          child: Text(
-            row.getCells()[0].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerRight,
-          child: Text(
-            row.getCells()[1].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            row.getCells()[2].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            row.getCells()[3].value.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ]);
-    }
-  }
-
-  // _Employee data sets
-
-  final List<String> names = <String>[
-    'Folko',
-    'Warth',
-    'Alfki',
-    'Frans',
-    'Welli',
-    'Folig',
-    'Seves',
-    'Furib',
-    'Picco',
-    'Linod',
-    'Simob',
-    'Vaffe',
-    'Rascu',
-    'Blonp',
-    'Merep'
-  ];
-  final List<String> cities = <String>[
-    'Graz',
-    'Bruxelles',
-    'Rosario',
-    'Recife',
-    'Campinas',
-    'Montreal',
-    'Tsawassen',
-    'Resende',
-  ];
-
-  List<_Employee> getEmployees(int count) {
-    final List<_Employee> employeeData = <_Employee>[];
-    for (int i = 0; i < count; i++) {
-      employeeData.add(_Employee(
-        1000 + i,
-        1700 + i,
-        names[i < names.length ? i : random.nextInt(names.length - 1)],
-        cities[random.nextInt(cities.length - 1)],
-        random.nextInt(1000) + random.nextDouble(),
-        1500.0 + random.nextInt(100),
-      ));
-    }
-    return employeeData;
   }
 }

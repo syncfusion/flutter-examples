@@ -21,19 +21,48 @@ class SelectionIndex extends SampleView {
 class _DefaultSelectionState extends SampleViewState {
   _DefaultSelectionState();
 
-  final List<String> _seriesIndexList = <String>['0', '1', '2'].toList();
-  final List<String> _pointIndexList =
-      <String>['0', '1', '2', '3', '4'].toList();
+  late List<String> _seriesIndexList;
+  late List<String> _pointIndexList;
   late int _seriesIndex;
   late int _pointIndex;
   late SelectionBehavior _selectionBehavior;
+  late List<ChartSampleData> chartData;
 
   @override
   void initState() {
+    _seriesIndexList = <String>['0', '1', '2'].toList();
+    _pointIndexList = <String>['0', '1', '2', '3', '4'].toList();
     _selectionBehavior =
         SelectionBehavior(enable: true, unselectedOpacity: 0.5);
     _seriesIndex = 0;
     _pointIndex = 0;
+    chartData = <ChartSampleData>[
+      ChartSampleData(
+          x: 'Mexico',
+          y: 32093000,
+          secondSeriesYValue: 35079000,
+          thirdSeriesYValue: 39291000),
+      ChartSampleData(
+          x: 'Italy',
+          y: 50732000,
+          secondSeriesYValue: 52372000,
+          thirdSeriesYValue: 58253000),
+      ChartSampleData(
+          x: 'US',
+          y: 77774000,
+          secondSeriesYValue: 76407000,
+          thirdSeriesYValue: 76941000),
+      ChartSampleData(
+          x: 'Spain',
+          y: 68175000,
+          secondSeriesYValue: 75315000,
+          thirdSeriesYValue: 81786000),
+      ChartSampleData(
+          x: 'France',
+          y: 84452000,
+          secondSeriesYValue: 82682000,
+          thirdSeriesYValue: 86861000),
+    ];
     super.initState();
   }
 
@@ -43,84 +72,89 @@ class _DefaultSelectionState extends SampleViewState {
   }
 
   @override
+  void dispose() {
+    _seriesIndexList.clear();
+    _pointIndexList.clear();
+    chartData.clear();
+    super.dispose();
+  }
+
+  @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Series index',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                    padding: const EdgeInsets.fromLTRB(78, 0, 0, 0),
-                    child: DropdownButton<String>(
-                        underline: Container(
-                            color: const Color(0xFFBDBDBD), height: 1),
-                        value: _seriesIndex.toString(),
-                        items: _seriesIndexList.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : '0',
-                              child: Text(value,
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          _onSeriesIndexChange(value);
-                          stateSetter(() {});
-                        })),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Series index',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              Container(
+                  padding: const EdgeInsets.fromLTRB(78, 0, 0, 0),
+                  child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
+                      value: _seriesIndex.toString(),
+                      items: _seriesIndexList.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : '0',
+                            child: Text(value,
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        _onSeriesIndexChange(value);
+                        stateSetter(() {});
+                      })),
+            ],
           ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Text('Point index ',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                Container(
-                    padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-                    child: DropdownButton<String>(
-                        underline: Container(
-                            color: const Color(0xFFBDBDBD), height: 1),
-                        value: _pointIndex.toString(),
-                        items: _pointIndexList.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : '0',
-                              child: Text(value,
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          _onPointIndexChange(value);
-                          stateSetter(() {});
-                        })),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Text('Point index ',
+                  style: TextStyle(
+                    color: model.textColor,
+                    fontSize: 16,
+                  )),
+              Container(
+                  padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+                  child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
+                      value: _pointIndex.toString(),
+                      items: _pointIndexList.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : '0',
+                            child: Text(value,
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        _onPointIndexChange(value);
+                        stateSetter(() {});
+                      })),
+            ],
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              model.backgroundColor),
-                        ),
-                        onPressed: () {
-                          selection(_seriesIndex, _pointIndex);
-                        },
-                        child: const Text('Select',
-                            style: TextStyle(color: Colors.white)),
-                      )))
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                    ),
+                    onPressed: () {
+                      selection(_seriesIndex, _pointIndex);
+                    },
+                    child: const Text('Select',
+                        style: TextStyle(color: Colors.white)),
+                  ))
             ],
           ),
         ],
@@ -157,33 +191,6 @@ class _DefaultSelectionState extends SampleViewState {
   /// Returns the list of chart series
   /// which need to render on the cartesian chart.
   List<ColumnSeries<ChartSampleData, String>> _getDefaultSelectionSeries() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'Mexico',
-          y: 32093000,
-          secondSeriesYValue: 35079000,
-          thirdSeriesYValue: 39291000),
-      ChartSampleData(
-          x: 'Italy',
-          y: 50732000,
-          secondSeriesYValue: 52372000,
-          thirdSeriesYValue: 58253000),
-      ChartSampleData(
-          x: 'US',
-          y: 77774000,
-          secondSeriesYValue: 76407000,
-          thirdSeriesYValue: 76941000),
-      ChartSampleData(
-          x: 'Spain',
-          y: 68175000,
-          secondSeriesYValue: 75315000,
-          thirdSeriesYValue: 81786000),
-      ChartSampleData(
-          x: 'France',
-          y: 84452000,
-          secondSeriesYValue: 82682000,
-          thirdSeriesYValue: 86861000),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: chartData,

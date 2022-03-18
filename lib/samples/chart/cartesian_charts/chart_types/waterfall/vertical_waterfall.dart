@@ -19,9 +19,9 @@ class VerticalWaterFall extends SampleView {
 class _VerticalWaterFallState extends SampleViewState {
   _VerticalWaterFallState();
 
-  late TooltipBehavior tooltipBehavior1;
-  late TooltipBehavior tooltipBehavior2;
-  late TooltipBehavior tooltipBehavior3;
+  TooltipBehavior? tooltipBehavior1;
+  TooltipBehavior? tooltipBehavior2;
+  TooltipBehavior? tooltipBehavior3;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +44,10 @@ class _VerticalWaterFallState extends SampleViewState {
       children: <Widget>[
         Expanded(
             flex: 40,
-            child: Container(
-                child: SfCartesianChart(
+            child: SfCartesianChart(
               onChartTouchInteractionDown: (ChartTouchInteractionArgs args) {
-                tooltipBehavior2.hide();
-                tooltipBehavior3.hide();
+                tooltipBehavior2!.hide();
+                tooltipBehavior3!.hide();
               },
               plotAreaBorderWidth: 0,
               isTransposed: true,
@@ -77,21 +76,20 @@ class _VerticalWaterFallState extends SampleViewState {
                   majorTickLines: const MajorTickLines(size: 0)),
               series: _getWaterFallSeries(),
               tooltipBehavior: tooltipBehavior1,
-            ))),
+            )),
         Expanded(
             flex: 30,
-            child: Container(
-                child: SfCartesianChart(
+            child: SfCartesianChart(
               onChartTouchInteractionDown: (ChartTouchInteractionArgs args) {
-                tooltipBehavior1.hide();
-                tooltipBehavior3.hide();
+                tooltipBehavior1!.hide();
+                tooltipBehavior3!.hide();
               },
               plotAreaBorderWidth: 0,
               isTransposed: true,
-              axisLabelFormatter: (AxisLabelRenderDetails details) {
-                return ChartAxisLabel(
-                    details.axisName == 'XAxis' ? '' : details.text, null);
-              },
+              // axisLabelFormatter: (AxisLabelRenderDetails details) {
+              //   return ChartAxisLabel(
+              //       details.axisName == 'XAxis' ? '' : details.text, null);
+              // },
               margin: const EdgeInsets.fromLTRB(0, 10, 10, 10),
               title: ChartTitle(
                   text: isCardView ? '' : '2016',
@@ -101,34 +99,41 @@ class _VerticalWaterFallState extends SampleViewState {
                       fontWeight: FontWeight.normal,
                       fontFamily: 'Normal')),
               primaryXAxis: CategoryAxis(
-                  name: 'XAxis',
-                  axisLine: AxisLine(
-                      color: model.bottomSheetBackgroundColor == Colors.white
-                          ? const Color.fromRGBO(181, 181, 181, 0.5)
-                          : const Color.fromRGBO(101, 101, 101, 1)),
-                  majorTickLines: const MajorTickLines(width: 0),
-                  majorGridLines: const MajorGridLines(width: 0),
-                  labelIntersectAction: isCardView
-                      ? AxisLabelIntersectAction.wrap
-                      : AxisLabelIntersectAction.rotate45),
+                name: 'XAxis',
+                axisLine: AxisLine(
+                    color: model.bottomSheetBackgroundColor == Colors.white
+                        ? const Color.fromRGBO(181, 181, 181, 0.5)
+                        : const Color.fromRGBO(101, 101, 101, 1)),
+                majorTickLines: const MajorTickLines(width: 0),
+                majorGridLines: const MajorGridLines(width: 0),
+                labelIntersectAction: isCardView
+                    ? AxisLabelIntersectAction.wrap
+                    : AxisLabelIntersectAction.rotate45,
+                axisLabelFormatter: (AxisLabelRenderDetails details) {
+                  return ChartAxisLabel('', null);
+                },
+              ),
               primaryYAxis: NumericAxis(
-                  isVisible: false,
-                  name: 'Expenditure',
-                  minimum: 0,
-                  maximum: 60,
-                  interval: 30,
-                  axisLine: const AxisLine(width: 0),
-                  majorTickLines: const MajorTickLines(size: 0)),
+                isVisible: false,
+                name: 'Expenditure',
+                minimum: 0,
+                maximum: 60,
+                interval: 30,
+                axisLine: const AxisLine(width: 0),
+                majorTickLines: const MajorTickLines(size: 0),
+                axisLabelFormatter: (AxisLabelRenderDetails details) {
+                  return ChartAxisLabel(details.text, null);
+                },
+              ),
               series: _getWaterFallSecondSeries(),
               tooltipBehavior: tooltipBehavior2,
-            ))),
+            )),
         Expanded(
             flex: 30,
-            child: Container(
-                child: SfCartesianChart(
+            child: SfCartesianChart(
               onChartTouchInteractionDown: (ChartTouchInteractionArgs args) {
-                tooltipBehavior1.hide();
-                tooltipBehavior2.hide();
+                tooltipBehavior1!.hide();
+                tooltipBehavior2!.hide();
               },
               plotAreaBorderWidth: 0,
               isTransposed: true,
@@ -139,81 +144,84 @@ class _VerticalWaterFallState extends SampleViewState {
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
                       fontFamily: 'Normal')),
-              axisLabelFormatter: (AxisLabelRenderDetails details) {
-                return ChartAxisLabel(
-                    details.axisName == 'XAxis' ? '' : details.text, null);
-              },
               margin: const EdgeInsets.fromLTRB(0, 10, 10, 10),
               primaryXAxis: CategoryAxis(
-                  name: 'XAxis',
-                  axisLine: AxisLine(
-                      color: model.bottomSheetBackgroundColor == Colors.white
-                          ? const Color.fromRGBO(181, 181, 181, 0.5)
-                          : const Color.fromRGBO(101, 101, 101, 1)),
-                  majorTickLines: const MajorTickLines(width: 0),
-                  majorGridLines: const MajorGridLines(width: 0),
-                  labelIntersectAction: isCardView
-                      ? AxisLabelIntersectAction.wrap
-                      : AxisLabelIntersectAction.rotate45),
+                name: 'XAxis',
+                axisLine: AxisLine(
+                    color: model.bottomSheetBackgroundColor == Colors.white
+                        ? const Color.fromRGBO(181, 181, 181, 0.5)
+                        : const Color.fromRGBO(101, 101, 101, 1)),
+                majorTickLines: const MajorTickLines(width: 0),
+                majorGridLines: const MajorGridLines(width: 0),
+                labelIntersectAction: isCardView
+                    ? AxisLabelIntersectAction.wrap
+                    : AxisLabelIntersectAction.rotate45,
+                axisLabelFormatter: (AxisLabelRenderDetails details) {
+                  return ChartAxisLabel('', null);
+                },
+              ),
               primaryYAxis: NumericAxis(
-                  isVisible: false,
-                  name: 'Expenditure',
-                  minimum: 0,
-                  maximum: 60,
-                  interval: 30,
-                  axisLine: const AxisLine(width: 0),
-                  majorTickLines: const MajorTickLines(size: 0)),
+                isVisible: false,
+                name: 'Expenditure',
+                minimum: 0,
+                maximum: 60,
+                interval: 30,
+                axisLine: const AxisLine(width: 0),
+                majorTickLines: const MajorTickLines(size: 0),
+                axisLabelFormatter: (AxisLabelRenderDetails details) {
+                  return ChartAxisLabel(details.text, null);
+                },
+              ),
               series: _getWaterFallThirdSeries(),
               tooltipBehavior: tooltipBehavior3,
-            )))
+            ))
       ],
     );
   }
 
   List<WaterfallSeries<_ChartSampleData, dynamic>> _getWaterFallSeries() {
-    final List<_ChartSampleData> chartData = <_ChartSampleData>[
-      _ChartSampleData(
-          x: 'Income',
-          y: 46,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Sales',
-          y: -14,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Research',
-          y: -9,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Revenue',
-          y: 15,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Balance',
-          intermediateSumPredicate: true,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Expense',
-          y: -13,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Tax',
-          y: -8,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Profit',
-          intermediateSumPredicate: false,
-          totalSumPredicate: true),
-    ];
     return <WaterfallSeries<_ChartSampleData, dynamic>>[
       WaterfallSeries<_ChartSampleData, dynamic>(
-          dataSource: chartData,
+          dataSource: <_ChartSampleData>[
+            _ChartSampleData(
+                x: 'Income',
+                y: 46,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Sales',
+                y: -14,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Research',
+                y: -9,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Revenue',
+                y: 15,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Balance',
+                intermediateSumPredicate: true,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Expense',
+                y: -13,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Tax',
+                y: -8,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Profit',
+                intermediateSumPredicate: false,
+                totalSumPredicate: true),
+          ],
           name: '2015',
           xValueMapper: (_ChartSampleData sales, _) => sales.x,
           yValueMapper: (_ChartSampleData sales, _) => sales.y,
@@ -232,49 +240,48 @@ class _VerticalWaterFallState extends SampleViewState {
   }
 
   List<WaterfallSeries<_ChartSampleData, dynamic>> _getWaterFallSecondSeries() {
-    final List<_ChartSampleData> chartData = <_ChartSampleData>[
-      _ChartSampleData(
-          x: 'Income',
-          y: 47,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Sales',
-          y: -15,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Research',
-          y: -8,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Revenue',
-          y: 10,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Balance',
-          intermediateSumPredicate: true,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Expense',
-          y: -14,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Tax',
-          y: -9,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Profit',
-          intermediateSumPredicate: false,
-          totalSumPredicate: true),
-    ];
     return <WaterfallSeries<_ChartSampleData, dynamic>>[
       WaterfallSeries<_ChartSampleData, dynamic>(
-          dataSource: chartData,
+          dataSource: <_ChartSampleData>[
+            _ChartSampleData(
+                x: 'Income',
+                y: 47,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Sales',
+                y: -15,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Research',
+                y: -8,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Revenue',
+                y: 10,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Balance',
+                intermediateSumPredicate: true,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Expense',
+                y: -14,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Tax',
+                y: -9,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Profit',
+                intermediateSumPredicate: false,
+                totalSumPredicate: true),
+          ],
           name: '2016',
           xValueMapper: (_ChartSampleData sales, _) => sales.x,
           yValueMapper: (_ChartSampleData sales, _) => sales.y,
@@ -293,49 +300,48 @@ class _VerticalWaterFallState extends SampleViewState {
   }
 
   List<WaterfallSeries<_ChartSampleData, dynamic>> _getWaterFallThirdSeries() {
-    final List<_ChartSampleData> chartData = <_ChartSampleData>[
-      _ChartSampleData(
-          x: 'Income',
-          y: 51,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Sales',
-          y: -16,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Research',
-          y: -11,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Revenue',
-          y: 19,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Balance',
-          intermediateSumPredicate: true,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Expense',
-          y: -15,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Tax',
-          y: -9,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
-      _ChartSampleData(
-          x: 'Profit',
-          intermediateSumPredicate: false,
-          totalSumPredicate: true),
-    ];
     return <WaterfallSeries<_ChartSampleData, dynamic>>[
       WaterfallSeries<_ChartSampleData, dynamic>(
-          dataSource: chartData,
+          dataSource: <_ChartSampleData>[
+            _ChartSampleData(
+                x: 'Income',
+                y: 51,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Sales',
+                y: -16,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Research',
+                y: -11,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Revenue',
+                y: 19,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Balance',
+                intermediateSumPredicate: true,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Expense',
+                y: -15,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Tax',
+                y: -9,
+                intermediateSumPredicate: false,
+                totalSumPredicate: false),
+            _ChartSampleData(
+                x: 'Profit',
+                intermediateSumPredicate: false,
+                totalSumPredicate: true),
+          ],
           name: '2017',
           xValueMapper: (_ChartSampleData sales, _) => sales.x,
           yValueMapper: (_ChartSampleData sales, _) => sales.y,

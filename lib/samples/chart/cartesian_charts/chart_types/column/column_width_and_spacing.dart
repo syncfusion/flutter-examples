@@ -19,15 +19,28 @@ class ColumnSpacing extends SampleView {
 
 class _ColumnSpacingState extends SampleViewState {
   _ColumnSpacingState();
-  double _columnWidth = 0.8;
-  double _columnSpacing = 0.2;
-  late TooltipBehavior _tooltipBehavior;
+  late double _columnWidth;
+  late double _columnSpacing;
+  List<ChartSampleData>? chartData;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
     _columnWidth = 0.8;
     _columnSpacing = 0.2;
     _tooltipBehavior = TooltipBehavior(enable: true);
+    chartData = <ChartSampleData>[
+      ChartSampleData(
+          x: 'Norway', y: 16, secondSeriesYValue: 8, thirdSeriesYValue: 13),
+      ChartSampleData(
+          x: 'USA', y: 8, secondSeriesYValue: 10, thirdSeriesYValue: 7),
+      ChartSampleData(
+          x: 'Germany', y: 12, secondSeriesYValue: 10, thirdSeriesYValue: 5),
+      ChartSampleData(
+          x: 'Canada', y: 4, secondSeriesYValue: 8, thirdSeriesYValue: 14),
+      ChartSampleData(
+          x: 'Netherlands', y: 8, secondSeriesYValue: 5, thirdSeriesYValue: 4),
+    ];
     super.initState();
   }
 
@@ -41,60 +54,56 @@ class _ColumnSpacingState extends SampleViewState {
     return ListView(
       shrinkWrap: true,
       children: <Widget>[
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text('Width  ', style: TextStyle(color: model.textColor)),
-              Container(
-                padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                child: CustomDirectionalButtons(
-                  maxValue: 1,
-                  initialValue: _columnWidth,
-                  onChanged: (double val) {
-                    setState(() {
-                      _columnWidth = val;
-                    });
-                  },
-                  step: 0.1,
-                  loop: true,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text('Width  ', style: TextStyle(color: model.textColor)),
+            Container(
+              padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+              child: CustomDirectionalButtons(
+                maxValue: 1,
+                initialValue: _columnWidth,
+                onChanged: (double val) {
+                  setState(() {
+                    _columnWidth = val;
+                  });
+                },
+                step: 0.1,
+                loop: true,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                child:
-                    Text('Spacing  ', style: TextStyle(color: model.textColor)),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+              child:
+                  Text('Spacing  ', style: TextStyle(color: model.textColor)),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+              child: CustomDirectionalButtons(
+                maxValue: 1,
+                initialValue: _columnSpacing,
+                onChanged: (double val) {
+                  setState(() {
+                    _columnSpacing = val;
+                  });
+                },
+                step: 0.1,
+                loop: true,
+                padding: 5.0,
+                iconColor: model.textColor,
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                child: CustomDirectionalButtons(
-                  maxValue: 1,
-                  initialValue: _columnSpacing,
-                  onChanged: (double val) {
-                    setState(() {
-                      _columnSpacing = val;
-                    });
-                  },
-                  step: 0.1,
-                  loop: true,
-                  padding: 5.0,
-                  iconColor: model.textColor,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ],
     );
@@ -104,14 +113,15 @@ class _ColumnSpacingState extends SampleViewState {
   SfCartesianChart _buildSpacingColumnChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(text: isCardView ? '' : 'Winter olympic medals count'),
+      title: ChartTitle(
+          text: isCardView ? '' : 'Winter olympic medals count - 2022'),
       primaryXAxis: CategoryAxis(
         majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          maximum: 150,
+          maximum: 20,
           minimum: 0,
-          interval: 25,
+          interval: 4,
           axisLine: const AxisLine(width: 0),
           majorTickLines: const MajorTickLines(size: 0)),
       series: _getDefaultColumn(),
@@ -122,19 +132,6 @@ class _ColumnSpacingState extends SampleViewState {
 
   ///Get the column series
   List<ColumnSeries<ChartSampleData, String>> _getDefaultColumn() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'Germany',
-          y: 128,
-          secondSeriesYValue: 129,
-          thirdSeriesYValue: 101),
-      ChartSampleData(
-          x: 'Russia', y: 123, secondSeriesYValue: 92, thirdSeriesYValue: 93),
-      ChartSampleData(
-          x: 'Norway', y: 107, secondSeriesYValue: 106, thirdSeriesYValue: 90),
-      ChartSampleData(
-          x: 'USA', y: 87, secondSeriesYValue: 95, thirdSeriesYValue: 71),
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
 
@@ -143,27 +140,33 @@ class _ColumnSpacingState extends SampleViewState {
 
           /// To apply the spacing betweeen to two columns here.
           spacing: isCardView ? 0.2 : _columnSpacing,
-          dataSource: chartData,
-          color: const Color.fromRGBO(252, 216, 20, 1),
+          dataSource: chartData!,
+          color: const Color.fromRGBO(251, 193, 55, 1),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Gold'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           width: isCardView ? 0.8 : _columnWidth,
           spacing: isCardView ? 0.2 : _columnSpacing,
-          color: const Color.fromRGBO(169, 169, 169, 1),
+          color: const Color.fromRGBO(177, 183, 188, 1),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Silver'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
+          dataSource: chartData!,
           width: isCardView ? 0.8 : _columnWidth,
           spacing: isCardView ? 0.2 : _columnSpacing,
-          color: const Color.fromRGBO(205, 127, 50, 1),
+          color: const Color.fromRGBO(140, 92, 69, 1),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Bronze')
     ];
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

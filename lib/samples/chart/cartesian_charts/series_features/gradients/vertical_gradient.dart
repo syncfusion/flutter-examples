@@ -25,7 +25,8 @@ class _ChartData {
 /// State class of vertical gradient.
 class _VerticalGradientState extends SampleViewState {
   _VerticalGradientState();
-  late TrackballBehavior _trackballBehavior;
+
+  TrackballBehavior? _trackballBehavior;
   @override
   void initState() {
     _trackballBehavior = TrackballBehavior(
@@ -40,24 +41,6 @@ class _VerticalGradientState extends SampleViewState {
 
   /// Returns the list of spline area series with vertical gradient.
   List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
-    final List<_ChartData> chartData = <_ChartData>[
-      _ChartData(x: '1997', y: 22.44),
-      _ChartData(x: '1998', y: 25.18),
-      _ChartData(x: '1999', y: 24.15),
-      _ChartData(x: '2000', y: 25.83),
-      _ChartData(x: '2001', y: 25.69),
-      _ChartData(x: '2002', y: 24.75),
-      _ChartData(x: '2003', y: 27.38),
-      _ChartData(x: '2004', y: 25.31)
-    ];
-    final List<Color> color = <Color>[];
-    color.add(const Color(0xFF6A31D5));
-    color.add(const Color(0xFFB650C8));
-
-    final List<double> stops = <double>[];
-    stops.add(0.1);
-    stops.add(0.4);
-
     return <ChartSeries<_ChartData, String>>[
       SplineAreaSeries<_ChartData, String>(
 
@@ -72,7 +55,16 @@ class _VerticalGradientState extends SampleViewState {
           borderWidth: 2,
           borderColor: const Color.fromRGBO(0, 156, 144, 1),
           borderDrawMode: BorderDrawMode.top,
-          dataSource: chartData,
+          dataSource: <_ChartData>[
+            _ChartData(x: '1997', y: 22.44),
+            _ChartData(x: '1998', y: 25.18),
+            _ChartData(x: '1999', y: 24.15),
+            _ChartData(x: '2000', y: 25.83),
+            _ChartData(x: '2001', y: 25.69),
+            _ChartData(x: '2002', y: 24.75),
+            _ChartData(x: '2003', y: 27.38),
+            _ChartData(x: '2004', y: 25.31)
+          ],
           name: 'Country 1',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y),

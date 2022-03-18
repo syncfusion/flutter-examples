@@ -125,7 +125,7 @@ class _RadialSliderStylesState extends SampleViewState {
   }
 
   Widget _buildFirtProgressBar() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -188,7 +188,7 @@ class _RadialSliderStylesState extends SampleViewState {
   }
 
   Widget _buildSecondProgressBar() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -245,7 +245,7 @@ class _RadialSliderStylesState extends SampleViewState {
   }
 
   Widget _buildThirdProgressBar() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -313,7 +313,7 @@ class _RadialSliderStylesState extends SampleViewState {
   }
 
   Widget _buildFourthProgressBar() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -396,7 +396,7 @@ class _RadialSliderStylesState extends SampleViewState {
   }
 
   Widget _buildFifthProgressBar() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -451,7 +451,7 @@ class _RadialSliderStylesState extends SampleViewState {
   }
 
   Widget _buildSixthProgressBar() {
-    return Container(
+    return SizedBox(
       height: _size,
       width: _size,
       child: SfRadialGauge(
@@ -525,7 +525,7 @@ class _RadialSliderStylesState extends SampleViewState {
   }
 
   void handleFirstPointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValue).abs() > 20) {
+    if ((args.value.round() - _markerValue).abs() > 20) {
       args.cancel = true;
 
       if (_markerValue > 50) {
@@ -540,7 +540,7 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue = value.roundToDouble();
       _value = _markerValue + 2;
-      final int _currentValue = _markerValue.round().toInt();
+      final int _currentValue = _markerValue.round();
       _annotationValue = '$_currentValue%';
     });
   }
@@ -551,7 +551,7 @@ class _RadialSliderStylesState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 6.
   void handleSecondPointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValue1).abs() > 20) {
+    if ((args.value.round() - _markerValue1).abs() > 20) {
       args.cancel = true;
 
       if (_markerValue1 > 50) {
@@ -566,7 +566,7 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue1 = value.roundToDouble();
       _value1 = _markerValue1;
-      final int _currentValue = _markerValue1.round().toInt();
+      final int _currentValue = _markerValue1.round();
       _annotationValue1 = '$_currentValue%';
     });
   }
@@ -579,7 +579,7 @@ class _RadialSliderStylesState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 6.
   void handleThirdPointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValue2).abs() > 20) {
+    if ((args.value.round() - _markerValue2).abs() > 20) {
       args.cancel = true;
 
       if (_markerValue2 > 50) {
@@ -594,7 +594,7 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue2 = value.roundToDouble();
       _value2 = _markerValue2 + 2;
-      final int _currentValue = _markerValue2.round().toInt();
+      final int _currentValue = _markerValue2.round();
       _annotationValue2 = '$_currentValue%';
     });
   }
@@ -607,7 +607,7 @@ class _RadialSliderStylesState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 6.
   void handleFourthPointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValue3).abs() > 20) {
+    if ((args.value.round() - _markerValue3).abs() > 20) {
       args.cancel = true;
 
       if (_markerValue3 > 50) {
@@ -622,7 +622,7 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue3 = value;
       _value3 = _markerValue3 + 2;
-      final int _currentValue = _markerValue3.round().toInt();
+      final int _currentValue = _markerValue3.round();
       _annotationValue3 = '$_currentValue%';
     });
   }
@@ -635,7 +635,7 @@ class _RadialSliderStylesState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 6.
   void handleFifthPointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValue4).abs() > 20) {
+    if ((args.value.round() - _markerValue4).abs() > 20) {
       args.cancel = true;
 
       if (_markerValue4 > 50) {
@@ -650,7 +650,7 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue4 = value.roundToDouble();
       _value4 = _markerValue4 + 2;
-      final int _currentValue = _markerValue4.round().toInt();
+      final int _currentValue = _markerValue4.round();
       _annotationValue4 = '$_currentValue%';
     });
   }
@@ -663,7 +663,7 @@ class _RadialSliderStylesState extends SampleViewState {
 
   /// Pointer dragging is canceled when dragging pointer value is less than 6.
   void handleSixthPointerValueChanging(ValueChangingArgs args) {
-    if ((args.value.round().toInt() - _markerValue5).abs() > 20) {
+    if ((args.value.round() - _markerValue5).abs() > 20) {
       args.cancel = true;
 
       if (_markerValue5 > 50) {
@@ -678,7 +678,7 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue5 = value.roundToDouble();
       _value5 = _markerValue5;
-      final int _currentValue = _value5.round().toInt();
+      final int _currentValue = _value5.round();
       _annotationValue5 = '$_currentValue';
     });
   }

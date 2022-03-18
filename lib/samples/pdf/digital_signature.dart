@@ -39,60 +39,58 @@ class _SignPdfState extends SampleViewState {
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                          'This sample shows how to digitally sign the PDF document with .pfx certificates. It also supports various digest algorithms and cryptographic standards.',
-                          style:
-                              TextStyle(fontSize: 16, color: model.textColor)),
-                      const SizedBox(height: 20, width: 30),
-                      Text('Cryptographic Standard',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: model.textColor,
-                              fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 10, width: 30),
-                      if (MediaQuery.of(context).size.width > 800)
-                        Row(children: getCryptographicChildWidgets(context))
-                      else
-                        Column(children: getCryptographicChildWidgets(context)),
-                      const SizedBox(height: 20, width: 30),
-                      Text('Digest Algorithm',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: model.textColor,
-                              fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 10, width: 30),
-                      if (MediaQuery.of(context).size.width > 800)
-                        Row(children: getDigestChildWidgets(context))
-                      else
-                        Column(children: getDigestChildWidgets(context)),
-                      const SizedBox(height: 10, width: 30),
-                      Align(
-                          alignment: Alignment.center,
-                          child: TextButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  model.backgroundColor),
-                              padding: model.isMobile
-                                  ? null
-                                  : MaterialStateProperty.all(
-                                      const EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 15)),
-                            ),
-                            onPressed: _signPDF,
-                            child: const Text('Sign PDF',
-                                style: TextStyle(color: Colors.white)),
-                          ))
-                    ]),
-              ),
-            )));
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                      'This sample shows how to digitally sign the PDF document with .pfx certificates. It also supports various digest algorithms and cryptographic standards.',
+                      style: TextStyle(fontSize: 16, color: model.textColor)),
+                  const SizedBox(height: 20, width: 30),
+                  Text('Cryptographic Standard',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: model.textColor,
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10, width: 30),
+                  if (MediaQuery.of(context).size.width > 800)
+                    Row(children: getCryptographicChildWidgets(context))
+                  else
+                    Column(children: getCryptographicChildWidgets(context)),
+                  const SizedBox(height: 20, width: 30),
+                  Text('Digest Algorithm',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: model.textColor,
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10, width: 30),
+                  if (MediaQuery.of(context).size.width > 800)
+                    Row(children: getDigestChildWidgets(context))
+                  else
+                    Column(children: getDigestChildWidgets(context)),
+                  const SizedBox(height: 10, width: 30),
+                  Align(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              model.backgroundColor),
+                          padding: model.isMobile
+                              ? null
+                              : MaterialStateProperty.all(
+                                  const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 15)),
+                        ),
+                        onPressed: _signPDF,
+                        child: const Text('Sign PDF',
+                            style: TextStyle(color: Colors.white)),
+                      ))
+                ]),
+          ),
+        ));
   }
 
   List<Widget> getDigestChildWidgets(BuildContext context) {

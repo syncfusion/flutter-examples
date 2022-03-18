@@ -19,7 +19,7 @@ class CategoryDefault extends SampleView {
 /// State class of the column chart with default category x-axis.
 class _CategoryDefaultState extends SampleViewState {
   _CategoryDefaultState();
-  late TooltipBehavior _tooltipBehavior;
+  TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
     _tooltipBehavior =
@@ -51,27 +51,28 @@ class _CategoryDefaultState extends SampleViewState {
 
   /// Returns the list of chart series which need to render on the column chart.
   List<ColumnSeries<ChartSampleData, String>> _getDefaultCategory() {
-    final List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 'South\nKorea', yValue: 39, pointColor: Colors.teal[300]),
-      ChartSampleData(
-          x: 'India',
-          yValue: 20,
-          pointColor: const Color.fromRGBO(53, 124, 210, 1)),
-      ChartSampleData(x: 'South\nAfrica', yValue: 61, pointColor: Colors.pink),
-      ChartSampleData(x: 'China', yValue: 65, pointColor: Colors.orange),
-      ChartSampleData(x: 'France', yValue: 45, pointColor: Colors.green),
-      ChartSampleData(
-          x: 'Saudi\nArabia', yValue: 10, pointColor: Colors.pink[300]),
-      ChartSampleData(x: 'Japan', yValue: 16, pointColor: Colors.purple[300]),
-      ChartSampleData(
-          x: 'Mexico',
-          yValue: 31,
-          pointColor: const Color.fromRGBO(127, 132, 232, 1))
-    ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: <ChartSampleData>[
+          ChartSampleData(
+              x: 'South\nKorea', yValue: 39, pointColor: Colors.teal[300]),
+          ChartSampleData(
+              x: 'India',
+              yValue: 20,
+              pointColor: const Color.fromRGBO(53, 124, 210, 1)),
+          ChartSampleData(
+              x: 'South\nAfrica', yValue: 61, pointColor: Colors.pink),
+          ChartSampleData(x: 'China', yValue: 65, pointColor: Colors.orange),
+          ChartSampleData(x: 'France', yValue: 45, pointColor: Colors.green),
+          ChartSampleData(
+              x: 'Saudi\nArabia', yValue: 10, pointColor: Colors.pink[300]),
+          ChartSampleData(
+              x: 'Japan', yValue: 16, pointColor: Colors.purple[300]),
+          ChartSampleData(
+              x: 'Mexico',
+              yValue: 31,
+              pointColor: const Color.fromRGBO(127, 132, 232, 1))
+        ],
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.yValue,
         pointColorMapper: (ChartSampleData data, _) => data.pointColor,

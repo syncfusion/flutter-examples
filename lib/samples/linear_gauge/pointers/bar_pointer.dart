@@ -1,6 +1,6 @@
 /// Flutter package imports
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -34,7 +34,7 @@ class _BarPointerState extends SampleViewState {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-            Container(
+            SizedBox(
               width: getScreenWidth(context, _isHorizontalOrientation),
               child: _buildBarPointer(context),
             )
@@ -100,7 +100,7 @@ class _BarPointerState extends SampleViewState {
 
   /// Returns the vertical axis track.
   Widget _buildVerticalGauges(String axisTrackName, Widget linearGauge) {
-    return Container(
+    return SizedBox(
         width: 150,
         child: Column(
           children: <Widget>[
@@ -113,7 +113,7 @@ class _BarPointerState extends SampleViewState {
 
   /// Returns the outside axis bar pointer.
   Widget _buildBarPointerOutsideAxis() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -128,7 +128,7 @@ class _BarPointerState extends SampleViewState {
 
   /// Returns the cross axis bar pointer.
   Widget _buildBarPointerCrossAxis() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
           animateAxis: true,
@@ -141,7 +141,7 @@ class _BarPointerState extends SampleViewState {
 
   /// Returns the inside axis bar pointer.
   Widget _buildBarPointerInsideAxis() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -158,7 +158,7 @@ class _BarPointerState extends SampleViewState {
 
   /// Returns the bar pointer with shader.
   Widget _buildBarPointerWithShader() {
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             animateAxis: true,
@@ -185,7 +185,7 @@ class _BarPointerState extends SampleViewState {
   /// Returns the multiple bar pointers.
   Widget _buildMultipleBarPointers(BuildContext context) {
     final Brightness _brightness = Theme.of(context).brightness;
-    return Container(
+    return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
             orientation: _isHorizontalOrientation

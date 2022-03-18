@@ -23,36 +23,47 @@ class NavigationWithEvents extends SampleView {
 /// State class the chart with sorting options.
 class _NavigationWithEventsState extends SampleViewState {
   _NavigationWithEventsState();
-  double _xMaximumLabelWidth = 80;
-  double _xLabelsExtent = 20;
-  bool _isEnableLabelExtend = false;
-  bool _isEnableMaximumLabelWidth = true;
+  late double _xMaximumLabelWidth;
+  late double _xLabelsExtent;
+  late bool _isEnableLabelExtend;
+  late bool _isEnableMaximumLabelWidth;
   late List<bool> _isSelected;
   late TooltipBehavior _tooltipBehavior;
-  String _selectedType = 'Maximum label width';
-  final List<String> _typeList = <String>[
-    'Maximum label width',
-    'Labels extent'
-  ];
-  final List<ChartSampleData> _chartData = <ChartSampleData>[
-    ChartSampleData(x: 'Goldin\nFinance 117', y: 597),
-    ChartSampleData(x: 'Ping An\nFinance Center', y: 599),
-    ChartSampleData(x: 'Makkah Clock\nRoyal Tower', y: 601),
-    ChartSampleData(x: 'Shanghai\nTower', y: 632),
-    ChartSampleData(x: 'Burj\nKhalifa', y: 828)
-  ];
-  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
-      GlobalKey<ScaffoldMessengerState>();
+  late String _selectedType;
+  late List<String> _typeList;
+  late List<ChartSampleData> _chartData;
+  late GlobalKey<ScaffoldMessengerState> _scaffoldKey;
 
   @override
   void initState() {
+    _xMaximumLabelWidth = 80;
+    _xLabelsExtent = 20;
+    _isEnableLabelExtend = false;
+    _isEnableMaximumLabelWidth = true;
     _isSelected = <bool>[true, false];
+    _typeList = <String>['Maximum label width', 'Labels extent'];
+    _selectedType = 'Maximum label width';
+    _chartData = <ChartSampleData>[
+      ChartSampleData(x: 'Goldin\nFinance 117', y: 597),
+      ChartSampleData(x: 'Ping An\nFinance Center', y: 599),
+      ChartSampleData(x: 'Makkah Clock\nRoyal Tower', y: 601),
+      ChartSampleData(x: 'Shanghai\nTower', y: 632),
+      ChartSampleData(x: 'Burj\nKhalifa', y: 828)
+    ];
+    _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
     _tooltipBehavior = TooltipBehavior(
         enable: true,
         canShowMarker: false,
         header: '',
         activationMode: ActivationMode.longPress);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _typeList.clear();
+    _chartData.clear();
+    super.dispose();
   }
 
   @override
@@ -105,70 +116,64 @@ class _NavigationWithEventsState extends SampleViewState {
           const Padding(
             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
           ),
-          Container(
-            child: Visibility(
-                visible: _isEnableMaximumLabelWidth,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                      child: Text('Maximum label\nwidth',
-                          style: TextStyle(color: model.textColor)),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: CustomDirectionalButtons(
-                        maxValue: 120,
-                        minValue: 1,
-                        initialValue: _xMaximumLabelWidth,
-                        onChanged: (double val) {
-                          setState(() {
-                            _xMaximumLabelWidth = val;
-                          });
-                        },
-                        step: 10,
-                        loop: true,
-                        padding: 5.0,
-                        iconColor: model.textColor,
-                        style:
-                            TextStyle(fontSize: 16.0, color: model.textColor),
-                      ),
-                    )
-                  ],
-                )),
-          ),
-          Container(
-            child: Visibility(
-                visible: _isEnableLabelExtend,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Labels extent',
+          Visibility(
+              visible: _isEnableMaximumLabelWidth,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    child: Text('Maximum label\nwidth',
                         style: TextStyle(color: model.textColor)),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                      child: CustomDirectionalButtons(
-                        maxValue: 200,
-                        minValue: 1,
-                        initialValue: _xLabelsExtent,
-                        onChanged: (double val) {
-                          setState(() {
-                            _xLabelsExtent = val;
-                          });
-                        },
-                        step: 10,
-                        loop: true,
-                        iconColor: model.textColor,
-                        style:
-                            TextStyle(fontSize: 16.0, color: model.textColor),
-                      ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: CustomDirectionalButtons(
+                      maxValue: 120,
+                      minValue: 1,
+                      initialValue: _xMaximumLabelWidth,
+                      onChanged: (double val) {
+                        setState(() {
+                          _xMaximumLabelWidth = val;
+                        });
+                      },
+                      step: 10,
+                      loop: true,
+                      padding: 5.0,
+                      iconColor: model.textColor,
+                      style: TextStyle(fontSize: 16.0, color: model.textColor),
                     ),
-                  ],
-                )),
-          ),
+                  )
+                ],
+              )),
+          Visibility(
+              visible: _isEnableLabelExtend,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text('Labels extent',
+                      style: TextStyle(color: model.textColor)),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                    child: CustomDirectionalButtons(
+                      maxValue: 200,
+                      minValue: 1,
+                      initialValue: _xLabelsExtent,
+                      onChanged: (double val) {
+                        setState(() {
+                          _xLabelsExtent = val;
+                        });
+                      },
+                      step: 10,
+                      loop: true,
+                      iconColor: model.textColor,
+                      style: TextStyle(fontSize: 16.0, color: model.textColor),
+                    ),
+                  ),
+                ],
+              )),
         ],
       );
     });

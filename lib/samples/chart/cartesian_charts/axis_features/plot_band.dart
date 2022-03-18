@@ -19,15 +19,28 @@ class PlotBandDefault extends SampleView {
 /// State class of default plotband.
 class _PlotBandDefaultState extends SampleViewState {
   _PlotBandDefaultState();
-  final List<String> _plotBandType =
-      <String>['vertical', 'horizontal', 'segment', 'line'].toList();
-  bool isHorizontal = true;
-  bool isVertical = false;
-  bool isSegment = false;
-  bool isLine = false;
-  late TooltipBehavior _tooltipBehavior;
-
+  List<String>? _plotBandType;
+  late bool isHorizontal;
+  late bool isVertical;
+  late bool isSegment;
+  late bool isLine;
+  TooltipBehavior? _tooltipBehavior;
   late String _selectedType;
+
+  @override
+  void initState() {
+    _plotBandType =
+        <String>['vertical', 'horizontal', 'segment', 'line'].toList();
+    _selectedType = _plotBandType!.first;
+    isHorizontal = true;
+    isVertical = false;
+    isSegment = false;
+    isLine = false;
+    _tooltipBehavior =
+        TooltipBehavior(enable: true, canShowMarker: false, header: '');
+    super.initState();
+  }
+
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -43,9 +56,10 @@ class _PlotBandDefaultState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
+                focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedType,
-                items: _plotBandType.map((String value) {
+                items: _plotBandType!.map((String value) {
                   return DropdownMenuItem<String>(
                       value: (value != null) ? value : 'horizontal',
                       child: Text(value,
@@ -70,7 +84,7 @@ class _PlotBandDefaultState extends SampleViewState {
   SfCartesianChart _buildPlotBandChart() {
     final Color plotbandYAxisTextColor = ((isSegment || isLine) &&
             model != null &&
-            model.themeData.brightness == Brightness.light)
+            model.themeData.colorScheme.brightness == Brightness.light)
         ? Colors.black54
         : const Color.fromRGBO(255, 255, 255, 1);
     return SfCartesianChart(
@@ -197,7 +211,8 @@ class _PlotBandDefaultState extends SampleViewState {
               color: const Color.fromRGBO(207, 85, 7, 1),
               textStyle: ((isSegment || isLine) &&
                       model != null &&
-                      model.themeData.brightness == Brightness.light)
+                      model.themeData.colorScheme.brightness ==
+                          Brightness.light)
                   ? const TextStyle(color: Colors.black)
                   : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1))),
           PlotBand(
@@ -225,7 +240,8 @@ class _PlotBandDefaultState extends SampleViewState {
               color: const Color.fromRGBO(224, 155, 0, 1),
               textStyle: ((isSegment || isLine) &&
                       model != null &&
-                      model.themeData.brightness == Brightness.light)
+                      model.themeData.colorScheme.brightness ==
+                          Brightness.light)
                   ? const TextStyle(color: Colors.black)
                   : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1))),
           PlotBand(
@@ -253,7 +269,8 @@ class _PlotBandDefaultState extends SampleViewState {
               color: const Color.fromRGBO(237, 195, 12, 1),
               textStyle: ((isSegment || isLine) &&
                       model != null &&
-                      model.themeData.brightness == Brightness.light)
+                      model.themeData.colorScheme.brightness ==
+                          Brightness.light)
                   ? const TextStyle(color: Colors.black)
                   : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)))
         ],
@@ -267,27 +284,26 @@ class _PlotBandDefaultState extends SampleViewState {
   }
 
   List<XyDataSeries<ChartSampleData, String>> _getPlotBandSeries() {
-    final List<ChartSampleData> lineData = <ChartSampleData>[
-      ChartSampleData(xValue: 'Jan', yValue: 23),
-      ChartSampleData(xValue: 'Feb', yValue: 24),
-      ChartSampleData(xValue: 'Mar', yValue: 23),
-      ChartSampleData(xValue: 'Apr', yValue: 22),
-      ChartSampleData(xValue: 'May', yValue: 21),
-      ChartSampleData(xValue: 'Jun', yValue: 27),
-      ChartSampleData(xValue: 'Jul', yValue: 33),
-      ChartSampleData(xValue: 'Aug', yValue: 36),
-      ChartSampleData(xValue: 'Sep', yValue: 23),
-      ChartSampleData(xValue: 'Oct', yValue: 25),
-      ChartSampleData(xValue: 'Nov', yValue: 22)
-    ];
     final Color seriesColor = (isSegment || isLine) &&
             model != null &&
-            model.themeData.brightness == Brightness.light
+            model.themeData.colorScheme.brightness == Brightness.light
         ? Colors.black54
         : Colors.white;
     return <XyDataSeries<ChartSampleData, String>>[
       LineSeries<ChartSampleData, String>(
-          dataSource: lineData,
+          dataSource: <ChartSampleData>[
+            ChartSampleData(xValue: 'Jan', yValue: 23),
+            ChartSampleData(xValue: 'Feb', yValue: 24),
+            ChartSampleData(xValue: 'Mar', yValue: 23),
+            ChartSampleData(xValue: 'Apr', yValue: 22),
+            ChartSampleData(xValue: 'May', yValue: 21),
+            ChartSampleData(xValue: 'Jun', yValue: 27),
+            ChartSampleData(xValue: 'Jul', yValue: 33),
+            ChartSampleData(xValue: 'Aug', yValue: 36),
+            ChartSampleData(xValue: 'Sep', yValue: 23),
+            ChartSampleData(xValue: 'Oct', yValue: 25),
+            ChartSampleData(xValue: 'Nov', yValue: 22)
+          ],
           xValueMapper: (ChartSampleData sales, _) => sales.xValue as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           color: seriesColor,
@@ -299,18 +315,6 @@ class _PlotBandDefaultState extends SampleViewState {
               isVisible: true,
               color: Color.fromRGBO(192, 108, 132, 1)))
     ];
-  }
-
-  @override
-  void initState() {
-    _selectedType = _plotBandType.first;
-    isHorizontal = true;
-    isVertical = false;
-    isSegment = false;
-    isLine = false;
-    _tooltipBehavior =
-        TooltipBehavior(enable: true, canShowMarker: false, header: '');
-    super.initState();
   }
 
   /// Method for updating plotband type in the chart on change.
@@ -343,5 +347,11 @@ class _PlotBandDefaultState extends SampleViewState {
     setState(() {
       /// update the platband mode changes
     });
+  }
+
+  @override
+  void dispose() {
+    _plotBandType!.clear();
+    super.dispose();
   }
 }

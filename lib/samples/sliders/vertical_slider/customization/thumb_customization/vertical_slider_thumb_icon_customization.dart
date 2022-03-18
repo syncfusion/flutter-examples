@@ -72,9 +72,9 @@ class _VerticalThumbCustomizationSliderPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(thumbRadius: 14),
         child: SfSlider.vertical(
-          interval: 2.0,
           min: 0.0,
           max: 10.0,
+          stepSize: 1,
           thumbIcon: Container(
               alignment: Alignment.center,
               child: Text(

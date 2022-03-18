@@ -24,7 +24,7 @@ class AnimationScatterDefault extends SampleView {
 class _AnimationScatterDefaultState extends SampleViewState {
   _AnimationScatterDefaultState();
   Timer? _timer;
-  late List<_ChartData> _chartData;
+  List<_ChartData>? _chartData;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _AnimationScatterDefaultState extends SampleViewState {
   List<ScatterSeries<_ChartData, num>> getDefaultScatterSeries() {
     return <ScatterSeries<_ChartData, num>>[
       ScatterSeries<_ChartData, num>(
-          dataSource: _chartData,
+          dataSource: _chartData!,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
           markerSettings: const MarkerSettings(height: 15, width: 15))
@@ -64,8 +64,9 @@ class _AnimationScatterDefaultState extends SampleViewState {
 
   @override
   void dispose() {
-    super.dispose();
     _timer?.cancel();
+    _chartData!.clear();
+    super.dispose();
   }
 
   int _getRandomInt(int min, int max) {
@@ -76,7 +77,7 @@ class _AnimationScatterDefaultState extends SampleViewState {
   void _getChartData() {
     _chartData = <_ChartData>[];
     for (int i = 1; i <= 10; i++) {
-      _chartData.add(_ChartData(i, _getRandomInt(5, 95)));
+      _chartData!.add(_ChartData(i, _getRandomInt(5, 95)));
     }
     _timer?.cancel();
   }

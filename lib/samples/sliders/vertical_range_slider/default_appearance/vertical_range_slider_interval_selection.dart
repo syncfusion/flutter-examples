@@ -26,6 +26,7 @@ class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
   SfRangeValues _yearValues =
       SfRangeValues(DateTime(2012, 1, 01), DateTime(2018, 1, 1));
   SfRangeValues _values = const SfRangeValues(20.0, 80.0);
+  bool _isInversed = false;
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
@@ -36,6 +37,7 @@ class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
           max: DateTime(2020, 01, 01),
           interval: 2,
           showLabels: true,
+          isInversed: _isInversed,
           stepDuration: const SliderStepDuration(years: 2),
           dateFormat: DateFormat.y(),
           labelPlacement: LabelPlacement.onTicks,
@@ -67,6 +69,7 @@ class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
             max: 100.0,
             stepSize: 20,
             showTicks: true,
+            isInversed: _isInversed,
             enableIntervalSelection: true,
             values: _values,
             onChanged: (SfRangeValues values) {
@@ -138,5 +141,28 @@ class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
           : SingleChildScrollView(
               child: SizedBox(height: 400, child: rangeSlider));
     });
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return CheckboxListTile(
+          value: _isInversed,
+          title: const Text(
+            'Inversed',
+            softWrap: false,
+          ),
+          contentPadding: EdgeInsets.zero,
+          activeColor: model.backgroundColor,
+          onChanged: (bool? value) {
+            setState(() {
+              _isInversed = value!;
+              stateSetter(() {});
+            });
+          },
+        );
+      },
+    );
   }
 }
