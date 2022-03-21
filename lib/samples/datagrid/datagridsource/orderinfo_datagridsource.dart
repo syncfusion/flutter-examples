@@ -17,7 +17,8 @@ class OrderInfoDataGridSource extends DataGridSource {
       this.orderDataCount,
       this.ordersCollection,
       this.culture}) {
-    orders = getOrders(orders, orderDataCount ?? 100, culture: culture ?? '');
+    orders = ordersCollection ??
+        getOrders(orders, orderDataCount ?? 100, culture: culture ?? '');
     currencySymbol = getCurrencySymbol();
     buildDataGridRows();
   }
@@ -44,10 +45,10 @@ class OrderInfoDataGridSource extends DataGridSource {
   /// Instance of DataGridRow.
   List<DataGridRow> dataGridRows = <DataGridRow>[];
 
-  /// Currency symbol for culture
+  /// Currency symbol for culture.
   String currencySymbol = '';
 
-  /// Building DataGridRows
+  /// Building DataGridRows.
   void buildDataGridRows() {
     dataGridRows = isWebOrDesktop
         ? orders.map<DataGridRow>((OrderInfo order) {
