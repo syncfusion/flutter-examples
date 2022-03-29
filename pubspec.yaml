@@ -20,19 +20,19 @@ dependencies:
   desktop_window: 0.4.0
   
   syncfusion_localizations: ^20.1.47
-  syncfusion_flutter_datagrid_export: ^20.1.47
+  syncfusion_flutter_datagrid_export: ^20.1.47-beta
   syncfusion_flutter_calendar: ^20.1.47
   syncfusion_flutter_datepicker: ^20.1.47
   syncfusion_flutter_charts: ^20.1.47
   syncfusion_flutter_gauges: ^20.1.47
   syncfusion_flutter_sliders: ^20.1.47
-  syncfusion_flutter_pdf: ^20.1.47
+  syncfusion_flutter_pdf: ^20.1.47-beta
   syncfusion_flutter_barcodes: ^20.1.47
-  syncfusion_officechart: ^20.1.47
+  syncfusion_officechart: ^20.1.47-beta
   syncfusion_flutter_maps: ^20.1.47
   syncfusion_flutter_signaturepad: ^20.1.47
-  syncfusion_flutter_pdfviewer: ^20.1.47
-  syncfusion_flutter_treemap: ^20.1.47
+  syncfusion_flutter_pdfviewer: ^20.1.47-beta
+  syncfusion_flutter_treemap: ^20.1.47-beta
 
 flutter:
   uses-material-design: true
