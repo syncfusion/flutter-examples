@@ -1,6 +1,8 @@
 /// package imports
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///Local imports
@@ -52,6 +54,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
   late SubItem sample;
   List<SubItem>? subItems;
   late String orginText;
+
   @override
   void initState() {
     model = widget.sampleModel!;
@@ -91,9 +94,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
   ///Notify the framework by calling this method
   void _handleChange() {
     if (mounted) {
-      setState(() {
-        /// The listenable's state was changed already.
-      });
+      setState(() {});
     }
   }
 
@@ -469,12 +470,15 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                 _outputContainerState.sample = item.subItems![0] as SubItem;
                 _outputContainerState.tabIndex = 0;
                 _outputContainerState.needTabs = true;
+                resetLocaleValue(model, _outputContainerState.sample);
+
                 if (_outputContainerState
                         .outputScaffoldKey.currentState!.isEndDrawerOpen ||
                     widget.webLayoutPageState!.scaffoldKey.currentState!
                         .isDrawerOpen) {
                   Navigator.pop(context);
                 }
+
                 _outputContainerState.orginText =
                     widget.webLayoutPageState!.sample.control!.title! +
                         ' > ' +
@@ -621,6 +625,7 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                             ' > ' +
                             _list[i].title!;
                     widget.webLayoutPageState!.selectSample = _list[i].title;
+                    resetLocaleValue(model, _outputContainerState.sample);
                     if (model.currentSampleKey == null ||
                         (_list[i].key != null
                             ? model.currentSampleKey != _list[i].key
@@ -1843,6 +1848,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                 sampleView: model.sampleWidget[list[i].key])),
       );
     }
+
     return _tabChildren;
   }
 }
@@ -2003,6 +2009,17 @@ class _OutputContainerState extends State<_OutputContainer> {
       return ClipRect(
           child: MaterialApp(
               debugShowCheckedModeBanner: false,
+              //ignore: always_specify_types
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                SfGlobalLocalizations.delegate
+              ],
+              //ignore: always_specify_types
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('ar', 'AE'),
+              ],
+              locale: const Locale('en', 'US'),
               theme: ThemeData(
                   checkboxTheme: CheckboxThemeData(
                       fillColor: MaterialStateProperty.resolveWith(getColor)),
@@ -2012,81 +2029,89 @@ class _OutputContainerState extends State<_OutputContainer> {
                   colorScheme: widget.sampleModel!.themeData.colorScheme),
               initialRoute: widget.subItem!.breadCrumbText,
               routes: <String, WidgetBuilder>{
-            widget.subItem!.breadCrumbText!: (BuildContext cotext) => Scaffold(
-                backgroundColor: widget.sampleModel!.cardThemeColor,
-                body: widget.sampleModel!.needToMaximize
-                    ? Container()
-                    : StatefulBuilder(builder:
-                        (BuildContext context, StateSetter stateSetter) {
-                        propertyPanelStateChange = stateSetter;
-                        return Row(children: <Widget>[
-                          Expanded(
-                              child: Column(
-                            children: <Widget>[
-                              Expanded(
-                                  child:
-                                      widget.sampleModel!.currentRenderSample),
-                              if (widget.subItem!.sourceLink != null &&
-                                  widget.subItem!.sourceLink != '')
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                    height: 20,
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Source: ',
-                                          style: TextStyle(
-                                              color: widget
-                                                  .sampleModel!.textColor
-                                                  .withOpacity(0.65),
-                                              fontSize: 12),
-                                        ),
-                                        InkWell(
-                                          onTap: () => launch(
-                                              widget.subItem!.sourceLink!),
-                                          child: Text(
-                                              widget.subItem!.sourceText!,
-                                              style: const TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.blue)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              else
-                                Container()
-                            ],
-                          )),
-                          if (_needsPropertyPanel &&
-                              MediaQuery.of(context).size.width > 720 &&
-                              (widget.sampleModel!.isPropertyPanelOpened ||
-                                  (!widget.sampleModel!.isPropertyPanelOpened &&
-                                      widget
-                                          .sampleModel!.isPropertyPanelTapped)))
-                            _PropertiesPanel(
-                                sampleModel: widget.sampleModel,
-                                key: propertyPanelWidgetKey,
-                                openState: true)
-                          else
-                            Container()
-                        ]);
-                      }))
-          }));
+                widget.subItem!.breadCrumbText!: (BuildContext cotext) =>
+                    Scaffold(
+                        backgroundColor: widget.sampleModel!.cardThemeColor,
+                        body: widget.sampleModel!.needToMaximize
+                            ? Container()
+                            : StatefulBuilder(builder: (BuildContext context,
+                                StateSetter stateSetter) {
+                                propertyPanelStateChange = stateSetter;
+                                return Row(children: <Widget>[
+                                  Expanded(
+                                      child: Column(
+                                    children: <Widget>[
+                                      Expanded(
+                                          child: widget.sampleModel!
+                                              .currentRenderSample),
+                                      if (widget.subItem!.sourceLink != null &&
+                                          widget.subItem!.sourceLink != '')
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                15, 0, 0, 0),
+                                            height: 20,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  'Source: ',
+                                                  style: TextStyle(
+                                                      color: widget.sampleModel!
+                                                          .textColor
+                                                          .withOpacity(0.65),
+                                                      fontSize: 12),
+                                                ),
+                                                InkWell(
+                                                  onTap: () => launch(widget
+                                                      .subItem!.sourceLink!),
+                                                  child: Text(
+                                                      widget
+                                                          .subItem!.sourceText!,
+                                                      style: const TextStyle(
+                                                          fontSize: 12,
+                                                          color: Colors.blue)),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      else
+                                        Container()
+                                    ],
+                                  )),
+                                  if (_needsPropertyPanel &&
+                                      MediaQuery.of(context).size.width > 720 &&
+                                      (widget.sampleModel!
+                                              .isPropertyPanelOpened ||
+                                          (!widget.sampleModel!
+                                                  .isPropertyPanelOpened &&
+                                              widget.sampleModel!
+                                                  .isPropertyPanelTapped)))
+                                    _PropertiesPanel(
+                                        sampleModel: widget.sampleModel,
+                                        subItem: widget.subItem,
+                                        key: propertyPanelWidgetKey,
+                                        openState: true)
+                                  else
+                                    Container()
+                                ]);
+                              }))
+              }));
     }
   }
 }
 
 /// Get the Proeprty panel widget in the drawer
 class _PropertiesPanel extends StatefulWidget {
-  const _PropertiesPanel({this.sampleModel, this.openState, this.key})
+  const _PropertiesPanel(
+      {this.sampleModel, this.openState, this.subItem, this.key})
       : super(key: key);
   final SampleModel? sampleModel;
 
   final bool? openState;
+
+  final SubItem? subItem;
 
   @override
   final Key? key;
@@ -2099,7 +2124,6 @@ class _PropertiesPanel extends StatefulWidget {
 
 class _PropertiesPanelState extends State<_PropertiesPanel>
     with SingleTickerProviderStateMixin {
-  late GlobalKey<State>? _sampleKey;
   late Animation<double> animation;
   late AnimationController animationController;
   bool initialRender = true;
@@ -2123,14 +2147,40 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
     super.dispose();
   }
 
+  Widget? _getSettingsView(GlobalKey sampleKey) {
+    if (sampleKey.currentState != null) {
+      final SampleViewState sampleState =
+          sampleKey.currentState! as SampleViewState;
+      final bool isLocalizationSample =
+          sampleKey.currentState! is LocalizationSampleViewState;
+      final bool isDirectionalitySample =
+          sampleKey.currentState! is DirectionalitySampleViewState;
+
+      if (isLocalizationSample || isDirectionalitySample) {
+        return ListView(children: <Widget>[
+          (sampleKey.currentState! as LocalizationSampleViewState)
+              .localizationSelectorWidget(context),
+          if (isDirectionalitySample)
+            (sampleKey.currentState! as DirectionalitySampleViewState)
+                .textDirectionSelectorWidget(context)
+          else
+            Container(),
+          sampleState.buildSettings(context) ?? Container()
+        ], shrinkWrap: true);
+      } else {
+        return sampleState.buildSettings(context);
+      }
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final SampleModel model = widget.sampleModel!;
-    _sampleKey = model.propertyPanelKey;
-    final SampleViewState _sampleViewState =
-        _sampleKey!.currentState! as SampleViewState;
     final Widget? _settingPanelContent =
-        _sampleViewState.buildSettings(context);
+        _getSettingsView(model.propertyPanelKey);
+
     if (_settingPanelContent != null) {
       animation =
           Tween<double>(begin: 0.0, end: 1.0).animate(animationController);
@@ -2434,6 +2484,8 @@ class _TileContainerState extends State<_TileContainer> {
                       _outputContainerState.sample = list[i];
                       _outputContainerState.needTabs = false;
                     }
+                    resetLocaleValue(model, currentSample);
+
                     if (_outputContainerState
                             .outputScaffoldKey.currentState!.isEndDrawerOpen ||
                         widget.webLayoutPageState!.scaffoldKey.currentState!
@@ -2536,7 +2588,13 @@ class _PopupState extends State<_Popup> {
   bool show;
   SubItem? _sampleDetails;
 
-  late GlobalKey<State>? _currentWidgetKey;
+  GlobalKey<State>? _currentWidgetKey;
+
+  @override
+  void initState() {
+    model = SampleModel.instance;
+    super.initState();
+  }
 
   void refresh(bool popupShow) {
     setState(() {
@@ -2575,9 +2633,9 @@ class _PopupState extends State<_Popup> {
 
   @override
   Widget build(BuildContext context) {
-    model = SampleModel.instance;
     _propertiesPanel =
         _PropertiesPanel(sampleModel: model, key: _propertiesPanelKey);
+
     return IgnorePointer(
         ignoring: !show,
         child: Container(
@@ -2682,9 +2740,11 @@ class _PopupState extends State<_Popup> {
       MaterialState.pressed,
       MaterialState.selected,
     };
+
     if (states.any(interactiveStates.contains)) {
       return model!.backgroundColor;
     }
+
     return null;
   }
 }

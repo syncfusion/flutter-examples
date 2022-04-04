@@ -26,6 +26,24 @@ void onTapControlInMobile(BuildContext context, SampleModel model,
               LayoutPage(sampleModel: model, category: category)));
 }
 
+/// Resets the locale and textDirection values.
+void resetLocaleValue(SampleModel model, SubItem currentSample) {
+  model.sampleDetail = currentSample;
+
+  if (currentSample != null &&
+      (currentSample.title!.toLowerCase().contains('rtl') ||
+          currentSample.title!.toLowerCase().contains('directionality'))) {
+    model.textDirection = TextDirection.rtl;
+    model.locale = const Locale('ar', 'AE');
+    model.isInitialRender = true;
+  } else if (currentSample != null &&
+      currentSample.title!.toLowerCase().contains('localization')) {
+    model.textDirection = TextDirection.ltr;
+    model.locale = const Locale('en', 'US');
+    model.isInitialRender = true;
+  }
+}
+
 /// On tap the mouse, select the samples in web.
 void onTapControlInWeb(BuildContext context, SampleModel model,
     WidgetCategory category, int position) {
@@ -744,7 +762,7 @@ Widget getLeftSideDrawer(SampleModel _model) {
                         )),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('Version 19.4.38',
+                        child: Text('Version 20.1.47',
                             style: TextStyle(
                                 color: _model.drawerTextIconColor,
                                 fontSize: 12,
@@ -823,7 +841,7 @@ Widget getFooter(BuildContext context, SampleModel model) {
             ),
             Container(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text('Copyright © 2001 - 2021 Syncfusion Inc.',
+                child: Text('Copyright © 2001 - 2022 Syncfusion Inc.',
                     style: TextStyle(
                         color: model.textColor.withOpacity(0.7),
                         fontSize: 12,
@@ -1025,7 +1043,6 @@ List<Widget> _addColorPalettes(SampleModel model, [StateSetter? setState]) {
           ),
         )));
   }
-
   return _colorPaletteWidgets;
 }
 

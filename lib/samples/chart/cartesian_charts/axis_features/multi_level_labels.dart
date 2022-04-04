@@ -91,6 +91,7 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       DropdownButton<String>(
+                          focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
                           value: _selectedBorderType,
@@ -142,6 +143,7 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
                       child: DropdownButton<String>(
+                          focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
                           value: _selectedBorderType,

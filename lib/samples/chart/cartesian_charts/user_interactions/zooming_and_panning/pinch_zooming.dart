@@ -66,6 +66,7 @@ class _DefaultPanningState extends SampleViewState {
                 padding: const EdgeInsets.fromLTRB(70, 0, 40, 0),
                 height: 50,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedModeType,

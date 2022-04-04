@@ -285,6 +285,7 @@ class _HijriDatePickerState extends SampleViewState {
               child: Container(
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _viewModeString,
@@ -321,6 +322,7 @@ class _HijriDatePickerState extends SampleViewState {
                 padding: EdgeInsets.zero,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectionModeString,
@@ -357,6 +359,7 @@ class _HijriDatePickerState extends SampleViewState {
                     child: Container(
                       alignment: Alignment.bottomLeft,
                       child: DropdownButton<String>(
+                          focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
                           value: _selectionDirectionString,

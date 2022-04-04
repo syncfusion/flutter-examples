@@ -22,8 +22,7 @@ class MapSublayerPage extends SampleView {
   _MapSublayerPageState createState() => _MapSublayerPageState();
 }
 
-class _MapSublayerPageState extends SampleViewState
-    with SingleTickerProviderStateMixin {
+class _MapSublayerPageState extends SampleViewState {
   late MapShapeSource _mapSource;
   late MapZoomPanBehavior _zoomPanBehavior;
   late bool _isDesktop;

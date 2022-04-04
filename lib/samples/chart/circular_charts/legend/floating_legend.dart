@@ -59,6 +59,7 @@ class _CircularFloatingLegendState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.center,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     isExpanded: true,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),

@@ -65,6 +65,7 @@ class _CategoryTicksState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomCenter,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedType,

@@ -550,6 +550,7 @@ class _MapLegendPageState extends SampleViewState {
               Padding(
                   padding: const EdgeInsets.only(right: 15.0),
                   child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     value: _currentLegend,
                     items: _dropDownMenuItems,
                     onChanged: (String? value) {

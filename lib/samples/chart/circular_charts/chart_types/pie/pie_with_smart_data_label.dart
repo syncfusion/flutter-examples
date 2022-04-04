@@ -44,6 +44,7 @@ class _PieSmartDataLabelsState extends SampleViewState {
                   height: 50,
                   alignment: Alignment.center,
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedLabelIntersectAction,

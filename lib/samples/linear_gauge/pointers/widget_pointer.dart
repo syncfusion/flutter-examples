@@ -75,7 +75,10 @@ class _WidgetPointerState extends SampleViewState {
                         'Text widget', _buildTextWidgetPointer(context)),
                     _buildVerticalGauges(
                         'Icon widget', _buildIconWidgetPointer(context)),
-                    _buildVerticalGauges('Multiple widget pointers',
+                    _buildVerticalGauges(
+                        model.isDesktop
+                            ? 'Multiple widgets'
+                            : 'Multiple widget pointers',
                         _buildMultipleWidgetPointers(context)),
                   ],
                 ),

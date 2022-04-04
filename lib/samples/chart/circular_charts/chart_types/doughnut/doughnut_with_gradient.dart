@@ -1,6 +1,7 @@
 /// Package import
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Chart import
@@ -56,6 +57,7 @@ class _DoughnutGradientState extends SampleViewState {
                 width: 0.5 * screenWidth,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _shaderType,
@@ -195,7 +197,8 @@ class _DoughnutGradientState extends SampleViewState {
 
   List<double> _calculateDoughnut(
       List<Color> colors, List<double> stops, Rect outerRect, Rect innerRect) {
-    final List<double> stopOffsets = <double>[];
+    List<double> stopOffsets = <double>[];
+    final List<double> defaultStopOffsets = <double>[0.625, 0.75, 0.875, 1.0];
     final num _chartStart = innerRect.right;
     final Offset _chartCenter = outerRect.center;
     final num _chartend = outerRect.right;
@@ -215,6 +218,9 @@ class _DoughnutGradientState extends SampleViewState {
             (diffStartEnd * (stops[i] - stops[i - 1])) / diffCenterEnd);
       }
     }
+    stopOffsets = listEquals(stopOffsets, defaultStopOffsets)
+        ? stopOffsets
+        : defaultStopOffsets;
     return stopOffsets;
   }
 

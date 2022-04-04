@@ -54,6 +54,7 @@ class _VerticalCalendarPickerState extends SampleViewState {
                 padding: EdgeInsets.zero,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _navigationModeString,

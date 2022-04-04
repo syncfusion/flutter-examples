@@ -77,6 +77,7 @@ class _DefaultCrossHairState extends SampleViewState {
                       ? const EdgeInsets.fromLTRB(65, 0, 0, 0)
                       : const EdgeInsets.fromLTRB(42, 0, 0, 0),
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedLineType,

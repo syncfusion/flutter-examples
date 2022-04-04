@@ -118,6 +118,7 @@ class _DefaultSelectionState extends SampleViewState {
                           children: <Widget>[
                             SizedBox(width: model.isMobile ? 14.0 : 0.0),
                             DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
                                 value: _selectedMode,

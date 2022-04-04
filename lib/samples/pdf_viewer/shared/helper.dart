@@ -5,9 +5,9 @@ import './mobile_helper.dart' if (dart.library.html) './web_helper.dart'
     as helper;
 
 /// To check platform whether it is desktop or not.
-bool isDesktop = kIsWeb || Platform.isMacOS;
+bool isDesktop = kIsWeb || Platform.isMacOS || Platform.isWindows;
 
-/// Indicates whether the current environment is running in macOS
+/// Indicates whether the current environment is running in macOS desktop.
 bool kIsMacOS = helper.getPlatformType() == 'macos';
 
 /// Shows toast once after the selected text is copied to the Clipboard.
@@ -44,7 +44,7 @@ Widget showToast(bool canShowToast, Alignment alignment, String toastText) {
       ));
 }
 
-/// Displays the error message
+/// Displays the error message.
 void showErrorDialog(BuildContext context, String error, String description) {
   showDialog<dynamic>(
     context: context,

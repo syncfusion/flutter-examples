@@ -75,9 +75,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final FocusNode _passwordDialogFocusNode = FocusNode();
   bool _passwordVisible = true;
-  bool _errorTextPresent = false;
   String? password;
-  bool _visibility = false;
+  bool _hasPasswordDialog = false;
+  String _errorText = '';
 
   @override
   void initState() {
@@ -115,7 +115,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     _fillColor = _isLight ? const Color(0xFFE5E5E5) : const Color(0xFF525252);
   }
 
-  /// Show the password dialog box
+  /// Show the customized password dialog for mobile
   Future<void> _showPasswordDialog() async {
     return showDialog<void>(
       context: context,
@@ -154,9 +154,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 width: 36,
                 child: RawMaterialButton(
                   onPressed: () {
+                    Navigator.pop(context, 'Cancel');
+                    _hasPasswordDialog = false;
                     _passwordDialogFocusNode.unfocus();
                     _textFieldController.clear();
-                    Navigator.of(context).pop();
                   },
                   child: Icon(
                     Icons.clear,
@@ -226,12 +227,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                             fontFamily: 'Roboto',
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
-                            color: _errorTextPresent
-                                ? Theme.of(context).colorScheme.error
-                                : Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.87),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.87),
                           ),
                           errorStyle: TextStyle(
                             fontFamily: 'Roboto',
@@ -259,25 +258,18 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                         autofocus: true,
                         focusNode: _passwordDialogFocusNode,
                         onFieldSubmitted: (String value) {
-                          _passwordDialogFocusNode.requestFocus();
-                          _handlePasswordValidation();
+                          _handlePasswordValidation(value);
                         },
                         // ignore: missing_return
                         validator: (String? value) {
-                          if (value != null &&
-                              value != '' &&
-                              (value == 'syncfusion' || value == 'password')) {
-                            setState(() {
-                              password = value;
-                            });
-                          } else {
-                            _textFieldController.clear();
-                            setState(() {
-                              _errorTextPresent = true;
-                            });
-                            _passwordDialogFocusNode.requestFocus();
-                            return 'Invalid password';
+                          if (_errorText.isNotEmpty) {
+                            return _errorText;
                           }
+                          return null;
+                        },
+                        onChanged: (String value) {
+                          _formKey.currentState?.validate();
+                          _errorText = '';
                         },
                       ),
                     ),
@@ -289,9 +281,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                _textFieldController.clear();
+                Navigator.pop(context, 'Cancel');
+                _hasPasswordDialog = false;
                 _passwordDialogFocusNode.unfocus();
-                Navigator.of(context).pop();
+                _textFieldController.clear();
               },
               child: Text(
                 'CANCEL',
@@ -307,8 +300,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
               child: TextButton(
                 onPressed: () {
-                  _passwordDialogFocusNode.requestFocus();
-                  _handlePasswordValidation();
+                  _handlePasswordValidation(_textFieldController.text);
                 },
                 child: Text(
                   'OPEN',
@@ -328,17 +320,17 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   }
 
   /// Validates the password entered in text field.
-  void _handlePasswordValidation() {
-    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      _textFieldController.clear();
-      Navigator.of(context, rootNavigator: true).pop();
-    }
+  void _handlePasswordValidation(String value) {
+    setState(() {
+      password = value;
+      _passwordDialogFocusNode.requestFocus();
+    });
   }
 
-  /// Show the password dialog box for web.
+  /// Show the customized password dialog box for web.
   Widget _showWebPasswordDialogue() {
     return Visibility(
-      visible: _visibility,
+      visible: _hasPasswordDialog,
       child: Center(
         child: Container(
           height: 200,
@@ -374,11 +366,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       child: RawMaterialButton(
                         onPressed: () {
                           setState(() {
+                            _hasPasswordDialog = false;
                             _passwordDialogFocusNode.unfocus();
                             _textFieldController.clear();
-                            _visibility = false;
-                            _passwordVisible = true;
-                            _errorTextPresent = false;
                           });
                         },
                         child: Icon(
@@ -395,7 +385,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 14, 0),
+                padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                 child: Text(
                   'The document is password protected.Please enter a password',
                   style: TextStyle(
@@ -437,7 +427,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     )),
                     contentPadding: const EdgeInsets.fromLTRB(0, 18, 0, 0),
                     hintText: 'Password: syncfusion',
-                    errorText: _errorTextPresent ? 'Invalid Password' : null,
+                    errorText: _errorText.isNotEmpty ? _errorText : null,
                     hintStyle: TextStyle(
                       fontFamily: 'Roboto',
                       fontSize: 16,
@@ -474,8 +464,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   controller: _textFieldController,
                   autofocus: true,
                   focusNode: _passwordDialogFocusNode,
+                  textInputAction: TextInputAction.none,
                   onFieldSubmitted: (String value) {
-                    _passwordValidation(value);
+                    _handlePasswordValidation(value);
                   },
                 ),
               ),
@@ -488,10 +479,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     TextButton(
                       onPressed: () {
                         setState(() {
+                          _hasPasswordDialog = false;
+                          _passwordDialogFocusNode.unfocus();
                           _textFieldController.clear();
-                          _visibility = false;
-                          _passwordVisible = true;
-                          _errorTextPresent = false;
                         });
                       },
                       child: Text(
@@ -506,7 +496,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     ),
                     TextButton(
                       onPressed: () {
-                        _passwordValidation(_textFieldController.text);
+                        _handlePasswordValidation(_textFieldController.text);
                       },
                       child: Text(
                         'OPEN',
@@ -526,25 +516,6 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         ),
       ),
     );
-  }
-
-  ///validate the password for encrypted document for web.
-  void _passwordValidation(String value) {
-    if (value != null &&
-        value != '' &&
-        (value == 'syncfusion' || value == 'password')) {
-      setState(() {
-        password = value;
-        _textFieldController.clear();
-        _visibility = false;
-      });
-    } else {
-      _textFieldController.clear();
-      setState(() {
-        _errorTextPresent = true;
-      });
-      _passwordDialogFocusNode.requestFocus();
-    }
   }
 
   /// Show Context menu for Text Selection.
@@ -697,6 +668,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       OverlayEntry? overlayEntry,
       BoxConstraints constraints,
       Widget dropDownItems) {
+    OverlayState? overlayState;
     const List<BoxShadow> boxShadows = <BoxShadow>[
       BoxShadow(
         color: Color.fromRGBO(0, 0, 0, 0.26),
@@ -706,7 +678,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     ];
     if (toolbarItemRenderBox != null) {
       final Offset position = toolbarItemRenderBox.localToGlobal(Offset.zero);
-      final OverlayState? overlayState = Overlay.of(context, rootOverlay: true);
+      overlayState = Overlay.of(context, rootOverlay: true);
       overlayEntry = OverlayEntry(
         builder: (BuildContext context) => Positioned(
           top: position.dy + 40.0, // y position of zoom percentage menu
@@ -724,9 +696,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           ),
         ),
       );
-      overlayState?.insert(overlayEntry);
-      return overlayEntry;
     }
+    overlayState?.insert(overlayEntry!);
+    return overlayEntry;
   }
 
   /// Show text search menu for web platform.
@@ -827,7 +799,6 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             _documentPath = path;
             _passwordVisible = true;
             password = null;
-            _errorTextPresent = false;
           });
         },
         child: Align(
@@ -1127,11 +1098,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     _handleChooseFileClose();
                   }
                   setState(() {
-                    _visibility = false;
+                    _hasPasswordDialog = false;
                     _passwordVisible = true;
                     password = null;
                     _textFieldController.clear();
-                    _errorTextPresent = false;
                   });
                 } else if (toolbarItem == 'Zoom Percentage') {
                   _handleSearchMenuClose();
@@ -1165,9 +1135,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 if (toolbarItem is Document) {
                   setState(() {
                     _documentPath = toolbarItem.path;
+                    _hasPasswordDialog = false;
                     _passwordVisible = true;
+                    _textFieldController.clear();
                     password = null;
-                    _errorTextPresent = false;
                   });
                 }
                 if (toolbarItem.toString() == 'Bookmarks') {
@@ -1318,17 +1289,38 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   _showContextMenu(context, null);
                 }
               },
-              onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
-                if (details.error.contains('Password')) {
+              onDocumentLoaded: (PdfDocumentLoadedDetails details) {
+                if (_hasPasswordDialog) {
                   if (model.isMobile) {
-                    _showPasswordDialog();
+                    Navigator.pop(context);
+                  }
+                  _hasPasswordDialog = false;
+                  _passwordDialogFocusNode.unfocus();
+                  _textFieldController.clear();
+                }
+              },
+              onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
+                if (details.description.contains('password')) {
+                  if (details.description.contains('password') &&
+                      _hasPasswordDialog) {
+                    _errorText = 'Invalid password';
+                    _formKey.currentState?.validate();
+                    _textFieldController.clear();
+                    _passwordDialogFocusNode.requestFocus();
                   } else {
-                    setState(() {
-                      _visibility = true;
-                      if (!_passwordDialogFocusNode.hasFocus) {
-                        _passwordDialogFocusNode.requestFocus();
-                      }
-                    });
+                    _errorText = '';
+                    if (model.isMobile) {
+                      _showPasswordDialog();
+                      _passwordDialogFocusNode.requestFocus();
+                      _hasPasswordDialog = true;
+                    } else {
+                      setState(() {
+                        _hasPasswordDialog = true;
+                        if (!_passwordDialogFocusNode.hasFocus) {
+                          _passwordDialogFocusNode.requestFocus();
+                        }
+                      });
+                    }
                   }
                 } else {
                   showErrorDialog(context, details.error, details.description);

@@ -20,7 +20,7 @@ class CustomLabelsEvent extends SampleView {
   _CustomLabelsEventState createState() => _CustomLabelsEventState();
 }
 
-class _CustomLabelsEventState extends SampleViewState {
+class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
   _CustomLabelsEventState();
 
   late int _segmentedControlValue;

@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// local imports
@@ -52,6 +54,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
           break;
         }
       }
+
       navigationRoutes[sampleRoute.routeName!] = (BuildContext context) =>
           WebLayoutPage(
               key: GlobalKey<State>(),
@@ -60,6 +63,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
               category: category,
               subItem: sampleRoute.subItem);
     }
+
     if (_sampleListModel.isWebFullView) {
       _sampleListModel.currentThemeData = ThemeData.from(
           colorScheme: const ColorScheme.light().copyWith(
@@ -78,6 +82,17 @@ class _SampleBrowserState extends State<SampleBrowser> {
             shortcuts: shortcuts,
             initialRoute: '/',
             routes: navigationRoutes,
+            //ignore: always_specify_types
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              SfGlobalLocalizations.delegate
+            ],
+            //ignore: always_specify_types
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ar', 'AE'),
+            ],
+            locale: const Locale('en', 'US'),
             debugShowCheckedModeBanner: false,
             title: 'Demos & Examples of Syncfusion Flutter Widgets',
             theme: ThemeData.from(
@@ -96,6 +111,16 @@ class _SampleBrowserState extends State<SampleBrowser> {
             routes: navigationRoutes,
             debugShowCheckedModeBanner: false,
             title: 'Demos & Examples of Syncfusion Flutter Widgets',
+            localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+              GlobalMaterialLocalizations.delegate,
+              SfGlobalLocalizations.delegate
+            ],
+            //ignore: always_specify_types
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ar', 'AE'),
+            ],
+            locale: const Locale('en', 'US'),
             theme: ThemeData.from(
                 colorScheme: const ColorScheme.light().copyWith(
                     primary: _sampleListModel.currentPaletteColor,
@@ -496,7 +521,6 @@ class _HomePageState extends State<HomePage> {
       const Color.fromRGBO(180, 137, 255, 1),
       const Color.fromRGBO(29, 233, 182, 1)
     ];
-
     sampleListModel.paletteBorderColors = <Color>[
       const Color.fromRGBO(0, 116, 227, 1),
       Colors.transparent,
@@ -566,7 +590,6 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(color: model.textColor, fontSize: 15)))),
       );
     }
-
     return items;
   }
 }
@@ -791,7 +814,11 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
     final List<Widget> items = <Widget>[];
     for (int i = 0; i < category.controlList!.length; i++) {
       final Control control = category.controlList![i] as Control;
-      final String? status = control.status;
+      String? status = control.status;
+      if (control.title == 'PDF Viewer' && model.isWindows) {
+        status = 'New';
+      }
+
       items.add(
         Container(
             color: model.cardColor,
@@ -899,7 +926,6 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
             )),
       );
     }
-
     return items;
   }
 }

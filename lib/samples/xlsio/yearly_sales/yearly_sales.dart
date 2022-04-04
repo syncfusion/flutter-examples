@@ -223,8 +223,8 @@ class _YearlySalesXlsIOState extends SampleViewState {
     sheet2.getRangeByName('C19').formula = '=(C18-C17)/10000000';
 
     sheet2.getRangeByName('C19').numberFormat = '0.00%';
-    sheet2.getRangeByName('C17:C18').numberFormat = r'_($* #,##0.00';
-    sheet2.getRangeByName('B2:D13').numberFormat = r'_($* #,##0.00';
+    sheet2.getRangeByName('C17:C18').numberFormat = r'_($ #,##0.00';
+    sheet2.getRangeByName('B2:D14').numberFormat = r'_($ #,##0.00';
 
     sheet2.getRangeByName('A1:E1').cellStyle.backColor = '#C6E0B4';
     sheet2.getRangeByName('A1:E1').cellStyle.bold = true;

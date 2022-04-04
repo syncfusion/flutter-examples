@@ -84,6 +84,7 @@ class _PyramidSmartLabelState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
@@ -121,6 +122,7 @@ class _PyramidSmartLabelState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
@@ -163,6 +165,7 @@ class _PyramidSmartLabelState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),

@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 ///calendar import
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -1292,7 +1292,9 @@ class _CalendarColorPickerState extends State<_CalendarColorPicker> {
       data: widget.model.themeData,
       child: AlertDialog(
         content: SizedBox(
-            width: kIsWeb ? 500 : double.maxFinite,
+            width: kIsWeb || widget.model.isWindows || widget.model.isMacOS
+                ? 500
+                : double.maxFinite,
             height: (widget.colorCollection.length * 50).toDouble(),
             child: ListView.builder(
               padding: EdgeInsets.zero,
@@ -2238,7 +2240,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
   List<CalendarResource> _unSelectedResources = <CalendarResource>[];
 
   late String _selectedRecurrenceType, _selectedRecurrenceRange, _ruleType;
-  int? _count, _interval, _month, _week;
+  int? _count, _interval, _month, _week, _lastDay;
   late int _dayOfWeek, _weekNumber, _dayOfMonth;
   late double _padding, _margin;
   late DateTime _selectedDate, _firstDate;
@@ -2246,8 +2248,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
   late RecurrenceType _recurrenceType;
   late RecurrenceRange _recurrenceRange;
   List<WeekDays>? _days;
-  IconData? _monthDayRadio, _weekDayRadio;
-  Color? _weekIconColor, _monthIconColor;
+  IconData? _monthDayRadio, _weekDayRadio, _lastDayRadio;
+  Color? _weekIconColor, _monthIconColor, _lastDayIconColor;
   String? _monthName, _weekNumberText, _dayOfWeekText;
 
   @override
@@ -2321,9 +2323,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
     _weekNumber = _recurrenceProperties!.week == 0
         ? _weekNumber
         : _recurrenceProperties!.week;
-    _dayOfMonth = _recurrenceProperties!.dayOfMonth == 1
-        ? _startDate.day
-        : _recurrenceProperties!.dayOfMonth;
+    _lastDay = _recurrenceProperties!.dayOfMonth;
+    if (_lastDay != -1) {
+      _dayOfMonth = _recurrenceProperties!.dayOfMonth == 1
+          ? _startDate.day
+          : _recurrenceProperties!.dayOfMonth;
+    }
     switch (_recurrenceType) {
       case RecurrenceType.daily:
         _dailyRule();
@@ -2410,7 +2415,13 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
         _interval = 1;
       } else {
         _interval = _recurrenceProperties!.interval;
-        _week == 0 || _week == null ? _monthDayIcon() : _monthWeekIcon();
+        if (_lastDay != null && _lastDay == -1) {
+          _monthLastDayIcon();
+        } else if (_week != null && _week != 0) {
+          _monthWeekIcon();
+        } else {
+          _monthDayIcon();
+        }
       }
       _recurrenceProperties!.recurrenceType = RecurrenceType.monthly;
       _selectedRecurrenceType = 'Monthly';
@@ -2429,7 +2440,13 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
       } else {
         _interval = _recurrenceProperties!.interval;
         _monthName = _dayMonths[_month! - 1];
-        _week == 0 || _week == null ? _monthDayIcon() : _monthWeekIcon();
+        if (_lastDay != null && _lastDay == -1) {
+          _monthLastDayIcon();
+        } else if (_week != null && _week != 0) {
+          _monthWeekIcon();
+        } else {
+          _monthDayIcon();
+        }
       }
       _recurrenceProperties!.recurrenceType = RecurrenceType.yearly;
       _selectedRecurrenceType = 'Yearly';
@@ -2501,7 +2518,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
               widget.model.themeData.colorScheme.brightness == Brightness.dark
           ? Colors.white
           : Colors.black54;
+      _lastDayIconColor = widget.model.themeData != null &&
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
       _weekIconColor = widget.model.backgroundColor;
+      _lastDayRadio = Icons.radio_button_unchecked;
       _monthDayRadio = Icons.radio_button_unchecked;
       _weekDayRadio = Icons.radio_button_checked;
     });
@@ -2516,8 +2538,33 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
               widget.model.themeData.colorScheme.brightness == Brightness.dark
           ? Colors.white
           : Colors.black54;
+      _lastDayIconColor = widget.model.themeData != null &&
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
       _monthIconColor = widget.model.backgroundColor;
       _monthDayRadio = Icons.radio_button_checked;
+      _weekDayRadio = Icons.radio_button_unchecked;
+      _lastDayRadio = Icons.radio_button_unchecked;
+    });
+  }
+
+  void _monthLastDayIcon() {
+    setState(() {
+      _recurrenceProperties!.dayOfWeek = 0;
+      _recurrenceProperties!.week = 0;
+      _recurrenceProperties!.dayOfMonth = -1;
+      _monthIconColor = widget.model.themeData != null &&
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
+      _weekIconColor = widget.model.themeData != null &&
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
+      _lastDayIconColor = widget.model.backgroundColor;
+      _lastDayRadio = Icons.radio_button_checked;
+      _monthDayRadio = Icons.radio_button_unchecked;
       _weekDayRadio = Icons.radio_button_unchecked;
     });
   }
@@ -3513,6 +3560,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           suffix: SizedBox(
                                               height: 28,
                                               child: DropdownButton<String>(
+                                                  focusColor:
+                                                      Colors.transparent,
                                                   isExpanded: true,
                                                   underline: Container(),
                                                   style: TextStyle(
@@ -3638,31 +3687,48 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.end,
                                               children: <Widget>[
-                                                IconButton(
-                                                    icon: Icon(
-                                                        Icons
-                                                            .arrow_drop_down_outlined,
-                                                        color: defaultColor),
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      right: 0,
-                                                      bottom: 3,
-                                                    ),
-                                                    onPressed: _removeInterval),
-                                                IconButton(
-                                                    icon: Icon(
-                                                      Icons
-                                                          .arrow_drop_up_outlined,
-                                                      color: defaultColor,
-                                                    ),
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 3, left: 0),
-                                                    onPressed: _addInterval),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  child: Material(
+                                                    child: IconButton(
+                                                        icon: Icon(
+                                                            Icons
+                                                                .arrow_drop_down_outlined,
+                                                            color:
+                                                                defaultColor),
+                                                        alignment:
+                                                            Alignment.center,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          right: 0,
+                                                          bottom: 3,
+                                                        ),
+                                                        onPressed:
+                                                            _removeInterval),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(vertical: 5),
+                                                    child: Material(
+                                                        child: IconButton(
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .arrow_drop_up_outlined,
+                                                              color:
+                                                                  defaultColor,
+                                                            ),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    bottom: 3,
+                                                                    left: 0),
+                                                            onPressed:
+                                                                _addInterval))),
                                               ],
                                             ),
                                             focusColor:
@@ -3682,17 +3748,13 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                           ),
                           Expanded(
                               flex: 1,
-                              child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text('  ' + _ruleType,
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            color: defaultTextColor,
-                                            fontWeight: FontWeight.w400))
-                                  ])),
+                              child: Container(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: Text('  ' + _ruleType,
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: defaultTextColor,
+                                          fontWeight: FontWeight.w400)))),
                         ],
                       ),
                     ),
@@ -4022,6 +4084,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                               suffix: SizedBox(
                                                 height: 27,
                                                 child: DropdownButton<String>(
+                                                    focusColor:
+                                                        Colors.transparent,
                                                     isExpanded: true,
                                                     underline: Container(),
                                                     style: TextStyle(
@@ -4299,28 +4363,46 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                       .end,
                                                               children: <
                                                                   Widget>[
-                                                                IconButton(
-                                                                  icon: Icon(
-                                                                      Icons
-                                                                          .arrow_drop_down_outlined,
-                                                                      color:
-                                                                          defaultColor),
-                                                                  onPressed:
-                                                                      () {
-                                                                    _removeDay();
-                                                                  },
-                                                                ),
-                                                                IconButton(
-                                                                  icon: Icon(
-                                                                    Icons
-                                                                        .arrow_drop_up_outlined,
-                                                                    color:
-                                                                        defaultColor,
+                                                                Material(
+                                                                  child:
+                                                                      IconButton(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .zero,
+                                                                    icon: Icon(
+                                                                        Icons
+                                                                            .arrow_drop_down_outlined,
+                                                                        color:
+                                                                            defaultColor),
+                                                                    onPressed:
+                                                                        () {
+                                                                      _removeDay();
+                                                                    },
                                                                   ),
-                                                                  onPressed:
-                                                                      () {
-                                                                    _addDay();
-                                                                  },
+                                                                ),
+                                                                Material(
+                                                                  child:
+                                                                      IconButton(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .zero,
+                                                                    icon: Icon(
+                                                                      Icons
+                                                                          .arrow_drop_up_outlined,
+                                                                      color:
+                                                                          defaultColor,
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      _addDay();
+                                                                    },
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
@@ -4860,18 +4942,26 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
                                         children: <Widget>[
-                                          IconButton(
-                                              icon: Icon(
-                                                  Icons
-                                                      .arrow_drop_down_outlined,
-                                                  color: defaultColor),
-                                              onPressed: _removeDay),
-                                          IconButton(
-                                              icon: Icon(
-                                                Icons.arrow_drop_up_outlined,
-                                                color: defaultColor,
-                                              ),
-                                              onPressed: _addDay),
+                                          Material(
+                                            child: IconButton(
+                                                alignment: Alignment.center,
+                                                padding: EdgeInsets.zero,
+                                                icon: Icon(
+                                                    Icons
+                                                        .arrow_drop_down_outlined,
+                                                    color: defaultColor),
+                                                onPressed: _removeDay),
+                                          ),
+                                          Material(
+                                            child: IconButton(
+                                                alignment: Alignment.center,
+                                                padding: EdgeInsets.zero,
+                                                icon: Icon(
+                                                  Icons.arrow_drop_up_outlined,
+                                                  color: defaultColor,
+                                                ),
+                                                onPressed: _addDay),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -4885,6 +4975,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                   ),
                                 ),
                               ),
+                              _lastDayOfMonth(defaultTextColor),
                             ])),
                           ]),
                     ),
@@ -4927,6 +5018,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         suffix: SizedBox(
                                           height: 25,
                                           child: DropdownButton<String>(
+                                              focusColor: Colors.transparent,
                                               isExpanded: true,
                                               value: _weekNumberText,
                                               underline: Container(),
@@ -5004,6 +5096,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         suffix: SizedBox(
                                           height: 25,
                                           child: DropdownButton<String>(
+                                              focusColor: Colors.transparent,
                                               isExpanded: true,
                                               value: _dayOfWeekText,
                                               underline: Container(),
@@ -5084,6 +5177,11 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 style: BorderStyle.solid)),
                                       ),
                                     ),
+                                  ),
+                                  Visibility(
+                                    visible:
+                                        _selectedRecurrenceType == 'Monthly',
+                                    child: _lastDayOfMonth(defaultTextColor),
                                   ),
                                 ],
                               ),
@@ -5636,6 +5734,32 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
         ),
       ),
     );
+  }
+
+  Widget _lastDayOfMonth(Color textColor) {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      Container(
+          padding: const EdgeInsets.only(top: 10),
+          child: IconButton(
+            onPressed: () {
+              _monthLastDayIcon();
+            },
+            padding: const EdgeInsets.only(left: 10),
+            alignment: Alignment.centerLeft,
+            icon: Icon(_lastDayRadio),
+            color: _lastDayIconColor,
+            focusColor: widget.model.backgroundColor,
+            iconSize: 20,
+          )),
+      Container(
+        padding: const EdgeInsets.only(right: 10, top: 10),
+        child: Text(
+          'Last day of month',
+          style: TextStyle(
+              fontSize: 13, color: textColor, fontWeight: FontWeight.w400),
+        ),
+      ),
+    ]);
   }
 }
 
@@ -7362,6 +7486,7 @@ class _CustomRuleState extends State<_CustomRule> {
   late RecurrenceRange _recurrenceRange;
   List<WeekDays>? _days;
   late double _width;
+  bool _isLastDay = false;
 
   @override
   void initState() {
@@ -7548,6 +7673,15 @@ class _CustomRuleState extends State<_CustomRule> {
     });
   }
 
+  void _lastDayOfMonth() {
+    setState(() {
+      _monthlyRule = 'Last day of month';
+      _recurrenceProperties!.dayOfWeek = 0;
+      _recurrenceProperties!.week = 0;
+      _recurrenceProperties!.dayOfMonth = -1;
+    });
+  }
+
   int _getWeekNumber(DateTime _startDate) {
     int weekOfMonth;
     weekOfMonth = (_startDate.day / 7).ceil();
@@ -7651,6 +7785,17 @@ class _CustomRuleState extends State<_CustomRule> {
     }
   }
 
+  double _textSize(String text) {
+    const TextStyle textStyle =
+        TextStyle(fontSize: 13, fontWeight: FontWeight.w400);
+    final TextPainter textPainter = TextPainter(
+        text: TextSpan(text: text, style: textStyle),
+        maxLines: 1,
+        textDirection: TextDirection.ltr)
+      ..layout(minWidth: 0, maxWidth: double.infinity);
+    return textPainter.width + 60;
+  }
+
   Widget _getCustomRule(
       BuildContext context, Color backgroundColor, Color defaultColor) {
     final Color defaultTextColor = widget.model.themeData != null &&
@@ -7734,6 +7879,7 @@ class _CustomRuleState extends State<_CustomRule> {
                       borderRadius: BorderRadius.circular(3),
                     ),
                     child: DropdownButton<String>(
+                        focusColor: Colors.transparent,
                         isExpanded: true,
                         underline: Container(),
                         style: TextStyle(
@@ -7948,6 +8094,7 @@ class _CustomRuleState extends State<_CustomRule> {
                         vertical: 10, horizontal: 10),
                     margin: const EdgeInsets.all(15),
                     child: DropdownButton<String>(
+                        focusColor: Colors.transparent,
                         isExpanded: true,
                         underline: Container(),
                         style: TextStyle(
@@ -7967,7 +8114,11 @@ class _CustomRuleState extends State<_CustomRule> {
                           DropdownMenuItem<String>(
                             value: 'Monthly on the ' + _weekNumberDay!,
                             child: Text('Monthly on the ' + _weekNumberDay!),
-                          )
+                          ),
+                          const DropdownMenuItem<String>(
+                            value: 'Last day of month',
+                            child: Text('Last day of month'),
+                          ),
                         ],
                         onChanged: (String? value) {
                           setState(() {
@@ -7975,12 +8126,18 @@ class _CustomRuleState extends State<_CustomRule> {
                                 'Monthly on day ' +
                                     _startDate.day.toString() +
                                     'th') {
-                              _width = 180;
+                              _width = _textSize('Monthly on day ' +
+                                  _startDate.day.toString() +
+                                  'th');
                               _monthlyDay();
                             } else if (value ==
                                 'Monthly on the ' + _weekNumberDay!) {
-                              _width = 230;
+                              _width = _textSize(
+                                  'Monthly on the ' + _weekNumberDay!);
                               _monthlyWeek();
+                            } else if (value == 'Last day of month') {
+                              _width = _textSize('Last day of month');
+                              _lastDayOfMonth();
                             }
                           });
                         }),
@@ -7991,6 +8148,37 @@ class _CustomRuleState extends State<_CustomRule> {
                 ],
               ),
             ),
+            Visibility(
+              visible: _selectedRecurrenceType == 'year',
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Checkbox(
+                    focusColor: widget.model.backgroundColor,
+                    activeColor: widget.model.backgroundColor,
+                    value: _isLastDay,
+                    onChanged: (bool? value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setState(() {
+                        _isLastDay = value;
+                        _lastDayOfMonth();
+                      });
+                    },
+                  ),
+                  const Text(
+                    'Last day of month',
+                  ),
+                ],
+              ),
+            ),
+            if (_selectedRecurrenceType == 'year')
+              const Divider(
+                thickness: 1,
+              ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

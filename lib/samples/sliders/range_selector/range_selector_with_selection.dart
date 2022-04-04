@@ -152,6 +152,7 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                   dateIntervalType: DateIntervalType.days,
                   interval: 5.0,
                   controller: rangeController,
+                  stepDuration: const SliderStepDuration(days: 1),
                   dateFormat: DateFormat.MMMd(),
                   showTicks: true,
                   showLabels: true,
@@ -171,9 +172,13 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                         title: ChartTitle(text: 'Data Usage For April 2019'),
                         margin: EdgeInsets.zero,
                         primaryXAxis: DateTimeAxis(
-                            isVisible: false,
-                            minimum: DateTime(2019, 04, 01),
-                            maximum: DateTime(2019, 04, 30, 24)),
+                          isVisible: false,
+                          minimum: DateTime(2019, 04, 01),
+                          maximum: DateTime(2019, 05, 01),
+                          interval: 5,
+                          intervalType: DateTimeIntervalType.days,
+                          enableAutoIntervalOnZooming: false,
+                        ),
                         primaryYAxis:
                             NumericAxis(isVisible: false, maximum: 26),
                         plotAreaBorderWidth: 0,
@@ -215,18 +220,19 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                 ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.025)
                 : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
             child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                    width: 250,
-                    height: 20,
-                    child: TextField(
-                      controller: textController,
-                      enabled: false,
-                      readOnly: true,
-                      textAlign: TextAlign.center,
-                      decoration:
-                          const InputDecoration(border: InputBorder.none),
-                    ))),
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: 250,
+                height: 20,
+                child: TextField(
+                  controller: textController,
+                  enabled: false,
+                  readOnly: true,
+                  textAlign: TextAlign.center,
+                  decoration: const InputDecoration(border: InputBorder.none),
+                ),
+              ),
+            ),
           )
         ],
       ),

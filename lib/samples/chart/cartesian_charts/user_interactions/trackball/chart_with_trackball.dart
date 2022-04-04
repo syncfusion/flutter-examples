@@ -157,6 +157,7 @@ class _DefaultTrackballState extends SampleViewState {
                               ? const EdgeInsets.fromLTRB(90, 0, 0, 0)
                               : const EdgeInsets.fromLTRB(55, 0, 0, 0),
                           child: DropdownButton<String>(
+                              focusColor: Colors.transparent,
                               underline: Container(
                                   color: const Color(0xFFBDBDBD), height: 1),
                               value: _selectedMode,
@@ -198,6 +199,7 @@ class _DefaultTrackballState extends SampleViewState {
                             ? const EdgeInsets.fromLTRB(60, 0, 0, 0)
                             : const EdgeInsets.fromLTRB(25, 0, 0, 0),
                         child: DropdownButton<String>(
+                            focusColor: Colors.transparent,
                             underline: Container(
                                 color: const Color(0xFFBDBDBD), height: 1),
                             value: _tooltipAlignment,

@@ -629,7 +629,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
         themeData.colorScheme.brightness == Brightness.light;
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     splineChart = SfCartesianChart(
-      title: ChartTitle(text: 'EUR Exchange Rate From USD'),
+      title: ChartTitle(text: 'EUR Exchange Rate From USD 2017'),
       plotAreaBorderWidth: 0,
       tooltipBehavior: TooltipBehavior(
           animationDuration: 0, shadowColor: Colors.transparent, enable: true),

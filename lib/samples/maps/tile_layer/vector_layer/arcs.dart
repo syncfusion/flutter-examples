@@ -464,6 +464,10 @@ class _ArcsSampleState extends SampleViewState
           ),
         ),
         selected: _currentSelectedCityIndex == index,
+        selectedColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? model.backgroundColor.withOpacity(0.25)
+                : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {
             setState(() {
@@ -501,6 +505,7 @@ class _ArcsSampleState extends SampleViewState
                 Padding(
                     padding: const EdgeInsets.only(right: 15.0),
                     child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       value: _currentSublayer,
                       items: _dropDownMenuItems,
                       onChanged: (String? value) {

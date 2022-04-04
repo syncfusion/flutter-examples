@@ -100,6 +100,7 @@ class _TrendLineDefaultState extends SampleViewState {
                     EdgeInsets.fromLTRB(model.isWebFullView ? 50 : 70, 0, 0, 0),
                 width: dropDownWidth,
                 child: DropdownButton<String>(
+                  focusColor: Colors.transparent,
                   isExpanded: !model.isWebFullView,
                   underline:
                       Container(color: const Color(0xFFBDBDBD), height: 1),

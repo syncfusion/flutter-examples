@@ -268,6 +268,7 @@ class _StylingDataGridState extends SampleViewState {
             Theme(
               data: ThemeData(canvasColor: model.bottomSheetBackgroundColor),
               child: DropdownButton<String>(
+                  focusColor: Colors.transparent,
                   value: gridLinesVisibility,
                   items: _encoding.map((String value) {
                     return DropdownMenuItem<String>(

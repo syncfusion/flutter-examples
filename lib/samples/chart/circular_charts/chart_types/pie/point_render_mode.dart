@@ -68,6 +68,7 @@ class _PiePointRenderModeState extends SampleViewState {
                             width: 0.5 * screenWidth,
                             alignment: Alignment.bottomLeft,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
                                 value: _selectedMode,

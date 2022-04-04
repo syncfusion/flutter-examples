@@ -159,6 +159,7 @@ class _IntervalTypeState extends SampleViewState {
             height: 50.0,
             padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
             child: DropdownButton<String>(
+                focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedIntervalType,
                 items: _intervalType!.map((String value) {

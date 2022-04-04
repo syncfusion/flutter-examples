@@ -629,6 +629,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                     child: TextFormField(
                       focusNode: _focusNode,
                       controller: _editingController,
+                      textInputAction: TextInputAction.none,
                       style: TextStyle(
                         fontSize: 15,
                         fontFamily: 'Roboto',

@@ -238,6 +238,7 @@ class SubItem {
 class SampleModel extends Listenable {
   /// Contains the category, control, theme information
   SampleModel() {
+    isInitialRender = true;
     searchControlItems = <Control>[];
     sampleList = <SubItem>[];
     searchResults = <SubItem>[];
@@ -287,6 +288,9 @@ class SampleModel extends Listenable {
 
   /// Used to create the instance of [SampleModel]
   static SampleModel instance = SampleModel();
+
+  /// Specifies the widget initial rendering
+  late bool isInitialRender;
 
   /// Contains the output widget of sample
   /// appropriate key and output widget mapped
@@ -383,7 +387,7 @@ class SampleModel extends Listenable {
   /// Contains the pallete's border colors
   late List<Color>? paletteBorderColors;
 
-  /// Contains dark theme theme palatte colors
+  /// Contains dark theme theme palatte colors.
   late List<Color>? darkPaletteColors;
 
   /// Holds current theme data
@@ -398,6 +402,12 @@ class SampleModel extends Listenable {
 
   /// Holds the information of isCardView or not
   bool isCardView = true;
+
+  /// Gets the locale assigned to [SampleModel].
+  Locale? locale = const Locale('ar', 'AE');
+
+  /// Gets the textDirection assigned to [SampleModel].
+  TextDirection textDirection = TextDirection.rtl;
 
   /// Holds the information of isMobileResolution or not
   /// To render the appbar and search bar based on it
@@ -453,6 +463,9 @@ class SampleModel extends Listenable {
 
   /// holds the current route of sample.
   late SampleRoute currentSampleRoute;
+
+  /// Hold the current sample details.
+  late SubItem sampleDetail;
 
   /// holds the collection of all sample routes.
   static List<SampleRoute> sampleRoutes = <SampleRoute>[];

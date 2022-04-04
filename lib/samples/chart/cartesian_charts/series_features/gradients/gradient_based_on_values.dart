@@ -44,7 +44,7 @@ class _GradientComparisonState extends SampleViewState {
           labelFormat: '{value}°C',
           minimum: 0,
           maximum: 25,
-          interval: 5,
+          interval: model.isWeb ? 5 : 10,
           axisLine: const AxisLine(width: 0),
           majorTickLines: const MajorTickLines(color: Colors.transparent)),
       tooltipBehavior: _tooltipBehavior,

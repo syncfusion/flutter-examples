@@ -72,6 +72,7 @@ class _LabelActionState extends SampleViewState {
           Container(
             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: DropdownButton<String>(
+                focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedType,
                 items: _labelList!.map((String value) {

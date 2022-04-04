@@ -115,6 +115,7 @@ class _TrackballTemplateState extends SampleViewState {
                               width: 190,
                               alignment: Alignment.bottomLeft,
                               child: DropdownButton<String>(
+                                  focusColor: Colors.transparent,
                                   isExpanded: true,
                                   underline: Container(
                                       color: const Color(0xFFBDBDBD),

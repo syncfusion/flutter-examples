@@ -145,6 +145,7 @@ class _EditingDataGridState extends SampleViewState {
             Theme(
               data: ThemeData(canvasColor: model.bottomSheetBackgroundColor),
               child: DropdownButton<String>(
+                  focusColor: Colors.transparent,
                   value: editingGestureType.toString().split('.')[1],
                   items: <String>['tap', 'doubleTap'].map((String value) {
                     return DropdownMenuItem<String>(

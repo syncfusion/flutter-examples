@@ -144,6 +144,15 @@ class _LayoutPageState extends State<LayoutPage> {
                                               .subItems[index]
                                               .subItems[0] as SubItem);
 
+                                  if (currentSample != null &&
+                                      currentSample!.subItems != null &&
+                                      currentSample!.subItems!.length == 1) {
+                                    currentSample =
+                                        currentSample!.subItems![0] as SubItem;
+                                  }
+
+                                  resetLocaleValue(_model, currentSample!);
+
                                   _showIcon = _category
                                               .controlList![
                                                   _category.selectedIndex!]
@@ -161,7 +170,20 @@ class _LayoutPageState extends State<LayoutPage> {
                                                       _category.selectedIndex!]
                                                   .subItems[index]
                                                   .displayType !=
-                                              'card');
+                                              'card') ||
+                                      (_category
+                                                  .controlList![
+                                                      _category.selectedIndex!]
+                                                  .subItems[index]
+                                                  .type ==
+                                              'parent' &&
+                                          _category
+                                                  .controlList![
+                                                      _category.selectedIndex!]
+                                                  .subItems[index]
+                                                  .subItems[0]
+                                                  .displayType ==
+                                              'tab');
                                   infoIconChangeSetState!(() {});
                                 });
                               }
@@ -291,6 +313,7 @@ class _LayoutPageState extends State<LayoutPage> {
         return false;
       }
     }
+
     return true;
   }
 
@@ -359,10 +382,11 @@ class _LayoutPageState extends State<LayoutPage> {
       final Function? _sampleWidget = model.sampleWidget[list[j].key];
       final SampleView _sampleView =
           _sampleWidget!(GlobalKey<State>()) as SampleView;
+
       _tabs.add(
         Scaffold(
           backgroundColor: model.cardThemeColor,
-          body: Container(child: _sampleView),
+          body: _sampleView,
           floatingActionButton: _needsFloatingBotton
               ? Stack(children: <Widget>[
                   if (_sampleDetail.sourceLink != null &&
@@ -402,10 +426,8 @@ class _LayoutPageState extends State<LayoutPage> {
                         onPressed: () {
                           final GlobalKey _sampleKey =
                               _sampleView.key! as GlobalKey;
-                          final SampleViewState _sampleState =
-                              _sampleKey.currentState! as SampleViewState;
                           final Widget _settingsContent =
-                              _sampleState.buildSettings(context)!;
+                              _getSettingsView(_sampleKey)!;
                           showBottomSheetSettingsPanel(
                               context, _settingsContent);
                         },
@@ -419,7 +441,31 @@ class _LayoutPageState extends State<LayoutPage> {
         ),
       );
     }
+
     return _tabs;
+  }
+
+  Widget? _getSettingsView(GlobalKey sampleKey) {
+    final SampleViewState sampleState =
+        sampleKey.currentState! as SampleViewState;
+    final bool isLocalizationSample =
+        sampleKey.currentState! is LocalizationSampleViewState;
+    final bool isDirectionalitySample =
+        sampleKey.currentState! is DirectionalitySampleViewState;
+    if (isLocalizationSample || isDirectionalitySample) {
+      return ListView(children: <Widget>[
+        (sampleKey.currentState! as LocalizationSampleViewState)
+            .localizationSelectorWidget(context),
+        if (isDirectionalitySample)
+          (sampleKey.currentState! as DirectionalitySampleViewState)
+              .textDirectionSelectorWidget(context)
+        else
+          Container(),
+        sampleState.buildSettings(context) ?? Container()
+      ], shrinkWrap: true);
+    } else {
+      return sampleState.buildSettings(context);
+    }
   }
 
   /// To displaying sample in cards, it contains expanded sample view option.
@@ -436,6 +482,7 @@ class _LayoutPageState extends State<LayoutPage> {
             final String? _status = list[position].status;
             _sampleWidget = model.sampleWidget[list[position].key]!;
             _sampleView = _sampleWidget(GlobalKey<State>()) as SampleView;
+
             return Container(
               color: model.themeData.colorScheme.brightness == Brightness.dark
                   ? Colors.black
@@ -541,6 +588,7 @@ class _LayoutPageState extends State<LayoutPage> {
             );
           }));
     }
+
     return _tabChildren;
   }
 
@@ -661,6 +709,12 @@ class _LayoutPageState extends State<LayoutPage> {
         ));
       }
     }
+
     return _tabs;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

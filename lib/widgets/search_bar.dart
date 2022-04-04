@@ -164,10 +164,10 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
 
   @override
   void didChangeMetrics() {
-    if (isFocus.hasFocus) {
+    if (isFocus.hasFocus && sampleListModel!.editingController.text.isEmpty) {
       if (!isOpen) {
         isOpen = true;
-      } else if (isOpen) {
+      } else if (isOpen && sampleListModel!.editingController.text.isNotEmpty) {
         isOpen = false;
         isFocus.unfocus();
       }

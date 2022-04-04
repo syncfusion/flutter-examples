@@ -79,6 +79,7 @@ class _SortingDefaultState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedType,
@@ -106,6 +107,7 @@ class _SortingDefaultState extends SampleViewState {
                 SizedBox(
                   height: 50,
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedSortType,
