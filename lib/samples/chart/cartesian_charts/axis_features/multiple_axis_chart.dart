@@ -25,7 +25,7 @@ class _MultipleAxisState extends SampleViewState {
   @override
   void initState() {
     chartData = <ChartSampleData>[
-      ChartSampleData(x: DateTime(2019, 5, 1), y: 13, secondSeriesYValue: 69.8),
+      ChartSampleData(x: DateTime(2019, 5), y: 13, secondSeriesYValue: 69.8),
       ChartSampleData(x: DateTime(2019, 5, 2), y: 26, secondSeriesYValue: 87.8),
       ChartSampleData(x: DateTime(2019, 5, 3), y: 13, secondSeriesYValue: 78.8),
       ChartSampleData(x: DateTime(2019, 5, 4), y: 22, secondSeriesYValue: 75.2),

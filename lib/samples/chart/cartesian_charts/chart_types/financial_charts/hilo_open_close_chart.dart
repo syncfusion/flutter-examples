@@ -65,8 +65,8 @@ class _HiloOpenCloseChartState extends SampleViewState {
           dateFormat: DateFormat.MMM(),
           interval: 3,
           intervalType: DateTimeIntervalType.months,
-          minimum: DateTime(2016, 01, 01),
-          maximum: DateTime(2017, 01, 01),
+          minimum: DateTime(2016),
+          maximum: DateTime(2017),
           majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           minimum: 140,
@@ -104,7 +104,7 @@ class _HiloOpenCloseChartState extends SampleViewState {
                 low: 92.39,
                 close: 97.34),
             ChartSampleData(
-                x: DateTime(2016, 02, 01),
+                x: DateTime(2016, 02),
                 open: 96.47,
                 high: 97.33,
                 low: 93.69,
@@ -260,7 +260,7 @@ class _HiloOpenCloseChartState extends SampleViewState {
                 low: 96.42,
                 close: 104.21),
             ChartSampleData(
-                x: DateTime(2016, 08, 01),
+                x: DateTime(2016, 08),
                 open: 104.41,
                 high: 107.65,
                 low: 104,

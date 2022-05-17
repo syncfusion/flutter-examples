@@ -1,15 +1,17 @@
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/product_datagridsource.dart';
 
 /// Core import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../model/sample_view.dart';
+import '../datagridsource/product_datagridsource.dart';
 
 /// Renders stacked header data grid
 class StackedHeaderDataGrid extends SampleView {
@@ -136,8 +138,8 @@ class _StackedHeaderDataGridState extends SampleViewState {
   }
 
   List<StackedHeaderRow> _getStackedHeaderRows() {
-    List<StackedHeaderRow> _stackedHeaderRows;
-    _stackedHeaderRows = <StackedHeaderRow>[
+    List<StackedHeaderRow> stackedHeaderRows;
+    stackedHeaderRows = <StackedHeaderRow>[
       StackedHeaderRow(cells: <StackedHeaderCell>[
         StackedHeaderCell(columnNames: <String>[
           'customerName',
@@ -155,7 +157,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
         ], child: _getWidgetForStackedHeaderCell('Product Details'))
       ])
     ];
-    return _stackedHeaderRows;
+    return stackedHeaderRows;
   }
 
   @override

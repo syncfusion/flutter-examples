@@ -50,9 +50,8 @@ class _AreaZoneState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Average monthly temperature of US - 2020'),
-      primaryXAxis: CategoryAxis(
-          labelPlacement: LabelPlacement.betweenTicks,
-          majorGridLines: const MajorGridLines(width: 0)),
+      primaryXAxis:
+          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           // ignore: use_raw_strings
           labelFormat: '{value}°F',
@@ -114,7 +113,6 @@ class _AreaZoneState extends SampleViewState {
                   ],
                 )),
             coordinateUnit: CoordinateUnit.percentage,
-            region: AnnotationRegion.chart,
             x: kIsWeb ? '95%' : '85%',
             y: kIsWeb ? '21%' : '14%')
       ],

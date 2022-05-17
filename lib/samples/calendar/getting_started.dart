@@ -103,7 +103,7 @@ class GettingStartedCalendarState extends SampleViewState {
                   model.isWebFullView &&
                   screenHeight < 800
               ? Scrollbar(
-                  isAlwaysShown: true,
+                  thumbVisibility: true,
                   controller: _controller,
                   child: ListView(
                     controller: _controller,
@@ -137,7 +137,7 @@ class GettingStartedCalendarState extends SampleViewState {
       }
     }
 
-    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         if (_calendarController.view == CalendarView.month ||
             _calendarController.view == CalendarView.timelineMonth) {
@@ -160,8 +160,8 @@ class GettingStartedCalendarState extends SampleViewState {
         }
         final int count = 1 + random.nextInt(model.isWebFullView ? 2 : 3);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate = DateTime(
-              date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+          final DateTime startDate =
+              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
           appointment.add(_Meeting(
             _subjectCollection[random.nextInt(7)],
             startDate,
@@ -182,8 +182,8 @@ class GettingStartedCalendarState extends SampleViewState {
         final DateTime date = i;
         final int count = 1 + random.nextInt(3);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate = DateTime(
-              date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+          final DateTime startDate =
+              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
           appointment.add(_Meeting(
             _subjectCollection[random.nextInt(7)],
             startDate,
@@ -273,9 +273,7 @@ class GettingStartedCalendarState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Text('Allow view navigation',
                   softWrap: false,
@@ -302,9 +300,7 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Text('Show date picker button',
                   softWrap: false,
@@ -334,9 +330,7 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Expanded(
                   child: Text(
@@ -367,9 +361,7 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Expanded(
                   child: Text(
@@ -400,9 +392,7 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Expanded(
                   child: Text('Show week number',
@@ -431,8 +421,6 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
                   flex: model.isWebFullView ? 5 : 6,
@@ -469,8 +457,6 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
                   flex: model.isWebFullView ? 5 : 6,
@@ -510,15 +496,15 @@ class GettingStartedCalendarState extends SampleViewState {
 
   /// Returns the calendar widget based on the properties passed.
   SfCalendar _getGettingStartedCalendar(
-      [CalendarController? _calendarController,
-      CalendarDataSource? _calendarDataSource,
+      [CalendarController? calendarController,
+      CalendarDataSource? calendarDataSource,
       ViewChangedCallback? viewChangedCallback,
-      DateTime? _minDate,
-      DateTime? _maxDate,
+      DateTime? minDate,
+      DateTime? maxDate,
       dynamic scheduleViewBuilder]) {
     return SfCalendar(
-      controller: _calendarController,
-      dataSource: _calendarDataSource,
+      controller: calendarController,
+      dataSource: calendarDataSource,
       allowedViews: _allowedViews,
       scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
       showNavigationArrow: model.isWebFullView,
@@ -530,12 +516,11 @@ class GettingStartedCalendarState extends SampleViewState {
       blackoutDatesTextStyle: TextStyle(
           decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
           color: Colors.red),
-      minDate: _minDate,
-      maxDate: _maxDate,
+      minDate: minDate,
+      maxDate: maxDate,
       monthViewSettings: MonthViewSettings(
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-          showTrailingAndLeadingDates: _showLeadingAndTrailingDates,
-          appointmentDisplayCount: 4),
+          showTrailingAndLeadingDates: _showLeadingAndTrailingDates),
       timeSlotViewSettings: TimeSlotViewSettings(
           numberOfDaysInView: _numberOfDays,
           minimumAppointmentDuration: const Duration(minutes: 60)),

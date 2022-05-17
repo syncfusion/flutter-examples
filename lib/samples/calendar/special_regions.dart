@@ -49,7 +49,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         DateTime.now().add(Duration(days: -DateTime.now().weekday));
     regions.add(TimeRegion(
       startTime: DateTime(date.year, date.month, date.day),
-      endTime: DateTime(date.year, date.month, date.day, 9, 0, 0),
+      endTime: DateTime(date.year, date.month, date.day, 9),
       enablePointerInteraction: false,
       textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
       color: Colors.grey.withOpacity(0.2),
@@ -57,7 +57,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     ));
 
     regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day, 18, 0, 0),
+      startTime: DateTime(date.year, date.month, date.day, 18),
       endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
       enablePointerInteraction: false,
       textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
@@ -66,8 +66,8 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     ));
 
     regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day, 10, 0, 0),
-      endTime: DateTime(date.year, date.month, date.day, 11, 0, 0),
+      startTime: DateTime(date.year, date.month, date.day, 10),
+      endTime: DateTime(date.year, date.month, date.day, 11),
       enablePointerInteraction: false,
       textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
       color: Colors.grey.withOpacity(0.2),
@@ -76,8 +76,8 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     ));
 
     regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day, 15, 0, 0),
-      endTime: DateTime(date.year, date.month, date.day, 16, 0, 0),
+      startTime: DateTime(date.year, date.month, date.day, 15),
+      endTime: DateTime(date.year, date.month, date.day, 16),
       enablePointerInteraction: false,
       textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
       color: Colors.grey.withOpacity(0.2),
@@ -86,8 +86,8 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     ));
 
     regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day, 13, 0, 0),
-      endTime: DateTime(date.year, date.month, date.day, 14, 0, 0),
+      startTime: DateTime(date.year, date.month, date.day, 13),
+      endTime: DateTime(date.year, date.month, date.day, 14),
       enablePointerInteraction: false,
       textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
       color: Colors.grey.withOpacity(0.2),
@@ -96,7 +96,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     ));
 
     regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day, 0, 0, 0),
+      startTime: DateTime(date.year, date.month, date.day),
       endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
       enablePointerInteraction: false,
       textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
@@ -146,7 +146,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
       }
 
       final DateTime startDate = DateTime(date.year, date.month, date.day,
-          (date.weekday.isEven ? 14 : 9) + random.nextInt(3), 0, 0);
+          (date.weekday.isEven ? 14 : 9) + random.nextInt(3));
       appointments.add(Appointment(
           subject: subjectCollection[random.nextInt(7)],
           startTime: startDate,

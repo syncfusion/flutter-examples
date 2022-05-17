@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -31,7 +32,6 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
   SfSlider _inactiveSlider() {
     //ignore: missing_required_param
     return SfSlider.vertical(
-      min: 0.0,
       max: 100.0,
       isInversed: _isInversed,
       value: _inactiveSliderValue,
@@ -43,7 +43,6 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
         child: SfSlider.vertical(
-          min: 0.0,
           max: 100.0,
           isInversed: _isInversed,
           onChanged: (dynamic values) {

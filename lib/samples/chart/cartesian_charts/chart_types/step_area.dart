@@ -53,7 +53,7 @@ class _StepAreaState extends SampleViewState {
   @override
   void initState() {
     chartData = <_StepAreaData>[
-      _StepAreaData(DateTime(2019, 3, 1), 12, 9),
+      _StepAreaData(DateTime(2019, 3), 12, 9),
       _StepAreaData(DateTime(2019, 3, 2), 13, 7),
       _StepAreaData(DateTime(2019, 3, 3), 14, 10),
       _StepAreaData(DateTime(2019, 3, 4), 12, 5),

@@ -166,7 +166,6 @@ class _DefaultCrossHairState extends SampleViewState {
       crosshairBehavior: CrosshairBehavior(
           enable: true,
           hideDelay: duration * 1000,
-          lineWidth: 1,
           activationMode: ActivationMode.singleTap,
           shouldAlwaysShow: alwaysShow,
           lineType: _lineType),
@@ -214,16 +213,16 @@ class _DefaultCrossHairState extends SampleViewState {
 
 /// Method to get random data points for the chart with crosshair sample.
 List<ChartSampleData> getDatatTimeData() {
-  final List<ChartSampleData> _randomData = <ChartSampleData>[];
-  final Random _rand = Random();
-  double _value = 100;
+  final List<ChartSampleData> randomData = <ChartSampleData>[];
+  final Random rand = Random();
+  double value = 100;
   for (int i = 1; i < 2000; i++) {
-    if (_rand.nextDouble() > 0.5) {
-      _value += _rand.nextDouble();
+    if (rand.nextDouble() > 0.5) {
+      value += rand.nextDouble();
     } else {
-      _value -= _rand.nextDouble();
+      value -= rand.nextDouble();
     }
-    _randomData.add(ChartSampleData(x: DateTime(1900, i, 1), y: _value));
+    randomData.add(ChartSampleData(x: DateTime(1900, i), y: value));
   }
-  return _randomData;
+  return randomData;
 }

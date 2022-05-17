@@ -33,24 +33,20 @@ class _RadialLabelCustomizationState extends SampleViewState {
             startAngle: 180,
             endAngle: 360,
             canScaleToFit: true,
+            showLastLabel: true,
             interval: 10,
-            radiusFactor: 0.95,
             labelFormat: '{value}%',
             labelsPosition: ElementsPosition.outside,
-            ticksPosition: ElementsPosition.inside,
-            labelOffset: 15,
             minorTickStyle: const MinorTickStyle(
-                length: 0.05, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
+                length: 0.05, lengthUnit: GaugeSizeUnit.factor),
             majorTickStyle: const MajorTickStyle(
-                length: 0.1, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
+                length: 0.1, lengthUnit: GaugeSizeUnit.factor),
             minorTicksPerInterval: 5,
             pointers: const <GaugePointer>[
               NeedlePointer(
                   value: 70,
-                  needleStartWidth: 1,
                   needleEndWidth: 3,
                   needleLength: 0.8,
-                  lengthUnit: GaugeSizeUnit.factor,
                   knobStyle: KnobStyle(
                     knobRadius: 8,
                     sizeUnit: GaugeSizeUnit.logicalPixel,
@@ -60,8 +56,7 @@ class _RadialLabelCustomizationState extends SampleViewState {
                       lengthUnit: GaugeSizeUnit.logicalPixel,
                       length: 20))
             ],
-            axisLabelStyle:
-                const GaugeTextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+            axisLabelStyle: const GaugeTextStyle(fontWeight: FontWeight.w500),
             axisLineStyle:
                 const AxisLineStyle(thickness: 3, color: Color(0xFF00A8B5))),
       ],

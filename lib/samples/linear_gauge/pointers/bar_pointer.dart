@@ -64,7 +64,6 @@ class _BarPointerState extends SampleViewState {
           : Column(
               children: <Widget>[
                 Wrap(
-                  direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
@@ -184,7 +183,7 @@ class _BarPointerState extends SampleViewState {
 
   /// Returns the multiple bar pointers.
   Widget _buildMultipleBarPointers(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
     return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
@@ -196,7 +195,7 @@ class _BarPointerState extends SampleViewState {
               LinearBarPointer(
                 value: 10,
                 position: LinearElementPosition.inside,
-                color: _brightness == Brightness.light
+                color: brightness == Brightness.light
                     ? const Color(0xffF45656)
                     : const Color(0xffFF7B7B),
               ),

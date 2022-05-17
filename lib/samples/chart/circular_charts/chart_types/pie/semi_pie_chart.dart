@@ -37,8 +37,6 @@ class _SemiPieChartState extends SampleViewState {
       shrinkWrap: true,
       children: <Widget>[
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text('Start angle  ',
                 style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -60,7 +58,6 @@ class _SemiPieChartState extends SampleViewState {
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -124,8 +121,7 @@ class _SemiPieChartState extends SampleViewState {
           /// it will render as semi pie chart.
           startAngle: _startAngle,
           endAngle: _endAngle,
-          dataLabelSettings: const DataLabelSettings(
-              isVisible: true, labelPosition: ChartDataLabelPosition.inside))
+          dataLabelSettings: const DataLabelSettings(isVisible: true))
     ];
   }
 }

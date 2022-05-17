@@ -6,9 +6,11 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:syncfusion_flutter_charts/charts.dart' hide LabelPlacement;
 
 ///Core import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -47,7 +49,7 @@ class _RangeSelectorBarChartPageState extends SampleViewState
     super.initState();
 
     _chartData = <_ChartSampleData>[
-      _ChartSampleData(x: DateTime(2020, 06, 01), y: 100.0),
+      _ChartSampleData(x: DateTime(2020, 06), y: 100.0),
       _ChartSampleData(x: DateTime(2020, 06, 02), y: 150.541),
       _ChartSampleData(x: DateTime(2020, 06, 03), y: -25.818),
       _ChartSampleData(x: DateTime(2020, 06, 04), y: 30.51),

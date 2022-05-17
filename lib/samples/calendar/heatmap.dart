@@ -38,7 +38,7 @@ class HeatMapCalendarCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final Widget _calendar = Theme(
+    final Widget calendar = Theme(
 
         /// The key set here to maintain the state,
         ///  when we change the parent of the widget
@@ -51,7 +51,6 @@ class HeatMapCalendarCalendarState extends SampleViewState {
     return Scaffold(
       backgroundColor: model.cardThemeColor,
       body: Column(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Expanded(
@@ -60,7 +59,7 @@ class HeatMapCalendarCalendarState extends SampleViewState {
                   children: <Widget>[
                 Expanded(
                   child:
-                      Container(color: model.cardThemeColor, child: _calendar),
+                      Container(color: model.cardThemeColor, child: calendar),
                 )
               ])),
           Container(
@@ -71,12 +70,9 @@ class HeatMapCalendarCalendarState extends SampleViewState {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Row(
-                    mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: const <Widget>[
                       Text('Less'),
                       Text('More'),
@@ -86,8 +82,6 @@ class HeatMapCalendarCalendarState extends SampleViewState {
                     height: 20,
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
                         colors: <Color>[
                           _kLightGrey,
                           _kLightGreen,

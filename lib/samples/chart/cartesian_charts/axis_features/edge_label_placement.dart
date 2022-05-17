@@ -99,11 +99,11 @@ class _EdgeLabelState extends SampleViewState {
           position: LegendPosition.bottom),
       primaryXAxis: DateTimeAxis(
           majorGridLines: const MajorGridLines(width: 0),
-          minimum: DateTime(2006, 4, 1),
+          minimum: DateTime(2006, 4),
           interval: 2,
           dateFormat: DateFormat.y(),
           intervalType: DateTimeIntervalType.years,
-          maximum: DateTime(2016, 4, 1),
+          maximum: DateTime(2016, 4),
 
           /// This is the API for x axis edge label placement.
           edgeLabelPlacement:
@@ -129,28 +129,21 @@ class _EdgeLabelState extends SampleViewState {
   List<ChartSeries<ChartSampleData, DateTime>> _getEdgeLabelPlacementSeries() {
     chartData = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2005, 4, 1), y: 37.99, secondSeriesYValue: 28.22),
+          x: DateTime(2005, 4), y: 37.99, secondSeriesYValue: 28.22),
+      ChartSampleData(x: DateTime(2006, 4), y: 43.5, secondSeriesYValue: 30.45),
+      ChartSampleData(x: DateTime(2007, 4), y: 43, secondSeriesYValue: 30.25),
+      ChartSampleData(x: DateTime(2008, 4), y: 45.5, secondSeriesYValue: 31.76),
+      ChartSampleData(x: DateTime(2009, 4), y: 44.7, secondSeriesYValue: 30.86),
+      ChartSampleData(x: DateTime(2010, 4), y: 48, secondSeriesYValue: 38.1),
+      ChartSampleData(x: DateTime(2011, 4), y: 58.5, secondSeriesYValue: 37.75),
+      ChartSampleData(x: DateTime(2012, 4), y: 65.6, secondSeriesYValue: 40.91),
       ChartSampleData(
-          x: DateTime(2006, 4, 1), y: 43.5, secondSeriesYValue: 30.45),
+          x: DateTime(2013, 4), y: 66.09, secondSeriesYValue: 48.63),
       ChartSampleData(
-          x: DateTime(2007, 4, 1), y: 43, secondSeriesYValue: 30.25),
+          x: DateTime(2014, 4), y: 72.26, secondSeriesYValue: 55.48),
       ChartSampleData(
-          x: DateTime(2008, 4, 1), y: 45.5, secondSeriesYValue: 31.76),
-      ChartSampleData(
-          x: DateTime(2009, 4, 1), y: 44.7, secondSeriesYValue: 30.86),
-      ChartSampleData(x: DateTime(2010, 4, 1), y: 48, secondSeriesYValue: 38.1),
-      ChartSampleData(
-          x: DateTime(2011, 4, 1), y: 58.5, secondSeriesYValue: 37.75),
-      ChartSampleData(
-          x: DateTime(2012, 4, 1), y: 65.6, secondSeriesYValue: 40.91),
-      ChartSampleData(
-          x: DateTime(2013, 4, 1), y: 66.09, secondSeriesYValue: 48.63),
-      ChartSampleData(
-          x: DateTime(2014, 4, 1), y: 72.26, secondSeriesYValue: 55.48),
-      ChartSampleData(
-          x: DateTime(2015, 4, 1), y: 60.49, secondSeriesYValue: 49.71),
-      ChartSampleData(
-          x: DateTime(2016, 4, 1), y: 59.68, secondSeriesYValue: 48.33)
+          x: DateTime(2015, 4), y: 60.49, secondSeriesYValue: 49.71),
+      ChartSampleData(x: DateTime(2016, 4), y: 59.68, secondSeriesYValue: 48.33)
     ];
     return <ChartSeries<ChartSampleData, DateTime>>[
       SplineSeries<ChartSampleData, DateTime>(

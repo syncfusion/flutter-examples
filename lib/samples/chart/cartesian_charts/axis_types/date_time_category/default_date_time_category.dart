@@ -61,7 +61,6 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
             ),
             plotBands: <PlotBand>[
               PlotBand(
-                  isVisible: true,
                   start: DateTime(2017, 12, 22),
                   end: DateTime(2017, 12, 27),
                   textAngle: 0,
@@ -72,7 +71,6 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
                   color: const Color.fromRGBO(50, 198, 255, 1),
                   opacity: 0.3),
               PlotBand(
-                  isVisible: true,
                   textAngle: 0,
                   start: DateTime(2018, 1, 2),
                   end: DateTime(2018, 1, 4),

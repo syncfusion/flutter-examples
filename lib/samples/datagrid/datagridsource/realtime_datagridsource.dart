@@ -4,10 +4,12 @@ import 'dart:math' as math;
 
 /// Package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/model/realtime.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../model/realtime.dart';
 
 /// Set stock's real time data collection to data grid source.
 class RealTimeUpdateDataGridSource extends DataGridSource {

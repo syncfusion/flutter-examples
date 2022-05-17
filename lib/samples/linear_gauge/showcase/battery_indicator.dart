@@ -41,9 +41,9 @@ class _BatteryIndicatorState extends SampleViewState {
 
   /// Returns the battery indicator.
   Widget _buildBatteryIndicator(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
-    final Color? _fillColor = _batteryPercentage <= 25
+    final Color? fillColor = _batteryPercentage <= 25
         ? const Color(0xffF45656)
         : _batteryPercentage <= 50
             ? const Color(0xffFFC93E)
@@ -72,9 +72,8 @@ class _BatteryIndicatorState extends SampleViewState {
                 child: Container(
                     decoration: BoxDecoration(
                         color: Colors.transparent,
-                        shape: BoxShape.rectangle,
                         border: Border.all(
-                            color: _brightness == Brightness.light
+                            color: brightness == Brightness.light
                                 ? const Color(0xffAAAAAA)
                                 : const Color(0xff4D4D4D),
                             width: 4),
@@ -91,8 +90,7 @@ class _BatteryIndicatorState extends SampleViewState {
                 color: Colors.transparent,
                 child: Container(
                     decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: _fillColor,
+                        color: fillColor,
                         borderRadius: BorderRadius.circular(4)))),
             LinearGaugeRange(
                 startValue: _batteryPercentage >= (_maximum / 4 + 2)
@@ -106,13 +104,10 @@ class _BatteryIndicatorState extends SampleViewState {
                 startWidth: 55,
                 endWidth: 55,
                 position: LinearElementPosition.cross,
-                edgeStyle: LinearEdgeStyle.bothFlat,
-                rangeShapeType: LinearRangeShapeType.flat,
                 color: Colors.transparent,
                 child: Container(
                     decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: _fillColor,
+                        color: fillColor,
                         borderRadius: BorderRadius.circular(4)))),
             LinearGaugeRange(
                 startValue: _batteryPercentage >= (_maximum / 2 + 2)
@@ -129,8 +124,7 @@ class _BatteryIndicatorState extends SampleViewState {
                 color: Colors.transparent,
                 child: Container(
                     decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: _fillColor,
+                        color: fillColor,
                         borderRadius: BorderRadius.circular(4)))),
             LinearGaugeRange(
                 startValue: _batteryPercentage >= (_maximum * 3 / 4 + 2)
@@ -147,8 +141,7 @@ class _BatteryIndicatorState extends SampleViewState {
                 color: Colors.transparent,
                 child: Container(
                     decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: _fillColor,
+                        color: fillColor,
                         borderRadius: BorderRadius.circular(4)))),
           ],
           markerPointers: <LinearMarkerPointer>[
@@ -160,12 +153,11 @@ class _BatteryIndicatorState extends SampleViewState {
                     height: 38,
                     width: 16,
                     decoration: BoxDecoration(
-                        color: _brightness == Brightness.light
+                        color: brightness == Brightness.light
                             ? Colors.transparent
                             : const Color(0xff232323),
-                        shape: BoxShape.rectangle,
                         border: Border.all(
-                            color: _brightness == Brightness.light
+                            color: brightness == Brightness.light
                                 ? const Color(0xffAAAAAA)
                                 : const Color(0xff4D4D4D),
                             width: 4),

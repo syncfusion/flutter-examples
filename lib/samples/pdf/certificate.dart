@@ -59,7 +59,6 @@ class _CertificatePdfState extends SampleViewState {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
                   'This sample showcase how to dynamically generates the course completion certificate for online learning portal with participant name, course name and date of completion.',

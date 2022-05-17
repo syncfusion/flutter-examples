@@ -87,8 +87,6 @@ class _DataLabelDefaultState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label alignment',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -115,8 +113,6 @@ class _DataLabelDefaultState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label position',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -143,8 +139,6 @@ class _DataLabelDefaultState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
                 'Horizontal padding',
@@ -167,8 +161,6 @@ class _DataLabelDefaultState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
                 'Vertical padding',

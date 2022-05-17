@@ -31,6 +31,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
   void initState() {
     super.initState();
     if (mounted) {
+      // ignore: no_leading_underscores_for_local_identifiers
       _timer = Timer.periodic(const Duration(milliseconds: 30), (Timer _timer) {
         setState(() {
           if (progressValue == 100) {
@@ -59,7 +60,6 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _getSegmentedProgressBar1(),
             _getSegmentedProgressBar2(),
@@ -72,7 +72,6 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
       return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _getSegmentedProgressBar1(),
             _getSegmentedProgressBar2(),
@@ -116,7 +115,6 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
           RadialAxis(
             interval: 25,
             showLabels: false,
-            showTicks: true,
             showAxisLine: false,
             tickOffset: -0.05,
             offsetUnit: GaugeSizeUnit.factor,

@@ -11,6 +11,7 @@ import 'package:intl/intl.dart' show DateFormat;
 
 ///calendar import
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 ///Local import
@@ -149,7 +150,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final Widget _calendar = Theme(
+    final Widget calendar = Theme(
 
         /// The key set here to maintain the state,
         ///  when we change the parent of the widget
@@ -159,14 +160,14 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                 .copyWith(secondary: model.backgroundColor)),
         child: _getAppointmentEditorCalendar(calendarController, _events,
             _onCalendarTapped, _onViewChanged, scheduleViewBuilder));
-    final double _screenHeight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: calendarController.view == CalendarView.month &&
               model.isWebFullView &&
-              _screenHeight < 800
+              screenHeight < 800
           ? Scrollbar(
-              isAlwaysShown: true,
+              thumbVisibility: true,
               controller: controller,
               child: ListView(
                 controller: controller,
@@ -174,11 +175,11 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                   Container(
                     color: model.cardThemeColor,
                     height: 600,
-                    child: _calendar,
+                    child: calendar,
                   )
                 ],
               ))
-          : Container(color: model.cardThemeColor, child: _calendar),
+          : Container(color: model.cardThemeColor, child: calendar),
     );
   }
 
@@ -193,7 +194,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
       return;
     }
 
-    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         _view = calendarController.view!;
 
@@ -234,7 +235,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
       /// To open the appointment editor for web,
       /// when the screen width is greater than 767.
       if (model.isWebFullView && !_isMobile) {
-        final bool _isAppointmentTapped =
+        final bool isAppointmentTapped =
             calendarTapDetails.targetElement == CalendarElement.appointment;
         showDialog<Widget>(
             context: context,
@@ -263,7 +264,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                 _events.appointments.add(appointment[0]);
 
                 SchedulerBinding.instance
-                    ?.addPostFrameCallback((Duration duration) {
+                    .addPostFrameCallback((Duration duration) {
                   _events.notifyListeners(
                       CalendarDataSourceAction.add, appointment);
                 });
@@ -286,8 +287,8 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                 child: Center(
                     child: Container(
                         alignment: Alignment.center,
-                        width: _isAppointmentTapped ? 400 : 500,
-                        height: _isAppointmentTapped
+                        width: isAppointmentTapped ? 400 : 500,
+                        height: isAppointmentTapped
                             ? _selectedAppointment!.location == null ||
                                     _selectedAppointment!.location!.isEmpty
                                 ? 150
@@ -305,7 +306,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4))),
-                              child: _isAppointmentTapped
+                              child: isAppointmentTapped
                                   ? displayAppointmentDetails(
                                       context,
                                       targetElement,
@@ -509,7 +510,6 @@ class _CalendarAppointmentEditorState extends SampleViewState {
             startTimeZone: '',
             endTimeZone: '',
             notes: '',
-            isAllDay: false,
             subject: _subjectCollection[random.nextInt(7)],
           ));
         }
@@ -521,25 +521,24 @@ class _CalendarAppointmentEditorState extends SampleViewState {
 
   /// Returns the calendar based on the properties passed.
   SfCalendar _getAppointmentEditorCalendar(
-      [CalendarController? _calendarController,
-      CalendarDataSource? _calendarDataSource,
+      [CalendarController? calendarController,
+      CalendarDataSource? calendarDataSource,
       dynamic calendarTapCallback,
       ViewChangedCallback? viewChangedCallback,
       dynamic scheduleViewBuilder]) {
     return SfCalendar(
-        controller: _calendarController,
+        controller: calendarController,
         showNavigationArrow: model.isWebFullView,
         allowedViews: _allowedViews,
         showDatePickerButton: true,
         scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
-        dataSource: _calendarDataSource,
+        dataSource: calendarDataSource,
         onTap: calendarTapCallback,
         onViewChanged: viewChangedCallback,
-        initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
-            DateTime.now().day, 0, 0, 0),
+        initialDisplayDate: DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day),
         monthViewSettings: const MonthViewSettings(
-            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-            appointmentDisplayCount: 4),
+            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
         timeSlotViewSettings: const TimeSlotViewSettings(
             minimumAppointmentDuration: Duration(minutes: 60)));
   }
@@ -1591,7 +1590,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
         ? Colors.white
         : Colors.black87;
 
-    final Widget _startDatePicker = RawMaterialButton(
+    final Widget startDatePicker = RawMaterialButton(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       onPressed: () async {
         final DateTime? date = await showDatePicker(
@@ -1618,7 +1617,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           setState(() {
             final Duration difference = _endDate.difference(_startDate);
             _startDate = DateTime(date.year, date.month, date.day,
-                _startTime.hour, _startTime.minute, 0);
+                _startTime.hour, _startTime.minute);
             _endDate = _startDate.add(difference);
             _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
           });
@@ -1630,7 +1629,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           textAlign: TextAlign.left),
     );
 
-    final Widget _startTimePicker = RawMaterialButton(
+    final Widget startTimePicker = RawMaterialButton(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       onPressed: () async {
         final TimeOfDay? time = await showTimePicker(
@@ -1657,7 +1656,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
             _startTime = time;
             final Duration difference = _endDate.difference(_startDate);
             _startDate = DateTime(_startDate.year, _startDate.month,
-                _startDate.day, _startTime.hour, _startTime.minute, 0);
+                _startDate.day, _startTime.hour, _startTime.minute);
             _endDate = _startDate.add(difference);
             _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
           });
@@ -1670,7 +1669,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
       ),
     );
 
-    final Widget _endTimePicker = RawMaterialButton(
+    final Widget endTimePicker = RawMaterialButton(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       onPressed: () async {
         final TimeOfDay? time = await showTimePicker(
@@ -1697,7 +1696,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
             _endTime = time;
             final Duration difference = _endDate.difference(_startDate);
             _endDate = DateTime(_endDate.year, _endDate.month, _endDate.day,
-                _endTime.hour, _endTime.minute, 0);
+                _endTime.hour, _endTime.minute);
             if (_endDate.isBefore(_startDate)) {
               _startDate = _endDate.subtract(difference);
               _startTime =
@@ -1713,7 +1712,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
       ),
     );
 
-    final Widget _endDatePicker = RawMaterialButton(
+    final Widget endDatePicker = RawMaterialButton(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       onPressed: () async {
         final DateTime? date = await showDatePicker(
@@ -1740,7 +1739,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           setState(() {
             final Duration difference = _endDate.difference(_startDate);
             _endDate = DateTime(date.year, date.month, date.day, _endTime.hour,
-                _endTime.minute, 0);
+                _endTime.minute);
             if (_endDate.isBefore(_startDate)) {
               _startDate = _endDate.subtract(difference);
               _startTime =
@@ -1802,9 +1801,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 border: const UnderlineInputBorder(),
                 focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                        color: widget.model.backgroundColor,
-                        width: 2.0,
-                        style: BorderStyle.solid)),
+                        color: widget.model.backgroundColor, width: 2.0)),
                 hintText: 'Add title and time',
               ),
             ),
@@ -1823,26 +1820,24 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 )),
             title: _isAllDay
                 ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                        _startDatePicker,
+                        startDatePicker,
                         const Text(' - '),
-                        _endDatePicker,
+                        endDatePicker,
                         const Text(''),
                         const Text(''),
                       ])
                 : Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                        _startDatePicker,
-                        _startTimePicker,
+                        startDatePicker,
+                        startTimePicker,
                         const Text(' - '),
-                        _endTimePicker,
-                        _endDatePicker,
+                        endTimePicker,
+                        endDatePicker,
                       ]),
           )),
       Container(
@@ -2007,7 +2002,6 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           child: ListTile(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
                     padding: const EdgeInsets.only(right: 10),
@@ -2490,9 +2484,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
     });
   }
 
-  int _getWeekNumber(DateTime _startDate) {
+  int _getWeekNumber(DateTime startDate) {
     int weekOfMonth;
-    weekOfMonth = (_startDate.day / 7).ceil();
+    weekOfMonth = (startDate.day / 7).ceil();
     if (weekOfMonth == 5) {
       return -1;
     }
@@ -2770,7 +2764,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
       child: Container(
         width: 600,
         decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
           borderRadius: const BorderRadius.all(Radius.circular(4)),
           color: widget.model.themeData != null &&
                   widget.model.themeData.colorScheme.brightness ==
@@ -2838,9 +2831,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       margin: const EdgeInsets.symmetric(vertical: 3),
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
-                        mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
                               flex: 4,
@@ -2849,7 +2840,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     left: 5, right: 5, top: 2, bottom: 2),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
@@ -2883,8 +2873,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                             borderSide: BorderSide(
                                                 color: widget
                                                     .model.backgroundColor,
-                                                width: 2.0,
-                                                style: BorderStyle.solid)),
+                                                width: 2.0)),
                                       ),
                                     ),
                                   ],
@@ -2896,7 +2885,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                               padding: const EdgeInsets.only(
                                   left: 5, right: 5, top: 2, bottom: 2),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
@@ -2928,8 +2916,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           borderSide: BorderSide(
                                               color:
                                                   widget.model.backgroundColor,
-                                              width: 2.0,
-                                              style: BorderStyle.solid)),
+                                              width: 2.0)),
                                     ),
                                   ),
                                 ],
@@ -2943,8 +2930,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       child: ListTile(
                           title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
                             flex: 4,
@@ -2952,7 +2937,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                               padding: const EdgeInsets.only(
                                   left: 5, right: 5, top: 5, bottom: 2),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
@@ -2988,8 +2972,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         height: 20,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
                                           children: <Widget>[
@@ -3047,8 +3029,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                             date.month,
                                                             date.day,
                                                             _startTime.hour,
-                                                            _startTime.minute,
-                                                            0);
+                                                            _startTime.minute);
                                                         _endDate = _startDate
                                                             .add(difference);
                                                         _endTime = TimeOfDay(
@@ -3130,8 +3111,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                               _startDate.month,
                                                               _startDate.day,
                                                               _startTime.hour,
-                                                              _startTime.minute,
-                                                              0);
+                                                              _startTime
+                                                                  .minute);
                                                           _endDate = _startDate
                                                               .add(difference);
                                                           _endTime = TimeOfDay(
@@ -3157,8 +3138,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           borderSide: BorderSide(
                                               color:
                                                   widget.model.backgroundColor,
-                                              width: 2.0,
-                                              style: BorderStyle.solid)),
+                                              width: 2.0)),
                                     ),
                                   ),
                                 ],
@@ -3171,7 +3151,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                               padding: const EdgeInsets.only(
                                   left: 5, right: 5, top: 5, bottom: 2),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text('End',
@@ -3263,8 +3242,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                             date.month,
                                                             date.day,
                                                             _endTime.hour,
-                                                            _endTime.minute,
-                                                            0);
+                                                            _endTime.minute);
                                                         if (_endDate.isBefore(
                                                             _startDate)) {
                                                           _startDate =
@@ -3347,8 +3325,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                               _endDate.month,
                                                               _endDate.day,
                                                               _endTime.hour,
-                                                              _endTime.minute,
-                                                              0);
+                                                              _endTime.minute);
                                                           if (_endDate.isBefore(
                                                               _startDate)) {
                                                             _startDate = _endDate
@@ -3379,8 +3356,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           borderSide: BorderSide(
                                               color:
                                                   widget.model.backgroundColor,
-                                              width: 2.0,
-                                              style: BorderStyle.solid)),
+                                              width: 2.0)),
                                     ),
                                   ),
                                 ],
@@ -3394,8 +3370,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       child: ListTile(
                         title: Row(
                           mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Checkbox(
                               focusColor: widget.model.backgroundColor,
@@ -3463,13 +3437,11 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                           border: Border(
                             bottom: BorderSide(
                               color: defaultColor.withOpacity(0.4),
-                              width: 1.0,
                             ),
                           ),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Expanded(
                                 child: RawMaterialButton(
@@ -3497,8 +3469,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
                                     widget.timeZoneCollection[
@@ -3527,9 +3497,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       margin: const EdgeInsets.symmetric(vertical: 3),
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
-                        mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
                               flex: 4,
@@ -3538,7 +3506,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     left: 5, right: 5, top: 2, bottom: 2),
                                 child: Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
@@ -3603,8 +3570,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                               borderSide: BorderSide(
                                                   color: widget
                                                       .model.backgroundColor,
-                                                  width: 2.0,
-                                                  style: BorderStyle.solid)),
+                                                  width: 2.0)),
                                         ),
                                       )
                                     ]),
@@ -3615,11 +3581,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 visible: _selectedRecurrenceType != 'Never',
                                 child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 5, right: 5, top: 2, bottom: 0),
+                                        left: 5, right: 5, top: 2),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
@@ -3697,12 +3661,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                 .arrow_drop_down_outlined,
                                                             color:
                                                                 defaultColor),
-                                                        alignment:
-                                                            Alignment.center,
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(
-                                                          right: 0,
                                                           bottom: 3,
                                                         ),
                                                         onPressed:
@@ -3720,13 +3681,10 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                               color:
                                                                   defaultColor,
                                                             ),
-                                                            alignment: Alignment
-                                                                .center,
                                                             padding:
                                                                 const EdgeInsets
                                                                         .only(
-                                                                    bottom: 3,
-                                                                    left: 0),
+                                                                    bottom: 3),
                                                             onPressed:
                                                                 _addInterval))),
                                               ],
@@ -3739,15 +3697,13 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 borderSide: BorderSide(
                                                     color: widget
                                                         .model.backgroundColor,
-                                                    width: 2.0,
-                                                    style: BorderStyle.solid)),
+                                                    width: 2.0)),
                                           ),
                                         )
                                       ],
                                     ))),
                           ),
                           Expanded(
-                              flex: 1,
                               child: Container(
                                   padding: const EdgeInsets.only(top: 15),
                                   child: Text('  ' + _ruleType,
@@ -3765,7 +3721,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                         margin: const EdgeInsets.symmetric(vertical: 3),
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Row(
-                          mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -3777,8 +3732,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     padding: const EdgeInsets.only(
                                         left: 6, right: 5, top: 2, bottom: 2),
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
@@ -3812,9 +3765,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         .styleFrom(
                                                       onSurface: Colors.black26,
                                                       side: BorderSide(
-                                                          color: borderColor,
-                                                          style: BorderStyle
-                                                              .solid),
+                                                          color: borderColor),
                                                       primary: _days!.contains(
                                                               WeekDays.sunday)
                                                           ? widget.model
@@ -3847,9 +3798,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         .styleFrom(
                                                       onSurface: Colors.black26,
                                                       side: BorderSide(
-                                                          color: borderColor,
-                                                          style: BorderStyle
-                                                              .solid),
+                                                          color: borderColor),
                                                       primary: _days!.contains(
                                                               WeekDays.monday)
                                                           ? widget.model
@@ -3882,9 +3831,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         .styleFrom(
                                                       onSurface: Colors.black26,
                                                       side: BorderSide(
-                                                          color: borderColor,
-                                                          style: BorderStyle
-                                                              .solid),
+                                                          color: borderColor),
                                                       primary: _days!.contains(
                                                               WeekDays.tuesday)
                                                           ? widget.model
@@ -3917,9 +3864,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         .styleFrom(
                                                       onSurface: Colors.black26,
                                                       side: BorderSide(
-                                                          color: borderColor,
-                                                          style: BorderStyle
-                                                              .solid),
+                                                          color: borderColor),
                                                       primary: _days!.contains(
                                                               WeekDays
                                                                   .wednesday)
@@ -3953,9 +3898,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         .styleFrom(
                                                       onSurface: Colors.black26,
                                                       side: BorderSide(
-                                                          color: borderColor,
-                                                          style: BorderStyle
-                                                              .solid),
+                                                          color: borderColor),
                                                       primary: _days!.contains(
                                                               WeekDays.thursday)
                                                           ? widget.model
@@ -3988,9 +3931,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         .styleFrom(
                                                       onSurface: Colors.black26,
                                                       side: BorderSide(
-                                                          color: borderColor,
-                                                          style: BorderStyle
-                                                              .solid),
+                                                          color: borderColor),
                                                       primary: _days!.contains(
                                                               WeekDays.friday)
                                                           ? widget.model
@@ -4023,9 +3964,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         .styleFrom(
                                                       onSurface: Colors.black26,
                                                       side: BorderSide(
-                                                          color: borderColor,
-                                                          style: BorderStyle
-                                                              .solid),
+                                                          color: borderColor),
                                                       primary: _days!.contains(
                                                               WeekDays.saturday)
                                                           ? widget.model
@@ -4059,11 +3998,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     padding: const EdgeInsets.only(
                                         left: 5, right: 5, top: 2, bottom: 2),
                                     child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
                                           Text(
                                             'Repeat On',
@@ -4195,9 +4131,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                       borderSide: BorderSide(
                                                           color: widget.model
                                                               .backgroundColor,
-                                                          width: 2.0,
-                                                          style: BorderStyle
-                                                              .solid)),
+                                                          width: 2.0)),
                                             ),
                                           ),
                                         ])),
@@ -4212,8 +4146,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     padding: const EdgeInsets.only(
                                         left: 5, right: 5, top: 2, bottom: 2),
                                     child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
@@ -4225,205 +4157,170 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 fontWeight: FontWeight.w300),
                                             textAlign: TextAlign.start,
                                           ),
-                                          Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: <Widget>[
-                                                Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 10),
-                                                    child: IconButton(
-                                                      onPressed: () {
-                                                        _monthDayIcon();
-                                                      },
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 2),
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      icon:
-                                                          Icon(_monthDayRadio),
-                                                      color: _monthIconColor,
-                                                      focusColor: widget.model
-                                                          .backgroundColor,
-                                                      iconSize: 20,
-                                                    )),
-                                                Container(
+                                          Row(children: <Widget>[
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10),
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    _monthDayIcon();
+                                                  },
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          right: 10, top: 10),
-                                                  child: Text(
-                                                    'Day',
+                                                          left: 2),
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  icon: Icon(_monthDayRadio),
+                                                  color: _monthIconColor,
+                                                  focusColor: widget
+                                                      .model.backgroundColor,
+                                                  iconSize: 20,
+                                                )),
+                                            Container(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10, top: 10),
+                                              child: Text(
+                                                'Day',
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: defaultTextColor,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 5, bottom: 5),
+                                                  child: TextField(
+                                                    controller: TextEditingController
+                                                        .fromValue(TextEditingValue(
+                                                            text: _dayOfMonth
+                                                                .toString(),
+                                                            selection: TextSelection
+                                                                .collapsed(
+                                                                    offset: _dayOfMonth
+                                                                        .toString()
+                                                                        .length))),
+                                                    cursorColor: widget
+                                                        .model.backgroundColor,
+                                                    onChanged: (String value) {
+                                                      if (value != null &&
+                                                          value.isNotEmpty) {
+                                                        _dayOfMonth =
+                                                            int.parse(value);
+                                                        if (_dayOfMonth <= 1) {
+                                                          _dayOfMonth = 1;
+                                                        } else if (_dayOfMonth >=
+                                                            31) {
+                                                          _dayOfMonth = 31;
+                                                        }
+                                                      } else if (value
+                                                          .isEmpty) {
+                                                        _dayOfMonth =
+                                                            _startDate.day;
+                                                      }
+                                                      _recurrenceProperties!
+                                                          .dayOfWeek = 0;
+                                                      _recurrenceProperties!
+                                                          .week = 0;
+                                                      _recurrenceProperties!
+                                                              .dayOfMonth =
+                                                          _dayOfMonth;
+                                                      _weekIconColor = widget
+                                                                      .model
+                                                                      .themeData !=
+                                                                  null &&
+                                                              widget
+                                                                      .model
+                                                                      .themeData
+                                                                      .brightness ==
+                                                                  Brightness
+                                                                      .dark
+                                                          ? Colors.white
+                                                          : Colors.black54;
+                                                      _monthIconColor = widget
+                                                          .model
+                                                          .backgroundColor;
+                                                      _monthDayRadio = Icons
+                                                          .radio_button_checked;
+                                                      _weekDayRadio = Icons
+                                                          .radio_button_unchecked;
+                                                    },
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    inputFormatters: <
+                                                        TextInputFormatter>[
+                                                      FilteringTextInputFormatter
+                                                          .digitsOnly
+                                                    ],
+                                                    maxLines: null,
                                                     style: TextStyle(
                                                         fontSize: 13,
                                                         color: defaultTextColor,
                                                         fontWeight:
                                                             FontWeight.w400),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 5,
-                                                              bottom: 5),
-                                                      child: TextField(
-                                                        controller: TextEditingController
-                                                            .fromValue(TextEditingValue(
-                                                                text: _dayOfMonth
-                                                                    .toString(),
-                                                                selection: TextSelection.collapsed(
-                                                                    offset: _dayOfMonth
-                                                                        .toString()
-                                                                        .length))),
-                                                        cursorColor: widget
-                                                            .model
-                                                            .backgroundColor,
-                                                        onChanged:
-                                                            (String value) {
-                                                          if (value != null &&
-                                                              value
-                                                                  .isNotEmpty) {
-                                                            _dayOfMonth =
-                                                                int.parse(
-                                                                    value);
-                                                            if (_dayOfMonth <=
-                                                                1) {
-                                                              _dayOfMonth = 1;
-                                                            } else if (_dayOfMonth >=
-                                                                31) {
-                                                              _dayOfMonth = 31;
-                                                            }
-                                                          } else if (value
-                                                              .isEmpty) {
-                                                            _dayOfMonth =
-                                                                _startDate.day;
-                                                          }
-                                                          _recurrenceProperties!
-                                                              .dayOfWeek = 0;
-                                                          _recurrenceProperties!
-                                                              .week = 0;
-                                                          _recurrenceProperties!
-                                                                  .dayOfMonth =
-                                                              _dayOfMonth;
-                                                          _weekIconColor = widget
-                                                                          .model
-                                                                          .themeData !=
-                                                                      null &&
-                                                                  widget
-                                                                          .model
-                                                                          .themeData
-                                                                          .brightness ==
-                                                                      Brightness
-                                                                          .dark
-                                                              ? Colors.white
-                                                              : Colors.black54;
-                                                          _monthIconColor = widget
-                                                              .model
-                                                              .backgroundColor;
-                                                          _monthDayRadio = Icons
-                                                              .radio_button_checked;
-                                                          _weekDayRadio = Icons
-                                                              .radio_button_unchecked;
-                                                        },
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        inputFormatters: <
-                                                            TextInputFormatter>[
-                                                          FilteringTextInputFormatter
-                                                              .digitsOnly
-                                                        ],
-                                                        maxLines: null,
-                                                        style: TextStyle(
-                                                            fontSize: 13,
-                                                            color:
-                                                                defaultTextColor,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                        decoration:
-                                                            InputDecoration(
-                                                          isDense: true,
-                                                          suffix: SizedBox(
-                                                            height: 25,
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: <
-                                                                  Widget>[
-                                                                Material(
-                                                                  child:
-                                                                      IconButton(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .zero,
-                                                                    icon: Icon(
-                                                                        Icons
-                                                                            .arrow_drop_down_outlined,
-                                                                        color:
-                                                                            defaultColor),
-                                                                    onPressed:
-                                                                        () {
-                                                                      _removeDay();
-                                                                    },
-                                                                  ),
-                                                                ),
-                                                                Material(
-                                                                  child:
-                                                                      IconButton(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .zero,
-                                                                    icon: Icon(
-                                                                      Icons
-                                                                          .arrow_drop_up_outlined,
-                                                                      color:
-                                                                          defaultColor,
-                                                                    ),
-                                                                    onPressed:
-                                                                        () {
-                                                                      _addDay();
-                                                                    },
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                    decoration: InputDecoration(
+                                                      isDense: true,
+                                                      suffix: SizedBox(
+                                                        height: 25,
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          children: <Widget>[
+                                                            Material(
+                                                              child: IconButton(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                icon: Icon(
+                                                                    Icons
+                                                                        .arrow_drop_down_outlined,
+                                                                    color:
+                                                                        defaultColor),
+                                                                onPressed: () {
+                                                                  _removeDay();
+                                                                },
+                                                              ),
                                                             ),
-                                                          ),
-                                                          focusColor: widget
-                                                              .model
-                                                              .backgroundColor,
-                                                          border:
-                                                              const UnderlineInputBorder(),
-                                                          focusedBorder: UnderlineInputBorder(
+                                                            Material(
+                                                              child: IconButton(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .arrow_drop_up_outlined,
+                                                                  color:
+                                                                      defaultColor,
+                                                                ),
+                                                                onPressed: () {
+                                                                  _addDay();
+                                                                },
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      focusColor: widget.model
+                                                          .backgroundColor,
+                                                      border:
+                                                          const UnderlineInputBorder(),
+                                                      focusedBorder:
+                                                          UnderlineInputBorder(
                                                               borderSide: BorderSide(
                                                                   color: widget
                                                                       .model
                                                                       .backgroundColor,
-                                                                  width: 2.0,
-                                                                  style: BorderStyle
-                                                                      .solid)),
-                                                        ),
-                                                      )),
-                                                ),
-                                              ]),
+                                                                  width: 2.0)),
+                                                    ),
+                                                  )),
+                                            ),
+                                          ]),
                                         ])),
                               ),
                             ),
@@ -4438,8 +4335,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Text('End',
@@ -4462,8 +4357,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                             .center
                                                         : CrossAxisAlignment
                                                             .start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
                                                 mainAxisSize:
                                                     _selectedRecurrenceType ==
                                                             'Monthly'
@@ -4546,9 +4439,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                           .model
                                                                           .backgroundColor,
                                                                       width:
-                                                                          2.0,
-                                                                      style: BorderStyle
-                                                                          .solid)),
+                                                                          2.0)),
                                                             ),
                                                           ))),
                                                   Expanded(
@@ -4565,8 +4456,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                             padding:
                                                                 const EdgeInsets
                                                                         .only(
-                                                                    left: 9,
-                                                                    bottom: 0),
+                                                                    left: 9),
                                                             child: TextField(
                                                               textAlignVertical:
                                                                   TextAlignVertical
@@ -4649,9 +4539,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                   mainAxisSize:
                                                                       MainAxisSize
                                                                           .min,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .end,
@@ -4694,9 +4581,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                             .model
                                                                             .backgroundColor,
                                                                         width:
-                                                                            2.0,
-                                                                        style: BorderStyle
-                                                                            .solid)),
+                                                                            2.0)),
                                                               ),
                                                             )),
                                                       )),
@@ -4714,7 +4599,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                             padding:
                                                                 const EdgeInsets
                                                                         .only(
-                                                                    bottom: 0,
                                                                     left: 9),
                                                             child: TextField(
                                                               textAlignVertical:
@@ -4822,9 +4706,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                             .model
                                                                             .backgroundColor,
                                                                         width:
-                                                                            2.0,
-                                                                        style: BorderStyle
-                                                                            .solid)),
+                                                                            2.0)),
                                                               ),
                                                             ),
                                                           ))),
@@ -4937,14 +4819,11 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                       height: 25,
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
                                         children: <Widget>[
                                           Material(
                                             child: IconButton(
-                                                alignment: Alignment.center,
                                                 padding: EdgeInsets.zero,
                                                 icon: Icon(
                                                     Icons
@@ -4954,7 +4833,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           ),
                                           Material(
                                             child: IconButton(
-                                                alignment: Alignment.center,
                                                 padding: EdgeInsets.zero,
                                                 icon: Icon(
                                                   Icons.arrow_drop_up_outlined,
@@ -4970,8 +4848,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                             color: widget.model.backgroundColor,
-                                            width: 2.0,
-                                            style: BorderStyle.solid)),
+                                            width: 2.0)),
                                   ),
                                 ),
                               ),
@@ -4987,205 +4864,185 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                         padding: const EdgeInsets.only(top: 10),
                         width: 284,
                         height: 40,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                        child: Row(children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            width: 50,
+                            child: IconButton(
+                              onPressed: () {
+                                _monthWeekIcon();
+                              },
+                              icon: Icon(_weekDayRadio),
+                              color: _weekIconColor,
+                              iconSize: 20,
+                            ),
+                          ),
+                          Row(
                             children: <Widget>[
                               Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                width: 50,
-                                child: IconButton(
-                                  onPressed: () {
-                                    _monthWeekIcon();
-                                  },
-                                  icon: Icon(_weekDayRadio),
-                                  color: _weekIconColor,
-                                  iconSize: 20,
+                                margin: const EdgeInsets.only(left: 8),
+                                width: 102,
+                                child: TextField(
+                                  mouseCursor:
+                                      MaterialStateMouseCursor.clickable,
+                                  controller: TextEditingController(
+                                      text: _weekNumberText),
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    suffix: SizedBox(
+                                      height: 25,
+                                      child: DropdownButton<String>(
+                                          focusColor: Colors.transparent,
+                                          isExpanded: true,
+                                          value: _weekNumberText,
+                                          underline: Container(),
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: defaultTextColor,
+                                              fontWeight: FontWeight.w400),
+                                          items:
+                                              _daysPosition.map((String item) {
+                                            return DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(item),
+                                            );
+                                          }).toList(),
+                                          onChanged: (String? value) {
+                                            setState(() {
+                                              if (value == 'First') {
+                                                _weekNumberText = 'First';
+                                                _weekNumber = 1;
+                                                _recurrenceProperties!.week =
+                                                    _weekNumber;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Second') {
+                                                _weekNumberText = 'Second';
+                                                _weekNumber = 2;
+                                                _recurrenceProperties!.week =
+                                                    _weekNumber;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Third') {
+                                                _weekNumberText = 'Third';
+                                                _weekNumber = 3;
+                                                _recurrenceProperties!.week =
+                                                    _weekNumber;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Fourth') {
+                                                _weekNumberText = 'Fourth';
+                                                _weekNumber = 4;
+                                                _recurrenceProperties!.week =
+                                                    _weekNumber;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Last') {
+                                                _weekNumberText = 'Last';
+                                                _weekNumber = -1;
+                                                _recurrenceProperties!.week =
+                                                    _weekNumber;
+                                                _monthWeekIcon();
+                                              }
+                                            });
+                                          }),
+                                    ),
+                                    focusColor: widget.model.backgroundColor,
+                                    border: const UnderlineInputBorder(),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: widget.model.backgroundColor,
+                                            width: 2.0)),
+                                  ),
                                 ),
                               ),
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 8),
-                                    width: 102,
-                                    child: TextField(
-                                      mouseCursor:
-                                          MaterialStateMouseCursor.clickable,
-                                      controller: TextEditingController(
-                                          text: _weekNumberText),
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        suffix: SizedBox(
-                                          height: 25,
-                                          child: DropdownButton<String>(
-                                              focusColor: Colors.transparent,
-                                              isExpanded: true,
-                                              value: _weekNumberText,
-                                              underline: Container(),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: defaultTextColor,
-                                                  fontWeight: FontWeight.w400),
-                                              items: _daysPosition
-                                                  .map((String item) {
-                                                return DropdownMenuItem<String>(
-                                                  value: item,
-                                                  child: Text(item),
-                                                );
-                                              }).toList(),
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  if (value == 'First') {
-                                                    _weekNumberText = 'First';
-                                                    _weekNumber = 1;
-                                                    _recurrenceProperties!
-                                                        .week = _weekNumber;
-                                                    _monthWeekIcon();
-                                                  } else if (value ==
-                                                      'Second') {
-                                                    _weekNumberText = 'Second';
-                                                    _weekNumber = 2;
-                                                    _recurrenceProperties!
-                                                        .week = _weekNumber;
-                                                    _monthWeekIcon();
-                                                  } else if (value == 'Third') {
-                                                    _weekNumberText = 'Third';
-                                                    _weekNumber = 3;
-                                                    _recurrenceProperties!
-                                                        .week = _weekNumber;
-                                                    _monthWeekIcon();
-                                                  } else if (value ==
-                                                      'Fourth') {
-                                                    _weekNumberText = 'Fourth';
-                                                    _weekNumber = 4;
-                                                    _recurrenceProperties!
-                                                        .week = _weekNumber;
-                                                    _monthWeekIcon();
-                                                  } else if (value == 'Last') {
-                                                    _weekNumberText = 'Last';
-                                                    _weekNumber = -1;
-                                                    _recurrenceProperties!
-                                                        .week = _weekNumber;
-                                                    _monthWeekIcon();
-                                                  }
-                                                });
-                                              }),
-                                        ),
-                                        focusColor:
-                                            widget.model.backgroundColor,
-                                        border: const UnderlineInputBorder(),
-                                        focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: widget
-                                                    .model.backgroundColor,
-                                                width: 2.0,
-                                                style: BorderStyle.solid)),
-                                      ),
+                              Container(
+                                width: 127,
+                                margin: const EdgeInsets.only(left: 10),
+                                child: TextField(
+                                  mouseCursor:
+                                      MaterialStateMouseCursor.clickable,
+                                  controller: TextEditingController(
+                                      text: _dayOfWeekText),
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    suffix: SizedBox(
+                                      height: 25,
+                                      child: DropdownButton<String>(
+                                          focusColor: Colors.transparent,
+                                          isExpanded: true,
+                                          value: _dayOfWeekText,
+                                          underline: Container(),
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: defaultTextColor,
+                                              fontWeight: FontWeight.w400),
+                                          items: _weekDay.map((String item) {
+                                            return DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(item),
+                                            );
+                                          }).toList(),
+                                          onChanged: (String? value) {
+                                            setState(() {
+                                              if (value == 'Sunday') {
+                                                _dayOfWeekText = 'Sunday';
+                                                _dayOfWeek = 7;
+                                                _recurrenceProperties!
+                                                    .dayOfWeek = _dayOfWeek;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Monday') {
+                                                _dayOfWeekText = 'Monday';
+                                                _dayOfWeek = 1;
+                                                _recurrenceProperties!
+                                                    .dayOfWeek = _dayOfWeek;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Tuesday') {
+                                                _dayOfWeekText = 'Tuesday';
+                                                _dayOfWeek = 2;
+                                                _recurrenceProperties!
+                                                    .dayOfWeek = _dayOfWeek;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Wednesday') {
+                                                _dayOfWeekText = 'Wednesday';
+                                                _dayOfWeek = 3;
+                                                _recurrenceProperties!
+                                                    .dayOfWeek = _dayOfWeek;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Thursday') {
+                                                _dayOfWeekText = 'Thursday';
+                                                _dayOfWeek = 4;
+                                                _recurrenceProperties!
+                                                    .dayOfWeek = _dayOfWeek;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Friday') {
+                                                _dayOfWeekText = 'Friday';
+                                                _dayOfWeek = 5;
+                                                _recurrenceProperties!
+                                                    .dayOfWeek = _dayOfWeek;
+                                                _monthWeekIcon();
+                                              } else if (value == 'Saturday') {
+                                                _dayOfWeekText = 'Saturday';
+                                                _dayOfWeek = 6;
+                                                _recurrenceProperties!
+                                                    .dayOfWeek = _dayOfWeek;
+                                                _monthWeekIcon();
+                                              }
+                                            });
+                                          }),
                                     ),
+                                    focusColor: widget.model.backgroundColor,
+                                    border: const UnderlineInputBorder(),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: widget.model.backgroundColor,
+                                            width: 2.0)),
                                   ),
-                                  Container(
-                                    width: 127,
-                                    margin: const EdgeInsets.only(left: 10),
-                                    child: TextField(
-                                      mouseCursor:
-                                          MaterialStateMouseCursor.clickable,
-                                      controller: TextEditingController(
-                                          text: _dayOfWeekText),
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        suffix: SizedBox(
-                                          height: 25,
-                                          child: DropdownButton<String>(
-                                              focusColor: Colors.transparent,
-                                              isExpanded: true,
-                                              value: _dayOfWeekText,
-                                              underline: Container(),
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: defaultTextColor,
-                                                  fontWeight: FontWeight.w400),
-                                              items:
-                                                  _weekDay.map((String item) {
-                                                return DropdownMenuItem<String>(
-                                                  value: item,
-                                                  child: Text(item),
-                                                );
-                                              }).toList(),
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  if (value == 'Sunday') {
-                                                    _dayOfWeekText = 'Sunday';
-                                                    _dayOfWeek = 7;
-                                                    _recurrenceProperties!
-                                                        .dayOfWeek = _dayOfWeek;
-                                                    _monthWeekIcon();
-                                                  } else if (value ==
-                                                      'Monday') {
-                                                    _dayOfWeekText = 'Monday';
-                                                    _dayOfWeek = 1;
-                                                    _recurrenceProperties!
-                                                        .dayOfWeek = _dayOfWeek;
-                                                    _monthWeekIcon();
-                                                  } else if (value ==
-                                                      'Tuesday') {
-                                                    _dayOfWeekText = 'Tuesday';
-                                                    _dayOfWeek = 2;
-                                                    _recurrenceProperties!
-                                                        .dayOfWeek = _dayOfWeek;
-                                                    _monthWeekIcon();
-                                                  } else if (value ==
-                                                      'Wednesday') {
-                                                    _dayOfWeekText =
-                                                        'Wednesday';
-                                                    _dayOfWeek = 3;
-                                                    _recurrenceProperties!
-                                                        .dayOfWeek = _dayOfWeek;
-                                                    _monthWeekIcon();
-                                                  } else if (value ==
-                                                      'Thursday') {
-                                                    _dayOfWeekText = 'Thursday';
-                                                    _dayOfWeek = 4;
-                                                    _recurrenceProperties!
-                                                        .dayOfWeek = _dayOfWeek;
-                                                    _monthWeekIcon();
-                                                  } else if (value ==
-                                                      'Friday') {
-                                                    _dayOfWeekText = 'Friday';
-                                                    _dayOfWeek = 5;
-                                                    _recurrenceProperties!
-                                                        .dayOfWeek = _dayOfWeek;
-                                                    _monthWeekIcon();
-                                                  } else if (value ==
-                                                      'Saturday') {
-                                                    _dayOfWeekText = 'Saturday';
-                                                    _dayOfWeek = 6;
-                                                    _recurrenceProperties!
-                                                        .dayOfWeek = _dayOfWeek;
-                                                    _monthWeekIcon();
-                                                  }
-                                                });
-                                              }),
-                                        ),
-                                        focusColor:
-                                            widget.model.backgroundColor,
-                                        border: const UnderlineInputBorder(),
-                                        focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: widget
-                                                    .model.backgroundColor,
-                                                width: 2.0,
-                                                style: BorderStyle.solid)),
-                                      ),
-                                    ),
-                                  ),
-                                  Visibility(
-                                    visible:
-                                        _selectedRecurrenceType == 'Monthly',
-                                    child: _lastDayOfMonth(defaultTextColor),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ]),
+                              Visibility(
+                                visible: _selectedRecurrenceType == 'Monthly',
+                                child: _lastDayOfMonth(defaultTextColor),
+                              ),
+                            ],
+                          ),
+                        ]),
                       )),
                   Container(
                     height: 5,
@@ -5217,7 +5074,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 border: Border(
                                   bottom: BorderSide(
                                     color: defaultColor.withOpacity(0.4),
-                                    width: 1.0,
                                   ),
                                 ),
                               ),
@@ -5258,7 +5114,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
@@ -5290,8 +5145,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                         color: widget.model.backgroundColor,
-                                        width: 2.0,
-                                        style: BorderStyle.solid)),
+                                        width: 2.0)),
                               ),
                             )),
                       ],
@@ -5305,13 +5159,10 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                           border: Border(
                             bottom: BorderSide(
                               color: defaultColor.withOpacity(0.4),
-                              width: 1.0,
                             ),
                           ),
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
                               child: RawMaterialButton(
@@ -5337,9 +5188,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                       }));
                                 },
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Icon(
                                       Icons.lens,
@@ -5380,8 +5228,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                 child: ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
@@ -5483,9 +5329,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                   subject:
                                       _subject == '' ? '(No title)' : _subject,
                                   resourceIds: _resourceIds,
-                                  recurrenceExceptionDates: null,
                                   id: widget.selectedAppointment.id,
-                                  recurrenceId: null,
                                   recurrenceRule: _recurrenceProperties ==
                                               null ||
                                           _selectedRecurrenceType == 'Never' ||
@@ -5525,8 +5369,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                       _subject == '' ? '(No title)' : _subject,
                                   resourceIds: _resourceIds,
                                   id: widget.selectedAppointment.id,
-                                  recurrenceId: null,
-                                  recurrenceExceptionDates: null,
                                   recurrenceRule: _recurrenceProperties ==
                                               null ||
                                           _selectedRecurrenceType == 'Never' ||
@@ -5636,7 +5478,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 id: widget.selectedAppointment.id,
                                 recurrenceId:
                                     widget.selectedAppointment.recurrenceId,
-                                recurrenceRule: null,
                               ));
                               widget.events.appointments!
                                   .add(widget.appointment[0]);
@@ -5737,7 +5578,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
   }
 
   Widget _lastDayOfMonth(Color textColor) {
-    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+    return Row(children: <Widget>[
       Container(
           padding: const EdgeInsets.only(top: 10),
           child: IconButton(
@@ -5791,7 +5632,9 @@ enum _SelectRule {
   everyYear,
   custom
 }
+
 enum _Edit { event, series }
+
 enum _Delete { event, series }
 
 /// Builds the appointment editor with all the required elements based on the
@@ -6015,223 +5858,196 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
             ListTile(
                 contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
                 leading: const Text(''),
-                title: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 7,
-                        child: GestureDetector(
-                          onTap: () async {
-                            final DateTime? date = await showDatePicker(
-                                context: context,
-                                initialDate: _startDate,
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2100),
-                                builder: (BuildContext context, Widget? child) {
-                                  return Theme(
-                                    data: ThemeData(
-                                      brightness: widget.model.themeData
-                                          .colorScheme.brightness,
-                                      colorScheme:
-                                          _getColorScheme(widget.model, true),
-                                      primaryColor:
-                                          widget.model.backgroundColor,
-                                    ),
-                                    child: child!,
-                                  );
-                                });
+                title: Row(children: <Widget>[
+                  Expanded(
+                    flex: 7,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final DateTime? date = await showDatePicker(
+                            context: context,
+                            initialDate: _startDate,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                            builder: (BuildContext context, Widget? child) {
+                              return Theme(
+                                data: ThemeData(
+                                  brightness: widget
+                                      .model.themeData.colorScheme.brightness,
+                                  colorScheme:
+                                      _getColorScheme(widget.model, true),
+                                  primaryColor: widget.model.backgroundColor,
+                                ),
+                                child: child!,
+                              );
+                            });
 
-                            if (date != null && date != _startDate) {
-                              setState(() {
-                                final Duration difference =
-                                    _endDate.difference(_startDate);
-                                _startDate = DateTime(
-                                    date.year,
-                                    date.month,
-                                    date.day,
-                                    _startTime.hour,
-                                    _startTime.minute,
-                                    0);
-                                _endDate = _startDate.add(difference);
-                                _endTime = TimeOfDay(
-                                    hour: _endDate.hour,
-                                    minute: _endDate.minute);
-                              });
-                            }
-                          },
-                          child: Text(
-                              DateFormat('EEE, MMM dd yyyy').format(_startDate),
-                              textAlign: TextAlign.left),
-                        ),
-                      ),
-                      Expanded(
-                          flex: 3,
-                          child: _isAllDay
-                              ? const Text('')
-                              : GestureDetector(
-                                  onTap: () async {
-                                    final TimeOfDay? time =
-                                        await showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay(
-                                                hour: _startTime.hour,
-                                                minute: _startTime.minute),
-                                            builder: (BuildContext context,
-                                                Widget? child) {
-                                              return Theme(
-                                                data: ThemeData(
-                                                  brightness: widget
-                                                      .model
-                                                      .themeData
-                                                      .colorScheme
-                                                      .brightness,
-                                                  colorScheme: _getColorScheme(
-                                                      widget.model, false),
-                                                  primaryColor: widget
-                                                      .model.backgroundColor,
-                                                ),
-                                                child: child!,
-                                              );
-                                            });
+                        if (date != null && date != _startDate) {
+                          setState(() {
+                            final Duration difference =
+                                _endDate.difference(_startDate);
+                            _startDate = DateTime(date.year, date.month,
+                                date.day, _startTime.hour, _startTime.minute);
+                            _endDate = _startDate.add(difference);
+                            _endTime = TimeOfDay(
+                                hour: _endDate.hour, minute: _endDate.minute);
+                          });
+                        }
+                      },
+                      child: Text(
+                          DateFormat('EEE, MMM dd yyyy').format(_startDate),
+                          textAlign: TextAlign.left),
+                    ),
+                  ),
+                  Expanded(
+                      flex: 3,
+                      child: _isAllDay
+                          ? const Text('')
+                          : GestureDetector(
+                              onTap: () async {
+                                final TimeOfDay? time = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay(
+                                        hour: _startTime.hour,
+                                        minute: _startTime.minute),
+                                    builder:
+                                        (BuildContext context, Widget? child) {
+                                      return Theme(
+                                        data: ThemeData(
+                                          brightness: widget.model.themeData
+                                              .colorScheme.brightness,
+                                          colorScheme: _getColorScheme(
+                                              widget.model, false),
+                                          primaryColor:
+                                              widget.model.backgroundColor,
+                                        ),
+                                        child: child!,
+                                      );
+                                    });
 
-                                    if (time != null && time != _startTime) {
-                                      setState(() {
-                                        _startTime = time;
-                                        final Duration difference =
-                                            _endDate.difference(_startDate);
-                                        _startDate = DateTime(
-                                            _startDate.year,
-                                            _startDate.month,
-                                            _startDate.day,
-                                            _startTime.hour,
-                                            _startTime.minute,
-                                            0);
-                                        _endDate = _startDate.add(difference);
-                                        _endTime = TimeOfDay(
-                                            hour: _endDate.hour,
-                                            minute: _endDate.minute);
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                    DateFormat('hh:mm a').format(_startDate),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                )),
-                    ])),
+                                if (time != null && time != _startTime) {
+                                  setState(() {
+                                    _startTime = time;
+                                    final Duration difference =
+                                        _endDate.difference(_startDate);
+                                    _startDate = DateTime(
+                                        _startDate.year,
+                                        _startDate.month,
+                                        _startDate.day,
+                                        _startTime.hour,
+                                        _startTime.minute);
+                                    _endDate = _startDate.add(difference);
+                                    _endTime = TimeOfDay(
+                                        hour: _endDate.hour,
+                                        minute: _endDate.minute);
+                                  });
+                                }
+                              },
+                              child: Text(
+                                DateFormat('hh:mm a').format(_startDate),
+                                textAlign: TextAlign.right,
+                              ),
+                            )),
+                ])),
             ListTile(
                 contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
                 leading: const Text(''),
-                title: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 7,
-                        child: GestureDetector(
-                          onTap: () async {
-                            final DateTime? date = await showDatePicker(
-                                context: context,
-                                initialDate: _endDate,
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2100),
-                                builder: (BuildContext context, Widget? child) {
-                                  return Theme(
-                                    data: ThemeData(
-                                      brightness: widget.model.themeData
-                                          .colorScheme.brightness,
-                                      colorScheme:
-                                          _getColorScheme(widget.model, true),
-                                      primaryColor:
-                                          widget.model.backgroundColor,
-                                    ),
-                                    child: child!,
-                                  );
-                                });
+                title: Row(children: <Widget>[
+                  Expanded(
+                    flex: 7,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final DateTime? date = await showDatePicker(
+                            context: context,
+                            initialDate: _endDate,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                            builder: (BuildContext context, Widget? child) {
+                              return Theme(
+                                data: ThemeData(
+                                  brightness: widget
+                                      .model.themeData.colorScheme.brightness,
+                                  colorScheme:
+                                      _getColorScheme(widget.model, true),
+                                  primaryColor: widget.model.backgroundColor,
+                                ),
+                                child: child!,
+                              );
+                            });
 
-                            if (date != null && date != _endDate) {
-                              setState(() {
-                                final Duration difference =
-                                    _endDate.difference(_startDate);
-                                _endDate = DateTime(
-                                    date.year,
-                                    date.month,
-                                    date.day,
-                                    _endTime.hour,
-                                    _endTime.minute,
-                                    0);
-                                if (_endDate.isBefore(_startDate)) {
-                                  _startDate = _endDate.subtract(difference);
-                                  _startTime = TimeOfDay(
-                                      hour: _startDate.hour,
-                                      minute: _startDate.minute);
-                                }
-                              });
+                        if (date != null && date != _endDate) {
+                          setState(() {
+                            final Duration difference =
+                                _endDate.difference(_startDate);
+                            _endDate = DateTime(date.year, date.month, date.day,
+                                _endTime.hour, _endTime.minute);
+                            if (_endDate.isBefore(_startDate)) {
+                              _startDate = _endDate.subtract(difference);
+                              _startTime = TimeOfDay(
+                                  hour: _startDate.hour,
+                                  minute: _startDate.minute);
                             }
-                          },
-                          child: Text(
-                            DateFormat('EEE, MMM dd yyyy').format(_endDate),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
+                          });
+                        }
+                      },
+                      child: Text(
+                        DateFormat('EEE, MMM dd yyyy').format(_endDate),
+                        textAlign: TextAlign.left,
                       ),
-                      Expanded(
-                          flex: 3,
-                          child: _isAllDay
-                              ? const Text('')
-                              : GestureDetector(
-                                  onTap: () async {
-                                    final TimeOfDay? time =
-                                        await showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay(
-                                                hour: _endTime.hour,
-                                                minute: _endTime.minute),
-                                            builder: (BuildContext context,
-                                                Widget? child) {
-                                              return Theme(
-                                                data: ThemeData(
-                                                  brightness: widget
-                                                      .model
-                                                      .themeData
-                                                      .colorScheme
-                                                      .brightness,
-                                                  colorScheme: _getColorScheme(
-                                                      widget.model, false),
-                                                  primaryColor: widget
-                                                      .model.backgroundColor,
-                                                ),
-                                                child: child!,
-                                              );
-                                            });
+                    ),
+                  ),
+                  Expanded(
+                      flex: 3,
+                      child: _isAllDay
+                          ? const Text('')
+                          : GestureDetector(
+                              onTap: () async {
+                                final TimeOfDay? time = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay(
+                                        hour: _endTime.hour,
+                                        minute: _endTime.minute),
+                                    builder:
+                                        (BuildContext context, Widget? child) {
+                                      return Theme(
+                                        data: ThemeData(
+                                          brightness: widget.model.themeData
+                                              .colorScheme.brightness,
+                                          colorScheme: _getColorScheme(
+                                              widget.model, false),
+                                          primaryColor:
+                                              widget.model.backgroundColor,
+                                        ),
+                                        child: child!,
+                                      );
+                                    });
 
-                                    if (time != null && time != _endTime) {
-                                      setState(() {
-                                        _endTime = time;
-                                        final Duration difference =
-                                            _endDate.difference(_startDate);
-                                        _endDate = DateTime(
-                                            _endDate.year,
-                                            _endDate.month,
-                                            _endDate.day,
-                                            _endTime.hour,
-                                            _endTime.minute,
-                                            0);
-                                        if (_endDate.isBefore(_startDate)) {
-                                          _startDate =
-                                              _endDate.subtract(difference);
-                                          _startTime = TimeOfDay(
-                                              hour: _startDate.hour,
-                                              minute: _startDate.minute);
-                                        }
-                                      });
+                                if (time != null && time != _endTime) {
+                                  setState(() {
+                                    _endTime = time;
+                                    final Duration difference =
+                                        _endDate.difference(_startDate);
+                                    _endDate = DateTime(
+                                        _endDate.year,
+                                        _endDate.month,
+                                        _endDate.day,
+                                        _endTime.hour,
+                                        _endTime.minute);
+                                    if (_endDate.isBefore(_startDate)) {
+                                      _startDate =
+                                          _endDate.subtract(difference);
+                                      _startTime = TimeOfDay(
+                                          hour: _startDate.hour,
+                                          minute: _startDate.minute);
                                     }
-                                  },
-                                  child: Text(
-                                    DateFormat('hh:mm a').format(_endDate),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                )),
-                    ])),
+                                  });
+                                }
+                              },
+                              child: Text(
+                                DateFormat('hh:mm a').format(_endDate),
+                                textAlign: TextAlign.right,
+                              ),
+                            )),
+                ])),
             ListTile(
               contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
               leading: Icon(
@@ -6712,21 +6528,21 @@ CalendarResource _getResourceFromId(
 /// Returns the selected resources based on the id collection passed
 List<CalendarResource> _getSelectedResources(
     List<Object>? resourceIds, List<CalendarResource>? resourceCollection) {
-  final List<CalendarResource> _selectedResources = <CalendarResource>[];
+  final List<CalendarResource> selectedResources = <CalendarResource>[];
   if (resourceIds == null ||
       resourceIds.isEmpty ||
       resourceCollection == null ||
       resourceCollection.isEmpty) {
-    return _selectedResources;
+    return selectedResources;
   }
 
   for (int i = 0; i < resourceIds.length; i++) {
     final CalendarResource resourceName =
         _getResourceFromId(resourceIds[i], resourceCollection);
-    _selectedResources.add(resourceName);
+    selectedResources.add(resourceName);
   }
 
-  return _selectedResources;
+  return selectedResources;
 }
 
 /// Returns the available resource, by filtering the resource collection from
@@ -7008,8 +6824,12 @@ class _SelectRuleDialogState extends State<_SelectRuleDialog> {
                         widget.onChanged(
                             _PickerChangedDetails(selectedRule: _rule));
                       });
+
+                      if (!mounted) {
+                        return;
+                      }
+                      Navigator.pop(context, properties);
                     }
-                    Navigator.pop(context, properties);
                   },
                 ),
               ],
@@ -7310,8 +7130,6 @@ class _EditDialogState extends State<_EditDialog> {
                                   ? widget.selectedAppointment.id
                                   : null,
                               recurrenceId: parentAppointment!.id,
-                              recurrenceRule: null,
-                              recurrenceExceptionDates: null,
                               startTimeZone:
                                   widget.newAppointment.startTimeZone,
                               endTimeZone: widget.newAppointment.endTimeZone);
@@ -7375,19 +7193,19 @@ class _EditDialogState extends State<_EditDialog> {
                           widget.events.notifyListeners(
                               CalendarDataSourceAction.remove,
                               <Appointment>[parentAppointment]);
-                          DateTime _startDate, _endDate;
+                          DateTime startDate, endDate;
                           if ((widget.newAppointment.startTime)
                               .isBefore(parentAppointment.startTime)) {
-                            _startDate = widget.newAppointment.startTime;
-                            _endDate = widget.newAppointment.endTime;
+                            startDate = widget.newAppointment.startTime;
+                            endDate = widget.newAppointment.endTime;
                           } else {
-                            _startDate = DateTime(
+                            startDate = DateTime(
                                 parentAppointment.startTime.year,
                                 parentAppointment.startTime.month,
                                 parentAppointment.startTime.day,
                                 widget.newAppointment.startTime.hour,
                                 widget.newAppointment.startTime.minute);
-                            _endDate = DateTime(
+                            endDate = DateTime(
                                 parentAppointment.endTime.year,
                                 parentAppointment.endTime.month,
                                 parentAppointment.endTime.day,
@@ -7395,8 +7213,8 @@ class _EditDialogState extends State<_EditDialog> {
                                 widget.newAppointment.endTime.minute);
                           }
                           parentAppointment = Appointment(
-                              startTime: _startDate,
-                              endTime: _endDate,
+                              startTime: startDate,
+                              endTime: endDate,
                               color: widget.newAppointment.color,
                               notes: widget.newAppointment.notes,
                               isAllDay: widget.newAppointment.isAllDay,
@@ -7404,15 +7222,13 @@ class _EditDialogState extends State<_EditDialog> {
                               subject: widget.newAppointment.subject,
                               resourceIds: widget.newAppointment.resourceIds,
                               id: parentAppointment.id,
-                              recurrenceId: null,
                               recurrenceRule:
                                   widget.recurrenceProperties == null
                                       ? null
                                       : SfCalendar.generateRRule(
                                           widget.recurrenceProperties!,
-                                          _startDate,
-                                          _endDate),
-                              recurrenceExceptionDates: null,
+                                          startDate,
+                                          endDate),
                               startTimeZone:
                                   widget.newAppointment.startTimeZone,
                               endTimeZone: widget.newAppointment.endTimeZone);
@@ -7682,9 +7498,9 @@ class _CustomRuleState extends State<_CustomRule> {
     });
   }
 
-  int _getWeekNumber(DateTime _startDate) {
+  int _getWeekNumber(DateTime startDate) {
     int weekOfMonth;
-    weekOfMonth = (_startDate.day / 7).ceil();
+    weekOfMonth = (startDate.day / 7).ceil();
     if (weekOfMonth == 5) {
       return -1;
     }
@@ -7792,7 +7608,7 @@ class _CustomRuleState extends State<_CustomRule> {
         text: TextSpan(text: text, style: textStyle),
         maxLines: 1,
         textDirection: TextDirection.ltr)
-      ..layout(minWidth: 0, maxWidth: double.infinity);
+      ..layout();
     return textPainter.width + 60;
   }
 
@@ -7815,11 +7631,11 @@ class _CustomRuleState extends State<_CustomRule> {
               height: 20,
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 15, top: 0, bottom: 15),
+              padding: EdgeInsets.only(left: 15, bottom: 15),
               child: Text('REPEATS EVERY'),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, top: 0, bottom: 15),
+              padding: const EdgeInsets.only(left: 15, bottom: 15),
               child: Row(
                 children: <Widget>[
                   Container(
@@ -7856,7 +7672,6 @@ class _CustomRuleState extends State<_CustomRule> {
                       keyboardType: TextInputType.number,
                       // ignore: always_specify_types
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      maxLines: 1,
                       style: TextStyle(
                           fontSize: 13,
                           color: defaultTextColor,
@@ -8152,8 +7967,6 @@ class _CustomRuleState extends State<_CustomRule> {
               visible: _selectedRecurrenceType == 'year',
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Checkbox(
                     focusColor: widget.model.backgroundColor,
@@ -8345,7 +8158,6 @@ class _CustomRuleState extends State<_CustomRule> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
-                            maxLines: 1,
                             style: TextStyle(
                                 fontSize: 13,
                                 color: defaultTextColor,

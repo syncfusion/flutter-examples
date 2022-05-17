@@ -74,8 +74,6 @@ class _TrendLineForecastState extends SampleViewState {
       shrinkWrap: true,
       children: <Widget>[
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
               'Forward forecast',
@@ -97,8 +95,6 @@ class _TrendLineForecastState extends SampleViewState {
           ],
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
               'Backward forecast',
@@ -154,11 +150,9 @@ class _TrendLineForecastState extends SampleViewState {
               name: 'Exchange rate',
               trendlines: <Trendline>[
                 Trendline(
-                    type: TrendlineType.linear,
                     width: 3,
                     dashArray: <double>[10, 10],
                     name: 'Linear',
-                    enableTooltip: true,
 
                     /// Here we mention the forward and backward forecast value.
                     forwardForecast: _forwardForecastValue,

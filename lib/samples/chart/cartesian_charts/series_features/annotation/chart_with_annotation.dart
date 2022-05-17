@@ -108,7 +108,6 @@ class _AnnotationWatermarkState extends SampleViewState {
                     ],
                   )),
               coordinateUnit: CoordinateUnit.point,
-              region: AnnotationRegion.chart,
               x: 'Instagram',
               y: isCardView ? 85 : 80)
         ]);

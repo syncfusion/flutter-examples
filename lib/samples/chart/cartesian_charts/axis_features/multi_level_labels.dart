@@ -203,8 +203,8 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
           labelRotation: model.isMobile ? -90 : 0,
           majorGridLines: const MajorGridLines(width: 0),
           majorTickLines:
-              MajorTickLines(size: _isAxisBorderEnabled == true ? 0 : 5),
-          borderWidth: _isAxisBorderEnabled == true ? 1 : 0,
+              MajorTickLines(size: (_isAxisBorderEnabled ?? false) ? 0 : 5),
+          borderWidth: (_isAxisBorderEnabled ?? false) ? 1 : 0,
           axisLine: const AxisLine(width: 0),
           multiLevelLabelStyle: MultiLevelLabelStyle(
               borderWidth: 1, borderType: _selectedMultilevelBorderType!),

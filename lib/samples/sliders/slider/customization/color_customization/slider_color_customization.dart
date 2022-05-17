@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -78,7 +79,6 @@ class _SliderColorCustomizationPageState extends SampleViewState {
         child: SfSlider(
             interval: 25,
             showDividers: true,
-            min: 0.0,
             max: 100.0,
             value: _thumbStrokeSliderValue,
             onChanged: (dynamic values) {

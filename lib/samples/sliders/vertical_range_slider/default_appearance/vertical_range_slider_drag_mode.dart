@@ -27,14 +27,12 @@ class _VerticalRangeSliderDragModePageState extends SampleViewState {
 
   SfRangeSlider _buildSliderWithDragModeOnThumb() {
     return SfRangeSlider.vertical(
-      min: 0.0,
       max: 100.0,
       interval: 20,
       values: _dragOnThumbValues,
       showTicks: true,
       showLabels: true,
       enableTooltip: true,
-      dragMode: SliderDragMode.onThumb,
       isInversed: _isInversed,
       onChanged: (SfRangeValues values) {
         setState(() {
@@ -46,7 +44,6 @@ class _VerticalRangeSliderDragModePageState extends SampleViewState {
 
   SfRangeSlider _buildSliderWithDragModeBetweenThumbs() {
     return SfRangeSlider.vertical(
-      min: 0.0,
       max: 100.0,
       interval: 20,
       values: _dragBetweenThumbValues,
@@ -65,7 +62,6 @@ class _VerticalRangeSliderDragModePageState extends SampleViewState {
 
   SfRangeSlider _buildSliderWithDragModeBoth() {
     return SfRangeSlider.vertical(
-      min: 0.0,
       max: 100.0,
       interval: 20,
       values: _dragBothThumbValues,

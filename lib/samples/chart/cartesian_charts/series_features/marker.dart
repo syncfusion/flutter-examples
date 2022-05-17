@@ -27,7 +27,7 @@ class _MarkerDefaultState extends SampleViewState {
   void initState() {
     chartData = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 8, 0),
+          x: DateTime(2018, 3, 1, 8),
           y: 60,
           secondSeriesYValue: 28,
           thirdSeriesYValue: 15),
@@ -37,7 +37,7 @@ class _MarkerDefaultState extends SampleViewState {
           secondSeriesYValue: 40,
           thirdSeriesYValue: 28),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 9, 0),
+          x: DateTime(2018, 3, 1, 9),
           y: 70,
           secondSeriesYValue: 32,
           thirdSeriesYValue: 16),
@@ -47,7 +47,7 @@ class _MarkerDefaultState extends SampleViewState {
           secondSeriesYValue: 36,
           thirdSeriesYValue: 66),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 10, 0),
+          x: DateTime(2018, 3, 1, 10),
           y: 66,
           secondSeriesYValue: 50,
           thirdSeriesYValue: 26),
@@ -57,7 +57,7 @@ class _MarkerDefaultState extends SampleViewState {
           secondSeriesYValue: 35,
           thirdSeriesYValue: 14),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 11, 0),
+          x: DateTime(2018, 3, 1, 11),
           y: 55,
           secondSeriesYValue: 32,
           thirdSeriesYValue: 20),

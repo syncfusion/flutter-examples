@@ -67,21 +67,16 @@ class _ActiveHoursState extends SampleViewState {
 
   ///Return the active hours
   Widget _buildActiveHours(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
     return Center(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: SfLinearGauge(
-              orientation: LinearGaugeOrientation.horizontal,
-              showLabels: true,
               showTicks: false,
-              minimum: 0,
-              maximum: 100,
               interval: 30,
               labelOffset: 0,
               axisTrackStyle: const LinearAxisTrackStyle(
@@ -109,7 +104,7 @@ class _ActiveHoursState extends SampleViewState {
                         ? _getInActivePointerColor(
                             const Color(0xFF05C3DD),
                             0.7,
-                            _brightness == Brightness.dark
+                            brightness == Brightness.dark
                                 ? Colors.black
                                 : Colors.white)
                         : const Color(0xFF05C3DD)),
@@ -159,7 +154,6 @@ class _ActiveHoursState extends SampleViewState {
     return LinearWidgetPointer(
       value: value,
       enableAnimation: false,
-      position: LinearElementPosition.cross,
       child: Container(
         height: 75,
         width: 11,

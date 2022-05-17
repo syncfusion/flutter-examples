@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -27,7 +28,7 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
   late String _dateTitle;
   late ThemeData _themeData;
   double _numericSliderValue = 100.0;
-  DateTime _dateSliderValue = DateTime(2010, 01, 01);
+  DateTime _dateSliderValue = DateTime(2010);
 
   SfSliderTheme _numericSlider() {
     return SfSliderTheme(
@@ -75,14 +76,13 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
           ),
         ),
         child: SfSlider(
-          min: DateTime(2000, 01, 01),
-          max: DateTime(2020, 01, 01),
+          min: DateTime(2000),
+          max: DateTime(2020),
           value: _dateSliderValue,
           showLabels: true,
           interval: 5,
           showTicks: true,
           dateFormat: DateFormat.y(),
-          labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.years,
           onChanged: (dynamic value) {
             setState(() {
@@ -95,7 +95,6 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
 
   Widget _buildWebLayout() {
     return Align(
-      alignment: Alignment.center,
       child: SizedBox(
         width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
         child: _buildMobileLayout(),

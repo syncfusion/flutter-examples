@@ -36,7 +36,6 @@ class _DoughnutDefaultState extends SampleViewState {
             widget: PhysicalModel(
               shape: BoxShape.circle,
               elevation: 10,
-              shadowColor: Colors.black,
               color: const Color.fromRGBO(230, 230, 230, 1),
               child: Container(),
             )),

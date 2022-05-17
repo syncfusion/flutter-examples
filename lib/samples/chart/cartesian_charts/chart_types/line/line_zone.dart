@@ -175,7 +175,6 @@ class _LineZoneState extends SampleViewState {
                   ],
                 )),
             coordinateUnit: CoordinateUnit.percentage,
-            region: AnnotationRegion.chart,
             x: kIsWeb ? '95%' : '85%',
             y: kIsWeb
                 ? '19%'

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -66,7 +67,6 @@ class _VerticalThumbCustomizationRangeSliderPageState extends SampleViewState {
     return SfRangeSliderTheme(
         data: SfRangeSliderThemeData(thumbRadius: 14),
         child: SfRangeSlider.vertical(
-          min: 0.0,
           max: 10.0,
           stepSize: 1,
           startThumbIcon: _thumbView(_values.start),

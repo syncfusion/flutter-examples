@@ -53,8 +53,6 @@ class _EmptyPointsState extends SampleViewState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text('Empty point mode  ',
               style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -106,16 +104,15 @@ class _EmptyPointsState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: <ChartSampleData>[
           ChartSampleData(x: 'China', y: 0.541),
-          ChartSampleData(x: 'Brazil', y: null),
+          ChartSampleData(x: 'Brazil'),
           ChartSampleData(x: 'Bolivia', y: 1.51),
           ChartSampleData(x: 'Mexico', y: 1.302),
-          ChartSampleData(x: 'Egypt', y: null),
+          ChartSampleData(x: 'Egypt'),
           ChartSampleData(x: 'Mongolia', y: 1.683),
         ],
 
         /// To enable the empty point mode, set the specific mode.
-        emptyPointSettings: EmptyPointSettings(
-            mode: _selectedEmptyPointMode, color: Colors.grey),
+        emptyPointSettings: EmptyPointSettings(mode: _selectedEmptyPointMode),
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         dataLabelSettings: const DataLabelSettings(

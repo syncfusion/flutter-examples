@@ -68,27 +68,25 @@ class _ScheduleViewCalendarState extends SampleViewState {
       final DateTime date = i;
       final int count = 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate = DateTime(
-            date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+        final DateTime startDate =
+            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
         appointments.add(Appointment(
           subject: subjectCollection[random.nextInt(7)],
           startTime: startDate,
           endTime: startDate.add(Duration(hours: random.nextInt(3))),
           color: colorCollection[random.nextInt(9)],
-          isAllDay: false,
         ));
       }
     }
 
     DateTime date = DateTime.now();
-    date = DateTime(date.year, date.month, date.day, 11, 0, 0);
+    date = DateTime(date.year, date.month, date.day, 11);
     // added recurrence appointment
     appointments.add(Appointment(
         subject: 'Scrum',
         startTime: date,
         endTime: date.add(const Duration(hours: 1)),
         color: colorCollection[random.nextInt(9)],
-        isAllDay: false,
         recurrenceRule: 'FREQ=DAILY;INTERVAL=10'));
     return appointments;
   }

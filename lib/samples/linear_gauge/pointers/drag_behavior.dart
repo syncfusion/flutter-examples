@@ -86,11 +86,8 @@ class _DragBehaviorState extends SampleViewState {
       height: 100,
       child: SfLinearGauge(
         animateAxis: true,
-        showLabels: true,
-        showTicks: true,
         interval: 10,
         axisTrackStyle: const LinearAxisTrackStyle(thickness: 3),
-        orientation: LinearGaugeOrientation.horizontal,
         markerPointers: <LinearMarkerPointer>[
           LinearWidgetPointer(
             value: dragMode == LinearMarkerDragBehavior.free

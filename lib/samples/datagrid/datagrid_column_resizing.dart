@@ -1,12 +1,15 @@
 /// Packages import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 
 /// Core import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../model/sample_view.dart';
 
 /// Local import
 import 'datagridsource/product_datagridsource.dart';

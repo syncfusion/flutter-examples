@@ -78,7 +78,7 @@ class _TimelineViewsCalendarState extends SampleViewState {
       }
     }
 
-    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         if (_calendarController.view == CalendarView.timelineMonth) {
           _blackoutDates = blockedDates;
@@ -100,8 +100,8 @@ class _TimelineViewsCalendarState extends SampleViewState {
       final int count =
           model.isWebFullView ? 1 + random.nextInt(2) : 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate = DateTime(
-            date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+        final DateTime startDate =
+            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
         appointment.add(_Meeting(
             _subjectCollection[random.nextInt(7)],
             '',
@@ -153,12 +153,12 @@ class _TimelineViewsCalendarState extends SampleViewState {
 
   /// Returns the calendar widget based on the properties passed.
   SfCalendar _getTimelineViewsCalendar(
-      [CalendarController? _calendarController,
-      CalendarDataSource? _calendarDataSource,
+      [CalendarController? calendarController,
+      CalendarDataSource? calendarDataSource,
       ViewChangedCallback? viewChangedCallback]) {
     return SfCalendar(
-        controller: _calendarController,
-        dataSource: _calendarDataSource,
+        controller: calendarController,
+        dataSource: calendarDataSource,
         allowedViews: _allowedViews,
         showNavigationArrow: model.isWebFullView,
         showDatePickerButton: true,

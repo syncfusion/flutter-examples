@@ -72,8 +72,6 @@ class _PieTooltipPositionState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Hide delay',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),

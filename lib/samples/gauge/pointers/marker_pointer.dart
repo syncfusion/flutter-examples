@@ -83,8 +83,6 @@ class _MarkerPointerExampleState extends SampleViewState {
           ],
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text('Elevation',
                 style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -94,14 +92,12 @@ class _MarkerPointerExampleState extends SampleViewState {
                   : const EdgeInsets.fromLTRB(50, 0, 0, 0),
               child: CustomDirectionalButtons(
                 maxValue: 15,
-                minValue: 0,
                 initialValue: _elevation,
                 onChanged: (double val) {
                   setState(() {
                     _elevation = val;
                   });
                 },
-                step: 1,
                 loop: true,
                 iconColor: model.textColor,
                 style: TextStyle(fontSize: 16.0, color: model.textColor),

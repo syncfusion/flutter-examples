@@ -1,6 +1,5 @@
 // Flutter package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/linear_gauge/utils.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -122,7 +121,6 @@ class _ApiCustomizationState extends SampleViewState {
             ],
             ranges: <LinearGaugeRange>[
               LinearGaugeRange(
-                startValue: 0,
                 endValue: 20,
                 color: Colors.red,
                 position: _rangePosition,
@@ -168,249 +166,237 @@ class _ApiCustomizationState extends SampleViewState {
   Widget _buildPropertiesPanel(BuildContext context) {
     return Scrollbar(
         controller: _scrollController,
-        isAlwaysShown:
+        thumbVisibility:
             model.isMobile || MediaQuery.of(context).size.width <= 550,
         child: SingleChildScrollView(
             controller: _scrollController,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                    'Properties : ',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 5),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isInverse = !_isInverse;
-                      });
-                    },
-                    child: Container(
-                      height: 40,
-                      color: Colors.transparent,
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 30,
-                            child: Checkbox(
-                                value: _isInverse,
-                                splashRadius: 15,
-                                activeColor: model.backgroundColor,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    if (value != null) {
-                                      _isInverse = value;
-                                    }
-                                  });
-                                }),
-                          ),
-                          const Text('Inverse axis',
-                              style: TextStyle(fontSize: 14))
-                        ],
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _isMirror = !_isMirror;
-                        });
-                      },
-                      child: Container(
-                        height: 40,
-                        color: Colors.transparent,
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 30,
-                              child: Checkbox(
-                                  splashRadius: 15,
-                                  value: _isMirror,
-                                  activeColor: model.backgroundColor,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      if (value != null) {
-                                        _isMirror = value;
-                                      }
-                                    });
-                                  }),
-                            ),
-                            const Text('Mirror', style: TextStyle(fontSize: 14))
-                          ],
-                        ),
-                      )),
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _isHorizontalOrientation = !_isHorizontalOrientation;
-                        });
-                      },
-                      child: Container(
-                        height: 40,
-                        color: Colors.transparent,
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 30,
-                              child: Checkbox(
-                                  value: _isHorizontalOrientation,
-                                  splashRadius: 15,
-                                  activeColor: model.backgroundColor,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      if (value != null) {
-                                        _isHorizontalOrientation = value;
-                                      }
-                                    });
-                                  }),
-                            ),
-                            const Text('Horizontal orientation',
-                                style: TextStyle(fontSize: 14))
-                          ],
-                        ),
-                      )),
-                  Row(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                    Widget>[
+              const Text(
+                'Properties : ',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 5),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isInverse = !_isInverse;
+                  });
+                },
+                child: Container(
+                  height: 40,
+                  color: Colors.transparent,
+                  child: Row(
                     children: <Widget>[
-                      Container(
-                        width: 150,
-                        margin: const EdgeInsets.only(left: 5),
-                        child: const Text('Shape pointer position',
-                            style: TextStyle(fontSize: 14)),
+                      SizedBox(
+                        width: 30,
+                        child: Checkbox(
+                            value: _isInverse,
+                            splashRadius: 15,
+                            activeColor: model.backgroundColor,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                if (value != null) {
+                                  _isInverse = value;
+                                }
+                              });
+                            }),
                       ),
-                      const Text(':'),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton<String>(
-                                value: _shapePointerPosition,
-                                items: _pointerPositions.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                      value:
-                                          (value != null) ? value : 'outside',
-                                      child: Text(value,
-                                          style:
-                                              const TextStyle(fontSize: 14)));
-                                }).toList(),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    if (value != null) {
-                                      shapePosition(value);
-                                    }
-                                  });
-                                })),
-                      )
+                      const Text('Inverse axis', style: TextStyle(fontSize: 14))
                     ],
                   ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        width: 150,
-                        margin: const EdgeInsets.only(left: 5),
-                        child: const Text('Bar pointer position',
-                            style: TextStyle(fontSize: 14)),
-                      ),
-                      const Text(':'),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton<String>(
-                                value: _barPointerPosition,
-                                items: _pointerPositions.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                      value:
-                                          (value != null) ? value : 'outside',
-                                      child: Text(value,
-                                          style:
-                                              const TextStyle(fontSize: 14)));
-                                }).toList(),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    if (value != null) {
-                                      barPosition(value);
-                                    }
-                                  });
-                                })),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                          width: 150,
-                          margin: const EdgeInsets.only(left: 5),
-                          child: const Text(
-                            'Range position',
-                            style: TextStyle(fontSize: 14),
-                          )),
-                      const Text(':'),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton<String>(
-                                value: _rangePointerPosition,
-                                items: _pointerPositions.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                      value:
-                                          (value != null) ? value : 'outside',
-                                      child: Text(value,
-                                          style:
-                                              const TextStyle(fontSize: 14)));
-                                }).toList(),
-                                onChanged: (dynamic value) {
-                                  setState(() {
-                                    rangePosition(value.toString());
-                                  });
-                                })),
-                      )
-                    ],
-                  ),
-                  Visibility(
-                    visible: !(_barPosition == LinearElementPosition.cross),
+                ),
+              ),
+              GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isMirror = !_isMirror;
+                    });
+                  },
+                  child: Container(
+                    height: 40,
+                    color: Colors.transparent,
                     child: Row(
                       children: <Widget>[
-                        Container(
-                            width: 150,
-                            margin: const EdgeInsets.only(left: 5),
-                            child: const Text(
-                              'Bar offset',
-                              style: TextStyle(fontSize: 14),
-                            )),
-                        const Text(':'),
-                        Container(
-                          transform: Matrix4.translationValues(-8, 0, 0),
-                          child: CustomDirectionalButtons(
-                            maxValue: 20,
-                            minValue: 0,
-                            initialValue: _barOffset,
-                            onChanged: (double value) {
-                              setState(() {
-                                _barOffset = value;
-                              });
-                            },
-                            step: 1,
-                            loop: false,
-                            iconColor: model.textColor,
-                            style: TextStyle(
-                                fontSize: 16.0, color: model.textColor),
-                          ),
-                        )
+                        SizedBox(
+                          width: 30,
+                          child: Checkbox(
+                              splashRadius: 15,
+                              value: _isMirror,
+                              activeColor: model.backgroundColor,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  if (value != null) {
+                                    _isMirror = value;
+                                  }
+                                });
+                              }),
+                        ),
+                        const Text('Mirror', style: TextStyle(fontSize: 14))
                       ],
                     ),
+                  )),
+              GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isHorizontalOrientation = !_isHorizontalOrientation;
+                    });
+                  },
+                  child: Container(
+                    height: 40,
+                    color: Colors.transparent,
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 30,
+                          child: Checkbox(
+                              value: _isHorizontalOrientation,
+                              splashRadius: 15,
+                              activeColor: model.backgroundColor,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  if (value != null) {
+                                    _isHorizontalOrientation = value;
+                                  }
+                                });
+                              }),
+                        ),
+                        const Text('Horizontal orientation',
+                            style: TextStyle(fontSize: 14))
+                      ],
+                    ),
+                  )),
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 150,
+                    margin: const EdgeInsets.only(left: 5),
+                    child: const Text('Shape pointer position',
+                        style: TextStyle(fontSize: 14)),
                   ),
-                ])));
+                  const Text(':'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: ButtonTheme(
+                        alignedDropdown: true,
+                        child: DropdownButton<String>(
+                            value: _shapePointerPosition,
+                            items: _pointerPositions.map((String value) {
+                              return DropdownMenuItem<String>(
+                                  value: (value != null) ? value : 'outside',
+                                  child: Text(value,
+                                      style: const TextStyle(fontSize: 14)));
+                            }).toList(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                if (value != null) {
+                                  shapePosition(value);
+                                }
+                              });
+                            })),
+                  )
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 150,
+                    margin: const EdgeInsets.only(left: 5),
+                    child: const Text('Bar pointer position',
+                        style: TextStyle(fontSize: 14)),
+                  ),
+                  const Text(':'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: ButtonTheme(
+                        alignedDropdown: true,
+                        child: DropdownButton<String>(
+                            value: _barPointerPosition,
+                            items: _pointerPositions.map((String value) {
+                              return DropdownMenuItem<String>(
+                                  value: (value != null) ? value : 'outside',
+                                  child: Text(value,
+                                      style: const TextStyle(fontSize: 14)));
+                            }).toList(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                if (value != null) {
+                                  barPosition(value);
+                                }
+                              });
+                            })),
+                  )
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                      width: 150,
+                      margin: const EdgeInsets.only(left: 5),
+                      child: const Text(
+                        'Range position',
+                        style: TextStyle(fontSize: 14),
+                      )),
+                  const Text(':'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: ButtonTheme(
+                        alignedDropdown: true,
+                        child: DropdownButton<String>(
+                            value: _rangePointerPosition,
+                            items: _pointerPositions.map((String value) {
+                              return DropdownMenuItem<String>(
+                                  value: (value != null) ? value : 'outside',
+                                  child: Text(value,
+                                      style: const TextStyle(fontSize: 14)));
+                            }).toList(),
+                            onChanged: (dynamic value) {
+                              setState(() {
+                                rangePosition(value.toString());
+                              });
+                            })),
+                  )
+                ],
+              ),
+              Visibility(
+                visible: !(_barPosition == LinearElementPosition.cross),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                        width: 150,
+                        margin: const EdgeInsets.only(left: 5),
+                        child: const Text(
+                          'Bar offset',
+                          style: TextStyle(fontSize: 14),
+                        )),
+                    const Text(':'),
+                    Container(
+                      transform: Matrix4.translationValues(-8, 0, 0),
+                      child: CustomDirectionalButtons(
+                        maxValue: 20,
+                        initialValue: _barOffset,
+                        onChanged: (double value) {
+                          setState(() {
+                            _barOffset = value;
+                          });
+                        },
+                        iconColor: model.textColor,
+                        style:
+                            TextStyle(fontSize: 16.0, color: model.textColor),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ])));
   }
 
   @override
   Widget build(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
     return (isWebOrDesktop && MediaQuery.of(context).size.width >= 550)
         ? Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const Spacer(),
               Wrap(children: <Widget>[
@@ -423,11 +409,11 @@ class _ApiCustomizationState extends SampleViewState {
               Container(
                   height: MediaQuery.of(context).size.height,
                   width: 1,
-                  color: _brightness == Brightness.dark
+                  color: brightness == Brightness.dark
                       ? const Color(0xff3D3D3D)
                       : const Color(0xffe2e2e2)),
               Container(
-                  color: _brightness == Brightness.dark
+                  color: brightness == Brightness.dark
                       ? const Color(0xff2a2a2a)
                       : model.webBackgroundColor,
                   height: MediaQuery.of(context).size.height,
@@ -446,7 +432,7 @@ class _ApiCustomizationState extends SampleViewState {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 4,
                     padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-                    color: _brightness == Brightness.dark
+                    color: brightness == Brightness.dark
                         ? const Color(0xff2a2a2a)
                         : model.webBackgroundColor,
                     child: _buildPropertiesPanel(context),

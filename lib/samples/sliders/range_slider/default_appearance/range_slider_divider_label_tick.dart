@@ -25,7 +25,6 @@ class _ScaleRangeSliderPageState extends SampleViewState {
 
   SfRangeSlider _sliderWithDivider() {
     return SfRangeSlider(
-        min: 0.0,
         max: 100.0,
         interval: 20,
         showDividers: true,
@@ -39,13 +38,11 @@ class _ScaleRangeSliderPageState extends SampleViewState {
 
   SfRangeSlider _sliderWithTick() {
     return SfRangeSlider(
-        min: 0.0,
         max: 100.0,
         interval: 20,
         showLabels: true,
         showTicks: true,
         minorTicksPerInterval: 1,
-        labelPlacement: LabelPlacement.onTicks,
         values: _tickSliderValues,
         onChanged: (SfRangeValues values) {
           setState(() {
@@ -56,7 +53,6 @@ class _ScaleRangeSliderPageState extends SampleViewState {
 
   SfRangeSlider _sliderWithLabel() {
     return SfRangeSlider(
-        min: 0.0,
         max: 100.0,
         interval: 20,
         showLabels: true,

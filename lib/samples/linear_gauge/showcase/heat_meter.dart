@@ -37,7 +37,6 @@ class _HeatMeterState extends SampleViewState {
   /// Returns the heat meter.
   Widget _buildHeatMeter(BuildContext context) {
     return SfLinearGauge(
-        minimum: 0.0,
         maximum: 80.0,
         interval: 20.0,
         minorTicksPerInterval: 0,

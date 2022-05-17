@@ -201,7 +201,7 @@ class _EventsState extends SampleViewState {
           actionsList.insert(
               0, 'Marker (${args.pointIndex.toString()}) was rendered');
           if (args.pointIndex == 5) {
-            SchedulerBinding.instance?.addPostFrameCallback((_) {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
               (consoleKey.currentState)?.setState(() {});
             });
           }
@@ -210,7 +210,7 @@ class _EventsState extends SampleViewState {
       onTooltipRender: (TooltipArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Tooltip (${args.text}) is showing');
-          SchedulerBinding.instance?.addPostFrameCallback((_) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
             (consoleKey.currentState)?.setState(() {});
           });
         }

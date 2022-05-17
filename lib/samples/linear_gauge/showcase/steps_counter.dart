@@ -43,7 +43,7 @@ class _StepsCounterState extends SampleViewState {
 
   /// Returns the steps counter.
   Widget _buildStepsCounter(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -57,7 +57,6 @@ class _StepsCounterState extends SampleViewState {
                     : MediaQuery.of(context).size.width * 0.68
                 : MediaQuery.of(context).size.width * 0.68,
             child: SfLinearGauge(
-              minimum: 0.0,
               maximum: 12000.0,
               interval: 12000.0,
               animateAxis: true,
@@ -65,10 +64,10 @@ class _StepsCounterState extends SampleViewState {
               axisTrackStyle: LinearAxisTrackStyle(
                 thickness: 32,
                 borderWidth: 1,
-                borderColor: _brightness == Brightness.dark
+                borderColor: brightness == Brightness.dark
                     ? const Color(0xff898989)
                     : Colors.grey[350],
-                color: _brightness == Brightness.light
+                color: brightness == Brightness.light
                     ? const Color(0xffE8EAEB)
                     : const Color(0xff62686A),
               ),

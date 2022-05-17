@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -126,7 +127,6 @@ class _MapsWithLocalizationState extends LocalizationSampleViewState {
             Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 30),
                 child: Align(
-                    alignment: Alignment.center,
                     child: Text(_title,
                         textDirection: TextDirection.rtl,
                         style: _themeData.textTheme.subtitle1))),

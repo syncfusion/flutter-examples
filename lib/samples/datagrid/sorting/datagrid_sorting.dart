@@ -1,10 +1,12 @@
 /// Packages import
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/orderinfo_datagridsource.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../../model/sample_view.dart';
+import '../datagridsource/orderinfo_datagridsource.dart';
 
 /// Renders sorting data grid
 class SortingDataGrid extends SampleView {

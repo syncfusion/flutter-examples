@@ -26,7 +26,6 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
 
   SfRangeSlider _sliderWithDivider() {
     return SfRangeSlider.vertical(
-        min: 0.0,
         max: 100.0,
         interval: 20,
         showDividers: true,
@@ -41,14 +40,12 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
 
   SfRangeSlider _sliderWithTick() {
     return SfRangeSlider.vertical(
-        min: 0.0,
         max: 100.0,
         interval: 20,
         showLabels: true,
         showTicks: true,
         isInversed: _isInversed,
         minorTicksPerInterval: 1,
-        labelPlacement: LabelPlacement.onTicks,
         values: _tickSliderValues,
         onChanged: (SfRangeValues values) {
           setState(() {
@@ -59,7 +56,6 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
 
   SfRangeSlider _sliderWithLabel() {
     return SfRangeSlider.vertical(
-        min: 0.0,
         max: 100.0,
         interval: 20,
         showLabels: true,

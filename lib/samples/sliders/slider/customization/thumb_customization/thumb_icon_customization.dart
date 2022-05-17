@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -69,7 +70,6 @@ class _ThumbCustomizationSliderPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(thumbRadius: 14),
         child: SfSlider(
-          min: 0.0,
           max: 10.0,
           stepSize: 1,
           thumbIcon: Container(

@@ -3,10 +3,12 @@ import 'dart:math' as math;
 
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/samples/datagrid/model/orderinfo.dart';
 import 'package:intl/intl.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../../model/model.dart';
+import '../model/orderinfo.dart';
 
 /// Set order's data collection to data grid source.
 class OrderInfoDataGridSource extends DataGridSource {

@@ -1,17 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/model/product.dart';
 import 'package:intl/intl.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../model/product.dart';
 
 /// Set product's data collection to data grid source.
 class ProductDataGridSource extends DataGridSource {
   /// Creates the product data source class with required details.
-  ProductDataGridSource(String _sampleType, {required this.productDataCount}) {
+  ProductDataGridSource(String sampleType, {required this.productDataCount}) {
     products = getProducts(productDataCount);
-    _sampleName = _sampleType;
-    buildDataGridRows(_sampleType);
+    _sampleName = sampleType;
+    buildDataGridRows(sampleType);
   }
 
   final Random _random = Random();
@@ -27,9 +29,9 @@ class ProductDataGridSource extends DataGridSource {
   String _sampleName = '';
 
   /// Build DataGridRows
-  void buildDataGridRows(String _sampleType) {
+  void buildDataGridRows(String sampleType) {
     dataGridRows = products.map<DataGridRow>((Product product) {
-      if (_sampleType == 'Stacked Header') {
+      if (sampleType == 'Stacked Header') {
         return DataGridRow(cells: <DataGridCell<dynamic>>[
           DataGridCell<String>(columnName: 'name', value: product.name),
           DataGridCell<String>(columnName: 'city', value: product.city),

@@ -25,7 +25,6 @@ class _LineMultiColorState extends SampleViewState {
     _trackballBehavior = TrackballBehavior(
         enable: true,
         activationMode: ActivationMode.singleTap,
-        lineType: TrackballLineType.vertical,
         tooltipSettings: const InteractiveTooltip(format: 'point.x : point.y'));
     super.initState();
   }

@@ -56,13 +56,13 @@ class _QRCodeGeneratorState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    EdgeInsets _padding = EdgeInsets.zero;
-    double _margin;
+    EdgeInsets padding = EdgeInsets.zero;
+    double margin;
     if (!model.isWebFullView) {
-      _margin = (MediaQuery.of(context).size.width -
+      margin = (MediaQuery.of(context).size.width -
               MediaQuery.of(context).size.width * 0.6) /
           2;
-      _padding = EdgeInsets.fromLTRB(_margin, 0, _margin, 0);
+      padding = EdgeInsets.fromLTRB(margin, 0, margin, 0);
     }
 
     return Scaffold(
@@ -72,7 +72,7 @@ class _QRCodeGeneratorState extends SampleViewState {
         padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         child: Container(
             child: _buildQRCodeGenerator(
-                _inputValue, _errorCorrectionLevel, _inputMode, _padding)),
+                _inputValue, _errorCorrectionLevel, _inputMode, padding)),
       ),
     );
   }
@@ -91,7 +91,6 @@ class _QRCodeGeneratorState extends SampleViewState {
                 height: 100,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text('Input value:   ',
                         overflow: TextOverflow.clip,
@@ -114,12 +113,10 @@ class _QRCodeGeneratorState extends SampleViewState {
                                     enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                             color: model.textColor))),
-                                autofocus: false,
                                 keyboardType: TextInputType.text,
-                                maxLines: 1,
-                                onChanged: (String _text) {
+                                onChanged: (String text) {
                                   setState(() {
-                                    _inputValue = _text;
+                                    _inputValue = text;
                                   });
                                 },
                                 controller: _textEditingController),
@@ -134,7 +131,6 @@ class _QRCodeGeneratorState extends SampleViewState {
               child: SizedBox(
                 height: 50,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
@@ -180,7 +176,6 @@ class _QRCodeGeneratorState extends SampleViewState {
               child: SizedBox(
                 height: 70,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
@@ -268,24 +263,23 @@ class _QRCodeGeneratorState extends SampleViewState {
 
   /// Returns the QR barcode
   Widget _buildQRCodeGenerator(
-      String _inputValue,
-      ErrorCorrectionLevel _correctionLevel,
-      QRInputMode _inputMode,
-      EdgeInsets _padding) {
+      String inputValue,
+      ErrorCorrectionLevel correctionLevel,
+      QRInputMode inputMode,
+      EdgeInsets padding) {
     return Center(
       child: SizedBox(
           height: model.isWebFullView ? 300 : double.infinity,
           child: Padding(
-            padding: _padding,
+            padding: padding,
             child: SfBarcodeGenerator(
-              value: _inputValue,
+              value: inputValue,
               textAlign: TextAlign.justify,
               textSpacing: 10,
-              showValue: false,
               symbology: QRCode(
-                  inputMode: _inputMode,
+                  inputMode: inputMode,
                   codeVersion: QRCodeVersion.auto,
-                  errorCorrectionLevel: _correctionLevel),
+                  errorCorrectionLevel: correctionLevel),
             ),
           )),
     );

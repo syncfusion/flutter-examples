@@ -70,8 +70,6 @@ class _AxisCrossingState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Y Axis',
                   style: TextStyle(
@@ -81,8 +79,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label position  ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -109,8 +105,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label alignment',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -137,8 +131,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('X Axis',
                   style: TextStyle(
@@ -148,8 +140,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label position  ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -176,8 +166,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label alignment',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),

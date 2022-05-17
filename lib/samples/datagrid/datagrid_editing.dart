@@ -3,8 +3,10 @@ import 'dart:core';
 
 /// Package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../model/sample_view.dart';
 
 /// Local import
 import 'datagridsource/dealer_datagridsource.dart';

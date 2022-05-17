@@ -46,8 +46,6 @@ class _EMAIndicatorState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
           'Period',
@@ -79,8 +77,8 @@ class _EMAIndicatorState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.MMM(),
         interval: 3,
-        minimum: DateTime(2016, 01, 01),
-        maximum: DateTime(2017, 01, 01),
+        minimum: DateTime(2016),
+        maximum: DateTime(2017),
       ),
       primaryYAxis: NumericAxis(
           minimum: 70,

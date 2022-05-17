@@ -55,8 +55,6 @@ class _ColumnSpacingState extends SampleViewState {
       shrinkWrap: true,
       children: <Widget>[
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text('Width  ', style: TextStyle(color: model.textColor)),
             Container(
@@ -79,7 +77,6 @@ class _ColumnSpacingState extends SampleViewState {
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),

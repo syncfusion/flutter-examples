@@ -24,7 +24,7 @@ class _SparklineAxesTypesState extends SampleViewState {
     _size = 150;
     _isVertical = false;
     _dateTimeChartData = <_SalesData>[
-      _SalesData(xval: DateTime(2018, 0, 1), yval: 4),
+      _SalesData(xval: DateTime(2018, 0), yval: 4),
       _SalesData(xval: DateTime(2018, 0, 2), yval: 4.5),
       _SalesData(xval: DateTime(2018, 0, 3), yval: 8),
       _SalesData(xval: DateTime(2018, 0, 4), yval: 7),
@@ -90,7 +90,6 @@ class _SparklineAxesTypesState extends SampleViewState {
       return model.isWebFullView && model.isMobileResolution
           ? SingleChildScrollView(
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                   const Padding(
@@ -109,7 +108,6 @@ class _SparklineAxesTypesState extends SampleViewState {
           : Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                   const Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
@@ -129,7 +127,6 @@ class _SparklineAxesTypesState extends SampleViewState {
       return Center(
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
             _buildSparkNumericChart(),
             const Padding(
@@ -148,7 +145,6 @@ class _SparklineAxesTypesState extends SampleViewState {
   Widget _buildSparkDatetimeChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
               height: _isVertical ? _size : _size * 0.7,
@@ -170,8 +166,7 @@ class _SparklineAxesTypesState extends SampleViewState {
                             _dateTimeChartData[index].xval,
                         yValueMapper: (int index) =>
                             _dateTimeChartData[index].yval!,
-                        trackball: const SparkChartTrackball(
-                            activationMode: SparkChartActivationMode.tap))),
+                        trackball: const SparkChartTrackball())),
                 const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
                 const Text('DateTime Axis',
                     style: TextStyle(fontStyle: FontStyle.italic)),
@@ -183,7 +178,6 @@ class _SparklineAxesTypesState extends SampleViewState {
   Widget _buildSparkCategoryChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
               height: _isVertical ? _size : _size * 0.7,
@@ -203,14 +197,12 @@ class _SparklineAxesTypesState extends SampleViewState {
                         dataCount: 12,
                         xValueMapper: (int index) => _categorydata[index].xval,
                         yValueMapper: (int index) => _categorydata[index].yval!,
-                        trackball: SparkChartTrackball(
-                            tooltipFormatter:
-                                (TooltipFormatterDetails details) {
-                              final String _labelText =
-                                  '${details.x} : ${details.y}%';
-                              return _labelText;
-                            },
-                            activationMode: SparkChartActivationMode.tap))),
+                        trackball: SparkChartTrackball(tooltipFormatter:
+                            (TooltipFormatterDetails details) {
+                          final String labelText =
+                              '${details.x} : ${details.y}%';
+                          return labelText;
+                        }))),
                 const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
                 const Text('Category Axis',
                     style: TextStyle(fontStyle: FontStyle.italic)),
@@ -222,7 +214,6 @@ class _SparklineAxesTypesState extends SampleViewState {
   Widget _buildSparkNumericChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
               height: _isVertical ? _size : _size * 0.7,
@@ -242,14 +233,12 @@ class _SparklineAxesTypesState extends SampleViewState {
                         dataCount: 7,
                         xValueMapper: (int index) => _numericdata[index].xval,
                         yValueMapper: (int index) => _numericdata[index].yval!,
-                        trackball: SparkChartTrackball(
-                            tooltipFormatter:
-                                (TooltipFormatterDetails details) {
-                              final String _labelText =
-                                  '${details.x} : \$${details.y}';
-                              return _labelText;
-                            },
-                            activationMode: SparkChartActivationMode.tap))),
+                        trackball: SparkChartTrackball(tooltipFormatter:
+                            (TooltipFormatterDetails details) {
+                          final String labelText =
+                              '${details.x} : \$${details.y}';
+                          return labelText;
+                        }))),
                 const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
                 const Text('Numeric Axis',
                     style: TextStyle(fontStyle: FontStyle.italic)),

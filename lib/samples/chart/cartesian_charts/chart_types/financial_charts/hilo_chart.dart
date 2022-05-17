@@ -64,8 +64,8 @@ class _HiloChartState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       primaryXAxis: DateTimeAxis(
           dateFormat: DateFormat.MMMd(),
-          minimum: DateTime(2016, 01, 01),
-          maximum: DateTime(2016, 07, 01),
+          minimum: DateTime(2016),
+          maximum: DateTime(2016, 07),
           intervalType: DateTimeIntervalType.months,
           majorGridLines: const MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
@@ -103,7 +103,7 @@ class _HiloChartState extends SampleViewState {
                 low: 92.39,
                 thirdSeriesYValue: 97.34),
             ChartSampleData(
-                x: DateTime(2016, 02, 01),
+                x: DateTime(2016, 02),
                 secondSeriesYValue: 96.47,
                 high: 97.33,
                 low: 93.69,

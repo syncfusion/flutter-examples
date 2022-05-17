@@ -3,11 +3,13 @@ import 'dart:math' as math;
 
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/model/stock.dart';
 import 'package:intl/intl.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../model/stock.dart';
 
 /// Set stock's data collection to data grid source.
 class ConditionalStyleDataGridSource extends DataGridSource {

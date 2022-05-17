@@ -41,8 +41,6 @@ class _VerticalCalendarPickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 6,
@@ -97,7 +95,7 @@ class _VerticalCalendarPickerState extends SampleViewState {
         child: _getVerticalCalendar(),
       ),
     );
-    final Widget _cardView = Card(
+    final Widget cardView = Card(
         elevation: 10,
         margin: model.isWebFullView
             ? const EdgeInsets.fromLTRB(30, 20, 30, 10)
@@ -118,13 +116,13 @@ class _VerticalCalendarPickerState extends SampleViewState {
                       child:
 
                           /// 580 defines 550 height and 30 margin
-                          SizedBox(width: 400, height: 580, child: _cardView))
+                          SizedBox(width: 400, height: 580, child: cardView))
 
                   /// 590 defines 550 height and 40 margin
                   : ListView(children: <Widget>[
                       SizedBox(
                         height: 590,
-                        child: _cardView,
+                        child: cardView,
                       )
                     ]))
         ]));

@@ -66,11 +66,9 @@ class _ImportAndExportFormDataState extends SampleViewState {
     return Scaffold(
       backgroundColor: model.cardThemeColor,
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
@@ -101,7 +99,6 @@ class _ImportAndExportFormDataState extends SampleViewState {
               const SizedBox(height: 20, width: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 10, width: 30),
                   TextButton(

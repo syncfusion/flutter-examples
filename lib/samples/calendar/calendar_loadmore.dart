@@ -75,7 +75,7 @@ class _LoadMoreCalendarState extends SampleViewState {
                   model.isWebFullView &&
                   screenHeight < 800
               ? Scrollbar(
-                  isAlwaysShown: true,
+                  thumbVisibility: true,
                   controller: _controller,
                   child: ListView(
                     controller: _controller,
@@ -104,7 +104,7 @@ class _LoadMoreCalendarState extends SampleViewState {
             _view == CalendarView.month) &&
         model.isWebFullView) {
       _view = _calendarController.view!;
-      SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
+      SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
         setState(() {
           /// Update the web UI when the calendar view changed from month view
           /// or to month view.
@@ -117,29 +117,29 @@ class _LoadMoreCalendarState extends SampleViewState {
 
   /// Creates the required appointment details as a list.
   void _addAppointmentDetails() {
-    final List<String> _subjectCollection = <String>[];
-    _subjectCollection.add('General Meeting');
-    _subjectCollection.add('Plan Execution');
-    _subjectCollection.add('Project Plan');
-    _subjectCollection.add('Consulting');
-    _subjectCollection.add('Support');
-    _subjectCollection.add('Development Meeting');
-    _subjectCollection.add('Scrum');
-    _subjectCollection.add('Project Completion');
-    _subjectCollection.add('Release updates');
-    _subjectCollection.add('Performance Check');
+    final List<String> subjectCollection = <String>[];
+    subjectCollection.add('General Meeting');
+    subjectCollection.add('Plan Execution');
+    subjectCollection.add('Project Plan');
+    subjectCollection.add('Consulting');
+    subjectCollection.add('Support');
+    subjectCollection.add('Development Meeting');
+    subjectCollection.add('Scrum');
+    subjectCollection.add('Project Completion');
+    subjectCollection.add('Release updates');
+    subjectCollection.add('Performance Check');
 
-    final List<Color> _colorCollection = <Color>[];
-    _colorCollection.add(const Color(0xFF0F8644));
-    _colorCollection.add(const Color(0xFF8B1FA9));
-    _colorCollection.add(const Color(0xFFD20100));
-    _colorCollection.add(const Color(0xFFFC571D));
-    _colorCollection.add(const Color(0xFF36B37B));
-    _colorCollection.add(const Color(0xFF01A1EF));
-    _colorCollection.add(const Color(0xFF3D4FB5));
-    _colorCollection.add(const Color(0xFFE47C73));
-    _colorCollection.add(const Color(0xFF636363));
-    _colorCollection.add(const Color(0xFF0A8043));
+    final List<Color> colorCollection = <Color>[];
+    colorCollection.add(const Color(0xFF0F8644));
+    colorCollection.add(const Color(0xFF8B1FA9));
+    colorCollection.add(const Color(0xFFD20100));
+    colorCollection.add(const Color(0xFFFC571D));
+    colorCollection.add(const Color(0xFF36B37B));
+    colorCollection.add(const Color(0xFF01A1EF));
+    colorCollection.add(const Color(0xFF3D4FB5));
+    colorCollection.add(const Color(0xFFE47C73));
+    colorCollection.add(const Color(0xFF636363));
+    colorCollection.add(const Color(0xFF0A8043));
 
     final Random random = Random();
     _dataCollection = <DateTime, List<_Meeting>>{};
@@ -154,14 +154,14 @@ class _LoadMoreCalendarState extends SampleViewState {
       final DateTime date = i;
       final int count = 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate = DateTime(
-            date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+        final DateTime startDate =
+            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
         final int duration = random.nextInt(3);
         final _Meeting meeting = _Meeting(
-            _subjectCollection[random.nextInt(7)],
+            subjectCollection[random.nextInt(7)],
             startDate,
             startDate.add(Duration(hours: duration == 0 ? 1 : duration)),
-            _colorCollection[random.nextInt(9)],
+            colorCollection[random.nextInt(9)],
             false);
 
         if (_dataCollection.containsKey(date)) {
@@ -209,8 +209,7 @@ class _LoadMoreCalendarState extends SampleViewState {
           );
         },
         monthViewSettings: const MonthViewSettings(
-            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-            appointmentDisplayCount: 4),
+            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
         timeSlotViewSettings: const TimeSlotViewSettings(
             minimumAppointmentDuration: Duration(minutes: 60)));
   }

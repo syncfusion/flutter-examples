@@ -57,6 +57,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
 
   void _startTimer() {
     if (mounted) {
+      // ignore: no_leading_underscores_for_local_identifiers
       _timer = Timer.periodic(const Duration(milliseconds: 20), (Timer _timer) {
         _incrementPointerValue();
       });
@@ -101,7 +102,6 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _getFirstProgressBar(),
             _getSecondProgressBar(),
@@ -115,7 +115,6 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
       return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _getFirstProgressBar(),
             _getSecondProgressBar(),
@@ -139,8 +138,6 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            minimum: 0,
-            maximum: 100,
             showLabels: false,
             showTicks: false,
             radiusFactor: 0.8,
@@ -179,8 +176,6 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            minimum: 0,
-            maximum: 100,
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -201,9 +196,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
                   animationType: AnimationType.linear)
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  positionFactor: 0,
-                  widget: Text(_value.toStringAsFixed(0) + '%'))
+              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
             ])
       ]),
     );
@@ -215,8 +208,6 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            minimum: 0,
-            maximum: 100,
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -237,11 +228,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
                   animationType: AnimationType.linear)
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  positionFactor: 0.05,
-                  horizontalAlignment: GaugeAlignment.center,
-                  verticalAlignment: GaugeAlignment.center,
-                  widget: _pauseImage)
+              GaugeAnnotation(positionFactor: 0.05, widget: _pauseImage)
             ])
       ]),
     );
@@ -253,8 +240,6 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            minimum: 0,
-            maximum: 100,
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -275,11 +260,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
                   animationType: AnimationType.linear)
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  positionFactor: 0.05,
-                  horizontalAlignment: GaugeAlignment.center,
-                  verticalAlignment: GaugeAlignment.center,
-                  widget: _downloadImage)
+              GaugeAnnotation(positionFactor: 0.05, widget: _downloadImage)
             ])
       ]),
     );

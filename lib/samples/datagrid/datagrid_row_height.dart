@@ -1,8 +1,10 @@
 /// Flutter package imports
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 /// Barcode imports
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local imports

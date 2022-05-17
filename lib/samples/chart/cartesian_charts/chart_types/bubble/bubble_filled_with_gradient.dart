@@ -96,7 +96,6 @@ class _BubbleGradientState extends SampleViewState {
               pointColor: const Color.fromRGBO(200, 0, 102, 1))
         ],
         minimumRadius: 5,
-        maximumRadius: 10,
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         sizeValueMapper: (ChartSampleData sales, _) => sales.yValue,

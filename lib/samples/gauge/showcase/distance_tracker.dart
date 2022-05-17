@@ -43,14 +43,12 @@ class _DistanceTrackerExampleState extends SampleViewState {
             showLabels: false,
             showTicks: false,
             radiusFactor: 0.8,
-            minimum: 0,
             maximum: 240,
             axisLineStyle: const AxisLineStyle(
                 cornerStyle: CornerStyle.startCurve, thickness: 5),
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                   angle: 90,
-                  positionFactor: 0,
                   widget: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[

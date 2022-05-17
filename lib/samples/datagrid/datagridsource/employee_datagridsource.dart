@@ -5,27 +5,28 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-/// Local import
-import 'package:flutter_examples/samples/datagrid/model/employee.dart';
-
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+/// Local import
+import '../model/employee.dart';
 
 /// Set employee's data collection to data grid source.
 class EmployeeDataGridSource extends DataGridSource {
   /// Creates the employee data source class with required details.
-  EmployeeDataGridSource(String _sampleType) {
-    if (_sampleType == 'JSON') {
-      _populateData(_sampleType);
+  EmployeeDataGridSource(String sampleType) {
+    if (sampleType == 'JSON') {
+      _populateData(sampleType);
     } else {
       employees = getEmployees();
-      buildDataGridRow(_sampleType);
+      buildDataGridRow(sampleType);
     }
   }
 
-  Future<void> _populateData(String _sampleType) async {
+  Future<void> _populateData(String sampleType) async {
     await _generateProductList();
-    buildDataGridRow(_sampleType);
+    buildDataGridRow(sampleType);
   }
 
   /// Instance of an employee.
@@ -46,9 +47,9 @@ class EmployeeDataGridSource extends DataGridSource {
   }
 
   /// Building DataGridRows
-  void buildDataGridRow(String _sampleType) {
+  void buildDataGridRow(String sampleType) {
     dataGridRows = employees.map<DataGridRow>((Employee employee) {
-      if (_sampleType == 'JSON') {
+      if (sampleType == 'JSON') {
         return DataGridRow(cells: <DataGridCell<String>>[
           DataGridCell<String>(columnName: 'id', value: employee.id),
           DataGridCell<String>(

@@ -65,7 +65,6 @@ class _AxisTrackState extends SampleViewState {
           : Column(
               children: <Widget>[
                 Wrap(
-                  direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
@@ -167,7 +166,7 @@ class _AxisTrackState extends SampleViewState {
 
   /// Returns the range color axis.
   Widget _buildRangeColorAxis(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
@@ -183,23 +182,18 @@ class _AxisTrackState extends SampleViewState {
           ),
           ranges: <LinearGaugeRange>[
             LinearGaugeRange(
-              startValue: 0,
               endValue: 33,
-              position: LinearElementPosition.outside,
-              color: _brightness == Brightness.light
+              color: brightness == Brightness.light
                   ? const Color(0xffF45656)
                   : const Color(0xffFF7B7B),
             ),
             const LinearGaugeRange(
               startValue: 33,
               endValue: 66,
-              position: LinearElementPosition.outside,
               color: Color(0xffFFC93E),
             ),
             const LinearGaugeRange(
               startValue: 66,
-              endValue: 100,
-              position: LinearElementPosition.outside,
               color: Color(0xff0DC9AB),
             ),
           ],

@@ -116,8 +116,8 @@ class _LiveLineChartState extends SampleViewState {
 
   ///Get the random data
   int _getRandomInt(int min, int max) {
-    final math.Random _random = math.Random();
-    return min + _random.nextInt(max - min);
+    final math.Random random = math.Random();
+    return min + random.nextInt(max - min);
   }
 }
 

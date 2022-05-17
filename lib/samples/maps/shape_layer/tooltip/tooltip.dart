@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -356,7 +357,6 @@ class _MapTooltipPageState extends SampleViewState {
                 Padding(
                     padding: const EdgeInsets.only(top: 15, bottom: 30),
                     child: Align(
-                        alignment: Alignment.center,
                         child: Text(_title,
                             style: Theme.of(context).textTheme.subtitle1))),
                 Expanded(

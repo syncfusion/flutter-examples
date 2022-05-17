@@ -28,9 +28,9 @@ class _DateTimeCategoryLabelState extends SampleViewState {
   @override
   void initState() {
     data = <_OrdinalSales>[
-      _OrdinalSales(DateTime(2020, 12, 02, 21, 00), 30),
+      _OrdinalSales(DateTime(2020, 12, 02, 21), 30),
       _OrdinalSales(DateTime(2020, 12, 05, 12, 16), 13),
-      _OrdinalSales(DateTime(2020, 12, 12, 21, 00), 24),
+      _OrdinalSales(DateTime(2020, 12, 12, 21), 24),
       _OrdinalSales(DateTime(2020, 12, 19, 04, 43), 35),
       _OrdinalSales(DateTime(2020, 12, 24, 18, 35), 41),
     ];

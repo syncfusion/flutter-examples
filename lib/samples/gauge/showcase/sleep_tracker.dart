@@ -23,11 +23,11 @@ class _SleepTrackerSampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final bool _isLandscape =
+    final bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape
             ? true
             : false;
-    final bool _isDarkTheme =
+    final bool isDarkTheme =
         Theme.of(context).brightness == Brightness.dark ? true : false;
     return Center(
       child: SingleChildScrollView(
@@ -40,7 +40,7 @@ class _SleepTrackerSampleState extends SampleViewState {
                 height: isCardView ? 20 : 30,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
-                    border: Border.all(width: 1, color: Colors.grey),
+                    border: Border.all(color: Colors.grey),
                     color: Colors.transparent),
                 child: Center(
                   child: Text('Mon, 5 Apr',
@@ -56,13 +56,13 @@ class _SleepTrackerSampleState extends SampleViewState {
               child: SfRadialGauge(axes: <RadialAxis>[
                 RadialAxis(
                     showFirstLabel: false,
+                    showLastLabel: true,
                     axisLineStyle: AxisLineStyle(
                         thickness: 0.03,
                         thicknessUnit: GaugeSizeUnit.factor,
                         color: Colors.lightBlue[50]),
                     minorTicksPerInterval: 10,
                     majorTickStyle: const MajorTickStyle(length: 10),
-                    minimum: 0,
                     maximum: 12,
                     interval: 3,
                     startAngle: 90,
@@ -97,15 +97,13 @@ class _SleepTrackerSampleState extends SampleViewState {
                                             Brightness.light
                                         ? Colors.grey
                                         : Colors.white.withOpacity(0.2),
-                                    offset: Offset.zero,
                                     blurRadius: 4.0,
                                   ),
                                 ],
                                 border: Border.all(
-                                  color: _isDarkTheme
+                                  color: isDarkTheme
                                       ? Colors.white.withOpacity(0.1)
                                       : Colors.black.withOpacity(0.1),
-                                  style: BorderStyle.solid,
                                   width: 0.0,
                                 )),
                             height: _wakeupTimePointerHeight,
@@ -130,18 +128,16 @@ class _SleepTrackerSampleState extends SampleViewState {
                               shape: BoxShape.circle,
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
-                                  color: _isDarkTheme
+                                  color: isDarkTheme
                                       ? Colors.white.withOpacity(0.2)
                                       : Colors.grey,
-                                  offset: Offset.zero,
                                   blurRadius: 4.0,
                                 ),
                               ],
                               border: Border.all(
-                                color: _isDarkTheme
+                                color: isDarkTheme
                                     ? Colors.white.withOpacity(0.1)
                                     : Colors.black.withOpacity(0.1),
-                                style: BorderStyle.solid,
                                 width: 0.0,
                               )),
                           height: _bedTimePointerHeight,
@@ -181,7 +177,7 @@ class _SleepTrackerSampleState extends SampleViewState {
                                               : 120
                                       : isWebOrDesktop
                                           ? 155
-                                          : (_isLandscape || isCardView)
+                                          : (isLandscape || isCardView)
                                               ? 152
                                               : 180,
                                   duration: const Duration(milliseconds: 300),
@@ -246,7 +242,7 @@ class _SleepTrackerSampleState extends SampleViewState {
                                       ? const Duration(milliseconds: 800)
                                       : const Duration(milliseconds: 200),
                                   child: Container(
-                                    margin: (_isLandscape || isCardView)
+                                    margin: (isLandscape || isCardView)
                                         ? const EdgeInsets.only(top: 8.0)
                                         : const EdgeInsets.only(top: 16.0),
                                     child: const Text(
@@ -268,7 +264,7 @@ class _SleepTrackerSampleState extends SampleViewState {
                                               : 120
                                       : isWebOrDesktop
                                           ? 155
-                                          : (_isLandscape || isCardView)
+                                          : (isLandscape || isCardView)
                                               ? 152
                                               : 180,
                                   duration: const Duration(milliseconds: 300),
@@ -362,13 +358,15 @@ class _SleepTrackerSampleState extends SampleViewState {
   void _handleWakeupTimeValueChanged(double value) {
     setState(() {
       _wakeupTimeValue = value;
+      // ignore: no_leading_underscores_for_local_identifiers
       final int _value = _wakeupTimeValue.abs().toInt();
+      // ignore: no_leading_underscores_for_local_identifiers
       final int _hourValue = _value;
-      final List<String> _minList =
+      final List<String> minList =
           _wakeupTimeValue.toStringAsFixed(2).split('.');
-      double _currentMinutes = double.parse(_minList[1]);
-      _currentMinutes = (_currentMinutes * 60) / 100;
-      final String _minutesValue = _currentMinutes.toStringAsFixed(0);
+      double currentMinutes = double.parse(minList[1]);
+      currentMinutes = (currentMinutes * 60) / 100;
+      final String minutesValue = currentMinutes.toStringAsFixed(0);
 
       final double hour = (_hourValue >= 0 && _hourValue <= 6)
           ? (_hourValue + 6)
@@ -377,26 +375,25 @@ class _SleepTrackerSampleState extends SampleViewState {
               : 0;
       final String hourValue = hour.toString().split('.')[0];
 
-      _wakeupTimeAnnotation = ((hour >= 6 && hour < 10)
-              ? '0' + hourValue
-              : hourValue) +
-          ':' +
-          (_minutesValue.length == 1 ? '0' + _minutesValue : _minutesValue) +
-          (_hourValue >= 6 ? ' pm' : ' pm');
+      _wakeupTimeAnnotation =
+          ((hour >= 6 && hour < 10) ? '0' + hourValue : hourValue) +
+              ':' +
+              (minutesValue.length == 1 ? '0' + minutesValue : minutesValue) +
+              (_hourValue >= 6 ? ' pm' : ' pm');
 
       _wakeupTime = (_hourValue + 6 < 10
               ? '0' + _hourValue.toString()
               : _hourValue.toString()) +
           ':' +
-          (_minutesValue.length == 1 ? '0' + _minutesValue : _minutesValue);
+          (minutesValue.length == 1 ? '0' + minutesValue : minutesValue);
 
       final DateFormat dateFormat = DateFormat('HH:mm');
-      final DateTime _wakeup = dateFormat.parse(_wakeupTime);
-      final DateTime _sleep =
+      final DateTime wakeup = dateFormat.parse(_wakeupTime);
+      final DateTime sleep =
           dateFormat.parse(_bedTime == '09:00 pm' ? '12:00' : _bedTime);
-      final String _sleepDuration = _sleep.difference(_wakeup).toString();
-      _sleepHours = _sleepDuration.split(':')[0];
-      _sleepMinutes = _sleepDuration.split(':')[1];
+      final String sleepDuration = sleep.difference(wakeup).toString();
+      _sleepHours = sleepDuration.split(':')[0];
+      _sleepMinutes = sleepDuration.split(':')[1];
     });
   }
 
@@ -424,13 +421,15 @@ class _SleepTrackerSampleState extends SampleViewState {
   void _handleBedTimeValueChanged(double value) {
     setState(() {
       _bedTimeValue = value;
+      // ignore: no_leading_underscores_for_local_identifiers
       final int _value = _bedTimeValue.abs().toInt();
+      // ignore: no_leading_underscores_for_local_identifiers
       final int _hourValue = _value;
 
-      final List<String> _minList = _bedTimeValue.toStringAsFixed(2).split('.');
-      double _currentMinutes = double.parse(_minList[1]);
-      _currentMinutes = (_currentMinutes * 60) / 100;
-      final String _minutesValue = _currentMinutes.toStringAsFixed(0);
+      final List<String> minList = _bedTimeValue.toStringAsFixed(2).split('.');
+      double currentMinutes = double.parse(minList[1]);
+      currentMinutes = (currentMinutes * 60) / 100;
+      final String minutesValue = currentMinutes.toStringAsFixed(0);
 
       _bedTimeAnnotation = ((_hourValue >= 0 && _hourValue <= 6)
               ? (_hourValue + 6).toString()
@@ -438,22 +437,22 @@ class _SleepTrackerSampleState extends SampleViewState {
                   ? '0' + (_hourValue - 6).toString()
                   : '') +
           ':' +
-          (_minutesValue.length == 1 ? '0' + _minutesValue : _minutesValue) +
+          (minutesValue.length == 1 ? '0' + minutesValue : minutesValue) +
           (_value >= 6 ? ' am' : ' pm');
 
       _bedTime = (_hourValue < 10
               ? '0' + _hourValue.toString()
               : _hourValue.toString()) +
           ':' +
-          (_minutesValue.length == 1 ? '0' + _minutesValue : _minutesValue);
+          (minutesValue.length == 1 ? '0' + minutesValue : minutesValue);
 
       final DateFormat dateFormat = DateFormat('HH:mm');
-      final DateTime _wakeup =
+      final DateTime wakeup =
           dateFormat.parse(_wakeupTime == '06:00 am' ? '03:00' : _wakeupTime);
-      final DateTime _sleep = dateFormat.parse(_bedTime);
-      final String _sleepDuration = _sleep.difference(_wakeup).toString();
-      _sleepHours = _sleepDuration.split(':')[0];
-      _sleepMinutes = _sleepDuration.split(':')[1];
+      final DateTime sleep = dateFormat.parse(_bedTime);
+      final String sleepDuration = sleep.difference(wakeup).toString();
+      _sleepHours = sleepDuration.split(':')[0];
+      _sleepMinutes = sleepDuration.split(':')[1];
     });
   }
 

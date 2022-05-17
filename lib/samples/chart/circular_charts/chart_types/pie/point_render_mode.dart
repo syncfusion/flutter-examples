@@ -121,14 +121,10 @@ class _PiePointRenderModeState extends SampleViewState {
           dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.outside),
           dataSource: <ChartSampleData>[
-            ChartSampleData(
-                x: 'Food', y: 15, text: 'Food\n15%', pointColor: null),
-            ChartSampleData(
-                x: 'Medical', y: 28, text: 'Medical\n28%', pointColor: null),
-            ChartSampleData(
-                x: 'Travel', y: 15, text: 'Travel\n15%', pointColor: null),
-            ChartSampleData(
-                x: 'Shopping', y: 17, text: 'Shopping\n17%', pointColor: null),
+            ChartSampleData(x: 'Food', y: 15, text: 'Food\n15%'),
+            ChartSampleData(x: 'Medical', y: 28, text: 'Medical\n28%'),
+            ChartSampleData(x: 'Travel', y: 15, text: 'Travel\n15%'),
+            ChartSampleData(x: 'Shopping', y: 17, text: 'Shopping\n17%'),
             ChartSampleData(
                 x: 'Others',
                 y: 25,

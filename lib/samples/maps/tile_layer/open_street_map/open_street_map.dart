@@ -233,7 +233,7 @@ class _TileLayerSampleState extends SampleViewState {
                 return const SizedBox();
               },
               markerBuilder: (BuildContext context, int index) {
-                final double _markerSize =
+                final double markerSize =
                     _currentSelectedIndex == index ? 40 : 25;
                 return MapMarker(
                   latitude: _worldWonders[index].latitude,
@@ -253,14 +253,14 @@ class _TileLayerSampleState extends SampleViewState {
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 250),
-                      height: _markerSize,
-                      width: _markerSize,
+                      height: markerSize,
+                      width: markerSize,
                       child: FittedBox(
                         child: Icon(Icons.location_on,
                             color: _currentSelectedIndex == index
                                 ? Colors.blue
                                 : Colors.red,
-                            size: _markerSize),
+                            size: markerSize),
                       ),
                     ),
                   ),

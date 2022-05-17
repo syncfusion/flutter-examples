@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -39,7 +40,6 @@ class _VerticalThumbCustomizedSliderState extends SampleViewState {
           activeDividerRadius: 2.0,
           inactiveDividerRadius: 2.0),
       child: SfSlider.vertical(
-        min: 0.0,
         max: 100.0,
         value: _sliderValue,
         onChanged: (dynamic values) {

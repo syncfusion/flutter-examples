@@ -132,9 +132,7 @@ class _AxisCrossingBaseValueState extends SampleViewState {
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
           dataLabelSettings: const DataLabelSettings(
-              isVisible: true,
-              labelAlignment: ChartDataLabelAlignment.middle,
-              alignment: ChartAlignment.center)),
+              isVisible: true, labelAlignment: ChartDataLabelAlignment.middle)),
     ];
   }
 

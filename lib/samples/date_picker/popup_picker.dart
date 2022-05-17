@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 /// Core import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/localizations.dart';
 
 ///Date picker imports
-import 'package:syncfusion_flutter_datepicker/datepicker.dart' as _picker;
+import 'package:syncfusion_flutter_datepicker/datepicker.dart' as picker;
 
 ///Local import
 import '../../model/model.dart';
@@ -46,7 +48,7 @@ class _PopUpDatePickerState extends SampleViewState
 
   /// Update the selected range based on the range selected in the pop up editor,
   /// when the trip mode set as round trip.
-  void _onSelectedRangeChanged(_picker.PickerDateRange dateRange) {
+  void _onSelectedRangeChanged(picker.PickerDateRange dateRange) {
     final DateTime startDateValue = dateRange.startDate!;
     final DateTime endDateValue = dateRange.endDate ?? startDateValue;
     setState(() {
@@ -86,124 +88,116 @@ class _PopUpDatePickerState extends SampleViewState
                   ),
                   Container(
                       padding: EdgeInsets.zero,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 5,
-                              child: RawMaterialButton(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 5, 10, 5),
-                                  onPressed: () {
-                                    setState(() {
-                                      _value = 0;
-                                    });
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(
-                                        _value == 0
-                                            ? Icons.radio_button_checked
-                                            : Icons.radio_button_unchecked,
-                                        color: model.backgroundColor,
-                                        size: 22,
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      Text(
-                                        'One-way',
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: _value == 0
-                                                ? FontWeight.w600
-                                                : FontWeight.w400),
-                                      ),
-                                    ],
-                                  )),
-                            ),
-                            Expanded(
-                                flex: 5,
-                                child: RawMaterialButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _value = 1;
-                                    });
-                                  },
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 5, 10, 5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Icon(
-                                        _value == 1
-                                            ? Icons.radio_button_checked
-                                            : Icons.radio_button_unchecked,
-                                        color: model.backgroundColor,
-                                        size: 22,
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      Text(
-                                        'Round-Trip',
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: _value == 1
-                                                ? FontWeight.w600
-                                                : FontWeight.w400),
-                                      ),
-                                    ],
+                      child: Row(children: <Widget>[
+                        Expanded(
+                          flex: 5,
+                          child: RawMaterialButton(
+                              padding: const EdgeInsets.fromLTRB(5, 5, 10, 5),
+                              onPressed: () {
+                                setState(() {
+                                  _value = 0;
+                                });
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    _value == 0
+                                        ? Icons.radio_button_checked
+                                        : Icons.radio_button_unchecked,
+                                    color: model.backgroundColor,
+                                    size: 22,
                                   ),
-                                )),
-                          ])),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    'One-way',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: _value == 0
+                                            ? FontWeight.w600
+                                            : FontWeight.w400),
+                                  ),
+                                ],
+                              )),
+                        ),
                         Expanded(
                             flex: 5,
-                            child: Container(
-                                padding: const EdgeInsets.all(5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const <Widget>[
-                                    Text(
-                                      'From',
+                            child: RawMaterialButton(
+                              onPressed: () {
+                                setState(() {
+                                  _value = 1;
+                                });
+                              },
+                              padding: const EdgeInsets.fromLTRB(5, 5, 10, 5),
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    _value == 1
+                                        ? Icons.radio_button_checked
+                                        : Icons.radio_button_unchecked,
+                                    color: model.backgroundColor,
+                                    size: 22,
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    'Round-Trip',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: _value == 1
+                                            ? FontWeight.w600
+                                            : FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ])),
+                  Row(children: <Widget>[
+                    Expanded(
+                        flex: 5,
+                        child: Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const <Widget>[
+                                Text(
+                                  'From',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 10),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
+                                  child: Text('Cleveland (CLE)',
                                       style: TextStyle(
-                                          color: Colors.grey, fontSize: 10),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
-                                      child: Text('Cleveland (CLE)',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ))),
-                        Expanded(
-                            flex: 5,
-                            child: Container(
-                                padding: const EdgeInsets.all(5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const <Widget>[
-                                    Text(
-                                      'Destination',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500)),
+                                ),
+                              ],
+                            ))),
+                    Expanded(
+                        flex: 5,
+                        child: Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const <Widget>[
+                                Text(
+                                  'Destination',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 10),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
+                                  child: Text('Chicago (CHI)',
                                       style: TextStyle(
-                                          color: Colors.grey, fontSize: 10),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
-                                      child: Text('Chicago (CHI)',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                )))
-                      ]),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500)),
+                                ),
+                              ],
+                            )))
+                  ]),
                   const Padding(
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                       child: Divider(
@@ -211,8 +205,7 @@ class _PopUpDatePickerState extends SampleViewState
                         height: 1.0,
                         thickness: 1,
                       )),
-                  Row(mainAxisAlignment: MainAxisAlignment.start, children: <
-                      Widget>[
+                  Row(children: <Widget>[
                     Expanded(
                         flex: 5,
                         child: RawMaterialButton(
@@ -233,13 +226,13 @@ class _PopUpDatePickerState extends SampleViewState
                                   _onSelectedDateChanged(date);
                                 }
                               } else {
-                                final _picker.PickerDateRange? range =
-                                    await showDialog<_picker.PickerDateRange?>(
+                                final picker.PickerDateRange? range =
+                                    await showDialog<picker.PickerDateRange?>(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return DateRangePicker(
                                             null,
-                                            _picker.PickerDateRange(
+                                            picker.PickerDateRange(
                                               _startDate,
                                               _endDate,
                                             ),
@@ -281,14 +274,14 @@ class _PopUpDatePickerState extends SampleViewState
                             onPressed: _value == 0
                                 ? null
                                 : () async {
-                                    final _picker.PickerDateRange? range =
+                                    final picker.PickerDateRange? range =
                                         await showDialog<
-                                                _picker.PickerDateRange>(
+                                                picker.PickerDateRange>(
                                             context: context,
                                             builder: (BuildContext context) {
                                               return DateRangePicker(
                                                 null,
-                                                _picker.PickerDateRange(
+                                                picker.PickerDateRange(
                                                     _startDate, _endDate),
                                                 displayDate: _endDate,
                                                 minDate: DateTime.now(),
@@ -339,52 +332,50 @@ class _PopUpDatePickerState extends SampleViewState
                         height: 1.0,
                         thickness: 1,
                       )),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                            flex: 5,
-                            child: Container(
-                                padding: const EdgeInsets.all(5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const <Widget>[
-                                    Text(
-                                      'Travellers',
+                  Row(children: <Widget>[
+                    Expanded(
+                        flex: 5,
+                        child: Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const <Widget>[
+                                Text(
+                                  'Travellers',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 10),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
+                                  child: Text('1 Adult',
                                       style: TextStyle(
-                                          color: Colors.grey, fontSize: 10),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
-                                      child: Text('1 Adult',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                ))),
-                        Expanded(
-                            flex: 5,
-                            child: Container(
-                                padding: const EdgeInsets.all(5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const <Widget>[
-                                    Text(
-                                      'Class',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500)),
+                                ),
+                              ],
+                            ))),
+                    Expanded(
+                        flex: 5,
+                        child: Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const <Widget>[
+                                Text(
+                                  'Class',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 10),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
+                                  child: Text('Economy',
                                       style: TextStyle(
-                                          color: Colors.grey, fontSize: 10),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
-                                      child: Text('Economy',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500)),
-                                    ),
-                                  ],
-                                )))
-                      ]),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500)),
+                                ),
+                              ],
+                            )))
+                  ]),
                   Container(
                       margin: const EdgeInsets.only(top: 30),
                       child: Row(
@@ -437,8 +428,8 @@ class _PopUpDatePickerState extends SampleViewState
 }
 
 /// Get date range picker
-_picker.SfDateRangePicker getPopUpDatePicker() {
-  return _picker.SfDateRangePicker();
+picker.SfDateRangePicker getPopUpDatePicker() {
+  return picker.SfDateRangePicker();
 }
 
 /// Builds the date range picker inside a pop-up based on the properties passed,
@@ -485,9 +476,9 @@ class _DateRangePickerState extends State<DateRangePicker> {
     _date = widget.date;
     _range = widget.range;
     if (_isHijri) {
-      _controller = _picker.HijriDatePickerController();
+      _controller = picker.HijriDatePickerController();
     } else {
-      _controller = _picker.DateRangePickerController();
+      _controller = picker.DateRangePickerController();
     }
     _isWeb = false;
     super.initState();
@@ -607,20 +598,20 @@ class _DateRangePickerState extends State<DateRangePicker> {
     _controller.selectedRange = _range;
     Widget pickerWidget;
     if (_isHijri) {
-      pickerWidget = _picker.SfHijriDateRangePicker(
+      pickerWidget = picker.SfHijriDateRangePicker(
         controller: _controller,
         initialDisplayDate: widget.displayDate,
         showNavigationArrow: true,
         enableMultiView: _range != null && _isWeb,
         selectionMode: _range == null
-            ? _picker.DateRangePickerSelectionMode.single
-            : _picker.DateRangePickerSelectionMode.range,
+            ? picker.DateRangePickerSelectionMode.single
+            : picker.DateRangePickerSelectionMode.range,
         showActionButtons: true,
         onCancel: () => Navigator.pop(context, null),
         minDate: widget.minDate,
         maxDate: widget.maxDate,
         todayHighlightColor: Colors.transparent,
-        headerStyle: _picker.DateRangePickerHeaderStyle(
+        headerStyle: picker.DateRangePickerHeaderStyle(
             textAlign: TextAlign.center,
             textStyle:
                 TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
@@ -632,7 +623,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
           }
         },
         onSelectionChanged:
-            (_picker.DateRangePickerSelectionChangedArgs details) {
+            (picker.DateRangePickerSelectionChangedArgs details) {
           setState(() {
             if (_range == null) {
               _date = details.value;
@@ -643,7 +634,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
         },
       );
     } else {
-      pickerWidget = _picker.SfDateRangePicker(
+      pickerWidget = picker.SfDateRangePicker(
         controller: _controller,
         initialDisplayDate: widget.displayDate,
         showNavigationArrow: true,
@@ -651,12 +642,12 @@ class _DateRangePickerState extends State<DateRangePicker> {
         onCancel: () => Navigator.pop(context, null),
         enableMultiView: _range != null && _isWeb,
         selectionMode: _range == null
-            ? _picker.DateRangePickerSelectionMode.single
-            : _picker.DateRangePickerSelectionMode.range,
+            ? picker.DateRangePickerSelectionMode.single
+            : picker.DateRangePickerSelectionMode.range,
         minDate: widget.minDate,
         maxDate: widget.maxDate,
         todayHighlightColor: Colors.transparent,
-        headerStyle: _picker.DateRangePickerHeaderStyle(
+        headerStyle: picker.DateRangePickerHeaderStyle(
             textAlign: TextAlign.center,
             textStyle:
                 TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
@@ -668,7 +659,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
           }
         },
         onSelectionChanged:
-            (_picker.DateRangePickerSelectionChangedArgs details) {
+            (picker.DateRangePickerSelectionChangedArgs details) {
           setState(() {
             if (_range == null) {
               _date = details.value;
@@ -699,8 +690,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
                   selectedDateWidget,
                   Flexible(
                       child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: pickerWidget)),
                 ],
               ),

@@ -29,7 +29,6 @@ class _AnnotationsPdfState extends SampleViewState {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
@@ -37,7 +36,6 @@ class _AnnotationsPdfState extends SampleViewState {
                 style: TextStyle(fontSize: 16, color: model.textColor)),
             const SizedBox(height: 10, width: 30),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Checkbox(
                     value: flatten,
@@ -53,20 +51,19 @@ class _AnnotationsPdfState extends SampleViewState {
             ),
             const SizedBox(height: 10, width: 30),
             Align(
-                alignment: Alignment.center,
                 child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
-                    padding: model.isMobile
-                        ? null
-                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
-                  ),
-                  onPressed: _generatePDF,
-                  child: const Text('Generate PDF',
-                      style: TextStyle(color: Colors.white)),
-                ))
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(model.backgroundColor),
+                padding: model.isMobile
+                    ? null
+                    : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15)),
+              ),
+              onPressed: _generatePDF,
+              child: const Text('Generate PDF',
+                  style: TextStyle(color: Colors.white)),
+            ))
           ],
         ),
       ),
@@ -85,7 +82,6 @@ class _AnnotationsPdfState extends SampleViewState {
         color: PdfColor(0, 0, 255),
         author: 'John Milton',
         border: PdfAnnotationBorder(2),
-        lineCaption: false,
         setAppearance: true,
         lineIntent: PdfLineIntent.lineDimension);
     //Add the line annotation to the page.

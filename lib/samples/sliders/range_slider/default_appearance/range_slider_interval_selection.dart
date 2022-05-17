@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -24,8 +25,7 @@ class RangeSliderIntervalSelectionPage extends SampleView {
 
 class _RangeSliderIntervalSelectionPageState extends SampleViewState {
   _RangeSliderIntervalSelectionPageState();
-  SfRangeValues _yearValues =
-      SfRangeValues(DateTime(2012, 1, 01), DateTime(2018, 1, 1));
+  SfRangeValues _yearValues = SfRangeValues(DateTime(2012), DateTime(2018));
   SfRangeValues _values = const SfRangeValues(20.0, 80.0);
 
   SfRangeSliderTheme _yearRangeSlider() {
@@ -33,13 +33,12 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
         data: SfRangeSliderThemeData(
             tooltipBackgroundColor: model.backgroundColor),
         child: SfRangeSlider(
-          min: DateTime(2010, 01, 01),
-          max: DateTime(2020, 01, 01),
+          min: DateTime(2010),
+          max: DateTime(2020),
           interval: 2,
           showLabels: true,
           stepDuration: const SliderStepDuration(years: 2),
           dateFormat: DateFormat.y(),
-          labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.years,
           enableIntervalSelection: true,
           showTicks: true,
@@ -64,7 +63,6 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
         child: SfRangeSlider(
             showLabels: true,
             interval: 20,
-            min: 0.0,
             max: 100.0,
             stepSize: 20,
             showTicks: true,
@@ -105,18 +103,16 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
             _yearRangeSlider(),
             columnSpacing40,
             columnSpacing40,
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 15),
-                    child: Icon(Icons.lightbulb_outline,
-                        color: Colors.orange, size: 24.0),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(left: 5),
-                      child: Text('Tap on the interval to select it.'))
-                ])
+            Row(children: const <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Icon(Icons.lightbulb_outline,
+                    color: Colors.orange, size: 24.0),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 5),
+                  child: Text('Tap on the interval to select it.'))
+            ])
           ],
         ));
   }

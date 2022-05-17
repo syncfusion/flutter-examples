@@ -37,7 +37,7 @@ class _TaskTrackingState extends SampleViewState {
 
   /// Returns the task tracker.
   Widget _buildTaskTracker(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return Padding(
         padding: const EdgeInsets.all(10),
@@ -70,7 +70,7 @@ class _TaskTrackingState extends SampleViewState {
                             _pointerValue = value as double;
                           });
                         },
-                        color: _brightness == Brightness.light
+                        color: brightness == Brightness.light
                             ? const Color(0xff06589C)
                             : const Color(0xffFFFFFF),
                         width: 24,
@@ -80,7 +80,6 @@ class _TaskTrackingState extends SampleViewState {
                   ],
                   ranges: const <LinearGaugeRange>[
                     LinearGaugeRange(
-                      startValue: 0.0,
                       midValue: 0,
                       endValue: 80,
                       startWidth: 16,
@@ -92,7 +91,6 @@ class _TaskTrackingState extends SampleViewState {
                     LinearGaugeRange(
                       startValue: 80.0,
                       midValue: 0,
-                      endValue: 100,
                       startWidth: 16,
                       midWidth: 16,
                       endWidth: 16,

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 /// Local imports
@@ -183,7 +184,6 @@ class _TrendLineDefaultState extends SampleViewState {
                 visible: _selectedTrendLineType != 'polynomial' ? false : true,
                 maintainState: true,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text('Polynomial\norder',
                         style: TextStyle(color: model.textColor)),
@@ -215,7 +215,6 @@ class _TrendLineDefaultState extends SampleViewState {
                     _selectedTrendLineType != 'movingAverage' ? false : true,
                 maintainState: true,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text('Period',
@@ -355,7 +354,6 @@ class _TrendLineDefaultState extends SampleViewState {
                 width: 3,
                 color: const Color.fromRGBO(192, 108, 132, 1),
                 dashArray: <double>[15, 3, 3, 3],
-                enableTooltip: true,
                 polynomialOrder: _polynomialOrder,
                 period: _period,
                 onRenderDetailsUpdate: (TrendlineRenderParams args) {
@@ -365,7 +363,7 @@ class _TrendLineDefaultState extends SampleViewState {
                   _slope = args.slope;
                   _intercept = args.intercept;
                   _getSlopeEquation(_slope, _intercept);
-                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
                     if (_displayRSquare! || _displaySlopeEquation!) {
                       setState(() {});
                     }

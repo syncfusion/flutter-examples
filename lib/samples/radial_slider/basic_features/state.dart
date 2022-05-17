@@ -98,7 +98,6 @@ class _RadialSliderStateTypesState extends SampleViewState {
                         )
                       ],
                     ),
-                    positionFactor: 0.0,
                     angle: 90)
               ])
         ],
@@ -152,6 +151,7 @@ class _RadialSliderStateTypesState extends SampleViewState {
   void _setPointerValue(double value) {
     setState(() {
       _value = value;
+      // ignore: no_leading_underscores_for_local_identifiers
       int _currentValue = _value.toInt();
       _currentValue = _currentValue >= 100 ? 100 : _currentValue;
       _annotationValue = '$_currentValue';

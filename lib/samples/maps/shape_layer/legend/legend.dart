@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -386,7 +387,6 @@ class _MapLegendPageState extends SampleViewState {
                     top: 15,
                     bottom: (_enableGradient && !model.isMobile) ? 18 : 30),
                 child: Align(
-                    alignment: Alignment.center,
                     child: Text('Average Internet Prices in Africa',
                         style: Theme.of(context).textTheme.subtitle1))),
             Expanded(
@@ -485,11 +485,8 @@ class _MapLegendPageState extends SampleViewState {
                           _showBubbleData
                               ? MapElement.bubble
                               : MapElement.shape,
-                          edgeLabelsPlacement:
-                              MapLegendEdgeLabelsPlacement.inside,
                           labelsPlacement:
                               MapLegendLabelsPlacement.betweenItems,
-                          position: MapLegendPosition.top,
                           spacing: _enableGradient ? 10.0 : 1.0,
                           segmentPaintingStyle: _enableGradient
                               ? MapLegendPaintingStyle.gradient

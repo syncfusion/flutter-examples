@@ -56,19 +56,19 @@ class _RangeAreaState extends SampleViewState {
 
   /// Gets the random data for the Rnage area chart series.
   List<ChartSampleData> _getData() {
-    List<ChartSampleData> _chartData;
-    _chartData = <ChartSampleData>[];
-    double _value = 30;
+    List<ChartSampleData> chartData;
+    chartData = <ChartSampleData>[];
+    double value = 30;
     for (int i = 0; i < 100; i++) {
-      final Random _yValue = Random();
-      (_yValue.nextDouble() > .5)
-          ? _value += Random().nextDouble()
-          : _value -= Random().nextDouble();
+      final Random yValue = Random();
+      (yValue.nextDouble() > .5)
+          ? value += Random().nextDouble()
+          : value -= Random().nextDouble();
 
-      _chartData.add(ChartSampleData(
-          x: DateTime(2000, i + 2, i), high: _value, low: _value + 10));
+      chartData.add(ChartSampleData(
+          x: DateTime(2000, i + 2, i), high: value, low: value + 10));
     }
-    return _chartData;
+    return chartData;
   }
 
   /// Returns the list of Chart series

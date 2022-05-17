@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -75,40 +76,35 @@ class _MapBubblePageState extends SampleViewState
     _facebookController = AnimationController(
         duration: const Duration(milliseconds: 500),
         vsync: this,
-        lowerBound: 0.6,
-        upperBound: 1.0);
+        lowerBound: 0.6);
     _facebookAnimation =
         CurvedAnimation(parent: _facebookController, curve: Curves.easeInOut);
 
     _twitterController = AnimationController(
         duration: const Duration(milliseconds: 500),
         vsync: this,
-        lowerBound: 0.6,
-        upperBound: 1.0);
+        lowerBound: 0.6);
     _twitterAnimation =
         CurvedAnimation(parent: _twitterController, curve: Curves.easeInOut);
 
     _instagramController = AnimationController(
         duration: const Duration(milliseconds: 500),
         vsync: this,
-        lowerBound: 0.6,
-        upperBound: 1.0);
+        lowerBound: 0.6);
     _instagramAnimation =
         CurvedAnimation(parent: _instagramController, curve: Curves.easeInOut);
 
     _tiktokController = AnimationController(
         duration: const Duration(milliseconds: 500),
         vsync: this,
-        lowerBound: 0.6,
-        upperBound: 1.0);
+        lowerBound: 0.6);
     _tiktokAnimation =
         CurvedAnimation(parent: _tiktokController, curve: Curves.easeInOut);
 
     _snapchatController = AnimationController(
         duration: const Duration(milliseconds: 500),
         vsync: this,
-        lowerBound: 0.6,
-        upperBound: 1.0);
+        lowerBound: 0.6);
     _snapchatAnimation =
         CurvedAnimation(parent: _snapchatController, curve: Curves.easeInOut);
 
@@ -353,7 +349,6 @@ class _MapBubblePageState extends SampleViewState
                 Padding(
                     padding: const EdgeInsets.only(top: 15, bottom: 30),
                     child: Align(
-                        alignment: Alignment.center,
                         child: Text('Social Media Users Statistics',
                             style: Theme.of(context).textTheme.subtitle1))),
                 Expanded(
@@ -389,7 +384,6 @@ class _MapBubblePageState extends SampleViewState
                             strokeColor: _bubbleStrokeColor,
                             strokeWidth: 0.5,
                             color: _bubbleColor,
-                            minRadius: 10,
                             maxRadius: 40),
                         tooltipSettings: MapTooltipSettings(
                             color: _tooltipColor,

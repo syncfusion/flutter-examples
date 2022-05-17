@@ -81,12 +81,7 @@ class _HorizantalGradientState extends SampleViewState {
         ]),
         borderWidth: 2,
         markerSettings: const MarkerSettings(
-            isVisible: true,
-            height: 8,
-            width: 8,
-            borderColor: Colors.white,
-            borderWidth: 2),
-        borderDrawMode: BorderDrawMode.top,
+            isVisible: true, borderColor: Colors.white, borderWidth: 2),
         dataSource: <_ChartData>[
           _ChartData(x: '1997', y: 17.70),
           _ChartData(x: '1998', y: 18.20),

@@ -1,12 +1,13 @@
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/stock_datagridsource.dart';
 
-/// Barcode import
+/// Datagrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../../model/sample_view.dart';
+import '../../datagridsource/stock_datagridsource.dart';
 
 /// Render data grid with conditional styling
 class ConditionalStylingDataGrid extends SampleView {
