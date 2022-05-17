@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 ///URL launcher import
-import 'package:url_launcher/url_launcher.dart' show launch;
+import 'package:url_launcher/url_launcher.dart' show launchUrl;
 
 /// Local imports
 import '../../../../../model/sample_view.dart';
@@ -246,14 +246,14 @@ class _DataPointsState extends SampleViewState {
         },
         onPointDoubleTap: (ChartPointDetails args) {
           args.pointIndex == 0
-              ? launch('https://www.youtube.com/')
+              ? launchUrl(Uri.parse('https://www.youtube.com/'))
               : args.pointIndex == 1
-                  ? launch('http://www.twitter.com/')
+                  ? launchUrl(Uri.parse('http://www.twitter.com/'))
                   : args.pointIndex == 2
-                      ? launch('https://www.instagram.com/')
+                      ? launchUrl(Uri.parse('https://www.instagram.com/'))
                       : args.pointIndex == 3
-                          ? launch('http://www.snapchat.com/')
-                          : launch('https://www.facebook.com/');
+                          ? launchUrl(Uri.parse('http://www.snapchat.com/'))
+                          : launchUrl(Uri.parse('https://www.facebook.com/'));
         },
         onPointLongPress: (ChartPointDetails args) {
           _showMyDialog();

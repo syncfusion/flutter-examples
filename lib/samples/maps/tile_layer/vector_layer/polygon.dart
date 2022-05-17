@@ -35,7 +35,6 @@ class _MapPolygonPageState extends SampleViewState {
         padding: EdgeInsets.all(_isDesktop ? 8.0 : 10.0),
         child: ExpandableAnimatedButton(
           dataCount: _polygonData.length,
-          alignment: Alignment.bottomRight,
           builder: (int index, BuildContext context) {
             return _ExpandedButton(
               text: _polygonData[index].name,
@@ -85,7 +84,6 @@ class _MapPolygonPageState extends SampleViewState {
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.24),
-              spreadRadius: 0,
               blurRadius: 6,
               offset: Offset(0, 2),
             )
@@ -161,7 +159,6 @@ class _MapPolygonPageState extends SampleViewState {
       ),
       shape: MaterialStateProperty.all<OutlinedBorder>(
         const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
           side: BorderSide(color: Colors.transparent),
         ),
       ),
@@ -385,6 +382,7 @@ class _ExpandedButton extends StatefulWidget {
     required this.text,
     required this.child,
     required this.color,
+    // ignore: unused_element
     this.padding = const EdgeInsets.symmetric(horizontal: 10.0),
     this.size = 45.0,
     this.opacity = 0.5,

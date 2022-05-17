@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -199,7 +200,6 @@ class _MapSublayerPageState extends SampleViewState {
                         ),
                         showDataLabels: true,
                         dataLabelSettings: MapDataLabelSettings(
-                          overflowMode: MapLabelOverflow.visible,
                           textStyle: _themeData.textTheme.caption!.copyWith(
                             color: const Color.fromRGBO(0, 0, 0, 1),
                           ),

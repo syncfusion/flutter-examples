@@ -150,7 +150,7 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
       hint = isFocus.hasFocus ? '' : 'Search';
     });
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -158,7 +158,7 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
     sampleListModel!.searchResults.clear();
     sampleListModel!.editingController.text = '';
     isFocus.unfocus();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -343,105 +343,97 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
 
     _overlayHeight = ((height ~/ _itemHeight) * _itemHeight) + 6;
 
-    return OverlayEntry(
-        maintainState: false,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-              builder: (BuildContext buildContext, StateSetter setState) {
-            _overlaySetState = setState;
-            return Positioned(
-              left: offset.dx,
-              top: offset.dy + size.height - 5,
-              width: size.width,
-              height: sampleListModel!.searchResults.isEmpty &&
-                      sampleListModel!.editingController.text.isNotEmpty &&
-                      isFocus.hasFocus
-                  ? 0.1 * MediaQuery.of(context).size.height
-                  : _overlayHeight.toDouble(),
-              child: Card(
-                color: sampleListModel!.cardColor,
-                child: sampleListModel!.editingController.text.isEmpty ||
-                        isFocus.hasFocus == false
-                    ? null
-                    : (sampleListModel!.searchResults.isEmpty
-                        ? ListTile(
-                            title: Text('No results found',
-                                style: TextStyle(
-                                    color: sampleListModel!.textColor,
-                                    fontSize: 13,
-                                    fontFamily: 'Roboto-Regular')),
-                            onTap: () {},
-                          )
-                        : _RectGetterFromListView(
-                            key: _globalKey,
-                            child: ListView.builder(
-                                controller: _controller,
-                                padding: EdgeInsets.zero,
-                                itemCount:
-                                    sampleListModel!.searchResults.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  _keys[index] =
-                                      _RectGetterFromListView.createGlobalKey();
-                                  return _RectGetterFromListView(
-                                      key: _keys[index],
-                                      child: SizedBox(
-                                        height: _itemHeight.toDouble(),
-                                        child: Material(
-                                            color: index == _selectionIndex
-                                                ? Colors.grey.withOpacity(0.4)
-                                                : sampleListModel!.cardColor,
-                                            child: InkWell(
-                                              hoverColor:
-                                                  Colors.grey.withOpacity(0.2),
-                                              onTap: () {
-                                                _navigateToSample(index);
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                child: RichText(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  text: TextSpan(children: <
-                                                      InlineSpan>[
-                                                    TextSpan(
-                                                      text: sampleListModel!
-                                                          .searchResults[index]
-                                                          .control!
-                                                          .title,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color:
-                                                              sampleListModel!
-                                                                  .textColor,
-                                                          fontFamily:
-                                                              'Roboto-Bold'),
-                                                    ),
-                                                    TextSpan(
-                                                      text: ' - ' +
-                                                          sampleListModel!
-                                                              .searchResults[
-                                                                  index]
-                                                              .title!,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color:
-                                                              sampleListModel!
-                                                                  .textColor,
-                                                          fontFamily:
-                                                              'Roboto-Regular'),
-                                                    )
-                                                  ]),
+    return OverlayEntry(builder: (BuildContext context) {
+      return StatefulBuilder(
+          builder: (BuildContext buildContext, StateSetter setState) {
+        _overlaySetState = setState;
+        return Positioned(
+          left: offset.dx,
+          top: offset.dy + size.height - 5,
+          width: size.width,
+          height: sampleListModel!.searchResults.isEmpty &&
+                  sampleListModel!.editingController.text.isNotEmpty &&
+                  isFocus.hasFocus
+              ? 0.1 * MediaQuery.of(context).size.height
+              : _overlayHeight.toDouble(),
+          child: Card(
+            color: sampleListModel!.cardColor,
+            child: sampleListModel!.editingController.text.isEmpty ||
+                    isFocus.hasFocus == false
+                ? null
+                : (sampleListModel!.searchResults.isEmpty
+                    ? ListTile(
+                        title: Text('No results found',
+                            style: TextStyle(
+                                color: sampleListModel!.textColor,
+                                fontSize: 13,
+                                fontFamily: 'Roboto-Regular')),
+                        onTap: () {},
+                      )
+                    : _RectGetterFromListView(
+                        key: _globalKey,
+                        child: ListView.builder(
+                            controller: _controller,
+                            padding: EdgeInsets.zero,
+                            itemCount: sampleListModel!.searchResults.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              _keys[index] =
+                                  _RectGetterFromListView.createGlobalKey();
+                              return _RectGetterFromListView(
+                                  key: _keys[index],
+                                  child: SizedBox(
+                                    height: _itemHeight.toDouble(),
+                                    child: Material(
+                                        color: index == _selectionIndex
+                                            ? Colors.grey.withOpacity(0.4)
+                                            : sampleListModel!.cardColor,
+                                        child: InkWell(
+                                          hoverColor:
+                                              Colors.grey.withOpacity(0.2),
+                                          onTap: () {
+                                            _navigateToSample(index);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: RichText(
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              text: TextSpan(children: <
+                                                  InlineSpan>[
+                                                TextSpan(
+                                                  text: sampleListModel!
+                                                      .searchResults[index]
+                                                      .control!
+                                                      .title,
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: sampleListModel!
+                                                          .textColor,
+                                                      fontFamily:
+                                                          'Roboto-Bold'),
                                                 ),
-                                              ),
-                                            )),
-                                      ));
-                                }))),
-              ),
-            );
-          });
-        });
+                                                TextSpan(
+                                                  text: ' - ' +
+                                                      sampleListModel!
+                                                          .searchResults[index]
+                                                          .title!,
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: sampleListModel!
+                                                          .textColor,
+                                                      fontFamily:
+                                                          'Roboto-Regular'),
+                                                )
+                                              ]),
+                                            ),
+                                          ),
+                                        )),
+                                  ));
+                            }))),
+          ),
+        );
+      });
+    });
   }
 
   @override
@@ -452,7 +444,6 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
             ? _performKeyBoardEvent(event)
             : null,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
@@ -554,8 +545,8 @@ class _RectGetterFromListView extends StatefulWidget {
 
   ///Get the rect of list view
   static Rect? getRectFromKey(
-      GlobalKey<_RectGetterFromListViewState> _globalKey) {
-    final RenderObject object = _globalKey.currentContext!.findRenderObject()!;
+      GlobalKey<_RectGetterFromListViewState> globalKey) {
+    final RenderObject object = globalKey.currentContext!.findRenderObject()!;
     final dynamic translation = object.getTransformTo(null).getTranslation();
     final Size size = object.semanticBounds.size;
 

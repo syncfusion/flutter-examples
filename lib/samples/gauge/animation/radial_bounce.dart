@@ -35,6 +35,7 @@ class _RadialBounceOutExampleState extends SampleViewState {
             minimum: -8,
             maximum: 12,
             showAxisLine: false,
+            showLastLabel: true,
             majorTickStyle: const MajorTickStyle(
                 length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 2),
             labelOffset: 8,
@@ -47,12 +48,10 @@ class _RadialBounceOutExampleState extends SampleViewState {
             interval: 2,
             pointers: const <GaugePointer>[
               NeedlePointer(
-                  value: 0,
                   needleStartWidth: 2,
                   needleEndWidth: 2,
                   needleColor: Color(0xFFF67280),
                   needleLength: 0.8,
-                  lengthUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationType: AnimationType.bounceOut,
                   animationDuration: 1500,

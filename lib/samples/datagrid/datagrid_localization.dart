@@ -5,9 +5,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 /// Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 /// DataGrid Package
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
@@ -193,7 +195,6 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
                 _rowsPerPage = rowsPerPage!;
               });
             },
-            direction: Axis.horizontal,
           ),
         ));
   }
@@ -217,11 +218,8 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
                         color: Theme.of(context)
                             .colorScheme
                             .onSurface
-                            .withOpacity(0.12)),
-                    bottom: BorderSide.none,
-                    left: BorderSide.none,
-                    right: BorderSide.none)),
-            child: Align(alignment: Alignment.center, child: _buildDataPager()),
+                            .withOpacity(0.12)))),
+            child: Align(child: _buildDataPager()),
           )
         ],
       );

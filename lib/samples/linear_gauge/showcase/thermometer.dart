@@ -183,7 +183,6 @@ class _ThermometerState extends SampleViewState {
                         Container(
                             transform: Matrix4.translationValues(-6, 0, 0.0),
                             child: SfLinearGauge(
-                              minimum: 0,
                               maximum: 120,
                               showAxisTrack: false,
                               interval: 20,

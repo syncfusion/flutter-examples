@@ -30,6 +30,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
   void initState() {
     super.initState();
     if (mounted) {
+      // ignore: no_leading_underscores_for_local_identifiers
       _timer = Timer.periodic(const Duration(milliseconds: 30), (Timer _timer) {
         setState(() {
           if (progressValue == 100) {
@@ -52,7 +53,6 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             getFilledTrackStyle(),
             const Center(child: Text('Filled track')),
@@ -68,11 +68,9 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
       return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 getFilledTrackStyle(),
                 const Center(child: Text('Filled track')),
@@ -80,7 +78,6 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 getFilledProgressStyle(),
                 const Center(child: Text('Filled progress')),
@@ -88,7 +85,6 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 getGradientProgressStyle(),
                 const Center(child: Text('Gradient track'))
@@ -113,8 +109,6 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
           RadialAxis(
-              minimum: 0,
-              maximum: 100,
               showLabels: false,
               showTicks: false,
               startAngle: 270,
@@ -155,8 +149,6 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
         width: _size,
         child: SfRadialGauge(axes: <RadialAxis>[
           RadialAxis(
-            minimum: 0,
-            maximum: 100,
             showLabels: false,
             showTicks: false,
             startAngle: 270,

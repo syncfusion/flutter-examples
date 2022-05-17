@@ -72,7 +72,6 @@ class _GaugeLabelCustomizationState extends SampleViewState {
           : Column(
               children: <Widget>[
                 Wrap(
-                  direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
@@ -131,7 +130,6 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                 const LinearAxisLabel(text: r'$20', value: 30),
               ];
             },
-            minimum: 0,
             maximum: 30,
             animateAxis: true,
             orientation: _isHorizontalOrientation
@@ -141,15 +139,15 @@ class _GaugeLabelCustomizationState extends SampleViewState {
 
   /// Returns the text labels sample.
   Widget _buildTextLabels(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
-    const double _deliveryStatus = 20;
-    const double _orderState = 0;
-    const double _packedState = 10;
-    const double _shippedState = 20;
-    const double _deliveredState = 30;
-    const Color _activeColor =
-        _deliveryStatus > _orderState ? Color(0xff0DC9AB) : Color(0xffD1D9DD);
-    final Color _inactiveColor = _brightness == Brightness.dark
+    final Brightness brightness = Theme.of(context).brightness;
+    const double deliveryStatus = 20;
+    const double orderState = 0;
+    const double packedState = 10;
+    const double shippedState = 20;
+    const double deliveredState = 30;
+    const Color activeColor =
+        deliveryStatus > orderState ? Color(0xff0DC9AB) : Color(0xffD1D9DD);
+    final Color inactiveColor = brightness == Brightness.dark
         ? const Color(0xff62686A)
         : const Color(0xFFD1D9DD);
 
@@ -159,7 +157,6 @@ class _GaugeLabelCustomizationState extends SampleViewState {
           orientation: _isHorizontalOrientation
               ? LinearGaugeOrientation.horizontal
               : LinearGaugeOrientation.vertical,
-          minimum: 0,
           maximum: 30,
           labelOffset: 24,
           isAxisInversed: !_isHorizontalOrientation,
@@ -173,72 +170,68 @@ class _GaugeLabelCustomizationState extends SampleViewState {
             ];
           },
           axisTrackStyle: LinearAxisTrackStyle(
-            color: _inactiveColor,
+            color: inactiveColor,
           ),
           barPointers: const <LinearBarPointer>[
             LinearBarPointer(
-              value: _deliveryStatus,
-              color: _activeColor,
+              value: deliveryStatus,
+              color: activeColor,
               enableAnimation: false,
-              position: LinearElementPosition.cross,
             ),
           ],
           markerPointers: <LinearMarkerPointer>[
             LinearWidgetPointer(
-              value: _orderState,
+              value: orderState,
               enableAnimation: false,
-              position: LinearElementPosition.cross,
               child: Container(
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
                     color: model.cardColor,
-                    border: Border.all(width: 4, color: _activeColor),
+                    border: Border.all(width: 4, color: activeColor),
                     borderRadius: const BorderRadius.all(Radius.circular(12))),
                 child: const Center(
                   child:
-                      Icon(Icons.check_rounded, size: 14, color: _activeColor),
+                      Icon(Icons.check_rounded, size: 14, color: activeColor),
                 ),
               ),
             ),
             LinearWidgetPointer(
               enableAnimation: false,
-              value: _packedState,
-              position: LinearElementPosition.cross,
+              value: packedState,
               child: Container(
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
                     color: model.cardColor,
-                    border: Border.all(width: 4, color: _activeColor),
+                    border: Border.all(width: 4, color: activeColor),
                     borderRadius: const BorderRadius.all(Radius.circular(12))),
                 child: const Center(
                   child:
-                      Icon(Icons.check_rounded, size: 14, color: _activeColor),
+                      Icon(Icons.check_rounded, size: 14, color: activeColor),
                 ),
               ),
             ),
             LinearWidgetPointer(
-              value: _shippedState,
+              value: shippedState,
               enableAnimation: false,
-              position: LinearElementPosition.cross,
               child: Container(
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
                     color: model.cardColor,
-                    border: Border.all(width: 4, color: _activeColor),
+                    border: Border.all(width: 4, color: activeColor),
                     borderRadius: const BorderRadius.all(Radius.circular(12))),
                 child: const Center(
                   child:
-                      Icon(Icons.check_rounded, size: 14, color: _activeColor),
+                      Icon(Icons.check_rounded, size: 14, color: activeColor),
                 ),
               ),
             ),
             LinearShapePointer(
-              value: _deliveredState,
+              value: deliveredState,
               enableAnimation: false,
-              color: _inactiveColor,
+              color: inactiveColor,
               width: 24,
               height: 24,
               position: LinearElementPosition.cross,
@@ -263,7 +256,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
 
   /// Returns the label style customization sample.
   Widget _buildLabelStyleCustomization(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return SizedBox(
       height: _isHorizontalOrientation ? 100 : 300,
@@ -274,7 +267,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
         axisLabelStyle: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 10,
-            color: _brightness == Brightness.dark
+            color: brightness == Brightness.dark
                 ? const Color(0xff8580FF)
                 : const Color(0xff6F20F0)),
       ),

@@ -37,7 +37,6 @@ class _RadialSliderCustomTextState extends SampleViewState {
               cornerStyle: CornerStyle.bothCurve,
             ),
             showTicks: false,
-            showLabels: true,
             labelOffset: 25,
             onAxisTapped: handlePointerValueChanged,
             pointers: <GaugePointer>[
@@ -91,6 +90,7 @@ class _RadialSliderCustomTextState extends SampleViewState {
   void handlePointerValueChanged(double value) {
     setState(() {
       _markerValue = value;
+      // ignore: no_leading_underscores_for_local_identifiers
       final int _value = _markerValue.round();
       if (_value < 100 && _annotationValue != 'In-progress') {
         _annotationValue = 'In-progress';

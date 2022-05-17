@@ -1,12 +1,12 @@
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/widgets/custom_button.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../../model/sample_view.dart';
+import '../../../../widgets/custom_button.dart';
 
 /// Renders the stacked area chart sample.
 class CircularFloatingLegend extends SampleView {
@@ -158,9 +158,7 @@ class _CircularFloatingLegendState extends SampleViewState {
           explode: true,
           enableTooltip: true,
           dataLabelSettings: const DataLabelSettings(
-              isVisible: true,
-              labelPosition: ChartDataLabelPosition.outside,
-              labelIntersectAction: LabelIntersectAction.shift),
+              isVisible: true, labelPosition: ChartDataLabelPosition.outside),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y),
     ];

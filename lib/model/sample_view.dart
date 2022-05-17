@@ -132,74 +132,22 @@ class LocalizationSampleViewState<T extends LocalizationSampleView>
                     }
                   })),
         ],
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
       );
     });
   }
 
   Widget _buildDirectionalityWidget() {
-    return (model.isDesktop || model.isWeb)
-        ? MaterialApp(
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              SfGlobalLocalizations.delegate
-            ],
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('ar', 'AE'),
-              Locale('fr', 'FR'),
-              Locale('zh', 'CN'),
-              Locale('es', 'ES')
-            ],
-            locale: model.locale,
-            initialRoute: model.sampleDetail.breadCrumbText,
-            routes: <String, WidgetBuilder>{
-              model.sampleDetail.breadCrumbText!: (BuildContext context) =>
-                  Scaffold(
-                      backgroundColor: model.cardThemeColor,
-                      body: Directionality(
-                          textDirection: model.textDirection,
-                          child: buildSample(context) ?? Container()))
-            },
-            theme: ThemeData(
-                checkboxTheme: CheckboxThemeData(
-                    fillColor: MaterialStateProperty.resolveWith(getColor)),
-                brightness: model.themeData.colorScheme.brightness,
-                primaryColor: model.backgroundColor,
-                colorScheme: model.themeData.colorScheme),
-          )
-        : MaterialApp(
-            home: Scaffold(
-                backgroundColor: model.cardThemeColor,
-                body: Directionality(
-                    textDirection: model.textDirection,
-                    child: buildSample(context) ?? Container())),
-            debugShowCheckedModeBanner: false,
-            //ignore: always_specify_types
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              SfGlobalLocalizations.delegate
-            ],
-            //ignore: always_specify_types
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('ar', 'AE'),
-              Locale('fr', 'FR'),
-              Locale('zh', 'CN'),
-              Locale('es', 'ES')
-            ],
-            locale: model.locale,
-            theme: ThemeData(
-                checkboxTheme: CheckboxThemeData(
-                    fillColor: MaterialStateProperty.resolveWith(getColor)),
-                brightness: model.themeData.colorScheme.brightness,
-                primaryColor: model.backgroundColor,
-                colorScheme: model.themeData.colorScheme),
-          );
+    return Localizations(
+        locale: model.locale!,
+        delegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          SfGlobalLocalizations.delegate
+        ],
+        child: Directionality(
+            textDirection: model.textDirection,
+            child: buildSample(context) ?? Container()));
   }
 
   /// Method to get the widget's color based on the widget state
@@ -300,8 +248,6 @@ class DirectionalitySampleViewState<T extends DirectionalitySampleView>
                     }
                   })),
         ],
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
       );
     });
   }

@@ -168,8 +168,8 @@ class _RSIIndicatorState extends SampleViewState {
           majorGridLines: const MajorGridLines(width: 0),
           dateFormat: DateFormat.MMM(),
           interval: 3,
-          minimum: DateTime(2016, 01, 01),
-          maximum: DateTime(2017, 01, 01),
+          minimum: DateTime(2016),
+          maximum: DateTime(2017),
         ),
         primaryYAxis: NumericAxis(
             minimum: 70,

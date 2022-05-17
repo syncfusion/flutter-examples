@@ -77,7 +77,6 @@ class _RadialRangeSliderGradientState extends SampleViewState {
             axisLineStyle: const AxisLineStyle(
                 thickness: 0.05, thicknessUnit: GaugeSizeUnit.factor),
             showTicks: false,
-            showLabels: true,
             labelOffset: 20,
             ranges: <GaugeRange>[
               GaugeRange(
@@ -170,10 +169,10 @@ class _RadialRangeSliderGradientState extends SampleViewState {
       _secondMarkerValue = value;
       // final int _value =
       //     (_firstMarkerValue - _secondMarkerValue).abs().round().toInt();
-      final int _value = _secondMarkerValue.abs().round();
-      _secondAnnotationValue = '$_value';
-      final double _celsiusValue = (_value - 32) / 1.8;
-      _secondCelsiusAnnotationValue = _celsiusValue.toStringAsFixed(1);
+      final int secondMarkerValue = _secondMarkerValue.abs().round();
+      _secondAnnotationValue = '$secondMarkerValue';
+      final double celsiusValue = (secondMarkerValue - 32) / 1.8;
+      _secondCelsiusAnnotationValue = celsiusValue.toStringAsFixed(1);
     });
   }
 
@@ -191,10 +190,10 @@ class _RadialRangeSliderGradientState extends SampleViewState {
       _firstMarkerValue = value;
       // final int _value =
       // (_firstMarkerValue - _secondMarkerValue).abs().round().toInt();
-      final int _value = _firstMarkerValue.abs().round();
-      _firstAnnotationValue = '$_value';
-      final double _celsiusValue = (_value - 32) / 1.8;
-      _firstCelsiusAnnotationValue = _celsiusValue.toStringAsFixed(1);
+      final int firstMarkerValue = _firstMarkerValue.abs().round();
+      _firstAnnotationValue = '$firstMarkerValue';
+      final double celsiusValue = (firstMarkerValue - 32) / 1.8;
+      _firstCelsiusAnnotationValue = celsiusValue.toStringAsFixed(1);
     });
   }
 

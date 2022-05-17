@@ -32,7 +32,6 @@ class _PieSmartDataLabelsState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label intersect \naction',
                   style: TextStyle(

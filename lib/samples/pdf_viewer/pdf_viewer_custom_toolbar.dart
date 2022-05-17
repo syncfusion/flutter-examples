@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/samples/pdf_viewer/shared/helper.dart';
-import 'package:flutter_examples/samples/pdf_viewer/shared/toolbar_widgets.dart';
 
 /// Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 /// PDF Viewer import
@@ -13,6 +10,10 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import './shared/mobile_helper.dart'
     if (dart.library.html) './shared/web_helper.dart' as helper;
+import '../../model/model.dart';
+import '../../model/sample_view.dart';
+import 'shared/helper.dart';
+import 'shared/toolbar_widgets.dart';
 
 /// Signature for [SearchToolbar.onTap] callback.
 typedef SearchTapCallback = void Function(Object item);
@@ -128,7 +129,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           insetPadding: EdgeInsets.zero,
           contentPadding: orientation == Orientation.portrait
               ? const EdgeInsets.all(24)
-              : const EdgeInsets.only(top: 0, right: 24, left: 24, bottom: 0),
+              : const EdgeInsets.only(right: 24, left: 24),
           buttonPadding: orientation == Orientation.portrait
               ? const EdgeInsets.all(8)
               : const EdgeInsets.all(4),
@@ -412,7 +413,6 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                         .onSurface
                         .withOpacity(0.87),
                   ),
-                  maxLines: 1,
                   obscureText: _passwordVisible,
                   obscuringCharacter: '*',
                   decoration: InputDecoration(
@@ -527,7 +527,6 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         BoxShadow(
           color: Color.fromRGBO(0, 0, 0, 0.14),
           blurRadius: 2,
-          offset: Offset.zero,
         ),
         BoxShadow(
           color: Color.fromRGBO(0, 0, 0, 0.12),
@@ -540,7 +539,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           offset: Offset(0, 1),
         ),
       ];
-      final double _contextMenuHeight =
+      final double contextMenuHeight =
           _isDesktopWeb ? _kWebContextMenuHeight : _kMobileContextMenuHeight;
       final PdfTextSelectionChangedDetails? details = _textSelectionDetails;
       final Offset containerOffset = renderBoxContainer.localToGlobal(
@@ -552,7 +551,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       _kContextMenuBottom ||
           (containerOffset.dy <
                   details!.globalSelectedRegion!.center.dy -
-                      (_contextMenuHeight / 2) &&
+                      (contextMenuHeight / 2) &&
               details.globalSelectedRegion!.height > _kContextMenuWidth)) {
         double top = 0.0;
         double left = 0.0;
@@ -566,13 +565,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           left = globalSelectedRect.bottomLeft.dx;
         } else {
           top = globalSelectedRect.height > _kContextMenuWidth
-              ? globalSelectedRect.center.dy - (_contextMenuHeight / 2)
+              ? globalSelectedRect.center.dy - (contextMenuHeight / 2)
               : globalSelectedRect.topLeft.dy - _kContextMenuBottom;
           left = globalSelectedRect.height > _kContextMenuWidth
               ? globalSelectedRect.center.dx - (_kContextMenuWidth / 2)
               : globalSelectedRect.bottomLeft.dx;
         }
-        final OverlayState? _overlayState =
+        final OverlayState? overlayState =
             Overlay.of(context, rootOverlay: true);
         _selectionOverlayEntry = OverlayEntry(
           builder: (BuildContext context) => Positioned(
@@ -584,7 +583,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 boxShadow: boxShadows,
               ),
               constraints: BoxConstraints.tightFor(
-                  width: _kContextMenuWidth, height: _contextMenuHeight),
+                  width: _kContextMenuWidth, height: contextMenuHeight),
               child: TextButton(
                 onPressed: () async {
                   _handleContextMenuClose();
@@ -621,7 +620,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             ),
           ),
         );
-        _overlayState?.insert(_selectionOverlayEntry!);
+        overlayState?.insert(_selectionOverlayEntry!);
       }
     }
   }
@@ -1076,7 +1075,6 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           },
           child: Toolbar(
             key: _toolbarKey,
-            showTooltip: true,
             controller: _pdfViewerController,
             model: model,
             onTap: (Object toolbarItem) {
@@ -1191,7 +1189,6 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               ? AppBar(
                   flexibleSpace: SearchToolbar(
                     key: _textSearchKey,
-                    canShowTooltip: true,
                     controller: _pdfViewerController,
                     brightness: model.themeData.colorScheme.brightness,
                     primaryColor: model.backgroundColor,
@@ -1894,7 +1891,6 @@ class ToolbarState extends State<Toolbar> {
   /// Pagination text field widget.
   Widget paginationTextField(BuildContext context) {
     return TextField(
-      autofocus: false,
       style: _isWeb
           ? TextStyle(
               color: _textColor,
@@ -1909,7 +1905,6 @@ class ToolbarState extends State<Toolbar> {
       textAlign: TextAlign.center,
       maxLength: _isWeb ? 4 : 3,
       focusNode: _focusNode,
-      maxLines: 1,
       decoration: InputDecoration(
         counterText: '',
         contentPadding: _isWeb
@@ -1917,9 +1912,7 @@ class ToolbarState extends State<Toolbar> {
             : isDesktop
                 ? (const EdgeInsets.only(bottom: 20))
                 : null,
-        border: const UnderlineInputBorder(
-          borderSide: BorderSide(width: 1.0),
-        ),
+        border: const UnderlineInputBorder(),
         focusedBorder: UnderlineInputBorder(
           borderSide:
               BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
@@ -1999,6 +1992,9 @@ class ToolbarState extends State<Toolbar> {
                           widget.controller!.clearSelection();
                           await Future<dynamic>.delayed(
                               const Duration(milliseconds: 50));
+                          if (!mounted) {
+                            return;
+                          }
                           await Navigator.of(context).push<dynamic>(
                               MaterialPageRoute<dynamic>(
                                   builder: (BuildContext context) =>

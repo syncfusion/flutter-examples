@@ -61,7 +61,6 @@ class _TickCustomizationState extends SampleViewState {
           : Column(
               children: <Widget>[
                 Wrap(
-                  direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,

@@ -3,11 +3,13 @@ import 'dart:math' as math;
 
 /// Packages import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/model/customer.dart';
 import 'package:intl/intl.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../model/customer.dart';
 
 /// Set customer's data collection to data grid source.
 class CustomerDataGridSource extends DataGridSource {

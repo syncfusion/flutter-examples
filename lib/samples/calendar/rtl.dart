@@ -57,7 +57,7 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
                   model.isWebFullView &&
                   screenHeight < 800
               ? Scrollbar(
-                  isAlwaysShown: true,
+                  thumbVisibility: true,
                   controller: _scrollController,
                   child: ListView(
                     controller: _scrollController,
@@ -135,8 +135,7 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
             startTime: startDate.add(Duration(hours: j == 0 ? 9 : 14)),
             endTime: startDate.add(const Duration(hours: 2)),
             subject: subjectCollection[j],
-            color: colorCollection[j],
-            isAllDay: false));
+            color: colorCollection[j]));
       }
     }
 
@@ -154,7 +153,7 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
     }
 
     _currentView = _calendarController.view!;
-    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         // Update the scroll view when view changes.
       });

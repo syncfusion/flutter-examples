@@ -285,9 +285,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                       _errorBarMode == 'both')
                                   ? 1
                                   : 0,
-                              horizontal: true,
-                              loop: false,
-                              padding: 0,
                               iconColor: model.textColor.withOpacity(
                                   (_errorBarMode == 'vertical' ||
                                           _errorBarMode == 'both')
@@ -337,9 +334,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                       _errorBarMode == 'both')
                                   ? 1
                                   : 0,
-                              horizontal: true,
-                              loop: false,
-                              padding: 0,
                               iconColor: model.textColor.withOpacity(
                                   (_errorBarMode == 'horizontal' ||
                                           _errorBarMode == 'both')
@@ -394,9 +388,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                           _errorBarDirection == 'both'))
                                   ? 1
                                   : 0,
-                              horizontal: true,
-                              loop: false,
-                              padding: 0,
                               iconColor: model.textColor.withOpacity(
                                   ((_errorBarMode == 'horizontal' ||
                                               _errorBarMode == 'both') &&
@@ -454,9 +445,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                             _errorBarDirection == 'both'))
                                     ? 1
                                     : 0,
-                                horizontal: true,
-                                loop: false,
-                                padding: 0,
                                 iconColor: model.textColor.withOpacity(
                                     ((_errorBarMode == 'horizontal' ||
                                                 _errorBarMode == 'both') &&
@@ -515,9 +503,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                             _errorBarDirection == 'both'))
                                     ? 1
                                     : 0,
-                                horizontal: true,
-                                loop: false,
-                                padding: 0,
                                 iconColor: model.textColor.withOpacity(
                                     ((_errorBarMode == 'vertical' ||
                                                 _errorBarMode == 'both') &&
@@ -576,9 +561,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                           _errorBarDirection == 'both'))
                                   ? 1
                                   : 0,
-                              horizontal: true,
-                              loop: false,
-                              padding: 0,
                               iconColor: model.textColor.withOpacity(
                                   ((_errorBarMode == 'vertical' ||
                                               _errorBarMode == 'both') &&
@@ -681,7 +663,6 @@ class _ErrorBarDefaultState extends SampleViewState {
             horizontalNegativeErrorValue: _horizontalNegativeErrorValue,
             horizontalPositiveErrorValue: _horizontalPositiveErrorValue,
             width: 1.0,
-            capLength: 10.0,
           ),
         ],
       ),

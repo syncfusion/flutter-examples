@@ -35,47 +35,35 @@ class _RadialCompassState extends SampleViewState {
             startAngle: 320,
             endAngle: 320,
             minorTicksPerInterval: 10,
-            minimum: 0,
             maximum: 360,
-            showLastLabel: false,
             interval: 30,
             labelOffset: 20,
             majorTickStyle: const MajorTickStyle(
                 length: 0.16, lengthUnit: GaugeSizeUnit.factor),
             minorTickStyle: const MinorTickStyle(
                 length: 0.16, lengthUnit: GaugeSizeUnit.factor, thickness: 1),
-            axisLabelStyle: const GaugeTextStyle(fontSize: 12),
+            axisLabelStyle: const GaugeTextStyle(),
             pointers: const <GaugePointer>[
               MarkerPointer(value: 90, markerType: MarkerType.triangle),
               NeedlePointer(
                   value: 310,
                   needleLength: 0.5,
-                  lengthUnit: GaugeSizeUnit.factor,
                   needleColor: Color(0xFFC4C4C4),
-                  needleStartWidth: 1,
                   needleEndWidth: 1,
                   knobStyle: KnobStyle(knobRadius: 0),
                   tailStyle: TailStyle(
-                      color: Color(0xFFC4C4C4),
-                      width: 1,
-                      lengthUnit: GaugeSizeUnit.factor,
-                      length: 0.5)),
+                      color: Color(0xFFC4C4C4), width: 1, length: 0.5)),
               NeedlePointer(
                 value: 221,
                 needleLength: 0.5,
-                lengthUnit: GaugeSizeUnit.factor,
                 needleColor: Color(0xFFC4C4C4),
-                needleStartWidth: 1,
                 needleEndWidth: 1,
-                knobStyle:
-                    KnobStyle(knobRadius: 0, sizeUnit: GaugeSizeUnit.factor),
+                knobStyle: KnobStyle(knobRadius: 0),
               ),
               NeedlePointer(
                 value: 40,
                 needleLength: 0.5,
-                lengthUnit: GaugeSizeUnit.factor,
                 needleColor: Color(0xFFC4C4C4),
-                needleStartWidth: 1,
                 needleEndWidth: 1,
                 knobStyle: KnobStyle(knobRadius: 0),
               )

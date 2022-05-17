@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -24,9 +25,9 @@ class TooltipRangeSliderPage extends SampleView {
 class _TooltipRangeSliderPageState extends SampleViewState {
   _TooltipRangeSliderPageState();
   SfRangeValues _yearValues =
-      SfRangeValues(DateTime(2002, 4, 01), DateTime(2003, 10, 01));
-  SfRangeValues _hourValues = SfRangeValues(
-      DateTime(2010, 01, 01, 13, 00, 00), DateTime(2010, 01, 01, 17, 00, 00));
+      SfRangeValues(DateTime(2002, 4), DateTime(2003, 10));
+  SfRangeValues _hourValues =
+      SfRangeValues(DateTime(2010, 01, 01, 13), DateTime(2010, 01, 01, 17));
   bool _shouldAlwaysShowTooltip = false;
 
   SfRangeSliderTheme _yearRangeSlider() {
@@ -34,8 +35,8 @@ class _TooltipRangeSliderPageState extends SampleViewState {
         data: SfRangeSliderThemeData(
             tooltipBackgroundColor: model.backgroundColor),
         child: SfRangeSlider(
-          min: DateTime(2001, 01, 01),
-          max: DateTime(2005, 01, 01),
+          min: DateTime(2001),
+          max: DateTime(2005),
           showLabels: true,
           interval: 1,
           dateFormat: DateFormat.y(),
@@ -62,14 +63,13 @@ class _TooltipRangeSliderPageState extends SampleViewState {
         data: SfRangeSliderThemeData(
             tooltipBackgroundColor: model.backgroundColor),
         child: SfRangeSlider(
-          min: DateTime(2010, 01, 01, 9, 00, 00),
-          max: DateTime(2010, 01, 01, 21, 05, 00),
+          min: DateTime(2010, 01, 01, 9),
+          max: DateTime(2010, 01, 01, 21, 05),
           showLabels: true,
           interval: 4,
           showTicks: true,
           minorTicksPerInterval: 3,
           dateFormat: DateFormat('h a'),
-          labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.hours,
           values: _hourValues,
           onChanged: (SfRangeValues values) {

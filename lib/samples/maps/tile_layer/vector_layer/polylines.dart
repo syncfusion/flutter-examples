@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -52,7 +53,6 @@ class _PolylinesSampleState extends SampleViewState
       focalLatLng: const MapLatLng(51.4700, -0.2843),
       toolbarSettings: const MapToolbarSettings(
           direction: Axis.vertical, position: MapToolbarPosition.bottomRight),
-      maxZoomLevel: 15,
       enableDoubleTapZooming: true,
     );
 
@@ -136,7 +136,6 @@ class _PolylinesSampleState extends SampleViewState
                             key: UniqueKey(),
                             latitude: _routes[index].latLan.latitude,
                             longitude: _routes[index].latLan.longitude,
-                            iconType: MapIconType.circle,
                             iconColor: Colors.white,
                             iconStrokeWidth: 2.0,
                             size: const Size(15, 15),

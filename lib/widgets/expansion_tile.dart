@@ -154,7 +154,7 @@ class _ExpansionTileState extends State<CustomExpansionTile>
                 onTap: _handleTap,
                 dense: true,
                 title: Padding(
-                  padding: const EdgeInsets.only(top: 0, bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: DefaultTextStyle(
                     style: Theme.of(context)
                         .textTheme
@@ -164,7 +164,7 @@ class _ExpansionTileState extends State<CustomExpansionTile>
                   ),
                 ),
                 trailing: Padding(
-                  padding: const EdgeInsets.only(top: 0, bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: RotationTransition(
                     turns: _iconTurns!,
                     child: const Icon(

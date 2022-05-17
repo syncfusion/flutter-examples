@@ -31,8 +31,6 @@ class _BoxWhiskerState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Box plot mode ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),

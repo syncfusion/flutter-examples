@@ -1,13 +1,13 @@
 /// Packages import
-
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/orderinfo_datagridsource.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../model/sample_view.dart';
+import '../datagridsource/orderinfo_datagridsource.dart';
 
 /// Renders datagrid with Checkbox column option
 class CheckboxSelectionDataGrid extends SampleView {
@@ -188,7 +188,6 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
       source: checkboxDataGridSource,
       showCheckboxColumn: true,
       selectionMode: SelectionMode.multiple,
-      navigationMode: GridNavigationMode.row,
       controller: getDataGridController(),
       columns: getColumns(),
     );

@@ -31,6 +31,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
       _annotationFontSize = model.isWebFullView ? 25 : 15;
     }
 
+    // ignore: no_leading_underscores_for_local_identifiers
     final bool _isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape
             ? true
@@ -43,7 +44,6 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: 0.85,
-            minimum: 0,
             maximum: 12,
             interval: 3,
             axisLineStyle: const AxisLineStyle(
@@ -211,12 +211,12 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
   void _handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
-      final int _value = _secondMarkerValue.round();
-      _annotationValue2 = _value == 12
-          ? '$_value PM'
-          : _value == 0
+      final int secondMarkerValue = _secondMarkerValue.round();
+      _annotationValue2 = secondMarkerValue == 12
+          ? '$secondMarkerValue PM'
+          : secondMarkerValue == 0
               ? ' 12 AM'
-              : '$_value AM';
+              : '$secondMarkerValue AM';
     });
   }
 
@@ -232,12 +232,12 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
   void _handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
-      final int _value = _firstMarkerValue.round();
-      _annotationValue1 = _value == 12
-          ? '$_value PM'
-          : _value == 0
+      final int firstMarkerValue = _firstMarkerValue.round();
+      _annotationValue1 = firstMarkerValue == 12
+          ? '$firstMarkerValue PM'
+          : firstMarkerValue == 0
               ? ' 12 AM'
-              : '$_value AM';
+              : '$firstMarkerValue AM';
     });
   }
 

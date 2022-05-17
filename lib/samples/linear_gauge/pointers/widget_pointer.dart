@@ -66,7 +66,6 @@ class _WidgetPointerState extends SampleViewState {
           : Column(
               children: <Widget>[
                 Wrap(
-                  direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
@@ -116,7 +115,7 @@ class _WidgetPointerState extends SampleViewState {
 
   /// Returns the text widget pointer sample.
   Widget _buildTextWidgetPointer(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
@@ -138,12 +137,12 @@ class _WidgetPointerState extends SampleViewState {
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
-                        color: _brightness == Brightness.dark
+                        color: brightness == Brightness.dark
                             ? const Color(0xFFFFFFFF)
                             : const Color(0xff06589C),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                            color: _brightness == Brightness.light
+                            color: brightness == Brightness.light
                                 ? Colors.grey
                                 : Colors.black54,
                             offset: const Offset(0.0, 1.0), //(x,y)
@@ -155,7 +154,7 @@ class _WidgetPointerState extends SampleViewState {
                         child: Text(_textWidgetPointerValue.toStringAsFixed(0),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: _brightness == Brightness.light
+                              color: brightness == Brightness.light
                                   ? const Color(0xFFFFFFFF)
                                   : const Color(0xffF45656),
                             )))),
@@ -165,7 +164,7 @@ class _WidgetPointerState extends SampleViewState {
 
   /// Returns the icon widget pointer sample.
   Widget _buildIconWidgetPointer(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
@@ -187,12 +186,12 @@ class _WidgetPointerState extends SampleViewState {
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
-                        color: _brightness == Brightness.dark
+                        color: brightness == Brightness.dark
                             ? const Color(0xFFFFFFFF)
                             : const Color(0xff06589C),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                            color: _brightness == Brightness.light
+                            color: brightness == Brightness.light
                                 ? Colors.grey
                                 : Colors.black54,
                             offset: const Offset(0.0, 1.0), //(x,y)
@@ -204,7 +203,7 @@ class _WidgetPointerState extends SampleViewState {
                         child: Icon(
                       Icons.thumb_up_rounded,
                       size: 20,
-                      color: _brightness == Brightness.light
+                      color: brightness == Brightness.light
                           ? const Color(0xFFFFFFFF)
                           : const Color(0xffF45656),
                     ))),
@@ -214,7 +213,7 @@ class _WidgetPointerState extends SampleViewState {
 
   /// Returns the multiple widget pointers sample.
   Widget _buildMultipleWidgetPointers(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
@@ -236,12 +235,12 @@ class _WidgetPointerState extends SampleViewState {
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
-                        color: _brightness == Brightness.dark
+                        color: brightness == Brightness.dark
                             ? const Color(0xFFFFFFFF)
                             : const Color(0xff06589C),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                            color: _brightness == Brightness.light
+                            color: brightness == Brightness.light
                                 ? Colors.grey
                                 : Colors.black54,
                             offset: const Offset(0.0, 1.0), //(x,y)
@@ -253,7 +252,7 @@ class _WidgetPointerState extends SampleViewState {
                         child: Text(_textPointerValue.toStringAsFixed(0),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: _brightness == Brightness.light
+                              color: brightness == Brightness.light
                                   ? const Color(0xFFFFFFFF)
                                   : const Color(0xffF45656),
                             )))),
@@ -269,12 +268,12 @@ class _WidgetPointerState extends SampleViewState {
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
-                        color: _brightness == Brightness.dark
+                        color: brightness == Brightness.dark
                             ? const Color(0xFFFFFFFF)
                             : const Color(0xff06589C),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                            color: _brightness == Brightness.light
+                            color: brightness == Brightness.light
                                 ? Colors.grey
                                 : Colors.black54,
                             offset: const Offset(0.0, 1.0), //(x,y)
@@ -286,7 +285,7 @@ class _WidgetPointerState extends SampleViewState {
                         child: Icon(
                       Icons.thumb_up_rounded,
                       size: 20,
-                      color: _brightness == Brightness.light
+                      color: brightness == Brightness.light
                           ? const Color(0xFFFFFFFF)
                           : const Color(0xffF45656),
                     ))),

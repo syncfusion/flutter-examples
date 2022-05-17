@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 ///URL launcher import
-import 'package:url_launcher/url_launcher.dart' show launch;
+import 'package:url_launcher/url_launcher.dart' show launchUrl;
 
 /// Local imports
 import '../../../../../model/sample_view.dart';
@@ -120,7 +120,6 @@ class _NavigationWithEventsState extends SampleViewState {
               visible: _isEnableMaximumLabelWidth,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -150,8 +149,6 @@ class _NavigationWithEventsState extends SampleViewState {
           Visibility(
               visible: _isEnableLabelExtend,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text('Labels extent',
                       style: TextStyle(color: model.textColor)),
@@ -247,32 +244,32 @@ class _NavigationWithEventsState extends SampleViewState {
       case 'Goldin Finance 117':
       case '597 ft':
       case '0':
-        launch(
-            'https://www.emporis.com/buildings/388229/goldin-finance-117-tianjin-china');
+        launchUrl(Uri.parse(
+            'https://www.emporis.com/buildings/388229/goldin-finance-117-tianjin-china'));
         break;
       case 'Ping An Finance Center':
       case '599 ft':
       case '1':
-        launch(
-            'https://www.emporis.com/buildings/1189351/ping-an-international-finance-center-shenzhen-china');
+        launchUrl(Uri.parse(
+            'https://www.emporis.com/buildings/1189351/ping-an-international-finance-center-shenzhen-china'));
         break;
       case 'Makkah Clock Royal Tower':
       case '601 ft':
       case '2':
-        launch(
-            'https://www.emporis.com/buildings/221047/makkah-clock-royal-tower-makkah-saudi-arabia');
+        launchUrl(Uri.parse(
+            'https://www.emporis.com/buildings/221047/makkah-clock-royal-tower-makkah-saudi-arabia'));
         break;
       case 'Shanghai Tower':
       case '632 ft':
       case '3':
-        launch(
-            'https://www.emporis.com/buildings/323473/shanghai-tower-shanghai-china');
+        launchUrl(Uri.parse(
+            'https://www.emporis.com/buildings/323473/shanghai-tower-shanghai-china'));
         break;
       case 'Burj Khalifa':
       case '828 ft':
       case '4':
-        launch(
-            'https://www.emporis.com/buildings/182168/burj-khalifa-dubai-united-arab-emirates');
+        launchUrl(Uri.parse(
+            'https://www.emporis.com/buildings/182168/burj-khalifa-dubai-united-arab-emirates'));
         break;
     }
   }

@@ -6,9 +6,11 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:syncfusion_flutter_charts/charts.dart' hide LabelPlacement;
 
 ///Core import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -31,7 +33,7 @@ class _RangeSelectorSelectionPageState extends SampleViewState
     with SingleTickerProviderStateMixin {
   _RangeSelectorSelectionPageState();
 
-  final DateTime min = DateTime(2019, 04, 01), max = DateTime(2019, 04, 30, 24);
+  final DateTime min = DateTime(2019, 04), max = DateTime(2019, 04, 30, 24);
   late RangeController rangeController;
   late TextEditingController textController;
   late List<_ChartData> data;
@@ -47,7 +49,7 @@ class _RangeSelectorSelectionPageState extends SampleViewState
       end: DateTime(2019, 04, 15),
     );
     data = <_ChartData>[
-      _ChartData(DateTime(2019, 04, 01), 0.2),
+      _ChartData(DateTime(2019, 04), 0.2),
       _ChartData(DateTime(2019, 04, 02), 0.3),
       _ChartData(DateTime(2019, 04, 03), 0.4),
       _ChartData(DateTime(2019, 04, 04), 0.6),
@@ -173,8 +175,8 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                         margin: EdgeInsets.zero,
                         primaryXAxis: DateTimeAxis(
                           isVisible: false,
-                          minimum: DateTime(2019, 04, 01),
-                          maximum: DateTime(2019, 05, 01),
+                          minimum: DateTime(2019, 04),
+                          maximum: DateTime(2019, 05),
                           interval: 5,
                           intervalType: DateTimeIntervalType.days,
                           enableAutoIntervalOnZooming: false,

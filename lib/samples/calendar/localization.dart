@@ -63,7 +63,7 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
                   model.isWebFullView &&
                   screenHeight < 800
               ? Scrollbar(
-                  isAlwaysShown: true,
+                  thumbVisibility: true,
                   controller: _scrollController,
                   child: ListView(
                     controller: _scrollController,
@@ -92,7 +92,7 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
     }
 
     _currentView = _calendarController.view!;
-    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         // Update the scroll view when view changes.
       });
@@ -208,8 +208,7 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
             startTime: startDate.add(Duration(hours: j == 0 ? 9 : 14)),
             endTime: startDate.add(const Duration(hours: 2)),
             subject: subjectCollection[j],
-            color: colorCollection[j],
-            isAllDay: false));
+            color: colorCollection[j]));
       }
     }
 

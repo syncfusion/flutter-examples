@@ -38,6 +38,7 @@ class _ProgressBarTypesState extends SampleViewState {
 
   void _startTimer() {
     if (mounted) {
+      // ignore: no_leading_underscores_for_local_identifiers
       _timer = Timer.periodic(const Duration(milliseconds: 20), (Timer _timer) {
         setState(() {
           _value++;
@@ -88,21 +89,18 @@ class _ProgressBarTypesState extends SampleViewState {
         children: <Widget>[
           Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 _getDeterminateProgressBar(),
                 const Center(child: Text('Determinate')),
               ]),
           Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 _getBufferProgressBar(),
                 const Center(child: Text('Buffer')),
               ]),
           Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 _getSegmentProgressBar(),
                 const Center(child: Text('Segment'))
@@ -113,7 +111,6 @@ class _ProgressBarTypesState extends SampleViewState {
       _size = model.isWebFullView ? size.height / 5 : size.height / 4.5;
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           _getDeterminateProgressBar(),
           const Center(child: Text('Determinate')),
@@ -138,8 +135,6 @@ class _ProgressBarTypesState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-          minimum: 0,
-          maximum: 100,
           startAngle: 270,
           endAngle: 270,
           showLabels: false,
@@ -170,8 +165,6 @@ class _ProgressBarTypesState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-          minimum: 0,
-          maximum: 100,
           showLabels: false,
           showTicks: false,
           startAngle: 270,
@@ -238,7 +231,6 @@ class _ProgressBarTypesState extends SampleViewState {
           RadialAxis(
             interval: 25,
             showLabels: false,
-            showTicks: true,
             showAxisLine: false,
             tickOffset: -0.05,
             offsetUnit: GaugeSizeUnit.factor,

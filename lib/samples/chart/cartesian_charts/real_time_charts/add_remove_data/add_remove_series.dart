@@ -136,8 +136,8 @@ class _LiveVerticalState extends SampleViewState {
 
   ///Get the random data point
   int _getRandomInt(int min, int max) {
-    final Random _random = Random();
-    return min + _random.nextInt(max - min);
+    final Random random = Random();
+    return min + random.nextInt(max - min);
   }
 
   ///Remove the series from chart

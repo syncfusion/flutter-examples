@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -44,7 +45,6 @@ class _TickCustomizedRangeSliderState extends SampleViewState {
           tickOffset: const Offset(0, 4),
           tooltipBackgroundColor: _activeColor),
       child: SfRangeSlider(
-        min: 0.0,
         max: 100.0,
         values: _values,
         onChanged: (SfRangeValues values) {

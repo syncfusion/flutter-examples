@@ -1,13 +1,14 @@
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/customer_datagridsource.dart';
 import 'package:intl/intl.dart';
 
 /// Barcode imports
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
+import '../datagridsource/customer_datagridsource.dart';
 
 /// Renders column sizing data grid
 class ColumnSizingDataGrid extends SampleView {

@@ -1,9 +1,11 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/pdf_viewer/shared/helper.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../pdf_viewer_custom_toolbar.dart';
+import 'helper.dart';
 
 /// File Explorer widget for mobile
 class FileExplorer extends StatefulWidget {

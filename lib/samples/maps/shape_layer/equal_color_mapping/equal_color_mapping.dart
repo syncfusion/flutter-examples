@@ -186,7 +186,6 @@ class _MapEqualColorMappingPageState extends SampleViewState {
         Padding(
             padding: const EdgeInsets.only(top: 15, bottom: 30),
             child: Align(
-                alignment: Alignment.center,
                 child: Text('European Time Zones',
                     style: Theme.of(context).textTheme.subtitle1))),
         Expanded(

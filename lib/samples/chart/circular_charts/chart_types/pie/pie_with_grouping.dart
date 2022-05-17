@@ -46,34 +46,26 @@ class _PieGroupingState extends SampleViewState {
       PieSeries<ChartSampleData, String>(
           radius: '90%',
           dataLabelMapper: (ChartSampleData data, _) => data.x as String,
-          dataLabelSettings: const DataLabelSettings(
-              isVisible: true, labelPosition: ChartDataLabelPosition.inside),
+          dataLabelSettings: const DataLabelSettings(isVisible: true),
           dataSource: <ChartSampleData>[
             ChartSampleData(
-                x: 'Coal',
-                y: 56.2,
-                text: 'Coal: 200,704.5 MW (56.2%)',
-                pointColor: null),
+                x: 'Coal', y: 56.2, text: 'Coal: 200,704.5 MW (56.2%)'),
             ChartSampleData(
                 x: 'Large\nHydro',
                 y: 12.7,
-                text: 'Large Hydro: 45,399.22 MW (12.7%)',
-                pointColor: null),
+                text: 'Large Hydro: 45,399.22 MW (12.7%)'),
             ChartSampleData(
                 x: 'Small\nHydro',
                 y: 1.3,
-                text: 'Small Hydro: 4,594.15 MW (1.3%)',
-                pointColor: null),
+                text: 'Small Hydro: 4,594.15 MW (1.3%)'),
             ChartSampleData(
                 x: 'Wind\nPower',
                 y: 10,
-                text: 'Wind Power: 35,815.88 MW (10.0%)',
-                pointColor: null),
+                text: 'Wind Power: 35,815.88 MW (10.0%)'),
             ChartSampleData(
                 x: 'Solar\nPower',
                 y: 8,
-                text: 'Solar Power: 28,679.21 MW (8.0%)',
-                pointColor: null),
+                text: 'Solar Power: 28,679.21 MW (8.0%)'),
             ChartSampleData(
                 x: 'Biomass',
                 y: 2.6,

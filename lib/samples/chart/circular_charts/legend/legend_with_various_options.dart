@@ -1,12 +1,12 @@
 /// Package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/widgets/custom_button.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../../model/sample_view.dart';
+import '../../../../widgets/custom_button.dart';
 
 /// Renders the Pie chart with legend
 class LegendOptions extends SampleView {

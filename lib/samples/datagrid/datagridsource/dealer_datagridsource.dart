@@ -1,14 +1,16 @@
 ///Dart import
 import 'dart:math';
 
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/samples/datagrid/model/dealer.dart';
 import 'package:intl/intl.dart';
-
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../../model/model.dart';
+import '../model/dealer.dart';
 
 /// Set dealer's data collection to data grid source.
 class DealerDataGridSource extends DataGridSource {
@@ -269,26 +271,24 @@ class DealerDataGridSource extends DataGridSource {
                 if (!isDatePickerVisible) {
                   isDatePickerVisible = true;
                   await showDatePicker(
-                          context: context,
-                          initialDate: selectedDate,
-                          firstDate: firstDate,
-                          lastDate: lastDate,
-                          builder: (BuildContext context, Widget? child) {
-                            return Theme(
-                              data: Theme.of(context).copyWith(
-                                  colorScheme: sampleModel.themeData.colorScheme
-                                              .brightness ==
-                                          Brightness.light
-                                      ? ColorScheme.light(
-                                          primary: sampleModel.backgroundColor)
-                                      : ColorScheme.dark(
-                                          primary: sampleModel.backgroundColor,
-                                        )),
-                              child: child!,
-                            );
-                          },
-                          initialDatePickerMode: DatePickerMode.day)
-                      .then((DateTime? value) {
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: firstDate,
+                      lastDate: lastDate,
+                      builder: (BuildContext context, Widget? child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                              colorScheme: sampleModel
+                                          .themeData.colorScheme.brightness ==
+                                      Brightness.light
+                                  ? ColorScheme.light(
+                                      primary: sampleModel.backgroundColor)
+                                  : ColorScheme.dark(
+                                      primary: sampleModel.backgroundColor,
+                                    )),
+                          child: child!,
+                        );
+                      }).then((DateTime? value) {
                     newCellValue = value;
 
                     /// Call [CellSubmit] callback to fire the canSubmitCell and

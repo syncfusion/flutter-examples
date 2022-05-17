@@ -55,7 +55,6 @@ class _RadialLinearAnimationState extends SampleViewState {
                   value: 12,
                   enableAnimation: true,
                   animationType: AnimationType.linear,
-                  lengthUnit: GaugeSizeUnit.factor,
                   needleLength: 0.8,
                   needleColor:
                       model.themeData.colorScheme.brightness == Brightness.light

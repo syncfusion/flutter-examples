@@ -54,7 +54,6 @@ class _VerticalGradientState extends SampleViewState {
           ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
           borderWidth: 2,
           borderColor: const Color.fromRGBO(0, 156, 144, 1),
-          borderDrawMode: BorderDrawMode.top,
           dataSource: <_ChartData>[
             _ChartData(x: '1997', y: 22.44),
             _ChartData(x: '1998', y: 25.18),
@@ -79,7 +78,6 @@ class _VerticalGradientState extends SampleViewState {
           borderWidth: 2,
           name: 'Country 2',
           borderColor: const Color.fromRGBO(0, 63, 136, 1),
-          borderDrawMode: BorderDrawMode.top,
           dataSource: <_ChartData>[
             _ChartData(x: '1997', y: 17.5),
             _ChartData(x: '1998', y: 21.5),

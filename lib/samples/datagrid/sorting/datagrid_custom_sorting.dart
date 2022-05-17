@@ -1,12 +1,13 @@
 /// Packages import
 import 'package:flutter/material.dart';
 
-/// Local import
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/product_datagridsource.dart';
-
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+/// Local import
+import '../../../model/sample_view.dart';
+import '../datagridsource/product_datagridsource.dart';
 
 /// Renders custom sorting data grid sample
 class CustomSortingDataGrid extends SampleView {

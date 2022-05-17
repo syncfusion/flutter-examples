@@ -44,6 +44,7 @@ class _WidgetPointerExampleState extends SampleViewState {
 
   void _startTimer() {
     if (mounted) {
+      // ignore: no_leading_underscores_for_local_identifiers
       _timer = Timer.periodic(const Duration(milliseconds: 20), (Timer _timer) {
         _incrementPointerValue();
       });
@@ -65,9 +66,6 @@ class _WidgetPointerExampleState extends SampleViewState {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-          startAngle: 130,
-          endAngle: 50,
-          showTicks: true,
           interval: 10,
           labelOffset: 0.1,
           tickOffset: 0.125,
@@ -75,9 +73,8 @@ class _WidgetPointerExampleState extends SampleViewState {
           labelsPosition: ElementsPosition.outside,
           offsetUnit: GaugeSizeUnit.factor,
           showAxisLine: false,
+          showLastLabel: true,
           radiusFactor: model.isWebFullView ? 0.8 : 0.8,
-          showLabels: true,
-          minimum: 0,
           maximum: 120,
           pointers: <GaugePointer>[
             WidgetPointer(
@@ -96,7 +93,6 @@ class _WidgetPointerExampleState extends SampleViewState {
                                   Brightness.light
                               ? Colors.grey
                               : Colors.white.withOpacity(0.2),
-                          offset: Offset.zero,
                           blurRadius: 4.0,
                         ),
                       ],
@@ -105,8 +101,6 @@ class _WidgetPointerExampleState extends SampleViewState {
                                 Brightness.light
                             ? Colors.black.withOpacity(0.1)
                             : Colors.white.withOpacity(0.1),
-                        style: BorderStyle.solid,
-                        width: 1.0,
                       )),
                   height: isCardView
                       ? 37

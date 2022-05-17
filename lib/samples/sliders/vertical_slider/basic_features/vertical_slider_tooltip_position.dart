@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -24,7 +25,7 @@ class VerticalSliderTooltipTypeSliderPage extends SampleView {
 class _VerticalSliderTooltipPageState extends SampleViewState {
   _VerticalSliderTooltipPageState();
 
-  DateTime _hourValue = DateTime(2020, 01, 01, 13, 00, 00);
+  DateTime _hourValue = DateTime(2020, 01, 01, 13);
   double _sliderValue = 20;
   bool _isInversed = false;
   bool _shouldAlwaysShowTooltip = false;
@@ -60,15 +61,14 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
           tooltipBackgroundColor: model.backgroundColor,
         ),
         child: SfSlider.vertical(
-          min: DateTime(2020, 01, 01, 9, 00, 00),
-          max: DateTime(2020, 01, 01, 21, 00, 00),
+          min: DateTime(2020, 01, 01, 9),
+          max: DateTime(2020, 01, 01, 21),
           showLabels: true,
           interval: 4,
           showTicks: true,
           isInversed: _isInversed,
           minorTicksPerInterval: 3,
           dateFormat: DateFormat('h a'),
-          labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.hours,
           value: _hourValue,
           onChanged: (dynamic value) {

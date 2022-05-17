@@ -29,12 +29,12 @@ class _PlotBandRecurrenceState extends SampleViewState {
     xAxis = false;
     yAxis = true;
     chartData = <ChartSampleData>[
-      ChartSampleData(x: DateTime(1980, 1, 1), y: 15400, yValue: 6400),
-      ChartSampleData(x: DateTime(1985, 1, 1), y: 15800, yValue: 3700),
-      ChartSampleData(x: DateTime(1990, 1, 1), y: 14000, yValue: 7200),
-      ChartSampleData(x: DateTime(1995, 1, 1), y: 10500, yValue: 2300),
-      ChartSampleData(x: DateTime(2000, 1, 1), y: 13300, yValue: 4000),
-      ChartSampleData(x: DateTime(2005, 1, 1), y: 12800, yValue: 4800)
+      ChartSampleData(x: DateTime(1980), y: 15400, yValue: 6400),
+      ChartSampleData(x: DateTime(1985), y: 15800, yValue: 3700),
+      ChartSampleData(x: DateTime(1990), y: 14000, yValue: 7200),
+      ChartSampleData(x: DateTime(1995), y: 10500, yValue: 2300),
+      ChartSampleData(x: DateTime(2000), y: 13300, yValue: 4000),
+      ChartSampleData(x: DateTime(2005), y: 12800, yValue: 4800)
     ];
     _tooltipBehavior =
         TooltipBehavior(enable: true, canShowMarker: false, header: '');
@@ -114,8 +114,8 @@ class _PlotBandRecurrenceState extends SampleViewState {
           majorGridLines: const MajorGridLines(width: 0),
           intervalType: DateTimeIntervalType.years,
           edgeLabelPlacement: EdgeLabelPlacement.hide,
-          minimum: DateTime(1975, 1, 1),
-          maximum: DateTime(2010, 1, 1),
+          minimum: DateTime(1975),
+          maximum: DateTime(2010),
 
           /// API for X axis plot band.
           plotBands: <PlotBand>[
@@ -125,10 +125,9 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 repeatEvery: 10,
                 sizeType: DateTimeIntervalType.years,
                 size: model.isWebFullView ? 3 : 5,
-                repeatUntil: DateTime(2010, 1, 1),
-                start: DateTime(1965, 1, 1),
-                end: DateTime(2010, 1, 1),
-                shouldRenderAboveSeries: false,
+                repeatUntil: DateTime(2010),
+                start: DateTime(1965),
+                end: DateTime(2010),
                 color:
                     model.themeData.colorScheme.brightness == Brightness.light
                         ? const Color.fromRGBO(227, 228, 230, 0.4)
@@ -149,7 +148,6 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 start: 0,
                 end: 18000,
                 repeatUntil: 18000,
-                shouldRenderAboveSeries: false,
                 color:
                     model.themeData.colorScheme.brightness == Brightness.light
                         ? const Color.fromRGBO(227, 228, 230, 0.1)

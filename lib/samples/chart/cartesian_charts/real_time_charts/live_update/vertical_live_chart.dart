@@ -112,8 +112,8 @@ class _LiveUpdateState extends SampleViewState {
 
   ///Get random value
   int _getRandomInt(int min, int max) {
-    final Random _random = Random();
-    return min + _random.nextInt(max - min);
+    final Random random = Random();
+    return min + random.nextInt(max - min);
   }
 
   ///Get the chart data points

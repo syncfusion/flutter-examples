@@ -41,13 +41,13 @@ class _DataMatrixGeneratorState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    EdgeInsets _padding = EdgeInsets.zero;
-    double _margin;
+    EdgeInsets padding = EdgeInsets.zero;
+    double margin;
     if (!model.isWebFullView) {
-      _margin = (MediaQuery.of(context).size.width -
+      margin = (MediaQuery.of(context).size.width -
               MediaQuery.of(context).size.width * 0.6) /
           2;
-      _padding = EdgeInsets.fromLTRB(_margin, 0, _margin, 0);
+      padding = EdgeInsets.fromLTRB(margin, 0, margin, 0);
     }
     return Scaffold(
       backgroundColor:
@@ -55,7 +55,7 @@ class _DataMatrixGeneratorState extends SampleViewState {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
         child:
-            Container(child: _buildDataMatrixGenerator(_inputValue, _padding)),
+            Container(child: _buildDataMatrixGenerator(_inputValue, padding)),
       ),
     );
   }
@@ -67,7 +67,6 @@ class _DataMatrixGeneratorState extends SampleViewState {
         padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text('Input value:   ',
                 overflow: TextOverflow.clip,
@@ -90,12 +89,10 @@ class _DataMatrixGeneratorState extends SampleViewState {
                             enabledBorder: UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: model.textColor))),
-                        autofocus: false,
                         keyboardType: TextInputType.text,
-                        maxLines: 1,
-                        onChanged: (String _text) {
+                        onChanged: (String text) {
                           setState(() {
-                            _inputValue = _text;
+                            _inputValue = text;
                           });
                         },
                         controller: _textEditingController),
@@ -108,17 +105,16 @@ class _DataMatrixGeneratorState extends SampleViewState {
   }
 
   /// Returns the data matrix barcode generator
-  Widget _buildDataMatrixGenerator(String _inputValue, EdgeInsets _padding) {
+  Widget _buildDataMatrixGenerator(String inputValue, EdgeInsets padding) {
     return Center(
       child: SizedBox(
           height: model.isWebFullView ? 300 : double.infinity,
           child: Padding(
-            padding: _padding,
+            padding: padding,
             child: SfBarcodeGenerator(
-              value: _inputValue,
+              value: inputValue,
               textAlign: TextAlign.justify,
               textSpacing: 10,
-              showValue: false,
               symbology: DataMatrix(encoding: DataMatrixEncoding.base256),
             ),
           )),

@@ -38,8 +38,6 @@ class _GaugeTemperatureMonitorExampleState extends SampleViewState {
       enableLoadingAnimation: true,
       axes: <RadialAxis>[
         RadialAxis(
-            startAngle: 130,
-            endAngle: 50,
             minimum: -50,
             maximum: 150,
             interval: isCardView ? 20 : _interval,
@@ -103,8 +101,6 @@ class _GaugeTemperatureMonitorExampleState extends SampleViewState {
             pointers: <GaugePointer>[
               NeedlePointer(
                 value: 22.5,
-                needleLength: 0.6,
-                lengthUnit: GaugeSizeUnit.factor,
                 needleStartWidth: isCardView ? 0 : 1,
                 needleEndWidth: isCardView ? 5 : 8,
                 animationType: AnimationType.easeOutBack,
@@ -112,21 +108,19 @@ class _GaugeTemperatureMonitorExampleState extends SampleViewState {
                 animationDuration: 1200,
                 knobStyle: KnobStyle(
                     knobRadius: isCardView ? 0.06 : 0.09,
-                    sizeUnit: GaugeSizeUnit.factor,
                     borderColor: const Color(0xFFF8B195),
                     color: Colors.white,
                     borderWidth: isCardView ? 0.035 : 0.05),
                 tailStyle: TailStyle(
                     color: const Color(0xFFF8B195),
                     width: isCardView ? 4 : 8,
-                    lengthUnit: GaugeSizeUnit.factor,
                     length: isCardView ? 0.15 : 0.2),
                 needleColor: const Color(0xFFF8B195),
               )
             ],
             axisLabelStyle: GaugeTextStyle(fontSize: isCardView ? 10 : 12),
             majorTickStyle: const MajorTickStyle(
-                length: 0.25, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
+                length: 0.25, lengthUnit: GaugeSizeUnit.factor),
             minorTickStyle: const MinorTickStyle(
                 length: 0.13, lengthUnit: GaugeSizeUnit.factor, thickness: 1))
       ],

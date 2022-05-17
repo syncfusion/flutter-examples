@@ -35,7 +35,6 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
             axisLineStyle: const AxisLineStyle(
                 thickness: 0.07, thicknessUnit: GaugeSizeUnit.factor),
             showTicks: false,
-            showLabels: true,
             labelOffset: 25,
             ranges: <GaugeRange>[
               GaugeRange(
@@ -106,6 +105,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
   void handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
+      // ignore: no_leading_underscores_for_local_identifiers
       final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
       if (_value < 99 && _annotationValue != 'In-progress') {
         _annotationValue = 'In-progress';
@@ -136,6 +136,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
   void handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
+      // ignore: no_leading_underscores_for_local_identifiers
       final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
       if (_value < 99 && _annotationValue != 'In-progress') {
         _annotationValue = 'In-progress';

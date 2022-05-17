@@ -65,7 +65,7 @@ class _AutoScrollingChartState extends SampleViewState {
     ];
     isPointerMoved = false;
     chartData = <_ChartData>[
-      _ChartData(DateTime(2020, 01, 1, 00, 00, 00), 42, palette[0]),
+      _ChartData(DateTime(2020), 42, palette[0]),
       _ChartData(DateTime(2020, 01, 1, 00, 00, 01), 47, palette[1]),
     ];
     chartDataTemp = <_ChartData>[];
@@ -146,8 +146,8 @@ class _AutoScrollingChartState extends SampleViewState {
   }
 
   int _getRandomInt(int min, int max) {
-    final math.Random _random = math.Random();
-    return min + _random.nextInt(max - min);
+    final math.Random random = math.Random();
+    return min + random.nextInt(max - min);
   }
 }
 

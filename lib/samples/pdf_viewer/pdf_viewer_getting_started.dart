@@ -1,9 +1,9 @@
 ///Package import
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/samples/pdf_viewer/shared/helper.dart';
 
 /// Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///PDF Viewer import
@@ -11,6 +11,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 ///Local import
 import '../../model/sample_view.dart';
+import 'shared/helper.dart';
 
 ///Widget of getting started PDF Viewer.
 class GettingStartedPdfViewer extends SampleView {
@@ -70,7 +71,6 @@ class _GettingStartedPdfViewerState extends SampleViewState {
       BoxShadow(
         color: Color.fromRGBO(0, 0, 0, 0.14),
         blurRadius: 2,
-        offset: Offset.zero,
       ),
       BoxShadow(
         color: Color.fromRGBO(0, 0, 0, 0.12),
@@ -112,8 +112,7 @@ class _GettingStartedPdfViewerState extends SampleViewState {
             ? details.globalSelectedRegion!.center.dx - (_contextMenuWidth / 2)
             : details.globalSelectedRegion!.bottomLeft.dx;
       }
-      final OverlayState? _overlayState =
-          Overlay.of(context, rootOverlay: true);
+      final OverlayState? overlayState = Overlay.of(context, rootOverlay: true);
       _overlayEntry = OverlayEntry(
         builder: (BuildContext context) => Positioned(
           top: top,
@@ -154,7 +153,7 @@ class _GettingStartedPdfViewerState extends SampleViewState {
           ),
         ),
       );
-      _overlayState?.insert(_overlayEntry!);
+      overlayState?.insert(_overlayEntry!);
     }
   }
 

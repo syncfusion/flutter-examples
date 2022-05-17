@@ -228,52 +228,42 @@ class _PyramidSmartLabelState extends SampleViewState {
           ChartSampleData(
               x: 'Mexico',
               y: 127575529,
-              text: null,
               pointColor: const Color.fromRGBO(238, 238, 238, 1)),
           ChartSampleData(
               x: 'Russia ',
               y: 145872256,
-              text: null,
               pointColor: const Color.fromRGBO(255, 240, 219, 1)),
           ChartSampleData(
               x: 'Bangladesh',
               y: 163046161,
-              text: null,
               pointColor: const Color.fromRGBO(255, 205, 96, 1)),
           ChartSampleData(
               x: 'Nigeria ',
               y: 200963599,
-              text: null,
               pointColor: const Color.fromRGBO(73, 76, 162, 1)),
           ChartSampleData(
               x: 'Brazil',
               y: 211049527,
-              text: null,
               pointColor: const Color.fromRGBO(0, 168, 181, 1)),
           ChartSampleData(
               x: 'Pakistan ',
               y: 216565318,
-              text: null,
               pointColor: const Color.fromRGBO(116, 180, 155, 1)),
           ChartSampleData(
               x: 'Indonesia',
               y: 270625568,
-              text: null,
               pointColor: const Color.fromRGBO(248, 177, 149, 1)),
           ChartSampleData(
               x: 'US',
               y: 329064917,
-              text: null,
               pointColor: const Color.fromRGBO(246, 114, 128, 1)),
           ChartSampleData(
               x: 'India',
               y: 1366417754,
-              text: null,
               pointColor: const Color.fromRGBO(192, 108, 132, 1)),
           ChartSampleData(
               x: 'China',
               y: 1433783686,
-              text: null,
               pointColor: const Color.fromRGBO(53, 92, 125, 1)),
         ],
         xValueMapper: (ChartSampleData data, _) => data.x as String,

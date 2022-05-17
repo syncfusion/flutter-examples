@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Custom business object class which contains properties to hold the detailed

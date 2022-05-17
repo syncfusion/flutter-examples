@@ -57,16 +57,16 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
           dataSource: <ChartSampleData>[
-            ChartSampleData(x: DateTime(1996, 1, 1), yValue: 200),
-            ChartSampleData(x: DateTime(1997, 1, 1), yValue: 400),
-            ChartSampleData(x: DateTime(1998, 1, 1), yValue: 600),
-            ChartSampleData(x: DateTime(1999, 1, 1), yValue: 700),
-            ChartSampleData(x: DateTime(2000, 1, 1), yValue: 1400),
-            ChartSampleData(x: DateTime(2001, 1, 1), yValue: 2000),
-            ChartSampleData(x: DateTime(2002, 1, 1), yValue: 4000),
-            ChartSampleData(x: DateTime(2003, 1, 1), yValue: 6000),
-            ChartSampleData(x: DateTime(2004, 1, 1), yValue: 8000),
-            ChartSampleData(x: DateTime(2005, 1, 1), yValue: 11000)
+            ChartSampleData(x: DateTime(1996), yValue: 200),
+            ChartSampleData(x: DateTime(1997), yValue: 400),
+            ChartSampleData(x: DateTime(1998), yValue: 600),
+            ChartSampleData(x: DateTime(1999), yValue: 700),
+            ChartSampleData(x: DateTime(2000), yValue: 1400),
+            ChartSampleData(x: DateTime(2001), yValue: 2000),
+            ChartSampleData(x: DateTime(2002), yValue: 4000),
+            ChartSampleData(x: DateTime(2003), yValue: 6000),
+            ChartSampleData(x: DateTime(2004), yValue: 8000),
+            ChartSampleData(x: DateTime(2005), yValue: 11000)
           ],
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
+import '../../model/sample_view.dart';
 
 /// Read the encrypted PDF document.
 class Encrypted extends SampleView {
@@ -27,7 +28,6 @@ class _EncryptedState extends SampleViewState {
           ? Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
@@ -60,25 +60,24 @@ class _EncryptedState extends SampleViewState {
                     ),
                     const SizedBox(height: 15, width: 30),
                     Align(
-                        alignment: Alignment.center,
                         child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                model.backgroundColor),
-                            padding: model.isMobile
-                                ? null
-                                : MaterialStateProperty.all(
-                                    const EdgeInsets.symmetric(
-                                        vertical: 15, horizontal: 15)),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _showMasterPage = false;
-                            });
-                          },
-                          child: const Text('View PDF',
-                              style: TextStyle(color: Colors.white)),
-                        ))
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            model.backgroundColor),
+                        padding: model.isMobile
+                            ? null
+                            : MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 15)),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _showMasterPage = false;
+                        });
+                      },
+                      child: const Text('View PDF',
+                          style: TextStyle(color: Colors.white)),
+                    ))
                   ]),
             )
           : SfPdfViewer.asset(

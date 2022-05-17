@@ -104,7 +104,6 @@ class _SampleBrowserState extends State<SampleBrowser> {
                     primary: _sampleListModel.currentPaletteColor,
                     secondary: _sampleListModel.currentPaletteColor,
                     onPrimary: Colors.white)),
-            themeMode: ThemeMode.system,
           )
         : MaterialApp(
             initialRoute: '/demos',
@@ -130,7 +129,6 @@ class _SampleBrowserState extends State<SampleBrowser> {
                     primary: _sampleListModel.currentPaletteColor,
                     secondary: _sampleListModel.currentPaletteColor,
                     onPrimary: Colors.white)),
-            themeMode: ThemeMode.system,
             home: Builder(builder: (BuildContext context) {
               _sampleListModel.systemTheme = Theme.of(context);
               _sampleListModel.currentThemeData ??=
@@ -355,8 +353,8 @@ class _HomePageState extends State<HomePage> {
                                       child: InkWell(
                                         hoverColor: Colors.white,
                                         onTap: () {
-                                          launch(
-                                              'https://www.syncfusion.com/downloads/flutter/confirm');
+                                          launchUrl(Uri.parse(
+                                              'https://www.syncfusion.com/downloads/flutter/confirm'));
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.fromLTRB(
@@ -402,8 +400,8 @@ class _HomePageState extends State<HomePage> {
                                       child: InkWell(
                                         hoverColor: Colors.white,
                                         onTap: () {
-                                          launch(
-                                              'https://pub.dev/publishers/syncfusion.com/packages');
+                                          launchUrl(Uri.parse(
+                                              'https://pub.dev/publishers/syncfusion.com/packages'));
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.fromLTRB(
@@ -535,7 +533,6 @@ class _HomePageState extends State<HomePage> {
     final List<Widget> items = <Widget>[];
     for (int i = 0; i < model.sampleList.length; i++) {
       items.add(Material(
-          elevation: 0.0,
           color: model.webBackgroundColor,
           child: InkWell(
               splashColor: Colors.grey.withOpacity(0.4),
@@ -550,7 +547,6 @@ class _HomePageState extends State<HomePage> {
                 child: RichText(
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.left,
-                  softWrap: true,
                   maxLines: 1,
                   text: TextSpan(
                     children: <TextSpan>[
@@ -665,7 +661,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
   Widget _getCategorizedCards() {
     final double deviceWidth = MediaQuery.of(context).size.width;
     double padding;
-    double _sidePadding = deviceWidth > 1060
+    double sidePadding = deviceWidth > 1060
         ? deviceWidth * 0.038
         : deviceWidth >= 768
             ? deviceWidth * 0.041
@@ -680,7 +676,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
       ///setting max cardwidth, spacing between cards in higher resolutions
       if (deviceWidth > 3000) {
         _cardWidth = deviceWidth / 3.5;
-        _sidePadding = (_cardWidth / 2) * 0.125;
+        sidePadding = (_cardWidth / 2) * 0.125;
         padding = 30;
       }
       final List<Widget> firstColumnWidgets = <Widget>[];
@@ -710,14 +706,14 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
         organizedCardWidget = Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(left: _sidePadding)),
+            Padding(padding: EdgeInsets.only(left: sidePadding)),
             Column(children: firstColumnWidgets),
             Padding(padding: EdgeInsets.only(left: padding)),
             Column(children: secondColumnWidgets),
             Padding(padding: EdgeInsets.only(left: padding)),
             Column(children: thirdColumnWidgets),
             Padding(
-              padding: EdgeInsets.only(left: _sidePadding),
+              padding: EdgeInsets.only(left: sidePadding),
             )
           ],
         );
@@ -742,12 +738,12 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
         organizedCardWidget = Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(left: _sidePadding)),
+            Padding(padding: EdgeInsets.only(left: sidePadding)),
             Column(children: firstColumnWidgets),
             Padding(padding: EdgeInsets.only(left: padding)),
             Column(children: secondColumnWidgets),
             Padding(
-              padding: EdgeInsets.only(left: _sidePadding),
+              padding: EdgeInsets.only(left: sidePadding),
             )
           ],
         );
@@ -755,7 +751,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
     } else {
       _cardWidth = deviceWidth * 0.9;
       padding = deviceWidth * 0.035;
-      _sidePadding = (deviceWidth * 0.1) / 2;
+      sidePadding = (deviceWidth * 0.1) / 2;
       final List<Widget> verticalOrderedWidgets = <Widget>[];
       for (int i = 0; i < model.categoryList.length; i++) {
         verticalOrderedWidgets.add(_getCategoryWidget(model.categoryList[i]));
@@ -764,10 +760,10 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
       }
       organizedCardWidget = Row(
         children: <Widget>[
-          Padding(padding: EdgeInsets.only(left: _sidePadding)),
+          Padding(padding: EdgeInsets.only(left: sidePadding)),
           Column(children: verticalOrderedWidgets),
           Padding(
-            padding: EdgeInsets.only(left: _sidePadding),
+            padding: EdgeInsets.only(left: sidePadding),
           )
         ],
       );
@@ -824,7 +820,6 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
             color: model.cardColor,
             child: Material(
               color: model.cardColor,
-              elevation: 0.0,
               child: InkWell(
                 splashFactory: InkRipple.splashFactory,
                 hoverColor: Colors.grey.withOpacity(0.2),
@@ -857,7 +852,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                             if (!model.isWebFullView && Platform.isIOS)
                               Container()
                             else
-                              control.isBeta == true
+                              (control.isBeta ?? false)
                                   ? Padding(
                                       padding: const EdgeInsets.only(left: 8),
                                       child: Container(
@@ -869,7 +864,6 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                                               : const EdgeInsets.fromLTRB(
                                                   3, 3, 3, 2),
                                           decoration: const BoxDecoration(
-                                              shape: BoxShape.rectangle,
                                               color: Color.fromRGBO(
                                                   245, 188, 14, 1)),
                                           child: const Text(
@@ -886,7 +880,6 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                           if (status != null)
                             Container(
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
                                     color: status.toLowerCase() == 'new'
                                         ? const Color.fromRGBO(55, 153, 30, 1)
                                         : status.toLowerCase() == 'updated'

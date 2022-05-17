@@ -89,7 +89,7 @@ class _LineDefaultState extends SampleViewState {
               _ChartData(DateTime(2018, 10), 2.5),
               _ChartData(DateTime(2018, 11), 2.2),
               _ChartData(DateTime(2018, 12), 1.9),
-              _ChartData(DateTime(2019, 1), 1.6),
+              _ChartData(DateTime(2019), 1.6),
               _ChartData(DateTime(2019, 2), 1.5),
               _ChartData(DateTime(2019, 3), 1.9),
               _ChartData(DateTime(2019, 4), 2),

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -45,7 +46,6 @@ class _GradientTrackRangeSliderState extends SampleViewState {
         trackCornerRadius: 4.0,
       ),
       child: SfRangeSlider(
-        min: 0.0,
         max: 6.0,
         values: _blueGradientSliderValues,
         onChanged: (SfRangeValues values) {
@@ -80,7 +80,6 @@ class _GradientTrackRangeSliderState extends SampleViewState {
           thumbStrokeWidth: 2.0,
           thumbStrokeColor: Colors.tealAccent),
       child: SfRangeSlider(
-        min: 0.0,
         max: 100.0,
         interval: 20.0,
         showLabels: true,
@@ -235,11 +234,7 @@ class _TrackShape extends SfTrackShape {
       trackRect = Rect.fromLTRB(startThumbCenter.dx, actualTrackRect.top,
           endThumbCenter.dx, actualTrackRect.bottom);
       paint.shader = gradient.createShader(trackRect);
-      final RRect centerRRect = RRect.fromRectAndCorners(trackRect,
-          topLeft: Radius.zero,
-          topRight: Radius.zero,
-          bottomLeft: Radius.zero,
-          bottomRight: Radius.zero);
+      final RRect centerRRect = RRect.fromRectAndCorners(trackRect);
       context.canvas.drawRRect(centerRRect, paint);
 
       // Drawing inactive track.
@@ -248,10 +243,7 @@ class _TrackShape extends SfTrackShape {
       trackRect = Rect.fromLTRB(endThumbCenter.dx, actualTrackRect.top,
           actualTrackRect.width + actualTrackRect.left, actualTrackRect.bottom);
       final RRect rightRRect = RRect.fromRectAndCorners(trackRect,
-          topLeft: Radius.zero,
-          topRight: radius,
-          bottomLeft: Radius.zero,
-          bottomRight: radius);
+          topRight: radius, bottomRight: radius);
       context.canvas.drawRRect(rightRRect, paint);
     }
   }

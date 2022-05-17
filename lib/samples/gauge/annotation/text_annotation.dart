@@ -43,12 +43,10 @@ class _RadialTextAnnotationState extends SampleViewState {
             showTicks: false,
             showLabels: false,
             startAngle: 180,
-            endAngle: 50,
             radiusFactor: model.isWebFullView ? 0.8 : 0.9,
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                   angle: 270,
-                  positionFactor: 0,
                   verticalAlignment: GaugeAlignment.far,
                   widget: Text(' 63%',
                       style: TextStyle(

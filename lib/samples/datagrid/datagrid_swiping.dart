@@ -1,12 +1,15 @@
 /// Package imports
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/orderinfo_datagridsource.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../model/sample_view.dart';
+import 'datagridsource/orderinfo_datagridsource.dart';
 
 /// Local import
 import 'model/orderinfo.dart';
@@ -281,7 +284,6 @@ class _SwipingDataGridState extends SampleViewState {
         color: Colors.blueAccent,
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Icon(Icons.edit, color: Colors.white, size: 20),
@@ -305,7 +307,6 @@ class _SwipingDataGridState extends SampleViewState {
         color: Colors.redAccent,
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Icon(Icons.delete, color: Colors.white, size: 20),

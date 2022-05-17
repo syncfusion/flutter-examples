@@ -1,15 +1,17 @@
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/orderinfo_datagridsource.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
-/// Barcode import
+/// Datagrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../../model/sample_view.dart';
+import '../../datagridsource/orderinfo_datagridsource.dart';
 
 /// render data grid widget
 class StylingDataGrid extends SampleView {
@@ -288,7 +290,6 @@ class _StylingDataGridState extends SampleViewState {
 
   BoxDecoration drawBorder() {
     final BorderSide borderSide = BorderSide(
-        width: 1.0,
         color: model.themeData.colorScheme.brightness == Brightness.light
             ? const Color.fromRGBO(0, 0, 0, 0.26)
             : const Color.fromRGBO(255, 255, 255, 0.26));

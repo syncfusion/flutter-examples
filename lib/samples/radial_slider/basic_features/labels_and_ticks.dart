@@ -43,7 +43,6 @@ class _RadialSliderLabelsTicksState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: 0.85,
-            minimum: 0,
             maximum: 12,
             interval: 3,
             axisLineStyle: const AxisLineStyle(

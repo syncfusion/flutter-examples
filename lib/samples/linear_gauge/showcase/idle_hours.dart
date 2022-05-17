@@ -37,8 +37,6 @@ class _IdleHoursState extends SampleViewState {
   Widget _buildIdleHours(BuildContext context) {
     return Center(
       child: SfLinearGauge(
-        orientation: LinearGaugeOrientation.horizontal,
-        showLabels: true,
         showTicks: false,
         interval: 30,
         labelOffset: 0,
@@ -80,7 +78,6 @@ class _IdleHoursState extends SampleViewState {
   LinearWidgetPointer _buildLinearWidgetPointer(double value, Color color) {
     return LinearWidgetPointer(
         value: value,
-        position: LinearElementPosition.cross,
         child: Container(
           height: 96,
           width: 8,

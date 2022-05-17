@@ -88,7 +88,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
       return model.isWebFullView && model.isMobileResolution
           ? SingleChildScrollView(
               child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 _buildCPUDataChart(),
@@ -109,7 +108,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
           : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   _buildCPUDataChart(),
                   const Padding(
@@ -155,7 +153,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
   Widget _buildCPUDataChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(5),
@@ -164,7 +161,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
             height: _isVertical ? _size : _size * 0.7,
             width: _isVertical ? _size * 2 : _size,
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
@@ -205,7 +201,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
   Widget _buildDiskDataChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(5),
@@ -214,7 +209,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
             height: _isVertical ? _size : _size * 0.7,
             width: _isVertical ? _size * 2 : _size,
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
@@ -238,7 +232,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
                   Expanded(
                       child: SfSparkAreaChart(
                     data: _diskData,
-                    axisCrossesAt: 0,
                     axisLineWidth: 0,
                     color: const Color.fromRGBO(128, 94, 246, 0.3),
                     borderColor: const Color.fromRGBO(128, 94, 246, 1),
@@ -252,7 +245,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
   Widget _buildMemoryDataChart() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
               padding: const EdgeInsets.all(5),
@@ -261,7 +253,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
               height: _isVertical ? _size : _size * 0.7,
               width: _isVertical ? _size * 2 : _size,
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
@@ -292,7 +283,6 @@ class _SparklineLiveUpdateState extends SampleViewState {
                     Expanded(
                         child: SfSparkAreaChart(
                             data: _memoryData,
-                            axisCrossesAt: 0,
                             axisLineWidth: 0,
                             color: const Color.fromRGBO(89, 176, 227, 0.3),
                             borderColor: const Color.fromRGBO(89, 176, 227, 1),
@@ -302,56 +292,51 @@ class _SparklineLiveUpdateState extends SampleViewState {
   }
 
   Widget _buildEthernetDataChart() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
-              height: _isVertical ? _size : _size * 0.7,
-              width: _isVertical ? _size * 2 : _size,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                        child: const Text('Ethernet',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16))),
-                    Container(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                        child: Text(
-                            'R: ' '${int.parse(_ethernetValue)}' ' Kbps',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: model.themeData.colorScheme.brightness ==
-                                      Brightness.dark
-                                  ? const Color.fromRGBO(89, 190, 103, 1)
-                                  : const Color.fromRGBO(40, 144, 90, 1),
-                            ))),
-                    const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
-                    Expanded(
-                        child: SfSparkAreaChart(
-                      data: _ethernetData,
-                      axisCrossesAt: 0,
-                      axisLineWidth: 0,
-                      color: const Color.fromRGBO(89, 190, 103, 0.3),
-                      borderColor: const Color.fromRGBO(89, 190, 103, 1),
-                      borderWidth: 1,
-                    ))
-                  ])),
-        ]);
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+        Widget>[
+      Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.withOpacity(0.5))),
+          height: _isVertical ? _size : _size * 0.7,
+          width: _isVertical ? _size * 2 : _size,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                    child: const Text('Ethernet',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16))),
+                Container(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                    child: Text('R: ' '${int.parse(_ethernetValue)}' ' Kbps',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: model.themeData.colorScheme.brightness ==
+                                  Brightness.dark
+                              ? const Color.fromRGBO(89, 190, 103, 1)
+                              : const Color.fromRGBO(40, 144, 90, 1),
+                        ))),
+                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+                Expanded(
+                    child: SfSparkAreaChart(
+                  data: _ethernetData,
+                  axisLineWidth: 0,
+                  color: const Color.fromRGBO(89, 190, 103, 0.3),
+                  borderColor: const Color.fromRGBO(89, 190, 103, 1),
+                  borderWidth: 1,
+                ))
+              ])),
+    ]);
   }
 
   ///Get random value
-  double _getRandomInt(int _min, int _max) {
-    final Random _random = Random();
-    return _min + _random.nextInt(_max - _min).toDouble();
+  double _getRandomInt(int min, int max) {
+    final Random random = Random();
+    return min + random.nextInt(max - min).toDouble();
   }
 
   void _updateData(Timer timer) {

@@ -82,7 +82,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFirtSlider(),
               _buildSecondSlider(),
@@ -91,7 +90,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFourthSlider(),
               _buildFifthSlider(),
@@ -108,7 +106,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFirtSlider(),
               _buildSecondSlider(),
@@ -117,7 +114,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFourthSlider(),
               _buildFifthSlider(),
@@ -551,6 +547,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   Widget _buildSixthSlider() {
+    // ignore: no_leading_underscores_for_local_identifiers
     final Orientation _orientation = MediaQuery.of(context).orientation;
     return SizedBox(
       height: _size,
@@ -669,7 +666,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                             : Colors.white,
                       ),
                     ),
-                    positionFactor: 0,
                     angle: 90)
               ])
         ],
@@ -682,6 +678,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
+      // ignore: no_leading_underscores_for_local_identifiers
       final int _value = _secondMarkerValue.abs().round();
       _annotationValue_1 = '$_value%';
     });
@@ -699,8 +696,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
-      final int _value = _firstMarkerValue.abs().round();
-      _annotationValue1 = '$_value';
+      final int firstMarkerValue = _firstMarkerValue.abs().round();
+      _annotationValue1 = '$firstMarkerValue';
     });
   }
 
@@ -717,8 +714,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleFourthPointerValueChanged(double value) {
     setState(() {
       _fourthMarkerValue = value;
-      final int _value = _fourthMarkerValue.abs().round();
-      _annotationValue_2 = '$_value%';
+      final int fourthMarkerValue = _fourthMarkerValue.abs().round();
+      _annotationValue_2 = '$fourthMarkerValue%';
     });
   }
 
@@ -734,8 +731,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleThirdPointerValueChanged(double value) {
     setState(() {
       _thirdMarkerValue = value;
-      final int _value = _thirdMarkerValue.abs().round();
-      _annotationValue2 = '$_value';
+      final int thirdMarkerValue = _thirdMarkerValue.abs().round();
+      _annotationValue2 = '$thirdMarkerValue';
     });
   }
 
@@ -752,8 +749,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleSixthPointerValueChanged(double value) {
     setState(() {
       _sixthMarkerValue = value;
-      final int _value = _sixthMarkerValue.abs().round();
-      _annotationValue_3 = '$_value%';
+      final int sixthMarkerValue = _sixthMarkerValue.abs().round();
+      _annotationValue_3 = '$sixthMarkerValue%';
     });
   }
 
@@ -769,8 +766,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleFifthPointerValueChanged(double value) {
     setState(() {
       _fifthMarkerValue = value;
-      final int _value = _fifthMarkerValue.abs().round();
-      _annotationValue3 = '$_value';
+      final int fifthMarkerValue = _fifthMarkerValue.abs().round();
+      _annotationValue3 = '$fifthMarkerValue';
     });
   }
 
@@ -787,8 +784,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleEighthPointerValueChanged(double value) {
     setState(() {
       _eighthMarkerValue = value;
-      final int _value = _eighthMarkerValue.abs().round();
-      _annotationValue_4 = '$_value%';
+      final int eighthMarkerValue = _eighthMarkerValue.abs().round();
+      _annotationValue_4 = '$eighthMarkerValue%';
     });
   }
 
@@ -804,8 +801,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleSeventhPointerValueChanged(double value) {
     setState(() {
       _seventhMarkerValue = value;
-      final int _value = _seventhMarkerValue.abs().round();
-      _annotationValue4 = '$_value';
+      final int seventhMarkerValue = _seventhMarkerValue.abs().round();
+      _annotationValue4 = '$seventhMarkerValue';
     });
   }
 
@@ -822,8 +819,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleTenthPointerValueChanged(double value) {
     setState(() {
       _tenthMarkerValue = value;
-      final int _value = _tenthMarkerValue.abs().round();
-      _annotationValue_5 = '$_value%';
+      final int tenthMarkerValue = _tenthMarkerValue.abs().round();
+      _annotationValue_5 = '$tenthMarkerValue%';
     });
   }
 
@@ -839,8 +836,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleNinthPointerValueChanged(double value) {
     setState(() {
       _ninthMarkerValue = value;
-      final int _value = _ninthMarkerValue.abs().round();
-      _annotationValue5 = '$_value';
+      final int ninthMarkerValue = _ninthMarkerValue.abs().round();
+      _annotationValue5 = '$ninthMarkerValue';
     });
   }
 
@@ -857,8 +854,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleTwelethPointerValueChanged(double value) {
     setState(() {
       _twelethMarkerValue = value;
-      final int _value = _twelethMarkerValue.abs().round();
-      _annotationValue_6 = '$_value';
+      final int twelethMarkerValue = _twelethMarkerValue.abs().round();
+      _annotationValue_6 = '$twelethMarkerValue';
     });
   }
 
@@ -874,8 +871,8 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   void handleEleventhPointerValueChanged(double value) {
     setState(() {
       _eleventhMarkerValue = value;
-      final int _value = _eleventhMarkerValue.abs().round();
-      _annotationValue6 = '$_value';
+      final int eleventhMarkerValue = _eleventhMarkerValue.abs().round();
+      _annotationValue6 = '$eleventhMarkerValue';
     });
   }
 

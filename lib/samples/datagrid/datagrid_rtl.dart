@@ -1,13 +1,14 @@
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/model/orderinfo.dart';
 
 /// Barcode import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../model/sample_view.dart';
 import 'datagridsource/orderinfo_datagridsource.dart';
+import 'model/orderinfo.dart';
 
 /// Renders datagrid with selection option(single/multiple and select/unselect)
 class RTLModeDataGrid extends DirectionalitySampleView {

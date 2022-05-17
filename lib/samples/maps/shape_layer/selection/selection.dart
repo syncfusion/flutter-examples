@@ -592,7 +592,6 @@ class _MapSelectionPageState extends SampleViewState {
         Padding(
             padding: const EdgeInsets.only(top: 15, bottom: 30),
             child: Align(
-                alignment: Alignment.center,
                 child: Text('2020 US Election Results',
                     style: Theme.of(context).textTheme.subtitle1))),
         Expanded(
@@ -623,8 +622,6 @@ class _MapSelectionPageState extends SampleViewState {
                 segmentSize: isDesktop
                     ? const Size(25, 12)
                     : Size((size.width * 0.80) / _colorMappers.length, 12.0),
-                edgeLabelsPlacement: MapLegendEdgeLabelsPlacement.inside,
-                labelOverflow: MapLabelOverflow.visible,
                 position: MapLegendPosition.bottom,
                 padding: const EdgeInsets.only(top: 15),
                 spacing: 0.0,

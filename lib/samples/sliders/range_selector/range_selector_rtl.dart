@@ -6,9 +6,11 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:syncfusion_flutter_charts/charts.dart' hide LabelPlacement;
 
 ///Core import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -29,7 +31,7 @@ class RangeSelectorRTL extends SampleView {
 class _RangeSelectorRTLState extends SampleViewState {
   _RangeSelectorRTLState();
 
-  final DateTime min = DateTime(2002, 01, 01), max = DateTime(2011, 01, 01);
+  final DateTime min = DateTime(2002), max = DateTime(2011);
   late List<ChartSampleData> chartData;
   late RangeController rangeController;
   late LinearGradient gradientColors;
@@ -38,20 +40,20 @@ class _RangeSelectorRTLState extends SampleViewState {
   void initState() {
     super.initState();
     chartData = <ChartSampleData>[
-      ChartSampleData(x: DateTime(2002, 01, 01), y: 2.2),
-      ChartSampleData(x: DateTime(2003, 01, 01), y: 3.4),
-      ChartSampleData(x: DateTime(2004, 01, 01), y: 2.8),
-      ChartSampleData(x: DateTime(2005, 01, 01), y: 1.6),
-      ChartSampleData(x: DateTime(2006, 01, 01), y: 2.3),
-      ChartSampleData(x: DateTime(2007, 01, 01), y: 2.5),
-      ChartSampleData(x: DateTime(2008, 01, 01), y: 2.9),
-      ChartSampleData(x: DateTime(2009, 01, 01), y: 3.8),
-      ChartSampleData(x: DateTime(2010, 01, 01), y: 1.4),
-      ChartSampleData(x: DateTime(2011, 01, 01), y: 3.1),
+      ChartSampleData(x: DateTime(2002), y: 2.2),
+      ChartSampleData(x: DateTime(2003), y: 3.4),
+      ChartSampleData(x: DateTime(2004), y: 2.8),
+      ChartSampleData(x: DateTime(2005), y: 1.6),
+      ChartSampleData(x: DateTime(2006), y: 2.3),
+      ChartSampleData(x: DateTime(2007), y: 2.5),
+      ChartSampleData(x: DateTime(2008), y: 2.9),
+      ChartSampleData(x: DateTime(2009), y: 3.8),
+      ChartSampleData(x: DateTime(2010), y: 1.4),
+      ChartSampleData(x: DateTime(2011), y: 3.1),
     ];
     rangeController = RangeController(
-      start: DateTime(2005, 01, 01),
-      end: DateTime(2008, 01, 01),
+      start: DateTime(2005),
+      end: DateTime(2008),
     );
     gradientColors = const LinearGradient(colors: <Color>[
       Color.fromRGBO(255, 125, 30, 0.4),
@@ -146,7 +148,6 @@ class _RangeSelectorRTLState extends SampleViewState {
                   child: SfRangeSelector(
                     min: min,
                     max: max,
-                    labelPlacement: LabelPlacement.onTicks,
                     interval: (model.isWebFullView &&
                             mediaQueryData.size.width <= 1000)
                         ? 2

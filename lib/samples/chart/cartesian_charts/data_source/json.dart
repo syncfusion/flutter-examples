@@ -33,7 +33,7 @@ class _JsonDataState extends SampleViewState {
   }
 
 // Method to hanlde deserialization steps.
-  // ignore: always_specify_types
+  // ignore: always_specify_types, strict_raw_type
   Future loadSalesData() async {
     final String jsonString =
         await _loadSalesDataAsset(); // Deserialization  step 1
@@ -41,7 +41,7 @@ class _JsonDataState extends SampleViewState {
         json.decode(jsonString); // Deserialization  step 2
     setState(() {
       // ignore: always_specify_types
-      for (final Map i in jsonResponse) {
+      for (final Map<dynamic, dynamic> i in jsonResponse) {
         chartData!.add(_SampleData.fromJson(i)); // Deserialization step 3
       }
     });

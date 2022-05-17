@@ -1,12 +1,13 @@
 /// Package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/orderinfo_datagridsource.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../model/sample_view.dart';
+import '../datagridsource/orderinfo_datagridsource.dart';
 
 /// Renders Load more data grid
 class LoadMoreDataGrid extends SampleView {
@@ -33,7 +34,6 @@ class _LoadMoreDataGridState extends SampleViewState {
             color: isLight ? const Color(0xFFFFFFFF) : const Color(0xFF212121),
             border: BorderDirectional(
                 top: BorderSide(
-                    width: 1.0,
                     color: isLight
                         ? const Color.fromRGBO(0, 0, 0, 0.26)
                         : const Color.fromRGBO(255, 255, 255, 0.26)))),
@@ -67,7 +67,6 @@ class _LoadMoreDataGridState extends SampleViewState {
                       : const Color(0xFF212121),
                   border: BorderDirectional(
                       top: BorderSide(
-                          width: 1.0,
                           color: isLight
                               ? const Color.fromRGBO(0, 0, 0, 0.26)
                               : const Color.fromRGBO(255, 255, 255, 0.26)))),

@@ -34,14 +34,11 @@ class _RadialTextPointerState extends SampleViewState {
             showTicks: false,
             startAngle: 180,
             endAngle: 360,
-            minimum: 0,
             maximum: 120,
             canScaleToFit: true,
             radiusFactor: 0.79,
             pointers: const <GaugePointer>[
               NeedlePointer(
-                  needleStartWidth: 1,
-                  lengthUnit: GaugeSizeUnit.factor,
                   needleEndWidth: 5,
                   needleLength: 0.7,
                   value: 82,
@@ -97,7 +94,6 @@ class _RadialTextPointerState extends SampleViewState {
           showTicks: false,
           startAngle: 180,
           endAngle: 360,
-          minimum: 0,
           maximum: 120,
           radiusFactor: 0.85,
           canScaleToFit: true,

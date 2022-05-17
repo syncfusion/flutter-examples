@@ -325,8 +325,6 @@ class _TreemapLayoutSampleState extends SampleViewState {
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
                   stops: const <double>[0, 1.0],
                   colors: <Color>[
                     const Color.fromRGBO(50, 128, 214, 1.0),
@@ -397,7 +395,6 @@ class _TreemapLayoutSampleState extends SampleViewState {
       );
     } else {
       return Align(
-        alignment: Alignment.center,
         child: Text(
           tile.group,
           textAlign: TextAlign.center,
@@ -460,15 +457,11 @@ class _MovieDetails {
     required this.boxOffice,
     this.movie,
     this.director,
-    this.releaseDate,
-    this.budget,
     this.color,
   });
 
   final String? movie;
   final String? director;
-  final String? releaseDate;
-  final double? budget;
   final double boxOffice;
   final Color? color;
 }

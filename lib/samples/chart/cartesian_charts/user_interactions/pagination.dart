@@ -184,7 +184,7 @@ class _PaginationState extends SampleViewState {
   }
 
   /// Returns the item of segmented control
-  Map<int, Widget> _getButtons(Orientation _orientation) {
+  Map<int, Widget> _getButtons(Orientation orientation) {
     _containerWidth = _segmentedControlWidth == double.infinity
         ? width / 5
         : _segmentedControlWidth / 5;

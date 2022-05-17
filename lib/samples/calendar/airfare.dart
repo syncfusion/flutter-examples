@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 /// core import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 ///Local import
@@ -140,7 +141,7 @@ class _AirFareCalendarCalendarState extends SampleViewState {
           child: (model.isWebFullView && _screenHeight < 800) ||
                   _deviceOrientation == Orientation.landscape
               ? Scrollbar(
-                  isAlwaysShown: true,
+                  thumbVisibility: true,
                   controller: _controller,
                   child: ListView(
                     controller: _controller,
@@ -194,14 +195,11 @@ class _AirFareCalendarCalendarState extends SampleViewState {
                   ? Colors.yellow.withOpacity(0.2)
                   : null),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: model.isMobileResolution
                   ? MainAxisAlignment.center
                   : isBestPrice
@@ -239,7 +237,6 @@ class _AirFareCalendarCalendarState extends SampleViewState {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Transform.rotate(
                 angle: pi / 4,

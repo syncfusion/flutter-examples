@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -29,7 +30,7 @@ class _RangeSliderTextDirectionPageState extends DirectionalitySampleViewState {
   late ThemeData _themeData;
   SfRangeValues _numericRangeValues = const SfRangeValues(75.0, 125.0);
   SfRangeValues _dateRangeValues =
-      SfRangeValues(DateTime(2005, 01, 01), DateTime(2015, 01, 01));
+      SfRangeValues(DateTime(2005), DateTime(2015));
   late ThemeData theme;
 
   SfRangeSliderTheme _numericRangeSlider() {
@@ -77,14 +78,13 @@ class _RangeSliderTextDirectionPageState extends DirectionalitySampleViewState {
         ),
       ),
       child: SfRangeSlider(
-        min: DateTime(2000, 01, 01),
-        max: DateTime(2020, 01, 01),
+        min: DateTime(2000),
+        max: DateTime(2020),
         values: _dateRangeValues,
         showLabels: true,
         interval: 5,
         showTicks: true,
         dateFormat: DateFormat.y(),
-        labelPlacement: LabelPlacement.onTicks,
         dateIntervalType: DateIntervalType.years,
         onChanged: (SfRangeValues values) {
           setState(() {
@@ -98,7 +98,6 @@ class _RangeSliderTextDirectionPageState extends DirectionalitySampleViewState {
 
   Widget _buildWebLayout() {
     return Align(
-      alignment: Alignment.center,
       child: SizedBox(
         width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
         child: _buildMobileLayout(),

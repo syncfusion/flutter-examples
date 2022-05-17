@@ -524,9 +524,6 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
                           ? const Size(25, 12)
                           : Size(
                               (size.width * 0.80) / _colorMappers.length, 12.0),
-                      edgeLabelsPlacement:
-                          TreemapLegendEdgeLabelsPlacement.inside,
-                      labelOverflow: TreemapLabelOverflow.visible,
                       spacing: 0.0,
                       textStyle: const TextStyle(fontSize: 10),
                     ),

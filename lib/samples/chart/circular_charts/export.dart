@@ -168,10 +168,12 @@ class _ExportState extends SampleViewState {
           await getApplicationDocumentsDirectory();
       final String path = documentDirectory.path;
       const String imageName = 'circularchart.png';
-      imageCache!.clear();
+      imageCache.clear();
       final File file = File('$path/$imageName');
       file.writeAsBytesSync(bytes);
-
+      if (!mounted) {
+        return;
+      }
       await Navigator.of(context).push<dynamic>(
         MaterialPageRoute<dynamic>(
           builder: (BuildContext context) {
@@ -193,6 +195,9 @@ class _ExportState extends SampleViewState {
   Future<void> _renderPdf() async {
     final PdfDocument document = PdfDocument();
     final PdfBitmap bitmap = PdfBitmap(await _readImageData());
+    if (!mounted) {
+      return;
+    }
     document.pageSettings.orientation =
         MediaQuery.of(context).orientation == Orientation.landscape
             ? PdfPageOrientation.landscape

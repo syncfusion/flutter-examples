@@ -28,7 +28,6 @@ class _HeaderAndFooterPdfState extends SampleViewState {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
@@ -36,20 +35,19 @@ class _HeaderAndFooterPdfState extends SampleViewState {
                 style: TextStyle(fontSize: 16, color: model.textColor)),
             const SizedBox(height: 20, width: 30),
             Align(
-                alignment: Alignment.center,
                 child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
-                    padding: model.isMobile
-                        ? null
-                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
-                  ),
-                  onPressed: _generatePDF,
-                  child: const Text('Generate PDF',
-                      style: TextStyle(color: Colors.white)),
-                ))
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(model.backgroundColor),
+                padding: model.isMobile
+                    ? null
+                    : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15)),
+              ),
+              onPressed: _generatePDF,
+              child: const Text('Generate PDF',
+                  style: TextStyle(color: Colors.white)),
+            ))
           ],
         ),
       ),
@@ -176,7 +174,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         20,
         result.bounds.top,
         result.page);
-    final PdfBookmark _standardBookmark = _addBookmark(
+    final PdfBookmark standardBookmark = _addBookmark(
         result.page, 'Chapter 1 Conceptual Overview', result.bounds.topLeft,
         doc: document);
     result = _addParagraph(
@@ -206,7 +204,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         result.bounds.top,
         result.page);
     _addBookmark(result.page, 'Header', result.bounds.topLeft,
-        bookmark: _standardBookmark);
+        bookmark: standardBookmark);
     result = _addParagraph(
         result.page,
         'The header is simply a PDF version number and an arbitrary sequence of binary data. The binary data prevents naïve applications from processing the PDF as a text file. This would result in a corrupted file, since a PDF typically consists of both plain text and binary data (e.g., a binary font file can be directly embedded in a PDF).',
@@ -228,7 +226,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         result.bounds.top,
         result.page);
     _addBookmark(result.page, 'Body', result.bounds.topLeft,
-        bookmark: _standardBookmark);
+        bookmark: standardBookmark);
     result = _addParagraph(
         result.page,
         'The body of a PDF contains the entire visible document. The minimum elements required in a valid PDF body are:\n\n1. A page tree \n2. Pages \n3. Resources \n4. Content \n5. The catalog \n\nThe page tree serves as the root of the document. In the simplest case, it is just a list of the pages in the document. Each page is defined as an independent entity with metadata (e.g., page dimensions) and a reference to its resources and content, which are defined separately. Together, the page tree and page objects create the "paper" that composes the document.\n\nResources are objects that are required to render a page. For example, a single font is typically used across several pages, so storing the font information in an external resource is much more efficient. A content object defines the text and graphics that actually show up on the page. Together, content objects and resources define the appearance of an individual page.\nFinally, the document\'s catalog tells applications where to start reading the document. Often, this is just a pointer to the root page tree.',
@@ -251,7 +249,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         result.bounds.top,
         result.page);
     _addBookmark(result.page, 'Cross-Reference Table', result.bounds.topLeft,
-        bookmark: _standardBookmark);
+        bookmark: standardBookmark);
     result = _addParagraph(
         result.page,
         'After the header and the body comes the cross-reference table. It records the byte location of each object in the body of the file. This enables random-access of the document, so when rendering a page, only the objects required for that page are read from the file. This makes PDFs much faster than their PostScript predecessors, which had to read in the entire file before processing it.',
@@ -273,7 +271,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         result.bounds.top,
         result.page);
     _addBookmark(result.page, 'Trailer', result.bounds.topLeft,
-        bookmark: _standardBookmark);
+        bookmark: standardBookmark);
     result = _addParagraph(
         result.page,
         'Finally, we come to the last component of a PDF document. The trailer tells applications how to start reading the file. At minimum, it contains three things:\n\n\n1. A reference to the catalog which links to the root of the document.\n2. The location of the cross-reference table.\n3. The size of the cross-reference table.\n\nSince a trailer is all you need to begin processing a document, PDFs are typically read back-to-front: first, the end of the file is found, and then you read backwards until you arrive at the beginning of the trailer. After that, you should have all the information you need to load any page in the PDF.',
@@ -295,7 +293,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         result.bounds.top,
         result.page);
     _addBookmark(result.page, 'Summary', result.bounds.topLeft,
-        bookmark: _standardBookmark);
+        bookmark: standardBookmark);
     result = _addParagraph(
         result.page,
         'To conclude our overview, a PDF document has a header, a body, a cross-reference table, and a trailer. The trailer serves as the entryway to the entire document, giving you access to any object via the cross-reference table, and pointing you toward the root of the document. The relationship between these elements is shown in the following figure.',

@@ -25,12 +25,12 @@ class _AreaDefaultState extends SampleViewState {
   @override
   void initState() {
     chartData = <ChartSampleData>[
-      ChartSampleData(x: DateTime(2000, 1, 1), y: 4, secondSeriesYValue: 2.6),
-      ChartSampleData(x: DateTime(2001, 1, 1), y: 3.0, secondSeriesYValue: 2.8),
-      ChartSampleData(x: DateTime(2002, 1, 1), y: 3.8, secondSeriesYValue: 2.6),
-      ChartSampleData(x: DateTime(2003, 1, 1), y: 3.4, secondSeriesYValue: 3),
-      ChartSampleData(x: DateTime(2004, 1, 1), y: 3.2, secondSeriesYValue: 3.6),
-      ChartSampleData(x: DateTime(2005, 1, 1), y: 3.9, secondSeriesYValue: 3),
+      ChartSampleData(x: DateTime(2000), y: 4, secondSeriesYValue: 2.6),
+      ChartSampleData(x: DateTime(2001), y: 3.0, secondSeriesYValue: 2.8),
+      ChartSampleData(x: DateTime(2002), y: 3.8, secondSeriesYValue: 2.6),
+      ChartSampleData(x: DateTime(2003), y: 3.4, secondSeriesYValue: 3),
+      ChartSampleData(x: DateTime(2004), y: 3.2, secondSeriesYValue: 3.6),
+      ChartSampleData(x: DateTime(2005), y: 3.9, secondSeriesYValue: 3),
     ];
     super.initState();
   }

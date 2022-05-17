@@ -64,7 +64,6 @@ class _CircularSelectionState extends SampleViewState {
           );
         }),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(

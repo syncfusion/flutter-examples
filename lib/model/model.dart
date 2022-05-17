@@ -474,9 +474,9 @@ class SampleModel extends Listenable {
   late bool isPropertyPanelTapped;
 
   /// Switching between light, dark, system themes
-  void changeTheme(ThemeData _themeData) {
-    themeData = _themeData;
-    switch (_themeData.colorScheme.brightness) {
+  void changeTheme(ThemeData currentThemeData) {
+    themeData = currentThemeData;
+    switch (currentThemeData.colorScheme.brightness) {
       case Brightness.dark:
         {
           dividerColor = const Color.fromRGBO(61, 61, 61, 1);
@@ -491,6 +491,7 @@ class SampleModel extends Listenable {
           cardThemeColor = const Color.fromRGBO(33, 33, 33, 1);
           break;
         }
+      // ignore: no_default_cases
       default:
         {
           dividerColor = const Color.fromRGBO(204, 204, 204, 1);
@@ -539,18 +540,18 @@ Future<void> updateControlItems() async {
     await DesktopWindow.setMinWindowSize(const Size(775, 230));
   }
 
-  bool _isSample = false;
-  bool _isChild = false;
-  final bool _isWeb =
+  bool isSample = false;
+  bool isChild = false;
+  final bool isWeb =
       kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isLinux;
-  final String _jsonText =
+  final String jsonText =
       await rootBundle.loadString('lib/sample_details.json');
-  List<SubItem> _firstLevelSubItems = <SubItem>[];
-  List<SubItem> _secondLevelSubItems = <SubItem>[];
-  List<SubItem> _thirdLevelSubItems = <SubItem>[];
+  List<SubItem> firstLevelSubItems = <SubItem>[];
+  List<SubItem> secondLevelSubItems = <SubItem>[];
+  List<SubItem> thirdLevelSubItems = <SubItem>[];
   final List<SampleRoute> sampleRoutes = <SampleRoute>[];
 
-  final List<dynamic> categoryList = json.decode(_jsonText) as List<dynamic>;
+  final List<dynamic> categoryList = json.decode(jsonText) as List<dynamic>;
   for (int index = 0; index < categoryList.length; index++) {
     SampleModel._categoryList.add(WidgetCategory.fromJson(categoryList[index]));
     final List<Control> controlList = <Control>[];
@@ -564,113 +565,109 @@ Future<void> updateControlItems() async {
         if (controlList[i].platformsToHide == null ||
             _needToShow(controlList[i].platformsToHide)) {
           for (int j = 0; j < controlList[i].subItems!.length; j++) {
-            _firstLevelSubItems
+            firstLevelSubItems
                 .add(SubItem.fromJson(controlList[i].subItems![j]));
-            if (_firstLevelSubItems[j].type == 'parent') {
-              for (int k = 0;
-                  k < _firstLevelSubItems[j].subItems!.length;
-                  k++) {
-                if (SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
+            if (firstLevelSubItems[j].type == 'parent') {
+              for (int k = 0; k < firstLevelSubItems[j].subItems!.length; k++) {
+                if (SubItem.fromJson(firstLevelSubItems[j].subItems![k])
                             .platformsToHide ==
                         null ||
                     _needToShow(
-                        SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
+                        SubItem.fromJson(firstLevelSubItems[j].subItems![k])
                             .platformsToHide)) {
-                  _secondLevelSubItems.add(
-                      SubItem.fromJson(_firstLevelSubItems[j].subItems![k]));
+                  secondLevelSubItems.add(
+                      SubItem.fromJson(firstLevelSubItems[j].subItems![k]));
                   for (int l = 0;
                       l <
-                          _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                          secondLevelSubItems[secondLevelSubItems.length - 1]
                               .subItems!
                               .length;
                       l++) {
-                    if (SubItem.fromJson(_secondLevelSubItems[
-                                        _secondLevelSubItems.length - 1]
+                    if (SubItem.fromJson(secondLevelSubItems[
+                                        secondLevelSubItems.length - 1]
                                     .subItems![l])
                                 .platformsToHide ==
                             null ||
-                        _needToShow(SubItem.fromJson(_secondLevelSubItems[
-                                    _secondLevelSubItems.length - 1]
+                        _needToShow(SubItem.fromJson(secondLevelSubItems[
+                                    secondLevelSubItems.length - 1]
                                 .subItems![l])
                             .platformsToHide)) {
-                      _thirdLevelSubItems.add(SubItem.fromJson(
-                          _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                      thirdLevelSubItems.add(SubItem.fromJson(
+                          secondLevelSubItems[secondLevelSubItems.length - 1]
                               .subItems![l]));
                     }
-                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                    thirdLevelSubItems[thirdLevelSubItems.length - 1]
                         .parentIndex = j;
-                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                    thirdLevelSubItems[thirdLevelSubItems.length - 1]
                         .childIndex = k;
-                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
-                        .sampleIndex ??= _thirdLevelSubItems.length - 1;
-                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
-                        .control = controlList[i];
+                    thirdLevelSubItems[thirdLevelSubItems.length - 1]
+                        .sampleIndex ??= thirdLevelSubItems.length - 1;
+                    thirdLevelSubItems[thirdLevelSubItems.length - 1].control =
+                        controlList[i];
                     final String breadCrumbText = ('/' +
                             controlList[i].title! +
                             '/' +
-                            _firstLevelSubItems[j].title! +
+                            firstLevelSubItems[j].title! +
                             '/' +
-                            _secondLevelSubItems[
-                                    _secondLevelSubItems.length - 1]
+                            secondLevelSubItems[secondLevelSubItems.length - 1]
                                 .title! +
-                            (_secondLevelSubItems[
-                                            _secondLevelSubItems.length - 1]
+                            (secondLevelSubItems[secondLevelSubItems.length - 1]
                                         .subItems!
                                         .length ==
                                     1
                                 ? ''
                                 : ('/' +
-                                    _thirdLevelSubItems[
-                                            _thirdLevelSubItems.length - 1]
+                                    thirdLevelSubItems[
+                                            thirdLevelSubItems.length - 1]
                                         .title!)))
                         .replaceAll(' ', '-')
                         .toLowerCase();
-                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                    thirdLevelSubItems[thirdLevelSubItems.length - 1]
                         .breadCrumbText = breadCrumbText;
-                    _thirdLevelSubItems[_thirdLevelSubItems.length - 1]
+                    thirdLevelSubItems[thirdLevelSubItems.length - 1]
                             .categoryName =
                         SampleModel._categoryList[index].categoryName;
                     sampleRoutes.add(SampleRoute(
                         routeName: breadCrumbText,
-                        subItem: _thirdLevelSubItems[
-                            _thirdLevelSubItems.length - 1]));
+                        subItem:
+                            thirdLevelSubItems[thirdLevelSubItems.length - 1]));
                   }
-                  _secondLevelSubItems[_secondLevelSubItems.length - 1]
-                      .subItems = _thirdLevelSubItems;
-                  _thirdLevelSubItems = <SubItem>[];
+                  secondLevelSubItems[secondLevelSubItems.length - 1].subItems =
+                      thirdLevelSubItems;
+                  thirdLevelSubItems = <SubItem>[];
                 }
               }
-              _firstLevelSubItems[j].subItems = _secondLevelSubItems;
-              _secondLevelSubItems = <SubItem>[];
-            } else if (_firstLevelSubItems[j].type == 'child') {
-              if (_firstLevelSubItems[j].platformsToHide == null ||
-                  _needToShow(_firstLevelSubItems[j].platformsToHide)) {
-                _isChild = true;
+              firstLevelSubItems[j].subItems = secondLevelSubItems;
+              secondLevelSubItems = <SubItem>[];
+            } else if (firstLevelSubItems[j].type == 'child') {
+              if (firstLevelSubItems[j].platformsToHide == null ||
+                  _needToShow(firstLevelSubItems[j].platformsToHide)) {
+                isChild = true;
                 for (int k = 0;
-                    k < _firstLevelSubItems[j].subItems!.length;
+                    k < firstLevelSubItems[j].subItems!.length;
                     k++) {
-                  if (SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
+                  if (SubItem.fromJson(firstLevelSubItems[j].subItems![k])
                               .platformsToHide ==
                           null ||
                       _needToShow(
-                          SubItem.fromJson(_firstLevelSubItems[j].subItems![k])
+                          SubItem.fromJson(firstLevelSubItems[j].subItems![k])
                               .platformsToHide)) {
-                    _secondLevelSubItems.add(
-                        SubItem.fromJson(_firstLevelSubItems[j].subItems![k]));
-                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                    secondLevelSubItems.add(
+                        SubItem.fromJson(firstLevelSubItems[j].subItems![k]));
+                    secondLevelSubItems[secondLevelSubItems.length - 1]
                         .childIndex = j;
-                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                    secondLevelSubItems[secondLevelSubItems.length - 1]
                         .sampleIndex ??= k;
-                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                    secondLevelSubItems[secondLevelSubItems.length - 1]
                         .control = controlList[i];
                     String breadCrumbText;
-                    if (_firstLevelSubItems[j].subItems!.length == 1 &&
-                        _secondLevelSubItems.length == 1) {
+                    if (firstLevelSubItems[j].subItems!.length == 1 &&
+                        secondLevelSubItems.length == 1) {
                       breadCrumbText = ('/' +
                               controlList[i].title! +
                               '/' +
-                              _secondLevelSubItems[
-                                      _secondLevelSubItems.length - 1]
+                              secondLevelSubItems[
+                                      secondLevelSubItems.length - 1]
                                   .title!)
                           .replaceAll(' ', '-')
                           .toLowerCase();
@@ -678,69 +675,68 @@ Future<void> updateControlItems() async {
                       breadCrumbText = ('/' +
                               controlList[i].title! +
                               '/' +
-                              _firstLevelSubItems[j].title! +
+                              firstLevelSubItems[j].title! +
                               '/' +
-                              _secondLevelSubItems[
-                                      _secondLevelSubItems.length - 1]
+                              secondLevelSubItems[
+                                      secondLevelSubItems.length - 1]
                                   .title!)
                           .replaceAll(' ', '-')
                           .toLowerCase();
                     }
 
-                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                    secondLevelSubItems[secondLevelSubItems.length - 1]
                         .breadCrumbText = breadCrumbText;
-                    _secondLevelSubItems[_secondLevelSubItems.length - 1]
+                    secondLevelSubItems[secondLevelSubItems.length - 1]
                             .categoryName =
                         SampleModel._categoryList[index].categoryName;
                     sampleRoutes.add(SampleRoute(
                         routeName: breadCrumbText,
-                        subItem: _secondLevelSubItems[
-                            _secondLevelSubItems.length - 1]));
+                        subItem: secondLevelSubItems[
+                            secondLevelSubItems.length - 1]));
                   }
                 }
-                _firstLevelSubItems[j].subItems = _secondLevelSubItems;
-                _secondLevelSubItems = <SubItem>[];
+                firstLevelSubItems[j].subItems = secondLevelSubItems;
+                secondLevelSubItems = <SubItem>[];
               } else {
-                _firstLevelSubItems.removeAt(j);
+                firstLevelSubItems.removeAt(j);
                 controlList[i].subItems!.removeAt(j);
                 j--;
               }
             } else {
-              _isSample = true;
-              _firstLevelSubItems[j].sampleIndex ??= j;
-              if (_firstLevelSubItems[j].platformsToHide == null ||
-                  _needToShow(_firstLevelSubItems[j].platformsToHide)) {
+              isSample = true;
+              firstLevelSubItems[j].sampleIndex ??= j;
+              if (firstLevelSubItems[j].platformsToHide == null ||
+                  _needToShow(firstLevelSubItems[j].platformsToHide)) {
                 final String breadCrumbText = ('/' +
                         controlList[i].title! +
                         '/' +
-                        _firstLevelSubItems[j].title!)
+                        firstLevelSubItems[j].title!)
                     .replaceAll(' ', '-')
                     .toLowerCase();
-                _firstLevelSubItems[j].breadCrumbText = breadCrumbText;
-                _firstLevelSubItems[j].control = controlList[i];
-                _firstLevelSubItems[j].categoryName =
+                firstLevelSubItems[j].breadCrumbText = breadCrumbText;
+                firstLevelSubItems[j].control = controlList[i];
+                firstLevelSubItems[j].categoryName =
                     SampleModel._categoryList[index].categoryName;
                 sampleRoutes.add(SampleRoute(
-                    routeName: breadCrumbText,
-                    subItem: _firstLevelSubItems[j]));
-                _secondLevelSubItems.add(_firstLevelSubItems[j]);
+                    routeName: breadCrumbText, subItem: firstLevelSubItems[j]));
+                secondLevelSubItems.add(firstLevelSubItems[j]);
               }
             }
           }
-          if (_isSample) {
-            controlList[i].sampleList = _secondLevelSubItems;
-            controlList[i].subItems = _secondLevelSubItems;
-            _secondLevelSubItems = <SubItem>[];
-          } else if (_isChild) {
-            controlList[i].childList = _firstLevelSubItems;
-            _secondLevelSubItems = <SubItem>[];
-            _isChild = false;
+          if (isSample) {
+            controlList[i].sampleList = secondLevelSubItems;
+            controlList[i].subItems = secondLevelSubItems;
+            secondLevelSubItems = <SubItem>[];
+          } else if (isChild) {
+            controlList[i].childList = firstLevelSubItems;
+            secondLevelSubItems = <SubItem>[];
+            isChild = false;
           }
-          (!_isSample)
-              ? controlList[i].subItems = _firstLevelSubItems
-              : _isSample = false;
+          (!isSample)
+              ? controlList[i].subItems = firstLevelSubItems
+              : isSample = false;
 
-          _firstLevelSubItems = <SubItem>[];
+          firstLevelSubItems = <SubItem>[];
         } else {
           controlList.removeAt(i);
           SampleModel._categoryList[index].controlList!.removeAt(i);
@@ -765,7 +761,7 @@ Future<void> updateControlItems() async {
         (dynamic a, dynamic b) => a.controlId.compareTo(b.controlId) as int);
   }
 
-  if (_isWeb) {
+  if (isWeb) {
     /// Sorting categories based on [webCategoryId]
     SampleModel._categoryList.sort((WidgetCategory a, WidgetCategory b) =>
         a.webCategoryId!.compareTo(b.webCategoryId!));

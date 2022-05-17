@@ -193,13 +193,13 @@ class _SplineCustomPainter extends SplineSegment {
 
 void _drawDashedLine(Canvas canvas, CartesianSeries<dynamic, dynamic> series,
     Paint paint, Path path, bool isSeries) {
-  bool _even = false;
+  bool even = false;
   for (int i = 1; i < series.dashArray.length; i = i + 2) {
     if (series.dashArray[i] == 0) {
-      _even = true;
+      even = true;
     }
   }
-  if (_even == false) {
+  if (even == false) {
     paint.isAntiAlias = true;
     canvas.drawPath(
         _dashPath(
@@ -220,22 +220,22 @@ Path? _dashPath(
   if (source == null) {
     return null;
   }
-  const double _intialValue = 0.0;
-  final Path _path = Path();
+  const double intialValue = 0.0;
+  final Path path = Path();
   for (final PathMetric measurePath in source.computeMetrics()) {
-    double _distance = _intialValue;
-    bool _draw = true;
-    while (_distance < measurePath.length) {
+    double distance = intialValue;
+    bool draw = true;
+    while (distance < measurePath.length) {
       final double length = dashArray.next;
-      if (_draw) {
-        _path.addPath(measurePath.extractPath(_distance, _distance + length),
-            Offset.zero);
+      if (draw) {
+        path.addPath(
+            measurePath.extractPath(distance, distance + length), Offset.zero);
       }
-      _distance += length;
-      _draw = !_draw;
+      distance += length;
+      draw = !draw;
     }
   }
-  return _path;
+  return path;
 }
 
 class _CircularIntervalList<T> {

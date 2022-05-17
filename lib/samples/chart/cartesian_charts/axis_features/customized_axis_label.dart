@@ -97,7 +97,7 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((Duration duration) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration duration) {
       _isYear = true;
       _isMonth = false;
       _isDay = false;

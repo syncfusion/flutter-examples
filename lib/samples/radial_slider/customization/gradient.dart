@@ -61,7 +61,6 @@ class _RadialSliderGradientState extends SampleViewState {
             axisLineStyle: const AxisLineStyle(
                 thickness: 0.05, thicknessUnit: GaugeSizeUnit.factor),
             showTicks: false,
-            showLabels: true,
             labelOffset: 20,
             onAxisTapped: handlePointerValueChanged,
             pointers: <GaugePointer>[
@@ -121,10 +120,11 @@ class _RadialSliderGradientState extends SampleViewState {
     setState(() {
       _currentValue = value.roundToDouble();
       _markerValue = _currentValue;
+      // ignore: no_leading_underscores_for_local_identifiers
       final int _value = _currentValue.round();
       _annotationValue = '$_value';
-      final double _celsiusValue = (_currentValue - 32) / 1.8;
-      _annotationValue2 = _celsiusValue.toStringAsFixed(1);
+      final double celsiusValue = (_currentValue - 32) / 1.8;
+      _annotationValue2 = celsiusValue.toStringAsFixed(1);
     });
   }
 

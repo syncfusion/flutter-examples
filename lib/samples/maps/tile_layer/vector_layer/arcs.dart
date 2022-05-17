@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -302,8 +303,8 @@ class _ArcsSampleState extends SampleViewState
     return sublayerItems;
   }
 
-  MapSublayer _getCurrentSublayer(String _currentLegend) {
-    if (_currentLegend == 'arcs') {
+  MapSublayer _getCurrentSublayer(String currentLegend) {
+    if (currentLegend == 'arcs') {
       return MapArcLayer(
         arcs: List<MapArc>.generate(
           _airports.length,

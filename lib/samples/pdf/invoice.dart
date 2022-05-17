@@ -28,7 +28,6 @@ class _InvoicePdfState extends SampleViewState {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
@@ -36,20 +35,19 @@ class _InvoicePdfState extends SampleViewState {
                 style: TextStyle(fontSize: 16, color: model.textColor)),
             const SizedBox(height: 20, width: 30),
             Align(
-                alignment: Alignment.center,
                 child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
-                    padding: model.isMobile
-                        ? null
-                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
-                  ),
-                  onPressed: _generatePDF,
-                  child: const Text('Generate PDF',
-                      style: TextStyle(color: Colors.white)),
-                ))
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(model.backgroundColor),
+                padding: model.isMobile
+                    ? null
+                    : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15)),
+              ),
+              onPressed: _generatePDF,
+              child: const Text('Generate PDF',
+                  style: TextStyle(color: Colors.white)),
+            ))
           ],
         ),
       ),
@@ -66,7 +64,7 @@ class _InvoicePdfState extends SampleViewState {
     //Draw rectangle
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
-        pen: PdfPen(PdfColor(142, 170, 219, 255)));
+        pen: PdfPen(PdfColor(142, 170, 219)));
     //Generate PDF grid.
     final PdfGrid grid = _getGrid();
     //Draw the header section by creating text element
@@ -86,7 +84,7 @@ class _InvoicePdfState extends SampleViewState {
   PdfLayoutResult _drawHeader(PdfPage page, Size pageSize, PdfGrid grid) {
     //Draw rectangle
     page.graphics.drawRectangle(
-        brush: PdfSolidBrush(PdfColor(91, 126, 215, 255)),
+        brush: PdfSolidBrush(PdfColor(91, 126, 215)),
         bounds: Rect.fromLTWH(0, 0, pageSize.width - 115, 90));
     //Draw string
     page.graphics.drawString(
@@ -165,7 +163,7 @@ class _InvoicePdfState extends SampleViewState {
   //Draw the invoice footer data.
   void _drawFooter(PdfPage page, Size pageSize) {
     final PdfPen linePen =
-        PdfPen(PdfColor(142, 170, 219, 255), dashStyle: PdfDashStyle.custom);
+        PdfPen(PdfColor(142, 170, 219), dashStyle: PdfDashStyle.custom);
     linePen.dashPattern = <double>[3, 3];
     //Draw line
     page.graphics.drawLine(linePen, Offset(0, pageSize.height - 100),

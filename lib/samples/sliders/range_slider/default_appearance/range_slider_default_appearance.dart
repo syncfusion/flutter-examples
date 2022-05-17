@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -30,7 +31,6 @@ class _DefaultRangeSliderPageState extends SampleViewState {
   SfRangeSlider _inactiveRangeSlider() {
     //ignore: missing_required_param
     return SfRangeSlider(
-      min: 0.0,
       max: 100.0,
       values: _inactiveRangeSliderValue,
       onChanged: null,
@@ -42,7 +42,6 @@ class _DefaultRangeSliderPageState extends SampleViewState {
         data: SfRangeSliderThemeData(
             tooltipBackgroundColor: model.backgroundColor),
         child: SfRangeSlider(
-          min: 0.0,
           max: 100.0,
           onChanged: (dynamic values) {
             setState(() {
