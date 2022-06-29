@@ -4385,6 +4385,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                 height: 27,
                                                                 child: DropdownButton<
                                                                         String>(
+                                                                    focusColor:
+                                                                        Colors
+                                                                            .transparent,
                                                                     isExpanded:
                                                                         true,
                                                                     underline:
@@ -4394,9 +4397,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                             13,
                                                                         color:
                                                                             defaultTextColor,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w400),
+                                                                        fontWeight: FontWeight
+                                                                            .w400),
                                                                     value:
                                                                         _selectedRecurrenceRange,
                                                                     items: _ends
@@ -6824,12 +6826,11 @@ class _SelectRuleDialogState extends State<_SelectRuleDialog> {
                         widget.onChanged(
                             _PickerChangedDetails(selectedRule: _rule));
                       });
-
-                      if (!mounted) {
-                        return;
-                      }
-                      Navigator.pop(context, properties);
                     }
+                    if (!mounted) {
+                      return;
+                    }
+                    Navigator.pop(context, properties);
                   },
                 ),
               ],

@@ -1,7 +1,6 @@
-
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 20.1.47
+version: 20.2.36 
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
@@ -14,25 +13,26 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  url_launcher: ^6.0.2
+  url_launcher: ^6.1.0
   path_provider: ^2.0.1
   path_provider_macos: ^2.0.0
   desktop_window: 0.4.0
+  intl: ^0.17.0
   
-  syncfusion_localizations: ^20.1.47
-  syncfusion_flutter_datagrid_export: ^20.1.47-beta
-  syncfusion_flutter_calendar: ^20.1.47
-  syncfusion_flutter_datepicker: ^20.1.47
-  syncfusion_flutter_charts: ^20.1.47
-  syncfusion_flutter_gauges: ^20.1.47
-  syncfusion_flutter_sliders: ^20.1.47
-  syncfusion_flutter_pdf: ^20.1.47-beta
-  syncfusion_flutter_barcodes: ^20.1.47
-  syncfusion_officechart: ^20.1.47-beta
-  syncfusion_flutter_maps: ^20.1.47
-  syncfusion_flutter_signaturepad: ^20.1.47
-  syncfusion_flutter_pdfviewer: ^20.1.47-beta
-  syncfusion_flutter_treemap: ^20.1.47-beta
+  syncfusion_localizations: ^20.2.36
+  syncfusion_flutter_datagrid_export: ^20.2.36-beta
+  syncfusion_flutter_calendar: ^20.2.36
+  syncfusion_flutter_datepicker: ^20.2.36
+  syncfusion_flutter_charts: ^20.2.36
+  syncfusion_flutter_gauges: ^20.2.36
+  syncfusion_flutter_sliders: ^20.2.36
+  syncfusion_flutter_pdf: ^20.2.36
+  syncfusion_flutter_barcodes: ^20.2.36
+  syncfusion_officechart: ^20.2.36-beta
+  syncfusion_flutter_maps: ^20.2.36
+  syncfusion_flutter_signaturepad: ^20.2.36
+  syncfusion_flutter_pdfviewer: ^20.2.36-beta
+  syncfusion_flutter_treemap: ^20.2.36-beta
 
 flutter:
   uses-material-design: true

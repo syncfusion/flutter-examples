@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///Pdf import
@@ -132,7 +133,7 @@ class _ConformancePdfState extends SampleViewState {
     //Add invoice footer
     _drawFooter(page, pageSize, contentFont);
     //Save and dispose the document.
-    final List<int> bytes = document.save();
+    final List<int> bytes = await document.save();
     document.dispose();
     //Save and launch file.
     await FileSaveHelper.saveAndLaunchFile(bytes, 'ConformancePDF.pdf');

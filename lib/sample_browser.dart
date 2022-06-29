@@ -96,14 +96,22 @@ class _SampleBrowserState extends State<SampleBrowser> {
             debugShowCheckedModeBanner: false,
             title: 'Demos & Examples of Syncfusion Flutter Widgets',
             theme: ThemeData.from(
-                colorScheme: const ColorScheme.light().copyWith(
-                    primary: _sampleListModel.currentPaletteColor,
-                    secondary: _sampleListModel.currentPaletteColor)),
+                    colorScheme: const ColorScheme.light().copyWith(
+                        primary: _sampleListModel.currentPaletteColor,
+                        secondary: _sampleListModel.currentPaletteColor))
+                .copyWith(
+                    scrollbarTheme: const ScrollbarThemeData().copyWith(
+                        thumbColor: MaterialStateProperty.all(
+                            const Color.fromRGBO(128, 128, 128, 0.3)))),
             darkTheme: ThemeData.from(
-                colorScheme: const ColorScheme.dark().copyWith(
-                    primary: _sampleListModel.currentPaletteColor,
-                    secondary: _sampleListModel.currentPaletteColor,
-                    onPrimary: Colors.white)),
+                    colorScheme: const ColorScheme.dark().copyWith(
+                        primary: _sampleListModel.currentPaletteColor,
+                        secondary: _sampleListModel.currentPaletteColor,
+                        onPrimary: Colors.white))
+                .copyWith(
+                    scrollbarTheme: const ScrollbarThemeData().copyWith(
+                        thumbColor: MaterialStateProperty.all(
+                            const Color.fromRGBO(255, 255, 255, 0.3)))),
           )
         : MaterialApp(
             initialRoute: '/demos',
@@ -446,8 +454,18 @@ class _HomePageState extends State<HomePage> {
                 body: _CategorizedCards()));
   }
 
-  /// get scrollable widget to getting stickable view
+  /// Get scrollable widget to getting stickable view with scrollbar depends on platform
   Widget _getScrollableWidget(SampleModel model) {
+    return model.isWeb
+        ? Scrollbar(
+            controller: controller,
+            thumbVisibility: true,
+            child: _getCustomScrollWidget(model))
+        : _getCustomScrollWidget(model);
+  }
+
+  /// Get scrollable widget to getting stickable view
+  Widget _getCustomScrollWidget(SampleModel model) {
     final List<Widget> searchResults = _getSearchedItems(model);
     return Container(
         color: model.paletteColor,
@@ -655,7 +673,9 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: _getCategorizedCards());
+    return model.isWeb
+        ? Scrollbar(thumbVisibility: model.isWeb, child: _getCategorizedCards())
+        : _getCategorizedCards();
   }
 
   Widget _getCategorizedCards() {
@@ -810,10 +830,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
     final List<Widget> items = <Widget>[];
     for (int i = 0; i < category.controlList!.length; i++) {
       final Control control = category.controlList![i] as Control;
-      String? status = control.status;
-      if (control.title == 'PDF Viewer' && model.isWindows) {
-        status = 'New';
-      }
+      final String? status = control.status;
 
       items.add(
         Container(

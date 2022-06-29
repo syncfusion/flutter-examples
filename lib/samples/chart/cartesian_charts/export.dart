@@ -186,7 +186,6 @@ class _ExportState extends SampleViewState {
       imageCache.clear();
       final File file = File('$path/$imageName');
       file.writeAsBytesSync(bytes);
-
       if (!mounted) {
         return;
       }
@@ -234,7 +233,7 @@ class _ExportState extends SampleViewState {
       duration: Duration(milliseconds: 200),
       content: Text('Chart has been exported as PDF document.'),
     ));
-    final List<int> bytes = document.save();
+    final List<int> bytes = document.saveSync();
     document.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, 'cartesian_chart.pdf');
   }

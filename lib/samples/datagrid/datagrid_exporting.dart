@@ -1,15 +1,15 @@
 ///Dart import
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:core';
 
 /// Packages import
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
-// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row, Border;
 
 import '../../model/sample_view.dart';
@@ -116,7 +116,7 @@ class _ExportingDataGridState extends SampleViewState {
 
             details.pdfDocumentTemplate.top = header;
           });
-      final List<int> bytes = document.save();
+      final List<int> bytes = document.saveSync();
       await helper.FileSaveHelper.saveAndLaunchFile(bytes, 'DataGrid.pdf');
       document.dispose();
     }

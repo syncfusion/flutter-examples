@@ -270,9 +270,9 @@ class _SparkLineGridState extends SampleViewState {
         _ColumnTypesDataGridSource(_generateList(20), model.isWebFullView);
   }
 
-  List<_Employee> _generateList(int listCount) {
+  List<_Employee> _generateList(int count) {
     final List<_Employee> employeeData = <_Employee>[];
-    for (int i = 0; i < listCount; i++) {
+    for (int i = 0; i < count; i++) {
       employeeData.add(_Employee(
           1 + i,
           _names[i],

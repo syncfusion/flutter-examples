@@ -610,8 +610,7 @@ class _CustomizationCalendarState extends SampleViewState {
         scheduleViewSettings: ScheduleViewSettings(
             appointmentItemHeight: model.isWebFullView ? 60 : 50),
         monthViewSettings: const MonthViewSettings(
-            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-            appointmentDisplayCount: 3),
+            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
         timeSlotViewSettings: const TimeSlotViewSettings(
             timelineAppointmentHeight: 50,
             timeIntervalWidth: 100,

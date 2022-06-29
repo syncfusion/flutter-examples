@@ -425,12 +425,11 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleSecondPointerValueChanged(double value) {
+  void handleSecondPointerValueChanged(double markerValue) {
     setState(() {
-      _secondMarkerValue = value;
-      final int secondMarkerValue =
-          _secondMarkerValue.abs().roundToDouble().toInt();
-      _annotationValue_1 = '$secondMarkerValue';
+      _secondMarkerValue = markerValue;
+      final int value = _secondMarkerValue.abs().roundToDouble().toInt();
+      _annotationValue_1 = '$value';
     });
   }
 
@@ -443,12 +442,11 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleFirstPointerValueChanged(double value) {
+  void handleFirstPointerValueChanged(double markerValue) {
     setState(() {
-      _firstMarkerValue = value;
-      final int firstMarkerValue =
-          _firstMarkerValue.abs().roundToDouble().toInt();
-      _annotationValue1 = '$firstMarkerValue';
+      _firstMarkerValue = markerValue;
+      final int value = _firstMarkerValue.abs().roundToDouble().toInt();
+      _annotationValue1 = '$value';
     });
   }
 
@@ -462,11 +460,11 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleFourthPointerValueChanged(double value) {
+  void handleFourthPointerValueChanged(double markerValue) {
     setState(() {
-      _fourthMarkerValue = value;
-      final int fourthMarkerValue = _fourthMarkerValue.abs().round();
-      _annotationValue_2 = '$fourthMarkerValue';
+      _fourthMarkerValue = markerValue;
+      final int value = _fourthMarkerValue.abs().round();
+      _annotationValue_2 = '$value';
     });
   }
 
@@ -478,11 +476,11 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleThirdPointerValueChanged(double value) {
+  void handleThirdPointerValueChanged(double markerValue) {
     setState(() {
-      _thirdMarkerValue = value;
-      final int thirdMarkerValue = _thirdMarkerValue.abs().round();
-      _annotationValue2 = '$thirdMarkerValue';
+      _thirdMarkerValue = markerValue;
+      final int value = _thirdMarkerValue.abs().round();
+      _annotationValue2 = '$value';
     });
   }
 
@@ -495,11 +493,11 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleSixthPointerValueChanged(double value) {
+  void handleSixthPointerValueChanged(double markerValue) {
     setState(() {
-      _sixthMarkerValue = value;
-      final int sixthMarkerValue = _sixthMarkerValue.abs().round();
-      _annotationValue_3 = '$sixthMarkerValue';
+      _sixthMarkerValue = markerValue;
+      final int value = _sixthMarkerValue.abs().round();
+      _annotationValue_3 = '$value';
     });
   }
 
@@ -511,11 +509,11 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleFifthPointerValueChanged(double value) {
+  void handleFifthPointerValueChanged(double markerValue) {
     setState(() {
-      _fifthMarkerValue = value;
-      final int fifthMarkerValue = _fifthMarkerValue.abs().round();
-      _annotationValue3 = '$fifthMarkerValue';
+      _fifthMarkerValue = markerValue;
+      final int value = _fifthMarkerValue.abs().round();
+      _annotationValue3 = '$value';
     });
   }
 
@@ -528,11 +526,11 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleEighthPointerValueChanged(double value) {
+  void handleEighthPointerValueChanged(double markerValue) {
     setState(() {
-      _eighthMarkerValue = value;
-      final int eighthMarkerValue = _eighthMarkerValue.abs().round();
-      _annotationValue_4 = '$eighthMarkerValue';
+      _eighthMarkerValue = markerValue;
+      final int value = _eighthMarkerValue.abs().round();
+      _annotationValue_4 = '$value';
     });
   }
 
@@ -544,11 +542,11 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleSeventhPointerValueChanged(double value) {
+  void handleSeventhPointerValueChanged(double markerValue) {
     setState(() {
-      _seventhMarkerValue = value;
-      final int seventhMarkerValue = _seventhMarkerValue.abs().round();
-      _annotationValue4 = '$seventhMarkerValue';
+      _seventhMarkerValue = markerValue;
+      final int value = _seventhMarkerValue.abs().round();
+      _annotationValue4 = '$value';
     });
   }
 

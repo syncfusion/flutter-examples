@@ -58,7 +58,7 @@ class _CustomizedDatePickerState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final Widget datePickerWidget = Card(
+    final Widget datePicker = Card(
       elevation: 10,
       margin: model.isWebFullView
           ? const EdgeInsets.fromLTRB(30, 60, 30, 0)
@@ -78,10 +78,9 @@ class _CustomizedDatePickerState extends SampleViewState {
             flex: model.isWebFullView ? 9 : 8,
             child: model.isWebFullView
                 ? Center(
-                    child: SizedBox(
-                        width: 400, height: 600, child: datePickerWidget))
+                    child: SizedBox(width: 400, height: 600, child: datePicker))
                 : ListView(children: <Widget>[
-                    SizedBox(height: 450, child: datePickerWidget)
+                    SizedBox(height: 450, child: datePicker)
                   ])),
         Expanded(
             flex: model.isWebFullView

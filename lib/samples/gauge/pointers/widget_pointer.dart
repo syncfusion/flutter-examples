@@ -44,8 +44,7 @@ class _WidgetPointerExampleState extends SampleViewState {
 
   void _startTimer() {
     if (mounted) {
-      // ignore: no_leading_underscores_for_local_identifiers
-      _timer = Timer.periodic(const Duration(milliseconds: 20), (Timer _timer) {
+      _timer = Timer.periodic(const Duration(milliseconds: 20), (Timer timer) {
         _incrementPointerValue();
       });
     }

@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_redundant_argument_values
-
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -10,13 +8,17 @@ import 'helper.dart';
 /// File Explorer widget for mobile
 class FileExplorer extends StatefulWidget {
   /// Creates a File Explorer
-  const FileExplorer({this.brightness, this.onDocumentTap});
+  const FileExplorer(
+      {this.brightness, this.onDocumentTap, this.isRtlTab = false});
 
   /// Brightness theme for the file explorer.
   final Brightness? brightness;
 
   /// Called when the document is selected.
   final PdfDocumentTapCallback? onDocumentTap;
+
+  /// Holds the information of current tab is RTL or not
+  final bool isRtlTab;
 
   @override
   FileExplorerState createState() => FileExplorerState();
@@ -27,15 +29,30 @@ class FileExplorerState extends State<FileExplorer> {
   Color? _foregroundColor;
   Color? _backgroundColor;
   late bool _isLight;
-  final List<Document> _documents = <Document>[
-    Document('GIS Succinctly', 'assets/pdf/gis_succinctly.pdf'),
-    Document('HTTP Succinctly', 'assets/pdf/http_succinctly.pdf'),
-    Document('JavaScript Succinctly', 'assets/pdf/javascript_succinctly.pdf'),
-    Document('Rotated Document', 'assets/pdf/rotated_document.pdf'),
-    Document('Single Page Document', 'assets/pdf/single_page_document.pdf'),
-    Document('Encrypted Document', 'assets/pdf/encrypted_document.pdf'),
-    Document('Corrupted Document', 'assets/pdf/corrupted_document.pdf')
-  ];
+  late List<Document> _documents;
+  @override
+  void initState() {
+    _documents = (widget.isRtlTab)
+        ? <Document>[
+            Document('RTL Document', 'assets/pdf/rtl_document.pdf'),
+            Document('GIS Succinctly', 'assets/pdf/gis_succinctly.pdf'),
+            Document('HTTP Succinctly', 'assets/pdf/http_succinctly.pdf'),
+            Document('JavaScript Succinctly',
+                'assets/pdf/javascript_succinctly.pdf'),
+          ]
+        : <Document>[
+            Document('GIS Succinctly', 'assets/pdf/gis_succinctly.pdf'),
+            Document('HTTP Succinctly', 'assets/pdf/http_succinctly.pdf'),
+            Document('JavaScript Succinctly',
+                'assets/pdf/javascript_succinctly.pdf'),
+            Document('Rotated Document', 'assets/pdf/rotated_document.pdf'),
+            Document(
+                'Single Page Document', 'assets/pdf/single_page_document.pdf'),
+            Document('Encrypted Document', 'assets/pdf/encrypted_document.pdf'),
+            Document('Corrupted Document', 'assets/pdf/corrupted_document.pdf')
+          ];
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -82,6 +99,8 @@ class SearchToolbar extends StatefulWidget {
     this.canShowTooltip = true,
     this.brightness,
     this.primaryColor,
+    this.textDirection = TextDirection.ltr,
+    this.languageCode = 'en',
     Key? key,
   }) : super(key: key);
 
@@ -99,6 +118,12 @@ class SearchToolbar extends StatefulWidget {
 
   /// Palette color for text search overlay.
   final Color? primaryColor;
+
+  ///A direction of text flow.
+  final TextDirection textDirection;
+
+  /// Selected language in property panel
+  final String languageCode;
 
   @override
   SearchToolbarState createState() => SearchToolbarState();
@@ -162,7 +187,7 @@ class SearchToolbarState extends State<SearchToolbar> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'Search Result',
+                widget.languageCode == 'ar' ? 'نتيجة البحث' : 'Search Result',
                 style: TextStyle(
                     color: _color,
                     fontFamily: 'Roboto',
@@ -194,7 +219,9 @@ class SearchToolbarState extends State<SearchToolbar> {
           content: SizedBox(
               width: 328,
               child: Text(
-                'No more occurrences found. Would you like to continue to search from the beginning?',
+                widget.languageCode == 'ar'
+                    ? 'لم يتم العثور على تكرارات أخرى. هل ترغب في متابعة البحث من البداية؟'
+                    : 'No more occurrences found. Would you like to continue to search from the beginning?',
                 style: TextStyle(
                     color: _color,
                     fontFamily: 'Roboto',
@@ -216,7 +243,7 @@ class SearchToolbarState extends State<SearchToolbar> {
                 primary: Colors.transparent,
               ),
               child: Text(
-                'NO',
+                widget.languageCode == 'ar' ? 'لا' : 'NO',
                 style: TextStyle(
                     color: widget.primaryColor,
                     fontFamily: 'Roboto',
@@ -235,7 +262,7 @@ class SearchToolbarState extends State<SearchToolbar> {
                 primary: Colors.transparent,
               ),
               child: Text(
-                'YES',
+                widget.languageCode == 'ar' ? 'نعم' : 'YES',
                 style: TextStyle(
                     color: widget.primaryColor,
                     fontFamily: 'Roboto',
@@ -292,7 +319,7 @@ class SearchToolbarState extends State<SearchToolbar> {
               controller: _editingController,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Find...',
+                hintText: widget.languageCode == 'ar' ? 'يجد' : 'Find...',
                 hintStyle: TextStyle(
                     color: _isLight
                         ? const Color(0x00000000).withOpacity(0.34)
@@ -347,7 +374,11 @@ class SearchToolbarState extends State<SearchToolbar> {
                   });
                   widget.onTap?.call('Clear Text');
                 },
-                tooltip: widget.canShowTooltip ? 'Clear Text' : null,
+                tooltip: widget.canShowTooltip
+                    ? widget.languageCode == 'ar'
+                        ? 'نص واضح'
+                        : 'Clear Text'
+                    : null,
               ),
             ),
           ),
@@ -403,7 +434,11 @@ class SearchToolbarState extends State<SearchToolbar> {
                       });
                       widget.onTap?.call('Previous Instance');
                     },
-                    tooltip: widget.canShowTooltip ? 'Previous' : null,
+                    tooltip: widget.canShowTooltip
+                        ? widget.languageCode == 'ar'
+                            ? 'سابق'
+                            : 'Previous'
+                        : null,
                   ),
                 ),
                 // Navigate to next search instance.
@@ -431,7 +466,11 @@ class SearchToolbarState extends State<SearchToolbar> {
                       });
                       widget.onTap?.call('Next Instance');
                     },
-                    tooltip: widget.canShowTooltip ? 'Next' : null,
+                    tooltip: widget.canShowTooltip
+                        ? widget.languageCode == 'ar'
+                            ? 'التالي'
+                            : 'Next'
+                        : null,
                   ),
                 ),
               ],
@@ -475,14 +514,16 @@ class ToolbarItem extends StatelessWidget {
 /// TextSearchOverlay widget for search operation.This is for web platform.
 class TextSearchOverlay extends StatefulWidget {
   /// Constructor for TextSearchOverlay.
-  const TextSearchOverlay(
-      {Key? key,
-      this.controller,
-      this.textSearchOverlayEntry,
-      this.onClose,
-      this.brightness,
-      this.primaryColor})
-      : super(key: key);
+  const TextSearchOverlay({
+    Key? key,
+    this.controller,
+    this.textSearchOverlayEntry,
+    this.onClose,
+    this.brightness,
+    this.primaryColor,
+    this.textDirection = TextDirection.ltr,
+    this.languageCode = 'en',
+  }) : super(key: key);
 
   /// An object that is used to control the [SfPdfViewer].
   final PdfViewerController? controller;
@@ -498,6 +539,12 @@ class TextSearchOverlay extends StatefulWidget {
 
   /// Palette color for text search overlay.
   final Color? primaryColor;
+
+  ///
+  final TextDirection textDirection;
+
+  ///
+  final String languageCode;
 
   @override
   TextSearchOverlayState createState() => TextSearchOverlayState();
@@ -561,374 +608,413 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
       ),
     ];
     return Material(
-      child: Container(
-        height: 146, // height of search menu
-        width: 412, // width of search menu
-        decoration: BoxDecoration(
-          color: _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242),
-          boxShadow: boxShadows,
-        ),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                // Search label for overlay
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16, // x position of search word in search menu
-                    top: 15, // y position of search word in search menu
+      child: Directionality(
+        textDirection: widget.textDirection,
+        child: Container(
+          height: 146, // height of search menu
+          width: 412, // width of search menu
+          decoration: BoxDecoration(
+            color: _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242),
+            boxShadow: boxShadows,
+          ),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  // Search label for overlay
+                  Padding(
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(
+                            right:
+                                16, // x position of search word in search menu
+
+                            top: 15, // y position of search word in search menu
+                          )
+                        : const EdgeInsets.only(
+                            left:
+                                16, // x position of search word in search menu
+
+                            top: 15, // y position of search word in search menu
+                          ),
+                    child: SizedBox(
+                      height: 23, // height of search word in search menu
+                      width: 66, // width of search word in search menu
+                      child: Text(
+                        widget.languageCode == 'ar' ? 'بحث' : 'Search',
+                        style: TextStyle(
+                            color: _color,
+                            fontFamily: 'Roboto',
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            letterSpacing: -0.2,
+                            decoration: TextDecoration.none),
+                      ),
+                    ),
                   ),
-                  child: SizedBox(
-                    height: 23, // height of search word in search menu
-                    width: 66, // width of search word in search menu
+                  // Close button for search overlay
+                  Padding(
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(
+                            right:
+                                8, // x position of clear button in search menu
+                            top: 8, // y position of clear button in search menu
+                          )
+                        : const EdgeInsets.only(
+                            left:
+                                8, // x position of clear button in search menu
+                            top: 8, // y position of clear button in search menu
+                          ),
+                    child: SizedBox(
+                      height: 36, // height of close search menu button
+                      width: 36, // width of close search menu button
+                      child: RawMaterialButton(
+                        onPressed: () {
+                          _closeSearchMenu();
+                        },
+                        child: Icon(
+                          Icons.clear,
+                          color: _isLight
+                              ? const Color.fromRGBO(0, 0, 0, 0.54)
+                              : const Color.fromRGBO(255, 255, 255, 0.65),
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  // Search input field.
+                  Flexible(
+                    child: Padding(
+                      padding: widget.textDirection == TextDirection.rtl
+                          ? const EdgeInsets.only(
+                              right:
+                                  16, // y position of text field in search menu
+                            )
+                          : const EdgeInsets.only(
+                              left:
+                                  16, // y position of text field in search menu
+                            ),
+                      child: TextFormField(
+                        focusNode: _focusNode,
+                        controller: _editingController,
+                        textInputAction: TextInputAction.none,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Roboto',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.normal,
+                          color: _color,
+                        ),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(top: 20),
+                          border: const UnderlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: widget.primaryColor!, width: 2.0),
+                          ),
+                          hintText: widget.languageCode == 'ar'
+                              ? 'البحث في المستند'
+                              : 'Find in document',
+                          hintStyle: TextStyle(
+                              color: _isLight
+                                  ? const Color(0x00000000).withOpacity(0.34)
+                                  : const Color(0xFF949494),
+                              fontSize: 15,
+                              fontFamily: 'Roboto',
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.none),
+                          suffixIcon: !showItem
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8, right: 8, bottom: 6, top: 15),
+                                  child: SizedBox(
+                                    height:
+                                        14.57, // height of search button in search menu
+                                    width:
+                                        14.57, // width of search button in search menu
+                                    child: RawMaterialButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _handleSearch();
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.search,
+                                        color: _isLight
+                                            ? Colors.black.withOpacity(0.54)
+                                            : Colors.white.withOpacity(0.65),
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8, right: 8, bottom: 6, top: 15),
+                                  child: SizedBox(
+                                    height:
+                                        14.57, // height of clear search button
+                                    width:
+                                        14.57, // width of clear search button
+                                    child: RawMaterialButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _pdfTextSearchResult.clear();
+                                          _editingController.clear();
+                                          _focusNode.requestFocus();
+                                          showItem = false;
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.clear,
+                                        color: _isLight
+                                            ? Colors.black.withOpacity(0.54)
+                                            : Colors.white.withOpacity(0.65),
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                        onChanged: (String value) {
+                          isEnterKeyPressed = false;
+                        },
+                        onFieldSubmitted: (String value) {
+                          setState(() {
+                            _handleSearch();
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  // Search result status
+                  Visibility(
+                    visible: showItem,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        children: <Widget>[
+                          // Current search instance
+                          Text(
+                            _pdfTextSearchResult.currentInstanceIndex
+                                .toString(),
+                            style: TextStyle(
+                                color: _color,
+                                fontSize: 15,
+                                fontFamily: 'Roboto',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none),
+                          ),
+                          Text(
+                            '/',
+                            style: TextStyle(
+                                color: _color,
+                                fontSize: 15,
+                                fontFamily: 'Roboto',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none),
+                          ),
+                          // Total search count
+                          Text(
+                            _pdfTextSearchResult.totalInstanceCount.toString(),
+                            style: TextStyle(
+                                color: _color,
+                                fontSize: 15,
+                                fontFamily: 'Roboto',
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Group divider
+                  Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: SizedBox(
+                        height: 24, // height of vertical divider
+                        child: VerticalDivider(
+                          width: 24.0, // width of vertical divider
+                          thickness: 1.0, // thickness of vertical divider
+                          color: _isLight
+                              ? Colors.black.withOpacity(0.24)
+                              : const Color.fromRGBO(255, 255, 255, 0.26),
+                        ),
+                      )),
+                  // Previous search instance button
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                      height: 36, // height of previous instance button
+                      width: 36, // width of previous instance button
+                      child: RawMaterialButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(2.0),
+                        ),
+                        onPressed: _pdfTextSearchResult.hasResult
+                            ? () {
+                                setState(() {
+                                  _pdfTextSearchResult.previousInstance();
+                                });
+                              }
+                            : null,
+                        child: Icon(
+                          Icons.keyboard_arrow_left,
+                          color: _isLight
+                              ? _pdfTextSearchResult.hasResult
+                                  ? const Color.fromRGBO(0, 0, 0, 0.54)
+                                  : Colors.black.withOpacity(0.28)
+                              : _pdfTextSearchResult.hasResult
+                                  ? const Color.fromRGBO(255, 255, 255, 0.65)
+                                  : Colors.white12,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Next search instance button
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      right: 8,
+                    ),
+                    child: SizedBox(
+                      height: 36, // height of next instance button
+                      width: 36, // width of next instance button
+                      child: RawMaterialButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(2.0),
+                        ),
+                        onPressed: _pdfTextSearchResult.hasResult
+                            ? () {
+                                setState(() {
+                                  _pdfTextSearchResult.nextInstance();
+                                });
+                              }
+                            : null,
+                        child: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: _isLight
+                              ? _pdfTextSearchResult.hasResult
+                                  ? const Color.fromRGBO(0, 0, 0, 0.54)
+                                  : Colors.black.withOpacity(0.28)
+                              : _pdfTextSearchResult.hasResult
+                                  ? const Color.fromRGBO(255, 255, 255, 0.65)
+                                  : Colors.white12,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  // Check box for case sensitive search.
+                  Padding(
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(right: 16, top: 16, bottom: 16)
+                        : const EdgeInsets.only(left: 16, top: 16, bottom: 16),
+                    child: SizedBox(
+                      height: 18, // height of match case checkbox
+                      width: 18, // width of match case checkbox
+                      child: Theme(
+                        data: ThemeData(
+                          unselectedWidgetColor: _isLight
+                              ? const Color.fromRGBO(0, 0, 0, 0.54)
+                              : const Color.fromRGBO(255, 255, 255, 0.54),
+                        ),
+                        child: Checkbox(
+                          value: isMatchCaseChecked,
+                          activeColor: widget.primaryColor,
+                          checkColor: Colors.white,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isEnterKeyPressed = false;
+                              isMatchCaseChecked = value ?? false;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Label for case sensitive search.
+                  Padding(
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(right: 8, top: 16, bottom: 16)
+                        : const EdgeInsets.only(left: 8, top: 16, bottom: 16),
                     child: Text(
-                      'Search',
+                      widget.languageCode == 'ar'
+                          ? 'حالة مباراة'
+                          : 'Match case',
                       style: TextStyle(
                           color: _color,
                           fontFamily: 'Roboto',
                           fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20,
-                          letterSpacing: -0.2,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
                           decoration: TextDecoration.none),
                     ),
                   ),
-                ),
-                // Close button for search overlay
-                Padding(
-                  padding: const EdgeInsets.only(
-                    right: 8, // x position of clear button in search menu
-                    top: 8, // y position of clear button in search menu
-                  ),
-                  child: SizedBox(
-                    height: 36, // height of close search menu button
-                    width: 36, // width of close search menu button
-                    child: RawMaterialButton(
-                      onPressed: () {
-                        _closeSearchMenu();
-                      },
-                      child: Icon(
-                        Icons.clear,
-                        color: _isLight
-                            ? const Color.fromRGBO(0, 0, 0, 0.54)
-                            : const Color.fromRGBO(255, 255, 255, 0.65),
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                // Search input field.
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16, // y position of text field in search menu
-                    ),
-                    child: TextFormField(
-                      focusNode: _focusNode,
-                      controller: _editingController,
-                      textInputAction: TextInputAction.none,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'Roboto',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
-                        color: _color,
-                      ),
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(top: 20),
-                        border: const UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1.0),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: widget.primaryColor!, width: 2.0),
-                        ),
-                        hintText: 'Find in document',
-                        hintStyle: TextStyle(
-                            color: _isLight
-                                ? const Color(0x00000000).withOpacity(0.34)
-                                : const Color(0xFF949494),
-                            fontSize: 15,
-                            fontFamily: 'Roboto',
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w400,
-                            decoration: TextDecoration.none),
-                        suffixIcon: !showItem
-                            ? Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8, right: 8, bottom: 6, top: 15),
-                                child: SizedBox(
-                                  height:
-                                      14.57, // height of search button in search menu
-                                  width:
-                                      14.57, // width of search button in search menu
-                                  child: RawMaterialButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _handleSearch();
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.search,
-                                      color: _isLight
-                                          ? Colors.black.withOpacity(0.54)
-                                          : Colors.white.withOpacity(0.65),
-                                      size: 18,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8, right: 8, bottom: 6, top: 15),
-                                child: SizedBox(
-                                  height:
-                                      14.57, // height of clear search button
-                                  width: 14.57, // width of clear search button
-                                  child: RawMaterialButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _pdfTextSearchResult.clear();
-                                        _editingController.clear();
-                                        _focusNode.requestFocus();
-                                        showItem = false;
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.clear,
-                                      color: _isLight
-                                          ? Colors.black.withOpacity(0.54)
-                                          : Colors.white.withOpacity(0.65),
-                                      size: 18,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ),
-                      onChanged: (String value) {
-                        isEnterKeyPressed = false;
-                      },
-                      onFieldSubmitted: (String value) {
-                        setState(() {
-                          _handleSearch();
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                // Search result status
-                Visibility(
-                  visible: showItem,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Row(
-                      children: <Widget>[
-                        // Current search instance
-                        Text(
-                          _pdfTextSearchResult.currentInstanceIndex.toString(),
-                          style: TextStyle(
-                              color: _color,
-                              fontSize: 15,
-                              fontFamily: 'Roboto',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none),
-                        ),
-                        Text(
-                          '/',
-                          style: TextStyle(
-                              color: _color,
-                              fontSize: 15,
-                              fontFamily: 'Roboto',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none),
-                        ),
-                        // Total search count
-                        Text(
-                          _pdfTextSearchResult.totalInstanceCount.toString(),
-                          style: TextStyle(
-                              color: _color,
-                              fontSize: 15,
-                              fontFamily: 'Roboto',
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // Group divider
-                Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                  // Check box for whole word search.
+                  Padding(
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(right: 16, top: 16, bottom: 16)
+                        : const EdgeInsets.only(left: 16, top: 16, bottom: 16),
                     child: SizedBox(
-                      height: 24, // height of vertical divider
-                      child: VerticalDivider(
-                        width: 24.0, // width of vertical divider
-                        thickness: 1.0, // thickness of vertical divider
-                        color: _isLight
-                            ? Colors.black.withOpacity(0.24)
-                            : const Color.fromRGBO(255, 255, 255, 0.26),
-                      ),
-                    )),
-                // Previous search instance button
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: SizedBox(
-                    height: 36, // height of previous instance button
-                    width: 36, // width of previous instance button
-                    child: RawMaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
-                      onPressed: _pdfTextSearchResult.hasResult
-                          ? () {
-                              setState(() {
-                                _pdfTextSearchResult.previousInstance();
-                              });
-                            }
-                          : null,
-                      child: Icon(
-                        Icons.keyboard_arrow_left,
-                        color: _isLight
-                            ? _pdfTextSearchResult.hasResult
-                                ? const Color.fromRGBO(0, 0, 0, 0.54)
-                                : Colors.black.withOpacity(0.28)
-                            : _pdfTextSearchResult.hasResult
-                                ? const Color.fromRGBO(255, 255, 255, 0.65)
-                                : Colors.white12,
-                        size: 20,
+                      height: 18, // height of whole word checkbox
+                      width: 18, // height of whole word checkbox
+                      child: Theme(
+                        data: ThemeData(
+                          unselectedWidgetColor: _isLight
+                              ? const Color.fromRGBO(0, 0, 0, 0.54)
+                              : const Color.fromRGBO(255, 255, 255, 0.54),
+                        ),
+                        child: Checkbox(
+                          activeColor: widget.primaryColor,
+                          checkColor: Colors.white,
+                          value: isWholeWordChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isEnterKeyPressed = false;
+                              isWholeWordChecked = value ?? false;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-                // Next search instance button
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                    right: 8,
-                  ),
-                  child: SizedBox(
-                    height: 36, // height of next instance button
-                    width: 36, // width of next instance button
-                    child: RawMaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
-                      onPressed: _pdfTextSearchResult.hasResult
-                          ? () {
-                              setState(() {
-                                _pdfTextSearchResult.nextInstance();
-                              });
-                            }
-                          : null,
-                      child: Icon(
-                        Icons.keyboard_arrow_right,
-                        color: _isLight
-                            ? _pdfTextSearchResult.hasResult
-                                ? const Color.fromRGBO(0, 0, 0, 0.54)
-                                : Colors.black.withOpacity(0.28)
-                            : _pdfTextSearchResult.hasResult
-                                ? const Color.fromRGBO(255, 255, 255, 0.65)
-                                : Colors.white12,
-                        size: 20,
-                      ),
+                  // Label for whole word search.
+                  Padding(
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(right: 8, top: 16, bottom: 16)
+                        : const EdgeInsets.only(left: 8, top: 16, bottom: 16),
+                    child: Text(
+                      widget.languageCode == 'ar'
+                          ? 'الكلمة بالكامل'
+                          : 'Whole word',
+                      style: TextStyle(
+                          color: _color,
+                          fontFamily: 'Roboto',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
+                          decoration: TextDecoration.none),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                // Check box for case sensitive search.
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 16, bottom: 16),
-                  child: SizedBox(
-                    height: 18, // height of match case checkbox
-                    width: 18, // width of match case checkbox
-                    child: Theme(
-                      data: ThemeData(
-                        unselectedWidgetColor: _isLight
-                            ? const Color.fromRGBO(0, 0, 0, 0.54)
-                            : const Color.fromRGBO(255, 255, 255, 0.54),
-                      ),
-                      child: Checkbox(
-                        value: isMatchCaseChecked,
-                        activeColor: widget.primaryColor,
-                        checkColor: Colors.white,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isEnterKeyPressed = false;
-                            isMatchCaseChecked = value ?? false;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                // Label for case sensitive search.
-                Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 16, bottom: 16),
-                  child: Text(
-                    'Match case',
-                    style: TextStyle(
-                        color: _color,
-                        fontFamily: 'Roboto',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15,
-                        decoration: TextDecoration.none),
-                  ),
-                ),
-                // Check box for whole word search.
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 16, bottom: 16),
-                  child: SizedBox(
-                    height: 18, // height of whole word checkbox
-                    width: 18, // height of whole word checkbox
-                    child: Theme(
-                      data: ThemeData(
-                        unselectedWidgetColor: _isLight
-                            ? const Color.fromRGBO(0, 0, 0, 0.54)
-                            : const Color.fromRGBO(255, 255, 255, 0.54),
-                      ),
-                      child: Checkbox(
-                        activeColor: widget.primaryColor,
-                        checkColor: Colors.white,
-                        value: isWholeWordChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isEnterKeyPressed = false;
-                            isWholeWordChecked = value ?? false;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                // Label for whole word search.
-                Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 16, bottom: 16),
-                  child: Text(
-                    'Whole word',
-                    style: TextStyle(
-                        color: _color,
-                        fontFamily: 'Roboto',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15,
-                        decoration: TextDecoration.none),
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

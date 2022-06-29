@@ -1,4 +1,6 @@
 ///Dart import
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:math';
 
 ///Package imports
@@ -9,11 +11,9 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:syncfusion_flutter_charts/charts.dart' hide LabelPlacement;
 
 ///Core import
-// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 ///Core theme import
-// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
