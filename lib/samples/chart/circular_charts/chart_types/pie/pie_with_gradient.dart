@@ -50,7 +50,7 @@ class _PieGradientState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(model.isWebFullView ? 'Gradient \nmode' : 'Gradient mode',
                   softWrap: false,
@@ -59,7 +59,6 @@ class _PieGradientState extends SampleViewState {
                     color: model.textColor,
                   )),
               Container(
-                padding: EdgeInsets.only(left: 0.07 * screenWidth),
                 width: 0.5 * screenWidth,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(

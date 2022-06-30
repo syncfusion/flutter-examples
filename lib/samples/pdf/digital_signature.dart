@@ -178,7 +178,7 @@ class _SignPdfState extends SampleViewState {
     }
 
     //Save the PDF document
-    final List<int> bytes = document.save();
+    final List<int> bytes = await document.save();
     //Dispose the document.
     document.dispose();
     //Save and launch file.

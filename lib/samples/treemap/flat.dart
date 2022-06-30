@@ -457,11 +457,17 @@ class _MovieDetails {
     required this.boxOffice,
     this.movie,
     this.director,
+    // ignore: unused_element
+    this.releaseDate,
+    // ignore: unused_element
+    this.budget,
     this.color,
   });
 
   final String? movie;
   final String? director;
+  final String? releaseDate;
+  final double? budget;
   final double boxOffice;
   final Color? color;
 }

@@ -670,7 +670,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData calendarTheme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
         color: Colors.transparent,
         child: GestureDetector(
@@ -679,7 +679,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
                   context: context,
                   builder: (BuildContext context) {
                     return Theme(
-                        data: calendarTheme,
+                        data: theme,
                         child: DateRangePicker(
                           _date,
                           null,
@@ -704,7 +704,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
                     _date.year.toString(),
                 style: TextStyle(
                     fontSize: 15,
-                    color: calendarTheme.textTheme.subtitle2?.color,
+                    color: theme.textTheme.subtitle2?.color,
                     fontWeight: FontWeight.w600))));
   }
 }

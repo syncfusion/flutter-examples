@@ -232,7 +232,7 @@ class _ExportState extends SampleViewState {
       duration: Duration(milliseconds: 200),
       content: Text('Gauge has been exported as PDF document.'),
     ));
-    final List<int> bytes = document.save();
+    final List<int> bytes = document.saveSync();
     document.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, 'radial_gauge.pdf');
   }

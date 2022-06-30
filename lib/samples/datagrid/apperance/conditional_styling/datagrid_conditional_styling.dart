@@ -1,7 +1,7 @@
 /// Package imports
 import 'package:flutter/material.dart';
 
-/// Datagrid import
+/// Barcode import
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 

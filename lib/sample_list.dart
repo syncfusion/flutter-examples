@@ -321,6 +321,7 @@ import 'samples/pdf_viewer/encrypted.dart';
 import 'samples/pdf_viewer/pdf_viewer_custom_toolbar.dart';
 import 'samples/pdf_viewer/pdf_viewer_getting_started.dart';
 import 'samples/pdf_viewer/pdf_viewer_localization.dart';
+import 'samples/pdf_viewer/pdf_viewer_rtl.dart';
 import 'samples/progress_bar/angles.dart';
 import 'samples/progress_bar/custom_labels.dart';
 import 'samples/progress_bar/determinate_styles.dart';
@@ -343,11 +344,13 @@ import 'samples/radial_slider/customization/styles.dart';
 import 'samples/radial_slider/customization/thumb.dart';
 import 'samples/signature_pad/getting_started/signature_pad_getting_started.dart';
 import 'samples/sliders/range_selector/range_selector_default_appearance.dart';
+import 'samples/sliders/range_selector/range_selector_label_customization.dart';
 import 'samples/sliders/range_selector/range_selector_with_bar_chart.dart';
 import 'samples/sliders/range_selector/range_selector_with_histogram_chart.dart';
 import 'samples/sliders/range_selector/range_selector_with_selection.dart';
 import 'samples/sliders/range_selector/range_selector_with_zooming.dart';
 import 'samples/sliders/range_slider/customization/color_customization/color_customization.dart';
+import 'samples/sliders/range_slider/customization/range_slider_label_customization.dart';
 import 'samples/sliders/range_slider/customization/shape_customization/shape_customization.dart';
 import 'samples/sliders/range_slider/customization/size_customization/size_customization.dart';
 import 'samples/sliders/range_slider/customization/thumb_customization/range_slider_thumb_icon_customization.dart';
@@ -367,12 +370,14 @@ import 'samples/sliders/slider/basic_features/slider_tooltip_type.dart';
 import 'samples/sliders/slider/customization/color_customization/slider_color_customization.dart';
 import 'samples/sliders/slider/customization/shape_customization/slider_shape_customization.dart';
 import 'samples/sliders/slider/customization/size_customization/slider_size_customization.dart';
+import 'samples/sliders/slider/customization/slider_labels_customization.dart';
 import 'samples/sliders/slider/customization/thumb_customization/thumb_icon_customization.dart';
 import 'samples/sliders/slider/text_direction/slider_text_direction.dart';
 import 'samples/sliders/vertical_range_slider/customization/color_customization/vertical_range_slider_color_customization.dart';
 import 'samples/sliders/vertical_range_slider/customization/shape_customization/vertical_range_slider_shape_customization.dart';
 import 'samples/sliders/vertical_range_slider/customization/size_customization/vertical_range_slider_size_customization.dart';
 import 'samples/sliders/vertical_range_slider/customization/thumb_customization/vertical_range_slider_thumb_icon_customization.dart';
+import 'samples/sliders/vertical_range_slider/customization/vertical_range_slider_label_customization.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_date_time_label.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_default_appearance.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_divider_label_tick.dart';
@@ -389,6 +394,7 @@ import 'samples/sliders/vertical_slider/customization/color_customization/vertic
 import 'samples/sliders/vertical_slider/customization/shape_customization/vertical_slider_shape_customization.dart';
 import 'samples/sliders/vertical_slider/customization/size_customization/vertical_slider_size_customization.dart';
 import 'samples/sliders/vertical_slider/customization/thumb_customization/vertical_slider_thumb_icon_customization.dart';
+import 'samples/sliders/vertical_slider/customization/vertical_slider_label_customization.dart';
 import 'samples/sparkline/axis_types.dart';
 import 'samples/sparkline/chart_types.dart';
 import 'samples/sparkline/customization.dart';
@@ -404,6 +410,7 @@ import 'samples/treemap/range_color_mapping.dart';
 import 'samples/treemap/selection.dart';
 import 'samples/treemap/value_color_mapping.dart';
 import 'samples/xlsio/attendance_tracker/attendance_tracker.dart';
+import 'samples/xlsio/auto_filter/auto_filter.dart';
 import 'samples/xlsio/balance_sheet/balance_sheet.dart';
 import 'samples/xlsio/data_validation/data_validation.dart';
 import 'samples/xlsio/expenses_report/expenses_report.dart';
@@ -737,6 +744,7 @@ Map<String, Function> getSampleWidget() {
     'pdf_viewer_custom_toolbar': (Key key) => CustomToolbarPdfViewer(key),
     'encrypted': (Key key) => Encrypted(key),
     'pdf_viewer_localization': (Key key) => LocalizationPdfViewer(key),
+    'pdf_viewer_rtl': (Key key) => RTLModePdfViewer(key),
 
     // XlsIO samples
     'expenses_report': (Key key) => ExpensesReportXlsIO(key),
@@ -746,6 +754,7 @@ Map<String, Function> getSampleWidget() {
     'attendance_tracker': (Key key) => AttendanceTrackerXlsIO(key),
     'data_validation': (Key key) => DataValidationXlsIO(key),
     'table': (Key key) => TableXlsIO(key),
+    'auto_filter': (Key key) => AutoFilterXlsIO(key),
 
     // Barcode samples
     'one_dimensional_types': (Key key) => OneDimensionalBarcodes(key: key),
@@ -756,6 +765,8 @@ Map<String, Function> getSampleWidget() {
 
     // Slider Samples
     'default_slider': (Key key) => DefaultSliderPage(key),
+
+    'labels_customization_slider': (Key key) => LabelCustomizationSlider(key),
 
     'slider_date_interval': (Key key) => DateIntervalSliderPage(key),
 
@@ -778,6 +789,9 @@ Map<String, Function> getSampleWidget() {
 
     // Range Slider Samples
     'range_slider_default_appearance': (Key key) => DefaultRangeSliderPage(key),
+
+    'range_slider_label_customization': (Key key) =>
+        LabelCustomizationRangleSlider(key),
 
     'range_slider_divider_label_tick': (Key key) => ScaleRangeSliderPage(key),
 
@@ -815,6 +829,9 @@ Map<String, Function> getSampleWidget() {
 
     'vertical_slider_step': (Key key) => VerticalStepSliderPage(key),
 
+    'vertical_slider_label_customization': (Key key) =>
+        VerticalSliderLabelCustomization(key),
+
     'vertical_slider_tooltip_position': (Key key) =>
         VerticalSliderTooltipTypeSliderPage(key),
 
@@ -834,6 +851,8 @@ Map<String, Function> getSampleWidget() {
 
     'vertical_range_slider_default_appearance': (Key key) =>
         VerticalDefaultRangeSliderPage(key),
+    'vertical_range_slider_label_customization': (Key key) =>
+        VerticalRangeSliderCustomization(key),
 
     'vertical_range_slider_divider_label_tick': (Key key) =>
         VerticalScaleRangeSliderPage(key),
@@ -871,6 +890,9 @@ Map<String, Function> getSampleWidget() {
 
     'range_selector_with_selection': (Key key) =>
         RangeSelectorSelectionPage(key),
+
+    'range_selector_label_customization': (Key key) =>
+        RangeSelectorLabelCustomization(key),
 
     'range_selector_with_zooming': (Key key) => RangeSelectorZoomingPage(key),
 

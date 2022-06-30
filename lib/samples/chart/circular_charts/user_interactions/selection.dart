@@ -42,18 +42,15 @@ class _CircularSelectionState extends SampleViewState {
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Text(
-                      model.isWebFullView
-                          ? 'Enable multi-\nselection'
-                          : 'Enable multi-selection',
-                      softWrap: false,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: model.textColor,
-                      )),
-                ),
+                Text(
+                    model.isWebFullView
+                        ? 'Enable multi-\nselection'
+                        : 'Enable multi-selection',
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: model.textColor,
+                    )),
                 Container(
                     padding: EdgeInsets.only(left: 0.01 * screenWidth),
                     width: 0.4 * screenWidth,
@@ -69,39 +66,33 @@ class _CircularSelectionState extends SampleViewState {
                           });
                         }))
               ]),
-          Padding(
-            padding: const EdgeInsets.only(top: 6.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Text(
-                        model.isWebFullView
-                            ? 'Toggle \nselection'
-                            : 'Toggle selection',
-                        softWrap: false,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: model.textColor,
-                        )),
-                  ),
-                  Container(
-                      padding: EdgeInsets.only(left: 0.01 * screenWidth),
-                      width: 0.4 * screenWidth,
-                      child: CheckboxListTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          contentPadding: EdgeInsets.zero,
-                          activeColor: model.backgroundColor,
-                          value: _toggleSelection,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _toggleSelection = value!;
-                              stateSetter(() {});
-                            });
-                          }))
-                ]),
-          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                    model.isWebFullView
+                        ? 'Toggle \nselection'
+                        : 'Toggle selection',
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: model.textColor,
+                    )),
+                Container(
+                    padding: EdgeInsets.only(left: 0.01 * screenWidth),
+                    width: 0.4 * screenWidth,
+                    child: CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        activeColor: model.backgroundColor,
+                        value: _toggleSelection,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _toggleSelection = value!;
+                            stateSetter(() {});
+                          });
+                        }))
+              ]),
         ],
       );
     });

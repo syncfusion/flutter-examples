@@ -1,4 +1,6 @@
 ///Package imports
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -6,11 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' hide LabelPlacement;
 
 ///Core import
-// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 ///Core theme import
-// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import

@@ -30,8 +30,7 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
   void initState() {
     super.initState();
     if (mounted) {
-      // ignore: no_leading_underscores_for_local_identifiers
-      _timer = Timer.periodic(const Duration(milliseconds: 30), (Timer _timer) {
+      _timer = Timer.periodic(const Duration(milliseconds: 30), (Timer timer) {
         setState(() {
           progressValue++;
 

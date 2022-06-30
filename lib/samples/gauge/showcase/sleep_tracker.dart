@@ -1,6 +1,7 @@
 /// Flutter package imports
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 /// Gauge import.
@@ -358,10 +359,9 @@ class _SleepTrackerSampleState extends SampleViewState {
   void _handleWakeupTimeValueChanged(double value) {
     setState(() {
       _wakeupTimeValue = value;
+      final int wakeupTimeValue = _wakeupTimeValue.abs().toInt();
       // ignore: no_leading_underscores_for_local_identifiers
-      final int _value = _wakeupTimeValue.abs().toInt();
-      // ignore: no_leading_underscores_for_local_identifiers
-      final int _hourValue = _value;
+      final int _hourValue = wakeupTimeValue;
       final List<String> minList =
           _wakeupTimeValue.toStringAsFixed(2).split('.');
       double currentMinutes = double.parse(minList[1]);
@@ -418,33 +418,30 @@ class _SleepTrackerSampleState extends SampleViewState {
   }
 
   /// Dragged pointer new value is updated to range.
-  void _handleBedTimeValueChanged(double value) {
+  void _handleBedTimeValueChanged(double bedTimeValue) {
     setState(() {
-      _bedTimeValue = value;
-      // ignore: no_leading_underscores_for_local_identifiers
-      final int _value = _bedTimeValue.abs().toInt();
-      // ignore: no_leading_underscores_for_local_identifiers
-      final int _hourValue = _value;
+      _bedTimeValue = bedTimeValue;
+      final int value = _bedTimeValue.abs().toInt();
+      final int hourValue = value;
 
       final List<String> minList = _bedTimeValue.toStringAsFixed(2).split('.');
       double currentMinutes = double.parse(minList[1]);
       currentMinutes = (currentMinutes * 60) / 100;
       final String minutesValue = currentMinutes.toStringAsFixed(0);
 
-      _bedTimeAnnotation = ((_hourValue >= 0 && _hourValue <= 6)
-              ? (_hourValue + 6).toString()
-              : (_hourValue >= 6 && _hourValue <= 12)
-                  ? '0' + (_hourValue - 6).toString()
+      _bedTimeAnnotation = ((hourValue >= 0 && hourValue <= 6)
+              ? (hourValue + 6).toString()
+              : (hourValue >= 6 && hourValue <= 12)
+                  ? '0' + (hourValue - 6).toString()
                   : '') +
           ':' +
           (minutesValue.length == 1 ? '0' + minutesValue : minutesValue) +
-          (_value >= 6 ? ' am' : ' pm');
+          (value >= 6 ? ' am' : ' pm');
 
-      _bedTime = (_hourValue < 10
-              ? '0' + _hourValue.toString()
-              : _hourValue.toString()) +
-          ':' +
-          (minutesValue.length == 1 ? '0' + minutesValue : minutesValue);
+      _bedTime =
+          (hourValue < 10 ? '0' + hourValue.toString() : hourValue.toString()) +
+              ':' +
+              (minutesValue.length == 1 ? '0' + minutesValue : minutesValue);
 
       final DateFormat dateFormat = DateFormat('HH:mm');
       final DateTime wakeup =

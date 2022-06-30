@@ -112,7 +112,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final bool needMultiView = _isWeb &&
+    final bool enableMultiView = _isWeb &&
         (_selectionMode == DateRangePickerSelectionMode.range ||
             _selectionMode == DateRangePickerSelectionMode.multiRange ||
             _selectionMode == DateRangePickerSelectionMode.extendableRange);
@@ -138,7 +138,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                   _showActionButtons,
                   DateTime.now().subtract(const Duration(days: 200)),
                   DateTime.now().add(const Duration(days: 200)),
-                  needMultiView,
+                  enableMultiView,
                   _showWeekNumber,
                   _showTodayButton,
                   _selectionDirection,
@@ -155,7 +155,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             child: model.isWebFullView
                 ? Center(
                     child: SizedBox(
-                        width: !needMultiView ? 550 : 700,
+                        width: !enableMultiView ? 550 : 700,
                         height: 600,
                         child: cardView))
                 : ListView(children: <Widget>[

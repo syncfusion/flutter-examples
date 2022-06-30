@@ -52,7 +52,6 @@ class _PieDataLabelsState extends SampleViewState {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
               Expanded(
                 flex: 14,
                 child: Column(

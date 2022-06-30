@@ -3,6 +3,7 @@ import 'dart:async';
 
 ///Flutter package imports
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' show DateFormat;
 
 ///Core theme import

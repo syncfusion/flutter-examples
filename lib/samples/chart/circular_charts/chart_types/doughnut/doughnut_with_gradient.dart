@@ -44,7 +44,7 @@ class _DoughnutGradientState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(model.isWebFullView ? 'Gradient \nmode' : 'Gradient mode',
                   softWrap: false,

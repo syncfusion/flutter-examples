@@ -1,5 +1,6 @@
 ///Package imports
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///Pdf import
@@ -74,7 +75,7 @@ class _InvoicePdfState extends SampleViewState {
     //Add invoice footer
     _drawFooter(page, pageSize);
     //Save and dispose the document.
-    final List<int> bytes = document.save();
+    final List<int> bytes = await document.save();
     document.dispose();
     //Launch file.
     await FileSaveHelper.saveAndLaunchFile(bytes, 'Invoice.pdf');

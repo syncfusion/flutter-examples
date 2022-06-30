@@ -218,7 +218,7 @@ class _ImportAndExportFormDataState extends SampleViewState {
     document.form.importData(importData, _dataFormat, true);
 
     //Save and launch the PDF document
-    final List<int> documentBytes = document.save();
+    final List<int> documentBytes = await document.save();
     await FileSaveHelper.saveAndLaunchFile(documentBytes, 'form_import.pdf');
   }
 

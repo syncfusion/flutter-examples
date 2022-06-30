@@ -1,6 +1,7 @@
 ///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///Pdf import
@@ -151,7 +152,7 @@ class _CertificatePdfState extends SampleViewState {
         bounds: Rect.fromLTWH(x, 385, 0, 0),
         brush: PdfSolidBrush(PdfColor(20, 58, 86)));
     //Save and launch the document
-    final List<int> bytes = document.save();
+    final List<int> bytes = await document.save();
     //Dispose the document.
     document.dispose();
     //Save and launch file.

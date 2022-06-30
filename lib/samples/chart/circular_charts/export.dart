@@ -218,7 +218,7 @@ class _ExportState extends SampleViewState {
       content: Text('Chart has been exported as PDF document.'),
     ));
 
-    final List<int> bytes = document.save();
+    final List<int> bytes = document.saveSync();
     document.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, 'circular_chart.pdf');
   }

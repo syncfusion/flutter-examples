@@ -144,7 +144,7 @@ class _EncryptPdfState extends SampleViewState {
     ]);
 
     //Save and launch the document
-    final List<int> bytes = document.save();
+    final List<int> bytes = await document.save();
 
     //Dispose the document.
     document.dispose();

@@ -132,7 +132,7 @@ class _FindTextPdfState extends SampleViewState {
       }
 
       //Save and dispose the document.
-      final List<int> bytes = document.save();
+      final List<int> bytes = await document.save();
       document.dispose();
 
       //Launch file.

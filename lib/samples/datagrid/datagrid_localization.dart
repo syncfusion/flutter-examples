@@ -1,15 +1,15 @@
 ///Dart imports
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:ui';
 
 ///Package imports
 import 'package:flutter/material.dart';
 
 /// Core theme import
-// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 /// DataGrid Package
-// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import

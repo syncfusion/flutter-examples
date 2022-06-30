@@ -304,7 +304,7 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         Rect.fromLTWH(20, result.bounds.bottom + 20, 495, 400));
 
     //Save and dispose the document.
-    final List<int> bytes = document.save();
+    final List<int> bytes = await document.save();
     document.dispose();
     //Launch file.
     await FileSaveHelper.saveAndLaunchFile(bytes, 'HeaderAndFooter.pdf');

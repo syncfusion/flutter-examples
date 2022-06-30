@@ -54,10 +54,10 @@ class _MultipleAxisExampleState extends SampleViewState {
       ),
       RadialAxis(
           interval: 10,
+          showLastLabel: true,
           ticksPosition: ElementsPosition.outside,
           labelsPosition: ElementsPosition.outside,
           minorTicksPerInterval: 5,
-          showLastLabel: true,
           minorTickStyle: const MinorTickStyle(
               length: 0.07, lengthUnit: GaugeSizeUnit.factor),
           majorTickStyle: const MinorTickStyle(

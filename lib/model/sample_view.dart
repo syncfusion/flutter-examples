@@ -204,10 +204,15 @@ class DirectionalitySampleViewState<T extends DirectionalitySampleView>
     super.dispose();
   }
 
+  /// Close all overlay when property panel is opened. Implemented for PdfViewer
+  /// RTL sample.
+  void closeAllOverlay() {}
+
   /// Add the localization selection widget.
   Widget textDirectionSelectorWidget(BuildContext context) {
     final double screenWidth =
         model.isWebFullView ? 250 : MediaQuery.of(context).size.width;
+    closeAllOverlay();
     final double dropDownWidth = 0.6 * screenWidth;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
