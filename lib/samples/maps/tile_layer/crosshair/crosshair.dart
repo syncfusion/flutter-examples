@@ -130,7 +130,7 @@ class _MapCrosshairPageState extends SampleViewState {
             height: 32,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.white,
+                backgroundColor: Colors.white,
                 padding: EdgeInsets.zero,
               ),
               onPressed: _handleIncrementClicked,
@@ -148,7 +148,7 @@ class _MapCrosshairPageState extends SampleViewState {
             height: 32,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.white,
+                backgroundColor: Colors.white,
                 padding: EdgeInsets.zero,
               ),
               onPressed: _handleDecrementClicked,

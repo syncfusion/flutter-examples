@@ -1070,6 +1070,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 kIsMacOS ? event.isMetaPressed : event.isControlPressed;
             if (isPrimaryKeyPressed &&
                 event.logicalKey == LogicalKeyboardKey.keyF) {
+              _pdfViewerController.clearSelection();
               _showTextSearchMenu();
             }
           },
