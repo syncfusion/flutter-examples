@@ -18,7 +18,9 @@ class OrderInfoDataGridSource extends DataGridSource {
       required this.isWebOrDesktop,
       this.orderDataCount,
       this.ordersCollection,
-      this.culture}) {
+      this.culture,
+      bool? isFilteringSample}) {
+    this.isFilteringSample = isFilteringSample ?? false;
     orders = ordersCollection ??
         getOrders(orders, orderDataCount ?? 100, culture: culture ?? '');
     currencySymbol = getCurrencySymbol();
@@ -50,27 +52,40 @@ class OrderInfoDataGridSource extends DataGridSource {
   /// Currency symbol for culture.
   String currencySymbol = '';
 
+  /// Checks whether the source is used for the filtering sample or not.
+  late bool isFilteringSample;
+
   /// Building DataGridRows.
   void buildDataGridRows() {
     dataGridRows = isWebOrDesktop
         ? orders.map<DataGridRow>((OrderInfo order) {
             return DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(columnName: 'id', value: order.id),
               DataGridCell<int>(
-                  columnName: 'customerId', value: order.customerId),
-              DataGridCell<String>(columnName: 'name', value: order.name),
-              DataGridCell<double>(columnName: 'freight', value: order.freight),
-              DataGridCell<String>(columnName: 'city', value: order.city),
-              DataGridCell<double>(columnName: 'price', value: order.price),
+                  columnName: getColumnName('id'), value: order.id),
+              DataGridCell<int>(
+                  columnName: getColumnName('customerId'),
+                  value: order.customerId),
+              DataGridCell<String>(
+                  columnName: getColumnName('name'), value: order.name),
+              DataGridCell<double>(
+                  columnName: getColumnName('freight'), value: order.freight),
+              DataGridCell<String>(
+                  columnName: getColumnName('city'), value: order.city),
+              DataGridCell<double>(
+                  columnName: getColumnName('price'), value: order.price),
             ]);
           }).toList()
         : orders.map<DataGridRow>((OrderInfo order) {
             return DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(columnName: 'id', value: order.id),
               DataGridCell<int>(
-                  columnName: 'customerId', value: order.customerId),
-              DataGridCell<String>(columnName: 'name', value: order.name),
-              DataGridCell<String>(columnName: 'city', value: order.city),
+                  columnName: getColumnName('id'), value: order.id),
+              DataGridCell<int>(
+                  columnName: getColumnName('customerId'),
+                  value: order.customerId),
+              DataGridCell<String>(
+                  columnName: getColumnName('name'), value: order.name),
+              DataGridCell<String>(
+                  columnName: getColumnName('city'), value: order.city),
             ]);
           }).toList();
   }
@@ -155,8 +170,8 @@ class OrderInfoDataGridSource extends DataGridSource {
       return DataGridRowAdapter(
           color: backgroundColor,
           cells: row.getCells().map<Widget>((DataGridCell dataCell) {
-            if (dataCell.columnName == 'id' ||
-                dataCell.columnName == 'customerId') {
+            if (dataCell.columnName == getColumnName('id') ||
+                dataCell.columnName == getColumnName('customerId')) {
               return buildWidget(
                   alignment: Alignment.centerRight, value: dataCell.value!);
             } else {
@@ -227,6 +242,29 @@ class OrderInfoDataGridSource extends DataGridSource {
           summaryValue, const EdgeInsets.all(8.0), Alignment.centerRight);
     }
     return widget;
+  }
+
+  /// Provides the column name.
+  String getColumnName(String columnName) {
+    if (isFilteringSample) {
+      switch (columnName) {
+        case 'id':
+          return 'Order ID';
+        case 'customerId':
+          return 'Customer ID';
+        case 'name':
+          return 'Name';
+        case 'freight':
+          return 'Freight';
+        case 'city':
+          return 'City';
+        case 'price':
+          return 'Price';
+        default:
+          return columnName;
+      }
+    }
+    return columnName;
   }
 
   /// Update DataSource

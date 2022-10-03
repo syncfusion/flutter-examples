@@ -21,7 +21,8 @@ Widget title(String text) {
   return Align(
     alignment: AlignmentDirectional.centerStart,
     child: Padding(
-        padding: const EdgeInsetsDirectional.only(start: 25),
-        child: Text(text)),
+      padding: const EdgeInsetsDirectional.only(start: 25),
+      child: Text(text),
+    ),
   );
 }

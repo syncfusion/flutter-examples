@@ -135,7 +135,7 @@ class _SwipingDataGridState extends SampleViewState {
     if (_formKey.currentState!.validate()) {
       dataSource.orders[rowIndex] = OrderInfo(
         int.tryParse(orderIdController!.text)!,
-        int?.tryParse(customerIdController!.text)!,
+        int.tryParse(customerIdController!.text)!,
         nameController!.text,
         freightController!.text == ''
             ? 0.0

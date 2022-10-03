@@ -1925,7 +1925,6 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 onPressed: () {
                   showDialog<Widget>(
                     context: context,
-                    barrierDismissible: true,
                     builder: (BuildContext context) {
                       return _ResourcePicker(
                         _unSelectedResources,
@@ -1970,7 +1969,6 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               onPressed: () {
                 showDialog<Widget>(
                   context: context,
-                  barrierDismissible: true,
                   builder: (BuildContext context) {
                     return _CalendarColorPicker(
                       widget.colorCollection,
@@ -3449,7 +3447,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                               onPressed: () {
                                 showDialog<Widget>(
                                   context: context,
-                                  barrierDismissible: true,
                                   builder: (BuildContext context) {
                                     return _CalendarTimeZonePicker(
                                       widget.model.backgroundColor,
@@ -3763,15 +3760,19 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      onSurface: Colors.black26,
+                                                      disabledForegroundColor:
+                                                          Colors.black26,
+                                                      disabledBackgroundColor:
+                                                          Colors.black26,
                                                       side: BorderSide(
                                                           color: borderColor),
-                                                      primary: _days!.contains(
-                                                              WeekDays.sunday)
+                                                      backgroundColor: _days!
+                                                              .contains(WeekDays
+                                                                  .sunday)
                                                           ? widget.model
                                                               .backgroundColor
                                                           : defaultButtonColor,
-                                                      onPrimary: _days!
+                                                      foregroundColor: _days!
                                                               .contains(WeekDays
                                                                   .sunday)
                                                           ? Colors.white
@@ -3796,15 +3797,19 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      onSurface: Colors.black26,
+                                                      disabledForegroundColor:
+                                                          Colors.black26,
+                                                      disabledBackgroundColor:
+                                                          Colors.black26,
                                                       side: BorderSide(
                                                           color: borderColor),
-                                                      primary: _days!.contains(
-                                                              WeekDays.monday)
+                                                      backgroundColor: _days!
+                                                              .contains(WeekDays
+                                                                  .monday)
                                                           ? widget.model
                                                               .backgroundColor
                                                           : defaultButtonColor,
-                                                      onPrimary: _days!
+                                                      foregroundColor: _days!
                                                               .contains(WeekDays
                                                                   .monday)
                                                           ? Colors.white
@@ -3829,15 +3834,19 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      onSurface: Colors.black26,
+                                                      disabledForegroundColor:
+                                                          Colors.black26,
+                                                      disabledBackgroundColor:
+                                                          Colors.black26,
                                                       side: BorderSide(
                                                           color: borderColor),
-                                                      primary: _days!.contains(
-                                                              WeekDays.tuesday)
+                                                      backgroundColor: _days!
+                                                              .contains(WeekDays
+                                                                  .tuesday)
                                                           ? widget.model
                                                               .backgroundColor
                                                           : defaultButtonColor,
-                                                      onPrimary: _days!
+                                                      foregroundColor: _days!
                                                               .contains(WeekDays
                                                                   .tuesday)
                                                           ? Colors.white
@@ -3862,16 +3871,19 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      onSurface: Colors.black26,
+                                                      disabledForegroundColor:
+                                                          Colors.black26,
+                                                      disabledBackgroundColor:
+                                                          Colors.black26,
                                                       side: BorderSide(
                                                           color: borderColor),
-                                                      primary: _days!.contains(
-                                                              WeekDays
+                                                      backgroundColor: _days!
+                                                              .contains(WeekDays
                                                                   .wednesday)
                                                           ? widget.model
                                                               .backgroundColor
                                                           : defaultButtonColor,
-                                                      onPrimary: _days!
+                                                      foregroundColor: _days!
                                                               .contains(WeekDays
                                                                   .wednesday)
                                                           ? Colors.white
@@ -3896,15 +3908,19 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      onSurface: Colors.black26,
+                                                      disabledForegroundColor:
+                                                          Colors.black26,
+                                                      disabledBackgroundColor:
+                                                          Colors.black26,
                                                       side: BorderSide(
                                                           color: borderColor),
-                                                      primary: _days!.contains(
-                                                              WeekDays.thursday)
+                                                      backgroundColor: _days!
+                                                              .contains(WeekDays
+                                                                  .thursday)
                                                           ? widget.model
                                                               .backgroundColor
                                                           : defaultButtonColor,
-                                                      onPrimary: _days!
+                                                      foregroundColor: _days!
                                                               .contains(WeekDays
                                                                   .thursday)
                                                           ? Colors.white
@@ -3929,15 +3945,19 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      onSurface: Colors.black26,
+                                                      disabledForegroundColor:
+                                                          Colors.black26,
+                                                      disabledBackgroundColor:
+                                                          Colors.black26,
                                                       side: BorderSide(
                                                           color: borderColor),
-                                                      primary: _days!.contains(
-                                                              WeekDays.friday)
+                                                      backgroundColor: _days!
+                                                              .contains(WeekDays
+                                                                  .friday)
                                                           ? widget.model
                                                               .backgroundColor
                                                           : defaultButtonColor,
-                                                      onPrimary: _days!
+                                                      foregroundColor: _days!
                                                               .contains(WeekDays
                                                                   .friday)
                                                           ? Colors.white
@@ -3962,15 +3982,19 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      onSurface: Colors.black26,
+                                                      disabledForegroundColor:
+                                                          Colors.black26,
+                                                      disabledBackgroundColor:
+                                                          Colors.black26,
                                                       side: BorderSide(
                                                           color: borderColor),
-                                                      primary: _days!.contains(
-                                                              WeekDays.saturday)
+                                                      backgroundColor: _days!
+                                                              .contains(WeekDays
+                                                                  .saturday)
                                                           ? widget.model
                                                               .backgroundColor
                                                           : defaultButtonColor,
-                                                      onPrimary: _days!
+                                                      foregroundColor: _days!
                                                               .contains(WeekDays
                                                                   .saturday)
                                                           ? Colors.white
@@ -5088,7 +5112,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       onTap: () {
                         showDialog<Widget>(
                           context: context,
-                          barrierDismissible: true,
                           builder: (BuildContext context) {
                             return _ResourcePicker(
                               _unSelectedResources,
@@ -5172,7 +5195,6 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 onPressed: () {
                                   showDialog<Widget>(
                                     context: context,
-                                    barrierDismissible: true,
                                     builder: (BuildContext context) {
                                       return _CalendarColorPicker(
                                         widget.colorCollection,
@@ -6060,7 +6082,6 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
               onTap: () {
                 showDialog<Widget>(
                   context: context,
-                  barrierDismissible: true,
                   builder: (BuildContext context) {
                     return _CalendarTimeZonePicker(
                       widget.model.backgroundColor,
@@ -6144,7 +6165,6 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                 onTap: () {
                   showDialog<Widget>(
                     context: context,
-                    barrierDismissible: true,
                     builder: (BuildContext context) {
                       return _ResourcePicker(
                         _unSelectedResources,
@@ -6180,7 +6200,6 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
               onTap: () {
                 showDialog<Widget>(
                   context: context,
-                  barrierDismissible: true,
                   builder: (BuildContext context) {
                     return _CalendarColorPicker(
                       widget.colorCollection,
@@ -7756,12 +7775,14 @@ class _CustomRuleState extends State<_CustomRule> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(5, 5),
-                                primary: _days!.contains(WeekDays.sunday)
-                                    ? widget.model.backgroundColor
-                                    : defaultButtonColor,
-                                onPrimary: _days!.contains(WeekDays.sunday)
-                                    ? Colors.white
-                                    : defaultTextColor,
+                                backgroundColor:
+                                    _days!.contains(WeekDays.sunday)
+                                        ? widget.model.backgroundColor
+                                        : defaultButtonColor,
+                                foregroundColor:
+                                    _days!.contains(WeekDays.sunday)
+                                        ? Colors.white
+                                        : defaultTextColor,
                                 shape: const CircleBorder(),
                                 padding: const EdgeInsets.all(12),
                               ),
@@ -7775,13 +7796,16 @@ class _CustomRuleState extends State<_CustomRule> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(7, 7),
-                                onSurface: Colors.black26,
-                                primary: _days!.contains(WeekDays.monday)
-                                    ? widget.model.backgroundColor
-                                    : defaultButtonColor,
-                                onPrimary: _days!.contains(WeekDays.monday)
-                                    ? Colors.white
-                                    : defaultTextColor,
+                                disabledForegroundColor: Colors.black26,
+                                disabledBackgroundColor: Colors.black26,
+                                backgroundColor:
+                                    _days!.contains(WeekDays.monday)
+                                        ? widget.model.backgroundColor
+                                        : defaultButtonColor,
+                                foregroundColor:
+                                    _days!.contains(WeekDays.monday)
+                                        ? Colors.white
+                                        : defaultTextColor,
                                 shape: const CircleBorder(),
                                 padding: const EdgeInsets.all(10),
                               ),
@@ -7795,13 +7819,16 @@ class _CustomRuleState extends State<_CustomRule> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(7, 7),
-                                onSurface: Colors.black26,
-                                primary: _days!.contains(WeekDays.tuesday)
-                                    ? widget.model.backgroundColor
-                                    : defaultButtonColor,
-                                onPrimary: _days!.contains(WeekDays.tuesday)
-                                    ? Colors.white
-                                    : defaultTextColor,
+                                disabledForegroundColor: Colors.black26,
+                                disabledBackgroundColor: Colors.black26,
+                                backgroundColor:
+                                    _days!.contains(WeekDays.tuesday)
+                                        ? widget.model.backgroundColor
+                                        : defaultButtonColor,
+                                foregroundColor:
+                                    _days!.contains(WeekDays.tuesday)
+                                        ? Colors.white
+                                        : defaultTextColor,
                                 shape: const CircleBorder(),
                                 padding: const EdgeInsets.all(12),
                               ),
@@ -7815,13 +7842,16 @@ class _CustomRuleState extends State<_CustomRule> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(7, 7),
-                                onSurface: Colors.black26,
-                                primary: _days!.contains(WeekDays.wednesday)
-                                    ? widget.model.backgroundColor
-                                    : defaultButtonColor,
-                                onPrimary: _days!.contains(WeekDays.wednesday)
-                                    ? Colors.white
-                                    : defaultTextColor,
+                                disabledForegroundColor: Colors.black26,
+                                disabledBackgroundColor: Colors.black26,
+                                backgroundColor:
+                                    _days!.contains(WeekDays.wednesday)
+                                        ? widget.model.backgroundColor
+                                        : defaultButtonColor,
+                                foregroundColor:
+                                    _days!.contains(WeekDays.wednesday)
+                                        ? Colors.white
+                                        : defaultTextColor,
                                 shape: const CircleBorder(),
                                 padding: const EdgeInsets.all(10),
                               ),
@@ -7835,13 +7865,16 @@ class _CustomRuleState extends State<_CustomRule> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(7, 7),
-                                onSurface: Colors.black26,
-                                primary: _days!.contains(WeekDays.thursday)
-                                    ? widget.model.backgroundColor
-                                    : defaultButtonColor,
-                                onPrimary: _days!.contains(WeekDays.thursday)
-                                    ? Colors.white
-                                    : defaultTextColor,
+                                disabledForegroundColor: Colors.black26,
+                                disabledBackgroundColor: Colors.black26,
+                                backgroundColor:
+                                    _days!.contains(WeekDays.thursday)
+                                        ? widget.model.backgroundColor
+                                        : defaultButtonColor,
+                                foregroundColor:
+                                    _days!.contains(WeekDays.thursday)
+                                        ? Colors.white
+                                        : defaultTextColor,
                                 shape: const CircleBorder(),
                                 padding: const EdgeInsets.all(12),
                               ),
@@ -7855,13 +7888,16 @@ class _CustomRuleState extends State<_CustomRule> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(7, 7),
-                                onSurface: Colors.black26,
-                                primary: _days!.contains(WeekDays.friday)
-                                    ? widget.model.backgroundColor
-                                    : defaultButtonColor,
-                                onPrimary: _days!.contains(WeekDays.friday)
-                                    ? Colors.white
-                                    : defaultTextColor,
+                                disabledForegroundColor: Colors.black26,
+                                disabledBackgroundColor: Colors.black26,
+                                backgroundColor:
+                                    _days!.contains(WeekDays.friday)
+                                        ? widget.model.backgroundColor
+                                        : defaultButtonColor,
+                                foregroundColor:
+                                    _days!.contains(WeekDays.friday)
+                                        ? Colors.white
+                                        : defaultTextColor,
                                 shape: const CircleBorder(),
                                 padding: const EdgeInsets.all(12),
                               ),
@@ -7875,13 +7911,16 @@ class _CustomRuleState extends State<_CustomRule> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(7, 7),
-                                onSurface: Colors.black26,
-                                primary: _days!.contains(WeekDays.saturday)
-                                    ? widget.model.backgroundColor
-                                    : defaultButtonColor,
-                                onPrimary: _days!.contains(WeekDays.saturday)
-                                    ? Colors.white
-                                    : defaultTextColor,
+                                disabledForegroundColor: Colors.black26,
+                                disabledBackgroundColor: Colors.black26,
+                                backgroundColor:
+                                    _days!.contains(WeekDays.saturday)
+                                        ? widget.model.backgroundColor
+                                        : defaultButtonColor,
+                                foregroundColor:
+                                    _days!.contains(WeekDays.saturday)
+                                        ? Colors.white
+                                        : defaultTextColor,
                                 shape: const CircleBorder(),
                                 padding: const EdgeInsets.all(12),
                               ),

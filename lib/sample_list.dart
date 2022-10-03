@@ -213,6 +213,7 @@ import 'samples/datagrid/datagrid_column_resizing.dart';
 import 'samples/datagrid/datagrid_context_menu.dart';
 import 'samples/datagrid/datagrid_editing.dart';
 import 'samples/datagrid/datagrid_exporting.dart';
+import 'samples/datagrid/datagrid_filtering.dart';
 import 'samples/datagrid/datagrid_freeze_panes.dart';
 import 'samples/datagrid/datagrid_getting_started.dart';
 import 'samples/datagrid/datagrid_localization.dart';
@@ -415,6 +416,7 @@ import 'samples/xlsio/balance_sheet/balance_sheet.dart';
 import 'samples/xlsio/data_validation/data_validation.dart';
 import 'samples/xlsio/expenses_report/expenses_report.dart';
 import 'samples/xlsio/invoice/invoice.dart';
+import 'samples/xlsio/save_as_csv/save_as_csv.dart';
 import 'samples/xlsio/table/table.dart';
 import 'samples/xlsio/yearly_sales/yearly_sales.dart';
 
@@ -755,6 +757,7 @@ Map<String, Function> getSampleWidget() {
     'data_validation': (Key key) => DataValidationXlsIO(key),
     'table': (Key key) => TableXlsIO(key),
     'auto_filter': (Key key) => AutoFilterXlsIO(key),
+    'save_as_csv': (Key key) => SaveAsCSV(key),
 
     // Barcode samples
     'one_dimensional_types': (Key key) => OneDimensionalBarcodes(key: key),
@@ -935,6 +938,9 @@ Map<String, Function> getSampleWidget() {
     'freeze_panes_datagrid': (Key key) => FreezePanesDataGrid(key: key),
 
     'sorting_datagrid': (Key key) => SortingDataGrid(key: key),
+
+    'filtering_datagrid': (Key key) => FilteringDataGrid(key: key),
+
     'custom_sorting_datagrid': (Key key) => CustomSortingDataGrid(key: key),
 
     'stacked_header_datagrid': (Key key) => StackedHeaderDataGrid(key: key),
