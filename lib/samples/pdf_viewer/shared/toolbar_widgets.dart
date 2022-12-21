@@ -149,7 +149,7 @@ class SearchToolbarState extends State<SearchToolbar> {
   FocusNode? focusNode;
 
   /// Indicates whether search is initiated or not.
-  bool _isSearchInitiated = false;
+  bool isSearchInitiated = false;
 
   @override
   void initState() {
@@ -236,7 +236,7 @@ class SearchToolbarState extends State<SearchToolbar> {
               onPressed: () {
                 pdfTextSearchResult.clear();
                 _editingController.clear();
-                _isSearchInitiated = false;
+                isSearchInitiated = false;
                 focusNode?.requestFocus();
                 Navigator.of(context).pop();
               },
@@ -299,7 +299,7 @@ class SearchToolbarState extends State<SearchToolbar> {
               ),
               onPressed: () {
                 widget.onTap?.call('Cancel Search');
-                _isSearchInitiated = false;
+                isSearchInitiated = false;
                 _editingController.clear();
                 pdfTextSearchResult.clear();
               },
@@ -337,7 +337,7 @@ class SearchToolbarState extends State<SearchToolbar> {
                 }
               },
               onFieldSubmitted: (String value) {
-                _isSearchInitiated = true;
+                isSearchInitiated = true;
                 pdfTextSearchResult =
                     widget.controller!.searchText(_editingController.text);
                 pdfTextSearchResult.addListener(() {
@@ -347,6 +347,10 @@ class SearchToolbarState extends State<SearchToolbar> {
                   if (!pdfTextSearchResult.hasResult &&
                       pdfTextSearchResult.isSearchCompleted) {
                     widget.onTap?.call('noResultFound');
+                  }
+                  if (pdfTextSearchResult.hasResult &&
+                      pdfTextSearchResult.isSearchCompleted) {
+                    widget.onTap?.call('Search Completed');
                   }
                 });
               },
@@ -370,7 +374,7 @@ class SearchToolbarState extends State<SearchToolbar> {
                     _editingController.clear();
                     pdfTextSearchResult.clear();
                     widget.controller!.clearSelection();
-                    _isSearchInitiated = false;
+                    isSearchInitiated = false;
                     focusNode?.requestFocus();
                   });
                   widget.onTap?.call('Clear Text');
@@ -380,21 +384,6 @@ class SearchToolbarState extends State<SearchToolbar> {
                         ? 'نص واضح'
                         : 'Clear Text'
                     : null,
-              ),
-            ),
-          ),
-          // Search progress bar for find the search is completed or not
-          Visibility(
-            visible:
-                !pdfTextSearchResult.isSearchCompleted && _isSearchInitiated,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor,
-                ),
               ),
             ),
           ),
@@ -734,6 +723,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(top: 20),
                           border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 2.0)),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: widget.primaryColor!, width: 2.0),
@@ -777,7 +769,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 8, right: 8, bottom: 6, top: 15),
+                                      left: 8, right: 8, bottom: 6, top: 18),
                                   child: SizedBox(
                                     height:
                                         14.57, // height of clear search button
@@ -820,12 +812,16 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                         _isSearchInitiated &&
                         !kIsWeb,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
+                      padding:
+                          const EdgeInsets.only(left: 6, right: 6, top: 15),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: 20,
+                        height: 20,
                         child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              widget.primaryColor!),
+                          backgroundColor: Colors.grey.withOpacity(0.4),
+                          strokeWidth: 3,
                         ),
                       ),
                     ),

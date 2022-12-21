@@ -22,6 +22,10 @@ class SleepTrackerSample extends SampleView {
 class _SleepTrackerSampleState extends SampleViewState {
   _SleepTrackerSampleState();
 
+  double wakeTime = 3;
+  double sleepTime = 12;
+  double sleepingTime = 9;
+
   @override
   Widget build(BuildContext context) {
     final bool isLandscape =
@@ -335,8 +339,9 @@ class _SleepTrackerSampleState extends SampleViewState {
             if (!isCardView)
               Text(
                 _sleepMinutes == '00'
-                    ? '$_sleepHours hrs'
-                    : '$_sleepHours hrs ' '$_sleepMinutes mins',
+                    ? '${sleepingTime > 11.99 ? sleepingTime.round() : sleepingTime.floor()} hrs'
+                    : '${sleepingTime > 11.99 ? sleepingTime.round() : sleepingTime.floor()} hrs '
+                        '$_sleepMinutes mins',
                 style: TextStyle(
                     fontSize: isCardView ? 14 : 20,
                     fontWeight: FontWeight.w500),
@@ -378,7 +383,11 @@ class _SleepTrackerSampleState extends SampleViewState {
       _wakeupTimeAnnotation =
           ((hour >= 6 && hour < 10) ? '0' + hourValue : hourValue) +
               ':' +
-              (minutesValue.length == 1 ? '0' + minutesValue : minutesValue) +
+              (minutesValue.length == 1
+                  ? hour >= 11
+                      ? '59'
+                      : '0' + minutesValue
+                  : minutesValue) +
               (_hourValue >= 6 ? ' pm' : ' pm');
 
       _wakeupTime = (_hourValue + 6 < 10
@@ -387,12 +396,18 @@ class _SleepTrackerSampleState extends SampleViewState {
           ':' +
           (minutesValue.length == 1 ? '0' + minutesValue : minutesValue);
 
-      final DateFormat dateFormat = DateFormat('HH:mm');
-      final DateTime wakeup = dateFormat.parse(_wakeupTime);
-      final DateTime sleep =
-          dateFormat.parse(_bedTime == '09:00 pm' ? '12:00' : _bedTime);
+      final DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
+      final double wakeupValue = double.parse(_wakeupTime.replaceAll(':', '.'));
+      final DateTime wakeup = dateFormat
+          .parse('01/01/1970 ' + _wakeupTime)
+          .add(const Duration(hours: 18))
+          .subtract(Duration(minutes: wakeupValue >= 5.30 ? 0 : 30));
+      final DateTime sleep = dateFormat.parse(_bedTime == '09:00 pm'
+          ? '02/01/1970 12:00'
+          : '02/01/1970 ' + _bedTime);
       final String sleepDuration = sleep.difference(wakeup).toString();
-      _sleepHours = sleepDuration.split(':')[0];
+      wakeTime = value;
+      sleepingTime = sleepTime - wakeTime;
       _sleepMinutes = sleepDuration.split(':')[1];
     });
   }
@@ -443,12 +458,17 @@ class _SleepTrackerSampleState extends SampleViewState {
               ':' +
               (minutesValue.length == 1 ? '0' + minutesValue : minutesValue);
 
-      final DateFormat dateFormat = DateFormat('HH:mm');
-      final DateTime wakeup =
-          dateFormat.parse(_wakeupTime == '06:00 am' ? '03:00' : _wakeupTime);
-      final DateTime sleep = dateFormat.parse(_bedTime);
+      final DateFormat dateFormat = DateFormat('dd/MM/yyyy HH:mm');
+      final DateTime wakeup = dateFormat
+          .parse(_wakeupTime == '06:00 am'
+              ? '01/01/1970 03:00'
+              : '01/01/1970 ' + _wakeupTime)
+          .subtract(const Duration(hours: 6))
+          .subtract(const Duration(minutes: 30));
+      final DateTime sleep = dateFormat.parse('02/01/1970 ' + _bedTime);
       final String sleepDuration = sleep.difference(wakeup).toString();
-      _sleepHours = sleepDuration.split(':')[0];
+      sleepTime = bedTimeValue;
+      sleepingTime = sleepTime - wakeTime;
       _sleepMinutes = sleepDuration.split(':')[1];
     });
   }
@@ -491,7 +511,6 @@ class _SleepTrackerSampleState extends SampleViewState {
   String _bedTimeAnnotation = '06:00 am';
   bool _isWakeupTime = true;
   bool _isBedTime = true;
-  String _sleepHours = '9';
   String _sleepMinutes = '00';
   String _bedTime = '09:00 pm';
   String _wakeupTime = '06:00 am';
