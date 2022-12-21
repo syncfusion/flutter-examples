@@ -18,91 +18,21 @@ dependencies:
   path_provider_macos: ^2.0.0
   desktop_window: 0.4.0
   intl: ^0.17.0
-  
-  syncfusion_localizations:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-localizations
-      path: flutter_localizations/syncfusion_localizations
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_datagrid_export:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-datagrid-export
-      path: flutter_datagrid_export/syncfusion_flutter_datagrid_export
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_calendar:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-calendar
-      path: flutter_calendar/syncfusion_flutter_calendar
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_datepicker:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-datepicker
-      path: flutter_datepicker/syncfusion_flutter_datepicker
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_charts:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-charts
-      path: flutter_charts/syncfusion_flutter_charts
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_gauges:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-gauges
-      path: flutter_gauges/syncfusion_flutter_gauges
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_sliders:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-sliders
-      path: flutter_sliders/syncfusion_flutter_sliders
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_pdf:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-pdf
-      path: flutter_pdf/syncfusion_flutter_pdf
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_barcodes:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-barcodes
-      path: flutter_barcodes/syncfusion_flutter_barcodes
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_officechart:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-officechart
-      path: flutter_officechart/syncfusion_flutter_officechart
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_maps:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-maps
-      path: flutter_maps/syncfusion_flutter_maps
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_signaturepad:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-signaturepad
-      path: flutter_signaturepad/syncfusion_flutter_signaturepad
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_pdfviewer:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-pdfviewer
-      path: flutter_pdfviewer/syncfusion_flutter_pdfviewer
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
-  syncfusion_flutter_treemap:
-    git:
-      url: https://SyncfusionBuild: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@github.com/essential-studio/flutter-treemap
-      path: flutter_treemap/syncfusion_flutter_treemap
-      branch: release/20.4.0.1
-      ref: release/20.4.0.1
+
+  syncfusion_localizations: ^20.4.38
+  syncfusion_flutter_datagrid_export: ^20.4.38-beta
+  syncfusion_flutter_calendar: ^20.4.38
+  syncfusion_flutter_datepicker: ^20.4.38
+  syncfusion_flutter_charts: ^20.4.38
+  syncfusion_flutter_gauges: ^20.4.38
+  syncfusion_flutter_sliders: ^20.4.38
+  syncfusion_flutter_pdf: ^20.4.38
+  syncfusion_flutter_barcodes: ^20.4.38
+  syncfusion_officechart: ^20.4.38-beta
+  syncfusion_flutter_maps: ^20.4.38
+  syncfusion_flutter_signaturepad: ^20.4.38
+  syncfusion_flutter_pdfviewer: ^20.4.38-beta
+  syncfusion_flutter_treemap: ^20.4.38-beta
 
 flutter:
   uses-material-design: true
