@@ -74,6 +74,7 @@ class _MapEqualColorMappingPageState extends SampleViewState {
       _CountryTimeInGMT('Malta', 'GMT+2'),
       _CountryTimeInGMT('Montenegro', 'GMT+2'),
       _CountryTimeInGMT('Netherlands', 'GMT+2'),
+      _CountryTimeInGMT('Norway', 'GMT+2'),
       _CountryTimeInGMT('Poland', 'GMT+2'),
       _CountryTimeInGMT('Portugal', 'GMT+1'),
       _CountryTimeInGMT('Romania', 'GMT+3'),
