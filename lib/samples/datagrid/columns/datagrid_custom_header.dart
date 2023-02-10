@@ -132,7 +132,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
   void buildShowMenu(BuildContext context, DataGridCellTapDetails details) {
     const double rowHeight = 56.0;
     final RenderBox renderBox =
-        Overlay.of(context)!.context.findRenderObject()! as RenderBox;
+        Overlay.of(context).context.findRenderObject()! as RenderBox;
     final Offset newPosition = renderBox.globalToLocal(details.globalPosition);
     final double dx = newPosition.dx - details.localPosition.dx;
     final double dy = newPosition.dy - details.localPosition.dy + rowHeight;

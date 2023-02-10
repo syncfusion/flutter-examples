@@ -246,7 +246,6 @@ class _BingMapState extends SampleViewState {
   /// Changing the Bing Maps type on clicking the chip.
   void _setBingMapView(int index) {
     switch (index) {
-
       /// Road view
       case 0:
         _bingURL =

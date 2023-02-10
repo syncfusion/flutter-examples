@@ -188,7 +188,7 @@ class _MapEqualColorMappingPageState extends SampleViewState {
             padding: const EdgeInsets.only(top: 15, bottom: 30),
             child: Align(
                 child: Text('European Time Zones',
-                    style: Theme.of(context).textTheme.subtitle1))),
+                    style: Theme.of(context).textTheme.titleMedium))),
         Expanded(
             child: SfMaps(
           layers: <MapLayer>[
@@ -214,7 +214,7 @@ class _MapEqualColorMappingPageState extends SampleViewState {
                     _timeZones[index].countryName +
                         ' : ' +
                         _timeZones[index].gmtTime,
-                    style: themeData.textTheme.caption!.copyWith(
+                    style: themeData.textTheme.bodySmall!.copyWith(
                       color: isLightTheme
                           ? const Color.fromRGBO(255, 255, 255, 1)
                           : const Color.fromRGBO(10, 10, 10, 1),

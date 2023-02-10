@@ -733,7 +733,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
           child: Text(DateFormat('MM-dd-yyyy').format(_date),
               style: TextStyle(
                   fontSize: 15,
-                  color: theme.textTheme.subtitle2?.color,
+                  color: theme.textTheme.titleSmall?.color,
                   fontWeight: FontWeight.w600)),
         ));
   }

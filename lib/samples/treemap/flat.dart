@@ -127,7 +127,7 @@ class _TreemapLayoutSampleState extends SampleViewState {
           children: <Widget>[
             Text(
               'Top 10 Highest-Grossing Movies Worldwide',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             Expanded(
@@ -416,7 +416,7 @@ class _TreemapLayoutSampleState extends SampleViewState {
             child: RichText(
               text: TextSpan(
                 text: 'Director',
-                style: themeData.textTheme.caption!.copyWith(
+                style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
                   color: _isLightTheme
                       ? const Color.fromRGBO(255, 255, 255, 0.75)
@@ -433,7 +433,7 @@ class _TreemapLayoutSampleState extends SampleViewState {
             child: RichText(
               text: TextSpan(
                 text: movieDetails.director,
-                style: themeData.textTheme.caption!.copyWith(
+                style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
                   fontWeight: FontWeight.bold,
                   color: _isLightTheme

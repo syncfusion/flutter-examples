@@ -87,7 +87,7 @@ class _MapCrosshairPageState extends SampleViewState {
               enabled: false,
               style: Theme.of(context)
                   .textTheme
-                  .caption
+                  .bodySmall
                   ?.apply(color: Colors.black),
               decoration: const InputDecoration(
                 border: InputBorder.none,
