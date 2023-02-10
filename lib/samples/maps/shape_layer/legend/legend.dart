@@ -388,7 +388,7 @@ class _MapLegendPageState extends SampleViewState {
                     bottom: (_enableGradient && !model.isMobile) ? 18 : 30),
                 child: Align(
                     child: Text('Average Internet Prices in Africa',
-                        style: Theme.of(context).textTheme.subtitle1))),
+                        style: Theme.of(context).textTheme.titleMedium))),
             Expanded(
                 child: SfMaps(
               layers: <MapShapeLayer>[
@@ -426,7 +426,7 @@ class _MapLegendPageState extends SampleViewState {
                                       .toString(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(
                                     color: isLightTheme
                                         ? const Color.fromRGBO(255, 255, 255, 1)
@@ -452,7 +452,7 @@ class _MapLegendPageState extends SampleViewState {
                                       .toString(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(
                                     color: isLightTheme
                                         ? const Color.fromRGBO(255, 255, 255, 1)

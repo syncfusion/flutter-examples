@@ -97,7 +97,7 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
             ? Colors.white.withOpacity(0.5)
             : Colors.grey);
     overlayEntries = <OverlayEntry>[];
-    over = Overlay.of(context)!;
+    over = Overlay.of(context);
     duplicateControlItems = sampleListModel!.searchControlItems;
     duplicateSampleItems = sampleListModel!.searchSampleItems;
     sampleListModel!.searchResults.clear();

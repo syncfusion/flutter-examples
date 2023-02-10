@@ -129,7 +129,7 @@ class _MapsWithLocalizationState extends LocalizationSampleViewState {
                 child: Align(
                     child: Text(_title,
                         textDirection: TextDirection.rtl,
-                        style: _themeData.textTheme.subtitle1))),
+                        style: _themeData.textTheme.titleMedium))),
             Expanded(
               child: SfMapsTheme(
                 data: SfMapsThemeData(
@@ -169,7 +169,7 @@ class _MapsWithLocalizationState extends LocalizationSampleViewState {
                                     Text(
                                       _stateDataLabelsLocale[index],
                                       textDirection: TextDirection.ltr,
-                                      style: _themeData.textTheme.caption!
+                                      style: _themeData.textTheme.bodySmall!
                                           .copyWith(color: textColor),
                                     ),
                                     const SizedBox(height: 5.0),
@@ -179,7 +179,7 @@ class _MapsWithLocalizationState extends LocalizationSampleViewState {
                                               .toString() +
                                           'M sq. km',
                                       textDirection: TextDirection.ltr,
-                                      style: _themeData.textTheme.caption!
+                                      style: _themeData.textTheme.bodySmall!
                                           .copyWith(color: textColor),
                                     ),
                                   ],

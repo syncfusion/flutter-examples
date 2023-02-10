@@ -17,7 +17,7 @@ dependencies:
   path_provider: ^2.0.1
   path_provider_foundation: ^2.1.0
   desktop_window: 0.4.0
-  intl: ^0.17.0
+  intl: ">=0.17.0 <0.20.0"
 
   syncfusion_localizations: ^20.4.38
   syncfusion_flutter_datagrid_export: ^20.4.38-beta

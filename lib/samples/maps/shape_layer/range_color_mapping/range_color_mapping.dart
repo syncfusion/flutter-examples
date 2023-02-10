@@ -407,7 +407,7 @@ class _MapRangeColorMappingPageState extends SampleViewState {
               padding: const EdgeInsets.only(top: 15, bottom: 30),
               child: Align(
                   child: Text('World Population Density (per sq. km.)',
-                      style: Theme.of(context).textTheme.subtitle1))),
+                      style: Theme.of(context).textTheme.titleMedium))),
           Expanded(
             child: SfMaps(
               layers: <MapLayer>[
@@ -432,8 +432,12 @@ class _MapRangeColorMappingPageState extends SampleViewState {
                               _numberFormat.format(
                                   _worldPopulationDensity[index].density) +
                               ' per sq. km.',
-                          style: Theme.of(context).textTheme.caption!.copyWith(
-                              color: Theme.of(context).colorScheme.surface)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.surface)),
                     );
                   },
                   strokeColor: Colors.white30,

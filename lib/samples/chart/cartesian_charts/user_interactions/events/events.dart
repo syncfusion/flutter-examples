@@ -198,8 +198,7 @@ class _EventsState extends SampleViewState {
       },
       onMarkerRender: (MarkerRenderArgs args) {
         if (!isCardView) {
-          actionsList.insert(
-              0, 'Marker (${args.pointIndex.toString()}) was rendered');
+          actionsList.insert(0, 'Marker (${args.pointIndex}) was rendered');
           if (args.pointIndex == 5) {
             SchedulerBinding.instance.addPostFrameCallback((_) {
               (consoleKey.currentState)?.setState(() {});
@@ -268,8 +267,7 @@ class _EventsState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         onPointTap: (ChartPointDetails args) {
           if (!isCardView) {
-            actionsList.insert(
-                0, 'Point (${args.pointIndex.toString()}) was tapped');
+            actionsList.insert(0, 'Point (${args.pointIndex}) was tapped');
             (consoleKey.currentState)?.setState(() {});
           }
         },

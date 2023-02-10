@@ -354,7 +354,7 @@ class _ArcsSampleState extends SampleViewState
         child: Column(
           children: <Widget>[
             Text('Route',
-                style: Theme.of(context).textTheme.caption!.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: const Color.fromRGBO(255, 255, 255, 1))),
             Padding(
@@ -362,7 +362,7 @@ class _ArcsSampleState extends SampleViewState
               child: Text(_airports[index].destination,
                   style: Theme.of(context)
                       .textTheme
-                      .caption!
+                      .bodySmall!
                       .copyWith(color: const Color.fromRGBO(255, 255, 255, 1))),
             ),
           ],
@@ -414,7 +414,7 @@ class _ArcsSampleState extends SampleViewState
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(_markerData[index].country,
-                      style: model.themeData.textTheme.caption!.copyWith(
+                      style: model.themeData.textTheme.bodySmall!.copyWith(
                           color: const Color.fromRGBO(255, 255, 255, 1))),
                 );
               },

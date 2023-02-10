@@ -466,7 +466,7 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
             children: <Widget>[
               Text(
                 '2016 US Election Results',
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
               Expanded(
@@ -539,7 +539,7 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
             padding: const EdgeInsets.only(left: 4.0, top: 4.0),
             child: Text(
               tile.group,
-              style: themeData.textTheme.caption!.copyWith(
+              style: themeData.textTheme.bodySmall!.copyWith(
                 fontSize: 11,
                 color: color,
               ),
@@ -554,7 +554,7 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
             child: RichText(
               text: TextSpan(
                 text: _stateWiseElectionResult[tile.indices[0]].candidate,
-                style: themeData.textTheme.caption!.copyWith(
+                style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
                   color: _isLightTheme
                       ? const Color.fromRGBO(255, 255, 255, 1)
@@ -563,7 +563,7 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
                 children: <TextSpan>[
                   TextSpan(
                       text: '\n${tile.group}',
-                      style: themeData.textTheme.caption!.copyWith(
+                      style: themeData.textTheme.bodySmall!.copyWith(
                         color: _isLightTheme
                             ? const Color.fromRGBO(255, 255, 255, 1)
                             : const Color.fromRGBO(10, 10, 10, 1),
@@ -574,7 +574,7 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
                             .percentage
                             .toString() +
                         '%',
-                    style: themeData.textTheme.caption!.copyWith(
+                    style: themeData.textTheme.bodySmall!.copyWith(
                       color: _isLightTheme
                           ? const Color.fromRGBO(255, 255, 255, 1)
                           : const Color.fromRGBO(10, 10, 10, 1),

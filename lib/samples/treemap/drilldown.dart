@@ -1518,7 +1518,7 @@ class _TreemapDrilldownSampleState extends SampleViewState
           children: <Widget>[
             Text(
               'Most populated continents 2021',
-              style: themeData.textTheme.subtitle1,
+              style: themeData.textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             Expanded(
@@ -1536,7 +1536,7 @@ class _TreemapDrilldownSampleState extends SampleViewState
                       final String breadcrumbText =
                           tile.group == 'Home' ? 'Continents' : tile.group;
                       final Widget current = AnimatedDefaultTextStyle(
-                        style: Theme.of(context).textTheme.caption!.copyWith(
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             color: _isLightTheme
                                 ? const Color.fromRGBO(10, 10, 10, 1)
                                 : const Color.fromRGBO(255, 255, 255, 1),
@@ -1636,7 +1636,7 @@ class _TreemapDrilldownSampleState extends SampleViewState
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: color,
-                fontSize: Theme.of(context).textTheme.bodyText2!.fontSize,
+                fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
               ),
             ),
           ),
@@ -1652,7 +1652,7 @@ class _TreemapDrilldownSampleState extends SampleViewState
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: color,
-                fontSize: Theme.of(context).textTheme.caption!.fontSize,
+                fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
               ),
             ),
           ),
@@ -1673,7 +1673,7 @@ class _TreemapDrilldownSampleState extends SampleViewState
           tile.group,
           style: Theme.of(context)
               .textTheme
-              .caption!
+              .bodySmall!
               .copyWith(fontSize: 11, color: color),
           overflow: TextOverflow.ellipsis,
         ),
@@ -1705,7 +1705,7 @@ class _TreemapDrilldownSampleState extends SampleViewState
             child: RichText(
               text: TextSpan(
                 text: _levels.indexOf(tile.level) == 1 ? 'Country' : 'State',
-                style: Theme.of(context).textTheme.caption!.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       height: 1.5,
                       color: _isLightTheme
                           ? const Color.fromRGBO(255, 255, 255, 0.75)
@@ -1720,7 +1720,7 @@ class _TreemapDrilldownSampleState extends SampleViewState
             child: RichText(
               text: TextSpan(
                 text: tile.group,
-                style: Theme.of(context).textTheme.caption!.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       height: 1.5,
                       fontWeight: FontWeight.bold,
                       color: _isLightTheme

@@ -116,7 +116,7 @@ class _MapMarkerPageState extends SampleViewState {
               padding: const EdgeInsets.only(top: 15, bottom: 30),
               child: Align(
                   child: Text('World Clock',
-                      style: Theme.of(context).textTheme.subtitle1))),
+                      style: Theme.of(context).textTheme.titleMedium))),
           Expanded(
               child: SfMaps(
             layers: <MapLayer>[
@@ -209,14 +209,14 @@ class _ClockWidgetState extends State<_ClockWidget> {
           widget.countryName,
           style: Theme.of(context)
               .textTheme
-              .bodyText2!
+              .bodyMedium!
               .copyWith(fontWeight: FontWeight.bold),
         ),
         Center(
           child: Text(_currentTime,
               style: Theme.of(context)
                   .textTheme
-                  .overline!
+                  .labelSmall!
                   .copyWith(letterSpacing: 0.5, fontWeight: FontWeight.w500)),
         ),
       ],

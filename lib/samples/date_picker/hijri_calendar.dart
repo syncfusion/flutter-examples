@@ -704,7 +704,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
                     _date.year.toString(),
                 style: TextStyle(
                     fontSize: 15,
-                    color: theme.textTheme.subtitle2?.color,
+                    color: theme.textTheme.titleSmall?.color,
                     fontWeight: FontWeight.w600))));
   }
 }

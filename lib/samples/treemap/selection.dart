@@ -164,7 +164,7 @@ class _TreemapSelectionSampleState extends SampleViewState {
           children: <Widget>[
             Text(
               'Top 10 Imports and Exports of USA 2020',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             Expanded(

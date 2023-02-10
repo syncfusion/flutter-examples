@@ -193,7 +193,7 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
               child: Align(
                   child: Text(_title,
                       textDirection: TextDirection.rtl,
-                      style: Theme.of(context).textTheme.subtitle1))),
+                      style: Theme.of(context).textTheme.titleMedium))),
           Expanded(
             child: SfMaps(
               layers: <MapLayer>[
@@ -224,7 +224,8 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
                                   text: model.locale == const Locale('ar', 'AE')
                                       ? _stateWiseGRPDetails[index].stateLocale
                                       : _stateWiseGRPDetails[index].state,
-                                  style: _themeData.textTheme.caption!.copyWith(
+                                  style:
+                                      _themeData.textTheme.bodySmall!.copyWith(
                                     height: 1.5,
                                     color: _isLightTheme
                                         ? const Color.fromRGBO(255, 255, 255, 1)

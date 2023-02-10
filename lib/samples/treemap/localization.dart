@@ -25,11 +25,6 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
   late String _title;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _statesAreaData.clear();
     super.dispose();
@@ -57,7 +52,7 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
             children: <Widget>[
               Text(
                 _title,
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
               ),
@@ -224,7 +219,7 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: color,
-                  fontSize: Theme.of(context).textTheme.caption!.fontSize),
+                  fontSize: Theme.of(context).textTheme.bodySmall!.fontSize),
             ),
           );
         },
@@ -245,7 +240,7 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
                       Text(
                         tile.group,
                         textDirection: TextDirection.ltr,
-                        style: themeData.textTheme.caption!.copyWith(
+                        style: themeData.textTheme.bodySmall!.copyWith(
                           color: textColor,
                         ),
                       ),
@@ -253,7 +248,7 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
                       Text(
                         tile.weight.toString() + 'M sq. km',
                         textDirection: TextDirection.ltr,
-                        style: themeData.textTheme.caption!.copyWith(
+                        style: themeData.textTheme.bodySmall!.copyWith(
                           color: textColor,
                         ),
                       ),

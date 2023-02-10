@@ -107,7 +107,7 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
           children: <Widget>[
             Text(
               'European Cup and UEFA Champions League Winners',
-              style: themeData.textTheme.subtitle1,
+              style: themeData.textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             Expanded(
@@ -163,7 +163,7 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: Theme.of(context).textTheme.caption!.fontSize),
+                    fontSize: Theme.of(context).textTheme.bodySmall!.fontSize),
               ),
             ),
           );
@@ -191,7 +191,7 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: Theme.of(context).textTheme.caption!.fontSize),
+                    fontSize: Theme.of(context).textTheme.bodySmall!.fontSize),
               ),
             ),
           );
@@ -203,14 +203,14 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
             child: RichText(
               text: TextSpan(
                 text: tile.group,
-                style: themeData.textTheme.caption!.copyWith(
+                style: themeData.textTheme.bodySmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     height: 1.5),
                 children: <TextSpan>[
                   TextSpan(
                     text: '\nTitles : ${tile.weight.round()}',
-                    style: themeData.textTheme.caption!.copyWith(
+                    style: themeData.textTheme.bodySmall!.copyWith(
                         color: Colors.white, fontWeight: FontWeight.normal),
                   ),
                 ],

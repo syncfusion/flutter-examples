@@ -593,7 +593,7 @@ class _MapSelectionPageState extends SampleViewState {
             padding: const EdgeInsets.only(top: 15, bottom: 30),
             child: Align(
                 child: Text('2016 US Election Results',
-                    style: Theme.of(context).textTheme.subtitle1))),
+                    style: Theme.of(context).textTheme.titleMedium))),
         Expanded(
             child: SfMaps(
           layers: <MapLayer>[
@@ -651,7 +651,7 @@ class _MapSelectionPageState extends SampleViewState {
                                 Text(_stateWiseElectionResult[index].state!,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline6!
+                                        .titleLarge!
                                         .copyWith(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold)),
@@ -675,7 +675,7 @@ class _MapSelectionPageState extends SampleViewState {
                                 Text('Won candidate :   ',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
+                                        .bodyMedium!
                                         .copyWith(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white)),
@@ -686,7 +686,7 @@ class _MapSelectionPageState extends SampleViewState {
                                         : 'Hillary Clinton',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
+                                        .bodyMedium!
                                         .copyWith(
                                             fontStyle: FontStyle.italic,
                                             color: Colors.white))
@@ -698,7 +698,7 @@ class _MapSelectionPageState extends SampleViewState {
                                 Text('Percentage :         ',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
+                                        .bodyMedium!
                                         .copyWith(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white)),
@@ -709,7 +709,7 @@ class _MapSelectionPageState extends SampleViewState {
                                         '%',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
+                                        .bodyMedium!
                                         .copyWith(
                                             fontStyle: FontStyle.italic,
                                             color: Colors.white))
