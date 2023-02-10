@@ -43,25 +43,25 @@ flutter:
     - images/pdf_viewer/
     - assets/pdf/
     - lib/sample_details.json
-    - world_map.json
-    - africa.json
-    - europe.json
-    - germany.json
-    - india.json
-    - usa.json
-    - south_america.json
-    - australia.json
-    - maps_brazil_boundary.json
-    - maps_uk_boundary.json
-    - maps_france_boundary.json
-    - river.json
-    - london_to_british.json
-    - london_to_chessington.json
-    - london_to_hampton_court_palace.json
-    - london_to_twickenham_stadium.json
-    - london_to_windsor_castle.json
-    - product_data.json
-    - chart_data.json
+    - assets/world_map.json
+    - assets/africa.json
+    - assets/europe.json
+    - assets/germany.json
+    - assets/india.json
+    - assets/usa.json
+    - assets/south_america.json
+    - assets/australia.json
+    - assets/maps_brazil_boundary.json
+    - assets/maps_uk_boundary.json
+    - assets/maps_france_boundary.json
+    - assets/river.json
+    - assets/london_to_british.json
+    - assets/london_to_chessington.json
+    - assets/london_to_hampton_court_palace.json
+    - assets/london_to_twickenham_stadium.json
+    - assets/london_to_windsor_castle.json
+    - assets/product_data.json
+    - assets/chart_data.json
   fonts:
     - family: HeeboBold
       fonts:
