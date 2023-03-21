@@ -132,11 +132,11 @@ class _RangeSelectorRTLState extends SampleViewState {
                   labelOffset: Offset.zero,
                   activeLabelStyle: TextStyle(
                       fontSize: 10,
-                      color: themeData.textTheme.bodyText1!.color!
+                      color: themeData.textTheme.bodyLarge!.color!
                           .withOpacity(0.87)),
                   inactiveLabelStyle: TextStyle(
                       fontSize: 10,
-                      color: themeData.textTheme.bodyText1!.color!
+                      color: themeData.textTheme.bodyLarge!.color!
                           .withOpacity(0.87)),
                   inactiveRegionColor:
                       themeData.colorScheme.brightness == Brightness.light

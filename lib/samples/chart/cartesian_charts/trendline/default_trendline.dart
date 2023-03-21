@@ -67,7 +67,7 @@ class _TrendLineDefaultState extends SampleViewState {
   @override
   void dispose() {
     if (_slope != null) {
-      _slope!.clear();
+      _slope = [];
     }
     _trendlineTypeList!.clear();
     super.dispose();

@@ -273,7 +273,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     sheet.getRangeByName('C12:C18').cellStyle.borders.all.lineStyle =
         LineStyle.none;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

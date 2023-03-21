@@ -335,7 +335,7 @@ class _BalanceSheetXlsIOState extends SampleViewState {
 
     workbook.protect(true, true, 'Syncfusion');
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

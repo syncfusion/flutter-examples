@@ -167,7 +167,7 @@ class _MapSublayerPageState extends SampleViewState {
                       child: Align(
                           alignment: Alignment.topCenter,
                           child: Text('Rivers in Australia',
-                              style: Theme.of(context).textTheme.subtitle1))),
+                              style: Theme.of(context).textTheme.titleMedium))),
                   Expanded(
                       child: SfMaps(
                     layers: <MapLayer>[
@@ -200,7 +200,7 @@ class _MapSublayerPageState extends SampleViewState {
                         ),
                         showDataLabels: true,
                         dataLabelSettings: MapDataLabelSettings(
-                          textStyle: _themeData.textTheme.caption!.copyWith(
+                          textStyle: _themeData.textTheme.bodySmall!.copyWith(
                             color: const Color.fromRGBO(0, 0, 0, 1),
                           ),
                         ),
@@ -225,7 +225,8 @@ class _MapSublayerPageState extends SampleViewState {
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(tooltipText,
-                                      style: model.themeData.textTheme.caption!
+                                      style: model
+                                          .themeData.textTheme.bodySmall!
                                           .copyWith(
                                               color: isLightTheme
                                                   ? const Color.fromRGBO(

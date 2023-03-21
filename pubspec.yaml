@@ -1,6 +1,6 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 20.4.38 
+version: 21.1.35  
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
@@ -17,22 +17,28 @@ dependencies:
   path_provider: ^2.0.1
   path_provider_macos: ^2.0.0
   desktop_window: 0.4.0
-  intl: ^0.17.0
-
-  syncfusion_localizations: ^20.4.38
-  syncfusion_flutter_datagrid_export: ^20.4.38-beta
-  syncfusion_flutter_calendar: ^20.4.38
-  syncfusion_flutter_datepicker: ^20.4.38
-  syncfusion_flutter_charts: ^20.4.38
-  syncfusion_flutter_gauges: ^20.4.38
-  syncfusion_flutter_sliders: ^20.4.38
-  syncfusion_flutter_pdf: ^20.4.38
-  syncfusion_flutter_barcodes: ^20.4.38
-  syncfusion_officechart: ^20.4.38-beta
-  syncfusion_flutter_maps: ^20.4.38
-  syncfusion_flutter_signaturepad: ^20.4.38
-  syncfusion_flutter_pdfviewer: ^20.4.38-beta
-  syncfusion_flutter_treemap: ^20.4.38-beta
+  intl: ">=0.17.0 <0.20.0"
+  
+  syncfusion_localizations: ^21.1.35
+  syncfusion_flutter_datagrid_export: ^21.1.35-beta
+  syncfusion_flutter_calendar: ^21.1.35
+  syncfusion_flutter_datepicker: ^21.1.35
+  syncfusion_flutter_charts: ^21.1.35
+  syncfusion_flutter_gauges: ^21.1.35
+  syncfusion_flutter_sliders: ^21.1.35
+  syncfusion_flutter_pdf: ^21.1.35
+  syncfusion_flutter_barcodes: ^21.1.35
+  syncfusion_officechart: ^21.1.35-beta
+  syncfusion_flutter_maps: ^21.1.35
+  syncfusion_flutter_signaturepad: ^21.1.35
+  syncfusion_flutter_pdfviewer: ^21.1.35
+  syncfusion_flutter_treemap: ^21.1.35
+  syncfusion_flutter_charts: ^21.1.35
+  syncfusion_flutter_datagrid: ^21.1.35
+  syncfusion_flutter_datepicker: ^21.1.35
+  syncfusion_flutter_sliders: ^21.1.35
+  syncfusion_flutter_barcode_scanner: ^21.1.35
+  syncfusion_flutter_barcode_scanner_platform_interface: ^21.1.35
 
 flutter:
   uses-material-design: true
@@ -43,25 +49,25 @@ flutter:
     - images/pdf_viewer/
     - assets/pdf/
     - lib/sample_details.json
-    - world_map.json
-    - africa.json
-    - europe.json
-    - germany.json
-    - india.json
-    - usa.json
-    - south_america.json
-    - australia.json
-    - maps_brazil_boundary.json
-    - maps_uk_boundary.json
-    - maps_france_boundary.json
-    - river.json
-    - london_to_british.json
-    - london_to_chessington.json
-    - london_to_hampton_court_palace.json
-    - london_to_twickenham_stadium.json
-    - london_to_windsor_castle.json
-    - product_data.json
-    - chart_data.json
+    - assets/world_map.json
+    - assets/africa.json
+    - assets/europe.json
+    - assets/germany.json
+    - assets/india.json
+    - assets/usa.json
+    - assets/south_america.json
+    - assets/australia.json
+    - assets/maps_brazil_boundary.json
+    - assets/maps_uk_boundary.json
+    - assets/maps_france_boundary.json
+    - assets/river.json
+    - assets/london_to_british.json
+    - assets/london_to_chessington.json
+    - assets/london_to_hampton_court_palace.json
+    - assets/london_to_twickenham_stadium.json
+    - assets/london_to_windsor_castle.json
+    - assets/product_data.json
+    - assets/chart_data.json
   fonts:
     - family: HeeboBold
       fonts:

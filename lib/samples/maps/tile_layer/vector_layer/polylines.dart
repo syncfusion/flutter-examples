@@ -150,7 +150,7 @@ class _PolylinesSampleState extends SampleViewState
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(_routes[index].city,
-                              style: model.themeData.textTheme.caption!
+                              style: model.themeData.textTheme.bodySmall!
                                   .copyWith(
                                       color: const Color.fromRGBO(
                                           255, 255, 255, 1))),
@@ -171,7 +171,7 @@ class _PolylinesSampleState extends SampleViewState
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                     _routes[0].city + ' - ' + _routes[1].city,
-                                    style: model.themeData.textTheme.caption!
+                                    style: model.themeData.textTheme.bodySmall!
                                         .copyWith(
                                             color: const Color.fromRGBO(
                                                 255, 255, 255, 1))),

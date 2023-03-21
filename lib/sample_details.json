@@ -38,7 +38,6 @@
         "description": "Visualize hierarchically structured data that is sized and colored by quantitative variables",
         "image": "images/treemap.png",
         "displayType": "tab",
-        "isBeta": true,
         "controlId": 4,
         "subItems": [
           {
@@ -2712,7 +2711,7 @@
               {
                 "type": "sample",
                 "title": "Sorting",
-                "description": "This sample demonstrates how to sort one or more columns. In the Web and Desktop platforms, you can sort multiple columns by tapping the column header with the CTRL key where as in a mobile platform you can tap the column headers. It also provides some additional functionalities like Tri-state sorting and displaying sort numbers that indicate the sort order.",
+                "description": "This sample demonstrates how to sort one or more columns. In the Web and Windows platforms, you can sort multiple columns by tapping the column header with the CTRL key and COMMAND key in macOS platform where as in a mobile platform you can tap the column headers. It also provides some additional functionalities like Tri-state sorting and displaying sort numbers that indicate the sort order.",
                 "key": "sorting_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/sorting/datagrid_sorting.dart",
                 "needsPropertyPanel": true
@@ -3266,29 +3265,24 @@
         "description": "Create Excel documents with text, numbers, cell formatting, formulas, charts, images, and more",
         "image": "images/xlsio.png",
         "displayType": "tab",
-        "isBeta": true,
         "controlId": 2,
-        "status": "Updated",
         "subItems": [
           {
             "type": "sample",
             "title": "Expenses Report",
             "key": "expenses_report",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/expenses_report/expenses_report.dart"
           },
           {
             "type": "sample",
             "title": "Invoice",
             "key": "invoice_excel",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/invoice/invoice.dart"
           },
           {
             "type": "sample",
             "title": "Yearly Sales",
             "key": "yearly_sales",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/yearly_sales/yearly_sales.dart"
           },
           {
