@@ -15,7 +15,7 @@ dependencies:
     sdk: flutter
   url_launcher: ^6.1.0
   path_provider: ^2.0.1
-  path_provider_macos: ^2.0.0
+  path_provider_foundation: ^2.1.0
   desktop_window: 0.4.0
   intl: ">=0.17.0 <0.20.0"
   
