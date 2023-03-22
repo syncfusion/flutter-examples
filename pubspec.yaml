@@ -33,12 +33,6 @@ dependencies:
   syncfusion_flutter_signaturepad: ^21.1.35
   syncfusion_flutter_pdfviewer: ^21.1.35
   syncfusion_flutter_treemap: ^21.1.35
-  syncfusion_flutter_charts: ^21.1.35
-  syncfusion_flutter_datagrid: ^21.1.35
-  syncfusion_flutter_datepicker: ^21.1.35
-  syncfusion_flutter_sliders: ^21.1.35
-  syncfusion_flutter_barcode_scanner: ^21.1.35
-  syncfusion_flutter_barcode_scanner_platform_interface: ^21.1.35
 
 flutter:
   uses-material-design: true
