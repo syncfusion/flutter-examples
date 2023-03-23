@@ -238,7 +238,7 @@ class _TableXlsIOState extends SampleViewState {
     sheet.getRangeByName('A2').freezePanes();
 
     //Save and dispose Workbook
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

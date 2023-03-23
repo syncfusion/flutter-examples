@@ -1,8 +1,10 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../model/product.dart';
@@ -202,6 +204,45 @@ class ProductDataGridSource extends DataGridSource {
           ),
         ),
       ]);
+    }
+  }
+
+  @override
+  int compare(DataGridRow? a, DataGridRow? b, SortColumnDetails sortColumn) {
+    if (_sampleName == 'Custom Sorting' && sortColumn.name == 'name') {
+      final String? value1 = a
+          ?.getCells()
+          .firstWhereOrNull(
+              (dynamic element) => element.columnName == sortColumn.name)
+          ?.value
+          ?.toString();
+      final String? value2 = b
+          ?.getCells()
+          .firstWhereOrNull(
+              (dynamic element) => element.columnName == sortColumn.name)
+          ?.value
+          ?.toString();
+
+      final int? aLength = value1?.length;
+      final int? bLength = value2?.length;
+
+      if (aLength == null || bLength == null) {
+        return 0;
+      }
+
+      if (aLength.compareTo(bLength) > 0) {
+        return sortColumn.sortDirection == DataGridSortDirection.ascending
+            ? 1
+            : -1;
+      } else if (aLength.compareTo(bLength) == -1) {
+        return sortColumn.sortDirection == DataGridSortDirection.ascending
+            ? -1
+            : 1;
+      } else {
+        return 0;
+      }
+    } else {
+      return super.compare(a, b, sortColumn);
     }
   }
 
