@@ -130,23 +130,12 @@ class _CustomHeaderDataGridState extends SampleViewState {
   }
 
   void buildShowMenu(BuildContext context, DataGridCellTapDetails details) {
-    double dx = 0.0, dy = 0.0;
     const double rowHeight = 56.0;
-    if (isWebOrDesktop) {
-      final RenderBox getBox = context.findRenderObject()! as RenderBox;
-      final Offset local = getBox.globalToLocal(details.globalPosition);
-      dx = local.dx - details.localPosition.dx;
-      dy = local.dy - details.localPosition.dy + rowHeight;
-      // After Flutter v2.0, the 8.0 pixels added extra to the showMenu by default in the web and desktop.
-      // Removed the extra pixels to aligned the pop up in the bottom of header cell.
-      dy -= 8.0;
-    } else {
-      dx = details.globalPosition.dx - details.localPosition.dx;
-      dy = details.globalPosition.dy - details.localPosition.dy + rowHeight;
-      // After Flutter v2.0, the 24.0 pixels added extra to the showMenu by default in the mobile.
-      // Removed the extra pixels to aligned the pop up in the bottom of header cell.
-      dy -= 24.0;
-    }
+    final RenderBox renderBox =
+        Overlay.of(context).context.findRenderObject()! as RenderBox;
+    final Offset newPosition = renderBox.globalToLocal(details.globalPosition);
+    final double dx = newPosition.dx - details.localPosition.dx;
+    final double dy = newPosition.dy - details.localPosition.dy + rowHeight;
 
     showMenu(
         context: context,

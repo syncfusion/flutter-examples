@@ -126,7 +126,7 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
             ? details.globalSelectedRegion!.center.dx - (_contextMenuWidth / 2)
             : details.globalSelectedRegion!.bottomLeft.dx;
       }
-      final OverlayState? overlayState = Overlay.of(context, rootOverlay: true);
+      final OverlayState overlayState = Overlay.of(context, rootOverlay: true);
       _overlayEntry = OverlayEntry(
         builder: (BuildContext context) => Positioned(
           top: top,
@@ -167,7 +167,7 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
           ),
         ),
       );
-      overlayState?.insert(_overlayEntry!);
+      overlayState.insert(_overlayEntry!);
     }
   }
 

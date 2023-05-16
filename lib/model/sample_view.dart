@@ -193,11 +193,6 @@ class DirectionalitySampleViewState<T extends DirectionalitySampleView>
     TextDirection.rtl,
   ];
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   /// Must call super.
   @override
   void dispose() {

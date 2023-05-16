@@ -141,6 +141,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                             category: category,
                             key: sampleInputKey,
                             webLayoutPageState: this)))),
+        endDrawerEnableOpenDragGesture: false,
         endDrawer: showWebThemeSettings(model),
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60.0),
@@ -1028,6 +1029,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                       child: Scaffold(
                           backgroundColor: model.webOutputContainerColor,
                           key: outputScaffoldKey,
+                          endDrawerEnableOpenDragGesture: false,
                           endDrawer: _checkPropertyPanelIsEnabled(model,
                                   sampleSubItem, _propertiesPanel, context)
                               ? _propertiesPanel
@@ -2651,6 +2653,7 @@ class _PopupState extends State<_Popup> {
                             colorScheme: model!.themeData.colorScheme),
                         child: Scaffold(
                             key: scaffoldKey,
+                            endDrawerEnableOpenDragGesture: false,
                             endDrawer: _propertiesPanel,
                             appBar: PreferredSize(
                                 preferredSize: const Size.fromHeight(40),

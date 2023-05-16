@@ -97,7 +97,7 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
             children: <Widget>[
               Text(
                 'Top 10 Online Marketplaces',
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
               Expanded(
@@ -169,7 +169,7 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: color,
-                  fontSize: Theme.of(context).textTheme.caption!.fontSize),
+                  fontSize: Theme.of(context).textTheme.bodySmall!.fontSize),
             ),
           );
         },
@@ -181,7 +181,7 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
               text: TextSpan(
                 text:
                     'Country : ${_topOnlineMarketPlaces[tile.indices[0]].country}',
-                style: themeData.textTheme.caption!.copyWith(
+                style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
                   color: _isLightTheme
                       ? const Color.fromRGBO(255, 255, 255, 1)
@@ -190,7 +190,7 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
                 children: <TextSpan>[
                   TextSpan(
                     text: '\nVisitors : ${tile.weight}B',
-                    style: themeData.textTheme.caption!.copyWith(
+                    style: themeData.textTheme.bodySmall!.copyWith(
                         color: _isLightTheme
                             ? const Color.fromRGBO(255, 255, 255, 1)
                             : const Color.fromRGBO(10, 10, 10, 1)),

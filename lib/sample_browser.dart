@@ -223,6 +223,7 @@ class _HomePageState extends State<HomePage> {
                     : getLeftSideDrawer(model),
                 key: scaffoldKey,
                 backgroundColor: model.webBackgroundColor,
+                endDrawerEnableOpenDragGesture: false,
                 endDrawer:
                     model.isWebFullView ? showWebThemeSettings(model) : null,
                 appBar: PreferredSize(
@@ -262,6 +263,7 @@ class _HomePageState extends State<HomePage> {
                 bottomNavigationBar: getFooter(context, model),
                 key: scaffoldKey,
                 backgroundColor: model.webBackgroundColor,
+                endDrawerEnableOpenDragGesture: false,
                 endDrawer: showWebThemeSettings(model),
                 resizeToAvoidBottomInset: false,
                 appBar: PreferredSize(

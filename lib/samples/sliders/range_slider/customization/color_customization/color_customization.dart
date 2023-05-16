@@ -34,34 +34,37 @@ class _ColorCustomizedRangeSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
-        padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            title('Active and inactive track color'),
-            const SizedBox(
-              height: 10,
-            ),
-            GradientTrackRangeSlider(gradientKey)
-          ],
-        ));
+      padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          title('Active and inactive track color'),
+          const SizedBox(
+            height: 10,
+          ),
+          GradientTrackRangeSlider(gradientKey)
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget rangeSlider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 400
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(
-              height: 400,
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                  child: rangeSlider),
-            ));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget rangeSlider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 400
+            ? rangeSlider
+            : SingleChildScrollView(
+                child: SizedBox(
+                  height: 400,
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                      child: rangeSlider),
+                ),
+              );
+      },
+    );
   }
 }

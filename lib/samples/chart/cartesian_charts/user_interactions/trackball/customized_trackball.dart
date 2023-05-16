@@ -285,7 +285,7 @@ class _TrackballTemplateState extends SampleViewState {
       for (int i = 0; i < seriesIndices.length; i++) {
         columnChildWidgets.children.add(
           Text(
-              '${trackballDetails.groupingModeInfo!.visibleSeriesList[i].name.toString()} : \$${trackballDetails.groupingModeInfo!.points[i].y.toString()}',
+              '${trackballDetails.groupingModeInfo!.visibleSeriesList[i].name} : \$${trackballDetails.groupingModeInfo!.points[i].y}',
               textAlign: TextAlign.left,
               style: _getTrackballTextStyle()),
         );
@@ -294,8 +294,7 @@ class _TrackballTemplateState extends SampleViewState {
     } else {
       columnWidgets.children.add(Text(trackballDetails.point!.x.toString(),
           style: _getTrackballTextStyle()));
-      columnWidgets.children.add(Text(
-          '\$${trackballDetails.point!.y.toString()}',
+      columnWidgets.children.add(Text('\$${trackballDetails.point!.y}',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: model.themeData.colorScheme.brightness == Brightness.dark

@@ -35,11 +35,11 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
     return SfSliderTheme(
       data: SfSliderThemeData(
         tooltipBackgroundColor: model.backgroundColor,
-        activeLabelStyle: _themeData.textTheme.bodyText1!
+        activeLabelStyle: _themeData.textTheme.bodyLarge!
             .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-        inactiveLabelStyle: _themeData.textTheme.bodyText1!
+        inactiveLabelStyle: _themeData.textTheme.bodyLarge!
             .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-        tooltipTextStyle: _themeData.textTheme.bodyText1!.copyWith(
+        tooltipTextStyle: _themeData.textTheme.bodyLarge!.copyWith(
           fontWeight: FontWeight.normal,
           fontSize: 14,
           color: Colors.white,
@@ -66,11 +66,11 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(
           tooltipBackgroundColor: model.backgroundColor,
-          activeLabelStyle: _themeData.textTheme.bodyText1!
+          activeLabelStyle: _themeData.textTheme.bodyLarge!
               .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-          inactiveLabelStyle: _themeData.textTheme.bodyText1!
+          inactiveLabelStyle: _themeData.textTheme.bodyLarge!
               .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-          tooltipTextStyle: _themeData.textTheme.bodyText1!.copyWith(
+          tooltipTextStyle: _themeData.textTheme.bodyLarge!.copyWith(
             fontWeight: FontWeight.normal,
             fontSize: 14,
             color: Colors.white,

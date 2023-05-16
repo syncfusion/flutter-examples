@@ -110,7 +110,7 @@ class _TreemapTextDirectionPageState extends DirectionalitySampleViewState {
             children: <Widget>[
               Text(
                 _title,
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
               ),
@@ -205,7 +205,7 @@ class _TreemapTextDirectionPageState extends DirectionalitySampleViewState {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: color,
-                  fontSize: Theme.of(context).textTheme.caption!.fontSize),
+                  fontSize: Theme.of(context).textTheme.bodySmall!.fontSize),
             ),
           );
         },
@@ -224,7 +224,7 @@ class _TreemapTextDirectionPageState extends DirectionalitySampleViewState {
                         text: model.locale == const Locale('ar', 'AE')
                             ? _statesGRPData[tile.indices[0]].stateLocale
                             : tile.group,
-                        style: themeData.textTheme.caption!.copyWith(
+                        style: themeData.textTheme.bodySmall!.copyWith(
                           height: 1.5,
                           color: _isLightTheme
                               ? const Color.fromRGBO(255, 255, 255, 1)

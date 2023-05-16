@@ -303,21 +303,21 @@ class _BalanceSheetXlsIOState extends SampleViewState {
 
     // sheet1 Image Hyperlink
     final Picture picture =
-        sheet.pictures.addStream(2, 2, await _readImageData('assets.png'));
+        sheet.pictures.addStream(2, 2, await _readImageData('assets.jpg'));
     picture.height = 30;
     picture.width = 100;
     sheet.hyperlinks
         .addImage(picture, HyperlinkType.workbook, 'Assets!B1', 'Assets');
 
     final Picture picture1 =
-        sheet.pictures.addStream(2, 3, await _readImageData('liabilities.png'));
+        sheet.pictures.addStream(2, 3, await _readImageData('liabilities.jpg'));
     picture1.height = 30;
     picture1.width = 100;
     sheet.hyperlinks.addImage(
         picture1, HyperlinkType.workbook, 'Liabilities!B1', 'Liabilities');
 
     final Picture picture2 =
-        sheet.pictures.addStream(2, 4, await _readImageData('categories.png'));
+        sheet.pictures.addStream(2, 4, await _readImageData('categories.jpg'));
     picture2.height = 30;
     picture2.width = 100;
     sheet.hyperlinks.addImage(
@@ -335,7 +335,7 @@ class _BalanceSheetXlsIOState extends SampleViewState {
 
     workbook.protect(true, true, 'Syncfusion');
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

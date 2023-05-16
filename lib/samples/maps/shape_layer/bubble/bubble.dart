@@ -350,7 +350,7 @@ class _MapBubblePageState extends SampleViewState
                     padding: const EdgeInsets.only(top: 15, bottom: 30),
                     child: Align(
                         child: Text('Social Media Users Statistics',
-                            style: Theme.of(context).textTheme.subtitle1))),
+                            style: Theme.of(context).textTheme.titleMedium))),
                 Expanded(
                   child: SfMaps(
                     layers: <MapLayer>[
@@ -376,7 +376,7 @@ class _MapBubblePageState extends SampleViewState
                             child: Text(_getCustomizedString(index),
                                 style: Theme.of(context)
                                     .textTheme
-                                    .caption!
+                                    .bodySmall!
                                     .copyWith(color: _tooltipTextColor)),
                           );
                         },

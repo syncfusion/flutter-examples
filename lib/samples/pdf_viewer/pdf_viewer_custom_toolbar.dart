@@ -571,7 +571,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               ? globalSelectedRect.center.dx - (_kContextMenuWidth / 2)
               : globalSelectedRect.bottomLeft.dx;
         }
-        final OverlayState? overlayState =
+        final OverlayState overlayState =
             Overlay.of(context, rootOverlay: true);
         _selectionOverlayEntry = OverlayEntry(
           builder: (BuildContext context) => Positioned(
@@ -620,7 +620,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             ),
           ),
         );
-        overlayState?.insert(_selectionOverlayEntry!);
+        overlayState.insert(_selectionOverlayEntry!);
       }
     }
   }
@@ -709,9 +709,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           ?.findRenderObject())! as RenderBox;
       if (searchRenderBox != null) {
         final Offset position = searchRenderBox.localToGlobal(Offset.zero);
-        final OverlayState? overlayState =
+        final OverlayState overlayState =
             Overlay.of(context, rootOverlay: true);
-        overlayState?.insert(_textSearchOverlayEntry = OverlayEntry(
+        overlayState.insert(_textSearchOverlayEntry = OverlayEntry(
           builder: (BuildContext context) {
             return Positioned(
               top: position.dy + 40.0, // y position of search menu
@@ -1070,6 +1070,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 kIsMacOS ? event.isMetaPressed : event.isControlPressed;
             if (isPrimaryKeyPressed &&
                 event.logicalKey == LogicalKeyboardKey.keyF) {
+              _pdfViewerController.clearSelection();
               _showTextSearchMenu();
             }
           },
@@ -1187,47 +1188,68 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           ? appBar
           : !_pdfViewerKey.currentState!.isBookmarkViewOpen
               ? AppBar(
-                  flexibleSpace: SearchToolbar(
-                    key: _textSearchKey,
-                    controller: _pdfViewerController,
-                    brightness: model.themeData.colorScheme.brightness,
-                    primaryColor: model.backgroundColor,
-                    onTap: (Object toolbarItem) async {
-                      if (toolbarItem.toString() == 'Cancel Search') {
-                        setState(() {
-                          _canShowToolbar = true;
-                          _canShowScrollHead = true;
-                          if (Navigator.canPop(context)) {
-                            Navigator.of(context).maybePop();
-                          }
-                        });
-                      }
-                      if (toolbarItem.toString() == 'Previous Instance') {
-                        setState(() {
-                          _canShowToolbar = false;
-                        });
-                      }
-                      if (toolbarItem.toString() == 'Next Instance') {
-                        setState(() {
-                          _canShowToolbar = false;
-                        });
-                      }
-                      if (toolbarItem.toString() == 'Clear Text') {
-                        setState(() {
-                          _canShowToolbar = false;
-                        });
-                      }
-                      if (toolbarItem.toString() == 'noResultFound') {
-                        setState(() {
-                          _textSearchKey.currentState?.canShowToast = true;
-                        });
-                        await Future<dynamic>.delayed(
-                            const Duration(seconds: 1));
-                        setState(() {
-                          _textSearchKey.currentState?.canShowToast = false;
-                        });
-                      }
-                    },
+                  flexibleSpace: Column(
+                    children: [
+                      Expanded(
+                        child: SearchToolbar(
+                          key: _textSearchKey,
+                          controller: _pdfViewerController,
+                          brightness: model.themeData.colorScheme.brightness,
+                          primaryColor: model.backgroundColor,
+                          onTap: (Object toolbarItem) async {
+                            if (toolbarItem.toString() == 'Cancel Search') {
+                              setState(() {
+                                _canShowToolbar = true;
+                                _canShowScrollHead = true;
+                                if (Navigator.canPop(context)) {
+                                  Navigator.of(context).maybePop();
+                                }
+                              });
+                            }
+                            if (toolbarItem.toString() == 'Previous Instance') {
+                              setState(() {
+                                _canShowToolbar = false;
+                              });
+                            }
+                            if (toolbarItem.toString() == 'Next Instance') {
+                              setState(() {
+                                _canShowToolbar = false;
+                              });
+                            }
+                            if (toolbarItem.toString() == 'Clear Text') {
+                              setState(() {
+                                _canShowToolbar = false;
+                              });
+                            }
+                            if (toolbarItem.toString() == 'Search Completed') {
+                              setState(() {});
+                            }
+                            if (toolbarItem.toString() == 'noResultFound') {
+                              setState(() {
+                                _textSearchKey.currentState?.canShowToast =
+                                    true;
+                              });
+                              await Future<dynamic>.delayed(
+                                  const Duration(seconds: 1));
+                              setState(() {
+                                _textSearchKey.currentState?.canShowToast =
+                                    false;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                      // Progress bar to indicate whether search process is completed or not.
+                      Visibility(
+                        visible: _textSearchKey.currentState != null &&
+                            !_textSearchKey.currentState!.pdfTextSearchResult
+                                .isSearchCompleted &&
+                            _textSearchKey.currentState!.isSearchInitiated,
+                        child: LinearProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ],
                   ),
                   automaticallyImplyLeading: false,
                   backgroundColor: SfPdfViewerTheme.of(context)!

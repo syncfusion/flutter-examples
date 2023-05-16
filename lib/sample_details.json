@@ -38,7 +38,6 @@
         "description": "Visualize hierarchically structured data that is sized and colored by quantitative variables",
         "image": "images/treemap.png",
         "displayType": "tab",
-        "isBeta": true,
         "controlId": 4,
         "subItems": [
           {
@@ -172,7 +171,6 @@
       },
       {
         "title": "Cartesian Charts",
-        "status": "Updated",
         "description": "Plot over 30 chart types ranging from line charts to financial charts",
         "image": "images/cartesian_types.png",
         "controlId": 1,
@@ -907,7 +905,6 @@
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/handling_label_collision.dart",
                 "sourceLink": "https://en.wikipedia.org/wiki/List_of_men%27s_footballers_with_500_or_more_goals",
                 "sourceText": "en.wikipedia.org",
-                "status": "Updated",
                 "needsPropertyPanel": true
               },
               {
@@ -1586,7 +1583,6 @@
       },
       {
         "title": "Circular Charts",
-        "status": "Updated",
         "description": "Visualize the data using pie, doughnut, and radial bar charts",
         "image": "images/circle_series.png",
         "controlId": 2,
@@ -1748,7 +1744,6 @@
               {
                 "title": "Chart with legend",
                 "key": "chart_with_legend",
-                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/legend/chart_with_legend.dart",
                 "needsPropertyPanel": true
               },
@@ -2716,7 +2711,7 @@
               {
                 "type": "sample",
                 "title": "Sorting",
-                "description": "This sample demonstrates how to sort one or more columns. In the Web and Desktop platforms, you can sort multiple columns by tapping the column header with the CTRL key where as in a mobile platform you can tap the column headers. It also provides some additional functionalities like Tri-state sorting and displaying sort numbers that indicate the sort order.",
+                "description": "This sample demonstrates how to sort one or more columns. In the Web and Windows platforms, you can sort multiple columns by tapping the column header with the CTRL key and COMMAND key in macOS platform where as in a mobile platform you can tap the column headers. It also provides some additional functionalities like Tri-state sorting and displaying sort numbers that indicate the sort order.",
                 "key": "sorting_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/sorting/datagrid_sorting.dart",
                 "needsPropertyPanel": true
@@ -2727,6 +2722,18 @@
                 "description": "This sample demonstrates custom sorting in DataGrid. In this sample, Customer Name column is sorted based on the length of a cell value.",
                 "key": "custom_sorting_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/sorting/datagrid_custom_sorting.dart"
+              }
+            ]
+          },
+          {
+            "type": "child",
+            "title": "Filtering",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Filtering",
+                "key": "filtering_datagrid",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_filtering.dart"
               }
             ]
           },
@@ -3135,14 +3142,11 @@
         "description": "View the PDF document seamlessly and efficiently",
         "image": "images/pdf_viewer.png",
         "displayType": "tab",
-        "isBeta": true,
-        "status": "Updated",
         "controlId": 1,
         "subItems": [
           {
             "type": "sample",
             "title": "Getting Started",
-            "status": "Updated",
             "key": "pdf_viewer_getting_started",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_getting_started.dart"
           },
@@ -3168,7 +3172,6 @@
           {
             "type": "sample",
             "title": "RTL",
-            "status": "New",
             "key": "pdf_viewer_rtl",
             "needsPropertyPanel": true,
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_rtl.dart"
@@ -3262,9 +3265,7 @@
         "description": "Create Excel documents with text, numbers, cell formatting, formulas, charts, images, and more",
         "image": "images/xlsio.png",
         "displayType": "tab",
-        "isBeta": true,
         "controlId": 2,
-        "status" :"Updated",
         "subItems": [
           {
             "type": "sample",
@@ -3312,8 +3313,13 @@
             "type": "sample",
             "title": "Filters",
             "key": "auto_filter",
-            "status": "New",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/auto_filter/auto_filter.dart"
+          },
+          {
+            "type": "sample",
+            "title": "CSV Export",
+            "key": "save_as_csv",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/save_as_csv/save_as_csv.dart"
           }
         ]
       }
@@ -3323,20 +3329,17 @@
     "categoryName": "Sliders",
     "mobileCategoryId": 6,
     "webCategoryId": 6,
-    "status": "Updated",
     "controlList": [
       {
         "title": "Slider",
         "description": "The horizontal slider enables you to select a date or a numeric value",
         "image": "images/slider.png",
-        "status": "Updated",
         "displayType": "tab",
         "controlId": 1,
         "subItems": [
           {
             "type": "child",
             "title": "Basic features",
-            "status": "Updated",
             "displayType": "tab",
             "subItems": [
               {
@@ -3385,7 +3388,6 @@
               {
                 "type": "sample",
                 "title": "Labels customization",
-                "status": "New",
                 "key": "labels_customization_slider",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/slider/customization/slider_labels_customization.dart",
                 "description": "",
@@ -3437,13 +3439,11 @@
         "title": "Range Slider",
         "description": "The horizontal range slider enables you to select a date or a numeric range",
         "image": "images/range_slider.png",
-        "status": "Updated",
         "controlId": 2,
         "subItems": [
           {
             "type": "child",
             "title": "Basic features",
-            "status": "Updated",
             "displayType": "tab",
             "subItems": [
               {
@@ -3506,7 +3506,6 @@
               {
                 "type": "sample",
                 "title": "Labels customization",
-                "status": "New",
                 "key": "range_slider_label_customization",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/range_slider/customization/range_slider_label_customization.dart",
                 "description": "",
@@ -3559,14 +3558,12 @@
         "description": "The vertical slider enables you to select a date or a numeric value",
         "image": "images/vertical_slider.png",
         "displayType": "tab",
-        "status": "Updated",
         "controlId": 3,
         "subItems": [
           {
             "type": "child",
             "title": "Basic features",
             "displayType": "tab",
-            "status": "Updated",
             "subItems": [
               {
                 "type": "sample",
@@ -3618,7 +3615,6 @@
               {
                 "type": "sample",
                 "title": "Labels customization",
-                "status": "New",
                 "key": "vertical_slider_label_customization",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_slider/customization/vertical_slider_label_customization.dart",
                 "description": "",
@@ -3658,7 +3654,6 @@
         "image": "images/vertical_range_slider.png",
         "displayType": "tab",
         "controlId": 4,
-        "status": "Updated",
         "subItems": [
           {
             "type": "child",
@@ -3731,7 +3726,6 @@
               {
                 "type": "sample",
                 "title": "Labels customization",
-                "status": "New",
                 "key": "vertical_range_slider_label_customization",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_range_slider/customization/vertical_range_slider_label_customization.dart",
                 "description": "",
@@ -3770,7 +3764,6 @@
         "description": "Visualize data and select a date or numeric range",
         "image": "images/range_selector.png",
         "displayType": "tab",
-        "status": "Updated",
         "controlId": 5,
         "subItems": [
           {
@@ -3783,7 +3776,6 @@
           {
             "type": "sample",
             "title": "Labels customization",
-            "status": "New",
             "key": "range_selector_label_customization",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/range_selector/range_selector_label_customization.dart",
             "description": "",
@@ -3827,7 +3819,6 @@
           {
             "type": "child",
             "title": "Basic Features",
-            "status": "New",
             "displayType": "tab",
             "subItems": [
               {
@@ -3857,7 +3848,6 @@
           {
             "type": "child",
             "title": "Customization",
-            "status": "New",
             "displayType": "tab",
             "subItems": [
               {

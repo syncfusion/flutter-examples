@@ -247,7 +247,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     chart1.rightColumn = 8;
 
     final Chart chart2 = charts.add();
-    chart2.chartType = ExcelChartType.line;
+    chart2.chartType = ExcelChartType.lineMarkers;
     chart2.dataRange = sheet2.getRangeByName('A1:C13');
     chart2.isSeriesInRows = false;
     chart2.chartTitleArea.bold = true;
@@ -270,7 +270,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
 
     sheet.charts = charts;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

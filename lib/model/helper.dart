@@ -761,7 +761,7 @@ Widget getLeftSideDrawer(SampleModel model) {
                         )),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text('Version 20.2.36',
+                        child: Text('Version 20.3.47',
                             style: TextStyle(
                                 color: model.drawerTextIconColor,
                                 fontSize: 12,
@@ -841,7 +841,7 @@ Widget getFooter(BuildContext context, SampleModel model) {
             ),
             Container(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text('Copyright © 2001 - 2022 Syncfusion Inc.',
+                child: Text('Copyright © 2001 - 2023 Syncfusion Inc.',
                     style: TextStyle(
                         color: model.textColor.withOpacity(0.7),
                         fontSize: 12,

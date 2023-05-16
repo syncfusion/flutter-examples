@@ -121,13 +121,13 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     sheet1.getRangeByName('D12').numberFormat = r'[Red]($#,###)';
     sheet1.getRangeByName('D14').numberFormat = r'[Red]($#,###)';
 
-    sheet1.getRangeByName('B11').number = 16250;
-    sheet1.getRangeByName('B12').number = 1600;
-    sheet1.getRangeByName('B13').number = 1000;
-    sheet1.getRangeByName('B14').number = 12400;
-    sheet1.getRangeByName('B15').number = 3000;
+    sheet1.getRangeByName('B11').number = 6250;
+    sheet1.getRangeByName('B12').number = 4600;
+    sheet1.getRangeByName('B13').number = 7000;
+    sheet1.getRangeByName('B14').number = 8400;
+    sheet1.getRangeByName('B15').number = 3750;
     sheet1.getRangeByName('B16').number = 4500;
-    sheet1.getRangeByName('B17').number = 3000;
+    sheet1.getRangeByName('B17').number = 5600;
     sheet1.getRangeByName('B18').formula = '=SUM(B11:B17)';
 
     sheet1.getRangeByName('C11').number = 17500;
@@ -150,7 +150,7 @@ class _ExpensesReportXlsIOState extends SampleViewState {
 
     final ChartCollection charts = ChartCollection(sheet1);
     final Chart chart = charts.add();
-    chart.chartType = ExcelChartType.pie;
+    chart.chartType = ExcelChartType.doughnut;
     chart.dataRange = sheet1.getRangeByName('A11:B17');
     chart.isSeriesInRows = false;
     chart.chartTitle = 'Event Expenses';
@@ -160,9 +160,11 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     chart.bottomRow = 10;
     chart.leftColumn = 1;
     chart.rightColumn = 5;
+    chart.series[0].dataLabels.isValue = true;
+    chart.series[0].serieFormat.commonSerieOptions.holeSizePercent = 40;
     sheet1.charts = charts;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

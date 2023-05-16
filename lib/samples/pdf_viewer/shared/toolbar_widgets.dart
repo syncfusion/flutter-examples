@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -131,13 +132,9 @@ class SearchToolbar extends StatefulWidget {
 
 /// State for the SearchToolbar widget
 class SearchToolbarState extends State<SearchToolbar> {
-  int _searchTextLength = 0;
   Color? _color;
   Color? _textColor;
   late bool _isLight;
-
-  /// Indicates whether search toolbar items need to be shown or not.
-  bool _canShowItem = false;
 
   /// Indicates whether search toast need to be shown or not.
   bool canShowToast = false;
@@ -151,6 +148,9 @@ class SearchToolbarState extends State<SearchToolbar> {
   ///An object that is used to obtain keyboard focus and to handle keyboard events.
   FocusNode? focusNode;
 
+  /// Indicates whether search is initiated or not.
+  bool isSearchInitiated = false;
+
   @override
   void initState() {
     super.initState();
@@ -161,6 +161,7 @@ class SearchToolbarState extends State<SearchToolbar> {
   @override
   void dispose() {
     focusNode?.dispose();
+    pdfTextSearchResult.removeListener(() {});
     super.dispose();
   }
 
@@ -235,12 +236,12 @@ class SearchToolbarState extends State<SearchToolbar> {
               onPressed: () {
                 pdfTextSearchResult.clear();
                 _editingController.clear();
-                _canShowItem = false;
+                isSearchInitiated = false;
                 focusNode?.requestFocus();
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                primary: Colors.transparent,
+                foregroundColor: Colors.transparent,
               ),
               child: Text(
                 widget.languageCode == 'ar' ? 'لا' : 'NO',
@@ -259,7 +260,7 @@ class SearchToolbarState extends State<SearchToolbar> {
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                primary: Colors.transparent,
+                foregroundColor: Colors.transparent,
               ),
               child: Text(
                 widget.languageCode == 'ar' ? 'نعم' : 'YES',
@@ -298,6 +299,7 @@ class SearchToolbarState extends State<SearchToolbar> {
               ),
               onPressed: () {
                 widget.onTap?.call('Cancel Search');
+                isSearchInitiated = false;
                 _editingController.clear();
                 pdfTextSearchResult.clear();
               },
@@ -330,24 +332,27 @@ class SearchToolbarState extends State<SearchToolbar> {
                     fontSize: 16),
               ),
               onChanged: (String text) {
-                if (_searchTextLength < _editingController.value.text.length) {
+                if (_editingController.text.isNotEmpty) {
                   setState(() {});
-                  _searchTextLength = _editingController.value.text.length;
-                }
-                if (_editingController.value.text.length < _searchTextLength) {
-                  setState(() {
-                    _canShowItem = false;
-                  });
                 }
               },
-              onFieldSubmitted: (String value) async {
-                pdfTextSearchResult = await widget.controller!
-                    .searchText(_editingController.text);
-                if (pdfTextSearchResult.totalInstanceCount == 0) {
-                  widget.onTap?.call('noResultFound');
-                } else {
-                  _canShowItem = true;
-                }
+              onFieldSubmitted: (String value) {
+                isSearchInitiated = true;
+                pdfTextSearchResult =
+                    widget.controller!.searchText(_editingController.text);
+                pdfTextSearchResult.addListener(() {
+                  if (super.mounted) {
+                    setState(() {});
+                  }
+                  if (!pdfTextSearchResult.hasResult &&
+                      pdfTextSearchResult.isSearchCompleted) {
+                    widget.onTap?.call('noResultFound');
+                  }
+                  if (pdfTextSearchResult.hasResult &&
+                      pdfTextSearchResult.isSearchCompleted) {
+                    widget.onTap?.call('Search Completed');
+                  }
+                });
               },
             ),
           ),
@@ -369,7 +374,7 @@ class SearchToolbarState extends State<SearchToolbar> {
                     _editingController.clear();
                     pdfTextSearchResult.clear();
                     widget.controller!.clearSelection();
-                    _canShowItem = false;
+                    isSearchInitiated = false;
                     focusNode?.requestFocus();
                   });
                   widget.onTap?.call('Clear Text');
@@ -384,7 +389,7 @@ class SearchToolbarState extends State<SearchToolbar> {
           ),
           // Search result
           Visibility(
-            visible: _canShowItem,
+            visible: pdfTextSearchResult.hasResult,
             child: Row(
               children: <Widget>[
                 // Current instance
@@ -457,7 +462,8 @@ class SearchToolbarState extends State<SearchToolbar> {
                         if (pdfTextSearchResult.currentInstanceIndex ==
                                 pdfTextSearchResult.totalInstanceCount &&
                             pdfTextSearchResult.currentInstanceIndex != 0 &&
-                            pdfTextSearchResult.totalInstanceCount != 0) {
+                            pdfTextSearchResult.totalInstanceCount != 0 &&
+                            pdfTextSearchResult.isSearchCompleted) {
                           _showSearchAlertDialog(context);
                         } else {
                           widget.controller!.clearSelection();
@@ -563,6 +569,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
   /// An object that is used to retrieve the text search result.
   PdfTextSearchResult _pdfTextSearchResult = PdfTextSearchResult();
 
+  /// Indicates whether search is initiated or not.
+  bool _isSearchInitiated = false;
+
   /// An object that is used to retrieve the current value of the TextField.
   final TextEditingController _editingController = TextEditingController();
 
@@ -586,6 +595,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
   @override
   void dispose() {
     _focusNode.dispose();
+    _pdfTextSearchResult.removeListener(() {});
     super.dispose();
   }
 
@@ -713,6 +723,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(top: 20),
                           border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 2.0)),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: widget.primaryColor!, width: 2.0),
@@ -756,7 +769,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 8, right: 8, bottom: 6, top: 15),
+                                      left: 8, right: 8, bottom: 6, top: 18),
                                   child: SizedBox(
                                     height:
                                         14.57, // height of clear search button
@@ -768,6 +781,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                                           _pdfTextSearchResult.clear();
                                           _editingController.clear();
                                           _focusNode.requestFocus();
+                                          _isSearchInitiated = false;
                                           showItem = false;
                                         });
                                       },
@@ -793,11 +807,30 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                       ),
                     ),
                   ),
+                  Visibility(
+                    visible: !_pdfTextSearchResult.isSearchCompleted &&
+                        _isSearchInitiated &&
+                        !kIsWeb,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 6, right: 6, top: 15),
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              widget.primaryColor!),
+                          backgroundColor: Colors.grey.withOpacity(0.4),
+                          strokeWidth: 3,
+                        ),
+                      ),
+                    ),
+                  ),
                   // Search result status
                   Visibility(
                     visible: showItem,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 10, left: 8),
                       child: Row(
                         children: <Widget>[
                           // Current search instance
@@ -1024,6 +1057,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
   void _closeSearchMenu() {
     setState(() {
       widget.onClose?.call();
+      _isSearchInitiated = false;
       _pdfTextSearchResult.clear();
     });
   }
@@ -1040,7 +1074,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
   }
 
   ///Get the text search result
-  Future<void> _getSearchResult() async {
+  void _getSearchResult() {
     isEnterKeyPressed = true;
     TextSearchOption? searchOption;
     if (isMatchCaseChecked && isWholeWordChecked) {
@@ -1050,12 +1084,24 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
     } else if (isWholeWordChecked) {
       searchOption = TextSearchOption.wholeWords;
     }
-    _pdfTextSearchResult = await widget.controller!
-        .searchText(_editingController.text, searchOption: searchOption);
+    if (kIsWeb) {
+      _pdfTextSearchResult = widget.controller!
+          .searchText(_editingController.text, searchOption: searchOption);
+    } else {
+      _isSearchInitiated = true;
+      _pdfTextSearchResult = widget.controller!
+          .searchText(_editingController.text, searchOption: searchOption);
+      _pdfTextSearchResult.addListener(() {
+        if (super.mounted) {
+          setState(() {});
+        }
+      });
+    }
   }
 
   /// Clears the search result.
   void clearSearchResult() {
+    _isSearchInitiated = false;
     _pdfTextSearchResult.clear();
   }
 }

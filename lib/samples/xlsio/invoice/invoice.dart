@@ -32,7 +32,7 @@ class _InvoiceXlsIOState extends SampleViewState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-                'This sample showcases on how to create a simple Excel invoice with data, image, formulas, and cell formatting using XlsIO.',
+                'This sample showcases on how to create a simple Excel invoice with data, image, formulas, named range and cell formatting using XlsIO.',
                 style: TextStyle(fontSize: 16, color: model.textColor)),
             const SizedBox(height: 20, width: 30),
             Align(
@@ -65,7 +65,6 @@ class _InvoiceXlsIOState extends SampleViewState {
     sheet.name = 'Invoice';
     sheet.showGridlines = false;
 
-    sheet.enableSheetCalculations();
     sheet.getRangeByName('A1').columnWidth = 4.09;
     sheet.getRangeByName('B1:C1').columnWidth = 13.09;
     sheet.getRangeByName('D1').columnWidth = 11.47;
@@ -207,7 +206,9 @@ class _InvoiceXlsIOState extends SampleViewState {
     range7.text = 'TOTAL';
     range7.cellStyle.fontSize = 8;
     range7.cellStyle.fontColor = '#4D6575';
-    range8.formula = r'=SUM(G16:G20)';
+    final Range resultRange = sheet.getRangeByName('G16:G20');
+    workbook.names.add('AmountPaid', resultRange);
+    range8.formula = '=SUM(AmountPaid)';
     range8.numberFormat = r'$#,##0.00';
     range8.cellStyle.fontSize = 24;
     range8.cellStyle.hAlign = HAlignType.right;
@@ -228,7 +229,7 @@ class _InvoiceXlsIOState extends SampleViewState {
     picture.lastRow = 7;
     picture.lastColumn = 8;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

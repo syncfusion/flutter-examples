@@ -151,7 +151,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
               ? globalSelectedRect.center.dx - (_kContextMenuWidth / 2)
               : globalSelectedRect.bottomLeft.dx;
         }
-        final OverlayState? overlayState =
+        final OverlayState overlayState =
             Overlay.of(context, rootOverlay: true);
         _selectionOverlayEntry = OverlayEntry(
           builder: (BuildContext context) => Positioned(
@@ -200,7 +200,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
             ),
           ),
         );
-        overlayState?.insert(_selectionOverlayEntry!);
+        overlayState.insert(_selectionOverlayEntry!);
       }
     }
   }
@@ -291,12 +291,12 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
           ?.findRenderObject())! as RenderBox;
       if (searchRenderBox != null) {
         final Offset position = searchRenderBox.localToGlobal(Offset.zero);
-        final OverlayState? overlayState =
+        final OverlayState overlayState =
             Overlay.of(context, rootOverlay: true);
         final double left = model.textDirection == TextDirection.rtl
             ? position.dx
             : ((MediaQuery.of(context).size.width - 8) - _kSearchOverlayWidth);
-        overlayState?.insert(_textSearchOverlayEntry = OverlayEntry(
+        overlayState.insert(_textSearchOverlayEntry = OverlayEntry(
           builder: (BuildContext context) {
             return Positioned(
               top: position.dy + 40.0, // y position of search menu
