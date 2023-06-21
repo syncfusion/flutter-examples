@@ -43,8 +43,8 @@ class _LocalizationCircularChartState extends LocalizationSampleViewState {
           EdgeInsets.only(bottom: (model.isWeb || model.isDesktop) ? 0 : 70.0),
       child: SfCircularChart(
         title: ChartTitle(text: _title),
-        legend:
-            Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+        legend: const Legend(
+            isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
         series: _getDefaultDoughnutSeries(),
         tooltipBehavior: _tooltip,
         onTooltipRender: (TooltipArgs args) {

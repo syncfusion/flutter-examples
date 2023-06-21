@@ -33,7 +33,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
   void initState() {
     _sampleListModel = SampleModel.instance;
     _initializeProperties();
-    _sampleListModel.searchBar = SearchBar(
+    _sampleListModel.searchBar = CustomSearchBar(
         key: GlobalKey<SearchBarState>(), sampleListModel: _sampleListModel);
     super.initState();
   }
@@ -330,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                         ? 5
                                         : 4),
                             height: MediaQuery.of(context).size.height * 0.0445,
-                            child: SearchBar(
+                            child: CustomSearchBar(
                               sampleListModel: model,
                             ),
                           )),
@@ -478,10 +478,10 @@ class _HomePageState extends State<HomePage> {
               controller: controller,
               physics: const ClampingScrollPhysics(),
               slivers: <Widget>[
-                SliverToBoxAdapter(
+                const SliverToBoxAdapter(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Padding(
                       padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                       child: Text('Flutter UI Widgets',

@@ -4274,8 +4274,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     },
                                                     keyboardType:
                                                         TextInputType.number,
-                                                    inputFormatters: <
-                                                        TextInputFormatter>[
+                                                    inputFormatters: <TextInputFormatter>[
                                                       FilteringTextInputFormatter
                                                           .digitsOnly
                                                     ],
@@ -4533,8 +4532,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                               keyboardType:
                                                                   TextInputType
                                                                       .number,
-                                                              inputFormatters: <
-                                                                  TextInputFormatter>[
+                                                              inputFormatters: <TextInputFormatter>[
                                                                 FilteringTextInputFormatter
                                                                     .digitsOnly
                                                               ],
@@ -4568,8 +4566,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .end,
-                                                                  children: <
-                                                                      Widget>[
+                                                                  children: <Widget>[
                                                                     IconButton(
                                                                         icon:
                                                                             Icon(
@@ -7214,7 +7211,7 @@ class _EditDialogState extends State<_EditDialog> {
                               CalendarDataSourceAction.remove,
                               <Appointment>[parentAppointment]);
                           DateTime startDate, endDate;
-                          if ((widget.newAppointment.startTime)
+                          if (widget.newAppointment.startTime
                               .isBefore(parentAppointment.startTime)) {
                             startDate = widget.newAppointment.startTime;
                             endDate = widget.newAppointment.endTime;

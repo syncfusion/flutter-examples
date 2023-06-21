@@ -283,9 +283,9 @@ class _SwipingDataGridState extends SampleViewState {
       child: Container(
         color: Colors.blueAccent,
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Icon(Icons.edit, color: Colors.white, size: 20),
             SizedBox(width: 16.0),
             Text(
@@ -306,9 +306,9 @@ class _SwipingDataGridState extends SampleViewState {
       child: Container(
         color: Colors.redAccent,
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Icon(Icons.delete, color: Colors.white, size: 20),
             SizedBox(width: 16.0),
             Text(

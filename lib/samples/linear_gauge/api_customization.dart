@@ -146,9 +146,9 @@ class _ApiCustomizationState extends SampleViewState {
             maintainAnimation: true,
             maintainState: true,
             visible: _barPosition == LinearElementPosition.cross,
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   Icon(Icons.lightbulb_outline,
                       color: Colors.orange, size: 24.0),
                   SizedBox(width: 5),
@@ -170,226 +170,233 @@ class _ApiCustomizationState extends SampleViewState {
             model.isMobile || MediaQuery.of(context).size.width <= 550,
         child: SingleChildScrollView(
             controller: _scrollController,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-                    Widget>[
-              const Text(
-                'Properties : ',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 5),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isInverse = !_isInverse;
-                  });
-                },
-                child: Container(
-                  height: 40,
-                  color: Colors.transparent,
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 30,
-                        child: Checkbox(
-                            value: _isInverse,
-                            splashRadius: 15,
-                            activeColor: model.backgroundColor,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                if (value != null) {
-                                  _isInverse = value;
-                                }
-                              });
-                            }),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text(
+                    'Properties : ',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 5),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isInverse = !_isInverse;
+                      });
+                    },
+                    child: Container(
+                      height: 40,
+                      color: Colors.transparent,
+                      child: Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: 30,
+                            child: Checkbox(
+                                value: _isInverse,
+                                splashRadius: 15,
+                                activeColor: model.backgroundColor,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    if (value != null) {
+                                      _isInverse = value;
+                                    }
+                                  });
+                                }),
+                          ),
+                          const Text('Inverse axis',
+                              style: TextStyle(fontSize: 14))
+                        ],
                       ),
-                      const Text('Inverse axis', style: TextStyle(fontSize: 14))
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isMirror = !_isMirror;
-                    });
-                  },
-                  child: Container(
-                    height: 40,
-                    color: Colors.transparent,
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 30,
-                          child: Checkbox(
-                              splashRadius: 15,
-                              value: _isMirror,
-                              activeColor: model.backgroundColor,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  if (value != null) {
-                                    _isMirror = value;
-                                  }
-                                });
-                              }),
-                        ),
-                        const Text('Mirror', style: TextStyle(fontSize: 14))
-                      ],
                     ),
-                  )),
-              GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isHorizontalOrientation = !_isHorizontalOrientation;
-                    });
-                  },
-                  child: Container(
-                    height: 40,
-                    color: Colors.transparent,
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 30,
-                          child: Checkbox(
-                              value: _isHorizontalOrientation,
-                              splashRadius: 15,
-                              activeColor: model.backgroundColor,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  if (value != null) {
-                                    _isHorizontalOrientation = value;
-                                  }
-                                });
-                              }),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isMirror = !_isMirror;
+                        });
+                      },
+                      child: Container(
+                        height: 40,
+                        color: Colors.transparent,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 30,
+                              child: Checkbox(
+                                  splashRadius: 15,
+                                  value: _isMirror,
+                                  activeColor: model.backgroundColor,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      if (value != null) {
+                                        _isMirror = value;
+                                      }
+                                    });
+                                  }),
+                            ),
+                            const Text('Mirror', style: TextStyle(fontSize: 14))
+                          ],
                         ),
-                        const Text('Horizontal orientation',
-                            style: TextStyle(fontSize: 14))
-                      ],
-                    ),
-                  )),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 150,
-                    margin: const EdgeInsets.only(left: 5),
-                    child: const Text('Shape pointer position',
-                        style: TextStyle(fontSize: 14)),
-                  ),
-                  const Text(':'),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: ButtonTheme(
-                        alignedDropdown: true,
-                        child: DropdownButton<String>(
-                            value: _shapePointerPosition,
-                            items: _pointerPositions.map((String value) {
-                              return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'outside',
-                                  child: Text(value,
-                                      style: const TextStyle(fontSize: 14)));
-                            }).toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                if (value != null) {
-                                  shapePosition(value);
-                                }
-                              });
-                            })),
-                  )
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 150,
-                    margin: const EdgeInsets.only(left: 5),
-                    child: const Text('Bar pointer position',
-                        style: TextStyle(fontSize: 14)),
-                  ),
-                  const Text(':'),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: ButtonTheme(
-                        alignedDropdown: true,
-                        child: DropdownButton<String>(
-                            value: _barPointerPosition,
-                            items: _pointerPositions.map((String value) {
-                              return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'outside',
-                                  child: Text(value,
-                                      style: const TextStyle(fontSize: 14)));
-                            }).toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                if (value != null) {
-                                  barPosition(value);
-                                }
-                              });
-                            })),
-                  )
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                      width: 150,
-                      margin: const EdgeInsets.only(left: 5),
-                      child: const Text(
-                        'Range position',
-                        style: TextStyle(fontSize: 14),
                       )),
-                  const Text(':'),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: ButtonTheme(
-                        alignedDropdown: true,
-                        child: DropdownButton<String>(
-                            value: _rangePointerPosition,
-                            items: _pointerPositions.map((String value) {
-                              return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'outside',
-                                  child: Text(value,
-                                      style: const TextStyle(fontSize: 14)));
-                            }).toList(),
-                            onChanged: (dynamic value) {
-                              setState(() {
-                                rangePosition(value.toString());
-                              });
-                            })),
-                  )
-                ],
-              ),
-              Visibility(
-                visible: !(_barPosition == LinearElementPosition.cross),
-                child: Row(
-                  children: <Widget>[
-                    Container(
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isHorizontalOrientation = !_isHorizontalOrientation;
+                        });
+                      },
+                      child: Container(
+                        height: 40,
+                        color: Colors.transparent,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 30,
+                              child: Checkbox(
+                                  value: _isHorizontalOrientation,
+                                  splashRadius: 15,
+                                  activeColor: model.backgroundColor,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      if (value != null) {
+                                        _isHorizontalOrientation = value;
+                                      }
+                                    });
+                                  }),
+                            ),
+                            const Text('Horizontal orientation',
+                                style: TextStyle(fontSize: 14))
+                          ],
+                        ),
+                      )),
+                  Row(
+                    children: <Widget>[
+                      Container(
                         width: 150,
                         margin: const EdgeInsets.only(left: 5),
-                        child: const Text(
-                          'Bar offset',
-                          style: TextStyle(fontSize: 14),
-                        )),
-                    const Text(':'),
-                    Container(
-                      transform: Matrix4.translationValues(-8, 0, 0),
-                      child: CustomDirectionalButtons(
-                        maxValue: 20,
-                        initialValue: _barOffset,
-                        onChanged: (double value) {
-                          setState(() {
-                            _barOffset = value;
-                          });
-                        },
-                        iconColor: model.textColor,
-                        style:
-                            TextStyle(fontSize: 16.0, color: model.textColor),
+                        child: const Text('Shape pointer position',
+                            style: TextStyle(fontSize: 14)),
                       ),
-                    )
-                  ],
-                ),
-              ),
-            ])));
+                      const Text(':'),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton<String>(
+                                value: _shapePointerPosition,
+                                items: _pointerPositions.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value:
+                                          (value != null) ? value : 'outside',
+                                      child: Text(value,
+                                          style:
+                                              const TextStyle(fontSize: 14)));
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    if (value != null) {
+                                      shapePosition(value);
+                                    }
+                                  });
+                                })),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 150,
+                        margin: const EdgeInsets.only(left: 5),
+                        child: const Text('Bar pointer position',
+                            style: TextStyle(fontSize: 14)),
+                      ),
+                      const Text(':'),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton<String>(
+                                value: _barPointerPosition,
+                                items: _pointerPositions.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value:
+                                          (value != null) ? value : 'outside',
+                                      child: Text(value,
+                                          style:
+                                              const TextStyle(fontSize: 14)));
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    if (value != null) {
+                                      barPosition(value);
+                                    }
+                                  });
+                                })),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                          width: 150,
+                          margin: const EdgeInsets.only(left: 5),
+                          child: const Text(
+                            'Range position',
+                            style: TextStyle(fontSize: 14),
+                          )),
+                      const Text(':'),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton<String>(
+                                value: _rangePointerPosition,
+                                items: _pointerPositions.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value:
+                                          (value != null) ? value : 'outside',
+                                      child: Text(value,
+                                          style:
+                                              const TextStyle(fontSize: 14)));
+                                }).toList(),
+                                onChanged: (dynamic value) {
+                                  setState(() {
+                                    rangePosition(value.toString());
+                                  });
+                                })),
+                      )
+                    ],
+                  ),
+                  Visibility(
+                    visible: !(_barPosition == LinearElementPosition.cross),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                            width: 150,
+                            margin: const EdgeInsets.only(left: 5),
+                            child: const Text(
+                              'Bar offset',
+                              style: TextStyle(fontSize: 14),
+                            )),
+                        const Text(':'),
+                        Container(
+                          transform: Matrix4.translationValues(-8, 0, 0),
+                          child: CustomDirectionalButtons(
+                            maxValue: 20,
+                            initialValue: _barOffset,
+                            onChanged: (double value) {
+                              setState(() {
+                                _barOffset = value;
+                              });
+                            },
+                            iconColor: model.textColor,
+                            style: TextStyle(
+                                fontSize: 16.0, color: model.textColor),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ])));
   }
 
   @override

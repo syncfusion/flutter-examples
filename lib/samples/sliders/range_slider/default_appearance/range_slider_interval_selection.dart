@@ -104,7 +104,7 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
             _yearRangeSlider(),
             columnSpacing40,
             columnSpacing40,
-            Row(children: const <Widget>[
+            const Row(children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 15),
                 child: Icon(Icons.lightbulb_outline,

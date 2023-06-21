@@ -111,7 +111,7 @@ class _ExportState extends SampleViewState {
     return SfCircularChart(
       backgroundColor: model.cardThemeColor,
       key: _circularChartKey,
-      legend: Legend(
+      legend: const Legend(
         isVisible: true,
         position: LegendPosition.bottom,
         overflowMode: LegendItemOverflowMode.wrap,

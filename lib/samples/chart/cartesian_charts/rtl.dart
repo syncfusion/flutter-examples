@@ -102,7 +102,7 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(text: _title!),
-        legend: Legend(
+        legend: const Legend(
           isVisible: true,
         ),
         primaryXAxis: CategoryAxis(

@@ -841,7 +841,7 @@ Widget getFooter(BuildContext context, SampleModel model) {
             ),
             Container(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text('Copyright © 2001 - 2023 Syncfusion Inc.',
+                child: Text('Copyright © 2001 - 2022 Syncfusion Inc.',
                     style: TextStyle(
                         color: model.textColor.withOpacity(0.7),
                         fontSize: 12,

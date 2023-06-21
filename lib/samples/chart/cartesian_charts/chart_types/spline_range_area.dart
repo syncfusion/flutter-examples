@@ -74,7 +74,7 @@ class _SplineRangeAreaState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: 'Product price comparison'),
-      legend: Legend(isVisible: true),
+      legend: const Legend(isVisible: true),
       primaryXAxis: CategoryAxis(
           majorGridLines: const MajorGridLines(width: 0),
           labelPlacement: LabelPlacement.onTicks),

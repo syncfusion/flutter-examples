@@ -58,11 +58,14 @@ class _ThumbCustomizationSliderPageState extends SampleViewState {
     } else if (_thumbValue == _thumbMax) {
       return const Icon(Icons.arrow_back_ios, color: Colors.white, size: 12.0);
     } else {
-      return Row(mainAxisAlignment: MainAxisAlignment.center, children: const <
-          Widget>[
-        Icon(Icons.arrow_back_ios_outlined, color: Colors.white, size: 12.0),
-        Icon(Icons.arrow_forward_ios_outlined, color: Colors.white, size: 12.0),
-      ]);
+      return const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.arrow_back_ios_outlined,
+                color: Colors.white, size: 12.0),
+            Icon(Icons.arrow_forward_ios_outlined,
+                color: Colors.white, size: 12.0),
+          ]);
     }
   }
 

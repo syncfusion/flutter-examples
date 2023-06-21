@@ -248,14 +248,9 @@ class _TrackballTemplateState extends SampleViewState {
   }
 
   Column getGroupingTemplateWidgets(TrackballDetails trackballDetails) {
-    //ignore: prefer_final_locals
-    Column columnWidgets = Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      //ignore: prefer_const_literals_to_create_immutables
-      children: <Widget>[],
-    );
+    final List<Widget> widgets = <Widget>[];
     if (_mode == TrackballDisplayMode.groupAllPoints) {
-      columnWidgets.children.add(Padding(
+      widgets.add(Padding(
           padding: EdgeInsets.zero,
           child: Text(trackballDetails.groupingModeInfo!.points[0].x.toString(),
               style: TextStyle(
@@ -263,7 +258,7 @@ class _TrackballTemplateState extends SampleViewState {
                       model.themeData.colorScheme.brightness == Brightness.dark
                           ? const Color.fromRGBO(0, 0, 0, 1)
                           : const Color.fromRGBO(255, 255, 255, 1)))));
-      columnWidgets.children.add(Padding(
+      widgets.add(Padding(
           padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
           child: Container(
             height: 1,
@@ -272,36 +267,37 @@ class _TrackballTemplateState extends SampleViewState {
                 ? const Color.fromRGBO(61, 61, 61, 1)
                 : const Color.fromRGBO(238, 238, 238, 1),
           )));
-      //ignore: prefer_final_locals
-      Column columnChildWidgets = Column(
-        crossAxisAlignment: _mode == TrackballDisplayMode.groupAllPoints
-            ? CrossAxisAlignment.start
-            : CrossAxisAlignment.center,
-        //ignore: prefer_const_literals_to_create_immutables
-        children: <Widget>[],
-      );
+      final List<Widget> innerWidgets = <Widget>[];
       final List<int> seriesIndices =
           trackballDetails.groupingModeInfo!.visibleSeriesIndices;
       for (int i = 0; i < seriesIndices.length; i++) {
-        columnChildWidgets.children.add(
+        innerWidgets.add(
           Text(
               '${trackballDetails.groupingModeInfo!.visibleSeriesList[i].name} : \$${trackballDetails.groupingModeInfo!.points[i].y}',
               textAlign: TextAlign.left,
               style: _getTrackballTextStyle()),
         );
       }
-      columnWidgets.children.add(columnChildWidgets);
+      widgets.add(Column(
+        crossAxisAlignment: _mode == TrackballDisplayMode.groupAllPoints
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
+        children: innerWidgets,
+      ));
     } else {
-      columnWidgets.children.add(Text(trackballDetails.point!.x.toString(),
+      widgets.add(Text(trackballDetails.point!.x.toString(),
           style: _getTrackballTextStyle()));
-      columnWidgets.children.add(Text('\$${trackballDetails.point!.y}',
+      widgets.add(Text('\$${trackballDetails.point!.y}',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: model.themeData.colorScheme.brightness == Brightness.dark
                   ? const Color.fromRGBO(0, 0, 0, 1)
                   : const Color.fromRGBO(255, 255, 255, 1))));
     }
-    return columnWidgets;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widgets,
+    );
   }
 
   TextStyle _getTrackballTextStyle() {

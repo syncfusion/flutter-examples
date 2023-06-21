@@ -319,7 +319,7 @@ class SampleModel extends Listenable {
   late List<SubItem> searchResults;
 
   /// To handle the search bar
-  SearchBar? searchBar;
+  CustomSearchBar? searchBar;
 
   /// holds theme based current palette color
   Color backgroundColor = const Color.fromRGBO(0, 116, 227, 1);

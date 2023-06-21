@@ -115,9 +115,9 @@ class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
           ),
           Padding(
             padding: EdgeInsets.only(bottom: padding / 2),
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   Icon(Icons.lightbulb_outline,
                       color: Colors.orange, size: 24.0),
                   Padding(

@@ -50,7 +50,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
     return GestureDetector(
         onTap: () {
           setState(() {
-            processShowMenuFuctions(value, column);
+            processShowMenuFunctions(value, column);
           });
           Navigator.pop(context);
         },
@@ -93,7 +93,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
     return menuItems;
   }
 
-  void processShowMenuFuctions(String value, GridColumn gridColumn) {
+  void processShowMenuFunctions(String value, GridColumn gridColumn) {
     switch (value) {
       case 'Ascending':
       case 'Descending':

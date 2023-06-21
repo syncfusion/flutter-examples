@@ -44,7 +44,7 @@ class _LocalizationChartState extends LocalizationSampleViewState {
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(text: _title!),
-        legend: Legend(isVisible: true),
+        legend: const Legend(isVisible: true),
         primaryXAxis: CategoryAxis(
             labelIntersectAction: AxisLabelIntersectAction.multipleRows,
             majorGridLines: const MajorGridLines(width: 0)),

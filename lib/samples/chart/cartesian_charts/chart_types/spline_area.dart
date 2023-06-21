@@ -28,7 +28,7 @@ class _SplineAreaState extends SampleViewState {
   /// Returns the cartesian spline are chart.
   SfCartesianChart _buildSplineAreaChart() {
     return SfCartesianChart(
-      legend: Legend(isVisible: true, opacity: 0.7),
+      legend: const Legend(isVisible: true, opacity: 0.7),
       title: ChartTitle(text: 'Inflation rate'),
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(

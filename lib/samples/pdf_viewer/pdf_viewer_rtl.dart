@@ -176,7 +176,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
                     });
                   }
                   await Clipboard.setData(
-                      ClipboardData(text: details.selectedText));
+                      ClipboardData(text: details.selectedText!));
                   setState(() {
                     _canShowToast = true;
                   });

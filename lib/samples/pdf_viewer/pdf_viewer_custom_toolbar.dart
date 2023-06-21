@@ -596,7 +596,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     });
                   }
                   await Clipboard.setData(
-                      ClipboardData(text: details.selectedText));
+                      ClipboardData(text: details.selectedText!));
                   setState(() {
                     _canShowToast = true;
                   });

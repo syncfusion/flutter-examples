@@ -143,7 +143,7 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
                 _checkAndCloseContextMenu();
                 _pdfViewerController.clearSelection();
                 await Clipboard.setData(
-                    ClipboardData(text: details.selectedText));
+                    ClipboardData(text: details.selectedText!));
                 setState(() {
                   _canShowToast = true;
                 });
