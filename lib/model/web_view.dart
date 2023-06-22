@@ -204,7 +204,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                             padding: const EdgeInsets.only(right: 20),
                             width: MediaQuery.of(context).size.width * 0.215,
                             height: MediaQuery.of(context).size.height * 0.0445,
-                            child: SearchBar(
+                            child: CustomSearchBar(
                               sampleListModel: model,
                             ))),
 
@@ -1142,8 +1142,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                         BoxDecoration(
                                                                             gradient:
                                                                                 LinearGradient(
-                                                                      colors: <
-                                                                          Color>[
+                                                                      colors: <Color>[
                                                                         model
                                                                             .webInputColor
                                                                             .withOpacity(0.21),
@@ -1151,8 +1150,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                             .webInputColor
                                                                             .withOpacity(1.0)
                                                                       ],
-                                                                      stops: const <
-                                                                          double>[
+                                                                      stops: const <double>[
                                                                         0.0,
                                                                         0.7
                                                                       ],
@@ -1224,8 +1222,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                         BoxDecoration(
                                                                             gradient:
                                                                                 LinearGradient(
-                                                                      colors: <
-                                                                          Color>[
+                                                                      colors: <Color>[
                                                                         model
                                                                             .webInputColor
                                                                             .withOpacity(1.0),
@@ -1236,8 +1233,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                             .webInputColor
                                                                             .withOpacity(0.21),
                                                                       ],
-                                                                      stops: const <
-                                                                          double>[
+                                                                      stops: const <double>[
                                                                         0.0,
                                                                         0.5,
                                                                         0.9
@@ -1636,8 +1632,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                       .openEndDrawer();
                                                                 }
                                                               },
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 Tooltip(
                                                                   message: MediaQuery.of(context).size.width <=
                                                                               720 ||

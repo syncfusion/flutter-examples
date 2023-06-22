@@ -292,45 +292,47 @@ class _SparklineLiveUpdateState extends SampleViewState {
   }
 
   Widget _buildEthernetDataChart() {
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-        Widget>[
-      Container(
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.withOpacity(0.5))),
-          height: _isVertical ? _size : _size * 0.7,
-          width: _isVertical ? _size * 2 : _size,
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                    child: const Text('Ethernet',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16))),
-                Container(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                    child: Text('R: ' '${int.parse(_ethernetValue)}' ' Kbps',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: model.themeData.colorScheme.brightness ==
-                                  Brightness.dark
-                              ? const Color.fromRGBO(89, 190, 103, 1)
-                              : const Color.fromRGBO(40, 144, 90, 1),
-                        ))),
-                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
-                Expanded(
-                    child: SfSparkAreaChart(
-                  data: _ethernetData,
-                  axisLineWidth: 0,
-                  color: const Color.fromRGBO(89, 190, 103, 0.3),
-                  borderColor: const Color.fromRGBO(89, 190, 103, 1),
-                  borderWidth: 1,
-                ))
-              ])),
-    ]);
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
+              height: _isVertical ? _size : _size * 0.7,
+              width: _isVertical ? _size * 2 : _size,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: const Text('Ethernet',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16))),
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                        child: Text(
+                            'R: ' '${int.parse(_ethernetValue)}' ' Kbps',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: model.themeData.colorScheme.brightness ==
+                                      Brightness.dark
+                                  ? const Color.fromRGBO(89, 190, 103, 1)
+                                  : const Color.fromRGBO(40, 144, 90, 1),
+                            ))),
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+                    Expanded(
+                        child: SfSparkAreaChart(
+                      data: _ethernetData,
+                      axisLineWidth: 0,
+                      color: const Color.fromRGBO(89, 190, 103, 0.3),
+                      borderColor: const Color.fromRGBO(89, 190, 103, 1),
+                      borderWidth: 1,
+                    ))
+                  ])),
+        ]);
   }
 
   ///Get random value

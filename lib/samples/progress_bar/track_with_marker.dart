@@ -63,21 +63,28 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
     } else {
       _size = MediaQuery.of(context).size.width / 4.5;
       return Center(
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: <
-              Widget>[
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          getProgressBarWithCircle(),
-          const Center(child: Text('Circle marker')),
-        ]),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          getProgressBarWithRectangle(),
-          const Center(child: Text('Rectangle marker')),
-        ]),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          getProgressBarWithImage(),
-          const Center(child: Text('Image marker')),
-        ]),
-      ]));
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  getProgressBarWithCircle(),
+                  const Center(child: Text('Circle marker')),
+                ]),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  getProgressBarWithRectangle(),
+                  const Center(child: Text('Rectangle marker')),
+                ]),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  getProgressBarWithImage(),
+                  const Center(child: Text('Image marker')),
+                ]),
+          ]));
     }
   }
 

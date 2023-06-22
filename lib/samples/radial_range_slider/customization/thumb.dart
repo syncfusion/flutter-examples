@@ -54,21 +54,28 @@ class _RadialRangeSliderThumbState extends SampleViewState {
     } else {
       _size = MediaQuery.of(context).size.width / 4.5;
       return Center(
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: <
-              Widget>[
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          _buildSliderWithCircle(),
-          const Center(child: Text('Circle thumb')),
-        ]),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          _buildSliderWithRectangle(),
-          const Center(child: Text('Rectangle thumb')),
-        ]),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          _buildSliderWithImage(),
-          const Center(child: Text('Image thumb')),
-        ]),
-      ]));
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildSliderWithCircle(),
+                  const Center(child: Text('Circle thumb')),
+                ]),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildSliderWithRectangle(),
+                  const Center(child: Text('Rectangle thumb')),
+                ]),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildSliderWithImage(),
+                  const Center(child: Text('Image thumb')),
+                ]),
+          ]));
     }
   }
 

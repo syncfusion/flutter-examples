@@ -58,9 +58,9 @@ class _VerticalThumbCustomizationSliderPageState extends SampleViewState {
       return const Icon(Icons.keyboard_arrow_down_outlined,
           color: Colors.white, size: 12.0);
     } else {
-      return Column(
+      return const Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const <Widget>[
+          children: <Widget>[
             Icon(Icons.keyboard_arrow_up_outlined,
                 color: Colors.white, size: 16.0),
             Icon(Icons.keyboard_arrow_down_outlined,

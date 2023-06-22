@@ -42,8 +42,8 @@ class _PyramidLegendState extends SampleViewState {
       //  smartLabelMode: SmartLabelMode.none,
       title: ChartTitle(
           text: isCardView ? '' : 'Experience of employees in a team'),
-      legend:
-          Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+      legend: const Legend(
+          isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
 
       /// To enable the legend for pyramid.
       /// And to cusmize the legend options here.

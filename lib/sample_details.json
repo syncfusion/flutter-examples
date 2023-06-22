@@ -2618,6 +2618,7 @@
     "controlList": [
       {
         "title": "DataGrid",
+        "status": "Updated",
         "description": "Displays large amounts of data with different data types in a tabular view",
         "image": "images/Datagrid.png",
         "displayType": "tab",
@@ -2676,6 +2677,14 @@
                 "key": "custom_header_datagrid",
                 "description": "In this sample, the dropdown icon is loaded along with the text to the header cell. If you click the header cell, the popup menu options will be shown. You can sort that specific column.",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_custom_header.dart"
+              },
+              {
+                "type": "sample",
+                "status": "New",
+                "title": "Column Drag and Drop",
+                "key": "datagrid_column_drag_and_drop",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_column_drag_and_drop.dart",
+                "needsPropertyPanel": false
               },
               {
                 "type": "sample",
@@ -3141,6 +3150,7 @@
         "title": "PDF Viewer",
         "description": "View the PDF document seamlessly and efficiently",
         "image": "images/pdf_viewer.png",
+        "status": "Updated",
         "displayType": "tab",
         "controlId": 1,
         "subItems": [
@@ -3175,6 +3185,13 @@
             "key": "pdf_viewer_rtl",
             "needsPropertyPanel": true,
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_rtl.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Form Filling",
+            "key": "pdf_viewer_form_filling",
+            "status": "New",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_form_filling.dart"
           }
         ]
       }

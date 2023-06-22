@@ -74,7 +74,7 @@ class _MarkerDefaultState extends SampleViewState {
   SfCartesianChart _buildMarkerDefaultChart() {
     return SfCartesianChart(
       title: ChartTitle(text: 'Vehicles crossed tollgate'),
-      legend: Legend(isVisible: true),
+      legend: const Legend(isVisible: true),
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
         majorGridLines: const MajorGridLines(width: 0),
