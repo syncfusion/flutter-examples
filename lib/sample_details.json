@@ -2680,7 +2680,6 @@
               },
               {
                 "type": "sample",
-                "status": "New",
                 "title": "Column Drag and Drop",
                 "key": "datagrid_column_drag_and_drop",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_column_drag_and_drop.dart",
@@ -3190,7 +3189,7 @@
             "type": "sample",
             "title": "Form Filling",
             "key": "pdf_viewer_form_filling",
-            "status": "New",
+            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_form_filling.dart"
           }
         ]

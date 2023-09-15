@@ -601,6 +601,53 @@ Widget getLeftSideDrawer(SampleModel model) {
                                   onTap: () {
                                     Feedback.forLongPress(context);
                                     launchUrl(Uri.parse(
+                                        'https://play.google.com/store/apps/details?id=com.syncfusion.sampleBrowser.maui&pcampaignid=web_share'));
+                                  },
+                                  child: Column(
+                                    children: <Widget>[
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 10)),
+                                      Row(
+                                        children: <Widget>[
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      15, 0, 0, 0),
+                                              child: Image.asset(
+                                                  'images/img_maui.png',
+                                                  fit: BoxFit.contain,
+                                                  height: 28,
+                                                  width: 28)),
+                                          Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 0, 0, 0),
+                                            child: Text('MAUI Demo',
+                                                style: TextStyle(
+                                                    color: model
+                                                        .drawerTextIconColor,
+                                                    fontSize: 16,
+                                                    letterSpacing: 0.4,
+                                                    fontFamily:
+                                                        'Roboto-Regular',
+                                                    fontWeight:
+                                                        FontWeight.normal)),
+                                          ),
+                                          const Spacer(),
+                                          Icon(Icons.arrow_forward,
+                                              color: model.backgroundColor),
+                                        ],
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 10)),
+                                    ],
+                                  ))),
+                          Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                  splashColor: Colors.grey.withOpacity(0.4),
+                                  onTap: () {
+                                    Feedback.forLongPress(context);
+                                    launchUrl(Uri.parse(
                                         'https://play.google.com/store/apps/details?id=com.syncfusion.samplebrowser&hl=en'));
                                   },
                                   child: Column(
@@ -669,53 +716,6 @@ Widget getLeftSideDrawer(SampleModel model) {
                                             padding: const EdgeInsets.fromLTRB(
                                                 10, 0, 0, 0),
                                             child: Text('Xamarin UI kit Demo',
-                                                style: TextStyle(
-                                                    color: model
-                                                        .drawerTextIconColor,
-                                                    fontSize: 16,
-                                                    letterSpacing: 0.4,
-                                                    fontFamily:
-                                                        'Roboto-Regular',
-                                                    fontWeight:
-                                                        FontWeight.normal)),
-                                          ),
-                                          const Spacer(),
-                                          Icon(Icons.arrow_forward,
-                                              color: model.backgroundColor),
-                                        ],
-                                      ),
-                                      const Padding(
-                                          padding: EdgeInsets.only(top: 10)),
-                                    ],
-                                  ))),
-                          Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                  splashColor: Colors.grey.withOpacity(0.4),
-                                  onTap: () {
-                                    Feedback.forLongPress(context);
-                                    launchUrl(Uri.parse(
-                                        'https://play.google.com/store/apps/details?id=com.Syncfusion.ej2&hl=en'));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      const Padding(
-                                          padding: EdgeInsets.only(top: 10)),
-                                      Row(
-                                        children: <Widget>[
-                                          Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      15, 0, 0, 0),
-                                              child: Image.asset(
-                                                  'images/img_JS.png',
-                                                  fit: BoxFit.contain,
-                                                  height: 28,
-                                                  width: 28)),
-                                          Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                10, 0, 0, 0),
-                                            child: Text('JavaScript Demo',
                                                 style: TextStyle(
                                                     color: model
                                                         .drawerTextIconColor,

@@ -46,9 +46,11 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
   @override
   void initState() {
     Future<dynamic>.delayed(const Duration(milliseconds: 600), () {
-      final FocusScopeNode currentFocus = FocusScope.of(context);
-      if (!currentFocus.hasPrimaryFocus) {
-        currentFocus.requestFocus(FocusNode());
+      if (super.mounted) {
+        final FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.requestFocus(FocusNode());
+        }
       }
     });
     super.initState();

@@ -24,34 +24,35 @@ class _HeaderAndFooterPdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: model.cardThemeColor,
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-                'This sample shows how to create a PDF document with a header and footer. Also, the generated PDF document contains hyperlinks, bookmarks, and table of contents.',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
-            const SizedBox(height: 20, width: 30),
-            Align(
-                child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(model.backgroundColor),
-                padding: model.isMobile
-                    ? null
-                    : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15)),
-              ),
-              onPressed: _generatePDF,
-              child: const Text('Generate PDF',
-                  style: TextStyle(color: Colors.white)),
-            ))
-          ],
-        ),
-      ),
-    );
+        backgroundColor: model.cardThemeColor,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    'This sample shows how to create a PDF document with a header and footer. Also, the generated PDF document contains hyperlinks, bookmarks, and table of contents.',
+                    style: TextStyle(fontSize: 16, color: model.textColor)),
+                const SizedBox(height: 20, width: 30),
+                Align(
+                    child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                    padding: model.isMobile
+                        ? null
+                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15)),
+                  ),
+                  onPressed: _generatePDF,
+                  child: const Text('Generate PDF',
+                      style: TextStyle(color: Colors.white)),
+                ))
+              ],
+            ),
+          ),
+        ));
   }
 
   Future<void> _generatePDF() async {

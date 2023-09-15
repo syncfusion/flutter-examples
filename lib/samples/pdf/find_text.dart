@@ -25,71 +25,74 @@ class _FindTextPdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: model.cardThemeColor,
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-                'This sample shows how to find a text along with bounds and page index in an existing PDF document.',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
-            const SizedBox(height: 20, width: 30),
-            Center(
-                child: SizedBox(
-              height: 60,
-              width: 300,
-              child: TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Enter the text to find',
-                      labelStyle: TextStyle(
-                          color: model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue)),
-                  controller: _nameController,
-                  style: TextStyle(color: model.textColor)),
-            )),
-            const SizedBox(height: 20, width: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        backgroundColor: model.cardThemeColor,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
-                    padding: model.isMobile
-                        ? null
-                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
-                  ),
-                  onPressed: _viewTemplate,
-                  child: const Text('View Template',
-                      style: TextStyle(color: Colors.white)),
+                Text(
+                    'This sample shows how to find a text along with bounds and page index in an existing PDF document.',
+                    style: TextStyle(fontSize: 16, color: model.textColor)),
+                const SizedBox(height: 20, width: 30),
+                Center(
+                    child: SizedBox(
+                  height: 60,
+                  width: 300,
+                  child: TextFormField(
+                      decoration: InputDecoration(
+                          labelText: 'Enter the text to find',
+                          labelStyle: TextStyle(
+                              color: model.themeData.colorScheme.brightness ==
+                                      Brightness.light
+                                  ? Colors.grey
+                                  : Colors.lightBlue)),
+                      controller: _nameController,
+                      style: TextStyle(color: model.textColor)),
+                )),
+                const SizedBox(height: 20, width: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            model.backgroundColor),
+                        padding: model.isMobile
+                            ? null
+                            : MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 15)),
+                      ),
+                      onPressed: _viewTemplate,
+                      child: const Text('View Template',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                      width: 20,
+                    ),
+                    TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            model.backgroundColor),
+                        padding: model.isMobile
+                            ? null
+                            : MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 15)),
+                      ),
+                      onPressed: _generatePDF,
+                      child: const Text('Find and Highlight',
+                          style: TextStyle(color: Colors.white)),
+                    )
+                  ],
                 ),
-                const SizedBox(
-                  height: 10,
-                  width: 20,
-                ),
-                TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
-                    padding: model.isMobile
-                        ? null
-                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
-                  ),
-                  onPressed: _generatePDF,
-                  child: const Text('Find and Highlight',
-                      style: TextStyle(color: Colors.white)),
-                )
               ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Future<void> _viewTemplate() async {

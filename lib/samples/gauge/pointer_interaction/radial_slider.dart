@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
@@ -99,7 +100,7 @@ class _RadialSliderExampleState extends SampleViewState {
                         flex: model.isWebFullView ? 2 : 3,
                         child: SizedBox(
                           width: width,
-                          child: Slider(
+                          child: SfSlider(
                             activeColor: const Color(0xFF02AAB0),
                             inactiveColor: const Color(0xFF00CDAC),
                             min: 5,
@@ -114,7 +115,7 @@ class _RadialSliderExampleState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handlePointerValueChanged(double value) {
+  void handlePointerValueChanged(dynamic value) {
     if (value.toInt() > 6) {
       setState(() {
         _currentValue = value.roundToDouble();
