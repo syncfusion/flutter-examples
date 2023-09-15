@@ -25,49 +25,50 @@ class _AnnotationsPdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: model.cardThemeColor,
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-                'This sample shows how to create annotations such as rectangle, ellipse, polygon, and line in a PDF document. ',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
-            const SizedBox(height: 10, width: 30),
-            Row(
+        backgroundColor: model.cardThemeColor,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Checkbox(
-                    value: flatten,
-                    activeColor: model.backgroundColor,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        flatten = value!;
-                      });
-                    }),
-                Text('Flatten Annotation',
+                Text(
+                    'This sample shows how to create annotations such as rectangle, ellipse, polygon, and line in a PDF document. ',
                     style: TextStyle(fontSize: 16, color: model.textColor)),
+                const SizedBox(height: 10, width: 30),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                        value: flatten,
+                        activeColor: model.backgroundColor,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            flatten = value!;
+                          });
+                        }),
+                    Text('Flatten Annotation',
+                        style: TextStyle(fontSize: 16, color: model.textColor)),
+                  ],
+                ),
+                const SizedBox(height: 10, width: 30),
+                Align(
+                    child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                    padding: model.isMobile
+                        ? null
+                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15)),
+                  ),
+                  onPressed: _generatePDF,
+                  child: const Text('Generate PDF',
+                      style: TextStyle(color: Colors.white)),
+                ))
               ],
             ),
-            const SizedBox(height: 10, width: 30),
-            Align(
-                child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(model.backgroundColor),
-                padding: model.isMobile
-                    ? null
-                    : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15)),
-              ),
-              onPressed: _generatePDF,
-              child: const Text('Generate PDF',
-                  style: TextStyle(color: Colors.white)),
-            ))
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Future<void> _generatePDF() async {

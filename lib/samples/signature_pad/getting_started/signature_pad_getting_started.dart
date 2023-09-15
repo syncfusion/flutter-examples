@@ -150,7 +150,9 @@ class _GettingStartedSignaturePadState extends SampleViewState {
             final Color textColor = _isDark ? Colors.white : Colors.black87;
 
             return AlertDialog(
-              insetPadding: const EdgeInsets.all(12.0),
+              insetPadding: _isWebOrDesktop
+                  ? const EdgeInsets.fromLTRB(10, 10, 15, 10)
+                  : const EdgeInsets.all(12),
               backgroundColor: backgroundColor,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -179,14 +181,14 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width < 306
                       ? MediaQuery.of(context).size.width
-                      : 306,
+                      : 450,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
                         width: MediaQuery.of(context).size.width < 306
                             ? MediaQuery.of(context).size.width
-                            : 306,
+                            : 450,
                         height: 172,
                         decoration: BoxDecoration(
                           border: Border.all(color: _getBorderColor()!),
@@ -568,7 +570,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         child: SingleChildScrollView(
             child: Container(
           width:
-              _isWebOrDesktop ? 500 : (screenWidth > 400 ? 400 : screenWidth),
+              _isWebOrDesktop ? 600 : (screenWidth > 400 ? 400 : screenWidth),
           height: 625,
           margin: _isWebOrDesktop ? const EdgeInsets.all(10.0) : null,
           decoration: _isWebOrDesktop

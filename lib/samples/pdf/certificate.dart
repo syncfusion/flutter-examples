@@ -55,69 +55,71 @@ class _CertificatePdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: model.cardThemeColor,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                  'This sample showcase how to dynamically generates the course completion certificate for online learning portal with participant name, course name and date of completion.',
-                  style: TextStyle(fontSize: 16, color: model.textColor)),
-              TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Recipient Name',
-                      labelStyle: TextStyle(
-                          color: model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue)),
-                  controller: _nameController,
-                  style: TextStyle(color: model.textColor)),
-              TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Course Name',
-                      labelStyle: TextStyle(
-                          color: model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue)),
-                  controller: _courceNameController,
-                  style: TextStyle(color: model.textColor)),
-              TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Date',
-                      labelStyle: TextStyle(
-                          color: model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue)),
-                  controller: _dateController,
-                  style: TextStyle(color: model.textColor),
-                  onTap: () {
-                    _selectDate(context);
-                  }),
-              const SizedBox(height: 20, width: 30),
-              TextButton(
-                onPressed: _createCertificate,
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(model.backgroundColor),
-                  padding: model.isMobile
-                      ? null
-                      : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 15)),
-                ),
-                child: const Text(
-                  'Generate PDF',
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
-            ],
+        backgroundColor: model.cardThemeColor,
+        body: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                      'This sample showcase how to dynamically generates the course completion certificate for online learning portal with participant name, course name and date of completion.',
+                      style: TextStyle(fontSize: 16, color: model.textColor)),
+                  TextFormField(
+                      decoration: InputDecoration(
+                          labelText: 'Recipient Name',
+                          labelStyle: TextStyle(
+                              color: model.themeData.colorScheme.brightness ==
+                                      Brightness.light
+                                  ? Colors.grey
+                                  : Colors.lightBlue)),
+                      controller: _nameController,
+                      style: TextStyle(color: model.textColor)),
+                  TextFormField(
+                      decoration: InputDecoration(
+                          labelText: 'Course Name',
+                          labelStyle: TextStyle(
+                              color: model.themeData.colorScheme.brightness ==
+                                      Brightness.light
+                                  ? Colors.grey
+                                  : Colors.lightBlue)),
+                      controller: _courceNameController,
+                      style: TextStyle(color: model.textColor)),
+                  TextFormField(
+                      decoration: InputDecoration(
+                          labelText: 'Date',
+                          labelStyle: TextStyle(
+                              color: model.themeData.colorScheme.brightness ==
+                                      Brightness.light
+                                  ? Colors.grey
+                                  : Colors.lightBlue)),
+                      controller: _dateController,
+                      style: TextStyle(color: model.textColor),
+                      onTap: () {
+                        _selectDate(context);
+                      }),
+                  const SizedBox(height: 20, width: 30),
+                  TextButton(
+                    onPressed: _createCertificate,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
+                    ),
+                    child: const Text(
+                      'Generate PDF',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Future<void> _createCertificate() async {

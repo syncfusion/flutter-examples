@@ -134,7 +134,8 @@ class BarCustomPainter extends BarSegment {
           : ImageShader(
               image!, TileMode.repeated, TileMode.repeated, deviceTransform);
 
-    final double devicePixelRatio = ui.window.devicePixelRatio;
+    final double devicePixelRatio =
+        ui.PlatformDispatcher.instance.implicitView!.devicePixelRatio;
 
     if (isImageloaded && devicePixelRatio > 0) {
       super.onPaint(canvas);

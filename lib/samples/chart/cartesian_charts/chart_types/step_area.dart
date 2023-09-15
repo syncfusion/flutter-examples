@@ -31,7 +31,7 @@ class _StepAreaState extends SampleViewState {
   /// Returns the cartesian step area chart.
   SfCartesianChart _buildStepAreaChart() {
     return SfCartesianChart(
-      legend: Legend(isVisible: true),
+      legend: const Legend(isVisible: true),
       title: ChartTitle(text: 'Temperature variation of Paris'),
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(

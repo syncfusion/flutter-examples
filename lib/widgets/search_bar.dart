@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 import '../model/helper.dart';
 import '../model/model.dart';
 
-/// Searchbar widget for searching particular sample
+/// Search bar widget for searching particular sample
 /// by typing the sample's title in the text editor present in the [SearchBar]
-class SearchBar extends StatefulWidget {
-  /// Holds the search bar widet
+class CustomSearchBar extends StatefulWidget {
+  /// Holds the search bar widget
   // ignore: tighten_type_of_initializing_formals
-  const SearchBar({Key? key, this.sampleListModel})
+  const CustomSearchBar({Key? key, this.sampleListModel})
       : assert(sampleListModel != null),
         super(key: key);
 
@@ -25,7 +25,8 @@ class SearchBar extends StatefulWidget {
 }
 
 /// Represents the search bar state
-class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
+class SearchBarState extends State<CustomSearchBar>
+    with WidgetsBindingObserver {
   /// Creates the search bar state
   SearchBarState(this.sampleListModel);
 
@@ -44,7 +45,7 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   /// Represents the overlay state
   late OverlayState over;
 
-  /// Represents the serach icon instance
+  /// Represents the search icon instance
   Widget? searchIcon;
 
   /// Represents the close icon instance
@@ -174,7 +175,7 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
     }
   }
 
-  /// method to filter the serach results
+  /// method to filter the search results
   void filterSearchResults(String query) {
     _removeOverlayEntries();
     final List<Control> dummySearchControl = <Control>[];
@@ -398,33 +399,36 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                             child: RichText(
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
-                                              text: TextSpan(children: <
-                                                  InlineSpan>[
-                                                TextSpan(
-                                                  text: sampleListModel!
-                                                      .searchResults[index]
-                                                      .control!
-                                                      .title,
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: sampleListModel!
-                                                          .textColor,
-                                                      fontFamily:
-                                                          'Roboto-Bold'),
-                                                ),
-                                                TextSpan(
-                                                  text: ' - ' +
-                                                      sampleListModel!
+                                              text: TextSpan(
+                                                  children: <InlineSpan>[
+                                                    TextSpan(
+                                                      text: sampleListModel!
                                                           .searchResults[index]
-                                                          .title!,
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: sampleListModel!
-                                                          .textColor,
-                                                      fontFamily:
-                                                          'Roboto-Regular'),
-                                                )
-                                              ]),
+                                                          .control!
+                                                          .title,
+                                                      style: TextStyle(
+                                                          fontSize: 13,
+                                                          color:
+                                                              sampleListModel!
+                                                                  .textColor,
+                                                          fontFamily:
+                                                              'Roboto-Bold'),
+                                                    ),
+                                                    TextSpan(
+                                                      text: ' - ' +
+                                                          sampleListModel!
+                                                              .searchResults[
+                                                                  index]
+                                                              .title!,
+                                                      style: TextStyle(
+                                                          fontSize: 13,
+                                                          color:
+                                                              sampleListModel!
+                                                                  .textColor,
+                                                          fontFamily:
+                                                              'Roboto-Regular'),
+                                                    )
+                                                  ]),
                                             ),
                                           ),
                                         )),
@@ -439,100 +443,109 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return RawKeyboardListener(
-        focusNode: _rawKeyFocusNode,
-        onKey: (RawKeyEvent event) => !sampleListModel!.isMobileResolution
-            ? _performKeyBoardEvent(event)
-            : null,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              height: sampleListModel!.isWebFullView ? 35 : 45,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: sampleListModel!.isWebFullView
-                      ? (Colors.grey[100])!.withOpacity(0.2)
-                      : Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0))),
-              child: Padding(
-                  padding: EdgeInsets.only(
-                      left: (isFocus.hasFocus || searchIcon == null) ? 10 : 0),
-                  child: TextField(
-                    onSubmitted: (String value) {
-                      if (_selectionIndex != null) {
-                        _navigateToSample(_selectionIndex!);
-                      }
-                    },
-                    mouseCursor: MaterialStateMouseCursor.clickable,
-                    cursorColor: sampleListModel!.isWebFullView
+      focusNode: _rawKeyFocusNode,
+      onKey: (RawKeyEvent event) => !sampleListModel!.isMobileResolution
+          ? _performKeyBoardEvent(event)
+          : null,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            height: sampleListModel!.isWebFullView ? 35 : 45,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: sampleListModel!.isWebFullView
+                  ? Colors.grey[100]!.withOpacity(0.2)
+                  : Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: (isFocus.hasFocus || searchIcon == null) ? 10 : 0),
+              child: Center(
+                child: TextField(
+                  onSubmitted: (String value) {
+                    if (_selectionIndex != null) {
+                      _navigateToSample(_selectionIndex!);
+                    }
+                  },
+                  mouseCursor: MaterialStateMouseCursor.clickable,
+                  cursorColor: sampleListModel!.isWebFullView
+                      ? Colors.white
+                      : Colors.grey,
+                  focusNode: isFocus,
+                  onChanged: (String value) {
+                    closeIcon = isFocus.hasFocus &&
+                            (sampleListModel!.editingController.text.isNotEmpty)
+                        ? IconButton(
+                            splashColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            icon: Icon(Icons.close,
+                                size: sampleListModel!.isWebFullView ? 20 : 24,
+                                color: sampleListModel!.isWebFullView
+                                    ? Colors.white
+                                    : Colors.grey),
+                            onPressed: () {
+                              sampleListModel!.editingController.text = '';
+                              isFocus.unfocus();
+                              filterSearchResults('');
+                              if (sampleListModel!.isMobileResolution) {
+                                sampleListModel!.sampleList.clear();
+                                setState(() {
+                                  closeIcon = null;
+                                });
+                              } else {
+                                _overlayEntry.opaque = false;
+                                _removeOverlayEntries();
+                              }
+                            })
+                        : null;
+                    setState(() {
+                      /// searched results changed
+                    });
+                    filterSearchResults(value);
+                  },
+                  onEditingComplete: () {
+                    isFocus.unfocus();
+                  },
+                  style: TextStyle(
+                    fontFamily: 'Roboto-Regular',
+                    color: sampleListModel!.isWebFullView
                         ? Colors.white
                         : Colors.grey,
-                    focusNode: isFocus,
-                    onChanged: (String value) {
-                      closeIcon = isFocus.hasFocus &&
-                              (sampleListModel!
-                                  .editingController.text.isNotEmpty)
-                          ? IconButton(
-                              splashColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              icon: Icon(Icons.close,
-                                  size:
-                                      sampleListModel!.isWebFullView ? 20 : 24,
-                                  color: sampleListModel!.isWebFullView
-                                      ? Colors.white
-                                      : Colors.grey),
-                              onPressed: () {
-                                sampleListModel!.editingController.text = '';
-                                isFocus.unfocus();
-                                filterSearchResults('');
-                                if (sampleListModel!.isMobileResolution) {
-                                  sampleListModel!.sampleList.clear();
-                                  setState(() {
-                                    closeIcon = null;
-                                  });
-                                } else {
-                                  _overlayEntry.opaque = false;
-                                  _removeOverlayEntries();
-                                }
-                              })
-                          : null;
-                      setState(() {
-                        /// searched results changed
-                      });
-                      filterSearchResults(value);
-                    },
-                    onEditingComplete: () {
-                      isFocus.unfocus();
-                    },
-                    style: TextStyle(
-                        fontFamily: 'Roboto-Regular',
-                        color: sampleListModel!.isWebFullView
-                            ? Colors.white
-                            : Colors.grey,
-                        fontSize: 13),
-                    controller: sampleListModel!.editingController,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                            fontFamily: 'Roboto-Regular',
-                            color: sampleListModel!.isWebFullView
-                                ? Colors.white
-                                : Colors.grey,
-                            fontSize: 13),
-                        hintText: hint,
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'Roboto-Regular',
-                            color: sampleListModel!.isWebFullView
-                                ? Colors.white.withOpacity(0.5)
-                                : Colors.grey),
-                        suffixIcon: closeIcon,
-                        prefixIcon: searchIcon),
-                  )),
+                    fontSize: 13,
+                  ),
+                  controller: sampleListModel!.editingController,
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                      fontFamily: 'Roboto-Regular',
+                      color: sampleListModel!.isWebFullView
+                          ? Colors.white
+                          : Colors.grey,
+                      fontSize: 13,
+                    ),
+                    hintText: hint,
+                    hintStyle: TextStyle(
+                      fontSize: 13,
+                      fontFamily: 'Roboto-Regular',
+                      color: sampleListModel!.isWebFullView
+                          ? Colors.white.withOpacity(0.5)
+                          : Colors.grey,
+                    ),
+                    contentPadding: EdgeInsets.zero,
+                    isDense: true,
+                    border: InputBorder.none,
+                    suffixIcon: closeIcon,
+                    prefixIcon: searchIcon,
+                  ),
+                ),
+              ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }
 

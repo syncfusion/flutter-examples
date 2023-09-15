@@ -40,8 +40,8 @@ class _FunnelLegendState extends SampleViewState {
           text: isCardView ? '' : 'Monthly expenditure of an individual'),
 
       /// To enable the legend for funnel chart.
-      legend:
-          Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+      legend: const Legend(
+          isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
       tooltipBehavior: _tooltipBehavior,
       series: _getFunnelSeries(),
     );

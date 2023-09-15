@@ -38,7 +38,6 @@
         "description": "Visualize hierarchically structured data that is sized and colored by quantitative variables",
         "image": "images/treemap.png",
         "displayType": "tab",
-        "isBeta": true,
         "controlId": 4,
         "subItems": [
           {
@@ -2680,6 +2679,13 @@
               },
               {
                 "type": "sample",
+                "title": "Column Drag and Drop",
+                "key": "datagrid_column_drag_and_drop",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_column_drag_and_drop.dart",
+                "needsPropertyPanel": false
+              },
+              {
+                "type": "sample",
                 "title": "Stacked Header",
                 "key": "stacked_header_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_stacked_header.dart"
@@ -2712,7 +2718,7 @@
               {
                 "type": "sample",
                 "title": "Sorting",
-                "description": "This sample demonstrates how to sort one or more columns. In the Web and Desktop platforms, you can sort multiple columns by tapping the column header with the CTRL key where as in a mobile platform you can tap the column headers. It also provides some additional functionalities like Tri-state sorting and displaying sort numbers that indicate the sort order.",
+                "description": "This sample demonstrates how to sort one or more columns. In the Web and Windows platforms, you can sort multiple columns by tapping the column header with the CTRL key and COMMAND key in macOS platform where as in a mobile platform you can tap the column headers. It also provides some additional functionalities like Tri-state sorting and displaying sort numbers that indicate the sort order.",
                 "key": "sorting_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/sorting/datagrid_sorting.dart",
                 "needsPropertyPanel": true
@@ -3142,6 +3148,7 @@
         "title": "PDF Viewer",
         "description": "View the PDF document seamlessly and efficiently",
         "image": "images/pdf_viewer.png",
+        "status": "Updated",
         "displayType": "tab",
         "controlId": 1,
         "subItems": [
@@ -3176,6 +3183,13 @@
             "key": "pdf_viewer_rtl",
             "needsPropertyPanel": true,
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_rtl.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Form Filling",
+            "key": "pdf_viewer_form_filling",
+            "status": "Updated",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_form_filling.dart"
           }
         ]
       }
@@ -3266,29 +3280,24 @@
         "description": "Create Excel documents with text, numbers, cell formatting, formulas, charts, images, and more",
         "image": "images/xlsio.png",
         "displayType": "tab",
-        "isBeta": true,
         "controlId": 2,
-        "status": "Updated",
         "subItems": [
           {
             "type": "sample",
             "title": "Expenses Report",
             "key": "expenses_report",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/expenses_report/expenses_report.dart"
           },
           {
             "type": "sample",
             "title": "Invoice",
             "key": "invoice_excel",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/invoice/invoice.dart"
           },
           {
             "type": "sample",
             "title": "Yearly Sales",
             "key": "yearly_sales",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/yearly_sales/yearly_sales.dart"
           },
           {

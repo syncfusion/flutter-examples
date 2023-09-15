@@ -71,9 +71,9 @@ class HeatMapCalendarCalendarState extends SampleViewState {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text('Less'),
                       Text('More'),
                     ],

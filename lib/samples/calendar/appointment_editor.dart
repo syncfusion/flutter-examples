@@ -3680,7 +3680,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                             ),
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     bottom: 3),
                                                             onPressed:
                                                                 _addInterval))),
@@ -4274,8 +4274,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     },
                                                     keyboardType:
                                                         TextInputType.number,
-                                                    inputFormatters: <
-                                                        TextInputFormatter>[
+                                                    inputFormatters: <TextInputFormatter>[
                                                       FilteringTextInputFormatter
                                                           .digitsOnly
                                                     ],
@@ -4392,7 +4391,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                       child: Padding(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .only(
+                                                                  .only(
                                                                   bottom: 6),
                                                           child: TextField(
                                                             mouseCursor:
@@ -4481,7 +4480,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         child: Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 9),
                                                             child: TextField(
                                                               textAlignVertical:
@@ -4533,8 +4532,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                               keyboardType:
                                                                   TextInputType
                                                                       .number,
-                                                              inputFormatters: <
-                                                                  TextInputFormatter>[
+                                                              inputFormatters: <TextInputFormatter>[
                                                                 FilteringTextInputFormatter
                                                                     .digitsOnly
                                                               ],
@@ -4568,8 +4566,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .end,
-                                                                  children: <
-                                                                      Widget>[
+                                                                  children: <Widget>[
                                                                     IconButton(
                                                                         icon:
                                                                             Icon(
@@ -4624,7 +4621,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                           child: Container(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .only(
+                                                                    .only(
                                                                     left: 9),
                                                             child: TextField(
                                                               textAlignVertical:
@@ -4710,8 +4707,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                           },
                                                                           shape:
                                                                               const CircleBorder(),
-                                                                          padding:
-                                                                              const EdgeInsets.all(10.0),
+                                                                          padding: const EdgeInsets
+                                                                              .all(
+                                                                              10.0),
                                                                           child:
                                                                               Icon(
                                                                             Icons.date_range,
@@ -7214,7 +7212,7 @@ class _EditDialogState extends State<_EditDialog> {
                               CalendarDataSourceAction.remove,
                               <Appointment>[parentAppointment]);
                           DateTime startDate, endDate;
-                          if ((widget.newAppointment.startTime)
+                          if (widget.newAppointment.startTime
                               .isBefore(parentAppointment.startTime)) {
                             startDate = widget.newAppointment.startTime;
                             endDate = widget.newAppointment.endTime;

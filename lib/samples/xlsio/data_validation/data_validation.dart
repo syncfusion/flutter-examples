@@ -159,7 +159,7 @@ class _DataValidationXlsIOState extends SampleViewState {
     sheet.getRangeByName('A1:C15').autoFit();
 
     //Save and dispose Workbook
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

@@ -58,7 +58,7 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
       }
 
       _stocks[recNo].stock =
-          _stocksData[(_random.nextInt(_stocksData.length - 1))];
+          _stocksData[_random.nextInt(_stocksData.length - 1)];
       updateDataRow();
       updateDataSource(rowColumnIndex: RowColumnIndex(recNo, 1));
       _stocks[recNo].open = 50.0 + _random.nextInt(40);

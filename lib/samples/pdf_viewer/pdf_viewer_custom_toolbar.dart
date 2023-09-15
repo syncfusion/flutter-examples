@@ -596,7 +596,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     });
                   }
                   await Clipboard.setData(
-                      ClipboardData(text: details.selectedText));
+                      ClipboardData(text: details.selectedText!));
                   setState(() {
                     _canShowToast = true;
                   });
@@ -1478,23 +1478,26 @@ class ToolbarState extends State<Toolbar> {
 
   /// Called when the page changes and updates the page number text field.
   void _pageChanged({String? property}) {
-    if (_isWeb && _zoomLevel != widget.controller!.zoomLevel) {
-      setState(() {
-        _zoomLevel = widget.controller!.zoomLevel;
-      });
-    }
-    if (widget.controller?.pageCount != null &&
-        _pageCount != widget.controller!.pageCount) {
-      _pageCount = widget.controller!.pageCount;
-      setState(() {});
-    }
-    if (widget.controller?.pageNumber != null &&
-        _textEditingController!.text !=
-            widget.controller!.pageNumber.toString()) {
-      Future<dynamic>.delayed(Duration.zero, () {
-        _textEditingController!.text = widget.controller!.pageNumber.toString();
+    if (super.mounted) {
+      if (_isWeb && _zoomLevel != widget.controller!.zoomLevel) {
+        setState(() {
+          _zoomLevel = widget.controller!.zoomLevel;
+        });
+      }
+      if (widget.controller?.pageCount != null &&
+          _pageCount != widget.controller!.pageCount) {
+        _pageCount = widget.controller!.pageCount;
         setState(() {});
-      });
+      }
+      if (widget.controller?.pageNumber != null &&
+          _textEditingController!.text !=
+              widget.controller!.pageNumber.toString()) {
+        Future<dynamic>.delayed(Duration.zero, () {
+          _textEditingController!.text =
+              widget.controller!.pageNumber.toString();
+          setState(() {});
+        });
+      }
     }
   }
 

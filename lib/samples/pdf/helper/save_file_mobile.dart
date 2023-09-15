@@ -16,12 +16,17 @@ class FileSaveHelper {
   static Future<void> saveAndLaunchFile(
       List<int> bytes, String fileName) async {
     String? path;
-    if (Platform.isAndroid ||
-        Platform.isIOS ||
-        Platform.isLinux ||
-        Platform.isWindows) {
+    if (Platform.isIOS || Platform.isLinux || Platform.isWindows) {
       final Directory directory = await getApplicationSupportDirectory();
       path = directory.path;
+    } else if (Platform.isAndroid) {
+      final Directory? directory = await getExternalStorageDirectory();
+      if (directory != null) {
+        path = directory.path;
+      } else {
+        final Directory directory = await getApplicationSupportDirectory();
+        path = directory.path;
+      }
     } else {
       path = await PathProviderPlatform.instance.getApplicationSupportPath();
     }

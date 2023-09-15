@@ -164,7 +164,7 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     chart.series[0].serieFormat.commonSerieOptions.holeSizePercent = 40;
     sheet1.charts = charts;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

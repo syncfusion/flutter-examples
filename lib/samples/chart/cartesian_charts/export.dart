@@ -128,7 +128,7 @@ class _ExportState extends SampleViewState {
   /// Get default column chart
   SfCartesianChart _buildDefaultColumnChart() {
     return SfCartesianChart(
-      legend: Legend(isVisible: true),
+      legend: const Legend(isVisible: true),
       key: _chartKey,
       plotAreaBackgroundColor: model.cardThemeColor,
       backgroundColor: model.cardThemeColor,

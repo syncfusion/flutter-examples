@@ -537,8 +537,9 @@ class _LayoutPageState extends State<LayoutPage> {
                                                       : const Color.fromRGBO(
                                                           246, 117, 0, 1))
                                                   : Colors.transparent,
-                                              borderRadius: const BorderRadius.all(
-                                                  Radius.circular(10.0))),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10.0))),
                                           padding: const EdgeInsets.fromLTRB(
                                               5, 2.7, 5, 2.7),
                                           child: Text(

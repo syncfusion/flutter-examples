@@ -67,7 +67,7 @@ class _TrendLineDefaultState extends SampleViewState {
   @override
   void dispose() {
     if (_slope != null) {
-      _slope!.clear();
+      _slope = [];
     }
     _trendlineTypeList!.clear();
     super.dispose();
@@ -376,33 +376,33 @@ class _TrendLineDefaultState extends SampleViewState {
   void _getSlopeEquation(List<double>? slope, double? intercept) {
     if (_type == TrendlineType.linear) {
       _slopeEquation =
-          'y = ${double.parse((slope![0]).toStringAsFixed(3))}x + ${double.parse(intercept!.toStringAsFixed(3))}';
+          'y = ${double.parse(slope![0].toStringAsFixed(3))}x + ${double.parse(intercept!.toStringAsFixed(3))}';
     }
     if (_type == TrendlineType.exponential) {
       _slopeEquation =
-          'y = ${double.parse(intercept!.toStringAsFixed(3))}e^${double.parse((slope![0]).toStringAsFixed(3))}x';
+          'y = ${double.parse(intercept!.toStringAsFixed(3))}e^${double.parse(slope![0].toStringAsFixed(3))}x';
     }
     if (_type == TrendlineType.logarithmic) {
       _slopeEquation =
-          'y = ${double.parse(intercept!.toStringAsFixed(3))}ln(x) + ${double.parse((slope![0]).toStringAsFixed(3))}';
+          'y = ${double.parse(intercept!.toStringAsFixed(3))}ln(x) + ${double.parse(slope![0].toStringAsFixed(3))}';
     }
     if (_type == TrendlineType.polynomial) {
       if (_polynomialOrder == 2) {
         _slopeEquation =
-            'y = ${double.parse((slope![1]).toStringAsFixed(3))}x +  ${double.parse((slope[0]).toStringAsFixed(3))}';
+            'y = ${double.parse(slope![1].toStringAsFixed(3))}x +  ${double.parse(slope[0].toStringAsFixed(3))}';
       }
       if (_polynomialOrder == 3) {
         _slopeEquation =
-            'y = ${double.parse((slope![2]).toStringAsFixed(3))}x² + ${double.parse((slope[1]).toStringAsFixed(3))}x + ${double.parse((slope[0]).toStringAsFixed(3))}';
+            'y = ${double.parse(slope![2].toStringAsFixed(3))}x² + ${double.parse(slope[1].toStringAsFixed(3))}x + ${double.parse(slope[0].toStringAsFixed(3))}';
       }
       if (_polynomialOrder == 4) {
         _slopeEquation =
-            'y = ${double.parse((slope![3]).toStringAsFixed(3))}x³ + ${double.parse((slope[2]).toStringAsFixed(3))}x²  + ${double.parse((slope[1]).toStringAsFixed(3))}x + ${double.parse((slope[0]).toStringAsFixed(3))}';
+            'y = ${double.parse(slope![3].toStringAsFixed(3))}x³ + ${double.parse(slope[2].toStringAsFixed(3))}x²  + ${double.parse(slope[1].toStringAsFixed(3))}x + ${double.parse(slope[0].toStringAsFixed(3))}';
       }
     }
     if (_type == TrendlineType.power) {
       _slopeEquation =
-          'y = ${double.parse(intercept!.toStringAsFixed(3))}x^${double.parse((slope![0]).toStringAsFixed(3))}';
+          'y = ${double.parse(intercept!.toStringAsFixed(3))}x^${double.parse(slope![0].toStringAsFixed(3))}';
     }
     if (_type == TrendlineType.movingAverage) {
       _slopeEquation = '';

@@ -142,12 +142,12 @@ class _CustomButton extends State<CustomDirectionalButtons> {
             ? ((_counter.isNaN)
                 ? 'null'
                 : ((widget.needNull!)
-                    ? (_counter.toInt()).toString()
+                    ? _counter.toInt().toString()
                     : _counter.toStringAsFixed(0)))
             : (_counter.isNaN)
                 ? 'null'
                 : (widget.needNull!)
-                    ? (_counter.toInt()).toString()
+                    ? _counter.toInt().toString()
                     : _counter.toStringAsFixed(1),
         style: widget.style ?? Theme.of(context).textTheme.headlineSmall);
   }

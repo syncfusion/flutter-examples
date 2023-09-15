@@ -38,7 +38,7 @@ class _RadialBarAngleState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Activity tracker'),
 
       /// To enable the legend for radial bar.
-      legend: Legend(
+      legend: const Legend(
           isVisible: true,
           iconHeight: 20,
           iconWidth: 20,

@@ -71,7 +71,7 @@ class _MapSublayerPageState extends SampleViewState {
     final String data = await rootBundle.loadString('assets/river.json');
     final dynamic jsonData = json.decode(data);
 
-    final int length = (jsonData['geometries']).length as int;
+    final int length = jsonData['geometries'].length as int;
     for (int i = 0; i < length; i++) {
       List<dynamic> polylineData;
       if (jsonData['geometries'][i]['type'] == 'LineString') {
@@ -85,7 +85,7 @@ class _MapSublayerPageState extends SampleViewState {
       } else {
         polylineData = <dynamic>[];
         final int length =
-            (jsonData['geometries'][i]['coordinates']).length as int;
+            jsonData['geometries'][i]['coordinates'].length as int;
         for (int j = 0; j < length; j++) {
           polylineData.add(jsonData['geometries'][i]['coordinates'][j]);
         }

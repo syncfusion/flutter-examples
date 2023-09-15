@@ -227,7 +227,7 @@ class _AutoFilterXlsIOState extends SampleViewState {
     }
     //saving Sheet
     sheet.getRangeByName('A1:C10').autoFitColumns();
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, fileName);
   }

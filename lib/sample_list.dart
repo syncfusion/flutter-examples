@@ -203,6 +203,7 @@ import 'samples/chart/pyramid_charts/pyramid_with_smart_labels.dart';
 import 'samples/datagrid/apperance/conditional_styling/datagrid_conditional_styling.dart';
 import 'samples/datagrid/apperance/styling/datagrid_styling.dart';
 import 'samples/datagrid/columns/datagrid_checkbox_selection.dart';
+import 'samples/datagrid/columns/datagrid_column_drag_and_drop.dart';
 import 'samples/datagrid/columns/datagrid_column_sizing.dart';
 import 'samples/datagrid/columns/datagrid_column_types.dart';
 import 'samples/datagrid/columns/datagrid_custom_header.dart';
@@ -320,6 +321,7 @@ import 'samples/pdf/invoice.dart';
 import 'samples/pdf/text_extraction.dart';
 import 'samples/pdf_viewer/encrypted.dart';
 import 'samples/pdf_viewer/pdf_viewer_custom_toolbar.dart';
+import 'samples/pdf_viewer/pdf_viewer_form_filling.dart';
 import 'samples/pdf_viewer/pdf_viewer_getting_started.dart';
 import 'samples/pdf_viewer/pdf_viewer_localization.dart';
 import 'samples/pdf_viewer/pdf_viewer_rtl.dart';
@@ -747,6 +749,7 @@ Map<String, Function> getSampleWidget() {
     'encrypted': (Key key) => Encrypted(key),
     'pdf_viewer_localization': (Key key) => LocalizationPdfViewer(key),
     'pdf_viewer_rtl': (Key key) => RTLModePdfViewer(key),
+    'pdf_viewer_form_filling': (Key key) => FormFilling(key),
 
     // XlsIO samples
     'expenses_report': (Key key) => ExpensesReportXlsIO(key),
@@ -940,6 +943,9 @@ Map<String, Function> getSampleWidget() {
     'sorting_datagrid': (Key key) => SortingDataGrid(key: key),
 
     'filtering_datagrid': (Key key) => FilteringDataGrid(key: key),
+
+    'datagrid_column_drag_and_drop': (Key key) =>
+        DataGridColumnDragAndDrop(key: key),
 
     'custom_sorting_datagrid': (Key key) => CustomSortingDataGrid(key: key),
 

@@ -159,9 +159,9 @@ class _PopUpDatePickerState extends SampleViewState
                         flex: 5,
                         child: Container(
                             padding: const EdgeInsets.all(5),
-                            child: Column(
+                            child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const <Widget>[
+                              children: <Widget>[
                                 Text(
                                   'From',
                                   style: TextStyle(
@@ -180,9 +180,9 @@ class _PopUpDatePickerState extends SampleViewState
                         flex: 5,
                         child: Container(
                             padding: const EdgeInsets.all(5),
-                            child: Column(
+                            child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const <Widget>[
+                              children: <Widget>[
                                 Text(
                                   'Destination',
                                   style: TextStyle(
@@ -337,9 +337,9 @@ class _PopUpDatePickerState extends SampleViewState
                         flex: 5,
                         child: Container(
                             padding: const EdgeInsets.all(5),
-                            child: Column(
+                            child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const <Widget>[
+                              children: <Widget>[
                                 Text(
                                   'Travellers',
                                   style: TextStyle(
@@ -358,9 +358,9 @@ class _PopUpDatePickerState extends SampleViewState
                         flex: 5,
                         child: Container(
                             padding: const EdgeInsets.all(5),
-                            child: Column(
+                            child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const <Widget>[
+                              children: <Widget>[
                                 Text(
                                   'Class',
                                   style: TextStyle(

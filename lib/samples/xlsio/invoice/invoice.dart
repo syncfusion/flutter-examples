@@ -229,7 +229,7 @@ class _InvoiceXlsIOState extends SampleViewState {
     picture.lastRow = 7;
     picture.lastColumn = 8;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.
