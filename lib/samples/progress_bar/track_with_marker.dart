@@ -30,7 +30,7 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
   void initState() {
     super.initState();
     if (mounted) {
-      _timer = Timer.periodic(const Duration(milliseconds: 30), (Timer _timer) {
+      _timer = Timer.periodic(const Duration(milliseconds: 30), (Timer timer) {
         setState(() {
           progressValue++;
 
@@ -52,7 +52,6 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
       return Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
             getProgressBarWithCircle(),
             const Center(child: Text('Circle marker')),
@@ -66,25 +65,21 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
       return Center(
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   getProgressBarWithCircle(),
                   const Center(child: Text('Circle marker')),
                 ]),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   getProgressBarWithRectangle(),
                   const Center(child: Text('Rectangle marker')),
                 ]),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   getProgressBarWithImage(),
                   const Center(child: Text('Image marker')),

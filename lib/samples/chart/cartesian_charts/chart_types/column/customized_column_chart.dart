@@ -37,20 +37,19 @@ class _ColumnVerticalState extends SampleViewState {
     return SfCartesianChart(
       title:
           ChartTitle(text: isCardView ? '' : 'PC vendor shipments - 2015 Q1'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}M',
           title: AxisTitle(text: isCardView ? '' : 'Shipments in million'),
           majorGridLines: const MajorGridLines(width: 0),
           majorTickLines: const MajorTickLines(size: 0)),
-      series: <ChartSeries<ChartSampleData, String>>[
+      series: <CartesianSeries<ChartSampleData, String>>[
         ColumnSeries<ChartSampleData, String>(
           onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
             return _CustomColumnSeriesRenderer();
           },
-          isTrackVisible: false,
           dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
           dataSource: <ChartSampleData>[
@@ -86,16 +85,16 @@ class _ColumnVerticalState extends SampleViewState {
   }
 }
 
-class _CustomColumnSeriesRenderer extends ColumnSeriesRenderer {
+class _CustomColumnSeriesRenderer<T, D> extends ColumnSeriesRenderer<T, D> {
   _CustomColumnSeriesRenderer();
 
   @override
-  ChartSegment createSegment() {
+  ColumnSegment<T, D> createSegment() {
     return _ColumnCustomPainter();
   }
 }
 
-class _ColumnCustomPainter extends ColumnSegment {
+class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
   List<Color> colorList = <Color>[
     const Color.fromRGBO(53, 92, 125, 1),
     const Color.fromRGBO(192, 108, 132, 1),
@@ -103,8 +102,6 @@ class _ColumnCustomPainter extends ColumnSegment {
     const Color.fromRGBO(248, 177, 149, 1),
     const Color.fromRGBO(116, 180, 155, 1)
   ];
-  @override
-  int get currentSegmentIndex => super.currentSegmentIndex!;
 
   @override
   Paint getFillPaint() {
@@ -126,23 +123,25 @@ class _ColumnCustomPainter extends ColumnSegment {
 
   @override
   void onPaint(Canvas canvas) {
-    double x, y;
-    x = segmentRect.center.dx;
-    y = segmentRect.top;
-    double width = 0;
-    const double height = 20;
-    width = segmentRect.width;
-    final Paint paint = Paint();
-    paint.color = getFillPaint().color;
-    paint.style = PaintingStyle.fill;
-    final Path path = Path();
-    final double factor = segmentRect.height * (1 - animationFactor);
-    path.moveTo(x - width / 2, y + factor + height);
-    path.lineTo(x, (segmentRect.top + factor + height) - height);
-    path.lineTo(x + width / 2, y + factor + height);
-    path.lineTo(x + width / 2, segmentRect.bottom + factor);
-    path.lineTo(x - width / 2, segmentRect.bottom + factor);
-    path.close();
-    canvas.drawPath(path, paint);
+    if (segmentRect != null) {
+      double x, y;
+      x = segmentRect!.center.dx;
+      y = segmentRect!.top;
+      double width = 0;
+      const double height = 20;
+      width = segmentRect!.width;
+      final Paint paint = Paint();
+      paint.color = getFillPaint().color;
+      paint.style = PaintingStyle.fill;
+      final Path path = Path();
+      final double factor = segmentRect!.height * (1 - animationFactor);
+      path.moveTo(x - width / 2, y + factor + height);
+      path.lineTo(x, (segmentRect!.top + factor + height) - height);
+      path.lineTo(x + width / 2, y + factor + height);
+      path.lineTo(x + width / 2, segmentRect!.bottom + factor);
+      path.lineTo(x - width / 2, segmentRect!.bottom + factor);
+      path.close();
+      canvas.drawPath(path, paint);
+    }
   }
 }

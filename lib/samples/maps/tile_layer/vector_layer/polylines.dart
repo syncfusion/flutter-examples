@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -52,7 +53,6 @@ class _PolylinesSampleState extends SampleViewState
       focalLatLng: const MapLatLng(51.4700, -0.2843),
       toolbarSettings: const MapToolbarSettings(
           direction: Axis.vertical, position: MapToolbarPosition.bottomRight),
-      maxZoomLevel: 15,
       enableDoubleTapZooming: true,
     );
 
@@ -136,7 +136,6 @@ class _PolylinesSampleState extends SampleViewState
                             key: UniqueKey(),
                             latitude: _routes[index].latLan.latitude,
                             longitude: _routes[index].latLan.longitude,
-                            iconType: MapIconType.circle,
                             iconColor: Colors.white,
                             iconStrokeWidth: 2.0,
                             size: const Size(15, 15),
@@ -151,7 +150,7 @@ class _PolylinesSampleState extends SampleViewState
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(_routes[index].city,
-                              style: model.themeData.textTheme.caption!
+                              style: model.themeData.textTheme.bodySmall!
                                   .copyWith(
                                       color: const Color.fromRGBO(
                                           255, 255, 255, 1))),
@@ -172,7 +171,7 @@ class _PolylinesSampleState extends SampleViewState
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                     _routes[0].city + ' - ' + _routes[1].city,
-                                    style: model.themeData.textTheme.caption!
+                                    style: model.themeData.textTheme.bodySmall!
                                         .copyWith(
                                             color: const Color.fromRGBO(
                                                 255, 255, 255, 1))),
@@ -225,6 +224,10 @@ class _PolylinesSampleState extends SampleViewState
           ),
         ),
         selected: _currentSelectedCityIndex == index,
+        selectedColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? model.backgroundColor.withOpacity(0.25)
+                : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {
             setState(() {

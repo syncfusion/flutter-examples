@@ -20,7 +20,7 @@ class CustomLabelsEvent extends SampleView {
   _CustomLabelsEventState createState() => _CustomLabelsEventState();
 }
 
-class _CustomLabelsEventState extends SampleViewState {
+class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
   _CustomLabelsEventState();
 
   late int _segmentedControlValue;
@@ -97,7 +97,7 @@ class _CustomLabelsEventState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((Duration duration) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration duration) {
       _isYear = true;
       _isMonth = false;
       _isDay = false;
@@ -232,7 +232,6 @@ class _CustomLabelsEventState extends SampleViewState {
           dataSource: isCardView ? _tileViewData : _chartData,
           xValueMapper: (_LabelData sales, _) => sales.x,
           yValueMapper: (_LabelData sales, _) => sales.y,
-          width: 2,
           markerSettings: const MarkerSettings(isVisible: true))
     ];
   }

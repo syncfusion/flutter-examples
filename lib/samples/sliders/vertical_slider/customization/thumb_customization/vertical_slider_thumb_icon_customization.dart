@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -57,9 +58,9 @@ class _VerticalThumbCustomizationSliderPageState extends SampleViewState {
       return const Icon(Icons.keyboard_arrow_down_outlined,
           color: Colors.white, size: 12.0);
     } else {
-      return Column(
+      return const Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const <Widget>[
+          children: <Widget>[
             Icon(Icons.keyboard_arrow_up_outlined,
                 color: Colors.white, size: 16.0),
             Icon(Icons.keyboard_arrow_down_outlined,
@@ -72,9 +73,8 @@ class _VerticalThumbCustomizationSliderPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(thumbRadius: 14),
         child: SfSlider.vertical(
-          interval: 2.0,
-          min: 0.0,
           max: 10.0,
+          stepSize: 1,
           thumbIcon: Container(
               alignment: Alignment.center,
               child: Text(

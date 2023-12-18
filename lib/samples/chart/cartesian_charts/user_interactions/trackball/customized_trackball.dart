@@ -115,6 +115,7 @@ class _TrackballTemplateState extends SampleViewState {
                               width: 190,
                               alignment: Alignment.bottomLeft,
                               child: DropdownButton<String>(
+                                  focusColor: Colors.transparent,
                                   isExpanded: true,
                                   underline: Container(
                                       color: const Color(0xFFBDBDBD),
@@ -178,11 +179,11 @@ class _TrackballTemplateState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         labelRotation: isCardView || model.isWebFullView ? 0 : -45,
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           maximum: 200,
-          axisLine: const AxisLine(width: 0),
+          axisLine: AxisLine(width: 0),
           labelFormat: r'${value}',
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultTrackballSeries(),
 
       /// To set the track ball as true and customized trackball behaviour.
@@ -246,25 +247,18 @@ class _TrackballTemplateState extends SampleViewState {
     );
   }
 
-  Column getGroupingTemplateWidgets(TrackballDetails _trackballDetails) {
-    //ignore: prefer_final_locals
-    Column _columnWidgets = Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      //ignore: prefer_const_literals_to_create_immutables
-      children: <Widget>[],
-    );
+  Column getGroupingTemplateWidgets(TrackballDetails trackballDetails) {
+    final List<Widget> widgets = <Widget>[];
     if (_mode == TrackballDisplayMode.groupAllPoints) {
-      _columnWidgets.children.add(Padding(
+      widgets.add(Padding(
           padding: EdgeInsets.zero,
-          child: Text(
-              _trackballDetails.groupingModeInfo!.points[0].x.toString(),
+          child: Text(trackballDetails.groupingModeInfo!.points[0].x.toString(),
               style: TextStyle(
                   color:
                       model.themeData.colorScheme.brightness == Brightness.dark
                           ? const Color.fromRGBO(0, 0, 0, 1)
                           : const Color.fromRGBO(255, 255, 255, 1)))));
-      _columnWidgets.children.add(Padding(
+      widgets.add(Padding(
           padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
           child: Container(
             height: 1,
@@ -273,37 +267,37 @@ class _TrackballTemplateState extends SampleViewState {
                 ? const Color.fromRGBO(61, 61, 61, 1)
                 : const Color.fromRGBO(238, 238, 238, 1),
           )));
-      //ignore: prefer_final_locals
-      Column _columnChildWidgets = Column(
-        crossAxisAlignment: _mode == TrackballDisplayMode.groupAllPoints
-            ? CrossAxisAlignment.start
-            : CrossAxisAlignment.center,
-        //ignore: prefer_const_literals_to_create_immutables
-        children: <Widget>[],
-      );
+      final List<Widget> innerWidgets = <Widget>[];
       final List<int> seriesIndices =
-          _trackballDetails.groupingModeInfo!.visibleSeriesIndices;
+          trackballDetails.groupingModeInfo!.visibleSeriesIndices;
       for (int i = 0; i < seriesIndices.length; i++) {
-        _columnChildWidgets.children.add(
+        innerWidgets.add(
           Text(
-              '${_trackballDetails.groupingModeInfo!.visibleSeriesList[i].name.toString()} : \$${_trackballDetails.groupingModeInfo!.points[i].y.toString()}',
+              '${trackballDetails.groupingModeInfo!.visibleSeriesList[i].name} : \$${trackballDetails.groupingModeInfo!.points[i].y}',
               textAlign: TextAlign.left,
               style: _getTrackballTextStyle()),
         );
       }
-      _columnWidgets.children.add(_columnChildWidgets);
+      widgets.add(Column(
+        crossAxisAlignment: _mode == TrackballDisplayMode.groupAllPoints
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
+        children: innerWidgets,
+      ));
     } else {
-      _columnWidgets.children.add(Text(_trackballDetails.point!.x.toString(),
+      widgets.add(Text(trackballDetails.point!.x.toString(),
           style: _getTrackballTextStyle()));
-      _columnWidgets.children.add(Text(
-          '\$${_trackballDetails.point!.y.toString()}',
+      widgets.add(Text('\$${trackballDetails.point!.y}',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: model.themeData.colorScheme.brightness == Brightness.dark
                   ? const Color.fromRGBO(0, 0, 0, 1)
                   : const Color.fromRGBO(255, 255, 255, 1))));
     }
-    return _columnWidgets;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widgets,
+    );
   }
 
   TextStyle _getTrackballTextStyle() {
@@ -343,28 +337,28 @@ class _TrackballTemplateState extends SampleViewState {
     ];
   }
 
-  String _getImageTemplate(TrackballDetails _pointInfo) {
-    String _path;
-    final int? _seriesIndex = _pointInfo.seriesIndex;
+  String _getImageTemplate(TrackballDetails pointInfo) {
+    String path;
+    final int? seriesIndex = pointInfo.seriesIndex;
 
-    _path = _seriesIndex == 0
+    path = seriesIndex == 0
         ? 'images/People_Circle12.png'
-        : _seriesIndex == 1
+        : seriesIndex == 1
             ? 'images/People_Circle3.png'
-            : _seriesIndex == 2
+            : seriesIndex == 2
                 ? 'images/People_Circle14.png'
-                : _seriesIndex == 3
+                : seriesIndex == 3
                     ? 'images/People_Circle16.png'
                     : model.themeData.colorScheme.brightness == Brightness.dark
                         ? 'images/grouping_dark.png'
                         : 'images/grouping_light.png';
 
-    return _path;
+    return path;
   }
 
   /// Method to update the trackball display mode in the chart on change.
-  void onModeTypeChange(String _item) {
-    _selectedMode = _item;
+  void onModeTypeChange(String item) {
+    _selectedMode = item;
     if (_selectedMode == 'floatAllPoints') {
       _mode = TrackballDisplayMode.floatAllPoints;
     }

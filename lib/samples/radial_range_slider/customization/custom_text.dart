@@ -35,7 +35,6 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
             axisLineStyle: const AxisLineStyle(
                 thickness: 0.07, thicknessUnit: GaugeSizeUnit.factor),
             showTicks: false,
-            showLabels: true,
             labelOffset: 25,
             ranges: <GaugeRange>[
               GaugeRange(
@@ -103,11 +102,11 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleSecondPointerValueChanged(double value) {
+  void handleSecondPointerValueChanged(double markerValue) {
     setState(() {
-      _secondMarkerValue = value;
-      final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
-      if (_value < 99 && _annotationValue != 'In-progress') {
+      _secondMarkerValue = markerValue;
+      final int value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
+      if (value < 99 && _annotationValue != 'In-progress') {
         _annotationValue = 'In-progress';
 
         if (_rangeColor != const Color.fromRGBO(255, 150, 0, 1)) {
@@ -116,7 +115,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
         if (_annotationColor != const Color.fromRGBO(255, 150, 0, 1)) {
           _annotationColor = const Color.fromRGBO(255, 150, 0, 1);
         }
-      } else if (_value == 99) {
+      } else if (value == 99) {
         _annotationValue = 'Done';
         _rangeColor = const Color(0xFF00A8B5);
         _annotationColor = const Color(0xFF00A8B5);
@@ -133,11 +132,11 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleFirstPointerValueChanged(double value) {
+  void handleFirstPointerValueChanged(double markerValue) {
     setState(() {
-      _firstMarkerValue = value;
-      final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
-      if (_value < 99 && _annotationValue != 'In-progress') {
+      _firstMarkerValue = markerValue;
+      final int value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
+      if (value < 99 && _annotationValue != 'In-progress') {
         _annotationValue = 'In-progress';
 
         if (_rangeColor != const Color.fromRGBO(255, 150, 0, 1)) {
@@ -146,7 +145,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
         if (_annotationColor != const Color.fromRGBO(255, 150, 0, 1)) {
           _annotationColor = const Color.fromRGBO(255, 150, 0, 1);
         }
-      } else if (_value == 99) {
+      } else if (value == 99) {
         _annotationValue = 'Done';
         _rangeColor = const Color(0xFF00A8B5);
         _annotationColor = const Color(0xFF00A8B5);

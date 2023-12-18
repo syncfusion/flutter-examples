@@ -35,8 +35,6 @@ class _SemiDoughnutChartState extends SampleViewState {
       shrinkWrap: true,
       children: <Widget>[
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text('Start angle  ',
                 style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -58,7 +56,6 @@ class _SemiDoughnutChartState extends SampleViewState {
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),

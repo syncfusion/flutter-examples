@@ -79,6 +79,7 @@ class _SortingDefaultState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedType,
@@ -106,6 +107,7 @@ class _SortingDefaultState extends SampleViewState {
                 SizedBox(
                   height: 50,
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedSortType,
@@ -131,20 +133,20 @@ class _SortingDefaultState extends SampleViewState {
   /// Returns the Cartesian chart with sorting options.
   SfCartesianChart _buildDefaultSortingChart() {
     return SfCartesianChart(
-      title: ChartTitle(text: "World's tallest buildings"),
+      title: const ChartTitle(text: "World's tallest buildings"),
       plotAreaBorderWidth: 0,
       primaryXAxis:
-          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
+          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
       onDataLabelRender: (DataLabelRenderArgs args) {
         args.text =
             args.dataPoints[args.viewportPointIndex].y.toString() + ' m';
       },
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 500,
           maximum: 900,
           interval: 100,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultSortingSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -165,8 +167,7 @@ class _SortingDefaultState extends SampleViewState {
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         sortingOrder: _sortingOrder,
-        dataLabelSettings: const DataLabelSettings(
-            isVisible: true, labelAlignment: ChartDataLabelAlignment.auto),
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
         sortFieldValueMapper: (ChartSampleData sales, _) =>
             _sortby == 'x' ? sales.x : sales.y,
       )

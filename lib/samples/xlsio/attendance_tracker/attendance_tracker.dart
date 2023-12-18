@@ -1,9 +1,11 @@
 ///Package imports
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///XlsIO import
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Alignment;
+// ignore: depend_on_referenced_packages
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 
 ///Local imports
 import '../../../model/sample_view.dart';
@@ -28,7 +30,6 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
@@ -36,20 +37,19 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
                 style: TextStyle(fontSize: 16, color: model.textColor)),
             const SizedBox(height: 20, width: 30),
             Align(
-                alignment: Alignment.center,
                 child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
-                    padding: model.isMobile
-                        ? null
-                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
-                  ),
-                  onPressed: _generateExcel,
-                  child: const Text('Generate Excel',
-                      style: TextStyle(color: Colors.white)),
-                ))
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(model.backgroundColor),
+                padding: model.isMobile
+                    ? null
+                    : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15)),
+              ),
+              onPressed: _generateExcel,
+              child: const Text('Generate Excel',
+                  style: TextStyle(color: Colors.white)),
+            ))
           ],
         ),
       ),
@@ -273,7 +273,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     sheet.getRangeByName('C12:C18').cellStyle.borders.all.lineStyle =
         LineStyle.none;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

@@ -39,7 +39,7 @@ class _LiveUpdateState extends SampleViewState {
   }
   Timer? timer;
   late int count;
-  ChartSeriesController? _chartSeriesController;
+  ChartSeriesController<ChartSampleData, num>? _chartSeriesController;
   List<ChartSampleData>? chartData;
   @override
   void initState() {
@@ -88,14 +88,14 @@ class _LiveUpdateState extends SampleViewState {
   List<LineSeries<ChartSampleData, num>> _getVerticalLineSeries() {
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
-        onRendererCreated: (ChartSeriesController controller) {
+        onRendererCreated:
+            (ChartSeriesController<ChartSampleData, num> controller) {
           _chartSeriesController = controller;
         },
-        dataSource: chartData!,
+        dataSource: chartData,
         animationDuration: 0,
         xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        width: 2,
       ),
     ];
   }
@@ -112,8 +112,8 @@ class _LiveUpdateState extends SampleViewState {
 
   ///Get random value
   int _getRandomInt(int min, int max) {
-    final Random _random = Random();
-    return min + _random.nextInt(max - min);
+    final Random random = Random();
+    return min + random.nextInt(max - min);
   }
 
   ///Get the chart data points

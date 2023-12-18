@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ///XlsIO import
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Alignment;
+// ignore: depend_on_referenced_packages
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 
 ///Local imports
 import '../../../model/sample_view.dart';
@@ -28,28 +29,26 @@ class _InvoiceXlsIOState extends SampleViewState {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-                'This sample showcases on how to create a simple Excel invoice with data, image, formulas, and cell formatting using XlsIO.',
+                'This sample showcases on how to create a simple Excel invoice with data, image, formulas, named range and cell formatting using XlsIO.',
                 style: TextStyle(fontSize: 16, color: model.textColor)),
             const SizedBox(height: 20, width: 30),
             Align(
-                alignment: Alignment.center,
                 child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
-                    padding: model.isMobile
-                        ? null
-                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
-                  ),
-                  onPressed: _generateExcel,
-                  child: const Text('Generate Excel',
-                      style: TextStyle(color: Colors.white)),
-                ))
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(model.backgroundColor),
+                padding: model.isMobile
+                    ? null
+                    : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15)),
+              ),
+              onPressed: _generateExcel,
+              child: const Text('Generate Excel',
+                  style: TextStyle(color: Colors.white)),
+            ))
           ],
         ),
       ),
@@ -66,7 +65,6 @@ class _InvoiceXlsIOState extends SampleViewState {
     sheet.name = 'Invoice';
     sheet.showGridlines = false;
 
-    sheet.enableSheetCalculations();
     sheet.getRangeByName('A1').columnWidth = 4.09;
     sheet.getRangeByName('B1:C1').columnWidth = 13.09;
     sheet.getRangeByName('D1').columnWidth = 11.47;
@@ -208,7 +206,9 @@ class _InvoiceXlsIOState extends SampleViewState {
     range7.text = 'TOTAL';
     range7.cellStyle.fontSize = 8;
     range7.cellStyle.fontColor = '#4D6575';
-    range8.formula = r'=SUM(G16:G20)';
+    final Range resultRange = sheet.getRangeByName('G16:G20');
+    workbook.names.add('AmountPaid', resultRange);
+    range8.formula = '=SUM(AmountPaid)';
     range8.numberFormat = r'$#,##0.00';
     range8.cellStyle.fontSize = 24;
     range8.cellStyle.hAlign = HAlignType.right;
@@ -229,7 +229,7 @@ class _InvoiceXlsIOState extends SampleViewState {
     picture.lastRow = 7;
     picture.lastColumn = 8;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

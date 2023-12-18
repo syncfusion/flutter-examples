@@ -24,13 +24,13 @@ class LiveLineChart extends SampleView {
 class _LiveLineChartState extends SampleViewState {
   _LiveLineChartState() {
     timer =
-        Timer.periodic(const Duration(milliseconds: 100), _updateDataSource);
+        Timer.periodic(const Duration(milliseconds: 200), _updateDataSource);
   }
 
   Timer? timer;
   List<_ChartData>? chartData;
   late int count;
-  ChartSeriesController? _chartSeriesController;
+  ChartSeriesController<_ChartData, int>? _chartSeriesController;
 
   @override
   void dispose() {
@@ -77,16 +77,17 @@ class _LiveLineChartState extends SampleViewState {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis:
-            NumericAxis(majorGridLines: const MajorGridLines(width: 0)),
-        primaryYAxis: NumericAxis(
-            axisLine: const AxisLine(width: 0),
-            majorTickLines: const MajorTickLines(size: 0)),
+            const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryYAxis: const NumericAxis(
+            axisLine: AxisLine(width: 0),
+            majorTickLines: MajorTickLines(size: 0)),
         series: <LineSeries<_ChartData, int>>[
           LineSeries<_ChartData, int>(
-            onRendererCreated: (ChartSeriesController controller) {
+            onRendererCreated:
+                (ChartSeriesController<_ChartData, int> controller) {
               _chartSeriesController = controller;
             },
-            dataSource: chartData!,
+            dataSource: chartData,
             color: const Color.fromRGBO(192, 108, 132, 1),
             xValueMapper: (_ChartData sales, _) => sales.country,
             yValueMapper: (_ChartData sales, _) => sales.sales,
@@ -95,7 +96,7 @@ class _LiveLineChartState extends SampleViewState {
         ]);
   }
 
-  ///Continously updating the data source based on timer
+  ///Continuously updating the data source based on timer
   void _updateDataSource(Timer timer) {
     if (isCardView != null) {
       chartData!.add(_ChartData(count, _getRandomInt(10, 100)));
@@ -116,12 +117,12 @@ class _LiveLineChartState extends SampleViewState {
 
   ///Get the random data
   int _getRandomInt(int min, int max) {
-    final math.Random _random = math.Random();
-    return min + _random.nextInt(max - min);
+    final math.Random random = math.Random();
+    return min + random.nextInt(max - min);
   }
 }
 
-/// Private calss for storing the chart series data points.
+/// Private class for storing the chart series data points.
 class _ChartData {
   _ChartData(this.country, this.sales);
   final int country;

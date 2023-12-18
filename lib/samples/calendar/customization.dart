@@ -78,7 +78,7 @@ class _CustomizationCalendarState extends SampleViewState {
                   model.isWebFullView &&
                   screenHeight < 800
               ? Scrollbar(
-                  isAlwaysShown: true,
+                  thumbVisibility: true,
                   controller: _controller,
                   child: ListView(
                     controller: _controller,
@@ -110,7 +110,7 @@ class _CustomizationCalendarState extends SampleViewState {
         model.isWebFullView &&
         (_currentView == CalendarView.month ||
             _calendarController.view == CalendarView.month)) {
-      SchedulerBinding.instance?.addPostFrameCallback((Duration duration) {
+      SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
         setState(() {});
       });
     }
@@ -146,7 +146,7 @@ class _CustomizationCalendarState extends SampleViewState {
       ];
       final List<String> keys = events.keys.toList();
       DateTime date = DateTime.now();
-      date = DateTime(date.year, date.month, date.day, 9, 0, 0)
+      date = DateTime(date.year, date.month, date.day, 9)
           .subtract(Duration(days: date.weekday - 1));
       for (int i = 0; i < 5; i++) {
         final String key = keys[i];
@@ -165,8 +165,8 @@ class _CustomizationCalendarState extends SampleViewState {
             ? 1
             : 1 + random.nextInt(model.isWebFullView ? 2 : 3);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate = DateTime(
-              date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+          final DateTime startDate =
+              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
           appointment.add(_Meeting(
               _subjectCollection[random.nextInt(7)],
               startDate,
@@ -190,8 +190,8 @@ class _CustomizationCalendarState extends SampleViewState {
         final DateTime date = i;
         final int count = 1 + random.nextInt(6);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate = DateTime(
-              date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+          final DateTime startDate =
+              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
           final int index = random.nextInt(7);
           appointment.add(_Meeting(
               _subjectCollection[index],
@@ -282,7 +282,6 @@ class _CustomizationCalendarState extends SampleViewState {
           Container(
             width: horizontalHighlight,
             decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(cornerRadius),
                   bottomLeft: Radius.circular(cornerRadius)),
@@ -307,7 +306,6 @@ class _CustomizationCalendarState extends SampleViewState {
           Container(
             width: horizontalHighlight,
             decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(cornerRadius),
                   bottomRight: Radius.circular(cornerRadius)),
@@ -327,14 +325,12 @@ class _CustomizationCalendarState extends SampleViewState {
                 ? Alignment.topLeft
                 : Alignment.centerLeft,
             decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(5), topRight: Radius.circular(5)),
               color: meeting.background,
             ),
             child: SingleChildScrollView(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
@@ -369,7 +365,6 @@ class _CustomizationCalendarState extends SampleViewState {
             alignment: Alignment.topLeft,
             child: SingleChildScrollView(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
@@ -393,7 +388,6 @@ class _CustomizationCalendarState extends SampleViewState {
           Container(
             height: 20,
             decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
               borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(5),
                   bottomRight: Radius.circular(5)),
@@ -452,8 +446,7 @@ class _CustomizationCalendarState extends SampleViewState {
                         size: fontSize,
                       ),
                       Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 2),
+                          padding: const EdgeInsets.symmetric(horizontal: 2),
                           child: Text(
                             meeting.isAllDay
                                 ? 'All'
@@ -499,7 +492,6 @@ class _CustomizationCalendarState extends SampleViewState {
             Container(
               width: 8,
               decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(3),
                     bottomLeft: Radius.circular(3)),
@@ -509,7 +501,6 @@ class _CustomizationCalendarState extends SampleViewState {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(3),
                       bottomRight: Radius.circular(3)),
@@ -602,13 +593,13 @@ class _CustomizationCalendarState extends SampleViewState {
 
   /// Returns the calendar widget based on the properties passed.
   SfCalendar _getCustomizationCalendar(
-      [CalendarController? _calendarController,
-      CalendarDataSource? _calendarDataSource,
+      [CalendarController? calendarController,
+      CalendarDataSource? calendarDataSource,
       ViewChangedCallback? viewChangedCallback,
       CalendarAppointmentBuilder? appointmentBuilder]) {
     return SfCalendar(
-        controller: _calendarController,
-        dataSource: _calendarDataSource,
+        controller: calendarController,
+        dataSource: calendarDataSource,
         allowedViews: _allowedViews,
         appointmentBuilder: appointmentBuilder,
         showNavigationArrow: model.isWebFullView,
@@ -619,9 +610,7 @@ class _CustomizationCalendarState extends SampleViewState {
         scheduleViewSettings: ScheduleViewSettings(
             appointmentItemHeight: model.isWebFullView ? 60 : 50),
         monthViewSettings: const MonthViewSettings(
-            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-            showTrailingAndLeadingDates: true,
-            appointmentDisplayCount: 3),
+            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
         timeSlotViewSettings: const TimeSlotViewSettings(
             timelineAppointmentHeight: 50,
             timeIntervalWidth: 100,

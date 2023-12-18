@@ -32,7 +32,6 @@ class _PieSmartDataLabelsState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label intersect \naction',
                   style: TextStyle(
@@ -44,6 +43,7 @@ class _PieSmartDataLabelsState extends SampleViewState {
                   height: 50,
                   alignment: Alignment.center,
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _selectedLabelIntersectAction,
@@ -108,7 +108,7 @@ class _PieSmartDataLabelsState extends SampleViewState {
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) =>
-              data.x + ': ' + (data.y).toString() as String,
+              data.x + ': ' + data.y.toString() as String,
           radius: '60%',
           dataLabelSettings: DataLabelSettings(
               margin: EdgeInsets.zero,

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 /// Local imports
@@ -66,7 +67,7 @@ class _TrendLineDefaultState extends SampleViewState {
   @override
   void dispose() {
     if (_slope != null) {
-      _slope!.clear();
+      _slope = [];
     }
     _trendlineTypeList!.clear();
     super.dispose();
@@ -100,6 +101,7 @@ class _TrendLineDefaultState extends SampleViewState {
                     EdgeInsets.fromLTRB(model.isWebFullView ? 50 : 70, 0, 0, 0),
                 width: dropDownWidth,
                 child: DropdownButton<String>(
+                  focusColor: Colors.transparent,
                   isExpanded: !model.isWebFullView,
                   underline:
                       Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -131,7 +133,7 @@ class _TrendLineDefaultState extends SampleViewState {
                         color: model.textColor,
                       )),
                   SizedBox(
-                    width: model.isWebFullView ? 70 : 90,
+                    width: 0.5 * screenWidth,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: CheckboxListTile(
@@ -158,7 +160,7 @@ class _TrendLineDefaultState extends SampleViewState {
                         color: model.textColor,
                       )),
                   SizedBox(
-                    width: model.isWebFullView ? 78 : 98,
+                    width: 0.5 * screenWidth,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: CheckboxListTile(
@@ -182,7 +184,6 @@ class _TrendLineDefaultState extends SampleViewState {
                 visible: _selectedTrendLineType != 'polynomial' ? false : true,
                 maintainState: true,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text('Polynomial\norder',
                         style: TextStyle(color: model.textColor)),
@@ -214,7 +215,6 @@ class _TrendLineDefaultState extends SampleViewState {
                     _selectedTrendLineType != 'movingAverage' ? false : true,
                 maintainState: true,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text('Period',
@@ -253,8 +253,8 @@ class _TrendLineDefaultState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'No. of website visitors in a week'),
       legend: Legend(isVisible: !isCardView),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Visitors'),
@@ -354,17 +354,16 @@ class _TrendLineDefaultState extends SampleViewState {
                 width: 3,
                 color: const Color.fromRGBO(192, 108, 132, 1),
                 dashArray: <double>[15, 3, 3, 3],
-                enableTooltip: true,
                 polynomialOrder: _polynomialOrder,
                 period: _period,
                 onRenderDetailsUpdate: (TrendlineRenderParams args) {
                   _rSquare =
-                      double.parse((args.rSquaredValue)!.toStringAsFixed(4))
+                      double.parse(args.rSquaredValue!.toStringAsFixed(4))
                           .toString();
                   _slope = args.slope;
                   _intercept = args.intercept;
                   _getSlopeEquation(_slope, _intercept);
-                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
                     if (_displayRSquare! || _displaySlopeEquation!) {
                       setState(() {});
                     }
@@ -377,33 +376,33 @@ class _TrendLineDefaultState extends SampleViewState {
   void _getSlopeEquation(List<double>? slope, double? intercept) {
     if (_type == TrendlineType.linear) {
       _slopeEquation =
-          'y = ${double.parse((slope![0]).toStringAsFixed(3))}x + ${double.parse(intercept!.toStringAsFixed(3))}';
+          'y = ${double.parse(slope![0].toStringAsFixed(3))}x + ${double.parse(intercept!.toStringAsFixed(3))}';
     }
     if (_type == TrendlineType.exponential) {
       _slopeEquation =
-          'y = ${double.parse(intercept!.toStringAsFixed(3))}e^${double.parse((slope![0]).toStringAsFixed(3))}x';
+          'y = ${double.parse(intercept!.toStringAsFixed(3))}e^${double.parse(slope![0].toStringAsFixed(3))}x';
     }
     if (_type == TrendlineType.logarithmic) {
       _slopeEquation =
-          'y = ${double.parse(intercept!.toStringAsFixed(3))}ln(x) + ${double.parse((slope![0]).toStringAsFixed(3))}';
+          'y = ${double.parse(intercept!.toStringAsFixed(3))}ln(x) + ${double.parse(slope![0].toStringAsFixed(3))}';
     }
     if (_type == TrendlineType.polynomial) {
       if (_polynomialOrder == 2) {
         _slopeEquation =
-            'y = ${double.parse((slope![1]).toStringAsFixed(3))}x +  ${double.parse((slope[0]).toStringAsFixed(3))}';
+            'y = ${double.parse(slope![1].toStringAsFixed(3))}x +  ${double.parse(slope[0].toStringAsFixed(3))}';
       }
       if (_polynomialOrder == 3) {
         _slopeEquation =
-            'y = ${double.parse((slope![2]).toStringAsFixed(3))}x² + ${double.parse((slope[1]).toStringAsFixed(3))}x + ${double.parse((slope[0]).toStringAsFixed(3))}';
+            'y = ${double.parse(slope![2].toStringAsFixed(3))}x² + ${double.parse(slope[1].toStringAsFixed(3))}x + ${double.parse(slope[0].toStringAsFixed(3))}';
       }
       if (_polynomialOrder == 4) {
         _slopeEquation =
-            'y = ${double.parse((slope![3]).toStringAsFixed(3))}x³ + ${double.parse((slope[2]).toStringAsFixed(3))}x²  + ${double.parse((slope[1]).toStringAsFixed(3))}x + ${double.parse((slope[0]).toStringAsFixed(3))}';
+            'y = ${double.parse(slope![3].toStringAsFixed(3))}x³ + ${double.parse(slope[2].toStringAsFixed(3))}x²  + ${double.parse(slope[1].toStringAsFixed(3))}x + ${double.parse(slope[0].toStringAsFixed(3))}';
       }
     }
     if (_type == TrendlineType.power) {
       _slopeEquation =
-          'y = ${double.parse(intercept!.toStringAsFixed(3))}x^${double.parse((slope![0]).toStringAsFixed(3))}';
+          'y = ${double.parse(intercept!.toStringAsFixed(3))}x^${double.parse(slope![0].toStringAsFixed(3))}';
     }
     if (_type == TrendlineType.movingAverage) {
       _slopeEquation = '';

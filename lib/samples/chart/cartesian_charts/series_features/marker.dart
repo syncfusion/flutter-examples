@@ -27,7 +27,7 @@ class _MarkerDefaultState extends SampleViewState {
   void initState() {
     chartData = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 8, 0),
+          x: DateTime(2018, 3, 1, 8),
           y: 60,
           secondSeriesYValue: 28,
           thirdSeriesYValue: 15),
@@ -37,7 +37,7 @@ class _MarkerDefaultState extends SampleViewState {
           secondSeriesYValue: 40,
           thirdSeriesYValue: 28),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 9, 0),
+          x: DateTime(2018, 3, 1, 9),
           y: 70,
           secondSeriesYValue: 32,
           thirdSeriesYValue: 16),
@@ -47,7 +47,7 @@ class _MarkerDefaultState extends SampleViewState {
           secondSeriesYValue: 36,
           thirdSeriesYValue: 66),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 10, 0),
+          x: DateTime(2018, 3, 1, 10),
           y: 66,
           secondSeriesYValue: 50,
           thirdSeriesYValue: 26),
@@ -57,7 +57,7 @@ class _MarkerDefaultState extends SampleViewState {
           secondSeriesYValue: 35,
           thirdSeriesYValue: 14),
       ChartSampleData(
-          x: DateTime(2018, 3, 1, 11, 0),
+          x: DateTime(2018, 3, 1, 11),
           y: 55,
           secondSeriesYValue: 32,
           thirdSeriesYValue: 20),
@@ -73,18 +73,18 @@ class _MarkerDefaultState extends SampleViewState {
   /// Returns the chart with various marker shapes.
   SfCartesianChart _buildMarkerDefaultChart() {
     return SfCartesianChart(
-      title: ChartTitle(text: 'Vehicles crossed tollgate'),
-      legend: Legend(isVisible: true),
+      title: const ChartTitle(text: 'Vehicles crossed tollgate'),
+      legend: const Legend(isVisible: true),
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
         majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.Hm(),
-        title: AxisTitle(text: 'Time'),
+        title: const AxisTitle(text: 'Time'),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           title: AxisTitle(text: 'Count'),
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getMarkeSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -95,10 +95,9 @@ class _MarkerDefaultState extends SampleViewState {
   List<LineSeries<ChartSampleData, DateTime>> _getMarkeSeries() {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        width: 2,
         name: 'Truck',
         markerSettings: const MarkerSettings(
             isVisible: true,
@@ -108,8 +107,7 @@ class _MarkerDefaultState extends SampleViewState {
             image: AssetImage('images/truck.png')),
       ),
       LineSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
-        width: 2,
+        dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
         name: 'Bike',
@@ -117,8 +115,7 @@ class _MarkerDefaultState extends SampleViewState {
             isVisible: true, shape: DataMarkerType.triangle),
       ),
       LineSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
-        width: 2,
+        dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
         name: 'Car',

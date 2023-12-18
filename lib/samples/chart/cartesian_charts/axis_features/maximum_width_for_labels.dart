@@ -52,7 +52,6 @@ class ChartMaximumLabelWidthState extends SampleViewState {
         children: <Widget>[
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -102,8 +101,6 @@ class ChartMaximumLabelWidthState extends SampleViewState {
           Visibility(
               visible: _isEnableLabelExtend,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text('Labels extent',
                       style: TextStyle(color: model.textColor)),
@@ -176,8 +173,7 @@ class ChartMaximumLabelWidthState extends SampleViewState {
         ],
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        dataLabelSettings:
-            const DataLabelSettings(isVisible: true, offset: Offset(-5, 0)),
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
       )
     ];
   }

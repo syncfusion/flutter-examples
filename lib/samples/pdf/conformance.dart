@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///Pdf import
@@ -34,11 +35,9 @@ class _ConformancePdfState extends SampleViewState {
     return Scaffold(
       backgroundColor: model.cardThemeColor,
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
@@ -57,21 +56,19 @@ class _ConformancePdfState extends SampleViewState {
                   Column(children: getChildWidgets(context)),
                 const SizedBox(height: 10, width: 30),
                 Align(
-                    alignment: Alignment.center,
                     child: TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            model.backgroundColor),
-                        padding: model.isMobile
-                            ? null
-                            : MaterialStateProperty.all(
-                                const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 15)),
-                      ),
-                      onPressed: _conformance,
-                      child: const Text('Generate PDF',
-                          style: TextStyle(color: Colors.white)),
-                    ))
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                    padding: model.isMobile
+                        ? null
+                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15)),
+                  ),
+                  onPressed: _conformance,
+                  child: const Text('Generate PDF',
+                      style: TextStyle(color: Colors.white)),
+                ))
               ]),
         ),
       ),
@@ -119,7 +116,7 @@ class _ConformancePdfState extends SampleViewState {
     //Draw rectangle
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
-        pen: PdfPen(PdfColor(142, 170, 219, 255)));
+        pen: PdfPen(PdfColor(142, 170, 219)));
     //Read font file.
     final List<int> fontData = await _readData('Roboto-Regular.ttf');
     //Create a PDF true type font.
@@ -136,7 +133,7 @@ class _ConformancePdfState extends SampleViewState {
     //Add invoice footer
     _drawFooter(page, pageSize, contentFont);
     //Save and dispose the document.
-    final List<int> bytes = document.save();
+    final List<int> bytes = await document.save();
     document.dispose();
     //Save and launch file.
     await FileSaveHelper.saveAndLaunchFile(bytes, 'ConformancePDF.pdf');
@@ -152,7 +149,7 @@ class _ConformancePdfState extends SampleViewState {
       PdfFont contentFont, PdfFont headerFont, PdfFont footerFont) {
     //Draw rectangle
     page.graphics.drawRectangle(
-        brush: PdfSolidBrush(PdfColor(91, 126, 215, 255)),
+        brush: PdfSolidBrush(PdfColor(91, 126, 215)),
         bounds: Rect.fromLTWH(0, 0, pageSize.width - 115, 90));
     //Draw string
     page.graphics.drawString('INVOICE', headerFont,
@@ -228,7 +225,7 @@ class _ConformancePdfState extends SampleViewState {
   //Draw the invoice footer data.
   void _drawFooter(PdfPage page, Size pageSize, PdfFont contentFont) {
     final PdfPen linePen =
-        PdfPen(PdfColor(142, 170, 219, 255), dashStyle: PdfDashStyle.custom);
+        PdfPen(PdfColor(142, 170, 219), dashStyle: PdfDashStyle.custom);
     linePen.dashPattern = <double>[3, 3];
     //Draw line
     page.graphics.drawLine(linePen, Offset(0, pageSize.height - 100),

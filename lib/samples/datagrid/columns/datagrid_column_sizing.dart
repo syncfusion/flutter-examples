@@ -1,13 +1,14 @@
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/customer_datagridsource.dart';
 import 'package:intl/intl.dart';
 
-/// Barcode imports
+/// Datagrid imports
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
+import '../datagridsource/customer_datagridsource.dart';
 
 /// Renders column sizing data grid
 class ColumnSizingDataGrid extends SampleView {
@@ -204,6 +205,7 @@ class _ColumnSizingDataGridState extends SampleViewState {
     return SfDataGrid(
         source: columnSizingDataGridSource,
         columnWidthMode: columnWidthMode,
+        columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
         columnSizer: _columnSizer,
         columns: _getColumns());
   }
@@ -241,6 +243,7 @@ class _ColumnSizingDataGridState extends SampleViewState {
                     height: 50,
                     alignment: Alignment.bottomLeft,
                     child: DropdownButton<String>(
+                        focusColor: Colors.transparent,
                         underline: Container(
                             color: const Color(0xFFBDBDBD), height: 1),
                         value: _columnWidthMode,

@@ -1,8 +1,10 @@
 ///flutter package import
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -23,8 +25,7 @@ class VerticalRangeSliderIntervalSelectionPage extends SampleView {
 
 class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
   _VerticalRangeSliderIntervalSelectionPageState();
-  SfRangeValues _yearValues =
-      SfRangeValues(DateTime(2012, 1, 01), DateTime(2018, 1, 1));
+  SfRangeValues _yearValues = SfRangeValues(DateTime(2012), DateTime(2018));
   SfRangeValues _values = const SfRangeValues(20.0, 80.0);
   bool _isInversed = false;
 
@@ -33,14 +34,13 @@ class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
         data: SfRangeSliderThemeData(
             tooltipBackgroundColor: model.backgroundColor),
         child: SfRangeSlider.vertical(
-          min: DateTime(2010, 01, 01),
-          max: DateTime(2020, 01, 01),
+          min: DateTime(2010),
+          max: DateTime(2020),
           interval: 2,
           showLabels: true,
           isInversed: _isInversed,
           stepDuration: const SliderStepDuration(years: 2),
           dateFormat: DateFormat.y(),
-          labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.years,
           enableIntervalSelection: true,
           showTicks: true,
@@ -65,7 +65,6 @@ class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
         child: SfRangeSlider.vertical(
             showLabels: true,
             interval: 20,
-            min: 0.0,
             max: 100.0,
             stepSize: 20,
             showTicks: true,
@@ -116,9 +115,9 @@ class _VerticalRangeSliderIntervalSelectionPageState extends SampleViewState {
           ),
           Padding(
             padding: EdgeInsets.only(bottom: padding / 2),
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   Icon(Icons.lightbulb_outline,
                       color: Colors.orange, size: 24.0),
                   Padding(

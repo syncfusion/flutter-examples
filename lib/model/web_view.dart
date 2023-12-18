@@ -1,6 +1,8 @@
 /// package imports
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///Local imports
@@ -52,6 +54,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
   late SubItem sample;
   List<SubItem>? subItems;
   late String orginText;
+
   @override
   void initState() {
     model = widget.sampleModel!;
@@ -91,9 +94,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
   ///Notify the framework by calling this method
   void _handleChange() {
     if (mounted) {
-      setState(() {
-        /// The listenable's state was changed already.
-      });
+      setState(() {});
     }
   }
 
@@ -140,6 +141,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                             category: category,
                             key: sampleInputKey,
                             webLayoutPageState: this)))),
+        endDrawerEnableOpenDragGesture: false,
         endDrawer: showWebThemeSettings(model),
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60.0),
@@ -161,9 +163,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                             final GlobalKey globalKey =
                                 outputContainer.key! as GlobalKey;
                             final SampleOutputContainerState
-                                _outputContainerState = globalKey.currentState!
+                                outputContainerState = globalKey.currentState!
                                     as SampleOutputContainerState;
-                            if (_outputContainerState.outputScaffoldKey
+                            if (outputContainerState.outputScaffoldKey
                                 .currentState!.isEndDrawerOpen) {
                               Navigator.pop(context);
                             }
@@ -199,10 +201,10 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                   else
                     SizedBox(
                         child: Container(
-                            padding: const EdgeInsets.only(top: 0, right: 20),
+                            padding: const EdgeInsets.only(right: 20),
                             width: MediaQuery.of(context).size.width * 0.215,
                             height: MediaQuery.of(context).size.height * 0.0445,
-                            child: SearchBar(
+                            child: CustomSearchBar(
                               sampleListModel: model,
                             ))),
 
@@ -231,8 +233,8 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                                 child: InkWell(
                                   hoverColor: Colors.white,
                                   onTap: () {
-                                    launch(
-                                        'https://www.syncfusion.com/downloads/flutter/confirm');
+                                    launchUrl(Uri.parse(
+                                        'https://www.syncfusion.com/downloads/flutter/confirm'));
                                   },
                                   child: Padding(
                                     padding:
@@ -275,8 +277,8 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                                   child: InkWell(
                                     hoverColor: Colors.white,
                                     onTap: () {
-                                      launch(
-                                          'https://pub.dev/publishers/syncfusion.com/packages');
+                                      launchUrl(Uri.parse(
+                                          'https://pub.dev/publishers/syncfusion.com/packages'));
                                     },
                                     child: Padding(
                                       padding:
@@ -307,9 +309,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                           final GlobalKey globalKey =
                               outputContainer.key! as GlobalKey;
                           final SampleOutputContainerState
-                              _outputContainerState = globalKey.currentState!
+                              outputContainerState = globalKey.currentState!
                                   as SampleOutputContainerState;
-                          if (_outputContainerState.outputScaffoldKey
+                          if (outputContainerState.outputScaffoldKey
                               .currentState!.isEndDrawerOpen) {
                             Navigator.pop(context);
                           }
@@ -417,20 +419,20 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
   ///Get the widgets in expansionTile
   Widget _expandedChildren(
       SampleModel model, SubItem item, WidgetCategory category, int index) {
-    GlobalKey<State>? _currentGlobalKey;
-    _ExpansionKey? _currentExpansionKey;
+    GlobalKey<State>? currentGlobalKey;
+    _ExpansionKey? currentExpansionKey;
     if (initialRender) {
-      _currentGlobalKey = GlobalKey<State>();
-      _currentExpansionKey = _ExpansionKey(
+      currentGlobalKey = GlobalKey<State>();
+      currentExpansionKey = _ExpansionKey(
           expansionIndex: index,
           isExpanded: index == 0,
-          globalKey: _currentGlobalKey);
-      expansionKey.add(_currentExpansionKey);
+          globalKey: currentGlobalKey);
+      expansionKey.add(currentExpansionKey);
     } else {
       if (expansionKey.isNotEmpty) {
         for (int i = 0; i < expansionKey.length; i++) {
           if (expansionKey[i].expansionIndex == index) {
-            _currentExpansionKey = expansionKey[i];
+            currentExpansionKey = expansionKey[i];
             break;
           }
         }
@@ -441,15 +443,15 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
     if (item.subItems != null && item.subItems!.isNotEmpty) {
       if (item.subItems!.length != 1) {
         childWidget = _TileContainer(
-            key: _currentGlobalKey,
+            key: currentGlobalKey,
             category: category,
             sampleModel: model,
-            expansionKey: _currentExpansionKey,
+            expansionKey: currentExpansionKey,
             webLayoutPageState: widget.webLayoutPageState,
             item: item);
       } else {
         final SubItem currentSample = widget.webLayoutPageState!.sample;
-        final bool _isNeedSelect =
+        final bool isNeedSelect =
             currentSample.breadCrumbText == item.subItems![0].breadCrumbText;
         childWidget = Material(
             color: model.webBackgroundColor,
@@ -457,25 +459,27 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
               hoverColor: Colors.grey.withOpacity(0.2),
               onTap: () {
                 model.isPropertyPanelOpened = true;
-                final _SampleInputContainerState _sampleInputContainerState =
+                final _SampleInputContainerState sampleInputContainerState =
                     widget.webLayoutPageState!.sampleInputKey.currentState!
                         as _SampleInputContainerState;
-                final GlobalKey _globalKey = widget
+                final GlobalKey globalKey = widget
                     .webLayoutPageState!.outputContainer.key! as GlobalKey;
-                final SampleOutputContainerState _outputContainerState =
-                    _globalKey.currentState! as SampleOutputContainerState;
-                _outputContainerState.subItems =
-                    item.subItems! as List<SubItem>;
-                _outputContainerState.sample = item.subItems![0] as SubItem;
-                _outputContainerState.tabIndex = 0;
-                _outputContainerState.needTabs = true;
-                if (_outputContainerState
+                final SampleOutputContainerState outputContainerState =
+                    globalKey.currentState! as SampleOutputContainerState;
+                outputContainerState.subItems = item.subItems! as List<SubItem>;
+                outputContainerState.sample = item.subItems![0] as SubItem;
+                outputContainerState.tabIndex = 0;
+                outputContainerState.needTabs = true;
+                resetLocaleValue(model, outputContainerState.sample);
+
+                if (outputContainerState
                         .outputScaffoldKey.currentState!.isEndDrawerOpen ||
                     widget.webLayoutPageState!.scaffoldKey.currentState!
                         .isDrawerOpen) {
                   Navigator.pop(context);
                 }
-                _outputContainerState.orginText =
+
+                outputContainerState.orginText =
                     widget.webLayoutPageState!.sample.control!.title! +
                         ' > ' +
                         item.subItems![0].title!;
@@ -487,17 +491,17 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                     (item.key != null
                         ? model.currentSampleKey != item.key
                         : model.currentSampleKey != item.subItems![0].key)) {
-                  _sampleInputContainerState.refresh();
-                  _outputContainerState.refresh();
+                  sampleInputContainerState.refresh();
+                  outputContainerState.refresh();
                 }
               },
               child: Container(
-                  color: _isNeedSelect
+                  color: isNeedSelect
                       ? Colors.grey.withOpacity(0.2)
                       : Colors.transparent,
                   child: Row(children: <Widget>[
                     Container(
-                        color: _isNeedSelect
+                        color: isNeedSelect
                             ? model.backgroundColor
                             : Colors.transparent,
                         width: 5,
@@ -515,7 +519,7 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                                 style: TextStyle(
                                     fontSize: 13,
                                     fontFamily: 'Roboto-Medium',
-                                    color: _isNeedSelect
+                                    color: isNeedSelect
                                         ? model.backgroundColor
                                         : model.textColor)))),
                     if (item.subItems![0].status != null &&
@@ -525,7 +529,6 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                               color: item.subItems![0].status == 'New'
                                   ? const Color.fromRGBO(55, 153, 30, 1)
                                   : const Color.fromRGBO(246, 117, 0, 1),
-                              shape: BoxShape.rectangle,
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(10.0))),
                           padding: model.isWeb && model.isMobileResolution
@@ -552,23 +555,23 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
               onTap: () {
                 final GlobalKey globalKey = widget
                     .webLayoutPageState!.outputContainer.key! as GlobalKey;
-                final SampleOutputContainerState _outputContainerState =
+                final SampleOutputContainerState outputContainerState =
                     globalKey.currentState! as SampleOutputContainerState;
-                if (_outputContainerState
+                if (outputContainerState
                         .outputScaffoldKey.currentState!.isEndDrawerOpen ||
                     widget.webLayoutPageState!.scaffoldKey.currentState!
                         .isDrawerOpen) {
                   Navigator.pop(context);
                 }
-                _outputContainerState.sample = item;
-                _outputContainerState.needTabs = false;
-                _outputContainerState.orginText =
+                outputContainerState.sample = item;
+                outputContainerState.needTabs = false;
+                outputContainerState.orginText =
                     widget.webLayoutPageState!.sample.control!.title! +
                         ' > ' +
                         item.title!;
                 if (model.currentSampleKey == null ||
                     model.currentSampleKey != item.key) {
-                  _outputContainerState.refresh();
+                  outputContainerState.refresh();
                 }
               },
               child: Container(
@@ -585,58 +588,57 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
   }
 
   List<Widget> _getSampleList(SampleModel model, WidgetCategory category) {
-    final List<SubItem> _list =
+    final List<SubItem> list =
         widget.webLayoutPageState!.sample.control!.subItems! as List<SubItem>;
-    final List<Widget> _children = <Widget>[];
-    for (int i = 0; i < _list.length; i++) {
-      final bool _isNeedSelect = widget.webLayoutPageState!.selectSample == null
+    final List<Widget> children = <Widget>[];
+    for (int i = 0; i < list.length; i++) {
+      final bool isNeedSelect = widget.webLayoutPageState!.selectSample == null
           ? widget.webLayoutPageState!.sample.breadCrumbText ==
-              _list[i].breadCrumbText
-          : widget.webLayoutPageState!.selectSample == _list[i].title;
-      _children.add(Material(
+              list[i].breadCrumbText
+          : widget.webLayoutPageState!.selectSample == list[i].title;
+      children.add(Material(
           color: model.webBackgroundColor,
-          child: _list[i].type != 'parent' && _list[i].type != 'child'
+          child: list[i].type != 'parent' && list[i].type != 'child'
               ? InkWell(
                   hoverColor: Colors.grey.withOpacity(0.2),
                   onTap: () {
-                    final _SampleInputContainerState
-                        _sampleInputContainerState = widget
-                            .webLayoutPageState!
-                            .sampleInputKey
-                            .currentState! as _SampleInputContainerState;
+                    final _SampleInputContainerState sampleInputContainerState =
+                        widget.webLayoutPageState!.sampleInputKey.currentState!
+                            as _SampleInputContainerState;
                     final GlobalKey globalKey = widget
                         .webLayoutPageState!.outputContainer.key! as GlobalKey;
-                    final SampleOutputContainerState _outputContainerState =
+                    final SampleOutputContainerState outputContainerState =
                         globalKey.currentState! as SampleOutputContainerState;
-                    if (_outputContainerState
+                    if (outputContainerState
                             .outputScaffoldKey.currentState!.isEndDrawerOpen ||
                         widget.webLayoutPageState!.scaffoldKey.currentState!
                             .isDrawerOpen) {
                       Navigator.pop(context);
                     }
-                    _outputContainerState.sample = _list[i];
-                    _outputContainerState.needTabs = false;
-                    _outputContainerState.orginText =
+                    outputContainerState.sample = list[i];
+                    outputContainerState.needTabs = false;
+                    outputContainerState.orginText =
                         widget.webLayoutPageState!.sample.control!.title! +
                             ' > ' +
-                            _list[i].title!;
-                    widget.webLayoutPageState!.selectSample = _list[i].title;
+                            list[i].title!;
+                    widget.webLayoutPageState!.selectSample = list[i].title;
+                    resetLocaleValue(model, outputContainerState.sample);
                     if (model.currentSampleKey == null ||
-                        (_list[i].key != null
-                            ? model.currentSampleKey != _list[i].key
+                        (list[i].key != null
+                            ? model.currentSampleKey != list[i].key
                             : model.currentSampleKey !=
-                                _list[i].subItems![0].key)) {
-                      _sampleInputContainerState.refresh();
-                      _outputContainerState.refresh();
+                                list[i].subItems![0].key)) {
+                      sampleInputContainerState.refresh();
+                      outputContainerState.refresh();
                     }
                   },
                   child: Container(
-                      color: _isNeedSelect
+                      color: isNeedSelect
                           ? Colors.grey.withOpacity(0.2)
                           : Colors.transparent,
                       child: Row(children: <Widget>[
                         Container(
-                            color: _isNeedSelect
+                            color: isNeedSelect
                                 ? model.backgroundColor
                                 : Colors.transparent,
                             width: 5,
@@ -650,20 +652,19 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                                     const EdgeInsets.fromLTRB(15, 10, 10, 10),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  _list[i].title!,
+                                  list[i].title!,
                                   style: TextStyle(
-                                      color: _isNeedSelect
+                                      color: isNeedSelect
                                           ? model.backgroundColor
                                           : model.textColor),
                                 ))),
-                        if (_list[i].status != null &&
-                            _getSampleStatus(model, _list[i], context))
+                        if (list[i].status != null &&
+                            _getSampleStatus(model, list[i], context))
                           Container(
                               decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  color: _list[i].status!.toLowerCase() == 'new'
+                                  color: list[i].status!.toLowerCase() == 'new'
                                       ? const Color.fromRGBO(55, 153, 30, 1)
-                                      : (_list[i].status!.toLowerCase() ==
+                                      : (list[i].status!.toLowerCase() ==
                                               'updated')
                                           ? const Color.fromRGBO(246, 117, 0, 1)
                                           : Colors.transparent,
@@ -672,22 +673,22 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                               padding: (model.isWeb && model.isMobileResolution)
                                   ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
                                   : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
-                              child: Text(_list[i].status!,
+                              child: Text(list[i].status!,
                                   style: const TextStyle(
                                       color: Colors.white, fontSize: 10.5)))
                         else
                           Container(),
-                        if (_list[i].status != null &&
-                            _getSampleStatus(model, _list[i], context))
+                        if (list[i].status != null &&
+                            _getSampleStatus(model, list[i], context))
                           const Padding(padding: EdgeInsets.only(right: 5))
                         else
                           Container(),
                       ])),
                 )
-              : _expandedChildren(model, _list[i], category, i)));
+              : _expandedChildren(model, list[i], category, i)));
     }
 
-    return _children;
+    return children;
   }
 
   /// Checks whether to display the sample status such as new, updated for the incoming sample
@@ -729,6 +730,9 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
         }
       }
       if (!isReplaced) {
+        if (!mounted) {
+          return;
+        }
         Navigator.pop(context);
       }
     } else {
@@ -799,6 +803,7 @@ class _SampleOutputContainer extends StatefulWidget {
       this.initialSubItems,
       this.orginText,
       this.key,
+      // ignore: unused_element
       this.routes})
       : super(key: key);
 
@@ -912,7 +917,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
           currentSample.needsPropertyPanel! == true;
       // ignore: empty_catches
     } catch (e) {}
-    _needsPropertyPanel = sample.needsPropertyPanel == true &&
+    _needsPropertyPanel = (sample.needsPropertyPanel ?? false) &&
         (isPlatformSpecified == null || isPlatformSpecified == true);
     return _needsPropertyPanel;
   }
@@ -928,8 +933,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
   Widget build(BuildContext context) {
     _controller = ScrollController();
     _controller!.addListener(_onTabScroll);
-    final SampleModel _model = widget.sampleModel!;
-    _model.webOutputContainerState = this;
+    final SampleModel model = widget.sampleModel!;
+    model.webOutputContainerState = this;
     final double width = MediaQuery.of(context).size.width;
     _isMaximized = false;
     if (_prevSize == null) {
@@ -957,14 +962,15 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
         _currentCategory = widget.webLayoutPageState!.selectSample;
       }
     }
-    final SubItem _sample = (_initialRender ? widget.initialSample : sample)!;
+    final SubItem sampleSubItem =
+        (_initialRender ? widget.initialSample : sample)!;
     _propertiesPanel =
-        _PropertiesPanel(sampleModel: _model, key: _propertiesPanelKey);
+        _PropertiesPanel(sampleModel: model, key: _propertiesPanelKey);
     _tabTextWidth = 0;
     final List<Widget>? tabs =
-        needTabs == true && subItems.length > 1 ? _getTabs(subItems) : null;
+        (needTabs ?? false) && subItems.length > 1 ? _getTabs(subItems) : null;
     _scrollbarWidth = width *
-        ((_model.isMobileResolution && width > 600)
+        ((model.isMobileResolution && width > 600)
             ? 0.75
             : (width <= 500
                 ? 0.585
@@ -975,23 +981,24 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     _isLeftSideScrolled();
     _isRightSideScrolled();
 
-    _model.isPropertyPanelTapped = false;
+    model.isPropertyPanelTapped = false;
     List<TextSpan>? textSpans;
     TextSpan? textSpan;
-    if (_sample.description != null && _sample.description != '') {
-      textSpans = getTextSpan(_sample.description!, _model);
+    if (sampleSubItem.description != null && sampleSubItem.description != '') {
+      textSpans = getTextSpan(sampleSubItem.description!, model);
       textSpan = textSpans[0];
       textSpans.removeAt(0);
     }
 
     return Theme(
       data: ThemeData(
-          brightness: _model.themeData.colorScheme.brightness,
-          primaryColor: _model.backgroundColor,
-          colorScheme: _model.themeData.colorScheme),
+          useMaterial3: false,
+          brightness: model.themeData.colorScheme.brightness,
+          primaryColor: model.backgroundColor,
+          colorScheme: model.themeData.colorScheme),
       child: Expanded(
           child: Container(
-              color: _model.webOutputContainerColor,
+              color: model.webOutputContainerColor,
               padding: const EdgeInsets.all(15),
               child: Column(
                 children: <Widget>[
@@ -1001,9 +1008,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
 
                       ///Space added for avoiding text hide issue of the
                       ///string having `infinite` word
-                      child: Text(_sample.title! + ' ',
+                      child: Text(sampleSubItem.title! + ' ',
                           style: TextStyle(
-                              color: _model.textColor,
+                              color: model.textColor,
                               letterSpacing: 0.39,
                               fontSize: 18,
                               fontFamily: 'Roboto-Medium'))),
@@ -1011,23 +1018,24 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                       padding: const EdgeInsets.only(left: 10, top: 10),
                       alignment: Alignment.centerLeft,
                       child: Text(
-                          needTabs == true && subItems.length != 1
-                              ? orginText + ' > ' + _sample.title!
+                          (needTabs ?? false) && subItems.length != 1
+                              ? orginText + ' > ' + sampleSubItem.title!
                               : orginText,
                           style: TextStyle(
-                              color: _model.textColor.withOpacity(0.65),
+                              color: model.textColor.withOpacity(0.65),
                               letterSpacing: 0.3,
                               fontFamily: 'Roboto-Regular'))),
                   const Padding(padding: EdgeInsets.only(top: 20)),
                   Expanded(
                       child: Scaffold(
-                          backgroundColor: _model.webOutputContainerColor,
+                          backgroundColor: model.webOutputContainerColor,
                           key: outputScaffoldKey,
-                          endDrawer: _checkPropertyPanelIsEnabled(
-                                  _model, _sample, _propertiesPanel, context)
+                          endDrawerEnableOpenDragGesture: false,
+                          endDrawer: _checkPropertyPanelIsEnabled(model,
+                                  sampleSubItem, _propertiesPanel, context)
                               ? _propertiesPanel
                               : null,
-                          body: needTabs == true
+                          body: (needTabs ?? false)
                               ? DefaultTabController(
                                   initialIndex: (tabIndex ??
                                       widget.webLayoutPageState!.sample
@@ -1036,14 +1044,13 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                   length: subItems.length,
                                   child: Container(
                                       decoration: BoxDecoration(
-                                        color: _model.webOutputContainerColor,
+                                        color: model.webOutputContainerColor,
                                         border: Border.all(
-                                            color: (_model.themeData.colorScheme
+                                            color: (model.themeData.colorScheme
                                                         .brightness ==
                                                     Brightness.light
                                                 ? Colors.grey[300]
-                                                : Colors.transparent)!,
-                                            width: 1),
+                                                : Colors.transparent)!),
                                         borderRadius: BorderRadius.circular(3),
                                       ),
                                       child: Column(
@@ -1051,11 +1058,11 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                           Container(
                                               height: 36,
                                               decoration: BoxDecoration(
-                                                color: _model.webInputColor,
+                                                color: model.webInputColor,
                                                 border: Border(
                                                     bottom: BorderSide(
                                                         color:
-                                                            _model.dividerColor,
+                                                            model.dividerColor,
                                                         width: 0.8)),
                                               ),
                                               padding: width < 500
@@ -1071,8 +1078,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                     StatefulBuilder(builder:
                                                         (BuildContext context,
                                                             StateSetter
-                                                                _stateSetter) {
-                                                      _setState = _stateSetter;
+                                                                stateSetter) {
+                                                      _setState = stateSetter;
                                                       return SizedBox(
                                                         width: _scrollbarWidth,
                                                         child: Stack(
@@ -1095,31 +1102,31 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                         key: PageStorageKey<String>((subItems.isNotEmpty ? subItems[0].title! : '') + 'tabscroll'),
                                                                         scrollDirection: Axis.horizontal,
                                                                         child: Material(
-                                                                            color: _model.webInputColor,
+                                                                            color: model.webInputColor,
                                                                             child: InkWell(
-                                                                                hoverColor: _model.paletteColor.withOpacity(0.3),
+                                                                                hoverColor: model.paletteColor.withOpacity(0.3),
                                                                                 child: subItems.length == 1
                                                                                     ? Container()
                                                                                     : Padding(
                                                                                         padding: const EdgeInsets.only(left: 25, right: 30),
                                                                                         child: TabBar(
                                                                                           indicatorPadding: const EdgeInsets.only(left: 2, right: 2),
-                                                                                          indicatorColor: _model.backgroundColor,
+                                                                                          indicatorColor: model.backgroundColor,
                                                                                           onTap: (int value) {
-                                                                                            _model.isPropertyPanelOpened = true;
+                                                                                            model.isPropertyPanelOpened = true;
                                                                                             widget.sampleModel!.needToMaximize = false;
                                                                                             final GlobalKey globalKey = widget.webLayoutPageState!.outputContainer.key! as GlobalKey;
-                                                                                            final SampleOutputContainerState _outputContainerState = globalKey.currentState! as SampleOutputContainerState;
-                                                                                            _outputContainerState.sample = subItems[value];
-                                                                                            _outputContainerState.needTabs = true;
-                                                                                            _outputContainerState.subItems = subItems;
-                                                                                            _outputContainerState.tabIndex = value;
-                                                                                            if (_model.currentSampleKey == null || _model.currentSampleKey != _outputContainerState.sample.key) {
-                                                                                              _outputContainerState.refresh();
+                                                                                            final SampleOutputContainerState outputContainerState = globalKey.currentState! as SampleOutputContainerState;
+                                                                                            outputContainerState.sample = subItems[value];
+                                                                                            outputContainerState.needTabs = true;
+                                                                                            outputContainerState.subItems = subItems;
+                                                                                            outputContainerState.tabIndex = value;
+                                                                                            if (model.currentSampleKey == null || model.currentSampleKey != outputContainerState.sample.key) {
+                                                                                              outputContainerState.refresh();
                                                                                             }
                                                                                           },
-                                                                                          labelColor: _model.backgroundColor,
-                                                                                          unselectedLabelColor: _model.themeData.colorScheme.brightness == Brightness.dark ? Colors.white : const Color.fromRGBO(89, 89, 89, 1),
+                                                                                          labelColor: model.backgroundColor,
+                                                                                          unselectedLabelColor: model.themeData.colorScheme.brightness == Brightness.dark ? Colors.white : const Color.fromRGBO(89, 89, 89, 1),
                                                                                           isScrollable: true,
                                                                                           tabs: tabs!,
                                                                                         ))))))),
@@ -1136,17 +1143,15 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                         BoxDecoration(
                                                                             gradient:
                                                                                 LinearGradient(
-                                                                      colors: <
-                                                                          Color>[
-                                                                        _model
+                                                                      colors: <Color>[
+                                                                        model
                                                                             .webInputColor
                                                                             .withOpacity(0.21),
-                                                                        _model
+                                                                        model
                                                                             .webInputColor
                                                                             .withOpacity(1.0)
                                                                       ],
-                                                                      stops: const <
-                                                                          double>[
+                                                                      stops: const <double>[
                                                                         0.0,
                                                                         0.7
                                                                       ],
@@ -1184,11 +1189,11 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                               if (_controller!.position.maxScrollExtent > _controller!.position.pixels + 12) {
                                                                                 _controller!.animateTo(_controller!.position.pixels + 150, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
                                                                               }
-                                                                              _stateSetter(() {});
+                                                                              stateSetter(() {});
                                                                             },
                                                                             child: Ink(
                                                                                 decoration: BoxDecoration(
-                                                                                  color: _model.webInputColor,
+                                                                                  color: model.webInputColor,
                                                                                   border: Border.all(color: Colors.transparent, width: 6),
                                                                                   shape: BoxShape.circle,
                                                                                 ),
@@ -1197,7 +1202,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                                   width: 18,
                                                                                   child: Image.asset('images/scroll_arrow.png',
                                                                                       // ignore: invalid_use_of_protected_member
-                                                                                      color: _isRightScrolled ? _model.textColor : _model.textColor.withOpacity(0.5),
+                                                                                      color: _isRightScrolled ? model.textColor : model.textColor.withOpacity(0.5),
                                                                                       fit: BoxFit.contain),
                                                                                 )))),
                                                                   ))
@@ -1218,20 +1223,18 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                         BoxDecoration(
                                                                             gradient:
                                                                                 LinearGradient(
-                                                                      colors: <
-                                                                          Color>[
-                                                                        _model
+                                                                      colors: <Color>[
+                                                                        model
                                                                             .webInputColor
                                                                             .withOpacity(1.0),
-                                                                        _model
+                                                                        model
                                                                             .webInputColor
                                                                             .withOpacity(1.0),
-                                                                        _model
+                                                                        model
                                                                             .webInputColor
                                                                             .withOpacity(0.21),
                                                                       ],
-                                                                      stops: const <
-                                                                          double>[
+                                                                      stops: const <double>[
                                                                         0.0,
                                                                         0.5,
                                                                         0.9
@@ -1269,12 +1272,12 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                                 duration: const Duration(milliseconds: 250),
                                                                                 curve: Curves.easeOut);
                                                                           }
-                                                                          _stateSetter(
+                                                                          stateSetter(
                                                                               () {});
                                                                         },
                                                                         child: Ink(
                                                                             decoration: BoxDecoration(
-                                                                              color: _model.webInputColor,
+                                                                              color: model.webInputColor,
                                                                               border: Border.all(color: Colors.transparent, width: 6),
                                                                               shape: BoxShape.circle,
                                                                             ),
@@ -1283,7 +1286,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                               width: 18,
                                                                               child: Image.asset('images/scroll-arrow-left.png',
                                                                                   // ignore: invalid_use_of_protected_member
-                                                                                  color: _isLeftScrolled ? _model.textColor : _model.textColor.withOpacity(0.5),
+                                                                                  color: _isLeftScrolled ? model.textColor : model.textColor.withOpacity(0.5),
                                                                                   fit: BoxFit.contain),
                                                                             )))),
                                                               )
@@ -1313,14 +1316,15 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                         .withOpacity(
                                                                             0.3),
                                                                     onTap: () {
-                                                                      launch(_sample
-                                                                          .codeLink!);
+                                                                      launchUrl(
+                                                                          Uri.parse(
+                                                                              sampleSubItem.codeLink!));
                                                                     },
                                                                     child: Tooltip(
                                                                         message: 'Code',
                                                                         child: Ink(
                                                                             decoration: BoxDecoration(
-                                                                              color: _model.webInputColor,
+                                                                              color: model.webInputColor,
                                                                               border: Border.all(color: Colors.transparent, width: 6),
                                                                               shape: BoxShape.circle,
                                                                             ),
@@ -1328,7 +1332,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                                 height: 21,
                                                                                 width: 21,
                                                                                 child: Image.asset(
-                                                                                  _model.themeData.colorScheme.brightness == Brightness.dark ? 'images/git_hub_dark.png' : 'images/git_hub.png',
+                                                                                  model.themeData.colorScheme.brightness == Brightness.dark ? 'images/git_hub_dark.png' : 'images/git_hub.png',
                                                                                   fit: BoxFit.contain,
                                                                                 )))))),
                                                           ),
@@ -1352,15 +1356,15 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                           0.3),
                                                                   onTap: () {
                                                                     performMaximize(
-                                                                        _model,
-                                                                        _sample);
+                                                                        model,
+                                                                        sampleSubItem);
                                                                   },
                                                                   child: Tooltip(
                                                                       message: 'Maximize',
                                                                       child: Ink(
                                                                           decoration: BoxDecoration(
                                                                             color:
-                                                                                _model.webInputColor,
+                                                                                model.webInputColor,
                                                                             border:
                                                                                 Border.all(color: Colors.transparent, width: 4),
                                                                             shape:
@@ -1370,7 +1374,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                             scale:
                                                                                 0.85,
                                                                             child:
-                                                                                Icon(Icons.open_in_full, color: _model.webIconColor),
+                                                                                Icon(Icons.open_in_full, color: model.webIconColor),
                                                                           )))),
                                                             ),
                                                           ),
@@ -1389,7 +1393,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                         StateSetter
                                                                             stateSetter) {
                                                                         return Material(
-                                                                            color: _model
+                                                                            color: model
                                                                                 .webInputColor,
                                                                             shape:
                                                                                 const CircleBorder(),
@@ -1406,13 +1410,13 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                                   isSelected[index] = !isSelected[index];
                                                                                   if (MediaQuery.of(context).size.width > 720) {
                                                                                     stateSetter(() {
-                                                                                      _model.isPropertyPanelOpened = !_model.isPropertyPanelOpened;
-                                                                                      if (!_model.isPropertyPanelOpened) {
-                                                                                        _model.isPropertyPanelTapped = true;
+                                                                                      model.isPropertyPanelOpened = !model.isPropertyPanelOpened;
+                                                                                      if (!model.isPropertyPanelOpened) {
+                                                                                        model.isPropertyPanelTapped = true;
                                                                                       }
-                                                                                      final _OutputContainerState _outputContainerState = _model.outputContainerState as _OutputContainerState;
-                                                                                      _outputContainerState.propertyPanelStateChange(() {
-                                                                                        _outputContainerState.show = _model.isPropertyPanelOpened;
+                                                                                      final _OutputContainerState outputContainerState = model.outputContainerState as _OutputContainerState;
+                                                                                      outputContainerState.propertyPanelStateChange(() {
+                                                                                        outputContainerState.show = model.isPropertyPanelOpened;
                                                                                       });
                                                                                     });
                                                                                   } else {
@@ -1421,8 +1425,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                                 },
                                                                                 children: <Widget>[
                                                                                   Tooltip(
-                                                                                    message: MediaQuery.of(context).size.width <= 720 || !_model.isPropertyPanelOpened ? 'Open Property Panel' : 'Close Property Panel',
-                                                                                    child: Icon(Icons.menu, color: _model.webIconColor),
+                                                                                    message: MediaQuery.of(context).size.width <= 720 || !model.isPropertyPanelOpened ? 'Open Property Panel' : 'Close Property Panel',
+                                                                                    child: Icon(Icons.menu, color: model.webIconColor),
                                                                                   )
                                                                                 ]));
                                                                       })
@@ -1436,25 +1440,24 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                   ])),
                                           Expanded(
                                               child: Container(
-                                            color: _model.cardThemeColor,
+                                            color: model.cardThemeColor,
                                             child: TabBarView(
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
                                                 children: _getTabViewChildren(
-                                                    _model, subItems)),
+                                                    model, subItems)),
                                           )),
                                         ],
                                       )))
                               : Container(
                                   decoration: BoxDecoration(
-                                    color: _model.webOutputContainerColor,
+                                    color: model.webOutputContainerColor,
                                     border: Border.all(
-                                        color: (_model.themeData.colorScheme
+                                        color: (model.themeData.colorScheme
                                                     .brightness ==
                                                 Brightness.light
                                             ? Colors.grey[300]
-                                            : Colors.transparent)!,
-                                        width: 1),
+                                            : Colors.transparent)!),
                                     borderRadius: BorderRadius.circular(3),
                                   ),
                                   child: Column(
@@ -1462,10 +1465,10 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                       Container(
                                         height: 36,
                                         decoration: BoxDecoration(
-                                          color: _model.webInputColor,
+                                          color: model.webInputColor,
                                           border: Border(
                                               bottom: BorderSide(
-                                                  color: _model.dividerColor,
+                                                  color: model.dividerColor,
                                                   width: 0.8)),
                                         ),
                                         padding: const EdgeInsets.fromLTRB(
@@ -1482,15 +1485,16 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                       hoverColor: Colors.grey
                                                           .withOpacity(0.3),
                                                       onTap: () {
-                                                        launch(
-                                                            _sample.codeLink!);
+                                                        launchUrl(Uri.parse(
+                                                            sampleSubItem
+                                                                .codeLink!));
                                                       },
                                                       child: Tooltip(
                                                           message: 'Code',
                                                           child: Ink(
                                                               decoration:
                                                                   BoxDecoration(
-                                                                color: _model
+                                                                color: model
                                                                     .webInputColor,
                                                                 border: Border.all(
                                                                     color: Colors
@@ -1504,7 +1508,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                   width: 21,
                                                                   child: Image
                                                                       .asset(
-                                                                    _model.themeData.colorScheme.brightness ==
+                                                                    model.themeData.colorScheme.brightness ==
                                                                             Brightness.dark
                                                                         ? 'images/git_hub_dark.png'
                                                                         : 'images/git_hub.png',
@@ -1524,14 +1528,14 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                         .withOpacity(0.3),
                                                     onTap: () {
                                                       performMaximize(
-                                                          _model, _sample);
+                                                          model, sampleSubItem);
                                                     },
                                                     child: Tooltip(
                                                         message: 'Maximize',
                                                         child: Ink(
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: _model
+                                                              color: model
                                                                   .webInputColor,
                                                               border: Border.all(
                                                                   color: Colors
@@ -1546,7 +1550,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                               child: Icon(
                                                                   Icons
                                                                       .open_in_full,
-                                                                  color: _model
+                                                                  color: model
                                                                       .webIconColor),
                                                             )))),
                                               ),
@@ -1561,7 +1565,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                           StateSetter
                                                               stateSetter) {
                                                       return Material(
-                                                          color: _model
+                                                          color: model
                                                               .webInputColor,
                                                           shape:
                                                               const CircleBorder(),
@@ -1602,24 +1606,24 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                     720) {
                                                                   stateSetter(
                                                                       () {
-                                                                    _model.isPropertyPanelOpened =
-                                                                        !_model
+                                                                    model.isPropertyPanelOpened =
+                                                                        !model
                                                                             .isPropertyPanelOpened;
-                                                                    if (!_model
+                                                                    if (!model
                                                                         .isPropertyPanelOpened) {
-                                                                      _model.isPropertyPanelTapped =
+                                                                      model.isPropertyPanelTapped =
                                                                           true;
                                                                     }
                                                                     final _OutputContainerState
-                                                                        _outputContainerState =
-                                                                        _model.outputContainerState
+                                                                        outputContainerState =
+                                                                        model.outputContainerState
                                                                             as _OutputContainerState;
-                                                                    _outputContainerState
+                                                                    outputContainerState
                                                                         .propertyPanelStateChange(
                                                                             () {
-                                                                      _outputContainerState
+                                                                      outputContainerState
                                                                               .show =
-                                                                          _model
+                                                                          model
                                                                               .isPropertyPanelOpened;
                                                                     });
                                                                   });
@@ -1629,19 +1633,18 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                                                       .openEndDrawer();
                                                                 }
                                                               },
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 Tooltip(
                                                                   message: MediaQuery.of(context).size.width <=
                                                                               720 ||
-                                                                          !_model
+                                                                          !model
                                                                               .isPropertyPanelOpened
                                                                       ? 'Open Property Panel'
                                                                       : 'Close Property Panel',
                                                                   child: Icon(
                                                                       Icons
                                                                           .menu,
-                                                                      color: _model
+                                                                      color: model
                                                                           .webIconColor),
                                                                 )
                                                               ]));
@@ -1654,19 +1657,20 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                                       ),
                                       Expanded(
                                           child: Container(
-                                              color: _model.cardThemeColor,
+                                              color: model.cardThemeColor,
                                               child: _OutputContainer(
                                                   key: GlobalKey(),
                                                   sampleOutputContainerState:
                                                       this,
-                                                  subItem: _sample,
+                                                  subItem: sampleSubItem,
                                                   sampleView:
-                                                      _model.sampleWidget[
-                                                          _sample.key],
-                                                  sampleModel: _model))),
+                                                      model.sampleWidget[
+                                                          sampleSubItem.key],
+                                                  sampleModel: model))),
                                     ],
                                   )))),
-                  if (_sample.description != null && _sample.description != '')
+                  if (sampleSubItem.description != null &&
+                      sampleSubItem.description != '')
                     Container(
                         padding: const EdgeInsets.only(left: 10, top: 18),
                         alignment: Alignment.centerLeft,
@@ -1675,7 +1679,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                           text: TextSpan(
                             text: textSpan!.text,
                             style: TextStyle(
-                              color: _model.textColor,
+                              color: model.textColor,
                               fontFamily: 'Roboto-Regular',
                               letterSpacing: 0.3,
                             ),
@@ -1755,9 +1759,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
         widget.webLayoutPageState!.popUpKey.currentState! as _PopupState;
     state._sampleDetails = sample;
     state._currentWidgetKey = model.currentRenderSample.key as GlobalKey;
-    final _OutputContainerState _outputContainerState =
+    final _OutputContainerState outputContainerState =
         _outputKey.currentState! as _OutputContainerState;
-    _outputContainerState.setState(() {});
+    outputContainerState.setState(() {});
     state.refresh(true);
   }
 
@@ -1772,50 +1776,50 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
 
   /// Get tabs which length is equal to list length
   List<Widget> _getTabs(List<SubItem> list) {
-    final List<Widget> _tabs = <Widget>[];
+    final List<Widget> tabs = <Widget>[];
     _tabTextWidth = 0;
     for (int i = 0; i < list.length; i++) {
       if (list.isNotEmpty) {
-        final String _status = getStatusTag(list[i]);
+        final String status = getStatusTag(list[i]);
         _tabTextWidth += _measureTextSize(
-                    list[i].title.toString() + (_status != '' ? '  ' : ''),
+                    list[i].title.toString() + (status != '' ? '  ' : ''),
                     const TextStyle(
                         letterSpacing: 0.5, fontFamily: 'Roboto-Medium'))
                 .width +
             _measureTextSize(
-                    _status == 'New'
+                    status == 'New'
                         ? 'N'
-                        : _status == 'Updated'
+                        : status == 'Updated'
                             ? 'U'
                             : '',
                     const TextStyle(fontSize: 11, color: Colors.white))
                 .width +
             32 /*labelPadding*/;
-        _tabs.add(Tab(
+        tabs.add(Tab(
             child: Row(
           children: <Widget>[
-            Text(list[i].title.toString() + (_status != '' ? '  ' : ''),
+            Text(list[i].title.toString() + (status != '' ? '  ' : ''),
                 style: const TextStyle(
                     letterSpacing: 0.5, fontFamily: 'Roboto-Medium')),
-            if (_status == '')
+            if (status == '')
               Container()
             else
               Container(
                 height: 20,
                 width: 20,
                 decoration: BoxDecoration(
-                  color: _status == 'New'
+                  color: status == 'New'
                       ? const Color.fromRGBO(55, 153, 30, 1)
-                      : _status == 'Updated'
+                      : status == 'Updated'
                           ? const Color.fromRGBO(246, 117, 0, 1)
                           : Colors.transparent,
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  _status == 'New'
+                  status == 'New'
                       ? 'N'
-                      : _status == 'Updated'
+                      : status == 'Updated'
                           ? 'U'
                           : '',
                   style: const TextStyle(fontSize: 11, color: Colors.white),
@@ -1825,14 +1829,14 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
         )));
       }
     }
-    return _tabs;
+    return tabs;
   }
 
   /// Get tab view widgets which length is equal to list length
   List<Widget> _getTabViewChildren(SampleModel model, List<SubItem> list) {
-    final List<Widget> _tabChildren = <Widget>[];
+    final List<Widget> tabChildren = <Widget>[];
     for (int i = 0; i < list.length; i++) {
-      _tabChildren.add(
+      tabChildren.add(
         Container(
             color: model.cardThemeColor,
             child: _OutputContainer(
@@ -1843,7 +1847,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                 sampleView: model.sampleWidget[list[i].key])),
       );
     }
-    return _tabChildren;
+
+    return tabChildren;
   }
 }
 
@@ -1905,7 +1910,7 @@ class _OutputContainerState extends State<_OutputContainer> {
           currentSample.needsPropertyPanel! == true;
       // ignore: empty_catches
     } catch (e) {}
-    _needsPropertyPanel = widget.subItem!.needsPropertyPanel == true &&
+    _needsPropertyPanel = (widget.subItem!.needsPropertyPanel ?? false) &&
         (isPlatformSpecified == null || isPlatformSpecified == true);
     return _needsPropertyPanel;
   }
@@ -1965,8 +1970,8 @@ class _OutputContainerState extends State<_OutputContainer> {
                                     fontSize: 12),
                               ),
                               InkWell(
-                                onTap: () =>
-                                    launch(widget.subItem!.sourceLink!),
+                                onTap: () => launchUrl(
+                                    Uri.parse(widget.subItem!.sourceLink!)),
                                 child: Text(widget.subItem!.sourceText!,
                                     style: const TextStyle(
                                         fontSize: 12, color: Colors.blue)),
@@ -2003,7 +2008,19 @@ class _OutputContainerState extends State<_OutputContainer> {
       return ClipRect(
           child: MaterialApp(
               debugShowCheckedModeBanner: false,
+              //ignore: always_specify_types
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                SfGlobalLocalizations.delegate
+              ],
+              //ignore: always_specify_types
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('ar', 'AE'),
+              ],
+              locale: const Locale('en', 'US'),
               theme: ThemeData(
+                  useMaterial3: false,
                   checkboxTheme: CheckboxThemeData(
                       fillColor: MaterialStateProperty.resolveWith(getColor)),
                   brightness:
@@ -2012,81 +2029,90 @@ class _OutputContainerState extends State<_OutputContainer> {
                   colorScheme: widget.sampleModel!.themeData.colorScheme),
               initialRoute: widget.subItem!.breadCrumbText,
               routes: <String, WidgetBuilder>{
-            widget.subItem!.breadCrumbText!: (BuildContext cotext) => Scaffold(
-                backgroundColor: widget.sampleModel!.cardThemeColor,
-                body: widget.sampleModel!.needToMaximize
-                    ? Container()
-                    : StatefulBuilder(builder:
-                        (BuildContext context, StateSetter stateSetter) {
-                        propertyPanelStateChange = stateSetter;
-                        return Row(children: <Widget>[
-                          Expanded(
-                              child: Column(
-                            children: <Widget>[
-                              Expanded(
-                                  child:
-                                      widget.sampleModel!.currentRenderSample),
-                              if (widget.subItem!.sourceLink != null &&
-                                  widget.subItem!.sourceLink != '')
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                    height: 20,
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Source: ',
-                                          style: TextStyle(
-                                              color: widget
-                                                  .sampleModel!.textColor
-                                                  .withOpacity(0.65),
-                                              fontSize: 12),
-                                        ),
-                                        InkWell(
-                                          onTap: () => launch(
-                                              widget.subItem!.sourceLink!),
-                                          child: Text(
-                                              widget.subItem!.sourceText!,
-                                              style: const TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.blue)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              else
-                                Container()
-                            ],
-                          )),
-                          if (_needsPropertyPanel &&
-                              MediaQuery.of(context).size.width > 720 &&
-                              (widget.sampleModel!.isPropertyPanelOpened ||
-                                  (!widget.sampleModel!.isPropertyPanelOpened &&
-                                      widget
-                                          .sampleModel!.isPropertyPanelTapped)))
-                            _PropertiesPanel(
-                                sampleModel: widget.sampleModel,
-                                key: propertyPanelWidgetKey,
-                                openState: true)
-                          else
-                            Container()
-                        ]);
-                      }))
-          }));
+                widget.subItem!.breadCrumbText!: (BuildContext cotext) =>
+                    Scaffold(
+                        backgroundColor: widget.sampleModel!.cardThemeColor,
+                        body: widget.sampleModel!.needToMaximize
+                            ? Container()
+                            : StatefulBuilder(builder: (BuildContext context,
+                                StateSetter stateSetter) {
+                                propertyPanelStateChange = stateSetter;
+                                return Row(children: <Widget>[
+                                  Expanded(
+                                      child: Column(
+                                    children: <Widget>[
+                                      Expanded(
+                                          child: widget.sampleModel!
+                                              .currentRenderSample),
+                                      if (widget.subItem!.sourceLink != null &&
+                                          widget.subItem!.sourceLink != '')
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                15, 0, 0, 0),
+                                            height: 20,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  'Source: ',
+                                                  style: TextStyle(
+                                                      color: widget.sampleModel!
+                                                          .textColor
+                                                          .withOpacity(0.65),
+                                                      fontSize: 12),
+                                                ),
+                                                InkWell(
+                                                  onTap: () => launchUrl(
+                                                      Uri.parse(widget.subItem!
+                                                          .sourceLink!)),
+                                                  child: Text(
+                                                      widget
+                                                          .subItem!.sourceText!,
+                                                      style: const TextStyle(
+                                                          fontSize: 12,
+                                                          color: Colors.blue)),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      else
+                                        Container()
+                                    ],
+                                  )),
+                                  if (_needsPropertyPanel &&
+                                      MediaQuery.of(context).size.width > 720 &&
+                                      (widget.sampleModel!
+                                              .isPropertyPanelOpened ||
+                                          (!widget.sampleModel!
+                                                  .isPropertyPanelOpened &&
+                                              widget.sampleModel!
+                                                  .isPropertyPanelTapped)))
+                                    _PropertiesPanel(
+                                        sampleModel: widget.sampleModel,
+                                        subItem: widget.subItem,
+                                        key: propertyPanelWidgetKey,
+                                        openState: true)
+                                  else
+                                    Container()
+                                ]);
+                              }))
+              }));
     }
   }
 }
 
 /// Get the Proeprty panel widget in the drawer
 class _PropertiesPanel extends StatefulWidget {
-  const _PropertiesPanel({this.sampleModel, this.openState, this.key})
+  const _PropertiesPanel(
+      {this.sampleModel, this.openState, this.subItem, this.key})
       : super(key: key);
   final SampleModel? sampleModel;
 
   final bool? openState;
+
+  final SubItem? subItem;
 
   @override
   final Key? key;
@@ -2099,7 +2125,6 @@ class _PropertiesPanel extends StatefulWidget {
 
 class _PropertiesPanelState extends State<_PropertiesPanel>
     with SingleTickerProviderStateMixin {
-  late GlobalKey<State>? _sampleKey;
   late Animation<double> animation;
   late AnimationController animationController;
   bool initialRender = true;
@@ -2123,21 +2148,47 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
     super.dispose();
   }
 
+  Widget? _getSettingsView(GlobalKey sampleKey) {
+    if (sampleKey.currentState != null) {
+      final SampleViewState sampleState =
+          sampleKey.currentState! as SampleViewState;
+      final bool isLocalizationSample =
+          sampleKey.currentState! is LocalizationSampleViewState;
+      final bool isDirectionalitySample =
+          sampleKey.currentState! is DirectionalitySampleViewState;
+
+      if (isLocalizationSample || isDirectionalitySample) {
+        return ListView(shrinkWrap: true, children: <Widget>[
+          (sampleKey.currentState! as LocalizationSampleViewState)
+              .localizationSelectorWidget(context),
+          if (isDirectionalitySample)
+            (sampleKey.currentState! as DirectionalitySampleViewState)
+                .textDirectionSelectorWidget(context)
+          else
+            Container(),
+          sampleState.buildSettings(context) ?? Container()
+        ]);
+      } else {
+        return sampleState.buildSettings(context);
+      }
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final SampleModel model = widget.sampleModel!;
-    _sampleKey = model.propertyPanelKey;
-    final SampleViewState _sampleViewState =
-        _sampleKey!.currentState! as SampleViewState;
-    final Widget? _settingPanelContent =
-        _sampleViewState.buildSettings(context);
-    if (_settingPanelContent != null) {
+    final Widget? settingPanelContent =
+        _getSettingsView(model.propertyPanelKey);
+
+    if (settingPanelContent != null) {
       animation =
           Tween<double>(begin: 0.0, end: 1.0).animate(animationController);
-      final _OutputContainerState _outputContainerState =
+      final _OutputContainerState outputContainerState =
           model.outputContainerState as _OutputContainerState;
       if (!initialRender) {
-        if (_outputContainerState.show) {
+        if (outputContainerState.show) {
           animationController.forward(from: 0.0);
         } else {
           animationController.reverse(from: 1.0);
@@ -2150,12 +2201,13 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData(
+                  useMaterial3: false,
                   brightness:
                       widget.sampleModel!.themeData.colorScheme.brightness,
                   primaryColor: widget.sampleModel!.backgroundColor,
                   colorScheme: widget.sampleModel!.themeData.colorScheme),
               child: SizedBox(
-                  width: widget.openState == true
+                  width: (widget.openState ?? false)
                       ? animation.value * 275
                       : (animation.value * 275),
                   child: Drawer(
@@ -2163,7 +2215,7 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
                       child: Container(
                           decoration: BoxDecoration(
                             color: widget.sampleModel!.cardThemeColor,
-                            border: widget.openState == true
+                            border: (widget.openState ?? false)
                                 ? Border(
                                     left: BorderSide(
                                         color: widget.sampleModel!.textColor
@@ -2189,7 +2241,7 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),
                                         ),
-                                        if (widget.openState == true)
+                                        if (widget.openState ?? false)
                                           Container()
                                         else
                                           Material(
@@ -2213,7 +2265,7 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
                                           right: 5, top: 5),
                                       width: 238,
                                       alignment: Alignment.topCenter,
-                                      child: _settingPanelContent)
+                                      child: settingPanelContent)
                                 ],
                               ))))),
             );
@@ -2252,16 +2304,16 @@ class _TileContainer extends StatefulWidget {
 class _TileContainerState extends State<_TileContainer> {
   @override
   Widget build(BuildContext context) {
-    final SampleModel _model = widget.sampleModel!;
+    final SampleModel model = widget.sampleModel!;
     return CustomExpansionTile(
-      headerBackgroundColor: _model.webBackgroundColor,
+      headerBackgroundColor: model.webBackgroundColor,
       onExpansionChanged: (bool value) {
-        final _SampleInputContainerState _sampleInputContainerState = widget
+        final _SampleInputContainerState sampleInputContainerState = widget
             .webLayoutPageState!
             .sampleInputKey
             .currentState! as _SampleInputContainerState;
         final List<_ExpansionKey> expansionKey =
-            _sampleInputContainerState.expansionKey;
+            sampleInputContainerState.expansionKey;
         for (int k = 0; k < expansionKey.length; k++) {
           if (expansionKey[k].expansionIndex ==
               widget.expansionKey!.expansionIndex) {
@@ -2273,66 +2325,64 @@ class _TileContainerState extends State<_TileContainer> {
       initiallyExpanded: true,
       title: Text(widget.item!.title!,
           style: TextStyle(
-              color: _model.textColor,
+              color: model.textColor,
               fontSize: 13,
               letterSpacing: -0.19,
               fontFamily: 'Roboto-Medium')),
       key: PageStorageKey<String>(widget.item!.title!),
       children: _getNextLevelChildren(
-          _model, widget.item!.subItems! as List<SubItem>, widget.item!.title!),
+          model, widget.item!.subItems! as List<SubItem>, widget.item!.title!),
     );
   }
 
   /// Get expanded children
   List<Widget> _getNextLevelChildren(
       SampleModel model, List<SubItem> list, String text) {
-    final List<Widget> _nextLevelChildren = <Widget>[];
+    final List<Widget> nextLevelChildren = <Widget>[];
     final SubItem currentSample = widget.webLayoutPageState!.sample;
     if (list != null && list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {
-        final String _status = getStatusTag(list[i]);
-        bool _isNeedSelect = false;
+        final String status = getStatusTag(list[i]);
+        bool isNeedSelect = false;
         if (list[i].subItems != null) {
           for (int j = 0; j < list[i].subItems!.length; j++) {
             if (currentSample.breadCrumbText ==
                 list[i].subItems![j].breadCrumbText) {
-              _isNeedSelect = true;
+              isNeedSelect = true;
               break;
             } else {
               continue;
             }
           }
         } else {
-          _isNeedSelect =
-              currentSample.breadCrumbText == list[i].breadCrumbText;
+          isNeedSelect = currentSample.breadCrumbText == list[i].breadCrumbText;
         }
-        _nextLevelChildren.add(list[i].type == 'sample'
+        nextLevelChildren.add(list[i].type == 'sample'
             ? Material(
                 color: model.webBackgroundColor,
                 child: InkWell(
                     hoverColor: Colors.grey.withOpacity(0.2),
                     onTap: () {
                       final _SampleInputContainerState
-                          _sampleInputContainerState = widget
+                          sampleInputContainerState = widget
                               .webLayoutPageState!
                               .sampleInputKey
                               .currentState! as _SampleInputContainerState;
-                      final GlobalKey _globalKey = widget.webLayoutPageState!
+                      final GlobalKey globalKey = widget.webLayoutPageState!
                           .outputContainer.key! as GlobalKey;
-                      final SampleOutputContainerState _outputContainerState =
-                          _globalKey.currentState!
-                              as SampleOutputContainerState;
-                      if (_outputContainerState.outputScaffoldKey.currentState!
+                      final SampleOutputContainerState outputContainerState =
+                          globalKey.currentState! as SampleOutputContainerState;
+                      if (outputContainerState.outputScaffoldKey.currentState!
                               .isEndDrawerOpen ||
                           widget.webLayoutPageState!.scaffoldKey.currentState!
                               .isDrawerOpen) {
                         Navigator.pop(context);
                       }
-                      _outputContainerState.sample = list[i];
-                      _outputContainerState.needTabs = false;
+                      outputContainerState.sample = list[i];
+                      outputContainerState.needTabs = false;
                       final String prevBreadCrumbText =
-                          _outputContainerState.orginText;
-                      _outputContainerState.orginText =
+                          outputContainerState.orginText;
+                      outputContainerState.orginText =
                           widget.webLayoutPageState!.sample.control!.title! +
                               ' > ' +
                               text +
@@ -2353,12 +2403,12 @@ class _TileContainerState extends State<_TileContainer> {
                               : model.currentSampleKey !=
                                   list[i].subItems![0].key)) {
                         model.isPropertyPanelOpened = true;
-                        _sampleInputContainerState.refresh();
-                        _outputContainerState.refresh();
+                        sampleInputContainerState.refresh();
+                        outputContainerState.refresh();
                       }
                     },
                     child: Container(
-                        color: _isNeedSelect
+                        color: isNeedSelect
                             ? Colors.grey.withOpacity(0.2)
                             : Colors.transparent,
                         child: Row(children: <Widget>[
@@ -2366,7 +2416,7 @@ class _TileContainerState extends State<_TileContainer> {
                               width: 5,
                               alignment: Alignment.centerLeft,
                               padding: const EdgeInsets.fromLTRB(1, 10, 10, 10),
-                              color: _isNeedSelect
+                              color: isNeedSelect
                                   ? model.backgroundColor
                                   : Colors.transparent,
                               child: const Opacity(
@@ -2380,27 +2430,26 @@ class _TileContainerState extends State<_TileContainer> {
                                       style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: 'Roboto-Regular',
-                                          color: _isNeedSelect
+                                          color: isNeedSelect
                                               ? model.backgroundColor
                                               : model.textColor)))),
                           Container(
                               decoration: BoxDecoration(
-                                  color: (_status != null && _status != '')
-                                      ? (_status == 'New'
+                                  color: (status != null && status != '')
+                                      ? (status == 'New'
                                           ? const Color.fromRGBO(55, 153, 30, 1)
                                           : const Color.fromRGBO(
                                               246, 117, 0, 1))
                                       : Colors.transparent,
-                                  shape: BoxShape.rectangle,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(10.0))),
                               padding: model.isWeb && model.isMobileResolution
                                   ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
                                   : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
-                              child: Text(_status,
+                              child: Text(status,
                                   style: const TextStyle(
                                       fontSize: 10.5, color: Colors.white))),
-                          if (_status != null && _status != '')
+                          if (status != null && status != '')
                             const Padding(padding: EdgeInsets.only(right: 5))
                           else
                             Container(),
@@ -2411,36 +2460,36 @@ class _TileContainerState extends State<_TileContainer> {
                   hoverColor: Colors.grey.withOpacity(0.2),
                   onTap: () {
                     model.isPropertyPanelOpened = true;
-                    final _SampleInputContainerState
-                        _sampleInputContainerState = widget
-                            .webLayoutPageState!
-                            .sampleInputKey
-                            .currentState! as _SampleInputContainerState;
-                    final GlobalKey _globalKey = widget
+                    final _SampleInputContainerState sampleInputContainerState =
+                        widget.webLayoutPageState!.sampleInputKey.currentState!
+                            as _SampleInputContainerState;
+                    final GlobalKey globalKey = widget
                         .webLayoutPageState!.outputContainer.key! as GlobalKey;
-                    final SampleOutputContainerState _outputContainerState =
-                        _globalKey.currentState! as SampleOutputContainerState;
+                    final SampleOutputContainerState outputContainerState =
+                        globalKey.currentState! as SampleOutputContainerState;
                     final String prevBreadCrumbText =
-                        _outputContainerState.orginText;
+                        outputContainerState.orginText;
                     if (list[i].subItems != null &&
                         list[i].subItems!.isNotEmpty) {
-                      _outputContainerState.subItems =
+                      outputContainerState.subItems =
                           list[i].subItems! as List<SubItem>;
-                      _outputContainerState.sample =
+                      outputContainerState.sample =
                           list[i].subItems![0] as SubItem;
-                      _outputContainerState.tabIndex = 0;
-                      _outputContainerState.needTabs = true;
+                      outputContainerState.tabIndex = 0;
+                      outputContainerState.needTabs = true;
                     } else {
-                      _outputContainerState.sample = list[i];
-                      _outputContainerState.needTabs = false;
+                      outputContainerState.sample = list[i];
+                      outputContainerState.needTabs = false;
                     }
-                    if (_outputContainerState
+                    resetLocaleValue(model, currentSample);
+
+                    if (outputContainerState
                             .outputScaffoldKey.currentState!.isEndDrawerOpen ||
                         widget.webLayoutPageState!.scaffoldKey.currentState!
                             .isDrawerOpen) {
                       Navigator.pop(context);
                     }
-                    _outputContainerState.orginText =
+                    outputContainerState.orginText =
                         widget.webLayoutPageState!.sample.control!.title! +
                             ' > ' +
                             text +
@@ -2459,12 +2508,12 @@ class _TileContainerState extends State<_TileContainer> {
                                         list[i].breadCrumbText))
                             : model.currentSampleKey !=
                                 list[i].subItems![0].key)) {
-                      _sampleInputContainerState.refresh();
-                      _outputContainerState.refresh();
+                      sampleInputContainerState.refresh();
+                      outputContainerState.refresh();
                     }
                   },
                   child: Container(
-                      color: _isNeedSelect
+                      color: isNeedSelect
                           ? Colors.grey.withOpacity(0.2)
                           : Colors.transparent,
                       child: Row(children: <Widget>[
@@ -2473,7 +2522,7 @@ class _TileContainerState extends State<_TileContainer> {
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.only(
                                 left: 1, top: 7, bottom: 7),
-                            color: _isNeedSelect
+                            color: isNeedSelect
                                 ? model.backgroundColor
                                 : Colors.transparent,
                             child:
@@ -2487,27 +2536,26 @@ class _TileContainerState extends State<_TileContainer> {
                                     style: TextStyle(
                                         fontSize: 13,
                                         fontFamily: 'Roboto-Regular',
-                                        color: _isNeedSelect
+                                        color: isNeedSelect
                                             ? model.backgroundColor
                                             : model.textColor)))),
-                        if (_status != null && _status != '')
+                        if (status != null && status != '')
                           Container(
                               decoration: BoxDecoration(
-                                  color: _status == 'New'
+                                  color: status == 'New'
                                       ? const Color.fromRGBO(55, 153, 30, 1)
                                       : const Color.fromRGBO(246, 117, 0, 1),
-                                  shape: BoxShape.rectangle,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(10.0))),
                               padding: model.isWeb && model.isMobileResolution
                                   ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
                                   : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
-                              child: Text(_status,
+                              child: Text(status,
                                   style: const TextStyle(
                                       fontSize: 10.5, color: Colors.white)))
                         else
                           Container(),
-                        if (_status != null && _status != '')
+                        if (status != null && status != '')
                           const Padding(padding: EdgeInsets.only(right: 5))
                         else
                           Container(),
@@ -2515,7 +2563,7 @@ class _TileContainerState extends State<_TileContainer> {
                 )));
       }
     }
-    return _nextLevelChildren;
+    return nextLevelChildren;
   }
 }
 
@@ -2536,7 +2584,13 @@ class _PopupState extends State<_Popup> {
   bool show;
   SubItem? _sampleDetails;
 
-  late GlobalKey<State>? _currentWidgetKey;
+  GlobalKey<State>? _currentWidgetKey;
+
+  @override
+  void initState() {
+    model = SampleModel.instance;
+    super.initState();
+  }
 
   void refresh(bool popupShow) {
     setState(() {
@@ -2568,16 +2622,16 @@ class _PopupState extends State<_Popup> {
           currentSample.needsPropertyPanel! == true;
       // ignore: empty_catches
     } catch (e) {}
-    _needsPropertyPanel = _sampleDetails!.needsPropertyPanel == true &&
+    _needsPropertyPanel = (_sampleDetails!.needsPropertyPanel ?? false) &&
         (isPlatformSpecified == null || isPlatformSpecified == true);
     return _needsPropertyPanel;
   }
 
   @override
   Widget build(BuildContext context) {
-    model = SampleModel.instance;
     _propertiesPanel =
         _PropertiesPanel(sampleModel: model, key: _propertiesPanelKey);
+
     return IgnorePointer(
         ignoring: !show,
         child: Container(
@@ -2589,6 +2643,7 @@ class _PopupState extends State<_Popup> {
                 child: _sampleDetails != null
                     ? Theme(
                         data: ThemeData(
+                            useMaterial3: false,
                             checkboxTheme: CheckboxThemeData(
                                 fillColor: MaterialStateProperty.resolveWith(
                                     getColor)),
@@ -2597,6 +2652,7 @@ class _PopupState extends State<_Popup> {
                             colorScheme: model!.themeData.colorScheme),
                         child: Scaffold(
                             key: scaffoldKey,
+                            endDrawerEnableOpenDragGesture: false,
                             endDrawer: _propertiesPanel,
                             appBar: PreferredSize(
                                 preferredSize: const Size.fromHeight(40),
@@ -2651,12 +2707,12 @@ class _PopupState extends State<_Popup> {
                                               onPressed: () {
                                                 model!.needToMaximize = false;
                                                 final _OutputContainerState
-                                                    _outputContainerState =
+                                                    outputContainerState =
                                                     model!.outputContainerState
                                                         as _OutputContainerState;
-                                                _outputContainerState
+                                                outputContainerState
                                                     .setState(() {
-                                                  _outputContainerState
+                                                  outputContainerState
                                                           .renderWidget =
                                                       _currentWidgetKey
                                                           ?.currentWidget;
@@ -2682,9 +2738,11 @@ class _PopupState extends State<_Popup> {
       MaterialState.pressed,
       MaterialState.selected,
     };
+
     if (states.any(interactiveStates.contains)) {
       return model!.backgroundColor;
     }
+
     return null;
   }
 }

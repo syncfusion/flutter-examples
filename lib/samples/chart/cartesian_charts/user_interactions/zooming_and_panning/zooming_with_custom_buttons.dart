@@ -236,10 +236,10 @@ class _ButtonZoomingState extends SampleViewState {
   SfCartesianChart _buildButtonZoomingChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+      primaryXAxis: const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: getButtonZoomingSeries(isCardView),
       zoomPanBehavior: _zoomPan,
     );
@@ -256,8 +256,7 @@ class _ButtonZoomingState extends SampleViewState {
       LineSeries<ChartSampleData, num>(
           dataSource: zoomData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          width: 2)
+          yValueMapper: (ChartSampleData sales, _) => sales.y)
     ];
   }
 }

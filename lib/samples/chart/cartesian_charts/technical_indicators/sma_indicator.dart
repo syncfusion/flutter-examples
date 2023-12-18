@@ -46,8 +46,6 @@ class _SMAIndicatorState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
           'Period',
@@ -79,26 +77,27 @@ class _SMAIndicatorState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.MMM(),
         interval: 3,
-        minimum: DateTime(2016, 01, 01),
-        maximum: DateTime(2017, 01, 01),
+        minimum: DateTime(2016),
+        maximum: DateTime(2017),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 70,
           maximum: 130,
           interval: 20,
           labelFormat: r'${value}',
-          axisLine: const AxisLine(width: 0)),
+          axisLine: AxisLine(width: 0)),
       trackballBehavior: _trackballBehavior,
       tooltipBehavior: _tooltipBehavior,
-      indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
+      indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// SMA indicator mentioned here.
         SmaIndicator<ChartSampleData, DateTime>(
             seriesName: 'AAPL', period: _period.toInt()),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <ChartSeries<ChartSampleData, DateTime>>[
+      series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
+            emptyPointSettings:
+                const EmptyPointSettings(mode: EmptyPointMode.zero),
             dataSource: getChartData(),
             opacity: 0.7,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

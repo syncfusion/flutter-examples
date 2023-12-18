@@ -1,17 +1,18 @@
 ///Dart import
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:core';
 
 /// Packages import
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart'
-    hide Alignment, Column, Row, Border;
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row, Border;
 
+import '../../model/sample_view.dart';
 // Platform specific import
 import '../common/export/save_file_mobile.dart'
     if (dart.library.html) '../common/export/save_file_web.dart' as helper;
@@ -115,7 +116,7 @@ class _ExportingDataGridState extends SampleViewState {
 
             details.pdfDocumentTemplate.top = header;
           });
-      final List<int> bytes = document.save();
+      final List<int> bytes = document.saveSync();
       await helper.FileSaveHelper.saveAndLaunchFile(bytes, 'DataGrid.pdf');
       document.dispose();
     }
@@ -140,8 +141,7 @@ class _ExportingDataGridState extends SampleViewState {
                     color: model.themeData.colorScheme.brightness ==
                             Brightness.light
                         ? const Color.fromRGBO(0, 0, 0, 0.26)
-                        : const Color.fromRGBO(255, 255, 255, 0.26),
-                    width: 1))),
+                        : const Color.fromRGBO(255, 255, 255, 0.26)))),
         child: SfDataGrid(
           key: _key,
           source: dataGridSource,
@@ -236,7 +236,6 @@ class _ExportingDataGridState extends SampleViewState {
           width: 150.0,
           height: 40.0,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),

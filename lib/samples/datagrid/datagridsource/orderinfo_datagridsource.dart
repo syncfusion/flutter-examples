@@ -3,10 +3,12 @@ import 'dart:math' as math;
 
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/model.dart';
-import 'package:flutter_examples/samples/datagrid/model/orderinfo.dart';
 import 'package:intl/intl.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../../model/model.dart';
+import '../model/orderinfo.dart';
 
 /// Set order's data collection to data grid source.
 class OrderInfoDataGridSource extends DataGridSource {
@@ -14,9 +16,16 @@ class OrderInfoDataGridSource extends DataGridSource {
   OrderInfoDataGridSource(
       {this.model,
       required this.isWebOrDesktop,
-      required this.orderDataCount}) {
-    orders = getOrders(orders, orderDataCount);
-    buildDataGridRows();
+      this.orderDataCount,
+      this.ordersCollection,
+      this.culture,
+      bool? isFilteringSample,
+      bool isGrouping = false}) {
+    this.isFilteringSample = isFilteringSample ?? false;
+    orders = ordersCollection ??
+        getOrders(orders, orderDataCount ?? 100, culture: culture ?? '');
+    currencySymbol = getCurrencySymbol();
+    buildDataGridRows(isGrouping);
   }
 
   /// Determine to decide whether the platform is web or desktop.
@@ -25,37 +34,80 @@ class OrderInfoDataGridSource extends DataGridSource {
   /// Instance of SampleModel.
   final SampleModel? model;
 
+  /// Localization Source.
+  String? culture;
+
   /// Get data count of an order.
-  final int orderDataCount;
+  int? orderDataCount;
   final math.Random _random = math.Random();
 
   /// Instance of an order.
   List<OrderInfo> orders = <OrderInfo>[];
 
+  /// Instance of an order collection for rtl sample
+  List<OrderInfo>? ordersCollection;
+
   /// Instance of DataGridRow.
   List<DataGridRow> dataGridRows = <DataGridRow>[];
 
-  /// Building DataGridRows
-  void buildDataGridRows() {
+  /// Currency symbol for culture.
+  String currencySymbol = '';
+
+  /// Checks whether the source is used for the filtering sample or not.
+  late bool isFilteringSample;
+
+  /// Building DataGridRows.
+  void buildDataGridRows(bool isGrouping) {
     dataGridRows = isWebOrDesktop
         ? orders.map<DataGridRow>((OrderInfo order) {
-            return DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(columnName: 'id', value: order.id),
-              DataGridCell<int>(
-                  columnName: 'customerId', value: order.customerId),
-              DataGridCell<String>(columnName: 'name', value: order.name),
-              DataGridCell<double>(columnName: 'freight', value: order.freight),
-              DataGridCell<String>(columnName: 'city', value: order.city),
-              DataGridCell<double>(columnName: 'price', value: order.price),
-            ]);
+            if (isGrouping) {
+              {
+                return DataGridRow(cells: <DataGridCell>[
+                  DataGridCell<int>(
+                      columnName: getColumnName('ID'), value: order.id),
+                  DataGridCell<int>(
+                      columnName: getColumnName('CustomerId'),
+                      value: order.customerId),
+                  DataGridCell<String>(
+                      columnName: getColumnName('Name'), value: order.name),
+                  DataGridCell<double>(
+                      columnName: getColumnName('Freight'),
+                      value: order.freight),
+                  DataGridCell<String>(
+                      columnName: getColumnName('City'), value: order.city),
+                  DataGridCell<double>(
+                      columnName: getColumnName('Price'), value: order.price),
+                ]);
+              }
+            } else {
+              return DataGridRow(cells: <DataGridCell>[
+                DataGridCell<int>(
+                    columnName: getColumnName('id'), value: order.id),
+                DataGridCell<int>(
+                    columnName: getColumnName('customerId'),
+                    value: order.customerId),
+                DataGridCell<String>(
+                    columnName: getColumnName('name'), value: order.name),
+                DataGridCell<double>(
+                    columnName: getColumnName('freight'), value: order.freight),
+                DataGridCell<String>(
+                    columnName: getColumnName('city'), value: order.city),
+                DataGridCell<double>(
+                    columnName: getColumnName('price'), value: order.price),
+              ]);
+            }
           }).toList()
         : orders.map<DataGridRow>((OrderInfo order) {
             return DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(columnName: 'id', value: order.id),
               DataGridCell<int>(
-                  columnName: 'customerId', value: order.customerId),
-              DataGridCell<String>(columnName: 'name', value: order.name),
-              DataGridCell<String>(columnName: 'city', value: order.city),
+                  columnName: getColumnName('id'), value: order.id),
+              DataGridCell<int>(
+                  columnName: getColumnName('customerId'),
+                  value: order.customerId),
+              DataGridCell<String>(
+                  columnName: getColumnName('name'), value: order.name),
+              DataGridCell<String>(
+                  columnName: getColumnName('city'), value: order.city),
             ]);
           }).toList();
   }
@@ -69,7 +121,7 @@ class OrderInfoDataGridSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     final int rowIndex = dataGridRows.indexOf(row);
     Color backgroundColor = Colors.transparent;
-    if (model != null && (rowIndex % 2) == 0) {
+    if (model != null && (rowIndex % 2) == 0 && culture == null) {
       backgroundColor = model!.backgroundColor.withOpacity(0.07);
     }
     if (isWebOrDesktop) {
@@ -100,8 +152,9 @@ class OrderInfoDataGridSource extends DataGridSource {
         Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
-          child: Text(NumberFormat.currency(locale: 'en_US', symbol: r'$')
-              .format(row.getCells()[3].value)),
+          child: Text(
+              NumberFormat.currency(locale: 'en_US', symbol: currencySymbol)
+                  .format(row.getCells()[3].value)),
         ),
         Container(
           padding: const EdgeInsets.all(8),
@@ -115,7 +168,7 @@ class OrderInfoDataGridSource extends DataGridSource {
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
           child: Text(NumberFormat.currency(
-                  locale: 'en_US', symbol: r'$', decimalDigits: 0)
+                  locale: 'en_US', symbol: currencySymbol, decimalDigits: 0)
               .format(row.getCells()[5].value)),
         ),
       ]);
@@ -139,8 +192,8 @@ class OrderInfoDataGridSource extends DataGridSource {
       return DataGridRowAdapter(
           color: backgroundColor,
           cells: row.getCells().map<Widget>((DataGridCell dataCell) {
-            if (dataCell.columnName == 'id' ||
-                dataCell.columnName == 'customerId') {
+            if (dataCell.columnName == getColumnName('id') ||
+                dataCell.columnName == getColumnName('customerId')) {
               return buildWidget(
                   alignment: Alignment.centerRight, value: dataCell.value!);
             } else {
@@ -150,11 +203,23 @@ class OrderInfoDataGridSource extends DataGridSource {
     }
   }
 
+  /// Currency symbol
+  String getCurrencySymbol() {
+    if (culture != null) {
+      final format =
+          NumberFormat.compactSimpleCurrency(locale: model!.locale.toString());
+      return format.currencySymbol;
+    } else {
+      final format = NumberFormat.simpleCurrency();
+      return format.currencySymbol;
+    }
+  }
+
   @override
   Future<void> handleLoadMoreRows() async {
     await Future<void>.delayed(const Duration(seconds: 5));
     orders = getOrders(orders, 15);
-    buildDataGridRows();
+    buildDataGridRows(false);
     notifyListeners();
   }
 
@@ -162,7 +227,7 @@ class OrderInfoDataGridSource extends DataGridSource {
   Future<void> handleRefresh() async {
     await Future<void>.delayed(const Duration(seconds: 5));
     orders = getOrders(orders, 15);
-    buildDataGridRows();
+    buildDataGridRows(false);
     notifyListeners();
   }
 
@@ -172,6 +237,7 @@ class OrderInfoDataGridSource extends DataGridSource {
       GridSummaryColumn? summaryColumn,
       RowColumnIndex rowColumnIndex,
       String summaryValue) {
+    Widget? widget;
     Widget buildCell(String value, EdgeInsets padding, Alignment alignment) {
       return Container(
         padding: padding,
@@ -183,7 +249,7 @@ class OrderInfoDataGridSource extends DataGridSource {
     }
 
     if (summaryRow.showSummaryInRow) {
-      return buildCell(
+      widget = buildCell(
           summaryValue, const EdgeInsets.all(16.0), Alignment.centerLeft);
     } else if (summaryValue.isNotEmpty) {
       if (summaryColumn!.columnName == 'freight') {
@@ -194,9 +260,41 @@ class OrderInfoDataGridSource extends DataGridSource {
           NumberFormat.currency(locale: 'en_US', decimalDigits: 0, symbol: r'$')
               .format(double.parse(summaryValue));
 
-      return buildCell(
+      widget = buildCell(
           summaryValue, const EdgeInsets.all(8.0), Alignment.centerRight);
     }
+    return widget;
+  }
+
+  @override
+  Widget? buildGroupCaptionCellWidget(
+      RowColumnIndex rowColumnIndex, String summaryValue) {
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+        child: Text(summaryValue));
+  }
+
+  /// Provides the column name.
+  String getColumnName(String columnName) {
+    if (isFilteringSample) {
+      switch (columnName) {
+        case 'id':
+          return 'Order ID';
+        case 'customerId':
+          return 'Customer ID';
+        case 'name':
+          return 'Name';
+        case 'freight':
+          return 'Freight';
+        case 'city':
+          return 'City';
+        case 'price':
+          return 'Price';
+        default:
+          return columnName;
+      }
+    }
+    return columnName;
   }
 
   /// Update DataSource
@@ -206,10 +304,10 @@ class OrderInfoDataGridSource extends DataGridSource {
 
   //  Order Data's
   final List<String> _names = <String>[
-    'Welli',
+    'Crowley',
     'Blonp',
     'Folko',
-    'Furip',
+    'Irvine',
     'Folig',
     'Picco',
     'Frans',
@@ -223,6 +321,78 @@ class OrderInfoDataGridSource extends DataGridSource {
     'Alfki',
   ];
 
+  final List<String> _frenchNames = <String>[
+    'Crowley',
+    'Blonp',
+    'Folko',
+    'Irvine',
+    'Folig',
+    'Pico',
+    'François',
+    'Warth',
+    'Linod',
+    'Simop',
+    'Merep',
+    'Riscu',
+    'Sèves',
+    'Vaffé',
+    'Alfki',
+  ];
+
+  final List<String> _spanishNames = <String>[
+    'Crowley',
+    'Blonp',
+    'Folko',
+    'Irvine',
+    'Folig',
+    'Cima',
+    'francés',
+    'Warth',
+    'lindod',
+    'Simop',
+    'Merep',
+    'Riesgo',
+    'Suyas',
+    'Gofre',
+    'Alfki',
+  ];
+
+  final List<String> _chineseNames = <String>[
+    '克勞利',
+    '布隆普',
+    '民間',
+    '爾灣',
+    '佛利格',
+    '頂峰',
+    '法語',
+    '沃思',
+    '林諾德',
+    '辛普',
+    '梅雷普',
+    '風險',
+    '塞維斯',
+    '胡扯',
+    '阿里基',
+  ];
+
+  final List<String> _arabicNames = <String>[
+    'كراولي',
+    'بلونب',
+    'فولكو',
+    'ايرفين',
+    'فوليج',
+    'بيكو',
+    'فرانس',
+    'وارث',
+    'لينود',
+    'سيموب',
+    'مرحى',
+    'ريسكو',
+    'السباعيات',
+    'فافي',
+    'الفكي',
+  ];
+
   final List<String> _cities = <String>[
     'Bruxelles',
     'Rosario',
@@ -234,17 +404,82 @@ class OrderInfoDataGridSource extends DataGridSource {
     'Resende',
   ];
 
+  final List<String> _chineseCties = <String>[
+    '布魯塞爾',
+    '羅薩里奧',
+    '累西腓',
+    '格拉茨',
+    '蒙特利爾',
+    '薩瓦森',
+    '坎皮納斯',
+    '重新發送',
+  ];
+
+  final List<String> _frenchCties = <String>[
+    'Bruxelles',
+    'Rosario',
+    'Récife',
+    'Graz',
+    'Montréal',
+    'Tsawassen',
+    'Campinas',
+    'Renvoyez',
+  ];
+
+  final List<String> _spanishCties = <String>[
+    'Bruselas',
+    'Rosario',
+    'Recife',
+    'Graz',
+    'Montréal',
+    'Tsawassen',
+    'Campiñas',
+    'Reenviar',
+  ];
+
+  final List<String> _arabicCties = <String>[
+    ' بروكسل',
+    'روزاريو',
+    'ريسيفي',
+    'غراتس',
+    'مونتريال',
+    'تساواسن',
+    'كامبيناس',
+    'ريسيندي',
+  ];
+
   /// Get orders collection
-  List<OrderInfo> getOrders(List<OrderInfo> orderData, int count) {
+  List<OrderInfo> getOrders(List<OrderInfo> orderData, int count,
+      {String? culture}) {
     final int startIndex = orderData.isNotEmpty ? orderData.length : 0,
         endIndex = startIndex + count;
+    List<String> city;
+    List<String> names;
+
+    if (culture == 'Chinese') {
+      city = _chineseCties;
+      names = _chineseNames;
+    } else if (culture == 'Arabic') {
+      city = _arabicCties;
+      names = _arabicNames;
+    } else if (culture == 'French') {
+      city = _frenchCties;
+      names = _frenchNames;
+    } else if (culture == 'Spanish') {
+      city = _spanishCties;
+      names = _spanishNames;
+    } else {
+      city = _cities;
+      names = _names;
+    }
+
     for (int i = startIndex; i < endIndex; i++) {
       orderData.add(OrderInfo(
         1000 + i,
         1700 + i,
-        _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
+        names[i < names.length ? i : _random.nextInt(names.length - 1)],
         _random.nextInt(1000) + _random.nextDouble(),
-        _cities[_random.nextInt(_cities.length - 1)],
+        city[_random.nextInt(city.length - 1)],
         1500.0 + _random.nextInt(100),
       ));
     }

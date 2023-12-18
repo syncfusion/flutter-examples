@@ -98,17 +98,14 @@ class _SparklineCustomizationState extends SampleViewState {
       axisLineColor: model.themeData.colorScheme.brightness == Brightness.dark
           ? const Color.fromRGBO(101, 101, 101, 1)
           : const Color.fromRGBO(181, 181, 181, 1),
-      marker: SparkChartMarker(borderWidth: 2, displayMode: _markerDisplayMode),
+      marker: SparkChartMarker(displayMode: _markerDisplayMode),
       plotBand: SparkChartPlotBand(
           start: _startValue,
           end: _endValue,
           color: _enablePlotband
               ? const Color.fromRGBO(191, 212, 252, 1)
               : Colors.transparent),
-      trackball: _enableTrackLine
-          ? const SparkChartTrackball(
-              activationMode: SparkChartActivationMode.tap)
-          : null,
+      trackball: _enableTrackLine ? const SparkChartTrackball() : null,
     );
   }
 
@@ -131,6 +128,7 @@ class _SparklineCustomizationState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedMarkerDisplayMode,
@@ -159,6 +157,7 @@ class _SparklineCustomizationState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedDatalabelDisplayMode,
@@ -255,7 +254,6 @@ class _SparklineCustomizationState extends SampleViewState {
               child: Row(children: <Widget>[
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         'Start',
@@ -266,7 +264,6 @@ class _SparklineCustomizationState extends SampleViewState {
                 const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
@@ -290,7 +287,6 @@ class _SparklineCustomizationState extends SampleViewState {
               child: Row(children: <Widget>[
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         'End',
@@ -301,7 +297,6 @@ class _SparklineCustomizationState extends SampleViewState {
                 const Padding(padding: EdgeInsets.fromLTRB(25, 0, 0, 0)),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
@@ -326,8 +321,8 @@ class _SparklineCustomizationState extends SampleViewState {
   }
 
   /// Method to change the marker display mode using dropdown menu.
-  void _onMarkerDisplayModeChange(String _item) {
-    _selectedMarkerDisplayMode = _item;
+  void _onMarkerDisplayModeChange(String item) {
+    _selectedMarkerDisplayMode = item;
     if (_selectedMarkerDisplayMode == 'none') {
       _markerDisplayMode = SparkChartMarkerDisplayMode.none;
     }
@@ -352,8 +347,8 @@ class _SparklineCustomizationState extends SampleViewState {
   }
 
   /// Method to change the data label display mode using dropdown menu.
-  void _onDatalabelDisplayModeChange(String _item) {
-    _selectedDatalabelDisplayMode = _item;
+  void _onDatalabelDisplayModeChange(String item) {
+    _selectedDatalabelDisplayMode = item;
     if (_selectedDatalabelDisplayMode == 'none') {
       _dataLabelDisplayMode = SparkChartLabelDisplayMode.none;
     }

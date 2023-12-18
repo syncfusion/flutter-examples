@@ -93,15 +93,15 @@ class _CandleChartState extends SampleViewState {
           dateFormat: DateFormat.MMM(),
           interval: 3,
           intervalType: DateTimeIntervalType.months,
-          minimum: DateTime(2016, 01, 01),
-          maximum: DateTime(2016, 10, 01),
+          minimum: DateTime(2016),
+          maximum: DateTime(2016, 10),
           majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          minimum: 140,
-          maximum: 60,
+      primaryYAxis: const NumericAxis(
+          minimum: 60,
+          maximum: 140,
           interval: 20,
           labelFormat: r'${value}',
-          axisLine: const AxisLine(width: 0)),
+          axisLine: AxisLine(width: 0)),
       series: _getCandleSeries(),
       trackballBehavior: _trackballBehavior,
     );
@@ -132,7 +132,7 @@ class _CandleChartState extends SampleViewState {
                 low: 92.39,
                 close: 97.34),
             ChartSampleData(
-                x: DateTime(2016, 02, 01),
+                x: DateTime(2016, 02),
                 open: 96.47,
                 high: 97.33,
                 low: 93.69,
@@ -288,7 +288,7 @@ class _CandleChartState extends SampleViewState {
                 low: 96.42,
                 close: 104.21),
             ChartSampleData(
-                x: DateTime(2016, 08, 01),
+                x: DateTime(2016, 08),
                 open: 104.41,
                 high: 107.65,
                 low: 104,

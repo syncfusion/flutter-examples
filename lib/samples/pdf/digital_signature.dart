@@ -39,11 +39,9 @@ class _SignPdfState extends SampleViewState {
     return Scaffold(
         backgroundColor: model.cardThemeColor,
         body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
@@ -73,21 +71,20 @@ class _SignPdfState extends SampleViewState {
                     Column(children: getDigestChildWidgets(context)),
                   const SizedBox(height: 10, width: 30),
                   Align(
-                      alignment: Alignment.center,
                       child: TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              model.backgroundColor),
-                          padding: model.isMobile
-                              ? null
-                              : MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 15)),
-                        ),
-                        onPressed: _signPDF,
-                        child: const Text('Sign PDF',
-                            style: TextStyle(color: Colors.white)),
-                      ))
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          model.backgroundColor),
+                      padding: model.isMobile
+                          ? null
+                          : MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15)),
+                    ),
+                    onPressed: _signPDF,
+                    child: const Text('Sign PDF',
+                        style: TextStyle(color: Colors.white)),
+                  ))
                 ]),
           ),
         ));
@@ -181,7 +178,7 @@ class _SignPdfState extends SampleViewState {
     }
 
     //Save the PDF document
-    final List<int> bytes = document.save();
+    final List<int> bytes = await document.save();
     //Dispose the document.
     document.dispose();
     //Save and launch file.

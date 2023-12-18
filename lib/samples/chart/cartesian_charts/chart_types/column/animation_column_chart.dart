@@ -42,10 +42,10 @@ class _AnimationColumnDefaultState extends SampleViewState {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis:
-            CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-        primaryYAxis: NumericAxis(
-            majorTickLines: const MajorTickLines(color: Colors.transparent),
-            axisLine: const AxisLine(width: 0),
+            const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryYAxis: const NumericAxis(
+            majorTickLines: MajorTickLines(color: Colors.transparent),
+            axisLine: AxisLine(width: 0),
             minimum: 0,
             maximum: 100),
         series: _getDefaultColumnSeries());
@@ -55,7 +55,7 @@ class _AnimationColumnDefaultState extends SampleViewState {
   List<ColumnSeries<_ChartData, num>> _getDefaultColumnSeries() {
     return <ColumnSeries<_ChartData, num>>[
       ColumnSeries<_ChartData, num>(
-          dataSource: _chartData!,
+          dataSource: _chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y)
     ];

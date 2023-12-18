@@ -48,56 +48,52 @@ class _IntervalTypeState extends SampleViewState {
       'milliseconds'
     ].toList();
     year = <ChartSampleData>[
-      ChartSampleData(x: DateTime(2015, 1, 1), yValue: _getRandomInt(15, 95)),
-      ChartSampleData(x: DateTime(2016, 1, 1), yValue: _getRandomInt(5, 75)),
-      ChartSampleData(x: DateTime(2017, 1, 1), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(x: DateTime(2018, 1, 1), yValue: _getRandomInt(5, 85)),
-      ChartSampleData(x: DateTime(2019, 1, 1), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(x: DateTime(2020, 1, 1), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2015), yValue: _getRandomInt(15, 95)),
+      ChartSampleData(x: DateTime(2016), yValue: _getRandomInt(5, 75)),
+      ChartSampleData(x: DateTime(2017), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2018), yValue: _getRandomInt(5, 85)),
+      ChartSampleData(x: DateTime(2019), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2020), yValue: _getRandomInt(5, 95)),
     ];
     month = <ChartSampleData>[
-      ChartSampleData(x: DateTime(2015, 1, 1), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(x: DateTime(2015, 5, 1), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(x: DateTime(2015, 9, 1), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(x: DateTime(2016, 1, 1), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(x: DateTime(2016, 5, 1), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(x: DateTime(2016, 9, 1), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2015), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2015, 5), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2015, 9), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2016), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2016, 5), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2016, 9), yValue: _getRandomInt(5, 95)),
     ];
     day = <ChartSampleData>[
       ChartSampleData(x: DateTime(2015, 1, 30), yValue: _getRandomInt(5, 95)),
       ChartSampleData(x: DateTime(2015, 1, 31), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(x: DateTime(2015, 2, 1), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2015, 2), yValue: _getRandomInt(5, 95)),
       ChartSampleData(x: DateTime(2015, 2, 2), yValue: _getRandomInt(5, 95)),
       ChartSampleData(x: DateTime(2015, 2, 3), yValue: _getRandomInt(5, 95)),
       ChartSampleData(x: DateTime(2015, 2, 4), yValue: _getRandomInt(5, 95)),
     ];
     hour = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 23, 00, 00), yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 23), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 24, 59, 00), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(
-          x: DateTime(2015, 1, 2, 1, 00, 00), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(
-          x: DateTime(2015, 1, 2, 2, 00, 00), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(
-          x: DateTime(2015, 1, 2, 3, 00, 00), yValue: _getRandomInt(5, 95)),
-      ChartSampleData(
-          x: DateTime(2015, 1, 2, 4, 00, 00), yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 24, 59), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2015, 1, 2, 1), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2015, 1, 2, 2), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2015, 1, 2, 3), yValue: _getRandomInt(5, 95)),
+      ChartSampleData(x: DateTime(2015, 1, 2, 4), yValue: _getRandomInt(5, 95)),
     ];
     minute = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 10, 58, 00), yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 10, 58), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 10, 59, 00), yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 10, 59), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 11, 00, 00), yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 11), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 11, 01, 00), yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 11, 01), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 11, 02, 00), yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 11, 02), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 11, 03, 00), yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 11, 03), yValue: _getRandomInt(5, 95)),
     ];
     second = <ChartSampleData>[
       ChartSampleData(
@@ -105,7 +101,7 @@ class _IntervalTypeState extends SampleViewState {
       ChartSampleData(
           x: DateTime(2015, 1, 1, 14, 58, 59), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 14, 59, 00), yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 14, 59), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
           x: DateTime(2015, 1, 1, 14, 59, 01), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
@@ -121,8 +117,7 @@ class _IntervalTypeState extends SampleViewState {
           x: DateTime(2015, 1, 1, 01, 01, 58, 999),
           yValue: _getRandomInt(5, 95)),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 01, 01, 59, 000),
-          yValue: _getRandomInt(5, 95)),
+          x: DateTime(2015, 1, 1, 01, 01, 59), yValue: _getRandomInt(5, 95)),
       ChartSampleData(
           x: DateTime(2015, 1, 1, 01, 01, 59, 001),
           yValue: _getRandomInt(5, 95)),
@@ -159,6 +154,7 @@ class _IntervalTypeState extends SampleViewState {
             height: 50.0,
             padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
             child: DropdownButton<String>(
+                focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedIntervalType,
                 items: _intervalType!.map((String value) {
@@ -197,9 +193,9 @@ class _IntervalTypeState extends SampleViewState {
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           majorGridLines: const MajorGridLines(width: 0),
           interval: _selectedIntervalType == 'months' ? 4 : 1),
-      primaryYAxis: NumericAxis(
-        axisLine: const AxisLine(width: 0),
-        majorTickLines: const MajorTickLines(size: 0),
+      primaryYAxis: const NumericAxis(
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
       ),
       series: _getDefaultDateTimeSeries(),
     );
@@ -209,7 +205,7 @@ class _IntervalTypeState extends SampleViewState {
   List<LineSeries<ChartSampleData, DateTime>> _getDefaultDateTimeSeries() {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         xValueMapper: (ChartSampleData data, _) => data.x as DateTime,
         yValueMapper: (ChartSampleData data, _) => data.yValue,
       )

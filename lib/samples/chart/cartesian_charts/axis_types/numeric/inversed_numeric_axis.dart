@@ -130,7 +130,6 @@ class _NumericInverseState extends SampleViewState {
           ],
           xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          width: 2,
           markerSettings: const MarkerSettings(isVisible: true))
     ];
   }

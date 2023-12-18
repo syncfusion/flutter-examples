@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
@@ -127,6 +128,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return Theme(
         data: ThemeData(
+          useMaterial3: false,
           brightness: model.themeData.colorScheme.brightness,
           colorScheme:
               model.themeData.colorScheme.brightness == Brightness.light

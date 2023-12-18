@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 ///XlsIO import
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Alignment;
+// ignore: depend_on_referenced_packages
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 import 'package:syncfusion_officechart/officechart.dart';
 
 ///Local imports
@@ -28,7 +29,6 @@ class _ExpensesReportXlsIOState extends SampleViewState {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
@@ -36,20 +36,19 @@ class _ExpensesReportXlsIOState extends SampleViewState {
                 style: TextStyle(fontSize: 16, color: model.textColor)),
             const SizedBox(height: 20, width: 30),
             Align(
-                alignment: Alignment.center,
                 child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
-                    padding: model.isMobile
-                        ? null
-                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
-                  ),
-                  onPressed: _generateExcel,
-                  child: const Text('Generate Excel',
-                      style: TextStyle(color: Colors.white)),
-                ))
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(model.backgroundColor),
+                padding: model.isMobile
+                    ? null
+                    : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15)),
+              ),
+              onPressed: _generateExcel,
+              child: const Text('Generate Excel',
+                  style: TextStyle(color: Colors.white)),
+            ))
           ],
         ),
       ),
@@ -122,13 +121,13 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     sheet1.getRangeByName('D12').numberFormat = r'[Red]($#,###)';
     sheet1.getRangeByName('D14').numberFormat = r'[Red]($#,###)';
 
-    sheet1.getRangeByName('B11').number = 16250;
-    sheet1.getRangeByName('B12').number = 1600;
-    sheet1.getRangeByName('B13').number = 1000;
-    sheet1.getRangeByName('B14').number = 12400;
-    sheet1.getRangeByName('B15').number = 3000;
+    sheet1.getRangeByName('B11').number = 6250;
+    sheet1.getRangeByName('B12').number = 4600;
+    sheet1.getRangeByName('B13').number = 7000;
+    sheet1.getRangeByName('B14').number = 8400;
+    sheet1.getRangeByName('B15').number = 3750;
     sheet1.getRangeByName('B16').number = 4500;
-    sheet1.getRangeByName('B17').number = 3000;
+    sheet1.getRangeByName('B17').number = 5600;
     sheet1.getRangeByName('B18').formula = '=SUM(B11:B17)';
 
     sheet1.getRangeByName('C11').number = 17500;
@@ -151,7 +150,7 @@ class _ExpensesReportXlsIOState extends SampleViewState {
 
     final ChartCollection charts = ChartCollection(sheet1);
     final Chart chart = charts.add();
-    chart.chartType = ExcelChartType.pie;
+    chart.chartType = ExcelChartType.doughnut;
     chart.dataRange = sheet1.getRangeByName('A11:B17');
     chart.isSeriesInRows = false;
     chart.chartTitle = 'Event Expenses';
@@ -161,9 +160,11 @@ class _ExpensesReportXlsIOState extends SampleViewState {
     chart.bottomRow = 10;
     chart.leftColumn = 1;
     chart.rightColumn = 5;
+    chart.series[0].dataLabels.isValue = true;
+    chart.series[0].serieFormat.commonSerieOptions.holeSizePercent = 40;
     sheet1.charts = charts;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

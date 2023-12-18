@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -57,11 +58,14 @@ class _ThumbCustomizationSliderPageState extends SampleViewState {
     } else if (_thumbValue == _thumbMax) {
       return const Icon(Icons.arrow_back_ios, color: Colors.white, size: 12.0);
     } else {
-      return Row(mainAxisAlignment: MainAxisAlignment.center, children: const <
-          Widget>[
-        Icon(Icons.arrow_back_ios_outlined, color: Colors.white, size: 12.0),
-        Icon(Icons.arrow_forward_ios_outlined, color: Colors.white, size: 12.0),
-      ]);
+      return const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.arrow_back_ios_outlined,
+                color: Colors.white, size: 12.0),
+            Icon(Icons.arrow_forward_ios_outlined,
+                color: Colors.white, size: 12.0),
+          ]);
     }
   }
 
@@ -69,9 +73,8 @@ class _ThumbCustomizationSliderPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(thumbRadius: 14),
         child: SfSlider(
-          interval: 2.0,
-          min: 0.0,
           max: 10.0,
+          stepSize: 1,
           thumbIcon: Container(
               alignment: Alignment.center,
               child: Text(

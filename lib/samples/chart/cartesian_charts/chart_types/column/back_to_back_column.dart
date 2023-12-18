@@ -55,8 +55,8 @@ class _ColumnBackState extends SampleViewState {
         enableSideBySideSeriesPlacement: false,
         title: ChartTitle(
             text: isCardView ? '' : 'Population of various countries'),
-        primaryXAxis: CategoryAxis(
-          majorGridLines: const MajorGridLines(width: 0),
+        primaryXAxis: const CategoryAxis(
+          majorGridLines: MajorGridLines(width: 0),
         ),
         primaryYAxis: NumericAxis(
             majorTickLines: const MajorTickLines(size: 0),
@@ -70,19 +70,18 @@ class _ColumnBackState extends SampleViewState {
   List<ColumnSeries<ChartSampleData, String>> _getBackToBackColumn() {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
-          width: 0.7,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: '2014'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           width: 0.5,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: '2010'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           width: 0.3,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,

@@ -1,6 +1,7 @@
 /// Package import
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Chart import
@@ -43,7 +44,7 @@ class _DoughnutGradientState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(model.isWebFullView ? 'Gradient \nmode' : 'Gradient mode',
                   softWrap: false,
@@ -56,6 +57,7 @@ class _DoughnutGradientState extends SampleViewState {
                 width: 0.5 * screenWidth,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _shaderType,
@@ -195,17 +197,18 @@ class _DoughnutGradientState extends SampleViewState {
 
   List<double> _calculateDoughnut(
       List<Color> colors, List<double> stops, Rect outerRect, Rect innerRect) {
-    final List<double> stopOffsets = <double>[];
-    final num _chartStart = innerRect.right;
-    final Offset _chartCenter = outerRect.center;
-    final num _chartend = outerRect.right;
+    List<double> stopOffsets = <double>[];
+    final List<double> defaultStopOffsets = <double>[0.625, 0.75, 0.875, 1.0];
+    final num chartStart = innerRect.right;
+    final Offset chartCenter = outerRect.center;
+    final num chartend = outerRect.right;
     num diffCenterEnd;
     num diffStartEnd;
     num diffCenterStart;
     num centerStops;
-    diffCenterEnd = _chartend - _chartCenter.dx;
-    diffStartEnd = _chartend - _chartStart;
-    diffCenterStart = _chartStart - _chartCenter.dx;
+    diffCenterEnd = chartend - chartCenter.dx;
+    diffStartEnd = chartend - chartStart;
+    diffCenterStart = chartStart - chartCenter.dx;
     centerStops = diffCenterStart / diffCenterEnd;
     for (int i = 0; i < colors.length; i++) {
       if (i == 0) {
@@ -215,6 +218,9 @@ class _DoughnutGradientState extends SampleViewState {
             (diffStartEnd * (stops[i] - stops[i - 1])) / diffCenterEnd);
       }
     }
+    stopOffsets = listEquals(stopOffsets, defaultStopOffsets)
+        ? stopOffsets
+        : defaultStopOffsets;
     return stopOffsets;
   }
 

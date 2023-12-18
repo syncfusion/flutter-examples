@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 import '../model/helper.dart';
 import '../model/model.dart';
 
-/// Searchbar widget for searching particular sample
+/// Search bar widget for searching particular sample
 /// by typing the sample's title in the text editor present in the [SearchBar]
-class SearchBar extends StatefulWidget {
-  /// Holds the search bar widet
+class CustomSearchBar extends StatefulWidget {
+  /// Holds the search bar widget
   // ignore: tighten_type_of_initializing_formals
-  const SearchBar({Key? key, this.sampleListModel})
+  const CustomSearchBar({Key? key, this.sampleListModel})
       : assert(sampleListModel != null),
         super(key: key);
 
@@ -25,7 +25,8 @@ class SearchBar extends StatefulWidget {
 }
 
 /// Represents the search bar state
-class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
+class SearchBarState extends State<CustomSearchBar>
+    with WidgetsBindingObserver {
   /// Creates the search bar state
   SearchBarState(this.sampleListModel);
 
@@ -44,7 +45,7 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
   /// Represents the overlay state
   late OverlayState over;
 
-  /// Represents the serach icon instance
+  /// Represents the search icon instance
   Widget? searchIcon;
 
   /// Represents the close icon instance
@@ -97,7 +98,7 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
             ? Colors.white.withOpacity(0.5)
             : Colors.grey);
     overlayEntries = <OverlayEntry>[];
-    over = Overlay.of(context)!;
+    over = Overlay.of(context);
     duplicateControlItems = sampleListModel!.searchControlItems;
     duplicateSampleItems = sampleListModel!.searchSampleItems;
     sampleListModel!.searchResults.clear();
@@ -150,7 +151,7 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
       hint = isFocus.hasFocus ? '' : 'Search';
     });
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -158,23 +159,23 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
     sampleListModel!.searchResults.clear();
     sampleListModel!.editingController.text = '';
     isFocus.unfocus();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   void didChangeMetrics() {
-    if (isFocus.hasFocus) {
+    if (isFocus.hasFocus && sampleListModel!.editingController.text.isEmpty) {
       if (!isOpen) {
         isOpen = true;
-      } else if (isOpen) {
+      } else if (isOpen && sampleListModel!.editingController.text.isNotEmpty) {
         isOpen = false;
         isFocus.unfocus();
       }
     }
   }
 
-  /// method to filter the serach results
+  /// method to filter the search results
   void filterSearchResults(String query) {
     _removeOverlayEntries();
     final List<Control> dummySearchControl = <Control>[];
@@ -343,68 +344,63 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
 
     _overlayHeight = ((height ~/ _itemHeight) * _itemHeight) + 6;
 
-    return OverlayEntry(
-        maintainState: false,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-              builder: (BuildContext buildContext, StateSetter setState) {
-            _overlaySetState = setState;
-            return Positioned(
-              left: offset.dx,
-              top: offset.dy + size.height - 5,
-              width: size.width,
-              height: sampleListModel!.searchResults.isEmpty &&
-                      sampleListModel!.editingController.text.isNotEmpty &&
-                      isFocus.hasFocus
-                  ? 0.1 * MediaQuery.of(context).size.height
-                  : _overlayHeight.toDouble(),
-              child: Card(
-                color: sampleListModel!.cardColor,
-                child: sampleListModel!.editingController.text.isEmpty ||
-                        isFocus.hasFocus == false
-                    ? null
-                    : (sampleListModel!.searchResults.isEmpty
-                        ? ListTile(
-                            title: Text('No results found',
-                                style: TextStyle(
-                                    color: sampleListModel!.textColor,
-                                    fontSize: 13,
-                                    fontFamily: 'Roboto-Regular')),
-                            onTap: () {},
-                          )
-                        : _RectGetterFromListView(
-                            key: _globalKey,
-                            child: ListView.builder(
-                                controller: _controller,
-                                padding: EdgeInsets.zero,
-                                itemCount:
-                                    sampleListModel!.searchResults.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  _keys[index] =
-                                      _RectGetterFromListView.createGlobalKey();
-                                  return _RectGetterFromListView(
-                                      key: _keys[index],
-                                      child: SizedBox(
-                                        height: _itemHeight.toDouble(),
-                                        child: Material(
-                                            color: index == _selectionIndex
-                                                ? Colors.grey.withOpacity(0.4)
-                                                : sampleListModel!.cardColor,
-                                            child: InkWell(
-                                              hoverColor:
-                                                  Colors.grey.withOpacity(0.2),
-                                              onTap: () {
-                                                _navigateToSample(index);
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                child: RichText(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  text: TextSpan(children: <
-                                                      InlineSpan>[
+    return OverlayEntry(builder: (BuildContext context) {
+      return StatefulBuilder(
+          builder: (BuildContext buildContext, StateSetter setState) {
+        _overlaySetState = setState;
+        return Positioned(
+          left: offset.dx,
+          top: offset.dy + size.height - 5,
+          width: size.width,
+          height: sampleListModel!.searchResults.isEmpty &&
+                  sampleListModel!.editingController.text.isNotEmpty &&
+                  isFocus.hasFocus
+              ? 0.1 * MediaQuery.of(context).size.height
+              : _overlayHeight.toDouble(),
+          child: Card(
+            color: sampleListModel!.cardColor,
+            child: sampleListModel!.editingController.text.isEmpty ||
+                    isFocus.hasFocus == false
+                ? null
+                : (sampleListModel!.searchResults.isEmpty
+                    ? ListTile(
+                        title: Text('No results found',
+                            style: TextStyle(
+                                color: sampleListModel!.textColor,
+                                fontSize: 13,
+                                fontFamily: 'Roboto-Regular')),
+                        onTap: () {},
+                      )
+                    : _RectGetterFromListView(
+                        key: _globalKey,
+                        child: ListView.builder(
+                            controller: _controller,
+                            padding: EdgeInsets.zero,
+                            itemCount: sampleListModel!.searchResults.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              _keys[index] =
+                                  _RectGetterFromListView.createGlobalKey();
+                              return _RectGetterFromListView(
+                                  key: _keys[index],
+                                  child: SizedBox(
+                                    height: _itemHeight.toDouble(),
+                                    child: Material(
+                                        color: index == _selectionIndex
+                                            ? Colors.grey.withOpacity(0.4)
+                                            : sampleListModel!.cardColor,
+                                        child: InkWell(
+                                          hoverColor:
+                                              Colors.grey.withOpacity(0.2),
+                                          onTap: () {
+                                            _navigateToSample(index);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: RichText(
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              text: TextSpan(
+                                                  children: <InlineSpan>[
                                                     TextSpan(
                                                       text: sampleListModel!
                                                           .searchResults[index]
@@ -433,115 +429,123 @@ class SearchBarState extends State<SearchBar> with WidgetsBindingObserver {
                                                               'Roboto-Regular'),
                                                     )
                                                   ]),
-                                                ),
-                                              ),
-                                            )),
-                                      ));
-                                }))),
-              ),
-            );
-          });
-        });
+                                            ),
+                                          ),
+                                        )),
+                                  ));
+                            }))),
+          ),
+        );
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return RawKeyboardListener(
-        focusNode: _rawKeyFocusNode,
-        onKey: (RawKeyEvent event) => !sampleListModel!.isMobileResolution
-            ? _performKeyBoardEvent(event)
-            : null,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              height: sampleListModel!.isWebFullView ? 35 : 45,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: sampleListModel!.isWebFullView
-                      ? (Colors.grey[100])!.withOpacity(0.2)
-                      : Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0))),
-              child: Padding(
-                  padding: EdgeInsets.only(
-                      left: (isFocus.hasFocus || searchIcon == null) ? 10 : 0),
-                  child: TextField(
-                    onSubmitted: (String value) {
-                      if (_selectionIndex != null) {
-                        _navigateToSample(_selectionIndex!);
-                      }
-                    },
-                    mouseCursor: MaterialStateMouseCursor.clickable,
-                    cursorColor: sampleListModel!.isWebFullView
+      focusNode: _rawKeyFocusNode,
+      onKey: (RawKeyEvent event) => !sampleListModel!.isMobileResolution
+          ? _performKeyBoardEvent(event)
+          : null,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            height: sampleListModel!.isWebFullView ? 35 : 45,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: sampleListModel!.isWebFullView
+                  ? Colors.grey[100]!.withOpacity(0.2)
+                  : Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: (isFocus.hasFocus || searchIcon == null) ? 10 : 0),
+              child: Center(
+                child: TextField(
+                  onSubmitted: (String value) {
+                    if (_selectionIndex != null) {
+                      _navigateToSample(_selectionIndex!);
+                    }
+                  },
+                  mouseCursor: MaterialStateMouseCursor.clickable,
+                  cursorColor: sampleListModel!.isWebFullView
+                      ? Colors.white
+                      : Colors.grey,
+                  focusNode: isFocus,
+                  onChanged: (String value) {
+                    closeIcon = isFocus.hasFocus &&
+                            (sampleListModel!.editingController.text.isNotEmpty)
+                        ? IconButton(
+                            splashColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            icon: Icon(Icons.close,
+                                size: sampleListModel!.isWebFullView ? 20 : 24,
+                                color: sampleListModel!.isWebFullView
+                                    ? Colors.white
+                                    : Colors.grey),
+                            onPressed: () {
+                              sampleListModel!.editingController.text = '';
+                              isFocus.unfocus();
+                              filterSearchResults('');
+                              if (sampleListModel!.isMobileResolution) {
+                                sampleListModel!.sampleList.clear();
+                                setState(() {
+                                  closeIcon = null;
+                                });
+                              } else {
+                                _overlayEntry.opaque = false;
+                                _removeOverlayEntries();
+                              }
+                            })
+                        : null;
+                    setState(() {
+                      /// searched results changed
+                    });
+                    filterSearchResults(value);
+                  },
+                  onEditingComplete: () {
+                    isFocus.unfocus();
+                  },
+                  style: TextStyle(
+                    fontFamily: 'Roboto-Regular',
+                    color: sampleListModel!.isWebFullView
                         ? Colors.white
                         : Colors.grey,
-                    focusNode: isFocus,
-                    onChanged: (String value) {
-                      closeIcon = isFocus.hasFocus &&
-                              (sampleListModel!
-                                  .editingController.text.isNotEmpty)
-                          ? IconButton(
-                              splashColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              icon: Icon(Icons.close,
-                                  size:
-                                      sampleListModel!.isWebFullView ? 20 : 24,
-                                  color: sampleListModel!.isWebFullView
-                                      ? Colors.white
-                                      : Colors.grey),
-                              onPressed: () {
-                                sampleListModel!.editingController.text = '';
-                                isFocus.unfocus();
-                                filterSearchResults('');
-                                if (sampleListModel!.isMobileResolution) {
-                                  sampleListModel!.sampleList.clear();
-                                  setState(() {
-                                    closeIcon = null;
-                                  });
-                                } else {
-                                  _overlayEntry.opaque = false;
-                                  _removeOverlayEntries();
-                                }
-                              })
-                          : null;
-                      setState(() {
-                        /// searched results changed
-                      });
-                      filterSearchResults(value);
-                    },
-                    onEditingComplete: () {
-                      isFocus.unfocus();
-                    },
-                    style: TextStyle(
-                        fontFamily: 'Roboto-Regular',
-                        color: sampleListModel!.isWebFullView
-                            ? Colors.white
-                            : Colors.grey,
-                        fontSize: 13),
-                    controller: sampleListModel!.editingController,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                            fontFamily: 'Roboto-Regular',
-                            color: sampleListModel!.isWebFullView
-                                ? Colors.white
-                                : Colors.grey,
-                            fontSize: 13),
-                        hintText: hint,
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(
-                            fontSize: 13,
-                            fontFamily: 'Roboto-Regular',
-                            color: sampleListModel!.isWebFullView
-                                ? Colors.white.withOpacity(0.5)
-                                : Colors.grey),
-                        suffixIcon: closeIcon,
-                        prefixIcon: searchIcon),
-                  )),
+                    fontSize: 13,
+                  ),
+                  controller: sampleListModel!.editingController,
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(
+                      fontFamily: 'Roboto-Regular',
+                      color: sampleListModel!.isWebFullView
+                          ? Colors.white
+                          : Colors.grey,
+                      fontSize: 13,
+                    ),
+                    hintText: hint,
+                    hintStyle: TextStyle(
+                      fontSize: 13,
+                      fontFamily: 'Roboto-Regular',
+                      color: sampleListModel!.isWebFullView
+                          ? Colors.white.withOpacity(0.5)
+                          : Colors.grey,
+                    ),
+                    contentPadding: EdgeInsets.zero,
+                    isDense: true,
+                    border: InputBorder.none,
+                    suffixIcon: closeIcon,
+                    prefixIcon: searchIcon,
+                  ),
+                ),
+              ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -554,8 +558,8 @@ class _RectGetterFromListView extends StatefulWidget {
 
   ///Get the rect of list view
   static Rect? getRectFromKey(
-      GlobalKey<_RectGetterFromListViewState> _globalKey) {
-    final RenderObject object = _globalKey.currentContext!.findRenderObject()!;
+      GlobalKey<_RectGetterFromListViewState> globalKey) {
+    final RenderObject object = globalKey.currentContext!.findRenderObject()!;
     final dynamic translation = object.getTransformTo(null).getTranslation();
     final Size size = object.semanticBounds.size;
 

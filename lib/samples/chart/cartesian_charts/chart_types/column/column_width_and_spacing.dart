@@ -31,16 +31,15 @@ class _ColumnSpacingState extends SampleViewState {
     _tooltipBehavior = TooltipBehavior(enable: true);
     chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'Germany',
-          y: 128,
-          secondSeriesYValue: 129,
-          thirdSeriesYValue: 101),
+          x: 'Norway', y: 16, secondSeriesYValue: 8, thirdSeriesYValue: 13),
       ChartSampleData(
-          x: 'Russia', y: 123, secondSeriesYValue: 92, thirdSeriesYValue: 93),
+          x: 'USA', y: 8, secondSeriesYValue: 10, thirdSeriesYValue: 7),
       ChartSampleData(
-          x: 'Norway', y: 107, secondSeriesYValue: 106, thirdSeriesYValue: 90),
+          x: 'Germany', y: 12, secondSeriesYValue: 10, thirdSeriesYValue: 5),
       ChartSampleData(
-          x: 'USA', y: 87, secondSeriesYValue: 95, thirdSeriesYValue: 71),
+          x: 'Canada', y: 4, secondSeriesYValue: 8, thirdSeriesYValue: 14),
+      ChartSampleData(
+          x: 'Netherlands', y: 8, secondSeriesYValue: 5, thirdSeriesYValue: 4),
     ];
     super.initState();
   }
@@ -56,8 +55,6 @@ class _ColumnSpacingState extends SampleViewState {
       shrinkWrap: true,
       children: <Widget>[
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text('Width  ', style: TextStyle(color: model.textColor)),
             Container(
@@ -80,7 +77,6 @@ class _ColumnSpacingState extends SampleViewState {
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -114,16 +110,17 @@ class _ColumnSpacingState extends SampleViewState {
   SfCartesianChart _buildSpacingColumnChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(text: isCardView ? '' : 'Winter olympic medals count'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      title: ChartTitle(
+          text: isCardView ? '' : 'Winter olympic medals count - 2022'),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
-          maximum: 150,
+      primaryYAxis: const NumericAxis(
+          maximum: 20,
           minimum: 0,
-          interval: 25,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          interval: 4,
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultColumn(),
       legend: Legend(isVisible: !isCardView),
       tooltipBehavior: _tooltipBehavior,
@@ -140,24 +137,24 @@ class _ColumnSpacingState extends SampleViewState {
 
           /// To apply the spacing betweeen to two columns here.
           spacing: isCardView ? 0.2 : _columnSpacing,
-          dataSource: chartData!,
-          color: const Color.fromRGBO(252, 216, 20, 1),
+          dataSource: chartData,
+          color: const Color.fromRGBO(251, 193, 55, 1),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Gold'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           width: isCardView ? 0.8 : _columnWidth,
           spacing: isCardView ? 0.2 : _columnSpacing,
-          color: const Color.fromRGBO(169, 169, 169, 1),
+          color: const Color.fromRGBO(177, 183, 188, 1),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Silver'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           width: isCardView ? 0.8 : _columnWidth,
           spacing: isCardView ? 0.2 : _columnSpacing,
-          color: const Color.fromRGBO(205, 127, 50, 1),
+          color: const Color.fromRGBO(140, 92, 69, 1),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Bronze')

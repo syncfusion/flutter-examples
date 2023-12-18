@@ -42,13 +42,13 @@ class _ColumnTrackerState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Marks of a student'),
       legend: Legend(isVisible: !isCardView),
       primaryXAxis:
-          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
           minimum: 0,
           maximum: 100,
-          axisLine: const AxisLine(width: 0),
-          majorGridLines: const MajorGridLines(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorGridLines: MajorGridLines(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getTracker(),
       tooltipBehavior: _tooltipBehavior,
     );

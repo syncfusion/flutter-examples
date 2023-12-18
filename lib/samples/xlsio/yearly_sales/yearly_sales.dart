@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 ///XlsIO import
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Alignment;
+// ignore: depend_on_referenced_packages
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 import 'package:syncfusion_officechart/officechart.dart';
 
 ///Local imports
@@ -28,7 +29,6 @@ class _YearlySalesXlsIOState extends SampleViewState {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
@@ -36,20 +36,19 @@ class _YearlySalesXlsIOState extends SampleViewState {
                 style: TextStyle(fontSize: 16, color: model.textColor)),
             const SizedBox(height: 20, width: 30),
             Align(
-                alignment: Alignment.center,
                 child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
-                    padding: model.isMobile
-                        ? null
-                        : MaterialStateProperty.all(const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
-                  ),
-                  onPressed: _generateExcel,
-                  child: const Text('Generate Excel',
-                      style: TextStyle(color: Colors.white)),
-                ))
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(model.backgroundColor),
+                padding: model.isMobile
+                    ? null
+                    : MaterialStateProperty.all(const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15)),
+              ),
+              onPressed: _generateExcel,
+              child: const Text('Generate Excel',
+                  style: TextStyle(color: Colors.white)),
+            ))
           ],
         ),
       ),
@@ -223,8 +222,8 @@ class _YearlySalesXlsIOState extends SampleViewState {
     sheet2.getRangeByName('C19').formula = '=(C18-C17)/10000000';
 
     sheet2.getRangeByName('C19').numberFormat = '0.00%';
-    sheet2.getRangeByName('C17:C18').numberFormat = r'_($* #,##0.00';
-    sheet2.getRangeByName('B2:D13').numberFormat = r'_($* #,##0.00';
+    sheet2.getRangeByName('C17:C18').numberFormat = r'_($ #,##0.00';
+    sheet2.getRangeByName('B2:D14').numberFormat = r'_($ #,##0.00';
 
     sheet2.getRangeByName('A1:E1').cellStyle.backColor = '#C6E0B4';
     sheet2.getRangeByName('A1:E1').cellStyle.bold = true;
@@ -248,7 +247,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
     chart1.rightColumn = 8;
 
     final Chart chart2 = charts.add();
-    chart2.chartType = ExcelChartType.line;
+    chart2.chartType = ExcelChartType.lineMarkers;
     chart2.dataRange = sheet2.getRangeByName('A1:C13');
     chart2.isSeriesInRows = false;
     chart2.chartTitleArea.bold = true;
@@ -271,7 +270,7 @@ class _YearlySalesXlsIOState extends SampleViewState {
 
     sheet.charts = charts;
 
-    final List<int> bytes = workbook.saveAsStream();
+    final List<int> bytes = workbook.saveSync();
     workbook.dispose();
 
     //Launch file.

@@ -37,12 +37,25 @@ class GettingStartedCalendarState extends SampleViewState {
     CalendarView.day,
     CalendarView.week,
     CalendarView.workWeek,
+    CalendarView.timelineDay,
+    CalendarView.timelineWeek,
+    CalendarView.timelineWorkWeek,
     CalendarView.month,
     CalendarView.schedule
   ];
 
   final List<String> _viewNavigationModeList =
       <String>['snap', 'none'].toList();
+  final List<String> _numberOfDaysList = <String>[
+    'default',
+    '1 day',
+    '2 days',
+    '3 days',
+    '4 days',
+    '5 days',
+    '6 days',
+    '7 days'
+  ].toList();
 
   /// Global key used to maintain the state, when we change the parent of the
   /// widget
@@ -59,6 +72,8 @@ class GettingStartedCalendarState extends SampleViewState {
   ViewNavigationMode _viewNavigationMode = ViewNavigationMode.snap;
   String _viewNavigationModeString = 'snap';
   bool _showWeekNumber = false;
+  String _numberOfDaysString = 'default';
+  int _numberOfDays = -1;
 
   @override
   void initState() {
@@ -88,7 +103,7 @@ class GettingStartedCalendarState extends SampleViewState {
                   model.isWebFullView &&
                   screenHeight < 800
               ? Scrollbar(
-                  isAlwaysShown: true,
+                  thumbVisibility: true,
                   controller: _controller,
                   child: ListView(
                     controller: _controller,
@@ -122,7 +137,7 @@ class GettingStartedCalendarState extends SampleViewState {
       }
     }
 
-    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         if (_calendarController.view == CalendarView.month ||
             _calendarController.view == CalendarView.timelineMonth) {
@@ -145,8 +160,8 @@ class GettingStartedCalendarState extends SampleViewState {
         }
         final int count = 1 + random.nextInt(model.isWebFullView ? 2 : 3);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate = DateTime(
-              date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+          final DateTime startDate =
+              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
           appointment.add(_Meeting(
             _subjectCollection[random.nextInt(7)],
             startDate,
@@ -167,8 +182,8 @@ class GettingStartedCalendarState extends SampleViewState {
         final DateTime date = i;
         final int count = 1 + random.nextInt(3);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate = DateTime(
-              date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+          final DateTime startDate =
+              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
           appointment.add(_Meeting(
             _subjectCollection[random.nextInt(7)],
             startDate,
@@ -227,6 +242,29 @@ class GettingStartedCalendarState extends SampleViewState {
     });
   }
 
+  /// Allows to switching the days count customization in calendar.
+  void customNumberOfDaysInView(String value) {
+    _numberOfDaysString = value;
+    if (value == 'default') {
+      _numberOfDays = -1;
+    } else if (value == '1 day') {
+      _numberOfDays = 1;
+    } else if (value == '2 days') {
+      _numberOfDays = 2;
+    } else if (value == '3 days') {
+      _numberOfDays = 3;
+    } else if (value == '4 days') {
+      _numberOfDays = 4;
+    } else if (value == '5 days') {
+      _numberOfDays = 5;
+    } else if (value == '6 days') {
+      _numberOfDays = 6;
+    } else if (value == '7 days') {
+      _numberOfDays = 7;
+    }
+    setState(() {});
+  }
+
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
@@ -235,9 +273,7 @@ class GettingStartedCalendarState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Text('Allow view navigation',
                   softWrap: false,
@@ -264,9 +300,7 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Text('Show date picker button',
                   softWrap: false,
@@ -296,9 +330,7 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Expanded(
                   child: Text(
@@ -329,9 +361,7 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Expanded(
                   child: Text(
@@ -362,9 +392,7 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Expanded(
                   child: Text('Show week number',
@@ -393,8 +421,6 @@ class GettingStartedCalendarState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
                   flex: model.isWebFullView ? 5 : 6,
@@ -411,6 +437,7 @@ class GettingStartedCalendarState extends SampleViewState {
                   padding: const EdgeInsets.only(left: 60),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _viewNavigationModeString,
@@ -429,6 +456,39 @@ class GettingStartedCalendarState extends SampleViewState {
               )
             ],
           ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                  flex: model.isWebFullView ? 5 : 6,
+                  child: Text('Number of days',
+                      softWrap: false,
+                      style:
+                          TextStyle(fontSize: 16.0, color: model.textColor))),
+              Expanded(
+                flex: model.isWebFullView ? 6 : 4,
+                child: Container(
+                  padding: const EdgeInsets.only(left: 60),
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
+                      underline:
+                          Container(color: const Color(0xFFBDBDBD), height: 1),
+                      value: _numberOfDaysString,
+                      items: _numberOfDaysList.map((String value) {
+                        return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'default',
+                            child: Text(value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor)));
+                      }).toList(),
+                      onChanged: (dynamic value) {
+                        customNumberOfDaysInView(value);
+                        stateSetter(() {});
+                      }),
+                ),
+              )
+            ],
+          )
         ],
       );
     });
@@ -436,15 +496,15 @@ class GettingStartedCalendarState extends SampleViewState {
 
   /// Returns the calendar widget based on the properties passed.
   SfCalendar _getGettingStartedCalendar(
-      [CalendarController? _calendarController,
-      CalendarDataSource? _calendarDataSource,
+      [CalendarController? calendarController,
+      CalendarDataSource? calendarDataSource,
       ViewChangedCallback? viewChangedCallback,
-      DateTime? _minDate,
-      DateTime? _maxDate,
+      DateTime? minDate,
+      DateTime? maxDate,
       dynamic scheduleViewBuilder]) {
     return SfCalendar(
-      controller: _calendarController,
-      dataSource: _calendarDataSource,
+      controller: calendarController,
+      dataSource: calendarDataSource,
       allowedViews: _allowedViews,
       scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
       showNavigationArrow: model.isWebFullView,
@@ -456,14 +516,14 @@ class GettingStartedCalendarState extends SampleViewState {
       blackoutDatesTextStyle: TextStyle(
           decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
           color: Colors.red),
-      minDate: _minDate,
-      maxDate: _maxDate,
+      minDate: minDate,
+      maxDate: maxDate,
       monthViewSettings: MonthViewSettings(
           appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-          showTrailingAndLeadingDates: _showLeadingAndTrailingDates,
-          appointmentDisplayCount: 4),
-      timeSlotViewSettings: const TimeSlotViewSettings(
-          minimumAppointmentDuration: Duration(minutes: 60)),
+          showTrailingAndLeadingDates: _showLeadingAndTrailingDates),
+      timeSlotViewSettings: TimeSlotViewSettings(
+          numberOfDaysInView: _numberOfDays,
+          minimumAppointmentDuration: const Duration(minutes: 60)),
       viewNavigationMode: _viewNavigationMode,
       showWeekNumber: _showWeekNumber,
     );

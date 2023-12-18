@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// local imports
@@ -31,7 +33,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
   void initState() {
     _sampleListModel = SampleModel.instance;
     _initializeProperties();
-    _sampleListModel.searchBar = SearchBar(
+    _sampleListModel.searchBar = CustomSearchBar(
         key: GlobalKey<SearchBarState>(), sampleListModel: _sampleListModel);
     super.initState();
   }
@@ -52,6 +54,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
           break;
         }
       }
+
       navigationRoutes[sampleRoute.routeName!] = (BuildContext context) =>
           WebLayoutPage(
               key: GlobalKey<State>(),
@@ -60,8 +63,10 @@ class _SampleBrowserState extends State<SampleBrowser> {
               category: category,
               subItem: sampleRoute.subItem);
     }
+
     if (_sampleListModel.isWebFullView) {
       _sampleListModel.currentThemeData = ThemeData.from(
+          useMaterial3: false,
           colorScheme: const ColorScheme.light().copyWith(
               primary: _sampleListModel.currentPaletteColor,
               secondary: _sampleListModel.currentPaletteColor));
@@ -78,43 +83,76 @@ class _SampleBrowserState extends State<SampleBrowser> {
             shortcuts: shortcuts,
             initialRoute: '/',
             routes: navigationRoutes,
+            //ignore: always_specify_types
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              SfGlobalLocalizations.delegate
+            ],
+            //ignore: always_specify_types
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ar', 'AE'),
+            ],
+            locale: const Locale('en', 'US'),
             debugShowCheckedModeBanner: false,
             title: 'Demos & Examples of Syncfusion Flutter Widgets',
             theme: ThemeData.from(
-                colorScheme: const ColorScheme.light().copyWith(
-                    primary: _sampleListModel.currentPaletteColor,
-                    secondary: _sampleListModel.currentPaletteColor)),
+                    useMaterial3: false,
+                    colorScheme: const ColorScheme.light().copyWith(
+                        primary: _sampleListModel.currentPaletteColor,
+                        secondary: _sampleListModel.currentPaletteColor))
+                .copyWith(
+                    scrollbarTheme: const ScrollbarThemeData().copyWith(
+                        thumbColor: MaterialStateProperty.all(
+                            const Color.fromRGBO(128, 128, 128, 0.3)))),
             darkTheme: ThemeData.from(
-                colorScheme: const ColorScheme.dark().copyWith(
-                    primary: _sampleListModel.currentPaletteColor,
-                    secondary: _sampleListModel.currentPaletteColor,
-                    onPrimary: Colors.white)),
-            themeMode: ThemeMode.system,
+                    useMaterial3: false,
+                    colorScheme: const ColorScheme.dark().copyWith(
+                        primary: _sampleListModel.currentPaletteColor,
+                        secondary: _sampleListModel.currentPaletteColor,
+                        onPrimary: Colors.white))
+                .copyWith(
+                    scrollbarTheme: const ScrollbarThemeData().copyWith(
+                        thumbColor: MaterialStateProperty.all(
+                            const Color.fromRGBO(255, 255, 255, 0.3)))),
           )
         : MaterialApp(
             initialRoute: '/demos',
             routes: navigationRoutes,
             debugShowCheckedModeBanner: false,
             title: 'Demos & Examples of Syncfusion Flutter Widgets',
+            localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+              GlobalMaterialLocalizations.delegate,
+              SfGlobalLocalizations.delegate
+            ],
+            //ignore: always_specify_types
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ar', 'AE'),
+            ],
+            locale: const Locale('en', 'US'),
             theme: ThemeData.from(
+                useMaterial3: false,
                 colorScheme: const ColorScheme.light().copyWith(
                     primary: _sampleListModel.currentPaletteColor,
                     secondary: _sampleListModel.currentPaletteColor)),
             darkTheme: ThemeData.from(
+                useMaterial3: false,
                 colorScheme: const ColorScheme.dark().copyWith(
                     primary: _sampleListModel.currentPaletteColor,
                     secondary: _sampleListModel.currentPaletteColor,
                     onPrimary: Colors.white)),
-            themeMode: ThemeMode.system,
             home: Builder(builder: (BuildContext context) {
               _sampleListModel.systemTheme = Theme.of(context);
               _sampleListModel.currentThemeData ??=
                   _sampleListModel.systemTheme.brightness != Brightness.dark
                       ? ThemeData.from(
+                          useMaterial3: false,
                           colorScheme: const ColorScheme.light().copyWith(
                               primary: _sampleListModel.currentPaletteColor,
                               secondary: _sampleListModel.currentPaletteColor))
                       : ThemeData.from(
+                          useMaterial3: false,
                           colorScheme: const ColorScheme.dark().copyWith(
                               primary: _sampleListModel.currentPaletteColor,
                               secondary: _sampleListModel.currentPaletteColor,
@@ -192,6 +230,7 @@ class _HomePageState extends State<HomePage> {
                     : getLeftSideDrawer(model),
                 key: scaffoldKey,
                 backgroundColor: model.webBackgroundColor,
+                endDrawerEnableOpenDragGesture: false,
                 endDrawer:
                     model.isWebFullView ? showWebThemeSettings(model) : null,
                 appBar: PreferredSize(
@@ -231,6 +270,7 @@ class _HomePageState extends State<HomePage> {
                 bottomNavigationBar: getFooter(context, model),
                 key: scaffoldKey,
                 backgroundColor: model.webBackgroundColor,
+                endDrawerEnableOpenDragGesture: false,
                 endDrawer: showWebThemeSettings(model),
                 resizeToAvoidBottomInset: false,
                 appBar: PreferredSize(
@@ -297,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                                         ? 5
                                         : 4),
                             height: MediaQuery.of(context).size.height * 0.0445,
-                            child: SearchBar(
+                            child: CustomSearchBar(
                               sampleListModel: model,
                             ),
                           )),
@@ -330,8 +370,8 @@ class _HomePageState extends State<HomePage> {
                                       child: InkWell(
                                         hoverColor: Colors.white,
                                         onTap: () {
-                                          launch(
-                                              'https://www.syncfusion.com/downloads/flutter/confirm');
+                                          launchUrl(Uri.parse(
+                                              'https://www.syncfusion.com/downloads/flutter/confirm'));
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.fromLTRB(
@@ -377,8 +417,8 @@ class _HomePageState extends State<HomePage> {
                                       child: InkWell(
                                         hoverColor: Colors.white,
                                         onTap: () {
-                                          launch(
-                                              'https://pub.dev/publishers/syncfusion.com/packages');
+                                          launchUrl(Uri.parse(
+                                              'https://pub.dev/publishers/syncfusion.com/packages'));
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.fromLTRB(
@@ -423,8 +463,18 @@ class _HomePageState extends State<HomePage> {
                 body: _CategorizedCards()));
   }
 
-  /// get scrollable widget to getting stickable view
+  /// Get scrollable widget to getting stickable view with scrollbar depends on platform
   Widget _getScrollableWidget(SampleModel model) {
+    return model.isWeb
+        ? Scrollbar(
+            controller: controller,
+            thumbVisibility: true,
+            child: _getCustomScrollWidget(model))
+        : _getCustomScrollWidget(model);
+  }
+
+  /// Get scrollable widget to getting stickable view
+  Widget _getCustomScrollWidget(SampleModel model) {
     final List<Widget> searchResults = _getSearchedItems(model);
     return Container(
         color: model.paletteColor,
@@ -435,10 +485,10 @@ class _HomePageState extends State<HomePage> {
               controller: controller,
               physics: const ClampingScrollPhysics(),
               slivers: <Widget>[
-                SliverToBoxAdapter(
+                const SliverToBoxAdapter(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Padding(
                       padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                       child: Text('Flutter UI Widgets',
@@ -496,7 +546,6 @@ class _HomePageState extends State<HomePage> {
       const Color.fromRGBO(180, 137, 255, 1),
       const Color.fromRGBO(29, 233, 182, 1)
     ];
-
     sampleListModel.paletteBorderColors = <Color>[
       const Color.fromRGBO(0, 116, 227, 1),
       Colors.transparent,
@@ -511,7 +560,6 @@ class _HomePageState extends State<HomePage> {
     final List<Widget> items = <Widget>[];
     for (int i = 0; i < model.sampleList.length; i++) {
       items.add(Material(
-          elevation: 0.0,
           color: model.webBackgroundColor,
           child: InkWell(
               splashColor: Colors.grey.withOpacity(0.4),
@@ -526,7 +574,6 @@ class _HomePageState extends State<HomePage> {
                 child: RichText(
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.left,
-                  softWrap: true,
                   maxLines: 1,
                   text: TextSpan(
                     children: <TextSpan>[
@@ -566,7 +613,6 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(color: model.textColor, fontSize: 15)))),
       );
     }
-
     return items;
   }
 }
@@ -636,13 +682,15 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: _getCategorizedCards());
+    return model.isWeb
+        ? Scrollbar(thumbVisibility: model.isWeb, child: _getCategorizedCards())
+        : _getCategorizedCards();
   }
 
   Widget _getCategorizedCards() {
     final double deviceWidth = MediaQuery.of(context).size.width;
     double padding;
-    double _sidePadding = deviceWidth > 1060
+    double sidePadding = deviceWidth > 1060
         ? deviceWidth * 0.038
         : deviceWidth >= 768
             ? deviceWidth * 0.041
@@ -657,7 +705,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
       ///setting max cardwidth, spacing between cards in higher resolutions
       if (deviceWidth > 3000) {
         _cardWidth = deviceWidth / 3.5;
-        _sidePadding = (_cardWidth / 2) * 0.125;
+        sidePadding = (_cardWidth / 2) * 0.125;
         padding = 30;
       }
       final List<Widget> firstColumnWidgets = <Widget>[];
@@ -687,14 +735,14 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
         organizedCardWidget = Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(left: _sidePadding)),
+            Padding(padding: EdgeInsets.only(left: sidePadding)),
             Column(children: firstColumnWidgets),
             Padding(padding: EdgeInsets.only(left: padding)),
             Column(children: secondColumnWidgets),
             Padding(padding: EdgeInsets.only(left: padding)),
             Column(children: thirdColumnWidgets),
             Padding(
-              padding: EdgeInsets.only(left: _sidePadding),
+              padding: EdgeInsets.only(left: sidePadding),
             )
           ],
         );
@@ -719,12 +767,12 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
         organizedCardWidget = Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(left: _sidePadding)),
+            Padding(padding: EdgeInsets.only(left: sidePadding)),
             Column(children: firstColumnWidgets),
             Padding(padding: EdgeInsets.only(left: padding)),
             Column(children: secondColumnWidgets),
             Padding(
-              padding: EdgeInsets.only(left: _sidePadding),
+              padding: EdgeInsets.only(left: sidePadding),
             )
           ],
         );
@@ -732,7 +780,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
     } else {
       _cardWidth = deviceWidth * 0.9;
       padding = deviceWidth * 0.035;
-      _sidePadding = (deviceWidth * 0.1) / 2;
+      sidePadding = (deviceWidth * 0.1) / 2;
       final List<Widget> verticalOrderedWidgets = <Widget>[];
       for (int i = 0; i < model.categoryList.length; i++) {
         verticalOrderedWidgets.add(_getCategoryWidget(model.categoryList[i]));
@@ -741,10 +789,10 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
       }
       organizedCardWidget = Row(
         children: <Widget>[
-          Padding(padding: EdgeInsets.only(left: _sidePadding)),
+          Padding(padding: EdgeInsets.only(left: sidePadding)),
           Column(children: verticalOrderedWidgets),
           Padding(
-            padding: EdgeInsets.only(left: _sidePadding),
+            padding: EdgeInsets.only(left: sidePadding),
           )
         ],
       );
@@ -792,12 +840,12 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
     for (int i = 0; i < category.controlList!.length; i++) {
       final Control control = category.controlList![i] as Control;
       final String? status = control.status;
+
       items.add(
         Container(
             color: model.cardColor,
             child: Material(
               color: model.cardColor,
-              elevation: 0.0,
               child: InkWell(
                 splashFactory: InkRipple.splashFactory,
                 hoverColor: Colors.grey.withOpacity(0.2),
@@ -819,7 +867,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                               control.title!,
                               textAlign: TextAlign.left,
                               softWrap: true,
-                              textScaleFactor: 1,
+                              textScaler: TextScaler.noScaling,
                               overflow: TextOverflow.fade,
                               style: TextStyle(
                                   fontSize: 12,
@@ -830,7 +878,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                             if (!model.isWebFullView && Platform.isIOS)
                               Container()
                             else
-                              control.isBeta == true
+                              (control.isBeta ?? false)
                                   ? Padding(
                                       padding: const EdgeInsets.only(left: 8),
                                       child: Container(
@@ -842,7 +890,6 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                                               : const EdgeInsets.fromLTRB(
                                                   3, 3, 3, 2),
                                           decoration: const BoxDecoration(
-                                              shape: BoxShape.rectangle,
                                               color: Color.fromRGBO(
                                                   245, 188, 14, 1)),
                                           child: const Text(
@@ -859,7 +906,6 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                           if (status != null)
                             Container(
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
                                     color: status.toLowerCase() == 'new'
                                         ? const Color.fromRGBO(55, 153, 30, 1)
                                         : status.toLowerCase() == 'updated'
@@ -886,7 +932,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                         control.description!,
                         textAlign: TextAlign.left,
                         softWrap: true,
-                        textScaleFactor: 1,
+                        textScaler: TextScaler.noScaling,
                         overflow: TextOverflow.fade,
                         style: const TextStyle(
                           fontWeight: FontWeight.normal,
@@ -899,7 +945,6 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
             )),
       );
     }
-
     return items;
   }
 }

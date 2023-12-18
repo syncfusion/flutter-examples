@@ -1,8 +1,10 @@
 ///flutter package import
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -34,7 +36,6 @@ class _SliderLabelCustomizationPageState extends SampleViewState {
         child: SfSlider(
           showLabels: true,
           interval: 20,
-          min: 0.0,
           max: 100.0,
           value: _labelSliderValue,
           onChanged: (dynamic values) {
@@ -73,7 +74,6 @@ class _SliderLabelCustomizationPageState extends SampleViewState {
         child: SfSlider(
           interval: 25,
           showDividers: true,
-          min: 0.0,
           max: 100.0,
           value: _dividerSliderValue,
           onChanged: (dynamic values) {

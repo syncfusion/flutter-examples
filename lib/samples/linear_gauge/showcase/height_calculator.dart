@@ -39,7 +39,7 @@ class _HeightCalculatorState extends SampleViewState {
 
   /// Returns the height calculator.
   Widget _buildHeightCalculator(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return Padding(
         padding: const EdgeInsets.all(10),
@@ -51,7 +51,6 @@ class _HeightCalculatorState extends SampleViewState {
                 padding: const EdgeInsets.all(5.0),
                 child: SfLinearGauge(
                   orientation: LinearGaugeOrientation.vertical,
-                  minimum: 0,
                   maximum: maximumLevel,
                   tickPosition: LinearElementPosition.outside,
                   labelPosition: LinearLabelPosition.outside,
@@ -78,7 +77,7 @@ class _HeightCalculatorState extends SampleViewState {
                             const LinearAxisLabel(text: '200 cm', value: 200),
                           ];
                   },
-                  axisTrackStyle: const LinearAxisTrackStyle(thickness: 5.0),
+                  axisTrackStyle: const LinearAxisTrackStyle(),
                   markerPointers: <LinearMarkerPointer>[
                     LinearShapePointer(
                         value: _pointerValue,
@@ -88,7 +87,6 @@ class _HeightCalculatorState extends SampleViewState {
                             _pointerValue = value as double;
                           });
                         },
-                        position: LinearElementPosition.outside,
                         shapeType: LinearShapePointerType.rectangle,
                         color: const Color(0xff0074E3),
                         height: 1.5,
@@ -96,7 +94,6 @@ class _HeightCalculatorState extends SampleViewState {
                     LinearWidgetPointer(
                         value: _pointerValue,
                         enableAnimation: false,
-                        position: LinearElementPosition.cross,
                         onChanged: (dynamic value) {
                           setState(() {
                             _pointerValue = value as double;
@@ -110,7 +107,6 @@ class _HeightCalculatorState extends SampleViewState {
                             ))),
                     LinearWidgetPointer(
                         value: _pointerValue,
-                        markerAlignment: LinearMarkerAlignment.center,
                         enableAnimation: false,
                         onChanged: (dynamic value) {
                           setState(() {
@@ -123,11 +119,10 @@ class _HeightCalculatorState extends SampleViewState {
                             width: 60,
                             height: 25,
                             decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
                                 color: model.cardColor,
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
-                                    color: _brightness == Brightness.light
+                                    color: brightness == Brightness.light
                                         ? Colors.grey
                                         : Colors.black54,
                                     offset: const Offset(0.0, 1.0), //(x,y)
@@ -152,7 +147,7 @@ class _HeightCalculatorState extends SampleViewState {
                       endWidth: 200,
                       color: Colors.transparent,
                       child: Image.asset(
-                        _brightness == Brightness.light
+                        brightness == Brightness.light
                             ? 'images/bmi_light.png'
                             : 'images/bmi_dark.png',
                         fit: BoxFit.fitHeight,

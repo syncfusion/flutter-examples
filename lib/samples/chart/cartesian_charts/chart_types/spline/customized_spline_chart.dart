@@ -42,12 +42,12 @@ class _SplineVerticalState extends SampleViewState {
         edgeLabelPlacement: EdgeLabelPlacement.shift,
         dateFormat: DateFormat.y(),
       ),
-      primaryYAxis: NumericAxis(
-          majorGridLines: const MajorGridLines(width: 0),
+      primaryYAxis: const NumericAxis(
+          majorGridLines: MajorGridLines(width: 0),
           minimum: 1.2,
           maximum: 2.4,
           interval: 0.2),
-      series: <ChartSeries<ChartSampleData, DateTime>>[
+      series: <CartesianSeries<ChartSampleData, DateTime>>[
         SplineSeries<ChartSampleData, DateTime>(
             onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
               return _CustomSplineSeriesRenderer(
@@ -66,7 +66,6 @@ class _SplineVerticalState extends SampleViewState {
             ],
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
             yValueMapper: (ChartSampleData sales, _) => sales.y,
-            width: 2,
             dashArray: const <double>[10, 5]),
       ],
     );
@@ -74,7 +73,7 @@ class _SplineVerticalState extends SampleViewState {
 }
 
 /// custom spline series class overriding the original spline series class.
-class _CustomSplineSeriesRenderer extends SplineSeriesRenderer {
+class _CustomSplineSeriesRenderer<T, D> extends SplineSeriesRenderer<T, D> {
   _CustomSplineSeriesRenderer(this.series);
 
   final SplineSeries<dynamic, dynamic> series;
@@ -82,29 +81,22 @@ class _CustomSplineSeriesRenderer extends SplineSeriesRenderer {
   static Random randomNumber = Random();
 
   @override
-  ChartSegment createSegment() {
-    return _SplineCustomPainter(randomNumber.nextInt(4), series);
+  SplineSegment<T, D> createSegment() {
+    return _SplineCustomPainter(randomNumber.nextInt(4));
   }
 }
 
-late List<double> _yVal;
-late List<double> _xVal;
 late double? _textXOffset, _textYOffset;
 late double? _text1XOffset, _text1YOffset;
 
 /// custom spline painter class for customized spline series.
-class _SplineCustomPainter extends SplineSegment {
-  _SplineCustomPainter(int value, this.series) {
+class _SplineCustomPainter<T, D> extends SplineSegment<T, D> {
+  _SplineCustomPainter(int value) {
     //ignore: prefer_initializing_formals
     index = value;
-    _yVal = <double>[];
-    _xVal = <double>[];
   }
 
-  final SplineSeries<dynamic, dynamic> series;
-
   late double maximum, minimum;
-
   late int index;
 
   List<Color> colors = <Color>[
@@ -114,9 +106,6 @@ class _SplineCustomPainter extends SplineSegment {
     Colors.purple,
     Colors.cyan
   ];
-
-  @override
-  int get currentSegmentIndex => super.currentSegmentIndex!;
 
   @override
   Paint getStrokePaint() {
@@ -139,32 +128,33 @@ class _SplineCustomPainter extends SplineSegment {
 
   @override
   void onPaint(Canvas canvas) {
+    if (isEmpty) {
+      return;
+    }
+
     final double x1 = points[0].dx,
         y1 = points[0].dy,
         x2 = points[1].dx,
         y2 = points[1].dy;
-    _yVal.add(y1);
-    _yVal.add(y2);
-    _xVal.add(x1);
-    _xVal.add(x2);
+
     final Path path = Path();
     path.moveTo(x1, y1);
     path.cubicTo(
         startControlX!, startControlY!, endControlX!, endControlY!, x2, y2);
     currentSegmentIndex < 4
         ? canvas.drawPath(path, getStrokePaint())
-        : _drawDashedLine(canvas, series, strokePaint!, path, true);
+        : _drawDashedLine(canvas, series, getStrokePaint(), path, true);
 
     if (currentSegmentIndex == 5) {
-      _textXOffset = _xVal[0];
-      _textYOffset = _yVal[1];
+      _textXOffset = x1;
+      _textYOffset = y2;
     }
     if (currentSegmentIndex == 1) {
-      _text1XOffset = _xVal[0];
-      _text1YOffset = _yVal[0];
+      _text1XOffset = x1;
+      _text1YOffset = y1;
     }
 
-    if (currentSegmentIndex == series.dataSource.length - 2) {
+    if (currentSegmentIndex == series.dataSource!.length - 2) {
       const TextSpan span = TextSpan(
         style: TextStyle(
             color: Color.fromRGBO(0, 168, 181, 1),
@@ -191,25 +181,32 @@ class _SplineCustomPainter extends SplineSegment {
   }
 }
 
-void _drawDashedLine(Canvas canvas, CartesianSeries<dynamic, dynamic> series,
-    Paint paint, Path path, bool isSeries) {
-  bool _even = false;
-  for (int i = 1; i < series.dashArray.length; i = i + 2) {
-    if (series.dashArray[i] == 0) {
-      _even = true;
+void _drawDashedLine(
+    Canvas canvas,
+    SplineSeriesRenderer<dynamic, dynamic> series,
+    Paint paint,
+    Path path,
+    bool isSeries) {
+  if (series.dashArray != null) {
+    bool even = false;
+    for (int i = 1; i < series.dashArray!.length; i = i + 2) {
+      if (series.dashArray![i] == 0) {
+        even = true;
+      }
     }
-  }
-  if (_even == false) {
-    paint.isAntiAlias = true;
-    canvas.drawPath(
-        _dashPath(
-          path,
-          dashArray: _CircularIntervalList<double>(
-              isSeries ? series.dashArray : <double>[12, 3, 3, 3]),
-        )!,
-        paint);
-  } else {
-    canvas.drawPath(path, paint);
+    if (even == false) {
+      paint.isAntiAlias = true;
+      canvas.drawPath(
+          _dashPath(
+            path,
+            dashArray: _CircularIntervalList<double>(series.dashArray != null
+                ? series.dashArray!
+                : <double>[12, 3, 3, 3]),
+          )!,
+          paint);
+    } else {
+      canvas.drawPath(path, paint);
+    }
   }
 }
 
@@ -220,22 +217,22 @@ Path? _dashPath(
   if (source == null) {
     return null;
   }
-  const double _intialValue = 0.0;
-  final Path _path = Path();
+  const double initialValue = 0.0;
+  final Path path = Path();
   for (final PathMetric measurePath in source.computeMetrics()) {
-    double _distance = _intialValue;
-    bool _draw = true;
-    while (_distance < measurePath.length) {
+    double distance = initialValue;
+    bool draw = true;
+    while (distance < measurePath.length) {
       final double length = dashArray.next;
-      if (_draw) {
-        _path.addPath(measurePath.extractPath(_distance, _distance + length),
-            Offset.zero);
+      if (draw) {
+        path.addPath(
+            measurePath.extractPath(distance, distance + length), Offset.zero);
       }
-      _distance += length;
-      _draw = !_draw;
+      distance += length;
+      draw = !draw;
     }
   }
-  return _path;
+  return path;
 }
 
 class _CircularIntervalList<T> {

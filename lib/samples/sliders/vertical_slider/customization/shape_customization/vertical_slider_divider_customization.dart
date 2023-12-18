@@ -1,8 +1,10 @@
 ///flutter package import
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -28,7 +30,6 @@ class _VerticalDividerCustomizedSliderState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return SfSlider.vertical(
-      min: 0.0,
       max: 100.0,
       value: _value,
       onChanged: (dynamic values) {

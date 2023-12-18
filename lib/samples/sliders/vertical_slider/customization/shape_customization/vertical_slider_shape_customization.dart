@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import

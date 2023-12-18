@@ -33,7 +33,7 @@ class _JsonDataState extends SampleViewState {
   }
 
 // Method to hanlde deserialization steps.
-  // ignore: always_specify_types
+  // ignore: always_specify_types, strict_raw_type
   Future loadSalesData() async {
     final String jsonString =
         await _loadSalesDataAsset(); // Deserialization  step 1
@@ -41,7 +41,7 @@ class _JsonDataState extends SampleViewState {
         json.decode(jsonString); // Deserialization  step 2
     setState(() {
       // ignore: always_specify_types
-      for (final Map i in jsonResponse) {
+      for (final Map<dynamic, dynamic> i in jsonResponse) {
         chartData!.add(_SampleData.fromJson(i)); // Deserialization step 3
       }
     });
@@ -86,14 +86,14 @@ class _JsonDataState extends SampleViewState {
             dateFormat: DateFormat.y(),
             name: 'Years',
             majorGridLines: const MajorGridLines(width: 0)),
-        primaryYAxis: NumericAxis(
+        primaryYAxis: const NumericAxis(
             rangePadding: ChartRangePadding.none,
             name: 'Price',
             minimum: 70,
             maximum: 110,
             interval: 10,
-            axisLine: const AxisLine(width: 0),
-            majorTickLines: const MajorTickLines(color: Colors.transparent)),
+            axisLine: AxisLine(width: 0),
+            majorTickLines: MajorTickLines(color: Colors.transparent)),
         series: _getDefaultLineSeries(),
         trackballBehavior: _trackballBehavior);
   }
@@ -102,13 +102,13 @@ class _JsonDataState extends SampleViewState {
   List<LineSeries<_SampleData, DateTime>> _getDefaultLineSeries() {
     return <LineSeries<_SampleData, DateTime>>[
       LineSeries<_SampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         xValueMapper: (_SampleData sales, _) => sales.x,
         yValueMapper: (_SampleData sales, _) => sales.y1,
         name: 'Product A',
       ),
       LineSeries<_SampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         name: 'Product B',
         xValueMapper: (_SampleData sales, _) => sales.x,
         yValueMapper: (_SampleData sales, _) => sales.y2,

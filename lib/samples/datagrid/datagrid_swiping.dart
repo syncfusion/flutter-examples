@@ -1,12 +1,15 @@
 /// Package imports
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_examples/model/sample_view.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/orderinfo_datagridsource.dart';
 
 /// DataGrid import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../model/sample_view.dart';
+import 'datagridsource/orderinfo_datagridsource.dart';
 
 /// Local import
 import 'model/orderinfo.dart';
@@ -132,7 +135,7 @@ class _SwipingDataGridState extends SampleViewState {
     if (_formKey.currentState!.validate()) {
       dataSource.orders[rowIndex] = OrderInfo(
         int.tryParse(orderIdController!.text)!,
-        int?.tryParse(customerIdController!.text)!,
+        int.tryParse(customerIdController!.text)!,
         nameController!.text,
         freightController!.text == ''
             ? 0.0
@@ -142,7 +145,7 @@ class _SwipingDataGridState extends SampleViewState {
             ? 0.0
             : double.tryParse(priceController!.text)!,
       );
-      dataSource.buildDataGridRows();
+      dataSource.buildDataGridRows(false);
       dataSource.updateDataSource();
       Navigator.pop(buildContext);
     }
@@ -280,10 +283,9 @@ class _SwipingDataGridState extends SampleViewState {
       child: Container(
         color: Colors.blueAccent,
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Icon(Icons.edit, color: Colors.white, size: 20),
             SizedBox(width: 16.0),
             Text(
@@ -304,10 +306,9 @@ class _SwipingDataGridState extends SampleViewState {
       child: Container(
         color: Colors.redAccent,
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Icon(Icons.delete, color: Colors.white, size: 20),
             SizedBox(width: 16.0),
             Text(

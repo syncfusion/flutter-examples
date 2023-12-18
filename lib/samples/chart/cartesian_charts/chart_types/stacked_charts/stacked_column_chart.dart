@@ -69,14 +69,14 @@ class _StackedColumnChartState extends SampleViewState {
           text: isCardView ? '' : 'Quarterly wise sales of products'),
       legend: Legend(
           isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
           labelFormat: '{value}K',
           maximum: 300,
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedColumnSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -87,22 +87,22 @@ class _StackedColumnChartState extends SampleViewState {
   List<StackedColumnSeries<ChartSampleData, String>> _getStackedColumnSeries() {
     return <StackedColumnSeries<ChartSampleData, String>>[
       StackedColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Product A'),
       StackedColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Product B'),
       StackedColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Product C'),
       StackedColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Product D')

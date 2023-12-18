@@ -18,6 +18,7 @@ class FunnelSmartLabels extends SampleView {
 
 class _FunnelSmartLabelState extends SampleViewState {
   _FunnelSmartLabelState();
+  late List<ChartSampleData> datasource;
   List<String>? _labelPosition;
   late ChartDataLabelPosition _selectedLabelPosition;
   late String _selectedPosition;
@@ -30,6 +31,15 @@ class _FunnelSmartLabelState extends SampleViewState {
 
   @override
   void initState() {
+    datasource = <ChartSampleData>[
+      ChartSampleData(x: 'Finals', y: 2),
+      ChartSampleData(x: 'Semifinals', y: 4),
+      ChartSampleData(x: 'Quarter finals', y: 8),
+      ChartSampleData(x: 'League matches', y: 16),
+      ChartSampleData(x: 'Participated', y: 32),
+      ChartSampleData(x: 'Eligible', y: 36),
+      ChartSampleData(x: 'Applicants', y: 40),
+    ];
     _selectedLabelPosition = ChartDataLabelPosition.inside;
     _intersectAction = LabelIntersectAction.shift;
     _labelIntersectAction = 'shift';
@@ -39,6 +49,7 @@ class _FunnelSmartLabelState extends SampleViewState {
     _overflowModeList = <String>['shift', 'none', 'hide', 'trim'].toList();
     _labelPosition = <String>['inside', 'outside'].toList();
     _labelIntersectActionList = <String>['shift', 'none', 'hide'].toList();
+
     super.initState();
   }
 
@@ -80,6 +91,7 @@ class _FunnelSmartLabelState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
@@ -117,6 +129,7 @@ class _FunnelSmartLabelState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
@@ -159,6 +172,7 @@ class _FunnelSmartLabelState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
@@ -215,15 +229,7 @@ class _FunnelSmartLabelState extends SampleViewState {
   FunnelSeries<ChartSampleData, String> _getFunnelSeries() {
     return FunnelSeries<ChartSampleData, String>(
         width: '60%',
-        dataSource: <ChartSampleData>[
-          ChartSampleData(x: 'Finals', y: 2),
-          ChartSampleData(x: 'Semifinals', y: 4),
-          ChartSampleData(x: 'Quarter finals', y: 8),
-          ChartSampleData(x: 'League matches', y: 16),
-          ChartSampleData(x: 'Participated', y: 32),
-          ChartSampleData(x: 'Eligible', y: 36),
-          ChartSampleData(x: 'Applicants', y: 40),
-        ],
+        dataSource: datasource,
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
 

@@ -53,7 +53,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                           : 0.85,
                   minorTicksPerInterval: 4,
                   showFirstLabel: false,
-                  minimum: 0,
+                  showLastLabel: true,
                   maximum: 12,
                   interval: 1,
                   startAngle: 270,
@@ -144,8 +144,6 @@ class _RadialRangeSliderExampleState extends SampleViewState {
           Visibility(
               visible: _enableDragging,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text('Overlay radius',
                       style: TextStyle(color: model.textColor)),
@@ -163,7 +161,6 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                         });
                       },
                       step: 5,
-                      loop: false,
                       iconColor: model.textColor,
                       style: TextStyle(fontSize: 16.0, color: model.textColor),
                     ),
@@ -179,10 +176,11 @@ class _RadialRangeSliderExampleState extends SampleViewState {
   void _handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
-      final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
-      final String _hourValue = '$_value';
-      _annotationValue = _hourValue.length == 1 ? '0' + _hourValue : _hourValue;
-      _calculateMinutes(_value);
+      final int firstMarkerValue =
+          (_firstMarkerValue - _secondMarkerValue).abs().toInt();
+      final String hourValue = '$firstMarkerValue';
+      _annotationValue = hourValue.length == 1 ? '0' + hourValue : hourValue;
+      _calculateMinutes(firstMarkerValue);
     });
   }
 
@@ -208,24 +206,23 @@ class _RadialRangeSliderExampleState extends SampleViewState {
   void _handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
-      final int _value = (_firstMarkerValue - _secondMarkerValue).abs().toInt();
-      final String _hourValue = '$_value';
-      _annotationValue = _hourValue.length == 1 ? '0' + _hourValue : _hourValue;
-      _calculateMinutes(_value);
+      final int secondMarkerValue =
+          (_firstMarkerValue - _secondMarkerValue).abs().toInt();
+      final String hourValue = '$secondMarkerValue';
+      _annotationValue = hourValue.length == 1 ? '0' + hourValue : hourValue;
+      _calculateMinutes(secondMarkerValue);
     });
   }
 
   /// Calculate the minutes value from pointer value to update in annotation.
-  void _calculateMinutes(int _value) {
-    final double _minutes =
-        (_firstMarkerValue - _secondMarkerValue).abs() - _value;
-    final List<String> _minList = _minutes.toStringAsFixed(2).split('.');
-    double _currentMinutes = double.parse(_minList[1]);
-    _currentMinutes =
-        _currentMinutes > 60 ? _currentMinutes - 60 : _currentMinutes;
-    final String _actualValue = _currentMinutes.toInt().toString();
-    _minutesValue =
-        _actualValue.length == 1 ? '0' + _actualValue : _actualValue;
+  void _calculateMinutes(int pointerValue) {
+    final double minutes =
+        (_firstMarkerValue - _secondMarkerValue).abs() - pointerValue;
+    final List<String> minList = minutes.toStringAsFixed(2).split('.');
+    double currentMinutes = double.parse(minList[1]);
+    currentMinutes = currentMinutes > 60 ? currentMinutes - 60 : currentMinutes;
+    final String actualValue = currentMinutes.toInt().toString();
+    _minutesValue = actualValue.length == 1 ? '0' + actualValue : actualValue;
   }
 
   double _borderWidth = 5;

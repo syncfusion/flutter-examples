@@ -38,13 +38,13 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
       plotAreaBorderWidth: 1,
       title:
           ChartTitle(text: isCardView ? '' : 'Growth of a product [1995-2005]'),
-      primaryXAxis: DateTimeAxis(),
+      primaryXAxis: const DateTimeAxis(),
 
       /// Y axis as logarithmic axis placed here.
-      primaryYAxis: LogarithmicAxis(
+      primaryYAxis: const LogarithmicAxis(
           minorTicksPerInterval: 5,
-          majorGridLines: const MajorGridLines(width: 1.5),
-          minorTickLines: const MinorTickLines(size: 4),
+          majorGridLines: MajorGridLines(width: 1.5),
+          minorTickLines: MinorTickLines(size: 4),
           labelFormat: r'${value}',
           interval: 1),
       series: _getSeries(),
@@ -57,16 +57,16 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
           dataSource: <ChartSampleData>[
-            ChartSampleData(x: DateTime(1996, 1, 1), yValue: 200),
-            ChartSampleData(x: DateTime(1997, 1, 1), yValue: 400),
-            ChartSampleData(x: DateTime(1998, 1, 1), yValue: 600),
-            ChartSampleData(x: DateTime(1999, 1, 1), yValue: 700),
-            ChartSampleData(x: DateTime(2000, 1, 1), yValue: 1400),
-            ChartSampleData(x: DateTime(2001, 1, 1), yValue: 2000),
-            ChartSampleData(x: DateTime(2002, 1, 1), yValue: 4000),
-            ChartSampleData(x: DateTime(2003, 1, 1), yValue: 6000),
-            ChartSampleData(x: DateTime(2004, 1, 1), yValue: 8000),
-            ChartSampleData(x: DateTime(2005, 1, 1), yValue: 11000)
+            ChartSampleData(x: DateTime(1996), yValue: 200),
+            ChartSampleData(x: DateTime(1997), yValue: 400),
+            ChartSampleData(x: DateTime(1998), yValue: 600),
+            ChartSampleData(x: DateTime(1999), yValue: 700),
+            ChartSampleData(x: DateTime(2000), yValue: 1400),
+            ChartSampleData(x: DateTime(2001), yValue: 2000),
+            ChartSampleData(x: DateTime(2002), yValue: 4000),
+            ChartSampleData(x: DateTime(2003), yValue: 6000),
+            ChartSampleData(x: DateTime(2004), yValue: 8000),
+            ChartSampleData(x: DateTime(2005), yValue: 11000)
           ],
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,

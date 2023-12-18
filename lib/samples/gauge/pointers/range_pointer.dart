@@ -33,8 +33,6 @@ class _RangePointerExampleState extends SampleViewState {
             showTicks: false,
             startAngle: 270,
             endAngle: 270,
-            minimum: 0,
-            maximum: 100,
             radiusFactor: 0.8,
             axisLineStyle: const AxisLineStyle(
                 thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
@@ -69,7 +67,6 @@ class _RangePointerExampleState extends SampleViewState {
                   cornerStyle: CornerStyle.bothCurve,
                   enableAnimation: true,
                   animationDuration: 1200,
-                  animationType: AnimationType.ease,
                   sizeUnit: GaugeSizeUnit.factor,
                   gradient: SweepGradient(
                       colors: <Color>[Color(0xFF6A6EF6), Color(0xFFDB82F5)],

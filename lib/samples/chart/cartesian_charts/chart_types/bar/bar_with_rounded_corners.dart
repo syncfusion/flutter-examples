@@ -40,11 +40,9 @@ class _BarRoundedState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Population growth rate of countries'),
       primaryXAxis:
-          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          minimum: -2,
-          maximum: 2,
-          majorTickLines: const MajorTickLines(size: 0)),
+          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
+          minimum: -2, maximum: 2, majorTickLines: MajorTickLines(size: 0)),
       series: _getRoundedBarSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -386,9 +387,8 @@ class _MapLegendPageState extends SampleViewState {
                     top: 15,
                     bottom: (_enableGradient && !model.isMobile) ? 18 : 30),
                 child: Align(
-                    alignment: Alignment.center,
                     child: Text('Average Internet Prices in Africa',
-                        style: Theme.of(context).textTheme.subtitle1))),
+                        style: Theme.of(context).textTheme.titleMedium))),
             Expanded(
                 child: SfMaps(
               layers: <MapShapeLayer>[
@@ -426,7 +426,7 @@ class _MapLegendPageState extends SampleViewState {
                                       .toString(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(
                                     color: isLightTheme
                                         ? const Color.fromRGBO(255, 255, 255, 1)
@@ -452,7 +452,7 @@ class _MapLegendPageState extends SampleViewState {
                                       .toString(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(
                                     color: isLightTheme
                                         ? const Color.fromRGBO(255, 255, 255, 1)
@@ -485,11 +485,8 @@ class _MapLegendPageState extends SampleViewState {
                           _showBubbleData
                               ? MapElement.bubble
                               : MapElement.shape,
-                          edgeLabelsPlacement:
-                              MapLegendEdgeLabelsPlacement.inside,
                           labelsPlacement:
                               MapLegendLabelsPlacement.betweenItems,
-                          position: MapLegendPosition.top,
                           spacing: _enableGradient ? 10.0 : 1.0,
                           segmentPaintingStyle: _enableGradient
                               ? MapLegendPaintingStyle.gradient
@@ -550,6 +547,7 @@ class _MapLegendPageState extends SampleViewState {
               Padding(
                   padding: const EdgeInsets.only(right: 15.0),
                   child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     value: _currentLegend,
                     items: _dropDownMenuItems,
                     onChanged: (String? value) {

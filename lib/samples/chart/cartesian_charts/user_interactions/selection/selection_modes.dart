@@ -53,10 +53,8 @@ class _DefaultSelectionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    _selectionBehavior = SelectionBehavior(
-        enable: true,
-        unselectedOpacity: 0.5,
-        toggleSelection: _toggleSelection);
+    _selectionBehavior =
+        SelectionBehavior(enable: true, toggleSelection: _toggleSelection);
     return _buildDefaultSelectionChart();
   }
 
@@ -118,6 +116,7 @@ class _DefaultSelectionState extends SampleViewState {
                           children: <Widget>[
                             SizedBox(width: model.isMobile ? 14.0 : 0.0),
                             DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
                                 value: _selectedMode,
@@ -170,15 +169,14 @@ class _DefaultSelectionState extends SampleViewState {
 
       /// To specify the selection mode for chart.
       selectionType: _mode,
-      selectionGesture: ActivationMode.singleTap,
       enableMultiSelection: _enableMultiSelect,
       primaryXAxis: CategoryAxis(
           title: AxisTitle(text: !isCardView ? 'Countries' : ''),
           majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultSelectionSeries(),
     );
   }

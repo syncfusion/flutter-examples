@@ -28,7 +28,7 @@ class _SleepWatchState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -73,7 +73,6 @@ class _SleepWatchState extends SampleViewState {
                           : MediaQuery.of(context).size.width * 0.68
                       : MediaQuery.of(context).size.width * 0.70,
                   child: SfLinearGauge(
-                      orientation: LinearGaugeOrientation.horizontal,
                       minimum: 100.0,
                       maximum: 500.0,
                       interval: 50.0,
@@ -84,7 +83,7 @@ class _SleepWatchState extends SampleViewState {
                       minorTicksPerInterval: 0,
                       axisTrackStyle: LinearAxisTrackStyle(
                         thickness: 15,
-                        color: _brightness == Brightness.dark
+                        color: brightness == Brightness.dark
                             ? Colors.transparent
                             : Colors.grey[350],
                       ),
@@ -229,7 +228,6 @@ class _SleepWatchState extends SampleViewState {
                           : MediaQuery.of(context).size.width * 0.68
                       : MediaQuery.of(context).size.width * 0.70,
                   child: SfLinearGauge(
-                      orientation: LinearGaugeOrientation.horizontal,
                       minimum: 100.0,
                       maximum: 500.0,
                       interval: 50.0,
@@ -240,8 +238,7 @@ class _SleepWatchState extends SampleViewState {
                       minorTicksPerInterval: 0,
                       axisTrackStyle: LinearAxisTrackStyle(
                         thickness: 15,
-                        edgeStyle: LinearEdgeStyle.bothFlat,
-                        color: _brightness == Brightness.dark
+                        color: brightness == Brightness.dark
                             ? Colors.transparent
                             : Colors.grey[350],
                       ),

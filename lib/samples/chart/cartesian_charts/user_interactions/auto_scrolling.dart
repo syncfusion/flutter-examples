@@ -27,7 +27,7 @@ class _AutoScrollingChartState extends SampleViewState {
   Timer? timer;
   late List<Color> palette;
   late List<_ChartData> chartData, chartDataTemp;
-  ChartSeriesController? _chartSeriesController;
+  bool havingPanDataSource = false;
 
   late bool isPointerMoved;
   @override
@@ -41,7 +41,6 @@ class _AutoScrollingChartState extends SampleViewState {
     timer?.cancel();
     chartData.clear();
     chartDataTemp.clear();
-    _chartSeriesController = null;
     super.dispose();
   }
 
@@ -65,7 +64,7 @@ class _AutoScrollingChartState extends SampleViewState {
     ];
     isPointerMoved = false;
     chartData = <_ChartData>[
-      _ChartData(DateTime(2020, 01, 1, 00, 00, 00), 42, palette[0]),
+      _ChartData(DateTime(2020), 42, palette[0]),
       _ChartData(DateTime(2020, 01, 1, 00, 00, 01), 47, palette[1]),
     ];
     chartDataTemp = <_ChartData>[];
@@ -74,9 +73,11 @@ class _AutoScrollingChartState extends SampleViewState {
         if (chartDataTemp.isNotEmpty) {
           chartData.addAll(chartDataTemp);
           chartDataTemp.clear();
+          havingPanDataSource = true;
         }
         setState(() {
           chartData = _updateDataSource();
+          havingPanDataSource = false;
         });
       } else {
         chartDataTemp = _updateTempDataSource();
@@ -101,14 +102,11 @@ class _AutoScrollingChartState extends SampleViewState {
           autoScrollingDelta: 10,
           autoScrollingDeltaType: DateTimeIntervalType.seconds,
         ),
-        primaryYAxis: NumericAxis(
-            axisLine: const AxisLine(width: 0),
-            majorTickLines: const MajorTickLines(size: 0)),
+        primaryYAxis: const NumericAxis(
+            axisLine: AxisLine(width: 0),
+            majorTickLines: MajorTickLines(size: 0)),
         series: <ColumnSeries<_ChartData, DateTime>>[
           ColumnSeries<_ChartData, DateTime>(
-            onRendererCreated: (ChartSeriesController controller) {
-              _chartSeriesController = controller;
-            },
             dataSource: chartData,
             color: const Color.fromRGBO(192, 108, 132, 1),
             xValueMapper: (_ChartData data, _) => data.x,
@@ -120,13 +118,12 @@ class _AutoScrollingChartState extends SampleViewState {
   }
 
   List<_ChartData> _updateDataSource() {
-    chartData.add(_ChartData(
-        chartData[chartData.length - 1].x.add(const Duration(seconds: 1)),
-        _getRandomInt(30, 60),
-        palette[chartData.length % 10]));
-    _chartSeriesController?.updateDataSource(
-      addedDataIndexes: <int>[chartData.length - 1],
-    );
+    if (!havingPanDataSource) {
+      chartData.add(_ChartData(
+          chartData[chartData.length - 1].x.add(const Duration(seconds: 1)),
+          _getRandomInt(30, 60),
+          palette[chartData.length % 10]));
+    }
     return chartData;
   }
 
@@ -146,8 +143,8 @@ class _AutoScrollingChartState extends SampleViewState {
   }
 
   int _getRandomInt(int min, int max) {
-    final math.Random _random = math.Random();
-    return min + _random.nextInt(max - min);
+    final math.Random random = math.Random();
+    return min + random.nextInt(max - min);
   }
 }
 

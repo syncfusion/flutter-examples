@@ -112,7 +112,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final bool _enableMultiView = _isWeb &&
+    final bool enableMultiView = _isWeb &&
         (_selectionMode == DateRangePickerSelectionMode.range ||
             _selectionMode == DateRangePickerSelectionMode.multiRange ||
             _selectionMode == DateRangePickerSelectionMode.extendableRange);
@@ -138,7 +138,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                   _showActionButtons,
                   DateTime.now().subtract(const Duration(days: 200)),
                   DateTime.now().add(const Duration(days: 200)),
-                  _enableMultiView,
+                  enableMultiView,
                   _showWeekNumber,
                   _showTodayButton,
                   _selectionDirection,
@@ -155,7 +155,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
             child: model.isWebFullView
                 ? Center(
                     child: SizedBox(
-                        width: !_enableMultiView ? 550 : 700,
+                        width: !enableMultiView ? 550 : 700,
                         height: 600,
                         child: cardView))
                 : ListView(children: <Widget>[
@@ -279,8 +279,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: model.isWebFullView ? 4 : 5,
@@ -291,6 +289,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
               child: Container(
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _viewModeString,
@@ -314,8 +313,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: model.isWebFullView ? 4 : 5,
@@ -327,6 +324,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                 padding: EdgeInsets.zero,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectionModeString,
@@ -350,8 +348,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
           ? SizedBox(
               height: 50,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
                       flex: model.isWebFullView ? 4 : 5,
@@ -363,6 +359,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                     child: Container(
                       alignment: Alignment.bottomLeft,
                       child: DropdownButton<String>(
+                          focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
                           value: _selectionDirectionString,
@@ -386,8 +383,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: model.isWebFullView ? 4 : 5,
@@ -411,8 +406,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -447,8 +440,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -483,8 +474,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -520,8 +509,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -554,8 +541,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -591,8 +576,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -627,8 +610,6 @@ class _GettingStartedDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -752,7 +733,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
           child: Text(DateFormat('MM-dd-yyyy').format(_date),
               style: TextStyle(
                   fontSize: 15,
-                  color: theme.textTheme.subtitle2?.color,
+                  color: theme.textTheme.titleSmall?.color,
                   fontWeight: FontWeight.w600)),
         ));
   }

@@ -387,7 +387,7 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
           children: <Widget>[
             Text(
               'Top 3 Winningest Countries in Rio Olympics 2016',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             Expanded(
@@ -450,7 +450,7 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
                   child: Text(
                     tile.group,
                     style:
-                        themeData.textTheme.bodyText2!.copyWith(color: color),
+                        themeData.textTheme.bodyMedium!.copyWith(color: color),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -521,7 +521,7 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
               alignment: Alignment.bottomLeft,
               child: Text(
                 tile.group,
-                style: themeData.textTheme.caption!.copyWith(color: color),
+                style: themeData.textTheme.bodySmall!.copyWith(color: color),
                 overflow: TextOverflow.ellipsis,
               ),
             ),

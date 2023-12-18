@@ -82,7 +82,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFirtSlider(),
               _buildSecondSlider(),
@@ -91,7 +90,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFourthSlider(),
               _buildFifthSlider(),
@@ -108,7 +106,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFirtSlider(),
               _buildSecondSlider(),
@@ -117,7 +114,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFourthSlider(),
               _buildFifthSlider(),
@@ -551,7 +547,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   Widget _buildSixthSlider() {
-    final Orientation _orientation = MediaQuery.of(context).orientation;
+    final Orientation orientation = MediaQuery.of(context).orientation;
     return SizedBox(
       height: _size,
       width: _size,
@@ -574,15 +570,15 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                   sizeUnit: GaugeSizeUnit.factor,
                   color: const Color.fromRGBO(135, 80, 221, 1),
                   endWidth:
-                      model.isMobile && _orientation == Orientation.landscape
+                      model.isMobile && orientation == Orientation.landscape
                           ? 0.13
                           : 0.17,
                   rangeOffset:
-                      model.isMobile && _orientation == Orientation.landscape
+                      model.isMobile && orientation == Orientation.landscape
                           ? 0.13
                           : 0.17,
                   startWidth:
-                      model.isMobile && _orientation == Orientation.landscape
+                      model.isMobile && orientation == Orientation.landscape
                           ? 0.13
                           : 0.17,
                 ),
@@ -601,14 +597,14 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     // onValueChangeEnd: handleTwelethPointerValueChanged,
                     onValueChanging: handleTwelethPointerValueChanging,
                     needleLength:
-                        model.isMobile && _orientation == Orientation.landscape
+                        model.isMobile && orientation == Orientation.landscape
                             ? 0.85
                             : 0.82,
                     knobStyle: KnobStyle(
                       knobRadius: model.isWebFullView
                           ? 0.4
                           : model.isMobile &&
-                                  _orientation == Orientation.landscape
+                                  orientation == Orientation.landscape
                               ? 0.6
                               : 0.3,
                       borderWidth: 0.05,
@@ -634,14 +630,14 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     // onValueChangeEnd: handleEleventhPointerValueChanged,
                     onValueChanging: handleEleventhPointerValueChanging,
                     needleLength:
-                        model.isMobile && _orientation == Orientation.landscape
+                        model.isMobile && orientation == Orientation.landscape
                             ? 0.85
                             : 0.82,
                     knobStyle: KnobStyle(
                       knobRadius: model.isWebFullView
                           ? 0.4
                           : model.isMobile &&
-                                  _orientation == Orientation.landscape
+                                  orientation == Orientation.landscape
                               ? 0.6
                               : 0.3,
                       borderWidth: 0.05,
@@ -669,7 +665,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                             : Colors.white,
                       ),
                     ),
-                    positionFactor: 0,
                     angle: 90)
               ])
         ],
@@ -679,11 +674,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleSecondPointerValueChanged(double value) {
+  void handleSecondPointerValueChanged(double markerValue) {
     setState(() {
-      _secondMarkerValue = value;
-      final int _value = _secondMarkerValue.abs().round();
-      _annotationValue_1 = '$_value%';
+      _secondMarkerValue = markerValue;
+      final int value = _secondMarkerValue.abs().round();
+      _annotationValue_1 = '$value%';
     });
   }
 
@@ -696,11 +691,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleFirstPointerValueChanged(double value) {
+  void handleFirstPointerValueChanged(double markerValue) {
     setState(() {
-      _firstMarkerValue = value;
-      final int _value = _firstMarkerValue.abs().round();
-      _annotationValue1 = '$_value';
+      _firstMarkerValue = markerValue;
+      final int value = _firstMarkerValue.abs().round();
+      _annotationValue1 = '$value';
     });
   }
 
@@ -714,11 +709,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleFourthPointerValueChanged(double value) {
+  void handleFourthPointerValueChanged(double markerValue) {
     setState(() {
-      _fourthMarkerValue = value;
-      final int _value = _fourthMarkerValue.abs().round();
-      _annotationValue_2 = '$_value%';
+      _fourthMarkerValue = markerValue;
+      final int value = _fourthMarkerValue.abs().round();
+      _annotationValue_2 = '$value%';
     });
   }
 
@@ -731,11 +726,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleThirdPointerValueChanged(double value) {
+  void handleThirdPointerValueChanged(double markerValue) {
     setState(() {
-      _thirdMarkerValue = value;
-      final int _value = _thirdMarkerValue.abs().round();
-      _annotationValue2 = '$_value';
+      _thirdMarkerValue = markerValue;
+      final int value = _thirdMarkerValue.abs().round();
+      _annotationValue2 = '$value';
     });
   }
 
@@ -749,11 +744,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleSixthPointerValueChanged(double value) {
+  void handleSixthPointerValueChanged(double markerValue) {
     setState(() {
-      _sixthMarkerValue = value;
-      final int _value = _sixthMarkerValue.abs().round();
-      _annotationValue_3 = '$_value%';
+      _sixthMarkerValue = markerValue;
+      final int value = _sixthMarkerValue.abs().round();
+      _annotationValue_3 = '$value%';
     });
   }
 
@@ -766,11 +761,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleFifthPointerValueChanged(double value) {
+  void handleFifthPointerValueChanged(double markerValue) {
     setState(() {
-      _fifthMarkerValue = value;
-      final int _value = _fifthMarkerValue.abs().round();
-      _annotationValue3 = '$_value';
+      _fifthMarkerValue = markerValue;
+      final int value = _fifthMarkerValue.abs().round();
+      _annotationValue3 = '$value';
     });
   }
 
@@ -784,11 +779,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleEighthPointerValueChanged(double value) {
+  void handleEighthPointerValueChanged(double markerValue) {
     setState(() {
-      _eighthMarkerValue = value;
-      final int _value = _eighthMarkerValue.abs().round();
-      _annotationValue_4 = '$_value%';
+      _eighthMarkerValue = markerValue;
+      final int value = _eighthMarkerValue.abs().round();
+      _annotationValue_4 = '$value%';
     });
   }
 
@@ -801,11 +796,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleSeventhPointerValueChanged(double value) {
+  void handleSeventhPointerValueChanged(double markerValue) {
     setState(() {
-      _seventhMarkerValue = value;
-      final int _value = _seventhMarkerValue.abs().round();
-      _annotationValue4 = '$_value';
+      _seventhMarkerValue = markerValue;
+      final int value = _seventhMarkerValue.abs().round();
+      _annotationValue4 = '$value';
     });
   }
 
@@ -819,11 +814,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleTenthPointerValueChanged(double value) {
+  void handleTenthPointerValueChanged(double markerValue) {
     setState(() {
-      _tenthMarkerValue = value;
-      final int _value = _tenthMarkerValue.abs().round();
-      _annotationValue_5 = '$_value%';
+      _tenthMarkerValue = markerValue;
+      final int value = _tenthMarkerValue.abs().round();
+      _annotationValue_5 = '$value%';
     });
   }
 
@@ -836,11 +831,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleNinthPointerValueChanged(double value) {
+  void handleNinthPointerValueChanged(double markerValue) {
     setState(() {
-      _ninthMarkerValue = value;
-      final int _value = _ninthMarkerValue.abs().round();
-      _annotationValue5 = '$_value';
+      _ninthMarkerValue = markerValue;
+      final int value = _ninthMarkerValue.abs().round();
+      _annotationValue5 = '$value';
     });
   }
 
@@ -854,11 +849,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleTwelethPointerValueChanged(double value) {
+  void handleTwelethPointerValueChanged(double markerValue) {
     setState(() {
-      _twelethMarkerValue = value;
-      final int _value = _twelethMarkerValue.abs().round();
-      _annotationValue_6 = '$_value';
+      _twelethMarkerValue = markerValue;
+      final int value = _twelethMarkerValue.abs().round();
+      _annotationValue_6 = '$value';
     });
   }
 
@@ -871,11 +866,11 @@ class _RadialRangeSliderStylesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleEleventhPointerValueChanged(double value) {
+  void handleEleventhPointerValueChanged(double markerValue) {
     setState(() {
-      _eleventhMarkerValue = value;
-      final int _value = _eleventhMarkerValue.abs().round();
-      _annotationValue6 = '$_value';
+      _eleventhMarkerValue = markerValue;
+      final int value = _eleventhMarkerValue.abs().round();
+      _annotationValue6 = '$value';
     });
   }
 

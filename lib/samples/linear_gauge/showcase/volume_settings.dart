@@ -39,7 +39,7 @@ class _VolumeSettingsState extends SampleViewState {
 
   /// Returns the volume settings.
   Widget _buildVolumeControl() {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       SizedBox(
@@ -56,10 +56,10 @@ class _VolumeSettingsState extends SampleViewState {
                 thickness: 40,
                 edgeStyle: LinearEdgeStyle.bothCurve,
                 borderWidth: 1,
-                borderColor: _brightness == Brightness.dark
+                borderColor: brightness == Brightness.dark
                     ? const Color(0xff898989)
                     : Colors.grey[350],
-                color: _brightness == Brightness.dark
+                color: brightness == Brightness.dark
                     ? Colors.transparent
                     : Colors.grey[350],
               ),
@@ -135,10 +135,10 @@ class _VolumeSettingsState extends SampleViewState {
                     thickness: 40,
                     edgeStyle: LinearEdgeStyle.bothCurve,
                     borderWidth: 1,
-                    borderColor: _brightness == Brightness.dark
+                    borderColor: brightness == Brightness.dark
                         ? const Color(0xff898989)
                         : Colors.grey[350],
-                    color: _brightness == Brightness.dark
+                    color: brightness == Brightness.dark
                         ? Colors.transparent
                         : Colors.grey[350],
                   ),
@@ -212,10 +212,10 @@ class _VolumeSettingsState extends SampleViewState {
                   thickness: 40,
                   edgeStyle: LinearEdgeStyle.bothCurve,
                   borderWidth: 1,
-                  borderColor: _brightness == Brightness.dark
+                  borderColor: brightness == Brightness.dark
                       ? const Color(0xff898989)
                       : Colors.grey[350],
-                  color: _brightness == Brightness.dark
+                  color: brightness == Brightness.dark
                       ? Colors.transparent
                       : Colors.grey[350],
                 ),

@@ -36,52 +36,45 @@ class _MultipleAxisExampleState extends SampleViewState {
                 ? 0.5
                 : 0.6
             : 0.5,
-        labelOffset: 15,
         canRotateLabels: true,
+        showLastLabel: true,
         minorTickStyle: const MinorTickStyle(
             color: Color(0xFF00A8B5),
-            thickness: 1.5,
             lengthUnit: GaugeSizeUnit.factor,
             length: 0.07),
         majorTickStyle: const MajorTickStyle(
             color: Color(0xFF00A8B5),
-            thickness: 1.5,
             lengthUnit: GaugeSizeUnit.factor,
             length: 0.15),
         axisLineStyle: const AxisLineStyle(
           color: Color(0xFF00A8B5),
           thickness: 3,
         ),
-        axisLabelStyle:
-            const GaugeTextStyle(color: Color(0xFF00A8B5), fontSize: 12),
+        axisLabelStyle: const GaugeTextStyle(color: Color(0xFF00A8B5)),
       ),
       RadialAxis(
-          minimum: 0,
-          maximum: 100,
           interval: 10,
+          showLastLabel: true,
           ticksPosition: ElementsPosition.outside,
           labelsPosition: ElementsPosition.outside,
           minorTicksPerInterval: 5,
-          radiusFactor: 0.95,
-          labelOffset: 15,
           minorTickStyle: const MinorTickStyle(
-              thickness: 1.5, length: 0.07, lengthUnit: GaugeSizeUnit.factor),
+              length: 0.07, lengthUnit: GaugeSizeUnit.factor),
           majorTickStyle: const MinorTickStyle(
-            thickness: 1.5,
             length: 0.15,
             lengthUnit: GaugeSizeUnit.factor,
           ),
           axisLineStyle: const AxisLineStyle(
             thickness: 3,
           ),
-          axisLabelStyle: const GaugeTextStyle(fontSize: 12),
-          annotations: <GaugeAnnotation>[
+          axisLabelStyle: const GaugeTextStyle(),
+          annotations: const <GaugeAnnotation>[
             GaugeAnnotation(
                 angle: 90,
                 positionFactor: 1,
                 widget: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Text(
                       '33°C  :',
                       style: TextStyle(
@@ -103,7 +96,6 @@ class _MultipleAxisExampleState extends SampleViewState {
           pointers: const <GaugePointer>[
             NeedlePointer(
               needleLength: 0.68,
-              lengthUnit: GaugeSizeUnit.factor,
               needleStartWidth: 0,
               needleEndWidth: 3,
               value: 33,

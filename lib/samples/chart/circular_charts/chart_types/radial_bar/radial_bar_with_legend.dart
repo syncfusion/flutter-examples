@@ -38,7 +38,7 @@ class _RadialBarAngleState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Activity tracker'),
 
       /// To enable the legend for radial bar.
-      legend: Legend(
+      legend: const Legend(
           isVisible: true,
           iconHeight: 20,
           iconWidth: 20,
@@ -64,19 +64,16 @@ class _RadialBarAngleState extends SampleViewState {
                 x: 'Move 65%\n338/520 CAL',
                 y: 65,
                 text: 'Move  ',
-                xValue: null,
                 pointColor: const Color.fromRGBO(0, 201, 230, 1.0)),
             ChartSampleData(
                 x: 'Exercise 43%\n13/30 MIN',
                 y: 43,
                 text: 'Exercise  ',
-                xValue: null,
                 pointColor: const Color.fromRGBO(63, 224, 0, 1.0)),
             ChartSampleData(
                 x: 'Stand 58%\n7/12 HR',
                 y: 58,
                 text: 'Stand  ',
-                xValue: null,
                 pointColor: const Color.fromRGBO(226, 1, 26, 1.0)),
           ],
           cornerStyle: CornerStyle.bothCurve,

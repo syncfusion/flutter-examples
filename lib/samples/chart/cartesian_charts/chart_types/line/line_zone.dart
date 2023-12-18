@@ -117,8 +117,8 @@ class _LineZoneState extends SampleViewState {
         : orientation == Orientation.portrait
             ? 60
             : 42;
-    final double fontSize = 14 / MediaQuery.of(context).textScaleFactor;
-    final double size = 13 / MediaQuery.of(context).textScaleFactor;
+    final double fontSize = 14 / MediaQuery.of(context).textScaler.scale(1);
+    final double size = 13 / MediaQuery.of(context).textScaler.scale(1);
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -131,13 +131,13 @@ class _LineZoneState extends SampleViewState {
           dateFormat: DateFormat.y(),
           interval: kIsWeb ? 5 : 10,
           majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}mm',
           minimum: 24,
           maximum: 36,
           interval: 2,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(color: Colors.transparent)),
       series: _getLineZoneSeries(),
       trackballBehavior: _trackballBehavior,
       onTrackballPositionChanging: (TrackballArgs args) {
@@ -175,7 +175,6 @@ class _LineZoneState extends SampleViewState {
                   ],
                 )),
             coordinateUnit: CoordinateUnit.percentage,
-            region: AnnotationRegion.chart,
             x: kIsWeb ? '95%' : '85%',
             y: kIsWeb
                 ? '19%'
@@ -190,7 +189,6 @@ class _LineZoneState extends SampleViewState {
   List<CartesianSeries<_ChartData, DateTime>> _getLineZoneSeries() {
     return <CartesianSeries<_ChartData, DateTime>>[
       LineSeries<_ChartData, DateTime>(
-        animationDuration: 2500,
         dataSource: getData(),
         onCreateShader: (ShaderDetails details) {
           return ui.Gradient.linear(
@@ -212,7 +210,6 @@ class _LineZoneState extends SampleViewState {
         },
         xValueMapper: (_ChartData sales, _) => sales.x,
         yValueMapper: (_ChartData sales, _) => sales.y,
-        width: 2,
       ),
     ];
   }

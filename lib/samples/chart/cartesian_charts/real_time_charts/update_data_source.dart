@@ -64,15 +64,13 @@ class _LiveVerticalState extends SampleViewState {
   SfCartesianChart _buildUpdateDataSourceChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(
-          minimum: 0,
-          interval: 1,
-          majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+      primaryXAxis: const NumericAxis(
+          minimum: 0, interval: 1, majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
           rangePadding: ChartRangePadding.additional,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0),
-          minorGridLines: const MinorGridLines(width: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0),
+          minorGridLines: MinorGridLines(width: 0)),
       series: _getUpdateDataSourceSeries(),
     );
   }
@@ -82,7 +80,7 @@ class _LiveVerticalState extends SampleViewState {
   List<ColumnSeries<ChartSampleData, num>> _getUpdateDataSourceSeries() {
     return <ColumnSeries<ChartSampleData, num>>[
       ColumnSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           dataLabelSettings: const DataLabelSettings(isVisible: true)),

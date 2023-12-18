@@ -39,7 +39,6 @@ class _RadialSliderAnglesState extends SampleViewState {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _buildFirstSlider(),
             Align(
@@ -62,7 +61,6 @@ class _RadialSliderAnglesState extends SampleViewState {
       return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Align(
               alignment: model.isWebFullView

@@ -164,7 +164,7 @@ class _TreemapSelectionSampleState extends SampleViewState {
           children: <Widget>[
             Text(
               'Top 10 Imports and Exports of USA 2020',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             Expanded(
@@ -308,7 +308,7 @@ class _TreemapSelectionSampleState extends SampleViewState {
         padding: EdgeInsets.zero,
         // Border around the tile.
         border: const RoundedRectangleBorder(
-            side: BorderSide(color: Colors.transparent, width: 1.0)),
+            side: BorderSide(color: Colors.transparent)),
         // The value returned in the callback will specify the
         // color of each tile.
         colorValueMapper: (TreemapTile tile) {

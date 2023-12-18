@@ -19,6 +19,7 @@ class FunnelDefault extends SampleView {
 
 class _FunnelDefaultState extends SampleViewState {
   _FunnelDefaultState();
+  late List<ChartSampleData> datasource;
   late double gapRatio;
   late int neckWidth;
   late int neckHeight;
@@ -26,6 +27,14 @@ class _FunnelDefaultState extends SampleViewState {
 
   @override
   void initState() {
+    datasource = <ChartSampleData>[
+      ChartSampleData(x: 'Purchased ', y: 150),
+      ChartSampleData(x: 'Requested price list', y: 300),
+      ChartSampleData(x: 'Downloaded trail', y: 600),
+      ChartSampleData(x: 'Visit download page', y: 1500),
+      ChartSampleData(x: 'Watched demo', y: 2600),
+      ChartSampleData(x: 'Website visitors', y: 3000)
+    ];
     gapRatio = 0;
     neckWidth = 20;
     neckHeight = 20;
@@ -170,14 +179,7 @@ class _FunnelDefaultState extends SampleViewState {
     neckHeight = neckHeight;
     explode = explode;
     return FunnelSeries<ChartSampleData, String>(
-        dataSource: <ChartSampleData>[
-          ChartSampleData(x: 'Purchased ', y: 150),
-          ChartSampleData(x: 'Requested price list', y: 300),
-          ChartSampleData(x: 'Downloaded trail', y: 600),
-          ChartSampleData(x: 'Visit download page', y: 1500),
-          ChartSampleData(x: 'Watched demo', y: 2600),
-          ChartSampleData(x: 'Website visitors', y: 3000)
-        ],
+        dataSource: datasource,
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         explode: isCardView ? false : explode,

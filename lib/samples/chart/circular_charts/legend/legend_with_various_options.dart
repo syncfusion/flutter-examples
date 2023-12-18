@@ -1,12 +1,12 @@
 /// Package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/widgets/custom_button.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// Local imports
 import '../../../../model/sample_view.dart';
+import '../../../../widgets/custom_button.dart';
 
 /// Renders the Pie chart with legend
 class LegendOptions extends SampleView {
@@ -55,9 +55,6 @@ class _LegendOptionsState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
-    final double dropDownWidth = 0.7 * screenWidth;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return ListView(
@@ -65,7 +62,6 @@ class _LegendOptionsState extends SampleViewState {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
               Expanded(
                 flex: 14,
                 child: Column(
@@ -82,25 +78,29 @@ class _LegendOptionsState extends SampleViewState {
                               )),
                         ),
                         Flexible(
-                          child: SizedBox(
-                              width: dropDownWidth,
-                              child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  underline: Container(
-                                      color: const Color(0xFFBDBDBD),
-                                      height: 1),
-                                  value: _selectedPosition,
-                                  items: _positionList!.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                        value: (value != null) ? value : 'auto',
-                                        child: Text(value,
-                                            style: TextStyle(
-                                                color: model.textColor)));
-                                  }).toList(),
-                                  onChanged: (dynamic value) {
-                                    _onPositionTypeChange(value.toString());
-                                    stateSetter(() {});
-                                  })),
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(23, 0, 0, 0),
+                            height: 50,
+                            width: 110,
+                            alignment: Alignment.bottomLeft,
+                            child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
+                                isExpanded: true,
+                                underline: Container(
+                                    color: const Color(0xFFBDBDBD), height: 1),
+                                value: _selectedPosition,
+                                items: _positionList!.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: (value != null) ? value : 'auto',
+                                      child: Text(value,
+                                          style: TextStyle(
+                                              color: model.textColor)));
+                                }).toList(),
+                                onChanged: (dynamic value) {
+                                  _onPositionTypeChange(value.toString());
+                                  stateSetter(() {});
+                                }),
+                          ),
                         )
                       ],
                     ),
@@ -119,12 +119,17 @@ class _LegendOptionsState extends SampleViewState {
                               )),
                         ),
                         Flexible(
-                          child: SizedBox(
-                            width: dropDownWidth,
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(23, 0, 0, 0),
+                            height: 50,
+                            width: 110,
+                            alignment: Alignment.bottomLeft,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
-                                    color: const Color(0xFFBDBDBD), height: 1),
+                                    color: const Color.fromARGB(255, 70, 9, 9),
+                                    height: 1),
                                 value: _selectedMode,
                                 items: _modeList!.map((String value) {
                                   return DropdownMenuItem<String>(
@@ -158,11 +163,9 @@ class _LegendOptionsState extends SampleViewState {
                         ),
                         Flexible(
                           child: Container(
-                              padding: EdgeInsets.only(
-                                  right: model.isMobile
-                                      ? 0.29 * screenWidth
-                                      : 0.37 * screenWidth),
-                              width: dropDownWidth,
+                              padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
+                              height: 50,
+                              alignment: Alignment.bottomLeft,
                               child: Checkbox(
                                   activeColor: model.backgroundColor,
                                   value: toggleVisibility,
@@ -192,11 +195,9 @@ class _LegendOptionsState extends SampleViewState {
                         ),
                         Flexible(
                           child: Container(
-                              padding: EdgeInsets.only(
-                                  right: model.isMobile
-                                      ? 0.29 * screenWidth
-                                      : 0.37 * screenWidth),
-                              width: dropDownWidth,
+                              padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
+                              height: 50,
+                              alignment: Alignment.bottomLeft,
                               child: Checkbox(
                                   activeColor: model.backgroundColor,
                                   value: enableFloatingLegend,
@@ -224,20 +225,25 @@ class _LegendOptionsState extends SampleViewState {
                         ),
                         Flexible(
                           flex: 4,
-                          child: CustomDirectionalButtons(
-                            minValue: -100,
-                            maxValue: 100,
-                            initialValue: _xOffset,
-                            onChanged: (double val) => setState(() {
-                              _xOffset = enableFloatingLegend ? val : 0;
-                            }),
-                            step: enableFloatingLegend ? 10 : 0,
-                            iconColor: model.textColor
-                                .withOpacity(enableFloatingLegend ? 1 : 0.5),
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: model.textColor.withOpacity(
-                                    enableFloatingLegend ? 1 : 0.5)),
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
+                            height: 50,
+                            alignment: Alignment.bottomLeft,
+                            child: CustomDirectionalButtons(
+                              minValue: -100,
+                              maxValue: 100,
+                              initialValue: _xOffset,
+                              onChanged: (double val) => setState(() {
+                                _xOffset = enableFloatingLegend ? val : 0;
+                              }),
+                              step: enableFloatingLegend ? 10 : 0,
+                              iconColor: model.textColor
+                                  .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: model.textColor.withOpacity(
+                                      enableFloatingLegend ? 1 : 0.5)),
+                            ),
                           ),
                         )
                       ],
@@ -256,20 +262,25 @@ class _LegendOptionsState extends SampleViewState {
                         ),
                         Flexible(
                           flex: 4,
-                          child: CustomDirectionalButtons(
-                            minValue: -100,
-                            maxValue: 100,
-                            initialValue: _yOffset,
-                            onChanged: (double val) => setState(() {
-                              _yOffset = enableFloatingLegend ? val : 0;
-                            }),
-                            step: enableFloatingLegend ? 10 : 0,
-                            iconColor: model.textColor
-                                .withOpacity(enableFloatingLegend ? 1 : 0.5),
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: model.textColor.withOpacity(
-                                    enableFloatingLegend ? 1 : 0.5)),
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
+                            height: 50,
+                            alignment: Alignment.bottomLeft,
+                            child: CustomDirectionalButtons(
+                              minValue: -100,
+                              maxValue: 100,
+                              initialValue: _yOffset,
+                              onChanged: (double val) => setState(() {
+                                _yOffset = enableFloatingLegend ? val : 0;
+                              }),
+                              step: enableFloatingLegend ? 10 : 0,
+                              iconColor: model.textColor
+                                  .withOpacity(enableFloatingLegend ? 1 : 0.5),
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: model.textColor.withOpacity(
+                                      enableFloatingLegend ? 1 : 0.5)),
+                            ),
                           ),
                         )
                       ],
@@ -277,7 +288,7 @@ class _LegendOptionsState extends SampleViewState {
                   ],
                 ),
               ),
-              Expanded(flex: model.isMobile ? 3 : 1, child: Container()),
+              Expanded(flex: model.isMobile ? 5 : 1, child: Container()),
             ],
           ),
         ],

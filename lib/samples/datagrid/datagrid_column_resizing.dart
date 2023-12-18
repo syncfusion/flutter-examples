@@ -1,12 +1,15 @@
 /// Packages import
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
 
 /// Core import
 import 'package:syncfusion_flutter_core/theme.dart';
 
 /// DataGrid import
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../model/sample_view.dart';
 
 /// Local import
 import 'datagridsource/product_datagridsource.dart';
@@ -191,6 +194,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
                   height: 40,
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _columnResizeMode,

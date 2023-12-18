@@ -33,9 +33,9 @@ class _LabelActionState extends SampleViewState {
       'multipleRows',
       'rotate45',
       'rotate90',
-      'wrap'
+      'wrap',
+      'trim'
     ].toList();
-    _labelIntersectAction = AxisLabelIntersectAction.hide;
     _selectedType = 'hide';
     _labelIntersectAction = AxisLabelIntersectAction.hide;
     _tooltipBehavior = TooltipBehavior(
@@ -63,15 +63,17 @@ class _LabelActionState extends SampleViewState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text('Intersect action ',
+          Text(model.isWebFullView ? 'Intersect \naction' : 'Intersect action ',
               style: TextStyle(
                 color: model.textColor,
                 fontSize: 16,
               )),
           Container(
-            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: DropdownButton<String>(
+                focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedType,
                 items: _labelList!.map((String value) {
@@ -97,12 +99,17 @@ class _LabelActionState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Football players with most goals'),
       primaryXAxis: CategoryAxis(
+        // interval: 40,
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction: _labelIntersectAction,
+        labelIntersectAction: _labelIntersectAction!,
       ),
       primaryYAxis: NumericAxis(
           axisLine: const AxisLine(width: 0),
-          //interval: 40,
+          interval: model.isMobile
+              ? model.isCardView
+                  ? 20
+                  : 10
+              : 100,
           majorTickLines: const MajorTickLines(size: 0)),
       series: _getLabelIntersectActionSeries(),
       tooltipBehavior: _tooltipBehavior,
@@ -138,7 +145,7 @@ class _LabelActionState extends SampleViewState {
           ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelSettings: const DataLabelSettings(
@@ -167,6 +174,9 @@ class _LabelActionState extends SampleViewState {
     }
     if (_selectedType == 'wrap') {
       _labelIntersectAction = AxisLabelIntersectAction.wrap;
+    }
+    if (_selectedType == 'trim') {
+      _labelIntersectAction = AxisLabelIntersectAction.trim;
     }
     setState(() {
       /// update the axis label intersection action changes

@@ -36,22 +36,21 @@ class _RadialSlowMiddleAnimationState extends SampleViewState {
             showAxisLine: false,
             ticksPosition: ElementsPosition.outside,
             labelsPosition: ElementsPosition.outside,
-            minimum: 0,
             maximum: 12,
             interval: 1,
             canRotateLabels: true,
             majorTickStyle: const MajorTickStyle(
-                length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
+                length: 0.15, lengthUnit: GaugeSizeUnit.factor),
             minorTicksPerInterval: 4,
             showFirstLabel: false,
-            axisLabelStyle: const GaugeTextStyle(fontSize: 12),
+            showLastLabel: true,
+            axisLabelStyle: const GaugeTextStyle(),
             minorTickStyle: const MinorTickStyle(
-                length: 0.07, lengthUnit: GaugeSizeUnit.factor, thickness: 1.5),
+                length: 0.07, lengthUnit: GaugeSizeUnit.factor),
             pointers: <GaugePointer>[
               const NeedlePointer(
                   needleLength: 0.95,
                   needleStartWidth: 0,
-                  lengthUnit: GaugeSizeUnit.factor,
                   needleEndWidth: 5,
                   needleColor: Color(0xFFC06C84),
                   knobStyle: KnobStyle(knobRadius: 0),
@@ -61,7 +60,6 @@ class _RadialSlowMiddleAnimationState extends SampleViewState {
               const NeedlePointer(
                 needleLength: 0.7,
                 needleStartWidth: 0,
-                lengthUnit: GaugeSizeUnit.factor,
                 needleEndWidth: 5,
                 needleColor: Color(0xFFF67280),
                 value: 2,
@@ -74,8 +72,6 @@ class _RadialSlowMiddleAnimationState extends SampleViewState {
               ),
               NeedlePointer(
                   needleLength: 0.8,
-                  needleStartWidth: 1,
-                  lengthUnit: GaugeSizeUnit.factor,
                   needleEndWidth: 1,
                   needleColor: _slowMiddleNeedleColor,
                   knobStyle: KnobStyle(

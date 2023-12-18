@@ -81,7 +81,7 @@ class _ExpansionTileState extends State<CustomExpansionTile>
     _backgroundColor =
         _controller.drive(_backgroundColorTween!.chain(_easeOutTween!));
 
-    _isExpanded = PageStorage.of(context)?.readState(context) == null
+    _isExpanded = PageStorage.of(context).readState(context) == null
         ? widget.initiallyExpanded!
         : false;
     if (_isExpanded) {
@@ -124,7 +124,7 @@ class _ExpansionTileState extends State<CustomExpansionTile>
           });
         });
       }
-      PageStorage.of(context)?.writeState(context, _isExpanded);
+      PageStorage.of(context).writeState(context, _isExpanded);
     });
     if (widget.onExpansionChanged != null) {
       widget.onExpansionChanged!(_isExpanded);
@@ -154,17 +154,17 @@ class _ExpansionTileState extends State<CustomExpansionTile>
                 onTap: _handleTap,
                 dense: true,
                 title: Padding(
-                  padding: const EdgeInsets.only(top: 0, bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: DefaultTextStyle(
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1!
+                        .titleMedium!
                         .copyWith(color: titleColor),
                     child: widget.title!,
                   ),
                 ),
                 trailing: Padding(
-                  padding: const EdgeInsets.only(top: 0, bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: RotationTransition(
                     turns: _iconTurns!,
                     child: const Icon(
@@ -192,7 +192,7 @@ class _ExpansionTileState extends State<CustomExpansionTile>
     final ThemeData theme = Theme.of(context);
     _borderColorTween!.end = Colors.transparent;
     _headerColorTween!
-      ..begin = theme.textTheme.subtitle1!.color
+      ..begin = theme.textTheme.titleMedium!.color
       ..end = theme.colorScheme.secondary;
     _iconColorTween!
       ..begin = theme.unselectedWidgetColor

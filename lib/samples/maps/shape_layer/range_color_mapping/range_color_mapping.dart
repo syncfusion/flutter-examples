@@ -1,8 +1,10 @@
 ///Flutter package imports
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -404,9 +406,8 @@ class _MapRangeColorMappingPageState extends SampleViewState {
           Padding(
               padding: const EdgeInsets.only(top: 15, bottom: 30),
               child: Align(
-                  alignment: Alignment.center,
                   child: Text('World Population Density (per sq. km.)',
-                      style: Theme.of(context).textTheme.subtitle1))),
+                      style: Theme.of(context).textTheme.titleMedium))),
           Expanded(
             child: SfMaps(
               layers: <MapLayer>[
@@ -431,8 +432,12 @@ class _MapRangeColorMappingPageState extends SampleViewState {
                               _numberFormat.format(
                                   _worldPopulationDensity[index].density) +
                               ' per sq. km.',
-                          style: Theme.of(context).textTheme.caption!.copyWith(
-                              color: Theme.of(context).colorScheme.surface)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.surface)),
                     );
                   },
                   strokeColor: Colors.white30,

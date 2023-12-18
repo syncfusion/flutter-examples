@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -302,8 +303,8 @@ class _ArcsSampleState extends SampleViewState
     return sublayerItems;
   }
 
-  MapSublayer _getCurrentSublayer(String _currentLegend) {
-    if (_currentLegend == 'arcs') {
+  MapSublayer _getCurrentSublayer(String currentLegend) {
+    if (currentLegend == 'arcs') {
       return MapArcLayer(
         arcs: List<MapArc>.generate(
           _airports.length,
@@ -353,7 +354,7 @@ class _ArcsSampleState extends SampleViewState
         child: Column(
           children: <Widget>[
             Text('Route',
-                style: Theme.of(context).textTheme.caption!.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: const Color.fromRGBO(255, 255, 255, 1))),
             Padding(
@@ -361,7 +362,7 @@ class _ArcsSampleState extends SampleViewState
               child: Text(_airports[index].destination,
                   style: Theme.of(context)
                       .textTheme
-                      .caption!
+                      .bodySmall!
                       .copyWith(color: const Color.fromRGBO(255, 255, 255, 1))),
             ),
           ],
@@ -413,7 +414,7 @@ class _ArcsSampleState extends SampleViewState
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(_markerData[index].country,
-                      style: model.themeData.textTheme.caption!.copyWith(
+                      style: model.themeData.textTheme.bodySmall!.copyWith(
                           color: const Color.fromRGBO(255, 255, 255, 1))),
                 );
               },
@@ -464,6 +465,10 @@ class _ArcsSampleState extends SampleViewState
           ),
         ),
         selected: _currentSelectedCityIndex == index,
+        selectedColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? model.backgroundColor.withOpacity(0.25)
+                : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {
             setState(() {
@@ -501,6 +506,7 @@ class _ArcsSampleState extends SampleViewState
                 Padding(
                     padding: const EdgeInsets.only(right: 15.0),
                     child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       value: _currentSublayer,
                       items: _dropDownMenuItems,
                       onChanged: (String? value) {

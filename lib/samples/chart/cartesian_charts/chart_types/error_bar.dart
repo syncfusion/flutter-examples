@@ -157,6 +157,7 @@ class _ErrorBarDefaultState extends SampleViewState {
                           child: SizedBox(
                               width: dropDownWidth,
                               child: DropdownButton<String>(
+                                  focusColor: Colors.transparent,
                                   isExpanded: true,
                                   underline: Container(
                                       color: const Color(0xFFBDBDBD),
@@ -195,6 +196,7 @@ class _ErrorBarDefaultState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
@@ -230,6 +232,7 @@ class _ErrorBarDefaultState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
@@ -282,9 +285,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                       _errorBarMode == 'both')
                                   ? 1
                                   : 0,
-                              horizontal: true,
-                              loop: false,
-                              padding: 0,
                               iconColor: model.textColor.withOpacity(
                                   (_errorBarMode == 'vertical' ||
                                           _errorBarMode == 'both')
@@ -334,9 +334,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                       _errorBarMode == 'both')
                                   ? 1
                                   : 0,
-                              horizontal: true,
-                              loop: false,
-                              padding: 0,
                               iconColor: model.textColor.withOpacity(
                                   (_errorBarMode == 'horizontal' ||
                                           _errorBarMode == 'both')
@@ -391,9 +388,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                           _errorBarDirection == 'both'))
                                   ? 1
                                   : 0,
-                              horizontal: true,
-                              loop: false,
-                              padding: 0,
                               iconColor: model.textColor.withOpacity(
                                   ((_errorBarMode == 'horizontal' ||
                                               _errorBarMode == 'both') &&
@@ -451,9 +445,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                             _errorBarDirection == 'both'))
                                     ? 1
                                     : 0,
-                                horizontal: true,
-                                loop: false,
-                                padding: 0,
                                 iconColor: model.textColor.withOpacity(
                                     ((_errorBarMode == 'horizontal' ||
                                                 _errorBarMode == 'both') &&
@@ -512,9 +503,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                             _errorBarDirection == 'both'))
                                     ? 1
                                     : 0,
-                                horizontal: true,
-                                loop: false,
-                                padding: 0,
                                 iconColor: model.textColor.withOpacity(
                                     ((_errorBarMode == 'vertical' ||
                                                 _errorBarMode == 'both') &&
@@ -573,9 +561,6 @@ class _ErrorBarDefaultState extends SampleViewState {
                                           _errorBarDirection == 'both'))
                                   ? 1
                                   : 0,
-                              horizontal: true,
-                              loop: false,
-                              padding: 0,
                               iconColor: model.textColor.withOpacity(
                                   ((_errorBarMode == 'vertical' ||
                                               _errorBarMode == 'both') &&
@@ -614,7 +599,7 @@ class _ErrorBarDefaultState extends SampleViewState {
       padding:
           EdgeInsets.only(bottom: model.isWebFullView || !isCardView ? 0 : 60),
       child: SfCartesianChart(
-        title: ChartTitle(text: 'Sales distribution of cars by region'),
+        title: const ChartTitle(text: 'Sales distribution of cars by region'),
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(
             interval: 1,
@@ -649,22 +634,20 @@ class _ErrorBarDefaultState extends SampleViewState {
         //       null);
         // },
         tooltipBehavior: _tooltipbehavior,
-        series: <ChartSeries<SalesData, dynamic>>[
+        series: <CartesianSeries<SalesData, dynamic>>[
           ScatterSeries<SalesData, dynamic>(
-            dataSource: chartData!,
+            dataSource: chartData,
             name: 'Sales',
             animationDuration: 1000,
             xValueMapper: (SalesData sales, _) => sales.country,
             yValueMapper: (SalesData sales, _) => sales.salesCount,
-            isVisible: true,
           ),
           ErrorBarSeries<SalesData, dynamic>(
-            dataSource: chartData!,
+            dataSource: chartData,
             animationDuration: 1000,
             animationDelay: 1000,
             xValueMapper: (SalesData sales, _) => sales.country,
             yValueMapper: (SalesData sales, _) => sales.salesCount,
-            isVisible: true,
             color: model.themeData.colorScheme.brightness == Brightness.dark
                 ? Colors.white
                 : Colors.black,
@@ -678,7 +661,6 @@ class _ErrorBarDefaultState extends SampleViewState {
             horizontalNegativeErrorValue: _horizontalNegativeErrorValue,
             horizontalPositiveErrorValue: _horizontalPositiveErrorValue,
             width: 1.0,
-            capLength: 10.0,
           ),
         ],
       ),

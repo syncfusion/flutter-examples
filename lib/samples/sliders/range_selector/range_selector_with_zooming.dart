@@ -1,4 +1,6 @@
 ///Dart import
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:math';
 
 ///Package imports
@@ -34,7 +36,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
     with SingleTickerProviderStateMixin {
   _RangeSelectorZoomingPageState();
 
-  final DateTime min = DateTime(2017, 01, 01), max = DateTime(2018, 01, 01);
+  final DateTime min = DateTime(2017), max = DateTime(2018);
   final List<ChartSampleData> chartData = <ChartSampleData>[];
   late RangeController rangeController;
   late SfCartesianChart columnChart, splineChart;
@@ -50,33 +52,33 @@ class _RangeSelectorZoomingPageState extends SampleViewState
     );
     for (int i = 0; i < 366; i++) {
       chartData.add(ChartSampleData(
-          x: DateTime(2000, 01, 01).add(Duration(days: i)),
+          x: DateTime(2000).add(Duration(days: i)),
           y: Random().nextInt(190) + 50));
     }
     columnData = <ChartSampleData>[
-      ChartSampleData(x: DateTime(2000, 01, 01, 0), y: 100),
+      ChartSampleData(x: DateTime(2000), y: 100),
       ChartSampleData(x: DateTime(2000, 01, 15), y: 10),
-      ChartSampleData(x: DateTime(2000, 02, 01), y: 40),
+      ChartSampleData(x: DateTime(2000, 02), y: 40),
       ChartSampleData(x: DateTime(2000, 02, 15), y: 34),
-      ChartSampleData(x: DateTime(2000, 03, 01), y: 80),
+      ChartSampleData(x: DateTime(2000, 03), y: 80),
       ChartSampleData(x: DateTime(2000, 03, 15), y: 49),
-      ChartSampleData(x: DateTime(2000, 04, 01), y: 56),
+      ChartSampleData(x: DateTime(2000, 04), y: 56),
       ChartSampleData(x: DateTime(2000, 04, 15), y: 26),
-      ChartSampleData(x: DateTime(2000, 05, 01), y: 8),
+      ChartSampleData(x: DateTime(2000, 05), y: 8),
       ChartSampleData(x: DateTime(2000, 05, 15), y: 80),
-      ChartSampleData(x: DateTime(2000, 06, 01), y: 42),
+      ChartSampleData(x: DateTime(2000, 06), y: 42),
       ChartSampleData(x: DateTime(2000, 06, 15), y: 12),
-      ChartSampleData(x: DateTime(2000, 07, 01), y: 28),
+      ChartSampleData(x: DateTime(2000, 07), y: 28),
       ChartSampleData(x: DateTime(2000, 07, 15), y: 68),
-      ChartSampleData(x: DateTime(2000, 08, 01), y: 94),
+      ChartSampleData(x: DateTime(2000, 08), y: 94),
       ChartSampleData(x: DateTime(2000, 08, 15), y: 24),
-      ChartSampleData(x: DateTime(2000, 09, 01), y: 72),
+      ChartSampleData(x: DateTime(2000, 09), y: 72),
       ChartSampleData(x: DateTime(2000, 09, 15), y: 32),
-      ChartSampleData(x: DateTime(2000, 10, 01), y: 48),
+      ChartSampleData(x: DateTime(2000, 10), y: 48),
       ChartSampleData(x: DateTime(2000, 10, 15), y: 4),
-      ChartSampleData(x: DateTime(2000, 11, 01), y: 64),
+      ChartSampleData(x: DateTime(2000, 11), y: 64),
       ChartSampleData(x: DateTime(2000, 11, 15), y: 10),
-      ChartSampleData(x: DateTime(2000, 12, 01), y: 85),
+      ChartSampleData(x: DateTime(2000, 12), y: 85),
       ChartSampleData(x: DateTime(2000, 12, 15), y: 96),
     ];
     splineSeriesData = <ChartSampleData>[
@@ -595,9 +597,8 @@ class _RangeSelectorZoomingPageState extends SampleViewState
     ];
     columnChart = SfCartesianChart(
       margin: EdgeInsets.zero,
-      primaryXAxis:
-          DateTimeAxis(isVisible: false, maximum: DateTime(2018, 1, 1)),
-      primaryYAxis: NumericAxis(isVisible: false),
+      primaryXAxis: DateTimeAxis(isVisible: false, maximum: DateTime(2018)),
+      primaryYAxis: const NumericAxis(isVisible: false),
       plotAreaBorderWidth: 0,
       series: <SplineAreaSeries<ChartSampleData, DateTime>>[
         SplineAreaSeries<ChartSampleData, DateTime>(
@@ -629,7 +630,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
         themeData.colorScheme.brightness == Brightness.light;
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     splineChart = SfCartesianChart(
-      title: ChartTitle(text: 'EUR Exchange Rate From USD'),
+      title: const ChartTitle(text: 'EUR Exchange Rate From USD 2017'),
       plotAreaBorderWidth: 0,
       tooltipBehavior: TooltipBehavior(
           animationDuration: 0, shadowColor: Colors.transparent, enable: true),
@@ -638,14 +639,14 @@ class _RangeSelectorZoomingPageState extends SampleViewState
           isVisible: false,
           minimum: DateTime.fromMillisecondsSinceEpoch(1483315200000),
           maximum: DateTime.fromMillisecondsSinceEpoch(1514678400000),
-          visibleMinimum: rangeController.start,
-          visibleMaximum: rangeController.end,
+          initialVisibleMinimum: rangeController.start,
+          initialVisibleMaximum: rangeController.end,
           rangeController: rangeController),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
         labelPosition: ChartDataLabelPosition.inside,
         labelAlignment: LabelAlignment.end,
-        majorTickLines: const MajorTickLines(size: 0),
-        axisLine: const AxisLine(color: Colors.transparent),
+        majorTickLines: MajorTickLines(size: 0),
+        axisLine: AxisLine(color: Colors.transparent),
         anchorRangeToVisiblePoints: false,
       ),
       series: <SplineSeries<ChartSampleData, DateTime>>[

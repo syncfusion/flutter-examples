@@ -3,13 +3,14 @@ import 'dart:async';
 
 /// Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/datagridsource/realtime_datagridsource.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
 import '../../../model/sample_view.dart';
+import 'datagridsource/realtime_datagridsource.dart';
 
 /// Renders real time value change data grid
 class RealTimeUpdateDataGrid extends SampleView {

@@ -128,27 +128,28 @@ class _ExportState extends SampleViewState {
   /// Get default column chart
   SfCartesianChart _buildDefaultColumnChart() {
     return SfCartesianChart(
-      legend: Legend(isVisible: true),
+      legend: const Legend(isVisible: true),
       key: _chartKey,
       plotAreaBackgroundColor: model.cardThemeColor,
       backgroundColor: model.cardThemeColor,
       plotAreaBorderWidth: 0,
       plotAreaBorderColor: Colors.grey.withOpacity(0.7),
-      title: ChartTitle(text: 'Average rainfall amount (mm) and rainy days'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      title:
+          const ChartTitle(text: 'Average rainfall amount (mm) and rainy days'),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryYAxis: const NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
         minimum: 0,
         maximum: 250,
         interval: 50,
       ),
-      axes: <ChartAxis>[
+      axes: const <ChartAxis>[
         NumericAxis(
             name: 'YAxis',
             opposedPosition: true,
-            majorGridLines: const MajorGridLines(width: 0),
+            majorGridLines: MajorGridLines(width: 0),
             minimum: 0,
             maximum: 30,
             interval: 5)
@@ -159,8 +160,8 @@ class _ExportState extends SampleViewState {
   }
 
   /// Get default column series
-  List<ChartSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
-    return <ChartSeries<ChartSampleData, String>>[
+  List<CartesianSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
+    return <CartesianSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           name: 'Rainy days',
           dataSource: chartData,
@@ -183,10 +184,12 @@ class _ExportState extends SampleViewState {
           await getApplicationDocumentsDirectory();
       final String path = documentDirectory.path;
       const String imageName = 'cartesianchart.png';
-      imageCache!.clear();
+      imageCache.clear();
       final File file = File('$path/$imageName');
       file.writeAsBytesSync(bytes);
-
+      if (!mounted) {
+        return;
+      }
       await Navigator.of(context).push<dynamic>(
         MaterialPageRoute<dynamic>(
           builder: (BuildContext context) {
@@ -208,6 +211,9 @@ class _ExportState extends SampleViewState {
   Future<void> _renderPdf() async {
     final PdfDocument document = PdfDocument();
     final PdfBitmap bitmap = PdfBitmap(await _readImageData());
+    if (!mounted) {
+      return;
+    }
     document.pageSettings.orientation =
         MediaQuery.of(context).orientation == Orientation.landscape
             ? PdfPageOrientation.landscape
@@ -228,16 +234,16 @@ class _ExportState extends SampleViewState {
       duration: Duration(milliseconds: 200),
       content: Text('Chart has been exported as PDF document.'),
     ));
-    final List<int> bytes = document.save();
+    final List<int> bytes = document.saveSync();
     document.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, 'cartesian_chart.pdf');
   }
 
   Future<List<int>> _readImageData() async {
-    final dart_ui.Image data =
+    final dart_ui.Image? data =
         await _chartKey.currentState!.toImage(pixelRatio: 3.0);
     final ByteData? bytes =
-        await data.toByteData(format: dart_ui.ImageByteFormat.png);
+        await data?.toByteData(format: dart_ui.ImageByteFormat.png);
     return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 }

@@ -1,8 +1,10 @@
 ///Package imports
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -40,7 +42,6 @@ class _DividerCustomizedRangeSliderState extends SampleViewState {
           overlayColor: _activeColor.withOpacity(0.12),
           tooltipBackgroundColor: _activeColor),
       child: SfRangeSlider(
-        min: 0.0,
         max: 100.0,
         values: _values,
         onChanged: (SfRangeValues values) {

@@ -39,14 +39,14 @@ class _GradientComparisonState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Average monthly temperature of London'),
       primaryXAxis:
-          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}°C',
           minimum: 0,
           maximum: 25,
           interval: 5,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(color: Colors.transparent)),
       tooltipBehavior: _tooltipBehavior,
       series: _getGradientComparisonSeries(),
     );

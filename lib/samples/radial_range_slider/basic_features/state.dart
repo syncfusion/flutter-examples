@@ -142,11 +142,11 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleSecondPointerValueChanged(double value) {
+  void handleSecondPointerValueChanged(double markerValue) {
     setState(() {
-      _secondMarkerValue = value;
-      final int _value = _secondMarkerValue.abs().toInt();
-      _annotationValue2 = '$_value%';
+      _secondMarkerValue = markerValue;
+      final int value = _secondMarkerValue.abs().toInt();
+      _annotationValue2 = '$value%';
     });
   }
 
@@ -159,11 +159,11 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleFirstPointerValueChanged(double value) {
+  void handleFirstPointerValueChanged(double markerValue) {
     setState(() {
-      _firstMarkerValue = value;
-      final int _value = _firstMarkerValue.abs().toInt();
-      _annotationValue1 = '$_value';
+      _firstMarkerValue = markerValue;
+      final int value = _firstMarkerValue.abs().toInt();
+      _annotationValue1 = '$value';
     });
   }
 

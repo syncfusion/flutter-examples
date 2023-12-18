@@ -32,8 +32,7 @@ class _DefaultSelectionState extends SampleViewState {
   void initState() {
     _seriesIndexList = <String>['0', '1', '2'].toList();
     _pointIndexList = <String>['0', '1', '2', '3', '4'].toList();
-    _selectionBehavior =
-        SelectionBehavior(enable: true, unselectedOpacity: 0.5);
+    _selectionBehavior = SelectionBehavior(enable: true);
     _seriesIndex = 0;
     _pointIndex = 0;
     chartData = <ChartSampleData>[
@@ -96,6 +95,7 @@ class _DefaultSelectionState extends SampleViewState {
               Container(
                   padding: const EdgeInsets.fromLTRB(78, 0, 0, 0),
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _seriesIndex.toString(),
@@ -121,6 +121,7 @@ class _DefaultSelectionState extends SampleViewState {
               Container(
                   padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _pointIndex.toString(),
@@ -137,7 +138,6 @@ class _DefaultSelectionState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
@@ -171,12 +171,8 @@ class _DefaultSelectionState extends SampleViewState {
       },
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Tourism - Number of arrivals'),
-
-      /// To specify the selection mode for chart.
-      selectionType: SelectionType.point,
-      selectionGesture: ActivationMode.singleTap,
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           axisLine: const AxisLine(width: 0),

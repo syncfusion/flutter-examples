@@ -81,7 +81,6 @@ class _PieImageShaderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    getImage();
     if (image1 != null && image2 != null && image3 != null && image4 != null) {
       renderWidget = SfCircularChart(
         title: ChartTitle(
@@ -145,9 +144,8 @@ class _PieImageShaderState extends SampleViewState {
             explode: true,
             yValueMapper: (_ChartShaderData data, _) => data.y,
             dataLabelMapper: (_ChartShaderData data, _) => data.text,
-            pointShaderMapper:
-                (_ChartShaderData data, _, Color color, Rect rect) =>
-                    data.shader,
+            pointShaderMapper: (dynamic data, _, Color color, Rect rect) =>
+                data.shader,
             dataLabelSettings: DataLabelSettings(
                 isVisible: true,
                 labelPosition: ChartDataLabelPosition.outside,

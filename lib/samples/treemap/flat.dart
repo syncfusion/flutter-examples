@@ -127,7 +127,7 @@ class _TreemapLayoutSampleState extends SampleViewState {
           children: <Widget>[
             Text(
               'Top 10 Highest-Grossing Movies Worldwide',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             Expanded(
@@ -325,8 +325,6 @@ class _TreemapLayoutSampleState extends SampleViewState {
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
                   stops: const <double>[0, 1.0],
                   colors: <Color>[
                     const Color.fromRGBO(50, 128, 214, 1.0),
@@ -397,7 +395,6 @@ class _TreemapLayoutSampleState extends SampleViewState {
       );
     } else {
       return Align(
-        alignment: Alignment.center,
         child: Text(
           tile.group,
           textAlign: TextAlign.center,
@@ -419,7 +416,7 @@ class _TreemapLayoutSampleState extends SampleViewState {
             child: RichText(
               text: TextSpan(
                 text: 'Director',
-                style: themeData.textTheme.caption!.copyWith(
+                style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
                   color: _isLightTheme
                       ? const Color.fromRGBO(255, 255, 255, 0.75)
@@ -436,7 +433,7 @@ class _TreemapLayoutSampleState extends SampleViewState {
             child: RichText(
               text: TextSpan(
                 text: movieDetails.director,
-                style: themeData.textTheme.caption!.copyWith(
+                style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
                   fontWeight: FontWeight.bold,
                   color: _isLightTheme
@@ -460,7 +457,9 @@ class _MovieDetails {
     required this.boxOffice,
     this.movie,
     this.director,
+    // ignore: unused_element
     this.releaseDate,
+    // ignore: unused_element
     this.budget,
     this.color,
   });

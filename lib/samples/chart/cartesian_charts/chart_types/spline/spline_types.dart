@@ -57,6 +57,7 @@ class _SplineTypesState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
+                focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedSplineType,
                 items: _splineList!.map((String value) {
@@ -80,16 +81,16 @@ class _SplineTypesState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Export growth of Brazil'),
-      primaryXAxis: NumericAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
         interval: 1,
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}%',
           minimum: -0.1,
           maximum: 0.2,
           interval: 0.1,
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getSplineTypesSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -101,7 +102,7 @@ class _SplineTypesState extends SampleViewState {
       SplineSeries<_ChartData, num>(
 
           /// To set the spline type here.
-          splineType: _spline,
+          splineType: _spline!,
           dataSource: <_ChartData>[
             _ChartData(2011, 0.05),
             _ChartData(2011.25, 0),
@@ -126,8 +127,7 @@ class _SplineTypesState extends SampleViewState {
             _ChartData(2016, 0.12),
           ],
           xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.y,
-          width: 2)
+          yValueMapper: (_ChartData sales, _) => sales.y)
     ];
   }
 

@@ -1,4 +1,6 @@
 ///Package imports
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
@@ -47,7 +49,7 @@ class _RangeSelectorBarChartPageState extends SampleViewState
     super.initState();
 
     _chartData = <_ChartSampleData>[
-      _ChartSampleData(x: DateTime(2020, 06, 01), y: 100.0),
+      _ChartSampleData(x: DateTime(2020, 06), y: 100.0),
       _ChartSampleData(x: DateTime(2020, 06, 02), y: 150.541),
       _ChartSampleData(x: DateTime(2020, 06, 03), y: -25.818),
       _ChartSampleData(x: DateTime(2020, 06, 04), y: 30.51),
@@ -199,7 +201,7 @@ class _RangeSelectorBarChartPageState extends SampleViewState
         minimum: _dayMin,
         maximum: _dayMax,
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
         isVisible: false,
         minimum: -150,
         maximum: 150,

@@ -38,7 +38,6 @@
         "description": "Visualize hierarchically structured data that is sized and colored by quantitative variables",
         "image": "images/treemap.png",
         "displayType": "tab",
-        "isBeta": true,
         "controlId": 4,
         "subItems": [
           {
@@ -137,12 +136,41 @@
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/treemap/custom_background.dart"
               }
             ]
+          },
+          {
+            "type": "child",
+            "title": "RTL",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "RTL",
+                "key": "treemap_text_direction",
+                "needsPropertyPanel": true,
+                "sourceLink": "https://en.wikipedia.org/wiki/List_of_German_states_by_GRP#2020_list",
+                "sourceText": "www.wikipedia.org",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/treemap/directionality.dart"
+              }
+            ]
+          },
+          {
+            "type": "child",
+            "title": "Localization",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Localization",
+                "key": "treemap_Localization",
+                "needsPropertyPanel": true,
+                "sourceLink": "https://en.wikipedia.org/wiki/States_and_territories_of_Australia#States",
+                "sourceText": "www.wikipedia.org",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/treemap/localization.dart"
+              }
+            ]
           }
         ]
       },
       {
         "title": "Cartesian Charts",
-        "status": "Updated",
         "description": "Plot over 30 chart types ranging from line charts to financial charts",
         "image": "images/cartesian_types.png",
         "controlId": 1,
@@ -244,7 +272,9 @@
                     "key": "column_width_and_spacing",
                     "description": "You can change the width and spacing of columns by using the options in the properties panel.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/chart_types/column/column_width_and_spacing.dart",
-                    "needsPropertyPanel": true
+                    "needsPropertyPanel": true,
+                    "sourceLink": "https://olympics.com/beijing-2022/olympic-games/en/results/all-sports/medal-standings.htm",
+                    "sourceText": "olympics.com"
                   },
                   {
                     "title": "Customized column chart",
@@ -870,9 +900,16 @@
             "displayType": "card",
             "subItems": [
               {
+                "title": "Handling labels collision",
+                "key": "handling_label_collision",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/handling_label_collision.dart",
+                "sourceLink": "https://en.wikipedia.org/wiki/List_of_men%27s_footballers_with_500_or_more_goals",
+                "sourceText": "en.wikipedia.org",
+                "needsPropertyPanel": true
+              },
+              {
                 "title": "Multi-level labels",
                 "key": "multi_level_labels",
-                "status": "New",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/multi_level_labels.dart",
                 "sourceLink": "https://en.climate-data.org/oceania/australia/new-south-wales/sydney-24/",
                 "sourceText": "en.climate-data.org",
@@ -881,7 +918,6 @@
               {
                 "title": "Interval type",
                 "key": "interval_type",
-                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/interval_type.dart",
                 "needsPropertyPanel": true
               },
@@ -891,14 +927,6 @@
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/opposed_axes.dart",
                 "sourceLink": "https://www.statista.com/statistics/199983/us-vehicle-sales-since-1951/",
                 "sourceText": "www.statista.com"
-              },
-              {
-                "title": "Handling labels collision",
-                "key": "handling_label_collision",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/handling_label_collision.dart",
-                "sourceLink": "https://en.wikipedia.org/wiki/List_of_men%27s_footballers_with_500_or_more_goals",
-                "sourceText": "en.wikipedia.org",
-                "needsPropertyPanel": true
               },
               {
                 "title": "Edge label placement",
@@ -960,6 +988,19 @@
             "type": "parent",
             "title": "Series Features",
             "subItems": [
+              {
+                "type": "child",
+                "title": "Point color mapping",
+                "displayType": "tab",
+                "subItems": [
+                  {
+                    "title": "Point color mapping",
+                    "description": "This sample depicts mapping different colors to each data point from the data source using the <highlight>pointColorMapper[https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/CartesianSeries/pointColorMapper.html]<endHighlight> property.",
+                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/series_features/point_color_mapper.dart",
+                    "key": "point_color_mapper"
+                  }
+                ]
+              },
               {
                 "type": "child",
                 "title": "Gradient",
@@ -1054,7 +1095,7 @@
               },
               {
                 "type": "child",
-                "title": "Data Label",
+                "title": "Data label",
                 "displayType": "card",
                 "subItems": [
                   {
@@ -1109,7 +1150,7 @@
               },
               {
                 "type": "child",
-                "title": "Empty Points",
+                "title": "Empty points",
                 "displayType": "tab",
                 "subItems": [
                   {
@@ -1509,13 +1550,40 @@
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/export.dart"
               }
             ]
+          },
+          {
+            "type": "child",
+            "title": "RTL",
+            "displayType": "tab",
+            "subItems": [
+              {
+                "title": "RTL",
+                "key": "rtl_chart",
+                "needsPropertyPanel": true,
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/rtl.dart",
+                "sourceLink": "https://olympics.com/beijing-2022/olympic-games/en/results/all-sports/medal-standings.htm",
+                "sourceText": "olympics.com"
+              }
+            ]
+          },
+          {
+            "type": "child",
+            "title": "Localization",
+            "displayType": "tab",
+            "subItems": [
+              {
+                "title": "Localization",
+                "key": "localization_chart",
+                "needsPropertyPanel": true,
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/localization.dart"
+              }
+            ]
           }
         ]
       },
       {
         "title": "Circular Charts",
         "description": "Visualize the data using pie, doughnut, and radial bar charts",
-        "status": "Updated",
         "image": "images/circle_series.png",
         "controlId": 2,
         "subItems": [
@@ -1555,7 +1623,6 @@
                   },
                   {
                     "title": "Data labels",
-                    "status": "Updated",
                     "key": "pie_with_data_labels",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/chart_types/pie/pie_with_data_labels.dart",
                     "needsPropertyPanel": true
@@ -1677,7 +1744,8 @@
               {
                 "title": "Chart with legend",
                 "key": "chart_with_legend",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/legend/chart_with_legend.dart"
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/legend/chart_with_legend.dart",
+                "needsPropertyPanel": true
               },
               {
                 "title": "Legend with various options",
@@ -1736,6 +1804,21 @@
                   "windows",
                   "web"
                 ]
+              }
+            ]
+          },
+          {
+            "type": "child",
+            "title": "Localization",
+            "displayType": "tab",
+            "subItems": [
+              {
+                "title": "Localization",
+                "key": "circular_localization",
+                "needsPropertyPanel": true,
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/circular_charts/localization.dart",
+                "sourceLink": "https://www.pngkit.com/view/u2q8y3w7r5y3t4o0_composition-of-ocean-water-earths-oceans-elements-percentage/",
+                "sourceText": "www.pngkit.com"
               }
             ]
           }
@@ -2054,7 +2137,6 @@
         "description": "Visualize one or multiple measures on a linear scale with pointers and ranges",
         "image": "images/linear_gauge.png",
         "controlId": 5,
-        "isBeta": true,
         "subItems": [
           {
             "type": "child",
@@ -2235,7 +2317,6 @@
       },
       {
         "title": "Funnel Chart",
-        "status": "Updated",
         "description": "Visualize the sequential data using funnel chart",
         "image": "images/funnel.png",
         "displayType": "card",
@@ -2250,7 +2331,6 @@
           {
             "title": "Data labels",
             "key": "funnel_with_smart_labels",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/funnel_charts/funnel_with_smart_labels.dart",
             "needsPropertyPanel": true
           },
@@ -2265,7 +2345,6 @@
         "title": "Pyramid Chart",
         "description": "Visualize the organized data using pyramid chart",
         "image": "images/pyramid.png",
-        "status": "Updated",
         "displayType": "card",
         "controlId": 6,
         "subItems": [
@@ -2277,7 +2356,6 @@
           },
           {
             "title": "Data labels",
-            "status": "Updated",
             "key": "pyramid_with_smart_labels",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/pyramid_charts/pyramid_with_smart_labels.dart",
             "sourceLink": "https://www.worldometers.info/world-population/population-by-country/",
@@ -2297,7 +2375,6 @@
         "image": "images/map.png",
         "displayType": "tab",
         "controlId": 3,
-        "isBeta": true,
         "subItems": [
           {
             "type": "child",
@@ -2410,6 +2487,36 @@
                   "iOS"
                 ],
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/tile_layer/crosshair/crosshair.dart"
+              }
+            ]
+          },
+          {
+            "type": "child",
+            "title": "RTL",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "RTL",
+                "key": "maps_with_directionality",
+                "needsPropertyPanel": true,
+                "sourceLink": "https://en.wikipedia.org/wiki/List_of_German_states_by_GRP#2020_list",
+                "sourceText": "www.wikipedia.org",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/directionality.dart"
+              }
+            ]
+          },
+          {
+            "type": "child",
+            "title": "Localization",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Localization",
+                "key": "maps_with_localization",
+                "needsPropertyPanel": true,
+                "sourceLink": "https://en.wikipedia.org/wiki/States_and_territories_of_Australia#States",
+                "sourceText": "www.wikipedia.org",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/maps/localization.dart"
               }
             ]
           }
@@ -2573,6 +2680,13 @@
               },
               {
                 "type": "sample",
+                "title": "Column Drag and Drop",
+                "key": "datagrid_column_drag_and_drop",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_column_drag_and_drop.dart",
+                "needsPropertyPanel": false
+              },
+              {
+                "type": "sample",
                 "title": "Stacked Header",
                 "key": "stacked_header_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/columns/datagrid_stacked_header.dart"
@@ -2605,7 +2719,7 @@
               {
                 "type": "sample",
                 "title": "Sorting",
-                "description": "This sample demonstrates how to sort one or more columns. In the Web and Desktop platforms, you can sort multiple columns by tapping the column header with the CTRL key where as in a mobile platform you can tap the column headers. It also provides some additional functionalities like Tri-state sorting and displaying sort numbers that indicate the sort order.",
+                "description": "This sample demonstrates how to sort one or more columns. In the Web and Windows platforms, you can sort multiple columns by tapping the column header with the CTRL key and COMMAND key in macOS platform where as in a mobile platform you can tap the column headers. It also provides some additional functionalities like Tri-state sorting and displaying sort numbers that indicate the sort order.",
                 "key": "sorting_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/sorting/datagrid_sorting.dart",
                 "needsPropertyPanel": true
@@ -2616,6 +2730,41 @@
                 "description": "This sample demonstrates custom sorting in DataGrid. In this sample, Customer Name column is sorted based on the length of a cell value.",
                 "key": "custom_sorting_datagrid",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/sorting/datagrid_custom_sorting.dart"
+              }
+            ]
+          },
+          {
+            "type": "child",
+            "title": "Grouping",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Grouping",
+                "status": "New",
+                "key": "datagrid_grouping",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/grouping/datagrid_grouping.dart",
+                "needsPropertyPanel": false
+              },
+              {
+                "type": "sample",
+                "title": "Custom Grouping",
+                "status": "New",
+                "description": "This sample demonstrates the custom grouping capabilities in SfDataGrid. Implement custom grouping logic if the standard grouping techniques do not meet your requirements. The sample is grouped based on the total amount of sales in the quarters.",
+                "key": "datagrid_custom_grouping",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/grouping/datagrid_custom_grouping",
+                "needsPropertyPanel": false
+              }
+            ]
+          },
+          {
+            "type": "child",
+            "title": "Filtering",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Filtering",
+                "key": "filtering_datagrid",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_filtering.dart"
               }
             ]
           },
@@ -2760,7 +2909,6 @@
                 "type": "sample",
                 "title": "Paging",
                 "key": "paging_datagrid",
-                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_paging.dart"
               }
             ]
@@ -2800,6 +2948,32 @@
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_exporting.dart"
               }
             ]
+          },
+          {
+            "type": "child",
+            "title": "RTL",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "RTL",
+                "key": "rtl_datagrid",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_rtl.dart",
+                "needsPropertyPanel": true
+              }
+            ]
+          },
+          {
+            "type": "child",
+            "title": "Localization",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Localization",
+                "key": "localization_paging_datagrid",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/datagrid_localization.dart",
+                "needsPropertyPanel": true
+              }
+            ]
           }
         ]
       }
@@ -2814,14 +2988,12 @@
         "title": "Event Calendar",
         "description": "Allows you to easily visualize and schedule appointments",
         "image": "images/calendar.png",
-        "status": "Updated",
         "displayType": "tab",
         "controlId": 1,
         "subItems": [
           {
             "type": "sample",
             "title": "Getting Started",
-            "status": "Updated",
             "key": "getting_started_calendar",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/getting_started.dart",
             "needsPropertyPanel": true
@@ -2907,6 +3079,20 @@
             "title": "Heat Map",
             "key": "heat_map_calendar",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/heatmap.dart"
+          },
+          {
+            "type": "sample",
+            "title": "RTL",
+            "key": "rtl_calendar",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/rtl.dart",
+            "needsPropertyPanel": true
+          },
+          {
+            "type": "sample",
+            "title": "Localization",
+            "key": "localization_calendar",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar/localization.dart",
+            "needsPropertyPanel": true
           }
         ]
       },
@@ -2914,14 +3100,12 @@
         "title": "Date Range Picker",
         "description": "Allows to easily select dates or range of dates",
         "image": "images/Date_range_picker.png",
-        "status": "Updated",
         "displayType": "tab",
         "controlId": 2,
         "subItems": [
           {
             "type": "sample",
             "title": "Getting Started",
-            "status": "Updated",
             "key": "getting_started_date_picker",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/date_picker_getting_started.dart",
             "needsPropertyPanel": true
@@ -2929,7 +3113,6 @@
           {
             "type": "sample",
             "title": "Hijri Calendar",
-            "status": "Updated",
             "key": "hijri_calendar_date_picker",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/hijri_calendar.dart",
             "needsPropertyPanel": true
@@ -2958,6 +3141,20 @@
             "key": "vertical_calendar",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/vertical_calendar.dart",
             "needsPropertyPanel": true
+          },
+          {
+            "type": "sample",
+            "title": "RTL",
+            "key": "rtl_date_picker",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/rtl.dart",
+            "needsPropertyPanel": true
+          },
+          {
+            "type": "sample",
+            "title": "Localization",
+            "key": "localization_picker",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker/localization.dart",
+            "needsPropertyPanel": true
           }
         ]
       }
@@ -2968,17 +3165,15 @@
     "mobileCategoryId": 4,
     "webCategoryId": 4,
     "platformsToHide": [
-      "linux",
-      "windows"
+      "linux"
     ],
     "controlList": [
       {
         "title": "PDF Viewer",
         "description": "View the PDF document seamlessly and efficiently",
         "image": "images/pdf_viewer.png",
-        "displayType": "tab",
-        "isBeta": true,
         "status": "Updated",
+        "displayType": "tab",
         "controlId": 1,
         "subItems": [
           {
@@ -2990,17 +3185,43 @@
           {
             "type": "sample",
             "title": "Custom Toolbar",
-            "status": "Updated",
             "key": "pdf_viewer_custom_toolbar",
+            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_custom_toolbar.dart"
           },
           {
             "type": "sample",
-            "title": "Encrypted",
+            "title": "Annotations",
+            "key": "pdf_viewer_annotations",
             "status": "New",
-            "key": "encrypted",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/encrypted.dart"
-          }
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_annotations.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Form Filling",
+            "key": "pdf_viewer_form_filling",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_form_filling.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Encrypted",
+            "key": "pdf_viewer_encrypted",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_encrypted.dart"
+          },
+          {
+            "type": "sample",
+            "title": "RTL",
+            "key": "pdf_viewer_rtl",
+            "needsPropertyPanel": true,
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_rtl.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Localization",
+            "key": "pdf_viewer_localization",
+            "needsPropertyPanel": true,
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_localization.dart"
+          }        
         ]
       }
     ]
@@ -3015,7 +3236,7 @@
         "description": "Create PDF document with text, images and tables",
         "image": "images/pdf.png",
         "displayType": "tab",
-        "isBeta": true,
+        "status": "Updated",
         "controlId": 1,
         "subItems": [
           {
@@ -3040,6 +3261,7 @@
             "type": "sample",
             "title": "Annotations",
             "key": "annotations",
+            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/annotations.dart"
           },
           {
@@ -3091,7 +3313,6 @@
         "description": "Create Excel documents with text, numbers, cell formatting, formulas, charts, images, and more",
         "image": "images/xlsio.png",
         "displayType": "tab",
-        "isBeta": true,
         "controlId": 2,
         "subItems": [
           {
@@ -3123,6 +3344,30 @@
             "title": "Attendance Tracker",
             "key": "attendance_tracker",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/attendance_tracker/attendance_tracker.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Data Validation",
+            "key": "data_validation",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/data_validation/data_validation.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Table",
+            "key": "table",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/table/table.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Filters",
+            "key": "auto_filter",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/auto_filter/auto_filter.dart"
+          },
+          {
+            "type": "sample",
+            "title": "CSV Export",
+            "key": "save_as_csv",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/xlsio/save_as_csv/save_as_csv.dart"
           }
         ]
       }
@@ -3132,20 +3377,17 @@
     "categoryName": "Sliders",
     "mobileCategoryId": 6,
     "webCategoryId": 6,
-    "status": "Updated",
     "controlList": [
       {
         "title": "Slider",
         "description": "The horizontal slider enables you to select a date or a numeric value",
         "image": "images/slider.png",
-        "status": "Updated",
         "displayType": "tab",
         "controlId": 1,
         "subItems": [
           {
             "type": "child",
             "title": "Basic features",
-            "status": "Updated",
             "displayType": "tab",
             "subItems": [
               {
@@ -3172,7 +3414,6 @@
               {
                 "type": "sample",
                 "title": "Tooltip types",
-                "status": "Updated",
                 "key": "slider_tooltip_type",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/slider/basic_features/slider_tooltip_type.dart",
                 "description": "",
@@ -3192,6 +3433,14 @@
             "title": "Customization",
             "displayType": "tab",
             "subItems": [
+              {
+                "type": "sample",
+                "title": "Labels customization",
+                "key": "labels_customization_slider",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/slider/customization/slider_labels_customization.dart",
+                "description": "",
+                "needsPropertyPanel": true
+              },
               {
                 "type": "sample",
                 "title": "Thumb icon customization",
@@ -3217,6 +3466,20 @@
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/slider/customization/shape_customization/slider_shape_customization.dart"
               }
             ]
+          },
+          {
+            "type": "child",
+            "title": "RTL",
+            "displayType": "tab",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "RTL",
+                "key": "slider_text_direction",
+                "needsPropertyPanel": true,
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/slider/text_direction/slider_text_direction.dart"
+              }
+            ]
           }
         ]
       },
@@ -3224,13 +3487,11 @@
         "title": "Range Slider",
         "description": "The horizontal range slider enables you to select a date or a numeric range",
         "image": "images/range_slider.png",
-        "status": "Updated",
         "controlId": 2,
         "subItems": [
           {
             "type": "child",
             "title": "Basic features",
-            "status": "Updated",
             "displayType": "tab",
             "subItems": [
               {
@@ -3257,7 +3518,6 @@
               {
                 "type": "sample",
                 "title": "Tooltip types",
-                "status": "Updated",
                 "key": "range_slider_tooltip_type",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/range_slider/default_appearance/range_slider_tooltip_type.dart",
                 "description": "",
@@ -3293,6 +3553,14 @@
             "subItems": [
               {
                 "type": "sample",
+                "title": "Labels customization",
+                "key": "range_slider_label_customization",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/range_slider/customization/range_slider_label_customization.dart",
+                "description": "",
+                "needsPropertyPanel": true
+              },
+              {
+                "type": "sample",
                 "title": "Thumb icon customization",
                 "key": "range_slider_thumb_icon_customization",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/range_slider/customization/thumb_customization/range_slider_thumb_icon_customization.dart"
@@ -3316,6 +3584,20 @@
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/range_slider/customization/shape_customization/shape_customization.dart"
               }
             ]
+          },
+          {
+            "type": "child",
+            "title": "RTL",
+            "displayType": "tab",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "RTL",
+                "key": "range_slider_text_direction",
+                "needsPropertyPanel": true,
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/range_slider/text_direction/range_slider_text_direction.dart"
+              }
+            ]
           }
         ]
       },
@@ -3324,14 +3606,12 @@
         "description": "The vertical slider enables you to select a date or a numeric value",
         "image": "images/vertical_slider.png",
         "displayType": "tab",
-        "status": "Updated",
         "controlId": 3,
         "subItems": [
           {
             "type": "child",
             "title": "Basic features",
             "displayType": "tab",
-            "status": "Updated",
             "subItems": [
               {
                 "type": "sample",
@@ -3361,7 +3641,6 @@
                 "type": "sample",
                 "title": "Tooltip position",
                 "key": "vertical_slider_tooltip_position",
-                "status": "Updated",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_slider/basic_features/vertical_slider_tooltip_position.dart",
                 "description": "",
                 "needsPropertyPanel": true
@@ -3381,6 +3660,14 @@
             "title": "Customization",
             "displayType": "tab",
             "subItems": [
+              {
+                "type": "sample",
+                "title": "Labels customization",
+                "key": "vertical_slider_label_customization",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_slider/customization/vertical_slider_label_customization.dart",
+                "description": "",
+                "needsPropertyPanel": true
+              },
               {
                 "type": "sample",
                 "title": "Thumb icon customization",
@@ -3414,13 +3701,11 @@
         "description": "The vertical range slider enables you to select a date or a numeric range",
         "image": "images/vertical_range_slider.png",
         "displayType": "tab",
-        "status": "Updated",
         "controlId": 4,
         "subItems": [
           {
             "type": "child",
             "title": "Basic features",
-            "status": "Updated",
             "displayType": "tab",
             "subItems": [
               {
@@ -3453,7 +3738,6 @@
                 "key": "vertical_range_slider_tooltip_position",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_tooltip_position.dart",
                 "description": "",
-                "status": "Updated",
                 "needsPropertyPanel": true
               },
               {
@@ -3489,6 +3773,14 @@
             "subItems": [
               {
                 "type": "sample",
+                "title": "Labels customization",
+                "key": "vertical_range_slider_label_customization",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_range_slider/customization/vertical_range_slider_label_customization.dart",
+                "description": "",
+                "needsPropertyPanel": true
+              },
+              {
+                "type": "sample",
                 "title": "Thumb icon customization",
                 "key": "vertical_range_slider_thumb_icon_customization",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/vertical_range_slider/customization/thumb_customization/vertical_range_slider_thumb_icon_customization.dart"
@@ -3520,15 +3812,21 @@
         "description": "Visualize data and select a date or numeric range",
         "image": "images/range_selector.png",
         "displayType": "tab",
-        "status": "Updated",
         "controlId": 5,
         "subItems": [
           {
             "type": "sample",
             "title": "Default",
-            "status": "Updated",
             "key": "range_selector_default_appearance",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/range_selector/range_selector_default_appearance.dart",
+            "needsPropertyPanel": true
+          },
+          {
+            "type": "sample",
+            "title": "Labels customization",
+            "key": "range_selector_label_customization",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/range_selector/range_selector_label_customization.dart",
+            "description": "",
             "needsPropertyPanel": true
           },
           {
@@ -3569,7 +3867,6 @@
           {
             "type": "child",
             "title": "Basic Features",
-            "status": "New",
             "displayType": "tab",
             "subItems": [
               {
@@ -3599,7 +3896,6 @@
           {
             "type": "child",
             "title": "Customization",
-            "status": "New",
             "displayType": "tab",
             "subItems": [
               {

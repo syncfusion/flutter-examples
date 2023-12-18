@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 ///URL launcher import
-import 'package:url_launcher/url_launcher.dart' show launch;
+import 'package:url_launcher/url_launcher.dart' show launchUrl;
 
 ///Local import
 import '../../../../model/sample_view.dart';
@@ -157,8 +157,8 @@ class _BingMapState extends SampleViewState {
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
                           onTap: () {
-                            launch(
-                                'https://docs.microsoft.com/en-us/bingmaps/getting-started/bing-maps-dev-center-help/getting-a-bing-maps-key');
+                            launchUrl(Uri.parse(
+                                'https://docs.microsoft.com/en-us/bingmaps/getting-started/bing-maps-dev-center-help/getting-a-bing-maps-key'));
                           },
                           child: const Text(
                             'development or testing key',
@@ -246,7 +246,6 @@ class _BingMapState extends SampleViewState {
   /// Changing the Bing Maps type on clicking the chip.
   void _setBingMapView(int index) {
     switch (index) {
-
       /// Road view
       case 0:
         _bingURL =

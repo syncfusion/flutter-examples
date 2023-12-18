@@ -33,16 +33,16 @@ class _AnnotationWatermarkState extends SampleViewState {
         title: ChartTitle(
             text: isCardView ? '' : 'UK social media reach, by platform'),
         plotAreaBorderWidth: 0,
-        primaryXAxis: CategoryAxis(
-            majorGridLines: const MajorGridLines(width: 0),
+        primaryXAxis: const CategoryAxis(
+            majorGridLines: MajorGridLines(width: 0),
             edgeLabelPlacement: EdgeLabelPlacement.shift),
-        primaryYAxis: NumericAxis(
+        primaryYAxis: const NumericAxis(
             isVisible: false,
             labelFormat: '{value}%',
             minimum: 0,
             maximum: 120,
-            axisLine: const AxisLine(width: 0),
-            majorTickLines: const MajorTickLines(width: 0)),
+            axisLine: AxisLine(width: 0),
+            majorTickLines: MajorTickLines(width: 0)),
         series: _getWatermarkAnnotationSeries(),
 
         /// To set the annotation content for chart.
@@ -108,7 +108,6 @@ class _AnnotationWatermarkState extends SampleViewState {
                     ],
                   )),
               coordinateUnit: CoordinateUnit.point,
-              region: AnnotationRegion.chart,
               x: 'Instagram',
               y: isCardView ? 85 : 80)
         ]);

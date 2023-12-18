@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -148,7 +150,9 @@ class _GettingStartedSignaturePadState extends SampleViewState {
             final Color textColor = _isDark ? Colors.white : Colors.black87;
 
             return AlertDialog(
-              insetPadding: const EdgeInsets.all(12.0),
+              insetPadding: _isWebOrDesktop
+                  ? const EdgeInsets.fromLTRB(10, 10, 15, 10)
+                  : const EdgeInsets.all(12),
               backgroundColor: backgroundColor,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -177,18 +181,17 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width < 306
                       ? MediaQuery.of(context).size.width
-                      : 306,
+                      : 450,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
                         width: MediaQuery.of(context).size.width < 306
                             ? MediaQuery.of(context).size.width
-                            : 306,
+                            : 450,
                         height: 172,
                         decoration: BoxDecoration(
-                          border:
-                              Border.all(color: _getBorderColor()!, width: 1),
+                          border: Border.all(color: _getBorderColor()!),
                         ),
                         child: SfSignaturePad(
                             minimumStrokeWidth: _minWidth,
@@ -212,7 +215,6 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                           SizedBox(
                             width: 124,
                             child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: _addStrokeColorPalettes(setState),
                             ),
@@ -223,8 +225,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                   ),
                 ),
               ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 0, horizontal: 12.0),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
               actionsPadding: const EdgeInsets.all(8.0),
               buttonPadding: EdgeInsets.zero,
               actions: <Widget>[
@@ -316,7 +317,6 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         padding: const EdgeInsets.all(20),
         height: 250,
         child: IgnorePointer(
-          ignoring: true,
           child: SfDataGridTheme(
             data: SfDataGridThemeData(
               brightness: _isDark ? Brightness.dark : Brightness.light,
@@ -398,7 +398,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0.0, 0, 20.0, 0),
           child: Text(r'Grand Total : $1220.89',
-              textScaleFactor: 1.0,
+              textScaler: TextScaler.noScaling,
               style: TextStyle(
                   fontSize: _fontSizeRegular,
                   color: _getTextColor(),
@@ -431,7 +431,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Bill To:',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular,
                       color: _getTextColor(),
@@ -440,48 +440,47 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                 const SizedBox(height: 2),
                 Text(
                   'Abraham Swearegin,',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
                 Text(
                   '9920 Bridge Parkway,',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
                 Text(
                   'San Mateo, California,',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
                 Text(
                   'United States.',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
                 Text(
                   '9365550136',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
               ],
             ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Text('Invoice No: 2058557939',
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                     style: TextStyle(
                         fontSize: _fontSizeRegular, color: _getTextColor()),
                     textAlign: TextAlign.end),
                 const SizedBox(height: 5),
                 Text('Date: ' + formattedTime,
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                     style: TextStyle(
                         fontSize: _fontSizeRegular, color: _getTextColor()),
                     textAlign: TextAlign.end),
@@ -520,7 +519,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                     : Center(
                         child: Text(
                           'Tap here to sign',
-                          textScaleFactor: 1.0,
+                          textScaler: TextScaler.noScaling,
                           style: TextStyle(
                               fontSize: _fontSizeRegular,
                               fontWeight: FontWeight.bold,
@@ -534,13 +533,13 @@ class _GettingStartedSignaturePadState extends SampleViewState {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Text('800 Interchange Blvd.',
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                     style: TextStyle(
                         fontSize: _fontSizeRegular, color: _getTextColor()),
                     textAlign: TextAlign.end),
                 const SizedBox(height: 5),
                 Text('Austin, TX 78721',
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                     style: TextStyle(
                         fontSize: _fontSizeRegular, color: _getTextColor()),
                     textAlign: TextAlign.end),
@@ -554,9 +553,9 @@ class _GettingStartedSignaturePadState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final double _screenWidth = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery.of(context).size.width;
     //ignore: unused_local_variable
-    final double _screenHeight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
     _isDark = _productDataSource.isDark =
         Theme.of(context).brightness == Brightness.dark;
     _strokeColors[0] = _isDark
@@ -571,7 +570,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         child: SingleChildScrollView(
             child: Container(
           width:
-              _isWebOrDesktop ? 500 : (_screenWidth > 400 ? 400 : _screenWidth),
+              _isWebOrDesktop ? 600 : (screenWidth > 400 ? 400 : screenWidth),
           height: 625,
           margin: _isWebOrDesktop ? const EdgeInsets.all(10.0) : null,
           decoration: _isWebOrDesktop

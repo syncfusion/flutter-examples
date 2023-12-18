@@ -1,8 +1,10 @@
 ///flutter package import
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -24,8 +26,7 @@ class SfRangeSliderSizeCustomizationPage extends SampleView {
 
 class _SfRangeSliderSizeCustomizationPageState extends SampleViewState {
   _SfRangeSliderSizeCustomizationPageState();
-  SfRangeValues _yearValues =
-      SfRangeValues(DateTime(2005, 1, 01), DateTime(2015, 1, 1));
+  SfRangeValues _yearValues = SfRangeValues(DateTime(2005), DateTime(2015));
   SfRangeValues _values = const SfRangeValues(-25.0, 25.0);
 
   SfRangeSliderTheme _dividerCustomizationRangeSlider() {
@@ -41,13 +42,12 @@ class _SfRangeSliderSizeCustomizationPageState extends SampleViewState {
             overlayColor: Colors.teal.withOpacity(0.12),
             inactiveTrackColor: Colors.teal.withOpacity(0.24)),
         child: SfRangeSlider(
-          min: DateTime(2000, 01, 01),
-          max: DateTime(2020, 01, 01),
+          min: DateTime(2000),
+          max: DateTime(2020),
           showLabels: true,
           interval: 5,
           stepDuration: const SliderStepDuration(years: 5),
           dateFormat: DateFormat.y(),
-          labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.years,
           showDividers: true,
           values: _yearValues,

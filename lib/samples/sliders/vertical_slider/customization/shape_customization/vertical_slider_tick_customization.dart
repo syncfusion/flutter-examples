@@ -3,9 +3,11 @@ import 'dart:math' as math;
 
 ///flutter package import
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -44,7 +46,6 @@ class _VerticalTickCustomizedSliderState extends SampleViewState {
           tickOffset: const Offset(-4, 0),
           tooltipBackgroundColor: _activeColor),
       child: SfSlider.vertical(
-        min: 0.0,
         max: 100.0,
         value: _value,
         onChanged: (dynamic values) {

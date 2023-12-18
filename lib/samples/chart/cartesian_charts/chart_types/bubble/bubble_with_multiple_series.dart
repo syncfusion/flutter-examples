@@ -24,7 +24,6 @@ class _BubbleMultiSeriesState extends SampleViewState {
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(
-        textAlignment: ChartAlignment.center,
         enable: true,
         header: '',
         canShowMarker: false,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 /// Local imports
 import '../../../model/sample_view.dart';
@@ -21,17 +22,17 @@ class _RadialSliderExampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       _firstMarkerSize = 10;
       _annotationFontSize = 25;
       if (model.isWebFullView) {
-        _width = _width * 0.35;
+        width = width * 0.35;
       }
     } else {
       _firstMarkerSize = model.isWebFullView ? 10 : 5;
       _annotationFontSize = model.isWebFullView ? 25 : 15;
-      _width = _width * 0.35;
+      width = width * 0.35;
     }
 
     return Scaffold(
@@ -56,7 +57,7 @@ class _RadialSliderExampleState extends SampleViewState {
                                 thickness: 0.2,
                                 thicknessUnit: GaugeSizeUnit.factor),
                             showTicks: false,
-                            showLabels: true,
+                            showLastLabel: true,
                             onAxisTapped: handlePointerValueChanged,
                             pointers: <GaugePointer>[
                               RangePointer(
@@ -98,8 +99,8 @@ class _RadialSliderExampleState extends SampleViewState {
                     Expanded(
                         flex: model.isWebFullView ? 2 : 3,
                         child: SizedBox(
-                          width: _width,
-                          child: Slider(
+                          width: width,
+                          child: SfSlider(
                             activeColor: const Color(0xFF02AAB0),
                             inactiveColor: const Color(0xFF00CDAC),
                             min: 5,
@@ -114,12 +115,12 @@ class _RadialSliderExampleState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handlePointerValueChanged(double value) {
+  void handlePointerValueChanged(dynamic value) {
     if (value.toInt() > 6) {
       setState(() {
         _currentValue = value.roundToDouble();
-        final int _value = _currentValue.toInt();
-        _annotationValue = '$_value';
+        final int currentValue = _currentValue.toInt();
+        _annotationValue = '$currentValue';
         _markerValue = _currentValue - 2;
       });
     }
@@ -138,8 +139,8 @@ class _RadialSliderExampleState extends SampleViewState {
     if (value.toInt() > 6) {
       setState(() {
         _cardCurrentValue = value.roundToDouble();
-        final int _value = _cardCurrentValue.toInt();
-        _cardAnnotationValue = '$_value';
+        final int cardCurrentValue = _cardCurrentValue.toInt();
+        _cardAnnotationValue = '$cardCurrentValue';
         _cardMarkerValue = _cardCurrentValue - 2;
       });
     }

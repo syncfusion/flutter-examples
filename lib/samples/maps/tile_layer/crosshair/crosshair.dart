@@ -87,9 +87,8 @@ class _MapCrosshairPageState extends SampleViewState {
               enabled: false,
               style: Theme.of(context)
                   .textTheme
-                  .caption
+                  .bodySmall
                   ?.apply(color: Colors.black),
-              textAlign: TextAlign.start,
               decoration: const InputDecoration(
                 border: InputBorder.none,
               ),
@@ -131,7 +130,7 @@ class _MapCrosshairPageState extends SampleViewState {
             height: 32,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.white,
+                backgroundColor: Colors.white,
                 padding: EdgeInsets.zero,
               ),
               onPressed: _handleIncrementClicked,
@@ -149,7 +148,7 @@ class _MapCrosshairPageState extends SampleViewState {
             height: 32,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.white,
+                backgroundColor: Colors.white,
                 padding: EdgeInsets.zero,
               ),
               onPressed: _handleDecrementClicked,
@@ -244,22 +243,22 @@ class _CrosshairZoomPanBehavior extends MapZoomPanBehavior {
     if (_showCrosshair) {
       final Size size = renderBox.size;
       final Paint paint = Paint();
-      const double _dashWidth = 5;
-      const double _dashSpace = 5;
-      const double _space = _dashSpace + _dashWidth;
-      double _startX = 0;
-      double _startY = 0;
+      const double dashWidth = 5;
+      const double dashSpace = 5;
+      const double space = dashSpace + dashWidth;
+      double startX = 0;
+      double startY = 0;
 
-      while (_startX < size.width) {
-        context.canvas.drawLine(Offset(_startX, _hoveredOffset.dy),
-            Offset(_startX + _dashWidth, _hoveredOffset.dy), paint);
-        _startX += _space;
+      while (startX < size.width) {
+        context.canvas.drawLine(Offset(startX, _hoveredOffset.dy),
+            Offset(startX + dashWidth, _hoveredOffset.dy), paint);
+        startX += space;
       }
 
-      while (_startY < size.height) {
-        context.canvas.drawLine(Offset(_hoveredOffset.dx, _startY),
-            Offset(_hoveredOffset.dx, _startY + _dashWidth), paint);
-        _startY += _space;
+      while (startY < size.height) {
+        context.canvas.drawLine(Offset(_hoveredOffset.dx, startY),
+            Offset(_hoveredOffset.dx, startY + dashWidth), paint);
+        startY += space;
       }
       super.paint(context, offset);
     }

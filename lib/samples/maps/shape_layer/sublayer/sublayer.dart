@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -22,8 +23,7 @@ class MapSublayerPage extends SampleView {
   _MapSublayerPageState createState() => _MapSublayerPageState();
 }
 
-class _MapSublayerPageState extends SampleViewState
-    with SingleTickerProviderStateMixin {
+class _MapSublayerPageState extends SampleViewState {
   late MapShapeSource _mapSource;
   late MapZoomPanBehavior _zoomPanBehavior;
   late bool _isDesktop;
@@ -71,7 +71,7 @@ class _MapSublayerPageState extends SampleViewState
     final String data = await rootBundle.loadString('assets/river.json');
     final dynamic jsonData = json.decode(data);
 
-    final int length = (jsonData['geometries']).length as int;
+    final int length = jsonData['geometries'].length as int;
     for (int i = 0; i < length; i++) {
       List<dynamic> polylineData;
       if (jsonData['geometries'][i]['type'] == 'LineString') {
@@ -85,7 +85,7 @@ class _MapSublayerPageState extends SampleViewState
       } else {
         polylineData = <dynamic>[];
         final int length =
-            (jsonData['geometries'][i]['coordinates']).length as int;
+            jsonData['geometries'][i]['coordinates'].length as int;
         for (int j = 0; j < length; j++) {
           polylineData.add(jsonData['geometries'][i]['coordinates'][j]);
         }
@@ -167,7 +167,7 @@ class _MapSublayerPageState extends SampleViewState
                       child: Align(
                           alignment: Alignment.topCenter,
                           child: Text('Rivers in Australia',
-                              style: Theme.of(context).textTheme.subtitle1))),
+                              style: Theme.of(context).textTheme.titleMedium))),
                   Expanded(
                       child: SfMaps(
                     layers: <MapLayer>[
@@ -200,8 +200,7 @@ class _MapSublayerPageState extends SampleViewState
                         ),
                         showDataLabels: true,
                         dataLabelSettings: MapDataLabelSettings(
-                          overflowMode: MapLabelOverflow.visible,
-                          textStyle: _themeData.textTheme.caption!.copyWith(
+                          textStyle: _themeData.textTheme.bodySmall!.copyWith(
                             color: const Color.fromRGBO(0, 0, 0, 1),
                           ),
                         ),
@@ -226,7 +225,8 @@ class _MapSublayerPageState extends SampleViewState
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(tooltipText,
-                                      style: model.themeData.textTheme.caption!
+                                      style: model
+                                          .themeData.textTheme.bodySmall!
                                           .copyWith(
                                               color: isLightTheme
                                                   ? const Color.fromRGBO(

@@ -40,8 +40,8 @@ class _VerticalGradientState extends SampleViewState {
   }
 
   /// Returns the list of spline area series with vertical gradient.
-  List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
-    return <ChartSeries<_ChartData, String>>[
+  List<CartesianSeries<_ChartData, String>> _getGradientAreaSeries() {
+    return <CartesianSeries<_ChartData, String>>[
       SplineAreaSeries<_ChartData, String>(
 
           /// To set the gradient colors for series.
@@ -52,9 +52,7 @@ class _VerticalGradientState extends SampleViewState {
             0.2,
             0.6
           ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
-          borderWidth: 2,
           borderColor: const Color.fromRGBO(0, 156, 144, 1),
-          borderDrawMode: BorderDrawMode.top,
           dataSource: <_ChartData>[
             _ChartData(x: '1997', y: 22.44),
             _ChartData(x: '1998', y: 25.18),
@@ -76,10 +74,8 @@ class _VerticalGradientState extends SampleViewState {
             0.3,
             0.7
           ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
-          borderWidth: 2,
           name: 'Country 2',
           borderColor: const Color.fromRGBO(0, 63, 136, 1),
-          borderDrawMode: BorderDrawMode.top,
           dataSource: <_ChartData>[
             _ChartData(x: '1997', y: 17.5),
             _ChartData(x: '1998', y: 21.5),
@@ -104,12 +100,12 @@ class _VerticalGradientState extends SampleViewState {
           interval: model.isWebFullView ? 1 : null,
           labelRotation: -45,
           majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
         minimum: 16,
         maximum: 28,
         interval: 4,
         labelFormat: '{value}%',
-        axisLine: const AxisLine(width: 0),
+        axisLine: AxisLine(width: 0),
       ),
       trackballBehavior: _trackballBehavior,
       series: _getGradientAreaSeries(),

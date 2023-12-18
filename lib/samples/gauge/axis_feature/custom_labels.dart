@@ -26,8 +26,8 @@ class _GaugeCustomLabelsState extends SampleViewState {
 
   /// Returns the custom label axis gauge
   SfRadialGauge _buildGaugeCustomLabels(BuildContext context) {
-    final Orientation _orientation = MediaQuery.of(context).orientation;
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Orientation orientation = MediaQuery.of(context).orientation;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return SfRadialGauge(
       axes: <RadialAxis>[
@@ -35,28 +35,25 @@ class _GaugeCustomLabelsState extends SampleViewState {
           startAngle: 270,
           endAngle: 270,
           radiusFactor: model.isWebFullView ? 0.8 : 0.9,
-          minimum: 0,
           maximum: 80,
           axisLineStyle: const AxisLineStyle(
               thicknessUnit: GaugeSizeUnit.factor, thickness: 0.1),
           interval: 10,
           canRotateLabels: true,
-          axisLabelStyle: const GaugeTextStyle(fontSize: 12),
+          axisLabelStyle: const GaugeTextStyle(),
           minorTicksPerInterval: 0,
           majorTickStyle: const MajorTickStyle(
-              thickness: 1.5, lengthUnit: GaugeSizeUnit.factor, length: 0.07),
-          showLabels: true,
+              lengthUnit: GaugeSizeUnit.factor, length: 0.07),
           onLabelCreated: _handleLabelCreated,
           pointers: <GaugePointer>[
             NeedlePointer(
                 value: 70,
-                lengthUnit: GaugeSizeUnit.factor,
                 needleLength: 0.55,
                 needleEndWidth: model.isWebFullView
                     ? 18
                     : isCardView
                         ? 10
-                        : _orientation == Orientation.portrait
+                        : orientation == Orientation.portrait
                             ? 18
                             : 10,
                 gradient: const LinearGradient(colors: <Color>[
@@ -73,7 +70,6 @@ class _GaugeCustomLabelsState extends SampleViewState {
                 needleColor: const Color(0xFFF67280),
                 knobStyle: KnobStyle(
                     knobRadius: model.isWebFullView ? 0.098 : 0.09,
-                    sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.white)),
             NeedlePointer(
                 gradient: const LinearGradient(colors: <Color>[
@@ -89,20 +85,18 @@ class _GaugeCustomLabelsState extends SampleViewState {
                 ]),
                 value: 30,
                 needleLength: 0.55,
-                lengthUnit: GaugeSizeUnit.factor,
-                needleColor: _brightness == Brightness.dark
+                needleColor: brightness == Brightness.dark
                     ? const Color(0xFF888888)
                     : const Color(0x0ffcacca),
                 needleEndWidth: model.isWebFullView
                     ? 18
                     : isCardView
                         ? 10
-                        : _orientation == Orientation.portrait
+                        : orientation == Orientation.portrait
                             ? 18
                             : 10,
                 knobStyle: KnobStyle(
                     knobRadius: model.isWebFullView ? 0.098 : 0.09,
-                    sizeUnit: GaugeSizeUnit.factor,
                     color: Colors.white))
           ],
         )

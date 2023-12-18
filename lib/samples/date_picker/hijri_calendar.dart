@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// core import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 ///Date picker imports
@@ -273,8 +274,6 @@ class _HijriDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: model.isWebFullView ? 4 : 5,
@@ -285,6 +284,7 @@ class _HijriDatePickerState extends SampleViewState {
               child: Container(
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _viewModeString,
@@ -308,8 +308,6 @@ class _HijriDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: model.isWebFullView ? 4 : 5,
@@ -321,6 +319,7 @@ class _HijriDatePickerState extends SampleViewState {
                 padding: EdgeInsets.zero,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectionModeString,
@@ -344,8 +343,6 @@ class _HijriDatePickerState extends SampleViewState {
           ? SizedBox(
               height: 50,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
                       flex: model.isWebFullView ? 4 : 5,
@@ -357,6 +354,7 @@ class _HijriDatePickerState extends SampleViewState {
                     child: Container(
                       alignment: Alignment.bottomLeft,
                       child: DropdownButton<String>(
+                          focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
                           value: _selectionDirectionString,
@@ -380,8 +378,6 @@ class _HijriDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: model.isWebFullView ? 4 : 5,
@@ -408,8 +404,6 @@ class _HijriDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -444,8 +438,6 @@ class _HijriDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -480,8 +472,6 @@ class _HijriDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -517,8 +507,6 @@ class _HijriDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -551,8 +539,6 @@ class _HijriDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -588,8 +574,6 @@ class _HijriDatePickerState extends SampleViewState {
       propertyOptions.add(SizedBox(
         height: 50,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
                 flex: 7,
@@ -686,7 +670,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData _theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Container(
         color: Colors.transparent,
         child: GestureDetector(
@@ -695,7 +679,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
                   context: context,
                   builder: (BuildContext context) {
                     return Theme(
-                        data: _theme,
+                        data: theme,
                         child: DateRangePicker(
                           _date,
                           null,
@@ -720,7 +704,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
                     _date.year.toString(),
                 style: TextStyle(
                     fontSize: 15,
-                    color: _theme.textTheme.subtitle2?.color,
+                    color: theme.textTheme.titleSmall?.color,
                     fontWeight: FontWeight.w600))));
   }
 }
@@ -730,8 +714,8 @@ SfHijriDateRangePicker _getGettingStartedDatePicker(
     HijriDatePickerController controller,
     DateRangePickerSelectionMode mode,
     bool enablePastDates,
-    bool _enableSwipingSelection,
-    bool _enableViewNavigation,
+    bool enableSwipingSelection,
+    bool enableViewNavigation,
     bool showActionButtons,
     HijriDateTime minDate,
     HijriDateTime maxDate,
@@ -745,7 +729,7 @@ SfHijriDateRangePicker _getGettingStartedDatePicker(
     minDate: minDate,
     maxDate: maxDate,
     enableMultiView: enableMultiView,
-    allowViewNavigation: _enableViewNavigation,
+    allowViewNavigation: enableViewNavigation,
     showActionButtons: showActionButtons,
     selectionMode: mode,
     extendableRangeSelectionDirection: selectionDirection,
@@ -770,7 +754,7 @@ SfHijriDateRangePicker _getGettingStartedDatePicker(
       ));
     },
     monthViewSettings: HijriDatePickerMonthViewSettings(
-        enableSwipeSelection: _enableSwipingSelection,
+        enableSwipeSelection: enableSwipingSelection,
         showWeekNumber: showWeekNumber),
   );
 }

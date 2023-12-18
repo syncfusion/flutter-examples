@@ -31,7 +31,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
       _annotationFontSize = model.isWebFullView ? 25 : 15;
     }
 
-    final bool _isLandscape =
+    final bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape
             ? true
             : false;
@@ -43,7 +43,6 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: 0.85,
-            minimum: 0,
             maximum: 12,
             interval: 3,
             axisLineStyle: const AxisLineStyle(
@@ -110,7 +109,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                                   : 130
                               : isWebOrDesktop
                                   ? 165
-                                  : _isLandscape
+                                  : isLandscape
                                       ? 158
                                       : 165,
                           duration: const Duration(milliseconds: 300),
@@ -122,7 +121,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                                 : const Duration(milliseconds: 200),
                             child: CustomAnimatedBuilder(
                               value: !_isSecondPointer
-                                  ? _isLandscape
+                                  ? isLandscape
                                       ? 1.5
                                       : 2.0
                                   : 1.0,
@@ -164,7 +163,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                                   : 135
                               : isWebOrDesktop
                                   ? 165
-                                  : _isLandscape
+                                  : isLandscape
                                       ? 158
                                       : 165,
                           duration: const Duration(milliseconds: 300),
@@ -176,7 +175,7 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                                 : const Duration(milliseconds: 200),
                             child: CustomAnimatedBuilder(
                               value: !_isFirstPointer
-                                  ? _isLandscape
+                                  ? isLandscape
                                       ? 1.5
                                       : 2.0
                                   : 1.0,
@@ -208,15 +207,15 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void _handleSecondPointerValueChanged(double value) {
+  void _handleSecondPointerValueChanged(double markerValue) {
     setState(() {
-      _secondMarkerValue = value;
-      final int _value = _secondMarkerValue.round();
-      _annotationValue2 = _value == 12
-          ? '$_value PM'
-          : _value == 0
+      _secondMarkerValue = markerValue;
+      final int value = _secondMarkerValue.round();
+      _annotationValue2 = value == 12
+          ? '$value PM'
+          : value == 0
               ? ' 12 AM'
-              : '$_value AM';
+              : '$value AM';
     });
   }
 
@@ -229,15 +228,15 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void _handleFirstPointerValueChanged(double value) {
+  void _handleFirstPointerValueChanged(double markerValue) {
     setState(() {
-      _firstMarkerValue = value;
-      final int _value = _firstMarkerValue.round();
-      _annotationValue1 = _value == 12
-          ? '$_value PM'
-          : _value == 0
+      _firstMarkerValue = markerValue;
+      final int value = _firstMarkerValue.round();
+      _annotationValue1 = value == 12
+          ? '$value PM'
+          : value == 0
               ? ' 12 AM'
-              : '$_value AM';
+              : '$value AM';
     });
   }
 

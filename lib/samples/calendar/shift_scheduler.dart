@@ -101,7 +101,7 @@ class _ShiftSchedulerState extends SampleViewState {
       /// To open the appointment editor for web,
       /// when the screen width is greater than 767.
       if (model.isWebFullView && !model.isMobileResolution) {
-        final bool _isAppointmentTapped =
+        final bool isAppointmentTapped =
             calendarTapDetails.targetElement == CalendarElement.appointment;
         showDialog<Widget>(
             context: context,
@@ -131,7 +131,7 @@ class _ShiftSchedulerState extends SampleViewState {
                 _events.appointments!.add(appointment[0]);
 
                 SchedulerBinding.instance
-                    ?.addPostFrameCallback((Duration duration) {
+                    .addPostFrameCallback((Duration duration) {
                   _events.notifyListeners(
                       CalendarDataSourceAction.add, appointment);
                 });
@@ -139,8 +139,8 @@ class _ShiftSchedulerState extends SampleViewState {
                 _selectedAppointment = newAppointment;
               }
 
-              return WillPopScope(
-                onWillPop: () async {
+              return PopScope(
+                onPopInvoked: (bool value) {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.
@@ -149,12 +149,11 @@ class _ShiftSchedulerState extends SampleViewState {
                     _events.notifyListeners(CalendarDataSourceAction.remove,
                         <Appointment>[newAppointment]);
                   }
-                  return true;
                 },
                 child: Center(
                     child: SizedBox(
-                        width: _isAppointmentTapped ? 400 : 500,
-                        height: _isAppointmentTapped
+                        width: isAppointmentTapped ? 400 : 500,
+                        height: isAppointmentTapped
                             ? (_selectedAppointment!.location == null ||
                                     _selectedAppointment!.location!.isEmpty
                                 ? 200
@@ -168,7 +167,7 @@ class _ShiftSchedulerState extends SampleViewState {
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4))),
-                              child: _isAppointmentTapped
+                              child: isAppointmentTapped
                                   ? displayAppointmentDetails(
                                       context,
                                       targetElement,
@@ -424,8 +423,8 @@ class _ShiftSchedulerState extends SampleViewState {
     final Random random = Random();
     for (int i = 0; i < _employeeCollection.length; i++) {
       _specialTimeRegions.add(TimeRegion(
-          startTime: DateTime(date.year, date.month, date.day, 13, 0, 0),
-          endTime: DateTime(date.year, date.month, date.day, 14, 0, 0),
+          startTime: DateTime(date.year, date.month, date.day, 13),
+          endTime: DateTime(date.year, date.month, date.day, 14),
           text: 'Lunch',
           color: Colors.grey.withOpacity(0.2),
           resourceIds: <Object>[_employeeCollection[i].id],
@@ -435,8 +434,8 @@ class _ShiftSchedulerState extends SampleViewState {
         continue;
       }
 
-      final DateTime startDate = DateTime(
-          date.year, date.month, date.day, 17 + random.nextInt(7), 0, 0);
+      final DateTime startDate =
+          DateTime(date.year, date.month, date.day, 17 + random.nextInt(7));
 
       _specialTimeRegions.add(TimeRegion(
         startTime: startDate,
@@ -454,18 +453,18 @@ class _ShiftSchedulerState extends SampleViewState {
   void _addAppointments() {
     final Random random = Random();
     for (int i = 0; i < _employeeCollection.length; i++) {
-      final List<Object> _employeeIds = <Object>[_employeeCollection[i].id];
+      final List<Object> employeeIds = <Object>[_employeeCollection[i].id];
       if (i == _employeeCollection.length - 1) {
         int index = random.nextInt(5);
         index = index == i ? index + 1 : index;
         final Object employeeId = _employeeCollection[index].id;
         if (employeeId is String) {
-          _employeeIds.add(employeeId);
+          employeeIds.add(employeeId);
         }
       }
 
       for (int k = 0; k < 365; k++) {
-        if (_employeeIds.length > 1 && k.isEven) {
+        if (employeeIds.length > 1 && k.isEven) {
           continue;
         }
         for (int j = 0; j < 2; j++) {
@@ -473,16 +472,16 @@ class _ShiftSchedulerState extends SampleViewState {
           int startHour = 9 + random.nextInt(6);
           startHour =
               startHour >= 13 && startHour <= 14 ? startHour + 1 : startHour;
-          final DateTime _shiftStartTime =
-              DateTime(date.year, date.month, date.day, startHour, 0, 0);
+          final DateTime shiftStartTime =
+              DateTime(date.year, date.month, date.day, startHour);
           _shiftCollection.add(Appointment(
-              startTime: _shiftStartTime,
-              endTime: _shiftStartTime.add(const Duration(hours: 1)),
+              startTime: shiftStartTime,
+              endTime: shiftStartTime.add(const Duration(hours: 1)),
               subject: _subjectCollection[random.nextInt(8)],
               color: _colorCollection[random.nextInt(8)],
               startTimeZone: '',
               endTimeZone: '',
-              resourceIds: _employeeIds));
+              resourceIds: employeeIds));
         }
       }
     }
@@ -515,7 +514,7 @@ class _ShiftSchedulerState extends SampleViewState {
 
   /// Returns the calendar widget based on the properties passed
   SfCalendar _getShiftScheduler(
-      [CalendarDataSource? _calendarDataSource,
+      [CalendarDataSource? calendarDataSource,
       dynamic calendarTapCallback,
       dynamic viewChangedCallback]) {
     return SfCalendar(
@@ -525,7 +524,7 @@ class _ShiftSchedulerState extends SampleViewState {
       timeRegionBuilder: _getSpecialRegionWidget,
       specialRegions: _specialTimeRegions,
       showNavigationArrow: model.isWebFullView,
-      dataSource: _calendarDataSource,
+      dataSource: calendarDataSource,
       onViewChanged: viewChangedCallback,
       onTap: calendarTapCallback,
     );

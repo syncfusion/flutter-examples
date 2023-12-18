@@ -142,14 +142,14 @@ class _CustomButton extends State<CustomDirectionalButtons> {
             ? ((_counter.isNaN)
                 ? 'null'
                 : ((widget.needNull!)
-                    ? (_counter.toInt()).toString()
+                    ? _counter.toInt().toString()
                     : _counter.toStringAsFixed(0)))
             : (_counter.isNaN)
                 ? 'null'
                 : (widget.needNull!)
-                    ? (_counter.toInt()).toString()
+                    ? _counter.toInt().toString()
                     : _counter.toStringAsFixed(1),
-        style: widget.style ?? Theme.of(context).textTheme.headline5);
+        style: widget.style ?? Theme.of(context).textTheme.headlineSmall);
   }
 
   /// Return different widgets for a horizontal and vertical BuildPicker
@@ -183,12 +183,10 @@ class _CustomButton extends State<CustomDirectionalButtons> {
             ],
           )
         : Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               IconButton(
                   icon: const Icon(Icons.arrow_left),
                   padding: EdgeInsets.only(right: widget.padding!),
-                  alignment: Alignment.center,
                   color: widget.iconColor,
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
@@ -199,7 +197,6 @@ class _CustomButton extends State<CustomDirectionalButtons> {
               IconButton(
                 icon: const Icon(Icons.arrow_right),
                 padding: EdgeInsets.only(left: widget.padding!),
-                alignment: Alignment.center,
                 color: widget.iconColor,
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,

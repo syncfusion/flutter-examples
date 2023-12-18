@@ -31,14 +31,13 @@ class _BoxWhiskerState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Box plot mode ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
               Container(
                 padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectMode,
@@ -95,17 +94,18 @@ class _BoxWhiskerState extends SampleViewState {
   SfCartesianChart _buildDefaultWhiskerChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(text: 'Employees age group in various departments'),
-      primaryXAxis: CategoryAxis(
-          majorGridLines: const MajorGridLines(width: 0),
+      title:
+          const ChartTitle(text: 'Employees age group in various departments'),
+      primaryXAxis: const CategoryAxis(
+          majorGridLines: MajorGridLines(width: 0),
           labelIntersectAction: AxisLabelIntersectAction.rotate45),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           name: 'Age',
           minimum: 10,
           maximum: 60,
           interval: 10,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getBoxWhiskerSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

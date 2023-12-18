@@ -66,14 +66,14 @@ class _VerticalWaterFallState extends SampleViewState {
                 majorTickLines: const MajorTickLines(width: 0),
                 majorGridLines: const MajorGridLines(width: 0),
               ),
-              primaryYAxis: NumericAxis(
+              primaryYAxis: const NumericAxis(
                   isVisible: false,
                   name: 'Expenditure',
                   minimum: 0,
                   interval: 30,
                   maximum: 60,
-                  axisLine: const AxisLine(width: 0),
-                  majorTickLines: const MajorTickLines(size: 0)),
+                  axisLine: AxisLine(width: 0),
+                  majorTickLines: MajorTickLines(size: 0)),
               series: _getWaterFallSeries(),
               tooltipBehavior: tooltipBehavior1,
             )),

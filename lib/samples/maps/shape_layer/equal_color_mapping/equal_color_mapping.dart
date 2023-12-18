@@ -74,6 +74,7 @@ class _MapEqualColorMappingPageState extends SampleViewState {
       _CountryTimeInGMT('Malta', 'GMT+2'),
       _CountryTimeInGMT('Montenegro', 'GMT+2'),
       _CountryTimeInGMT('Netherlands', 'GMT+2'),
+      _CountryTimeInGMT('Norway', 'GMT+2'),
       _CountryTimeInGMT('Poland', 'GMT+2'),
       _CountryTimeInGMT('Portugal', 'GMT+1'),
       _CountryTimeInGMT('Romania', 'GMT+3'),
@@ -186,9 +187,8 @@ class _MapEqualColorMappingPageState extends SampleViewState {
         Padding(
             padding: const EdgeInsets.only(top: 15, bottom: 30),
             child: Align(
-                alignment: Alignment.center,
                 child: Text('European Time Zones',
-                    style: Theme.of(context).textTheme.subtitle1))),
+                    style: Theme.of(context).textTheme.titleMedium))),
         Expanded(
             child: SfMaps(
           layers: <MapLayer>[
@@ -214,7 +214,7 @@ class _MapEqualColorMappingPageState extends SampleViewState {
                     _timeZones[index].countryName +
                         ' : ' +
                         _timeZones[index].gmtTime,
-                    style: themeData.textTheme.caption!.copyWith(
+                    style: themeData.textTheme.bodySmall!.copyWith(
                       color: isLightTheme
                           ? const Color.fromRGBO(255, 255, 255, 1)
                           : const Color.fromRGBO(10, 10, 10, 1),

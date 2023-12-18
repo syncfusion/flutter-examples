@@ -1,8 +1,10 @@
 ///flutter package import
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -23,7 +25,7 @@ class VerticalSliderSizeCustomizationPage extends SampleView {
 
 class _VerticalSliderSizeCustomizationPageState extends SampleViewState {
   _VerticalSliderSizeCustomizationPageState();
-  DateTime _yearValue = DateTime(2010, 1, 01);
+  DateTime _yearValue = DateTime(2010);
   double _value = 0.0;
 
   SfSliderTheme _sliderWithDividerCustomization() {
@@ -39,13 +41,12 @@ class _VerticalSliderSizeCustomizationPageState extends SampleViewState {
             inactiveTrackColor: Colors.deepOrangeAccent.withOpacity(0.24),
             overlayColor: Colors.deepOrangeAccent.withOpacity(0.12)),
         child: SfSlider.vertical(
-          min: DateTime(2000, 01, 01),
-          max: DateTime(2020, 01, 01),
+          min: DateTime(2000),
+          max: DateTime(2020),
           showLabels: true,
           interval: 5,
           stepDuration: const SliderStepDuration(years: 5),
           dateFormat: DateFormat.y(),
-          labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.years,
           showDividers: true,
           value: _yearValue,

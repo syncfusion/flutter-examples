@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// Local import
@@ -61,7 +62,6 @@ class _TableSummaryDataGridState extends SampleViewState {
     return <GridTableSummaryRow>[
       GridTableSummaryRow(
           color: color,
-          showSummaryInRow: true,
           title: 'Total Order Count: {count}',
           columns: <GridSummaryColumn>[
             const GridSummaryColumn(

@@ -39,15 +39,15 @@ class _RangeColumnWithTrackState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title:
           ChartTitle(text: isCardView ? '' : 'Meeting timings of an employee'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
           minimum: 1,
           maximum: 10,
           labelFormat: '{value} PM',
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getRangeColumnSerieswithTrack(),
       tooltipBehavior: _tooltipBehavior,
     );

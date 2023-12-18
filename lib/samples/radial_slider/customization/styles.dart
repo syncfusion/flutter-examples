@@ -77,7 +77,6 @@ class _RadialSliderStylesState extends SampleViewState {
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFirtProgressBar(),
               _buildSecondProgressBar(),
@@ -86,7 +85,6 @@ class _RadialSliderStylesState extends SampleViewState {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFourthProgressBar(),
               _buildFifthProgressBar(),
@@ -103,7 +101,6 @@ class _RadialSliderStylesState extends SampleViewState {
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFirtProgressBar(),
               _buildSecondProgressBar(),
@@ -112,7 +109,6 @@ class _RadialSliderStylesState extends SampleViewState {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildFourthProgressBar(),
               _buildFifthProgressBar(),
@@ -540,8 +536,8 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue = value.roundToDouble();
       _value = _markerValue + 2;
-      final int _currentValue = _markerValue.round();
-      _annotationValue = '$_currentValue%';
+      final int currentValue = _markerValue.round();
+      _annotationValue = '$currentValue%';
     });
   }
 
@@ -566,8 +562,8 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue1 = value.roundToDouble();
       _value1 = _markerValue1;
-      final int _currentValue = _markerValue1.round();
-      _annotationValue1 = '$_currentValue%';
+      final int currentValue = _markerValue1.round();
+      _annotationValue1 = '$currentValue%';
     });
   }
 
@@ -594,8 +590,8 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue2 = value.roundToDouble();
       _value2 = _markerValue2 + 2;
-      final int _currentValue = _markerValue2.round();
-      _annotationValue2 = '$_currentValue%';
+      final int currentValue = _markerValue2.round();
+      _annotationValue2 = '$currentValue%';
     });
   }
 
@@ -622,8 +618,8 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue3 = value;
       _value3 = _markerValue3 + 2;
-      final int _currentValue = _markerValue3.round();
-      _annotationValue3 = '$_currentValue%';
+      final int currentValue = _markerValue3.round();
+      _annotationValue3 = '$currentValue%';
     });
   }
 
@@ -650,8 +646,8 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue4 = value.roundToDouble();
       _value4 = _markerValue4 + 2;
-      final int _currentValue = _markerValue4.round();
-      _annotationValue4 = '$_currentValue%';
+      final int currentValue = _markerValue4.round();
+      _annotationValue4 = '$currentValue%';
     });
   }
 
@@ -678,8 +674,8 @@ class _RadialSliderStylesState extends SampleViewState {
     setState(() {
       _markerValue5 = value.roundToDouble();
       _value5 = _markerValue5;
-      final int _currentValue = _value5.round();
-      _annotationValue5 = '$_currentValue';
+      final int currentValue = _value5.round();
+      _annotationValue5 = '$currentValue';
     });
   }
 }

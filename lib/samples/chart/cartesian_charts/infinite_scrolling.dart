@@ -23,12 +23,12 @@ class InfiniteScrolling extends SampleView {
 class _InfiniteScrollingState extends SampleViewState {
   _InfiniteScrollingState();
 
-  ChartSeriesController? seriesController;
+  ChartSeriesController<ChartSampleData, num>? seriesController;
   late List<ChartSampleData> chartData;
 
   late bool isLoadMoreView, isNeedToUpdateView, isDataUpdated;
 
-  double? oldAxisVisibleMin, oldAxisVisibleMax;
+  num? oldAxisVisibleMin, oldAxisVisibleMax;
 
   late ZoomPanBehavior _zoomPanBehavior;
 
@@ -75,10 +75,11 @@ class _InfiniteScrollingState extends SampleViewState {
             args.visibleMin = oldAxisVisibleMin;
             args.visibleMax = oldAxisVisibleMax;
           }
-          oldAxisVisibleMin = args.visibleMin as double;
-          oldAxisVisibleMax = args.visibleMax as double;
+          oldAxisVisibleMin = args.visibleMin as num;
+          oldAxisVisibleMax = args.visibleMax as num;
+
+          isLoadMoreView = false;
         }
-        isLoadMoreView = false;
       },
       zoomPanBehavior: _zoomPanBehavior,
       plotAreaBorderWidth: 0,
@@ -104,16 +105,16 @@ class _InfiniteScrollingState extends SampleViewState {
     );
   }
 
-  List<ChartSeries<ChartSampleData, num>> getSeries() {
-    return <ChartSeries<ChartSampleData, num>>[
+  List<CartesianSeries<ChartSampleData, num>> getSeries() {
+    return <CartesianSeries<ChartSampleData, num>>[
       SplineAreaSeries<ChartSampleData, num>(
         dataSource: chartData,
         color: const Color.fromRGBO(75, 135, 185, 0.6),
         borderColor: const Color.fromRGBO(75, 135, 185, 1),
-        borderWidth: 2,
         xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        onRendererCreated: (ChartSeriesController controller) {
+        onRendererCreated:
+            (ChartSeriesController<ChartSampleData, num> controller) {
           seriesController = controller;
         },
       ),
@@ -147,7 +148,8 @@ class _InfiniteScrollingState extends SampleViewState {
     return Align(
         alignment: Alignment.centerRight,
         child: Padding(
-            padding: const EdgeInsets.only(bottom: 22),
+            // ignore: use_named_constants
+            padding: const EdgeInsets.only(),
             child: Container(
                 width: 50,
                 alignment: Alignment.centerRight,

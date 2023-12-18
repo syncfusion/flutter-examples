@@ -65,6 +65,7 @@ class _CategoryTicksState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomCenter,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedType,
@@ -94,9 +95,9 @@ class _CategoryTicksState extends SampleViewState {
       primaryXAxis: CategoryAxis(
           majorGridLines: const MajorGridLines(width: 0),
           labelPlacement: _labelPlacement),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(width: 0),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(width: 0),
           minimum: 7,
           maximum: 12,
           interval: 1),

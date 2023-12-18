@@ -43,7 +43,7 @@ class _PieDataLabelsState extends SampleViewState {
   Widget buildSettings(BuildContext context) {
     final double screenWidth =
         model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
-    final double dropDownWidth = (model.isMobile ? 0.2 : 0.4) * screenWidth;
+    final double dropDownWidth = (model.isMobile ? 0.25 : 0.4) * screenWidth;
 
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
@@ -52,7 +52,6 @@ class _PieDataLabelsState extends SampleViewState {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
               Expanded(
                 flex: 14,
                 child: Column(
@@ -71,6 +70,7 @@ class _PieDataLabelsState extends SampleViewState {
                           child: SizedBox(
                               width: dropDownWidth,
                               child: DropdownButton<String>(
+                                  focusColor: Colors.transparent,
                                   isExpanded: true,
                                   underline: Container(
                                       color: const Color(0xFFBDBDBD),
@@ -108,6 +108,7 @@ class _PieDataLabelsState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
@@ -145,6 +146,7 @@ class _PieDataLabelsState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),

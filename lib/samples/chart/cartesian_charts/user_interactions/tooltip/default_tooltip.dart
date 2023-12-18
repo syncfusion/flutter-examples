@@ -62,11 +62,11 @@ class _DefaultTooltipState extends SampleViewState {
           title: AxisTitle(text: isCardView ? '' : 'Year'),
           majorGridLines: const MajorGridLines(width: 0),
           interval: 1),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}M',
           minimum: 30,
           maximum: 60,
-          axisLine: const AxisLine(width: 0)),
+          axisLine: AxisLine(width: 0)),
       series: _getDefaultTooltipSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -82,12 +82,10 @@ class _DefaultTooltipState extends SampleViewState {
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          width: 2,
           name: 'Germany',
           markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<ChartSampleData, num>(
         dataSource: chartData,
-        width: 2,
         name: 'Mexico',
         xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,

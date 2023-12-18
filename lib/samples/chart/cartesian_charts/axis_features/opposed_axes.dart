@@ -40,10 +40,10 @@ class _NumericOpposedState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Light vehicle retail sales in US'),
       plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(
+      primaryXAxis: const NumericAxis(
           minimum: 1974,
           maximum: 2022,
-          majorGridLines: const MajorGridLines(width: 0),
+          majorGridLines: MajorGridLines(width: 0),
           opposedPosition: true,
           edgeLabelPlacement: EdgeLabelPlacement.shift),
       primaryYAxis: NumericAxis(

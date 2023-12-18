@@ -111,14 +111,14 @@ class _ExportState extends SampleViewState {
     return SfCircularChart(
       backgroundColor: model.cardThemeColor,
       key: _circularChartKey,
-      legend: Legend(
+      legend: const Legend(
         isVisible: true,
         position: LegendPosition.bottom,
         overflowMode: LegendItemOverflowMode.wrap,
         iconBorderWidth: 1,
         iconBorderColor: Colors.black,
       ),
-      title: ChartTitle(text: 'Online shopping frequency'),
+      title: const ChartTitle(text: 'Online shopping frequency'),
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
             height: '55%',
@@ -168,10 +168,12 @@ class _ExportState extends SampleViewState {
           await getApplicationDocumentsDirectory();
       final String path = documentDirectory.path;
       const String imageName = 'circularchart.png';
-      imageCache!.clear();
+      imageCache.clear();
       final File file = File('$path/$imageName');
       file.writeAsBytesSync(bytes);
-
+      if (!mounted) {
+        return;
+      }
       await Navigator.of(context).push<dynamic>(
         MaterialPageRoute<dynamic>(
           builder: (BuildContext context) {
@@ -193,6 +195,9 @@ class _ExportState extends SampleViewState {
   Future<void> _renderPdf() async {
     final PdfDocument document = PdfDocument();
     final PdfBitmap bitmap = PdfBitmap(await _readImageData());
+    if (!mounted) {
+      return;
+    }
     document.pageSettings.orientation =
         MediaQuery.of(context).orientation == Orientation.landscape
             ? PdfPageOrientation.landscape
@@ -213,16 +218,16 @@ class _ExportState extends SampleViewState {
       content: Text('Chart has been exported as PDF document.'),
     ));
 
-    final List<int> bytes = document.save();
+    final List<int> bytes = document.saveSync();
     document.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, 'circular_chart.pdf');
   }
 
   Future<List<int>> _readImageData() async {
-    final dart_ui.Image data =
+    final dart_ui.Image? data =
         await _circularChartKey.currentState!.toImage(pixelRatio: 3.0);
     final ByteData? bytes =
-        await data.toByteData(format: dart_ui.ImageByteFormat.png);
+        await data?.toByteData(format: dart_ui.ImageByteFormat.png);
     return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 }

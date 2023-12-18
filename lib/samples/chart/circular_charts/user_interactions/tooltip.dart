@@ -52,6 +52,7 @@ class _PieTooltipPositionState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _selectedTooltipPosition,
@@ -71,8 +72,6 @@ class _PieTooltipPositionState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Hide delay',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),

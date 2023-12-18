@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' hide LabelPlacement;
 
 ///Core import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -378,9 +380,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                     margin: EdgeInsets.zero,
                     plotAreaBorderWidth: 0,
                     enableAxisAnimation: true,
-                    primaryXAxis: NumericAxis(
+                    primaryXAxis: const NumericAxis(
                         isVisible: false, minimum: 100, maximum: 1000),
-                    primaryYAxis: NumericAxis(
+                    primaryYAxis: const NumericAxis(
                       isVisible: false,
                     ),
                     series: _getHistogramSeries(),
@@ -401,7 +403,6 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
         dataSource: _updatedChartData,
         binInterval: 100,
         width: 1.0,
-        spacing: 0,
         color: const Color.fromRGBO(0, 179, 134, 0.5),
         yValueMapper: (_RoomData sales, _) => sales.rate,
       ),

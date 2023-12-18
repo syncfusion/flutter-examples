@@ -42,7 +42,7 @@ class _AgendaViewCalendarState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final Widget _calendar = Theme(
+    final Widget calendar = Theme(
         data: model.themeData.copyWith(
             colorScheme: model.themeData.colorScheme
                 .copyWith(secondary: model.backgroundColor)),
@@ -56,13 +56,13 @@ class _AgendaViewCalendarState extends SampleViewState {
               Container(
                 color: model.cardThemeColor,
                 height: 600,
-                child: _calendar,
+                child: calendar,
               )
             ],
           ))
         : Container(
             color: model.cardThemeColor,
-            child: _calendar,
+            child: calendar,
           );
   }
 
@@ -106,8 +106,8 @@ class _AgendaViewCalendarState extends SampleViewState {
       final DateTime date = i;
       final int count = 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate = DateTime(
-            date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+        final DateTime startDate =
+            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
         meetings.add(_Meeting(
             subjectCollection[random.nextInt(7)],
             '',
@@ -143,7 +143,7 @@ class _AgendaViewCalendarState extends SampleViewState {
   /// current date when the calendar displays the current month, and selects the
   /// first date of the month for rest of the months.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       final DateTime currentViewDate = visibleDatesChangedDetails
           .visibleDates[visibleDatesChangedDetails.visibleDates.length ~/ 2];
       if (model.isWebFullView) {
@@ -162,7 +162,7 @@ class _AgendaViewCalendarState extends SampleViewState {
           _calendarController.selectedDate = DateTime.now();
         } else {
           _calendarController.selectedDate =
-              DateTime(currentViewDate.year, currentViewDate.month, 01);
+              DateTime(currentViewDate.year, currentViewDate.month);
         }
       }
     });

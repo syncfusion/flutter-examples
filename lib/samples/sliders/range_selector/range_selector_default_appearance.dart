@@ -1,4 +1,6 @@
 ///Package imports
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -30,7 +32,7 @@ class DefaultRangeSelectorPage extends SampleView {
 class _DefaultRangeSelectorPageState extends SampleViewState {
   _DefaultRangeSelectorPageState();
 
-  final DateTime min = DateTime(2002, 01, 01), max = DateTime(2011, 01, 01);
+  final DateTime min = DateTime(2002), max = DateTime(2011);
   late List<ChartSampleData> chartData;
   late RangeController rangeController;
   late LinearGradient gradientColors;
@@ -40,20 +42,20 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
   void initState() {
     super.initState();
     chartData = <ChartSampleData>[
-      ChartSampleData(x: DateTime(2002, 01, 01), y: 2.2),
-      ChartSampleData(x: DateTime(2003, 01, 01), y: 3.4),
-      ChartSampleData(x: DateTime(2004, 01, 01), y: 2.8),
-      ChartSampleData(x: DateTime(2005, 01, 01), y: 1.6),
-      ChartSampleData(x: DateTime(2006, 01, 01), y: 2.3),
-      ChartSampleData(x: DateTime(2007, 01, 01), y: 2.5),
-      ChartSampleData(x: DateTime(2008, 01, 01), y: 2.9),
-      ChartSampleData(x: DateTime(2009, 01, 01), y: 3.8),
-      ChartSampleData(x: DateTime(2010, 01, 01), y: 1.4),
-      ChartSampleData(x: DateTime(2011, 01, 01), y: 3.1),
+      ChartSampleData(x: DateTime(2002), y: 2.2),
+      ChartSampleData(x: DateTime(2003), y: 3.4),
+      ChartSampleData(x: DateTime(2004), y: 2.8),
+      ChartSampleData(x: DateTime(2005), y: 1.6),
+      ChartSampleData(x: DateTime(2006), y: 2.3),
+      ChartSampleData(x: DateTime(2007), y: 2.5),
+      ChartSampleData(x: DateTime(2008), y: 2.9),
+      ChartSampleData(x: DateTime(2009), y: 3.8),
+      ChartSampleData(x: DateTime(2010), y: 1.4),
+      ChartSampleData(x: DateTime(2011), y: 3.1),
     ];
     rangeController = RangeController(
-      start: DateTime(2005, 01, 01),
-      end: DateTime(2008, 01, 01),
+      start: DateTime(2005),
+      end: DateTime(2008),
     );
     gradientColors = const LinearGradient(colors: <Color>[
       Color.fromRGBO(255, 125, 30, 0.4),
@@ -132,11 +134,11 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                   labelOffset: Offset.zero,
                   activeLabelStyle: TextStyle(
                       fontSize: 10,
-                      color: themeData.textTheme.bodyText1!.color!
+                      color: themeData.textTheme.bodyLarge!.color!
                           .withOpacity(0.87)),
                   inactiveLabelStyle: TextStyle(
                       fontSize: 10,
-                      color: themeData.textTheme.bodyText1!.color!
+                      color: themeData.textTheme.bodyLarge!.color!
                           .withOpacity(0.87)),
                   inactiveRegionColor:
                       themeData.colorScheme.brightness == Brightness.light
@@ -185,7 +187,8 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                         maximum: max,
                         isVisible: false,
                       ),
-                      primaryYAxis: NumericAxis(isVisible: false, maximum: 4),
+                      primaryYAxis:
+                          const NumericAxis(isVisible: false, maximum: 4),
                       plotAreaBorderWidth: 0,
                       series: <SplineAreaSeries<ChartSampleData, DateTime>>[
                         SplineAreaSeries<ChartSampleData, DateTime>(

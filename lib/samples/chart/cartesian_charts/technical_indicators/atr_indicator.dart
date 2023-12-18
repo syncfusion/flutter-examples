@@ -46,8 +46,6 @@ class _ATRIndicatorState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
           'Period',
@@ -79,19 +77,19 @@ class _ATRIndicatorState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.MMM(),
         interval: 3,
-        minimum: DateTime(2016, 01, 01),
-        maximum: DateTime(2017, 01, 01),
+        minimum: DateTime(2016),
+        maximum: DateTime(2017),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 70,
           maximum: 130,
           interval: 20,
           labelFormat: r'${value}',
-          axisLine: const AxisLine(width: 0)),
-      axes: <ChartAxis>[
+          axisLine: AxisLine(width: 0)),
+      axes: const <ChartAxis>[
         NumericAxis(
-            axisLine: const AxisLine(width: 0),
-            majorGridLines: const MajorGridLines(width: 0),
+            axisLine: AxisLine(width: 0),
+            majorGridLines: MajorGridLines(width: 0),
             opposedPosition: true,
             name: 'yaxes',
             minimum: 2,
@@ -100,15 +98,16 @@ class _ATRIndicatorState extends SampleViewState {
       ],
       trackballBehavior: _trackballBehavior,
       tooltipBehavior: _tooltipBehavior,
-      indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
+      indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// ATR indicator mentioned here.
         AtrIndicator<ChartSampleData, DateTime>(
             seriesName: 'AAPL', yAxisName: 'yaxes', period: _period.toInt()),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <ChartSeries<ChartSampleData, DateTime>>[
+      series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
+          emptyPointSettings:
+              const EmptyPointSettings(mode: EmptyPointMode.zero),
           dataSource: getChartData(),
           opacity: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

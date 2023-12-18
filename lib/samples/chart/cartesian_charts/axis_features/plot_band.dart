@@ -46,8 +46,6 @@ class _PlotBandDefaultState extends SampleViewState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text('Plot band type',
               style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -56,6 +54,7 @@ class _PlotBandDefaultState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
+                focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedType,
                 items: _plotBandType!.map((String value) {
@@ -100,7 +99,6 @@ class _PlotBandDefaultState extends SampleViewState {
                 start: -0.5,
                 end: 1.5,
                 text: 'Winter',
-                shouldRenderAboveSeries: false,
                 textStyle: const TextStyle(color: Colors.black, fontSize: 13),
                 color: const Color.fromRGBO(101, 199, 209, 1)),
             PlotBand(
@@ -108,7 +106,6 @@ class _PlotBandDefaultState extends SampleViewState {
                 start: 4.5,
                 end: 7.5,
                 text: 'Summer',
-                shouldRenderAboveSeries: false,
                 textStyle: const TextStyle(color: Colors.black, fontSize: 13),
                 color: const Color.fromRGBO(254, 213, 2, 1)),
             PlotBand(
@@ -116,7 +113,6 @@ class _PlotBandDefaultState extends SampleViewState {
                 start: 1.5,
                 end: 4.5,
                 text: 'Spring',
-                shouldRenderAboveSeries: false,
                 textStyle: const TextStyle(color: Colors.black, fontSize: 13),
                 color: const Color.fromRGBO(140, 198, 62, 1)),
             PlotBand(
@@ -124,7 +120,6 @@ class _PlotBandDefaultState extends SampleViewState {
                 start: 7.5,
                 end: 9.5,
                 text: 'Autumn',
-                shouldRenderAboveSeries: false,
                 textStyle: const TextStyle(color: Colors.black, fontSize: 13),
                 color: const Color.fromRGBO(217, 112, 1, 1)),
             PlotBand(
@@ -133,7 +128,6 @@ class _PlotBandDefaultState extends SampleViewState {
                 end: 10.5,
                 text: 'Winter',
                 textStyle: const TextStyle(color: Colors.black, fontSize: 13),
-                shouldRenderAboveSeries: false,
                 color: const Color.fromRGBO(101, 199, 209, 1)),
             PlotBand(
                 size: 2,
@@ -145,7 +139,6 @@ class _PlotBandDefaultState extends SampleViewState {
                 associatedAxisEnd: 27.5,
                 isVisible: isCardView ? false : isSegment,
                 color: const Color.fromRGBO(224, 155, 0, 1),
-                shouldRenderAboveSeries: false,
                 textStyle: const TextStyle(color: Colors.white, fontSize: 17)),
             PlotBand(
                 start: 7.5,
@@ -157,7 +150,6 @@ class _PlotBandDefaultState extends SampleViewState {
                 textAngle: 0,
                 isVisible: isCardView ? false : isSegment,
                 color: const Color.fromRGBO(224, 155, 0, 1),
-                shouldRenderAboveSeries: false,
                 textStyle: const TextStyle(color: Colors.white, fontSize: 17)),
             PlotBand(
                 start: 4.5,
@@ -169,7 +161,6 @@ class _PlotBandDefaultState extends SampleViewState {
                 textAngle: 0,
                 isVisible: isCardView ? false : isSegment,
                 color: const Color.fromRGBO(207, 85, 7, 1),
-                shouldRenderAboveSeries: false,
                 textStyle: const TextStyle(color: Colors.white, fontSize: 17)),
           ],
           majorGridLines: const MajorGridLines(width: 0)),
@@ -194,7 +185,7 @@ class _PlotBandDefaultState extends SampleViewState {
               verticalTextAlignment:
                   isLine ? TextAnchor.start : TextAnchor.middle,
               // padding for plotband text
-              verticalTextPadding: '-7',
+              verticalTextPadding: isLine ? '-7' : '',
               borderWidth: isCardView
                   ? 0
                   : isLine
@@ -206,7 +197,6 @@ class _PlotBandDefaultState extends SampleViewState {
                       ? const Color.fromRGBO(207, 85, 7, 1)
                       : Colors.black,
               text: 'High Temperature',
-              shouldRenderAboveSeries: false,
               color: const Color.fromRGBO(207, 85, 7, 1),
               textStyle: ((isSegment || isLine) &&
                       model != null &&
@@ -234,8 +224,7 @@ class _PlotBandDefaultState extends SampleViewState {
                       : Colors.black,
               text: 'Average Temperature',
               // padding for plotband text
-              verticalTextPadding: '-7',
-              shouldRenderAboveSeries: false,
+              verticalTextPadding: isLine ? '-7' : '',
               color: const Color.fromRGBO(224, 155, 0, 1),
               textStyle: ((isSegment || isLine) &&
                       model != null &&
@@ -263,8 +252,7 @@ class _PlotBandDefaultState extends SampleViewState {
                       : Colors.black,
               text: 'Low Temperature',
               // padding for plotband text
-              verticalTextPadding: '-7',
-              shouldRenderAboveSeries: false,
+              verticalTextPadding: isLine ? '-7' : '',
               color: const Color.fromRGBO(237, 195, 12, 1),
               textStyle: ((isSegment || isLine) &&
                       model != null &&
@@ -307,7 +295,6 @@ class _PlotBandDefaultState extends SampleViewState {
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           color: seriesColor,
           name: 'Weather',
-          width: 2,
           markerSettings: const MarkerSettings(
               height: 5,
               width: 5,

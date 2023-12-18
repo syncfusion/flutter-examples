@@ -40,11 +40,9 @@ class _AnimationBarDefaultState extends SampleViewState {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis:
-            CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-        primaryYAxis: NumericAxis(
-            majorGridLines: const MajorGridLines(width: 0),
-            minimum: 0,
-            maximum: 100),
+            const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+        primaryYAxis: const NumericAxis(
+            majorGridLines: MajorGridLines(width: 0), minimum: 0, maximum: 100),
         series: _getDefaultBarSeries());
   }
 
@@ -52,7 +50,7 @@ class _AnimationBarDefaultState extends SampleViewState {
   List<BarSeries<_ChartData, num>> _getDefaultBarSeries() {
     return <BarSeries<_ChartData, num>>[
       BarSeries<_ChartData, num>(
-          dataSource: _chartData!,
+          dataSource: _chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y)
     ];

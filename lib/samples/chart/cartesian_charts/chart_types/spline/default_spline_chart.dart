@@ -65,16 +65,16 @@ class _SplineDefaultState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Average high/low temperature of London'),
       legend: Legend(isVisible: !isCardView),
-      primaryXAxis: CategoryAxis(
-          majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+          majorGridLines: MajorGridLines(width: 0),
           labelPlacement: LabelPlacement.onTicks),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 30,
           maximum: 80,
-          axisLine: const AxisLine(width: 0),
+          axisLine: AxisLine(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           labelFormat: '{value}°F',
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultSplineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -84,14 +84,14 @@ class _SplineDefaultState extends SampleViewState {
   List<SplineSeries<ChartSampleData, String>> _getDefaultSplineSeries() {
     return <SplineSeries<ChartSampleData, String>>[
       SplineSeries<ChartSampleData, String>(
-        dataSource: chartData!,
+        dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'High',
       ),
       SplineSeries<ChartSampleData, String>(
-        dataSource: chartData!,
+        dataSource: chartData,
         name: 'Low',
         markerSettings: const MarkerSettings(isVisible: true),
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,

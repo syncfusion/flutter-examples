@@ -2602,6 +2602,26 @@
           },
           {
             "type": "child",
+            "title": "Grouping",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Grouping",
+                "key": "datagrid_grouping",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/grouping/datagrid_grouping.dart",
+                "needsPropertyPanel": false
+              },
+              {
+                "type": "sample",
+                "title": "Custom Grouping",
+                "key": "datagrid_custom_grouping",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/grouping/datagrid_custom_grouping",
+                "needsPropertyPanel": false
+              }
+            ]
+          },
+          {
+            "type": "child",
             "title": "Selection",
             "subItems": [
               {
@@ -2627,7 +2647,6 @@
               }
             ]
           },
-
           {
             "type": "child",
             "title": "Freeze Panes",

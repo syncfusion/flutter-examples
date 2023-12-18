@@ -98,32 +98,28 @@ class _StepLineDashedState extends SampleViewState {
   List<StepLineSeries<ChartSampleData, num>> _getDashedStepLineSeries() {
     return <StepLineSeries<ChartSampleData, num>>[
       StepLineSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.y,
           name: 'USA',
-          width: 2,
           dashArray: const <double>[10, 5]),
       StepLineSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.yValue,
           name: 'UK',
-          width: 2,
           dashArray: const <double>[10, 5]),
       StepLineSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.secondSeriesYValue,
           name: 'Korea',
-          width: 2,
           dashArray: const <double>[10, 5]),
       StepLineSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData data, _) => data.x as num,
           yValueMapper: (ChartSampleData data, _) => data.thirdSeriesYValue,
           name: 'Japan',
-          width: 2,
           dashArray: const <double>[10, 5])
     ];
   }

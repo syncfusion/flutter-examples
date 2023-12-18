@@ -55,133 +55,6 @@ class _MACDIndicatorState extends SampleViewState {
     return _buildDefaultMACDIndicator();
   }
 
-  /* @override
-  Widget buildSettings(BuildContext context) {
-    return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(top: 6.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(height: model.isMobile ? 0.0 : 16.0),
-                            Text(
-                              'Period',
-                              softWrap: false,
-                              style: TextStyle(
-                                  fontSize: 16, color: model.textColor),
-                            ),
-                            SizedBox(height: model.isMobile ? 30.0 : 16.0),
-                            Text(
-                              model.isWebFullView
-                                  ? 'Long \nperiod'
-                                  : 'Long period',
-                              softWrap: false,
-                              style: TextStyle(
-                                  fontSize: 16, color: model.textColor),
-                            ),
-                            SizedBox(height: model.isMobile ? 35.0 : 16.0),
-                            Text(
-                              model.isWebFullView
-                                  ? 'Short \nperiod'
-                                  : 'Short period',
-                              softWrap: false,
-                              style: TextStyle(
-                                  fontSize: 16, color: model.textColor),
-                            ),
-                          ]),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            CustomDirectionalButtons(
-                              maxValue: 50,
-                              initialValue: _period,
-                              onChanged: (double val) => setState(() {
-                                _period = val;
-                              }),
-                              loop: true,
-                              iconColor: model.textColor,
-                              style: TextStyle(
-                                  fontSize: 20.0, color: model.textColor),
-                            ),
-                            SizedBox(height: model.isMobile ? 5.0 : 10.0),
-                            CustomDirectionalButtons(
-                              maxValue: 50,
-                              initialValue: _longPeriod,
-                              onChanged: (double val) => setState(() {
-                                _longPeriod = val;
-                              }),
-                              loop: true,
-                              iconColor: model.textColor,
-                              style: TextStyle(
-                                  fontSize: 20.0, color: model.textColor),
-                            ),
-                            SizedBox(height: model.isMobile ? 5.0 : 10.0),
-                            CustomDirectionalButtons(
-                              maxValue: 50,
-                              initialValue: _shortPeriod,
-                              onChanged: (double val) => setState(() {
-                                _shortPeriod = val;
-                              }),
-                              loop: true,
-                              iconColor: model.textColor,
-                              style: TextStyle(
-                                  fontSize: 20.0, color: model.textColor),
-                            ),
-                          ])
-                    ]),
-                Row(
-                    mainAxisAlignment: model.isMobile
-                        ? MainAxisAlignment.start
-                        : MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      SizedBox(width: model.isMobile ? 35 : 0.0),
-                      Text('  MACD type',
-                          softWrap: false,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: model.textColor,
-                          )),
-                      SizedBox(width: model.isMobile ? 120 : 0.0),
-                      Container(
-                        alignment: Alignment.bottomLeft,
-                        child: DropdownButton<String>(
-                            underline: Container(
-                                color: const Color(0xFFBDBDBD), height: 1),
-                            value: _selectedMacdIndicatorType,
-                            items: _macdIndicatorTypeList.map((String value) {
-                              return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'Both',
-                                  child: Text(value,
-                                      style:
-                                          TextStyle(color: model.textColor)));
-                            }).toList(),
-                            onChanged: (String? value) {
-                              _onMacdIndicatorTypeChanged(value.toString());
-                              stateSetter(() {});
-                            }),
-                      )
-                    ])
-              ],
-            ),
-          ),
-        ],
-      );
-    });
-  }*/
-
   @override
   Widget buildSettings(BuildContext context) {
     final double screenWidth =
@@ -303,6 +176,7 @@ class _MACDIndicatorState extends SampleViewState {
                         ),
                         Flexible(
                           child: DropdownButton<String>(
+                              focusColor: Colors.transparent,
                               isExpanded: true,
                               underline: Container(
                                   color: const Color(0xFFBDBDBD), height: 1),
@@ -349,29 +223,28 @@ class _MACDIndicatorState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.MMM(),
         interval: 3,
-        minimum: DateTime(2016, 01, 01),
-        maximum: DateTime(2017, 01, 01),
+        minimum: DateTime(2016),
+        maximum: DateTime(2017),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 70,
           maximum: 130,
           interval: 20,
-          axisLine: const AxisLine(width: 0)),
-      axes: <ChartAxis>[
+          axisLine: AxisLine(width: 0)),
+      axes: const <ChartAxis>[
         NumericAxis(
-            majorGridLines: const MajorGridLines(width: 0),
-            axisLine: const AxisLine(width: 0),
+            majorGridLines: MajorGridLines(width: 0),
+            axisLine: AxisLine(width: 0),
             opposedPosition: true,
             name: 'agybrd',
             interval: 2)
       ],
-      indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
+      indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// MACD indicator mentioned here.
         MacdIndicator<ChartSampleData, DateTime>(
             period: _period.toInt(),
             longPeriod: _longPeriod.toInt(),
             shortPeriod: _shortPeriod.toInt(),
-            signalLineWidth: 2,
             macdType: _macdType,
             seriesName: 'AAPL',
             yAxisName: 'agybrd'),
@@ -379,9 +252,10 @@ class _MACDIndicatorState extends SampleViewState {
       trackballBehavior: _trackballBehavior,
       tooltipBehavior: _tooltipBehavior,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <ChartSeries<ChartSampleData, DateTime>>[
+      series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
+            emptyPointSettings:
+                const EmptyPointSettings(mode: EmptyPointMode.zero),
             dataSource: getChartData(),
             opacity: 0.7,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

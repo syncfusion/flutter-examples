@@ -74,8 +74,6 @@ class _TrendLineForecastState extends SampleViewState {
       shrinkWrap: true,
       children: <Widget>[
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
               'Forward forecast',
@@ -97,8 +95,6 @@ class _TrendLineForecastState extends SampleViewState {
           ],
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
               'Backward forecast',
@@ -133,8 +129,8 @@ class _TrendLineForecastState extends SampleViewState {
                 : 'Euro to USD yearly exchange rate - 1999 to 2019'),
         legend: Legend(isVisible: !isCardView),
         tooltipBehavior: _tooltipBehavior,
-        primaryXAxis: NumericAxis(
-            majorGridLines: const MajorGridLines(width: 0), interval: 2),
+        primaryXAxis: const NumericAxis(
+            majorGridLines: MajorGridLines(width: 0), interval: 2),
         primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Dollars'),
           axisLine: const AxisLine(width: 0),
@@ -154,11 +150,9 @@ class _TrendLineForecastState extends SampleViewState {
               name: 'Exchange rate',
               trendlines: <Trendline>[
                 Trendline(
-                    type: TrendlineType.linear,
                     width: 3,
                     dashArray: <double>[10, 10],
                     name: 'Linear',
-                    enableTooltip: true,
 
                     /// Here we mention the forward and backward forecast value.
                     forwardForecast: _forwardForecastValue,

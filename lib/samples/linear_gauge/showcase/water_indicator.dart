@@ -47,7 +47,7 @@ class _WaterLevelIndicatorState extends SampleViewState {
 
   /// Returns the water indicator.
   Widget _buildWaterIndicator(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return Padding(
         padding: const EdgeInsets.all(10),
@@ -116,7 +116,7 @@ class _WaterLevelIndicatorState extends SampleViewState {
                       child: Text(
                     _level.toStringAsFixed(0) + ' ml',
                     style: TextStyle(
-                        color: _brightness == Brightness.light
+                        color: brightness == Brightness.light
                             ? Colors.black
                             : Colors.white,
                         fontSize: 14,

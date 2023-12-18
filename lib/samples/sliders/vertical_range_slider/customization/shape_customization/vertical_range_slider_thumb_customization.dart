@@ -1,8 +1,10 @@
 ///Package imports
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart' show NumberFormat;
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -41,7 +43,6 @@ class _VerticalThumbCustomizedRangeSliderState extends SampleViewState {
         tooltipBackgroundColor: _activeColor,
       ),
       child: SfRangeSlider.vertical(
-        min: 0.0,
         max: 100.0,
         values: _singleStrokeSliderValues,
         onChanged: (SfRangeValues values) {
@@ -67,7 +68,6 @@ class _VerticalThumbCustomizedRangeSliderState extends SampleViewState {
         tooltipBackgroundColor: const Color.fromARGB(255, 0, 178, 206),
       ),
       child: SfRangeSlider.vertical(
-        min: 0.0,
         max: 100.0,
         values: _doubleStrokeSliderValues,
         tooltipPosition: SliderTooltipPosition.right,

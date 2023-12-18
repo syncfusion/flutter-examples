@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Map import
@@ -231,7 +232,7 @@ class _MapTooltipPageState extends SampleViewState {
                     Text(
                       model.state,
                       textAlign: TextAlign.center,
-                      style: themeData.textTheme.bodyText2!.copyWith(
+                      style: themeData.textTheme.bodyMedium!.copyWith(
                           color: isLightTheme
                               ? const Color.fromRGBO(0, 0, 0, 0.87)
                               : const Color.fromRGBO(255, 255, 255, 0.87),
@@ -239,7 +240,7 @@ class _MapTooltipPageState extends SampleViewState {
                     ),
                     const SizedBox(height: 10),
                     Text(_getTooltipText(model),
-                        style: themeData.textTheme.caption!.copyWith(
+                        style: themeData.textTheme.bodySmall!.copyWith(
                           color: isLightTheme
                               ? const Color.fromRGBO(0, 0, 0, 0.87)
                               : const Color.fromRGBO(255, 255, 255, 0.87),
@@ -356,9 +357,8 @@ class _MapTooltipPageState extends SampleViewState {
                 Padding(
                     padding: const EdgeInsets.only(top: 15, bottom: 30),
                     child: Align(
-                        alignment: Alignment.center,
                         child: Text(_title,
-                            style: Theme.of(context).textTheme.subtitle1))),
+                            style: Theme.of(context).textTheme.titleMedium))),
                 Expanded(
                     child: SfMaps(
                   layers: <MapLayer>[

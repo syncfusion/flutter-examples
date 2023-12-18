@@ -38,17 +38,17 @@ class _RangeAreaState extends SampleViewState {
   /// Returns the Cartesian Range area chart.
   SfCartesianChart _buildRangeAreaChart() {
     return SfCartesianChart(
-      title: ChartTitle(text: 'Average temperature variation'),
+      title: const ChartTitle(text: 'Average temperature variation'),
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
           dateFormat: DateFormat.y(),
           interval: 1,
           majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}°C',
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getRangeAreaSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -56,29 +56,28 @@ class _RangeAreaState extends SampleViewState {
 
   /// Gets the random data for the Rnage area chart series.
   List<ChartSampleData> _getData() {
-    List<ChartSampleData> _chartData;
-    _chartData = <ChartSampleData>[];
-    double _value = 30;
+    List<ChartSampleData> chartData;
+    chartData = <ChartSampleData>[];
+    double value = 30;
     for (int i = 0; i < 100; i++) {
-      final Random _yValue = Random();
-      (_yValue.nextDouble() > .5)
-          ? _value += Random().nextDouble()
-          : _value -= Random().nextDouble();
+      final Random yValue = Random();
+      (yValue.nextDouble() > .5)
+          ? value += Random().nextDouble()
+          : value -= Random().nextDouble();
 
-      _chartData.add(ChartSampleData(
-          x: DateTime(2000, i + 2, i), high: _value, low: _value + 10));
+      chartData.add(ChartSampleData(
+          x: DateTime(2000, i + 2, i), high: value, low: value + 10));
     }
-    return _chartData;
+    return chartData;
   }
 
   /// Returns the list of Chart series
   /// which need to render on the Range area chart.
-  List<ChartSeries<ChartSampleData, DateTime>> _getRangeAreaSeries() {
-    return <ChartSeries<ChartSampleData, DateTime>>[
+  List<CartesianSeries<ChartSampleData, DateTime>> _getRangeAreaSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
       RangeAreaSeries<ChartSampleData, DateTime>(
         dataSource: _getData(),
         name: 'London',
-        borderWidth: 2,
         opacity: 0.5,
         borderColor: const Color.fromRGBO(50, 198, 255, 1),
         color: const Color.fromRGBO(50, 198, 255, 1),

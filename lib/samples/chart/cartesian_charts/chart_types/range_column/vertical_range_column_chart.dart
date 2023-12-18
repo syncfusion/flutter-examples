@@ -77,12 +77,12 @@ class _RangeBarChartState extends SampleViewState {
       title: ChartTitle(
           text:
               isCardView ? '' : 'Temperature variation – Sydney vs Melbourne'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
       legend: Legend(isVisible: !isCardView),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
           labelFormat: '{value}°F',
           minimum: 40,
           maximum: 80),
@@ -100,7 +100,7 @@ class _RangeBarChartState extends SampleViewState {
       _getVerticalRangeColumnSeries() {
     return <RangeColumnSeries<ChartSampleData, String>>[
       RangeColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           lowValueMapper: (ChartSampleData sales, _) => sales.y,
           highValueMapper: (ChartSampleData sales, _) => sales.yValue,
@@ -109,7 +109,7 @@ class _RangeBarChartState extends SampleViewState {
               isVisible: !isCardView,
               labelAlignment: ChartDataLabelAlignment.top)),
       RangeColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           lowValueMapper: (ChartSampleData sales, _) =>
               sales.secondSeriesYValue,

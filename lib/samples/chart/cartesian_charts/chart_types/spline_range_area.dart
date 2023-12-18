@@ -73,17 +73,17 @@ class _SplineRangeAreaState extends SampleViewState {
   SfCartesianChart _buildSplineRangeAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(text: 'Product price comparison'),
-      legend: Legend(isVisible: true),
-      primaryXAxis: CategoryAxis(
-          majorGridLines: const MajorGridLines(width: 0),
+      title: const ChartTitle(text: 'Product price comparison'),
+      legend: const Legend(isVisible: true),
+      primaryXAxis: const CategoryAxis(
+          majorGridLines: MajorGridLines(width: 0),
           labelPlacement: LabelPlacement.onTicks),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 0,
           maximum: 60,
-          axisLine: const AxisLine(width: 0),
+          axisLine: AxisLine(width: 0),
           labelFormat: r'${value}',
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getSplineAreaSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -94,7 +94,7 @@ class _SplineRangeAreaState extends SampleViewState {
   List<SplineRangeAreaSeries<ChartSampleData, String>> _getSplineAreaSeries() {
     return <SplineRangeAreaSeries<ChartSampleData, String>>[
       SplineRangeAreaSeries<ChartSampleData, String>(
-        dataSource: chartData!,
+        dataSource: chartData,
         color: const Color.fromRGBO(75, 135, 185, 0.5),
         borderColor: const Color.fromRGBO(75, 135, 185, 1),
         borderWidth: 3,
@@ -105,7 +105,7 @@ class _SplineRangeAreaState extends SampleViewState {
         name: 'Product A',
       ),
       SplineRangeAreaSeries<ChartSampleData, String>(
-        dataSource: chartData!,
+        dataSource: chartData,
         borderColor: const Color.fromRGBO(192, 108, 132, 1),
         color: const Color.fromRGBO(192, 108, 132, 0.5),
         borderWidth: 3,

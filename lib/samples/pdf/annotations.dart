@@ -25,36 +25,34 @@ class _AnnotationsPdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: model.cardThemeColor,
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-                'This sample shows how to create annotations such as rectangle, ellipse, polygon, and line in a PDF document. ',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
-            const SizedBox(height: 10, width: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+        backgroundColor: model.cardThemeColor,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Checkbox(
-                    value: flatten,
-                    activeColor: model.backgroundColor,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        flatten = value!;
-                      });
-                    }),
-                Text('Flatten Annotation',
+                Text(
+                    'This sample shows how to create annotations such as rectangle, ellipse, polygon, and line in a PDF document. ',
                     style: TextStyle(fontSize: 16, color: model.textColor)),
-              ],
-            ),
-            const SizedBox(height: 10, width: 30),
-            Align(
-                alignment: Alignment.center,
-                child: TextButton(
+                const SizedBox(height: 10, width: 30),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                        value: flatten,
+                        activeColor: model.backgroundColor,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            flatten = value!;
+                          });
+                        }),
+                    Text('Flatten Annotation',
+                        style: TextStyle(fontSize: 16, color: model.textColor)),
+                  ],
+                ),
+                const SizedBox(height: 10, width: 30),
+                Align(
+                    child: TextButton(
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(model.backgroundColor),
@@ -67,10 +65,10 @@ class _AnnotationsPdfState extends SampleViewState {
                   child: const Text('Generate PDF',
                       style: TextStyle(color: Colors.white)),
                 ))
-          ],
-        ),
-      ),
-    );
+              ],
+            ),
+          ),
+        ));
   }
 
   Future<void> _generatePDF() async {
@@ -85,7 +83,6 @@ class _AnnotationsPdfState extends SampleViewState {
         color: PdfColor(0, 0, 255),
         author: 'John Milton',
         border: PdfAnnotationBorder(2),
-        lineCaption: false,
         setAppearance: true,
         lineIntent: PdfLineIntent.lineDimension);
     //Add the line annotation to the page.
@@ -135,13 +132,40 @@ class _AnnotationsPdfState extends SampleViewState {
     //Add the polygon annotation to the page.
     page.annotations.add(polygonAnnotation);
 
+    //Create a text markup annotation.
+    final PdfTextMarkupAnnotation textMarkupAnnotation =
+        PdfTextMarkupAnnotation(const Rect.fromLTWH(60, 165, 495, 45),
+            'Introduction', PdfColor(255, 255, 0),
+            author: 'John Milton');
+    //Add the bounds collection to highlight the text on more than one line.
+    textMarkupAnnotation.boundsCollection = <Rect>[
+      const Rect.fromLTWH(251, 165, 304, 15),
+      const Rect.fromLTWH(60, 180, 495, 15),
+      const Rect.fromLTWH(60, 195, 100, 15)
+    ];
+
+    //Add the text markup annotation to the page.
+    page.annotations.add(textMarkupAnnotation);
+
+    //Create a popup annotation.
+    final PdfPopupAnnotation popupAnnotation = PdfPopupAnnotation(
+        const Rect.fromLTWH(225, 371, 20, 20), 'PDF Standard',
+        author: 'John Milton',
+        color: PdfColor(255, 255, 0),
+        icon: PdfPopupIcon.comment,
+        open: true,
+        setAppearance: true);
+
+    //Add the popup annotation to the page.
+    page.annotations.add(popupAnnotation);
+
     if (flatten) {
       //Flatten all the annotations.
       page.annotations.flattenAllAnnotations();
     }
 
     //Save and dispose the document.
-    final List<int> bytes = document.save();
+    final List<int> bytes = await document.save();
     document.dispose();
     //Launch file.
     await FileSaveHelper.saveAndLaunchFile(bytes, 'Annotations.pdf');

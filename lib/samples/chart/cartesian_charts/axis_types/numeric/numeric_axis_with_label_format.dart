@@ -46,14 +46,14 @@ class _NumericLabelState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title:
           ChartTitle(text: isCardView ? '' : 'Farenheit - Celsius conversion'),
-      primaryXAxis: NumericAxis(
+      primaryXAxis: const NumericAxis(
           labelFormat: '{value}°C',
-          majorGridLines: const MajorGridLines(width: 0),
+          majorGridLines: MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}°F',
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: getNumericLabelSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -78,7 +78,6 @@ class _NumericLabelState extends SampleViewState {
           ],
           xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          width: 2,
           markerSettings:
               const MarkerSettings(height: 10, width: 10, isVisible: true)),
     ];

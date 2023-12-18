@@ -25,7 +25,6 @@ class _BubbleDefaultState extends SampleViewState {
   void initState() {
     _tooltipBehavior = TooltipBehavior(
         enable: true,
-        textAlignment: ChartAlignment.center,
         header: '',
         canShowMarker: false,
         format:

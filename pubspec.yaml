@@ -1,35 +1,39 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 19.2.44 
+version: 20.3.47  
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter_test:
     sdk: flutter
   flutter:
     sdk: flutter
-  url_launcher: ^6.0.2
+  flutter_localizations:
+    sdk: flutter
+  url_launcher: ^6.1.0
   path_provider: ^2.0.1
-  path_provider_macos: ^2.0.0
+  path_provider_foundation: ^2.1.0
   desktop_window: 0.4.0
-
-  syncfusion_flutter_datagrid_export: ^19.4.38-beta
-  syncfusion_flutter_calendar: ^19.4.38
-  syncfusion_flutter_datepicker: ^19.4.38
-  syncfusion_flutter_charts:  ^19.4.38
-  syncfusion_flutter_gauges: ^19.4.38
-  syncfusion_flutter_sliders: ^19.4.38
-  syncfusion_flutter_pdf: ^19.4.38-beta
-  syncfusion_flutter_barcodes: ^19.4.38
-  syncfusion_officechart: ^19.4.38-beta
-  syncfusion_flutter_maps: ^19.4.38-beta
-  syncfusion_flutter_signaturepad: ^19.4.38-beta
-  syncfusion_flutter_pdfviewer: ^19.4.38-beta
-  syncfusion_flutter_treemap: ^19.4.38-beta
-
+  intl: ^0.18.0
+  
+  syncfusion_localizations: ^24.1.41
+  syncfusion_flutter_datagrid_export: ^24.1.41
+  syncfusion_flutter_calendar: ^24.1.41
+  syncfusion_flutter_datepicker: ^24.1.41
+  syncfusion_flutter_charts: ^24.1.41
+  syncfusion_flutter_gauges: ^24.1.41
+  syncfusion_flutter_sliders: ^24.1.41
+  syncfusion_flutter_pdf: ^24.1.41
+  syncfusion_flutter_barcodes: ^24.1.41
+  syncfusion_officechart: ^24.1.41
+  syncfusion_flutter_maps: ^24.1.41
+  syncfusion_flutter_signaturepad: ^24.1.41
+  syncfusion_flutter_pdfviewer: ^24.1.41
+  syncfusion_flutter_treemap: ^24.1.41
+  
 flutter:
   uses-material-design: true
   assets:
@@ -39,24 +43,25 @@ flutter:
     - images/pdf_viewer/
     - assets/pdf/
     - lib/sample_details.json
-    - world_map.json
-    - africa.json
-    - europe.json
-    - india.json
-    - usa.json
-    - south_america.json
-    - australia.json
-    - maps_brazil_boundary.json
-    - maps_uk_boundary.json
-    - maps_france_boundary.json
-    - river.json
-    - london_to_british.json
-    - london_to_chessington.json
-    - london_to_hampton_court_palace.json
-    - london_to_twickenham_stadium.json
-    - london_to_windsor_castle.json
-    - product_data.json
-    - chart_data.json
+    - assets/world_map.json
+    - assets/africa.json
+    - assets/europe.json
+    - assets/germany.json
+    - assets/india.json
+    - assets/usa.json
+    - assets/south_america.json
+    - assets/australia.json
+    - assets/maps_brazil_boundary.json
+    - assets/maps_uk_boundary.json
+    - assets/maps_france_boundary.json
+    - assets/river.json
+    - assets/london_to_british.json
+    - assets/london_to_chessington.json
+    - assets/london_to_hampton_court_palace.json
+    - assets/london_to_twickenham_stadium.json
+    - assets/london_to_windsor_castle.json
+    - assets/product_data.json
+    - assets/chart_data.json
   fonts:
     - family: HeeboBold
       fonts:
@@ -72,4 +77,4 @@ flutter:
         - asset: assets/fonts/Roboto-Medium.ttf
     - family: Roboto-Regular
       fonts:
-        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf 

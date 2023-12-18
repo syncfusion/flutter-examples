@@ -87,8 +87,6 @@ class _DataLabelDefaultState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label alignment',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -97,6 +95,7 @@ class _DataLabelDefaultState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _labelAln,
@@ -114,8 +113,6 @@ class _DataLabelDefaultState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label position',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -124,6 +121,7 @@ class _DataLabelDefaultState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _labelPos,
@@ -141,8 +139,6 @@ class _DataLabelDefaultState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
                 'Horizontal padding',
@@ -165,8 +161,6 @@ class _DataLabelDefaultState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
                 'Vertical padding',
@@ -211,12 +205,12 @@ class _DataLabelDefaultState extends SampleViewState {
           majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           interval: 1),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 15,
           maximum: 30,
           labelFormat: '{value}%',
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDataLabelDefaultSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -228,9 +222,8 @@ class _DataLabelDefaultState extends SampleViewState {
     return <SplineSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
           legendIconType: LegendIconType.rectangle,
-          dataSource: chartData!,
+          dataSource: chartData,
           color: const Color.fromRGBO(140, 198, 64, 1),
-          width: 2,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           markerSettings: const MarkerSettings(isVisible: true),
@@ -245,8 +238,7 @@ class _DataLabelDefaultState extends SampleViewState {
       SplineSeries<ChartSampleData, num>(
           legendIconType: LegendIconType.rectangle,
           color: const Color.fromRGBO(203, 164, 199, 1),
-          dataSource: chartData!,
-          width: 2,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           markerSettings: const MarkerSettings(isVisible: true),

@@ -50,10 +50,10 @@ class _StackedLineChartState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         labelRotation: isCardView ? 0 : -45,
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           rangePadding: ChartRangePadding.none,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedLine100Series(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -61,28 +61,28 @@ class _StackedLineChartState extends SampleViewState {
 
   /// Returns the list of char series
   /// which need to render on the stacked line 100 chart.
-  List<ChartSeries<_ChartData, String>> _getStackedLine100Series() {
-    return <ChartSeries<_ChartData, String>>[
+  List<CartesianSeries<_ChartData, String>> _getStackedLine100Series() {
+    return <CartesianSeries<_ChartData, String>>[
       StackedLine100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.father,
           name: 'Father',
           markerSettings: const MarkerSettings(isVisible: true)),
       StackedLine100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.mother,
           name: 'Mother',
           markerSettings: const MarkerSettings(isVisible: true)),
       StackedLine100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.son,
           name: 'Son',
           markerSettings: const MarkerSettings(isVisible: true)),
       StackedLine100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.daughter,
           name: 'Daughter',

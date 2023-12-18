@@ -1,8 +1,10 @@
 ///flutter package import
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -23,15 +25,15 @@ class DateIntervalSliderPage extends SampleView {
 
 class _DateIntervalSliderPageState extends SampleViewState {
   _DateIntervalSliderPageState();
-  DateTime _yearValue = DateTime(2018, 01, 01);
-  DateTime _hourValue = DateTime(2020, 01, 01, 13, 00, 00);
+  DateTime _yearValue = DateTime(2018);
+  DateTime _hourValue = DateTime(2020, 01, 01, 13);
 
   SfSliderTheme _yearSlider() {
     return SfSliderTheme(
         data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
         child: SfSlider(
-          min: DateTime(2016, 01, 01),
-          max: DateTime(2020, 01, 01),
+          min: DateTime(2016),
+          max: DateTime(2020),
           showLabels: true,
           interval: 1,
           dateFormat: DateFormat.y(),
@@ -56,14 +58,13 @@ class _DateIntervalSliderPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
         child: SfSlider(
-          min: DateTime(2020, 01, 01, 9, 00, 00),
-          max: DateTime(2020, 01, 01, 21, 05, 00),
+          min: DateTime(2020, 01, 01, 9),
+          max: DateTime(2020, 01, 01, 21, 05),
           showLabels: true,
           interval: 4,
           showTicks: true,
           minorTicksPerInterval: 3,
           dateFormat: DateFormat('h a'),
-          labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.hours,
           value: _hourValue,
           onChanged: (dynamic value) {

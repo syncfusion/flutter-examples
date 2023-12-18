@@ -25,7 +25,6 @@ class _BubblePointColorState extends SampleViewState {
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(
-        textAlignment: ChartAlignment.center,
         enable: true,
         canShowMarker: false,
         header: '',
@@ -43,8 +42,8 @@ class _BubblePointColorState extends SampleViewState {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Countries by area'),
       plotAreaBorderWidth: 0,
-      primaryXAxis: CategoryAxis(
-          majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+          majorGridLines: MajorGridLines(width: 0),
           labelIntersectAction: AxisLabelIntersectAction.rotate45),
       primaryYAxis: NumericAxis(
           numberFormat: NumberFormat.compact(),

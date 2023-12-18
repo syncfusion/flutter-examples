@@ -1,4 +1,6 @@
 ///Package imports
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 
 /// Core theme import
@@ -165,7 +167,6 @@ class _PagingDataGridState extends SampleViewState {
             _rowsPerPage = rowsPerPage!;
           });
         },
-        direction: Axis.horizontal,
       ),
     );
   }
@@ -189,11 +190,8 @@ class _PagingDataGridState extends SampleViewState {
                         color: Theme.of(context)
                             .colorScheme
                             .onSurface
-                            .withOpacity(0.12)),
-                    bottom: BorderSide.none,
-                    left: BorderSide.none,
-                    right: BorderSide.none)),
-            child: Align(alignment: Alignment.center, child: _buildDataPager()),
+                            .withOpacity(0.12)))),
+            child: Align(child: _buildDataPager()),
           )
         ],
       );

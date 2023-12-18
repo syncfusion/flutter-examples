@@ -1,12 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/axis_features/multi_level_labels.dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/chart_types/area/area_zone.dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/chart_types/error_bar.dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/chart_types/line/line_zone.dart';
-import 'package:flutter_examples/samples/chart/cartesian_charts/series_features/gradients/gradient_based_on_values.dart';
-import 'package:flutter_examples/samples/chart/circular_charts/chart_types/pie/pie_with_smart_data_label.dart';
-import 'package:flutter_examples/samples/linear_gauge/showcase/active_hours.dart';
-import 'package:flutter_examples/samples/pdf_viewer/encrypted.dart';
 
 import 'samples/barcodes/data_matrix.dart';
 import 'samples/barcodes/one_dimensional.dart';
@@ -19,8 +11,10 @@ import 'samples/calendar/customization.dart';
 import 'samples/calendar/drag_and_drop_calendar.dart';
 import 'samples/calendar/getting_started.dart';
 import 'samples/calendar/heatmap.dart';
+import 'samples/calendar/localization.dart';
 import 'samples/calendar/recurrence.dart';
 import 'samples/calendar/resizing_calendar.dart';
+import 'samples/calendar/rtl.dart';
 import 'samples/calendar/schedule_view.dart';
 import 'samples/calendar/shift_scheduler.dart';
 import 'samples/calendar/special_regions.dart';
@@ -31,6 +25,7 @@ import 'samples/chart/cartesian_charts/axis_features/edge_label_placement.dart';
 import 'samples/chart/cartesian_charts/axis_features/handling_label_collision.dart';
 import 'samples/chart/cartesian_charts/axis_features/interval_type.dart';
 import 'samples/chart/cartesian_charts/axis_features/maximum_width_for_labels.dart';
+import 'samples/chart/cartesian_charts/axis_features/multi_level_labels.dart';
 import 'samples/chart/cartesian_charts/axis_features/multiple_axis_chart.dart';
 import 'samples/chart/cartesian_charts/axis_features/opposed_axes.dart';
 import 'samples/chart/cartesian_charts/axis_features/plot_band.dart';
@@ -51,6 +46,7 @@ import 'samples/chart/cartesian_charts/axis_types/numeric/numeric_axis_with_labe
 import 'samples/chart/cartesian_charts/chart_types/area/animation_area_chart.dart';
 import 'samples/chart/cartesian_charts/chart_types/area/area_with_axis_base.dart';
 import 'samples/chart/cartesian_charts/chart_types/area/area_with_emptypoints.dart';
+import 'samples/chart/cartesian_charts/chart_types/area/area_zone.dart';
 import 'samples/chart/cartesian_charts/chart_types/area/default_area_chart.dart';
 import 'samples/chart/cartesian_charts/chart_types/area/vertical_area_chart.dart';
 import 'samples/chart/cartesian_charts/chart_types/bar/animation_bar_chart.dart';
@@ -73,6 +69,7 @@ import 'samples/chart/cartesian_charts/chart_types/column/column_with_rounded_co
 import 'samples/chart/cartesian_charts/chart_types/column/column_with_track.dart';
 import 'samples/chart/cartesian_charts/chart_types/column/customized_column_chart.dart';
 import 'samples/chart/cartesian_charts/chart_types/column/default_column_chart.dart';
+import 'samples/chart/cartesian_charts/chart_types/error_bar.dart';
 import 'samples/chart/cartesian_charts/chart_types/financial_charts/candle_chart.dart';
 import 'samples/chart/cartesian_charts/chart_types/financial_charts/hilo_chart.dart';
 import 'samples/chart/cartesian_charts/chart_types/financial_charts/hilo_open_close_chart.dart';
@@ -81,6 +78,7 @@ import 'samples/chart/cartesian_charts/chart_types/line/animation_line_chart.dar
 import 'samples/chart/cartesian_charts/chart_types/line/customized_line_chart.dart';
 import 'samples/chart/cartesian_charts/chart_types/line/default_line_chart.dart';
 import 'samples/chart/cartesian_charts/chart_types/line/line_with_dashes.dart';
+import 'samples/chart/cartesian_charts/chart_types/line/line_zone.dart';
 import 'samples/chart/cartesian_charts/chart_types/line/multi_colored_line.dart';
 import 'samples/chart/cartesian_charts/chart_types/range_area.dart';
 import 'samples/chart/cartesian_charts/chart_types/range_column/animation_range_column_chart.dart';
@@ -119,21 +117,25 @@ import 'samples/chart/cartesian_charts/export.dart';
 import 'samples/chart/cartesian_charts/infinite_scrolling.dart';
 import 'samples/chart/cartesian_charts/legend/chart_with_customized_legend.dart';
 import 'samples/chart/cartesian_charts/legend/legend_various_options.dart';
+import 'samples/chart/cartesian_charts/localization.dart';
 import 'samples/chart/cartesian_charts/real_time_charts/add_remove_data/add_remove_points.dart';
 import 'samples/chart/cartesian_charts/real_time_charts/add_remove_data/add_remove_series.dart';
 import 'samples/chart/cartesian_charts/real_time_charts/live_update/real_time_line_chart.dart';
 import 'samples/chart/cartesian_charts/real_time_charts/live_update/real_time_spline_chart.dart';
 import 'samples/chart/cartesian_charts/real_time_charts/live_update/vertical_live_chart.dart';
 import 'samples/chart/cartesian_charts/real_time_charts/update_data_source.dart';
+import 'samples/chart/cartesian_charts/rtl.dart';
 import 'samples/chart/cartesian_charts/series_features/animation/series_animation.dart';
 import 'samples/chart/cartesian_charts/series_features/annotation/chart_with_annotation.dart';
 import 'samples/chart/cartesian_charts/series_features/annotation/chart_with_watermark.dart';
 import 'samples/chart/cartesian_charts/series_features/data_label/data_label_template.dart';
 import 'samples/chart/cartesian_charts/series_features/data_label/default_data_labels.dart';
 import 'samples/chart/cartesian_charts/series_features/empty_points.dart';
-import 'samples/chart/cartesian_charts/series_features/gradients/horizantal_gradient.dart';
+import 'samples/chart/cartesian_charts/series_features/gradients/gradient_based_on_values.dart';
+import 'samples/chart/cartesian_charts/series_features/gradients/horizontal_gradient.dart';
 import 'samples/chart/cartesian_charts/series_features/gradients/vertical_gradient.dart';
 import 'samples/chart/cartesian_charts/series_features/marker.dart';
+import 'samples/chart/cartesian_charts/series_features/point_color_mapper.dart';
 import 'samples/chart/cartesian_charts/series_features/sorting.dart';
 import 'samples/chart/cartesian_charts/technical_indicators/accumulation_distribution.dart';
 import 'samples/chart/cartesian_charts/technical_indicators/atr_indicator.dart';
@@ -175,6 +177,7 @@ import 'samples/chart/circular_charts/chart_types/pie/pie_with_data_labels.dart'
 import 'samples/chart/circular_charts/chart_types/pie/pie_with_gradient.dart';
 import 'samples/chart/circular_charts/chart_types/pie/pie_with_grouping.dart';
 import 'samples/chart/circular_charts/chart_types/pie/pie_with_image.dart';
+import 'samples/chart/circular_charts/chart_types/pie/pie_with_smart_data_label.dart';
 import 'samples/chart/circular_charts/chart_types/pie/pie_with_various_radius.dart';
 import 'samples/chart/circular_charts/chart_types/pie/point_render_mode.dart';
 import 'samples/chart/circular_charts/chart_types/pie/semi_pie_chart.dart';
@@ -187,6 +190,7 @@ import 'samples/chart/circular_charts/export.dart';
 import 'samples/chart/circular_charts/legend/chart_with_legend.dart';
 import 'samples/chart/circular_charts/legend/floating_legend.dart';
 import 'samples/chart/circular_charts/legend/legend_with_various_options.dart';
+import 'samples/chart/circular_charts/localization.dart';
 import 'samples/chart/circular_charts/user_interactions/dynamic_selection.dart';
 import 'samples/chart/circular_charts/user_interactions/selection.dart';
 import 'samples/chart/circular_charts/user_interactions/tooltip.dart';
@@ -199,6 +203,7 @@ import 'samples/chart/pyramid_charts/pyramid_with_smart_labels.dart';
 import 'samples/datagrid/apperance/conditional_styling/datagrid_conditional_styling.dart';
 import 'samples/datagrid/apperance/styling/datagrid_styling.dart';
 import 'samples/datagrid/columns/datagrid_checkbox_selection.dart';
+import 'samples/datagrid/columns/datagrid_column_drag_and_drop.dart';
 import 'samples/datagrid/columns/datagrid_column_sizing.dart';
 import 'samples/datagrid/columns/datagrid_column_types.dart';
 import 'samples/datagrid/columns/datagrid_custom_header.dart';
@@ -209,15 +214,20 @@ import 'samples/datagrid/datagrid_column_resizing.dart';
 import 'samples/datagrid/datagrid_context_menu.dart';
 import 'samples/datagrid/datagrid_editing.dart';
 import 'samples/datagrid/datagrid_exporting.dart';
+import 'samples/datagrid/datagrid_filtering.dart';
 import 'samples/datagrid/datagrid_freeze_panes.dart';
 import 'samples/datagrid/datagrid_getting_started.dart';
+import 'samples/datagrid/datagrid_localization.dart';
 import 'samples/datagrid/datagrid_paging.dart';
 import 'samples/datagrid/datagrid_pull_to_refresh.dart';
 import 'samples/datagrid/datagrid_real_time_update.dart';
 import 'samples/datagrid/datagrid_row_height.dart';
+import 'samples/datagrid/datagrid_rtl.dart';
 import 'samples/datagrid/datagrid_selection.dart';
 import 'samples/datagrid/datagrid_swiping.dart';
 import 'samples/datagrid/datagrid_table_summary.dart';
+import 'samples/datagrid/grouping/datagrid_custom_grouping.dart';
+import 'samples/datagrid/grouping/datagrid_grouping.dart';
 import 'samples/datagrid/loadmore/datagrid_infinite_scrolling.dart';
 import 'samples/datagrid/loadmore/datagrid_load_more.dart';
 import 'samples/datagrid/sorting/datagrid_custom_sorting.dart';
@@ -226,7 +236,9 @@ import 'samples/date_picker/blackout_date_picker.dart';
 import 'samples/date_picker/customized_date_picker.dart';
 import 'samples/date_picker/date_picker_getting_started.dart';
 import 'samples/date_picker/hijri_calendar.dart';
+import 'samples/date_picker/localization.dart';
 import 'samples/date_picker/popup_picker.dart';
+import 'samples/date_picker/rtl.dart';
 import 'samples/date_picker/vertical_calendar.dart';
 import 'samples/gauge/animation/radial_bounce.dart';
 import 'samples/gauge/animation/radial_ease_animation.dart';
@@ -270,6 +282,7 @@ import 'samples/linear_gauge/pointers/drag_behavior.dart';
 import 'samples/linear_gauge/pointers/shape_pointer.dart';
 import 'samples/linear_gauge/pointers/widget_pointer.dart';
 import 'samples/linear_gauge/range_customization.dart';
+import 'samples/linear_gauge/showcase/active_hours.dart';
 import 'samples/linear_gauge/showcase/battery_indicator.dart';
 import 'samples/linear_gauge/showcase/heat_meter.dart';
 import 'samples/linear_gauge/showcase/height_calculator.dart';
@@ -280,6 +293,8 @@ import 'samples/linear_gauge/showcase/task_tracker.dart';
 import 'samples/linear_gauge/showcase/thermometer.dart';
 import 'samples/linear_gauge/showcase/volume_settings.dart';
 import 'samples/linear_gauge/showcase/water_indicator.dart';
+import 'samples/maps/directionality.dart';
+import 'samples/maps/localization.dart';
 import 'samples/maps/shape_layer/bubble/bubble.dart';
 import 'samples/maps/shape_layer/equal_color_mapping/equal_color_mapping.dart';
 import 'samples/maps/shape_layer/legend/legend.dart';
@@ -306,8 +321,13 @@ import 'samples/pdf/header_and_footer.dart';
 import 'samples/pdf/import_and_export_form_data.dart';
 import 'samples/pdf/invoice.dart';
 import 'samples/pdf/text_extraction.dart';
+import 'samples/pdf_viewer/pdf_viewer_annotations.dart';
 import 'samples/pdf_viewer/pdf_viewer_custom_toolbar.dart';
+import 'samples/pdf_viewer/pdf_viewer_encrypted.dart';
+import 'samples/pdf_viewer/pdf_viewer_form_filling.dart';
 import 'samples/pdf_viewer/pdf_viewer_getting_started.dart';
+import 'samples/pdf_viewer/pdf_viewer_localization.dart';
+import 'samples/pdf_viewer/pdf_viewer_rtl.dart';
 import 'samples/progress_bar/angles.dart';
 import 'samples/progress_bar/custom_labels.dart';
 import 'samples/progress_bar/determinate_styles.dart';
@@ -330,11 +350,13 @@ import 'samples/radial_slider/customization/styles.dart';
 import 'samples/radial_slider/customization/thumb.dart';
 import 'samples/signature_pad/getting_started/signature_pad_getting_started.dart';
 import 'samples/sliders/range_selector/range_selector_default_appearance.dart';
+import 'samples/sliders/range_selector/range_selector_label_customization.dart';
 import 'samples/sliders/range_selector/range_selector_with_bar_chart.dart';
 import 'samples/sliders/range_selector/range_selector_with_histogram_chart.dart';
 import 'samples/sliders/range_selector/range_selector_with_selection.dart';
 import 'samples/sliders/range_selector/range_selector_with_zooming.dart';
 import 'samples/sliders/range_slider/customization/color_customization/color_customization.dart';
+import 'samples/sliders/range_slider/customization/range_slider_label_customization.dart';
 import 'samples/sliders/range_slider/customization/shape_customization/shape_customization.dart';
 import 'samples/sliders/range_slider/customization/size_customization/size_customization.dart';
 import 'samples/sliders/range_slider/customization/thumb_customization/range_slider_thumb_icon_customization.dart';
@@ -345,6 +367,7 @@ import 'samples/sliders/range_slider/default_appearance/range_slider_drag_mode.d
 import 'samples/sliders/range_slider/default_appearance/range_slider_interval_selection.dart';
 import 'samples/sliders/range_slider/default_appearance/range_slider_step.dart';
 import 'samples/sliders/range_slider/default_appearance/range_slider_tooltip_type.dart';
+import 'samples/sliders/range_slider/text_direction/range_slider_text_direction.dart';
 import 'samples/sliders/slider/basic_features/default_slider.dart';
 import 'samples/sliders/slider/basic_features/slider_date_interval.dart';
 import 'samples/sliders/slider/basic_features/slider_divider_label_tick.dart';
@@ -353,11 +376,14 @@ import 'samples/sliders/slider/basic_features/slider_tooltip_type.dart';
 import 'samples/sliders/slider/customization/color_customization/slider_color_customization.dart';
 import 'samples/sliders/slider/customization/shape_customization/slider_shape_customization.dart';
 import 'samples/sliders/slider/customization/size_customization/slider_size_customization.dart';
+import 'samples/sliders/slider/customization/slider_labels_customization.dart';
 import 'samples/sliders/slider/customization/thumb_customization/thumb_icon_customization.dart';
+import 'samples/sliders/slider/text_direction/slider_text_direction.dart';
 import 'samples/sliders/vertical_range_slider/customization/color_customization/vertical_range_slider_color_customization.dart';
 import 'samples/sliders/vertical_range_slider/customization/shape_customization/vertical_range_slider_shape_customization.dart';
 import 'samples/sliders/vertical_range_slider/customization/size_customization/vertical_range_slider_size_customization.dart';
 import 'samples/sliders/vertical_range_slider/customization/thumb_customization/vertical_range_slider_thumb_icon_customization.dart';
+import 'samples/sliders/vertical_range_slider/customization/vertical_range_slider_label_customization.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_date_time_label.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_default_appearance.dart';
 import 'samples/sliders/vertical_range_slider/default_appearance/vertical_range_slider_divider_label_tick.dart';
@@ -374,22 +400,29 @@ import 'samples/sliders/vertical_slider/customization/color_customization/vertic
 import 'samples/sliders/vertical_slider/customization/shape_customization/vertical_slider_shape_customization.dart';
 import 'samples/sliders/vertical_slider/customization/size_customization/vertical_slider_size_customization.dart';
 import 'samples/sliders/vertical_slider/customization/thumb_customization/vertical_slider_thumb_icon_customization.dart';
+import 'samples/sliders/vertical_slider/customization/vertical_slider_label_customization.dart';
 import 'samples/sparkline/axis_types.dart';
 import 'samples/sparkline/chart_types.dart';
 import 'samples/sparkline/customization.dart';
 import 'samples/sparkline/live_update.dart';
 import 'samples/sparkline/sparkline_in_grid.dart';
 import 'samples/treemap/custom_background.dart';
+import 'samples/treemap/directionality.dart';
 import 'samples/treemap/drilldown.dart';
 import 'samples/treemap/flat.dart';
 import 'samples/treemap/hierarchical.dart';
+import 'samples/treemap/localization.dart';
 import 'samples/treemap/range_color_mapping.dart';
 import 'samples/treemap/selection.dart';
 import 'samples/treemap/value_color_mapping.dart';
 import 'samples/xlsio/attendance_tracker/attendance_tracker.dart';
+import 'samples/xlsio/auto_filter/auto_filter.dart';
 import 'samples/xlsio/balance_sheet/balance_sheet.dart';
+import 'samples/xlsio/data_validation/data_validation.dart';
 import 'samples/xlsio/expenses_report/expenses_report.dart';
 import 'samples/xlsio/invoice/invoice.dart';
+import 'samples/xlsio/save_as_csv/save_as_csv.dart';
+import 'samples/xlsio/table/table.dart';
 import 'samples/xlsio/yearly_sales/yearly_sales.dart';
 
 /// Contains the output widget of sample
@@ -408,6 +441,7 @@ Map<String, Function> getSampleWidget() {
     'histogram_chart': (Key key) => HistogramDefault(key),
     'spline_range_area': (Key key) => SplineRangeArea(key),
     'default_column_chart': (Key key) => ColumnDefault(key),
+    'point_color_mapper': (Key key) => PointColorMapper(key),
     'column_with_rounded_corners': (Key key) => ColumnRounded(key),
     'back_to_back_column': (Key key) => ColumnBack(key),
     'column_with_track': (Key key) => ColumnTracker(key),
@@ -500,7 +534,7 @@ Map<String, Function> getSampleWidget() {
     'default_datalabels': (Key key) => DataLabelDefault(key),
     'datalabel_template': (Key key) => DataLabelTemplate(key),
     'chart_with_empty_points': (Key key) => EmptyPoints(key),
-    'horizantal_gradient': (Key key) => HorizantalGradient(key),
+    'horizantal_gradient': (Key key) => HorizontalGradient(key),
     'vertical_gradient': (Key key) => VerticalGradient(key),
     'various_marker_shapes': (Key key) => MarkerDefault(key),
     'sorting_options': (Key key) => SortingDefault(key),
@@ -541,6 +575,7 @@ Map<String, Function> getSampleWidget() {
     'tooltip_template': (Key key) => TooltipTemplate(key),
     'circular_selection': (Key key) => CircularSelection(key),
     'circular_dynamic_selection': (Key key) => DynamicCircularSelection(key),
+    'circular_localization': (Key key) => LocalizationCircularChart(key),
     'pie_tooltip_position': (Key key) => PieTooltipPosition(key),
     'events': (Key key) => Events(key),
     'data_points': (Key key) => DataPoints(key),
@@ -556,6 +591,10 @@ Map<String, Function> getSampleWidget() {
     'vertical_live_chart': (Key key) => VerticalLineLiveUpdate(key),
     'update_data_source': (Key key) => UpdateDataSource(key),
     'real_time_line_chart': (Key key) => LiveLineChart(key),
+
+    //RTL mode
+    'localization_chart': (Key key) => LocalizationChart(key),
+    'rtl_chart': (Key key) => RTLModeChart(key),
 
     //Exporting
     'exporting_chart': (Key key) => Export(key),
@@ -625,6 +664,8 @@ Map<String, Function> getSampleWidget() {
     'loadmore_calendar': (Key key) => LoadMoreCalendar(key),
     'drag_and_drop_calendar': (Key key) => DragAndDropCalendar(key),
     'resizing_calendar': (Key key) => ResizingCalendar(key),
+    'rtl_calendar': (Key key) => CalendarRtl(key),
+    'localization_calendar': (Key key) => CalendarLocalization(key),
 
     // Date picker Samples
     'getting_started_date_picker': (Key key) => GettingStartedDatePicker(key),
@@ -633,6 +674,8 @@ Map<String, Function> getSampleWidget() {
     'customized_picker': (Key key) => CustomizedDatePicker(key),
     'popup_picker': (Key key) => PopUpDatePicker(key),
     'vertical_calendar': (Key key) => VerticalCalendar(key),
+    'rtl_date_picker': (Key key) => RtlDatePicker(key),
+    'localization_picker': (Key key) => PickerLocalization(key),
 
     //Gauge
     'radial_bounce': (Key key) => RadialBounceOutExample(key),
@@ -706,7 +749,11 @@ Map<String, Function> getSampleWidget() {
     // PDF Viewer samples
     'pdf_viewer_getting_started': (Key key) => GettingStartedPdfViewer(key),
     'pdf_viewer_custom_toolbar': (Key key) => CustomToolbarPdfViewer(key),
-    'encrypted': (Key key) => Encrypted(key),
+    'pdf_viewer_annotations': (Key key) => AnnotationsPdfViewer(key),
+    'pdf_viewer_encrypted': (Key key) => EncryptedPdfViewer(key),
+    'pdf_viewer_localization': (Key key) => LocalizationPdfViewer(key),
+    'pdf_viewer_rtl': (Key key) => RTLModePdfViewer(key),
+    'pdf_viewer_form_filling': (Key key) => FormFillingPdfViewer(key),
 
     // XlsIO samples
     'expenses_report': (Key key) => ExpensesReportXlsIO(key),
@@ -714,6 +761,10 @@ Map<String, Function> getSampleWidget() {
     'yearly_sales': (Key key) => YearlySalesXlsIO(key),
     'balance_sheet': (Key key) => BalanceSheetXlsIO(key),
     'attendance_tracker': (Key key) => AttendanceTrackerXlsIO(key),
+    'data_validation': (Key key) => DataValidationXlsIO(key),
+    'table': (Key key) => TableXlsIO(key),
+    'auto_filter': (Key key) => AutoFilterXlsIO(key),
+    'save_as_csv': (Key key) => SaveAsCSV(key),
 
     // Barcode samples
     'one_dimensional_types': (Key key) => OneDimensionalBarcodes(key: key),
@@ -724,6 +775,8 @@ Map<String, Function> getSampleWidget() {
 
     // Slider Samples
     'default_slider': (Key key) => DefaultSliderPage(key),
+
+    'labels_customization_slider': (Key key) => LabelCustomizationSlider(key),
 
     'slider_date_interval': (Key key) => DateIntervalSliderPage(key),
 
@@ -742,8 +795,13 @@ Map<String, Function> getSampleWidget() {
 
     'slider_shape_customization': (Key key) => ShapeCustomizedSliderPage(key),
 
+    'slider_text_direction': (Key key) => SliderTextDirectionPage(key),
+
     // Range Slider Samples
     'range_slider_default_appearance': (Key key) => DefaultRangeSliderPage(key),
+
+    'range_slider_label_customization': (Key key) =>
+        LabelCustomizationRangleSlider(key),
 
     'range_slider_divider_label_tick': (Key key) => ScaleRangeSliderPage(key),
 
@@ -767,6 +825,9 @@ Map<String, Function> getSampleWidget() {
 
     'size_customization': (Key key) => SfRangeSliderSizeCustomizationPage(key),
 
+    'range_slider_text_direction': (Key key) =>
+        RangeSliderTextDirectionPage(key),
+
     //Vertical Slider samples
     'default_vertical_slider': (Key key) => DefaultVerticalSliderPage(key),
 
@@ -777,6 +838,9 @@ Map<String, Function> getSampleWidget() {
         VerticalSliderLabelCustomizationPage(key),
 
     'vertical_slider_step': (Key key) => VerticalStepSliderPage(key),
+
+    'vertical_slider_label_customization': (Key key) =>
+        VerticalSliderLabelCustomization(key),
 
     'vertical_slider_tooltip_position': (Key key) =>
         VerticalSliderTooltipTypeSliderPage(key),
@@ -797,6 +861,8 @@ Map<String, Function> getSampleWidget() {
 
     'vertical_range_slider_default_appearance': (Key key) =>
         VerticalDefaultRangeSliderPage(key),
+    'vertical_range_slider_label_customization': (Key key) =>
+        VerticalRangeSliderCustomization(key),
 
     'vertical_range_slider_divider_label_tick': (Key key) =>
         VerticalScaleRangeSliderPage(key),
@@ -834,6 +900,9 @@ Map<String, Function> getSampleWidget() {
 
     'range_selector_with_selection': (Key key) =>
         RangeSelectorSelectionPage(key),
+
+    'range_selector_label_customization': (Key key) =>
+        RangeSelectorLabelCustomization(key),
 
     'range_selector_with_zooming': (Key key) => RangeSelectorZoomingPage(key),
 
@@ -876,6 +945,16 @@ Map<String, Function> getSampleWidget() {
     'freeze_panes_datagrid': (Key key) => FreezePanesDataGrid(key: key),
 
     'sorting_datagrid': (Key key) => SortingDataGrid(key: key),
+
+    'filtering_datagrid': (Key key) => FilteringDataGrid(key: key),
+
+    'datagrid_grouping': (Key key) => GroupingDataGrid(key: key),
+
+    'datagrid_custom_grouping': (Key key) => CustomgroupingDataGrid(key: key),
+
+    'datagrid_column_drag_and_drop': (Key key) =>
+        DataGridColumnDragAndDrop(key: key),
+
     'custom_sorting_datagrid': (Key key) => CustomSortingDataGrid(key: key),
 
     'stacked_header_datagrid': (Key key) => StackedHeaderDataGrid(key: key),
@@ -900,6 +979,10 @@ Map<String, Function> getSampleWidget() {
 
     'exporting_datagrid': (Key key) => ExportingDataGrid(key: key),
 
+    'rtl_datagrid': (Key key) => RTLModeDataGrid(key: key),
+
+    'localization_paging_datagrid': (Key key) => LocalizationDataGrid(key: key),
+
     // Maps: Shape Layer Samples
     'range_color_mapping': (Key key) => MapRangeColorMappingPage(key),
 
@@ -918,6 +1001,10 @@ Map<String, Function> getSampleWidget() {
     'zooming': (Key key) => MapZoomingPage(key),
 
     'sublayer': (Key key) => MapSublayerPage(key),
+
+    'maps_with_directionality': (Key key) => MapsWithDirectionality(key),
+
+    'maps_with_localization': (Key key) => MapsWithLocalization(key),
 
     // Maps: Tile Layer Samples
     'open_street_map': (Key key) => MapOSMPage(key),
@@ -982,5 +1069,7 @@ Map<String, Function> getSampleWidget() {
         TreemapCustomBackgroundSample(key),
     'squarified_treemap_selection': (Key key) => TreemapSelectionSample(key),
     'squarified_treemap_drilldown': (Key key) => TreemapDrilldownSample(key),
+    'treemap_text_direction': (Key key) => TreemapTextDirectionPage(key),
+    'treemap_Localization': (Key key) => TreemapLocalizationPage(key),
   };
 }

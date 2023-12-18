@@ -32,14 +32,13 @@ class _RadialNonLinearLabelState extends SampleViewState {
       animationDuration: 2500,
       axes: <RadialAxis>[
         RadialAxis(
-            labelOffset: 15,
             axisLineStyle: const AxisLineStyle(
                 thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
             radiusFactor: model.isWebFullView ? 0.8 : 0.9,
-            minimum: 0,
             showTicks: false,
+            showLastLabel: true,
             maximum: 150,
-            axisLabelStyle: const GaugeTextStyle(fontSize: 12),
+            axisLabelStyle: const GaugeTextStyle(),
             // Added custom axis renderer that extended from RadialAxisRenderer
             onCreateAxisRenderer: handleCreateAxisRenderer,
             pointers: <GaugePointer>[
@@ -54,7 +53,6 @@ class _RadialNonLinearLabelState extends SampleViewState {
                   ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
                   animationType: AnimationType.easeOutBack,
                   value: 60,
-                  lengthUnit: GaugeSizeUnit.factor,
                   animationDuration: 1300,
                   needleStartWidth: isCardView ? 3 : 4,
                   needleEndWidth: isCardView ? 6 : 8,
@@ -79,8 +77,8 @@ class _RadialNonLinearLabelState extends SampleViewState {
   }
 
   GaugeAxisRenderer handleCreateAxisRenderer() {
-    final _CustomAxisRenderer _customAxisRenderer = _CustomAxisRenderer();
-    return _customAxisRenderer;
+    final _CustomAxisRenderer customAxisRenderer = _CustomAxisRenderer();
+    return customAxisRenderer;
   }
 
   final Color _pointerColor = const Color(0xFF494CA2);
@@ -93,16 +91,16 @@ class _CustomAxisRenderer extends RadialAxisRenderer {
   /// instead of actual generated labels.
   @override
   List<CircularAxisLabel> generateVisibleLabels() {
-    final List<CircularAxisLabel> _visibleLabels = <CircularAxisLabel>[];
+    final List<CircularAxisLabel> visibleLabels = <CircularAxisLabel>[];
     for (num i = 0; i < 9; i++) {
-      final double _value = _calculateLabelValue(i);
+      final double labelValue = _calculateLabelValue(i);
       final CircularAxisLabel label = CircularAxisLabel(
-          axis.axisLabelStyle, _value.toInt().toString(), i, false);
-      label.value = _value;
-      _visibleLabels.add(label);
+          axis.axisLabelStyle, labelValue.toInt().toString(), i, false);
+      label.value = labelValue;
+      visibleLabels.add(label);
     }
 
-    return _visibleLabels;
+    return visibleLabels;
   }
 
   /// Returns the factor(0 to 1) from value to place the labels in an axis.

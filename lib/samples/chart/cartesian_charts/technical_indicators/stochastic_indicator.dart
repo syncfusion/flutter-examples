@@ -220,28 +220,28 @@ class _StochasticcIndicatorState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.MMM(),
         interval: 3,
-        minimum: DateTime(2016, 01, 01),
-        maximum: DateTime(2017, 01, 01),
+        minimum: DateTime(2016),
+        maximum: DateTime(2017),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 70,
           maximum: 130,
           interval: 20,
           labelFormat: r'${value}',
-          axisLine: const AxisLine(width: 0)),
-      axes: <ChartAxis>[
+          axisLine: AxisLine(width: 0)),
+      axes: const <ChartAxis>[
         NumericAxis(
-            majorGridLines: const MajorGridLines(width: 0),
+            majorGridLines: MajorGridLines(width: 0),
             opposedPosition: true,
             name: 'yaxes',
             minimum: 10,
             maximum: 110,
             interval: 20,
-            axisLine: const AxisLine(width: 0))
+            axisLine: AxisLine(width: 0))
       ],
       trackballBehavior: _trackballBehavior,
       tooltipBehavior: _tooltipBehavior,
-      indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
+      indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// Stochastic indicator mentioned here.
         StochasticIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
@@ -255,9 +255,10 @@ class _StochasticcIndicatorState extends SampleViewState {
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <ChartSeries<ChartSampleData, DateTime>>[
+      series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
+            emptyPointSettings:
+                const EmptyPointSettings(mode: EmptyPointMode.zero),
             dataSource: getChartData(),
             opacity: 0.7,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

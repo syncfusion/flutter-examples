@@ -1,8 +1,10 @@
 ///flutter package import
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 ///Core theme import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
@@ -22,7 +24,7 @@ class VerticalStepSliderPage extends SampleView {
 
 class _VerticalStepSliderPageState extends SampleViewState {
   _VerticalStepSliderPageState();
-  DateTime _yearValue = DateTime(2014, 1, 01);
+  DateTime _yearValue = DateTime(2014);
   double _stepSliderValue = 0;
   bool _isInversed = false;
 
@@ -30,14 +32,13 @@ class _VerticalStepSliderPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
         child: SfSlider.vertical(
-          min: DateTime(2010, 01, 01),
-          max: DateTime(2018, 01, 01),
+          min: DateTime(2010),
+          max: DateTime(2018),
           showLabels: true,
           interval: 2,
           isInversed: _isInversed,
           stepDuration: const SliderStepDuration(years: 2),
           dateFormat: DateFormat.y(),
-          labelPlacement: LabelPlacement.onTicks,
           dateIntervalType: DateIntervalType.years,
           showTicks: true,
           value: _yearValue,

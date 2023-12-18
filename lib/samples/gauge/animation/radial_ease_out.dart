@@ -37,7 +37,6 @@ class _RadialEaseOutAnimationState extends SampleViewState {
             showLabels: false,
             canScaleToFit: true,
             radiusFactor: 0.8,
-            minimum: 0,
             maximum: 50,
             axisLineStyle: const AxisLineStyle(thickness: 40),
             pointers: <GaugePointer>[
@@ -65,7 +64,6 @@ class _RadialEaseOutAnimationState extends SampleViewState {
                       model.themeData.colorScheme.brightness == Brightness.light
                           ? null
                           : _darkNeedleColor,
-                  lengthUnit: GaugeSizeUnit.factor,
                   needleLength: 0.98,
                   value: 40,
                   enableAnimation: true,

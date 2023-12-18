@@ -70,8 +70,6 @@ class _AxisCrossingState extends SampleViewState {
         shrinkWrap: true,
         children: <Widget>[
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Y Axis',
                   style: TextStyle(
@@ -81,8 +79,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label position  ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -91,6 +87,7 @@ class _AxisCrossingState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _ySelectedPositionType,
@@ -108,8 +105,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label alignment',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -118,6 +113,7 @@ class _AxisCrossingState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _ySelectedAlignmentType,
@@ -135,8 +131,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('X Axis',
                   style: TextStyle(
@@ -146,8 +140,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label position  ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -156,6 +148,7 @@ class _AxisCrossingState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _xSelectedPositionType,
@@ -173,8 +166,6 @@ class _AxisCrossingState extends SampleViewState {
             ],
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text('Label alignment',
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
@@ -183,6 +174,7 @@ class _AxisCrossingState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
                     value: _xSelectedAlignmentType,
@@ -228,7 +220,6 @@ class _AxisCrossingState extends SampleViewState {
             isCardView ? ChartDataLabelPosition.outside : _labelPositionY,
         labelAlignment: isCardView ? LabelAlignment.center : _labelAlignmentY,
         tickPosition: isCardView ? TickPosition.outside : _tickPositionY,
-        opposedPosition: false,
         minimum: 0,
         maximum: 35,
         interval: 5,
@@ -240,8 +231,8 @@ class _AxisCrossingState extends SampleViewState {
   }
 
   /// Return the spline series.
-  List<ChartSeries<ChartSampleData, String>> _getSeries() {
-    return <ChartSeries<ChartSampleData, String>>[
+  List<CartesianSeries<ChartSampleData, String>> _getSeries() {
+    return <CartesianSeries<ChartSampleData, String>>[
       SplineSeries<ChartSampleData, String>(
           dataSource: <ChartSampleData>[
             ChartSampleData(x: 'May 1', y: 13, secondSeriesYValue: 69.8),

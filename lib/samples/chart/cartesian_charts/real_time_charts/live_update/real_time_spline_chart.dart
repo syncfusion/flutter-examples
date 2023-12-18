@@ -34,7 +34,7 @@ class _LiveUpdateState extends SampleViewState {
       ChartSampleData(x: 2, y: -2),
       ChartSampleData(x: 3, y: 0)
     ];
-    timer = Timer.periodic(const Duration(milliseconds: 5), _updateData);
+    timer = Timer.periodic(const Duration(milliseconds: 50), _updateData);
   }
   Timer? timer;
   List<ChartSampleData>? chartData1;
@@ -77,10 +77,11 @@ class _LiveUpdateState extends SampleViewState {
   SfCartesianChart _buildLiveUpdateChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+      primaryXAxis: const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
       series: _getLiveUpdateSeries(),
     );
   }
@@ -89,15 +90,16 @@ class _LiveUpdateState extends SampleViewState {
   List<SplineSeries<ChartSampleData, num>> _getLiveUpdateSeries() {
     return <SplineSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
-          dataSource: chartData1!,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          width: 2),
-      SplineSeries<ChartSampleData, num>(
-        dataSource: chartData2!,
-        width: 2,
+        dataSource: [...chartData1!],
         xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
+        animationDuration: 0,
+      ),
+      SplineSeries<ChartSampleData, num>(
+        dataSource: [...chartData2!],
+        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
+        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        animationDuration: 0,
       )
     ];
   }

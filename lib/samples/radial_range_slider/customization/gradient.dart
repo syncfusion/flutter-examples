@@ -77,7 +77,6 @@ class _RadialRangeSliderGradientState extends SampleViewState {
             axisLineStyle: const AxisLineStyle(
                 thickness: 0.05, thicknessUnit: GaugeSizeUnit.factor),
             showTicks: false,
-            showLabels: true,
             labelOffset: 20,
             ranges: <GaugeRange>[
               GaugeRange(
@@ -165,15 +164,15 @@ class _RadialRangeSliderGradientState extends SampleViewState {
 
   /// Dragged pointer new value is updated to pointer and
   /// annotation current value.
-  void handleSecondPointerValueChanged(double value) {
+  void handleSecondPointerValueChanged(double markerValue) {
     setState(() {
-      _secondMarkerValue = value;
+      _secondMarkerValue = markerValue;
       // final int _value =
       //     (_firstMarkerValue - _secondMarkerValue).abs().round().toInt();
-      final int _value = _secondMarkerValue.abs().round();
-      _secondAnnotationValue = '$_value';
-      final double _celsiusValue = (_value - 32) / 1.8;
-      _secondCelsiusAnnotationValue = _celsiusValue.toStringAsFixed(1);
+      final int value = _secondMarkerValue.abs().round();
+      _secondAnnotationValue = '$value';
+      final double celsiusValue = (value - 32) / 1.8;
+      _secondCelsiusAnnotationValue = celsiusValue.toStringAsFixed(1);
     });
   }
 
@@ -186,15 +185,15 @@ class _RadialRangeSliderGradientState extends SampleViewState {
   }
 
   /// Value changed call back for first pointer
-  void handleFirstPointerValueChanged(double value) {
+  void handleFirstPointerValueChanged(double markerValue) {
     setState(() {
-      _firstMarkerValue = value;
+      _firstMarkerValue = markerValue;
       // final int _value =
       // (_firstMarkerValue - _secondMarkerValue).abs().round().toInt();
-      final int _value = _firstMarkerValue.abs().round();
-      _firstAnnotationValue = '$_value';
-      final double _celsiusValue = (_value - 32) / 1.8;
-      _firstCelsiusAnnotationValue = _celsiusValue.toStringAsFixed(1);
+      final int value = _firstMarkerValue.abs().round();
+      _firstAnnotationValue = '$value';
+      final double celsiusValue = (value - 32) / 1.8;
+      _firstCelsiusAnnotationValue = celsiusValue.toStringAsFixed(1);
     });
   }
 

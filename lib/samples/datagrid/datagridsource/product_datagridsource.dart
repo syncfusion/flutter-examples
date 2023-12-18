@@ -1,17 +1,25 @@
 import 'dart:math';
-
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/model/product.dart';
 import 'package:intl/intl.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../model/product.dart';
 
 /// Set product's data collection to data grid source.
 class ProductDataGridSource extends DataGridSource {
   /// Creates the product data source class with required details.
-  ProductDataGridSource(String _sampleType, {required this.productDataCount}) {
+  ProductDataGridSource(String sampleType,
+      {required this.productDataCount, columns}) {
     products = getProducts(productDataCount);
-    _sampleName = _sampleType;
-    buildDataGridRows(_sampleType);
+    _sampleName = sampleType;
+    if (columns != null) {
+      _columns = columns;
+    }
+
+    buildDataGridRows(sampleType);
   }
 
   final Random _random = Random();
@@ -26,10 +34,12 @@ class ProductDataGridSource extends DataGridSource {
   List<DataGridRow> dataGridRows = <DataGridRow>[];
   String _sampleName = '';
 
+  List<GridColumn> _columns = [];
+
   /// Build DataGridRows
-  void buildDataGridRows(String _sampleType) {
+  void buildDataGridRows(String sampleType) {
     dataGridRows = products.map<DataGridRow>((Product product) {
-      if (_sampleType == 'Stacked Header') {
+      if (sampleType == 'Stacked Header') {
         return DataGridRow(cells: <DataGridCell<dynamic>>[
           DataGridCell<String>(columnName: 'name', value: product.name),
           DataGridCell<String>(columnName: 'city', value: product.city),
@@ -132,6 +142,28 @@ class ProductDataGridSource extends DataGridSource {
           ),
         ),
       ]);
+    } else if (_sampleName == 'Column Drag and Drop') {
+      return DataGridRowAdapter(
+          cells: _columns.map<Widget>((e) {
+        final DataGridCell cell = row
+            .getCells()
+            .firstWhere((cell) => cell.columnName == e.columnName);
+
+        return Container(
+          alignment: (cell.columnName == 'name' ||
+                  cell.columnName == 'product' ||
+                  cell.columnName == 'city')
+              ? Alignment.centerLeft
+              : Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: cell.columnName == 'orderDate'
+              ? Text(
+                  DateFormat('MM/dd/yyyy').format(cell.value),
+                  overflow: TextOverflow.ellipsis,
+                )
+              : Text(cell.value.toString()),
+        );
+      }).toList());
     } else {
       return DataGridRowAdapter(cells: <Widget>[
         Container(
@@ -344,5 +376,49 @@ class ProductDataGridSource extends DataGridSource {
       );
     }
     return productData;
+  }
+
+  /// Update DataSource
+  void updateDataSource() {
+    notifyListeners();
+  }
+
+  @override
+  int compare(DataGridRow? a, DataGridRow? b, SortColumnDetails sortColumn) {
+    if (_sampleName == 'Custom Sorting' && sortColumn.name == 'name') {
+      final String? value1 = a
+          ?.getCells()
+          .firstWhereOrNull(
+              (dynamic element) => element.columnName == sortColumn.name)
+          ?.value
+          ?.toString();
+      final String? value2 = b
+          ?.getCells()
+          .firstWhereOrNull(
+              (dynamic element) => element.columnName == sortColumn.name)
+          ?.value
+          ?.toString();
+
+      final int? aLength = value1?.length;
+      final int? bLength = value2?.length;
+
+      if (aLength == null || bLength == null) {
+        return 0;
+      }
+
+      if (aLength.compareTo(bLength) > 0) {
+        return sortColumn.sortDirection == DataGridSortDirection.ascending
+            ? 1
+            : -1;
+      } else if (aLength.compareTo(bLength) == -1) {
+        return sortColumn.sortDirection == DataGridSortDirection.ascending
+            ? -1
+            : 1;
+      } else {
+        return 0;
+      }
+    } else {
+      return super.compare(a, b, sortColumn);
+    }
   }
 }

@@ -1,6 +1,5 @@
 // Flutter package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/linear_gauge/utils.dart';
 
 /// Gauge imports
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -122,7 +121,6 @@ class _ApiCustomizationState extends SampleViewState {
             ],
             ranges: <LinearGaugeRange>[
               LinearGaugeRange(
-                startValue: 0,
                 endValue: 20,
                 color: Colors.red,
                 position: _rangePosition,
@@ -148,9 +146,9 @@ class _ApiCustomizationState extends SampleViewState {
             maintainAnimation: true,
             maintainState: true,
             visible: _barPosition == LinearElementPosition.cross,
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   Icon(Icons.lightbulb_outline,
                       color: Colors.orange, size: 24.0),
                   SizedBox(width: 5),
@@ -168,13 +166,12 @@ class _ApiCustomizationState extends SampleViewState {
   Widget _buildPropertiesPanel(BuildContext context) {
     return Scrollbar(
         controller: _scrollController,
-        isAlwaysShown:
+        thumbVisibility:
             model.isMobile || MediaQuery.of(context).size.width <= 550,
         child: SingleChildScrollView(
             controller: _scrollController,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   const Text(
                     'Properties : ',
@@ -385,15 +382,12 @@ class _ApiCustomizationState extends SampleViewState {
                           transform: Matrix4.translationValues(-8, 0, 0),
                           child: CustomDirectionalButtons(
                             maxValue: 20,
-                            minValue: 0,
                             initialValue: _barOffset,
                             onChanged: (double value) {
                               setState(() {
                                 _barOffset = value;
                               });
                             },
-                            step: 1,
-                            loop: false,
                             iconColor: model.textColor,
                             style: TextStyle(
                                 fontSize: 16.0, color: model.textColor),
@@ -407,10 +401,9 @@ class _ApiCustomizationState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
     return (isWebOrDesktop && MediaQuery.of(context).size.width >= 550)
         ? Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const Spacer(),
               Wrap(children: <Widget>[
@@ -423,11 +416,11 @@ class _ApiCustomizationState extends SampleViewState {
               Container(
                   height: MediaQuery.of(context).size.height,
                   width: 1,
-                  color: _brightness == Brightness.dark
+                  color: brightness == Brightness.dark
                       ? const Color(0xff3D3D3D)
                       : const Color(0xffe2e2e2)),
               Container(
-                  color: _brightness == Brightness.dark
+                  color: brightness == Brightness.dark
                       ? const Color(0xff2a2a2a)
                       : model.webBackgroundColor,
                   height: MediaQuery.of(context).size.height,
@@ -446,7 +439,7 @@ class _ApiCustomizationState extends SampleViewState {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 4,
                     padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-                    color: _brightness == Brightness.dark
+                    color: brightness == Brightness.dark
                         ? const Color(0xff2a2a2a)
                         : model.webBackgroundColor,
                     child: _buildPropertiesPanel(context),

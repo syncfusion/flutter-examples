@@ -4,10 +4,12 @@ import 'dart:math' as math;
 
 /// Package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/samples/datagrid/model/realtime.dart';
 
 /// DataGrid import
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../model/realtime.dart';
 
 /// Set stock's real time data collection to data grid source.
 class RealTimeUpdateDataGridSource extends DataGridSource {
@@ -56,7 +58,7 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
       }
 
       _stocks[recNo].stock =
-          _stocksData[(_random.nextInt(_stocksData.length - 1))];
+          _stocksData[_random.nextInt(_stocksData.length - 1)];
       updateDataRow();
       updateDataSource(rowColumnIndex: RowColumnIndex(recNo, 1));
       _stocks[recNo].open = 50.0 + _random.nextInt(40);
@@ -132,7 +134,7 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
                 Flexible(
                   child: Text(
                     stack.toString(),
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                   ),
                 )
               ],

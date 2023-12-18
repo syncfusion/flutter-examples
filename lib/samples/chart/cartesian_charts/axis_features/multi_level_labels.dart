@@ -91,6 +91,7 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       DropdownButton<String>(
+                          focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
                           value: _selectedBorderType,
@@ -142,6 +143,7 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
                       child: DropdownButton<String>(
+                          focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
                           value: _selectedBorderType,
@@ -201,19 +203,19 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
           labelRotation: model.isMobile ? -90 : 0,
           majorGridLines: const MajorGridLines(width: 0),
           majorTickLines:
-              MajorTickLines(size: _isAxisBorderEnabled == true ? 0 : 5),
-          borderWidth: _isAxisBorderEnabled == true ? 1 : 0,
+              MajorTickLines(size: (_isAxisBorderEnabled ?? false) ? 0 : 5),
+          borderWidth: (_isAxisBorderEnabled ?? false) ? 1 : 0,
           axisLine: const AxisLine(width: 0),
           multiLevelLabelStyle: MultiLevelLabelStyle(
               borderWidth: 1, borderType: _selectedMultilevelBorderType!),
           multiLevelLabels: _xAxisCategories),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
         minimum: 5,
         maximum: 30,
         interval: 5,
-        axisLine: const AxisLine(width: 0),
+        axisLine: AxisLine(width: 0),
         labelFormat: '{value}°C',
-        majorTickLines: const MajorTickLines(size: 0),
+        majorTickLines: MajorTickLines(size: 0),
       ),
       series: _getDefaultDateTimeSeries(),
       tooltipBehavior:

@@ -48,14 +48,14 @@ class _LineDefaultState extends SampleViewState {
       legend: Legend(
           isVisible: isCardView ? false : true,
           overflowMode: LegendItemOverflowMode.wrap),
-      primaryXAxis: NumericAxis(
+      primaryXAxis: const NumericAxis(
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           interval: 2,
-          majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+          majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}%',
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(color: Colors.transparent)),
       series: _getDefaultLineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -65,17 +65,13 @@ class _LineDefaultState extends SampleViewState {
   List<LineSeries<_ChartData, num>> _getDefaultLineSeries() {
     return <LineSeries<_ChartData, num>>[
       LineSeries<_ChartData, num>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
-          width: 2,
           name: 'Germany',
           markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
-          animationDuration: 2500,
-          dataSource: chartData!,
-          width: 2,
+          dataSource: chartData,
           name: 'England',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2,

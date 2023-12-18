@@ -33,7 +33,7 @@ class _ProgressBarAnglesState extends SampleViewState {
 
   void _startTimer() {
     if (mounted) {
-      _timer = Timer.periodic(const Duration(milliseconds: 20), (Timer _timer) {
+      _timer = Timer.periodic(const Duration(milliseconds: 20), (Timer timer) {
         setState(() {
           if (_value == 100) {
             _value = 0;
@@ -55,7 +55,6 @@ class _ProgressBarAnglesState extends SampleViewState {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _getFirstProgressBar(),
             Align(
@@ -78,7 +77,6 @@ class _ProgressBarAnglesState extends SampleViewState {
       return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _getFirstProgressBar(),
             _getSecondProgressBar(),
@@ -106,8 +104,6 @@ class _ProgressBarAnglesState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            minimum: 0,
-            maximum: 100,
             showLabels: false,
             showTicks: false,
             radiusFactor: 0.9,
@@ -126,9 +122,7 @@ class _ProgressBarAnglesState extends SampleViewState {
                   animationType: AnimationType.linear)
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  positionFactor: 0,
-                  widget: Text(_value.toStringAsFixed(0) + '%'))
+              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
             ])
       ]),
     );
@@ -141,8 +135,6 @@ class _ProgressBarAnglesState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            minimum: 0,
-            maximum: 100,
             showLabels: false,
             showTicks: false,
             startAngle: 90,
@@ -163,9 +155,7 @@ class _ProgressBarAnglesState extends SampleViewState {
                   animationType: AnimationType.linear)
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  positionFactor: 0,
-                  widget: Text(_value.toStringAsFixed(0) + '%'))
+              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
             ])
       ]),
     ));
@@ -178,8 +168,6 @@ class _ProgressBarAnglesState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            minimum: 0,
-            maximum: 100,
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -200,9 +188,7 @@ class _ProgressBarAnglesState extends SampleViewState {
                   animationType: AnimationType.linear)
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  positionFactor: 0,
-                  widget: Text(_value.toStringAsFixed(0) + '%'))
+              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
             ])
       ]),
     ));
@@ -215,8 +201,6 @@ class _ProgressBarAnglesState extends SampleViewState {
       width: _size,
       child: SfRadialGauge(axes: <RadialAxis>[
         RadialAxis(
-            minimum: 0,
-            maximum: 100,
             showLabels: false,
             showTicks: false,
             startAngle: 180,
@@ -238,9 +222,7 @@ class _ProgressBarAnglesState extends SampleViewState {
                   animationType: AnimationType.linear)
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  positionFactor: 0,
-                  widget: Text(_value.toStringAsFixed(0) + '%'))
+              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
             ])
       ]),
     ));

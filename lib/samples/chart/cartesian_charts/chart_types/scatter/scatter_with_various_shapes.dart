@@ -85,21 +85,21 @@ class _ScatterShapesState extends SampleViewState {
   List<ScatterSeries<ChartSampleData, num>> _getScatterShapesSeries() {
     return <ScatterSeries<ChartSampleData, num>>[
       ScatterSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           markerSettings: const MarkerSettings(
               width: 15, height: 15, shape: DataMarkerType.diamond),
           name: 'India'),
       ScatterSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           markerSettings: const MarkerSettings(
               width: 15, height: 15, shape: DataMarkerType.triangle),
           name: 'China'),
       ScatterSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           markerSettings: const MarkerSettings(

@@ -33,7 +33,7 @@ List<ChartSampleData> getChartData() {
         close: 97.34,
         volume: 376481100),
     ChartSampleData(
-        x: DateTime(2016, 02, 01),
+        x: DateTime(2016, 02),
         open: 96.47,
         high: 97.33,
         low: 93.69,
@@ -215,7 +215,7 @@ List<ChartSampleData> getChartData() {
         close: 104.21,
         volume: 252358930),
     ChartSampleData(
-        x: DateTime(2016, 08, 01),
+        x: DateTime(2016, 08),
         open: 104.41,
         high: 107.65,
         low: 104,

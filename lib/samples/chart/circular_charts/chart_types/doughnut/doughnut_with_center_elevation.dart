@@ -36,12 +36,11 @@ class _DoughnutDefaultState extends SampleViewState {
             widget: PhysicalModel(
               shape: BoxShape.circle,
               elevation: 10,
-              shadowColor: Colors.black,
               color: const Color.fromRGBO(230, 230, 230, 1),
               child: Container(),
             )),
-        CircularChartAnnotation(
-            widget: const Text('62%',
+        const CircularChartAnnotation(
+            widget: Text('62%',
                 style: TextStyle(
                     color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25)))
       ],

@@ -3,8 +3,10 @@ import 'dart:core';
 
 /// Package import
 import 'package:flutter/material.dart';
-import 'package:flutter_examples/model/sample_view.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../model/sample_view.dart';
 
 /// Local import
 import 'datagridsource/dealer_datagridsource.dart';
@@ -143,8 +145,11 @@ class _EditingDataGridState extends SampleViewState {
               style: TextStyle(fontSize: 16.0, color: model.textColor),
             ),
             Theme(
-              data: ThemeData(canvasColor: model.bottomSheetBackgroundColor),
+              data: ThemeData(
+                  useMaterial3: false,
+                  canvasColor: model.bottomSheetBackgroundColor),
               child: DropdownButton<String>(
+                  focusColor: Colors.transparent,
                   value: editingGestureType.toString().split('.')[1],
                   items: <String>['tap', 'doubleTap'].map((String value) {
                     return DropdownMenuItem<String>(

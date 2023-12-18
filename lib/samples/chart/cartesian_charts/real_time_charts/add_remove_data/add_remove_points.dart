@@ -22,7 +22,7 @@ class AddDataPoints extends SampleView {
 /// State class of the chart with add and remove points options.
 class _LiveVerticalState extends SampleViewState {
   _LiveVerticalState();
-  ChartSeriesController? _chartSeriesController;
+  ChartSeriesController<ChartSampleData, num>? _chartSeriesController;
 
   /// List for storing the chart series data points.
   List<ChartSampleData>? chartData;
@@ -150,12 +150,12 @@ class _LiveVerticalState extends SampleViewState {
   SfCartesianChart _buildAddRemovePointsChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(
-          majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const NumericAxis(
+          majorGridLines: MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getAddRemovePointSeries(),
     );
   }
@@ -165,14 +165,14 @@ class _LiveVerticalState extends SampleViewState {
   List<LineSeries<ChartSampleData, num>> _getAddRemovePointSeries() {
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
-          onRendererCreated: (ChartSeriesController controller) {
+          onRendererCreated:
+              (ChartSeriesController<ChartSampleData, num> controller) {
             _chartSeriesController = controller;
           },
           animationDuration: 0,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          width: 2),
+          yValueMapper: (ChartSampleData sales, _) => sales.y),
     ];
   }
 

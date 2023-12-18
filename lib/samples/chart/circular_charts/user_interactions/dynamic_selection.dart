@@ -45,6 +45,7 @@ class _CircularSelectionState extends SampleViewState {
               Container(
                   padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                   child: DropdownButton<String>(
+                      focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _pointIndex.toString(),
@@ -63,7 +64,6 @@ class _CircularSelectionState extends SampleViewState {
           );
         }),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
@@ -99,7 +99,6 @@ class _CircularSelectionState extends SampleViewState {
           text: isCardView
               ? ''
               : 'Various countries population density and area'),
-      selectionGesture: ActivationMode.singleTap,
       series: getCircularSelectionSeries(),
     );
   }

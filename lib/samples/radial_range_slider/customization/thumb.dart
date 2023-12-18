@@ -43,7 +43,6 @@ class _RadialRangeSliderThumbState extends SampleViewState {
       return Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
             _buildSliderWithCircle(),
             const Center(child: Text('Circle thumb')),
@@ -57,25 +56,21 @@ class _RadialRangeSliderThumbState extends SampleViewState {
       return Center(
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   _buildSliderWithCircle(),
                   const Center(child: Text('Circle thumb')),
                 ]),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   _buildSliderWithRectangle(),
                   const Center(child: Text('Rectangle thumb')),
                 ]),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   _buildSliderWithImage(),
                   const Center(child: Text('Image thumb')),
@@ -291,8 +286,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
-      final int _value = _secondMarkerValue.abs().toInt();
-      _annotationValue_1 = '$_value';
+      final int secondMarkerValue = _secondMarkerValue.abs().toInt();
+      _annotationValue_1 = '$secondMarkerValue';
     });
   }
 
@@ -308,8 +303,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
-      final int _value = _firstMarkerValue.abs().toInt();
-      _annotationValue1 = '$_value';
+      final int firstMarkerValue = _firstMarkerValue.abs().toInt();
+      _annotationValue1 = '$firstMarkerValue';
     });
   }
 
@@ -326,8 +321,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleFourthPointerValueChanged(double value) {
     setState(() {
       _fourthMarkerValue = value;
-      final int _value = _fourthMarkerValue.abs().toInt();
-      _annotationValue_2 = '$_value';
+      final int fourthMarkerValue = _fourthMarkerValue.abs().toInt();
+      _annotationValue_2 = '$fourthMarkerValue';
     });
   }
 
@@ -343,8 +338,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleThirdPointerValueChanged(double value) {
     setState(() {
       _thirdMarkerValue = value;
-      final int _value = _thirdMarkerValue.abs().toInt();
-      _annotationValue2 = '$_value';
+      final int thirdMarkerValue = _thirdMarkerValue.abs().toInt();
+      _annotationValue2 = '$thirdMarkerValue';
     });
   }
 
@@ -361,8 +356,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleSixthPointerValueChanged(double value) {
     setState(() {
       _sixthMarkerValue = value;
-      final int _value = _sixthMarkerValue.abs().toInt();
-      _annotationValue_3 = '$_value';
+      final int sixthMarkerValue = _sixthMarkerValue.abs().toInt();
+      _annotationValue_3 = '$sixthMarkerValue';
     });
   }
 
@@ -378,8 +373,8 @@ class _RadialRangeSliderThumbState extends SampleViewState {
   void handleFifthPointerValueChanged(double value) {
     setState(() {
       _fifthMarkerValue = value;
-      final int _value = _fifthMarkerValue.abs().toInt();
-      _annotationValue3 = '$_value';
+      final int fifthMarkerValue = _fifthMarkerValue.abs().toInt();
+      _annotationValue3 = '$fifthMarkerValue';
     });
   }
 

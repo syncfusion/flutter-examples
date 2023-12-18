@@ -49,14 +49,12 @@ class _DragModeRangeSliderState extends SampleViewState {
 
   SfRangeSlider _buildSliderWithDragModeOnThumb() {
     return SfRangeSlider(
-      min: 0.0,
       max: 100.0,
       interval: 20,
       values: _dragOnThumbValues,
       showTicks: true,
       showLabels: true,
       enableTooltip: true,
-      dragMode: SliderDragMode.onThumb,
       onChanged: (SfRangeValues values) {
         setState(() {
           _dragOnThumbValues = values;
@@ -67,7 +65,6 @@ class _DragModeRangeSliderState extends SampleViewState {
 
   SfRangeSlider _buildSliderWithDragModeBetweenThumbs() {
     return SfRangeSlider(
-      min: 0.0,
       max: 100.0,
       interval: 20,
       values: _dragBetweenThumbValues,
@@ -85,7 +82,6 @@ class _DragModeRangeSliderState extends SampleViewState {
 
   SfRangeSlider _buildSliderWithDragModeBoth() {
     return SfRangeSlider(
-      min: 0.0,
       max: 100.0,
       interval: 20,
       values: _dragBothThumbValues,
@@ -103,7 +99,6 @@ class _DragModeRangeSliderState extends SampleViewState {
 
   Widget _buildWebLayout() {
     return Align(
-      alignment: Alignment.center,
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,

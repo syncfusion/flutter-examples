@@ -49,7 +49,6 @@ class _DoughnutRoundedState extends SampleViewState {
         ],
         animationDuration: 0,
         cornerStyle: CornerStyle.bothCurve,
-        radius: '80%',
         innerRadius: '60%',
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,

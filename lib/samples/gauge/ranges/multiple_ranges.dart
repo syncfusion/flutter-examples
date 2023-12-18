@@ -34,13 +34,10 @@ class _MultipleRangesExampleState extends SampleViewState {
             showTicks: false,
             startAngle: 180,
             endAngle: 360,
-            minimum: 0,
             maximum: 80,
             canScaleToFit: true,
-            radiusFactor: 0.95,
             pointers: <GaugePointer>[
               NeedlePointer(
-                  needleStartWidth: 1,
                   value: 30,
                   needleEndWidth: isCardView
                       ? 5
@@ -49,11 +46,7 @@ class _MultipleRangesExampleState extends SampleViewState {
                           ? 10
                           : 6,
                   needleLength: 0.7,
-                  lengthUnit: GaugeSizeUnit.factor,
-                  knobStyle: const KnobStyle(
-                    knobRadius: 0.08,
-                    sizeUnit: GaugeSizeUnit.factor,
-                  ))
+                  knobStyle: const KnobStyle())
             ],
             ranges: <GaugeRange>[
               GaugeRange(

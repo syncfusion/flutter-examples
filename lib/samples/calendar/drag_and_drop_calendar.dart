@@ -72,7 +72,7 @@ class _DragAndDropCalendarState extends SampleViewState {
                   model.isWebFullView &&
                   screenHeight < 800
               ? Scrollbar(
-                  isAlwaysShown: true,
+                  thumbVisibility: true,
                   controller: _controller,
                   child: ListView(
                     controller: _controller,
@@ -101,7 +101,7 @@ class _DragAndDropCalendarState extends SampleViewState {
     }
 
     _currentView = _calendarController.view!;
-    SchedulerBinding.instance?.addPostFrameCallback((Duration timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         // Update the scroll view when view changes.
       });
@@ -146,8 +146,8 @@ class _DragAndDropCalendarState extends SampleViewState {
       final DateTime date = i;
       final int count = random.nextInt(2);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate = DateTime(
-            date.year, date.month, date.day, 8 + random.nextInt(8), 0, 0);
+        final DateTime startDate =
+            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
         appointments.add(Appointment(
           subject: subjectCollection[random.nextInt(7)],
           startTime: startDate,

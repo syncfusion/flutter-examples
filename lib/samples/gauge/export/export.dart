@@ -120,9 +120,6 @@ class _ExportState extends SampleViewState {
       ),
       axes: <RadialAxis>[
         RadialAxis(
-            startAngle: 130,
-            endAngle: 50,
-            minimum: 0,
             maximum: 30,
             interval: 5,
             radiusFactor: model.isWebFullView ? 0.8 : 0.9,
@@ -186,10 +183,12 @@ class _ExportState extends SampleViewState {
           await getApplicationDocumentsDirectory();
       final String path = documentDirectory.path;
       const String imageName = 'radialgauge.png';
-      imageCache!.clear();
+      imageCache.clear();
       final File file = File('$path/$imageName');
       file.writeAsBytesSync(bytes);
-
+      if (!mounted) {
+        return;
+      }
       await Navigator.of(context).push<dynamic>(
         MaterialPageRoute<dynamic>(
           builder: (BuildContext context) {
@@ -211,6 +210,9 @@ class _ExportState extends SampleViewState {
   Future<void> _renderPdf() async {
     final PdfDocument document = PdfDocument();
     final PdfBitmap bitmap = PdfBitmap(await _readImageData());
+    if (!mounted) {
+      return;
+    }
     document.pageSettings.orientation =
         MediaQuery.of(context).orientation == Orientation.landscape
             ? PdfPageOrientation.landscape
@@ -230,7 +232,7 @@ class _ExportState extends SampleViewState {
       duration: Duration(milliseconds: 200),
       content: Text('Gauge has been exported as PDF document.'),
     ));
-    final List<int> bytes = document.save();
+    final List<int> bytes = document.saveSync();
     document.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, 'radial_gauge.pdf');
   }

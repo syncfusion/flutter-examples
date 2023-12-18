@@ -63,7 +63,6 @@ class _RangeCustomizationState extends SampleViewState {
           : Column(
               children: <Widget>[
                 Wrap(
-                  direction: Axis.horizontal,
                   runSpacing: 30,
                   spacing: 16,
                   alignment: WrapAlignment.center,
@@ -137,12 +136,7 @@ class _RangeCustomizationState extends SampleViewState {
               : LinearGaugeOrientation.vertical,
           ranges: const <LinearGaugeRange>[
             LinearGaugeRange(
-                startValue: 0.0,
-                midValue: 50.0,
-                endValue: 100,
-                startWidth: 0,
-                midWidth: 10,
-                endWidth: 50),
+                midValue: 50.0, startWidth: 0, midWidth: 10, endWidth: 50),
           ],
         ));
   }
@@ -159,9 +153,7 @@ class _RangeCustomizationState extends SampleViewState {
               : LinearGaugeOrientation.vertical,
           ranges: const <LinearGaugeRange>[
             LinearGaugeRange(
-              startValue: 0.0,
               midValue: 50.0,
-              endValue: 100,
               startWidth: 70,
               midWidth: -20,
               endWidth: 70,
@@ -183,9 +175,7 @@ class _RangeCustomizationState extends SampleViewState {
               : LinearGaugeOrientation.vertical,
           ranges: <LinearGaugeRange>[
             LinearGaugeRange(
-              startValue: 0.0,
               midValue: 50.0,
-              endValue: 100,
               startWidth: 40,
               midWidth: 40,
               endWidth: 40,
@@ -215,13 +205,11 @@ class _RangeCustomizationState extends SampleViewState {
 
   /// Returns the multiple ranges sample.
   Widget _buildMultipleRanges(BuildContext context) {
-    final Brightness _brightness = Theme.of(context).brightness;
+    final Brightness brightness = Theme.of(context).brightness;
 
     return SizedBox(
         height: _isHorizontalOrientation ? 100 : 300,
         child: SfLinearGauge(
-          minimum: 0,
-          maximum: 100,
           animateAxis: true,
           animateRange: true,
           orientation: _isHorizontalOrientation
@@ -229,13 +217,12 @@ class _RangeCustomizationState extends SampleViewState {
               : LinearGaugeOrientation.vertical,
           ranges: <LinearGaugeRange>[
             LinearGaugeRange(
-              startValue: 0.0,
               endValue: 30,
               startWidth: 40,
               midWidth: 40,
               endWidth: 40,
               child: Container(
-                  color: _brightness == Brightness.light
+                  color: brightness == Brightness.light
                       ? const Color(0xffF45656)
                       : const Color(0xffFF7B7B)),
             ),
@@ -246,23 +233,21 @@ class _RangeCustomizationState extends SampleViewState {
               midWidth: 40,
               endWidth: 40,
               child: Container(
-                  color: _brightness == Brightness.light
+                  color: brightness == Brightness.light
                       ? const Color(0xffFFC93E)
                       : const Color(0xffFFC93E)),
             ),
             LinearGaugeRange(
               startValue: 65.0,
-              endValue: 100,
               startWidth: 40,
               midWidth: 40,
               endWidth: 40,
               child: Container(
-                  color: _brightness == Brightness.light
+                  color: brightness == Brightness.light
                       ? const Color(0xff0DC9AB)
                       : const Color(0xff0DC9AB)),
             ),
             LinearGaugeRange(
-                startValue: 0,
                 endValue: 30,
                 startWidth: 40,
                 endWidth: 40,
@@ -298,7 +283,6 @@ class _RangeCustomizationState extends SampleViewState {
             ),
             LinearGaugeRange(
               startValue: 65,
-              endValue: 100,
               startWidth: 40,
               endWidth: 40,
               color: Colors.transparent,

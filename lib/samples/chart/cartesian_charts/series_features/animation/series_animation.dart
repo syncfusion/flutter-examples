@@ -8,16 +8,16 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local imports
 import '../../../../../model/sample_view.dart';
 
-/// Renders the cartesian chart with default serie animation sample.
+/// Renders the cartesian chart with default series animation sample.
 class AnimationDefault extends SampleView {
-  /// Creates the cartesian chart with default serie animation sample.
+  /// Creates the cartesian chart with default series animation sample.
   const AnimationDefault(Key key) : super(key: key);
 
   @override
   _AnimationDefaultState createState() => _AnimationDefaultState();
 }
 
-/// State class of the cartesian chart with default serie animation.
+/// State class of the cartesian chart with default series animation.
 class _AnimationDefaultState extends SampleViewState {
   _AnimationDefaultState();
   late double padding;
@@ -45,10 +45,11 @@ class _AnimationDefaultState extends SampleViewState {
     return _buildDefaultAnimationChart();
   }
 
-  ChartSeriesController? _chartSeriesController1, _chartSeriesController2;
+  ChartSeriesController<ChartSampleData, String>? _chartSeriesController1,
+      _chartSeriesController2;
   List<ChartSampleData>? chartData;
 
-  /// Returns the cartesian chart with default serie animation.
+  /// Returns the cartesian chart with default series animation.
   Column _buildDefaultAnimationChart() {
     return Column(children: <Widget>[
       Expanded(
@@ -56,8 +57,8 @@ class _AnimationDefaultState extends SampleViewState {
         title: ChartTitle(text: isCardView ? '' : 'Sales report'),
         legend: Legend(isVisible: !isCardView),
         plotAreaBorderWidth: 0,
-        primaryXAxis: CategoryAxis(
-            majorGridLines: const MajorGridLines(width: 0),
+        primaryXAxis: const CategoryAxis(
+            majorGridLines: MajorGridLines(width: 0),
             edgeLabelPlacement: EdgeLabelPlacement.shift),
         primaryYAxis: NumericAxis(
             minimum: 0,
@@ -102,22 +103,21 @@ class _AnimationDefaultState extends SampleViewState {
   }
 
   /// Returns the list of chart which need to render on the cartesian chart.
-  List<ChartSeries<ChartSampleData, String>> _getDefaultAnimationSeries() {
-    return <ChartSeries<ChartSampleData, String>>[
+  List<CartesianSeries<ChartSampleData, String>> _getDefaultAnimationSeries() {
+    return <CartesianSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          animationDuration: 2000,
-          onRendererCreated: (ChartSeriesController controller) {
+          onRendererCreated:
+              (ChartSeriesController<ChartSampleData, String> controller) {
             _chartSeriesController1 = controller;
           },
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Unit Sold'),
       LineSeries<ChartSampleData, String>(
-          animationDuration: 4500,
-          dataSource: chartData!,
-          width: 2,
-          onRendererCreated: (ChartSeriesController controller) {
+          dataSource: chartData,
+          onRendererCreated:
+              (ChartSeriesController<ChartSampleData, String> controller) {
             _chartSeriesController2 = controller;
           },
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
@@ -138,7 +138,8 @@ class _AnimationDefaultState extends SampleViewState {
         _chartSeriesController2?.animate();
       },
       child: const Text('Animate line series',
-          textScaleFactor: 1, style: TextStyle(color: Colors.white)),
+          textScaler: TextScaler.noScaling,
+          style: TextStyle(color: Colors.white)),
     );
   }
 
@@ -152,7 +153,8 @@ class _AnimationDefaultState extends SampleViewState {
         _chartSeriesController1?.animate();
       },
       child: const Text('Animate column series',
-          textScaleFactor: 1, style: TextStyle(color: Colors.white)),
+          textScaler: TextScaler.noScaling,
+          style: TextStyle(color: Colors.white)),
     );
   }
 
