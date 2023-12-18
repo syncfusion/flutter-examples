@@ -40,14 +40,15 @@ class _ColumnRoundedState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Land area of various cities (sq.km)'),
-      primaryXAxis: CategoryAxis(
-        labelStyle: const TextStyle(color: Colors.white),
-        axisLine: const AxisLine(width: 0),
+      primaryXAxis: const CategoryAxis(
+        labelStyle: TextStyle(color: Colors.white),
+        axisLine: AxisLine(width: 0),
         labelPosition: ChartDataLabelPosition.inside,
-        majorTickLines: const MajorTickLines(width: 0),
-        majorGridLines: const MajorGridLines(width: 0),
+        majorTickLines: MajorTickLines(width: 0),
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(isVisible: false, minimum: 0, maximum: 9000),
+      primaryYAxis:
+          const NumericAxis(isVisible: false, minimum: 0, maximum: 9000),
       series: _getRoundedColumnSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

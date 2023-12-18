@@ -139,8 +139,8 @@ class _ShiftSchedulerState extends SampleViewState {
                 _selectedAppointment = newAppointment;
               }
 
-              return WillPopScope(
-                onWillPop: () async {
+              return PopScope(
+                onPopInvoked: (bool value) {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.
@@ -149,7 +149,6 @@ class _ShiftSchedulerState extends SampleViewState {
                     _events.notifyListeners(CalendarDataSourceAction.remove,
                         <Appointment>[newAppointment]);
                   }
-                  return true;
                 },
                 child: Center(
                     child: SizedBox(

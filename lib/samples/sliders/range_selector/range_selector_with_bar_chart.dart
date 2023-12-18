@@ -201,7 +201,7 @@ class _RangeSelectorBarChartPageState extends SampleViewState
         minimum: _dayMin,
         maximum: _dayMax,
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
         isVisible: false,
         minimum: -150,
         maximum: 150,

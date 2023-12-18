@@ -101,7 +101,7 @@ class _LabelActionState extends SampleViewState {
       primaryXAxis: CategoryAxis(
         // interval: 40,
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction: _labelIntersectAction,
+        labelIntersectAction: _labelIntersectAction!,
       ),
       primaryYAxis: NumericAxis(
           axisLine: const AxisLine(width: 0),
@@ -145,7 +145,7 @@ class _LabelActionState extends SampleViewState {
           ];
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelSettings: const DataLabelSettings(

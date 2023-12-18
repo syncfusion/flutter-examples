@@ -68,12 +68,12 @@ class _HiloOpenCloseChartState extends SampleViewState {
           minimum: DateTime(2016),
           maximum: DateTime(2017),
           majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          minimum: 140,
-          maximum: 60,
+      primaryYAxis: const NumericAxis(
+          minimum: 60,
+          maximum: 140,
           interval: 20,
           labelFormat: r'${value}',
-          axisLine: const AxisLine(width: 0)),
+          axisLine: AxisLine(width: 0)),
       series: _getHiloOpenCloseSeries(),
       trackballBehavior: _trackballBehavior,
     );

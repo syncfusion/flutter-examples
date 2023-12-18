@@ -68,14 +68,14 @@ class _AreaDefaultState extends SampleViewState {
   List<AreaSeries<ChartSampleData, DateTime>> _getDefaultAreaSeries() {
     return <AreaSeries<ChartSampleData, DateTime>>[
       AreaSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         opacity: 0.7,
         name: 'Product A',
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
       AreaSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         opacity: 0.7,
         name: 'Product B',
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

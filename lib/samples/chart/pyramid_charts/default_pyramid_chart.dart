@@ -19,6 +19,7 @@ class PyramidDefault extends SampleView {
 
 class _PyramidDefaultState extends SampleViewState {
   _PyramidDefaultState();
+  late List<ChartSampleData> dataSource;
   List<String>? _pyramidMode;
   late PyramidMode _selectedPyramidMode;
   late String _selectedMode;
@@ -27,6 +28,14 @@ class _PyramidDefaultState extends SampleViewState {
 
   @override
   void initState() {
+    dataSource = <ChartSampleData>[
+      ChartSampleData(x: 'Walnuts', y: 654),
+      ChartSampleData(x: 'Almonds', y: 575),
+      ChartSampleData(x: 'Soybeans', y: 446),
+      ChartSampleData(x: 'Black beans', y: 341),
+      ChartSampleData(x: 'Mushrooms', y: 296),
+      ChartSampleData(x: 'Avacado', y: 160),
+    ];
     _selectedPyramidMode = PyramidMode.linear;
     _selectedMode = 'linear';
     gapRatio = 0;
@@ -175,14 +184,7 @@ class _PyramidDefaultState extends SampleViewState {
   ///Get the default pyramid series
   PyramidSeries<ChartSampleData, String> _getPyramidSeries() {
     return PyramidSeries<ChartSampleData, String>(
-        dataSource: <ChartSampleData>[
-          ChartSampleData(x: 'Walnuts', y: 654),
-          ChartSampleData(x: 'Almonds', y: 575),
-          ChartSampleData(x: 'Soybeans', y: 446),
-          ChartSampleData(x: 'Black beans', y: 341),
-          ChartSampleData(x: 'Mushrooms', y: 296),
-          ChartSampleData(x: 'Avacado', y: 160),
-        ],
+        dataSource: dataSource,
         height: '90%',
         explode: isCardView ? false : explode,
         gapRatio: isCardView ? 0 : gapRatio,

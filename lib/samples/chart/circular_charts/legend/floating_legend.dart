@@ -123,9 +123,9 @@ class _CircularFloatingLegendState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Sales comparision of fruits in a shop'),
       series: _getStackedAreaSeries(),
-      annotations: <CircularChartAnnotation>[
+      annotations: const <CircularChartAnnotation>[
         CircularChartAnnotation(
-          widget: const SizedBox(
+          widget: SizedBox(
               height: 80,
               width: 80,
               child: Text(
@@ -142,7 +142,6 @@ class _CircularFloatingLegendState extends SampleViewState {
   List<PieSeries<ChartSampleData, String>> _getStackedAreaSeries() {
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
-          animationDuration: 2500,
           startAngle: 120,
           endAngle: 120,
           explodeAll: true,
@@ -156,7 +155,6 @@ class _CircularFloatingLegendState extends SampleViewState {
             ChartSampleData(x: 'Other Personal', y: 78.4),
           ],
           explode: true,
-          enableTooltip: true,
           dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelPosition: ChartDataLabelPosition.outside),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,

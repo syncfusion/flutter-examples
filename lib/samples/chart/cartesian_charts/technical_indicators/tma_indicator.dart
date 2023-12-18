@@ -79,23 +79,24 @@ class _TMAIndicatorState extends SampleViewState {
         minimum: DateTime(2016),
         maximum: DateTime(2017),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 70,
           maximum: 130,
           interval: 20,
           labelFormat: r'${value}',
-          axisLine: const AxisLine(width: 0)),
+          axisLine: AxisLine(width: 0)),
       trackballBehavior: _trackballBehavior,
       tooltipBehavior: _tooltipBehavior,
-      indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
+      indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// TMA indicator mentioned here.
         TmaIndicator<ChartSampleData, DateTime>(
             seriesName: 'AAPL', period: _period.toInt()),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <ChartSeries<ChartSampleData, DateTime>>[
+      series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
+            emptyPointSettings:
+                const EmptyPointSettings(mode: EmptyPointMode.zero),
             dataSource: getChartData(),
             opacity: 0.7,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

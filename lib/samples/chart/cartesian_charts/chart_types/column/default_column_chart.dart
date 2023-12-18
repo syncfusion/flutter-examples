@@ -38,13 +38,13 @@ class _ColumnDefaultState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Population growth of various countries'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
           labelFormat: '{value}%',
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultColumnSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

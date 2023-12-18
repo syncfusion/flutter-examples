@@ -327,14 +327,14 @@ class _LocalDataState extends SampleViewState {
           dateFormat: DateFormat.y(),
           name: 'Years',
           majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 70,
           maximum: 110,
           interval: 10,
           rangePadding: ChartRangePadding.none,
           name: 'Price',
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(color: Colors.transparent)),
       series: _getDefaultLineSeries(),
       trackballBehavior: _trackballBehavior,
     );
@@ -344,12 +344,12 @@ class _LocalDataState extends SampleViewState {
   List<LineSeries<_ChartData, DateTime>> _getDefaultLineSeries() {
     return <LineSeries<_ChartData, DateTime>>[
       LineSeries<_ChartData, DateTime>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y1,
           name: 'Product A'),
       LineSeries<_ChartData, DateTime>(
-          dataSource: chartData!,
+          dataSource: chartData,
           name: 'Product B',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2)

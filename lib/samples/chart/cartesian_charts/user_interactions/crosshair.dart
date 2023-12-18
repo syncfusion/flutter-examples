@@ -188,8 +188,7 @@ class _DefaultCrossHairState extends SampleViewState {
       LineSeries<ChartSampleData, DateTime>(
           dataSource: randomData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          width: 2)
+          yValueMapper: (ChartSampleData sales, _) => sales.y)
     ];
   }
 

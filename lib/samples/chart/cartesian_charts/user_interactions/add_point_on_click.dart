@@ -7,22 +7,22 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 /// Local imports
 import '../../../../model/sample_view.dart';
 
-/// Renders the cartesian chart with default tootlip sample.
+/// Renders the cartesian chart with default tooltip sample.
 class InteractiveChart extends SampleView {
-  /// Creates the cartesian chart with default tootlip sample.
+  /// Creates the cartesian chart with default tooltip sample.
   const InteractiveChart(Key key) : super(key: key);
 
   @override
   _InteractiveChartState createState() => _InteractiveChartState();
 }
 
-/// State class of the cartesian chart with default tootlip.
+/// State class of the cartesian chart with default tooltip.
 class _InteractiveChartState extends SampleViewState {
   _InteractiveChartState();
   late List<ChartSampleData> chartData;
   late List<ChartSampleData> scatterData;
   late bool isLineExist;
-  ChartSeriesController? seriesController;
+  ChartSeriesController<ChartSampleData, num>? seriesController;
   late bool isSorting;
   late bool isDataAdded;
   late bool isScatterData;
@@ -88,26 +88,27 @@ class _InteractiveChartState extends SampleViewState {
         ));
   }
 
-  /// Returns the cartesian chart with default tootlip.
+  /// Returns the cartesian chart with default tooltip.
   SfCartesianChart _buildInteractiveChart() {
     return SfCartesianChart(
         margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
         plotAreaBorderWidth: 0,
         enableAxisAnimation: true,
-        primaryXAxis: NumericAxis(
+        primaryXAxis: const NumericAxis(
             edgeLabelPlacement: EdgeLabelPlacement.shift,
             rangePadding: ChartRangePadding.additional,
-            majorGridLines: const MajorGridLines(width: 0)),
-        primaryYAxis: NumericAxis(
+            majorGridLines: MajorGridLines(width: 0)),
+        primaryYAxis: const NumericAxis(
             rangePadding: ChartRangePadding.additional,
-            axisLine: const AxisLine(width: 0),
-            majorTickLines: const MajorTickLines(width: 0)),
-        series: <ChartSeries<ChartSampleData, num>>[
+            axisLine: AxisLine(width: 0),
+            majorTickLines: MajorTickLines(width: 0)),
+        series: <CartesianSeries<ChartSampleData, num>>[
           LineSeries<ChartSampleData, num>(
-              onRendererCreated: (ChartSeriesController controller) {
+              onRendererCreated:
+                  (ChartSeriesController<ChartSampleData, num> controller) {
                 seriesController = controller;
               },
-              animationDuration: 1000,
+              animationDuration: 0,
               color: const Color.fromRGBO(75, 135, 185, 1),
               dataSource: chartData,
               xValueMapper: (ChartSampleData sales, _) => sales.x as num,
@@ -118,9 +119,11 @@ class _InteractiveChartState extends SampleViewState {
         onChartTouchInteractionUp: (ChartTouchInteractionArgs args) {
           isResetVisible = true;
           final Offset value = Offset(args.position.dx, args.position.dy);
-          CartesianChartPoint<dynamic> chartpoint;
-          chartpoint = seriesController!.pixelToPoint(value);
-          chartData.add(ChartSampleData(x: chartpoint.x, y: chartpoint.y));
+          final CartesianChartPoint<dynamic> chartPoint =
+              seriesController!.pixelToPoint(value);
+          chartData.add(ChartSampleData(x: chartPoint.x, y: chartPoint.y));
+          seriesController!
+              .updateDataSource(addedDataIndexes: <int>[chartData.length - 1]);
           setState(() {});
         });
   }

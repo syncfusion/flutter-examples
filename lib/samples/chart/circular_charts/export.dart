@@ -118,7 +118,7 @@ class _ExportState extends SampleViewState {
         iconBorderWidth: 1,
         iconBorderColor: Colors.black,
       ),
-      title: ChartTitle(text: 'Online shopping frequency'),
+      title: const ChartTitle(text: 'Online shopping frequency'),
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
             height: '55%',
@@ -224,10 +224,10 @@ class _ExportState extends SampleViewState {
   }
 
   Future<List<int>> _readImageData() async {
-    final dart_ui.Image data =
+    final dart_ui.Image? data =
         await _circularChartKey.currentState!.toImage(pixelRatio: 3.0);
     final ByteData? bytes =
-        await data.toByteData(format: dart_ui.ImageByteFormat.png);
+        await data?.toByteData(format: dart_ui.ImageByteFormat.png);
     return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 }

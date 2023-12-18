@@ -41,11 +41,11 @@ class _AnimationAreaDefaultState extends SampleViewState {
   SfCartesianChart _buildAnimationAreaChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
-        primaryXAxis: NumericAxis(
-            interval: 1, majorGridLines: const MajorGridLines(width: 0)),
-        primaryYAxis: NumericAxis(
-            majorTickLines: const MajorTickLines(color: Colors.transparent),
-            axisLine: const AxisLine(width: 0),
+        primaryXAxis: const NumericAxis(
+            interval: 1, majorGridLines: MajorGridLines(width: 0)),
+        primaryYAxis: const NumericAxis(
+            majorTickLines: MajorTickLines(color: Colors.transparent),
+            axisLine: AxisLine(width: 0),
             minimum: 0,
             maximum: 100),
         series: _getDefaultAreaSeries());
@@ -55,10 +55,9 @@ class _AnimationAreaDefaultState extends SampleViewState {
   List<AreaSeries<_ChartData, num>> _getDefaultAreaSeries() {
     return <AreaSeries<_ChartData, num>>[
       AreaSeries<_ChartData, num>(
-          dataSource: _chartData!,
+          dataSource: _chartData,
           color: const Color.fromRGBO(75, 135, 185, 0.6),
           borderColor: const Color.fromRGBO(75, 135, 185, 1),
-          borderWidth: 2,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y)
     ];

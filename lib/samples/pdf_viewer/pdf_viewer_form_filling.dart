@@ -12,15 +12,15 @@ import '../pdf/helper/save_file_mobile.dart'
     if (dart.library.html) '../pdf/helper/save_file_web.dart';
 
 /// Form filling.
-class FormFilling extends SampleView {
+class FormFillingPdfViewer extends SampleView {
   /// Form filling.
-  const FormFilling(Key key) : super(key: key);
+  const FormFillingPdfViewer(Key key) : super(key: key);
 
   @override
-  _FormFillingState createState() => _FormFillingState();
+  _FormFillingPdfViewerState createState() => _FormFillingPdfViewerState();
 }
 
-class _FormFillingState extends SampleViewState {
+class _FormFillingPdfViewerState extends SampleViewState {
   final String _documentPath = 'assets/pdf/form_document.pdf';
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   final PdfViewerController _pdfViewerController = PdfViewerController();

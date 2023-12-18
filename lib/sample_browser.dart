@@ -66,6 +66,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
 
     if (_sampleListModel.isWebFullView) {
       _sampleListModel.currentThemeData = ThemeData.from(
+          useMaterial3: false,
           colorScheme: const ColorScheme.light().copyWith(
               primary: _sampleListModel.currentPaletteColor,
               secondary: _sampleListModel.currentPaletteColor));
@@ -96,6 +97,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
             debugShowCheckedModeBanner: false,
             title: 'Demos & Examples of Syncfusion Flutter Widgets',
             theme: ThemeData.from(
+                    useMaterial3: false,
                     colorScheme: const ColorScheme.light().copyWith(
                         primary: _sampleListModel.currentPaletteColor,
                         secondary: _sampleListModel.currentPaletteColor))
@@ -104,6 +106,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
                         thumbColor: MaterialStateProperty.all(
                             const Color.fromRGBO(128, 128, 128, 0.3)))),
             darkTheme: ThemeData.from(
+                    useMaterial3: false,
                     colorScheme: const ColorScheme.dark().copyWith(
                         primary: _sampleListModel.currentPaletteColor,
                         secondary: _sampleListModel.currentPaletteColor,
@@ -129,10 +132,12 @@ class _SampleBrowserState extends State<SampleBrowser> {
             ],
             locale: const Locale('en', 'US'),
             theme: ThemeData.from(
+                useMaterial3: false,
                 colorScheme: const ColorScheme.light().copyWith(
                     primary: _sampleListModel.currentPaletteColor,
                     secondary: _sampleListModel.currentPaletteColor)),
             darkTheme: ThemeData.from(
+                useMaterial3: false,
                 colorScheme: const ColorScheme.dark().copyWith(
                     primary: _sampleListModel.currentPaletteColor,
                     secondary: _sampleListModel.currentPaletteColor,
@@ -142,10 +147,12 @@ class _SampleBrowserState extends State<SampleBrowser> {
               _sampleListModel.currentThemeData ??=
                   _sampleListModel.systemTheme.brightness != Brightness.dark
                       ? ThemeData.from(
+                          useMaterial3: false,
                           colorScheme: const ColorScheme.light().copyWith(
                               primary: _sampleListModel.currentPaletteColor,
                               secondary: _sampleListModel.currentPaletteColor))
                       : ThemeData.from(
+                          useMaterial3: false,
                           colorScheme: const ColorScheme.dark().copyWith(
                               primary: _sampleListModel.currentPaletteColor,
                               secondary: _sampleListModel.currentPaletteColor,
@@ -860,7 +867,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                               control.title!,
                               textAlign: TextAlign.left,
                               softWrap: true,
-                              textScaleFactor: 1,
+                              textScaler: TextScaler.noScaling,
                               overflow: TextOverflow.fade,
                               style: TextStyle(
                                   fontSize: 12,
@@ -925,7 +932,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                         control.description!,
                         textAlign: TextAlign.left,
                         softWrap: true,
-                        textScaleFactor: 1,
+                        textScaler: TextScaler.noScaling,
                         overflow: TextOverflow.fade,
                         style: const TextStyle(
                           fontWeight: FontWeight.normal,

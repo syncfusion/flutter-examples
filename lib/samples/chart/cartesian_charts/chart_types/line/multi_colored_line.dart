@@ -44,13 +44,13 @@ class _LineMultiColorState extends SampleViewState {
           dateFormat: DateFormat.y(),
           majorGridLines: const MajorGridLines(width: 0),
           title: AxisTitle(text: isCardView ? '' : 'Year')),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 200,
           maximum: 600,
           interval: 100,
-          axisLine: const AxisLine(width: 0),
+          axisLine: AxisLine(width: 0),
           labelFormat: '{value}mm',
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getMultiColoredLineSeries(),
       trackballBehavior: _trackballBehavior,
     );
@@ -60,7 +60,6 @@ class _LineMultiColorState extends SampleViewState {
   List<LineSeries<_ChartData, DateTime>> _getMultiColoredLineSeries() {
     return <LineSeries<_ChartData, DateTime>>[
       LineSeries<_ChartData, DateTime>(
-          animationDuration: 2500,
           dataSource: <_ChartData>[
             _ChartData(
                 DateTime(1925), 415, const Color.fromRGBO(248, 184, 131, 1)),
@@ -109,8 +108,7 @@ class _LineMultiColorState extends SampleViewState {
           yValueMapper: (_ChartData sales, _) => sales.y,
 
           /// The property used to apply the color each data.
-          pointColorMapper: (_ChartData sales, _) => sales.lineColor,
-          width: 2)
+          pointColorMapper: (_ChartData sales, _) => sales.lineColor)
     ];
   }
 }

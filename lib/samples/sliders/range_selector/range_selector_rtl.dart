@@ -185,7 +185,8 @@ class _RangeSelectorRTLState extends SampleViewState {
                           maximum: max,
                           isVisible: false,
                         ),
-                        primaryYAxis: NumericAxis(isVisible: false, maximum: 4),
+                        primaryYAxis:
+                            const NumericAxis(isVisible: false, maximum: 4),
                         plotAreaBorderWidth: 0,
                         series: <SplineAreaSeries<ChartSampleData, DateTime>>[
                           SplineAreaSeries<ChartSampleData, DateTime>(

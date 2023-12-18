@@ -179,11 +179,11 @@ class _TrackballTemplateState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         labelRotation: isCardView || model.isWebFullView ? 0 : -45,
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           maximum: 200,
-          axisLine: const AxisLine(width: 0),
+          axisLine: AxisLine(width: 0),
           labelFormat: r'${value}',
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultTrackballSeries(),
 
       /// To set the track ball as true and customized trackball behaviour.

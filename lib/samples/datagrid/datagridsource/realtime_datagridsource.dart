@@ -134,7 +134,7 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
                 Flexible(
                   child: Text(
                     stack.toString(),
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                   ),
                 )
               ],

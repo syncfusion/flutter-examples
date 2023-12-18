@@ -72,7 +72,7 @@ class _NumericDefaultState extends SampleViewState {
     return <ColumnSeries<ChartSampleData, num>>[
       ///first series named "Australia".
       ColumnSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           color: const Color.fromRGBO(237, 221, 76, 1),
           name: 'Australia',
           xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
@@ -80,7 +80,7 @@ class _NumericDefaultState extends SampleViewState {
 
       ///second series named "India".
       ColumnSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           color: const Color.fromRGBO(2, 109, 213, 1),
           xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,

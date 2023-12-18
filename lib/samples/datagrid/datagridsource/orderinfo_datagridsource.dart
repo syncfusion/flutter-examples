@@ -19,12 +19,13 @@ class OrderInfoDataGridSource extends DataGridSource {
       this.orderDataCount,
       this.ordersCollection,
       this.culture,
-      bool? isFilteringSample}) {
+      bool? isFilteringSample,
+      bool isGrouping = false}) {
     this.isFilteringSample = isFilteringSample ?? false;
     orders = ordersCollection ??
         getOrders(orders, orderDataCount ?? 100, culture: culture ?? '');
     currencySymbol = getCurrencySymbol();
-    buildDataGridRows();
+    buildDataGridRows(isGrouping);
   }
 
   /// Determine to decide whether the platform is web or desktop.
@@ -56,24 +57,45 @@ class OrderInfoDataGridSource extends DataGridSource {
   late bool isFilteringSample;
 
   /// Building DataGridRows.
-  void buildDataGridRows() {
+  void buildDataGridRows(bool isGrouping) {
     dataGridRows = isWebOrDesktop
         ? orders.map<DataGridRow>((OrderInfo order) {
-            return DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(
-                  columnName: getColumnName('id'), value: order.id),
-              DataGridCell<int>(
-                  columnName: getColumnName('customerId'),
-                  value: order.customerId),
-              DataGridCell<String>(
-                  columnName: getColumnName('name'), value: order.name),
-              DataGridCell<double>(
-                  columnName: getColumnName('freight'), value: order.freight),
-              DataGridCell<String>(
-                  columnName: getColumnName('city'), value: order.city),
-              DataGridCell<double>(
-                  columnName: getColumnName('price'), value: order.price),
-            ]);
+            if (isGrouping) {
+              {
+                return DataGridRow(cells: <DataGridCell>[
+                  DataGridCell<int>(
+                      columnName: getColumnName('ID'), value: order.id),
+                  DataGridCell<int>(
+                      columnName: getColumnName('CustomerId'),
+                      value: order.customerId),
+                  DataGridCell<String>(
+                      columnName: getColumnName('Name'), value: order.name),
+                  DataGridCell<double>(
+                      columnName: getColumnName('Freight'),
+                      value: order.freight),
+                  DataGridCell<String>(
+                      columnName: getColumnName('City'), value: order.city),
+                  DataGridCell<double>(
+                      columnName: getColumnName('Price'), value: order.price),
+                ]);
+              }
+            } else {
+              return DataGridRow(cells: <DataGridCell>[
+                DataGridCell<int>(
+                    columnName: getColumnName('id'), value: order.id),
+                DataGridCell<int>(
+                    columnName: getColumnName('customerId'),
+                    value: order.customerId),
+                DataGridCell<String>(
+                    columnName: getColumnName('name'), value: order.name),
+                DataGridCell<double>(
+                    columnName: getColumnName('freight'), value: order.freight),
+                DataGridCell<String>(
+                    columnName: getColumnName('city'), value: order.city),
+                DataGridCell<double>(
+                    columnName: getColumnName('price'), value: order.price),
+              ]);
+            }
           }).toList()
         : orders.map<DataGridRow>((OrderInfo order) {
             return DataGridRow(cells: <DataGridCell>[
@@ -197,7 +219,7 @@ class OrderInfoDataGridSource extends DataGridSource {
   Future<void> handleLoadMoreRows() async {
     await Future<void>.delayed(const Duration(seconds: 5));
     orders = getOrders(orders, 15);
-    buildDataGridRows();
+    buildDataGridRows(false);
     notifyListeners();
   }
 
@@ -205,7 +227,7 @@ class OrderInfoDataGridSource extends DataGridSource {
   Future<void> handleRefresh() async {
     await Future<void>.delayed(const Duration(seconds: 5));
     orders = getOrders(orders, 15);
-    buildDataGridRows();
+    buildDataGridRows(false);
     notifyListeners();
   }
 
@@ -242,6 +264,14 @@ class OrderInfoDataGridSource extends DataGridSource {
           summaryValue, const EdgeInsets.all(8.0), Alignment.centerRight);
     }
     return widget;
+  }
+
+  @override
+  Widget? buildGroupCaptionCellWidget(
+      RowColumnIndex rowColumnIndex, String summaryValue) {
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+        child: Text(summaryValue));
   }
 
   /// Provides the column name.

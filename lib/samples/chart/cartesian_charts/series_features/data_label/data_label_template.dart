@@ -32,15 +32,15 @@ class _DataLabelTemplateState extends SampleViewState {
               ? ''
               : 'Percentage of people using social media on a daily basis'),
       plotAreaBorderWidth: 0,
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
-        majorTickLines: const MajorTickLines(size: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
       ),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
           interval: 20,
           maximum: 120,
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getMarkeSeries(),
     );
   }
@@ -96,29 +96,25 @@ class _DataLabelTemplateState extends SampleViewState {
             isVisible: true,
             builder: (dynamic data, dynamic point, dynamic series,
                 int pointIndex, int seriesIndex) {
-              return Container(
-                  transform: Matrix4.translationValues(0, 8, 0),
-                  height: 50,
-                  width: 50,
-                  child: Column(children: <Widget>[
-                    SizedBox(
-                      height: 35,
-                      child: Image.asset(
-                        _getImageTemplate(pointIndex),
-                        height: 45,
-                        width: 30,
-                      ),
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    height: 35,
+                    child: Image.asset(
+                      _getImageTemplate(pointIndex),
+                      height: 45,
+                      width: 30,
                     ),
-                    SizedBox(
-                      height: 15,
-                      child: Text(
-                        data.y.toString() + '%',
-                        style: const TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                    )
-                  ]));
+                  ),
+                  Text(
+                    data.y.toString() + '%',
+                    style: const TextStyle(
+                      fontSize: 10,
+                    ),
+                  )
+                ],
+              );
             }),
       ),
     ];
@@ -138,35 +134,34 @@ class _DataLabelTemplateState extends SampleViewState {
   }
 }
 
-class _CustomColumnSeriesRenderer extends ColumnSeriesRenderer {
+class _CustomColumnSeriesRenderer<T, D> extends ColumnSeriesRenderer<T, D> {
   _CustomColumnSeriesRenderer();
 
   @override
-  ChartSegment createSegment() {
+  ColumnSegment<T, D> createSegment() {
     return _ColumnCustomPainter();
   }
 }
 
-class _ColumnCustomPainter extends ColumnSegment {
-  @override
-  int get currentSegmentIndex => super.currentSegmentIndex!;
-
+class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
   @override
   void onPaint(Canvas canvas) {
-    Paint? myPaint = fillPaint;
-    if (currentSegmentIndex == 0) {
-      myPaint = Paint()..color = const Color.fromRGBO(192, 33, 39, 1);
-    } else if (currentSegmentIndex == 1) {
-      myPaint = Paint()..color = const Color.fromRGBO(26, 157, 235, 1);
-    } else if (currentSegmentIndex == 2) {
-      myPaint = fillPaint;
-    } else if (currentSegmentIndex == 3) {
-      myPaint = Paint()..color = const Color.fromRGBO(254, 250, 55, 1);
-    } else if (currentSegmentIndex == 4) {
-      myPaint = Paint()..color = const Color.fromRGBO(60, 92, 156, 1);
+    if (segmentRect != null) {
+      Paint? myPaint = fillPaint;
+      if (currentSegmentIndex == 0) {
+        myPaint = Paint()..color = const Color.fromRGBO(192, 33, 39, 1);
+      } else if (currentSegmentIndex == 1) {
+        myPaint = Paint()..color = const Color.fromRGBO(26, 157, 235, 1);
+      } else if (currentSegmentIndex == 2) {
+        myPaint = fillPaint;
+      } else if (currentSegmentIndex == 3) {
+        myPaint = Paint()..color = const Color.fromRGBO(254, 250, 55, 1);
+      } else if (currentSegmentIndex == 4) {
+        myPaint = Paint()..color = const Color.fromRGBO(60, 92, 156, 1);
+      }
+      final Rect rect = Rect.fromLTRB(segmentRect!.left, segmentRect!.top,
+          segmentRect!.right * animationFactor, segmentRect!.bottom);
+      canvas.drawRect(rect, myPaint);
     }
-    final Rect rect = Rect.fromLTRB(segmentRect.left, segmentRect.top,
-        segmentRect.right * animationFactor, segmentRect.bottom);
-    canvas.drawRect(rect, myPaint!);
   }
 }

@@ -89,9 +89,9 @@ class _DataPointsState extends SampleViewState {
               ? ''
               : 'Percentage of people using social media on a daily basis'),
       plotAreaBorderWidth: 0,
-      primaryXAxis: CategoryAxis(
-          majorGridLines: const MajorGridLines(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+      primaryXAxis: const CategoryAxis(
+          majorGridLines: MajorGridLines(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       primaryYAxis: NumericAxis(
           axisLine: const AxisLine(width: 0),
           interval: isCardView ? 20 : 10,
@@ -289,20 +289,19 @@ class _DataPointsState extends SampleViewState {
   }
 }
 
-class _CustomColumnSeriesRenderer extends ColumnSeriesRenderer {
+class _CustomColumnSeriesRenderer<T, D> extends ColumnSeriesRenderer<T, D> {
   _CustomColumnSeriesRenderer(this._isCardView);
   final bool _isCardView;
   @override
-  ChartSegment createSegment() {
+  ColumnSegment<T, D> createSegment() {
     return _ColumnCustomPainter(_isCardView);
   }
 }
 
-class _ColumnCustomPainter extends ColumnSegment {
+class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
   _ColumnCustomPainter(this._isCardView);
   final bool _isCardView;
-  @override
-  int get currentSegmentIndex => super.currentSegmentIndex!;
+
   @override
   void onPaint(Canvas canvas) {
     Paint? myPaint = fillPaint;
@@ -337,9 +336,11 @@ class _ColumnCustomPainter extends ColumnSegment {
         : xvalue![currentSegmentIndex] == 'Facebook') {
       myPaint = Paint()..color = const Color.fromRGBO(60, 92, 156, 1);
     }
-    final Rect rect = Rect.fromLTRB(segmentRect.left, segmentRect.top,
-        segmentRect.right * animationFactor, segmentRect.bottom);
-    canvas.drawRect(rect, myPaint!);
+    if (segmentRect != null) {
+      final Rect rect = Rect.fromLTRB(segmentRect!.left, segmentRect!.top,
+          segmentRect!.right * animationFactor, segmentRect!.bottom);
+      canvas.drawRect(rect, myPaint);
+    }
   }
 }
 

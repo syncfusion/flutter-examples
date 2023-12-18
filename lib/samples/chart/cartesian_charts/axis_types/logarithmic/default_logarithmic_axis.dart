@@ -38,13 +38,13 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
       plotAreaBorderWidth: 1,
       title:
           ChartTitle(text: isCardView ? '' : 'Growth of a product [1995-2005]'),
-      primaryXAxis: DateTimeAxis(),
+      primaryXAxis: const DateTimeAxis(),
 
       /// Y axis as logarithmic axis placed here.
-      primaryYAxis: LogarithmicAxis(
+      primaryYAxis: const LogarithmicAxis(
           minorTicksPerInterval: 5,
-          majorGridLines: const MajorGridLines(width: 1.5),
-          minorTickLines: const MinorTickLines(size: 4),
+          majorGridLines: MajorGridLines(width: 1.5),
+          minorTickLines: MinorTickLines(size: 4),
           labelFormat: r'${value}',
           interval: 1),
       series: _getSeries(),

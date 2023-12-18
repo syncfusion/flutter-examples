@@ -209,13 +209,13 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
           multiLevelLabelStyle: MultiLevelLabelStyle(
               borderWidth: 1, borderType: _selectedMultilevelBorderType!),
           multiLevelLabels: _xAxisCategories),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
         minimum: 5,
         maximum: 30,
         interval: 5,
-        axisLine: const AxisLine(width: 0),
+        axisLine: AxisLine(width: 0),
         labelFormat: '{value}°C',
-        majorTickLines: const MajorTickLines(size: 0),
+        majorTickLines: MajorTickLines(size: 0),
       ),
       series: _getDefaultDateTimeSeries(),
       tooltipBehavior:

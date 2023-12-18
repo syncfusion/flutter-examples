@@ -133,20 +133,20 @@ class _SortingDefaultState extends SampleViewState {
   /// Returns the Cartesian chart with sorting options.
   SfCartesianChart _buildDefaultSortingChart() {
     return SfCartesianChart(
-      title: ChartTitle(text: "World's tallest buildings"),
+      title: const ChartTitle(text: "World's tallest buildings"),
       plotAreaBorderWidth: 0,
       primaryXAxis:
-          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
+          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
       onDataLabelRender: (DataLabelRenderArgs args) {
         args.text =
             args.dataPoints[args.viewportPointIndex].y.toString() + ' m';
       },
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 500,
           maximum: 900,
           interval: 100,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultSortingSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

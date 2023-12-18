@@ -226,26 +226,25 @@ class _MACDIndicatorState extends SampleViewState {
         minimum: DateTime(2016),
         maximum: DateTime(2017),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 70,
           maximum: 130,
           interval: 20,
-          axisLine: const AxisLine(width: 0)),
-      axes: <ChartAxis>[
+          axisLine: AxisLine(width: 0)),
+      axes: const <ChartAxis>[
         NumericAxis(
-            majorGridLines: const MajorGridLines(width: 0),
-            axisLine: const AxisLine(width: 0),
+            majorGridLines: MajorGridLines(width: 0),
+            axisLine: AxisLine(width: 0),
             opposedPosition: true,
             name: 'agybrd',
             interval: 2)
       ],
-      indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
+      indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// MACD indicator mentioned here.
         MacdIndicator<ChartSampleData, DateTime>(
             period: _period.toInt(),
             longPeriod: _longPeriod.toInt(),
             shortPeriod: _shortPeriod.toInt(),
-            signalLineWidth: 2,
             macdType: _macdType,
             seriesName: 'AAPL',
             yAxisName: 'agybrd'),
@@ -253,9 +252,10 @@ class _MACDIndicatorState extends SampleViewState {
       trackballBehavior: _trackballBehavior,
       tooltipBehavior: _tooltipBehavior,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <ChartSeries<ChartSampleData, DateTime>>[
+      series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
+            emptyPointSettings:
+                const EmptyPointSettings(mode: EmptyPointMode.zero),
             dataSource: getChartData(),
             opacity: 0.7,
             xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

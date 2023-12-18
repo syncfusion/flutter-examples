@@ -145,7 +145,7 @@ class _SwipingDataGridState extends SampleViewState {
             ? 0.0
             : double.tryParse(priceController!.text)!,
       );
-      dataSource.buildDataGridRows();
+      dataSource.buildDataGridRows(false);
       dataSource.updateDataSource();
       Navigator.pop(buildContext);
     }

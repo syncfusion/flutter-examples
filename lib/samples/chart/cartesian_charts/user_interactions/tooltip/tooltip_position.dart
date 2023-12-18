@@ -118,17 +118,17 @@ class _TooltipPositionState extends SampleViewState {
           title: AxisTitle(text: isCardView ? '' : 'Years'),
           majorGridLines: const MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}M',
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getCartesianSeries(),
     );
   }
 
   ///Returns the list of chart series
   ///which need to render on the cartesian chart.
-  List<ChartSeries<_ChartData, String>> _getCartesianSeries() {
+  List<CartesianSeries<_ChartData, String>> _getCartesianSeries() {
     return <ColumnSeries<_ChartData, String>>[
       ColumnSeries<_ChartData, String>(
           dataSource: chartData,

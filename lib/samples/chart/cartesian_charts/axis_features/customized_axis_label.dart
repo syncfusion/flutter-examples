@@ -232,7 +232,6 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
           dataSource: isCardView ? _tileViewData : _chartData,
           xValueMapper: (_LabelData sales, _) => sales.x,
           yValueMapper: (_LabelData sales, _) => sales.y,
-          width: 2,
           markerSettings: const MarkerSettings(isVisible: true))
     ];
   }

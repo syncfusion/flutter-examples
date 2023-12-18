@@ -193,9 +193,9 @@ class _IntervalTypeState extends SampleViewState {
           edgeLabelPlacement: EdgeLabelPlacement.shift,
           majorGridLines: const MajorGridLines(width: 0),
           interval: _selectedIntervalType == 'months' ? 4 : 1),
-      primaryYAxis: NumericAxis(
-        axisLine: const AxisLine(width: 0),
-        majorTickLines: const MajorTickLines(size: 0),
+      primaryYAxis: const NumericAxis(
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
       ),
       series: _getDefaultDateTimeSeries(),
     );
@@ -205,7 +205,7 @@ class _IntervalTypeState extends SampleViewState {
   List<LineSeries<ChartSampleData, DateTime>> _getDefaultDateTimeSeries() {
     return <LineSeries<ChartSampleData, DateTime>>[
       LineSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         xValueMapper: (ChartSampleData data, _) => data.x as DateTime,
         yValueMapper: (ChartSampleData data, _) => data.yValue,
       )

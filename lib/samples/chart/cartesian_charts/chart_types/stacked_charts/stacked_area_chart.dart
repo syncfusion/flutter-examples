@@ -139,10 +139,10 @@ class _StackedAreaChartState extends SampleViewState {
           majorGridLines: const MajorGridLines(width: 0),
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y()),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
           labelFormat: '{value}B',
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedAreaSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -153,26 +153,22 @@ class _StackedAreaChartState extends SampleViewState {
   List<StackedAreaSeries<ChartSampleData, DateTime>> _getStackedAreaSeries() {
     return <StackedAreaSeries<ChartSampleData, DateTime>>[
       StackedAreaSeries<ChartSampleData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Apple'),
       StackedAreaSeries<ChartSampleData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Orange'),
       StackedAreaSeries<ChartSampleData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Pears'),
       StackedAreaSeries<ChartSampleData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Others')

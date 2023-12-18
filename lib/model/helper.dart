@@ -935,9 +935,11 @@ Widget showWebThemeSettings(SampleModel model) {
                                   selectedValue = value;
                                   model.currentThemeData = (value == 0)
                                       ? ThemeData.from(
+                                          useMaterial3: false,
                                           colorScheme:
                                               const ColorScheme.light())
                                       : ThemeData.from(
+                                          useMaterial3: false,
                                           colorScheme:
                                               const ColorScheme.dark());
 
@@ -1207,16 +1209,20 @@ void showBottomSettingsPanel(SampleModel model, BuildContext context) {
                                       model.systemTheme.brightness !=
                                               Brightness.dark
                                           ? ThemeData.from(
+                                              useMaterial3: false,
                                               colorScheme:
                                                   const ColorScheme.light())
                                           : ThemeData.from(
+                                              useMaterial3: false,
                                               colorScheme:
                                                   const ColorScheme.dark());
                                 } else if (value == 1) {
                                   model.currentThemeData = ThemeData.from(
+                                      useMaterial3: false,
                                       colorScheme: const ColorScheme.light());
                                 } else {
                                   model.currentThemeData = ThemeData.from(
+                                      useMaterial3: false,
                                       colorScheme: const ColorScheme.dark());
                                 }
                                 setState(() {
@@ -1319,6 +1325,7 @@ void showBottomSheetSettingsPanel(BuildContext context, Widget propertyWidget) {
               ),
               Theme(
                   data: ThemeData(
+                      useMaterial3: false,
                       brightness: model.themeData.colorScheme.brightness,
                       primaryColor: model.backgroundColor,
                       colorScheme: model.themeData.colorScheme),

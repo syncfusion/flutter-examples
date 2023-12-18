@@ -40,8 +40,8 @@ class _AreaEmptyState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Inflation rate of US'),
-      primaryXAxis: NumericAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
         interval: 1,
       ),
       primaryYAxis: NumericAxis(

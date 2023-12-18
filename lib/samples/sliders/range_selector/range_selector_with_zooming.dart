@@ -598,7 +598,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
     columnChart = SfCartesianChart(
       margin: EdgeInsets.zero,
       primaryXAxis: DateTimeAxis(isVisible: false, maximum: DateTime(2018)),
-      primaryYAxis: NumericAxis(isVisible: false),
+      primaryYAxis: const NumericAxis(isVisible: false),
       plotAreaBorderWidth: 0,
       series: <SplineAreaSeries<ChartSampleData, DateTime>>[
         SplineAreaSeries<ChartSampleData, DateTime>(
@@ -630,7 +630,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
         themeData.colorScheme.brightness == Brightness.light;
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     splineChart = SfCartesianChart(
-      title: ChartTitle(text: 'EUR Exchange Rate From USD 2017'),
+      title: const ChartTitle(text: 'EUR Exchange Rate From USD 2017'),
       plotAreaBorderWidth: 0,
       tooltipBehavior: TooltipBehavior(
           animationDuration: 0, shadowColor: Colors.transparent, enable: true),
@@ -639,14 +639,14 @@ class _RangeSelectorZoomingPageState extends SampleViewState
           isVisible: false,
           minimum: DateTime.fromMillisecondsSinceEpoch(1483315200000),
           maximum: DateTime.fromMillisecondsSinceEpoch(1514678400000),
-          visibleMinimum: rangeController.start,
-          visibleMaximum: rangeController.end,
+          initialVisibleMinimum: rangeController.start,
+          initialVisibleMaximum: rangeController.end,
           rangeController: rangeController),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
         labelPosition: ChartDataLabelPosition.inside,
         labelAlignment: LabelAlignment.end,
-        majorTickLines: const MajorTickLines(size: 0),
-        axisLine: const AxisLine(color: Colors.transparent),
+        majorTickLines: MajorTickLines(size: 0),
+        axisLine: AxisLine(color: Colors.transparent),
         anchorRangeToVisiblePoints: false,
       ),
       series: <SplineSeries<ChartSampleData, DateTime>>[

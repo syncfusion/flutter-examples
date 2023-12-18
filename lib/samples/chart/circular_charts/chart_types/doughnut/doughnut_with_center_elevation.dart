@@ -39,8 +39,8 @@ class _DoughnutDefaultState extends SampleViewState {
               color: const Color.fromRGBO(230, 230, 230, 1),
               child: Container(),
             )),
-        CircularChartAnnotation(
-            widget: const Text('62%',
+        const CircularChartAnnotation(
+            widget: Text('62%',
                 style: TextStyle(
                     color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25)))
       ],

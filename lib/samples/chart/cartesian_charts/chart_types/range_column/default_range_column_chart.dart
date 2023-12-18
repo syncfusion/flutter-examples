@@ -41,8 +41,8 @@ class _RangeColumnDefaultState extends SampleViewState {
           text: isCardView
               ? ''
               : 'Average half-yearly temperature variation of London, UK'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           axisLine: const AxisLine(width: 0),

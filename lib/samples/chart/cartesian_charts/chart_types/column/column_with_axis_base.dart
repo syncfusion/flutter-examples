@@ -82,11 +82,11 @@ class _AxisCrossingBaseValueState extends SampleViewState {
           labelIntersectAction: AxisLabelIntersectAction.wrap,
           crossesAt: _crossAt,
           placeLabelsNearAxisLine: false),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
           minimum: -2,
           maximum: 2,
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -95,8 +95,8 @@ class _AxisCrossingBaseValueState extends SampleViewState {
   /// Returns the list of chart series which need to render on
   /// the bar or column chart with axis crossing.
 
-  List<ChartSeries<ChartSampleData, String>> _getSeries() {
-    return <ChartSeries<ChartSampleData, String>>[
+  List<CartesianSeries<ChartSampleData, String>> _getSeries() {
+    return <CartesianSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: <ChartSampleData>[
             ChartSampleData(

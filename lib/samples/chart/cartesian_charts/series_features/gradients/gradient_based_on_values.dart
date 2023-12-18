@@ -39,7 +39,7 @@ class _GradientComparisonState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'Average monthly temperature of London'),
       primaryXAxis:
-          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
+          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}°C',
           minimum: 0,

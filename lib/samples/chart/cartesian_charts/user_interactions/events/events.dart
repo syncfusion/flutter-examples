@@ -169,31 +169,31 @@ class _EventsState extends SampleViewState {
       onAxisLabelTapped: (AxisLabelTapArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Axis label (${args.text}) was tapped');
-          (consoleKey.currentState)?.setState(() {});
+          consoleKey.currentState?.setState(() {});
         }
       },
       onDataLabelTapped: (DataLabelTapDetails args) {
         if (!isCardView) {
           actionsList.insert(0, 'Data label (${args.text}) was tapped');
-          (consoleKey.currentState)?.setState(() {});
+          consoleKey.currentState?.setState(() {});
         }
       },
       onChartTouchInteractionDown: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Chart was tapped down');
-          (consoleKey.currentState)?.setState(() {});
+          consoleKey.currentState?.setState(() {});
         }
       },
       onChartTouchInteractionMove: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Moved on chart area');
-          (consoleKey.currentState)?.setState(() {});
+          consoleKey.currentState?.setState(() {});
         }
       },
       onLegendTapped: (LegendTapArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Legend was tapped');
-          (consoleKey.currentState)?.setState(() {});
+          consoleKey.currentState?.setState(() {});
         }
       },
       onMarkerRender: (MarkerRenderArgs args) {
@@ -201,7 +201,7 @@ class _EventsState extends SampleViewState {
           actionsList.insert(0, 'Marker (${args.pointIndex}) was rendered');
           if (args.pointIndex == 5) {
             SchedulerBinding.instance.addPostFrameCallback((_) {
-              (consoleKey.currentState)?.setState(() {});
+              consoleKey.currentState?.setState(() {});
             });
           }
         }
@@ -210,14 +210,14 @@ class _EventsState extends SampleViewState {
         if (!isCardView) {
           actionsList.insert(0, 'Tooltip (${args.text}) is showing');
           SchedulerBinding.instance.addPostFrameCallback((_) {
-            (consoleKey.currentState)?.setState(() {});
+            consoleKey.currentState?.setState(() {});
           });
         }
       },
       onChartTouchInteractionUp: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
           actionsList.insert(0, 'Chart was tapped up');
-          (consoleKey.currentState)?.setState(() {});
+          consoleKey.currentState?.setState(() {});
         }
       },
       onLegendItemRender: (LegendRenderArgs args) {
@@ -268,7 +268,7 @@ class _EventsState extends SampleViewState {
         onPointTap: (ChartPointDetails args) {
           if (!isCardView) {
             actionsList.insert(0, 'Point (${args.pointIndex}) was tapped');
-            (consoleKey.currentState)?.setState(() {});
+            consoleKey.currentState?.setState(() {});
           }
         },
         dataSource: chartData,

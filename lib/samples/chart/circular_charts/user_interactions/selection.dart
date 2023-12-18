@@ -110,7 +110,6 @@ class _CircularSelectionState extends SampleViewState {
       title: ChartTitle(
           text:
               isCardView ? '' : 'Age distribution by country - 5 to 50 years'),
-      selectionGesture: ActivationMode.singleTap,
       enableMultiSelection: enableMultiSelect,
       series: getCircularSelectionSeries(),
     );

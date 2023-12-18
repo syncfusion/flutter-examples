@@ -25,7 +25,7 @@ class _PointColorMapperState extends SampleViewState {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(enable: true, canShowMarker: true);
+    _tooltipBehavior = TooltipBehavior(enable: true);
     chartData = <ChartSampleData>[
       ChartSampleData(x: 'Jan', y: 4.3),
       ChartSampleData(x: 'Feb', y: 5.2),
@@ -80,9 +80,9 @@ class _PointColorMapperState extends SampleViewState {
   SfCartesianChart _buildPointColorMapperChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(text: 'Average monthly temperature of London'),
+      title: const ChartTitle(text: 'Average monthly temperature of London'),
       primaryXAxis:
-          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
+          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
           labelFormat: '{value}°C',
           minimum: 0,
@@ -99,7 +99,7 @@ class _PointColorMapperState extends SampleViewState {
   List<CartesianSeries<ChartSampleData, String>> _getPointColorMapperSeries() {
     return <CartesianSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           dataLabelSettings: const DataLabelSettings(isVisible: true),

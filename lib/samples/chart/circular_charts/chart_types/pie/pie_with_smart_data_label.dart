@@ -108,7 +108,7 @@ class _PieSmartDataLabelsState extends SampleViewState {
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,
           dataLabelMapper: (ChartSampleData data, _) =>
-              data.x + ': ' + (data.y).toString() as String,
+              data.x + ': ' + data.y.toString() as String,
           radius: '60%',
           dataLabelSettings: DataLabelSettings(
               margin: EdgeInsets.zero,

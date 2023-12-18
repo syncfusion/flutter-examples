@@ -992,6 +992,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
 
     return Theme(
       data: ThemeData(
+          useMaterial3: false,
           brightness: model.themeData.colorScheme.brightness,
           primaryColor: model.backgroundColor,
           colorScheme: model.themeData.colorScheme),
@@ -2019,6 +2020,7 @@ class _OutputContainerState extends State<_OutputContainer> {
               ],
               locale: const Locale('en', 'US'),
               theme: ThemeData(
+                  useMaterial3: false,
                   checkboxTheme: CheckboxThemeData(
                       fillColor: MaterialStateProperty.resolveWith(getColor)),
                   brightness:
@@ -2199,6 +2201,7 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData(
+                  useMaterial3: false,
                   brightness:
                       widget.sampleModel!.themeData.colorScheme.brightness,
                   primaryColor: widget.sampleModel!.backgroundColor,
@@ -2640,6 +2643,7 @@ class _PopupState extends State<_Popup> {
                 child: _sampleDetails != null
                     ? Theme(
                         data: ThemeData(
+                            useMaterial3: false,
                             checkboxTheme: CheckboxThemeData(
                                 fillColor: MaterialStateProperty.resolveWith(
                                     getColor)),

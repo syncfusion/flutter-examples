@@ -44,13 +44,13 @@ class _AnnotationDefaultState extends SampleViewState {
               ? ''
               : 'Euro to USD monthly exchange rate - 2015 to 2018'),
       primaryXAxis:
-          DateTimeAxis(majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-        axisLine: const AxisLine(width: 0),
+          const DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
+        axisLine: AxisLine(width: 0),
         labelFormat: r'${value}',
         minimum: 0.95,
         maximum: 1.3,
-        majorTickLines: const MajorTickLines(size: 0),
+        majorTickLines: MajorTickLines(size: 0),
       ),
       series: _getAnnotationLineSeries(),
       trackballBehavior: _trackballBehavior,

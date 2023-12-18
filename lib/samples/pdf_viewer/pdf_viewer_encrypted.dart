@@ -4,15 +4,15 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../model/sample_view.dart';
 
 /// Read the encrypted PDF document.
-class Encrypted extends SampleView {
+class EncryptedPdfViewer extends SampleView {
   /// Read the encrypted PDF document.
-  const Encrypted(Key key) : super(key: key);
+  const EncryptedPdfViewer(Key key) : super(key: key);
 
   @override
-  _EncryptedState createState() => _EncryptedState();
+  _EncryptedPdfViewerState createState() => _EncryptedPdfViewerState();
 }
 
-class _EncryptedState extends SampleViewState {
+class _EncryptedPdfViewerState extends SampleViewState {
   bool _showMasterPage = true;
   final String _documentPath = 'assets/pdf/encrypted_document.pdf';
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();

@@ -128,6 +128,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return Theme(
         data: ThemeData(
+          useMaterial3: false,
           brightness: model.themeData.colorScheme.brightness,
           colorScheme:
               model.themeData.colorScheme.brightness == Brightness.light

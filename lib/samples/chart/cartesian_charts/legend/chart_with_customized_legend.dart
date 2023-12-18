@@ -48,49 +48,45 @@ class _LegendCustomizedState extends SampleViewState {
               ]));
         },
       ),
-      primaryXAxis: NumericAxis(
+      primaryXAxis: const NumericAxis(
           edgeLabelPlacement: EdgeLabelPlacement.shift,
-          majorGridLines: const MajorGridLines(width: 0),
+          majorGridLines: MajorGridLines(width: 0),
           interval: 1),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 0,
           maximum: 120,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(color: Colors.transparent)),
       series: _getLegendCustomizedSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
   /// Returns the list of chart series which need to render on the line chart.
-  List<ChartSeries<ChartSampleData, num>> _getLegendCustomizedSeries() {
-    return <ChartSeries<ChartSampleData, num>>[
+  List<CartesianSeries<ChartSampleData, num>> _getLegendCustomizedSeries() {
+    return <CartesianSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
-        width: 2,
         markerSettings: const MarkerSettings(isVisible: true),
-        dataSource: chartData!,
+        dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         name: 'Truck',
       ),
       LineSeries<ChartSampleData, num>(
           markerSettings: const MarkerSettings(isVisible: true),
-          width: 2,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Car'),
       LineSeries<ChartSampleData, num>(
           markerSettings: const MarkerSettings(isVisible: true),
-          width: 2,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Bike'),
       LineSeries<ChartSampleData, num>(
           markerSettings: const MarkerSettings(isVisible: true),
-          width: 2,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Bicycle')

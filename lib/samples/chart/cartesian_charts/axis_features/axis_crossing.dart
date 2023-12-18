@@ -157,8 +157,8 @@ class _AxisCrossingState extends SampleViewState {
   /// Returns the list of chart series which need to render on
   /// the spline chart with axis crossing.
 
-  List<ChartSeries<ChartSampleData, num>> _getSeries(String seriesType) {
-    return <ChartSeries<ChartSampleData, num>>[
+  List<CartesianSeries<ChartSampleData, num>> _getSeries(String seriesType) {
+    return <CartesianSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
           dataSource: <ChartSampleData>[
             ChartSampleData(x: -7, y: -3),
@@ -174,8 +174,7 @@ class _AxisCrossingState extends SampleViewState {
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           color: const Color.fromRGBO(20, 122, 20, 1),
-          name: 'Cubic Interpolation',
-          width: 2),
+          name: 'Cubic Interpolation'),
     ];
   }
 

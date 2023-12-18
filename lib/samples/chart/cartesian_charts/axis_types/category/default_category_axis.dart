@@ -39,10 +39,10 @@ class _CategoryDefaultState extends SampleViewState {
       plotAreaBorderWidth: 0,
 
       /// X axis as category axis placed here.
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           minimum: 0, maximum: 80, isVisible: false, labelFormat: '{value}M'),
       series: _getDefaultCategory(),
       tooltipBehavior: _tooltipBehavior,

@@ -1,8 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' show NumberFormat;
+// ignore: depend_on_referenced_packages
+import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+import '../../../model/model.dart';
 import '../pdf_viewer_custom_toolbar.dart';
 import 'helper.dart';
 
@@ -517,6 +522,61 @@ class ToolbarItem extends StatelessWidget {
   }
 }
 
+/// Split button widget.
+class SplitButton extends StatelessWidget {
+  /// Create Split button widget.
+  const SplitButton(
+      {required this.onPrimaryButtonPressed,
+      required this.onSecondaryButtonPressed,
+      required this.child,
+      this.height,
+      this.width,
+      super.key});
+
+  /// Triggers when the primary button is pressed.
+  final VoidCallback onPrimaryButtonPressed;
+
+  /// Triggers when the drop down icon is pressed.
+  final VoidCallback onSecondaryButtonPressed;
+
+  /// Height of the split button.
+  final double? height;
+
+  /// Width of the split button.
+  final double? width;
+
+  /// The child widget.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          GestureDetector(
+            onTap: onPrimaryButtonPressed,
+            child: child,
+          ),
+          SizedBox(
+            height: height,
+            child: GestureDetector(
+              onTap: onSecondaryButtonPressed,
+              child: const Icon(
+                Icons.keyboard_arrow_down,
+                size: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /// TextSearchOverlay widget for search operation.This is for web platform.
 class TextSearchOverlay extends StatefulWidget {
   /// Constructor for TextSearchOverlay.
@@ -880,7 +940,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                           thickness: 1.0, // thickness of vertical divider
                           color: _isLight
                               ? Colors.black.withOpacity(0.24)
-                              : const Color.fromRGBO(255, 255, 255, 0.26),
+                              : Colors.white.withOpacity(0.26),
                         ),
                       )),
                   // Previous search instance button
@@ -962,6 +1022,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                       width: 18, // width of match case checkbox
                       child: Theme(
                         data: ThemeData(
+                          useMaterial3: false,
                           unselectedWidgetColor: _isLight
                               ? const Color.fromRGBO(0, 0, 0, 0.54)
                               : const Color.fromRGBO(255, 255, 255, 0.54),
@@ -1008,6 +1069,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                       width: 18, // height of whole word checkbox
                       child: Theme(
                         data: ThemeData(
+                          useMaterial3: false,
                           unselectedWidgetColor: _isLight
                               ? const Color.fromRGBO(0, 0, 0, 0.54)
                               : const Color.fromRGBO(255, 255, 255, 0.54),
@@ -1103,5 +1165,1082 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
   void clearSearchResult() {
     _isSearchInitiated = false;
     _pdfTextSearchResult.clear();
+  }
+}
+
+/// Color palette widget
+class ColorPalette extends StatefulWidget {
+  /// Constructor for color palette widget
+  const ColorPalette(
+      {this.selectedAnnotation,
+      required this.pdfViewerController,
+      required this.model,
+      this.selectedColor,
+      this.selectedOpacity,
+      this.onOpcatiySliderViewChanged,
+      this.onColorChanged,
+      this.onOpacityChanged,
+      super.key});
+
+  /// The selected annotation in the [SfPdfViewer].
+  final Annotation? selectedAnnotation;
+
+  /// An object that is used to control the [SfPdfViewer].
+  final PdfViewerController pdfViewerController;
+
+  /// Selected color
+  final Color? selectedColor;
+
+  /// Selected Opactity
+  final double? selectedOpacity;
+
+  /// Sample model of the entire SB.
+  final SampleModel model;
+
+  /// Triggers when the opacity slider view changed
+  final void Function(bool)? onOpcatiySliderViewChanged;
+
+  /// Triggers when the color is changed
+  final void Function(Color)? onColorChanged;
+
+  /// Triggers when the opacity is changed
+  final void Function(double)? onOpacityChanged;
+
+  @override
+  State<ColorPalette> createState() => _ColorPaletteState();
+}
+
+class _ColorPaletteState extends State<ColorPalette> {
+  bool _isLight = false;
+  Color? _color;
+  late Color _selectionColor;
+  Color? _textColor;
+  Color? _selectedColor;
+  double _sliderValue = 1;
+  bool _isDesktop = false;
+  bool _canShowOpacitySlider = false;
+  double _width = 0;
+  double _height = 0;
+
+  @override
+  void initState() {
+    _selectedColor = widget.selectedColor;
+    _sliderValue = widget.selectedOpacity ?? 1;
+    _isDesktop = isDesktop &&
+        widget.model.isMobileResolution != null &&
+        !widget.model.isMobileResolution;
+    _width = _isDesktop ? 316 : 0;
+    _height = _isDesktop ? 312 : 56;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant ColorPalette oldWidget) {
+    _selectedColor = widget.selectedColor;
+    _sliderValue = widget.selectedOpacity ?? 1;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    _isLight = widget.model.themeData.brightness == Brightness.light;
+    _color = _isLight ? const Color(0xFFFAFAFA) : const Color(0xFF424242);
+    _textColor = _isLight
+        ? const Color(0x00000000).withOpacity(0.87)
+        : const Color(0x00ffffff).withOpacity(0.87);
+    _selectionColor = _isLight ? Colors.black : const Color(0xFFFAFAFA);
+    super.didChangeDependencies();
+  }
+
+  /// Returns the color palette widget for desktop platform.
+  Widget _getDesktopPalette() {
+    return Material(
+      child: Container(
+        width: _width,
+        height: _height,
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+          color: _color,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+                height: 208,
+                padding: const EdgeInsets.all(14.0),
+                child: GridView.count(
+                  crossAxisCount: 8,
+                  children: <Widget>[
+                    for (final Color color in <Color>[
+                      Colors.white,
+                      const Color(0xFFDADADA),
+                      const Color(0xFFB2B1B1),
+                      const Color(0xFF909090),
+                      const Color(0xFF6F6F6F),
+                      const Color(0xFF515151),
+                      const Color(0xFF383737),
+                      const Color(0xFF060606),
+                      const Color(0xFFFFA6A6),
+                      const Color(0xFFFFDEA6),
+                      const Color(0xFFFBFBA6),
+                      const Color(0xFFA7FFAB),
+                      const Color(0xFFA6FFF9),
+                      const Color(0xFFACA9FF),
+                      const Color(0xFFE7A6FF),
+                      const Color(0xFFFBA6FB),
+                      const Color(0xFFFF0000),
+                      const Color(0xFFFFA200),
+                      const Color(0xFFF3F500),
+                      const Color(0xFF03FF0F),
+                      const Color(0xFF00FFEF),
+                      const Color(0xFF1108FF),
+                      const Color(0xFFB900FF),
+                      const Color(0xFFF500F3),
+                      const Color(0xFFD60000),
+                      const Color(0xFFD68800),
+                      const Color(0xFFCACC00),
+                      const Color(0xFF00D60A),
+                      const Color(0xFF00D6C8),
+                      const Color(0xFF0800E0),
+                      const Color(0xFF9B00D6),
+                      const Color(0xFFCC00CA),
+                      const Color(0xFF990000),
+                      const Color(0xFF996100),
+                      const Color(0xFF979900),
+                      const Color(0xFF009907),
+                      const Color(0xFF00998F),
+                      const Color(0xFF050099),
+                      const Color(0xFF6F0099),
+                      const Color(0xFF990097),
+                    ])
+                      GestureDetector(
+                        onTap: () {
+                          widget.onColorChanged?.call(color);
+                          setState(() {
+                            _selectedColor = color;
+                          });
+                          if (widget.selectedAnnotation != null) {
+                            widget.selectedAnnotation!.color = color;
+                          } else {
+                            final PdfAnnotationMode annotationMode =
+                                widget.pdfViewerController.annotationMode;
+                            if (annotationMode == PdfAnnotationMode.highlight) {
+                              widget.pdfViewerController.annotationSettings
+                                  .highlight.color = color;
+                            } else if (annotationMode ==
+                                PdfAnnotationMode.strikethrough) {
+                              widget.pdfViewerController.annotationSettings
+                                  .strikethrough.color = color;
+                            } else if (annotationMode ==
+                                PdfAnnotationMode.underline) {
+                              widget.pdfViewerController.annotationSettings
+                                  .underline.color = color;
+                            } else if (annotationMode ==
+                                PdfAnnotationMode.squiggly) {
+                              widget.pdfViewerController.annotationSettings
+                                  .squiggly.color = color;
+                            }
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(4)),
+                            border: Border.all(
+                              color: _selectedColor == color
+                                  ? _selectionColor
+                                  : Colors.transparent,
+                              width: 2,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: _selectedColor == color
+                                ? const EdgeInsets.all(2.0)
+                                : EdgeInsets.zero,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: color,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(4),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                )),
+            const Divider(
+              height: 1,
+              thickness: 1,
+              color: Color(0x1F000000),
+            ),
+            SizedBox(
+              height: 103,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0, top: 12.0),
+                    child: Text(
+                      'Opacity',
+                      style: TextStyle(
+                        color: _textColor,
+                        fontSize: 14,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: _opacitySlider(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Returns the color palette widget for mobile platform.
+  Widget _getMobilePalette() {
+    return SizedBox(
+      height: _height,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+            child: Visibility(
+                visible: _canShowOpacitySlider, child: _opacitySlider()),
+          ),
+          Visibility(
+            visible: _canShowOpacitySlider,
+            child: Divider(
+              height: 1,
+              thickness: 1,
+              color: _isLight
+                  ? Colors.black.withOpacity(0.24)
+                  : Colors.white.withOpacity(0.26),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 8.0, bottom: 7.0, left: 12.0, right: 12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      for (final Color color in [
+                        const Color(0xFF03FF0F),
+                        const Color(0xFF00FFEF),
+                        const Color(0xFF1108FF),
+                        const Color(0xFFB900FF),
+                        const Color(0xFFF500F3),
+                        const Color(0xFFD60000),
+                        const Color(0xFFD68800),
+                      ])
+                        ToolbarItem(
+                          height: 40,
+                          width: 40,
+                          child: RawMaterialButton(
+                            onPressed: () {
+                              setState(() {
+                                widget.onColorChanged?.call(color);
+                                _selectedColor = color;
+                              });
+                              if (widget.selectedAnnotation != null) {
+                                widget.selectedAnnotation!.color = color;
+                              } else {
+                                final PdfAnnotationMode annotationMode =
+                                    widget.pdfViewerController.annotationMode;
+                                if (annotationMode ==
+                                    PdfAnnotationMode.highlight) {
+                                  widget.pdfViewerController.annotationSettings
+                                      .highlight.color = color;
+                                } else if (annotationMode ==
+                                    PdfAnnotationMode.strikethrough) {
+                                  widget.pdfViewerController.annotationSettings
+                                      .strikethrough.color = color;
+                                } else if (annotationMode ==
+                                    PdfAnnotationMode.underline) {
+                                  widget.pdfViewerController.annotationSettings
+                                      .underline.color = color;
+                                } else if (annotationMode ==
+                                    PdfAnnotationMode.squiggly) {
+                                  widget.pdfViewerController.annotationSettings
+                                      .squiggly.color = color;
+                                }
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(4)),
+                                border: Border.all(
+                                  color: _selectedColor == color
+                                      ? _selectionColor.withOpacity(0.87)
+                                      : Colors.transparent,
+                                  width: 2,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: _selectedColor == color
+                                    ? const EdgeInsets.all(2.0)
+                                    : EdgeInsets.zero,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: color,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(4),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0, left: 4.0),
+                  child: Container(
+                    color: _isLight
+                        ? Colors.black.withOpacity(0.24)
+                        : Colors.white.withOpacity(0.26),
+                    child: const VerticalDivider(
+                      thickness: 1,
+                      endIndent: 32,
+                      width: 1,
+                    ),
+                  ),
+                ),
+                ToolbarItem(
+                  height: 35,
+                  width: 35,
+                  child: RawMaterialButton(
+                    onPressed: () {
+                      setState(() {
+                        _canShowOpacitySlider = !_canShowOpacitySlider;
+                        widget.onOpcatiySliderViewChanged
+                            ?.call(_canShowOpacitySlider);
+                        _height = _canShowOpacitySlider ? 2 * 56 : 56;
+                      });
+                    },
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        image: const DecorationImage(
+                            opacity: 0.7,
+                            image: AssetImage('images/pdf_viewer/opacity.png')),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Returns the opacity slider widget.
+  Widget _opacitySlider() {
+    return SfSliderTheme(
+      data: SfSliderThemeData(
+        tooltipBackgroundColor: widget.model.backgroundColor,
+        tooltipTextStyle: TextStyle(
+          color: Colors.white.withOpacity(0.87),
+        ),
+      ),
+      child: SfSlider(
+        value: _sliderValue,
+        enableTooltip: true,
+        numberFormat: NumberFormat('# %'),
+        onChanged: (value) {
+          setState(() {
+            _sliderValue = value as double;
+          });
+        },
+        onChangeEnd: (value) {
+          if (widget.selectedAnnotation != null) {
+            widget.selectedAnnotation!.opacity = value as double;
+          } else {
+            final PdfAnnotationMode annotationMode =
+                widget.pdfViewerController.annotationMode;
+            if (annotationMode == PdfAnnotationMode.highlight) {
+              widget.pdfViewerController.annotationSettings.highlight.opacity =
+                  value as double;
+            } else if (annotationMode == PdfAnnotationMode.strikethrough) {
+              widget.pdfViewerController.annotationSettings.strikethrough
+                  .opacity = value as double;
+            } else if (annotationMode == PdfAnnotationMode.underline) {
+              widget.pdfViewerController.annotationSettings.underline.opacity =
+                  value as double;
+            } else if (annotationMode == PdfAnnotationMode.squiggly) {
+              widget.pdfViewerController.annotationSettings.squiggly.opacity =
+                  value as double;
+            }
+          }
+          widget.onOpacityChanged?.call(value as double);
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _isDesktop ? _getDesktopPalette() : _getMobilePalette();
+  }
+}
+
+/// Mobile bottom toolbar
+class BottomToolbar extends StatefulWidget {
+  /// Constructor for [BottomToolbar]
+  const BottomToolbar(
+      {required this.pdfViewerController,
+      required this.model,
+      this.undoController,
+      this.selectedAnnotation,
+      this.onBackButtonPressed,
+      this.showTooltip = true,
+      super.key});
+
+  /// An object that is used to control the [SfPdfViewer].
+  final PdfViewerController pdfViewerController;
+
+  /// An object that is used to control the undo history of [SfPdfViewer].
+  final UndoHistoryController? undoController;
+
+  /// Selected annotation
+  final Annotation? selectedAnnotation;
+
+  /// Sample model of the entire SB.
+  final SampleModel model;
+
+  /// Triggers when the back button in the toolbar is pressed
+  final VoidCallback? onBackButtonPressed;
+
+  /// Indicates whether to show tooltip or not
+  final bool showTooltip;
+
+  @override
+  State<BottomToolbar> createState() => _BottomToolbarState();
+}
+
+class _BottomToolbarState extends State<BottomToolbar> {
+  // Height of each section of the bottom toolbar.
+  static const double _toolBarSectionHeight = 56.0;
+  SfPdfViewerThemeData? _pdfViewerThemeData;
+  late bool _isLight;
+  double _toolbarHeight = _toolBarSectionHeight;
+  bool _canShowColorPalette = false;
+  Color? _selectedColor;
+  double _currentOpacity = 1;
+  bool _isSecondaryToolbarVisible = false;
+  UndoHistoryController? _undoController;
+
+  @override
+  void initState() {
+    _undoController = widget.undoController;
+    if (_undoController != null) {
+      _undoController!.onUndo.addListener(_onUndoRedo);
+      _undoController!.onRedo.addListener(_onUndoRedo);
+    }
+    _isSecondaryToolbarVisible = widget.selectedAnnotation != null;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant BottomToolbar oldWidget) {
+    if (oldWidget.undoController != widget.undoController) {
+      if (_undoController != null) {
+        _undoController!.onUndo.removeListener(_onUndoRedo);
+        _undoController!.onRedo.removeListener(_onUndoRedo);
+        _undoController!.dispose();
+        _undoController = null;
+      }
+      if (widget.undoController != null) {
+        _undoController = widget.undoController;
+        _undoController!.onUndo.addListener(_onUndoRedo);
+        _undoController!.onRedo.addListener(_onUndoRedo);
+      }
+    }
+    _isSecondaryToolbarVisible = widget.selectedAnnotation != null;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    _pdfViewerThemeData = SfPdfViewerTheme.of(context);
+    _isLight = _pdfViewerThemeData!.brightness == Brightness.light;
+    _isSecondaryToolbarVisible = widget.selectedAnnotation != null;
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: _isLight ? Colors.white : const Color(0xFF424242),
+      child: widget.selectedAnnotation != null
+          ? _textMarkupSettingsToolbar()
+          : !_isSecondaryToolbarVisible
+              ? _textMarkupToolbar()
+              : _addTextMarkupToolbar(),
+    );
+  }
+
+  /// Triggered when the undo or redo action is performed.
+  void _onUndoRedo() {
+    if (mounted) {
+      if (widget.selectedAnnotation != null) {
+        setState(() {
+          _selectedColor = widget.selectedAnnotation!.color;
+          _currentOpacity = widget.selectedAnnotation!.opacity;
+        });
+      }
+    }
+  }
+
+  Widget _getIcon({PdfAnnotationMode? annotationMode, Annotation? annotation}) {
+    if (annotationMode == PdfAnnotationMode.highlight ||
+        annotation is HighlightAnnotation) {
+      return ImageIcon(
+        const AssetImage(
+          'images/pdf_viewer/highlight.png',
+        ),
+        size: 20,
+        color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
+      );
+    } else if (annotationMode == PdfAnnotationMode.strikethrough ||
+        annotation is StrikethroughAnnotation) {
+      return ImageIcon(
+        const AssetImage(
+          'images/pdf_viewer/strikethrough.png',
+        ),
+        size: 20,
+        color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
+      );
+    } else if (annotationMode == PdfAnnotationMode.underline ||
+        annotation is UnderlineAnnotation) {
+      return ImageIcon(
+        const AssetImage(
+          'images/pdf_viewer/underline.png',
+        ),
+        size: 20,
+        color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
+      );
+    } else if (annotationMode == PdfAnnotationMode.squiggly ||
+        annotation is SquigglyAnnotation) {
+      return ImageIcon(
+        const AssetImage(
+          'images/pdf_viewer/squiggly.png',
+        ),
+        size: 20,
+        color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  /// Returns the text markup toolbar with highlight, strikethrough, underline and squiggly annotation buttons.
+  Widget _textMarkupToolbar() {
+    return SizedBox(
+      height: _toolBarSectionHeight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Divider(
+            color: _isLight
+                ? Colors.black.withOpacity(0.26)
+                : Colors.white.withOpacity(0.26),
+            thickness: 1,
+            height: 1,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 7.0, bottom: 8.0, left: 12.0, right: 12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ToolbarItem(
+                  height: 40,
+                  width: 40,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                      icon:
+                          _getIcon(annotationMode: PdfAnnotationMode.highlight),
+                      onPressed: () {
+                        widget.pdfViewerController.annotationMode =
+                            PdfAnnotationMode.highlight;
+                        setState(() {
+                          _isSecondaryToolbarVisible = true;
+                          _selectedColor = widget.pdfViewerController
+                              .annotationSettings.highlight.color;
+                          _currentOpacity = widget.pdfViewerController
+                              .annotationSettings.highlight.opacity;
+                        });
+                      },
+                      tooltip: widget.showTooltip ? 'Highlight' : null,
+                    ),
+                  ),
+                ),
+                ToolbarItem(
+                  height: 40,
+                  width: 40,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                      icon:
+                          _getIcon(annotationMode: PdfAnnotationMode.underline),
+                      onPressed: () {
+                        widget.pdfViewerController.annotationMode =
+                            PdfAnnotationMode.underline;
+                        setState(() {
+                          _isSecondaryToolbarVisible = true;
+                          _selectedColor = widget.pdfViewerController
+                              .annotationSettings.underline.color;
+                          _currentOpacity = widget.pdfViewerController
+                              .annotationSettings.underline.opacity;
+                        });
+                      },
+                      tooltip: widget.showTooltip ? 'Underline' : null,
+                    ),
+                  ),
+                ),
+                ToolbarItem(
+                  height: 40,
+                  width: 40,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                      icon: _getIcon(
+                          annotationMode: PdfAnnotationMode.strikethrough),
+                      onPressed: () {
+                        widget.pdfViewerController.annotationMode =
+                            PdfAnnotationMode.strikethrough;
+                        setState(() {
+                          _isSecondaryToolbarVisible = true;
+                          _selectedColor = widget.pdfViewerController
+                              .annotationSettings.strikethrough.color;
+                          _currentOpacity = widget.pdfViewerController
+                              .annotationSettings.strikethrough.opacity;
+                        });
+                      },
+                      tooltip: widget.showTooltip ? 'Strikethrough' : null,
+                    ),
+                  ),
+                ),
+                ToolbarItem(
+                  height: 40,
+                  width: 40,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                      icon:
+                          _getIcon(annotationMode: PdfAnnotationMode.squiggly),
+                      onPressed: () {
+                        widget.pdfViewerController.annotationMode =
+                            PdfAnnotationMode.squiggly;
+                        setState(() {
+                          _isSecondaryToolbarVisible = true;
+                          _selectedColor = widget.pdfViewerController
+                              .annotationSettings.squiggly.color;
+                          _currentOpacity = widget.pdfViewerController
+                              .annotationSettings.squiggly.opacity;
+                        });
+                      },
+                      tooltip: widget.showTooltip ? 'Squiggly' : null,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Return the toolbar for adding new text markup annotations.
+  Widget _addTextMarkupToolbar() {
+    return SizedBox(
+      height: _toolbarHeight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Visibility(
+            visible: _canShowColorPalette,
+            child: ColorPalette(
+              model: widget.model,
+              pdfViewerController: widget.pdfViewerController,
+              selectedAnnotation: widget.selectedAnnotation,
+              selectedColor: _selectedColor,
+              selectedOpacity: _currentOpacity,
+              onColorChanged: (Color selectedColor) {
+                setState(() {
+                  _selectedColor = selectedColor;
+                });
+              },
+              onOpcatiySliderViewChanged: (bool isShowing) {
+                if (isShowing) {
+                  // If the opacity slider is shown, the bottom toolbar height will be 3 times of the toolbar section height.
+                  setState(() {
+                    _toolbarHeight = 3 * _toolBarSectionHeight;
+                  });
+                } else {
+                  // If the opacity slider is hidden, and the color palette is visible, the bottom toolbar height will be 2 times of the toolbar section height.
+                  setState(() {
+                    _toolbarHeight = _isSecondaryToolbarVisible
+                        ? 2 * _toolBarSectionHeight
+                        : _toolBarSectionHeight;
+                  });
+                }
+              },
+              onOpacityChanged: (double opacity) {
+                setState(() {
+                  _currentOpacity = opacity;
+                });
+              },
+            ),
+          ),
+          Divider(
+            color: _isLight
+                ? Colors.black.withOpacity(0.26)
+                : Colors.white.withOpacity(0.26),
+            thickness: 1,
+            indent: 0,
+            endIndent: 0,
+            height: 1,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                left: 12.0, right: 12.0, top: 7.0, bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    ToolbarItem(
+                      height: 40,
+                      width: 40,
+                      child: RawMaterialButton(
+                        onPressed: () {
+                          widget.pdfViewerController.annotationMode =
+                              PdfAnnotationMode.none;
+                          setState(() {
+                            _isSecondaryToolbarVisible = false;
+                            _canShowColorPalette = false;
+                            _toolbarHeight = _toolBarSectionHeight;
+                          });
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: _isLight
+                              ? Colors.black.withOpacity(0.5)
+                              : Colors.white.withOpacity(0.5),
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0, left: 4.0),
+                      child: Container(
+                        color: _isLight
+                            ? Colors.black.withOpacity(0.24)
+                            : Colors.white.withOpacity(0.26),
+                        child: const VerticalDivider(
+                          thickness: 1,
+                          endIndent: 24,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    Opacity(
+                      opacity: 0.80,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _getIcon(
+                            annotationMode:
+                                widget.pdfViewerController.annotationMode),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    ToolbarItem(
+                      height: 40,
+                      width: 40,
+                      child: RawMaterialButton(
+                        elevation: 0.0,
+                        focusElevation: 0.0,
+                        hoverElevation: 0.0,
+                        highlightElevation: 0.0,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        fillColor: !_canShowColorPalette
+                            ? Colors.transparent
+                            : _isLight
+                                ? const Color(0xFFD2D2D2)
+                                : const Color(0xFF525252),
+                        onPressed: () {
+                          setState(() {
+                            _canShowColorPalette = !_canShowColorPalette;
+                            _toolbarHeight = _canShowColorPalette
+                                ? 2 * _toolBarSectionHeight
+                                : _toolBarSectionHeight;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2.0),
+                              color: _selectedColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Return the toolbar for editing the text markup annotations.
+  Widget _textMarkupSettingsToolbar() {
+    final Annotation selectedAnnotation = widget.selectedAnnotation!;
+    final bool isLocked = selectedAnnotation.isLocked;
+    _selectedColor = selectedAnnotation.color;
+    _currentOpacity = selectedAnnotation.opacity;
+
+    return SizedBox(
+      height: _toolbarHeight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Visibility(
+            visible: _canShowColorPalette,
+            child: ColorPalette(
+              model: widget.model,
+              pdfViewerController: widget.pdfViewerController,
+              selectedAnnotation: selectedAnnotation,
+              selectedColor: _selectedColor,
+              selectedOpacity: _currentOpacity,
+              onColorChanged: (Color selectedColor) {
+                setState(() {
+                  _selectedColor = selectedColor;
+                });
+              },
+              onOpcatiySliderViewChanged: (bool isShowing) {
+                if (isShowing) {
+                  // If the opacity slider is shown, the bottom toolbar height will be equal 3 times of the toolbar section height.
+                  setState(() {
+                    _toolbarHeight = 3 * _toolBarSectionHeight;
+                  });
+                } else {
+                  // If the opacity slider is hidden, and the color palette is visible, the bottom toolbar height will be 2 times of the toolbar section height.
+                  // If the annotation is deselected, the bottom toolbar height will be equal to the toolbar section height.
+                  setState(() {
+                    _toolbarHeight = widget.selectedAnnotation != null
+                        ? 2 * _toolBarSectionHeight
+                        : _toolBarSectionHeight;
+                  });
+                }
+              },
+            ),
+          ),
+          Divider(
+            color: _isLight
+                ? Colors.black.withOpacity(0.26)
+                : Colors.white.withOpacity(0.26),
+            thickness: 1,
+            indent: 0,
+            endIndent: 0,
+            height: 1,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                left: 12.0, right: 12.0, bottom: 6.0, top: 5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    ToolbarItem(
+                      height: 40,
+                      width: 40,
+                      child: RawMaterialButton(
+                        onPressed: () {
+                          widget.onBackButtonPressed?.call();
+                          setState(() {
+                            _isSecondaryToolbarVisible = false;
+                            _canShowColorPalette = false;
+                            _toolbarHeight = _toolBarSectionHeight;
+                          });
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: _isLight
+                              ? Colors.black.withOpacity(0.5)
+                              : Colors.white.withOpacity(0.5),
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0, left: 4.0),
+                      child: Container(
+                        color: _isLight
+                            ? Colors.black.withOpacity(0.24)
+                            : Colors.white.withOpacity(0.26),
+                        child: const VerticalDivider(
+                          thickness: 1,
+                          endIndent: 24,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    Opacity(
+                      opacity: 0.80,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _getIcon(annotation: widget.selectedAnnotation),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Visibility(
+                        visible: !isLocked,
+                        child: ToolbarItem(
+                          height: 40,
+                          width: 40,
+                          child: RawMaterialButton(
+                            elevation: 0.0,
+                            focusElevation: 0.0,
+                            hoverElevation: 0.0,
+                            highlightElevation: 0.0,
+                            highlightColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            fillColor: !_canShowColorPalette
+                                ? Colors.transparent
+                                : _isLight
+                                    ? const Color(0xFFD2D2D2)
+                                    : const Color(0xFF525252),
+                            onPressed: () {
+                              if (!isLocked) {
+                                setState(() {
+                                  _canShowColorPalette = !_canShowColorPalette;
+                                  _toolbarHeight = _canShowColorPalette
+                                      ? 2 * _toolBarSectionHeight
+                                      : _toolBarSectionHeight;
+                                });
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2.0),
+                                  color: widget.selectedAnnotation?.color,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: ToolbarItem(
+                        height: 40,
+                        width: 40,
+                        child: RawMaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              if (widget.selectedAnnotation != null) {
+                                widget.selectedAnnotation!.isLocked =
+                                    !widget.selectedAnnotation!.isLocked;
+                                _canShowColorPalette = false;
+                              }
+                            });
+                          },
+                          child: ImageIcon(
+                            AssetImage(widget.selectedAnnotation != null &&
+                                    widget.selectedAnnotation!.isLocked
+                                ? 'images/pdf_viewer/unlocked.png'
+                                : 'images/pdf_viewer/locked.png'),
+                            size: 23,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: !isLocked,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 4.0, left: 4.0),
+                        child: Container(
+                          color: _isLight
+                              ? Colors.black.withOpacity(0.24)
+                              : Colors.white.withOpacity(0.26),
+                          child: const VerticalDivider(
+                            thickness: 1,
+                            endIndent: 24,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Visibility(
+                        visible: !isLocked,
+                        child: ToolbarItem(
+                          height: 40,
+                          width: 40,
+                          child: RawMaterialButton(
+                            onPressed: () {
+                              if (widget.selectedAnnotation != null) {
+                                widget.pdfViewerController.removeAnnotation(
+                                    widget.selectedAnnotation!);
+                              }
+                            },
+                            child: const ImageIcon(
+                              AssetImage('images/pdf_viewer/delete.png'),
+                              size: 22,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

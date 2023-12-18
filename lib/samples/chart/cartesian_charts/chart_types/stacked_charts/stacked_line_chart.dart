@@ -82,11 +82,11 @@ class _StackedLineChartState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         labelRotation: isCardView ? 0 : -45,
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           maximum: 200,
-          axisLine: const AxisLine(width: 0),
+          axisLine: AxisLine(width: 0),
           labelFormat: r'${value}',
-          majorTickLines: const MajorTickLines(size: 0)),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedLineSeries(),
       trackballBehavior: _trackballBehavior,
     );
@@ -97,25 +97,25 @@ class _StackedLineChartState extends SampleViewState {
   List<StackedLineSeries<ChartSampleData, String>> _getStackedLineSeries() {
     return <StackedLineSeries<ChartSampleData, String>>[
       StackedLineSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Father',
           markerSettings: const MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Mother',
           markerSettings: const MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Son',
           markerSettings: const MarkerSettings(isVisible: true)),
       StackedLineSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Daughter',

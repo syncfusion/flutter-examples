@@ -99,7 +99,6 @@ class _CircularSelectionState extends SampleViewState {
           text: isCardView
               ? ''
               : 'Various countries population density and area'),
-      selectionGesture: ActivationMode.singleTap,
       series: getCircularSelectionSeries(),
     );
   }

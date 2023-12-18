@@ -54,13 +54,13 @@ class _LineDefaultState extends SampleViewState {
         intervalType: DateTimeIntervalType.months,
         interval: 3,
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}%',
           minimum: 1,
           maximum: 3.5,
           interval: 0.5,
-          majorGridLines: const MajorGridLines(color: Colors.transparent)),
-      series: <ChartSeries<_ChartData, DateTime>>[
+          majorGridLines: MajorGridLines(color: Colors.transparent)),
+      series: <CartesianSeries<_ChartData, DateTime>>[
         LineSeries<_ChartData, DateTime>(
           animationDuration: 0,
           dataSource: <_ChartData>[
@@ -71,7 +71,6 @@ class _LineDefaultState extends SampleViewState {
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
           enableTooltip: false,
-          width: 2,
           color: model.themeData.colorScheme.brightness == Brightness.dark
               ? Colors.grey
               : Colors.black,
@@ -81,7 +80,6 @@ class _LineDefaultState extends SampleViewState {
               return _CustomLineSeriesRenderer(
                   series as LineSeries<_ChartData, DateTime>);
             },
-            animationDuration: 2500,
             dataSource: <_ChartData>[
               _ChartData(DateTime(2018, 7), 2.9),
               _ChartData(DateTime(2018, 8), 2.7),
@@ -96,7 +94,6 @@ class _LineDefaultState extends SampleViewState {
             ],
             xValueMapper: (_ChartData sales, _) => sales.x,
             yValueMapper: (_ChartData sales, _) => sales.y,
-            width: 2,
             markerSettings: const MarkerSettings(isVisible: true)),
       ],
       tooltipBehavior: _tooltipBehavior,
@@ -119,27 +116,26 @@ class _ChartData {
   final double y;
 }
 
-class _CustomLineSeriesRenderer extends LineSeriesRenderer {
+class _CustomLineSeriesRenderer<T, D> extends LineSeriesRenderer<T, D> {
   _CustomLineSeriesRenderer(this.series);
 
   final LineSeries<dynamic, dynamic> series;
   static Random randomNumber = Random();
 
   @override
-  LineSegment createSegment() {
-    return _LineCustomPainter(randomNumber.nextInt(4), series);
+  LineSegment<T, D> createSegment() {
+    return _LineCustomPainter(randomNumber.nextInt(4));
   }
 }
 
-class _LineCustomPainter extends LineSegment {
-  _LineCustomPainter(int value, this.series) {
+class _LineCustomPainter<T, D> extends LineSegment<T, D> {
+  _LineCustomPainter(int value) {
     //ignore: prefer_initializing_formals
     index = value;
     _xValues = <num>[];
     _yValues = <num>[];
   }
 
-  final LineSeries<dynamic, dynamic> series;
   late double maximum, minimum;
   late int index;
   List<Color> colors = <Color>[
@@ -172,6 +168,9 @@ class _LineCustomPainter extends LineSegment {
 
   @override
   void onPaint(Canvas canvas) {
+    if (isEmpty) {
+      return;
+    }
     final double x1 = points[0].dx,
         y1 = points[0].dy,
         x2 = points[1].dx,
@@ -182,7 +181,7 @@ class _LineCustomPainter extends LineSegment {
     path.lineTo(x2, y2);
     canvas.drawPath(path, getStrokePaint());
 
-    if (currentSegmentIndex == series.dataSource.length - 2) {
+    if (currentSegmentIndex == series.dataSource!.length - 2) {
       const double labelPadding = 10;
       final Paint topLinePaint = Paint()
         ..color = Colors.green

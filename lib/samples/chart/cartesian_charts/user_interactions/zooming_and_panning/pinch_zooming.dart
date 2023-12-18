@@ -117,8 +117,8 @@ class _DefaultPanningState extends SampleViewState {
     return SfCartesianChart(
         key: chartKey,
         plotAreaBorderWidth: 0,
-        primaryXAxis: DateTimeAxis(
-            name: 'X-Axis', majorGridLines: const MajorGridLines(width: 0)),
+        primaryXAxis: const DateTimeAxis(
+            name: 'X-Axis', majorGridLines: MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
             axisLine: const AxisLine(width: 0),
             anchorRangeToVisiblePoints: _enableAnchor,

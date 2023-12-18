@@ -112,15 +112,15 @@ class _ColumnSpacingState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Winter olympic medals count - 2022'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           maximum: 20,
           minimum: 0,
           interval: 4,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getDefaultColumn(),
       legend: Legend(isVisible: !isCardView),
       tooltipBehavior: _tooltipBehavior,
@@ -137,13 +137,13 @@ class _ColumnSpacingState extends SampleViewState {
 
           /// To apply the spacing betweeen to two columns here.
           spacing: isCardView ? 0.2 : _columnSpacing,
-          dataSource: chartData!,
+          dataSource: chartData,
           color: const Color.fromRGBO(251, 193, 55, 1),
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Gold'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           width: isCardView ? 0.8 : _columnWidth,
           spacing: isCardView ? 0.2 : _columnSpacing,
           color: const Color.fromRGBO(177, 183, 188, 1),
@@ -151,7 +151,7 @@ class _ColumnSpacingState extends SampleViewState {
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Silver'),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           width: isCardView ? 0.8 : _columnWidth,
           spacing: isCardView ? 0.2 : _columnSpacing,
           color: const Color.fromRGBO(140, 92, 69, 1),

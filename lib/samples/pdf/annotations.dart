@@ -132,6 +132,33 @@ class _AnnotationsPdfState extends SampleViewState {
     //Add the polygon annotation to the page.
     page.annotations.add(polygonAnnotation);
 
+    //Create a text markup annotation.
+    final PdfTextMarkupAnnotation textMarkupAnnotation =
+        PdfTextMarkupAnnotation(const Rect.fromLTWH(60, 165, 495, 45),
+            'Introduction', PdfColor(255, 255, 0),
+            author: 'John Milton');
+    //Add the bounds collection to highlight the text on more than one line.
+    textMarkupAnnotation.boundsCollection = <Rect>[
+      const Rect.fromLTWH(251, 165, 304, 15),
+      const Rect.fromLTWH(60, 180, 495, 15),
+      const Rect.fromLTWH(60, 195, 100, 15)
+    ];
+
+    //Add the text markup annotation to the page.
+    page.annotations.add(textMarkupAnnotation);
+
+    //Create a popup annotation.
+    final PdfPopupAnnotation popupAnnotation = PdfPopupAnnotation(
+        const Rect.fromLTWH(225, 371, 20, 20), 'PDF Standard',
+        author: 'John Milton',
+        color: PdfColor(255, 255, 0),
+        icon: PdfPopupIcon.comment,
+        open: true,
+        setAppearance: true);
+
+    //Add the popup annotation to the page.
+    page.annotations.add(popupAnnotation);
+
     if (flatten) {
       //Flatten all the annotations.
       page.annotations.flattenAllAnnotations();

@@ -171,25 +171,25 @@ class _RSIIndicatorState extends SampleViewState {
           minimum: DateTime(2016),
           maximum: DateTime(2017),
         ),
-        primaryYAxis: NumericAxis(
+        primaryYAxis: const NumericAxis(
             minimum: 70,
             maximum: 130,
             interval: 20,
             labelFormat: r'${value}',
-            axisLine: const AxisLine(width: 0)),
-        axes: <ChartAxis>[
+            axisLine: AxisLine(width: 0)),
+        axes: const <ChartAxis>[
           NumericAxis(
-              majorGridLines: const MajorGridLines(width: 0),
+              majorGridLines: MajorGridLines(width: 0),
               opposedPosition: true,
               name: 'yaxes',
               minimum: 10,
               maximum: 110,
               interval: 20,
-              axisLine: const AxisLine(width: 0))
+              axisLine: AxisLine(width: 0))
         ],
         trackballBehavior: _trackballBehavior,
         tooltipBehavior: _tooltipBehavior,
-        indicators: <TechnicalIndicators<ChartSampleData, DateTime>>[
+        indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
           /// RSI indicator mentioned here.
           RsiIndicator<ChartSampleData, DateTime>(
               seriesName: 'AAPL',
@@ -204,10 +204,11 @@ class _RSIIndicatorState extends SampleViewState {
   }
 
   /// Returns the list of chart series which need to render on the OHLC chart.
-  List<ChartSeries<ChartSampleData, DateTime>> _getDataLabelHilotSeries() {
-    return <ChartSeries<ChartSampleData, DateTime>>[
+  List<CartesianSeries<ChartSampleData, DateTime>> _getDataLabelHilotSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
       HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          emptyPointSettings: EmptyPointSettings(mode: EmptyPointMode.zero),
+          emptyPointSettings:
+              const EmptyPointSettings(mode: EmptyPointMode.zero),
           dataSource: getChartData(),
           opacity: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

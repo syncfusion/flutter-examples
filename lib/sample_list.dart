@@ -132,7 +132,7 @@ import 'samples/chart/cartesian_charts/series_features/data_label/data_label_tem
 import 'samples/chart/cartesian_charts/series_features/data_label/default_data_labels.dart';
 import 'samples/chart/cartesian_charts/series_features/empty_points.dart';
 import 'samples/chart/cartesian_charts/series_features/gradients/gradient_based_on_values.dart';
-import 'samples/chart/cartesian_charts/series_features/gradients/horizantal_gradient.dart';
+import 'samples/chart/cartesian_charts/series_features/gradients/horizontal_gradient.dart';
 import 'samples/chart/cartesian_charts/series_features/gradients/vertical_gradient.dart';
 import 'samples/chart/cartesian_charts/series_features/marker.dart';
 import 'samples/chart/cartesian_charts/series_features/point_color_mapper.dart';
@@ -226,6 +226,8 @@ import 'samples/datagrid/datagrid_rtl.dart';
 import 'samples/datagrid/datagrid_selection.dart';
 import 'samples/datagrid/datagrid_swiping.dart';
 import 'samples/datagrid/datagrid_table_summary.dart';
+import 'samples/datagrid/grouping/datagrid_custom_grouping.dart';
+import 'samples/datagrid/grouping/datagrid_grouping.dart';
 import 'samples/datagrid/loadmore/datagrid_infinite_scrolling.dart';
 import 'samples/datagrid/loadmore/datagrid_load_more.dart';
 import 'samples/datagrid/sorting/datagrid_custom_sorting.dart';
@@ -319,8 +321,9 @@ import 'samples/pdf/header_and_footer.dart';
 import 'samples/pdf/import_and_export_form_data.dart';
 import 'samples/pdf/invoice.dart';
 import 'samples/pdf/text_extraction.dart';
-import 'samples/pdf_viewer/encrypted.dart';
+import 'samples/pdf_viewer/pdf_viewer_annotations.dart';
 import 'samples/pdf_viewer/pdf_viewer_custom_toolbar.dart';
+import 'samples/pdf_viewer/pdf_viewer_encrypted.dart';
 import 'samples/pdf_viewer/pdf_viewer_form_filling.dart';
 import 'samples/pdf_viewer/pdf_viewer_getting_started.dart';
 import 'samples/pdf_viewer/pdf_viewer_localization.dart';
@@ -531,7 +534,7 @@ Map<String, Function> getSampleWidget() {
     'default_datalabels': (Key key) => DataLabelDefault(key),
     'datalabel_template': (Key key) => DataLabelTemplate(key),
     'chart_with_empty_points': (Key key) => EmptyPoints(key),
-    'horizantal_gradient': (Key key) => HorizantalGradient(key),
+    'horizantal_gradient': (Key key) => HorizontalGradient(key),
     'vertical_gradient': (Key key) => VerticalGradient(key),
     'various_marker_shapes': (Key key) => MarkerDefault(key),
     'sorting_options': (Key key) => SortingDefault(key),
@@ -746,10 +749,11 @@ Map<String, Function> getSampleWidget() {
     // PDF Viewer samples
     'pdf_viewer_getting_started': (Key key) => GettingStartedPdfViewer(key),
     'pdf_viewer_custom_toolbar': (Key key) => CustomToolbarPdfViewer(key),
-    'encrypted': (Key key) => Encrypted(key),
+    'pdf_viewer_annotations': (Key key) => AnnotationsPdfViewer(key),
+    'pdf_viewer_encrypted': (Key key) => EncryptedPdfViewer(key),
     'pdf_viewer_localization': (Key key) => LocalizationPdfViewer(key),
     'pdf_viewer_rtl': (Key key) => RTLModePdfViewer(key),
-    'pdf_viewer_form_filling': (Key key) => FormFilling(key),
+    'pdf_viewer_form_filling': (Key key) => FormFillingPdfViewer(key),
 
     // XlsIO samples
     'expenses_report': (Key key) => ExpensesReportXlsIO(key),
@@ -943,6 +947,10 @@ Map<String, Function> getSampleWidget() {
     'sorting_datagrid': (Key key) => SortingDataGrid(key: key),
 
     'filtering_datagrid': (Key key) => FilteringDataGrid(key: key),
+
+    'datagrid_grouping': (Key key) => GroupingDataGrid(key: key),
+
+    'datagrid_custom_grouping': (Key key) => CustomgroupingDataGrid(key: key),
 
     'datagrid_column_drag_and_drop': (Key key) =>
         DataGridColumnDragAndDrop(key: key),

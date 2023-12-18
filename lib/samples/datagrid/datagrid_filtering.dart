@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import './datagridsource/orderinfo_datagridsource.dart';
 import '../../../model/sample_view.dart';
+import './datagridsource/orderinfo_datagridsource.dart';
 
 /// Renders filtering data grid
 class FilteringDataGrid extends SampleView {

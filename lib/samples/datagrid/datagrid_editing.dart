@@ -145,7 +145,9 @@ class _EditingDataGridState extends SampleViewState {
               style: TextStyle(fontSize: 16.0, color: model.textColor),
             ),
             Theme(
-              data: ThemeData(canvasColor: model.bottomSheetBackgroundColor),
+              data: ThemeData(
+                  useMaterial3: false,
+                  canvasColor: model.bottomSheetBackgroundColor),
               child: DropdownButton<String>(
                   focusColor: Colors.transparent,
                   value: editingGestureType.toString().split('.')[1],

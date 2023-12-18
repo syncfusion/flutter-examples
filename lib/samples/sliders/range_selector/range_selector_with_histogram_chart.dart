@@ -380,9 +380,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                     margin: EdgeInsets.zero,
                     plotAreaBorderWidth: 0,
                     enableAxisAnimation: true,
-                    primaryXAxis: NumericAxis(
+                    primaryXAxis: const NumericAxis(
                         isVisible: false, minimum: 100, maximum: 1000),
-                    primaryYAxis: NumericAxis(
+                    primaryYAxis: const NumericAxis(
                       isVisible: false,
                     ),
                     series: _getHistogramSeries(),

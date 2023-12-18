@@ -70,8 +70,9 @@ class _LogarithmicAxisInversedState extends SampleViewState {
 
   /// Returns the list of chart series
   /// which need to render on the stepline chart.
-  List<ChartSeries<ChartSampleData, String>> _getInversedLogarithmicSeries() {
-    return <ChartSeries<ChartSampleData, String>>[
+  List<CartesianSeries<ChartSampleData, String>>
+      _getInversedLogarithmicSeries() {
+    return <CartesianSeries<ChartSampleData, String>>[
       StepLineSeries<ChartSampleData, String>(
           dataSource: <ChartSampleData>[
             ChartSampleData(x: 'China', yValue: 1433783686),

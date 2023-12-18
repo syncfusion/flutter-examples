@@ -272,8 +272,8 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                 _selectedAppointment = newAppointment;
               }
 
-              return WillPopScope(
-                onWillPop: () async {
+              return PopScope(
+                onPopInvoked: (bool value) {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.
@@ -282,7 +282,6 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                     _events.notifyListeners(CalendarDataSourceAction.remove,
                         <Appointment>[newAppointment]);
                   }
-                  return true;
                 },
                 child: Center(
                     child: Container(
@@ -995,10 +994,8 @@ Widget _editRecurrence(
               showDialog<Widget>(
                   context: context,
                   builder: (BuildContext context) {
-                    return WillPopScope(
-                        onWillPop: () async {
-                          return true;
-                        },
+                    return PopScope(
+                        onPopInvoked: (bool value) {},
                         child: Theme(
                           data: model.themeData,
                           child: AppointmentEditorWeb(
@@ -1032,10 +1029,8 @@ Widget _editRecurrence(
               showDialog<Widget>(
                   context: context,
                   builder: (BuildContext context) {
-                    return WillPopScope(
-                        onWillPop: () async {
-                          return true;
-                        },
+                    return PopScope(
+                        onPopInvoked: (bool value) {},
                         child: Theme(
                           data: model.themeData,
                           child: AppointmentEditorWeb(
@@ -1105,10 +1100,8 @@ Widget displayAppointmentDetails(
             showDialog<Widget>(
                 context: context,
                 builder: (BuildContext context) {
-                  return WillPopScope(
-                      onWillPop: () async {
-                        return true;
-                      },
+                  return PopScope(
+                      onPopInvoked: (bool value) {},
                       child: Theme(
                         data: model.themeData,
                         child: selectedAppointment.appointmentType ==
@@ -1151,10 +1144,8 @@ Widget displayAppointmentDetails(
               showDialog<Widget>(
                   context: context,
                   builder: (BuildContext context) {
-                    return WillPopScope(
-                        onWillPop: () async {
-                          return true;
-                        },
+                    return PopScope(
+                        onPopInvoked: (bool value) {},
                         child: Theme(
                           data: model.themeData,
                           child: _deleteRecurrence(
@@ -1605,6 +1596,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 /// The themedata created based
                 ///  on the selected theme and primary color.
                 data: ThemeData(
+                  useMaterial3: false,
                   brightness: widget.model.themeData.colorScheme.brightness,
                   colorScheme: _getColorScheme(widget.model, true),
                   primaryColor: widget.model.backgroundColor,
@@ -1643,6 +1635,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 /// The themedata created based
                 /// on the selected theme and primary color.
                 data: ThemeData(
+                  useMaterial3: false,
                   brightness: widget.model.themeData.colorScheme.brightness,
                   colorScheme: _getColorScheme(widget.model, false),
                   primaryColor: widget.model.backgroundColor,
@@ -1683,6 +1676,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 /// The themedata created based
                 /// on the selected theme and primary color.
                 data: ThemeData(
+                  useMaterial3: false,
                   brightness: widget.model.themeData.colorScheme.brightness,
                   colorScheme: _getColorScheme(widget.model, false),
                   primaryColor: widget.model.backgroundColor,
@@ -1727,6 +1721,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 /// The themedata created based
                 /// on the selected theme and primary color.
                 data: ThemeData(
+                  useMaterial3: false,
                   brightness: widget.model.themeData.colorScheme.brightness,
                   colorScheme: _getColorScheme(widget.model, true),
                   primaryColor: widget.model.backgroundColor,
@@ -2033,8 +2028,8 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                                     _subject == '' ? '(No title)' : _subject,
                                 resourceIds: _resourceIds,
                               );
-                              return WillPopScope(
-                                onWillPop: () async {
+                              return PopScope(
+                                onPopInvoked: (bool value) {
                                   if (widget.newAppointment != null) {
                                     widget.events.appointments!.removeAt(widget
                                         .events.appointments!
@@ -2043,7 +2038,6 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                                         CalendarDataSourceAction.remove,
                                         <Appointment>[widget.newAppointment!]);
                                   }
-                                  return true;
                                 },
                                 child: AppointmentEditorWeb(
                                   widget.model,
@@ -2998,6 +2992,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                         child) {
                                                               return Theme(
                                                                 data: ThemeData(
+                                                                    useMaterial3:
+                                                                        false,
                                                                     brightness: widget
                                                                         .model
                                                                         .themeData
@@ -3079,6 +3075,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                 return Theme(
                                                                   data:
                                                                       ThemeData(
+                                                                    useMaterial3:
+                                                                        false,
                                                                     brightness: widget
                                                                         .model
                                                                         .themeData
@@ -3210,6 +3208,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                         child) {
                                                               return Theme(
                                                                 data: ThemeData(
+                                                                  useMaterial3:
+                                                                      false,
                                                                   brightness: widget
                                                                       .model
                                                                       .themeData
@@ -3293,6 +3293,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                 return Theme(
                                                                   data:
                                                                       ThemeData(
+                                                                    useMaterial3:
+                                                                        false,
                                                                     brightness: widget
                                                                         .model
                                                                         .themeData
@@ -4692,7 +4694,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                                 lastDate: DateTime(2050),
                                                                                 builder: (BuildContext context, Widget? child) {
                                                                                   return Theme(
-                                                                                    data: ThemeData(brightness: widget.model.themeData.colorScheme.brightness, colorScheme: _getColorScheme(widget.model, true), primaryColor: widget.model.backgroundColor),
+                                                                                    data: ThemeData(useMaterial3: false, brightness: widget.model.themeData.colorScheme.brightness, colorScheme: _getColorScheme(widget.model, true), primaryColor: widget.model.backgroundColor),
                                                                                     child: child!,
                                                                                   );
                                                                                 });
@@ -5295,10 +5297,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 showDialog<Widget>(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return WillPopScope(
-                                          onWillPop: () async {
-                                            return true;
-                                          },
+                                      return PopScope(
+                                          onPopInvoked: (bool value) {},
                                           child: Theme(
                                             data: widget.model.themeData,
                                             child: AlertDialog(
@@ -5406,10 +5406,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 showDialog<Widget>(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return WillPopScope(
-                                          onWillPop: () async {
-                                            return true;
-                                          },
+                                      return PopScope(
+                                          onPopInvoked: (bool value) {},
                                           child: Theme(
                                               data: widget.model.themeData,
                                               child: _editExceptionSeries(
@@ -5893,6 +5891,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                             builder: (BuildContext context, Widget? child) {
                               return Theme(
                                 data: ThemeData(
+                                  useMaterial3: false,
                                   brightness: widget
                                       .model.themeData.colorScheme.brightness,
                                   colorScheme:
@@ -5935,6 +5934,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                         (BuildContext context, Widget? child) {
                                       return Theme(
                                         data: ThemeData(
+                                          useMaterial3: false,
                                           brightness: widget.model.themeData
                                               .colorScheme.brightness,
                                           colorScheme: _getColorScheme(
@@ -5986,6 +5986,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                             builder: (BuildContext context, Widget? child) {
                               return Theme(
                                 data: ThemeData(
+                                  useMaterial3: false,
                                   brightness: widget
                                       .model.themeData.colorScheme.brightness,
                                   colorScheme:
@@ -6032,6 +6033,7 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                         (BuildContext context, Widget? child) {
                                       return Theme(
                                         data: ThemeData(
+                                          useMaterial3: false,
                                           brightness: widget.model.themeData
                                               .colorScheme.brightness,
                                           colorScheme: _getColorScheme(
@@ -6117,10 +6119,8 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                 final dynamic properties = await showDialog<dynamic>(
                     context: context,
                     builder: (BuildContext context) {
-                      return WillPopScope(
-                          onWillPop: () async {
-                            return true;
-                          },
+                      return PopScope(
+                          onPopInvoked: (bool value) {},
                           child: Theme(
                             data: widget.model.themeData,
                             // ignore: prefer_const_literals_to_create_immutables
@@ -6342,10 +6342,8 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                           showDialog<Widget>(
                               context: context,
                               builder: (BuildContext context) {
-                                return WillPopScope(
-                                    onWillPop: () async {
-                                      return true;
-                                    },
+                                return PopScope(
+                                    onPopInvoked: (bool value) {},
                                     child: Theme(
                                       data: widget.model.themeData,
                                       // ignore: prefer_const_literals_to_create_immutables
@@ -6477,10 +6475,8 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                               showDialog<Widget>(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return WillPopScope(
-                                        onWillPop: () async {
-                                          return true;
-                                        },
+                                    return PopScope(
+                                        onPopInvoked: (bool value) {},
                                         child: Theme(
                                           data: widget.model.themeData,
                                           // ignore: prefer_const_literals_to_create_immutables
@@ -8091,6 +8087,7 @@ class _CustomRuleState extends State<_CustomRule> {
                                               Widget? child) {
                                             return Theme(
                                               data: ThemeData(
+                                                  useMaterial3: false,
                                                   brightness: widget
                                                       .model
                                                       .themeData

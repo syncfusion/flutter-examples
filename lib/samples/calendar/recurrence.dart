@@ -129,8 +129,8 @@ class RecurrenceCalendarState extends SampleViewState {
                 _selectedAppointment = newAppointment;
               }
 
-              return WillPopScope(
-                onWillPop: () async {
+              return PopScope(
+                onPopInvoked: (bool value) {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.
@@ -139,7 +139,6 @@ class RecurrenceCalendarState extends SampleViewState {
                     _dataSource.notifyListeners(CalendarDataSourceAction.remove,
                         <Appointment>[newAppointment]);
                   }
-                  return true;
                 },
                 child: Center(
                     child: SizedBox(

@@ -58,7 +58,6 @@ class _LocalizationCircularChartState extends LocalizationSampleViewState {
   List<PieSeries<ChartSampleData, String>> _getDefaultDoughnutSeries() {
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
-          radius: '80%',
           dataSource: _chartDataSource,
           xValueMapper: (ChartSampleData data, _) => data.x as String,
           yValueMapper: (ChartSampleData data, _) => data.y,

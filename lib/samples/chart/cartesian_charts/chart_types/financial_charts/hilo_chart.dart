@@ -68,12 +68,12 @@ class _HiloChartState extends SampleViewState {
           maximum: DateTime(2016, 07),
           intervalType: DateTimeIntervalType.months,
           majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           interval: 20,
-          minimum: 140,
-          maximum: 60,
+          minimum: 60,
+          maximum: 140,
           labelFormat: r'${value}',
-          axisLine: const AxisLine(width: 0)),
+          axisLine: AxisLine(width: 0)),
       series: _getHiloSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

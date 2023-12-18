@@ -53,7 +53,7 @@ class _StepLineVerticalState extends SampleViewState {
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y(),
           interval: 5),
-      primaryYAxis: NumericAxis(labelFormat: '{value}%', interval: 5),
+      primaryYAxis: const NumericAxis(labelFormat: '{value}%', interval: 5),
       isTransposed: true,
       series: _getVerticalStepLineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
@@ -66,13 +66,13 @@ class _StepLineVerticalState extends SampleViewState {
     return <StepLineSeries<ChartSampleData, DateTime>>[
       StepLineSeries<ChartSampleData, DateTime>(
           markerSettings: const MarkerSettings(isVisible: true),
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'China'),
       StepLineSeries<ChartSampleData, DateTime>(
         markerSettings: const MarkerSettings(isVisible: true),
-        dataSource: chartData!,
+        dataSource: chartData,
         name: 'Australia',
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,

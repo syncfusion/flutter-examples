@@ -51,21 +51,20 @@ class _MultipleAxisState extends SampleViewState {
       legend: Legend(isVisible: !isCardView),
 
       /// API for multiple axis. It can returns the various axis to the chart.
-      axes: <ChartAxis>[
+      axes: const <ChartAxis>[
         NumericAxis(
             opposedPosition: true,
             name: 'yAxis1',
-            majorGridLines: const MajorGridLines(width: 0),
+            majorGridLines: MajorGridLines(width: 0),
             labelFormat: '{value}°F',
             minimum: 40,
             maximum: 100,
             interval: 10)
       ],
       primaryXAxis:
-          DateTimeAxis(majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-        majorGridLines: const MajorGridLines(width: 0),
-        opposedPosition: false,
+          const DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
         minimum: 0,
         maximum: 50,
         interval: 10,
@@ -78,15 +77,16 @@ class _MultipleAxisState extends SampleViewState {
 
   /// Returns the list of chart series which need to
   /// render on the multiple axes chart.
-  List<ChartSeries<ChartSampleData, DateTime>> _getMultipleAxisLineSeries() {
-    return <ChartSeries<ChartSampleData, DateTime>>[
+  List<CartesianSeries<ChartSampleData, DateTime>>
+      _getMultipleAxisLineSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
       ColumnSeries<ChartSampleData, DateTime>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'New York'),
       LineSeries<ChartSampleData, DateTime>(
-          dataSource: chartData!,
+          dataSource: chartData,
           yAxisName: 'yAxis1',
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,

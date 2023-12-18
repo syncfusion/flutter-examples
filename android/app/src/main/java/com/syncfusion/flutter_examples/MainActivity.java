@@ -29,7 +29,7 @@ public class MainActivity extends FlutterActivity {
                     (call, result) -> {
                       if (call.method.equals("viewPdf") || call.method.equals("viewExcel")) {
                         String path = call.argument("file_path");
-                        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && !checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)){
+                        if(!checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)){
                           requestPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
                         } else {
                           launchFile(path);

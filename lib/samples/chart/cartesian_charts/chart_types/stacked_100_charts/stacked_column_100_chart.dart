@@ -49,13 +49,13 @@ class _StackedColumn100ChartState extends SampleViewState {
           text: isCardView ? '' : 'Quarterly wise sales of products'),
       legend: Legend(
           isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           rangePadding: ChartRangePadding.none,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedColumnSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -63,28 +63,28 @@ class _StackedColumn100ChartState extends SampleViewState {
 
   /// Returns the list of chart series
   /// which need to render on the stacked column 1oo chart.
-  List<ChartSeries<_ChartData, String>> _getStackedColumnSeries() {
-    return <ChartSeries<_ChartData, String>>[
+  List<CartesianSeries<_ChartData, String>> _getStackedColumnSeries() {
+    return <CartesianSeries<_ChartData, String>>[
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y1,
           name: 'Product A'),
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2,
           name: 'Product B'),
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y3,
           name: 'Product C'),
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           dataLabelSettings: const DataLabelSettings(isVisible: true),
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y4,

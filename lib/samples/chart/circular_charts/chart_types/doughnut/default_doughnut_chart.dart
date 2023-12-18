@@ -47,9 +47,7 @@ class _DoughnutDefaultState extends SampleViewState {
   List<DoughnutSeries<ChartSampleData, String>> _getDefaultDoughnutSeries() {
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
-          radius: '80%',
           explode: true,
-          explodeOffset: '10%',
           dataSource: <ChartSampleData>[
             ChartSampleData(x: 'Chlorine', y: 55, text: '55%'),
             ChartSampleData(x: 'Sodium', y: 31, text: '31%'),

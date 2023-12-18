@@ -220,7 +220,6 @@ class _AxisCrossingState extends SampleViewState {
             isCardView ? ChartDataLabelPosition.outside : _labelPositionY,
         labelAlignment: isCardView ? LabelAlignment.center : _labelAlignmentY,
         tickPosition: isCardView ? TickPosition.outside : _tickPositionY,
-        opposedPosition: false,
         minimum: 0,
         maximum: 35,
         interval: 5,
@@ -232,8 +231,8 @@ class _AxisCrossingState extends SampleViewState {
   }
 
   /// Return the spline series.
-  List<ChartSeries<ChartSampleData, String>> _getSeries() {
-    return <ChartSeries<ChartSampleData, String>>[
+  List<CartesianSeries<ChartSampleData, String>> _getSeries() {
+    return <CartesianSeries<ChartSampleData, String>>[
       SplineSeries<ChartSampleData, String>(
           dataSource: <ChartSampleData>[
             ChartSampleData(x: 'May 1', y: 13, secondSeriesYValue: 69.8),

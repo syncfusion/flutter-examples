@@ -18,6 +18,35 @@ class PyramidLegend extends SampleView {
 
 class _PyramidLegendState extends SampleViewState {
   _PyramidLegendState();
+  late List<ChartSampleData> dataSource;
+
+  @override
+  void initState() {
+    dataSource = <ChartSampleData>[
+      ChartSampleData(x: 'Ray', y: 7.3),
+      ChartSampleData(
+        x: 'Michael',
+        y: 6.6,
+      ),
+      ChartSampleData(
+        x: 'John ',
+        y: 3,
+      ),
+      ChartSampleData(
+        x: 'Mercy',
+        y: 0.8,
+      ),
+      ChartSampleData(
+        x: 'Tina ',
+        y: 1.4,
+      ),
+      ChartSampleData(
+        x: 'Stephen',
+        y: 5.2,
+      ),
+    ];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,29 +84,7 @@ class _PyramidLegendState extends SampleViewState {
   ///Get the pyramid series
   PyramidSeries<ChartSampleData, String> _getPyramidSeries() {
     return PyramidSeries<ChartSampleData, String>(
-        dataSource: <ChartSampleData>[
-          ChartSampleData(x: 'Ray', y: 7.3),
-          ChartSampleData(
-            x: 'Michael',
-            y: 6.6,
-          ),
-          ChartSampleData(
-            x: 'John ',
-            y: 3,
-          ),
-          ChartSampleData(
-            x: 'Mercy',
-            y: 0.8,
-          ),
-          ChartSampleData(
-            x: 'Tina ',
-            y: 1.4,
-          ),
-          ChartSampleData(
-            x: 'Stephen',
-            y: 5.2,
-          ),
-        ],
+        dataSource: dataSource,
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         dataLabelSettings: DataLabelSettings(

@@ -65,10 +65,10 @@ class _StackedAreaChartState extends SampleViewState {
           majorGridLines: const MajorGridLines(width: 0),
           intervalType: DateTimeIntervalType.years,
           dateFormat: DateFormat.y()),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           rangePadding: ChartRangePadding.none,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedAreaSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -76,29 +76,25 @@ class _StackedAreaChartState extends SampleViewState {
 
   /// Returns the list of chart series
   /// which need to render on the stacked area 100 chart.
-  List<ChartSeries<_ChartData, DateTime>> _getStackedAreaSeries() {
-    return <ChartSeries<_ChartData, DateTime>>[
+  List<CartesianSeries<_ChartData, DateTime>> _getStackedAreaSeries() {
+    return <CartesianSeries<_ChartData, DateTime>>[
       StackedArea100Series<_ChartData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.organic,
           name: 'Apple'),
       StackedArea100Series<_ChartData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.fairTrade,
           name: 'Orange'),
       StackedArea100Series<_ChartData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.veg,
           name: 'Pears'),
       StackedArea100Series<_ChartData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.others,
           name: 'Others')

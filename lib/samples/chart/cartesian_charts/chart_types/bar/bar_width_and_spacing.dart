@@ -100,11 +100,11 @@ class _BarSpacingState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Exports & Imports of US'),
       legend: Legend(isVisible: !isCardView),
-      primaryXAxis: NumericAxis(
+      primaryXAxis: const NumericAxis(
           minimum: 2005,
           maximum: 2011,
           interval: 1,
-          majorGridLines: const MajorGridLines(width: 0)),
+          majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
         labelFormat: '{value}%',
         title:
@@ -124,14 +124,14 @@ class _BarSpacingState extends SampleViewState {
 
           /// To apply the spacing betweeen to bars here.
           spacing: isCardView ? 0.2 : columnSpacing,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Import'),
       BarSeries<ChartSampleData, num>(
           width: isCardView ? 0.8 : columnWidth,
           spacing: isCardView ? 0.2 : columnSpacing,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Export')

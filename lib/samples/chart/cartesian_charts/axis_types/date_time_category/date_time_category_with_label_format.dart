@@ -65,7 +65,7 @@ class _DateTimeCategoryLabelState extends SampleViewState {
         tooltipBehavior: _tooltipBehavior,
         series: <ColumnSeries<_OrdinalSales, DateTime>>[
           ColumnSeries<_OrdinalSales, DateTime>(
-              dataSource: data!,
+              dataSource: data,
               name: 'Server down time',
               xValueMapper: (_OrdinalSales x, int xx) => x.year,
               yValueMapper: (_OrdinalSales sales, _) => sales.sales,

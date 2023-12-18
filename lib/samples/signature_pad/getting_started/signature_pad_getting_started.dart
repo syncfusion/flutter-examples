@@ -398,7 +398,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0.0, 0, 20.0, 0),
           child: Text(r'Grand Total : $1220.89',
-              textScaleFactor: 1.0,
+              textScaler: TextScaler.noScaling,
               style: TextStyle(
                   fontSize: _fontSizeRegular,
                   color: _getTextColor(),
@@ -431,7 +431,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Bill To:',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular,
                       color: _getTextColor(),
@@ -440,31 +440,31 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                 const SizedBox(height: 2),
                 Text(
                   'Abraham Swearegin,',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
                 Text(
                   '9920 Bridge Parkway,',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
                 Text(
                   'San Mateo, California,',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
                 Text(
                   'United States.',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
                 Text(
                   '9365550136',
-                  textScaleFactor: 1.0,
+                  textScaler: TextScaler.noScaling,
                   style: TextStyle(
                       fontSize: _fontSizeRegular, color: _getTextColor()),
                 ),
@@ -474,13 +474,13 @@ class _GettingStartedSignaturePadState extends SampleViewState {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Text('Invoice No: 2058557939',
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                     style: TextStyle(
                         fontSize: _fontSizeRegular, color: _getTextColor()),
                     textAlign: TextAlign.end),
                 const SizedBox(height: 5),
                 Text('Date: ' + formattedTime,
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                     style: TextStyle(
                         fontSize: _fontSizeRegular, color: _getTextColor()),
                     textAlign: TextAlign.end),
@@ -519,7 +519,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                     : Center(
                         child: Text(
                           'Tap here to sign',
-                          textScaleFactor: 1.0,
+                          textScaler: TextScaler.noScaling,
                           style: TextStyle(
                               fontSize: _fontSizeRegular,
                               fontWeight: FontWeight.bold,
@@ -533,13 +533,13 @@ class _GettingStartedSignaturePadState extends SampleViewState {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Text('800 Interchange Blvd.',
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                     style: TextStyle(
                         fontSize: _fontSizeRegular, color: _getTextColor()),
                     textAlign: TextAlign.end),
                 const SizedBox(height: 5),
                 Text('Austin, TX 78721',
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                     style: TextStyle(
                         fontSize: _fontSizeRegular, color: _getTextColor()),
                     textAlign: TextAlign.end),

@@ -32,17 +32,17 @@ class _StepAreaState extends SampleViewState {
   SfCartesianChart _buildStepAreaChart() {
     return SfCartesianChart(
       legend: const Legend(isVisible: true),
-      title: ChartTitle(text: 'Temperature variation of Paris'),
+      title: const ChartTitle(text: 'Temperature variation of Paris'),
       plotAreaBorderWidth: 0,
-      primaryXAxis: DateTimeAxis(
-          majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const DateTimeAxis(
+          majorGridLines: MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}°C',
           interval: 2,
           maximum: 16,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getStepAreaSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -77,22 +77,20 @@ class _StepAreaState extends SampleViewState {
 
   /// Returns the list of chart series
   /// which need to render on teh step area chart.
-  List<ChartSeries<_StepAreaData, DateTime>> _getStepAreaSeries() {
-    return <ChartSeries<_StepAreaData, DateTime>>[
+  List<CartesianSeries<_StepAreaData, DateTime>> _getStepAreaSeries() {
+    return <CartesianSeries<_StepAreaData, DateTime>>[
       StepAreaSeries<_StepAreaData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         color: const Color.fromRGBO(75, 135, 185, 0.6),
         borderColor: const Color.fromRGBO(75, 135, 185, 1),
-        borderWidth: 2,
         name: 'High',
         xValueMapper: (_StepAreaData sales, _) => sales.x,
         yValueMapper: (_StepAreaData sales, _) => sales.high,
       ),
       StepAreaSeries<_StepAreaData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         borderColor: const Color.fromRGBO(192, 108, 132, 1),
         color: const Color.fromRGBO(192, 108, 132, 0.6),
-        borderWidth: 2,
         name: 'Low',
         xValueMapper: (_StepAreaData sales, _) => sales.x,
         yValueMapper: (_StepAreaData sales, _) => sales.low,

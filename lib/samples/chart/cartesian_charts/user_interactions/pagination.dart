@@ -21,8 +21,6 @@ class _PaginationState extends SampleViewState {
   late int degree;
   late String day;
   late String _imageName;
-  late double _visibleMin;
-  late double _visibleMax;
   late List<String> _daysWithTime;
   late List<String> _temperatue;
   late List<String> _images;
@@ -32,6 +30,7 @@ class _PaginationState extends SampleViewState {
   late List<int> _degrees;
 
   late List<ChartSampleData> chartData;
+  late CategoryAxisController _axisController;
 
   @override
   void initState() {
@@ -39,8 +38,6 @@ class _PaginationState extends SampleViewState {
     degree = 25;
     day = 'Friday, 01:00 am';
     _imageName = 'images/sunny_image.png';
-    _visibleMin = 0;
-    _visibleMax = 5;
     _daysWithTime = const <String>[
       'Friday, 01:00 am',
       'Saturday, 01:00 am',
@@ -168,7 +165,7 @@ class _PaginationState extends SampleViewState {
           child: Container(
               alignment: Alignment.center,
               width: _segmentedControlWidth,
-              child: _buildCartesianChart())),
+              child: ClipRect(child: _buildCartesianChart()))),
       Visibility(
           visible: height < 350 ? false : true,
           child: Container(
@@ -248,15 +245,20 @@ class _PaginationState extends SampleViewState {
   /// Calls while performing the swipe operation
   void performSwipe(ChartSwipeDirection direction) {
     int? index;
-    if (_visibleMin == 0 && _visibleMax == 5) {
+    if (_axisController.visibleMinimum == 0 &&
+        _axisController.visibleMaximum == 5) {
       index = direction == ChartSwipeDirection.end ? 1 : null;
-    } else if (_visibleMin == 6 && _visibleMax == 11) {
+    } else if (_axisController.visibleMinimum == 6 &&
+        _axisController.visibleMaximum == 11) {
       index = direction == ChartSwipeDirection.end ? 2 : 0;
-    } else if (_visibleMin == 12 && _visibleMax == 17) {
+    } else if (_axisController.visibleMinimum == 12 &&
+        _axisController.visibleMaximum == 17) {
       index = direction == ChartSwipeDirection.end ? 3 : 1;
-    } else if (_visibleMin == 18 && _visibleMax == 23) {
+    } else if (_axisController.visibleMinimum == 18 &&
+        _axisController.visibleMaximum == 23) {
       index = direction == ChartSwipeDirection.end ? 4 : 2;
-    } else if (_visibleMin == 24 && _visibleMax == 29) {
+    } else if (_axisController.visibleMinimum == 24 &&
+        _axisController.visibleMaximum == 29) {
       index = direction == ChartSwipeDirection.end ? null : 3;
     }
 
@@ -267,9 +269,9 @@ class _PaginationState extends SampleViewState {
 
   /// load the values based on the provided index
   void _loadGroupValue(int index) {
+    _axisController.visibleMinimum = _minValues[index];
+    _axisController.visibleMaximum = _maxValues[index];
     setState(() {
-      _visibleMin = _minValues[index];
-      _visibleMax = _maxValues[index];
       segmentedControlGroupValue = index;
       degree = _degrees[index];
       day = _daysWithTime[index];
@@ -280,34 +282,37 @@ class _PaginationState extends SampleViewState {
   /// Returns the cartesian chart
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
-      primaryYAxis: NumericAxis(
+      primaryXAxis: CategoryAxis(
+        initialVisibleMinimum: 0,
+        initialVisibleMaximum: 5,
+        labelPlacement: LabelPlacement.onTicks,
+        interval: 1,
+        name: 'primaryXAxis',
+        axisLine: const AxisLine(width: 0, color: Colors.transparent),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        majorGridLines: const MajorGridLines(width: 0),
+        axisLabelFormatter: (AxisLabelRenderDetails details) {
+          if (details.axis.name == 'primaryXAxis') {
+            for (final ChartSampleData sampleData in chartData) {
+              if (sampleData.xValue == details.text) {
+                return ChartAxisLabel(sampleData.x, details.textStyle);
+              }
+            }
+          }
+          return ChartAxisLabel(details.text, details.textStyle);
+        },
+        onRendererCreated: (CategoryAxisController controller) {
+          _axisController = controller;
+        },
+      ),
+      primaryYAxis: const NumericAxis(
         interval: 2,
         minimum: 0,
         maximum: 26,
         isVisible: false,
-        anchorRangeToVisiblePoints: true,
-        axisLine: const AxisLine(width: 0),
-        majorTickLines: const MajorTickLines(color: Colors.transparent),
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(color: Colors.transparent),
       ),
-      primaryXAxis: CategoryAxis(
-          visibleMaximum: _visibleMax,
-          visibleMinimum: _visibleMin,
-          labelPlacement: LabelPlacement.onTicks,
-          interval: 1,
-          name: 'primaryXAxis',
-          axisLine: const AxisLine(width: 0, color: Colors.transparent),
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          majorGridLines: const MajorGridLines(width: 0),
-          axisLabelFormatter: (AxisLabelRenderDetails details) {
-            if (details.axis.name == 'primaryXAxis') {
-              for (final ChartSampleData sampleData in chartData) {
-                if (sampleData.xValue == details.text) {
-                  return ChartAxisLabel(sampleData.x, details.textStyle);
-                }
-              }
-            }
-            return ChartAxisLabel(details.text, details.textStyle);
-          }),
       plotAreaBorderWidth: 0,
       series: getSeries(),
       onPlotAreaSwipe: (ChartSwipeDirection direction) =>
@@ -316,12 +321,11 @@ class _PaginationState extends SampleViewState {
   }
 
   /// Returns the chart series
-  List<ChartSeries<ChartSampleData, String>> getSeries() {
-    return <ChartSeries<ChartSampleData, String>>[
+  List<CartesianSeries<ChartSampleData, String>> getSeries() {
+    return <CartesianSeries<ChartSampleData, String>>[
       SplineAreaSeries<ChartSampleData, String>(
         dataSource: chartData,
         borderColor: const Color.fromRGBO(255, 204, 5, 1),
-        borderWidth: 2,
         color: const Color.fromRGBO(255, 245, 211, 1),
         dataLabelSettings: const DataLabelSettings(
             isVisible: true, labelAlignment: ChartDataLabelAlignment.outer),

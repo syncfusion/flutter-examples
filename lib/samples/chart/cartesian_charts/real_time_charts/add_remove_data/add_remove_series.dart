@@ -26,7 +26,7 @@ class _LiveVerticalState extends SampleViewState {
   /// List holding the collection of chart series data points.
   List<ChartSampleData>? chartData;
   late int count;
-  List<LineSeries<ChartSampleData, int>>? series;
+  late List<CartesianSeries<ChartSampleData, int>> series;
 
   @override
   void initState() {
@@ -42,8 +42,7 @@ class _LiveVerticalState extends SampleViewState {
 
     series = <LineSeries<ChartSampleData, int>>[
       LineSeries<ChartSampleData, int>(
-        dataSource: chartData!,
-        width: 2,
+        dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x as int,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
@@ -56,7 +55,6 @@ class _LiveVerticalState extends SampleViewState {
           ChartSampleData(x: 4, y: 39),
           ChartSampleData(x: 5, y: 48)
         ],
-        width: 2,
         xValueMapper: (ChartSampleData sales, _) => sales.x as int,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
@@ -124,12 +122,12 @@ class _LiveVerticalState extends SampleViewState {
   SfCartesianChart getAddRemoveSeriesChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: NumericAxis(
-          majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const NumericAxis(
+          majorGridLines: MajorGridLines(width: 0),
           edgeLabelPlacement: EdgeLabelPlacement.shift),
-      primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+      primaryYAxis: const NumericAxis(
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: series,
     );
   }
@@ -142,8 +140,8 @@ class _LiveVerticalState extends SampleViewState {
 
   ///Remove the series from chart
   void _removeSeries() {
-    if (series != null && series!.isNotEmpty) {
-      series!.removeLast();
+    if (series != null && series.isNotEmpty) {
+      series.removeLast();
     }
   }
 
@@ -153,8 +151,8 @@ class _LiveVerticalState extends SampleViewState {
     for (int i = 0; i <= 6; i++) {
       chartData1.add(ChartSampleData(x: i, y: _getRandomInt(10, 50)));
     }
-    series!.add(LineSeries<ChartSampleData, int>(
-      key: ValueKey<String>('${series!.length}'),
+    series.add(LineSeries<ChartSampleData, int>(
+      key: ValueKey<String>('${series.length}'),
       dataSource: chartData1,
       xValueMapper: (ChartSampleData sales, _) => sales.x as int,
       yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -168,7 +166,7 @@ class _LiveVerticalState extends SampleViewState {
   @override
   void dispose() {
     chartData!.clear();
-    series!.clear();
+    series.clear();
     super.dispose();
   }
 }

@@ -76,13 +76,16 @@ class _SplineDashedState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Total investment (% of GDP)'),
       legend: Legend(isVisible: !isCardView),
-      primaryXAxis: NumericAxis(majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+      primaryXAxis: const NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
+        interval: 1,
+      ),
+      primaryYAxis: const NumericAxis(
         minimum: 16,
         maximum: 28,
         interval: 4,
         labelFormat: '{value}%',
-        axisLine: const AxisLine(width: 0),
+        axisLine: AxisLine(width: 0),
       ),
       series: _getDashedSplineSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
@@ -94,26 +97,23 @@ class _SplineDashedState extends SampleViewState {
   List<SplineSeries<ChartSampleData, num>> _getDashedSplineSeries() {
     return <SplineSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
-          width: 2,
           name: 'Brazil',
 
           /// To apply the dashes line for spline.
           dashArray: const <double>[12, 3, 3, 3],
           markerSettings: const MarkerSettings(isVisible: true)),
       SplineSeries<ChartSampleData, num>(
-          dataSource: chartData!,
-          width: 2,
+          dataSource: chartData,
           name: 'Sweden',
           dashArray: const <double>[12, 3, 3, 3],
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           markerSettings: const MarkerSettings(isVisible: true)),
       SplineSeries<ChartSampleData, num>(
-          dataSource: chartData!,
-          width: 2,
+          dataSource: chartData,
           dashArray: const <double>[12, 3, 3, 3],
           name: 'Greece',
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,

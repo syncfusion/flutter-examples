@@ -134,21 +134,22 @@ class _ExportState extends SampleViewState {
       backgroundColor: model.cardThemeColor,
       plotAreaBorderWidth: 0,
       plotAreaBorderColor: Colors.grey.withOpacity(0.7),
-      title: ChartTitle(text: 'Average rainfall amount (mm) and rainy days'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      title:
+          const ChartTitle(text: 'Average rainfall amount (mm) and rainy days'),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryYAxis: const NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
         minimum: 0,
         maximum: 250,
         interval: 50,
       ),
-      axes: <ChartAxis>[
+      axes: const <ChartAxis>[
         NumericAxis(
             name: 'YAxis',
             opposedPosition: true,
-            majorGridLines: const MajorGridLines(width: 0),
+            majorGridLines: MajorGridLines(width: 0),
             minimum: 0,
             maximum: 30,
             interval: 5)
@@ -159,8 +160,8 @@ class _ExportState extends SampleViewState {
   }
 
   /// Get default column series
-  List<ChartSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
-    return <ChartSeries<ChartSampleData, String>>[
+  List<CartesianSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
+    return <CartesianSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           name: 'Rainy days',
           dataSource: chartData,
@@ -239,10 +240,10 @@ class _ExportState extends SampleViewState {
   }
 
   Future<List<int>> _readImageData() async {
-    final dart_ui.Image data =
+    final dart_ui.Image? data =
         await _chartKey.currentState!.toImage(pixelRatio: 3.0);
     final ByteData? bytes =
-        await data.toByteData(format: dart_ui.ImageByteFormat.png);
+        await data?.toByteData(format: dart_ui.ImageByteFormat.png);
     return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 }

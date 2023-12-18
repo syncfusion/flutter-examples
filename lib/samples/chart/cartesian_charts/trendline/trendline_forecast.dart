@@ -129,8 +129,8 @@ class _TrendLineForecastState extends SampleViewState {
                 : 'Euro to USD yearly exchange rate - 1999 to 2019'),
         legend: Legend(isVisible: !isCardView),
         tooltipBehavior: _tooltipBehavior,
-        primaryXAxis: NumericAxis(
-            majorGridLines: const MajorGridLines(width: 0), interval: 2),
+        primaryXAxis: const NumericAxis(
+            majorGridLines: MajorGridLines(width: 0), interval: 2),
         primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Dollars'),
           axisLine: const AxisLine(width: 0),

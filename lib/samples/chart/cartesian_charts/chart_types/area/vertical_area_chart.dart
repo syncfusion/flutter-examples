@@ -136,8 +136,8 @@ class _AreaVerticalState extends SampleViewState {
       isTransposed: true,
       title: ChartTitle(
           text: isCardView ? '' : 'Trend in sales of ethical produce'),
-      primaryXAxis: DateTimeAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const DateTimeAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Spends'),
@@ -152,13 +152,13 @@ class _AreaVerticalState extends SampleViewState {
   List<AreaSeries<ChartSampleData, DateTime>> _getVerticalAreaSeries() {
     return <AreaSeries<ChartSampleData, DateTime>>[
       AreaSeries<ChartSampleData, DateTime>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           opacity: 0.7,
           name: 'Organic'),
       AreaSeries<ChartSampleData, DateTime>(
-          dataSource: chartData!,
+          dataSource: chartData,
           opacity: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,

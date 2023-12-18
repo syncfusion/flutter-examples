@@ -100,8 +100,6 @@ class _AxisAnimationDefaultState extends SampleViewState {
     return SfCartesianChart(
         enableAxisAnimation: _animation,
         plotAreaBorderWidth: 0,
-        primaryXAxis: NumericAxis(),
-        primaryYAxis: NumericAxis(),
         series: _getSeries());
   }
 
@@ -109,7 +107,7 @@ class _AxisAnimationDefaultState extends SampleViewState {
   List<LineSeries<_ChartData, num>> _getSeries() {
     return <LineSeries<_ChartData, num>>[
       LineSeries<_ChartData, num>(
-          dataSource: _chartData!,
+          dataSource: _chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
           sortingOrder: SortingOrder.ascending,

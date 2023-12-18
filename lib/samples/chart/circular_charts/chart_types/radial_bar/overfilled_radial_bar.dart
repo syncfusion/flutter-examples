@@ -57,8 +57,6 @@ class _OverfilledRadialBarState extends SampleViewState {
             ChartTitle(text: isCardView ? '' : 'Monthly steps count tracker'),
         annotations: <CircularChartAnnotation>[
           CircularChartAnnotation(
-            angle: 0,
-            radius: '0%',
             height: isCardView
                 ? '45%'
                 : model.isWeb

@@ -67,8 +67,8 @@ class _BarCustomizationState extends SampleViewState {
           text: isCardView
               ? ''
               : 'Popular Android apps in the Google play store'),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Downloads in Billion'),
@@ -77,7 +77,7 @@ class _BarCustomizationState extends SampleViewState {
           interval: model.isWebFullView ? 0.5 : 1,
           majorGridLines: const MajorGridLines(width: 0),
           majorTickLines: const MajorTickLines(size: 0)),
-      series: <ChartSeries<ChartSampleData, String>>[
+      series: <CartesianSeries<ChartSampleData, String>>[
         BarSeries<ChartSampleData, String>(
           onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
             return _CustomBarSeriesRenderer();
@@ -106,17 +106,17 @@ class _BarCustomizationState extends SampleViewState {
 
 /// Custom bar series class that extend the original bar series
 /// to create Customized bar chart.
-class _CustomBarSeriesRenderer extends BarSeriesRenderer {
+class _CustomBarSeriesRenderer<T, D> extends BarSeriesRenderer<T, D> {
   _CustomBarSeriesRenderer();
 
   @override
-  BarSegment createSegment() {
-    return BarCustomPainter();
+  BarSegment<T, D> createSegment() {
+    return BarCustomPainter<T, D>();
   }
 }
 
 /// custom bar painter for the customized bar chart series.
-class BarCustomPainter extends BarSegment {
+class BarCustomPainter<T, D> extends BarSegment<T, D> {
   @override
   void onPaint(Canvas canvas) {
     final Float64List deviceTransform = Float64List(16)
@@ -139,9 +139,11 @@ class BarCustomPainter extends BarSegment {
 
     if (isImageloaded && devicePixelRatio > 0) {
       super.onPaint(canvas);
-      final Rect rect = Rect.fromLTRB(segmentRect.left, segmentRect.top,
-          segmentRect.right * animationFactor, segmentRect.bottom);
-      canvas.drawRect(rect, linePaint);
+      if (segmentRect != null) {
+        final Rect rect = Rect.fromLTRB(segmentRect!.left, segmentRect!.top,
+            segmentRect!.right * animationFactor, segmentRect!.bottom);
+        canvas.drawRect(rect, linePaint);
+      }
     }
   }
 }

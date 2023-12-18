@@ -171,7 +171,8 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                     child: Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: SfCartesianChart(
-                        title: ChartTitle(text: 'Data Usage For April 2019'),
+                        title:
+                            const ChartTitle(text: 'Data Usage For April 2019'),
                         margin: EdgeInsets.zero,
                         primaryXAxis: DateTimeAxis(
                           isVisible: false,
@@ -182,21 +183,24 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                           enableAutoIntervalOnZooming: false,
                         ),
                         primaryYAxis:
-                            NumericAxis(isVisible: false, maximum: 26),
+                            const NumericAxis(isVisible: false, maximum: 26),
                         plotAreaBorderWidth: 0,
                         plotAreaBackgroundColor: Colors.transparent,
+                        enableMultiSelection: true,
                         series: <CartesianSeries<_ChartData, DateTime>>[
                           ColumnSeries<_ChartData, DateTime>(
                             width: 0.8,
                             initialSelectedDataIndexes: selectedItems,
                             selectionBehavior: SelectionBehavior(
                                 enable: true,
-                                unselectedOpacity: 0,
+                                // unselectedOpacity: 0,
                                 selectedBorderColor:
                                     const Color.fromRGBO(0, 178, 206, 1),
                                 selectedColor:
                                     const Color.fromRGBO(0, 178, 206, 1),
                                 unselectedColor: Colors.transparent,
+                                unselectedBorderColor:
+                                    const Color.fromRGBO(194, 194, 194, 1),
                                 selectionController: rangeController),
                             dashArray:
                                 model.isWebFullView ? null : <double>[3, 2],

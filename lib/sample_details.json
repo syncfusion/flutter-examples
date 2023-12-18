@@ -2735,6 +2735,29 @@
           },
           {
             "type": "child",
+            "title": "Grouping",
+            "subItems": [
+              {
+                "type": "sample",
+                "title": "Grouping",
+                "status": "New",
+                "key": "datagrid_grouping",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/grouping/datagrid_grouping.dart",
+                "needsPropertyPanel": false
+              },
+              {
+                "type": "sample",
+                "title": "Custom Grouping",
+                "status": "New",
+                "description": "This sample demonstrates the custom grouping capabilities in SfDataGrid. Implement custom grouping logic if the standard grouping techniques do not meet your requirements. The sample is grouped based on the total amount of sales in the quarters.",
+                "key": "datagrid_custom_grouping",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/grouping/datagrid_custom_grouping",
+                "needsPropertyPanel": false
+              }
+            ]
+          },
+          {
+            "type": "child",
             "title": "Filtering",
             "subItems": [
               {
@@ -3163,20 +3186,27 @@
             "type": "sample",
             "title": "Custom Toolbar",
             "key": "pdf_viewer_custom_toolbar",
+            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_custom_toolbar.dart"
           },
           {
             "type": "sample",
-            "title": "Encrypted",
-            "key": "encrypted",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/encrypted.dart"
+            "title": "Annotations",
+            "key": "pdf_viewer_annotations",
+            "status": "New",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_annotations.dart"
           },
           {
             "type": "sample",
-            "title": "Localization",
-            "key": "pdf_viewer_localization",
-            "needsPropertyPanel": true,
-            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_localization.dart"
+            "title": "Form Filling",
+            "key": "pdf_viewer_form_filling",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_form_filling.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Encrypted",
+            "key": "pdf_viewer_encrypted",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_encrypted.dart"
           },
           {
             "type": "sample",
@@ -3187,11 +3217,11 @@
           },
           {
             "type": "sample",
-            "title": "Form Filling",
-            "key": "pdf_viewer_form_filling",
-            "status": "Updated",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_form_filling.dart"
-          }
+            "title": "Localization",
+            "key": "pdf_viewer_localization",
+            "needsPropertyPanel": true,
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_localization.dart"
+          }        
         ]
       }
     ]
@@ -3206,6 +3236,7 @@
         "description": "Create PDF document with text, images and tables",
         "image": "images/pdf.png",
         "displayType": "tab",
+        "status": "Updated",
         "controlId": 1,
         "subItems": [
           {
@@ -3230,6 +3261,7 @@
             "type": "sample",
             "title": "Annotations",
             "key": "annotations",
+            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/annotations.dart"
           },
           {

@@ -404,9 +404,9 @@ class _CartesianLegendOptionsState extends SampleViewState {
       /// Legend and its options for cartesian chart.
       legend: Legend(
         isVisible: true,
-        position: _position,
+        position: _position!,
         offset: enableFloatingLegend ? Offset(_xOffset, _yOffset) : null,
-        overflowMode: _overflowMode,
+        overflowMode: _overflowMode!,
         toggleSeriesVisibility: toggleVisibility,
         backgroundColor: model.currentThemeData?.brightness == Brightness.light
             ? Colors.white.withOpacity(0.5)
@@ -414,7 +414,6 @@ class _CartesianLegendOptionsState extends SampleViewState {
         borderColor: model.currentThemeData?.brightness == Brightness.light
             ? Colors.black.withOpacity(0.5)
             : Colors.white.withOpacity(0.5),
-        borderWidth: 1,
       ),
 
       primaryXAxis: DateTimeAxis(
@@ -436,26 +435,22 @@ class _CartesianLegendOptionsState extends SampleViewState {
   List<StackedAreaSeries<ChartSampleData, DateTime>> _getStackedAreaSeries() {
     return <StackedAreaSeries<ChartSampleData, DateTime>>[
       StackedAreaSeries<ChartSampleData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: 'Apple'),
       StackedAreaSeries<ChartSampleData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Orange'),
       StackedAreaSeries<ChartSampleData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Pear'),
       StackedAreaSeries<ChartSampleData, DateTime>(
-          animationDuration: 2500,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
           name: 'Others')

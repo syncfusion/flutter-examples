@@ -185,7 +185,7 @@ class _PlotBandDefaultState extends SampleViewState {
               verticalTextAlignment:
                   isLine ? TextAnchor.start : TextAnchor.middle,
               // padding for plotband text
-              verticalTextPadding: '-7',
+              verticalTextPadding: isLine ? '-7' : '',
               borderWidth: isCardView
                   ? 0
                   : isLine
@@ -224,7 +224,7 @@ class _PlotBandDefaultState extends SampleViewState {
                       : Colors.black,
               text: 'Average Temperature',
               // padding for plotband text
-              verticalTextPadding: '-7',
+              verticalTextPadding: isLine ? '-7' : '',
               color: const Color.fromRGBO(224, 155, 0, 1),
               textStyle: ((isSegment || isLine) &&
                       model != null &&
@@ -252,7 +252,7 @@ class _PlotBandDefaultState extends SampleViewState {
                       : Colors.black,
               text: 'Low Temperature',
               // padding for plotband text
-              verticalTextPadding: '-7',
+              verticalTextPadding: isLine ? '-7' : '',
               color: const Color.fromRGBO(237, 195, 12, 1),
               textStyle: ((isSegment || isLine) &&
                       model != null &&
@@ -295,7 +295,6 @@ class _PlotBandDefaultState extends SampleViewState {
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           color: seriesColor,
           name: 'Weather',
-          width: 2,
           markerSettings: const MarkerSettings(
               height: 5,
               width: 5,

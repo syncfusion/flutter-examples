@@ -8,17 +8,17 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../../model/sample_view.dart';
 
 /// Render chart series with horizontal gradient.
-class HorizantalGradient extends SampleView {
+class HorizontalGradient extends SampleView {
   /// Creates chart series with horizontal gradient.
-  const HorizantalGradient(Key key) : super(key: key);
+  const HorizontalGradient(Key key) : super(key: key);
 
   @override
-  _HorizantalGradientState createState() => _HorizantalGradientState();
+  _HorizontalGradientState createState() => _HorizontalGradientState();
 }
 
 /// State class of horizontal gradient.
-class _HorizantalGradientState extends SampleViewState {
-  _HorizantalGradientState();
+class _HorizontalGradientState extends SampleViewState {
+  _HorizontalGradientState();
   TooltipBehavior? _tooltipBehavior;
   @override
   void initState() {
@@ -28,11 +28,11 @@ class _HorizantalGradientState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _buildHorizantalGradientAreaChart();
+    return _buildHorizontalGradientAreaChart();
   }
 
   /// Return the circular chart with horizontal gradient.
-  SfCartesianChart _buildHorizantalGradientAreaChart() {
+  SfCartesianChart _buildHorizontalGradientAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Total investment (% of GDP)'),
@@ -42,22 +42,23 @@ class _HorizantalGradientState extends SampleViewState {
           labelRotation: -45,
           majorGridLines: const MajorGridLines(width: 0)),
       tooltipBehavior: _tooltipBehavior,
-      primaryYAxis: NumericAxis(
-          interval: 2,
-          minimum: 14,
-          maximum: 20,
-          labelFormat: '{value}%',
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+      primaryYAxis: const NumericAxis(
+        interval: 2,
+        minimum: 14,
+        maximum: 20,
+        labelFormat: '{value}%',
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
       series: _getGradientAreaSeries(),
     );
   }
 
   /// Returns the list of spline area series with horizontal gradient.
-  List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
-    return <ChartSeries<_ChartData, String>>[
+  List<CartesianSeries<_ChartData, String>> _getGradientAreaSeries() {
+    return <CartesianSeries<_ChartData, String>>[
       SplineAreaSeries<_ChartData, String>(
-        onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
+        onCreateRenderer: (ChartSeries<_ChartData, String> series) {
           return _CustomSplineAreaSeriesRenderer(
               series as SplineAreaSeries<_ChartData, String>);
         },
@@ -79,9 +80,10 @@ class _HorizantalGradientState extends SampleViewState {
           0.2,
           0.9
         ]),
-        borderWidth: 2,
         markerSettings: const MarkerSettings(
-            isVisible: true, borderColor: Colors.white, borderWidth: 2),
+          isVisible: true,
+          borderColor: Colors.white,
+        ),
         dataSource: <_ChartData>[
           _ChartData(x: '1997', y: 17.70),
           _ChartData(x: '1998', y: 18.20),
@@ -106,7 +108,8 @@ class _ChartData {
   final double? y;
 }
 
-class _CustomSplineAreaSeriesRenderer extends SplineAreaSeriesRenderer {
+class _CustomSplineAreaSeriesRenderer<T, D>
+    extends SplineAreaSeriesRenderer<T, D> {
   _CustomSplineAreaSeriesRenderer(this.series);
 
   final SplineAreaSeries<dynamic, dynamic> series;
@@ -123,12 +126,19 @@ class _CustomSplineAreaSeriesRenderer extends SplineAreaSeriesRenderer {
   ];
 
   @override
-  void drawDataMarker(int index, Canvas canvas, Paint fillPaint,
-      Paint strokePaint, double pointX, double pointY,
-      [CartesianSeriesRenderer? seriesRenderer]) {
+  void drawDataMarker(
+    int index,
+    Canvas canvas,
+    Paint fillPaint,
+    Paint strokePaint,
+    Offset point,
+    Size size,
+    DataMarkerType type, [
+    CartesianSeriesRenderer<T, D>? seriesRenderer,
+  ]) {
     strokePaint.color = Colors.white;
     fillPaint.color = markerColorList[index];
-    super.drawDataMarker(
-        index, canvas, fillPaint, strokePaint, pointX, pointY, seriesRenderer);
+    super.drawDataMarker(index, canvas, fillPaint, strokePaint, point, size,
+        type, seriesRenderer);
   }
 }

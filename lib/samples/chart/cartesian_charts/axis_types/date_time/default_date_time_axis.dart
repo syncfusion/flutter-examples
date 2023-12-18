@@ -43,7 +43,7 @@ class _DateTimeDefaultState extends SampleViewState {
                 ? ''
                 : 'Euro to USD monthly exchange rate - 2015 to 2018'),
         primaryXAxis:
-            DateTimeAxis(majorGridLines: const MajorGridLines(width: 0)),
+            const DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
           minimum: 1,
           maximum: 1.35,

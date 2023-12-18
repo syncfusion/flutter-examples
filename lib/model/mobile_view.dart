@@ -89,6 +89,7 @@ class _LayoutPageState extends State<LayoutPage> {
             : null;
     return Theme(
         data: ThemeData(
+            useMaterial3: false,
             checkboxTheme: CheckboxThemeData(
                 fillColor: MaterialStateProperty.resolveWith(getColor)),
             brightness: _model.themeData.colorScheme.brightness,
@@ -477,7 +478,7 @@ class _LayoutPageState extends State<LayoutPage> {
     SampleView sampleView;
     for (int i = 0; i < list.length; i++) {
       tabChildren.add(ListView.builder(
-          cacheExtent: (list.length).toDouble(),
+          cacheExtent: list.length.toDouble(),
           itemCount: list.length,
           itemBuilder: (BuildContext context, int position) {
             final String? status = list[position].status;
@@ -517,7 +518,7 @@ class _LayoutPageState extends State<LayoutPage> {
                                     list[position].title!,
                                     textAlign: TextAlign.left,
                                     softWrap: true,
-                                    textScaleFactor: 1,
+                                    textScaler: TextScaler.noScaling,
                                     overflow: TextOverflow.fade,
                                     style: TextStyle(
                                         fontFamily: 'HeeboMedium',

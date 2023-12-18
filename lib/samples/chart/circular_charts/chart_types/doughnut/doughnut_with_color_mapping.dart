@@ -28,10 +28,10 @@ class _DoughnutDefaultState extends SampleViewState {
   /// Returns the circular chart with color mapping doughnut series.
   SfCircularChart _buildDoughnutCustomizationChart() {
     return SfCircularChart(
-      annotations: <CircularChartAnnotation>[
+      annotations: const <CircularChartAnnotation>[
         CircularChartAnnotation(
-            widget: const Text('90%',
-                style: TextStyle(color: Colors.grey, fontSize: 25)))
+            widget:
+                Text('90%', style: TextStyle(color: Colors.grey, fontSize: 25)))
       ],
       title: ChartTitle(
           text: isCardView ? '' : 'Work progress',
@@ -93,7 +93,6 @@ class _DoughnutDefaultState extends SampleViewState {
         strokeColor: model.themeData.colorScheme.brightness == Brightness.light
             ? Colors.white
             : Colors.black,
-        strokeWidth: 2,
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
 

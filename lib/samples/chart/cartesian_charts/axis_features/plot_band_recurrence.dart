@@ -130,7 +130,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 end: DateTime(2010),
                 color:
                     model.themeData.colorScheme.brightness == Brightness.light
-                        ? const Color.fromRGBO(227, 228, 230, 0.4)
+                        ? const Color.fromRGBO(227, 228, 230, 1)
                         : const Color.fromRGBO(70, 70, 70, 1))
           ]),
       primaryYAxis: NumericAxis(
@@ -150,7 +150,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 repeatUntil: 18000,
                 color:
                     model.themeData.colorScheme.brightness == Brightness.light
-                        ? const Color.fromRGBO(227, 228, 230, 0.1)
+                        ? const Color.fromRGBO(227, 228, 230, 1)
                         : const Color.fromRGBO(70, 70, 70, 1))
           ],
           majorGridLines: const MajorGridLines(color: Colors.grey),
@@ -166,13 +166,13 @@ class _PlotBandRecurrenceState extends SampleViewState {
   List<ColumnSeries<ChartSampleData, DateTime>> _getPlotBandRecurrenceSeries() {
     return <ColumnSeries<ChartSampleData, DateTime>>[
       ColumnSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         name: 'All sources',
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
       ColumnSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         name: 'Autos & Light Trucks',
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.yValue,

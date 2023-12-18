@@ -51,8 +51,6 @@ class _RadialBarCustomizedState extends SampleViewState {
     ];
     _annotationSources = <CircularChartAnnotation>[
       CircularChartAnnotation(
-        angle: 0,
-        radius: '0%',
         widget: Image.asset(
           'images/car_legend.png',
           width: 20,
@@ -61,8 +59,6 @@ class _RadialBarCustomizedState extends SampleViewState {
         ),
       ),
       CircularChartAnnotation(
-        angle: 0,
-        radius: '0%',
         widget: Image.asset(
           'images/book.png',
           width: 20,
@@ -71,16 +67,12 @@ class _RadialBarCustomizedState extends SampleViewState {
         ),
       ),
       CircularChartAnnotation(
-        angle: 0,
-        radius: '0%',
         widget: Image.asset('images/home.png',
             width: 20,
             height: 20,
             color: const Color.fromRGBO(145, 132, 202, 1.0)),
       ),
       CircularChartAnnotation(
-        angle: 0,
-        radius: '0%',
         widget: Image.asset(
           'images/personal_loan.png',
           width: 20,
@@ -155,8 +147,6 @@ class _RadialBarCustomizedState extends SampleViewState {
       tooltipBehavior: _tooltipBehavior,
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
-          angle: 0,
-          radius: '0%',
           height: '90%',
           width: '90%',
           widget: Image.asset(
@@ -201,7 +191,6 @@ class _RadialBarCustomizedState extends SampleViewState {
               pointColor: const Color.fromRGBO(235, 96, 143, 1.0))
         ],
         cornerStyle: CornerStyle.bothCurve,
-        innerRadius: '50%',
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         pointRadiusMapper: (ChartSampleData data, _) => data.text,

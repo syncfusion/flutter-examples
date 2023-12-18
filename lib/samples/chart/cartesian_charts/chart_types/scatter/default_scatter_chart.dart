@@ -32,14 +32,14 @@ class _ScatterDefaultState extends SampleViewState {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Export growth rate'),
       legend: Legend(isVisible: !isCardView),
-      primaryXAxis: DateTimeAxis(
+      primaryXAxis: const DateTimeAxis(
         labelIntersectAction: AxisLabelIntersectAction.multipleRows,
-        majorGridLines: const MajorGridLines(width: 0),
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           labelFormat: '{value}%',
-          axisLine: const AxisLine(width: 0),
-          minorTickLines: const MinorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          minorTickLines: MinorTickLines(size: 0)),
       tooltipBehavior: TooltipBehavior(enable: true),
       series: _getDefaultScatterSeries(),
     );
@@ -82,7 +82,7 @@ class _ScatterDefaultState extends SampleViewState {
   List<ScatterSeries<ChartSampleData, DateTime>> _getDefaultScatterSeries() {
     return <ScatterSeries<ChartSampleData, DateTime>>[
       ScatterSeries<ChartSampleData, DateTime>(
-          dataSource: chartData!,
+          dataSource: chartData,
           opacity: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -90,13 +90,13 @@ class _ScatterDefaultState extends SampleViewState {
           name: 'Brazil'),
       ScatterSeries<ChartSampleData, DateTime>(
           opacity: 0.7,
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           markerSettings: const MarkerSettings(height: 15, width: 15),
           name: 'Canada'),
       ScatterSeries<ChartSampleData, DateTime>(
-        dataSource: chartData!,
+        dataSource: chartData,
         color: const Color.fromRGBO(0, 168, 181, 1),
         xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
         yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,

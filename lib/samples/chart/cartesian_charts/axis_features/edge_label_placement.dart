@@ -116,7 +116,7 @@ class _EdgeLabelState extends SampleViewState {
         maximum: 80,
 
         /// This is the API for y axis edge label placement.
-        edgeLabelPlacement: _edgeLabelPlacement,
+        edgeLabelPlacement: _edgeLabelPlacement!,
         title: AxisTitle(text: isCardView ? '' : 'Rupees per litre'),
       ),
       series: _getEdgeLabelPlacementSeries(),
@@ -126,7 +126,8 @@ class _EdgeLabelState extends SampleViewState {
 
   /// Returns the list of chart serires whcih need to render
   /// on the spline edge label placement chart.
-  List<ChartSeries<ChartSampleData, DateTime>> _getEdgeLabelPlacementSeries() {
+  List<CartesianSeries<ChartSampleData, DateTime>>
+      _getEdgeLabelPlacementSeries() {
     chartData = <ChartSampleData>[
       ChartSampleData(
           x: DateTime(2005, 4), y: 37.99, secondSeriesYValue: 28.22),
@@ -145,16 +146,16 @@ class _EdgeLabelState extends SampleViewState {
           x: DateTime(2015, 4), y: 60.49, secondSeriesYValue: 49.71),
       ChartSampleData(x: DateTime(2016, 4), y: 59.68, secondSeriesYValue: 48.33)
     ];
-    return <ChartSeries<ChartSampleData, DateTime>>[
+    return <CartesianSeries<ChartSampleData, DateTime>>[
       SplineSeries<ChartSampleData, DateTime>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           markerSettings: const MarkerSettings(
               isVisible: true, shape: DataMarkerType.pentagon),
           name: 'Petrol'),
       SplineSeries<ChartSampleData, DateTime>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           markerSettings: const MarkerSettings(

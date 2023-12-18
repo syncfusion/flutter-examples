@@ -205,6 +205,7 @@ class _ColumnSizingDataGridState extends SampleViewState {
     return SfDataGrid(
         source: columnSizingDataGridSource,
         columnWidthMode: columnWidthMode,
+        columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
         columnSizer: _columnSizer,
         columns: _getColumns());
   }

@@ -49,9 +49,9 @@ class _LineDashedState extends SampleViewState {
       legend: Legend(
           isVisible: isCardView ? false : true,
           overflowMode: LegendItemOverflowMode.wrap),
-      primaryXAxis: NumericAxis(
+      primaryXAxis: const NumericAxis(
           edgeLabelPlacement: EdgeLabelPlacement.shift,
-          majorGridLines: const MajorGridLines(width: 0),
+          majorGridLines: MajorGridLines(width: 0),
           interval: 2),
       primaryYAxis: NumericAxis(
           minimum: 3,
@@ -69,39 +69,31 @@ class _LineDashedState extends SampleViewState {
   List<LineSeries<_ChartData, num>> _getDashedLineSeries() {
     return <LineSeries<_ChartData, num>>[
       LineSeries<_ChartData, num>(
-          animationDuration: 2500,
 
           /// The property uses to render a line with dashes.
-          dashArray: <double>[15, 3, 3, 3],
-          dataSource: chartData!,
+          dashArray: const <double>[15, 3, 3, 3],
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y,
-          width: 2,
           name: 'Singapore',
           markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
-          animationDuration: 2500,
-          dataSource: chartData!,
-          dashArray: <double>[15, 3, 3, 3],
-          width: 2,
+          dataSource: chartData,
+          dashArray: const <double>[15, 3, 3, 3],
           name: 'Saudi Arabia',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y2,
           markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
-          animationDuration: 2500,
-          dataSource: chartData!,
-          width: 2,
-          dashArray: <double>[15, 3, 3, 3],
+          dataSource: chartData,
+          dashArray: const <double>[15, 3, 3, 3],
           name: 'Spain',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y3,
           markerSettings: const MarkerSettings(isVisible: true)),
       LineSeries<_ChartData, num>(
-          animationDuration: 2500,
-          dataSource: chartData!,
-          width: 2,
-          dashArray: <double>[15, 3, 3, 3],
+          dataSource: chartData,
+          dashArray: const <double>[15, 3, 3, 3],
           name: 'Portugal',
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y4,

@@ -45,9 +45,9 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         plotAreaBorderWidth: 0,
         title: ChartTitle(text: _title!),
         legend: const Legend(isVisible: true),
-        primaryXAxis: CategoryAxis(
+        primaryXAxis: const CategoryAxis(
             labelIntersectAction: AxisLabelIntersectAction.multipleRows,
-            majorGridLines: const MajorGridLines(width: 0)),
+            majorGridLines: MajorGridLines(width: 0)),
         primaryYAxis: NumericAxis(
             axisLine: const AxisLine(width: 0),
 
@@ -76,12 +76,12 @@ class _LocalizationChartState extends LocalizationSampleViewState {
   List<ColumnSeries<ChartSampleData, String>> _getColumnSeries() {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.y,
           name: firstSeriesName),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as String,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: secondSeriesName)

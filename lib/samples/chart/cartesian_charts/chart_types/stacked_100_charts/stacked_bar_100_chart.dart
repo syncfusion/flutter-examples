@@ -49,13 +49,13 @@ class _StackedBar100ChartState extends SampleViewState {
       plotAreaBorderWidth: 1,
       title: ChartTitle(text: isCardView ? '' : 'Sales comparison of fruits'),
       legend: Legend(isVisible: !isCardView),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
           rangePadding: ChartRangePadding.none,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getStackedBarSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -63,20 +63,20 @@ class _StackedBar100ChartState extends SampleViewState {
 
   /// Returns the list of chart series
   /// which need to render on the stacked bar 100 chart.
-  List<ChartSeries<_ChartData, String>> _getStackedBarSeries() {
-    return <ChartSeries<_ChartData, String>>[
+  List<CartesianSeries<_ChartData, String>> _getStackedBarSeries() {
+    return <CartesianSeries<_ChartData, String>>[
       StackedBar100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.apple,
           name: 'Apple'),
       StackedBar100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.orange,
           name: 'Orange'),
       StackedBar100Series<_ChartData, String>(
-          dataSource: chartData!,
+          dataSource: chartData,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.wastage,
           name: 'Wastage')

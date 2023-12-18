@@ -133,7 +133,7 @@ class _TrendLineDefaultState extends SampleViewState {
                         color: model.textColor,
                       )),
                   SizedBox(
-                    width: model.isWebFullView ? 70 : 90,
+                    width: 0.5 * screenWidth,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: CheckboxListTile(
@@ -160,7 +160,7 @@ class _TrendLineDefaultState extends SampleViewState {
                         color: model.textColor,
                       )),
                   SizedBox(
-                    width: model.isWebFullView ? 78 : 98,
+                    width: 0.5 * screenWidth,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: CheckboxListTile(
@@ -253,8 +253,8 @@ class _TrendLineDefaultState extends SampleViewState {
       title: ChartTitle(
           text: isCardView ? '' : 'No. of website visitors in a week'),
       legend: Legend(isVisible: !isCardView),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: const MajorGridLines(width: 0),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
           title: AxisTitle(text: isCardView ? '' : 'Visitors'),
@@ -358,7 +358,7 @@ class _TrendLineDefaultState extends SampleViewState {
                 period: _period,
                 onRenderDetailsUpdate: (TrendlineRenderParams args) {
                   _rSquare =
-                      double.parse((args.rSquaredValue)!.toStringAsFixed(4))
+                      double.parse(args.rSquaredValue!.toStringAsFixed(4))
                           .toString();
                   _slope = args.slope;
                   _intercept = args.intercept;

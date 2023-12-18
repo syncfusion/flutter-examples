@@ -40,7 +40,6 @@ class _PieDefaultState extends SampleViewState {
       PieSeries<ChartSampleData, String>(
           explode: true,
           explodeIndex: 0,
-          explodeOffset: '10%',
           dataSource: <ChartSampleData>[
             ChartSampleData(x: 'David', y: 13, text: 'David \n 13%'),
             ChartSampleData(x: 'Steve', y: 24, text: 'Steve \n 24%'),

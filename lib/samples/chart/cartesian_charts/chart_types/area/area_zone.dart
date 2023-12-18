@@ -44,22 +44,22 @@ class _AreaZoneState extends SampleViewState {
         : orientation == Orientation.portrait
             ? 80
             : 45;
-    final double fontSize = 14 / MediaQuery.of(context).textScaleFactor;
-    final double size = 13 / MediaQuery.of(context).textScaleFactor;
+    final double fontSize = 14 / MediaQuery.of(context).textScaler.scale(1);
+    final double size = 13 / MediaQuery.of(context).textScaler.scale(1);
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Average monthly temperature of US - 2020'),
       primaryXAxis:
-          CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
+          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryYAxis: const NumericAxis(
           // ignore: use_raw_strings
           labelFormat: '{value}°F',
           minimum: 0,
           maximum: 90,
           interval: 30,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
       series: _getAreaZoneSeries(),
       tooltipBehavior: _tooltipBehavior,
 
@@ -123,7 +123,6 @@ class _AreaZoneState extends SampleViewState {
   List<CartesianSeries<ChartSampleData, String>> _getAreaZoneSeries() {
     return <CartesianSeries<ChartSampleData, String>>[
       AreaSeries<ChartSampleData, String>(
-        animationDuration: 2500,
         dataSource: <ChartSampleData>[
           ChartSampleData(x: 'Jan', y: 35.53),
           ChartSampleData(

@@ -6,10 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-import './shared/mobile_helper.dart'
-    if (dart.library.html) './shared/web_helper.dart' as helper;
 import '../../model/model.dart';
 import '../../model/sample_view.dart';
+import './shared/mobile_helper.dart'
+    if (dart.library.html) './shared/web_helper.dart' as helper;
 import 'shared/helper.dart';
 import 'shared/toolbar_widgets.dart';
 
@@ -26,12 +26,7 @@ class RTLModePdfViewer extends DirectionalitySampleView {
 
 class _RTLModePdfViewerState extends DirectionalitySampleViewState {
   bool _canShowPdf = false;
-  bool _canShowToast = false;
   bool _canShowToolbar = true;
-  OverlayEntry? _selectionOverlayEntry;
-  PdfTextSelectionChangedDetails? _textSelectionDetails;
-  Color? _contextMenuColor;
-  Color? _copyTextColor;
   OverlayEntry? _textSearchOverlayEntry;
   OverlayEntry? _chooseFileOverlayEntry;
   OverlayEntry? _zoomPercentageOverlay;
@@ -47,10 +42,6 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
   final GlobalKey<TextSearchOverlayState> _textSearchOverlayKey = GlobalKey();
   late bool _isLight;
   late bool _isDesktopWeb;
-  final double _kWebContextMenuHeight = 32;
-  final double _kMobileContextMenuHeight = 48;
-  final double _kContextMenuBottom = 55;
-  final double _kContextMenuWidth = 100;
   final double _kSearchOverlayWidth = 412;
   final TextEditingController _textFieldController = TextEditingController();
   TextDirection _textDirection = TextDirection.rtl;
@@ -77,10 +68,6 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
-    _contextMenuColor =
-        _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242);
-    _copyTextColor =
-        _isLight ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
     if (_needToMaximize != model.needToMaximize) {
       _closeOverlays();
       _needToMaximize = model.needToMaximize;
@@ -98,127 +85,11 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
     _pdfViewerController.clearSelection();
   }
 
-  /// Show Context menu for Text Selection.
-  void _showContextMenu(BuildContext context, Offset? offset) {
-    final RenderBox renderBoxContainer =
-        context.findRenderObject()! as RenderBox;
-    if (renderBoxContainer != null) {
-      const List<BoxShadow> boxShadows = <BoxShadow>[
-        BoxShadow(
-          color: Color.fromRGBO(0, 0, 0, 0.14),
-          blurRadius: 2,
-        ),
-        BoxShadow(
-          color: Color.fromRGBO(0, 0, 0, 0.12),
-          blurRadius: 2,
-          offset: Offset(0, 2),
-        ),
-        BoxShadow(
-          color: Color.fromRGBO(0, 0, 0, 0.2),
-          blurRadius: 3,
-          offset: Offset(0, 1),
-        ),
-      ];
-      final double contextMenuHeight =
-          _isDesktopWeb ? _kWebContextMenuHeight : _kMobileContextMenuHeight;
-      final PdfTextSelectionChangedDetails? details = _textSelectionDetails;
-      final Offset containerOffset = renderBoxContainer.localToGlobal(
-        renderBoxContainer.paintBounds.topLeft,
-      );
-      if (details != null &&
-              containerOffset.dy <
-                  details.globalSelectedRegion!.topLeft.dy -
-                      _kContextMenuBottom ||
-          (containerOffset.dy <
-                  details!.globalSelectedRegion!.center.dy -
-                      (contextMenuHeight / 2) &&
-              details.globalSelectedRegion!.height > _kContextMenuWidth)) {
-        double top = 0.0;
-        double left = 0.0;
-        final Rect globalSelectedRect = details.globalSelectedRegion!;
-        if (offset != null) {
-          top = offset.dy;
-          left = offset.dx;
-        } else if ((globalSelectedRect.top) >
-            MediaQuery.of(context).size.height / 2) {
-          top = globalSelectedRect.topLeft.dy - _kContextMenuBottom;
-          left = globalSelectedRect.bottomLeft.dx;
-        } else {
-          top = globalSelectedRect.height > _kContextMenuWidth
-              ? globalSelectedRect.center.dy - (contextMenuHeight / 2)
-              : globalSelectedRect.topLeft.dy - _kContextMenuBottom;
-          left = globalSelectedRect.height > _kContextMenuWidth
-              ? globalSelectedRect.center.dx - (_kContextMenuWidth / 2)
-              : globalSelectedRect.bottomLeft.dx;
-        }
-        final OverlayState overlayState =
-            Overlay.of(context, rootOverlay: true);
-        _selectionOverlayEntry = OverlayEntry(
-          builder: (BuildContext context) => Positioned(
-            top: top,
-            left: left,
-            child: Container(
-              decoration: BoxDecoration(
-                color: _contextMenuColor,
-                boxShadow: boxShadows,
-              ),
-              constraints: BoxConstraints.tightFor(
-                  width: _kContextMenuWidth, height: contextMenuHeight),
-              child: TextButton(
-                onPressed: () async {
-                  _handleContextMenuClose();
-                  _pdfViewerController.clearSelection();
-                  if (_textSearchKey.currentState != null &&
-                      _textSearchKey
-                          .currentState!.pdfTextSearchResult.hasResult) {
-                    setState(() {
-                      _canShowToolbar = false;
-                    });
-                  }
-                  await Clipboard.setData(
-                      ClipboardData(text: details.selectedText!));
-                  setState(() {
-                    _canShowToast = true;
-                  });
-                  await Future<dynamic>.delayed(const Duration(seconds: 1));
-                  setState(() {
-                    _canShowToast = false;
-                  });
-                },
-                child: Text(
-                  model.locale!.languageCode == 'ar' ? 'ينسخ' : 'Copy',
-                  style: _isDesktopWeb
-                      ? TextStyle(
-                          color: _copyTextColor,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w400)
-                      : TextStyle(fontSize: 17, color: _copyTextColor),
-                ),
-              ),
-            ),
-          ),
-        );
-        overlayState.insert(_selectionOverlayEntry!);
-      }
-    }
-  }
-
-  /// Check and close the text selection context menu.
-  void _handleContextMenuClose() {
-    if (_selectionOverlayEntry != null) {
-      _selectionOverlayEntry?.remove();
-      _selectionOverlayEntry = null;
-    }
-  }
-
   // Closes all overlay entry.
   void _closeOverlays() {
     _handleChooseFileClose();
     _handleZoomPercentageClose();
     _handleSearchMenuClose();
-    _handleContextMenuClose();
     _textSearchKey.currentState?.pdfTextSearchResult.clear();
   }
 
@@ -559,9 +430,6 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
                   });
                 }
               }
-              if (toolbarItem.toString() != 'Bookmarks') {
-                _handleContextMenuClose();
-              }
               if (toolbarItem != 'Jump to the page') {
                 final FocusScopeNode currentFocus = FocusScope.of(context);
                 if (!currentFocus.hasPrimaryFocus) {
@@ -669,73 +537,43 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
               interactionMode: _interactionMode,
               canShowPasswordDialog: false,
               canShowScrollHead: false,
-              onTextSelectionChanged:
-                  (PdfTextSelectionChangedDetails details) async {
-                if (details.selectedText == null &&
-                    _selectionOverlayEntry != null) {
-                  _textSelectionDetails = null;
-                  _handleContextMenuClose();
-                } else if (details.selectedText != null &&
-                    _selectionOverlayEntry == null) {
-                  _textSelectionDetails = details;
-                  _showContextMenu(context, null);
-                }
-              },
             ),
           );
           if (_canShowPdf) {
             if (_isDesktopWeb) {
-              return Stack(children: <Widget>[
-                RawKeyboardListener(
-                  focusNode: _focusNode,
-                  onKey: (RawKeyEvent event) {
-                    final bool isPrimaryKeyPressed =
-                        kIsMacOS ? event.isMetaPressed : event.isControlPressed;
-                    if (isPrimaryKeyPressed &&
-                        event.logicalKey == LogicalKeyboardKey.keyF) {
-                      _showTextSearchMenu();
-                    }
-                  },
-                  child: GestureDetector(
-                      onSecondaryTapDown: (TapDownDetails details) {
-                        if (_textSelectionDetails != null &&
-                            _textSelectionDetails!.globalSelectedRegion!
-                                .contains(details.globalPosition)) {
-                          if (_selectionOverlayEntry != null) {
-                            _handleContextMenuClose();
-                            _showContextMenu(context, details.globalPosition);
-                          } else if (_selectionOverlayEntry == null) {
-                            _showContextMenu(context, details.globalPosition);
-                          }
-                        }
-                      },
-                      child: pdfViewer),
-                ),
-                showToast(_canShowToast, Alignment.bottomCenter,
-                    model.locale!.languageCode == 'ar' ? 'نسخ' : 'Copied'),
-              ]);
+              return RawKeyboardListener(
+                focusNode: _focusNode,
+                onKey: (RawKeyEvent event) {
+                  final bool isPrimaryKeyPressed =
+                      kIsMacOS ? event.isMetaPressed : event.isControlPressed;
+                  if (isPrimaryKeyPressed &&
+                      event.logicalKey == LogicalKeyboardKey.keyF) {
+                    _showTextSearchMenu();
+                  }
+                },
+                child: pdfViewer,
+              );
             }
             return SfPdfViewerTheme(
               data: SfPdfViewerThemeData(
                   brightness: model.themeData.colorScheme.brightness),
-              child: WillPopScope(
-                onWillPop: () async {
+              child: PopScope(
+                onPopInvoked: (bool value) {
                   setState(() {
                     _canShowToolbar = true;
                   });
-                  return true;
                 },
-                child: Stack(children: <Widget>[
-                  pdfViewer,
-                  showToast(
-                      _textSearchKey.currentState?.canShowToast ?? false,
-                      Alignment.center,
-                      model.locale!.languageCode == 'ar'
-                          ? 'لا نتيجة'
-                          : 'No result'),
-                  showToast(_canShowToast, Alignment.bottomCenter,
-                      model.locale!.languageCode == 'ar' ? 'نسخ' : 'Copied'),
-                ]),
+                child: Stack(
+                  children: <Widget>[
+                    pdfViewer,
+                    showToast(
+                        _textSearchKey.currentState?.canShowToast ?? false,
+                        Alignment.center,
+                        model.locale!.languageCode == 'ar'
+                            ? 'لا نتيجة'
+                            : 'No result'),
+                  ],
+                ),
               ),
             );
           } else {
