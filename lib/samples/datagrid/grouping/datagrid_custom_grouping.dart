@@ -41,6 +41,8 @@ class _CustomgroupingDataGridState extends SampleViewState {
     return SfDataGrid(
       source: customGroupingDataGridSource,
       columns: columns,
+      selectionMode: SelectionMode.multiple,
+      navigationMode: GridNavigationMode.cell,
       tableSummaryRows: getTableSummaryRows(),
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,

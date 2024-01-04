@@ -10,7 +10,6 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 ///Local import
 import '../../model/sample_view.dart';
-import 'shared/helper.dart';
 
 ///Widget of getting started PDF Viewer.
 class GettingStartedPdfViewer extends SampleView {

@@ -33,7 +33,7 @@ dependencies:
   syncfusion_flutter_signaturepad: ^24.1.41
   syncfusion_flutter_pdfviewer: ^24.1.41
   syncfusion_flutter_treemap: ^24.1.41
-  
+
 flutter:
   uses-material-design: true
   assets:
