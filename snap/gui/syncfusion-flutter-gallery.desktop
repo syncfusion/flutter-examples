@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Syncfusion Flutter Gallery
+Comment=Demos & Examples of Syncfusion Flutter Widgets.
+Exec=syncfusion-flutter-gallery
+Icon=${SNAP}/meta/gui/syncfusion-flutter-gallery.png
+Terminal=false
+Type=Application
+Categories=Productivity;

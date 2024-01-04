@@ -1,0 +1,14 @@
+include: package:syncfusion_flutter_core/analysis_options.yaml
+
+analyzer:
+  errors:
+    include_file_not_found: ignore
+    lines_longer_than_80_chars: ignore
+    invalid_dependency: ignore
+    avoid_as: ignore
+    unnecessary_null_comparison: false
+    avoid_bool_literals_in_conditional_expressions: ignore
+    library_private_types_in_public_api: ignore
+    prefer_interpolation_to_compose_strings: ignore
+    always_specify_types: ignore
+

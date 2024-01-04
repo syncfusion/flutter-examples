@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="70px" height="70px" viewBox="0 0 70 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>Chart / img_Circle Series</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="72.9581091%" y1="0%" x2="-17.1260523%" y2="116.998625%" id="linearGradient-1">
+            <stop stop-color="#0BD1C3" offset="0%"></stop>
+            <stop stop-color="#0653C7" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="68.9723674%" y1="-3.22705129e-07%" x2="-5.47234395%" y2="116.998625%" id="linearGradient-2">
+            <stop stop-color="#0BD1C3" offset="0%"></stop>
+            <stop stop-color="#0653C7" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Chart-/-img_Circle-Series" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Circle-Series" transform="translate(2.000000, 2.000000)" fill-rule="nonzero">
+            <path d="M39.2972973,-1.27897692e-13 L41.3231813,0.0262211517 C55.0038938,0.203291529 66,11.5731999 66,25.5241307 C66,25.9554122 65.9894863,26.3855044 65.9685221,26.8141397 L65.8754825,28.7164383 L39.2972973,28.7164383 L39.2972973,-1.27897692e-13 Z M43.2972973,24.7164383 L61.9854532,24.7164383 C61.5990033,14.0053583 53.5582552,5.2940964 43.2972973,4.15125906 L43.2972973,24.7164383 Z M35,33.0241307 L62,33.0241307 L62,35.0241307 C62,52.1449579 48.1208272,66.0241307 31,66.0241307 C13.8791728,66.0241307 7.10542736e-15,52.1449579 7.10542736e-15,35.0241307 C7.10542736e-15,17.9033034 13.8791728,4.02413066 31,4.02413066 C31.7149973,4.02413066 32.4272441,4.04836996 33.1359144,4.09664082 L35,4.22361242 L35,33.0241307 Z M4,35.0241307 C4,49.9358189 16.0883118,62.0241307 31,62.0241307 C45.2389922,62.0241307 56.9035984,51.0018738 57.9270481,37.0241307 L31,37.0241307 L31,8.02413066 C16.0883118,8.02413066 4,20.1124424 4,35.0241307 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+            <path d="M43.2972973,24.7164383 L61.9854532,24.7164383 C61.5990033,14.0053583 53.5582552,5.2940964 43.2972973,4.15125906 L43.2972973,24.7164383 Z" id="Combined-Shape-path" fill="url(#linearGradient-2)" opacity="0.34"></path>
+        </g>
+    </g>
+</svg>
