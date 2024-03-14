@@ -91,6 +91,7 @@ class _FunnelSmartLabelState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -129,6 +130,7 @@ class _FunnelSmartLabelState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -172,6 +174,7 @@ class _FunnelSmartLabelState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(

@@ -25,7 +25,7 @@ class _FindTextPdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -58,7 +58,7 @@ class _FindTextPdfState extends SampleViewState {
                     TextButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            model.backgroundColor),
+                            model.primaryColor),
                         padding: model.isMobile
                             ? null
                             : MaterialStateProperty.all(
@@ -76,7 +76,7 @@ class _FindTextPdfState extends SampleViewState {
                     TextButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            model.backgroundColor),
+                            model.primaryColor),
                         padding: model.isMobile
                             ? null
                             : MaterialStateProperty.all(

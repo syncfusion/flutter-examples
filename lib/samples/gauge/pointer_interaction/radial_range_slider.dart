@@ -35,8 +35,9 @@ class _RadialRangeSliderExampleState extends SampleViewState {
       _borderWidth = 4;
     }
     return Scaffold(
-        backgroundColor:
-            model.isWebFullView ? Colors.transparent : model.cardThemeColor,
+        backgroundColor: model.isWebFullView
+            ? Colors.transparent
+            : model.sampleOutputCardColor,
         body: Padding(
             padding: model.isWebFullView
                 ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
@@ -66,8 +67,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                         enableDragging: _enableDragging,
                         borderColor: const Color(0xFFFFCD60),
                         borderWidth: isCardView ? 3 : _borderWidth,
-                        color: model.currentThemeData!.brightness ==
-                                Brightness.light
+                        color: model.themeData.brightness == Brightness.light
                             ? Colors.white
                             : Colors.black.withOpacity(0.8),
                         markerHeight: isCardView ? 15 : _markerSize,
@@ -79,8 +79,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                         value: _secondMarkerValue,
                         onValueChanged: _handleSecondPointerValueChanged,
                         onValueChanging: _handleSecondPointerValueChanging,
-                        color: model.currentThemeData!.brightness ==
-                                Brightness.light
+                        color: model.themeData.brightness == Brightness.light
                             ? Colors.white
                             : Colors.black.withOpacity(0.8),
                         enableDragging: _enableDragging,
@@ -131,7 +130,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
               SizedBox(
                   width: 75,
                   child: CheckboxListTile(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: _enableDragging,
                       onChanged: (bool? value) {
                         setState(() {

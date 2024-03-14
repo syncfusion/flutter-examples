@@ -45,7 +45,7 @@ class _AgendaViewCalendarState extends SampleViewState {
     final Widget calendar = Theme(
         data: model.themeData.copyWith(
             colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.backgroundColor)),
+                .copyWith(secondary: model.primaryColor)),
         child: _getAgendaViewCalendar(
             _events, _onViewChanged, _calendarController));
     return model.isMobileResolution &&
@@ -54,14 +54,14 @@ class _AgendaViewCalendarState extends SampleViewState {
             child: ListView(
             children: <Widget>[
               Container(
-                color: model.cardThemeColor,
+                color: model.sampleOutputCardColor,
                 height: 600,
                 child: calendar,
               )
             ],
           ))
         : Container(
-            color: model.cardThemeColor,
+            color: model.sampleOutputCardColor,
             child: calendar,
           );
   }

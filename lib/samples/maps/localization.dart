@@ -102,7 +102,7 @@ class _MapsWithLocalizationState extends LocalizationSampleViewState {
       return Center(
         child: SingleChildScrollView(
             child: ColoredBox(
-          color: model.cardThemeColor,
+          color: model.sampleOutputCardColor,
           child: SizedBox(
             width: constraints.maxWidth,
             height: height,
@@ -132,14 +132,14 @@ class _MapsWithLocalizationState extends LocalizationSampleViewState {
                         style: _themeData.textTheme.titleMedium))),
             Expanded(
               child: SfMapsTheme(
-                data: SfMapsThemeData(
+                data: const SfMapsThemeData(
                     shapeHoverColor: Colors.transparent,
                     shapeHoverStrokeColor: Colors.transparent),
                 child: SfMaps(
                   layers: <MapShapeLayer>[
                     MapShapeLayer(
                       source: _mapShapeSource,
-                      strokeColor: model.cardColor,
+                      strokeColor: model.homeCardColor,
                       strokeWidth: 0.5,
                       showDataLabels: true,
                       legend: const MapLegend(MapElement.shape,

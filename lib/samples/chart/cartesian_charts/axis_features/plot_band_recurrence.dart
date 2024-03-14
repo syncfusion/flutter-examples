@@ -64,7 +64,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 SizedBox(
                     width: 90,
                     child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: xAxis,
                         onChanged: (bool? value) {
                           setState(() {
@@ -86,7 +86,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 SizedBox(
                     width: 90,
                     child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: yAxis,
                         onChanged: (bool? value) {
                           setState(() {

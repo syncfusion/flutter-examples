@@ -231,7 +231,7 @@ class _ExportingDataGridState extends SampleViewState {
       padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 10.0),
       child: MaterialButton(
         onPressed: onPressed,
-        color: model.backgroundColor,
+        color: model.primaryColor,
         child: SizedBox(
           width: 150.0,
           height: 40.0,

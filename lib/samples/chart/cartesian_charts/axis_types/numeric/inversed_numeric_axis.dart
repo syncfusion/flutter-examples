@@ -45,7 +45,7 @@ class _NumericInverseState extends SampleViewState {
               child: Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: isXInversed!,
                     onChanged: (bool value) {
                       setState(() {
@@ -65,7 +65,7 @@ class _NumericInverseState extends SampleViewState {
               child: Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: isYInversed!,
                     onChanged: (bool value) {
                       setState(() {

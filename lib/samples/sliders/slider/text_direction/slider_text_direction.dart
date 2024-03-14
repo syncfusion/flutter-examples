@@ -34,7 +34,7 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
   SfSliderTheme _numericSlider() {
     return SfSliderTheme(
       data: SfSliderThemeData(
-        tooltipBackgroundColor: model.backgroundColor,
+        tooltipBackgroundColor: model.primaryColor,
         activeLabelStyle: _themeData.textTheme.bodyLarge!
             .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
         inactiveLabelStyle: _themeData.textTheme.bodyLarge!
@@ -65,7 +65,7 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
   SfSliderTheme _dateTimeSlider() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-          tooltipBackgroundColor: model.backgroundColor,
+          tooltipBackgroundColor: model.primaryColor,
           activeLabelStyle: _themeData.textTheme.bodyLarge!
               .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
           inactiveLabelStyle: _themeData.textTheme.bodyLarge!

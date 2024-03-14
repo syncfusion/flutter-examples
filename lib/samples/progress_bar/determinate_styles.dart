@@ -25,6 +25,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
   double progressValue = 0;
   double _size = 150;
   late Timer _timer;
+  ProgressBarColor? _progressBarColor;
 
   @override
   void initState() {
@@ -44,6 +45,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    _progressBarColor = ProgressBarColor(model);
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
       _size = model.isWebFullView
@@ -113,9 +115,10 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-              axisLineStyle: const AxisLineStyle(
+              axisLineStyle: AxisLineStyle(
                 thickness: 1,
-                color: Color.fromARGB(255, 0, 169, 181),
+                color: _progressBarColor!.pointerColor ??
+                    const Color.fromARGB(255, 0, 169, 181),
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
               pointers: <GaugePointer>[
@@ -153,15 +156,18 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-            axisLineStyle: const AxisLineStyle(
+            axisLineStyle: AxisLineStyle(
               thickness: 0.05,
-              color: Color.fromARGB(100, 0, 169, 181),
+              color: (_progressBarColor!.pointerColor ??
+                      const Color.fromRGBO(0, 169, 181, 1))
+                  .withAlpha(100),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
               RangePointer(
                 value: progressValue,
                 width: 0.95,
+                color: _progressBarColor!.pointerColor,
                 pointerOffset: 0.05,
                 sizeUnit: GaugeSizeUnit.factor,
                 enableAnimation: true,
@@ -175,6 +181,12 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
 
   /// Returns gradient progress style circular progress bar.
   Widget getGradientProgressStyle() {
+    final ThemeData themeData = model.themeData;
+    final Color gradientColor1 = themeData.useMaterial3
+        ? model.primaryColor.withOpacity(0.4)
+        : const Color(0xFFa4edeb);
+    final Color gradientColor2 =
+        themeData.useMaterial3 ? model.primaryColor : const Color(0xFF00a9b5);
     return SizedBox(
         height: _size,
         width: _size,
@@ -185,9 +197,9 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
               startAngle: 270,
               endAngle: 270,
               radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-              axisLineStyle: const AxisLineStyle(
+              axisLineStyle: AxisLineStyle(
                 thickness: 0.2,
-                color: Color.fromARGB(30, 0, 169, 181),
+                color: _progressBarColor!.axisLineColor,
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
               pointers: <GaugePointer>[
@@ -198,9 +210,9 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
                     enableAnimation: true,
                     animationDuration: 75,
                     animationType: AnimationType.linear,
-                    gradient: const SweepGradient(
-                        colors: <Color>[Color(0xFFa4edeb), Color(0xFF00a9b5)],
-                        stops: <double>[0.25, 0.75])),
+                    gradient: SweepGradient(
+                        colors: <Color>[gradientColor1, gradientColor2],
+                        stops: const <double>[0.25, 0.75])),
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(

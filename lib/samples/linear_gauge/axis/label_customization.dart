@@ -187,7 +187,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                    color: model.cardColor,
+                    color: model.homeCardColor,
                     border: Border.all(width: 4, color: activeColor),
                     borderRadius: const BorderRadius.all(Radius.circular(12))),
                 child: const Center(
@@ -203,7 +203,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                    color: model.cardColor,
+                    color: model.homeCardColor,
                     border: Border.all(width: 4, color: activeColor),
                     borderRadius: const BorderRadius.all(Radius.circular(12))),
                 child: const Center(
@@ -219,7 +219,7 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                    color: model.cardColor,
+                    color: model.homeCardColor,
                     border: Border.all(width: 4, color: activeColor),
                     borderRadius: const BorderRadius.all(Radius.circular(12))),
                 child: const Center(
@@ -278,8 +278,8 @@ class _GaugeLabelCustomizationState extends SampleViewState {
   Widget _buildSegmentedView() {
     return Center(
         child: CupertinoSegmentedControl<bool>(
-            selectedColor: model.backgroundColor,
-            borderColor: model.backgroundColor,
+            selectedColor: model.primaryColor,
+            borderColor: model.primaryColor,
             children: <bool, Widget>{
               true: Container(
                   padding: const EdgeInsets.all(10.0),

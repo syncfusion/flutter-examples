@@ -69,7 +69,7 @@ class _ExportState extends SampleViewState {
                           offset: Offset(0, 4.0),
                           blurRadius: 4.0,
                         ),
-                      ], shape: BoxShape.circle, color: model.backgroundColor),
+                      ], shape: BoxShape.circle, color: model.primaryColor),
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
@@ -95,7 +95,7 @@ class _ExportState extends SampleViewState {
                           offset: Offset(0, 4.0),
                           blurRadius: 4.0,
                         ),
-                      ], shape: BoxShape.circle, color: model.backgroundColor),
+                      ], shape: BoxShape.circle, color: model.primaryColor),
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
@@ -130,8 +130,8 @@ class _ExportState extends SampleViewState {
     return SfCartesianChart(
       legend: const Legend(isVisible: true),
       key: _chartKey,
-      plotAreaBackgroundColor: model.cardThemeColor,
-      backgroundColor: model.cardThemeColor,
+      plotAreaBackgroundColor: model.sampleOutputCardColor,
+      backgroundColor: model.sampleOutputCardColor,
       plotAreaBorderWidth: 0,
       plotAreaBorderColor: Colors.grey.withOpacity(0.7),
       title:

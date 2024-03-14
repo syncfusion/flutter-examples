@@ -65,7 +65,9 @@ class _TrendLineForecastState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return _buildTrendLineForecastChart();
+    final ThemeData themeData = model.themeData;
+    return _buildTrendLineForecastChart(
+        themeData.useMaterial3, themeData.brightness == Brightness.light);
   }
 
   @override
@@ -120,7 +122,13 @@ class _TrendLineForecastState extends SampleViewState {
   }
 
   /// Returns the spline chart with trendline forcating.
-  SfCartesianChart _buildTrendLineForecastChart() {
+  SfCartesianChart _buildTrendLineForecastChart(
+      bool isMaterial3, bool isLightMode) {
+    final Color color = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(99, 85, 199, 1)
+            : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(
@@ -142,7 +150,7 @@ class _TrendLineForecastState extends SampleViewState {
         ),
         series: <SplineSeries<ChartSampleData, num>>[
           SplineSeries<ChartSampleData, num>(
-              color: const Color.fromRGBO(192, 108, 132, 1),
+              color: color,
               dataSource: trendLineData,
               xValueMapper: (ChartSampleData data, _) => data.x as num,
               yValueMapper: (ChartSampleData data, _) => data.y,

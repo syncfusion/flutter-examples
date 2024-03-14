@@ -39,6 +39,7 @@ class _AnimationAreaDefaultState extends SampleViewState {
 
   /// Return the cartesian chart with animation.
   SfCartesianChart _buildAnimationAreaChart() {
+    final ThemeData themeData = model.themeData;
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: const NumericAxis(
@@ -48,16 +49,23 @@ class _AnimationAreaDefaultState extends SampleViewState {
             axisLine: AxisLine(width: 0),
             minimum: 0,
             maximum: 100),
-        series: _getDefaultAreaSeries());
+        series: _getDefaultAreaSeries(
+            themeData.useMaterial3, themeData.brightness == Brightness.light));
   }
 
   /// Return the list of  area series which need to be animated.
-  List<AreaSeries<_ChartData, num>> _getDefaultAreaSeries() {
+  List<AreaSeries<_ChartData, num>> _getDefaultAreaSeries(
+      bool isMaterial3, bool isLightMode) {
+    final Color color = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(6, 174, 224, 1)
+            : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
     return <AreaSeries<_ChartData, num>>[
       AreaSeries<_ChartData, num>(
           dataSource: _chartData,
-          color: const Color.fromRGBO(75, 135, 185, 0.6),
-          borderColor: const Color.fromRGBO(75, 135, 185, 1),
+          color: color.withOpacity(0.6),
+          borderColor: color,
           xValueMapper: (_ChartData sales, _) => sales.x,
           yValueMapper: (_ChartData sales, _) => sales.y)
     ];

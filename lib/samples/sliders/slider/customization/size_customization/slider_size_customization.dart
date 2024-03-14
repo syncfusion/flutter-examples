@@ -68,9 +68,8 @@ class _SliderSizeCustomizationPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(
             activeTrackHeight: 10.0,
-            inactiveTrackHeight: 4.0,
             trackCornerRadius: 6.0,
-            tooltipBackgroundColor: model.backgroundColor),
+            tooltipBackgroundColor: model.primaryColor),
         child: SfSlider(
             showLabels: true,
             interval: 10,

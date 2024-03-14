@@ -36,16 +36,19 @@ class _ColumnRoundedState extends SampleViewState {
 
   /// Get rounded corner column chart
   SfCartesianChart _buildRoundedColumnChart() {
+    final bool isM3DarkMode = model.themeData.useMaterial3 &&
+        model.themeData.brightness == Brightness.dark;
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
           text: isCardView ? '' : 'Land area of various cities (sq.km)'),
-      primaryXAxis: const CategoryAxis(
-        labelStyle: TextStyle(color: Colors.white),
-        axisLine: AxisLine(width: 0),
+      primaryXAxis: CategoryAxis(
+        labelStyle:
+            TextStyle(color: isM3DarkMode ? Colors.black : Colors.white),
+        axisLine: const AxisLine(width: 0),
         labelPosition: ChartDataLabelPosition.inside,
-        majorTickLines: MajorTickLines(width: 0),
-        majorGridLines: MajorGridLines(width: 0),
+        majorTickLines: const MajorTickLines(width: 0),
+        majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis:
           const NumericAxis(isVisible: false, minimum: 0, maximum: 9000),

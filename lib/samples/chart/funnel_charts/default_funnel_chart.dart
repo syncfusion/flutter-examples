@@ -143,7 +143,7 @@ class _FunnelDefaultState extends SampleViewState {
                     child: CheckboxListTile(
                         controlAffinity: ListTileControlAffinity.leading,
                         contentPadding: EdgeInsets.zero,
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: explode,
                         onChanged: (bool? value) {
                           setState(() {

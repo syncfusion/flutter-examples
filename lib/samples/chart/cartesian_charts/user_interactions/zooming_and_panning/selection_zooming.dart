@@ -345,7 +345,7 @@ class _DefaultZoomingState extends SampleViewState {
   Widget build(BuildContext context) {
     final double bottomPadding = isCardView || model.isWebFullView ? 0 : 60;
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
           child: Container(child: _buildDefaultZoomingChart()),
@@ -354,7 +354,7 @@ class _DefaultZoomingState extends SampleViewState {
             ? null
             : FloatingActionButton(
                 onPressed: () => _zoomingPanBehavior.reset(),
-                backgroundColor: model.backgroundColor,
+                backgroundColor: model.primaryColor,
                 child: const Icon(Icons.refresh, color: Colors.white),
               ));
   }

@@ -54,11 +54,19 @@ class _TableSummaryDataGridState extends SampleViewState {
     );
   }
 
+  Color tableSummaryBackgroundColor() {
+    final bool isMaterial3 = model.themeData.useMaterial3;
+    final bool isLight =
+        model.themeData.colorScheme.brightness == Brightness.light;
+    if (isMaterial3) {
+      return model.themeData.colorScheme.primary.withOpacity(0.08);
+    } else {
+      return isLight ? const Color(0xFFEBEBEB) : const Color(0xFF3B3B3B);
+    }
+  }
+
   List<GridTableSummaryRow> getTableSummaryRows() {
-    final Color color =
-        model.themeData.colorScheme.brightness == Brightness.light
-            ? const Color(0xFFEBEBEB)
-            : const Color(0xFF3B3B3B);
+    final Color color = tableSummaryBackgroundColor();
     return <GridTableSummaryRow>[
       GridTableSummaryRow(
           color: color,

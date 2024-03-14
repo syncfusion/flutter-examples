@@ -33,8 +33,8 @@ class _VerticalDateRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider.vertical(
           min: DateTime(2001),
           max: DateTime(2005),
@@ -61,8 +61,8 @@ class _VerticalDateRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _hourRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider.vertical(
           min: DateTime(2010, 01, 01, 9),
           max: DateTime(2010, 01, 01, 21),
@@ -136,7 +136,7 @@ class _VerticalDateRangeSliderPageState extends SampleViewState {
         return CheckboxListTile(
           value: _isInversed,
           title: const Text('Inversed', softWrap: false),
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           contentPadding: EdgeInsets.zero,
           onChanged: (bool? value) {
             setState(() {

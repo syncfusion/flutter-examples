@@ -112,7 +112,7 @@ class _PolylinesSampleState extends SampleViewState
                 ),
               ),
               SfMapsTheme(
-                data: SfMapsThemeData(
+                data: const SfMapsThemeData(
                   shapeHoverColor: Colors.transparent,
                 ),
                 child: SfMaps(
@@ -217,6 +217,8 @@ class _PolylinesSampleState extends SampleViewState
                 ? Colors.white
                 : Colors.black,
         elevation: 3.0,
+        shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
+        showCheckmark: false,
         label: Text(
           city,
           style: TextStyle(
@@ -226,7 +228,7 @@ class _PolylinesSampleState extends SampleViewState
         selected: _currentSelectedCityIndex == index,
         selectedColor:
             model.themeData.colorScheme.brightness == Brightness.light
-                ? model.backgroundColor.withOpacity(0.25)
+                ? model.primaryColor.withOpacity(0.25)
                 : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {

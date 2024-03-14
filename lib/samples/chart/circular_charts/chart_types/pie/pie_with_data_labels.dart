@@ -70,6 +70,7 @@ class _PieDataLabelsState extends SampleViewState {
                           child: SizedBox(
                               width: dropDownWidth,
                               child: DropdownButton<String>(
+                                  dropdownColor: model.drawerBackgroundColor,
                                   focusColor: Colors.transparent,
                                   isExpanded: true,
                                   underline: Container(
@@ -108,6 +109,7 @@ class _PieDataLabelsState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -146,6 +148,7 @@ class _PieDataLabelsState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -187,7 +190,7 @@ class _PieDataLabelsState extends SampleViewState {
                                   controlAffinity:
                                       ListTileControlAffinity.leading,
                                   contentPadding: EdgeInsets.zero,
-                                  activeColor: model.backgroundColor,
+                                  activeColor: model.primaryColor,
                                   value: isZeroVisible,
                                   onChanged: (bool? value) {
                                     setState(() {

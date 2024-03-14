@@ -45,7 +45,7 @@ class _LiveVerticalState extends SampleViewState {
   Widget build(BuildContext context) {
     const double bottomPadding = 60;
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: Padding(
           padding: const EdgeInsets.fromLTRB(5, 15, 5, bottomPadding),
           child: Container(child: _buildUpdateDataSourceChart()),
@@ -55,7 +55,7 @@ class _LiveVerticalState extends SampleViewState {
             chartData = <ChartSampleData>[];
             chartData = _getChartData();
           }),
-          backgroundColor: model.backgroundColor,
+          backgroundColor: model.primaryColor,
           child: const Icon(Icons.refresh, color: Colors.white),
         ));
   }

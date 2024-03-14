@@ -26,6 +26,9 @@ class _PyramidSmartLabelState extends SampleViewState {
   late String _selectedIntersectAction;
   late LabelIntersectAction _labelIntersectAction;
   late OverflowMode _overflowMode;
+  late List<Color> palette;
+  late List<Color> palette1;
+  late List<Color> palette2;
   List<String>? _overflowModeList;
   List<String>? _labelPosition;
   List<String>? _labelIntersectActionList;
@@ -33,47 +36,83 @@ class _PyramidSmartLabelState extends SampleViewState {
 
   @override
   void initState() {
+    palette = const <Color>[
+      Color.fromRGBO(53, 92, 125, 1),
+      Color.fromRGBO(192, 108, 132, 1),
+      Color.fromRGBO(246, 114, 128, 1),
+      Color.fromRGBO(248, 177, 149, 1),
+      Color.fromRGBO(116, 180, 155, 1),
+      Color.fromRGBO(0, 168, 181, 1),
+      Color.fromRGBO(73, 76, 162, 1),
+      Color.fromRGBO(255, 205, 96, 1),
+      Color.fromRGBO(255, 240, 219, 1),
+      Color.fromRGBO(238, 238, 238, 1)
+    ];
+    palette1 = const <Color>[
+      Color.fromRGBO(6, 174, 224, 1),
+      Color.fromRGBO(99, 85, 199, 1),
+      Color.fromRGBO(49, 90, 116, 1),
+      Color.fromRGBO(255, 180, 0, 1),
+      Color.fromRGBO(150, 60, 112, 1),
+      Color.fromRGBO(33, 150, 245, 1),
+      Color.fromRGBO(71, 59, 137, 1),
+      Color.fromRGBO(236, 92, 123, 1),
+      Color.fromRGBO(59, 163, 26, 1),
+      Color.fromRGBO(236, 131, 23, 1)
+    ];
+    palette2 = const <Color>[
+      Color.fromRGBO(255, 245, 0, 1),
+      Color.fromRGBO(51, 182, 119, 1),
+      Color.fromRGBO(218, 150, 70, 1),
+      Color.fromRGBO(201, 88, 142, 1),
+      Color.fromRGBO(77, 170, 255, 1),
+      Color.fromRGBO(255, 157, 69, 1),
+      Color.fromRGBO(178, 243, 46, 1),
+      Color.fromRGBO(185, 60, 228, 1),
+      Color.fromRGBO(48, 167, 6, 1),
+      Color.fromRGBO(207, 142, 14, 1)
+    ];
     dataSource = <ChartSampleData>[
       ChartSampleData(
-          x: 'Mexico',
-          y: 127575529,
-          pointColor: const Color.fromRGBO(238, 238, 238, 1)),
+        x: 'Mexico',
+        y: 127575529,
+      ),
       ChartSampleData(
-          x: 'Russia ',
-          y: 145872256,
-          pointColor: const Color.fromRGBO(255, 240, 219, 1)),
+        x: 'Russia ',
+        y: 145872256,
+      ),
       ChartSampleData(
-          x: 'Bangladesh',
-          y: 163046161,
-          pointColor: const Color.fromRGBO(255, 205, 96, 1)),
+        x: 'Bangladesh',
+        y: 163046161,
+      ),
       ChartSampleData(
-          x: 'Nigeria ',
-          y: 200963599,
-          pointColor: const Color.fromRGBO(73, 76, 162, 1)),
+        x: 'Nigeria ',
+        y: 200963599,
+      ),
       ChartSampleData(
-          x: 'Brazil',
-          y: 211049527,
-          pointColor: const Color.fromRGBO(0, 168, 181, 1)),
+        x: 'Brazil',
+        y: 211049527,
+      ),
       ChartSampleData(
-          x: 'Pakistan ',
-          y: 216565318,
-          pointColor: const Color.fromRGBO(116, 180, 155, 1)),
+        x: 'Pakistan ',
+        y: 216565318,
+      ),
       ChartSampleData(
-          x: 'Indonesia',
-          y: 270625568,
-          pointColor: const Color.fromRGBO(248, 177, 149, 1)),
+        x: 'Indonesia',
+        y: 270625568,
+      ),
       ChartSampleData(
-          x: 'US',
-          y: 329064917,
-          pointColor: const Color.fromRGBO(246, 114, 128, 1)),
+        x: 'US',
+        y: 329064917,
+      ),
       ChartSampleData(
-          x: 'India',
-          y: 1366417754,
-          pointColor: const Color.fromRGBO(192, 108, 132, 1)),
+        x: 'India',
+        y: 1366417754,
+      ),
       ChartSampleData(
-          x: 'China',
-          y: 1433783686,
-          pointColor: const Color.fromRGBO(53, 92, 125, 1)),
+        x: 'China',
+        y: 1433783686,
+      ),
     ];
     _tooltip = TooltipBehavior(enable: true);
     _selectedLabelPosition = ChartDataLabelPosition.inside;
@@ -126,6 +165,7 @@ class _PyramidSmartLabelState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -164,6 +204,7 @@ class _PyramidSmartLabelState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -207,6 +248,7 @@ class _PyramidSmartLabelState extends SampleViewState {
                             height: 50,
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -264,13 +306,18 @@ class _PyramidSmartLabelState extends SampleViewState {
 
   ///Get the pyramid series
   PyramidSeries<ChartSampleData, String> _getPyramidSeries() {
+    final ThemeData themeData = model.themeData;
+    palette = themeData.useMaterial3
+        ? (themeData.brightness == Brightness.light ? palette1 : palette2)
+        : palette;
     return PyramidSeries<ChartSampleData, String>(
         width: '60%',
         dataSource: dataSource,
         xValueMapper: (ChartSampleData data, _) => data.x as String,
         yValueMapper: (ChartSampleData data, _) => data.y,
         textFieldMapper: (ChartSampleData data, _) => data.x as String,
-        pointColorMapper: (ChartSampleData data, _) => data.pointColor,
+        pointColorMapper: (ChartSampleData data, _) =>
+            palette[palette.length - 1 - _],
         dataLabelSettings: DataLabelSettings(
             isVisible: true,
             labelPosition: isCardView

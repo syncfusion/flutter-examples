@@ -88,7 +88,7 @@ class ChartMaximumLabelWidthState extends SampleViewState {
               SizedBox(
                   width: 75,
                   child: CheckboxListTile(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: _isEnableLabelExtend,
                       onChanged: (bool? value) {
                         setState(() {

@@ -62,6 +62,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   final GlobalKey<SearchToolbarState> _textSearchKey = GlobalKey();
   final GlobalKey<TextSearchOverlayState> _textSearchOverlayKey = GlobalKey();
   late bool _isLight;
+  late bool _useMaterial3;
   late bool _isDesktopWeb;
   final double _kSearchOverlayWidth = 412;
   final double _kTextMarkupMenuWidth = 161.0;
@@ -106,9 +107,15 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _useMaterial3 = model.themeData.useMaterial3;
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
-    _contextMenuColor =
-        _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242);
+    _contextMenuColor = _useMaterial3
+        ? _isLight
+            ? const Color(0xFFEEE8F4)
+            : const Color(0xFF302D38)
+        : _isLight
+            ? const Color(0xFFFFFFFF)
+            : const Color(0xFF424242);
     if (_needToMaximize != model.needToMaximize) {
       _closeOverlays();
       _needToMaximize = model.needToMaximize;
@@ -116,7 +123,11 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     _isDesktopWeb = isDesktop &&
         model.isMobileResolution != null &&
         !model.isMobileResolution;
-    _fillColor = _isLight ? const Color(0xFFE5E5E5) : const Color(0xFF525252);
+    _fillColor = _useMaterial3
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+        : _isLight
+            ? const Color(0xFFE5E5E5)
+            : const Color(0xFF525252);
   }
 
   /// Show the customized password dialog for mobile
@@ -157,6 +168,11 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 height: 36,
                 width: 36,
                 child: RawMaterialButton(
+                  shape: _useMaterial3
+                      ? const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)))
+                      : const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2))),
                   onPressed: () {
                     Navigator.pop(context, 'Cancel');
                     _hasPasswordDialog = false;
@@ -175,8 +191,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               ),
             ],
           ),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4.0))),
+          shape: _useMaterial3
+              ? null
+              : const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4.0))),
           content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             return SingleChildScrollView(
@@ -210,11 +228,11 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
-                            color: model.backgroundColor,
+                            color: model.primaryColor,
                           )),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                            color: model.backgroundColor,
+                            color: model.primaryColor,
                           )),
                           hintText: 'Password: syncfusion',
                           hintStyle: TextStyle(
@@ -290,13 +308,20 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 _passwordDialogFocusNode.unfocus();
                 _textFieldController.clear();
               },
+              style: _useMaterial3
+                  ? TextButton.styleFrom(
+                      fixedSize: const Size(double.infinity, 40),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                    )
+                  : null,
               child: Text(
                 'CANCEL',
                 style: TextStyle(
                   fontFamily: 'Roboto',
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: model.backgroundColor,
+                  color: model.primaryColor,
                 ),
               ),
             ),
@@ -306,13 +331,20 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 onPressed: () {
                   _handlePasswordValidation(_textFieldController.text);
                 },
+                style: _useMaterial3
+                    ? TextButton.styleFrom(
+                        fixedSize: const Size(double.infinity, 40),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                      )
+                    : null,
                 child: Text(
                   'OPEN',
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: model.backgroundColor,
+                    color: model.primaryColor,
                   ),
                 ),
               ),
@@ -336,102 +368,79 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     return Visibility(
       visible: _hasPasswordDialog,
       child: Center(
-        child: Container(
-          height: 200,
-          width: 500,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color:
-                  (Theme.of(context).colorScheme.brightness == Brightness.light)
-                      ? Colors.white
-                      : const Color(0xFF424242)),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 14, 17, 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Password required',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.87),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 36,
-                      width: 36,
-                      child: RawMaterialButton(
-                        onPressed: () {
-                          setState(() {
-                            _hasPasswordDialog = false;
-                            _passwordDialogFocusNode.unfocus();
-                            _textFieldController.clear();
-                          });
-                        },
-                        child: Icon(
-                          Icons.clear,
+        child: Material(
+          color: Colors.transparent,
+          elevation: _useMaterial3 ? 10 : 0,
+          child: Container(
+            height: _useMaterial3 ? 213 : 200,
+            width: 500,
+            decoration: BoxDecoration(
+                borderRadius: _useMaterial3
+                    ? BorderRadius.circular(16)
+                    : BorderRadius.circular(4),
+                color: _useMaterial3
+                    ? _isLight
+                        ? const Color.fromRGBO(238, 232, 244, 1)
+                        : const Color.fromRGBO(48, 45, 56, 1)
+                    : (Theme.of(context).colorScheme.brightness ==
+                            Brightness.light)
+                        ? Colors.white
+                        : const Color(0xFF424242)),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 14, 17, 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Password required',
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
                           color: Theme.of(context)
                               .colorScheme
                               .onSurface
-                              .withOpacity(0.6),
-                          size: 24,
+                              .withOpacity(0.87),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: Text(
-                  'The document is password protected.Please enter a password',
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
+                      SizedBox(
+                        height: 36,
+                        width: 36,
+                        child: RawMaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              _hasPasswordDialog = false;
+                              _passwordDialogFocusNode.unfocus();
+                              _textFieldController.clear();
+                            });
+                          },
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)))
+                              : const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(2))),
+                          child: Icon(
+                            Icons.clear,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.6),
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 460,
-                height: 65,
-                child: TextFormField(
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.87),
-                  ),
-                  obscureText: _passwordVisible,
-                  obscuringCharacter: '*',
-                  decoration: InputDecoration(
-                    isDense: true,
-                    border: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                      color: model.backgroundColor,
-                    )),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                      color: model.backgroundColor,
-                    )),
-                    contentPadding: const EdgeInsets.fromLTRB(0, 18, 0, 0),
-                    hintText: 'Password: syncfusion',
-                    errorText: _errorText.isNotEmpty ? _errorText : null,
-                    hintStyle: TextStyle(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: Text(
+                    'The document is password protected.Please enter a password',
+                    style: TextStyle(
                       fontFamily: 'Roboto',
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -440,81 +449,148 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                           .onSurface
                           .withOpacity(0.6),
                     ),
-                    errorStyle: TextStyle(
+                  ),
+                ),
+                SizedBox(
+                  width: 460,
+                  height: 65,
+                  child: TextFormField(
+                    style: TextStyle(
                       fontFamily: 'Roboto',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.error,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.87),
                     ),
-                    suffixIcon: IconButton(
-                        icon: Icon(
-                          _passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.6),
-                          size: 24,
-                        ),
+                    obscureText: _passwordVisible,
+                    obscuringCharacter: '*',
+                    decoration: InputDecoration(
+                      isDense: true,
+                      border: _useMaterial3
+                          ? OutlineInputBorder(
+                              borderSide: BorderSide(
+                              color: model.primaryColor,
+                            ))
+                          : UnderlineInputBorder(
+                              borderSide: BorderSide(
+                              color: model.primaryColor,
+                            )),
+                      focusedBorder: _useMaterial3
+                          ? OutlineInputBorder(
+                              borderSide: BorderSide(
+                              color: model.primaryColor,
+                            ))
+                          : UnderlineInputBorder(
+                              borderSide: BorderSide(
+                              color: model.primaryColor,
+                            )),
+                      contentPadding: _useMaterial3
+                          ? const EdgeInsets.only(left: 8, top: 18)
+                          : const EdgeInsets.fromLTRB(0, 18, 0, 0),
+                      hintText: 'Password: syncfusion',
+                      errorText: _errorText.isNotEmpty ? _errorText : null,
+                      hintStyle: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6),
+                      ),
+                      errorStyle: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.6),
+                            size: 24,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          }),
+                    ),
+                    enableInteractiveSelection: false,
+                    controller: _textFieldController,
+                    autofocus: true,
+                    focusNode: _passwordDialogFocusNode,
+                    textInputAction: TextInputAction.none,
+                    onFieldSubmitted: (String value) {
+                      _handlePasswordValidation(value);
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 18, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      TextButton(
                         onPressed: () {
                           setState(() {
-                            _passwordVisible = !_passwordVisible;
+                            _hasPasswordDialog = false;
+                            _passwordDialogFocusNode.unfocus();
+                            _textFieldController.clear();
                           });
-                        }),
+                        },
+                        style: _useMaterial3
+                            ? TextButton.styleFrom(
+                                fixedSize: const Size(double.infinity, 40),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                              )
+                            : null,
+                        child: Text(
+                          'CANCEL',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: model.primaryColor,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          _handlePasswordValidation(_textFieldController.text);
+                        },
+                        style: _useMaterial3
+                            ? TextButton.styleFrom(
+                                fixedSize: const Size(double.infinity, 40),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                              )
+                            : null,
+                        child: Text(
+                          'OPEN',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: model.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  enableInteractiveSelection: false,
-                  controller: _textFieldController,
-                  autofocus: true,
-                  focusNode: _passwordDialogFocusNode,
-                  textInputAction: TextInputAction.none,
-                  onFieldSubmitted: (String value) {
-                    _handlePasswordValidation(value);
-                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 18, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _hasPasswordDialog = false;
-                          _passwordDialogFocusNode.unfocus();
-                          _textFieldController.clear();
-                        });
-                      },
-                      child: Text(
-                        'CANCEL',
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: model.backgroundColor,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        _handlePasswordValidation(_textFieldController.text);
-                      },
-                      child: Text(
-                        'OPEN',
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: model.backgroundColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                if (_useMaterial3) const SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ),
@@ -565,15 +641,30 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       OverlayEntry? overlayEntry,
       BoxConstraints constraints,
       Widget dropDownItems,
-      [Offset? positionOverride]) {
+      [Offset? positionOverride,
+      double? borderRadius]) {
     OverlayState? overlayState;
-    const List<BoxShadow> boxShadows = <BoxShadow>[
-      BoxShadow(
-        color: Color.fromRGBO(0, 0, 0, 0.26),
-        blurRadius: 8,
-        offset: Offset(0, 3),
-      ),
-    ];
+    final List<BoxShadow> boxShadows = _useMaterial3
+        ? <BoxShadow>[
+            const BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.15),
+              blurRadius: 6,
+              offset: Offset(0, 2),
+              spreadRadius: 2,
+            ),
+            const BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.3),
+              blurRadius: 2,
+              offset: Offset(0, 1),
+            ),
+          ]
+        : <BoxShadow>[
+            const BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.26),
+              blurRadius: 8,
+              offset: Offset(0, 3),
+            ),
+          ];
     if (toolbarItemRenderBox != null) {
       final Offset position =
           positionOverride ?? toolbarItemRenderBox.localToGlobal(Offset.zero);
@@ -586,9 +677,17 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               : position.dx, // x position of zoom percentage menu
           child: Container(
             decoration: BoxDecoration(
-              color:
-                  _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242),
+              color: _useMaterial3
+                  ? _isLight
+                      ? const Color.fromRGBO(238, 232, 244, 1)
+                      : const Color.fromRGBO(48, 45, 56, 1)
+                  : _isLight
+                      ? const Color(0xFFFFFFFF)
+                      : const Color(0xFF424242),
               boxShadow: boxShadows,
+              borderRadius: _useMaterial3
+                  ? BorderRadius.all(Radius.circular(borderRadius ?? 4.0))
+                  : null,
             ),
             constraints: constraints,
             child: dropDownItems,
@@ -623,7 +722,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 textSearchOverlayEntry: _textSearchOverlayEntry,
                 onClose: _handleSearchMenuClose,
                 brightness: model.themeData.colorScheme.brightness,
-                primaryColor: model.backgroundColor,
+                primaryColor: model.primaryColor,
               ),
             );
           },
@@ -670,8 +769,11 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       _chooseFileOverlayEntry = _showDropDownOverlay(
           chooseFileRenderBox,
           _chooseFileOverlayEntry,
-          BoxConstraints.tightFor(
-              width: 202, height: child.children.length * 35.0),
+          _useMaterial3
+              ? BoxConstraints.tightFor(
+                  width: 205, height: child.children.length * 40.0)
+              : BoxConstraints.tightFor(
+                  width: 202, height: child.children.length * 35.0),
           child);
     }
   }
@@ -689,8 +791,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   /// Get choose file entry to change pdf for web platform.
   Widget _chooseFileEntry(String fileName, String path) {
     return SizedBox(
-      height: 32, // height of each file list
-      width: 202, // width of each file list
+      height: _useMaterial3 ? 40 : 32, // height of each file list
+      width: _useMaterial3 ? 205 : 202, // width of each file list
       child: RawMaterialButton(
         onPressed: () {
           _handleChooseFileClose();
@@ -700,19 +802,30 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             password = null;
           });
         },
+        shape: _useMaterial3
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)))
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2))),
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 8.01),
             child: Text(
               fileName,
-              style: TextStyle(
-                  color: _isLight
-                      ? const Color(0x00000000).withOpacity(0.87)
-                      : const Color(0x00ffffff).withOpacity(0.87),
-                  fontSize: 14,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400),
+              style: _useMaterial3
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)
+                  : TextStyle(
+                      color: _isLight
+                          ? const Color(0x00000000).withOpacity(0.87)
+                          : const Color(0x00ffffff).withOpacity(0.87),
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400),
             ),
           ),
         ),
@@ -740,7 +853,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       _zoomPercentageOverlay = _showDropDownOverlay(
           zoomPercentageRenderBox,
           _zoomPercentageOverlay,
-          const BoxConstraints.tightFor(width: 120, height: 160),
+          _useMaterial3
+              ? const BoxConstraints.tightFor(width: 85, height: 216)
+              : const BoxConstraints.tightFor(width: 120, height: 160),
           child);
     }
   }
@@ -757,8 +872,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   /// Get zoom percentage list for web platform.
   Widget _zoomPercentageDropDownItem(String percentage, double zoomLevel) {
     return SizedBox(
-      height: 32, // height of each percentage list
-      width: 120, // width of each percentage list
+      height: _useMaterial3 ? 40 : 32, // height of each percentage list
+      width: _useMaterial3 ? 85 : 120, // width of each percentage list
       child: RawMaterialButton(
         onPressed: () {
           _handleZoomPercentageClose();
@@ -767,18 +882,31 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 _toolbarKey.currentState!._zoomLevel = zoomLevel;
           });
         },
+        shape: _useMaterial3
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)))
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2))),
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+            padding: _useMaterial3
+                ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0)
+                : const EdgeInsets.only(left: 16.0, top: 8.0),
             child: Text(
               percentage,
-              style: TextStyle(
-                  color: _toolbarKey.currentState?._textColor,
-                  fontSize: 14,
-                  fontFamily: 'Roboto',
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w400),
+              style: _useMaterial3
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)
+                  : TextStyle(
+                      color: _toolbarKey.currentState?._textColor,
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400),
             ),
           ),
         ),
@@ -809,7 +937,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       _settingsOverlayEntry = _showDropDownOverlay(
           settingsRenderBox,
           _settingsOverlayEntry,
-          BoxConstraints.tightFor(width: 191.0, height: totalHeight),
+          _useMaterial3
+              ? BoxConstraints.tightFor(width: 205.0, height: totalHeight)
+              : BoxConstraints.tightFor(width: 191.0, height: totalHeight),
           SingleChildScrollView(
             child: SizedBox(
               height: 191.0,
@@ -845,9 +975,12 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     _handleSettingsMenuClose();
                   }),
                   Divider(
-                    color: _isLight
-                        ? Colors.black.withOpacity(0.24)
-                        : const Color.fromRGBO(255, 255, 255, 0.26),
+                    thickness: 1,
+                    color: _useMaterial3
+                        ? model.themeData.colorScheme.outlineVariant
+                        : _isLight
+                            ? Colors.black.withOpacity(0.24)
+                            : const Color.fromRGBO(255, 255, 255, 0.26),
                   ),
                   Column(
                     children: <Widget>[
@@ -894,17 +1027,22 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       bool canShowFillColor, Function() onPressed) {
     return SizedBox(
       height: 40.0, // height of each Option
-      width: 191.0, // width of each Option
+      width: _useMaterial3 ? 205 : 191.0, // width of each Option
       child: RawMaterialButton(
         elevation: 0.0,
         hoverElevation: 0.0,
         highlightElevation: 0.0,
         onPressed: onPressed,
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+            : null,
         fillColor: canShowFillColor ? _fillColor : null,
         child: Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 19),
+              padding: _useMaterial3
+                  ? const EdgeInsets.only(left: 16)
+                  : const EdgeInsets.only(left: 19),
               child: ImageIcon(
                 AssetImage(
                   imagePath,
@@ -914,16 +1052,22 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: _useMaterial3
+                  ? const EdgeInsets.only(left: 12)
+                  : const EdgeInsets.only(left: 10),
               child: Text(
                 mode,
                 style: TextStyle(
-                    color: _isLight
-                        ? const Color(0x00000000).withOpacity(0.87)
-                        : const Color(0x00ffffff).withOpacity(0.87),
-                    fontSize: 14,
+                    color: _useMaterial3
+                        ? Theme.of(context).colorScheme.onSurfaceVariant
+                        : _isLight
+                            ? const Color(0x00000000).withOpacity(0.87)
+                            : const Color(0x00ffffff).withOpacity(0.87),
+                    fontSize: _useMaterial3 ? 16 : 14,
+                    letterSpacing: _useMaterial3 ? 0.15 : null,
                     fontFamily: 'Roboto',
-                    fontWeight: FontWeight.normal),
+                    fontWeight:
+                        _useMaterial3 ? FontWeight.w400 : FontWeight.normal),
               ),
             ),
           ],
@@ -1054,6 +1198,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             width: _kColorPaletteWidth, height: _kColorPaletteHeight),
         child,
         position,
+        12,
       );
     }
   }
@@ -1089,13 +1234,24 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       }
     }
     PreferredSizeWidget appBar = AppBar(
+      toolbarHeight: 56,
+      bottom: _useMaterial3
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(
+                color: Theme.of(context).colorScheme.outlineVariant,
+                height: 1,
+              ),
+            )
+          : null,
       flexibleSpace: Semantics(
         label: 'Custom toolbar',
-        child: RawKeyboardListener(
+        child: KeyboardListener(
           focusNode: _focusNode,
-          onKey: (RawKeyEvent event) {
-            final bool isPrimaryKeyPressed =
-                kIsMacOS ? event.isMetaPressed : event.isControlPressed;
+          onKeyEvent: (KeyEvent event) {
+            final bool isPrimaryKeyPressed = kIsMacOS
+                ? HardwareKeyboard.instance.isMetaPressed
+                : HardwareKeyboard.instance.isControlPressed;
             if (isPrimaryKeyPressed &&
                 event.logicalKey == LogicalKeyboardKey.keyF) {
               _pdfViewerController.clearSelection();
@@ -1284,11 +1440,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         ),
       ),
       automaticallyImplyLeading: false,
-      backgroundColor:
-          SfPdfViewerTheme.of(context)!.bookmarkViewStyle?.headerBarColor ??
-              ((Theme.of(context).colorScheme.brightness == Brightness.light)
-                  ? const Color(0xFFFAFAFA)
-                  : const Color(0xFF424242)),
+      backgroundColor: _useMaterial3
+          ? Theme.of(context).colorScheme.brightness == Brightness.light
+              ? const Color.fromRGBO(247, 242, 251, 1)
+              : const Color.fromRGBO(37, 35, 42, 1)
+          : Theme.of(context).colorScheme.brightness == Brightness.light
+              ? const Color(0xFFFAFAFA)
+              : const Color(0xFF424242),
     );
     if (!_isDesktopWeb) {
       appBar = _canShowToolbar
@@ -1302,7 +1460,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                           key: _textSearchKey,
                           controller: _pdfViewerController,
                           brightness: model.themeData.colorScheme.brightness,
-                          primaryColor: model.backgroundColor,
+                          primaryColor: model.primaryColor,
                           onTap: (Object toolbarItem) async {
                             if (toolbarItem.toString() == 'Cancel Search') {
                               setState(() {
@@ -1359,13 +1517,15 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     ],
                   ),
                   automaticallyImplyLeading: false,
-                  backgroundColor: SfPdfViewerTheme.of(context)!
-                          .bookmarkViewStyle
-                          ?.headerBarColor ??
-                      ((Theme.of(context).colorScheme.brightness ==
-                              Brightness.light)
+                  backgroundColor: _useMaterial3
+                      ? Theme.of(context).colorScheme.brightness ==
+                              Brightness.light
+                          ? const Color.fromRGBO(247, 242, 251, 1)
+                          : const Color.fromRGBO(37, 35, 42, 1)
+                      : Theme.of(context).colorScheme.brightness ==
+                              Brightness.light
                           ? const Color(0xFFFAFAFA)
-                          : const Color(0xFF424242)),
+                          : const Color(0xFF424242),
                 )
               : PreferredSize(
                   preferredSize: Size.zero,
@@ -1521,11 +1681,12 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           if (_canShowPdf) {
             if (_isDesktopWeb) {
               return Stack(children: <Widget>[
-                RawKeyboardListener(
+                KeyboardListener(
                   focusNode: _focusNode,
-                  onKey: (RawKeyEvent event) {
-                    final bool isPrimaryKeyPressed =
-                        kIsMacOS ? event.isMetaPressed : event.isControlPressed;
+                  onKeyEvent: (KeyEvent event) {
+                    final bool isPrimaryKeyPressed = kIsMacOS
+                        ? HardwareKeyboard.instance.isMetaPressed
+                        : HardwareKeyboard.instance.isControlPressed;
                     if (isPrimaryKeyPressed &&
                         event.logicalKey == LogicalKeyboardKey.keyF) {
                       _showTextSearchMenu();
@@ -1537,8 +1698,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               ]);
             }
             return SfPdfViewerTheme(
-              data: SfPdfViewerThemeData(
-                  brightness: model.themeData.colorScheme.brightness),
+              data: const SfPdfViewerThemeData(),
               child: PopScope(
                 onPopInvoked: (bool value) {
                   setState(() {
@@ -1547,8 +1707,11 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 },
                 child: Stack(children: <Widget>[
                   pdfViewer,
-                  showToast(_textSearchKey.currentState?.canShowToast ?? false,
-                      Alignment.center, 'No result'),
+                  showToast(
+                      context,
+                      _textSearchKey.currentState?.canShowToast ?? false,
+                      Alignment.center,
+                      'No result'),
                 ]),
               ),
             );
@@ -1597,7 +1760,6 @@ class Toolbar extends StatefulWidget {
 
 /// State for the Toolbar widget
 class ToolbarState extends State<Toolbar> {
-  SfPdfViewerThemeData? _pdfViewerThemeData;
   Color? _color;
   Color? _disabledColor;
   Color? _textColor;
@@ -1625,6 +1787,7 @@ class ToolbarState extends State<Toolbar> {
   bool _canShowDeleteIcon = false;
   bool _canShowLockIcon = false;
   bool _isAnnotationLocked = false;
+  late bool _useMaterial3;
 
   /// An object that is used to control the Text Field.
   TextEditingController? _textEditingController;
@@ -1671,16 +1834,30 @@ class ToolbarState extends State<Toolbar> {
 
   @override
   void didChangeDependencies() {
-    _pdfViewerThemeData = SfPdfViewerTheme.of(context);
-    _isLight = _pdfViewerThemeData!.brightness == Brightness.light;
-    _color = _isLight
-        ? Colors.black.withOpacity(0.54)
-        : Colors.white.withOpacity(0.65);
-    _disabledColor = _isLight ? Colors.black12 : Colors.white12;
+    _isLight = Theme.of(context).brightness == Brightness.light;
+    _useMaterial3 = Theme.of(context).useMaterial3;
+    _color = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+            ? const Color.fromRGBO(73, 69, 79, 1)
+            : const Color.fromRGBO(202, 196, 208, 1)
+        : Theme.of(context).brightness == Brightness.light
+            ? Colors.black.withOpacity(0.54)
+            : Colors.white.withOpacity(0.65);
+    _disabledColor = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+            ? const Color.fromRGBO(28, 27, 31, 1).withOpacity(0.38)
+            : const Color.fromRGBO(230, 225, 229, 1).withOpacity(0.38)
+        : Theme.of(context).brightness == Brightness.light
+            ? Colors.black12
+            : Colors.white12;
     _textColor = _isLight
         ? const Color(0x00000000).withOpacity(0.87)
         : const Color(0x00ffffff).withOpacity(0.87);
-    _fillColor = _isLight ? const Color(0xFFD2D2D2) : const Color(0xFF525252);
+    _fillColor = _useMaterial3
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+        : _isLight
+            ? const Color(0xFFD2D2D2)
+            : const Color(0xFF525252);
     _isWeb =
         isDesktop && widget.model != null && !widget.model!.isMobileResolution;
     super.didChangeDependencies();
@@ -1737,12 +1914,28 @@ class ToolbarState extends State<Toolbar> {
             : const EdgeInsets.only(left: 8),
         child: Tooltip(
             message: toolTip,
+            decoration: _useMaterial3
+                ? BoxDecoration(
+                    color: Theme.of(context).colorScheme.inverseSurface,
+                    borderRadius: BorderRadius.circular(4),
+                  )
+                : null,
+            textStyle: _useMaterial3
+                ? TextStyle(
+                    color: Theme.of(context).colorScheme.onInverseSurface,
+                    fontSize: 14,
+                  )
+                : null,
+            padding: _useMaterial3
+                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+                : null,
+            height: _useMaterial3 ? 48 : null,
             child: SizedBox(
                 key: key,
-                height: 36,
+                height: 40,
                 width: toolTip == 'Choose file' || toolTip == 'Text markup'
-                    ? 50
-                    : 36,
+                    ? (_useMaterial3 ? 56 : 50)
+                    : 40,
                 child: child)));
   }
 
@@ -1757,13 +1950,15 @@ class ToolbarState extends State<Toolbar> {
         // width of vertical divider
         thickness: 1.0,
         // thickness of vertical divider
-        indent: 12.0,
+        indent: _useMaterial3 ? 16 : 12.0,
         // top indent of vertical divider
-        endIndent: 12.0,
+        endIndent: _useMaterial3 ? 16 : 12.0,
         // bottom indent of vertical divider
-        color: _isLight
-            ? Colors.black.withOpacity(0.24)
-            : const Color.fromRGBO(255, 255, 255, 0.26),
+        color: _useMaterial3
+            ? Theme.of(context).colorScheme.outlineVariant
+            : _isLight
+                ? Colors.black.withOpacity(0.24)
+                : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
   }
@@ -1783,11 +1978,26 @@ class ToolbarState extends State<Toolbar> {
                     'Choose file',
                     RawMaterialButton(
                       fillColor: _chooseFileFillColor,
-                      elevation: 0.0,
-                      hoverElevation: 0.0,
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
                       onPressed: () {
                         widget.onTap?.call('Choose file');
                       },
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       child: Row(
                         children: <Widget>[
                           Padding(
@@ -1795,7 +2005,7 @@ class ToolbarState extends State<Toolbar> {
                             child: Icon(
                               Icons.folder_open,
                               color: _color,
-                              size: 20,
+                              size: _useMaterial3 ? 24 : 20,
                             ),
                           ),
                           Padding(
@@ -1818,9 +2028,23 @@ class ToolbarState extends State<Toolbar> {
                     builder: (BuildContext context, UndoHistoryValue value,
                         Widget? child) {
                       return RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        elevation: 0,
+                        focusElevation: 0,
+                        hoverElevation: 0,
+                        highlightElevation: 0,
+                        hoverColor: _useMaterial3
+                            ? Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.08)
+                            : null,
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: value.canUndo
                             ? () {
                                 widget.onTap?.call('Undo');
@@ -1842,9 +2066,23 @@ class ToolbarState extends State<Toolbar> {
                     builder: (BuildContext context, UndoHistoryValue value,
                         Widget? child) {
                       return RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        elevation: 0,
+                        focusElevation: 0,
+                        hoverElevation: 0,
+                        highlightElevation: 0,
+                        hoverColor: _useMaterial3
+                            ? Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.08)
+                            : null,
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: value.canRedo
                             ? () {
                                 widget.onTap?.call('Redo');
@@ -1867,8 +2105,8 @@ class ToolbarState extends State<Toolbar> {
                 Padding(
                   padding: const EdgeInsets.only(top: 4.0),
                   child: SizedBox(
-                    height: 20, // height of text field
-                    width: 48, // width of text field
+                    height: _useMaterial3 ? 40 : 20, // height of text field
+                    width: _useMaterial3 ? 54 : 48, // width of text field
                     child: paginationTextField(context),
                   ),
                 ),
@@ -1876,7 +2114,9 @@ class ToolbarState extends State<Toolbar> {
                 Padding(
                     padding: const EdgeInsets.only(left: 6.0),
                     child: Text(
-                      'of  ${widget.controller!.pageCount}',
+                      _useMaterial3
+                          ? '/  ${widget.controller!.pageCount}'
+                          : 'of  ${widget.controller!.pageCount}',
                       style: TextStyle(
                           color: _textColor,
                           fontWeight: FontWeight.w400,
@@ -1888,9 +2128,23 @@ class ToolbarState extends State<Toolbar> {
                 _webToolbarItem(
                     'Previous page',
                     RawMaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: canJumpToPreviousPage
                           ? () {
                               widget.onTap?.call('Previous Page');
@@ -1898,18 +2152,34 @@ class ToolbarState extends State<Toolbar> {
                             }
                           : null,
                       child: Icon(
-                        Icons.keyboard_arrow_left,
+                        _useMaterial3
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_left,
                         color: canJumpToPreviousPage ? _color : _disabledColor,
-                        size: 20,
+                        size: _useMaterial3 ? 24 : 20,
                       ),
                     )),
                 // Next page button
                 _webToolbarItem(
                     'Next page',
                     RawMaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: canJumpToNextPage
                           ? () {
                               widget.onTap?.call('Next Page');
@@ -1917,9 +2187,11 @@ class ToolbarState extends State<Toolbar> {
                             }
                           : null,
                       child: Icon(
-                        Icons.keyboard_arrow_right,
+                        _useMaterial3
+                            ? Icons.keyboard_arrow_down
+                            : Icons.keyboard_arrow_right,
                         color: canJumpToNextPage ? _color : _disabledColor,
-                        size: 21,
+                        size: _useMaterial3 ? 24 : 21,
                       ),
                     )),
                 // Group divider
@@ -1932,9 +2204,24 @@ class ToolbarState extends State<Toolbar> {
                     height: 36, // height of zoom percentage menu
                     width: 72, // width of zoom percentage menu
                     child: RawMaterialButton(
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       fillColor: _zoomFillColor,
-                      elevation: 0.0,
-                      hoverElevation: 0.0,
                       onPressed: widget.controller!.pageNumber != 0
                           ? () {
                               widget.onTap?.call('Zoom Percentage');
@@ -1976,9 +2263,23 @@ class ToolbarState extends State<Toolbar> {
                 _webToolbarItem(
                     'Zoom out',
                     RawMaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: widget.controller!.pageCount != 0 &&
                               _zoomLevel > 1
                           ? () {
@@ -2000,21 +2301,37 @@ class ToolbarState extends State<Toolbar> {
                             }
                           : null,
                       child: Icon(
-                        Icons.remove_circle_outline,
+                        _useMaterial3
+                            ? Icons.zoom_out
+                            : Icons.remove_circle_outline,
                         color:
                             widget.controller!.pageCount != 0 && _zoomLevel > 1
                                 ? _color
                                 : _disabledColor,
-                        size: 20,
+                        size: _useMaterial3 ? 24 : 20,
                       ),
                     )),
                 // Zoom in button
                 _webToolbarItem(
                     'Zoom in',
                     RawMaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: widget.controller!.pageCount != 0 &&
                               _zoomLevel < 3
                           ? () {
@@ -2036,12 +2353,14 @@ class ToolbarState extends State<Toolbar> {
                             }
                           : null,
                       child: Icon(
-                        Icons.add_circle_outline,
+                        _useMaterial3
+                            ? Icons.zoom_in
+                            : Icons.add_circle_outline,
                         color:
                             widget.controller!.pageCount != 0 && _zoomLevel < 3
                                 ? _color
                                 : _disabledColor,
-                        size: 20,
+                        size: _useMaterial3 ? 24 : 20,
                       ),
                     )),
                 // Group divider
@@ -2050,13 +2369,24 @@ class ToolbarState extends State<Toolbar> {
                   'Text markup',
                   RawMaterialButton(
                     fillColor: _textMarkupFillColor,
-                    elevation: 0.0,
-                    hoverElevation: 0.0,
-                    focusElevation: 0.0,
-                    highlightElevation: 0.0,
+                    elevation: 0,
+                    focusElevation: 0,
+                    hoverElevation: 0,
+                    highlightElevation: 0,
+                    hoverColor: _useMaterial3
+                        ? Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.08)
+                        : null,
                     onPressed: () {
                       widget.onTap?.call('Text markup');
                     },
+                    shape: _useMaterial3
+                        ? const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)))
+                        : const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
                     child: SplitButton(
                       height: 36,
                       width: 56,
@@ -2083,16 +2413,33 @@ class ToolbarState extends State<Toolbar> {
                     'Pan mode',
                     RawMaterialButton(
                       fillColor: _panFillColor,
-                      elevation: 0.0,
-                      hoverElevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: widget.controller!.pageNumber != 0
                           ? () {
                               setState(() {
                                 if (_panFillColor == const Color(0xFFD2D2D2) ||
-                                    _panFillColor == const Color(0xFF525252)) {
+                                    _panFillColor == const Color(0xFF525252) ||
+                                    _panFillColor ==
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .onSurface
+                                            .withOpacity(0.08)) {
                                   _panFillColor = null;
                                 } else {
                                   _panFillColor = _fillColor;
@@ -2106,7 +2453,7 @@ class ToolbarState extends State<Toolbar> {
                         color: widget.controller!.pageCount != 0
                             ? _color
                             : _disabledColor,
-                        size: 20,
+                        size: _useMaterial3 ? 24 : 20,
                       ),
                     )),
                 Visibility(
@@ -2118,11 +2465,23 @@ class ToolbarState extends State<Toolbar> {
                   child: _webToolbarItem(
                     'Color Palette',
                     RawMaterialButton(
-                      elevation: 0.0,
-                      hoverElevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       fillColor: _colorPaletteFillColor,
                       onPressed: () {
                         widget.onTap?.call('Color Palette');
@@ -2144,9 +2503,23 @@ class ToolbarState extends State<Toolbar> {
                   child: _webToolbarItem(
                     'Delete',
                     RawMaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: () {
                         widget.onTap?.call('Delete');
                       },
@@ -2170,9 +2543,23 @@ class ToolbarState extends State<Toolbar> {
                   child: _webToolbarItem(
                     _isAnnotationLocked ? 'Unlock' : 'Lock',
                     RawMaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: () {
                         widget.onTap?.call('Lock');
                       },
@@ -2192,11 +2579,23 @@ class ToolbarState extends State<Toolbar> {
                     'View settings',
                     RawMaterialButton(
                       fillColor: _settingsFillColor,
-                      elevation: 0.0,
-                      hoverElevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: widget.controller!.pageNumber != 0
                           ? () {
                               widget.controller!.clearSelection();
@@ -2216,9 +2615,23 @@ class ToolbarState extends State<Toolbar> {
                 _webToolbarItem(
                     'Bookmark',
                     RawMaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: widget.controller!.pageNumber != 0
                           ? () {
                               widget.onTap?.call('Bookmarks');
@@ -2229,7 +2642,7 @@ class ToolbarState extends State<Toolbar> {
                         color: widget.controller!.pageCount != 0
                             ? _color
                             : _disabledColor,
-                        size: 20,
+                        size: _useMaterial3 ? 24 : 20,
                       ),
                     )),
                 // Group divider
@@ -2239,11 +2652,23 @@ class ToolbarState extends State<Toolbar> {
                     'Search',
                     RawMaterialButton(
                       fillColor: _searchFillColor,
-                      elevation: 0.0,
-                      hoverElevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
+                      elevation: 0,
+                      focusElevation: 0,
+                      hoverElevation: 0,
+                      highlightElevation: 0,
+                      hoverColor: _useMaterial3
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.08)
+                          : null,
+                      shape: _useMaterial3
+                          ? const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)))
+                          : const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2))),
                       onPressed: widget.controller!.pageNumber != 0
                           ? () {
                               widget.controller!.clearSelection();
@@ -2255,7 +2680,7 @@ class ToolbarState extends State<Toolbar> {
                         color: widget.controller!.pageCount != 0
                             ? _color
                             : _disabledColor,
-                        size: 20,
+                        size: _useMaterial3 ? 24 : 20,
                       ),
                     ),
                     key: _searchKey),
@@ -2323,11 +2748,33 @@ class ToolbarState extends State<Toolbar> {
             : isDesktop
                 ? (const EdgeInsets.only(bottom: 20))
                 : null,
-        border: const UnderlineInputBorder(),
-        focusedBorder: UnderlineInputBorder(
-          borderSide:
-              BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
-        ),
+        border: _useMaterial3
+            ? OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .outline
+                        .withOpacity(0.38)))
+            : const UnderlineInputBorder(),
+        enabledBorder: _useMaterial3
+            ? OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .outline
+                        .withOpacity(0.38)))
+            : null,
+        focusedBorder: _useMaterial3
+            ? OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .outline
+                        .withOpacity(0.38)))
+            : UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor, width: 2.0),
+              ),
       ),
       // ignore: avoid_bool_literals_in_conditional_expressions
       enabled: widget.controller!.pageCount == 0 ? false : true,
@@ -2392,83 +2839,105 @@ class ToolbarState extends State<Toolbar> {
                 width: 40, // width of file explorer button
                 child: Material(
                     color: Colors.transparent,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.folder_open,
-                        color: _color,
-                        size: 24,
+                    child: Tooltip(
+                      message: widget.showTooltip ? 'Choose file' : null,
+                      child: RawMaterialButton(
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4))
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2)),
+                        onPressed: () async {
+                          widget.onTap?.call('File Explorer');
+                          widget.controller!.clearSelection();
+                          await Future<dynamic>.delayed(
+                              const Duration(milliseconds: 50));
+                          if (!mounted || !context.mounted) {
+                            return;
+                          }
+                          await Navigator.of(context).push<dynamic>(
+                              MaterialPageRoute<dynamic>(
+                                  builder: (BuildContext context) =>
+                                      FileExplorer(
+                                        brightness:
+                                            Theme.of(context).brightness,
+                                        onDocumentTap: (Document document) {
+                                          widget.onTap?.call(document);
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop(context);
+                                        },
+                                      )));
+                        },
+                        child: Icon(
+                          Icons.folder_open,
+                          color: _color,
+                          size: 24,
+                        ),
                       ),
-                      onPressed: () async {
-                        widget.onTap?.call('File Explorer');
-                        widget.controller!.clearSelection();
-                        await Future<dynamic>.delayed(
-                            const Duration(milliseconds: 50));
-                        if (!mounted) {
-                          return;
-                        }
-                        await Navigator.of(context)
-                            .push<dynamic>(MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) => FileExplorer(
-                                      brightness:
-                                          _pdfViewerThemeData!.brightness,
-                                      onDocumentTap: (Document document) {
-                                        widget.onTap?.call(document);
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .pop(context);
-                                      },
-                                    )));
-                      },
-                      tooltip: widget.showTooltip ? 'Choose file' : null,
                     )),
               ),
 
               ToolbarItem(
                 width: 40,
                 height: 40,
-                child: ValueListenableBuilder<UndoHistoryValue>(
-                  valueListenable: widget.undoHistoryController!,
-                  builder: (BuildContext context, UndoHistoryValue value,
-                      Widget? child) {
-                    return Material(
-                      color: Colors.transparent,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.undo,
-                          color: value.canUndo ? _color : _disabledColor,
-                          size: 20,
+                child: Tooltip(
+                  message: widget.showTooltip ? 'Undo' : null,
+                  child: ValueListenableBuilder<UndoHistoryValue>(
+                    valueListenable: widget.undoHistoryController!,
+                    builder: (BuildContext context, UndoHistoryValue value,
+                        Widget? child) {
+                      return Material(
+                        color: Colors.transparent,
+                        child: RawMaterialButton(
+                          shape: _useMaterial3
+                              ? RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4))
+                              : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2)),
+                          onPressed: value.canUndo
+                              ? widget.undoHistoryController!.undo
+                              : null,
+                          child: Icon(
+                            Icons.undo,
+                            color: value.canUndo ? _color : _disabledColor,
+                            size: 20,
+                          ),
                         ),
-                        onPressed: value.canUndo
-                            ? widget.undoHistoryController!.undo
-                            : null,
-                        tooltip: widget.showTooltip ? 'Undo' : null,
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
               ToolbarItem(
                 width: 40,
                 height: 40,
-                child: ValueListenableBuilder<UndoHistoryValue>(
-                  valueListenable: widget.undoHistoryController!,
-                  builder: (BuildContext context, UndoHistoryValue value,
-                      Widget? child) {
-                    return Material(
-                      color: Colors.transparent,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.redo,
-                          color: value.canRedo ? _color : _disabledColor,
-                          size: 20,
+                child: Tooltip(
+                  message: widget.showTooltip ? 'Redo' : null,
+                  child: ValueListenableBuilder<UndoHistoryValue>(
+                    valueListenable: widget.undoHistoryController!,
+                    builder: (BuildContext context, UndoHistoryValue value,
+                        Widget? child) {
+                      return Material(
+                        color: Colors.transparent,
+                        child: RawMaterialButton(
+                          shape: _useMaterial3
+                              ? RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4))
+                              : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2)),
+                          onPressed: value.canRedo
+                              ? widget.undoHistoryController!.redo
+                              : null,
+                          child: Icon(
+                            Icons.redo,
+                            color: value.canRedo ? _color : _disabledColor,
+                            size: 20,
+                          ),
                         ),
-                        onPressed: value.canRedo
-                            ? widget.undoHistoryController!.redo
-                            : null,
-                        tooltip: widget.showTooltip ? 'Redo' : null,
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
 
@@ -2476,18 +2945,24 @@ class ToolbarState extends State<Toolbar> {
               ToolbarItem(
                 height: 40,
                 width: 40,
-                child: Material(
-                  color: _textMarkupFillColor,
-                  borderRadius: BorderRadius.circular(4.0),
-                  child: IconButton(
-                    icon: const ImageIcon(
-                      AssetImage('images/pdf_viewer/text_markup.png'),
-                      size: 16,
+                child: Tooltip(
+                  message: widget.showTooltip ? 'Text markup' : null,
+                  child: Material(
+                    color: _textMarkupFillColor,
+                    child: RawMaterialButton(
+                      onPressed: () {
+                        widget.onTap?.call('Text markup');
+                      },
+                      shape: _useMaterial3
+                          ? RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4))
+                          : RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(2)),
+                      child: const ImageIcon(
+                        AssetImage('images/pdf_viewer/text_markup.png'),
+                        size: 16,
+                      ),
                     ),
-                    onPressed: () {
-                      widget.onTap?.call('Text markup');
-                    },
-                    tooltip: widget.showTooltip ? 'Text markup' : null,
                   ),
                 ),
               ),
@@ -2496,23 +2971,30 @@ class ToolbarState extends State<Toolbar> {
                   width: 40, // width of bookmark button
                   child: Material(
                     color: Colors.transparent,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.bookmark,
-                        color: widget.controller!.pageNumber == 0
-                            ? Colors.black12
-                            : _color,
-                        size: 24,
+                    child: Tooltip(
+                      message: widget.showTooltip ? 'Bookmarks' : null,
+                      child: RawMaterialButton(
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4))
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2)),
+                        onPressed: widget.controller!.pageNumber == 0
+                            ? null
+                            : () {
+                                _textEditingController!.selection =
+                                    const TextSelection(
+                                        baseOffset: -1, extentOffset: -1);
+                                widget.onTap?.call('Bookmarks');
+                              },
+                        child: Icon(
+                          Icons.bookmark,
+                          color: widget.controller!.pageNumber == 0
+                              ? Colors.black12
+                              : _color,
+                          size: 24,
+                        ),
                       ),
-                      onPressed: widget.controller!.pageNumber == 0
-                          ? null
-                          : () {
-                              _textEditingController!.selection =
-                                  const TextSelection(
-                                      baseOffset: -1, extentOffset: -1);
-                              widget.onTap?.call('Bookmarks');
-                            },
-                      tooltip: widget.showTooltip ? 'Bookmarks' : null,
                     ),
                   )),
               // Search button
@@ -2521,21 +3003,28 @@ class ToolbarState extends State<Toolbar> {
                   width: 40, // width of search button
                   child: Material(
                     color: Colors.transparent,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        color: widget.controller!.pageNumber == 0
-                            ? Colors.black12
-                            : _color,
-                        size: 24,
+                    child: Tooltip(
+                      message: widget.showTooltip ? 'Search' : null,
+                      child: RawMaterialButton(
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4))
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2)),
+                        onPressed: widget.controller!.pageNumber == 0
+                            ? null
+                            : () {
+                                widget.controller!.clearSelection();
+                                widget.onTap?.call('Search');
+                              },
+                        child: Icon(
+                          Icons.search,
+                          color: widget.controller!.pageNumber == 0
+                              ? Colors.black12
+                              : _color,
+                          size: 24,
+                        ),
                       ),
-                      onPressed: widget.controller!.pageNumber == 0
-                          ? null
-                          : () {
-                              widget.controller!.clearSelection();
-                              widget.onTap?.call('Search');
-                            },
-                      tooltip: widget.showTooltip ? 'Search' : null,
                     ),
                   )),
               // View settings button
@@ -2545,21 +3034,28 @@ class ToolbarState extends State<Toolbar> {
                 key: _settingsKey, // width of View settings button
                 child: Material(
                   color: Colors.transparent,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.settings,
-                      color: widget.controller!.pageNumber == 0
-                          ? Colors.black12
-                          : _color,
-                      size: 24,
+                  child: Tooltip(
+                    message: widget.showTooltip ? 'View settings' : null,
+                    child: RawMaterialButton(
+                      shape: _useMaterial3
+                          ? RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4))
+                          : RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(2)),
+                      onPressed: widget.controller!.pageNumber == 0
+                          ? null
+                          : () {
+                              widget.controller!.clearSelection();
+                              widget.onTap?.call('View settings');
+                            },
+                      child: Icon(
+                        Icons.settings,
+                        color: widget.controller!.pageNumber == 0
+                            ? Colors.black12
+                            : _color,
+                        size: 24,
+                      ),
                     ),
-                    onPressed: widget.controller!.pageNumber == 0
-                        ? null
-                        : () {
-                            widget.controller!.clearSelection();
-                            widget.onTap?.call('View settings');
-                          },
-                    tooltip: widget.showTooltip ? 'View settings' : null,
                   ),
                 ),
               ),
@@ -2603,73 +3099,60 @@ class TextMarkupMenuItem extends StatefulWidget {
 
 class _TextMarkupMenuItemState extends State<TextMarkupMenuItem> {
   Color? _textColor;
-  bool _isHovering = false;
+  late bool _useMaterial3;
 
   @override
   void didChangeDependencies() {
-    _textColor = (widget.model?.themeData.brightness == Brightness.light)
-        ? Colors.black.withOpacity(0.87)
-        : Colors.white;
+    _useMaterial3 = Theme.of(context).useMaterial3;
+    _textColor = _useMaterial3
+        ? widget.model?.themeData.colorScheme.onSurfaceVariant
+        : (widget.model?.themeData.brightness == Brightness.light)
+            ? Colors.black.withOpacity(0.87)
+            : Colors.white;
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        widget.onPressed();
-      },
-      child: MouseRegion(
-        onEnter: (PointerEnterEvent event) {
-          setState(() {
-            _isHovering = true;
-          });
-        },
-        onExit: (PointerExitEvent event) {
-          setState(() {
-            _isHovering = false;
-          });
-        },
-        child: Container(
-          height: widget.height,
-          width: widget.width,
-          padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0),
-          decoration: BoxDecoration(
-            color: _isHovering
-                ? (widget.model?.themeData.colorScheme.brightness ==
+    return SizedBox(
+      height: widget.height,
+      width: widget.width,
+      child: RawMaterialButton(
+        onPressed: widget.onPressed,
+        padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0),
+        hoverColor: _useMaterial3
+            ? widget.model?.themeData.colorScheme.onSurface.withOpacity(0.08)
+            : (widget.model?.themeData.colorScheme.brightness ==
+                    Brightness.light)
+                ? Colors.grey.withOpacity(0.2)
+                : Colors.grey.withOpacity(0.5),
+        child: Row(
+          children: <Widget>[
+            Image(
+              image: AssetImage(
+                  'images/pdf_viewer/${widget.mode.toLowerCase()}.png'),
+              width: 16,
+              height: 16,
+              color: _textColor,
+            ),
+            const Divider(
+              indent: 12,
+            ),
+            Text(
+              widget.mode,
+              style: TextStyle(
+                color: (widget.model?.themeData.colorScheme.brightness ==
                         Brightness.light)
-                    ? Colors.grey.withOpacity(0.2)
-                    : Colors.grey.withOpacity(0.5)
-                : Colors.transparent,
-          ),
-          child: Row(
-            children: <Widget>[
-              Image(
-                image: AssetImage(
-                    'images/pdf_viewer/${widget.mode.toLowerCase()}.png'),
-                width: 16,
-                height: 16,
-                color: _textColor,
+                    ? Colors.black.withOpacity(0.87)
+                    : Colors.white,
+                fontSize: 14,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.25,
+                decoration: TextDecoration.none,
               ),
-              const Divider(
-                indent: 12,
-              ),
-              Text(
-                widget.mode,
-                style: TextStyle(
-                  color: (widget.model?.themeData.colorScheme.brightness ==
-                          Brightness.light)
-                      ? Colors.black.withOpacity(0.87)
-                      : Colors.white,
-                  fontSize: 14,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.25,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

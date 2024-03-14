@@ -37,7 +37,7 @@ class _RangeSliderTextDirectionPageState extends DirectionalitySampleViewState {
   SfRangeSliderTheme _numericRangeSlider() {
     return SfRangeSliderTheme(
         data: SfRangeSliderThemeData(
-          tooltipBackgroundColor: model.backgroundColor,
+          tooltipBackgroundColor: model.primaryColor,
           activeLabelStyle: _themeData.textTheme.bodyLarge!
               .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
           inactiveLabelStyle: _themeData.textTheme.bodyLarge!
@@ -67,7 +67,7 @@ class _RangeSliderTextDirectionPageState extends DirectionalitySampleViewState {
   SfRangeSliderTheme _dateTimeRangeSlider() {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-        tooltipBackgroundColor: model.backgroundColor,
+        tooltipBackgroundColor: model.primaryColor,
         activeLabelStyle: _themeData.textTheme.bodyLarge!
             .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
         inactiveLabelStyle: _themeData.textTheme.bodyLarge!

@@ -391,7 +391,7 @@ class _ArcsSampleState extends SampleViewState
         ),
       ),
       SfMapsTheme(
-        data: SfMapsThemeData(
+        data: const SfMapsThemeData(
           shapeHoverColor: Colors.transparent,
         ),
         child: SfMaps(
@@ -458,6 +458,8 @@ class _ArcsSampleState extends SampleViewState
                 ? Colors.white
                 : Colors.black,
         elevation: 3.0,
+        shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
+        showCheckmark: false,
         label: Text(
           city,
           style: TextStyle(
@@ -467,7 +469,7 @@ class _ArcsSampleState extends SampleViewState
         selected: _currentSelectedCityIndex == index,
         selectedColor:
             model.themeData.colorScheme.brightness == Brightness.light
-                ? model.backgroundColor.withOpacity(0.25)
+                ? model.primaryColor.withOpacity(0.25)
                 : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {
@@ -506,6 +508,7 @@ class _ArcsSampleState extends SampleViewState
                 Padding(
                     padding: const EdgeInsets.only(right: 15.0),
                     child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
                       value: _currentSublayer,
                       items: _dropDownMenuItems,
@@ -534,7 +537,7 @@ class _ArcsSampleState extends SampleViewState
                 SizedBox(
                     width: 90,
                     child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _enableDashArray,
                         onChanged: (bool? value) {
                           setState(() {

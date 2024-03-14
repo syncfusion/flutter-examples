@@ -87,7 +87,7 @@ class _ButtonZoomingState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 0, 5, isCardView ? 0 : 50),
           child: Container(child: _buildButtonZoomingChart()),
@@ -114,7 +114,7 @@ class _ButtonZoomingState extends SampleViewState {
                                 message: 'Zoom In',
                                 child: IconButton(
                                   icon: Icon(Icons.add,
-                                      color: model.backgroundColor),
+                                      color: model.primaryColor),
                                   onPressed: () {
                                     _zoomPan.zoomIn();
                                   },
@@ -131,7 +131,7 @@ class _ButtonZoomingState extends SampleViewState {
                                 message: 'Zoom Out',
                                 child: IconButton(
                                   icon: Icon(Icons.remove,
-                                      color: model.backgroundColor),
+                                      color: model.primaryColor),
                                   onPressed: () {
                                     _zoomPan.zoomOut();
                                   },
@@ -148,7 +148,7 @@ class _ButtonZoomingState extends SampleViewState {
                                 message: 'Pan Up',
                                 child: IconButton(
                                   icon: Icon(Icons.keyboard_arrow_up,
-                                      color: model.backgroundColor),
+                                      color: model.primaryColor),
                                   onPressed: () {
                                     _zoomPan.panToDirection('top');
                                   },
@@ -165,7 +165,7 @@ class _ButtonZoomingState extends SampleViewState {
                                 message: 'Pan Down',
                                 child: IconButton(
                                   icon: Icon(Icons.keyboard_arrow_down,
-                                      color: model.backgroundColor),
+                                      color: model.primaryColor),
                                   onPressed: () {
                                     _zoomPan.panToDirection('bottom');
                                   },
@@ -182,7 +182,7 @@ class _ButtonZoomingState extends SampleViewState {
                                 message: 'Pan Left',
                                 child: IconButton(
                                   icon: Icon(Icons.keyboard_arrow_left,
-                                      color: model.backgroundColor),
+                                      color: model.primaryColor),
                                   onPressed: () {
                                     _zoomPan.panToDirection('left');
                                   },
@@ -199,7 +199,7 @@ class _ButtonZoomingState extends SampleViewState {
                                 message: 'Pan Right',
                                 child: IconButton(
                                   icon: Icon(Icons.keyboard_arrow_right,
-                                      color: model.backgroundColor),
+                                      color: model.primaryColor),
                                   onPressed: () {
                                     _zoomPan.panToDirection('right');
                                   },
@@ -216,7 +216,7 @@ class _ButtonZoomingState extends SampleViewState {
                                 message: 'Reset',
                                 child: IconButton(
                                   icon: Icon(Icons.refresh,
-                                      color: model.backgroundColor),
+                                      color: model.primaryColor),
                                   onPressed: () {
                                     _zoomPan.reset();
                                   },

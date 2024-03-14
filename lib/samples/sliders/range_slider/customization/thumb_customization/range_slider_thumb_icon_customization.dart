@@ -33,7 +33,7 @@ class _ThumbCustomizationRangeSliderPageState extends SampleViewState {
     return SfRangeSliderTheme(
         data: SfRangeSliderThemeData(
           thumbRadius: 16,
-          tooltipBackgroundColor: model.backgroundColor,
+          tooltipBackgroundColor: model.primaryColor,
         ),
         child: SfRangeSlider(
           interval: 2.0,
@@ -66,7 +66,7 @@ class _ThumbCustomizationRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _thumbCustomizationSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(thumbRadius: 14),
+        data: const SfRangeSliderThemeData(thumbRadius: 14),
         child: SfRangeSlider(
           max: 10.0,
           stepSize: 1,

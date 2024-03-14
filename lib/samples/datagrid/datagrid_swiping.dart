@@ -215,14 +215,14 @@ class _SwipingDataGridState extends SampleViewState {
         onPressed: () => _processCellUpdate(row, buildContext),
         child: Text(
           'SAVE',
-          style: TextStyle(color: model.backgroundColor),
+          style: TextStyle(color: model.primaryColor),
         ),
       ),
       TextButton(
         onPressed: () => Navigator.pop(buildContext),
         child: Text(
           'CANCEL',
-          style: TextStyle(color: model.backgroundColor),
+          style: TextStyle(color: model.primaryColor),
         ),
       ),
     ];
@@ -266,7 +266,7 @@ class _SwipingDataGridState extends SampleViewState {
             onPressed: () => Navigator.pop(context),
             child: Text(
               'OK',
-              style: TextStyle(color: model.backgroundColor),
+              style: TextStyle(color: model.primaryColor),
             ),
           ),
         ],
@@ -278,19 +278,30 @@ class _SwipingDataGridState extends SampleViewState {
   /// Callback for left swiping, and it will flipped for RTL case
   Widget _buildStartSwipeWidget(
       BuildContext context, DataGridRow row, int rowIndex) {
+    final bool isMaterial3 = model.themeData.useMaterial3;
     return GestureDetector(
       onTap: () => _handleEditWidgetTap(row),
       child: Container(
-        color: Colors.blueAccent,
+        color: isMaterial3
+            ? model.themeData.colorScheme.primary
+            : Colors.blueAccent,
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.edit, color: Colors.white, size: 20),
-            SizedBox(width: 16.0),
+            Icon(Icons.edit,
+                color: isMaterial3
+                    ? model.themeData.colorScheme.onPrimary
+                    : Colors.white,
+                size: 20),
+            const SizedBox(width: 16.0),
             Text(
               'EDIT',
-              style: TextStyle(color: Colors.white, fontSize: 15),
+              style: TextStyle(
+                  color: isMaterial3
+                      ? model.themeData.colorScheme.onPrimary
+                      : Colors.white,
+                  fontSize: 15),
             )
           ],
         ),
@@ -301,19 +312,29 @@ class _SwipingDataGridState extends SampleViewState {
   /// Callback for right swiping, and it will flipped for RTL case
   Widget _buildEndSwipeWidget(
       BuildContext context, DataGridRow row, int rowIndex) {
+    final bool isMaterial3 = model.themeData.useMaterial3;
     return GestureDetector(
       onTap: () => _handleDeleteWidgetTap(row),
       child: Container(
-        color: Colors.redAccent,
+        color:
+            isMaterial3 ? model.themeData.colorScheme.error : Colors.redAccent,
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.delete, color: Colors.white, size: 20),
-            SizedBox(width: 16.0),
+            Icon(Icons.delete,
+                color: isMaterial3
+                    ? model.themeData.colorScheme.onPrimary
+                    : Colors.white,
+                size: 20),
+            const SizedBox(width: 16.0),
             Text(
               'DELETE',
-              style: TextStyle(color: Colors.white, fontSize: 15),
+              style: TextStyle(
+                  color: isMaterial3
+                      ? model.themeData.colorScheme.onPrimary
+                      : Colors.white,
+                  fontSize: 15),
             ),
           ],
         ),

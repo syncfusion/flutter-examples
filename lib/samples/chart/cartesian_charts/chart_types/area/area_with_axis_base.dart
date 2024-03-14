@@ -55,6 +55,7 @@ class _AxisCrossingBaseValueState extends SampleViewState {
             height: 50,
             alignment: Alignment.bottomLeft,
             child: DropdownButton<String>(
+                dropdownColor: model.drawerBackgroundColor,
                 focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedAxis,
@@ -76,6 +77,7 @@ class _AxisCrossingBaseValueState extends SampleViewState {
 
   /// Returns the spline chart with axis crossing at provided axis value.
   SfCartesianChart _buildAxisCrossingBaseValueSample() {
+    final ThemeData themeData = model.themeData;
     return SfCartesianChart(
       margin: const EdgeInsets.fromLTRB(10, 10, 15, 10),
       plotAreaBorderWidth: 0,
@@ -97,7 +99,8 @@ class _AxisCrossingBaseValueState extends SampleViewState {
           minimum: -2,
           maximum: 3,
           majorTickLines: MajorTickLines(size: 0)),
-      series: _getSeries(),
+      series: _getSeries(
+          themeData.useMaterial3, themeData.brightness == Brightness.light),
       tooltipBehavior: _tooltipBehavior,
     );
   }
@@ -105,11 +108,17 @@ class _AxisCrossingBaseValueState extends SampleViewState {
   /// Returns the list of chart series which need to render on
   /// the bar or column chart with axis crossing.
 
-  List<CartesianSeries<ChartSampleData, String>> _getSeries() {
+  List<CartesianSeries<ChartSampleData, String>> _getSeries(
+      bool isMaterial3, bool isLightMode) {
+    final Color color = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(6, 174, 224, 1)
+            : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
     return <CartesianSeries<ChartSampleData, String>>[
       AreaSeries<ChartSampleData, String>(
-          color: const Color.fromRGBO(75, 135, 185, 0.6),
-          borderColor: const Color.fromRGBO(75, 135, 185, 1),
+          color: color.withOpacity(0.6),
+          borderColor: color,
           dataSource: <ChartSampleData>[
             ChartSampleData(x: 'Iceland', y: 1.13),
             ChartSampleData(x: 'Algeria', y: 1.7),

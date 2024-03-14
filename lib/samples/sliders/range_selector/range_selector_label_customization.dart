@@ -674,8 +674,9 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
     final Widget page = Container(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,
-        color:
-            model.isWebFullView ? model.cardThemeColor : model.cardThemeColor,
+        color: model.isWebFullView
+            ? model.sampleOutputCardColor
+            : model.sampleOutputCardColor,
         child: Center(
           child: Column(
             children: <Widget>[
@@ -700,9 +701,8 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
                               ? Colors.black
                               : const Color.fromRGBO(170, 170, 170, 1)),
                       activeTrackColor: const Color.fromRGBO(255, 125, 30, 1),
-                      inactiveRegionColor: isLightTheme
-                          ? Colors.white.withOpacity(0.75)
-                          : const Color.fromRGBO(33, 33, 33, 0.75),
+                      inactiveRegionColor:
+                          model.sampleOutputCardColor.withOpacity(0.75),
                       thumbColor: Colors.white,
                       thumbStrokeColor: const Color.fromRGBO(255, 125, 30, 1),
                       thumbStrokeWidth: 2.0,
@@ -788,6 +788,7 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -821,6 +822,7 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       isExpanded: true,
                       focusColor: Colors.transparent,
                       underline:

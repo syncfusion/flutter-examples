@@ -29,6 +29,7 @@ class _ProgressBarTypesState extends SampleViewState {
   double _value2 = 0;
   double _endValue = 20;
   bool _isLoaded = false;
+  ProgressBarColor? _progressBarColor;
 
   @override
   void initState() {
@@ -76,6 +77,7 @@ class _ProgressBarTypesState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    _progressBarColor = ProgressBarColor(model);
     return Center(
       child: _getWidget(MediaQuery.of(context).size),
     );
@@ -140,15 +142,16 @@ class _ProgressBarTypesState extends SampleViewState {
           showLabels: false,
           showTicks: false,
           radiusFactor: model.isWebFullView ? 0.7 : 0.75,
-          axisLineStyle: const AxisLineStyle(
+          axisLineStyle: AxisLineStyle(
             thickness: 0.05,
-            color: Color.fromARGB(30, 0, 169, 181),
+            color: _progressBarColor!.axisLineColor,
             thicknessUnit: GaugeSizeUnit.factor,
           ),
           pointers: <GaugePointer>[
             RangePointer(
                 value: _value,
                 width: 0.05,
+                color: _progressBarColor!.pointerColor,
                 sizeUnit: GaugeSizeUnit.factor,
                 enableAnimation: true,
                 animationDuration: 20,
@@ -171,16 +174,16 @@ class _ProgressBarTypesState extends SampleViewState {
           endAngle: 270,
           canScaleToFit: true,
           radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-          axisLineStyle: const AxisLineStyle(
+          axisLineStyle: AxisLineStyle(
             thickness: 0.05,
-            color: Color.fromARGB(20, 0, 169, 181),
+            color: _progressBarColor!.axisLineColor,
             thicknessUnit: GaugeSizeUnit.factor,
           ),
           pointers: <GaugePointer>[
             RangePointer(
                 value: _value1,
                 width: 0.05,
-                color: const Color.fromARGB(90, 0, 169, 181),
+                color: _progressBarColor!.bufferColor,
                 sizeUnit: GaugeSizeUnit.factor,
                 enableAnimation: true,
                 animationDuration: 20,
@@ -188,6 +191,7 @@ class _ProgressBarTypesState extends SampleViewState {
             RangePointer(
                 value: _value2,
                 width: 0.05,
+                color: _progressBarColor!.pointerColor,
                 sizeUnit: GaugeSizeUnit.factor,
                 enableAnimation: true,
                 animationDuration: 20,
@@ -211,9 +215,9 @@ class _ProgressBarTypesState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-            axisLineStyle: const AxisLineStyle(
+            axisLineStyle: AxisLineStyle(
               thickness: 0.2,
-              color: Color.fromARGB(30, 0, 169, 181),
+              color: _progressBarColor!.axisLineColor,
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -221,6 +225,7 @@ class _ProgressBarTypesState extends SampleViewState {
                   value: _value,
                   width: 0.05,
                   pointerOffset: 0.07,
+                  color: _progressBarColor!.pointerColor,
                   sizeUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationDuration: 20,
@@ -242,7 +247,7 @@ class _ProgressBarTypesState extends SampleViewState {
                 length: 0.3,
                 thickness: 3,
                 lengthUnit: GaugeSizeUnit.factor,
-                color: model.currentThemeData!.brightness == Brightness.light
+                color: model.themeData.brightness == Brightness.light
                     ? Colors.white
                     : const Color.fromRGBO(33, 33, 33, 1)),
           )

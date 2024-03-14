@@ -87,6 +87,7 @@ class _AxisCrossingState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -113,6 +114,7 @@ class _AxisCrossingState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -148,6 +150,7 @@ class _AxisCrossingState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -174,6 +177,7 @@ class _AxisCrossingState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),

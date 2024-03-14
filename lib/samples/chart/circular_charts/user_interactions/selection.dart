@@ -57,7 +57,7 @@ class _CircularSelectionState extends SampleViewState {
                     child: CheckboxListTile(
                         controlAffinity: ListTileControlAffinity.leading,
                         contentPadding: EdgeInsets.zero,
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: enableMultiSelect,
                         onChanged: (bool? value) {
                           setState(() {
@@ -84,7 +84,7 @@ class _CircularSelectionState extends SampleViewState {
                     child: CheckboxListTile(
                         controlAffinity: ListTileControlAffinity.leading,
                         contentPadding: EdgeInsets.zero,
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _toggleSelection,
                         onChanged: (bool? value) {
                           setState(() {

@@ -131,7 +131,6 @@ class _RangeSelectorSelectionPageState extends SampleViewState
             child: Center(
               child: SfRangeSelectorTheme(
                 data: SfRangeSelectorThemeData(
-                    brightness: themeData.colorScheme.brightness,
                     labelOffset: const Offset(0, 2),
                     thumbColor: Colors.white,
                     overlayColor: const Color.fromRGBO(0, 178, 206, 0.24),

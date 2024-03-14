@@ -62,6 +62,7 @@ class _PieGradientState extends SampleViewState {
                 width: 0.5 * screenWidth,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -149,7 +150,7 @@ class _PieGradientState extends SampleViewState {
           explodeAll: true,
           explodeOffset: '3%',
           explode: true,
-          strokeColor: model.currentThemeData?.brightness == Brightness.light
+          strokeColor: model.themeData.brightness == Brightness.light
               ? Colors.black.withOpacity(0.3)
               : Colors.white.withOpacity(0.3),
           strokeWidth: 1.5,

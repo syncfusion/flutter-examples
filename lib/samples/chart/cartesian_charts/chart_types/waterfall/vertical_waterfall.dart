@@ -60,7 +60,7 @@ class _VerticalWaterFallState extends SampleViewState {
                       fontFamily: 'Normal')),
               primaryXAxis: CategoryAxis(
                 axisLine: AxisLine(
-                    color: model.bottomSheetBackgroundColor == Colors.white
+                    color: model.drawerBackgroundColor == Colors.white
                         ? const Color.fromRGBO(181, 181, 181, 0.5)
                         : const Color.fromRGBO(101, 101, 101, 1)),
                 majorTickLines: const MajorTickLines(width: 0),
@@ -101,7 +101,7 @@ class _VerticalWaterFallState extends SampleViewState {
               primaryXAxis: CategoryAxis(
                 name: 'XAxis',
                 axisLine: AxisLine(
-                    color: model.bottomSheetBackgroundColor == Colors.white
+                    color: model.drawerBackgroundColor == Colors.white
                         ? const Color.fromRGBO(181, 181, 181, 0.5)
                         : const Color.fromRGBO(101, 101, 101, 1)),
                 majorTickLines: const MajorTickLines(width: 0),
@@ -148,7 +148,7 @@ class _VerticalWaterFallState extends SampleViewState {
               primaryXAxis: CategoryAxis(
                 name: 'XAxis',
                 axisLine: AxisLine(
-                    color: model.bottomSheetBackgroundColor == Colors.white
+                    color: model.drawerBackgroundColor == Colors.white
                         ? const Color.fromRGBO(181, 181, 181, 0.5)
                         : const Color.fromRGBO(101, 101, 101, 1)),
                 majorTickLines: const MajorTickLines(width: 0),

@@ -31,20 +31,39 @@ class _LoadMoreDataGridState extends SampleViewState {
         alignment: Alignment.center,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: isLight ? const Color(0xFFFFFFFF) : const Color(0xFF212121),
-            border: BorderDirectional(
-                top: BorderSide(
-                    color: isLight
-                        ? const Color.fromRGBO(0, 0, 0, 0.26)
-                        : const Color.fromRGBO(255, 255, 255, 0.26)))),
+            color: loadMoreBackgroundColor(),
+            border:
+                BorderDirectional(top: BorderSide(color: topBorderColor()))),
         child: Container(
             width: 40,
             height: 40,
             alignment: Alignment.center,
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color?>(model.backgroundColor),
+              valueColor: AlwaysStoppedAnimation<Color?>(model.primaryColor),
               backgroundColor: Colors.transparent,
             )));
+  }
+
+  Color topBorderColor() {
+    final bool isMaterial3 = model.themeData.useMaterial3;
+    final bool isLight =
+        model.themeData.colorScheme.brightness == Brightness.light;
+    return isMaterial3
+        ? model.themeData.colorScheme.outlineVariant
+        : isLight
+            ? const Color.fromRGBO(0, 0, 0, 0.26)
+            : const Color.fromRGBO(255, 255, 255, 0.26);
+  }
+
+  Color loadMoreBackgroundColor() {
+    final bool isMaterial3 = model.themeData.useMaterial3;
+    final bool isLight =
+        model.themeData.colorScheme.brightness == Brightness.light;
+    if (isLight) {
+      return isMaterial3 ? const Color(0xFFFFFBFF) : const Color(0xFFFFFFFF);
+    } else {
+      return isMaterial3 ? const Color(0xFF212121) : const Color(0xFF212121);
+    }
   }
 
   /// Callback method for load more builder
@@ -62,19 +81,14 @@ class _LoadMoreDataGridState extends SampleViewState {
               width: double.infinity,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: isLight
-                      ? const Color(0xFFFFFFFF)
-                      : const Color(0xFF212121),
+                  color: loadMoreBackgroundColor(),
                   border: BorderDirectional(
-                      top: BorderSide(
-                          color: isLight
-                              ? const Color.fromRGBO(0, 0, 0, 0.26)
-                              : const Color.fromRGBO(255, 255, 255, 0.26)))),
+                      top: BorderSide(color: topBorderColor()))),
               child: Container(
                 width: isWebOrDesktop ? 350.0 : 142.0,
                 height: 36,
                 decoration: BoxDecoration(
-                    color: model.backgroundColor,
+                    color: model.primaryColor,
                     borderRadius: BorderRadius.circular(4.0)),
                 child: TextButton(
                   onPressed: () async {

@@ -49,7 +49,7 @@ class _ExportState extends SampleViewState {
                           offset: Offset(0, 4.0),
                           blurRadius: 4.0,
                         ),
-                      ], shape: BoxShape.circle, color: model.backgroundColor),
+                      ], shape: BoxShape.circle, color: model.primaryColor),
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
@@ -75,7 +75,7 @@ class _ExportState extends SampleViewState {
                           offset: Offset(0, 4.0),
                           blurRadius: 4.0,
                         ),
-                      ], shape: BoxShape.circle, color: model.backgroundColor),
+                      ], shape: BoxShape.circle, color: model.primaryColor),
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
@@ -104,7 +104,7 @@ class _ExportState extends SampleViewState {
         MediaQuery.of(context).orientation == Orientation.portrait;
     return SfRadialGauge(
       key: _key,
-      backgroundColor: model.currentThemeData!.brightness == Brightness.light
+      backgroundColor: model.themeData.brightness == Brightness.light
           ? Colors.white
           : const Color.fromRGBO(33, 33, 33, 1),
       enableLoadingAnimation: true,

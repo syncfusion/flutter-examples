@@ -145,7 +145,7 @@ class _RSIIndicatorState extends SampleViewState {
                     child: CheckboxListTile(
                         controlAffinity: ListTileControlAffinity.leading,
                         contentPadding: EdgeInsets.zero,
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _showZones,
                         onChanged: (bool? value) {
                           setState(() {

@@ -125,7 +125,7 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
             softWrap: false,
           ),
           contentPadding: EdgeInsets.zero,
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           onChanged: (bool? value) {
             setState(() {
               _isInversed = value!;

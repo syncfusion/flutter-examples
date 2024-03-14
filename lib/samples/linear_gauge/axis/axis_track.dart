@@ -219,8 +219,8 @@ class _AxisTrackState extends SampleViewState {
   Widget _buildSegmentedView() {
     return Center(
         child: CupertinoSegmentedControl<bool>(
-            selectedColor: model.backgroundColor,
-            borderColor: model.backgroundColor,
+            selectedColor: model.primaryColor,
+            borderColor: model.primaryColor,
             children: <bool, Widget>{
               true: Container(
                   padding: const EdgeInsets.all(10.0),

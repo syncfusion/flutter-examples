@@ -71,6 +71,7 @@ class _SplineRangeAreaState extends SampleViewState {
 
   ///Get chart with spline range area chart
   SfCartesianChart _buildSplineRangeAreaChart() {
+    final ThemeData themeData = model.themeData;
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: const ChartTitle(text: 'Product price comparison'),
@@ -84,20 +85,31 @@ class _SplineRangeAreaState extends SampleViewState {
           axisLine: AxisLine(width: 0),
           labelFormat: r'${value}',
           majorTickLines: MajorTickLines(size: 0)),
-      series: _getSplineAreaSeries(),
+      series: _getSplineAreaSeries(
+          themeData.useMaterial3, themeData.brightness == Brightness.light),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
 
   /// Returns the list of chart series
   /// which need to render on the spline range area chart.
-  List<SplineRangeAreaSeries<ChartSampleData, String>> _getSplineAreaSeries() {
+  List<SplineRangeAreaSeries<ChartSampleData, String>> _getSplineAreaSeries(
+      bool isMaterial3, bool isLightMode) {
+    final Color seriesColor1 = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(6, 174, 224, 1)
+            : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
+    final Color seriesColor2 = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(99, 85, 199, 1)
+            : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return <SplineRangeAreaSeries<ChartSampleData, String>>[
       SplineRangeAreaSeries<ChartSampleData, String>(
         dataSource: chartData,
-        color: const Color.fromRGBO(75, 135, 185, 0.5),
-        borderColor: const Color.fromRGBO(75, 135, 185, 1),
-        borderWidth: 3,
+        color: seriesColor1.withOpacity(0.5),
+        borderColor: seriesColor1,
         borderDrawMode: RangeAreaBorderMode.excludeSides,
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         highValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -106,9 +118,8 @@ class _SplineRangeAreaState extends SampleViewState {
       ),
       SplineRangeAreaSeries<ChartSampleData, String>(
         dataSource: chartData,
-        borderColor: const Color.fromRGBO(192, 108, 132, 1),
-        color: const Color.fromRGBO(192, 108, 132, 0.5),
-        borderWidth: 3,
+        borderColor: seriesColor2,
+        color: seriesColor2.withOpacity(0.5),
         borderDrawMode: RangeAreaBorderMode.excludeSides,
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         highValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,

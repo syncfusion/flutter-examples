@@ -155,8 +155,7 @@ class _PagingDataGridState extends SampleViewState {
   Widget _buildDataPager() {
     return SfDataPagerTheme(
       data: SfDataPagerThemeData(
-        brightness: model.themeData.colorScheme.brightness,
-        selectedItemColor: model.backgroundColor,
+        selectedItemColor: model.primaryColor,
       ),
       child: SfDataPager(
         delegate: orderInfoDataSource,

@@ -311,6 +311,8 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Card(
+        color: model.sampleOutputCardColor,
+        surfaceTintColor: Colors.transparent,
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(3.0),
@@ -345,9 +347,8 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                       ? const Color.fromRGBO(0, 153, 115, 1.0)
                       : const Color.fromRGBO(0, 204, 153, 1.0),
                   overlayColor: const Color.fromRGBO(0, 179, 134, 0.12),
-                  inactiveRegionColor: isLightTheme
-                      ? const Color.fromRGBO(255, 255, 255, 0.75)
-                      : const Color.fromRGBO(66, 66, 66, 0.75),
+                  inactiveRegionColor:
+                      model.sampleOutputCardColor.withOpacity(0.75),
                   activeTrackColor: const Color.fromRGBO(0, 179, 134, 1.0),
                   inactiveTrackColor: const Color.fromRGBO(0, 179, 134, 0.5),
                 ),
@@ -415,6 +416,8 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       Padding(
         padding: const EdgeInsets.all(5.0),
         child: Card(
+          color: model.sampleOutputCardColor,
+          surfaceTintColor: Colors.transparent,
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(3.0),

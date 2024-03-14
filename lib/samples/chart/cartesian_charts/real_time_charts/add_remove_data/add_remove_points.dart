@@ -77,7 +77,7 @@ class _LiveVerticalState extends SampleViewState {
   Widget build(BuildContext context) {
     const double bottomPadding = 40;
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: Padding(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
           child: Container(child: _buildAddRemovePointsChart()),
@@ -112,7 +112,7 @@ class _LiveVerticalState extends SampleViewState {
                                   },
                                   icon: Icon(Icons.add_circle,
                                       size: isCardView ? 40 : 50,
-                                      color: model.backgroundColor),
+                                      color: model.primaryColor),
                                 ),
                               ),
                               Padding(
@@ -139,7 +139,7 @@ class _LiveVerticalState extends SampleViewState {
                                           icon: Icon(
                                             Icons.remove_circle,
                                             size: isCardView ? 40 : 50,
-                                            color: model.backgroundColor,
+                                            color: model.primaryColor,
                                           ))))
                             ])))))
           ],

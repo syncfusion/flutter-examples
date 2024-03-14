@@ -40,8 +40,8 @@ class _DefaultRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _activeRangeSliderSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider(
           max: 100.0,
           onChanged: (dynamic values) {

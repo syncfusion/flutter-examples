@@ -49,6 +49,7 @@ class _AnnotationsPdfViewerState extends SampleViewState {
   Annotation? _selectedAnnotation;
   Color? _selectedColor;
   double _opacity = 1;
+  late bool _useMaterial3;
 
   @override
   void initState() {
@@ -72,6 +73,7 @@ class _AnnotationsPdfViewerState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _useMaterial3 = Theme.of(context).useMaterial3;
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
     if (_needToMaximize != model.needToMaximize) {
       _closeOverlays();
@@ -93,6 +95,15 @@ class _AnnotationsPdfViewerState extends SampleViewState {
     }
 
     final PreferredSizeWidget appBar = AppBar(
+      bottom: _useMaterial3
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(
+                color: Theme.of(context).colorScheme.outlineVariant,
+                height: 1,
+              ),
+            )
+          : null,
       flexibleSpace: Semantics(
         label: 'PdfAnnotation toolbar',
         child: AnnotationToolbar(
@@ -163,11 +174,13 @@ class _AnnotationsPdfViewerState extends SampleViewState {
         ),
       ),
       automaticallyImplyLeading: false,
-      backgroundColor:
-          SfPdfViewerTheme.of(context)!.bookmarkViewStyle?.headerBarColor ??
-              ((Theme.of(context).colorScheme.brightness == Brightness.light)
-                  ? const Color(0xFFFAFAFA)
-                  : const Color(0xFF424242)),
+      backgroundColor: _useMaterial3
+          ? Theme.of(context).colorScheme.brightness == Brightness.light
+              ? const Color.fromRGBO(247, 242, 251, 1)
+              : const Color.fromRGBO(37, 35, 42, 1)
+          : Theme.of(context).colorScheme.brightness == Brightness.light
+              ? const Color(0xFFFAFAFA)
+              : const Color(0xFF424242),
     );
 
     return Scaffold(
@@ -265,8 +278,7 @@ class _AnnotationsPdfViewerState extends SampleViewState {
               return pdfViewer;
             }
             return SfPdfViewerTheme(
-              data: SfPdfViewerThemeData(
-                  brightness: model.themeData.colorScheme.brightness),
+              data: const SfPdfViewerThemeData(),
               child: pdfViewer,
             );
           } else {
@@ -301,11 +313,14 @@ class _AnnotationsPdfViewerState extends SampleViewState {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Document saved'),
-            content: Scrollbar(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                child: Text(text),
+            content: SizedBox(
+              width: 328.0,
+              child: Scrollbar(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  child: Text(text),
+                ),
               ),
             ),
             actions: <Widget>[
@@ -313,6 +328,13 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+                style: _useMaterial3
+                    ? TextButton.styleFrom(
+                        fixedSize: const Size(double.infinity, 40),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                      )
+                    : null,
                 child: const Text('Close'),
               )
             ],
@@ -326,7 +348,8 @@ class _AnnotationsPdfViewerState extends SampleViewState {
       OverlayEntry? overlayEntry,
       BoxConstraints constraints,
       Widget dropDownItems,
-      [Offset? positionOverride]) {
+      [Offset? positionOverride,
+      double? borderRadius]) {
     OverlayState? overlayState;
     const List<BoxShadow> boxShadows = <BoxShadow>[
       BoxShadow(
@@ -348,6 +371,9 @@ class _AnnotationsPdfViewerState extends SampleViewState {
               color:
                   _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242),
               boxShadow: boxShadows,
+              borderRadius: _useMaterial3
+                  ? BorderRadius.all(Radius.circular(borderRadius ?? 4.0))
+                  : null,
             ),
             constraints: constraints,
             child: dropDownItems,
@@ -386,6 +412,7 @@ class _AnnotationsPdfViewerState extends SampleViewState {
             width: _kColorPaletteWidth, height: _kColorPaletteHeight),
         child,
         position,
+        12,
       );
     }
   }
@@ -441,7 +468,6 @@ class AnnotationToolbar extends StatefulWidget {
 
 /// State for the Toolbar widget.
 class AnnotationToolbarState extends State<AnnotationToolbar> {
-  SfPdfViewerThemeData? _pdfViewerThemeData;
   Color? _color;
   Color? _fillColor;
   Color? _disabledColor;
@@ -453,16 +479,31 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
   bool _canShowDeleteIcon = false;
   bool _canShowLockIcon = false;
   bool _isAnnotationLocked = false;
+  late bool _useMaterial3;
 
   @override
   void didChangeDependencies() {
-    _pdfViewerThemeData = SfPdfViewerTheme.of(context);
-    _isLight = _pdfViewerThemeData!.brightness == Brightness.light;
-    _color = _isLight
-        ? Colors.black.withOpacity(0.54)
-        : Colors.white.withOpacity(0.65);
-    _disabledColor = _isLight ? Colors.black12 : Colors.white12;
-    _fillColor = _isLight ? const Color(0xFFD2D2D2) : const Color(0xFF525252);
+    _isLight = Theme.of(context).brightness == Brightness.light;
+    _useMaterial3 = Theme.of(context).useMaterial3;
+    _color = _useMaterial3
+        ? _isLight
+            ? const Color.fromRGBO(73, 69, 79, 1)
+            : const Color.fromRGBO(202, 196, 208, 1)
+        : _isLight
+            ? Colors.black.withOpacity(0.54)
+            : Colors.white.withOpacity(0.65);
+    _disabledColor = _useMaterial3
+        ? _isLight
+            ? const Color.fromRGBO(28, 27, 31, 1).withOpacity(0.38)
+            : const Color.fromRGBO(230, 225, 229, 1).withOpacity(0.38)
+        : _isLight
+            ? Colors.black12
+            : Colors.white12;
+    _fillColor = _useMaterial3
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+        : _isLight
+            ? const Color(0xFFD2D2D2)
+            : const Color(0xFF525252);
     _isWeb =
         isDesktop && widget.model != null && !widget.model!.isMobileResolution;
     super.didChangeDependencies();
@@ -508,6 +549,22 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
           : const EdgeInsets.only(left: 8),
       child: Tooltip(
         message: toolTip,
+        decoration: _useMaterial3
+            ? BoxDecoration(
+                color: Theme.of(context).colorScheme.inverseSurface,
+                borderRadius: BorderRadius.circular(4),
+              )
+            : null,
+        textStyle: _useMaterial3
+            ? TextStyle(
+                color: Theme.of(context).colorScheme.onInverseSurface,
+                fontSize: 14,
+              )
+            : null,
+        padding: _useMaterial3
+            ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+            : null,
+        height: _useMaterial3 ? 48 : null,
         child: SizedBox(
             key: key,
             height: 36,
@@ -528,13 +585,15 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
         // width of vertical divider
         thickness: 1.0,
         // thickness of vertical divider
-        indent: 12.0,
+        indent: _useMaterial3 ? 16 : 12.0,
         // top indent of vertical divider
-        endIndent: 12.0,
+        endIndent: _useMaterial3 ? 16 : 12.0,
         // bottom indent of vertical divider
-        color: _isLight
-            ? Colors.black.withOpacity(0.24)
-            : const Color.fromRGBO(255, 255, 255, 0.26),
+        color: _useMaterial3
+            ? Theme.of(context).colorScheme.outlineVariant
+            : _isLight
+                ? Colors.black.withOpacity(0.24)
+                : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
   }
@@ -552,12 +611,19 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                 _webToolbarItem(
                   'Save',
                   RawMaterialButton(
-                    elevation: 0.0,
-                    hoverElevation: 0.0,
+                    elevation: 0,
+                    focusElevation: 0,
+                    hoverElevation: 0,
+                    highlightElevation: 0,
                     onPressed: () async {
                       widget.pdfViewerController.clearSelection();
                       widget.onTap?.call('Save');
                     },
+                    shape: _useMaterial3
+                        ? const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)))
+                        : const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
                     child: Icon(
                       Icons.save,
                       color: _color,
@@ -573,9 +639,17 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     builder: (BuildContext context, UndoHistoryValue value,
                         Widget? child) {
                       return RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        elevation: 0,
+                        focusElevation: 0,
+                        hoverElevation: 0,
+                        highlightElevation: 0,
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: value.canUndo
                             ? () {
                                 widget.undoHistoryController!.undo();
@@ -598,9 +672,17 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     builder: (BuildContext context, UndoHistoryValue value,
                         Widget? child) {
                       return RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        elevation: 0,
+                        focusElevation: 0,
+                        hoverElevation: 0,
+                        highlightElevation: 0,
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: value.canRedo
                             ? () {
                                 widget.undoHistoryController!.redo();
@@ -623,15 +705,22 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                 _webToolbarItem(
                   'Highlight',
                   RawMaterialButton(
+                    elevation: 0,
+                    focusElevation: 0,
+                    hoverElevation: 0,
+                    highlightElevation: 0,
                     fillColor: widget.pdfViewerController.annotationMode ==
                             PdfAnnotationMode.highlight
                         ? _fillColor
                         : null,
-                    elevation: 0.0,
-                    hoverElevation: 0.0,
                     onPressed: () {
                       widget.onTap?.call(PdfAnnotationMode.highlight);
                     },
+                    shape: _useMaterial3
+                        ? const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)))
+                        : const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
                     child: ImageIcon(
                       const AssetImage(
                         'images/pdf_viewer/highlight.png',
@@ -648,8 +737,15 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                             PdfAnnotationMode.underline
                         ? _fillColor
                         : null,
-                    elevation: 0.0,
-                    hoverElevation: 0.0,
+                    elevation: 0,
+                    focusElevation: 0,
+                    hoverElevation: 0,
+                    highlightElevation: 0,
+                    shape: _useMaterial3
+                        ? const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)))
+                        : const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
                     onPressed: () {
                       widget.onTap?.call(PdfAnnotationMode.underline);
                     },
@@ -669,8 +765,15 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                             PdfAnnotationMode.strikethrough
                         ? _fillColor
                         : null,
-                    elevation: 0.0,
-                    hoverElevation: 0.0,
+                    elevation: 0,
+                    focusElevation: 0,
+                    hoverElevation: 0,
+                    highlightElevation: 0,
+                    shape: _useMaterial3
+                        ? const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)))
+                        : const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
                     onPressed: () {
                       widget.onTap?.call(PdfAnnotationMode.strikethrough);
                     },
@@ -690,8 +793,15 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                             PdfAnnotationMode.squiggly
                         ? _fillColor
                         : null,
-                    elevation: 0.0,
-                    hoverElevation: 0.0,
+                    elevation: 0,
+                    focusElevation: 0,
+                    hoverElevation: 0,
+                    highlightElevation: 0,
+                    shape: _useMaterial3
+                        ? const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)))
+                        : const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
                     onPressed: () {
                       widget.onTap?.call(PdfAnnotationMode.squiggly);
                     },
@@ -716,12 +826,18 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     child: _webToolbarItem(
                       'Color Palette',
                       RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        elevation: 0,
+                        focusElevation: 0,
+                        hoverElevation: 0,
+                        highlightElevation: 0,
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         fillColor: _colorPaletteFillColor,
-                        elevation: 0.0,
-                        hoverElevation: 0.0,
                         onPressed: () {
                           widget.onTap?.call('Color Palette');
                         },
@@ -742,9 +858,17 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     child: _webToolbarItem(
                       'Delete',
                       RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        elevation: 0,
+                        focusElevation: 0,
+                        hoverElevation: 0,
+                        highlightElevation: 0,
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: () {
                           widget.onTap?.call('Delete');
                         },
@@ -764,9 +888,17 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     child: _webToolbarItem(
                       _isAnnotationLocked ? 'Unlock' : 'Lock',
                       RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        elevation: 0,
+                        focusElevation: 0,
+                        hoverElevation: 0,
+                        highlightElevation: 0,
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: () {
                           widget.onTap?.call('Lock');
                         },

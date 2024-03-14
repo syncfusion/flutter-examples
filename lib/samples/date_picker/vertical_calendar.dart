@@ -52,6 +52,7 @@ class _VerticalCalendarPickerState extends SampleViewState {
                 padding: EdgeInsets.zero,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -87,11 +88,11 @@ class _VerticalCalendarPickerState extends SampleViewState {
     final Widget calendar = Container(
       height: 550,
       padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-      color: model.cardThemeColor,
+      color: model.sampleOutputCardColor,
       child: Theme(
         data: model.themeData.copyWith(
             colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.backgroundColor)),
+                .copyWith(secondary: model.primaryColor)),
         child: _getVerticalCalendar(),
       ),
     );
@@ -147,8 +148,8 @@ class _VerticalCalendarPickerState extends SampleViewState {
   SfDateRangePicker _getVerticalCalendar() {
     return SfDateRangePicker(
       enableMultiView: true,
-      headerStyle:
-          DateRangePickerHeaderStyle(backgroundColor: model.cardThemeColor),
+      headerStyle: DateRangePickerHeaderStyle(
+          backgroundColor: model.sampleOutputCardColor),
       navigationDirection: DateRangePickerNavigationDirection.vertical,
       selectionMode: DateRangePickerSelectionMode.multiRange,
       monthViewSettings:

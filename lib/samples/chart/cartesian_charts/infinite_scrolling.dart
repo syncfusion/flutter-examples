@@ -67,6 +67,7 @@ class _InfiniteScrollingState extends SampleViewState {
 
   /// Returns the cartesian chart with default trackball.
   SfCartesianChart _buildInfiniteScrollingChart() {
+    final ThemeData themeData = model.themeData;
     return SfCartesianChart(
       key: GlobalKey<State>(),
       onActualRangeChanged: (ActualRangeChangedArgs args) {
@@ -98,19 +99,26 @@ class _InfiniteScrollingState extends SampleViewState {
           axisLabelFormatter: (AxisLabelRenderDetails details) {
             return ChartAxisLabel(details.text, null);
           }),
-      series: getSeries(),
+      series: getSeries(
+          themeData.useMaterial3, themeData.brightness == Brightness.light),
       loadMoreIndicatorBuilder:
           (BuildContext context, ChartSwipeDirection direction) =>
               getloadMoreIndicatorBuilder(context, direction),
     );
   }
 
-  List<CartesianSeries<ChartSampleData, num>> getSeries() {
+  List<CartesianSeries<ChartSampleData, num>> getSeries(
+      bool isMaterial3, bool isLightMode) {
+    final Color color = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(6, 174, 224, 1)
+            : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
     return <CartesianSeries<ChartSampleData, num>>[
       SplineAreaSeries<ChartSampleData, num>(
         dataSource: chartData,
-        color: const Color.fromRGBO(75, 135, 185, 0.6),
-        borderColor: const Color.fromRGBO(75, 135, 185, 1),
+        color: color.withOpacity(0.6),
+        borderColor: color,
         xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
         onRendererCreated:
@@ -172,7 +180,7 @@ class _InfiniteScrollingState extends SampleViewState {
                     width: 35,
                     child: CircularProgressIndicator(
                       valueColor:
-                          AlwaysStoppedAnimation<Color>(model.backgroundColor),
+                          AlwaysStoppedAnimation<Color>(model.primaryColor),
                       backgroundColor: Colors.transparent,
                       strokeWidth: 3,
                     )))));

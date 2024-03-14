@@ -11,7 +11,9 @@ bool isDesktop = kIsWeb || Platform.isMacOS || Platform.isWindows;
 bool kIsMacOS = helper.getPlatformType() == 'macos';
 
 /// Shows toast once after the selected text is copied to the Clipboard.
-Widget showToast(bool canShowToast, Alignment alignment, String toastText) {
+Widget showToast(BuildContext context, bool canShowToast, Alignment alignment,
+    String toastText) {
+  final bool useMaterial3 = Theme.of(context).useMaterial3;
   return Visibility(
       visible: canShowToast,
       child: Positioned.fill(
@@ -23,19 +25,31 @@ Widget showToast(bool canShowToast, Alignment alignment, String toastText) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.only(
-                    left: 16, top: 6, right: 16, bottom: 6),
+                padding: useMaterial3
+                    ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+                    : const EdgeInsets.only(
+                        left: 16, top: 6, right: 16, bottom: 6),
                 decoration: BoxDecoration(
-                  color: Colors.grey[600],
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(16.0),
-                  ),
+                  color: useMaterial3
+                      ? Theme.of(context).colorScheme.inverseSurface
+                      : Colors.grey[600],
+                  borderRadius: useMaterial3
+                      ? const BorderRadius.all(
+                          Radius.circular(4.0),
+                        )
+                      : const BorderRadius.all(
+                          Radius.circular(16.0),
+                        ),
                 ),
                 child: Text(
                   toastText,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontFamily: 'Roboto', fontSize: 16, color: Colors.white),
+                  style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                      color: useMaterial3
+                          ? Theme.of(context).colorScheme.onInverseSurface
+                          : Colors.white),
                 ),
               ),
             ],
@@ -46,6 +60,7 @@ Widget showToast(bool canShowToast, Alignment alignment, String toastText) {
 
 /// Displays the error message.
 void showErrorDialog(BuildContext context, String error, String description) {
+  final bool useMaterial3 = Theme.of(context).useMaterial3;
   showDialog<dynamic>(
     context: context,
     builder: (BuildContext context) {
@@ -62,6 +77,9 @@ void showErrorDialog(BuildContext context, String error, String description) {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+                shape: useMaterial3
+                    ? const CircleBorder()
+                    : const RoundedRectangleBorder(),
                 child: const Icon(
                   Icons.clear,
                   size: 20,
@@ -76,10 +94,16 @@ void showErrorDialog(BuildContext context, String error, String description) {
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop();
             },
+            style: useMaterial3
+                ? TextButton.styleFrom(
+                    foregroundColor: Theme.of(context).primaryColor,
+                    fixedSize: const Size(71, 40),
+                  )
+                : null,
             child: const Text('OK'),
           )
         ],
-        actionsPadding: const EdgeInsets.only(bottom: 10),
+        actionsPadding: useMaterial3 ? null : const EdgeInsets.only(bottom: 10),
       );
     },
   );

@@ -84,6 +84,7 @@ class _LegendOptionsState extends SampleViewState {
                             width: 110,
                             alignment: Alignment.bottomLeft,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -125,6 +126,7 @@ class _LegendOptionsState extends SampleViewState {
                             width: 110,
                             alignment: Alignment.bottomLeft,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -167,7 +169,7 @@ class _LegendOptionsState extends SampleViewState {
                               height: 50,
                               alignment: Alignment.bottomLeft,
                               child: Checkbox(
-                                  activeColor: model.backgroundColor,
+                                  activeColor: model.primaryColor,
                                   value: toggleVisibility,
                                   onChanged: (bool? value) {
                                     setState(() {
@@ -199,7 +201,7 @@ class _LegendOptionsState extends SampleViewState {
                               height: 50,
                               alignment: Alignment.bottomLeft,
                               child: Checkbox(
-                                  activeColor: model.backgroundColor,
+                                  activeColor: model.primaryColor,
                                   value: enableFloatingLegend,
                                   onChanged: (bool? value) {
                                     setState(() {

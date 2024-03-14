@@ -91,6 +91,7 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       DropdownButton<String>(
+                          dropdownColor: model.drawerBackgroundColor,
                           focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
@@ -118,7 +119,7 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                       SizedBox(
                           width: 75,
                           child: CheckboxListTile(
-                              activeColor: model.backgroundColor,
+                              activeColor: model.primaryColor,
                               value: _isAxisBorderEnabled,
                               onChanged: (bool? value) {
                                 setState(() {
@@ -143,6 +144,7 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
                       child: DropdownButton<String>(
+                          dropdownColor: model.drawerBackgroundColor,
                           focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
@@ -173,7 +175,7 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                             width: 75,
                             // padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                             child: CheckboxListTile(
-                                activeColor: model.backgroundColor,
+                                activeColor: model.primaryColor,
                                 value: _isAxisBorderEnabled,
                                 onChanged: (bool? value) {
                                   setState(() {

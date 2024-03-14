@@ -106,7 +106,7 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
     });
     bottomPadding = isCardView ? 0 : 50;
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
           child: Container(child: _buildEventLineChart(false, _chartData)),
@@ -121,7 +121,7 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
             foregroundDecoration: const BoxDecoration(shape: BoxShape.circle),
             padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
             child: CupertinoSegmentedControl<int>(
-              selectedColor: model.backgroundColor,
+              selectedColor: model.primaryColor,
               borderColor: Colors.white,
               children: const <int, Widget>{
                 0: Text('Y'),

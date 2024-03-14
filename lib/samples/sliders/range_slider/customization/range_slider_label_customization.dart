@@ -48,8 +48,8 @@ class _LabelCustomizationRangleSliderState extends SampleViewState {
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider(
           min: DateTime(2000),
           max: DateTime(2020),
@@ -76,8 +76,8 @@ class _LabelCustomizationRangleSliderState extends SampleViewState {
 
   SfRangeSliderTheme _numericRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider(
             showLabels: true,
             edgeLabelPlacement: _edgeLabelPlacement,
@@ -158,6 +158,7 @@ class _LabelCustomizationRangleSliderState extends SampleViewState {
                 padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -191,6 +192,7 @@ class _LabelCustomizationRangleSliderState extends SampleViewState {
                 padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     isExpanded: true,
                     focusColor: Colors.transparent,
                     underline:

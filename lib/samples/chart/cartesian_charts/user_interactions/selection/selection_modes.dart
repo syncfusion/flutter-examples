@@ -116,6 +116,7 @@ class _DefaultSelectionState extends SampleViewState {
                           children: <Widget>[
                             SizedBox(width: model.isMobile ? 14.0 : 0.0),
                             DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 underline: Container(
                                     color: const Color(0xFFBDBDBD), height: 1),
@@ -136,7 +137,7 @@ class _DefaultSelectionState extends SampleViewState {
                       ),
                       SizedBox(height: model.isMobile ? 2.0 : 10.0),
                       Checkbox(
-                          activeColor: model.backgroundColor,
+                          activeColor: model.primaryColor,
                           value: _enableMultiSelect,
                           onChanged: (bool? value) {
                             setState(() {
@@ -146,7 +147,7 @@ class _DefaultSelectionState extends SampleViewState {
                           }),
                       SizedBox(height: model.isMobile ? 2.0 : 25.0),
                       Checkbox(
-                          activeColor: model.backgroundColor,
+                          activeColor: model.primaryColor,
                           value: _toggleSelection,
                           onChanged: (bool? value) {
                             setState(() {

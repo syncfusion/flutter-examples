@@ -106,7 +106,7 @@ class _MapMarkerPageState extends SampleViewState {
               left: 10)
           : const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: SfMapsTheme(
-        data: SfMapsThemeData(
+        data: const SfMapsThemeData(
           shapeHoverColor: Colors.transparent,
           shapeHoverStrokeColor: Colors.transparent,
           shapeHoverStrokeWidth: 0,

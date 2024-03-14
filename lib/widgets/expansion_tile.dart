@@ -48,7 +48,6 @@ class _ExpansionTileState extends State<CustomExpansionTile>
   Animatable<double>? _halfTween;
 
   ColorTween? _borderColorTween;
-  ColorTween? _headerColorTween;
   ColorTween? _iconColorTween;
   ColorTween? _backgroundColorTween;
 
@@ -56,11 +55,21 @@ class _ExpansionTileState extends State<CustomExpansionTile>
   Animation<double>? _iconTurns;
   Animation<double>? _heightFactor;
   Animation<Color?>? _borderColor;
-  Animation<Color?>? _headerColor;
-  Animation<Color?>? _iconColor;
+  late Color? _headerColor;
   Animation<Color?>? _backgroundColor;
-
   bool _isExpanded = false;
+
+  @override
+  void didChangeDependencies() {
+    final ThemeData theme = Theme.of(context);
+    _borderColorTween!.end = Colors.transparent;
+    _headerColor = theme.textTheme.titleMedium!.color;
+    _iconColorTween!
+      ..begin = theme.unselectedWidgetColor
+      ..end = theme.colorScheme.secondary;
+    _backgroundColorTween!.end = widget.backgroundColor;
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
@@ -69,15 +78,12 @@ class _ExpansionTileState extends State<CustomExpansionTile>
     _easeInTween = CurveTween(curve: Curves.easeIn);
     _halfTween = Tween<double>(begin: 0.0, end: 0.5);
     _borderColorTween = ColorTween();
-    _headerColorTween = ColorTween();
     _iconColorTween = ColorTween();
     _backgroundColorTween = ColorTween();
     _controller = AnimationController(duration: _kExpand, vsync: this);
     _heightFactor = _controller.drive(_easeInTween!);
     _iconTurns = _controller.drive(_halfTween!.chain(_easeInTween!));
     _borderColor = _controller.drive(_borderColorTween!.chain(_easeOutTween!));
-    _headerColor = _controller.drive(_headerColorTween!.chain(_easeInTween!));
-    _iconColor = _controller.drive(_iconColorTween!.chain(_easeInTween!));
     _backgroundColor =
         _controller.drive(_backgroundColorTween!.chain(_easeOutTween!));
 
@@ -96,7 +102,6 @@ class _ExpansionTileState extends State<CustomExpansionTile>
     _easeInTween = null;
     _halfTween = null;
     _borderColorTween = null;
-    _headerColorTween = null;
     _iconColorTween = null;
     _backgroundColorTween = null;
 
@@ -104,12 +109,11 @@ class _ExpansionTileState extends State<CustomExpansionTile>
     _heightFactor = null;
     _borderColor = null;
     _headerColor = null;
-    _iconColor = null;
     _backgroundColor = null;
     super.dispose();
   }
 
-  void _handleTap() {
+  void _handleListTileTap() {
     setState(() {
       _isExpanded = !_isExpanded;
       if (_isExpanded) {
@@ -120,7 +124,7 @@ class _ExpansionTileState extends State<CustomExpansionTile>
             return;
           }
           setState(() {
-            /// Expansion tile's state 'expand/Collapse' changed
+            // Expansion tile's state 'expand/Collapse' changed.
           });
         });
       }
@@ -131,46 +135,41 @@ class _ExpansionTileState extends State<CustomExpansionTile>
     }
   }
 
-  Widget _buildChildren(BuildContext context, Widget? child) {
+  Widget _buildChild(BuildContext context, Widget? child) {
     final Color borderSideColor = _borderColor!.value ?? Colors.transparent;
-    final Color titleColor = _headerColor!.value!;
-
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
-          color: _backgroundColor!.value ?? Colors.transparent,
-          border: Border(
-            top: BorderSide(color: borderSideColor),
-            bottom: BorderSide(color: borderSideColor),
-          )),
+        color: _backgroundColor!.value ?? Colors.transparent,
+        border: Border(
+          top: BorderSide(color: borderSideColor),
+          bottom: BorderSide(color: borderSideColor),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          IconTheme.merge(
-            data: IconThemeData(color: _iconColor!.value),
-            child: Container(
-              height: 40,
-              color: widget.headerBackgroundColor ?? Colors.black,
-              child: ListTile(
-                onTap: _handleTap,
-                dense: true,
-                title: Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: DefaultTextStyle(
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(color: titleColor),
-                    child: widget.title!,
-                  ),
+          SizedBox(
+            height: 40,
+            child: ListTile(
+              onTap: _handleListTileTap,
+              dense: true,
+              title: Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: DefaultTextStyle(
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: _headerColor),
+                  child: widget.title!,
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: RotationTransition(
-                    turns: _iconTurns!,
-                    child: const Icon(
-                      Icons.expand_more,
-                      color: Colors.grey,
-                    ),
+              ),
+              trailing: Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: RotationTransition(
+                  turns: _iconTurns!,
+                  child: Icon(
+                    Icons.expand_more,
+                    color: _headerColor,
                   ),
                 ),
               ),
@@ -188,25 +187,11 @@ class _ExpansionTileState extends State<CustomExpansionTile>
   }
 
   @override
-  void didChangeDependencies() {
-    final ThemeData theme = Theme.of(context);
-    _borderColorTween!.end = Colors.transparent;
-    _headerColorTween!
-      ..begin = theme.textTheme.titleMedium!.color
-      ..end = theme.colorScheme.secondary;
-    _iconColorTween!
-      ..begin = theme.unselectedWidgetColor
-      ..end = theme.colorScheme.secondary;
-    _backgroundColorTween!.end = widget.backgroundColor;
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final bool closed = !_isExpanded && _controller.isDismissed;
     return AnimatedBuilder(
       animation: _controller.view,
-      builder: _buildChildren,
+      builder: _buildChild,
       child: closed ? null : Column(children: widget.children!),
     );
   }

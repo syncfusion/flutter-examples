@@ -64,7 +64,7 @@ class _FormFillingPdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: SingleChildScrollView(
             child: Center(
           child: Padding(
@@ -227,8 +227,7 @@ class _FormFillingPdfState extends SampleViewState {
       TextButton(
         onPressed: _viewTemplate,
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(model.backgroundColor),
+          backgroundColor: MaterialStateProperty.all<Color>(model.primaryColor),
           padding: model.isMobile
               ? null
               : MaterialStateProperty.all(
@@ -243,8 +242,7 @@ class _FormFillingPdfState extends SampleViewState {
       TextButton(
         onPressed: () => _fillFormFields(false),
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(model.backgroundColor),
+          backgroundColor: MaterialStateProperty.all<Color>(model.primaryColor),
           padding: model.isMobile
               ? null
               : MaterialStateProperty.all(
@@ -259,8 +257,7 @@ class _FormFillingPdfState extends SampleViewState {
       TextButton(
         onPressed: () => _fillFormFields(true),
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(model.backgroundColor),
+          backgroundColor: MaterialStateProperty.all<Color>(model.primaryColor),
           padding: model.isMobile
               ? null
               : MaterialStateProperty.all(

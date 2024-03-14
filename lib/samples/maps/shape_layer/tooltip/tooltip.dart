@@ -295,6 +295,8 @@ class _MapTooltipPageState extends SampleViewState {
             color: model.textColor,
           ),
         ),
+        shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
+        showCheckmark: false,
         selected: _currentDataTypeIndex == index,
         selectedColor: _bubbleColor,
         onSelected: (bool isSelected) {
@@ -435,7 +437,7 @@ class _MapTooltipPageState extends SampleViewState {
           contentPadding: EdgeInsets.zero,
           value: _autoHide,
           title: const Text('Auto hide'),
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           onChanged: (bool? value) {
             setState(() {
               _autoHide = value!;

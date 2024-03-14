@@ -8,30 +8,31 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../model/web_view.dart';
-
 /// Local import
+import '../model/web_view.dart';
 import '../sample_list.dart';
 import '../widgets/search_bar.dart';
 
-/// WidgetCategory of the each control as Data Visualization, Editors,etc.,
+/// [WidgetCategory] of the each control as Data Visualization, Editors,etc.,
 class WidgetCategory {
   /// Constructor holds the name, id, control collection of the [WidgetCategory]
-  WidgetCategory(
-      [this.categoryName,
-      this.controlList,
-      this.mobileCategoryId,
-      this.webCategoryId,
-      this.platformsToHide]);
+  WidgetCategory([
+    this.categoryName,
+    this.controlList,
+    this.mobileCategoryId,
+    this.webCategoryId,
+    this.platformsToHide,
+  ]);
 
   /// Getting the control details from the json file
   factory WidgetCategory.fromJson(Map<String, dynamic> json) {
     return WidgetCategory(
-        json['categoryName'],
-        json['controlList'],
-        json['mobileCategoryId'],
-        json['webCategoryId'],
-        json['platformsToHide']);
+      json['categoryName'],
+      json['controlList'],
+      json['mobileCategoryId'],
+      json['webCategoryId'],
+      json['platformsToHide'],
+    );
   }
 
   /// Name of the category
@@ -49,53 +50,56 @@ class WidgetCategory {
   /// Selected control in the controllist under the particular category
   int? selectedIndex = 0;
 
-  /// To specify the category not to show on the web/android/iOS/windows/linux/macOS
-  /// platforms in list format.
+  /// To specify the category not to show on the
+  /// web/android/iOS/windows/linux/macOS platforms in list format.
   ///
   /// Eg: In json file we can specify like below,
   ///
-  /// "platformsToHide": ["linux", "android"] => the specific category should not show on the linux and android platforms
+  /// "platformsToHide": ["linux", "android"] => the specific category
+  /// should not show on the linux and android platforms
   final List<dynamic>? platformsToHide;
 }
 
 /// Defines the control class.
 class Control {
-  /// Contructor holds the tile, description, status etc., of the [Control]
+  /// Constructor holds the tile, description, status etc., of the [Control].
   Control(
-      this.title,
-      this.description,
-      this.image,
-      this.status,
-      this.displayType,
-      this.subItems,
-      this.controlId,
-      this.isBeta,
-      this.platformsToHide);
+    this.title,
+    this.description,
+    this.image,
+    this.status,
+    this.displayType,
+    this.subItems,
+    this.controlId,
+    this.isBeta,
+    this.platformsToHide,
+  );
 
-  /// Getting the control details from the json file
+  /// Getting the control details from the json file.
   factory Control.fromJson(Map<String, dynamic> json) {
     return Control(
-        json['title'],
-        json['description'],
-        json['image'],
-        json['status'],
-        json['displayType'],
-        json['subItems'],
-        json['controlId'],
-        json['isBeta'],
-        json['platformsToHide']);
+      json['title'],
+      json['description'],
+      json['image'],
+      json['status'],
+      json['displayType'],
+      json['subItems'],
+      json['controlId'],
+      json['isBeta'],
+      json['platformsToHide'],
+    );
   }
 
-  /// Contains title of the control, display in the home page
+  /// Contains title of the control, display in the home page.
   final String? title;
 
-  /// Contains description of the control, display in the home page
+  /// Contains description of the control, display in the home page.
   final String? description;
 
-  /// Contains image relates to the control, display in the home page
+  /// Contains image relates to the control, display in the home page.
   final String? image;
 
-  /// Conatins status of the control New/Updated/Beta
+  /// Contains status of the control New/Updated/Beta.
   final String? status;
 
   /// Display the controls based on this order.
@@ -105,60 +109,64 @@ class Control {
   /// Mention as card/fullView, by default it will taken as "fullView".
   final String? displayType;
 
-  /// Contains the subItem list which comes under sample type
+  /// Contains the subItem list which comes under sample type.
   List<SubItem>? sampleList;
 
-  /// Contains the subItem list which comes under [child] type
+  /// Contains the subItem list which comes under [child] type.
   List<SubItem>? childList;
 
-  /// Contains the sample details collection
+  /// Contains the sample details collection.
   List<dynamic>? subItems;
 
-  /// To specify the control is beta or not in `https://pub.dev/publishers/syncfusion.com/packages`
+  /// To specify the control is beta or not in
+  /// `https://pub.dev/publishers/syncfusion.com/packages`.
   final bool? isBeta;
 
-  /// To specify the control not to show on the web/android/iOS/windows/linux/macOS
-  /// platforms in list format.
+  /// To specify the control not to show on the
+  /// web/android/iOS/windows/linux/macOS platforms in list format.
   ///
   /// Eg: In json file we can specify like below,
   ///
-  /// "platformsToHide": ["linux", "android"] => the current control should not show on the linux and android platforms
+  /// "platformsToHide": ["linux", "android"] => the current control should
+  /// not show on the linux and android platforms.
   final List<dynamic>? platformsToHide;
 }
 
 /// Contains the detail of sample in different hierarchy levels
-/// parent, child, sample types
+/// parent, child, sample types.
 class SubItem {
-  /// It holds the type, title, key, description etc., of the sample
-  SubItem(
-      [this.type,
-      this.displayType,
-      this.title,
-      this.key,
-      this.codeLink,
-      this.description,
-      this.status,
-      this.subItems,
-      this.sourceLink,
-      this.sourceText,
-      this.needsPropertyPanel,
-      this.platformsToHide]);
+  /// It holds the type, title, key, description etc., of the sample.
+  SubItem([
+    this.type,
+    this.displayType,
+    this.title,
+    this.key,
+    this.codeLink,
+    this.description,
+    this.status,
+    this.subItems,
+    this.sourceLink,
+    this.sourceText,
+    this.needsPropertyPanel,
+    this.platformsToHide,
+  ]);
 
   /// Getting the SubItem details from the json file
   factory SubItem.fromJson(Map<String, dynamic> json) {
     return SubItem(
-        json['type'],
-        json['displayType'],
-        json['title'],
-        json['key'],
-        json['codeLink'],
-        json['description'],
-        json['status'],
-        json['subItems'],
-        json['sourceLink'],
-        json['sourceText'],
-        json['needsPropertyPanel'],
-        json['platformsToHide']);
+      json['type'],
+      json['displayType'],
+      json['title'],
+      json['key'],
+      json['codeLink'],
+      json['description'],
+      json['status'],
+      json['subItems'],
+      json['sourceLink'],
+      json['sourceText'],
+      json['needsPropertyPanel'],
+      json['platformsToHide'],
+    );
   }
 
   /// Type given as parent/child/sample.
@@ -183,14 +191,14 @@ class SubItem {
   /// Below values need to give when type is "sample".
   final String? key;
 
-  /// Contains Github sample link
+  /// Contains Github sample link.
   final String? codeLink;
 
-  /// Contains the description of the sample
-  /// to be displayed in the sample backpanel
+  /// Contains the description of the sample to be displayed in the
+  /// sample backpanel.
   final String? description;
 
-  /// Status of the sample, displays above the sample
+  /// Status of the sample, displays above the sample.
   final String? status;
 
   /// SourceLink which will launch a url of the sample's source
@@ -206,79 +214,86 @@ class SubItem {
   /// If current sample has property panel mention true.
   final bool? needsPropertyPanel;
 
-  /// Contains appropriate category name
+  /// Contains appropriate category name.
   String? categoryName;
 
-  ///Holds the URL text
+  /// Holds the URL text.
   String? breadCrumbText;
 
-  ///Current parent subItem index
+  ///Current parent subItem index.
   int? parentIndex;
 
-  ///Current child subItem index
+  ///Current child subItem index.
   int? childIndex;
 
-  ///Current child subItem index
+  ///Current child subItem index.
   int? sampleIndex;
 
-  /// Holds appropriate control
+  /// Holds appropriate control.
   Control? control;
 
-  /// To specify the sample not to show on the web/android/iOS/windows/linux/macOS
-  /// platforms in list format.
+  /// To specify the sample not to show on the
+  /// web/android/iOS/windows/linux/macOS platforms in list format.
   ///
   /// Eg: In json file we can specify like below,
   ///
-  /// "platformsToHide": ["linux", "android"] => the specific sample should not show on the linux and android platforms
+  /// "platformsToHide": ["linux", "android"] => the specific sample should
+  /// not show on the linux and android platforms.
   final List<dynamic>? platformsToHide;
 }
 
 /// SampleModel class is the base of the Sample browser
-/// It contains the category, control, theme information
+/// It contains the category, control, theme information.
 class SampleModel extends Listenable {
-  /// Contains the category, control, theme information
+  /// Contains the category, control, theme information.
   SampleModel() {
     isInitialRender = true;
+
     searchControlItems = <Control>[];
     sampleList = <SubItem>[];
     searchResults = <SubItem>[];
     searchSampleItems = <SubItem>[];
+
     categoryList = SampleModel._categoryList;
     controlList = SampleModel._controlList;
     routes = SampleModel._routes;
+
     searchControlItems.addAll(controlList);
-    for (int index = 0; index < controlList.length; index++) {
-      if (controlList[index].sampleList != null) {
-        for (int i = 0; i < controlList[index].sampleList!.length; i++) {
-          searchSampleItems.add(controlList[index].sampleList![i]);
+    final int controlListLength = controlList.length;
+    for (int i = 0; i < controlListLength; i++) {
+      final Control control = controlList[i];
+      if (control.sampleList != null) {
+        final int sampleListLength = control.sampleList!.length;
+        for (int j = 0; j < sampleListLength; j++) {
+          searchSampleItems.add(control.sampleList![j]);
         }
-      } else if (controlList[index].childList != null) {
-        for (int i = 0; i < controlList[index].childList!.length; i++) {
-          for (int j = 0;
-              j < controlList[index].childList![i].subItems!.length;
-              j++) {
-            if (controlList[index].childList![i].subItems![j].type != 'child') {
-              searchSampleItems
-                  .add(controlList[index].childList![i].subItems![j]);
+      } else if (control.childList != null) {
+        final List<SubItem> childList = control.childList!;
+        final int childListLength = childList.length;
+        for (int k = 0; k < childListLength; k++) {
+          final List<dynamic> subItems = childList[k].subItems!;
+          final int subItemsLength = subItems.length;
+          for (int l = 0; l < subItemsLength; l++) {
+            final dynamic subItem = subItems[l];
+            if (subItem.type != 'child') {
+              searchSampleItems.add(subItem);
             } else {
-              //ignore: prefer_foreach
-              for (final SubItem sample
-                  in controlList[index].childList![i].subItems![j].subItems) {
-                searchSampleItems.add(sample);
-              }
+              subItem.subItems.forEach((dynamic element) {
+                searchSampleItems.add(element);
+              });
             }
           }
         }
       } else {
-        for (int i = 0; i < controlList[index].subItems!.length; i++) {
-          for (int j = 0;
-              j < controlList[index].subItems![i].subItems.length;
-              j++) {
-            for (int k = 0;
-                k < controlList[index].subItems![i].subItems[j].subItems.length;
-                k++) {
-              searchSampleItems
-                  .add(controlList[index].subItems![i].subItems[j].subItems[k]);
+        final int subItemsLength = control.subItems!.length;
+        for (int m = 0; m < subItemsLength; m++) {
+          final dynamic subItem = control.subItems![m];
+          final int subItemsLength = subItem.subItems.length;
+          for (int n = 0; n < subItemsLength; n++) {
+            final dynamic sub = subItem.subItems[n];
+            final int subItemsLength = sub.subItems.length;
+            for (int o = 0; o < subItemsLength; o++) {
+              searchSampleItems.add(sub.subItems[o]);
             }
           }
         }
@@ -286,121 +301,129 @@ class SampleModel extends Listenable {
     }
   }
 
-  /// Used to create the instance of [SampleModel]
+  /// Used to create the instance of [SampleModel].
   static SampleModel instance = SampleModel();
 
-  /// Specifies the widget initial rendering
+  /// Specifies the widget initial rendering.
   late bool isInitialRender;
 
   /// Contains the output widget of sample
-  /// appropriate key and output widget mapped
+  /// appropriate key and output widget mapped.
   final Map<String, Function> sampleWidget = getSampleWidget();
-  //ignore:prefer_final_fields
-  static List<Control> _controlList = <Control>[];
-  //ignore:prefer_final_fields
-  static List<WidgetCategory> _categoryList = <WidgetCategory>[];
 
-  /// Holds the category list
+  static final List<Control> _controlList = <Control>[];
+
+  static final List<WidgetCategory> _categoryList = <WidgetCategory>[];
+
+  /// Holds the category list.
   late List<WidgetCategory> categoryList;
 
-  /// Holds the sorted control list
+  /// Holds the sorted control list.
   late List<Control> controlList;
 
-  /// Holds the searched control list
+  /// Holds the searched control list.
   late List<Control> searchControlItems;
 
-  ///List of all the samples
+  ///List of all the samples.
   late List<SubItem> sampleList;
 
-  /// To handle search
+  /// To handle search.
   late List<SubItem> searchSampleItems;
 
-  /// To handle search
+  /// To handle search.
   late List<SubItem> searchResults;
 
-  /// To handle the search bar
+  /// To handle the search bar.
   CustomSearchBar? searchBar;
 
-  /// holds theme based current palette color
-  Color backgroundColor = const Color.fromRGBO(0, 116, 227, 1);
-
-  /// holds light theme current palette color
-  Color paletteColor = const Color.fromRGBO(0, 116, 227, 1);
-
-  /// holds current palette color
-  /// on toggling the palette colors before or after apply settings
-  Color currentPrimaryColor = const Color.fromRGBO(0, 116, 227, 1);
-
-  /// holds the current theme data
+  /// Holds the current theme data.
   late ThemeData themeData;
 
-  /// Holds theme baased color of web outputcontainer
+  /// Holds theme based color of web outputcontainer.
   Color textColor = const Color.fromRGBO(51, 51, 51, 1);
 
-  /// Holds theme based drawer text color
+  /// Holds theme based color of home card title.
+  late Color homeCardTitleTextColor;
+
+  /// Holds theme based color of base navigation bar text.
+  late Color baseNavigationBarTextColor;
+
+  /// Holds theme based drawer text color.
   Color drawerTextIconColor = Colors.black;
 
-  /// Holds theme based bottom sheet color
-  Color bottomSheetBackgroundColor = Colors.white;
+  /// Holds theme based bottom sheet color.
+  Color drawerBackgroundColor = Colors.white;
 
-  /// Holds theme based card color
-  Color cardThemeColor = Colors.white;
+  /// Holds theme based card color.
+  Color sampleOutputCardColor = Colors.white;
 
-  /// Holds theme based web page background color
-  Color webBackgroundColor = const Color.fromRGBO(246, 246, 246, 1);
+  /// Holds theme based left navigation bar color.
+  late Color leftNavigationBarBackgroundColor;
 
-  /// Holds theme based color of icon
-  Color webIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
+  /// Holds theme based web page background color.
+  Color backgroundColor = const Color.fromRGBO(246, 246, 246, 1);
 
-  /// Holds theme based input container color
-  Color webInputColor = const Color.fromRGBO(242, 242, 242, 1);
+  /// Holds theme based color of icon.
+  Color drawerIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
 
-  /// Holds theme based web outputcontainer color
-  Color webOutputContainerColor = Colors.white;
+  /// Holds theme based input container color.
+  Color subSamplesTabBarColor = const Color.fromRGBO(242, 242, 242, 1);
 
-  /// Holds the theme based card's color
-  Color cardColor = Colors.white;
+  /// Holds the theme based card's color.
+  Color homeCardColor = Colors.white;
 
-  /// Holds the theme based divider color
-  Color dividerColor = const Color.fromRGBO(204, 204, 204, 1);
+  /// Holds the theme based divider color.
+  Color dividerColor = const Color.fromARGB(255, 11, 2, 2);
 
-  /// Holds the old browser window's height and width
+  /// Holds the footer color based theme.
+  late Color footerColor;
+
+  /// Holds the hover color.
+  late Color hoverColor;
+
+  /// Holds the pressed color.
+  late Color splashColor;
+
+  /// Holds the foused color.
+  late Color focusedColor;
+
+  /// Holds the old browser window's height and width.
   Size? oldWindowSize;
 
-  /// Holds the current browser window's height and width
+  /// Holds the current browser window's height and width.
   late Size currentWindowSize;
 
   static List<SampleRoute> _routes = <SampleRoute>[];
 
-  /// List of navigation routes text and appropriate subitem
+  /// List of navigation routes text and appropriate subitem.
   late List<SampleRoute>? routes;
 
-  /// Holds the current visible sample, only for web
+  /// Holds the current visible sample, only for web.
   late dynamic currentRenderSample;
 
-  /// Holds the current rendered sample's key, only for web
+  /// Holds the current rendered sample's key, only for web.
   late String? currentSampleKey;
 
-  /// Contains the light theme pallete colors
-  late List<Color>? paletteColors;
+  /// Contains the light theme palette colors.
+  final List<Color> paletteColors = <Color>[];
 
-  /// Contains the pallete's border colors
-  late List<Color>? paletteBorderColors;
+  /// Contains the primary color.
+  late Color primaryColor;
 
-  /// Contains dark theme theme palatte colors.
-  late List<Color>? darkPaletteColors;
+  /// Contains the pallete's border colors.
+  final List<Color> paletteBorderColors = List.filled(4, Colors.transparent);
 
-  /// Holds current theme data
-  ThemeData? currentThemeData;
+  /// Contains dark theme theme palette colors.
+  final List<Color> darkPaletteColors = <Color>[];
 
-  /// Holds current pallete color
-  Color currentPaletteColor = const Color.fromRGBO(0, 116, 227, 1);
+  /// Holds current palette color.
+  // Color currentPaletteColor = const Color.fromRGBO(0, 116, 227, 1);
 
-  /// holds the index to finding the current theme
-  /// In mobile sb - system 0, light 1, dark 2
+  /// holds the index to finding the current theme.
+  /// In mobile sb - system 0, light 1, dark 2.
   int selectedThemeIndex = 0;
 
-  /// Holds the information of isCardView or not
+  /// Holds the information of isCardView or not.
   bool isCardView = true;
 
   /// Gets the locale assigned to [SampleModel].
@@ -409,56 +432,56 @@ class SampleModel extends Listenable {
   /// Gets the textDirection assigned to [SampleModel].
   TextDirection textDirection = TextDirection.rtl;
 
-  /// Holds the information of isMobileResolution or not
-  /// To render the appbar and search bar based on it
+  /// Holds the information of isMobileResolution or not.
+  /// To render the appbar and search bar based on it.
   late bool isMobileResolution;
 
-  /// Holds the current system theme
+  /// Holds the current system theme.
   late ThemeData systemTheme;
 
-  /// Editing controller which used in the search text field
+  /// Editing controller which used in the search text field.
   TextEditingController editingController = TextEditingController();
 
-  /// Key of the property panel widget
+  /// Key of the property panel widget.
   late GlobalKey<State> propertyPanelKey;
 
-  /// Holds the information of to be maximize or not
+  /// Holds the information of to be maximize or not.
   bool needToMaximize = false;
 
-  ///Storing state of current output container
+  /// Storing state of current output container.
   late dynamic outputContainerState;
 
-  ///Storing state of web output container
+  /// Storing state of web output container.
   late SampleOutputContainerState webOutputContainerState;
 
-  ///check whether application is running on web/linuxOS/windowsOS/macOS
+  /// Check whether application is running on web/linuxOS/windowsOS/macOS.
   bool isWebFullView = false;
 
-  ///Check whether application is running on a mobile device
+  /// Check whether application is running on a mobile device.
   bool isMobile = false;
 
-  ///Check whether application is running on the web browser
+  /// Check whether application is running on the web browser.
   bool isWeb = false;
 
-  ///Check whether application is running on the desktop
+  /// Check whether application is running on the desktop.
   bool isDesktop = false;
 
-  ///Check whether application is running on the Android mobile device
+  /// Check whether application is running on the Android mobile device.
   bool isAndroid = false;
 
-  ///Check whether application is running on the Windows desktop OS
+  /// Check whether application is running on the Windows desktop OS.
   bool isWindows = false;
 
-  ///Check whether application is running on the iOS mobile device
+  /// Check whether application is running on the iOS mobile device.
   bool isIOS = false;
 
-  ///Check whether application is running on the Linux desktop OS
+  /// Check whether application is running on the Linux desktop OS.
   bool isLinux = false;
 
-  ///Check whether application is running on the macOS desktop
+  /// Check whether application is running on the macOS desktop.
   bool isMacOS = false;
 
-  /// This controls to open / hide the property panel
+  /// This controls to open / hide the property panel.
   bool isPropertyPanelOpened = true;
 
   /// holds the current route of sample.
@@ -470,47 +493,105 @@ class SampleModel extends Listenable {
   /// holds the collection of all sample routes.
   static List<SampleRoute> sampleRoutes = <SampleRoute>[];
 
-  /// Holds the value whether the property panel option is tapped
+  /// Holds the value whether the property panel option is tapped.
   late bool isPropertyPanelTapped;
 
-  /// Switching between light, dark, system themes
-  void changeTheme(ThemeData currentThemeData) {
+  final Set<VoidCallback> _listeners = <VoidCallback>{};
+
+  /// Switching between light, dark, system themes.
+  void changeTheme(ThemeData currentThemeData, bool isMaterial3) {
     themeData = currentThemeData;
-    switch (currentThemeData.colorScheme.brightness) {
+    if (isMaterial3) {
+      _updateMaterial3Colors(currentThemeData);
+    } else {
+      _updateMaterial2Colors(currentThemeData);
+    }
+
+    hoverColor = currentThemeData.colorScheme.onSurface.withOpacity(0.08);
+    focusedColor = currentThemeData.colorScheme.onSurface.withOpacity(0.12);
+    splashColor = currentThemeData.colorScheme.onSurface.withOpacity(0.15);
+  }
+
+  void _updateMaterial2Colors(ThemeData currentThemeData) {
+    switch (currentThemeData.brightness) {
+      case Brightness.light:
+        backgroundColor = const Color.fromRGBO(246, 246, 246, 1);
+        homeCardColor = Colors.white;
+        sampleOutputCardColor = const Color.fromRGBO(246, 246, 246, 1);
+        leftNavigationBarBackgroundColor =
+            const Color.fromRGBO(246, 246, 246, 1);
+        dividerColor = const Color.fromRGBO(204, 204, 204, 1);
+        drawerIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
+        subSamplesTabBarColor = const Color.fromRGBO(242, 242, 242, 1);
+        drawerTextIconColor = Colors.black;
+        drawerBackgroundColor = const Color.fromRGBO(246, 246, 246, 1);
+        footerColor = const Color.fromRGBO(246, 246, 246, 1);
+
+        // baseNavigationBarTextColor = Colors.white;
+        // homeCardTitleTextColor = currentThemeData.colorScheme.primary;
+        textColor = const Color.fromRGBO(51, 51, 51, 1);
+        break;
+
       case Brightness.dark:
-        {
-          dividerColor = const Color.fromRGBO(61, 61, 61, 1);
-          cardColor = const Color.fromRGBO(48, 48, 48, 1);
-          webIconColor = const Color.fromRGBO(255, 255, 255, 0.65);
-          webOutputContainerColor = const Color.fromRGBO(23, 23, 23, 1);
-          webInputColor = const Color.fromRGBO(44, 44, 44, 1);
-          webBackgroundColor = const Color.fromRGBO(33, 33, 33, 1);
-          drawerTextIconColor = Colors.white;
-          bottomSheetBackgroundColor = const Color.fromRGBO(34, 39, 51, 1);
-          textColor = const Color.fromRGBO(242, 242, 242, 1);
-          cardThemeColor = const Color.fromRGBO(33, 33, 33, 1);
-          break;
-        }
-      // ignore: no_default_cases
-      default:
-        {
-          dividerColor = const Color.fromRGBO(204, 204, 204, 1);
-          cardColor = Colors.white;
-          webIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
-          webOutputContainerColor = Colors.white;
-          webInputColor = const Color.fromRGBO(242, 242, 242, 1);
-          webBackgroundColor = const Color.fromRGBO(246, 246, 246, 1);
-          drawerTextIconColor = Colors.black;
-          bottomSheetBackgroundColor = Colors.white;
-          textColor = const Color.fromRGBO(51, 51, 51, 1);
-          cardThemeColor = Colors.white;
-          break;
-        }
+        backgroundColor = const Color.fromRGBO(33, 33, 33, 1);
+        homeCardColor = const Color.fromRGBO(48, 48, 48, 1);
+        sampleOutputCardColor = const Color.fromRGBO(33, 33, 33, 1);
+        leftNavigationBarBackgroundColor = const Color.fromRGBO(33, 33, 33, 1);
+        dividerColor = const Color.fromRGBO(61, 61, 61, 1);
+        drawerIconColor = const Color.fromRGBO(255, 255, 255, 0.65);
+        subSamplesTabBarColor = const Color.fromRGBO(44, 44, 44, 1);
+        drawerTextIconColor = Colors.white;
+        drawerBackgroundColor = isMobile
+            ? const Color.fromRGBO(34, 39, 51, 1)
+            : leftNavigationBarBackgroundColor;
+        footerColor = const Color.fromRGBO(33, 33, 33, 1);
+
+        // baseNavigationBarTextColor = Colors.white;
+        // homeCardTitleTextColor = currentThemeData.colorScheme.primary;
+        textColor = const Color.fromRGBO(242, 242, 242, 1);
+        break;
     }
   }
 
-  //ignore: prefer_collection_literals
-  final Set<VoidCallback> _listeners = Set<VoidCallback>();
+  void _updateMaterial3Colors(ThemeData currentThemeData) {
+    switch (currentThemeData.brightness) {
+      case Brightness.light:
+        backgroundColor = const Color(0xFFFFFBFE);
+        homeCardColor = const Color(0xFFF7F2FB);
+        sampleOutputCardColor = const Color(0xFFFFFBFE);
+        leftNavigationBarBackgroundColor = const Color(0xFFF7F2FB);
+        dividerColor = currentThemeData.colorScheme.outlineVariant;
+        drawerIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
+        subSamplesTabBarColor = const Color(0xFFF7F2FB);
+        drawerTextIconColor = currentThemeData.colorScheme.onSurface;
+        drawerBackgroundColor = const Color(0xFFFFFBFE);
+        footerColor = const Color(0xFFEEE8F4);
+
+        // baseNavigationBarTextColor = currentThemeData.colorScheme.surface;
+        // homeCardTitleTextColor = currentThemeData.colorScheme.surface;
+        textColor = currentThemeData.colorScheme.onSurface;
+        break;
+
+      case Brightness.dark:
+        backgroundColor = const Color(0xFF1C1B1F);
+        homeCardColor = const Color(0xFF25232A);
+        sampleOutputCardColor = const Color(0xFF1C1B1F);
+        leftNavigationBarBackgroundColor = const Color(0xFF25232A);
+        dividerColor = currentThemeData.colorScheme.outlineVariant;
+        drawerIconColor = const Color.fromRGBO(255, 255, 255, 0.65);
+        subSamplesTabBarColor = const Color(0xFF25232A);
+        drawerTextIconColor = currentThemeData.colorScheme.onSurface;
+        drawerBackgroundColor = const Color(0xFF1C1B1F);
+        footerColor = const Color(0xFF302D38);
+
+        // baseNavigationBarTextColor =
+        //     currentThemeData.colorScheme.primaryContainer;
+        // homeCardTitleTextColor = currentThemeData.colorScheme.surface;
+        textColor = currentThemeData.colorScheme.onSurface;
+        break;
+    }
+  }
+
   @override
 
   /// [listener] will be invoked when the model changes.
@@ -526,15 +607,14 @@ class SampleModel extends Listenable {
   }
 
   /// Should be called only by [Model] when the model has changed.
-  @protected
   void notifyListeners() {
     _listeners.toList().forEach((VoidCallback listener) => listener());
   }
 }
 
-/// Get the control details category wise, by parsing [sample_details.json]
+/// Get the control details category wise, by parsing [sample_details.json].
 /// Then store the details in [SampleModel._categoryList]
-/// and [SampleModel._controlList]
+/// and [SampleModel._controlList].
 Future<void> updateControlItems() async {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     await DesktopWindow.setMinWindowSize(const Size(775, 230));
@@ -762,11 +842,11 @@ Future<void> updateControlItems() async {
   }
 
   if (isWeb) {
-    /// Sorting categories based on [webCategoryId]
+    /// Sorting categories based on [webCategoryId].
     SampleModel._categoryList.sort((WidgetCategory a, WidgetCategory b) =>
         a.webCategoryId!.compareTo(b.webCategoryId!));
   } else {
-    /// Sorting categories based on [mobileCategoryId]
+    /// Sorting categories based on [mobileCategoryId].
     SampleModel._categoryList.sort((WidgetCategory a, WidgetCategory b) =>
         a.mobileCategoryId!.compareTo(b.mobileCategoryId!));
   }
@@ -782,32 +862,33 @@ bool _needToShow(List<dynamic>? platforms) {
               (platforms.contains('macOS') && Platform.isMacOS))));
 }
 
-///Holds the [SubItem] and the appropriate route name
+/// Holds the [SubItem] and the appropriate route name.
 class SampleRoute {
-  ///Contains the URL routes of the appropriate subItem
-  SampleRoute(
-      {this.routeName,
-      this.subItem,
-      this.currentContext,
-      this.currentState,
-      this.currentWidget,
-      this.globalKey});
+  /// Contains the URL routes of the appropriate subItem.
+  SampleRoute({
+    this.routeName,
+    this.subItem,
+    this.currentContext,
+    this.currentState,
+    this.currentWidget,
+    this.globalKey,
+  });
 
-  ///Holds the sample details
+  /// Holds the sample details.
   final SubItem? subItem;
 
-  ///Holds the global key
+  /// Holds the global key
   final GlobalKey<State>? globalKey;
 
-  ///Holds the text which show in the URL
+  /// Holds the text which show in the URL.
   String? routeName;
 
-  ///Holds the current state
+  /// Holds the current state.
   State? currentState;
 
-  ///Holds the current context
+  /// Holds the current context.
   BuildContext? currentContext;
 
-  ///Holds the current widget
+  /// Holds the current widget.
   Widget? currentWidget;
 }

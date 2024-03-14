@@ -75,7 +75,7 @@ class _DataLabelDefaultState extends SampleViewState {
                 child: SizedBox(
                     width: 90,
                     child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _seriescolor,
                         onChanged: (bool? value) {
                           setState(() {
@@ -95,6 +95,7 @@ class _DataLabelDefaultState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -121,6 +122,7 @@ class _DataLabelDefaultState extends SampleViewState {
                 height: 50,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
