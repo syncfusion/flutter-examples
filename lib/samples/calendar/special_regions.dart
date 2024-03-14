@@ -163,11 +163,11 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         body: Row(children: <Widget>[
       Expanded(
           child: Container(
-        color: model.cardThemeColor,
+        color: model.sampleOutputCardColor,
         child: Theme(
             data: model.themeData.copyWith(
                 colorScheme: model.themeData.colorScheme
-                    .copyWith(secondary: model.backgroundColor)),
+                    .copyWith(secondary: model.primaryColor)),
             child: _getSpecialRegionCalendar(
                 regions: regions, dataSource: events)),
       ))

@@ -27,6 +27,7 @@ class _SplineAreaState extends SampleViewState {
 
   /// Returns the cartesian spline are chart.
   SfCartesianChart _buildSplineAreaChart() {
+    final ThemeData themeData = model.themeData;
     return SfCartesianChart(
       legend: const Legend(isVisible: true, opacity: 0.7),
       title: const ChartTitle(text: 'Inflation rate'),
@@ -39,7 +40,8 @@ class _SplineAreaState extends SampleViewState {
           labelFormat: '{value}%',
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: _getSplieAreaSeries(),
+      series: _getSplineAreaSeries(
+          themeData.useMaterial3, themeData.brightness == Brightness.light),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
@@ -64,20 +66,31 @@ class _SplineAreaState extends SampleViewState {
 
   /// Returns the list of chart series
   /// which need to render on the spline area chart.
-  List<CartesianSeries<_SplineAreaData, double>> _getSplieAreaSeries() {
+  List<CartesianSeries<_SplineAreaData, double>> _getSplineAreaSeries(
+      bool isMaterial3, bool isLightMode) {
+    final Color seriesColor1 = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(6, 174, 224, 1)
+            : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
+    final Color seriesColor2 = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(99, 85, 199, 1)
+            : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return <CartesianSeries<_SplineAreaData, double>>[
       SplineAreaSeries<_SplineAreaData, double>(
         dataSource: chartData,
-        color: const Color.fromRGBO(75, 135, 185, 0.6),
-        borderColor: const Color.fromRGBO(75, 135, 185, 1),
+        color: seriesColor1.withOpacity(0.6),
+        borderColor: seriesColor1,
         name: 'India',
         xValueMapper: (_SplineAreaData sales, _) => sales.year,
         yValueMapper: (_SplineAreaData sales, _) => sales.y1,
       ),
       SplineAreaSeries<_SplineAreaData, double>(
         dataSource: chartData,
-        borderColor: const Color.fromRGBO(192, 108, 132, 1),
-        color: const Color.fromRGBO(192, 108, 132, 0.6),
+        borderColor: seriesColor2,
+        color: seriesColor2.withOpacity(0.6),
         name: 'China',
         xValueMapper: (_SplineAreaData sales, _) => sales.year,
         yValueMapper: (_SplineAreaData sales, _) => sales.y2,

@@ -177,8 +177,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
   Widget _buildDataPager() {
     return SfDataPagerTheme(
         data: SfDataPagerThemeData(
-          brightness: model.themeData.colorScheme.brightness,
-          selectedItemColor: model.backgroundColor,
+          selectedItemColor: model.primaryColor,
         ),
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context)

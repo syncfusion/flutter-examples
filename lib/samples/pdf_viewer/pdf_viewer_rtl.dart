@@ -41,6 +41,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
   final GlobalKey<SearchToolbarState> _textSearchKey = GlobalKey();
   final GlobalKey<TextSearchOverlayState> _textSearchOverlayKey = GlobalKey();
   late bool _isLight;
+  late bool _useMaterial3;
   late bool _isDesktopWeb;
   final double _kSearchOverlayWidth = 412;
   final TextEditingController _textFieldController = TextEditingController();
@@ -68,6 +69,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
+    _useMaterial3 = Theme.of(context).useMaterial3;
     if (_needToMaximize != model.needToMaximize) {
       _closeOverlays();
       _needToMaximize = model.needToMaximize;
@@ -140,9 +142,17 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
           left: left, // x position of zoom percentage menu
           child: Container(
             decoration: BoxDecoration(
-              color:
-                  _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242),
+              color: _useMaterial3
+                  ? _isLight
+                      ? const Color.fromRGBO(238, 232, 244, 1)
+                      : const Color.fromRGBO(48, 45, 56, 1)
+                  : _isLight
+                      ? const Color(0xFFFFFFFF)
+                      : const Color(0xFF424242),
               boxShadow: boxShadows,
+              borderRadius: _useMaterial3
+                  ? const BorderRadius.all(Radius.circular(4.0))
+                  : null,
             ),
             constraints: constraints,
             child: dropDownItems,
@@ -178,7 +188,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
                 textSearchOverlayEntry: _textSearchOverlayEntry,
                 onClose: _handleSearchMenuClose,
                 brightness: model.themeData.colorScheme.brightness,
-                primaryColor: model.backgroundColor,
+                primaryColor: model.primaryColor,
                 textDirection: model.textDirection,
                 languageCode: model.locale!.languageCode,
               ),
@@ -219,8 +229,11 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
           chooseFileRenderBox,
           _chooseFileOverlayEntry,
           162,
-          BoxConstraints.tightFor(
-              width: 202, height: child.children.length * 35.0),
+          _useMaterial3
+              ? BoxConstraints.tightFor(
+                  width: 205, height: child.children.length * 40.0)
+              : BoxConstraints.tightFor(
+                  width: 202, height: child.children.length * 35.0),
           child);
     }
   }
@@ -236,8 +249,8 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
   /// Get choose file entry to change pdf for web platform.
   Widget _chooseFileEntry(String fileName, String path) {
     return SizedBox(
-      height: 32, // height of each file list
-      width: 202, // width of each file list
+      height: _useMaterial3 ? 40 : 32, // height of each file list
+      width: _useMaterial3 ? 205 : 202, // width of each file list
       child: RawMaterialButton(
         onPressed: () {
           _handleChooseFileClose();
@@ -245,19 +258,30 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
             _documentPath = path;
           });
         },
+        shape: _useMaterial3
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)))
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2))),
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 8.01),
             child: Text(
               fileName,
-              style: TextStyle(
-                  color: _isLight
-                      ? const Color(0x00000000).withOpacity(0.87)
-                      : const Color(0x00ffffff).withOpacity(0.87),
-                  fontSize: 14,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400),
+              style: _useMaterial3
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)
+                  : TextStyle(
+                      color: _isLight
+                          ? const Color(0x00000000).withOpacity(0.87)
+                          : const Color(0x00ffffff).withOpacity(0.87),
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400),
             ),
           ),
         ),
@@ -285,7 +309,9 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
           zoomPercentageRenderBox,
           _zoomPercentageOverlay,
           0,
-          const BoxConstraints.tightFor(width: 120, height: 160),
+          _useMaterial3
+              ? const BoxConstraints.tightFor(width: 85, height: 216)
+              : const BoxConstraints.tightFor(width: 120, height: 160),
           child);
     }
   }
@@ -301,8 +327,8 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
   /// Get zoom percentage list for web platform.
   Widget _zoomPercentageDropDownItem(String percentage, double zoomLevel) {
     return SizedBox(
-      height: 32, // height of each percentage list
-      width: 120, // width of each percentage list
+      height: _useMaterial3 ? 40 : 32, // height of each percentage list
+      width: _useMaterial3 ? 85 : 120, // width of each percentage list
       child: RawMaterialButton(
         onPressed: () {
           _handleZoomPercentageClose();
@@ -311,18 +337,31 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
                 _toolbarKey.currentState!._zoomLevel = zoomLevel;
           });
         },
+        shape: _useMaterial3
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)))
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2))),
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+            padding: _useMaterial3
+                ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0)
+                : const EdgeInsets.only(left: 16.0, top: 8.0),
             child: Text(
               percentage,
-              style: TextStyle(
-                  color: _toolbarKey.currentState?._textColor,
-                  fontSize: 14,
-                  fontFamily: 'Roboto',
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w400),
+              style: _useMaterial3
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)
+                  : TextStyle(
+                      color: _toolbarKey.currentState?._textColor,
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400),
             ),
           ),
         ),
@@ -346,13 +385,23 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
     }
 
     PreferredSizeWidget appBar = AppBar(
+      bottom: _useMaterial3
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(
+                color: Theme.of(context).colorScheme.outlineVariant,
+                height: 1,
+              ),
+            )
+          : null,
       flexibleSpace: Semantics(
         label: 'Custom toolbar',
-        child: RawKeyboardListener(
+        child: KeyboardListener(
           focusNode: _focusNode,
-          onKey: (RawKeyEvent event) {
-            final bool isPrimaryKeyPressed =
-                kIsMacOS ? event.isMetaPressed : event.isControlPressed;
+          onKeyEvent: (KeyEvent event) {
+            final bool isPrimaryKeyPressed = kIsMacOS
+                ? HardwareKeyboard.instance.isMetaPressed
+                : HardwareKeyboard.instance.isControlPressed;
             if (isPrimaryKeyPressed &&
                 event.logicalKey == LogicalKeyboardKey.keyF) {
               _showTextSearchMenu();
@@ -441,11 +490,13 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
         ),
       ),
       automaticallyImplyLeading: false,
-      backgroundColor:
-          SfPdfViewerTheme.of(context)!.bookmarkViewStyle?.headerBarColor ??
-              ((Theme.of(context).colorScheme.brightness == Brightness.light)
-                  ? const Color(0xFFFAFAFA)
-                  : const Color(0xFF424242)),
+      backgroundColor: _useMaterial3
+          ? Theme.of(context).colorScheme.brightness == Brightness.light
+              ? const Color.fromRGBO(247, 242, 251, 1)
+              : const Color.fromRGBO(37, 35, 42, 1)
+          : Theme.of(context).colorScheme.brightness == Brightness.light
+              ? const Color(0xFFFAFAFA)
+              : const Color(0xFF424242),
     );
     if (!_isDesktopWeb) {
       appBar = _canShowToolbar
@@ -458,7 +509,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
                       key: _textSearchKey,
                       controller: _pdfViewerController,
                       brightness: model.themeData.colorScheme.brightness,
-                      primaryColor: model.backgroundColor,
+                      primaryColor: model.primaryColor,
                       textDirection: model.textDirection,
                       languageCode: model.locale!.languageCode,
                       onTap: (Object toolbarItem) async {
@@ -499,13 +550,15 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
                     ),
                   ),
                   automaticallyImplyLeading: false,
-                  backgroundColor: SfPdfViewerTheme.of(context)!
-                          .bookmarkViewStyle
-                          ?.headerBarColor ??
-                      ((Theme.of(context).colorScheme.brightness ==
-                              Brightness.light)
+                  backgroundColor: _useMaterial3
+                      ? Theme.of(context).colorScheme.brightness ==
+                              Brightness.light
+                          ? const Color.fromRGBO(247, 242, 251, 1)
+                          : const Color.fromRGBO(37, 35, 42, 1)
+                      : Theme.of(context).colorScheme.brightness ==
+                              Brightness.light
                           ? const Color(0xFFFAFAFA)
-                          : const Color(0xFF424242)),
+                          : const Color(0xFF424242),
                 )
               : PreferredSize(
                   preferredSize: Size.zero,
@@ -541,11 +594,12 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
           );
           if (_canShowPdf) {
             if (_isDesktopWeb) {
-              return RawKeyboardListener(
+              return KeyboardListener(
                 focusNode: _focusNode,
-                onKey: (RawKeyEvent event) {
-                  final bool isPrimaryKeyPressed =
-                      kIsMacOS ? event.isMetaPressed : event.isControlPressed;
+                onKeyEvent: (KeyEvent event) {
+                  final bool isPrimaryKeyPressed = kIsMacOS
+                      ? HardwareKeyboard.instance.isMetaPressed
+                      : HardwareKeyboard.instance.isControlPressed;
                   if (isPrimaryKeyPressed &&
                       event.logicalKey == LogicalKeyboardKey.keyF) {
                     _showTextSearchMenu();
@@ -555,8 +609,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
               );
             }
             return SfPdfViewerTheme(
-              data: SfPdfViewerThemeData(
-                  brightness: model.themeData.colorScheme.brightness),
+              data: const SfPdfViewerThemeData(),
               child: PopScope(
                 onPopInvoked: (bool value) {
                   setState(() {
@@ -567,6 +620,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
                   children: <Widget>[
                     pdfViewer,
                     showToast(
+                        context,
                         _textSearchKey.currentState?.canShowToast ?? false,
                         Alignment.center,
                         model.locale!.languageCode == 'ar'
@@ -617,7 +671,6 @@ class Toolbar extends StatefulWidget {
 
 /// State for the Toolbar widget
 class ToolbarState extends State<Toolbar> {
-  SfPdfViewerThemeData? _pdfViewerThemeData;
   Color? _color;
   Color? _disabledColor;
   Color? _textColor;
@@ -631,6 +684,7 @@ class ToolbarState extends State<Toolbar> {
   final GlobalKey _zoomPercentageKey = GlobalKey();
   final FocusNode _focusNode = FocusNode();
   bool _isWeb = false;
+  late bool _useMaterial3;
 
   /// An object that is used to control the Text Field.
   TextEditingController? _textEditingController;
@@ -674,16 +728,30 @@ class ToolbarState extends State<Toolbar> {
 
   @override
   void didChangeDependencies() {
-    _pdfViewerThemeData = SfPdfViewerTheme.of(context);
-    _isLight = _pdfViewerThemeData!.brightness == Brightness.light;
-    _color = _isLight
-        ? Colors.black.withOpacity(0.54)
-        : Colors.white.withOpacity(0.65);
-    _disabledColor = _isLight ? Colors.black12 : Colors.white12;
+    _isLight = Theme.of(context).brightness == Brightness.light;
+    _useMaterial3 = Theme.of(context).useMaterial3;
+    _color = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+            ? const Color.fromRGBO(73, 69, 79, 1)
+            : const Color.fromRGBO(202, 196, 208, 1)
+        : Theme.of(context).brightness == Brightness.light
+            ? Colors.black.withOpacity(0.54)
+            : Colors.white.withOpacity(0.65);
+    _disabledColor = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+            ? const Color.fromRGBO(28, 27, 31, 1).withOpacity(0.38)
+            : const Color.fromRGBO(230, 225, 229, 1).withOpacity(0.38)
+        : Theme.of(context).brightness == Brightness.light
+            ? Colors.black12
+            : Colors.white12;
     _textColor = _isLight
         ? const Color(0x00000000).withOpacity(0.87)
         : const Color(0x00ffffff).withOpacity(0.87);
-    _fillColor = _isLight ? const Color(0xFFD2D2D2) : const Color(0xFF525252);
+    _fillColor = _useMaterial3
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+        : _isLight
+            ? const Color(0xFFD2D2D2)
+            : const Color(0xFF525252);
     _isWeb =
         isDesktop && widget.model != null && !widget.model!.isMobileResolution;
     super.didChangeDependencies();
@@ -703,8 +771,9 @@ class ToolbarState extends State<Toolbar> {
             child: SizedBox(
                 key: key,
                 height: 36,
-                width:
-                    toolTip == 'Choose file' || toolTip == 'اختر ملف' ? 50 : 36,
+                width: toolTip == 'Choose file' || toolTip == 'اختر ملف'
+                    ? (_useMaterial3 ? 56 : 50)
+                    : 40,
                 child: child)));
   }
 
@@ -752,6 +821,13 @@ class ToolbarState extends State<Toolbar> {
                         onPressed: () {
                           widget.onTap?.call('Choose file');
                         },
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         child: Row(
                           children: <Widget>[
                             Padding(
@@ -762,7 +838,7 @@ class ToolbarState extends State<Toolbar> {
                               child: Icon(
                                 Icons.folder_open,
                                 color: _color,
-                                size: 20,
+                                size: _useMaterial3 ? 24 : 20,
                               ),
                             ),
                             Padding(
@@ -786,21 +862,23 @@ class ToolbarState extends State<Toolbar> {
                 children: <Widget>[
                   // Text field for page number
                   Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
+                    padding: _useMaterial3
+                        ? const EdgeInsets.only(top: 4, left: 5)
+                        : const EdgeInsets.only(top: 4.0),
                     child: SizedBox(
-                      height: 20, // height of text field
-                      width: 48, // width of text field
+                      height: _useMaterial3 ? 40 : 20, // height of text field
+                      width: _useMaterial3 ? 54 : 48, // / width of text field
                       child: paginationTextField(context),
                     ),
                   ),
                   Text(
-                    'of',
+                    _useMaterial3 ? '/' : 'of',
                     style: TextStyle(
                         color: _textColor,
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
                         fontFamily: 'Roboto',
-                        fontSize: 14),
+                        fontSize: _useMaterial3 ? 16 : 14),
                   ),
                   // Total page count
                   Padding(
@@ -814,7 +892,7 @@ class ToolbarState extends State<Toolbar> {
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontFamily: 'Roboto',
-                          fontSize: 14),
+                          fontSize: _useMaterial3 ? 16 : 14),
                     ),
                   ),
                   // Previous page button
@@ -825,9 +903,13 @@ class ToolbarState extends State<Toolbar> {
                             ? 'الصفحة السابقة'
                             : 'Previous page',
                         RawMaterialButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(2.0),
-                          ),
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)))
+                              : const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(2))),
                           onPressed: canJumpToPreviousPage
                               ? () {
                                   widget.onTap?.call('Previous Page');
@@ -835,10 +917,12 @@ class ToolbarState extends State<Toolbar> {
                                 }
                               : null,
                           child: Icon(
-                            Icons.keyboard_arrow_left,
+                            _useMaterial3
+                                ? Icons.keyboard_arrow_up
+                                : Icons.keyboard_arrow_left,
                             color:
                                 canJumpToPreviousPage ? _color : _disabledColor,
-                            size: 20,
+                            size: _useMaterial3 ? 24 : 20,
                           ),
                         )),
                   ),
@@ -858,9 +942,11 @@ class ToolbarState extends State<Toolbar> {
                               }
                             : null,
                         child: Icon(
-                          Icons.keyboard_arrow_right,
+                          _useMaterial3
+                              ? Icons.keyboard_arrow_down
+                              : Icons.keyboard_arrow_right,
                           color: canJumpToNextPage ? _color : _disabledColor,
-                          size: 21,
+                          size: _useMaterial3 ? 24 : 21,
                         ),
                       )),
                   // Group divider
@@ -875,6 +961,13 @@ class ToolbarState extends State<Toolbar> {
                       child: RawMaterialButton(
                         elevation: 0.0,
                         hoverElevation: 0.0,
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: widget.controller!.pageNumber != 0
                             ? () {
                                 widget.onTap?.call('Zoom Percentage');
@@ -883,7 +976,7 @@ class ToolbarState extends State<Toolbar> {
                         child: Row(
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(left: 7.0),
+                              padding: const EdgeInsets.only(right: 7.0),
                               child: Text(
                                 widget.controller!.pageNumber == 0
                                     ? '0%'
@@ -918,9 +1011,13 @@ class ToolbarState extends State<Toolbar> {
                           ? 'تصغير'
                           : 'Zoom out',
                       RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: widget.controller!.pageCount != 0 &&
                                 _zoomLevel > 1
                             ? () {
@@ -942,12 +1039,14 @@ class ToolbarState extends State<Toolbar> {
                               }
                             : null,
                         child: Icon(
-                          Icons.remove_circle_outline,
+                          _useMaterial3
+                              ? Icons.zoom_out
+                              : Icons.remove_circle_outline,
                           color: widget.controller!.pageCount != 0 &&
                                   _zoomLevel > 1
                               ? _color
                               : _disabledColor,
-                          size: 20,
+                          size: _useMaterial3 ? 24 : 20,
                         ),
                       )),
                   // Zoom in button
@@ -956,9 +1055,13 @@ class ToolbarState extends State<Toolbar> {
                           ? 'تكبير'
                           : 'Zoom in',
                       RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: widget.controller!.pageCount != 0 &&
                                 _zoomLevel < 3
                             ? () {
@@ -980,12 +1083,14 @@ class ToolbarState extends State<Toolbar> {
                               }
                             : null,
                         child: Icon(
-                          Icons.add_circle_outline,
+                          _useMaterial3
+                              ? Icons.zoom_in
+                              : Icons.add_circle_outline,
                           color: widget.controller!.pageCount != 0 &&
                                   _zoomLevel < 3
                               ? _color
                               : _disabledColor,
-                          size: 20,
+                          size: _useMaterial3 ? 24 : 20,
                         ),
                       )),
                   // Group divider
@@ -999,16 +1104,25 @@ class ToolbarState extends State<Toolbar> {
                         fillColor: _panFillColor,
                         elevation: 0.0,
                         hoverElevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: widget.controller!.pageNumber != 0
                             ? () {
                                 setState(() {
                                   if (_panFillColor ==
                                           const Color(0xFFD2D2D2) ||
                                       _panFillColor ==
-                                          const Color(0xFF525252)) {
+                                          const Color(0xFF525252) ||
+                                      _panFillColor ==
+                                          Theme.of(context)
+                                              .colorScheme
+                                              .onSurface
+                                              .withOpacity(0.08)) {
                                     _panFillColor = null;
                                   } else {
                                     _panFillColor = _fillColor;
@@ -1022,7 +1136,7 @@ class ToolbarState extends State<Toolbar> {
                           color: widget.controller!.pageCount != 0
                               ? _color
                               : _disabledColor,
-                          size: 20,
+                          size: _useMaterial3 ? 24 : 20,
                         ),
                       )),
                 ],
@@ -1034,9 +1148,13 @@ class ToolbarState extends State<Toolbar> {
                           ? 'المرجعية'
                           : 'Bookmark',
                       RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: widget.controller!.pageNumber != 0
                             ? () {
                                 widget.onTap?.call('Bookmarks');
@@ -1047,7 +1165,7 @@ class ToolbarState extends State<Toolbar> {
                           color: widget.controller!.pageCount != 0
                               ? _color
                               : _disabledColor,
-                          size: 20,
+                          size: _useMaterial3 ? 24 : 20,
                         ),
                       )),
                   // Group divider
@@ -1060,9 +1178,13 @@ class ToolbarState extends State<Toolbar> {
                       RawMaterialButton(
                         elevation: 0.0,
                         hoverElevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)))
+                            : const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
                         onPressed: widget.controller!.pageNumber != 0
                             ? () {
                                 widget.controller!.clearSelection();
@@ -1074,7 +1196,7 @@ class ToolbarState extends State<Toolbar> {
                           color: widget.controller!.pageCount != 0
                               ? _color
                               : _disabledColor,
-                          size: 20,
+                          size: _useMaterial3 ? 24 : 20,
                         ),
                       ),
                       key: _searchKey),
@@ -1094,7 +1216,7 @@ class ToolbarState extends State<Toolbar> {
               fontWeight: FontWeight.w400,
               fontStyle: FontStyle.normal,
               fontFamily: 'Roboto',
-              fontSize: 14)
+              fontSize: _useMaterial3 ? 16 : 14)
           : TextStyle(color: _color),
       enableInteractiveSelection: false,
       keyboardType: TextInputType.number,
@@ -1108,12 +1230,36 @@ class ToolbarState extends State<Toolbar> {
             ? const EdgeInsets.only(bottom: 22)
             : isDesktop
                 ? (const EdgeInsets.only(bottom: 20))
-                : null,
-        border: const UnderlineInputBorder(),
-        focusedBorder: UnderlineInputBorder(
-          borderSide:
-              BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
-        ),
+                : _useMaterial3
+                    ? EdgeInsets.zero
+                    : null,
+        border: _useMaterial3
+            ? OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .outline
+                        .withOpacity(0.38)))
+            : const UnderlineInputBorder(),
+        enabledBorder: _useMaterial3
+            ? OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .outline
+                        .withOpacity(0.38)))
+            : null,
+        focusedBorder: _useMaterial3
+            ? OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .outline
+                        .withOpacity(0.38)))
+            : UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor, width: 2.0),
+              ),
       ),
       // ignore: avoid_bool_literals_in_conditional_expressions
       enabled: widget.controller!.pageCount == 0 ? false : true,
@@ -1178,40 +1324,49 @@ class ToolbarState extends State<Toolbar> {
                   width: 40, // width of file explorer button
                   child: Material(
                       color: Colors.transparent,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.folder_open,
-                          color: _color,
-                          size: 24,
-                        ),
-                        onPressed: () async {
-                          widget.onTap?.call('File Explorer');
-                          widget.controller!.clearSelection();
-                          await Future<dynamic>.delayed(
-                              const Duration(milliseconds: 50));
-                          if (!mounted) {
-                            return;
-                          }
-                          await Navigator.of(context).push<dynamic>(
-                              MaterialPageRoute<dynamic>(
-                                  builder: (BuildContext context) =>
-                                      FileExplorer(
-                                        brightness:
-                                            _pdfViewerThemeData!.brightness,
-                                        isRtlTab: true,
-                                        onDocumentTap: (Document document) {
-                                          widget.onTap?.call(document);
-                                          Navigator.of(context,
-                                                  rootNavigator: true)
-                                              .pop(context);
-                                        },
-                                      )));
-                        },
-                        tooltip: widget.showTooltip
+                      child: Tooltip(
+                        message: widget.showTooltip
                             ? widget.model?.locale!.languageCode == 'ar'
                                 ? 'اختر ملف'
                                 : 'Choose file'
                             : null,
+                        child: RawMaterialButton(
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)))
+                              : const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(2))),
+                          onPressed: () async {
+                            widget.onTap?.call('File Explorer');
+                            widget.controller!.clearSelection();
+                            await Future<dynamic>.delayed(
+                                const Duration(milliseconds: 50));
+                            if (!mounted || !context.mounted) {
+                              return;
+                            }
+                            await Navigator.of(context).push<dynamic>(
+                                MaterialPageRoute<dynamic>(
+                                    builder: (BuildContext context) =>
+                                        FileExplorer(
+                                          brightness:
+                                              Theme.of(context).brightness,
+                                          isRtlTab: true,
+                                          onDocumentTap: (Document document) {
+                                            widget.onTap?.call(document);
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop(context);
+                                          },
+                                        )));
+                          },
+                          child: Icon(
+                            Icons.folder_open,
+                            color: _color,
+                            size: 24,
+                          ),
+                        ),
                       )),
                 ),
                 ToolbarItem(
@@ -1243,24 +1398,34 @@ class ToolbarState extends State<Toolbar> {
                     width: 40, // width of previous page button
                     child: Material(
                         color: Colors.transparent,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.keyboard_arrow_up,
-                            color:
-                                canJumpToPreviousPage ? _color : _disabledColor,
-                            size: 24,
-                          ),
-                          onPressed: canJumpToPreviousPage
-                              ? () {
-                                  widget.onTap?.call('Previous page');
-                                  widget.controller?.previousPage();
-                                }
-                              : null,
-                          tooltip: widget.showTooltip
+                        child: Tooltip(
+                          message: widget.showTooltip
                               ? widget.model?.locale!.languageCode == 'ar'
                                   ? 'الصفحة السابقة'
                                   : 'Previous page'
                               : null,
+                          child: RawMaterialButton(
+                            shape: _useMaterial3
+                                ? const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4)))
+                                : const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(2))),
+                            onPressed: canJumpToPreviousPage
+                                ? () {
+                                    widget.onTap?.call('Previous page');
+                                    widget.controller?.previousPage();
+                                  }
+                                : null,
+                            child: Icon(
+                              Icons.keyboard_arrow_up,
+                              color: canJumpToPreviousPage
+                                  ? _color
+                                  : _disabledColor,
+                              size: 24,
+                            ),
+                          ),
                         )),
                   ),
                 ),
@@ -1272,23 +1437,33 @@ class ToolbarState extends State<Toolbar> {
                     width: 40, // width of next page button
                     child: Material(
                         color: Colors.transparent,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: canJumpToNextPage ? _color : _disabledColor,
-                            size: 24,
-                          ),
-                          onPressed: canJumpToNextPage
-                              ? () {
-                                  widget.onTap?.call('Next page');
-                                  widget.controller?.nextPage();
-                                }
-                              : null,
-                          tooltip: widget.showTooltip
+                        child: Tooltip(
+                          message: widget.showTooltip
                               ? widget.model?.locale!.languageCode == 'ar'
                                   ? 'الصفحة التالية'
                                   : 'Next page'
                               : null,
+                          child: RawMaterialButton(
+                            shape: _useMaterial3
+                                ? const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4)))
+                                : const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(2))),
+                            onPressed: canJumpToNextPage
+                                ? () {
+                                    widget.onTap?.call('Next page');
+                                    widget.controller?.nextPage();
+                                  }
+                                : null,
+                            child: Icon(
+                              Icons.keyboard_arrow_down,
+                              color:
+                                  canJumpToNextPage ? _color : _disabledColor,
+                              size: 24,
+                            ),
+                          ),
                         )),
                   ),
                 ),
@@ -1298,27 +1473,36 @@ class ToolbarState extends State<Toolbar> {
                     width: 40, // width of bookmark button
                     child: Material(
                       color: Colors.transparent,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.bookmark,
-                          color: widget.controller!.pageNumber == 0
-                              ? Colors.black12
-                              : _color,
-                          size: 24,
-                        ),
-                        onPressed: widget.controller!.pageNumber == 0
-                            ? null
-                            : () {
-                                _textEditingController!.selection =
-                                    const TextSelection(
-                                        baseOffset: -1, extentOffset: -1);
-                                widget.onTap?.call('Bookmarks');
-                              },
-                        tooltip: widget.showTooltip
+                      child: Tooltip(
+                        message: widget.showTooltip
                             ? widget.model?.locale!.languageCode == 'ar'
                                 ? 'المرجعية'
                                 : 'Bookmarks'
                             : null,
+                        child: RawMaterialButton(
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)))
+                              : const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(2))),
+                          onPressed: widget.controller!.pageNumber == 0
+                              ? null
+                              : () {
+                                  _textEditingController!.selection =
+                                      const TextSelection(
+                                          baseOffset: -1, extentOffset: -1);
+                                  widget.onTap?.call('Bookmarks');
+                                },
+                          child: Icon(
+                            Icons.bookmark,
+                            color: widget.controller!.pageNumber == 0
+                                ? Colors.black12
+                                : _color,
+                            size: 24,
+                          ),
+                        ),
                       ),
                     )),
                 // Search button
@@ -1327,25 +1511,34 @@ class ToolbarState extends State<Toolbar> {
                     width: 40, // width of search button
                     child: Material(
                       color: Colors.transparent,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.search,
-                          color: widget.controller!.pageNumber == 0
-                              ? Colors.black12
-                              : _color,
-                          size: 24,
-                        ),
-                        onPressed: widget.controller!.pageNumber == 0
-                            ? null
-                            : () {
-                                widget.controller!.clearSelection();
-                                widget.onTap?.call('Search');
-                              },
-                        tooltip: widget.showTooltip
+                      child: Tooltip(
+                        message: widget.showTooltip
                             ? widget.model?.locale!.languageCode == 'ar'
                                 ? 'بحث'
                                 : 'Search'
                             : null,
+                        child: RawMaterialButton(
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)))
+                              : const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(2))),
+                          onPressed: widget.controller!.pageNumber == 0
+                              ? null
+                              : () {
+                                  widget.controller!.clearSelection();
+                                  widget.onTap?.call('Search');
+                                },
+                          child: Icon(
+                            Icons.search,
+                            color: widget.controller!.pageNumber == 0
+                                ? Colors.black12
+                                : _color,
+                            size: 24,
+                          ),
+                        ),
                       ),
                     )),
               ],
@@ -1371,6 +1564,7 @@ void _showErrorDialog(BuildContext context, SampleModel? model) {
     description = 'Please enter a valid page number.';
     okLabel = 'OK';
   }
+  final bool useMaterial3 = Theme.of(context).useMaterial3;
   showDialog<dynamic>(
     context: context,
     builder: (BuildContext context) {
@@ -1389,6 +1583,9 @@ void _showErrorDialog(BuildContext context, SampleModel? model) {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
+                  shape: useMaterial3
+                      ? const CircleBorder()
+                      : const RoundedRectangleBorder(),
                   child: const Icon(
                     Icons.clear,
                     size: 20,
@@ -1403,10 +1600,18 @@ void _showErrorDialog(BuildContext context, SampleModel? model) {
               onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop();
               },
+              style: useMaterial3
+                  ? TextButton.styleFrom(
+                      fixedSize: const Size(double.infinity, 40),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                    )
+                  : null,
               child: Text(okLabel),
             )
           ],
-          actionsPadding: const EdgeInsets.only(bottom: 10),
+          actionsPadding:
+              useMaterial3 ? null : const EdgeInsets.only(bottom: 10),
         ),
       );
     },

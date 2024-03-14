@@ -30,6 +30,7 @@ class _StepAreaState extends SampleViewState {
 
   /// Returns the cartesian step area chart.
   SfCartesianChart _buildStepAreaChart() {
+    final ThemeData themeData = model.themeData;
     return SfCartesianChart(
       legend: const Legend(isVisible: true),
       title: const ChartTitle(text: 'Temperature variation of Paris'),
@@ -43,7 +44,8 @@ class _StepAreaState extends SampleViewState {
           maximum: 16,
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: _getStepAreaSeries(),
+      series: _getStepAreaSeries(
+          themeData.useMaterial3, themeData.brightness == Brightness.light),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
   }
@@ -77,20 +79,31 @@ class _StepAreaState extends SampleViewState {
 
   /// Returns the list of chart series
   /// which need to render on teh step area chart.
-  List<CartesianSeries<_StepAreaData, DateTime>> _getStepAreaSeries() {
+  List<CartesianSeries<_StepAreaData, DateTime>> _getStepAreaSeries(
+      bool isMaterial3, bool isLightMode) {
+    final Color seriesColor1 = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(6, 174, 224, 1)
+            : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
+    final Color seriesColor2 = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(99, 85, 199, 1)
+            : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return <CartesianSeries<_StepAreaData, DateTime>>[
       StepAreaSeries<_StepAreaData, DateTime>(
         dataSource: chartData,
-        color: const Color.fromRGBO(75, 135, 185, 0.6),
-        borderColor: const Color.fromRGBO(75, 135, 185, 1),
+        color: seriesColor1.withOpacity(0.6),
+        borderColor: seriesColor1,
         name: 'High',
         xValueMapper: (_StepAreaData sales, _) => sales.x,
         yValueMapper: (_StepAreaData sales, _) => sales.high,
       ),
       StepAreaSeries<_StepAreaData, DateTime>(
         dataSource: chartData,
-        borderColor: const Color.fromRGBO(192, 108, 132, 1),
-        color: const Color.fromRGBO(192, 108, 132, 0.6),
+        borderColor: seriesColor2,
+        color: seriesColor2.withOpacity(0.6),
         name: 'Low',
         xValueMapper: (_StepAreaData sales, _) => sales.x,
         yValueMapper: (_StepAreaData sales, _) => sales.low,

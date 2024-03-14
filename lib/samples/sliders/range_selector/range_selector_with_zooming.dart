@@ -663,8 +663,9 @@ class _RangeSelectorZoomingPageState extends SampleViewState
     final Widget page = Container(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,
-        color:
-            model.isWebFullView ? model.cardThemeColor : model.cardThemeColor,
+        color: model.isWebFullView
+            ? model.sampleOutputCardColor
+            : model.sampleOutputCardColor,
         child: Center(
           child: Column(
             children: <Widget>[
@@ -689,9 +690,8 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                               ? Colors.black
                               : const Color.fromRGBO(170, 170, 170, 1)),
                       activeTrackColor: const Color.fromRGBO(255, 125, 30, 1),
-                      inactiveRegionColor: isLightTheme
-                          ? Colors.white.withOpacity(0.75)
-                          : const Color.fromRGBO(33, 33, 33, 0.75),
+                      inactiveRegionColor:
+                          model.sampleOutputCardColor.withOpacity(0.75),
                       thumbColor: Colors.white,
                       thumbStrokeColor: const Color.fromRGBO(255, 125, 30, 1),
                       thumbStrokeWidth: 2.0,
@@ -765,7 +765,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
             'Enable deferred update',
             softWrap: false,
           ),
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           contentPadding: EdgeInsets.zero,
           onChanged: (bool? value) {
             setState(

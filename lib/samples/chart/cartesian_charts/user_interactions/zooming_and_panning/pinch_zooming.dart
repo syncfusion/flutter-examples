@@ -66,6 +66,7 @@ class _DefaultPanningState extends SampleViewState {
                 padding: const EdgeInsets.fromLTRB(70, 0, 40, 0),
                 height: 50,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -95,7 +96,7 @@ class _DefaultPanningState extends SampleViewState {
                 SizedBox(
                     width: 90,
                     child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _enableAnchor,
                         onChanged: (bool? value) {
                           stateSetter(() {

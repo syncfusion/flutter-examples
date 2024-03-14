@@ -134,7 +134,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
           RadialAxis(
               radiusFactor: 0.85,
               axisLineStyle: AxisLineStyle(
-                  color: model.currentThemeData!.brightness == Brightness.light
+                  color: model.themeData.brightness == Brightness.light
                       ? const Color.fromRGBO(191, 214, 252, 1)
                       : const Color.fromRGBO(36, 58, 97, 1),
                   thickness: 0.1,
@@ -157,10 +157,9 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     value: _firstMarkerValue,
                     elevation: 5,
                     enableDragging: true,
-                    color:
-                        model.currentThemeData!.brightness == Brightness.light
-                            ? Colors.white
-                            : Colors.black,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                     borderWidth: _borderWidth,
                     markerHeight: _firstMarkerSize,
                     markerWidth: _firstMarkerSize,
@@ -173,10 +172,9 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     value: _secondMarkerValue,
                     enableDragging: true,
                     elevation: 5,
-                    color:
-                        model.currentThemeData!.brightness == Brightness.light
-                            ? Colors.white
-                            : Colors.black,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                     borderWidth: _borderWidth,
                     markerHeight: _firstMarkerSize,
                     markerWidth: _firstMarkerSize,
@@ -212,7 +210,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
           RadialAxis(
               radiusFactor: 0.85,
               axisLineStyle: AxisLineStyle(
-                  color: model.currentThemeData!.brightness == Brightness.light
+                  color: model.themeData.brightness == Brightness.light
                       ? const Color.fromRGBO(218, 218, 218, 1)
                       : const Color.fromRGBO(88, 88, 88, 1),
                   thickness: 0.15,
@@ -295,10 +293,9 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     endValue: 100,
                     startValue: 0,
                     sizeUnit: GaugeSizeUnit.factor,
-                    color:
-                        model.currentThemeData!.brightness == Brightness.light
-                            ? Colors.white
-                            : const Color.fromRGBO(41, 37, 32, 1),
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.white
+                        : const Color.fromRGBO(41, 37, 32, 1),
                     endWidth: 0.13,
                     rangeOffset: 0.03,
                     startWidth: 0.13),
@@ -316,7 +313,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                   value: _sixthMarkerValue,
                   elevation: 5,
                   enableDragging: true,
-                  color: model.currentThemeData!.brightness == Brightness.light
+                  color: model.themeData.brightness == Brightness.light
                       ? const Color.fromRGBO(255, 255, 255, 1)
                       : const Color.fromRGBO(33, 33, 33, 1),
                   borderWidth: _borderWidth,
@@ -332,7 +329,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                   value: _fifthMarkerValue,
                   enableDragging: true,
                   elevation: 5,
-                  color: model.currentThemeData!.brightness == Brightness.light
+                  color: model.themeData.brightness == Brightness.light
                       ? const Color.fromRGBO(255, 255, 255, 1)
                       : const Color.fromRGBO(33, 33, 33, 1),
                   borderWidth: _borderWidth,
@@ -372,7 +369,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
           RadialAxis(
               radiusFactor: 0.85,
               axisLineStyle: AxisLineStyle(
-                  color: model.currentThemeData!.brightness == Brightness.light
+                  color: model.themeData.brightness == Brightness.light
                       ? const Color.fromRGBO(201, 201, 201, 1)
                       : const Color.fromRGBO(78, 78, 78, 1),
                   thickness: 0.24,
@@ -386,10 +383,9 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                     endValue: 100,
                     startValue: 0,
                     sizeUnit: GaugeSizeUnit.factor,
-                    color:
-                        model.currentThemeData!.brightness == Brightness.light
-                            ? Colors.white
-                            : Colors.black,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                     endWidth: 0.18,
                     rangeOffset: 0.03,
                     startWidth: 0.18),
@@ -406,10 +402,9 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                 MarkerPointer(
                     value: _seventhMarkerValue,
                     enableDragging: true,
-                    color:
-                        model.currentThemeData!.brightness == Brightness.light
-                            ? Colors.white
-                            : Colors.black,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                     borderWidth: 4,
                     markerHeight: 20,
                     markerWidth: 20,
@@ -434,10 +429,9 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                 MarkerPointer(
                     value: _eighthMarkerValue,
                     enableDragging: true,
-                    color:
-                        model.currentThemeData!.brightness == Brightness.light
-                            ? Colors.white
-                            : Colors.black,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                     borderWidth: 4,
                     markerHeight: 20,
                     markerWidth: 20,
@@ -587,10 +581,9 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                 NeedlePointer(
                     value: _twelethMarkerValue,
                     enableDragging: true,
-                    needleColor:
-                        model.currentThemeData!.brightness == Brightness.light
-                            ? const Color.fromRGBO(65, 65, 65, 1)
-                            : const Color.fromRGBO(191, 191, 191, 1),
+                    needleColor: model.themeData.brightness == Brightness.light
+                        ? const Color.fromRGBO(65, 65, 65, 1)
+                        : const Color.fromRGBO(191, 191, 191, 1),
                     needleEndWidth: 2,
                     needleStartWidth: 2,
                     onValueChanged: handleTwelethPointerValueChanged,
@@ -609,21 +602,19 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                               : 0.3,
                       borderWidth: 0.05,
                       borderColor:
-                          model.currentThemeData!.brightness == Brightness.light
+                          model.themeData.brightness == Brightness.light
                               ? const Color.fromRGBO(65, 65, 65, 1)
                               : const Color.fromRGBO(191, 191, 191, 1),
-                      color:
-                          model.currentThemeData!.brightness == Brightness.light
-                              ? Colors.white
-                              : const Color.fromRGBO(33, 33, 33, 1),
+                      color: model.themeData.brightness == Brightness.light
+                          ? Colors.white
+                          : const Color.fromRGBO(33, 33, 33, 1),
                     )),
                 NeedlePointer(
                     value: _eleventhMarkerValue,
                     enableDragging: true,
-                    needleColor:
-                        model.currentThemeData!.brightness == Brightness.light
-                            ? const Color.fromRGBO(65, 65, 65, 1)
-                            : const Color.fromRGBO(191, 191, 191, 1),
+                    needleColor: model.themeData.brightness == Brightness.light
+                        ? const Color.fromRGBO(65, 65, 65, 1)
+                        : const Color.fromRGBO(191, 191, 191, 1),
                     needleEndWidth: 2,
                     needleStartWidth: 2,
                     onValueChanged: handleEleventhPointerValueChanged,
@@ -642,13 +633,12 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                               : 0.3,
                       borderWidth: 0.05,
                       borderColor:
-                          model.currentThemeData!.brightness == Brightness.light
+                          model.themeData.brightness == Brightness.light
                               ? const Color.fromRGBO(65, 65, 65, 1)
                               : const Color.fromRGBO(191, 191, 191, 1),
-                      color:
-                          model.currentThemeData!.brightness == Brightness.light
-                              ? Colors.white
-                              : const Color.fromRGBO(33, 33, 33, 1),
+                      color: model.themeData.brightness == Brightness.light
+                          ? Colors.white
+                          : const Color.fromRGBO(33, 33, 33, 1),
                     )),
               ],
               annotations: <GaugeAnnotation>[
@@ -659,8 +649,7 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                         fontSize: model.isWebFullView ? 10 : 12,
                         fontFamily: 'Times',
                         fontWeight: FontWeight.bold,
-                        color: model.currentThemeData!.brightness ==
-                                Brightness.light
+                        color: model.themeData.brightness == Brightness.light
                             ? Colors.black
                             : Colors.white,
                       ),

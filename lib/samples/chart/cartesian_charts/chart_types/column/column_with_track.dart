@@ -76,7 +76,7 @@ class _ColumnTrackerState extends SampleViewState {
           dataLabelSettings: const DataLabelSettings(
               isVisible: true,
               labelAlignment: ChartDataLabelAlignment.top,
-              textStyle: TextStyle(fontSize: 10, color: Colors.white)))
+              textStyle: TextStyle(fontSize: 10)))
     ];
   }
 }

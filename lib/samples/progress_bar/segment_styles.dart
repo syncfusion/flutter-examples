@@ -26,6 +26,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
   double progressValue = 0;
   double _size = 150;
   late Timer _timer;
+  ProgressBarColor? _progressBarColor;
 
   @override
   void initState() {
@@ -51,6 +52,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    _progressBarColor = ProgressBarColor(model);
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
       _size = model.isWebFullView
@@ -62,7 +64,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
           children: <Widget>[
             _getSegmentedProgressBar1(),
             _getSegmentedProgressBar2(),
-            _getSementedProgressBar3(),
+            _getSegmentedProgressBar3(),
           ],
         ),
       );
@@ -74,7 +76,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
           children: <Widget>[
             _getSegmentedProgressBar1(),
             _getSegmentedProgressBar2(),
-            _getSementedProgressBar3(),
+            _getSegmentedProgressBar3(),
           ],
         ),
       );
@@ -94,9 +96,9 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
             startAngle: 270,
             endAngle: 270,
             radiusFactor: 0.85,
-            axisLineStyle: const AxisLineStyle(
+            axisLineStyle: AxisLineStyle(
               thickness: 0.2,
-              color: Color.fromARGB(30, 0, 169, 181),
+              color: _progressBarColor!.axisLineColor,
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -104,6 +106,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                   value: progressValue,
                   width: 0.05,
                   pointerOffset: 0.07,
+                  color: _progressBarColor!.pointerColor,
                   sizeUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationDuration: 30,
@@ -136,7 +139,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                 length: 0.3,
                 thickness: 3,
                 lengthUnit: GaugeSizeUnit.factor,
-                color: model.currentThemeData!.brightness == Brightness.light
+                color: model.themeData.brightness == Brightness.light
                     ? Colors.white
                     : const Color.fromRGBO(33, 33, 33, 1)),
           )
@@ -171,6 +174,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                   RangePointer(
                       value: progressValue,
                       enableAnimation: true,
+                      color: _progressBarColor!.pointerColor,
                       animationType: AnimationType.linear,
                       animationDuration: 30,
                       width: 30,
@@ -180,7 +184,7 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
         ));
   }
 
-  Widget _getSementedProgressBar3() {
+  Widget _getSegmentedProgressBar3() {
     return SizedBox(
         width: _size,
         height: _size,

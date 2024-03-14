@@ -222,9 +222,8 @@ class _StylingDataGridState extends SampleViewState {
   SfDataGridTheme _buildDataGrid(GridLinesVisibility gridLineVisibility) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-          brightness: model.themeData.colorScheme.brightness,
           headerHoverColor: Colors.white.withOpacity(0.3),
-          headerColor: model.backgroundColor),
+          headerColor: model.primaryColor),
       child: SfDataGrid(
         source: stylingDataGridSource,
         columnWidthMode: ColumnWidthMode.fill,
@@ -270,8 +269,9 @@ class _StylingDataGridState extends SampleViewState {
             Theme(
               data: ThemeData(
                   useMaterial3: false,
-                  canvasColor: model.bottomSheetBackgroundColor),
+                  canvasColor: model.drawerBackgroundColor),
               child: DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
                   focusColor: Colors.transparent,
                   value: gridLinesVisibility,
                   items: _encoding.map((String value) {

@@ -42,8 +42,8 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _activeRangeSliderSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider.vertical(
           max: 100.0,
           onChanged: (dynamic values) {
@@ -111,7 +111,7 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
             softWrap: false,
           ),
           contentPadding: EdgeInsets.zero,
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           onChanged: (bool? value) {
             setState(() {
               _isInversed = value!;

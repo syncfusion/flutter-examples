@@ -76,7 +76,7 @@ class _AxisAnimationDefaultState extends SampleViewState {
             child: SizedBox(
                 width: 90,
                 child: CheckboxListTile(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: _animation,
                     onChanged: (bool? value) {
                       setState(() {

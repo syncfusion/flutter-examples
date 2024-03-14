@@ -48,7 +48,7 @@ class _ColumnVerticalState extends SampleViewState {
       series: <CartesianSeries<ChartSampleData, String>>[
         ColumnSeries<ChartSampleData, String>(
           onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
-            return _CustomColumnSeriesRenderer();
+            return _CustomColumnSeriesRenderer(model.themeData);
           },
           dataLabelSettings: const DataLabelSettings(
               isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
@@ -86,15 +86,21 @@ class _ColumnVerticalState extends SampleViewState {
 }
 
 class _CustomColumnSeriesRenderer<T, D> extends ColumnSeriesRenderer<T, D> {
-  _CustomColumnSeriesRenderer();
+  _CustomColumnSeriesRenderer(this.themeData);
+
+  final ThemeData themeData;
 
   @override
   ColumnSegment<T, D> createSegment() {
-    return _ColumnCustomPainter();
+    return _ColumnCustomPainter(themeData);
   }
 }
 
 class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
+  _ColumnCustomPainter(this.themeData);
+
+  final ThemeData themeData;
+
   List<Color> colorList = <Color>[
     const Color.fromRGBO(53, 92, 125, 1),
     const Color.fromRGBO(192, 108, 132, 1),
@@ -102,10 +108,29 @@ class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
     const Color.fromRGBO(248, 177, 149, 1),
     const Color.fromRGBO(116, 180, 155, 1)
   ];
+  List<Color> colorListM3Light = const [
+    Color.fromRGBO(6, 174, 224, 1),
+    Color.fromRGBO(99, 85, 199, 1),
+    Color.fromRGBO(49, 90, 116, 1),
+    Color.fromRGBO(255, 180, 0, 1),
+    Color.fromRGBO(150, 60, 112, 1)
+  ];
+  List<Color> colorListM3Dark = const [
+    Color.fromRGBO(255, 245, 0, 1),
+    Color.fromRGBO(51, 182, 119, 1),
+    Color.fromRGBO(218, 150, 70, 1),
+    Color.fromRGBO(201, 88, 142, 1),
+    Color.fromRGBO(77, 170, 255, 1),
+  ];
 
   @override
   Paint getFillPaint() {
     final Paint customerFillPaint = Paint();
+    colorList = themeData.useMaterial3
+        ? (themeData.brightness == Brightness.light
+            ? colorListM3Light
+            : colorListM3Dark)
+        : colorList;
     customerFillPaint.isAntiAlias = false;
     customerFillPaint.color = colorList[currentSegmentIndex];
     customerFillPaint.style = PaintingStyle.fill;

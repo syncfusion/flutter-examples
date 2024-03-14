@@ -71,7 +71,7 @@ class _NavigationWithEventsState extends SampleViewState {
     return ScaffoldMessenger(
         key: _scaffoldKey,
         child: Scaffold(
-            backgroundColor: model.cardThemeColor,
+            backgroundColor: model.sampleOutputCardColor,
             body: _buildmaximumLabelWidthChart()));
   }
 

@@ -1,6 +1,5 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 ///Package import
@@ -137,7 +136,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
     _isSigned = false;
 
     if (_isWebOrDesktop) {
-      _backgroundColor = _isDark ? model.webBackgroundColor : Colors.white;
+      _backgroundColor = _isDark ? model.backgroundColor : Colors.white;
     }
 
     showDialog<Widget>(
@@ -232,8 +231,8 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                 TextButton(
                   onPressed: _handleClearButtonPressed,
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                        model.currentPaletteColor),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(model.primaryColor),
                   ),
                   child: const Text(
                     'CLEAR',
@@ -249,8 +248,8 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                     Navigator.of(context).pop();
                   },
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                        model.currentPaletteColor),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(model.primaryColor),
                   ),
                   child: const Text('SAVE',
                       style: TextStyle(
@@ -319,7 +318,6 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         child: IgnorePointer(
           child: SfDataGridTheme(
             data: SfDataGridThemeData(
-              brightness: _isDark ? Brightness.dark : Brightness.light,
               headerColor: Colors.transparent,
               gridLineStrokeWidth: 1,
               gridLineColor: _isDark ? Colors.grey[850] : Colors.grey[200],
@@ -575,7 +573,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
           margin: _isWebOrDesktop ? const EdgeInsets.all(10.0) : null,
           decoration: _isWebOrDesktop
               ? BoxDecoration(
-                  color: _isDark ? model.webBackgroundColor : Colors.white,
+                  color: _isDark ? model.backgroundColor : Colors.white,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
@@ -616,15 +614,15 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         const SizedBox(height: 4),
         SfSliderTheme(
             data: SfSliderThemeData(
-                activeTrackColor: model.currentPrimaryColor,
-                thumbColor: model.currentPrimaryColor,
+                activeTrackColor: model.primaryColor,
+                thumbColor: model.primaryColor,
                 overlayRadius: 15,
                 activeLabelStyle:
                     TextStyle(color: model.textColor, fontSize: 14),
                 inactiveLabelStyle:
                     TextStyle(color: model.textColor, fontSize: 14),
-                overlayColor: model.currentPrimaryColor.withOpacity(0.2),
-                inactiveTrackColor: model.currentPrimaryColor.withOpacity(0.3)),
+                overlayColor: model.primaryColor.withOpacity(0.2),
+                inactiveTrackColor: model.primaryColor.withOpacity(0.3)),
             child: SfSlider(
               min: 1.0,
               max: 10.0,
@@ -655,15 +653,15 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         const SizedBox(height: 4),
         SfSliderTheme(
             data: SfSliderThemeData(
-                activeTrackColor: model.currentPrimaryColor,
-                thumbColor: model.currentPrimaryColor,
+                activeTrackColor: model.primaryColor,
+                thumbColor: model.primaryColor,
                 overlayRadius: 15,
                 activeLabelStyle:
                     TextStyle(color: model.textColor, fontSize: 14),
                 inactiveLabelStyle:
                     TextStyle(color: model.textColor, fontSize: 14),
-                overlayColor: model.currentPrimaryColor.withOpacity(0.2),
-                inactiveTrackColor: model.currentPrimaryColor.withOpacity(0.3)),
+                overlayColor: model.primaryColor.withOpacity(0.2),
+                inactiveTrackColor: model.primaryColor.withOpacity(0.3)),
             child: SfSlider(
               min: 1.0,
               max: 10.0,

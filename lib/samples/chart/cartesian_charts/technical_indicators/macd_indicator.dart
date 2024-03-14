@@ -176,6 +176,7 @@ class _MACDIndicatorState extends SampleViewState {
                         ),
                         Flexible(
                           child: DropdownButton<String>(
+                              dropdownColor: model.drawerBackgroundColor,
                               focusColor: Colors.transparent,
                               isExpanded: true,
                               underline: Container(

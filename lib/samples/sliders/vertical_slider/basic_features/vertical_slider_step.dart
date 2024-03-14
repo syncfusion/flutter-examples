@@ -30,7 +30,7 @@ class _VerticalStepSliderPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithStepDurationCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider.vertical(
           min: DateTime(2010),
           max: DateTime(2018),
@@ -57,7 +57,7 @@ class _VerticalStepSliderPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithStepCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider.vertical(
             showLabels: true,
             interval: 5,
@@ -124,7 +124,7 @@ class _VerticalStepSliderPageState extends SampleViewState {
           value: _isInversed,
           title: const Text('Inversed', softWrap: false),
           contentPadding: EdgeInsets.zero,
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           onChanged: (bool? value) {
             setState(() {
               _isInversed = value!;

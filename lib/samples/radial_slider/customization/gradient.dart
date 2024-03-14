@@ -84,14 +84,13 @@ class _RadialSliderGradientState extends SampleViewState {
                 onValueChanging: handlePointerValueChanging,
                 enableDragging: true,
                 elevation: 5,
-                color: model.currentThemeData!.brightness == Brightness.light
+                color: model.themeData.brightness == Brightness.light
                     ? Colors.white
                     : Colors.black,
                 borderWidth: 5,
-                borderColor:
-                    model.currentThemeData!.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                borderColor: model.themeData.brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
                 markerType: MarkerType.circle,

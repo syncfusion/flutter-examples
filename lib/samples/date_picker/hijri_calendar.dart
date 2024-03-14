@@ -123,11 +123,11 @@ class _HijriDatePickerState extends SampleViewState {
             : const EdgeInsets.all(30),
         child: Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          color: model.cardThemeColor,
+          color: model.sampleOutputCardColor,
           child: Theme(
               data: model.themeData.copyWith(
                   colorScheme: model.themeData.colorScheme
-                      .copyWith(secondary: model.backgroundColor)),
+                      .copyWith(secondary: model.primaryColor)),
               child: _getGettingStartedDatePicker(
                   _controller,
                   _selectionMode,
@@ -284,6 +284,7 @@ class _HijriDatePickerState extends SampleViewState {
               child: Container(
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -319,6 +320,7 @@ class _HijriDatePickerState extends SampleViewState {
                 padding: EdgeInsets.zero,
                 alignment: Alignment.bottomLeft,
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -354,6 +356,7 @@ class _HijriDatePickerState extends SampleViewState {
                     child: Container(
                       alignment: Alignment.bottomLeft,
                       child: DropdownButton<String>(
+                          dropdownColor: model.drawerBackgroundColor,
                           focusColor: Colors.transparent,
                           underline: Container(
                               color: const Color(0xFFBDBDBD), height: 1),
@@ -389,8 +392,8 @@ class _HijriDatePickerState extends SampleViewState {
                   padding: EdgeInsets.zero,
                   alignment: Alignment.centerLeft,
                   child: Theme(
-                      data: model.themeData.copyWith(
-                          canvasColor: model.bottomSheetBackgroundColor),
+                      data: model.themeData
+                          .copyWith(canvasColor: model.drawerBackgroundColor),
                       child: _DateRangePickerOption(
                         _onDisplayDateChanged,
                         _controller.displayDate!,
@@ -414,8 +417,8 @@ class _HijriDatePickerState extends SampleViewState {
                 child: Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                         alignment: Alignment.centerLeft,
                         child: Transform.scale(
@@ -428,7 +431,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.backgroundColor,
+                              activeColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -448,8 +451,8 @@ class _HijriDatePickerState extends SampleViewState {
                 child: Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                         alignment: Alignment.centerLeft,
                         child: Transform.scale(
@@ -462,7 +465,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.backgroundColor,
+                              activeColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -482,8 +485,8 @@ class _HijriDatePickerState extends SampleViewState {
                 child: Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                         alignment: Alignment.centerLeft,
                         child: Transform.scale(
@@ -497,7 +500,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.backgroundColor,
+                              activeColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -517,8 +520,8 @@ class _HijriDatePickerState extends SampleViewState {
                 child: Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                         alignment: Alignment.centerLeft,
                         child: Transform.scale(
@@ -529,7 +532,7 @@ class _HijriDatePickerState extends SampleViewState {
                                 onBoolValueChange('EnablePastDates', value);
                                 stateSetter(() {});
                               },
-                              activeColor: model.backgroundColor,
+                              activeColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -549,8 +552,8 @@ class _HijriDatePickerState extends SampleViewState {
                 child: Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                         alignment: Alignment.centerLeft,
                         child: Transform.scale(
@@ -564,7 +567,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.backgroundColor,
+                              activeColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -584,8 +587,8 @@ class _HijriDatePickerState extends SampleViewState {
                 child: Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(context).copyWith(
-                        canvasColor: model.bottomSheetBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                         alignment: Alignment.centerLeft,
                         child: Transform.scale(
@@ -598,7 +601,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.backgroundColor,
+                              activeColor: model.primaryColor,
                             ))),
                   ),
                 ))

@@ -26,6 +26,8 @@ class _AutoScrollingChartState extends SampleViewState {
 
   Timer? timer;
   late List<Color> palette;
+  late List<Color> palette1;
+  late List<Color> palette2;
   late List<_ChartData> chartData, chartDataTemp;
   bool havingPanDataSource = false;
 
@@ -62,10 +64,34 @@ class _AutoScrollingChartState extends SampleViewState {
       Color.fromRGBO(255, 240, 219, 1),
       Color.fromRGBO(238, 238, 238, 1)
     ];
+    palette1 = const <Color>[
+      Color.fromRGBO(6, 174, 224, 1),
+      Color.fromRGBO(99, 85, 199, 1),
+      Color.fromRGBO(49, 90, 116, 1),
+      Color.fromRGBO(255, 180, 0, 1),
+      Color.fromRGBO(150, 60, 112, 1),
+      Color.fromRGBO(33, 150, 245, 1),
+      Color.fromRGBO(71, 59, 137, 1),
+      Color.fromRGBO(236, 92, 123, 1),
+      Color.fromRGBO(59, 163, 26, 1),
+      Color.fromRGBO(236, 131, 23, 1)
+    ];
+    palette2 = const <Color>[
+      Color.fromRGBO(255, 245, 0, 1),
+      Color.fromRGBO(51, 182, 119, 1),
+      Color.fromRGBO(218, 150, 70, 1),
+      Color.fromRGBO(201, 88, 142, 1),
+      Color.fromRGBO(77, 170, 255, 1),
+      Color.fromRGBO(255, 157, 69, 1),
+      Color.fromRGBO(178, 243, 46, 1),
+      Color.fromRGBO(185, 60, 228, 1),
+      Color.fromRGBO(48, 167, 6, 1),
+      Color.fromRGBO(207, 142, 14, 1)
+    ];
     isPointerMoved = false;
     chartData = <_ChartData>[
-      _ChartData(DateTime(2020), 42, palette[0]),
-      _ChartData(DateTime(2020, 01, 1, 00, 00, 01), 47, palette[1]),
+      _ChartData(DateTime(2020), 42),
+      _ChartData(DateTime(2020, 01, 1, 00, 00, 01), 47),
     ];
     chartDataTemp = <_ChartData>[];
     timer = Timer.periodic(const Duration(milliseconds: 1000), (Timer timer) {
@@ -86,6 +112,10 @@ class _AutoScrollingChartState extends SampleViewState {
   }
 
   SfCartesianChart _buildLiveLineChart() {
+    final ThemeData themeData = model.themeData;
+    palette = themeData.useMaterial3
+        ? (themeData.brightness == Brightness.light ? palette1 : palette2)
+        : palette;
     return SfCartesianChart(
         zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
         onChartTouchInteractionMove: (ChartTouchInteractionArgs args) {
@@ -111,7 +141,7 @@ class _AutoScrollingChartState extends SampleViewState {
             color: const Color.fromRGBO(192, 108, 132, 1),
             xValueMapper: (_ChartData data, _) => data.x,
             yValueMapper: (_ChartData data, _) => data.y,
-            pointColorMapper: (_ChartData data, _) => data.color,
+            pointColorMapper: (_ChartData data, _) => palette[_ % 10],
             animationDuration: 0,
           )
         ]);
@@ -120,25 +150,22 @@ class _AutoScrollingChartState extends SampleViewState {
   List<_ChartData> _updateDataSource() {
     if (!havingPanDataSource) {
       chartData.add(_ChartData(
-          chartData[chartData.length - 1].x.add(const Duration(seconds: 1)),
-          _getRandomInt(30, 60),
-          palette[chartData.length % 10]));
+        chartData[chartData.length - 1].x.add(const Duration(seconds: 1)),
+        _getRandomInt(30, 60),
+      ));
     }
     return chartData;
   }
 
   List<_ChartData> _updateTempDataSource() {
     chartDataTemp.add(_ChartData(
-        chartDataTemp.isEmpty
-            ? chartData[chartData.length - 1].x.add(const Duration(seconds: 1))
-            : chartDataTemp[chartDataTemp.length - 1]
-                .x
-                .add(const Duration(seconds: 1)),
-        _getRandomInt(30, 60),
-        palette[(chartDataTemp.isEmpty
-                ? chartData.length
-                : chartData.length + chartDataTemp.length) %
-            10]));
+      chartDataTemp.isEmpty
+          ? chartData[chartData.length - 1].x.add(const Duration(seconds: 1))
+          : chartDataTemp[chartDataTemp.length - 1]
+              .x
+              .add(const Duration(seconds: 1)),
+      _getRandomInt(30, 60),
+    ));
     return chartDataTemp;
   }
 
@@ -149,8 +176,7 @@ class _AutoScrollingChartState extends SampleViewState {
 }
 
 class _ChartData {
-  _ChartData(this.x, this.y, this.color);
+  _ChartData(this.x, this.y);
   final DateTime x;
   final num y;
-  final Color color;
 }

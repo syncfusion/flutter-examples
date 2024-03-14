@@ -151,6 +151,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
                   value: _value,
                   cornerStyle: CornerStyle.bothCurve,
                   width: 0.2,
+                  color: const Color.fromRGBO(3, 218, 198, 1),
                   sizeUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationDuration: 20,
@@ -189,6 +190,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
               RangePointer(
                   value: _value,
                   width: 0.05,
+                  color: const Color.fromRGBO(3, 218, 198, 1),
                   sizeUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationDuration: 20,
@@ -221,6 +223,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
               RangePointer(
                   value: _value,
                   width: 0.05,
+                  color: const Color.fromRGBO(3, 218, 198, 1),
                   sizeUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationDuration: 20,
@@ -253,6 +256,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
               RangePointer(
                   value: _value,
                   width: 0.05,
+                  color: const Color.fromRGBO(3, 218, 198, 1),
                   sizeUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationDuration: 20,

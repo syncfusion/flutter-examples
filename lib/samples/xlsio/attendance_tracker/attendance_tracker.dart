@@ -26,7 +26,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: model.cardThemeColor,
+      backgroundColor: model.sampleOutputCardColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(
@@ -40,7 +40,7 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
                 child: TextButton(
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all<Color>(model.backgroundColor),
+                    MaterialStateProperty.all<Color>(model.primaryColor),
                 padding: model.isMobile
                     ? null
                     : MaterialStateProperty.all(const EdgeInsets.symmetric(

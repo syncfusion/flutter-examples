@@ -25,7 +25,7 @@ class _AnnotationsPdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -40,7 +40,7 @@ class _AnnotationsPdfState extends SampleViewState {
                   children: <Widget>[
                     Checkbox(
                         value: flatten,
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         onChanged: (bool? value) {
                           setState(() {
                             flatten = value!;
@@ -55,7 +55,7 @@ class _AnnotationsPdfState extends SampleViewState {
                     child: TextButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                        MaterialStateProperty.all<Color>(model.primaryColor),
                     padding: model.isMobile
                         ? null
                         : MaterialStateProperty.all(const EdgeInsets.symmetric(

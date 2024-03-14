@@ -139,9 +139,7 @@ class _RangeSelectorRTLState extends SampleViewState {
                       color: themeData.textTheme.bodyLarge!.color!
                           .withOpacity(0.87)),
                   inactiveRegionColor:
-                      themeData.colorScheme.brightness == Brightness.light
-                          ? Colors.white.withOpacity(0.75)
-                          : const Color.fromRGBO(33, 33, 33, 0.75),
+                      model.sampleOutputCardColor.withOpacity(0.75),
                 ),
                 child: Directionality(
                   textDirection: TextDirection.rtl,

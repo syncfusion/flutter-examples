@@ -47,7 +47,7 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
 
   SfSliderTheme _sliderWithStepDurationCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider.vertical(
           min: DateTime(2010),
           max: DateTime(2018),
@@ -74,7 +74,7 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
 
   SfSliderTheme _sliderWithStepCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider.vertical(
             showLabels: true,
             edgeLabelPlacement: _edgeLabelPlacement,
@@ -155,6 +155,7 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -188,6 +189,7 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       isExpanded: true,
                       focusColor: Colors.transparent,
                       underline:

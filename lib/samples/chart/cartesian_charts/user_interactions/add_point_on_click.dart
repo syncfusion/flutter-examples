@@ -58,7 +58,7 @@ class _InteractiveChartState extends SampleViewState {
   Widget build(BuildContext context) {
     final double bottomPadding = !model.isWebFullView ? 40 : 60;
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: Padding(
             padding:
                 EdgeInsets.fromLTRB(5, isCardView ? 0 : 15, 5, bottomPadding),
@@ -82,7 +82,7 @@ class _InteractiveChartState extends SampleViewState {
                     })
                 : null,
             backgroundColor:
-                isResetVisible ? model.backgroundColor : Colors.grey[600],
+                isResetVisible ? model.primaryColor : Colors.grey[600],
             child: const Icon(Icons.refresh, color: Colors.white),
           ),
         ));
@@ -108,8 +108,6 @@ class _InteractiveChartState extends SampleViewState {
                   (ChartSeriesController<ChartSampleData, num> controller) {
                 seriesController = controller;
               },
-              animationDuration: 0,
-              color: const Color.fromRGBO(75, 135, 185, 1),
               dataSource: chartData,
               xValueMapper: (ChartSampleData sales, _) => sales.x as num,
               yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -122,8 +120,6 @@ class _InteractiveChartState extends SampleViewState {
           final CartesianChartPoint<dynamic> chartPoint =
               seriesController!.pixelToPoint(value);
           chartData.add(ChartSampleData(x: chartPoint.x, y: chartPoint.y));
-          seriesController!
-              .updateDataSource(addedDataIndexes: <int>[chartData.length - 1]);
           setState(() {});
         });
   }

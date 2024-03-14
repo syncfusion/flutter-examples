@@ -32,7 +32,7 @@ class _SliderLabelCustomizationPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithLabelCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider(
           showLabels: true,
           interval: 20,
@@ -50,7 +50,7 @@ class _SliderLabelCustomizationPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithTickCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider(
           showLabels: true,
           showTicks: true,
@@ -70,7 +70,7 @@ class _SliderLabelCustomizationPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithDividerCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider(
           interval: 25,
           showDividers: true,

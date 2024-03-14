@@ -30,7 +30,7 @@ class _StepSliderPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithStepDurationCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider(
           min: DateTime(2010),
           max: DateTime(2018),
@@ -56,7 +56,7 @@ class _StepSliderPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithStepCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider(
             showLabels: true,
             interval: 5,

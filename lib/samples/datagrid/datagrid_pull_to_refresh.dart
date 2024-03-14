@@ -1,4 +1,6 @@
 /// Package imports
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 /// DataGrid import
@@ -128,16 +130,20 @@ class _PullToRefreshDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return Theme(
         data: ThemeData(
-          useMaterial3: false,
+          useMaterial3: Theme.of(context).useMaterial3,
           brightness: model.themeData.colorScheme.brightness,
-          colorScheme:
-              model.themeData.colorScheme.brightness == Brightness.light
-                  ? ColorScheme.light(primary: model.backgroundColor)
-                  : ColorScheme.dark(primary: model.backgroundColor),
         ),
-        child: SfDataGrid(
-            source: employeeDataSource,
-            allowPullToRefresh: true,
-            columns: _getColumns()));
+        child: ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(
+            dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+            },
+          ),
+          child: SfDataGrid(
+              source: employeeDataSource,
+              allowPullToRefresh: true,
+              columns: _getColumns()),
+        ));
   }
 }

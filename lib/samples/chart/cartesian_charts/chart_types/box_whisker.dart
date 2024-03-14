@@ -37,6 +37,7 @@ class _BoxWhiskerState extends SampleViewState {
               Container(
                 padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -66,7 +67,7 @@ class _BoxWhiskerState extends SampleViewState {
                 child: SizedBox(
                     width: 90,
                     child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _mean,
                         onChanged: (bool? value) {
                           setState(() {
@@ -118,64 +119,63 @@ class _BoxWhiskerState extends SampleViewState {
         name: 'Department',
         dataSource: <SalesData>[
           SalesData(
-              'Development',
-              <int>[
-                22,
-                22,
-                23,
-                25,
-                25,
-                25,
-                26,
-                27,
-                27,
-                28,
-                28,
-                29,
-                30,
-                32,
-                34,
-                32,
-                34,
-                36,
-                35,
-                38
-              ],
-              null,
-              const Color.fromRGBO(75, 135, 185, 0.9)),
+            'Development',
+            <int>[
+              22,
+              22,
+              23,
+              25,
+              25,
+              25,
+              26,
+              27,
+              27,
+              28,
+              28,
+              29,
+              30,
+              32,
+              34,
+              32,
+              34,
+              36,
+              35,
+              38
+            ],
+          ),
           SalesData(
-              'HR',
-              <int>[22, 24, 25, 30, 32, 34, 36, 38, 39, 41, 35, 36, 40, 56],
-              null,
-              const Color.fromRGBO(75, 135, 185, 0.9)),
+            'HR',
+            <int>[22, 24, 25, 30, 32, 34, 36, 38, 39, 41, 35, 36, 40, 56],
+          ),
           SalesData(
-              'Finance  ',
-              <int>[26, 27, 28, 30, 32, 34, 35, 37, 35, 37, 45],
-              null,
-              const Color.fromRGBO(75, 135, 185, 0.9)),
+            'Finance  ',
+            <int>[26, 27, 28, 30, 32, 34, 35, 37, 35, 37, 45],
+          ),
           SalesData(
-              'Inventory',
-              <int>[21, 23, 24, 25, 26, 27, 28, 30, 34, 36, 38],
-              null,
-              const Color.fromRGBO(75, 135, 185, 0.9)),
-          SalesData('Sales', <int>[27, 26, 28, 29, 29, 29, 32, 35, 32, 38, 53],
-              null, const Color.fromRGBO(75, 135, 185, 0.9)),
+            'Inventory',
+            <int>[21, 23, 24, 25, 26, 27, 28, 30, 34, 36, 38],
+          ),
           SalesData(
-              'R&D',
-              <int>[26, 27, 29, 32, 34, 35, 36, 37, 38, 39, 41, 43, 58],
-              null,
-              const Color.fromRGBO(75, 135, 185, 0.9)),
-          SalesData('Graphics', <int>[26, 28, 29, 30, 32, 33, 35, 36, 52], null,
-              const Color.fromRGBO(75, 135, 185, 0.9)),
+            'Sales',
+            <int>[27, 26, 28, 29, 29, 29, 32, 35, 32, 38, 53],
+          ),
+          SalesData(
+            'R&D',
+            <int>[26, 27, 29, 32, 34, 35, 36, 37, 38, 39, 41, 43, 58],
+          ),
+          SalesData(
+            'Graphics',
+            <int>[26, 28, 29, 30, 32, 33, 35, 36, 52],
+          ),
         ],
         showMean: _mean,
+        opacity: 0.9,
         boxPlotMode: _boxMode!,
         borderColor: model.themeData.colorScheme.brightness == Brightness.dark
             ? Colors.white
             : Colors.black,
         xValueMapper: (SalesData sales, _) => sales.x,
         yValueMapper: (SalesData sales, _) => sales.y,
-        pointColorMapper: (SalesData sales, _) => sales.color,
       )
     ];
   }

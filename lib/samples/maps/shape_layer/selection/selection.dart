@@ -550,8 +550,9 @@ class _MapSelectionPageState extends SampleViewState {
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
     return Scaffold(
-        backgroundColor:
-            model.isWebFullView ? model.cardThemeColor : model.cardThemeColor,
+        backgroundColor: model.isWebFullView
+            ? model.sampleOutputCardColor
+            : model.sampleOutputCardColor,
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
           final bool scrollEnabled = constraints.maxHeight > 400;

@@ -135,10 +135,9 @@ class _RadialSliderAnglesState extends SampleViewState {
                       fontSize: _annotationFontSize,
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
-                      color:
-                          model.currentThemeData!.brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
+                      color: model.themeData.brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
                     ),
                   ),
                   positionFactor: 0.13,
@@ -201,10 +200,9 @@ class _RadialSliderAnglesState extends SampleViewState {
                       fontSize: _annotationFontSize,
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
-                      color:
-                          model.currentThemeData!.brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
+                      color: model.themeData.brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
                     ),
                   ),
                   positionFactor: 0.13,
@@ -267,10 +265,9 @@ class _RadialSliderAnglesState extends SampleViewState {
                       fontSize: _annotationFontSize,
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
-                      color:
-                          model.currentThemeData!.brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
+                      color: model.themeData.brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
                     ),
                   ),
                   positionFactor: 0.13,
@@ -332,10 +329,9 @@ class _RadialSliderAnglesState extends SampleViewState {
                       fontSize: _annotationFontSize,
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
-                      color:
-                          model.currentThemeData!.brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
+                      color: model.themeData.brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
                     ),
                   ),
                   positionFactor: 0.13,

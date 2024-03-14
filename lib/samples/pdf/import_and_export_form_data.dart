@@ -64,7 +64,7 @@ class _ImportAndExportFormDataState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: model.cardThemeColor,
+      backgroundColor: model.sampleOutputCardColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -103,8 +103,8 @@ class _ImportAndExportFormDataState extends SampleViewState {
                   const SizedBox(height: 10, width: 30),
                   TextButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          model.backgroundColor),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(model.primaryColor),
                       padding: model.isMobile
                           ? null
                           : MaterialStateProperty.all(
@@ -121,8 +121,8 @@ class _ImportAndExportFormDataState extends SampleViewState {
                   ),
                   TextButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          model.backgroundColor),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(model.primaryColor),
                       padding: model.isMobile
                           ? null
                           : MaterialStateProperty.all(

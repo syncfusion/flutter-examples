@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
 import '../../../../model/sample_view.dart';
 
 /// Renders the pagination sample
@@ -185,10 +186,11 @@ class _PaginationState extends SampleViewState {
     _containerWidth = _segmentedControlWidth == double.infinity
         ? width / 5
         : _segmentedControlWidth / 5;
-    final Color color = model.currentThemeData?.brightness == Brightness.light
+    final Color color = model.themeData.brightness == Brightness.light
         ? const Color.fromRGBO(104, 104, 104, 1)
         : const Color.fromRGBO(242, 242, 242, 1);
     final ButtonStyle style = ButtonStyle(
+      shape: MaterialStateProperty.all(const RoundedRectangleBorder()),
       backgroundColor: MaterialStateProperty.resolveWith(getColor),
     );
     final Map<int, Widget> buttons = <int, Widget>{};
@@ -231,7 +233,7 @@ class _PaginationState extends SampleViewState {
   /// Returns color for the button based on interaction performed
   Color? getColor(Set<MaterialState> states) {
     if (states.contains(MaterialState.hovered)) {
-      return model.currentThemeData?.brightness == Brightness.light
+      return model.themeData.brightness == Brightness.light
           ? const Color.fromRGBO(235, 235, 235, 1)
           : const Color.fromRGBO(104, 104, 104, 1);
     } else if (states.contains(MaterialState.focused) ||

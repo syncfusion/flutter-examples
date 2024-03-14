@@ -36,8 +36,9 @@ class _RadialSliderExampleState extends SampleViewState {
     }
 
     return Scaffold(
-        backgroundColor:
-            model.isWebFullView ? Colors.transparent : model.cardThemeColor,
+        backgroundColor: model.isWebFullView
+            ? Colors.transparent
+            : model.sampleOutputCardColor,
 
         /// Added separate view for sample browser tile view and expanded view.
         /// In tile view, slider widget is removed.
@@ -62,6 +63,7 @@ class _RadialSliderExampleState extends SampleViewState {
                             pointers: <GaugePointer>[
                               RangePointer(
                                   value: _currentValue,
+                                  color: model.primaryColor,
                                   onValueChanged: handlePointerValueChanged,
                                   onValueChangeEnd: handlePointerValueChanged,
                                   onValueChanging: handlePointerValueChanging,
@@ -87,7 +89,7 @@ class _RadialSliderExampleState extends SampleViewState {
                                             fontSize: _annotationFontSize,
                                             fontFamily: 'Times',
                                             fontWeight: FontWeight.bold,
-                                            color: const Color(0xFF00A8B5)),
+                                            color: model.primaryColor),
                                       )
                                     ],
                                   ),
@@ -101,8 +103,8 @@ class _RadialSliderExampleState extends SampleViewState {
                         child: SizedBox(
                           width: width,
                           child: SfSlider(
-                            activeColor: const Color(0xFF02AAB0),
-                            inactiveColor: const Color(0xFF00CDAC),
+                            activeColor: model.primaryColor,
+                            inactiveColor: model.primaryColor.withOpacity(0.4),
                             min: 5,
                             max: 100,
                             onChanged: handlePointerValueChanged,

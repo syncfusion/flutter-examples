@@ -48,7 +48,7 @@ class _AutoFilterXlsIOState extends SampleViewState {
   @override
   material.Widget build(material.BuildContext context) {
     return material.Scaffold(
-      backgroundColor: model.cardThemeColor,
+      backgroundColor: model.sampleOutputCardColor,
       body: material.Padding(
         padding: const material.EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: material.Column(
@@ -65,6 +65,7 @@ class _AutoFilterXlsIOState extends SampleViewState {
               material.Container(
                 padding: const material.EdgeInsets.fromLTRB(0, 0, 20, 0),
                 child: material.DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: material.Colors.transparent,
                     underline: material.Container(
                         color: const material.Color(0xFFBDBDBD), height: 1),
@@ -89,7 +90,7 @@ class _AutoFilterXlsIOState extends SampleViewState {
               style: material.ButtonStyle(
                 backgroundColor:
                     material.MaterialStateProperty.all<material.Color>(
-                        model.backgroundColor),
+                        model.primaryColor),
                 padding: model.isMobile
                     ? null
                     : material.MaterialStateProperty.all(

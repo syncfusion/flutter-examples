@@ -67,6 +67,7 @@ class _LegendCustomizedState extends SampleViewState {
     return <CartesianSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
         markerSettings: const MarkerSettings(isVisible: true),
+        color: const Color.fromRGBO(75, 135, 185, 1),
         dataSource: chartData,
         xValueMapper: (ChartSampleData sales, _) => sales.x as num,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
@@ -74,18 +75,21 @@ class _LegendCustomizedState extends SampleViewState {
       ),
       LineSeries<ChartSampleData, num>(
           markerSettings: const MarkerSettings(isVisible: true),
+          color: const Color.fromRGBO(192, 108, 132, 1),
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.yValue,
           name: 'Car'),
       LineSeries<ChartSampleData, num>(
           markerSettings: const MarkerSettings(isVisible: true),
+          color: const Color.fromRGBO(246, 114, 128, 1),
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
           name: 'Bike'),
       LineSeries<ChartSampleData, num>(
           markerSettings: const MarkerSettings(isVisible: true),
+          color: const Color.fromRGBO(248, 177, 149, 1),
           dataSource: chartData,
           xValueMapper: (ChartSampleData sales, _) => sales.x as num,
           yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,

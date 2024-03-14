@@ -57,11 +57,11 @@ class _SliderColorCustomizationPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(
             inactiveDividerColor: model.isWebFullView
-                ? model.webBackgroundColor
-                : model.cardThemeColor,
+                ? model.backgroundColor
+                : model.sampleOutputCardColor,
             activeDividerColor: model.isWebFullView
-                ? model.webBackgroundColor
-                : model.cardThemeColor,
+                ? model.backgroundColor
+                : model.sampleOutputCardColor,
             activeDividerStrokeWidth: 2,
             activeDividerStrokeColor: Colors.deepOrange.withOpacity(0.24),
             inactiveDividerStrokeWidth: 2,
@@ -72,8 +72,8 @@ class _SliderColorCustomizationPageState extends SampleViewState {
             inactiveTrackColor: Colors.deepOrange.withOpacity(0.24),
             overlayColor: Colors.deepOrange.withOpacity(0.12),
             thumbColor: model.isWebFullView
-                ? model.webBackgroundColor
-                : model.cardThemeColor,
+                ? model.backgroundColor
+                : model.sampleOutputCardColor,
             thumbStrokeWidth: 2.0,
             tooltipBackgroundColor: Colors.deepOrange,
             thumbStrokeColor: Colors.deepOrange),

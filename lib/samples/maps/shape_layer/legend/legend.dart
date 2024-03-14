@@ -359,7 +359,6 @@ class _MapLegendPageState extends SampleViewState {
             : const EdgeInsets.only(left: 5, right: 10),
         child: SfMapsTheme(
           data: SfMapsThemeData(
-            brightness: model.themeData.colorScheme.brightness,
             shapeHoverColor: _showBubbleData
                 ? Colors.transparent
                 : (isLightTheme
@@ -547,6 +546,7 @@ class _MapLegendPageState extends SampleViewState {
               Padding(
                   padding: const EdgeInsets.only(right: 15.0),
                   child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     value: _currentLegend,
                     items: _dropDownMenuItems,
@@ -631,7 +631,7 @@ class _MapLegendPageState extends SampleViewState {
               SizedBox(
                   width: 90,
                   child: CheckboxListTile(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: _showBubbleData,
                       onChanged: (bool? value) {
                         setState(() {
@@ -660,7 +660,7 @@ class _MapLegendPageState extends SampleViewState {
               SizedBox(
                 width: 90,
                 child: CheckboxListTile(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: _enableToggleInteraction,
                     onChanged: !_showBarLegend
                         ? (bool? value) {
@@ -690,7 +690,7 @@ class _MapLegendPageState extends SampleViewState {
               SizedBox(
                 width: 90,
                 child: CheckboxListTile(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: _enableGradient,
                     onChanged: _showBarLegend
                         ? (bool? value) {

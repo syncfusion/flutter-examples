@@ -82,6 +82,7 @@ class _TooltipPositionState extends SampleViewState {
                   height: 50,
                   alignment: Alignment.bottomCenter,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),

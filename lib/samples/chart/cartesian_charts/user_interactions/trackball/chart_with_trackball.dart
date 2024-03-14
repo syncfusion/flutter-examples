@@ -157,6 +157,7 @@ class _DefaultTrackballState extends SampleViewState {
                               ? const EdgeInsets.fromLTRB(90, 0, 0, 0)
                               : const EdgeInsets.fromLTRB(55, 0, 0, 0),
                           child: DropdownButton<String>(
+                              dropdownColor: model.drawerBackgroundColor,
                               focusColor: Colors.transparent,
                               underline: Container(
                                   color: const Color(0xFFBDBDBD), height: 1),
@@ -199,6 +200,7 @@ class _DefaultTrackballState extends SampleViewState {
                             ? const EdgeInsets.fromLTRB(60, 0, 0, 0)
                             : const EdgeInsets.fromLTRB(25, 0, 0, 0),
                         child: DropdownButton<String>(
+                            dropdownColor: model.drawerBackgroundColor,
                             focusColor: Colors.transparent,
                             underline: Container(
                                 color: const Color(0xFFBDBDBD), height: 1),
@@ -240,7 +242,7 @@ class _DefaultTrackballState extends SampleViewState {
                     ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
                     : const EdgeInsets.fromLTRB(42, 0, 0, 0),
                 child: Checkbox(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: showAlways,
                     onChanged: (bool? value) {
                       setState(() {
@@ -298,7 +300,7 @@ class _DefaultTrackballState extends SampleViewState {
                       ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
                       : const EdgeInsets.fromLTRB(42, 0, 0, 0),
                   child: Checkbox(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: _showMarker,
                       onChanged: (bool? value) {
                         setState(() {
@@ -328,7 +330,7 @@ class _DefaultTrackballState extends SampleViewState {
                       ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
                       : const EdgeInsets.fromLTRB(42, 0, 0, 0),
                   child: Checkbox(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: canShowMarker,
                       onChanged: (bool? value) {
                         setState(() {

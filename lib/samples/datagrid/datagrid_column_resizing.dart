@@ -36,9 +36,12 @@ class _ColumnResizingDataGridState extends SampleViewState {
   late double orderDateColumnWidth;
 
   Color _getHeaderCellBackgroundColor() {
-    return model.themeData.colorScheme.brightness == Brightness.light
-        ? const Color(0xFFF1F1F1)
-        : const Color(0xFF3A3A3A);
+    final bool isMaterial3 = model.themeData.useMaterial3;
+    return isMaterial3
+        ? model.themeData.colorScheme.surface.withOpacity(0.0001)
+        : model.themeData.colorScheme.brightness == Brightness.light
+            ? const Color(0xFFF1F1F1)
+            : const Color(0xFF3A3A3A);
   }
 
   List<GridColumn> _getColumns() {
@@ -194,6 +197,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
                   height: 40,
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -222,10 +226,9 @@ class _ColumnResizingDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-          brightness: model.themeData.colorScheme.brightness,
           headerColor: _getHeaderCellBackgroundColor(),
           headerHoverColor: _getHeaderCellBackgroundColor(),
-          columnResizeIndicatorColor: model.backgroundColor),
+          columnResizeIndicatorColor: model.primaryColor),
       child: SfDataGrid(
         gridLinesVisibility: GridLinesVisibility.both,
         headerGridLinesVisibility: GridLinesVisibility.both,

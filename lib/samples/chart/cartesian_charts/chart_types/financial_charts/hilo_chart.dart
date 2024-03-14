@@ -38,7 +38,7 @@ class _HiloChartState extends SampleViewState {
             child: SizedBox(
                 width: 90,
                 child: CheckboxListTile(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: _toggleVisibility,
                     onChanged: (bool? value) {
                       setState(() {
@@ -59,6 +59,7 @@ class _HiloChartState extends SampleViewState {
 
   ///Get the cartesian chart with hilo series
   SfCartesianChart _buildHilo() {
+    final ThemeData themeData = model.themeData;
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
@@ -74,13 +75,20 @@ class _HiloChartState extends SampleViewState {
           maximum: 140,
           labelFormat: r'${value}',
           axisLine: AxisLine(width: 0)),
-      series: _getHiloSeries(),
+      series: _getHiloSeries(
+          themeData.useMaterial3, themeData.brightness == Brightness.light),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
   ///Get the cartesian hilo series
-  List<HiloSeries<ChartSampleData, DateTime>> _getHiloSeries() {
+  List<HiloSeries<ChartSampleData, DateTime>> _getHiloSeries(
+      bool isMaterial3, bool isLightMode) {
+    final Color color = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(6, 174, 224, 1)
+            : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return <HiloSeries<ChartSampleData, DateTime>>[
       HiloSeries<ChartSampleData, DateTime>(
           dataSource: <ChartSampleData>[
@@ -235,7 +243,7 @@ class _HiloChartState extends SampleViewState {
                 low: 91.5,
                 thirdSeriesYValue: 95.89),
           ],
-          color: const Color.fromRGBO(192, 108, 132, 1),
+          color: color,
           name: 'AAPL',
           showIndicationForSameValues: isCardView ? true : _toggleVisibility,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,

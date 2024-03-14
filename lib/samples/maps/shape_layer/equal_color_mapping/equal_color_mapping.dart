@@ -1,6 +1,10 @@
 ///Flutter package imports
 import 'package:flutter/material.dart';
 
+///Core theme import
+// ignore: depend_on_referenced_packages
+import 'package:syncfusion_flutter_core/theme.dart';
+
 ///Map import
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -21,75 +25,13 @@ class MapEqualColorMappingPage extends SampleView {
 class _MapEqualColorMappingPageState extends SampleViewState {
   late List<_CountryTimeInGMT> _timeZones;
   late MapShapeSource _mapSource;
+  Brightness? brightness;
 
-  @override
-  void initState() {
-    super.initState();
-
-    // Data source to the map.
-    //
-    // [countryName]: Field name in the .json file to identify the shape.
-    // This is the name to be mapped with shapes in .json file.
-    // This should be exactly same as the value of the [shapeDataField]
-    // in the .json file
-    //
-    // [gmtTime]: On the basis of this value, color mapping color has been
-    // applied to the shape.
-    _timeZones = <_CountryTimeInGMT>[
-      _CountryTimeInGMT('Albania', 'GMT+2'),
-      _CountryTimeInGMT('Aland', 'GMT+3'),
-      _CountryTimeInGMT('Andorra', 'GMT+1'),
-      _CountryTimeInGMT('Austria', 'GMT+2'),
-      _CountryTimeInGMT('Belgium', 'GMT+2'),
-      _CountryTimeInGMT('Bulgaria', 'GMT+3'),
-      _CountryTimeInGMT('Bosnia and Herz.', 'GMT+2'),
-      _CountryTimeInGMT('Belarus', 'GMT+3'),
-      _CountryTimeInGMT('Switzerland', 'GMT+2'),
-      _CountryTimeInGMT('Czech Rep.', 'GMT+2'),
-      _CountryTimeInGMT('Germany', 'GMT+2'),
-      _CountryTimeInGMT('Denmark', 'GMT+2'),
-      _CountryTimeInGMT('Spain', 'GMT+2'),
-      _CountryTimeInGMT('Estonia', 'GMT+3'),
-      _CountryTimeInGMT('Finland', 'GMT+3'),
-      _CountryTimeInGMT('France', 'GMT+2'),
-      _CountryTimeInGMT('Faeroe Is.', 'GMT+1'),
-      _CountryTimeInGMT('United Kingdom', 'GMT+1'),
-      _CountryTimeInGMT('Guernsey', 'GMT+1'),
-      _CountryTimeInGMT('Greece', 'GMT+3'),
-      _CountryTimeInGMT('Croatia', 'GMT+2'),
-      _CountryTimeInGMT('Hungary', 'GMT+2'),
-      _CountryTimeInGMT('Isle of Man', 'GMT+1'),
-      _CountryTimeInGMT('Ireland', 'GMT+1'),
-      _CountryTimeInGMT('Iceland', 'GMT+0'),
-      _CountryTimeInGMT('Italy', 'GMT+2'),
-      _CountryTimeInGMT('Jersey', 'GMT+1'),
-      _CountryTimeInGMT('Kosovo', 'GMT+2'),
-      _CountryTimeInGMT('Liechtenstein', 'GMT+2'),
-      _CountryTimeInGMT('Lithuania', 'GMT+3'),
-      _CountryTimeInGMT('Luxembourg', 'GMT+2'),
-      _CountryTimeInGMT('Latvia', 'GMT+3'),
-      _CountryTimeInGMT('Monaco', 'GMT+2'),
-      _CountryTimeInGMT('Moldova', 'GMT+3'),
-      _CountryTimeInGMT('Macedonia', 'GMT+2'),
-      _CountryTimeInGMT('Malta', 'GMT+2'),
-      _CountryTimeInGMT('Montenegro', 'GMT+2'),
-      _CountryTimeInGMT('Netherlands', 'GMT+2'),
-      _CountryTimeInGMT('Norway', 'GMT+2'),
-      _CountryTimeInGMT('Poland', 'GMT+2'),
-      _CountryTimeInGMT('Portugal', 'GMT+1'),
-      _CountryTimeInGMT('Romania', 'GMT+3'),
-      _CountryTimeInGMT('San Marino', 'GMT+2'),
-      _CountryTimeInGMT('Serbia', 'GMT+2'),
-      _CountryTimeInGMT('Slovakia', 'GMT+2'),
-      _CountryTimeInGMT('Slovenia', 'GMT+2'),
-      _CountryTimeInGMT('Sweden', 'GMT+2'),
-      _CountryTimeInGMT('Ukraine', 'GMT+3'),
-      _CountryTimeInGMT('Vatican', 'GMT+1'),
-    ];
-
+  void _createOrUpdateMapSource(Brightness brightness) {
+    final bool isLight = brightness == Brightness.light;
     _mapSource = MapShapeSource.asset(
       // Path of the GeoJSON file.
-      'assets/europe.json',
+      'assets/world_map.json',
       // Field or group name in the .json file to identify
       // the shapes.
       //
@@ -115,7 +57,7 @@ class _MapEqualColorMappingPageState extends SampleViewState {
       // compared with the value returned in the
       // [shapeColorValueMapper]. If it is equal, the respective
       // [MapColorMapper.color] will be applied to the shape.
-      shapeColorValueMapper: (int index) => _timeZones[index].gmtTime,
+      shapeColorValueMapper: (int index) => _timeZones[index].game,
       // Group and differentiate the shapes using the color
       // based on [MapColorMapper.value] value.
       //
@@ -128,16 +70,90 @@ class _MapEqualColorMappingPageState extends SampleViewState {
       // legend item and [MapColorMapper.color] will be used for
       // the color of the legend icon respectively.
       shapeColorMappers: <MapColorMapper>[
-        const MapColorMapper(
-            value: 'GMT+0', color: Colors.lightBlue, text: 'GMT+0'),
-        const MapColorMapper(
-            value: 'GMT+1', color: Colors.orangeAccent, text: 'GMT+1'),
-        const MapColorMapper(
-            value: 'GMT+2', color: Colors.lightGreen, text: 'GMT+2'),
-        const MapColorMapper(
-            value: 'GMT+3', color: Colors.purple, text: 'GMT+3'),
+        MapColorMapper(
+          value: 'Soccer',
+          color: isLight ? const Color(0xFF06AEE0) : const Color(0xFF4DAAFF),
+          text: 'Football (Soccer)',
+        ),
+        MapColorMapper(
+          value: 'Basketball',
+          color: isLight ? const Color(0xFF6355C7) : const Color(0xFF33B677),
+          text: 'Basketball',
+        ),
+        MapColorMapper(
+          value: 'Cricket',
+          color: isLight ? const Color(0xFFEC5C7B) : const Color(0xFFB93CE4),
+          text: 'Cricket',
+        ),
+        MapColorMapper(
+          value: 'Baseball',
+          color: isLight ? const Color(0xFFFFB400) : const Color(0xFFB2F32E),
+          text: 'Baseball',
+        ),
+        MapColorMapper(
+          value: 'Football (NFL)',
+          color: isLight ? const Color(0xFF3BA31A) : const Color(0xFFFF9D45),
+          text: 'American Football',
+        ),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Data source to the map.
+    //
+    // [countryName]: Field name in the .json file to identify the shape.
+    // This is the name to be mapped with shapes in .json file.
+    // This should be exactly same as the value of the [shapeDataField]
+    // in the .json file
+    //
+    // [gmtTime]: On the basis of this value, color mapping color has been
+    // applied to the shape.
+    _timeZones = <_CountryTimeInGMT>[
+      _CountryTimeInGMT('China', 'Basketball'),
+      _CountryTimeInGMT('India', 'Cricket'),
+      _CountryTimeInGMT('United States of America', 'Football (NFL)'),
+      _CountryTimeInGMT('Indonesia', 'Soccer'),
+      _CountryTimeInGMT('Pakistan', 'Cricket'),
+      _CountryTimeInGMT('Brazil', 'Soccer'),
+      _CountryTimeInGMT('Nigeria', 'Soccer'),
+      _CountryTimeInGMT('Bangladesh', 'Cricket'),
+      _CountryTimeInGMT('Russia', 'Soccer'),
+      _CountryTimeInGMT('Mexico', 'Soccer'),
+      _CountryTimeInGMT('Japan', 'Baseball'),
+      _CountryTimeInGMT('Ethiopia', 'Soccer'),
+      _CountryTimeInGMT('Philippines', 'Basketball'),
+      _CountryTimeInGMT('Egypt', 'Soccer'),
+      _CountryTimeInGMT('Vietnam', 'Soccer'),
+      _CountryTimeInGMT('Democratic Republic of the Congo', 'Soccer'),
+      _CountryTimeInGMT('Turkey', 'Soccer'),
+      _CountryTimeInGMT('Iran', 'Soccer'),
+      _CountryTimeInGMT('Germany', 'Soccer'),
+      _CountryTimeInGMT('Thailand', 'Soccer'),
+      _CountryTimeInGMT('England', 'Soccer'),
+      _CountryTimeInGMT('France', 'Soccer'),
+      _CountryTimeInGMT('Italy', 'Soccer'),
+      _CountryTimeInGMT('Tanzania', 'Soccer'),
+      _CountryTimeInGMT('South Africa', 'Soccer'),
+      _CountryTimeInGMT('Myanmar', 'Soccer'),
+      _CountryTimeInGMT('Kenya', 'Soccer'),
+      _CountryTimeInGMT('South Korea', 'Soccer'),
+      _CountryTimeInGMT('Colombia', 'Soccer'),
+      _CountryTimeInGMT('Spain', 'Soccer'),
+    ];
+  }
+
+  @override
+  void didChangeDependencies() {
+    final Brightness newBrightness = Theme.of(context).brightness;
+    if (brightness != newBrightness) {
+      _createOrUpdateMapSource(newBrightness);
+      brightness = newBrightness;
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -175,75 +191,88 @@ class _MapEqualColorMappingPageState extends SampleViewState {
     final bool isLightTheme =
         themeData.colorScheme.brightness == Brightness.light;
     return Center(
-        child: Padding(
-      padding: scrollEnabled
-          ? EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.05,
-              bottom: MediaQuery.of(context).size.height * 0.05,
-              right: 10,
-              left: 10)
-          : const EdgeInsets.only(left: 10, right: 10, bottom: 15),
-      child: Column(children: <Widget>[
-        Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 30),
-            child: Align(
-                child: Text('European Time Zones',
-                    style: Theme.of(context).textTheme.titleMedium))),
-        Expanded(
-            child: SfMaps(
-          layers: <MapLayer>[
-            MapShapeLayer(
-              loadingBuilder: (BuildContext context) {
-                return const SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                  ),
-                );
-              },
-              source: _mapSource,
-              strokeColor: isLightTheme
-                  ? Colors.white
-                  : const Color.fromRGBO(224, 224, 224, 0.5),
-              // Returns the custom tooltip for each shape.
-              shapeTooltipBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    _timeZones[index].countryName +
-                        ' : ' +
-                        _timeZones[index].gmtTime,
-                    style: themeData.textTheme.bodySmall!.copyWith(
-                      color: isLightTheme
-                          ? const Color.fromRGBO(255, 255, 255, 1)
-                          : const Color.fromRGBO(10, 10, 10, 1),
-                    ),
-                  ),
-                );
-              },
-              legend: const MapLegend.bar(
-                MapElement.shape,
-                position: MapLegendPosition.bottom,
-                padding: EdgeInsets.only(top: 15),
-                segmentSize: Size(60.0, 10.0),
+      child: Padding(
+        padding: scrollEnabled
+            ? EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
+                bottom: MediaQuery.of(context).size.height * 0.05,
+                right: 10,
+                left: 10)
+            : const EdgeInsets.only(left: 10, right: 10, bottom: 15),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 15, bottom: 30),
+              child: Align(
+                child: Text(
+                  'Most Popular Sports in the 30 Most Populous Countries',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ),
-              tooltipSettings: MapTooltipSettings(
-                color: isLightTheme
-                    ? const Color.fromRGBO(45, 45, 45, 1)
-                    : const Color.fromRGBO(242, 242, 242, 1),
+            ),
+            Expanded(
+              child: SfMapsTheme(
+                data: const SfMapsThemeData(
+                  shapeHoverColor: Colors.transparent,
+                  shapeHoverStrokeColor: Colors.transparent,
+                ),
+                child: SfMaps(
+                  layers: <MapLayer>[
+                    MapShapeLayer(
+                      loadingBuilder: (BuildContext context) {
+                        return const SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3,
+                          ),
+                        );
+                      },
+                      source: _mapSource,
+                      strokeColor: isLightTheme
+                          ? Colors.white
+                          : Colors.white.withOpacity(0.12),
+                      // Returns the custom tooltip for each shape.
+                      shapeTooltipBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            _timeZones[index].countryName +
+                                ' : ' +
+                                _timeZones[index].game,
+                            style: themeData.textTheme.bodySmall!.copyWith(
+                              color: isLightTheme
+                                  ? const Color.fromRGBO(255, 255, 255, 1)
+                                  : const Color.fromRGBO(10, 10, 10, 1),
+                            ),
+                          ),
+                        );
+                      },
+                      legend: const MapLegend(
+                        MapElement.shape,
+                        position: MapLegendPosition.bottom,
+                        padding: EdgeInsets.only(top: 15),
+                      ),
+                      tooltipSettings: MapTooltipSettings(
+                        color: isLightTheme
+                            ? const Color.fromRGBO(45, 45, 45, 1)
+                            : const Color.fromRGBO(242, 242, 242, 1),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
-        )),
-      ]),
-    ));
+        ),
+      ),
+    );
   }
 }
 
 class _CountryTimeInGMT {
-  _CountryTimeInGMT(this.countryName, this.gmtTime);
+  _CountryTimeInGMT(this.countryName, this.game);
 
   final String countryName;
-  final String gmtTime;
+  final String game;
 }

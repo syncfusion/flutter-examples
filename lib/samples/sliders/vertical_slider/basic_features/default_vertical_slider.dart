@@ -42,7 +42,7 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
 
   SfSliderTheme _activeSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider.vertical(
           max: 100.0,
           isInversed: _isInversed,
@@ -108,7 +108,7 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
           contentPadding: EdgeInsets.zero,
           value: _isInversed,
           title: const Text('Inversed', softWrap: false),
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           onChanged: (bool? value) {
             setState(() {
               _isInversed = value!;

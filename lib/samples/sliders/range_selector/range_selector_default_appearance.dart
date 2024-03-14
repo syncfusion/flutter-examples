@@ -141,9 +141,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                       color: themeData.textTheme.bodyLarge!.color!
                           .withOpacity(0.87)),
                   inactiveRegionColor:
-                      themeData.colorScheme.brightness == Brightness.light
-                          ? Colors.white.withOpacity(0.75)
-                          : const Color.fromRGBO(33, 33, 33, 0.75),
+                      model.sampleOutputCardColor.withOpacity(0.75),
                 ),
                 child: SfRangeSelector(
                   min: min,
@@ -239,7 +237,7 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
             'Show tooltip always',
             softWrap: false,
           ),
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           contentPadding: EdgeInsets.zero,
           onChanged: (bool? value) {
             setState(() {

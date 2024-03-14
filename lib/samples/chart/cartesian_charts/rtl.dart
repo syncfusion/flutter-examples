@@ -55,7 +55,7 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
               SizedBox(
                   width: 110,
                   child: CheckboxListTile(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: isInversedX,
                       onChanged: (bool? value) {
                         setState(() {
@@ -78,7 +78,7 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
               SizedBox(
                   width: 105,
                   child: CheckboxListTile(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: isOpposedPosition,
                       onChanged: (bool? value) {
                         setState(() {

@@ -101,6 +101,7 @@ class _TrendLineDefaultState extends SampleViewState {
                     EdgeInsets.fromLTRB(model.isWebFullView ? 50 : 70, 0, 0, 0),
                 width: dropDownWidth,
                 child: DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
                   focusColor: Colors.transparent,
                   isExpanded: !model.isWebFullView,
                   underline:
@@ -137,7 +138,7 @@ class _TrendLineDefaultState extends SampleViewState {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: CheckboxListTile(
-                          activeColor: model.backgroundColor,
+                          activeColor: model.primaryColor,
                           value: _displaySlopeEquation,
                           onChanged: _type == TrendlineType.movingAverage
                               ? null
@@ -164,7 +165,7 @@ class _TrendLineDefaultState extends SampleViewState {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: CheckboxListTile(
-                          activeColor: model.backgroundColor,
+                          activeColor: model.primaryColor,
                           value: _displayRSquare,
                           onChanged: _type == TrendlineType.movingAverage
                               ? null
@@ -248,6 +249,7 @@ class _TrendLineDefaultState extends SampleViewState {
   /// Returns the column chart with default trendline types.
   SfCartesianChart _buildTrendLineDefaultChart(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
+    final ThemeData themeData = model.themeData;
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -264,7 +266,8 @@ class _TrendLineDefaultState extends SampleViewState {
           interval: !isCardView ? 5000 : 10000,
           labelFormat: '{value}',
           maximum: 40000),
-      series: _getTrendLineDefaultSeries(),
+      series: _getTrendLineDefaultSeries(
+          themeData.useMaterial3, themeData.brightness == Brightness.light),
       onLegendTapped: (LegendTapArgs args) {
         setState(() {
           isLegendTapped = isLegendTapped == true ? false : true;
@@ -332,8 +335,14 @@ class _TrendLineDefaultState extends SampleViewState {
 
   /// Returns the list of chart series which
   /// need to render on the column chart with default trendline.
-  List<ColumnSeries<ChartSampleData, String>> _getTrendLineDefaultSeries() {
+  List<ColumnSeries<ChartSampleData, String>> _getTrendLineDefaultSeries(
+      bool isMaterial3, bool isLightMode) {
     periodMaxValue = 6; // dataSource.length - 1;
+    final Color color = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(99, 85, 199, 1)
+            : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
           dataSource: <ChartSampleData>[
@@ -352,7 +361,7 @@ class _TrendLineDefaultState extends SampleViewState {
             Trendline(
                 type: _type,
                 width: 3,
-                color: const Color.fromRGBO(192, 108, 132, 1),
+                color: color,
                 dashArray: <double>[15, 3, 3, 3],
                 polynomialOrder: _polynomialOrder,
                 period: _period,

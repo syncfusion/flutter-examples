@@ -53,7 +53,7 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
         key: _globalKey,
         data: model.themeData.copyWith(
             colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.backgroundColor)),
+                .copyWith(secondary: model.primaryColor)),
         child: _getCalendar(_calendarController, _events, _onViewChanged));
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -69,13 +69,13 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
                     controller: _scrollController,
                     children: <Widget>[
                       Container(
-                        color: model.cardThemeColor,
+                        color: model.sampleOutputCardColor,
                         height: 600,
                         child: calendar,
                       )
                     ],
                   ))
-              : Container(color: model.cardThemeColor, child: calendar),
+              : Container(color: model.sampleOutputCardColor, child: calendar),
         )
       ]),
     );

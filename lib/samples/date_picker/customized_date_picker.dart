@@ -65,7 +65,7 @@ class _CustomizedDatePickerState extends SampleViewState {
           : const EdgeInsets.all(30),
       child: Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          color: model.cardThemeColor,
+          color: model.sampleOutputCardColor,
           child: _getCustomizedDatePicker(_specialDates, model.themeData)),
     );
     return Scaffold(

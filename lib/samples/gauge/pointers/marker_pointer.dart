@@ -66,6 +66,7 @@ class _MarkerPointerExampleState extends SampleViewState {
             Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
                   underline:
                       Container(color: const Color(0xFFBDBDBD), height: 1),
                   value: _selectedMarkerType,

@@ -66,8 +66,9 @@ class _QRCodeGeneratorState extends SampleViewState {
     }
 
     return Scaffold(
-      backgroundColor:
-          model.isWebFullView ? Colors.transparent : model.cardThemeColor,
+      backgroundColor: model.isWebFullView
+          ? Colors.transparent
+          : model.sampleOutputCardColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         child: Container(
@@ -106,7 +107,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                           alignment: Alignment.bottomLeft,
                           child: Theme(
                             data: Theme.of(context).copyWith(
-                                canvasColor: model.bottomSheetBackgroundColor),
+                                canvasColor: model.drawerBackgroundColor),
                             child: TextField(
                                 style: TextStyle(color: model.textColor),
                                 decoration: InputDecoration(
@@ -149,6 +150,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                         height: 50,
                         alignment: Alignment.bottomLeft,
                         child: DropdownButton<String>(
+                            dropdownColor: model.drawerBackgroundColor,
                             focusColor: Colors.transparent,
                             underline: Container(
                                 color: const Color(0xFFBDBDBD), height: 1),
@@ -194,6 +196,7 @@ class _QRCodeGeneratorState extends SampleViewState {
                         height: 50,
                         alignment: Alignment.bottomLeft,
                         child: DropdownButton<String>(
+                            dropdownColor: model.drawerBackgroundColor,
                             focusColor: Colors.transparent,
                             underline: Container(
                                 color: const Color(0xFFBDBDBD), height: 1),

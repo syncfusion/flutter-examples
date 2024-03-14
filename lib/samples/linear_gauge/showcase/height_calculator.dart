@@ -119,7 +119,7 @@ class _HeightCalculatorState extends SampleViewState {
                             width: 60,
                             height: 25,
                             decoration: BoxDecoration(
-                                color: model.cardColor,
+                                color: model.homeCardColor,
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                     color: brightness == Brightness.light

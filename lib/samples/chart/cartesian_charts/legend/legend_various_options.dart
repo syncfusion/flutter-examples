@@ -192,6 +192,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
                           child: SizedBox(
                               width: dropDownWidth,
                               child: DropdownButton<String>(
+                                  dropdownColor: model.drawerBackgroundColor,
                                   focusColor: Colors.transparent,
                                   isExpanded: true,
                                   underline: Container(
@@ -230,6 +231,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -273,7 +275,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
                                       : 0.37 * screenWidth),
                               width: dropDownWidth,
                               child: Checkbox(
-                                  activeColor: model.backgroundColor,
+                                  activeColor: model.primaryColor,
                                   value: toggleVisibility,
                                   onChanged: (bool? value) {
                                     setState(() {
@@ -308,7 +310,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
                                       : 0.37 * screenWidth),
                               width: dropDownWidth,
                               child: Checkbox(
-                                  activeColor: model.backgroundColor,
+                                  activeColor: model.primaryColor,
                                   value: enableFloatingLegend,
                                   onChanged: (bool? value) {
                                     setState(() {
@@ -394,7 +396,7 @@ class _CartesianLegendOptionsState extends SampleViewState {
     });
   }
 
-  /// Returns the stacked line chart with various legedn modification options.
+  /// Returns the stacked line chart with various legend modification options.
   SfCartesianChart _buildCartesianLegendOptionsChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
@@ -408,10 +410,10 @@ class _CartesianLegendOptionsState extends SampleViewState {
         offset: enableFloatingLegend ? Offset(_xOffset, _yOffset) : null,
         overflowMode: _overflowMode!,
         toggleSeriesVisibility: toggleVisibility,
-        backgroundColor: model.currentThemeData?.brightness == Brightness.light
+        backgroundColor: model.themeData.brightness == Brightness.light
             ? Colors.white.withOpacity(0.5)
             : const Color.fromRGBO(33, 33, 33, 0.5),
-        borderColor: model.currentThemeData?.brightness == Brightness.light
+        borderColor: model.themeData.brightness == Brightness.light
             ? Colors.black.withOpacity(0.5)
             : Colors.white.withOpacity(0.5),
       ),

@@ -42,11 +42,11 @@ class _PickerLocalizationState extends LocalizationSampleViewState {
             : const EdgeInsets.all(30),
         child: Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          color: model.cardThemeColor,
+          color: model.sampleOutputCardColor,
           child: Theme(
               data: model.themeData.copyWith(
                   colorScheme: model.themeData.colorScheme
-                      .copyWith(secondary: model.backgroundColor)),
+                      .copyWith(secondary: model.primaryColor)),
               child: _getGettingStartedDatePicker(_controller, context)),
         ));
     return Scaffold(
