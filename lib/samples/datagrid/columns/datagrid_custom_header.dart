@@ -117,13 +117,16 @@ class _CustomHeaderDataGridState extends SampleViewState {
   }
 
   Widget buildHeaderCell(Widget headerChild) {
+    final bool isMaterial3 = model.themeData.useMaterial3;
     return Row(
       children: <Widget>[
         Flexible(child: headerChild),
-        const Icon(
+        Icon(
           Icons.keyboard_arrow_down,
           size: 25,
-          color: Colors.grey,
+          color: isMaterial3
+              ? model.themeData.colorScheme.onSurfaceVariant
+              : Colors.grey,
         )
       ],
     );

@@ -122,7 +122,7 @@ class OrderInfoDataGridSource extends DataGridSource {
     final int rowIndex = dataGridRows.indexOf(row);
     Color backgroundColor = Colors.transparent;
     if (model != null && (rowIndex % 2) == 0 && culture == null) {
-      backgroundColor = model!.backgroundColor.withOpacity(0.07);
+      backgroundColor = model!.primaryColor.withOpacity(0.07);
     }
     if (isWebOrDesktop) {
       return DataGridRowAdapter(color: backgroundColor, cells: <Widget>[

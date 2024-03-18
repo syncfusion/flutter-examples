@@ -130,9 +130,8 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                               isLightTheme ? Colors.black : Colors.white,
                           inactiveTrackColor:
                               isLightTheme ? Colors.black : Colors.white,
-                          inactiveRegionColor: isLightTheme
-                              ? Colors.white.withOpacity(0.75)
-                              : const Color.fromRGBO(33, 33, 33, 0.75),
+                          inactiveRegionColor:
+                              model.sampleOutputCardColor.withOpacity(0.75),
                           tooltipBackgroundColor:
                               isLightTheme ? Colors.black : Colors.white,
                           overlayColor: isLightTheme

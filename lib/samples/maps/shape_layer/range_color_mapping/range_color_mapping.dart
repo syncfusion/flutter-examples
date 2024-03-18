@@ -399,8 +399,8 @@ class _MapRangeColorMappingPageState extends SampleViewState {
               right: 10)
           : const EdgeInsets.only(right: 10, bottom: 15),
       child: SfMapsTheme(
-        data: SfMapsThemeData(
-          shapeHoverColor: const Color.fromRGBO(176, 237, 131, 1),
+        data: const SfMapsThemeData(
+          shapeHoverColor: Color.fromRGBO(176, 237, 131, 1),
         ),
         child: Column(children: <Widget>[
           Padding(

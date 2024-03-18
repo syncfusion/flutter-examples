@@ -45,6 +45,7 @@ class _CircularSelectionState extends SampleViewState {
               Container(
                   padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -71,7 +72,7 @@ class _CircularSelectionState extends SampleViewState {
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(model.backgroundColor),
+                        MaterialStateProperty.all<Color>(model.primaryColor),
                   ),
                   onPressed: () {
                     selectionBehavior!.selectDataPoints(_pointIndex);

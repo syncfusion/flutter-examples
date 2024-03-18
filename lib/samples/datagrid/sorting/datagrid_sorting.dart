@@ -79,6 +79,7 @@ class _SortingDataGridState extends SampleViewState {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
       return Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,7 +90,7 @@ class _SortingDataGridState extends SampleViewState {
               Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: allowSorting,
                     onChanged: (bool value) {
                       setState(() {
@@ -112,7 +113,7 @@ class _SortingDataGridState extends SampleViewState {
                 Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: allowMultiSorting,
                       onChanged: (bool value) {
                         setState(() {
@@ -134,7 +135,7 @@ class _SortingDataGridState extends SampleViewState {
                 Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: allowTriStateSorting,
                       onChanged: (bool value) {
                         setState(() {
@@ -156,7 +157,7 @@ class _SortingDataGridState extends SampleViewState {
                 Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: allowColumnSorting,
                       onChanged: (bool value) {
                         setState(() {
@@ -178,7 +179,7 @@ class _SortingDataGridState extends SampleViewState {
                 Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: showSortNumbers,
                       onChanged: (bool value) {
                         setState(() {

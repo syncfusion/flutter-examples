@@ -91,7 +91,7 @@ class GettingStartedCalendarState extends SampleViewState {
         key: _globalKey,
         data: model.themeData.copyWith(
             colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.backgroundColor)),
+                .copyWith(secondary: model.primaryColor)),
         child: _getGettingStartedCalendar(_calendarController, _events,
             _onViewChanged, _minDate, _maxDate, scheduleViewBuilder));
 
@@ -109,13 +109,13 @@ class GettingStartedCalendarState extends SampleViewState {
                     controller: _controller,
                     children: <Widget>[
                       Container(
-                        color: model.cardThemeColor,
+                        color: model.sampleOutputCardColor,
                         height: 600,
                         child: calendar,
                       )
                     ],
                   ))
-              : Container(color: model.cardThemeColor, child: calendar),
+              : Container(color: model.sampleOutputCardColor, child: calendar),
         )
       ]),
     );
@@ -280,13 +280,13 @@ class GettingStartedCalendarState extends SampleViewState {
                   style: TextStyle(fontSize: 16.0, color: model.textColor)),
               Theme(
                 data: Theme.of(context)
-                    .copyWith(canvasColor: model.bottomSheetBackgroundColor),
+                    .copyWith(canvasColor: model.drawerBackgroundColor),
                 child: Container(
                   alignment: Alignment.centerLeft,
                   child: Transform.scale(
                       scale: 0.8,
                       child: CupertinoSwitch(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _allowViewNavigation,
                         onChanged: (bool value) {
                           setState(() {
@@ -309,13 +309,13 @@ class GettingStartedCalendarState extends SampleViewState {
                 padding: EdgeInsets.zero,
                 child: Theme(
                   data: Theme.of(context)
-                      .copyWith(canvasColor: model.bottomSheetBackgroundColor),
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Container(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
                         scale: 0.8,
                         child: CupertinoSwitch(
-                          activeColor: model.backgroundColor,
+                          activeColor: model.primaryColor,
                           value: _showDatePickerButton,
                           onChanged: (bool value) {
                             setState(() {
@@ -342,13 +342,13 @@ class GettingStartedCalendarState extends SampleViewState {
                           TextStyle(fontSize: 16.0, color: model.textColor))),
               Theme(
                   data: Theme.of(context)
-                      .copyWith(canvasColor: model.bottomSheetBackgroundColor),
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
                         scale: 0.8,
                         child: CupertinoSwitch(
-                          activeColor: model.backgroundColor,
+                          activeColor: model.primaryColor,
                           value: _showLeadingAndTrailingDates,
                           onChanged: (bool value) {
                             setState(() {
@@ -373,13 +373,13 @@ class GettingStartedCalendarState extends SampleViewState {
                           TextStyle(fontSize: 16.0, color: model.textColor))),
               Theme(
                   data: Theme.of(context)
-                      .copyWith(canvasColor: model.bottomSheetBackgroundColor),
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
                         scale: 0.8,
                         child: CupertinoSwitch(
-                          activeColor: model.backgroundColor,
+                          activeColor: model.primaryColor,
                           value: _showCurrentTimeIndicator,
                           onChanged: (bool value) {
                             setState(() {
@@ -401,13 +401,13 @@ class GettingStartedCalendarState extends SampleViewState {
                           TextStyle(fontSize: 16.0, color: model.textColor))),
               Theme(
                 data: Theme.of(context)
-                    .copyWith(canvasColor: model.bottomSheetBackgroundColor),
+                    .copyWith(canvasColor: model.drawerBackgroundColor),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Transform.scale(
                       scale: 0.8,
                       child: CupertinoSwitch(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _showWeekNumber,
                         onChanged: (bool value) {
                           setState(() {
@@ -437,6 +437,7 @@ class GettingStartedCalendarState extends SampleViewState {
                   padding: const EdgeInsets.only(left: 60),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -470,6 +471,7 @@ class GettingStartedCalendarState extends SampleViewState {
                   padding: const EdgeInsets.only(left: 60),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),

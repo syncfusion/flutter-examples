@@ -31,8 +31,8 @@ class _VerticalSliderStepDurationPageState extends SampleViewState {
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider.vertical(
           min: DateTime(2000),
           max: DateTime(2020),
@@ -59,8 +59,8 @@ class _VerticalSliderStepDurationPageState extends SampleViewState {
 
   SfRangeSliderTheme _numericRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider.vertical(
             showLabels: true,
             interval: 25,
@@ -131,7 +131,7 @@ class _VerticalSliderStepDurationPageState extends SampleViewState {
             softWrap: false,
           ),
           contentPadding: EdgeInsets.zero,
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           onChanged: (bool? value) {
             setState(() {
               _isInversed = value!;

@@ -163,7 +163,7 @@ class _ShiftSchedulerState extends SampleViewState {
                             data: model.themeData,
                             child: Card(
                               margin: EdgeInsets.zero,
-                              color: model.cardThemeColor,
+                              color: model.sampleOutputCardColor,
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4))),
@@ -215,11 +215,11 @@ class _ShiftSchedulerState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: model.cardThemeColor,
+      color: model.sampleOutputCardColor,
       child: Theme(
           data: model.themeData.copyWith(
               colorScheme: model.themeData.colorScheme
-                  .copyWith(secondary: model.backgroundColor)),
+                  .copyWith(secondary: model.primaryColor)),
           child:
               _getShiftScheduler(_events, _onCalendarTapped, _onViewChanged)),
     );

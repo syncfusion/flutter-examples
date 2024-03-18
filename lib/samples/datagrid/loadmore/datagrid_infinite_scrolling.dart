@@ -27,27 +27,44 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
 
   /// Building the progress indicator when DataGrid scroller reach the bottom
   Widget _buildProgressIndicator() {
-    final bool isLight =
-        model.themeData.colorScheme.brightness == Brightness.light;
     return Container(
         height: 60.0,
         alignment: Alignment.center,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: isLight ? const Color(0xFFFFFFFF) : const Color(0xFF212121),
-            border: BorderDirectional(
-                top: BorderSide(
-                    color: isLight
-                        ? const Color.fromRGBO(0, 0, 0, 0.26)
-                        : const Color.fromRGBO(255, 255, 255, 0.26)))),
+            color: loadingIndicatorBackgroundColor(),
+            border:
+                BorderDirectional(top: BorderSide(color: topBorderColor()))),
         child: Container(
             width: 40,
             height: 40,
             alignment: Alignment.center,
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color?>(model.backgroundColor),
+              valueColor: AlwaysStoppedAnimation<Color?>(model.primaryColor),
               backgroundColor: Colors.transparent,
             )));
+  }
+
+  Color topBorderColor() {
+    final bool isMaterial3 = model.themeData.useMaterial3;
+    final bool isLight =
+        model.themeData.colorScheme.brightness == Brightness.light;
+    return isMaterial3
+        ? model.themeData.colorScheme.outlineVariant
+        : isLight
+            ? const Color.fromRGBO(0, 0, 0, 0.26)
+            : const Color.fromRGBO(255, 255, 255, 0.26);
+  }
+
+  Color loadingIndicatorBackgroundColor() {
+    final bool isMaterial3 = model.themeData.useMaterial3;
+    final bool isLight =
+        model.themeData.colorScheme.brightness == Brightness.light;
+    if (isLight) {
+      return isMaterial3 ? const Color(0xFFFFFBFF) : const Color(0xFFFFFFFF);
+    } else {
+      return isMaterial3 ? const Color(0xFF212121) : const Color(0xFF212121);
+    }
   }
 
   /// Callback method for load more builder

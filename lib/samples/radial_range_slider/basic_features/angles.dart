@@ -158,8 +158,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                         fontSize: _annotationFontSize,
                         fontFamily: 'Times',
                         fontWeight: FontWeight.bold,
-                        color: model.currentThemeData!.brightness ==
-                                Brightness.light
+                        color: model.themeData.brightness == Brightness.light
                             ? Colors.black
                             : Colors.white),
                   ),
@@ -244,8 +243,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                         fontSize: _annotationFontSize,
                         fontFamily: 'Times',
                         fontWeight: FontWeight.bold,
-                        color: model.currentThemeData!.brightness ==
-                                Brightness.light
+                        color: model.themeData.brightness == Brightness.light
                             ? Colors.black
                             : Colors.white),
                   ),
@@ -328,8 +326,7 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                         fontSize: _annotationFontSize,
                         fontFamily: 'Times',
                         fontWeight: FontWeight.bold,
-                        color: model.currentThemeData!.brightness ==
-                                Brightness.light
+                        color: model.themeData.brightness == Brightness.light
                             ? Colors.black
                             : Colors.white),
                   ),
@@ -410,10 +407,9 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                       fontSize: _annotationFontSize,
                       fontFamily: 'Times',
                       fontWeight: FontWeight.bold,
-                      color:
-                          model.currentThemeData!.brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white),
+                      color: model.themeData.brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white),
                 ),
                 positionFactor: 0.13,
                 angle: 0)

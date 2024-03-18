@@ -96,9 +96,9 @@ class _ScheduleViewCalendarState extends SampleViewState {
     return Theme(
         data: model.themeData.copyWith(
             colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.backgroundColor)),
+                .copyWith(secondary: model.primaryColor)),
         child: Container(
-            color: model.cardThemeColor,
+            color: model.sampleOutputCardColor,
             child: getScheduleViewCalendar(
                 events: events, scheduleViewBuilder: scheduleViewBuilder)));
   }

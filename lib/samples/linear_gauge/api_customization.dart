@@ -194,7 +194,7 @@ class _ApiCustomizationState extends SampleViewState {
                             child: Checkbox(
                                 value: _isInverse,
                                 splashRadius: 15,
-                                activeColor: model.backgroundColor,
+                                activeColor: model.primaryColor,
                                 onChanged: (bool? value) {
                                   setState(() {
                                     if (value != null) {
@@ -225,7 +225,7 @@ class _ApiCustomizationState extends SampleViewState {
                               child: Checkbox(
                                   splashRadius: 15,
                                   value: _isMirror,
-                                  activeColor: model.backgroundColor,
+                                  activeColor: model.primaryColor,
                                   onChanged: (bool? value) {
                                     setState(() {
                                       if (value != null) {
@@ -254,7 +254,7 @@ class _ApiCustomizationState extends SampleViewState {
                               child: Checkbox(
                                   value: _isHorizontalOrientation,
                                   splashRadius: 15,
-                                  activeColor: model.backgroundColor,
+                                  activeColor: model.primaryColor,
                                   onChanged: (bool? value) {
                                     setState(() {
                                       if (value != null) {
@@ -282,6 +282,7 @@ class _ApiCustomizationState extends SampleViewState {
                         child: ButtonTheme(
                             alignedDropdown: true,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 value: _shapePointerPosition,
                                 items: _pointerPositions.map((String value) {
                                   return DropdownMenuItem<String>(
@@ -315,6 +316,7 @@ class _ApiCustomizationState extends SampleViewState {
                         child: ButtonTheme(
                             alignedDropdown: true,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 value: _barPointerPosition,
                                 items: _pointerPositions.map((String value) {
                                   return DropdownMenuItem<String>(
@@ -349,6 +351,7 @@ class _ApiCustomizationState extends SampleViewState {
                         child: ButtonTheme(
                             alignedDropdown: true,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 value: _rangePointerPosition,
                                 items: _pointerPositions.map((String value) {
                                   return DropdownMenuItem<String>(
@@ -422,7 +425,7 @@ class _ApiCustomizationState extends SampleViewState {
               Container(
                   color: brightness == Brightness.dark
                       ? const Color(0xff2a2a2a)
-                      : model.webBackgroundColor,
+                      : model.backgroundColor,
                   height: MediaQuery.of(context).size.height,
                   padding: const EdgeInsets.all(10),
                   child: _buildPropertiesPanel(context)),
@@ -441,7 +444,7 @@ class _ApiCustomizationState extends SampleViewState {
                     padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
                     color: brightness == Brightness.dark
                         ? const Color(0xff2a2a2a)
-                        : model.webBackgroundColor,
+                        : model.backgroundColor,
                     child: _buildPropertiesPanel(context),
                   ),
                 ]),

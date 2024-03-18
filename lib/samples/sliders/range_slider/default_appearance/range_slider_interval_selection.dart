@@ -31,8 +31,8 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider(
           min: DateTime(2010),
           max: DateTime(2020),
@@ -59,8 +59,8 @@ class _RangeSliderIntervalSelectionPageState extends SampleViewState {
 
   SfRangeSliderTheme _numericRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider(
             showLabels: true,
             interval: 20,

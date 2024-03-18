@@ -37,7 +37,7 @@ class _HiloOpenCloseChartState extends SampleViewState {
               child: SizedBox(
                 width: 90,
                 child: CheckboxListTile(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: _toggleVisibility,
                     onChanged: (bool? value) {
                       setState(() {

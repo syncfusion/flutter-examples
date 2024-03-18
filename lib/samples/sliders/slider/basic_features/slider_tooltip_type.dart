@@ -31,7 +31,7 @@ class _SliderTooltipPageState extends SampleViewState {
 
   SfSliderTheme _yearSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider(
           min: DateTime(2016),
           max: DateTime(2020),
@@ -58,7 +58,7 @@ class _SliderTooltipPageState extends SampleViewState {
 
   SfSliderTheme _hourSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider(
           min: DateTime(2020, 01, 01, 9),
           max: DateTime(2020, 01, 01, 21, 05),
@@ -136,7 +136,7 @@ class _SliderTooltipPageState extends SampleViewState {
             'Show tooltip always',
             softWrap: false,
           ),
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           contentPadding: EdgeInsets.zero,
           onChanged: (bool? value) {
             setState(() {

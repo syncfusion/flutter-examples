@@ -81,6 +81,7 @@ class _PyramidDefaultState extends SampleViewState {
                         ),
                         Flexible(
                           child: DropdownButton<String>(
+                              dropdownColor: model.drawerBackgroundColor,
                               focusColor: Colors.transparent,
                               isExpanded: true,
                               underline: Container(
@@ -145,7 +146,7 @@ class _PyramidDefaultState extends SampleViewState {
                                       : 0.37 * screenWidth),
                               width: dropDownWidth,
                               child: Checkbox(
-                                  activeColor: model.backgroundColor,
+                                  activeColor: model.primaryColor,
                                   value: explode,
                                   onChanged: (bool? value) {
                                     setState(() {

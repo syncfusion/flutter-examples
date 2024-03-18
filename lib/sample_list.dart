@@ -318,6 +318,7 @@ import 'samples/pdf/encryption.dart';
 import 'samples/pdf/find_text.dart';
 import 'samples/pdf/form.dart';
 import 'samples/pdf/header_and_footer.dart';
+import 'samples/pdf/import_and_export_annotation_data.dart';
 import 'samples/pdf/import_and_export_form_data.dart';
 import 'samples/pdf/invoice.dart';
 import 'samples/pdf/text_extraction.dart';
@@ -738,6 +739,8 @@ Map<String, Function> getSampleWidget() {
     'certificate': (Key key) => CourseCompletionCertificatePdf(key),
     'header_and_footer': (Key key) => HeaderAndFooterPdf(key),
     'annotations': (Key key) => AnnotationsPdf(key),
+    'import_and_export_annotation_data': (Key key) =>
+        ImportAndExportAnnotationData(key),
     'digital_signature': (Key key) => SignPdf(key),
     'encryption': (Key key) => EncryptPdf(key),
     'form': (Key key) => FormFillingPdf(key),

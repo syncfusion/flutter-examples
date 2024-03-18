@@ -41,7 +41,7 @@ class _CandleChartState extends SampleViewState {
                 SizedBox(
                     width: 90,
                     child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _enableSolidCandle,
                         onChanged: (bool? value) {
                           setState(() {
@@ -63,7 +63,7 @@ class _CandleChartState extends SampleViewState {
                 SizedBox(
                     width: 90,
                     child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _toggleVisibility,
                         onChanged: (bool? value) {
                           setState(() {

@@ -34,7 +34,7 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
   SfSliderTheme _numerical() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor,
+            tooltipBackgroundColor: model.primaryColor,
             labelOffset: const Offset(-30, 0),
             tickOffset: const Offset(-15, 0)),
         child: SfSlider.vertical(
@@ -59,7 +59,7 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
   SfSliderTheme _dateTimeSlider() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-          tooltipBackgroundColor: model.backgroundColor,
+          tooltipBackgroundColor: model.primaryColor,
         ),
         child: SfSlider.vertical(
           min: DateTime(2020, 01, 01, 9),
@@ -141,7 +141,7 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
                 softWrap: false,
               ),
               contentPadding: EdgeInsets.zero,
-              activeColor: model.backgroundColor,
+              activeColor: model.primaryColor,
               onChanged: (bool? value) {
                 setState(() {
                   _isInversed = value!;
@@ -155,7 +155,7 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
                 'Show tooltip always',
                 softWrap: false,
               ),
-              activeColor: model.backgroundColor,
+              activeColor: model.primaryColor,
               contentPadding: EdgeInsets.zero,
               onChanged: (bool? value) {
                 setState(() {

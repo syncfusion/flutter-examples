@@ -407,6 +407,8 @@ class _MapBubblePageState extends SampleViewState
                   child: ScaleTransition(
                     scale: _facebookAnimation,
                     child: IconButton(
+                      style: const ButtonStyle(
+                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_facebook.png'),
                       iconSize: 50,
                       onPressed: () {
@@ -454,6 +456,8 @@ class _MapBubblePageState extends SampleViewState
                   child: ScaleTransition(
                     scale: _twitterAnimation,
                     child: IconButton(
+                      style: const ButtonStyle(
+                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_twitter.png'),
                       iconSize: 50,
                       onPressed: () {
@@ -501,6 +505,8 @@ class _MapBubblePageState extends SampleViewState
                   child: ScaleTransition(
                     scale: _instagramAnimation,
                     child: IconButton(
+                      style: const ButtonStyle(
+                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_instagram.png'),
                       iconSize: 50,
                       onPressed: () {
@@ -548,6 +554,8 @@ class _MapBubblePageState extends SampleViewState
                   child: ScaleTransition(
                     scale: _snapchatAnimation,
                     child: IconButton(
+                      style: const ButtonStyle(
+                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_snapchat.png'),
                       iconSize: 50,
                       onPressed: () {
@@ -598,6 +606,8 @@ class _MapBubblePageState extends SampleViewState
                   child: ScaleTransition(
                     scale: _tiktokAnimation,
                     child: IconButton(
+                      style: const ButtonStyle(
+                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_tiktok.png'),
                       iconSize: 50,
                       onPressed: () {

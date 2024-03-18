@@ -77,7 +77,7 @@ class _DataPointsState extends SampleViewState {
     return ScaffoldMessenger(
         key: _scaffoldKey,
         child: Scaffold(
-            backgroundColor: model.cardThemeColor,
+            backgroundColor: model.sampleOutputCardColor,
             body: _buildDefaultColumnChart()));
   }
 
@@ -120,7 +120,7 @@ class _DataPointsState extends SampleViewState {
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
                       trailing: IconButton(
-                        icon: Icon(Icons.close, color: model.backgroundColor),
+                        icon: Icon(Icons.close, color: model.primaryColor),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },

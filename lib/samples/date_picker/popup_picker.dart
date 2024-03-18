@@ -69,7 +69,7 @@ class _PopUpDatePickerState extends SampleViewState
             ? const EdgeInsets.fromLTRB(30, 20, 30, 5)
             : const EdgeInsets.all(30),
         child: Container(
-            color: model.cardThemeColor,
+            color: model.sampleOutputCardColor,
             child: ListView(
                 padding: model.isWebFullView
                     ? const EdgeInsets.fromLTRB(30, 10, 10, 5)
@@ -104,7 +104,7 @@ class _PopUpDatePickerState extends SampleViewState
                                     _value == 0
                                         ? Icons.radio_button_checked
                                         : Icons.radio_button_unchecked,
-                                    color: model.backgroundColor,
+                                    color: model.primaryColor,
                                     size: 22,
                                   ),
                                   const SizedBox(
@@ -136,7 +136,7 @@ class _PopUpDatePickerState extends SampleViewState
                                     _value == 1
                                         ? Icons.radio_button_checked
                                         : Icons.radio_button_unchecked,
-                                    color: model.backgroundColor,
+                                    color: model.primaryColor,
                                     size: 22,
                                   ),
                                   const SizedBox(
@@ -383,7 +383,7 @@ class _PopUpDatePickerState extends SampleViewState
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           RawMaterialButton(
-                            fillColor: model.backgroundColor,
+                            fillColor: model.primaryColor,
                             splashColor: Colors.grey.withOpacity(0.12),
                             hoverColor: Colors.grey.withOpacity(0.04),
                             onPressed: () {
@@ -614,7 +614,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
         headerStyle: picker.DateRangePickerHeaderStyle(
             textAlign: TextAlign.center,
             textStyle:
-                TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
+                TextStyle(color: widget.model.primaryColor, fontSize: 15)),
         onSubmit: (Object? value) {
           if (_range == null) {
             Navigator.pop(context, _date);
@@ -650,7 +650,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
         headerStyle: picker.DateRangePickerHeaderStyle(
             textAlign: TextAlign.center,
             textStyle:
-                TextStyle(color: widget.model.backgroundColor, fontSize: 15)),
+                TextStyle(color: widget.model.primaryColor, fontSize: 15)),
         onSubmit: (Object? value) {
           if (_range == null) {
             Navigator.pop(context, _date);
@@ -672,16 +672,16 @@ class _DateRangePickerState extends State<DateRangePicker> {
     }
 
     return Dialog(
-        backgroundColor: widget.model.cardThemeColor,
+        backgroundColor: widget.model.sampleOutputCardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         child: Container(
             height: 400,
             width: _range != null && _isWeb ? 500 : 300,
-            color: widget.model.cardThemeColor,
+            color: widget.model.sampleOutputCardColor,
             child: Theme(
               data: widget.model.themeData.copyWith(
                 colorScheme: widget.model.themeData.colorScheme
-                    .copyWith(secondary: widget.model.backgroundColor),
+                    .copyWith(secondary: widget.model.primaryColor),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,

@@ -65,7 +65,7 @@ class _ThermometerState extends SampleViewState {
                             axisTrackExtent: 23,
                             axisTrackStyle: LinearAxisTrackStyle(
                                 thickness: 12,
-                                color: model.cardThemeColor,
+                                color: model.sampleOutputCardColor,
                                 borderWidth: 1,
                                 edgeStyle: LinearEdgeStyle.bothCurve),
                             tickPosition: LinearElementPosition.outside,
@@ -95,7 +95,7 @@ class _ThermometerState extends SampleViewState {
                                 borderColor: brightness == Brightness.dark
                                     ? Colors.white30
                                     : Colors.black26,
-                                color: model.cardThemeColor,
+                                color: model.sampleOutputCardColor,
                                 position: LinearElementPosition.cross,
                                 width: 24,
                                 height: 24,
@@ -123,10 +123,10 @@ class _ThermometerState extends SampleViewState {
                                       border: Border(
                                         left: BorderSide(
                                             width: 2.0,
-                                            color: model.cardThemeColor),
+                                            color: model.sampleOutputCardColor),
                                         right: BorderSide(
                                             width: 2.0,
-                                            color: model.cardThemeColor),
+                                            color: model.sampleOutputCardColor),
                                       ),
                                       color: _meterValue > _temperatureValue
                                           ? const Color(0xffFF7B7B)

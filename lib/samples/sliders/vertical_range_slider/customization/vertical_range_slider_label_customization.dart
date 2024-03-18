@@ -47,8 +47,8 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider.vertical(
           min: DateTime(2000),
           max: DateTime(2020),
@@ -75,8 +75,8 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
 
   SfRangeSliderTheme _numericRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider.vertical(
             edgeLabelPlacement: _edgeLabelPlacement,
             labelPlacement: _labelPlacement,
@@ -158,6 +158,7 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -192,6 +193,7 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
                       isExpanded: true,
                       focusColor: Colors.transparent,
                       underline:

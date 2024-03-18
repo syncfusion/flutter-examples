@@ -34,7 +34,7 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
         data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor,
+            tooltipBackgroundColor: model.primaryColor,
             labelOffset: const Offset(-40, 0),
             tickOffset: const Offset(-14, 0)),
         child: SfRangeSlider.vertical(
@@ -58,8 +58,8 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _hourRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider.vertical(
           min: DateTime(2010, 01, 01, 9),
           max: DateTime(2010, 01, 01, 21),
@@ -139,7 +139,7 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
                 'Inversed',
                 softWrap: false,
               ),
-              activeColor: model.backgroundColor,
+              activeColor: model.primaryColor,
               contentPadding: EdgeInsets.zero,
               onChanged: (bool? value) {
                 setState(() {
@@ -154,7 +154,7 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
                 'Show tooltip always',
                 softWrap: false,
               ),
-              activeColor: model.backgroundColor,
+              activeColor: model.primaryColor,
               contentPadding: EdgeInsets.zero,
               onChanged: (bool? value) {
                 setState(() {

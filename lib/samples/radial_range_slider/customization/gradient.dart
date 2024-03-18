@@ -98,14 +98,13 @@ class _RadialRangeSliderGradientState extends SampleViewState {
                 value: _firstMarkerValue,
                 elevation: 5,
                 overlayColor: const Color.fromRGBO(202, 94, 230, 0.125),
-                color: model.currentThemeData!.brightness == Brightness.light
+                color: model.themeData.brightness == Brightness.light
                     ? Colors.white
                     : Colors.black,
                 borderWidth: 7,
-                borderColor:
-                    model.currentThemeData!.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                borderColor: model.themeData.brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
                 markerType: MarkerType.circle,
@@ -116,14 +115,13 @@ class _RadialRangeSliderGradientState extends SampleViewState {
               MarkerPointer(
                 value: _secondMarkerValue,
                 elevation: 5,
-                color: model.currentThemeData!.brightness == Brightness.light
+                color: model.themeData.brightness == Brightness.light
                     ? Colors.white
                     : Colors.black,
                 borderWidth: 7,
-                borderColor:
-                    model.currentThemeData!.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                borderColor: model.themeData.brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
                 markerHeight: _firstMarkerSize,
                 overlayColor: const Color.fromRGBO(202, 94, 230, 0.125),
                 markerWidth: _firstMarkerSize,

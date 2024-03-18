@@ -93,6 +93,7 @@ class LocalizationSampleViewState<T extends LocalizationSampleView>
               padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
               width: dropDownWidth,
               child: DropdownButton<Locale>(
+                  dropdownColor: model.drawerBackgroundColor,
                   focusColor: Colors.transparent,
                   isExpanded: true,
                   underline:
@@ -157,7 +158,7 @@ class LocalizationSampleViewState<T extends LocalizationSampleView>
       MaterialState.selected,
     };
     if (states.any(interactiveStates.contains)) {
-      return model.backgroundColor;
+      return model.primaryColor;
     }
     return null;
   }
@@ -225,6 +226,7 @@ class DirectionalitySampleViewState<T extends DirectionalitySampleView>
               padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
               width: dropDownWidth,
               child: DropdownButton<TextDirection>(
+                  dropdownColor: model.drawerBackgroundColor,
                   focusColor: Colors.transparent,
                   isExpanded: true,
                   underline:
@@ -331,4 +333,27 @@ class SalesData {
 
   /// Date time value of the data point
   final DateTime? date;
+}
+
+/// Circular progress bar color
+class ProgressBarColor {
+  /// creating constructor of progress bar color.
+  ProgressBarColor(this.model);
+
+  /// Holds the SampleModel information.
+  final SampleModel model;
+
+  /// Get the pointer color based on the theme.
+  Color? get pointerColor =>
+      model.themeData.useMaterial3 ? model.primaryColor.withOpacity(0.8) : null;
+
+  /// Get the axis line color based on the theme.
+  Color get axisLineColor => model.themeData.useMaterial3
+      ? model.primaryColor.withAlpha(30)
+      : const Color.fromARGB(30, 0, 169, 181);
+
+  /// Get the buffer color based on the theme.
+  Color get bufferColor => model.themeData.useMaterial3
+      ? model.primaryColor.withAlpha(90)
+      : const Color.fromARGB(90, 0, 169, 181);
 }

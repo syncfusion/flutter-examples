@@ -1,5 +1,6 @@
 ///Dart import
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,28 +11,24 @@ import '../model/model.dart';
 /// Search bar widget for searching particular sample
 /// by typing the sample's title in the text editor present in the [SearchBar]
 class CustomSearchBar extends StatefulWidget {
-  /// Holds the search bar widget
-  // ignore: tighten_type_of_initializing_formals
-  const CustomSearchBar({Key? key, this.sampleListModel})
-      : assert(sampleListModel != null),
-        super(key: key);
+  /// Holds the search bar widget.
+  const CustomSearchBar({
+    super.key,
+    required this.sampleListModel,
+  });
 
   /// Contains the sampleModel
-  final SampleModel? sampleListModel;
+  final SampleModel sampleListModel;
 
   @override
-  // ignore: no_logic_in_create_state
-  SearchBarState createState() => SearchBarState(sampleListModel);
+  SearchBarState createState() => SearchBarState();
 }
 
 /// Represents the search bar state
 class SearchBarState extends State<CustomSearchBar>
     with WidgetsBindingObserver {
   /// Creates the search bar state
-  SearchBarState(this.sampleListModel);
-
-  /// Creates the instance of sample model
-  final SampleModel? sampleListModel;
+  SearchBarState();
 
   /// Represents the list of duplicate control items
   late List<Control> duplicateControlItems;
@@ -94,56 +91,56 @@ class SearchBarState extends State<CustomSearchBar>
   @override
   void initState() {
     searchIcon = Icon(Icons.search,
-        color: sampleListModel!.isWebFullView
+        color: widget.sampleListModel.isWebFullView
             ? Colors.white.withOpacity(0.5)
             : Colors.grey);
     overlayEntries = <OverlayEntry>[];
     over = Overlay.of(context);
-    duplicateControlItems = sampleListModel!.searchControlItems;
-    duplicateSampleItems = sampleListModel!.searchSampleItems;
-    sampleListModel!.searchResults.clear();
-    sampleListModel!.editingController.text = '';
+    duplicateControlItems = widget.sampleListModel.searchControlItems;
+    duplicateSampleItems = widget.sampleListModel.searchSampleItems;
+    widget.sampleListModel.searchResults.clear();
+    widget.sampleListModel.editingController.text = '';
     isFocus.addListener(() {
-      closeIcon =
-          isFocus.hasFocus && sampleListModel!.editingController.text.isNotEmpty
-              ? IconButton(
-                  splashColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  icon: Icon(Icons.close,
-                      size: sampleListModel!.isWebFullView ? 20 : 24,
-                      color: sampleListModel!.isWebFullView
-                          ? Colors.white
-                          : Colors.grey),
-                  onPressed: () {
-                    sampleListModel!.editingController.text = '';
-                    isFocus.unfocus();
-                    filterSearchResults('');
-                    if (sampleListModel!.isMobileResolution) {
-                      sampleListModel!.sampleList.clear();
-                      setState(() {
-                        closeIcon = null;
-                      });
-                    } else {
-                      ///Remove the overlay on pressing close button
-                      _overlayEntry.opaque = false;
-                      _removeOverlayEntries();
-                    }
-                  })
-              : null;
-      if (isFocus.hasFocus && !sampleListModel!.isMobileResolution) {
-        filterSearchResults(sampleListModel!.editingController.text);
-      } else if (!sampleListModel!.isMobileResolution) {
+      closeIcon = isFocus.hasFocus &&
+              widget.sampleListModel.editingController.text.isNotEmpty
+          ? IconButton(
+              splashColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              icon: Icon(Icons.close,
+                  size: widget.sampleListModel.isWebFullView ? 20 : 24,
+                  color: widget.sampleListModel.isWebFullView
+                      ? Colors.white
+                      : Colors.grey),
+              onPressed: () {
+                widget.sampleListModel.editingController.text = '';
+                isFocus.unfocus();
+                filterSearchResults('');
+                if (widget.sampleListModel.isMobileResolution) {
+                  widget.sampleListModel.sampleList.clear();
+                  setState(() {
+                    closeIcon = null;
+                  });
+                } else {
+                  // Remove the overlay on pressing close button.
+                  _overlayEntry.opaque = false;
+                  _removeOverlayEntries();
+                }
+              })
+          : null;
+      if (isFocus.hasFocus && !widget.sampleListModel.isMobileResolution) {
+        filterSearchResults(widget.sampleListModel.editingController.text);
+      } else if (!widget.sampleListModel.isMobileResolution) {
         Timer(const Duration(milliseconds: 200), () {
           _removeOverlayEntries();
         });
       }
-      if (sampleListModel!.editingController.text.isEmpty) {
+      if (widget.sampleListModel.editingController.text.isEmpty) {
         setState(() {
           searchIcon = isFocus.hasFocus ||
-                  sampleListModel!.editingController.text.isNotEmpty
+                  widget.sampleListModel.editingController.text.isNotEmpty
               ? null
               : Icon(Icons.search,
-                  color: sampleListModel!.isWebFullView
+                  color: widget.sampleListModel.isWebFullView
                       ? Colors.white.withOpacity(0.5)
                       : Colors.grey);
         });
@@ -156,8 +153,8 @@ class SearchBarState extends State<CustomSearchBar>
 
   @override
   void dispose() {
-    sampleListModel!.searchResults.clear();
-    sampleListModel!.editingController.text = '';
+    widget.sampleListModel.searchResults.clear();
+    widget.sampleListModel.editingController.text = '';
     isFocus.unfocus();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -165,10 +162,12 @@ class SearchBarState extends State<CustomSearchBar>
 
   @override
   void didChangeMetrics() {
-    if (isFocus.hasFocus && sampleListModel!.editingController.text.isEmpty) {
+    if (isFocus.hasFocus &&
+        widget.sampleListModel.editingController.text.isEmpty) {
       if (!isOpen) {
         isOpen = true;
-      } else if (isOpen && sampleListModel!.editingController.text.isNotEmpty) {
+      } else if (isOpen &&
+          widget.sampleListModel.editingController.text.isNotEmpty) {
         isOpen = false;
         isFocus.unfocus();
       }
@@ -201,14 +200,13 @@ class SearchBarState extends State<CustomSearchBar>
         }
       }
 
-      sampleListModel!.controlList.clear();
-      sampleListModel!.sampleList.clear();
-      sampleListModel!.sampleList.addAll(dummySampleData);
-      sampleListModel!.searchResults.clear();
-      sampleListModel!.searchResults.addAll(dummySampleData);
-      if (sampleListModel!.isMobileResolution) {
-        //ignore: invalid_use_of_protected_member
-        sampleListModel!.notifyListeners();
+      widget.sampleListModel.controlList.clear();
+      widget.sampleListModel.sampleList.clear();
+      widget.sampleListModel.sampleList.addAll(dummySampleData);
+      widget.sampleListModel.searchResults.clear();
+      widget.sampleListModel.searchResults.addAll(dummySampleData);
+      if (widget.sampleListModel.isMobileResolution) {
+        widget.sampleListModel.notifyListeners();
       } else {
         _overlayEntry = _createOverlayEntry();
         overlayEntries.add(_overlayEntry);
@@ -216,9 +214,9 @@ class SearchBarState extends State<CustomSearchBar>
         return;
       }
     } else {
-      sampleListModel!.searchResults.clear();
-      sampleListModel!.controlList.addAll(duplicateControlItems);
-      sampleListModel!.sampleList.clear();
+      widget.sampleListModel.searchResults.clear();
+      widget.sampleListModel.controlList.addAll(duplicateControlItems);
+      widget.sampleListModel.sampleList.clear();
     }
   }
 
@@ -234,47 +232,47 @@ class SearchBarState extends State<CustomSearchBar>
     overlayEntries.clear();
   }
 
-  /// Performing key board actions
-  /// [ArrowDown], [ArrowUp], [Enter] RawKeyEvents
-  void _performKeyBoardEvent(RawKeyEvent event) {
-    /// We need RawKeyEventDataWeb, RawKeyEventDataWindows,
-    /// RawKeyEventDataMacOs. So dynamic type used
-    final dynamic rawKeyEventData = event.data;
-    if (event is RawKeyDownEvent) {
-      if (sampleListModel!.searchResults.isNotEmpty &&
-          rawKeyEventData.logicalKey == LogicalKeyboardKey.arrowDown) {
-        ///Arrow down key action
+  // Performing key board actions
+  // [ArrowDown], [ArrowUp], [Enter] RawKeyEvents.
+  void _performKeyBoardEvent(KeyEvent event) {
+    // We need RawKeyEventDataWeb, RawKeyEventDataWindows,
+    // RawKeyEventDataMacOs. So dynamic type used.
+    if (event is KeyDownEvent) {
+      if (widget.sampleListModel.searchResults.isNotEmpty &&
+          event.logicalKey == LogicalKeyboardKey.arrowDown) {
+        // Arrow down key action.
         _selectionIndex = _selectionIndex == null
             ? 0
-            : (_selectionIndex! >= sampleListModel!.searchResults.length - 1)
-                ? sampleListModel!.searchResults.length - 1
+            : (_selectionIndex! >=
+                    widget.sampleListModel.searchResults.length - 1)
+                ? widget.sampleListModel.searchResults.length - 1
                 : _selectionIndex! + 1;
-        final List<int> indexes = _getVisibleIndexes();
+        final List<int> indexes = _visibleIndexes();
         if (!indexes.contains(_selectionIndex)) {
           _scrollToDown(_selectionIndex!);
         }
         _overlaySetState(() {
-          ///Notify overlay list to scroll down
+          // Notify overlay list to scroll down.
         });
-      } else if (sampleListModel!.searchResults.isNotEmpty &&
-          rawKeyEventData.logicalKey == LogicalKeyboardKey.arrowUp) {
-        ///Arrow up key action
+      } else if (widget.sampleListModel.searchResults.isNotEmpty &&
+          event.logicalKey == LogicalKeyboardKey.arrowUp) {
+        // Arrow up key action.
         _selectionIndex = _selectionIndex == null
             ? 0
             : _selectionIndex == 0
                 ? 0
                 : _selectionIndex! - 1;
-        final List<int> indexes = _getVisibleIndexes();
+        final List<int> indexes = _visibleIndexes();
         if (!indexes.contains(_selectionIndex)) {
           _scrollToUp(_selectionIndex!);
         }
         _overlaySetState(() {
-          ///Notify overlay list to scroll up
+          // Notify overlay list to scroll up.
         });
-      } else if (rawKeyEventData.logicalKey == LogicalKeyboardKey.escape) {
-        ///Escape key action
+      } else if (event.logicalKey == LogicalKeyboardKey.escape) {
+        // Escape key action.
         _selectionIndex = null;
-        sampleListModel!.editingController.text = '';
+        widget.sampleListModel.editingController.text = '';
         isFocus.unfocus();
         _overlayEntry.maintainState = false;
         _overlayEntry.opaque = false;
@@ -286,21 +284,21 @@ class SearchBarState extends State<CustomSearchBar>
   /// Navigate to the selected sample
   Future<void> _navigateToSample(int index) async {
     _overlayEntry.maintainState = false;
-    sampleListModel!.editingController.text = '';
+    widget.sampleListModel.editingController.text = '';
     isFocus.unfocus();
     _overlayEntry.opaque = false;
     _removeOverlayEntries();
     _selectionIndex = null;
-    final dynamic renderSample = sampleListModel!
-        .sampleWidget[sampleListModel!.searchResults[index].key];
+    final dynamic renderSample = widget.sampleListModel
+        .sampleWidget[widget.sampleListModel.searchResults[index].key];
     if (renderSample != null) {
-      if (sampleListModel!.isWebFullView) {
+      if (widget.sampleListModel.isWebFullView) {
         Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
-        Navigator.pushNamed(
-            context, sampleListModel!.searchResults[index].breadCrumbText!);
+        Navigator.pushNamed(context,
+            widget.sampleListModel.searchResults[index].breadCrumbText!);
       } else {
-        onTapExpandSample(
-            context, sampleListModel!.searchResults[index], sampleListModel!);
+        onTapExpandSample(context, widget.sampleListModel.searchResults[index],
+            widget.sampleListModel);
       }
     }
   }
@@ -317,8 +315,8 @@ class SearchBarState extends State<CustomSearchBar>
     _controller.jumpTo(_itemHeight * i.toDouble());
   }
 
-  ///Get the list of visible index of the listViewBuilder
-  List<int> _getVisibleIndexes() {
+  /// Get the list of visible index of the listViewBuilder.
+  List<int> _visibleIndexes() {
     final Rect rect = _RectGetterFromListView.getRectFromKey(_globalKey)!;
     final List<int> items = <int>[];
     _keys.forEach((dynamic index, dynamic key) {
@@ -337,124 +335,143 @@ class SearchBarState extends State<CustomSearchBar>
     final Size size = renderBox.size;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
     _selectionIndex = null;
-    final num height = (sampleListModel!.searchResults.length < 4
-            ? 0.1 * sampleListModel!.searchResults.length
+    final num height = (widget.sampleListModel.searchResults.length < 4
+            ? 0.1 * widget.sampleListModel.searchResults.length
             : 0.4) *
         MediaQuery.of(context).size.height;
 
     _overlayHeight = ((height ~/ _itemHeight) * _itemHeight) + 6;
 
-    return OverlayEntry(builder: (BuildContext context) {
-      return StatefulBuilder(
+    return OverlayEntry(
+      builder: (BuildContext context) {
+        return StatefulBuilder(
           builder: (BuildContext buildContext, StateSetter setState) {
-        _overlaySetState = setState;
-        return Positioned(
-          left: offset.dx,
-          top: offset.dy + size.height - 5,
-          width: size.width,
-          height: sampleListModel!.searchResults.isEmpty &&
-                  sampleListModel!.editingController.text.isNotEmpty &&
-                  isFocus.hasFocus
-              ? 0.1 * MediaQuery.of(context).size.height
-              : _overlayHeight.toDouble(),
-          child: Card(
-            color: sampleListModel!.cardColor,
-            child: sampleListModel!.editingController.text.isEmpty ||
-                    isFocus.hasFocus == false
-                ? null
-                : (sampleListModel!.searchResults.isEmpty
-                    ? ListTile(
-                        title: Text('No results found',
-                            style: TextStyle(
-                                color: sampleListModel!.textColor,
+            _overlaySetState = setState;
+            return Positioned(
+              left: offset.dx,
+              top: offset.dy + size.height - 5,
+              width: size.width,
+              height: widget.sampleListModel.searchResults.isEmpty &&
+                      widget
+                          .sampleListModel.editingController.text.isNotEmpty &&
+                      isFocus.hasFocus
+                  ? 0.1 * MediaQuery.of(context).size.height
+                  : _overlayHeight.toDouble(),
+              child: Card(
+                color: widget.sampleListModel.homeCardColor,
+                child: widget.sampleListModel.editingController.text.isEmpty ||
+                        isFocus.hasFocus == false
+                    ? null
+                    : (widget.sampleListModel.searchResults.isEmpty
+                        ? ListTile(
+                            title: Text(
+                              'No results found',
+                              style: TextStyle(
+                                color: widget.sampleListModel.textColor,
                                 fontSize: 13,
-                                fontFamily: 'Roboto-Regular')),
-                        onTap: () {},
-                      )
-                    : _RectGetterFromListView(
-                        key: _globalKey,
-                        child: ListView.builder(
-                            controller: _controller,
-                            padding: EdgeInsets.zero,
-                            itemCount: sampleListModel!.searchResults.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              _keys[index] =
-                                  _RectGetterFromListView.createGlobalKey();
-                              return _RectGetterFromListView(
+                                fontFamily: 'Roboto-Regular',
+                              ),
+                            ),
+                            onTap: () {},
+                          )
+                        : _RectGetterFromListView(
+                            key: _globalKey,
+                            child: ListView.builder(
+                              controller: _controller,
+                              padding: EdgeInsets.zero,
+                              itemCount:
+                                  widget.sampleListModel.searchResults.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                _keys[index] =
+                                    _RectGetterFromListView.createGlobalKey();
+                                return _RectGetterFromListView(
                                   key: _keys[index],
                                   child: SizedBox(
                                     height: _itemHeight.toDouble(),
                                     child: Material(
-                                        color: index == _selectionIndex
-                                            ? Colors.grey.withOpacity(0.4)
-                                            : sampleListModel!.cardColor,
-                                        child: InkWell(
-                                          hoverColor:
-                                              Colors.grey.withOpacity(0.2),
-                                          onTap: () {
-                                            _navigateToSample(index);
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: RichText(
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              text: TextSpan(
-                                                  children: <InlineSpan>[
-                                                    TextSpan(
-                                                      text: sampleListModel!
+                                      color: index == _selectionIndex
+                                          ? Colors.grey.withOpacity(0.4)
+                                          : widget
+                                              .sampleListModel.homeCardColor,
+                                      child: InkWell(
+                                        hoverColor:
+                                            widget.sampleListModel.hoverColor,
+                                        highlightColor:
+                                            widget.sampleListModel.splashColor,
+                                        splashColor:
+                                            widget.sampleListModel.splashColor,
+                                        onTap: () {
+                                          _navigateToSample(index);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: RichText(
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            text: TextSpan(
+                                              children: <InlineSpan>[
+                                                TextSpan(
+                                                  text: widget
+                                                      .sampleListModel
+                                                      .searchResults[index]
+                                                      .control!
+                                                      .title,
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: widget
+                                                          .sampleListModel
+                                                          .textColor,
+                                                      fontFamily:
+                                                          'Roboto-Bold'),
+                                                ),
+                                                TextSpan(
+                                                  text: ' - ' +
+                                                      widget
+                                                          .sampleListModel
                                                           .searchResults[index]
-                                                          .control!
-                                                          .title,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color:
-                                                              sampleListModel!
-                                                                  .textColor,
-                                                          fontFamily:
-                                                              'Roboto-Bold'),
-                                                    ),
-                                                    TextSpan(
-                                                      text: ' - ' +
-                                                          sampleListModel!
-                                                              .searchResults[
-                                                                  index]
-                                                              .title!,
-                                                      style: TextStyle(
-                                                          fontSize: 13,
-                                                          color:
-                                                              sampleListModel!
-                                                                  .textColor,
-                                                          fontFamily:
-                                                              'Roboto-Regular'),
-                                                    )
-                                                  ]),
+                                                          .title!,
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: widget
+                                                          .sampleListModel
+                                                          .textColor,
+                                                      fontFamily:
+                                                          'Roboto-Regular'),
+                                                )
+                                              ],
                                             ),
                                           ),
-                                        )),
-                                  ));
-                            }))),
-          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          )),
+              ),
+            );
+          },
         );
-      });
-    });
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: _rawKeyFocusNode,
-      onKey: (RawKeyEvent event) => !sampleListModel!.isMobileResolution
+      onKeyEvent: (KeyEvent event) => !widget.sampleListModel.isMobileResolution
           ? _performKeyBoardEvent(event)
           : null,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
-            height: sampleListModel!.isWebFullView ? 35 : 45,
+            height: widget.sampleListModel.isWebFullView ? 35 : 45,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: sampleListModel!.isWebFullView
+              color: widget.sampleListModel.isWebFullView
                   ? Colors.grey[100]!.withOpacity(0.2)
                   : Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(5.0)),
@@ -470,27 +487,31 @@ class SearchBarState extends State<CustomSearchBar>
                     }
                   },
                   mouseCursor: MaterialStateMouseCursor.clickable,
-                  cursorColor: sampleListModel!.isWebFullView
+                  cursorColor: widget.sampleListModel.isWebFullView
                       ? Colors.white
                       : Colors.grey,
                   focusNode: isFocus,
                   onChanged: (String value) {
                     closeIcon = isFocus.hasFocus &&
-                            (sampleListModel!.editingController.text.isNotEmpty)
+                            (widget.sampleListModel.editingController.text
+                                .isNotEmpty)
                         ? IconButton(
                             splashColor: Colors.transparent,
                             hoverColor: Colors.transparent,
                             icon: Icon(Icons.close,
-                                size: sampleListModel!.isWebFullView ? 20 : 24,
-                                color: sampleListModel!.isWebFullView
+                                size: widget.sampleListModel.isWebFullView
+                                    ? 20
+                                    : 24,
+                                color: widget.sampleListModel.isWebFullView
                                     ? Colors.white
                                     : Colors.grey),
                             onPressed: () {
-                              sampleListModel!.editingController.text = '';
+                              widget.sampleListModel.editingController.text =
+                                  '';
                               isFocus.unfocus();
                               filterSearchResults('');
-                              if (sampleListModel!.isMobileResolution) {
-                                sampleListModel!.sampleList.clear();
+                              if (widget.sampleListModel.isMobileResolution) {
+                                widget.sampleListModel.sampleList.clear();
                                 setState(() {
                                   closeIcon = null;
                                 });
@@ -501,7 +522,7 @@ class SearchBarState extends State<CustomSearchBar>
                             })
                         : null;
                     setState(() {
-                      /// searched results changed
+                      // searched results changed.
                     });
                     filterSearchResults(value);
                   },
@@ -510,17 +531,17 @@ class SearchBarState extends State<CustomSearchBar>
                   },
                   style: TextStyle(
                     fontFamily: 'Roboto-Regular',
-                    color: sampleListModel!.isWebFullView
+                    color: widget.sampleListModel.isWebFullView
                         ? Colors.white
                         : Colors.grey,
                     fontSize: 13,
                   ),
-                  controller: sampleListModel!.editingController,
+                  controller: widget.sampleListModel.editingController,
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                     labelStyle: TextStyle(
                       fontFamily: 'Roboto-Regular',
-                      color: sampleListModel!.isWebFullView
+                      color: widget.sampleListModel.isWebFullView
                           ? Colors.white
                           : Colors.grey,
                       fontSize: 13,
@@ -529,7 +550,7 @@ class SearchBarState extends State<CustomSearchBar>
                     hintStyle: TextStyle(
                       fontSize: 13,
                       fontFamily: 'Roboto-Regular',
-                      color: sampleListModel!.isWebFullView
+                      color: widget.sampleListModel.isWebFullView
                           ? Colors.white.withOpacity(0.5)
                           : Colors.grey,
                     ),
@@ -549,14 +570,14 @@ class SearchBarState extends State<CustomSearchBar>
   }
 }
 
-/// Get the rect from list view using the global key
+/// Get the rect from list view using the global key.
 class _RectGetterFromListView extends StatefulWidget {
   const _RectGetterFromListView({this.key, this.child}) : super(key: key);
   @override
   final GlobalKey<_RectGetterFromListViewState>? key;
   final Widget? child;
 
-  ///Get the rect of list view
+  // Get the rect of list view.
   static Rect? getRectFromKey(
       GlobalKey<_RectGetterFromListViewState> globalKey) {
     final RenderObject object = globalKey.currentContext!.findRenderObject()!;

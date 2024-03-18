@@ -115,6 +115,7 @@ class _TrackballTemplateState extends SampleViewState {
                               width: 190,
                               alignment: Alignment.bottomLeft,
                               child: DropdownButton<String>(
+                                  dropdownColor: model.drawerBackgroundColor,
                                   focusColor: Colors.transparent,
                                   isExpanded: true,
                                   underline: Container(
@@ -153,7 +154,7 @@ class _TrackballTemplateState extends SampleViewState {
                 SizedBox(
                     width: 90,
                     child: CheckboxListTile(
-                        activeColor: model.backgroundColor,
+                        activeColor: model.primaryColor,
                         value: _isTemplate,
                         onChanged: (bool? value) {
                           setState(() {

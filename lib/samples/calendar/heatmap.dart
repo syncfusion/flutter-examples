@@ -45,11 +45,11 @@ class HeatMapCalendarCalendarState extends SampleViewState {
         key: _globalKey,
         data: model.themeData.copyWith(
             colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.backgroundColor)),
+                .copyWith(secondary: model.primaryColor)),
         child: _getHeatMapCalendar());
 
     return Scaffold(
-      backgroundColor: model.cardThemeColor,
+      backgroundColor: model.sampleOutputCardColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -58,15 +58,15 @@ class HeatMapCalendarCalendarState extends SampleViewState {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                 Expanded(
-                  child:
-                      Container(color: model.cardThemeColor, child: calendar),
+                  child: Container(
+                      color: model.sampleOutputCardColor, child: calendar),
                 )
               ])),
           Container(
             margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             height: 70,
             width: model.isMobileResolution ? screenWidth : screenWidth / 2,
-            color: model.cardThemeColor,
+            color: model.sampleOutputCardColor,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

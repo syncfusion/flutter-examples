@@ -20,10 +20,14 @@ class _EncryptedPdfViewerState extends SampleViewState {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _showMasterPage
-          ? model.cardThemeColor
-          : (Theme.of(context).colorScheme.brightness == Brightness.light)
-              ? const Color(0xFFD6D6D6)
-              : const Color(0xFF303030),
+          ? model.sampleOutputCardColor
+          : Theme.of(context).useMaterial3
+              ? Theme.of(context).colorScheme.brightness == Brightness.light
+                  ? const Color.fromRGBO(247, 242, 251, 1)
+                  : const Color.fromRGBO(37, 35, 42, 1)
+              : (Theme.of(context).colorScheme.brightness == Brightness.light)
+                  ? const Color(0xFFD6D6D6)
+                  : const Color(0xFF303030),
       body: _showMasterPage
           ? Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -63,7 +67,7 @@ class _EncryptedPdfViewerState extends SampleViewState {
                         child: TextButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            model.backgroundColor),
+                            model.primaryColor),
                         padding: model.isMobile
                             ? null
                             : MaterialStateProperty.all(

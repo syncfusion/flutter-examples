@@ -39,7 +39,7 @@ class _DefaultSliderPageState extends SampleViewState {
 
   SfSliderTheme _activeSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider(
           max: 100.0,
           onChanged: (dynamic values) {

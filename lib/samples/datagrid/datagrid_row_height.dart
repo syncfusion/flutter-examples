@@ -28,8 +28,7 @@ class _RowHeightDataGridState extends SampleViewState {
 
   Widget _buildDataGrid() {
     return SfDataGridTheme(
-      data: SfDataGridThemeData(
-        brightness: model.themeData.colorScheme.brightness,
+      data: const SfDataGridThemeData(
         gridLineStrokeWidth: 1.4,
       ),
       child: SfDataGrid(

@@ -157,6 +157,7 @@ class _ErrorBarDefaultState extends SampleViewState {
                           child: SizedBox(
                               width: dropDownWidth,
                               child: DropdownButton<String>(
+                                  dropdownColor: model.drawerBackgroundColor,
                                   focusColor: Colors.transparent,
                                   isExpanded: true,
                                   underline: Container(
@@ -196,6 +197,7 @@ class _ErrorBarDefaultState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -232,6 +234,7 @@ class _ErrorBarDefaultState extends SampleViewState {
                           child: SizedBox(
                             width: dropDownWidth,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(

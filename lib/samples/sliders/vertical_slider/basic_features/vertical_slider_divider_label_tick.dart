@@ -34,7 +34,7 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
   SfSliderTheme _sliderWithLabelCustomization() {
     return SfSliderTheme(
         data: SfSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor,
+            tooltipBackgroundColor: model.primaryColor,
             labelOffset: const Offset(8, 0)),
         child: SfSlider.vertical(
           showLabels: true,
@@ -55,7 +55,7 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithTickCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider.vertical(
           showLabels: true,
           showTicks: true,
@@ -76,7 +76,7 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithDividerCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider.vertical(
           interval: 25,
           showDividers: true,
@@ -147,7 +147,7 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
           value: _isInversed,
           title: const Text('Inversed', softWrap: false),
           contentPadding: EdgeInsets.zero,
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           onChanged: (bool? value) {
             setState(() {
               _isInversed = value!;

@@ -55,7 +55,7 @@ class _CertificatePdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: SingleChildScrollView(
           child: Center(
             child: Padding(
@@ -102,8 +102,8 @@ class _CertificatePdfState extends SampleViewState {
                   TextButton(
                     onPressed: _createCertificate,
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          model.backgroundColor),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(model.primaryColor),
                       padding: model.isMobile
                           ? null
                           : MaterialStateProperty.all(

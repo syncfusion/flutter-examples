@@ -222,9 +222,9 @@ class DealerDataGridSource extends DataGridSource {
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
             focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: sampleModel.backgroundColor))),
+                borderSide: BorderSide(color: sampleModel.primaryColor))),
         style: textStyle,
-        cursorColor: sampleModel.backgroundColor,
+        cursorColor: sampleModel.primaryColor,
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(regExp)
         ],
@@ -258,6 +258,8 @@ class DealerDataGridSource extends DataGridSource {
     final DateTime firstDate = DateTime.parse('1999-01-01');
     final DateTime lastDate = DateTime.parse('2016-12-31');
 
+    // To restrict the multiple time calls for the datepicker.
+    isDatePickerVisible = false;
     displayText = DateFormat('MM/dd/yyyy').format(DateTime.parse(displayText));
     return Builder(
       builder: (BuildContext context) {
@@ -282,9 +284,9 @@ class DealerDataGridSource extends DataGridSource {
                                           .themeData.colorScheme.brightness ==
                                       Brightness.light
                                   ? ColorScheme.light(
-                                      primary: sampleModel.backgroundColor)
+                                      primary: sampleModel.primaryColor)
                                   : ColorScheme.dark(
-                                      primary: sampleModel.backgroundColor,
+                                      primary: sampleModel.primaryColor,
                                     )),
                           child: child!,
                         );
@@ -294,7 +296,6 @@ class DealerDataGridSource extends DataGridSource {
                     /// Call [CellSubmit] callback to fire the canSubmitCell and
                     /// onCellSubmit to commit the new value in single place.
                     submitCell();
-                    isDatePickerVisible = false;
                   });
                 }
               }),
@@ -309,6 +310,17 @@ class DealerDataGridSource extends DataGridSource {
     );
   }
 
+  //// Drop down color of items
+  Color dropDownColor() {
+    if (sampleModel.themeData.useMaterial3) {
+      return sampleModel.themeData.brightness == Brightness.light
+          ? const Color(0xFFEEE8F4)
+          : const Color(0xFF302D38);
+    } else {
+      return sampleModel.themeData.canvasColor;
+    }
+  }
+
   /// Building a [DropDown] for combo box column.
   Widget _buildDropDownWidget(String? displayText, CellSubmit submitCell,
       List<String> dropDownMenuItems) {
@@ -316,6 +328,7 @@ class DealerDataGridSource extends DataGridSource {
       padding: const EdgeInsets.all(8.0),
       alignment: Alignment.centerLeft,
       child: DropdownButton<String>(
+          dropdownColor: dropDownColor(),
           value: displayText,
           autofocus: true,
           focusColor: Colors.transparent,

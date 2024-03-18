@@ -105,6 +105,7 @@ class _LegendDefaultState extends SampleViewState {
                         child: SizedBox(
                             width: 80,
                             child: DropdownButton<String>(
+                                dropdownColor: model.drawerBackgroundColor,
                                 focusColor: Colors.transparent,
                                 isExpanded: true,
                                 underline: Container(
@@ -145,6 +146,7 @@ class _LegendDefaultState extends SampleViewState {
                         child: SizedBox(
                           width: 80,
                           child: DropdownButton<String>(
+                              dropdownColor: model.drawerBackgroundColor,
                               focusColor: Colors.transparent,
                               isExpanded: true,
                               underline: Container(
@@ -186,7 +188,7 @@ class _LegendDefaultState extends SampleViewState {
                               width: 90,
                               alignment: Alignment.centerLeft,
                               child: Checkbox(
-                                  activeColor: model.backgroundColor,
+                                  activeColor: model.primaryColor,
                                   value: _shouldAlwaysShowScrollbar,
                                   onChanged: (bool? value) {
                                     setState(() {

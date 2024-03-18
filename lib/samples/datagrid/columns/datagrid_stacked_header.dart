@@ -125,9 +125,12 @@ class _StackedHeaderDataGridState extends SampleViewState {
   }
 
   Color _getHeaderCellBackgroundColor() {
-    return model.themeData.colorScheme.brightness == Brightness.light
-        ? const Color(0xFFF1F1F1)
-        : const Color(0xFF3A3A3A);
+    final bool isMaterial3 = model.themeData.useMaterial3;
+    return isMaterial3
+        ? model.themeData.colorScheme.surface.withOpacity(0.0001)
+        : model.themeData.colorScheme.brightness == Brightness.light
+            ? const Color(0xFFF1F1F1)
+            : const Color(0xFF3A3A3A);
   }
 
   Widget _getWidgetForStackedHeaderCell(String title) {
@@ -170,7 +173,6 @@ class _StackedHeaderDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfDataGridTheme(
         data: SfDataGridThemeData(
-          brightness: model.themeData.colorScheme.brightness,
           headerColor: _getHeaderCellBackgroundColor(),
           headerHoverColor: Colors.transparent,
         ),

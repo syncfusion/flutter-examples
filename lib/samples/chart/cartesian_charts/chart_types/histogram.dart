@@ -38,7 +38,7 @@ class _HistogramDefaultState extends SampleViewState {
             child: SizedBox(
                 width: 90,
                 child: CheckboxListTile(
-                    activeColor: model.backgroundColor,
+                    activeColor: model.primaryColor,
                     value: _showDistributionCurve,
                     onChanged: (bool? value) {
                       setState(() {
@@ -62,6 +62,7 @@ class _HistogramDefaultState extends SampleViewState {
 
   /// Get the cartesian chart with histogram series
   SfCartesianChart _buildDefaultHistogramChart() {
+    final ThemeData themeData = model.themeData;
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: const ChartTitle(text: 'Examination Result'),
@@ -76,13 +77,20 @@ class _HistogramDefaultState extends SampleViewState {
           maximum: 50,
           axisLine: AxisLine(width: 0),
           majorTickLines: MajorTickLines(size: 0)),
-      series: _getHistogramSeries(),
+      series: _getHistogramSeries(
+          themeData.useMaterial3, themeData.brightness == Brightness.light),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
   ///Get the histogram series
-  List<HistogramSeries<ChartSampleData, double>> _getHistogramSeries() {
+  List<HistogramSeries<ChartSampleData, double>> _getHistogramSeries(
+      bool isMaterial3, bool isLightMode) {
+    final Color curveColor = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(99, 85, 199, 1)
+            : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return <HistogramSeries<ChartSampleData, double>>[
       HistogramSeries<ChartSampleData, double>(
         name: 'Score',
@@ -92,7 +100,7 @@ class _HistogramDefaultState extends SampleViewState {
         showNormalDistributionCurve: _showDistributionCurve,
 
         /// It used to add the color for distribution line.
-        curveColor: const Color.fromRGBO(192, 108, 132, 1),
+        curveColor: curveColor,
         binInterval: 20,
 
         /// It used to add the dashes line for distribution line.
@@ -103,8 +111,7 @@ class _HistogramDefaultState extends SampleViewState {
         dataLabelSettings: const DataLabelSettings(
             isVisible: true,
             labelAlignment: ChartDataLabelAlignment.top,
-            textStyle:
-                TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+            textStyle: TextStyle(fontWeight: FontWeight.bold)),
       )
     ];
   }

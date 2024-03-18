@@ -67,7 +67,6 @@ class _VerticalSfRangeSliderSizeCustomizationPageState extends SampleViewState {
     return SfRangeSliderTheme(
         data: SfRangeSliderThemeData(
             activeTrackHeight: 8.0,
-            inactiveTrackHeight: 4.0,
             activeTrackColor: Colors.orange,
             thumbColor: Colors.orange,
             tooltipBackgroundColor: Colors.orange,

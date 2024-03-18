@@ -42,7 +42,6 @@ class _GettingStartedPdfViewerState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // ignore: always_specify_types
       body: FutureBuilder(
           future: Future<dynamic>.delayed(const Duration(milliseconds: 200))
               .then((dynamic value) {
@@ -51,8 +50,7 @@ class _GettingStartedPdfViewerState extends SampleViewState {
           builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
             if (_canShowPdf) {
               return SfPdfViewerTheme(
-                data: SfPdfViewerThemeData(
-                    brightness: model.themeData.colorScheme.brightness),
+                data: const SfPdfViewerThemeData(),
                 child: SfPdfViewer.asset(
                   'assets/pdf/flutter_succinctly.pdf',
                   controller: _pdfViewerController,

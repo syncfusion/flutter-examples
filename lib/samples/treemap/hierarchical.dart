@@ -281,6 +281,7 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0),
                   child: DropdownButton<TreemapLayoutDirection>(
+                    dropdownColor: model.drawerBackgroundColor,
                     value: _layoutDirection,
                     items: _dropDownMenuItems,
                     onChanged: (TreemapLayoutDirection? value) {

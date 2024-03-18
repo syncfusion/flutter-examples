@@ -66,7 +66,7 @@ class _LiveVerticalState extends SampleViewState {
   Widget build(BuildContext context) {
     const double bottomPadding = 45;
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: Padding(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
           child: Container(child: getAddRemoveSeriesChart()),
@@ -89,7 +89,7 @@ class _LiveVerticalState extends SampleViewState {
                           child: IconButton(
                               splashColor: Colors.transparent,
                               icon: Icon(Icons.add_circle,
-                                  size: 50, color: model.backgroundColor),
+                                  size: 50, color: model.primaryColor),
                               onPressed: () {
                                 setState(() {
                                   _addSeries();
@@ -103,7 +103,7 @@ class _LiveVerticalState extends SampleViewState {
                             child: IconButton(
                               splashColor: Colors.transparent,
                               icon: Icon(Icons.remove_circle,
-                                  size: 50, color: model.backgroundColor),
+                                  size: 50, color: model.primaryColor),
                               onPressed: () => setState(() {
                                 _removeSeries();
                               }),

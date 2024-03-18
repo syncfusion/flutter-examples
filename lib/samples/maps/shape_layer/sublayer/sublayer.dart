@@ -112,8 +112,9 @@ class _MapSublayerPageState extends SampleViewState {
         _themeData.platform == TargetPlatform.windows ||
         _themeData.platform == TargetPlatform.linux;
     return Scaffold(
-        backgroundColor:
-            _isDesktop ? model.cardThemeColor : model.cardThemeColor,
+        backgroundColor: _isDesktop
+            ? model.sampleOutputCardColor
+            : model.sampleOutputCardColor,
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
           final bool scrollEnabled = constraints.maxHeight > 400;
@@ -157,7 +158,7 @@ class _MapSublayerPageState extends SampleViewState {
                     )
                   : const EdgeInsets.only(right: 10, bottom: 15),
               child: SfMapsTheme(
-                data: SfMapsThemeData(
+                data: const SfMapsThemeData(
                   shapeHoverColor: Colors.transparent,
                   shapeHoverStrokeColor: Colors.transparent,
                 ),

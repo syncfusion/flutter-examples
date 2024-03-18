@@ -24,7 +24,6 @@ class LocalizationPdfViewer extends LocalizationSampleView {
 
 class _LocalizationPdfViewerState extends LocalizationSampleViewState {
   late bool _canShowPdf;
-  SfPdfViewerThemeData? _pdfViewerThemeData;
   double _sampleWidth = 0, _sampleHeight = 0;
   late Color _color;
   late bool _isLight;
@@ -33,6 +32,7 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   bool _isPdfLoaded = false;
   bool _isInitialBookmarkShown = false;
+  late bool _useMaterial3;
 
   @override
   void initState() {
@@ -50,12 +50,22 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
 
   @override
   void didChangeDependencies() {
-    _pdfViewerThemeData = SfPdfViewerTheme.of(context);
-    _isLight = _pdfViewerThemeData!.brightness == Brightness.light;
-    _color = _isLight
-        ? Colors.black.withOpacity(0.54)
-        : Colors.white.withOpacity(0.65);
-    _disabledColor = _isLight ? Colors.black12 : Colors.white12;
+    _isLight = Theme.of(context).brightness == Brightness.light;
+    _useMaterial3 = Theme.of(context).useMaterial3;
+    _color = _useMaterial3
+        ? _isLight
+            ? const Color.fromRGBO(73, 69, 79, 1)
+            : const Color.fromRGBO(202, 196, 208, 1)
+        : _isLight
+            ? Colors.black.withOpacity(0.54)
+            : Colors.white.withOpacity(0.65);
+    _disabledColor = _useMaterial3
+        ? _isLight
+            ? const Color.fromRGBO(28, 27, 31, 1).withOpacity(0.38)
+            : const Color.fromRGBO(230, 225, 229, 1).withOpacity(0.38)
+        : _isLight
+            ? Colors.black12
+            : Colors.white12;
     super.didChangeDependencies();
   }
 
@@ -80,12 +90,13 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         decoration: BoxDecoration(
-            color: SfPdfViewerTheme.of(context)!
-                    .bookmarkViewStyle
-                    ?.headerBarColor ??
-                ((Theme.of(context).colorScheme.brightness == Brightness.light)
+            color: _useMaterial3
+                ? Theme.of(context).colorScheme.brightness == Brightness.light
+                    ? const Color.fromRGBO(247, 242, 251, 1)
+                    : const Color.fromRGBO(37, 35, 42, 1)
+                : Theme.of(context).colorScheme.brightness == Brightness.light
                     ? const Color(0xFFFAFAFA)
-                    : const Color(0xFF424242)),
+                    : const Color(0xFF424242),
             boxShadow: const [
               BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.2),
@@ -102,13 +113,33 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
             height: 40,
             width: 40,
             child: RawMaterialButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(2.0),
-              ),
+              shape: _useMaterial3
+                  ? RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.0),
+                    )
+                  : RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(2.0),
+                    ),
               onPressed: () {
                 _pdfViewerKey.currentState?.openBookmarkView();
               },
               child: Tooltip(
+                  decoration: _useMaterial3
+                      ? BoxDecoration(
+                          color: Theme.of(context).colorScheme.inverseSurface,
+                          borderRadius: BorderRadius.circular(4),
+                        )
+                      : null,
+                  textStyle: _useMaterial3
+                      ? TextStyle(
+                          color: Theme.of(context).colorScheme.onInverseSurface,
+                          fontSize: 14,
+                        )
+                      : null,
+                  padding: _useMaterial3
+                      ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+                      : null,
+                  height: _useMaterial3 ? 48 : null,
                   message: getBookmarkLocaleString(),
                   child: isDesktop
                       ? Icon(
@@ -136,8 +167,7 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
               builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
                 if (_canShowPdf) {
                   return SfPdfViewerTheme(
-                    data: SfPdfViewerThemeData(
-                        brightness: model.themeData.colorScheme.brightness),
+                    data: const SfPdfViewerThemeData(),
                     child: SfPdfViewer.asset(
                       'assets/pdf/flutter_succinctly.pdf',
                       key: _pdfViewerKey,

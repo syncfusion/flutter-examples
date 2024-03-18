@@ -1015,7 +1015,7 @@
                   {
                     "title": "Horizontal gradient",
                     "key": "horizantal_gradient",
-                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/series_features/gradients/horizantal_gradient.dart"
+                    "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/series_features/gradients/horizontal_gradient.dart"
                   },
                   {
                     "title": "Vertical gradient",
@@ -2618,7 +2618,6 @@
     "controlList": [
       {
         "title": "DataGrid",
-        "status": "Updated",
         "description": "Displays large amounts of data with different data types in a tabular view",
         "image": "images/Datagrid.png",
         "displayType": "tab",
@@ -2740,7 +2739,6 @@
               {
                 "type": "sample",
                 "title": "Grouping",
-                "status": "New",
                 "key": "datagrid_grouping",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/grouping/datagrid_grouping.dart",
                 "needsPropertyPanel": false
@@ -2748,10 +2746,9 @@
               {
                 "type": "sample",
                 "title": "Custom Grouping",
-                "status": "New",
                 "description": "This sample demonstrates the custom grouping capabilities in SfDataGrid. Implement custom grouping logic if the standard grouping techniques do not meet your requirements. The sample is grouped based on the total amount of sales in the quarters.",
                 "key": "datagrid_custom_grouping",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/grouping/datagrid_custom_grouping",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/datagrid/grouping/datagrid_custom_grouping.dart",
                 "needsPropertyPanel": false
               }
             ]
@@ -3186,20 +3183,19 @@
             "type": "sample",
             "title": "Custom Toolbar",
             "key": "pdf_viewer_custom_toolbar",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_custom_toolbar.dart"
           },
           {
             "type": "sample",
             "title": "Annotations",
             "key": "pdf_viewer_annotations",
-            "status": "New",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_annotations.dart"
           },
           {
             "type": "sample",
             "title": "Form Filling",
             "key": "pdf_viewer_form_filling",
+            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_form_filling.dart"
           },
           {
@@ -3221,7 +3217,7 @@
             "key": "pdf_viewer_localization",
             "needsPropertyPanel": true,
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_localization.dart"
-          }        
+          }
         ]
       }
     ]
@@ -3261,8 +3257,14 @@
             "type": "sample",
             "title": "Annotations",
             "key": "annotations",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/annotations.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Import and Export Annotations",
+            "key": "import_and_export_annotation_data",
+            "status": "New",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/import_and_export_annotation_data.dart"
           },
           {
             "type": "sample",

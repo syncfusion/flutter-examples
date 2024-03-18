@@ -62,6 +62,7 @@ class _AxisCrossingState extends SampleViewState {
               Container(
                 padding: const EdgeInsets.fromLTRB(138, 0, 0, 0),
                 child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline:
                         Container(color: const Color(0xFFBDBDBD), height: 1),
@@ -106,7 +107,7 @@ class _AxisCrossingState extends SampleViewState {
               SizedBox(
                   width: 75,
                   child: CheckboxListTile(
-                      activeColor: model.backgroundColor,
+                      activeColor: model.primaryColor,
                       value: _isPlaceLabelsNearAxisLine,
                       onChanged: (bool? value) {
                         setState(() {

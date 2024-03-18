@@ -32,7 +32,7 @@ class _VerticalDateIntervalSliderPageState extends SampleViewState {
 
   SfSliderTheme _yearSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider.vertical(
           min: DateTime(2016),
           max: DateTime(2020),
@@ -59,7 +59,7 @@ class _VerticalDateIntervalSliderPageState extends SampleViewState {
 
   SfSliderTheme _hourSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.backgroundColor),
+        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfSlider.vertical(
           min: DateTime(2020, 01, 01, 9),
           max: DateTime(2020, 01, 01, 21),
@@ -144,7 +144,7 @@ class _VerticalDateIntervalSliderPageState extends SampleViewState {
           value: _isInversed,
           title: const Text('Inversed', softWrap: false),
           contentPadding: EdgeInsets.zero,
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           onChanged: (bool? value) {
             setState(() {
               _isInversed = value!;

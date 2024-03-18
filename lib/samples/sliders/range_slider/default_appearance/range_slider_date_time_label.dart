@@ -32,8 +32,8 @@ class _DateRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider(
           min: DateTime(2001),
           max: DateTime(2005),
@@ -59,8 +59,8 @@ class _DateRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _hourRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.backgroundColor),
+        data:
+            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
         child: SfRangeSlider(
           min: DateTime(2010, 01, 01, 9),
           max: DateTime(2010, 01, 01, 21, 05),

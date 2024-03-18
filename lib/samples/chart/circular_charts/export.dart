@@ -41,7 +41,7 @@ class _ExportState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: model.cardThemeColor,
+        backgroundColor: model.sampleOutputCardColor,
         body: Column(children: <Widget>[
           Expanded(child: _buildCircularChart()),
           Container(
@@ -56,7 +56,7 @@ class _ExportState extends SampleViewState {
                           offset: Offset(0, 4.0),
                           blurRadius: 4.0,
                         ),
-                      ], shape: BoxShape.circle, color: model.backgroundColor),
+                      ], shape: BoxShape.circle, color: model.primaryColor),
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
@@ -82,7 +82,7 @@ class _ExportState extends SampleViewState {
                           offset: Offset(0, 4.0),
                           blurRadius: 4.0,
                         ),
-                      ], shape: BoxShape.circle, color: model.backgroundColor),
+                      ], shape: BoxShape.circle, color: model.primaryColor),
                       alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
@@ -109,7 +109,7 @@ class _ExportState extends SampleViewState {
   /// Get default circular chart
   SfCircularChart _buildCircularChart() {
     return SfCircularChart(
-      backgroundColor: model.cardThemeColor,
+      backgroundColor: model.sampleOutputCardColor,
       key: _circularChartKey,
       legend: const Legend(
         isVisible: true,

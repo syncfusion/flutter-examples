@@ -186,7 +186,7 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
               right: 10)
           : const EdgeInsets.only(right: 10, bottom: 15),
       child: SfMapsTheme(
-        data: SfMapsThemeData(),
+        data: const SfMapsThemeData(),
         child: Column(children: <Widget>[
           Padding(
               padding: const EdgeInsets.only(top: 15, bottom: 30),
@@ -208,7 +208,7 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
                     );
                   },
                   source: _mapSource,
-                  strokeColor: model.cardColor,
+                  strokeColor: model.homeCardColor,
                   strokeWidth: 0.5,
                   // Returns the custom tooltip for each shape.
                   shapeTooltipBuilder: (BuildContext context, int index) {

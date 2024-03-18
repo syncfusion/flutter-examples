@@ -132,7 +132,7 @@ class _VerticalRangeSliderDragModePageState extends SampleViewState {
           value: _isInversed,
           title: const Text('Inversed', softWrap: false),
           contentPadding: EdgeInsets.zero,
-          activeColor: model.backgroundColor,
+          activeColor: model.primaryColor,
           onChanged: (bool? value) {
             setState(() {
               _isInversed = value!;

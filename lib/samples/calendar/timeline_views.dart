@@ -51,11 +51,11 @@ class _TimelineViewsCalendarState extends SampleViewState {
       body: Row(children: <Widget>[
         Expanded(
           child: Container(
-              color: model.cardThemeColor,
+              color: model.sampleOutputCardColor,
               child: Theme(
                   data: model.themeData.copyWith(
                       colorScheme: model.themeData.colorScheme
-                          .copyWith(secondary: model.backgroundColor)),
+                          .copyWith(secondary: model.primaryColor)),
                   child: _getTimelineViewsCalendar(
                       _calendarController, _events, _onViewChanged))),
         )
